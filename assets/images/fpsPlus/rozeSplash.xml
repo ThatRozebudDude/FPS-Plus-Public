@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="rozeSplash2.png">
+	<!-- Created with Adobe Animate version 21.0.3.38773 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="Splash End0000" x="5" y="5" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0001" x="534" y="5" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0002" x="1063" y="5" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0003" x="1592" y="5" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0004" x="2121" y="5" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0005" x="2650" y="5" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0006" x="3179" y="5" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0007" x="5" y="429" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0008" x="534" y="429" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0009" x="1063" y="429" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0010" x="1592" y="429" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0011" x="2121" y="429" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0012" x="2650" y="429" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0013" x="3179" y="429" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0014" x="5" y="853" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0015" x="534" y="853" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0016" x="1063" y="853" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0017" x="1592" y="853" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0018" x="2121" y="853" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0019" x="2650" y="853" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0020" x="3179" y="853" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0021" x="5" y="1277" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0022" x="534" y="1277" width="519" height="414" frameX="-399" frameY="-172" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash End0023" x="1063" y="1277" width="863" height="527" frameX="0" frameY="0" frameWidth="918" frameHeight="586"/>
+	<SubTexture name="Splash Start0000" x="1936" y="1277" width="519" height="414"/>
+	<SubTexture name="Splash Start0001" x="2465" y="1277" width="519" height="414"/>
+	<SubTexture name="Splash Start0002" x="2994" y="1277" width="519" height="414"/>
+	<SubTexture name="Splash Start0003" x="3523" y="1277" width="519" height="414"/>
+	<SubTexture name="Splash Start0004" x="5" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0005" x="534" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0006" x="1063" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0007" x="1063" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0008" x="1063" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0009" x="1063" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0010" x="1063" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0011" x="1063" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0012" x="1063" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0013" x="1063" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0014" x="1592" y="1814" width="476" height="242" frameX="-30" frameY="-96" frameWidth="519" frameHeight="414"/>
+	<SubTexture name="Splash Start0015" x="2078" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0016" x="2078" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0017" x="2078" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0018" x="1592" y="1814" width="476" height="242" frameX="-30" frameY="-96" frameWidth="519" frameHeight="414"/>
+	<SubTexture name="Splash Start0019" x="2078" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0020" x="2078" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0021" x="2078" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0022" x="2078" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0023" x="2078" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0024" x="2078" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0025" x="2078" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0026" x="2607" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0027" x="3136" y="1814" width="519" height="414"/>
+	<SubTexture name="Splash Start0028" x="5" y="2238" width="519" height="414"/>
+	<SubTexture name="Splash Start0029" x="534" y="2238" width="519" height="414"/>
+	<SubTexture name="Splash Start0030" x="1063" y="2238" width="519" height="414"/>
+	<SubTexture name="Splash Start0031" x="1592" y="2238" width="519" height="414"/>
+	<SubTexture name="Splash Start0032" x="2121" y="2238" width="519" height="414"/>
+	<SubTexture name="Splash Start0033" x="2650" y="2238" width="519" height="414"/>
+	<SubTexture name="Splash Start0034" x="3179" y="2238" width="519" height="414"/>
+	<SubTexture name="Splash Start0035" x="5" y="2662" width="519" height="414"/>
+	<SubTexture name="Splash Start0036" x="534" y="2662" width="519" height="414"/>
+	<SubTexture name="Splash Start0037" x="1063" y="2662" width="519" height="414"/>
+	<SubTexture name="Splash Start0038" x="1592" y="2662" width="519" height="414"/>
+	<SubTexture name="Splash Start0039" x="2121" y="2662" width="519" height="414"/>
+	<SubTexture name="Splash Start0040" x="2650" y="2662" width="519" height="414"/>
+	<SubTexture name="Splash Start0041" x="3179" y="2662" width="519" height="414"/>
+</TextureAtlas>

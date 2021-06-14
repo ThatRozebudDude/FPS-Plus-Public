@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="speaker.png">
+	<!-- Created with Adobe Animate version 21.0.3.38773 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="BUMP0000" x="5" y="5" width="704" height="352"/>
+	<SubTexture name="BUMP0001" x="5" y="5" width="704" height="352"/>
+	<SubTexture name="BUMP0002" x="719" y="5" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0003" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0004" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0005" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0006" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0007" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0008" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0009" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0010" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0011" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0012" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0013" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0014" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0015" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0016" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0017" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0018" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0019" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0020" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0021" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0022" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0023" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="BUMP0024" x="5" y="367" width="699" height="352" frameX="-2" frameY="0" frameWidth="704" frameHeight="352"/>
+	<SubTexture name="IDLE0000" x="714" y="367" width="704" height="352"/>
+</TextureAtlas>
