@@ -2,13 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.addons.transition.TransitionData;
-import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.math.FlxPoint;
-import flixel.math.FlxRect;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
@@ -29,6 +23,16 @@ class Startup extends MusicBeatState
                                 "Satin-Panties", "High", "Milf", 
                                 "Cocoa", "Eggnog", "Winter-Horrorland", 
                                 "Senpai", "Roses", "Thorns"];
+                                
+    //List of character graphics and some other stuff.
+    //Just in case it want to do something with it later.
+    /*var graphics:Array<String> =   ["BOYFRIEND", "bfCar", "christmas/bfChristmas", "weeb/bfPixel",
+                                    "GF_assets", "gfCar", "christmas/gfChristmas", "weeb/gfPixel",
+                                    "logoBumpin", "titleBG", "gfDanceTitle",
+                                    "DADDY_DEAREST", "spooky_kids_assets", "Monster_Assets",
+                                    "Pico_FNF_assetss", "Mom_Assets", "momCar",
+                                    "christmas/mom_dad_christmas_assets", "christmas/monsterChristmas",
+                                    "weeb/senpai", "weeb/spirit", "weeb/senpaiCrazy"];*/
 
 	override function create()
 	{
@@ -83,8 +87,7 @@ class Startup extends MusicBeatState
         loadingText.text = "Done!";
         splash.animation.play("end");
         splash.updateHitbox();
-        splash.x = -13;
-        splash.y = -12;
+        splash.screenCenter();
         //FlxG.sound.play("assets/sounds/loadComplete.ogg");
 
     }

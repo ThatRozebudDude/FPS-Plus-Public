@@ -383,18 +383,9 @@ class ChartingState extends MusicBeatState
 
 		var clearSectionButton:FlxButton = new FlxButton(10, 150, "Clear", clearSection);
 
-		var swapSection:FlxButton = new FlxButton(10, 170, "Swap section", function()
-		{
-			for (i in 0..._song.notes[curSection].sectionNotes.length)
-			{
-				var note = _song.notes[curSection].sectionNotes[i];
-				note[1] = (note[1] + 4) % 8;
-				_song.notes[curSection].sectionNotes[i] = note;
-				updateGrid();
-			}
-		});
+		var swapSection:FlxButton = new FlxButton(10, 170, "Swap section", swapSections);
 
-		var blankButton:FlxButton = new FlxButton(10, 210, "Full Clear", function()
+		var blankButton:FlxButton = new FlxButton(10, 300, "Full Clear", function()
 		{
 
 			for(x in 0..._song.notes.length){
@@ -404,9 +395,49 @@ class ChartingState extends MusicBeatState
 			updateGrid();
 		});
 
+		//Flips BF Notes
+		var bSideButton:FlxButton = new FlxButton(10, 200, "Flip BF Notes", function()
+		{
+			var flipTable:Array<Int> = [3, 2, 1, 0, 7, 6, 5, 4];
+
+			//[noteStrum, noteData, noteSus]
+			for(x in _song.notes[curSection].sectionNotes){
+				if(_song.notes[curSection].mustHitSection){
+					if(x[1] < 4)
+						x[1] = flipTable[x[1]];
+				}
+				else{
+					if(x[1] > 3)
+						x[1] = flipTable[x[1]];
+				}
+			}
+			
+			updateGrid();
+		});
+		
+		//Flips Opponent Notes
+		var bSideButton2:FlxButton = new FlxButton(10, 220, "Flip Opp Notes", function()
+		{
+			var flipTable:Array<Int> = [3, 2, 1, 0, 7, 6, 5, 4];
+
+			//[noteStrum, noteData, noteSus]
+			for(x in _song.notes[curSection].sectionNotes){
+				if(_song.notes[curSection].mustHitSection){
+					if(x[1] > 3)
+						x[1] = flipTable[x[1]];
+				}
+				else{
+					if(x[1] < 4)
+						x[1] = flipTable[x[1]];
+				}
+			}
+			
+			updateGrid();
+		});
+
 		check_mustHitSection = new FlxUICheckBox(10, 30, null, null, "Must hit section", 100);
 		check_mustHitSection.name = 'check_mustHit';
-		check_mustHitSection.checked = true;
+		check_mustHitSection.checked = _song.notes[0].mustHitSection;
 		// _song.needsVoices = check_mustHit.checked;
 
 		check_altAnim = new FlxUICheckBox(10, 400, null, null, "Alt Animation", 100);
@@ -425,6 +456,8 @@ class ChartingState extends MusicBeatState
 		tab_group_section.add(clearSectionButton);
 		tab_group_section.add(swapSection);
 		tab_group_section.add(blankButton);
+		tab_group_section.add(bSideButton);
+		tab_group_section.add(bSideButton2);
 
 		UI_box.addGroup(tab_group_section);
 	}
@@ -502,9 +535,10 @@ class ChartingState extends MusicBeatState
 			switch (label)
 			{
 				case 'Must hit section':
+					
 					_song.notes[curSection].mustHitSection = check.checked;
-
 					updateHeads();
+					swapSections();
 
 				case 'Change BPM':
 					_song.notes[curSection].changeBPM = check.checked;
@@ -1312,6 +1346,17 @@ class ChartingState extends MusicBeatState
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 		_file = null;
 		FlxG.log.error("Problem saving Level data");
+	}
+
+	function swapSections()
+	{
+		for (i in 0..._song.notes[curSection].sectionNotes.length)
+		{
+			var note = _song.notes[curSection].sectionNotes[i];
+			note[1] = (note[1] + 4) % 8;
+			_song.notes[curSection].sectionNotes[i] = note;
+			updateGrid();
+		}
 	}
 
 	override function beatHit()
