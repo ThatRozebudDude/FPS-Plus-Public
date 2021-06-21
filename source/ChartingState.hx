@@ -55,6 +55,8 @@ class ChartingState extends MusicBeatState
 
 	var player1DropDown:FlxUIDropDownMenu;
 	var player2DropDown:FlxUIDropDownMenu;
+	var gfDropDown:FlxUIDropDownMenu;
+	var stageDropDown:FlxUIDropDownMenu;
 	var diffList:Array<String> = ["-easy", "", "-hard"];
 	var diffDropFinal:String = "";
 	var metronome:FlxUICheckBox;
@@ -177,6 +179,8 @@ class ChartingState extends MusicBeatState
 				needsVoices: true,
 				player1: 'bf',
 				player2: 'dad',
+				stage: 'stage',
+				gfVersion: 'gf',
 				speed: 1,
 				validScore: false
 			};
@@ -291,6 +295,8 @@ class ChartingState extends MusicBeatState
 				needsVoices: true,
 				player1: 'bf',
 				player2: 'dad',
+				stage: 'stage',
+				gfVersion: 'gf',
 				speed: 1,
 				validScore: false
 			};
@@ -307,6 +313,8 @@ class ChartingState extends MusicBeatState
 		stepperBPM.name = 'song_bpm';
 
 		var characters:Array<String> = CoolUtil.coolTextFile('assets/data/characterList.txt');
+		var gfs:Array<String> = CoolUtil.coolTextFile('assets/data/gfList.txt');
+		var stages:Array<String> = CoolUtil.coolTextFile('assets/data/stageList.txt');
 
 		player1DropDown = new FlxUIDropDownMenu(10, 100, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true), function(character:String)
 		{
@@ -329,6 +337,18 @@ class ChartingState extends MusicBeatState
 			diffDropFinal = diffList[Std.parseInt(diff)];
 			
 		});
+
+		gfDropDown = new FlxUIDropDownMenu(10, 200, FlxUIDropDownMenu.makeStrIdLabelArray(gfs, true), function(gf:String)
+			{
+				_song.gfVersion = gfs[Std.parseInt(gf)];
+			});
+		gfDropDown.selectedLabel = _song.gfVersion;
+		
+		stageDropDown = new FlxUIDropDownMenu(140, 200, FlxUIDropDownMenu.makeStrIdLabelArray(stages, true), function(selStage:String)
+			{
+				_song.stage = stages[Std.parseInt(selStage)];
+			});
+		stageDropDown.selectedLabel = _song.stage;
 		
 		diffDrop.selectedLabel = "Normal";
 
@@ -347,6 +367,8 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(stepperSpeed);
 		tab_group_song.add(player1DropDown);
 		tab_group_song.add(player2DropDown);
+		tab_group_song.add(gfDropDown);
+		tab_group_song.add(stageDropDown);
 		tab_group_song.add(diffDrop);
 
 		UI_box.addGroup(tab_group_song);

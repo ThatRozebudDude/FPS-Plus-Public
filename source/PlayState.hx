@@ -117,7 +117,7 @@ class PlayState extends MusicBeatState
 	private var camHUD:FlxCamera;
 	private var camGame:FlxCamera;
 
-	var dialogue:Array<String> = ['strange code', '>:]'];
+	var dialogue:Array<String> = [':bf:strange code', ':dad:>:]'];
 
 	/*var bfPos:Array<Array<Float>> = [
 									[975.5, 862],
@@ -230,7 +230,20 @@ class PlayState extends MusicBeatState
 			catch(e){}
 		}
 
-		if (spookySongs.contains(SONG.song.toLowerCase()))
+		var stageCheck:String = 'stage';
+		if (SONG.stage == null) {
+			switch(storyWeek)
+			{
+				case 2: stageCheck = 'halloween';
+				case 3: stageCheck = 'philly';
+				case 4: stageCheck = 'limo';
+				case 5: if (SONG.song.toLowerCase() == 'winter-horrorland') {stageCheck = 'mallEvil';} else {stageCheck = 'mall';}
+				case 6: if (SONG.song.toLowerCase() == 'thorns') {stageCheck = 'schoolEvil';} else {stageCheck = 'school';}
+			}
+		}
+		else {stageCheck = SONG.stage;}
+
+		if (stageCheck == 'halloween')
 		{
 			curStage = "spooky";
 			halloweenLevel = true;
@@ -247,7 +260,7 @@ class PlayState extends MusicBeatState
 
 			isHalloween = true;
 		}
-		else if (phillySongs.contains(SONG.song.toLowerCase()))
+		else if (stageCheck == 'philly')
 		{
 			curStage = 'philly';
 
@@ -288,7 +301,7 @@ class PlayState extends MusicBeatState
 			var street:FlxSprite = new FlxSprite(-40, streetBehind.y).loadGraphic('assets/images/philly/street.png');
 			add(street);
 		}
-		else if (limoSongs.contains(SONG.song.toLowerCase()))
+		else if (stageCheck == 'limo')
 		{
 			curStage = 'limo';
 			defaultCamZoom = 0.90;
@@ -335,7 +348,7 @@ class PlayState extends MusicBeatState
 			fastCar = new FlxSprite(-300, 160).loadGraphic('assets/images/limo/fastCarLol.png');
 			// add(limo);
 		}
-		else if (mallSongs.contains(SONG.song.toLowerCase()))
+		else if (stageCheck == 'mall')
 		{
 			curStage = 'mall';
 
@@ -391,7 +404,7 @@ class PlayState extends MusicBeatState
 			santa.antialiasing = true;
 			add(santa);
 		}
-		else if (evilMallSongs.contains(SONG.song.toLowerCase()))
+		else if (stageCheck == 'mallEvil')
 		{
 			curStage = 'mallEvil';
 			var bg:FlxSprite = new FlxSprite(-400, -500).loadGraphic('assets/images/christmas/evilBG.png');
@@ -411,7 +424,7 @@ class PlayState extends MusicBeatState
 			evilSnow.antialiasing = true;
 			add(evilSnow);
 		}
-		else if (schoolSongs.contains(SONG.song.toLowerCase()))
+		else if (stageCheck == 'school')
 		{
 			curStage = 'school';
 
@@ -478,7 +491,7 @@ class PlayState extends MusicBeatState
 			bgGirls.updateHitbox();
 			add(bgGirls);
 		}
-		else if (evilSchoolSongs.contains(SONG.song.toLowerCase()))
+		else if (stageCheck == 'schoolEvil')
 		{
 			curStage = 'schoolEvil';
 
@@ -589,17 +602,24 @@ class PlayState extends MusicBeatState
 
 		var gfVersion:String = 'gf';
 
-		switch (curStage)
+		var gfCheck:String = 'gf';
+
+		if (SONG.gfVersion == null) {
+			switch(storyWeek)
+			{
+				case 4: gfCheck = 'gf-car';
+				case 5: gfCheck = 'gf-christmas';
+				case 6: gfCheck = 'gf-pixel';
+			}
+		} else {gfCheck = SONG.gfVersion;}
+
+		switch (gfCheck)
 		{
-			case 'limo':
+			case 'gf-car':
 				gfVersion = 'gf-car';
-			case 'mall':
+			case 'gf-christmas':
 				gfVersion = 'gf-christmas';
-			case 'mallEvil':
-				gfVersion = 'gf-christmas';
-			case 'school':
-				gfVersion = 'gf-pixel';
-			case 'schoolEvil':
+			case 'gf-pixel':
 				gfVersion = 'gf-pixel';
 		}
 
