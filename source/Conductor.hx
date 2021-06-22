@@ -24,7 +24,7 @@ class Conductor
 	public static var offset:Float = 0;
 
 	public static var safeFramesOld:Float = 10;
-	public static var safeFramesNew:Float = 8;
+	public static var safeFramesNew:Float = 6;
 
 	public static var goodZone:Float = 0.2;
 	public static var badZone:Float = 0.75;
