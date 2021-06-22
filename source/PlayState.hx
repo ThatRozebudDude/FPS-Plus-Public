@@ -240,6 +240,9 @@ class PlayState extends MusicBeatState
 				case 5: if (SONG.song.toLowerCase() == 'winter-horrorland') {stageCheck = 'mallEvil';} else {stageCheck = 'mall';}
 				case 6: if (SONG.song.toLowerCase() == 'thorns') {stageCheck = 'schoolEvil';} else {stageCheck = 'school';}
 			}
+
+			SONG.stage = stageCheck;
+
 		}
 		else {stageCheck = SONG.stage;}
 
@@ -611,6 +614,9 @@ class PlayState extends MusicBeatState
 				case 5: gfCheck = 'gf-christmas';
 				case 6: gfCheck = 'gf-pixel';
 			}
+
+			SONG.gfVersion = gfCheck;
+
 		} else {gfCheck = SONG.gfVersion;}
 
 		switch (gfCheck)

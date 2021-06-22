@@ -48,6 +48,9 @@ class Boyfriend extends Character
 		{
 			switch (curCharacter)
 			{
+				case "gf" | "gf-car" | "gf-christmas" | "gf-pixel" | "spooky":
+					playAnim('danceRight', true, false, animation.getByName('danceRight').numFrames - 1);
+				
 				default:
 					playAnim('idle', true, false, animation.getByName('idle').numFrames - 1);
 			}
@@ -59,6 +62,17 @@ class Boyfriend extends Character
 		if (!debugMode || ignoreDebug)
 		{
 			switch(curCharacter){
+
+				case "gf" | "gf-car" | "gf-christmas" | "gf-pixel" | "spooky":
+					if (!animation.curAnim.name.startsWith('sing'))
+					{
+						danced = !danced;
+
+						if (danced)
+							playAnim('danceRight', true);
+						else
+							playAnim('danceLeft', true);
+					}	
 
 				default:
 					if (!animation.curAnim.name.startsWith('sing'))

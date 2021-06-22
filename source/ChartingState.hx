@@ -153,8 +153,6 @@ class ChartingState extends MusicBeatState
 		add(leftIcon);
 		add(rightIcon);
 
-		
-
 		var gridBlackLine:FlxSprite = new FlxSprite(gridBG.x + gridBG.width / 2).makeGraphic(2, Std.int(gridBG2.height), FlxColor.BLACK);
 		add(gridBlackLine);
 
@@ -249,7 +247,7 @@ class ChartingState extends MusicBeatState
 			trace('CHECKED!');
 		};
 
-		var check_mute_inst = new FlxUICheckBox(10, 200, null, null, "Mute Instrumental (in editor)", 100);
+		var check_mute_inst = new FlxUICheckBox(75, 75, null, null, "Mute Instrumental (in editor)", 100);
 		check_mute_inst.checked = false;
 		check_mute_inst.callback = function()
 		{
@@ -261,7 +259,7 @@ class ChartingState extends MusicBeatState
 			FlxG.sound.music.volume = vol;
 		};
 
-		metronome = new FlxUICheckBox(10, 170, null, null, "Note Click", 100);
+		metronome = new FlxUICheckBox(75, 45, null, null, "Note Click", 100);
 		metronome.checked = false;
 
 		//halfSpeedCheck = new FlxUICheckBox(10, 170, null, null, "Half Speed", 100);
@@ -304,11 +302,11 @@ class ChartingState extends MusicBeatState
 			FlxG.resetState();
 		});
 
-		var stepperSpeed:FlxUINumericStepper = new FlxUINumericStepper(10, 80, 0.1, 1, 0.1, 10, 1);
+		var stepperSpeed:FlxUINumericStepper = new FlxUINumericStepper(10, 70, 0.1, 1, 0.1, 10, 1);
 		stepperSpeed.value = _song.speed;
 		stepperSpeed.name = 'song_speed';
 
-		var stepperBPM:FlxUINumericStepper = new FlxUINumericStepper(10, 65, 1, 1, 1, 339, 0);
+		var stepperBPM:FlxUINumericStepper = new FlxUINumericStepper(10, 50, 1, 1, 1, 339, 0);
 		stepperBPM.value = Conductor.bpm;
 		stepperBPM.name = 'song_bpm';
 
@@ -331,20 +329,20 @@ class ChartingState extends MusicBeatState
 
 		player2DropDown.selectedLabel = _song.player2;
 
-		var diffDrop:FlxUIDropDownMenu = new FlxUIDropDownMenu(10, 140, FlxUIDropDownMenu.makeStrIdLabelArray(["Easy", "Normal", "Hard"], true), function(diff:String)
+		var diffDrop:FlxUIDropDownMenu = new FlxUIDropDownMenu(10, 160, FlxUIDropDownMenu.makeStrIdLabelArray(["Easy", "Normal", "Hard"], true), function(diff:String)
 		{
 			trace(diff);
 			diffDropFinal = diffList[Std.parseInt(diff)];
 			
 		});
 
-		gfDropDown = new FlxUIDropDownMenu(10, 200, FlxUIDropDownMenu.makeStrIdLabelArray(gfs, true), function(gf:String)
+		gfDropDown = new FlxUIDropDownMenu(10, 130, FlxUIDropDownMenu.makeStrIdLabelArray(gfs, true), function(gf:String)
 			{
 				_song.gfVersion = gfs[Std.parseInt(gf)];
 			});
 		gfDropDown.selectedLabel = _song.gfVersion;
 		
-		stageDropDown = new FlxUIDropDownMenu(140, 200, FlxUIDropDownMenu.makeStrIdLabelArray(stages, true), function(selStage:String)
+		stageDropDown = new FlxUIDropDownMenu(140, 130, FlxUIDropDownMenu.makeStrIdLabelArray(stages, true), function(selStage:String)
 			{
 				_song.stage = stages[Std.parseInt(selStage)];
 			});
@@ -365,11 +363,11 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(loadAutosaveBtn);
 		tab_group_song.add(stepperBPM);
 		tab_group_song.add(stepperSpeed);
-		tab_group_song.add(player1DropDown);
-		tab_group_song.add(player2DropDown);
+		tab_group_song.add(diffDrop);
 		tab_group_song.add(gfDropDown);
 		tab_group_song.add(stageDropDown);
-		tab_group_song.add(diffDrop);
+		tab_group_song.add(player1DropDown);
+		tab_group_song.add(player2DropDown);
 
 		UI_box.addGroup(tab_group_song);
 		UI_box.scrollFactor.set();
