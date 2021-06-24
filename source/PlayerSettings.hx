@@ -62,7 +62,9 @@ class PlayerSettings
 			player1.controls.addDefaultGamepad(0);
 		}
 
-		if (numGamepads > 1)
+		menuControls();
+
+		/*if (numGamepads > 1)
 		{
 			if (player2 == null)
 			{
@@ -74,10 +76,38 @@ class PlayerSettings
 			if (gamepad == null)
 				throw 'Unexpected null gamepad. id:0';
 
-			player2.controls.addDefaultGamepad(1);
-		}
+			player2.controls.setMenuControls(1);
+		}*/
 
 		// DeviceManager.init();
+	}
+
+	static public function menuControls(){
+
+		var numGamepads = FlxG.gamepads.numActiveGamepads;
+		if (numGamepads > 0)
+		{
+			var gamepad = FlxG.gamepads.getByID(0);
+			if (gamepad == null)
+				throw 'Unexpected null gamepad. id:0';
+
+			player1.controls.setMenuControls(0);
+		}
+
+	}
+
+	static public function gameControls(){
+
+		var numGamepads = FlxG.gamepads.numActiveGamepads;
+		if (numGamepads > 0)
+		{
+			var gamepad = FlxG.gamepads.getByID(0);
+			if (gamepad == null)
+				throw 'Unexpected null gamepad. id:0';
+
+			player1.controls.setGameControls(0);
+		}
+
 	}
 
 	static public function reset()

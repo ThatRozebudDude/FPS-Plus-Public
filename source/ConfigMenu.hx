@@ -39,6 +39,7 @@ class ConfigMenu extends MusicBeatState
 	var glowValue:Bool;
 	var randomTapValue:Bool;
 	var noCapValue:Bool;
+	var scheme:Int;
 	
 	var canChangeItems:Bool = true;
 
@@ -55,6 +56,7 @@ class ConfigMenu extends MusicBeatState
 									"DOWNSCROLL",
 									"NOTE GLOW",
 									"IMPROVED HEALTH HEADS",
+									"CONTROLLER SCHEME",
 									"[EDIT KEY BINDS]"
 									];
 								
@@ -69,8 +71,23 @@ class ConfigMenu extends MusicBeatState
 									"Makes notes appear from the top instead the bottom.",
 									"Makes note arrows glow if they are able to be hit.\n[This disables modded note arrows unless there is a version of the files included in the mod.]",
 									"Adds low health icons for characters missing them and adds winning icons.\n[This disables modded health icons unless there is a version of the files included in the mod.]",
+									"TEMP",
 									"Change key binds."
 									];
+
+	var controlSchemes:Array<String> = [
+									"DEFAULT", 
+									"ALT 1", 
+									"ALT 2"
+									];
+
+	var controlSchemesDesc:Array<String> = [
+									"LEFT: DPAD LEFT / X (SQUARE) / LEFT TRIGGER\nDOWN: DPAD DOWN / X (CROSS) / LEFT BUMPER\nUP: DPAD UP / Y (TRIANGLE) / RIGHT BUMPER\nRIGHT: DPAD RIGHT / B (CIRCLE) / RIGHT TRIGGER", 
+									"LEFT: DPAD LEFT / DPAD DOWN / LEFT TRIGGER\nDOWN: DPAD UP / DPAD RIGHT / LEFT BUMPER\nUP: X (SQUARE) / Y (TRIANGLE) / RIGHT BUMPER\nRIGHT: A (CROSS) / B (CIRCLE) / RIGHT TRIGGER", 
+									"LEFT: ALL DPAD DIRECTIONS\nDOWN: LEFT BUMPER / LEFT TRIGGER\nUP: RIGHT BUMPER / RIGHT TRIGGER\nRIGHT: ALL FACE BUTTONS"
+									];
+
+									
 
 
 	override function create()
@@ -117,6 +134,7 @@ class ConfigMenu extends MusicBeatState
 		glowValue = Config.noteGlow;
 		randomTapValue = Config.noRandomTap;
 		noCapValue = Config.noFpsCap;
+		scheme = Config.controllerScheme;
 		
 		var tex = FlxAtlasFrames.fromSparrow('assets/images/FNF_main_menu_assets.png', 'assets/images/FNF_main_menu_assets.xml');
 		var optionTitle:FlxSprite = new FlxSprite(0, 55);
@@ -131,13 +149,13 @@ class ConfigMenu extends MusicBeatState
 		add(optionTitle);
 			
 		
-		configText = new FlxText(0, 215, 1280, "", 48);
+		configText = new FlxText(0, 215, 1280, "", 44);
 		configText.scrollFactor.set(0, 0);
-		configText.setFormat("assets/fonts/Funkin-Bold.otf", 48, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		configText.setFormat("assets/fonts/Funkin-Bold.otf", 44, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		configText.borderSize = 3;
 		configText.borderQuality = 1;
 		
-		descText = new FlxText(320, 635, 640, "", 20);
+		descText = new FlxText(320, 638, 640, "", 20);
 		descText.scrollFactor.set(0, 0);
 		descText.setFormat("assets/fonts/vcr.ttf", 20, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		//descText.borderSize = 3;
@@ -218,7 +236,7 @@ class ConfigMenu extends MusicBeatState
 						if(FlxG.keys.justPressed.ENTER){
 							canChangeItems = false;
 							FlxG.sound.music.fadeOut(0.3);
-							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, inputValue, glowValue, randomTapValue, noCapValue);
+							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, inputValue, glowValue, randomTapValue, noCapValue, scheme);
 							AutoOffsetState.forceEasterEgg = FlxG.keys.pressed.SHIFT ? 1 : (FlxG.keys.pressed.CONTROL ? -1 : 0);
 							FlxG.switchState(new AutoOffsetState());
 						}
@@ -270,10 +288,10 @@ class ConfigMenu extends MusicBeatState
 								healthValue -= 1;
 							}
 							
-							if (healthValue > 50)
+							if (healthValue > 100)
 								healthValue = 0;
 							if (healthValue < 0)
-								healthValue = 50;
+								healthValue = 100;
 								
 						if (controls.RIGHT)
 						{
@@ -281,6 +299,7 @@ class ConfigMenu extends MusicBeatState
 							
 							if(leftRightCount > 64 && leftRightCount % 10 == 0) {
 								healthValue += 1;
+								textUpdate();
 							}
 						}
 						
@@ -290,6 +309,7 @@ class ConfigMenu extends MusicBeatState
 							
 							if(leftRightCount > 64 && leftRightCount % 10 == 0) {
 								healthValue -= 1;
+								textUpdate();
 							}
 						}
 						
@@ -326,6 +346,7 @@ class ConfigMenu extends MusicBeatState
 							
 							if(leftRightCount > 64 && leftRightCount % 10 == 0) {
 								healthDrainValue += 1;
+								textUpdate();
 							}
 						}
 						
@@ -335,6 +356,7 @@ class ConfigMenu extends MusicBeatState
 							
 							if(leftRightCount > 64 && leftRightCount % 10 == 0) {
 								healthDrainValue -= 1;
+								textUpdate();
 							}
 						}
 						
@@ -357,11 +379,28 @@ class ConfigMenu extends MusicBeatState
 							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
 							iconValue = !iconValue;
 						}
-					case 10: //Binds
+					case 10: //Controller Stuff
+						if (controls.RIGHT_P)
+							{
+								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+								scheme += 1;
+							}
+							
+							if (controls.LEFT_P)
+							{
+								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+								scheme -= 1;
+							}
+							
+							if (scheme >= controlSchemes.length)
+								scheme = 0;
+							if (scheme < 0)
+								scheme = controlSchemes.length - 1;
+					case 11: //Binds
 						if (controls.ACCEPT) {
 							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
 							canChangeItems = false;
-							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, inputValue, glowValue, randomTapValue, noCapValue);
+							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, inputValue, glowValue, randomTapValue, noCapValue, scheme);
 							FlxG.switchState(new KeyBindMenu());
 						}
 					
@@ -370,7 +409,7 @@ class ConfigMenu extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, inputValue, glowValue, randomTapValue, noCapValue);
+			Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, inputValue, glowValue, randomTapValue, noCapValue, scheme);
 			canChangeItems = false;
 			FlxG.sound.music.stop();
 			FlxG.sound.play('assets/sounds/cancelMenu' + TitleState.soundExt);
@@ -401,7 +440,7 @@ class ConfigMenu extends MusicBeatState
 
 		super.update(elapsed);
 		
-		if(FlxG.keys.justPressed.ANY)
+		if(controls.LEFT_P || controls.RIGHT_P || controls.UP_P || controls.DOWN_P || controls.ACCEPT || FlxG.keys.justPressed.ANY)
 			textUpdate();
 		
 	}
@@ -431,7 +470,16 @@ class ConfigMenu extends MusicBeatState
 		var textStart = (configSelected == settingText.length - 1) ? ">" : "  ";
 		configText.text += textStart + settingText[settingText.length - 1] +  "\n";
 
-		descText.text = settingDesc[configSelected];
+		switch(configSelected){
+
+			case 10:
+				descText.text = controlSchemesDesc[scheme];
+
+			default:
+				descText.text = settingDesc[configSelected];
+
+		}
+		
 
     }
 
@@ -449,6 +497,7 @@ class ConfigMenu extends MusicBeatState
 			case 7: return downValue;
 			case 8: return glowValue;
 			case 9: return iconValue;
+			case 10: return controlSchemes[scheme];
 
 		}
 

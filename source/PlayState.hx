@@ -180,6 +180,8 @@ class PlayState extends MusicBeatState
 
 		FlxG.mouse.visible = false;
 
+		PlayerSettings.gameControls();
+
 		FlxG.sound.cache("assets/music/" + SONG.song + "_Inst" + TitleState.soundExt);
 		FlxG.sound.cache("assets/music/" + SONG.song + "_Voices" + TitleState.soundExt);
 		
@@ -1361,6 +1363,9 @@ class PlayState extends MusicBeatState
 
 	override function closeSubState()
 	{
+
+		PlayerSettings.gameControls();
+
 		if (paused)
 		{
 			if (FlxG.sound.music != null && !startingSong)
@@ -1437,17 +1442,20 @@ class PlayState extends MusicBeatState
 				scoreTxt.text = "Score:" + songScore + " | Misses:" + misses + " | Accuracy:" + truncateFloat(accuracy, 2) + "%";
 		}
 
-		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
+		if (controls.PAUSE && startedCountdown && canPause)
 		{
 			persistentUpdate = false;
 			persistentDraw = true;
 			paused = true;
+
+			PlayerSettings.menuControls();
 
 			openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
 
 		if (FlxG.keys.justPressed.SEVEN)
 		{
+			PlayerSettings.menuControls();
 			FlxG.switchState(new ChartingState());
 		}
 
@@ -1484,6 +1492,9 @@ class PlayState extends MusicBeatState
 			FlxG.switchState(new Charting()); */
 
 		if (FlxG.keys.justPressed.EIGHT){
+
+			PlayerSettings.menuControls();
+
 			if(FlxG.keys.pressed.SHIFT){
 				FlxG.switchState(new AnimationDebug(SONG.player1));
 			}
@@ -1675,6 +1686,8 @@ class PlayState extends MusicBeatState
 
 			vocals.stop();
 			FlxG.sound.music.stop();
+
+			PlayerSettings.menuControls();
 
 			openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, camFollow.getScreenPosition().x, camFollow.getScreenPosition().y));
 
@@ -1905,6 +1918,8 @@ class PlayState extends MusicBeatState
 			{
 				FlxG.sound.playMusic("assets/music/klaskiiLoop.ogg", 0.75);
 
+				PlayerSettings.menuControls();
+
 				FlxG.switchState(new StoryMenuState());
 
 				// if ()
@@ -1960,7 +1975,8 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
-			trace('WENT BACK TO FREEPLAY??');
+			PlayerSettings.menuControls();
+
 			FlxG.switchState(new FreeplayState());
 		}
 	}
@@ -2356,7 +2372,7 @@ class PlayState extends MusicBeatState
 			// FlxG.log.add('played imss note');
 
 			if(Config.newInput)
-				setBoyfriendInvuln(0.08);
+				setBoyfriendInvuln(5 / 60);
 			else
 				setBoyfriendStunned();
 
@@ -2396,7 +2412,7 @@ class PlayState extends MusicBeatState
 				// FlxG.sound.play('assets/sounds/missnote1' + TitleState.soundExt, 1, false);
 				// FlxG.log.add('played imss note');
 	
-				setBoyfriendInvuln(0.04);
+				setBoyfriendInvuln(4 / 60);
 	
 				if(boyfriend.canAutoAnim){
 					switch (direction)
@@ -2482,7 +2498,7 @@ class PlayState extends MusicBeatState
 
 	}
 
-	function setCanMiss(time:Float = 0.185){
+	function setCanMiss(time:Float = 10 / 60){
 
 		noMissCount++;
 		var noMissCheck = noMissCount;
@@ -2565,7 +2581,7 @@ class PlayState extends MusicBeatState
 			}
 
 			if(Config.newInput && !note.isSustainNote){
-				setBoyfriendInvuln(0.02);
+				setBoyfriendInvuln(2 / 60);
 			}
 			
 
