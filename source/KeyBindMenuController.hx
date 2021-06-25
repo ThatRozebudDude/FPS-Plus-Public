@@ -1,5 +1,6 @@
 package;
 
+import flixel.input.gamepad.lists.FlxGamepadAnalogList;
 import flixel.input.FlxInput;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepad;
@@ -31,6 +32,7 @@ class KeyBindMenuController extends MusicBeatState
     var warningTween:FlxTween;
     var keyText:Array<String> = ["LEFT", "DOWN", "UP", "RIGHT"];
     var defaultKeys:Array<String> = ["X", "A", "Y", "B"];
+    var allowedKeys:Array<Int> = [];
     var curSelected:Int = 0;
 
     var keys:Array<String> = [FlxG.save.data.leftBindController,
@@ -45,7 +47,15 @@ class KeyBindMenuController extends MusicBeatState
 
 	override function create()
 	{	
-	
+
+        for(i in 0...42){
+            allowedKeys[i] = i;
+        }
+
+        for(i in 19...30){
+            allowedKeys.remove(i);
+        }
+
 		//FlxG.sound.playMusic('assets/music/configurator' + TitleState.soundExt);
 
 		persistentUpdate = persistentDraw = true;
@@ -87,6 +97,14 @@ class KeyBindMenuController extends MusicBeatState
 	{
 
         var controller:FlxGamepad = FlxG.gamepads.lastActive;
+
+        var pressedAny = false;
+
+        for(x in allowedKeys){
+
+            pressedAny = pressedAny || FlxG.gamepads.anyJustPressed(x);
+
+        }
 
         switch(state){
 
@@ -133,7 +151,7 @@ class KeyBindMenuController extends MusicBeatState
                     save();
                     state = "select";
                 }
-                else if(controller.justPressed.ANY){
+                else if(pressedAny){
                     addKey(controller.firstJustPressedID());
                     save();
                     state = "select";
@@ -148,7 +166,7 @@ class KeyBindMenuController extends MusicBeatState
 
         }
 
-        if(controller.justPressed.ANY)
+        if(FlxG.gamepads.anyJustPressed(ANY))
 			textUpdate();
 
 		super.update(elapsed);
@@ -161,8 +179,25 @@ class KeyBindMenuController extends MusicBeatState
 
         for(i in 0...4){
 
+            var keyDisplay = keys[i];
+
+            switch(keyDisplay){
+
+                case "A":
+                    keyDisplay = "A (CROSS)";
+                case "B":
+                    keyDisplay = "B (CIRCLE)";
+                case "X":
+                    keyDisplay = "X (SQUARE)";
+                case "Y":
+                    keyDisplay = "Y (TRIANGLE)";
+                default:
+                    keyDisplay = keyDisplay.replace("STICK_DIGITAL", "STICK").replace("_", " ");
+
+            }
+
             var textStart = (i == curSelected) ? ">" : "  ";
-            keyTextDisplay.text += textStart + keyText[i] + ": " + keys[i] + "\n";
+            keyTextDisplay.text += textStart + keyText[i] + ": " + keyDisplay + "\n";
 
         }
 
@@ -183,7 +218,7 @@ class KeyBindMenuController extends MusicBeatState
 
     function reset(){
 
-        for(i in 0...5){
+        for(i in 0...4){
             keys[i] = defaultKeys[i];
         }
         quit();
@@ -202,6 +237,21 @@ class KeyBindMenuController extends MusicBeatState
     }
 
 	function addKey(r:String){
+
+        trace(r);
+
+        if(r == null){
+
+            if(FlxG.gamepads.anyPressed(LEFT_TRIGGER)){
+                r = "LEFT_TRIGGER";
+            }
+            else if(FlxG.gamepads.anyPressed(RIGHT_TRIGGER)){
+                r = "RIGHT_TRIGGER";
+            }
+            else{
+                r = "START";
+            }
+        }
 
         var shouldReturn:Bool = true;
 
@@ -237,6 +287,9 @@ class KeyBindMenuController extends MusicBeatState
             warningTween.cancel();
             warningTween = FlxTween.tween(keyWarning, {alpha: 0}, 0.5, {ease: FlxEase.circOut, startDelay: 2});
         }
+
+        if(controls.DOWN_P || controls.UP_P)
+            changeItem(0);
 
 	}
 

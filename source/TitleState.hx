@@ -123,20 +123,7 @@ class TitleState extends MusicBeatState
 				FlxG.fullscreen = !FlxG.fullscreen;
 			}
 
-			var pressedEnter:Bool = FlxG.keys.justPressed.ENTER;
-
-			var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-
-			if (gamepad != null)
-			{
-				if (gamepad.justPressed.START)
-					pressedEnter = true;
-
-				#if switch
-				if (gamepad.justPressed.B)
-					pressedEnter = true;
-				#end
-			}
+			var pressedEnter:Bool = controls.ACCEPT || controls.PAUSE;
 
 			if (pressedEnter && !transitioning && skippedIntro)
 			{
