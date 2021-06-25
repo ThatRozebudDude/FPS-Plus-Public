@@ -19,12 +19,19 @@ class KeyBinds
         FlxG.save.data.leftBind = "A";
         FlxG.save.data.rightBind = "D";
         FlxG.save.data.killBind = "R";
+
+        FlxG.save.data.upBindController = "Y";
+        FlxG.save.data.downBindController = "A";
+        FlxG.save.data.leftBindController = "X";
+        FlxG.save.data.rightBindController = "B";
+
         PlayerSettings.player1.controls.loadKeyBinds();
 
 	}
 
     public static function keyCheck():Void
     {
+        //Keyboard stuff
         if(FlxG.save.data.upBind == null){
             FlxG.save.data.upBind = "W";
             trace("No UP");
@@ -44,6 +51,24 @@ class KeyBinds
         if(FlxG.save.data.killBind == null){
             FlxG.save.data.killBind = "R";
             trace("No KILL");
+        }
+        
+        //Controller stuff
+        if(FlxG.save.data.upBindController == null){
+            FlxG.save.data.upBindController = "Y";
+            trace("No Controller UP");
+        }
+        if(FlxG.save.data.downBindController == null){
+            FlxG.save.data.downBindController = "A";
+            trace("No Controller DOWN");
+        }
+        if(FlxG.save.data.leftBindController == null){
+            FlxG.save.data.leftBindController = "X";
+            trace("No Controller LEFT");
+        }
+        if(FlxG.save.data.rightBindController == null){
+            FlxG.save.data.rightBindController = "B";
+            trace("No Controller RIGHT");
         }
     }
 

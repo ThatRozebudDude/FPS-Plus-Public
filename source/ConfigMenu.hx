@@ -78,13 +78,15 @@ class ConfigMenu extends MusicBeatState
 	var controlSchemes:Array<String> = [
 									"DEFAULT", 
 									"ALT 1", 
-									"ALT 2"
+									"ALT 2",
+									"CUSTOM"
 									];
 
 	var controlSchemesDesc:Array<String> = [
 									"LEFT: DPAD LEFT / X (SQUARE) / LEFT TRIGGER\nDOWN: DPAD DOWN / X (CROSS) / LEFT BUMPER\nUP: DPAD UP / Y (TRIANGLE) / RIGHT BUMPER\nRIGHT: DPAD RIGHT / B (CIRCLE) / RIGHT TRIGGER", 
 									"LEFT: DPAD LEFT / DPAD DOWN / LEFT TRIGGER\nDOWN: DPAD UP / DPAD RIGHT / LEFT BUMPER\nUP: X (SQUARE) / Y (TRIANGLE) / RIGHT BUMPER\nRIGHT: A (CROSS) / B (CIRCLE) / RIGHT TRIGGER", 
-									"LEFT: ALL DPAD DIRECTIONS\nDOWN: LEFT BUMPER / LEFT TRIGGER\nUP: RIGHT BUMPER / RIGHT TRIGGER\nRIGHT: ALL FACE BUTTONS"
+									"LEFT: ALL DPAD DIRECTIONS\nDOWN: LEFT BUMPER / LEFT TRIGGER\nUP: RIGHT BUMPER / RIGHT TRIGGER\nRIGHT: ALL FACE BUTTONS",
+									"HIT A (CROSS) TO CHANGE CONTROLLER BINDS"
 									];
 
 									
@@ -396,6 +398,14 @@ class ConfigMenu extends MusicBeatState
 								scheme = 0;
 							if (scheme < 0)
 								scheme = controlSchemes.length - 1;
+
+							if (controls.ACCEPT && scheme == controlSchemes.length - 1) {
+								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+								canChangeItems = false;
+								Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, inputValue, glowValue, randomTapValue, noCapValue, scheme);
+								FlxG.switchState(new KeyBindMenuController());
+							}
+
 					case 11: //Binds
 						if (controls.ACCEPT) {
 							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);

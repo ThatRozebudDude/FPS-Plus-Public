@@ -692,6 +692,16 @@ class Controls extends FlxActionSet
 					Control.PAUSE => [START],
 					Control.RESET => [FlxGamepadInputID.BACK]
 				]);
+				
+			case 3:
+				addGamepadLiteral(id, [
+					Control.UP => [FlxGamepadInputID.fromString(FlxG.save.data.upBindController)],
+					Control.DOWN => [FlxGamepadInputID.fromString(FlxG.save.data.downBindController)],
+					Control.LEFT => [FlxGamepadInputID.fromString(FlxG.save.data.leftBindController)],
+					Control.RIGHT => [FlxGamepadInputID.fromString(FlxG.save.data.rightBindController)],
+					Control.PAUSE => [START],
+					Control.RESET => [FlxGamepadInputID.BACK]
+				]);
 
 			default:
 				addGamepadLiteral(id, [

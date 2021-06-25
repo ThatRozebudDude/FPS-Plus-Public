@@ -2,6 +2,7 @@ package;
 
 import flixel.input.FlxInput;
 import flixel.input.keyboard.FlxKey;
+import flixel.input.gamepad.FlxGamepad;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -22,24 +23,23 @@ import flixel.input.FlxKeyManager;
 
 using StringTools;
 
-class KeyBindMenu extends MusicBeatState
+class KeyBindMenuController extends MusicBeatState
 {
 
     var keyTextDisplay:FlxText;
     var keyWarning:FlxText;
     var warningTween:FlxTween;
     var keyText:Array<String> = ["LEFT", "DOWN", "UP", "RIGHT"];
-    var defaultKeys:Array<String> = ["A", "S", "W", "D", "R"];
+    var defaultKeys:Array<String> = ["X", "A", "Y", "B"];
     var curSelected:Int = 0;
 
-    var keys:Array<String> = [FlxG.save.data.leftBind,
-                              FlxG.save.data.downBind,
-                              FlxG.save.data.upBind,
-                              FlxG.save.data.rightBind,
-                              FlxG.save.data.killBind];
+    var keys:Array<String> = [FlxG.save.data.leftBindController,
+                              FlxG.save.data.downBindController,
+                              FlxG.save.data.upBindController,
+                              FlxG.save.data.rightBindController];
 
     var tempKey:String = "";
-    var blacklist:Array<String> = ["ESCAPE", "ENTER", "BACKSPACE", "SPACE"];
+    var blacklist:Array<String> = ["START", "BACK"];
 
     var state:String = "select";
 
@@ -86,6 +86,8 @@ class KeyBindMenu extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 
+        var controller:FlxGamepad = FlxG.gamepads.lastActive;
+
         switch(state){
 
             case "select":
@@ -101,15 +103,15 @@ class KeyBindMenu extends MusicBeatState
 					changeItem(1);
 				}
 
-                if (FlxG.keys.justPressed.ENTER){
+                if (controls.ACCEPT){
                     FlxG.sound.play('assets/sounds/scrollMenu.ogg');
                     state = "input";
                 }
-                else if(FlxG.keys.justPressed.ESCAPE || FlxG.gamepads.anyJustPressed(ANY)){
+                else if(controls.PAUSE){
                     FlxG.sound.play('assets/sounds/cancelMenu.ogg');
                     quit();
                 }
-				else if (FlxG.keys.justPressed.BACKSPACE){
+				else if (controls.RESET){
                     FlxG.sound.play('assets/sounds/cancelMenu.ogg');
                     reset();
                 }
@@ -121,18 +123,18 @@ class KeyBindMenu extends MusicBeatState
                 state = "waiting";
 
             case "waiting":
-                if(FlxG.keys.justPressed.ESCAPE){
+                if(controls.PAUSE){
                     keys[curSelected] = tempKey;
                     state = "select";
                     FlxG.sound.play('assets/sounds/cancelMenu.ogg');
                 }
-                else if(FlxG.keys.justPressed.ENTER){
+                else if(controls.RESET){
                     addKey(defaultKeys[curSelected]);
                     save();
                     state = "select";
                 }
-                else if(FlxG.keys.justPressed.ANY){
-                    addKey(FlxG.keys.getIsDown()[0].ID.toString());
+                else if(controller.justPressed.ANY){
+                    addKey(controller.firstJustPressedID());
                     save();
                     state = "select";
                 }
@@ -146,7 +148,7 @@ class KeyBindMenu extends MusicBeatState
 
         }
 
-        if(FlxG.keys.justPressed.ANY)
+        if(controller.justPressed.ANY)
 			textUpdate();
 
 		super.update(elapsed);
@@ -160,13 +162,9 @@ class KeyBindMenu extends MusicBeatState
         for(i in 0...4){
 
             var textStart = (i == curSelected) ? ">" : "  ";
-            keyTextDisplay.text += textStart + keyText[i] + ": " + ((keys[i] != keyText[i]) ? (keys[i] + " + ") : "" ) + keyText[i] + " ARROW\n";
+            keyTextDisplay.text += textStart + keyText[i] + ": " + keys[i] + "\n";
 
         }
-
-        var textStart = (curSelected == 4) ? ">" : "  ";
-
-        keyTextDisplay.text += textStart + "RESET: " + keys[4]  + "\n";
 
         keyTextDisplay.screenCenter();
 
@@ -174,15 +172,12 @@ class KeyBindMenu extends MusicBeatState
 
     function save(){
 
-        FlxG.save.data.upBind = keys[2];
-        FlxG.save.data.downBind = keys[1];
-        FlxG.save.data.leftBind = keys[0];
-        FlxG.save.data.rightBind = keys[3];
-        FlxG.save.data.killBind = keys[4];
+        FlxG.save.data.upBindController = keys[2];
+        FlxG.save.data.downBindController = keys[1];
+        FlxG.save.data.leftBindController = keys[0];
+        FlxG.save.data.rightBindController = keys[3];
 
         FlxG.save.flush();
-
-        PlayerSettings.player1.controls.loadKeyBinds();
 
     }
 
@@ -249,9 +244,9 @@ class KeyBindMenu extends MusicBeatState
     {
         curSelected += _amount;
                 
-        if (curSelected > 4)
+        if (curSelected > 3)
             curSelected = 0;
         if (curSelected < 0)
-            curSelected = 4;
+            curSelected = 3;
     }
 }
