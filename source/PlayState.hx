@@ -1378,6 +1378,8 @@ class PlayState extends MusicBeatState
 			paused = false;
 		}
 
+		setBoyfriendInvuln(1/60);
+
 		super.closeSubState();
 	}
 

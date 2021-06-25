@@ -87,9 +87,7 @@ class PauseSubState extends MusicBeatSubstate
 			switch (daSelected)
 			{
 				case "Resume":
-					if(Config.noFpsCap)
-						openfl.Lib.current.stage.frameRate = 999;
-					close();
+					unpause();
 					
 				case "Restart Song":
 					FlxG.resetState();
@@ -128,6 +126,12 @@ class PauseSubState extends MusicBeatSubstate
 					
 			}
 		}
+	}
+
+	function unpause(){
+		if(Config.noFpsCap)
+			openfl.Lib.current.stage.frameRate = 999;
+		close();
 	}
 
 	override function destroy()
