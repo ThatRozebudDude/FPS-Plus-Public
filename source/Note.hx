@@ -17,7 +17,6 @@ class Note extends FlxSprite
 	public var canBeHit:Bool = false;
 	public var tooLate:Bool = false;
 	public var wasGoodHit:Bool = false;
-	public var glowPath:String = (Config.noteGlow) ? "fpsPlus/" : "";
 	public var prevNote:Note;
 	public var absoluteNumber:Int;
 
@@ -65,7 +64,7 @@ class Note extends FlxSprite
 		switch (daStage)
 		{
 			case 'school' | 'schoolEvil':
-				loadGraphic('assets/images/' + glowPath + 'weeb/pixelUI/arrows-pixels.png', true, 17, 17);
+				loadGraphic('assets/images/weeb/pixelUI/arrows-pixels.png', true, 17, 17);
 
 				animation.add('greenScroll', [6]);
 				animation.add('redScroll', [7]);
@@ -98,7 +97,7 @@ class Note extends FlxSprite
 				updateHitbox();
 
 			default:
-				frames = FlxAtlasFrames.fromSparrow('assets/images/' + glowPath + 'NOTE_assets.png', 'assets/images/' + glowPath + 'NOTE_assets.xml');
+				frames = FlxAtlasFrames.fromSparrow('assets/images/NOTE_assets.png', 'assets/images/NOTE_assets.xml');
 
 				animation.addByPrefix('greenScroll', 'green0');
 				animation.addByPrefix('redScroll', 'red0');

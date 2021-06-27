@@ -69,7 +69,7 @@ class ConfigMenu extends MusicBeatState
 									"Modifies how much Health you gain when hitting a note.",
 									"Modifies how much Health you lose when missing a note.",
 									"Makes notes appear from the top instead the bottom.",
-									"Makes note arrows glow if they are able to be hit.\n[This disables modded note arrows unless there is a version of the files included in the mod.]",
+									"Makes note arrows glow if they are able to be hit.",
 									"Adds low health icons for characters missing them and adds winning icons.\n[This disables modded health icons unless there is a version of the files included in the mod.]",
 									"TEMP",
 									"Change key binds."
