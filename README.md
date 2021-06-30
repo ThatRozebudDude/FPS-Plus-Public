@@ -39,13 +39,13 @@ Adjusted some of the health icons and adds winning icons.
     
     - You can ignore is the part about ignored files since FPS Plus removes them.
 
-- You'll also want to follow the instructions for haxeflixel video [here](https://github.com/GrowtopiaFli/openfl-haxeflixel-video-code).
-
-    - But instead, install my fork of the webm extension with this: 
+- Install my fork of `extension-webm`:
 
     - `haxelib git extension-webm https://github.com/ThatRozebudDude/extension-webm`
 
-    - \(All my fork does is allow you to changing the max amount of frameskip.\)
+        - `KadeDev's fork should also work, so if you have that, you should be set.`
+
+    - And then run `lime rebuild extension-webm [windows/mac/linux]`. Change the target OS based on your system.
 
     - Alternatively if the fork isn't working, you can just delete this line in Main.hx
 
@@ -61,6 +61,6 @@ Adjusted some of the health icons and adds winning icons.
 - [Rozebud](https://twitter.com/helpme_thebigt) - *Everything*
 
 ### Shoutouts
-- [KadeDev](https://twitter.com/KadeDeveloper) - Occasional code advice. (Sometime I don't listen though...)
+- [KadeDev](https://twitter.com/KadeDeveloper) - *Rival*
 - [GWebDev](https://twitter.com/GFlipaclip) - Haxeflixel Video
 - [Ethab Taxi](https://twitter.com/EthabTaxi) - He's just sorta chillin'.

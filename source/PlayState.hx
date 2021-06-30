@@ -1760,8 +1760,8 @@ class PlayState extends MusicBeatState
 							if (spr.animation.curAnim.name == 'confirm' && !curStage.startsWith('school'))
 							{
 								spr.centerOffsets();
-								spr.offset.x -= 15;
-								spr.offset.y -= 15;
+								spr.offset.x -= 14;
+								spr.offset.y -= 14;
 							}
 							else
 								spr.centerOffsets();
@@ -2350,8 +2350,8 @@ class PlayState extends MusicBeatState
 					spr.centerOffsets();
 
 					if(!curStage.startsWith('school')){
-						spr.offset.x -= 15;
-						spr.offset.y -= 15;
+						spr.offset.x -= 14;
+						spr.offset.y -= 14;
 					}
 
 				/*case "static":
