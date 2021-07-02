@@ -51,8 +51,6 @@ Adjusted some of the health icons and adds winning icons.
 
         - `WebmPlayer.SKIP_STEP_LIMIT = 90;`
 
-        - And delete `extension-webm` from the `Project.xml` required libraries.
-
 ## Credits
 ### Friday Night Funkin'
 - [ninjamuffin99](https://twitter.com/ninja_muffin99) - Programmer
