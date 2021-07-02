@@ -47,9 +47,11 @@ Adjusted some of the health icons and adds winning icons.
 
     - And then run `lime rebuild extension-webm [windows/mac/linux]`. Change the target OS based on your system.
 
-    - Alternatively if the fork isn't working, you can just delete this line in Main.hx
+    - Alternatively if the fork isn't working, you can just delete this line in Main.hx: 
 
         - `WebmPlayer.SKIP_STEP_LIMIT = 90;`
+
+        - And delete `extension-webm` from the `Project.xml` required libraries.
 
 ## Credits
 ### Friday Night Funkin'
