@@ -79,6 +79,30 @@ class PlayState extends MusicBeatState
 	private var gf:Character;
 	private var boyfriend:Boyfriend;
 
+	//Wacky input stuff=========================
+
+	private var upTime:Int = 0;
+	private var downTime:Int = 0;
+	private var leftTime:Int = 0;
+	private var rightTime:Int = 0;
+
+	private var upPress:Bool = false;
+	private var downPress:Bool = false;
+	private var leftPress:Bool = false;
+	private var rightPress:Bool = false;
+	
+	private var upRelease:Bool = false;
+	private var downRelease:Bool = false;
+	private var leftRelease:Bool = false;
+	private var rightRelease:Bool = false;
+
+	private var upHold:Bool = false;
+	private var downHold:Bool = false;
+	private var leftHold:Bool = false;
+	private var rightHold:Bool = false;
+
+	//End of wacky input stuff===================
+
 	private var invulnCount:Int = 0;
 
 	private var notes:FlxTypedGroup<Note>;
@@ -975,7 +999,6 @@ class PlayState extends MusicBeatState
 	}
 
 	var startTimer:FlxTimer;
-	var perfectMode:Bool = false;
 
 	function startCountdown():Void
 	{
@@ -1123,8 +1146,6 @@ class PlayState extends MusicBeatState
 		});
 
 	}
-
-	var debugNum:Int = 0;
 
 	private function generateSong(dataPath:String):Void
 	{
@@ -1407,9 +1428,7 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
-		#if !debug
-		perfectMode = false;
-		#end
+		keyCheck();
 
 		if (FlxG.keys.justPressed.NINE)
 		{
@@ -1812,36 +1831,31 @@ class PlayState extends MusicBeatState
 					}
 	
 					if(daNote.prevNote.wasGoodHit){
-						
-						var upP = controls.UP;
-						var rightP = controls.RIGHT;
-						var downP = controls.DOWN;
-						var leftP = controls.LEFT;
 	
 						switch(daNote.noteData){
 							case 0:
-								if(!leftP){
+								if(!leftHold){
 									noteMiss(0, 0.03, true, true);
 									vocals.volume = 0;
 									daNote.tooLate = true;
 									daNote.destroy();
 								}
 							case 1:
-								if(!downP){
+								if(!downHold){
 									noteMiss(1, 0.03, true, true);
 									vocals.volume = 0;
 									daNote.tooLate = true;
 									daNote.destroy();
 								}
 							case 2:
-								if(!upP){
+								if(!upHold){
 									noteMiss(2, 0.03, true, true);
 									vocals.volume = 0;
 									daNote.tooLate = true;
 									daNote.destroy();
 								}
 							case 3:
-								if(!rightP){
+								if(!rightHold){
 									noteMiss(3, 0.03, true, true);
 									vocals.volume = 0;
 									daNote.tooLate = true;
@@ -2161,28 +2175,47 @@ class PlayState extends MusicBeatState
 		curSection += 1;
 	}
 
+	private function keyCheck():Void{
+
+		upTime = controls.UP ? upTime + 1 : 0; 
+		downTime = controls.DOWN ? downTime + 1 : 0; 
+		leftTime = controls.LEFT ? leftTime + 1 : 0; 
+		rightTime = controls.RIGHT ? rightTime + 1 : 0; 
+
+		upPress = upTime == 1;
+		downPress = downTime == 1;
+		leftPress = leftTime == 1;
+		rightPress = rightTime == 1;
+
+		upRelease = upHold && upTime == 0;
+		downRelease = downHold && downTime == 0;
+		leftRelease = leftHold && leftTime == 0;
+		rightRelease = rightHold && rightTime == 0;
+
+		upHold = upTime > 0;
+		downHold = downTime > 0;
+		leftHold = leftTime > 0;
+		rightHold = rightTime > 0;
+
+		/*THE FUNNY 4AM CODE!
+		trace((leftHold?(leftPress?"^":"|"):(leftRelease?"^":" "))+(downHold?(downPress?"^":"|"):(downRelease?"^":" "))+(upHold?(upPress?"^":"|"):(upRelease?"^":" "))+(rightHold?(rightPress?"^":"|"):(rightRelease?"^":" ")));
+		I should probably remove this from the code because it literally serves no purpose, but I'm gonna keep it in because I think it's funny.
+		It just sorta prints 4 lines in the console that look like the arrows being pressed. Looks something like this:
+		====
+		^  | 
+		| ^|
+		| |^
+		^ |
+		====*/
+
+	}
+
 	private function keyShit():Void
 	{
-		// HOLDING
-		var up = controls.UP;
-		var right = controls.RIGHT;
-		var down = controls.DOWN;
-		var left = controls.LEFT;
 
-		var upP = controls.UP_P;
-		var rightP = controls.RIGHT_P;
-		var downP = controls.DOWN_P;
-		var leftP = controls.LEFT_P;
+		var controlArray:Array<Bool> = [leftPress, downPress, upPress, rightPress];
 
-		var upR = controls.UP_R;
-		var rightR = controls.RIGHT_R;
-		var downR = controls.DOWN_R;
-		var leftR = controls.LEFT_R;
-
-		var controlArray:Array<Bool> = [leftP, downP, upP, rightP];
-
-		// FlxG.watch.addQuick('asdfa', upP);
-		if ((upP || rightP || downP || leftP) && !boyfriend.stunned && generatedMusic)
+		if ((upPress || rightPress || downPress || leftPress) && !boyfriend.stunned && generatedMusic)
 		{
 			boyfriend.holdTimer = 0;
 
@@ -2209,9 +2242,6 @@ class PlayState extends MusicBeatState
 			if (possibleNotes.length > 0)
 			{
 				var daNote = possibleNotes[0];
-
-				if (perfectMode)
-					noteCheck(true, daNote);
 
 				// Jump notes
 				if (possibleNotes.length >= 2)
@@ -2284,7 +2314,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if ((up || right || down || left) && !boyfriend.stunned && generatedMusic)
+		if ((upHold || rightHold || downHold || leftHold) && !boyfriend.stunned && generatedMusic)
 		{
 			notes.forEachAlive(function(daNote:Note)
 			{
@@ -2294,23 +2324,23 @@ class PlayState extends MusicBeatState
 					{
 						// NOTES YOU ARE HOLDING
 						case 2:
-							if (up)
+							if (upHold)
 								goodNoteHit(daNote);
 						case 3:
-							if (right)
+							if (rightHold)
 								goodNoteHit(daNote);
 						case 1:
-							if (down)
+							if (downHold)
 								goodNoteHit(daNote);
 						case 0:
-							if (left)
+							if (leftHold)
 								goodNoteHit(daNote);
 					}
 				}
 			});
 		}
 
-		if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && !up && !down && !right && !left)
+		if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && !upHold && !downHold && !rightHold && !leftHold)
 		{
 			if (boyfriend.animation.curAnim.name.startsWith('sing'))
 				boyfriend.idleEnd();
@@ -2321,24 +2351,24 @@ class PlayState extends MusicBeatState
 			switch (spr.ID)
 			{
 				case 2:
-					if (upP && spr.animation.curAnim.name != 'confirm')
+					if (upPress && spr.animation.curAnim.name != 'confirm')
 						spr.animation.play('pressed');
-					if (!up)
+					if (!upHold)
 						spr.animation.play('static');
 				case 3:
-					if (rightP && spr.animation.curAnim.name != 'confirm')
+					if (rightPress && spr.animation.curAnim.name != 'confirm')
 						spr.animation.play('pressed');
-					if (!right)
+					if (!rightHold)
 						spr.animation.play('static');
 				case 1:
-					if (downP && spr.animation.curAnim.name != 'confirm')
+					if (downPress && spr.animation.curAnim.name != 'confirm')
 						spr.animation.play('pressed');
-					if (!down)
+					if (!downHold)
 						spr.animation.play('static');
 				case 0:
-					if (leftP && spr.animation.curAnim.name != 'confirm')
+					if (leftPress && spr.animation.curAnim.name != 'confirm')
 						spr.animation.play('pressed');
-					if (!left)
+					if (!leftHold)
 						spr.animation.play('static');
 			}
 
@@ -2448,35 +2478,28 @@ class PlayState extends MusicBeatState
 
 	function badNoteCheck()
 	{
-		// just double pasting this shit cuz fuk u
-		// REDO THIS SYSTEM!
-		var upP = controls.UP_P;
-		var rightP = controls.RIGHT_P;
-		var downP = controls.DOWN_P;
-		var leftP = controls.LEFT_P;
-
 		if(Config.noRandomTap && !canHit){}
 		else{
 
 			switch(Config.newInput){
 				case true:
-					if (leftP)
+					if (leftPress)
 						noteMissWrongPress(0);
-					if (upP)
+					if (upPress)
 						noteMissWrongPress(2);
-					if (rightP)
+					if (rightPress)
 						noteMissWrongPress(3);
-					if (downP)
+					if (downPress)
 						noteMissWrongPress(1);
 	
 				case false:
-					if (leftP)
+					if (leftPress)
 						noteMiss(0);
-					if (upP)
+					if (upPress)
 						noteMiss(2);
-					if (rightP)
+					if (rightPress)
 						noteMiss(3);
-					if (downP)
+					if (downPress)
 						noteMiss(1);
 
 			}

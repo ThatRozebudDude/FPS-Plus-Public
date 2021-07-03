@@ -163,8 +163,13 @@ class ConfigMenu extends MusicBeatState
 		//descText.borderSize = 3;
 		descText.borderQuality = 1;
 
+		var backText = new FlxText(5, FlxG.height - 37, 0, "ESCAPE - Back to Menu\nBACKSPACE - Reset to Defaults\n", 16);
+		backText.scrollFactor.set();
+		backText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+
 		add(configText);
 		add(descText);
+		add(backText);
 
 		textUpdate();
 
