@@ -1447,23 +1447,8 @@ class PlayState extends MusicBeatState
 		}
 		
 		if(FlxG.keys.justPressed.ANY && skipListener) {
-
-			leftPress = false;
-			leftHold = false;
-			leftRelease = false;
-			downPress = false;
-			downHold = false;
-			downRelease = false;
-			upPress = false;
-			upHold = false;
-			upRelease = false;
-			rightPress = false;
-			rightHold = false;
-			rightRelease = false;
-
 			skipListener = false;
 			trace("Using keyboard.");
-
 		}
 
 		if(skipListener) {keyCheck();}
@@ -1952,6 +1937,7 @@ class PlayState extends MusicBeatState
 			endSong();
 		#end
 
+		
 		leftPress = false;
 		leftRelease = false;
 		downPress = false;
