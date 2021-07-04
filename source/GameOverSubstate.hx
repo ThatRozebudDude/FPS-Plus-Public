@@ -1,5 +1,6 @@
 package;
 
+import openfl.events.KeyboardEvent;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSubState;
@@ -62,12 +63,17 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		if (controls.ACCEPT)
 		{
+			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
+			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
 			endBullshit();
 		}
 
 		if (controls.BACK)
 		{
 			FlxG.sound.music.stop();
+
+			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
+			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
 
 			if (PlayState.isStoryMode)
 				FlxG.switchState(new StoryMenuState());

@@ -1,5 +1,9 @@
 package;
 
+import openfl.ui.KeyLocation;
+import flixel.input.keyboard.FlxKey;
+import openfl.ui.Keyboard;
+import openfl.events.KeyboardEvent;
 import sys.FileSystem;
 //import polymod.fs.SysFileSystem;
 import Section.SwagSection;
@@ -45,6 +49,9 @@ using StringTools;
 
 class PlayState extends MusicBeatState
 {
+
+	public static var instance:PlayState = null;
+
 	public static var curStage:String = '';
 	public static var SONG:SwagSong;
 	public static var isStoryMode:Bool = false;
@@ -80,6 +87,8 @@ class PlayState extends MusicBeatState
 	private var boyfriend:Boyfriend;
 
 	//Wacky input stuff=========================
+
+	private var skipListener:Bool = false;
 
 	private var upTime:Int = 0;
 	private var downTime:Int = 0;
@@ -202,8 +211,8 @@ class PlayState extends MusicBeatState
 	override public function create()
 	{
 
+		instance = this;
 		FlxG.mouse.visible = false;
-
 		PlayerSettings.gameControls();
 
 		FlxG.sound.cache("assets/music/" + SONG.song + "_Inst" + TitleState.soundExt);
@@ -897,6 +906,9 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
+
 		super.create();
 	}
 
@@ -1428,7 +1440,33 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
-		keyCheck();
+
+		if(FlxG.gamepads.anyJustPressed(ANY) && !skipListener) {
+			skipListener = true;
+			trace("Using controller.");
+		}
+		
+		if(FlxG.keys.justPressed.ANY && skipListener) {
+
+			leftPress = false;
+			leftHold = false;
+			leftRelease = false;
+			downPress = false;
+			downHold = false;
+			downRelease = false;
+			upPress = false;
+			upHold = false;
+			upRelease = false;
+			rightPress = false;
+			rightHold = false;
+			rightRelease = false;
+
+			skipListener = false;
+			trace("Using keyboard.");
+
+		}
+
+		if(skipListener) {keyCheck();}
 
 		if (FlxG.keys.justPressed.NINE)
 		{
@@ -1478,6 +1516,8 @@ class PlayState extends MusicBeatState
 		{
 			PlayerSettings.menuControls();
 			FlxG.switchState(new ChartingState());
+			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 		}
 
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
@@ -1515,6 +1555,8 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.EIGHT){
 
 			PlayerSettings.menuControls();
+			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
 			if(FlxG.keys.pressed.SHIFT){
 				FlxG.switchState(new AnimationDebug(SONG.player1));
@@ -1709,6 +1751,8 @@ class PlayState extends MusicBeatState
 			FlxG.sound.music.stop();
 
 			PlayerSettings.menuControls();
+			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
 			openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, camFollow.getScreenPosition().x, camFollow.getScreenPosition().y));
 
@@ -1908,11 +1952,18 @@ class PlayState extends MusicBeatState
 			endSong();
 		#end
 
-		//FlxG.camera.followLerp = 0.04 * (6 / Main.fpsDisplay.currentFPS); 
+		leftPress = false;
+		leftRelease = false;
+		downPress = false;
+		downRelease = false;
+		upPress = false;
+		upRelease = false;
+		rightPress = false;
+		rightRelease = false;
 
 	}
 
-	function endSong():Void
+	public function endSong():Void
 	{
 		canPause = false;
 		FlxG.sound.music.volume = 0;
@@ -1935,6 +1986,8 @@ class PlayState extends MusicBeatState
 				FlxG.sound.playMusic("assets/music/klaskiiLoop.ogg", 0.75);
 
 				PlayerSettings.menuControls();
+				FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+				FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
 				FlxG.switchState(new StoryMenuState());
 
@@ -1992,6 +2045,8 @@ class PlayState extends MusicBeatState
 		else
 		{
 			PlayerSettings.menuControls();
+			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
 			FlxG.switchState(new FreeplayState());
 		}
@@ -2175,12 +2230,118 @@ class PlayState extends MusicBeatState
 		curSection += 1;
 	}
 
+	public function keyDown(evt:KeyboardEvent):Void{
+
+		if(skipListener) {return;}
+
+		@:privateAccess
+		var key = FlxKey.toStringMap.get(Keyboard.__convertKeyCode(evt.keyCode));
+	
+		var binds:Array<String> = [FlxG.save.data.leftBind,FlxG.save.data.downBind, FlxG.save.data.upBind, FlxG.save.data.rightBind];
+
+		var data = -1;
+
+		switch(evt.keyCode) // arrow keys
+		{
+			case 37:
+				data = 0;
+			case 40:
+				data = 1;
+			case 38:
+				data = 2;
+			case 39:
+				data = 3;
+		}
+
+		for (i in 0...binds.length) // binds
+		{
+			if (binds[i].toLowerCase() == key.toLowerCase())
+				data = i;
+		}
+
+		if (data == -1)
+			return;
+
+		switch(data){
+
+			case 0:
+				if(leftHold) { return; }
+				leftPress = true;
+				leftHold = true;
+			case 1:
+				if(downHold) { return; }
+				downPress = true;
+				downHold = true;
+			case 2:
+				if(upHold) { return; }
+				upPress = true;
+				upHold = true;
+			case 3:
+				if(rightHold) { return; }
+				rightPress = true;
+				rightHold = true;
+
+		}
+
+	}
+
+	public function keyUp(evt:KeyboardEvent):Void{
+
+		if(skipListener) {return;}
+
+		@:privateAccess
+		var key = FlxKey.toStringMap.get(Keyboard.__convertKeyCode(evt.keyCode));
+	
+		var binds:Array<String> = [FlxG.save.data.leftBind,FlxG.save.data.downBind, FlxG.save.data.upBind, FlxG.save.data.rightBind];
+
+		var data = -1;
+
+		switch(evt.keyCode) // arrow keys
+		{
+			case 37:
+				data = 0;
+			case 40:
+				data = 1;
+			case 38:
+				data = 2;
+			case 39:
+				data = 3;
+		}
+
+		for (i in 0...binds.length) // binds
+		{
+			if (binds[i].toLowerCase() == key.toLowerCase())
+				data = i;
+		}
+
+		if (data == -1)
+			return;
+
+		switch(data){
+
+			case 0:
+				leftRelease = true;
+				leftHold = false;
+			case 1:
+				downRelease = true;
+				downHold = false;
+			case 2:
+				upRelease = true;
+				upHold = false;
+			case 3:
+				rightRelease = true;
+				rightHold = false;
+
+		}
+		
+	}
+
 	private function keyCheck():Void{
 
-		upTime = controls.UP ? upTime + 1 : 0; 
-		downTime = controls.DOWN ? downTime + 1 : 0; 
-		leftTime = controls.LEFT ? leftTime + 1 : 0; 
-		rightTime = controls.RIGHT ? rightTime + 1 : 0; 
+		upTime = controls.UP ? upTime + 1 : 0;
+		downTime = controls.DOWN ? downTime + 1 : 0;
+		leftTime = controls.LEFT ? leftTime + 1 : 0;
+		rightTime = controls.RIGHT ? rightTime + 1 : 0;
 
 		upPress = upTime == 1;
 		downPress = downTime == 1;

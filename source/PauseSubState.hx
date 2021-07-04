@@ -1,5 +1,7 @@
 package;
 
+import openfl.events.KeyboardEvent;
+import openfl.events.KeyboardEvent;
 import Controls.Control;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -90,31 +92,23 @@ class PauseSubState extends MusicBeatSubstate
 					unpause();
 					
 				case "Restart Song":
+					FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
+					FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
 					FlxG.resetState();
 
 				case "Chart Editor":
+					PlayerSettings.menuControls();
+					FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
+					FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
 					FlxG.switchState(new ChartingState());
 					
 				case "Skip Song":
-				
-					PlayState.storyPlaylist.remove(PlayState.storyPlaylist[0]);
-					
-					var difficulty:String = "";
-
-					if (PlayState.storyDifficulty == 0)
-						difficulty = '-easy';
-						
-					if (PlayState.storyDifficulty == 2)
-						difficulty = '-hard';
-
-					trace('LOADING NEXT SONG');
-					trace(PlayState.storyPlaylist[0].toLowerCase() + difficulty);
-
-					PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
-					FlxG.sound.music.stop();
-					FlxG.switchState(new PlayState());
+					PlayState.instance.endSong();
 					
 				case "Exit to menu":
+					FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
+					FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
+
 					switch(PlayState.returnLocation){
 						case "freeplay":
 							FlxG.switchState(new FreeplayState());
