@@ -906,8 +906,8 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
+		//FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+		//FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
 
 		super.create();
 	}
@@ -1441,6 +1441,10 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 
+		/*New keyboard input stuff. Disables the listener when using controller because controller uses the other input set thing I did.
+		
+		if(skipListener) {keyCheck();}
+
 		if(FlxG.gamepads.anyJustPressed(ANY) && !skipListener) {
 			skipListener = true;
 			trace("Using controller.");
@@ -1451,7 +1455,9 @@ class PlayState extends MusicBeatState
 			trace("Using keyboard.");
 		}
 
-		if(skipListener) {keyCheck();}
+		//=============================================================*/
+
+		keyCheck(); //Gonna stick with this for right now. I have the other stuff on standby in case this still is not working for people.
 
 		if (FlxG.keys.justPressed.NINE)
 		{
@@ -1501,12 +1507,9 @@ class PlayState extends MusicBeatState
 		{
 			PlayerSettings.menuControls();
 			FlxG.switchState(new ChartingState());
-			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
+			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 		}
-
-		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
-		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
 
 		var iconOffset:Int = 26;
 
@@ -1540,8 +1543,8 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.EIGHT){
 
 			PlayerSettings.menuControls();
-			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
+			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
 			if(FlxG.keys.pressed.SHIFT){
 				FlxG.switchState(new AnimationDebug(SONG.player1));
@@ -1736,8 +1739,8 @@ class PlayState extends MusicBeatState
 			FlxG.sound.music.stop();
 
 			PlayerSettings.menuControls();
-			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
+			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
 			openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, camFollow.getScreenPosition().x, camFollow.getScreenPosition().y));
 
@@ -1972,8 +1975,8 @@ class PlayState extends MusicBeatState
 				FlxG.sound.playMusic("assets/music/klaskiiLoop.ogg", 0.75);
 
 				PlayerSettings.menuControls();
-				FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-				FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
+				//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+				//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
 				FlxG.switchState(new StoryMenuState());
 
@@ -2031,8 +2034,8 @@ class PlayState extends MusicBeatState
 		else
 		{
 			PlayerSettings.menuControls();
-			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
+			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
 			FlxG.switchState(new FreeplayState());
 		}

@@ -58,5 +58,9 @@ class Main extends Sprite
 		#end
 		}
 
+		trace("-=Args=-");
+		trace("novid:" + video);
+		trace("nopreload:" + preload);
+
 	}
 }
