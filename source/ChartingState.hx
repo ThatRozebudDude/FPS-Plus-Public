@@ -60,6 +60,7 @@ class ChartingState extends MusicBeatState
 	var diffList:Array<String> = ["-easy", "", "-hard"];
 	var diffDropFinal:String = "";
 	var metronome:FlxUICheckBox;
+	var gotoSectionStepper:FlxUINumericStepper;
 	//var halfSpeedCheck:FlxUICheckBox;
 
 	var strumLine:FlxSprite;
@@ -247,6 +248,14 @@ class ChartingState extends MusicBeatState
 			trace('CHECKED!');
 		};
 
+		gotoSectionStepper = new FlxUINumericStepper(10, 400, 1, 0, 0, 999, 0);
+		gotoSectionStepper.name = 'gotoSection';
+
+		var gotoSectionButton:FlxButton = new FlxButton(gotoSectionStepper.x, gotoSectionStepper.y + 20, "Go to Section", function()
+		{
+			changeSection(Std.int(gotoSectionStepper.value), true);
+		});
+
 		var check_mute_inst = new FlxUICheckBox(75, 75, null, null, "Mute Instrumental (in editor)", 100);
 		check_mute_inst.checked = false;
 		check_mute_inst.callback = function()
@@ -259,6 +268,7 @@ class ChartingState extends MusicBeatState
 			FlxG.sound.music.volume = vol;
 		};
 
+		//This was gonna be a metronome but I gave up.
 		metronome = new FlxUICheckBox(75, 45, null, null, "Note Click", 100);
 		metronome.checked = false;
 
@@ -368,6 +378,8 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(stageDropDown);
 		tab_group_song.add(player1DropDown);
 		tab_group_song.add(player2DropDown);
+		tab_group_song.add(gotoSectionStepper);
+		tab_group_song.add(gotoSectionButton);
 
 		UI_box.addGroup(tab_group_song);
 		UI_box.scrollFactor.set();
@@ -591,11 +603,21 @@ class ChartingState extends MusicBeatState
 			{
 				curSelectedNote[2] = nums.value;
 				updateGrid();
+				autosaveSong();
 			}
 			else if (wname == 'section_bpm')
 			{
+				Conductor.mapBPMChanges(_song);
 				_song.notes[curSection].bpm = Std.int(nums.value);
 				updateGrid();
+				autosaveSong();
+			}
+			else if (wname == 'check_changeBPM')
+			{
+				Conductor.mapBPMChanges(_song);
+				_song.notes[curSection].bpm = Std.int(nums.value);
+				updateGrid();
+				autosaveSong();
 			}
 		}
 
@@ -679,6 +701,16 @@ class ChartingState extends MusicBeatState
 					FlxG.log.add('added note');
 					addNote(getStrumTime(dummyArrow.y) + sectionStartTime(), Math.floor(FlxG.mouse.x / GRID_SIZE));
 				}
+			}
+		}
+
+		if(curSection * 16 != curStep && curStep % 16 == 0 && FlxG.sound.music.playing){
+
+			if(curSection * 16 > curStep){
+				changeSection(curSection - 1, false);
+			}
+			else if(curSection * 16 < curStep){
+				changeSection(curSection + 1, false);
 			}
 		}
 
@@ -861,7 +893,7 @@ class ChartingState extends MusicBeatState
 			+ curSection
 			+ "\ncurBeat: "
 			+ curBeat
-			+ "\ncurBeat: "
+			+ "\ncurStep: "
 			+ curStep;
 
 // || FlxG.keys.justPressed.X  || FlxG.keys.justPressed.C || FlxG.keys.justPressed.V
@@ -937,6 +969,7 @@ class ChartingState extends MusicBeatState
 			songTime: 0,
 			bpm: 0
 		}
+
 		for (i in 0...Conductor.bpmChangeMap.length)
 		{
 			if (FlxG.sound.music.time > Conductor.bpmChangeMap[i].songTime)
