@@ -79,8 +79,6 @@ class PlayState extends MusicBeatState
 	var camFocus:String = "";
 	var camTween:FlxTween;
 
-	var halloweenLevel:Bool = false;
-
 	private var vocals:FlxSound;
 
 	private var dad:Character;
@@ -176,7 +174,6 @@ class PlayState extends MusicBeatState
 									 ];*/
 
 	var halloweenBG:FlxSprite;
-	var isHalloween:Bool = false;
 
 	var phillyCityLights:FlxTypedGroup<FlxSprite>;
 	var phillyTrain:FlxSprite;
@@ -272,24 +269,23 @@ class PlayState extends MusicBeatState
 
 		var stageCheck:String = 'stage';
 		if (SONG.stage == null) {
-			switch(storyWeek)
-			{
-				case 2: stageCheck = 'halloween';
-				case 3: stageCheck = 'philly';
-				case 4: stageCheck = 'limo';
-				case 5: if (SONG.song.toLowerCase() == 'winter-horrorland') {stageCheck = 'mallEvil';} else {stageCheck = 'mall';}
-				case 6: if (SONG.song.toLowerCase() == 'thorns') {stageCheck = 'schoolEvil';} else {stageCheck = 'school';}
-			}
+
+			if(spookySongs.contains(SONG.song.toLowerCase())) { stageCheck = 'spooky'; }
+			else if(phillySongs.contains(SONG.song.toLowerCase())) { stageCheck = 'philly'; }
+			else if(limoSongs.contains(SONG.song.toLowerCase())) { stageCheck = 'limo'; }
+			else if(mallSongs.contains(SONG.song.toLowerCase())) { stageCheck = 'mall'; }
+			else if(evilMallSongs.contains(SONG.song.toLowerCase())) { stageCheck = 'mallEvil'; }
+			else if(schoolSongs.contains(SONG.song.toLowerCase())) { stageCheck = 'school'; }
+			else if(evilSchoolSongs.contains(SONG.song.toLowerCase())) { stageCheck = 'schoolEvil'; }
 
 			SONG.stage = stageCheck;
 
 		}
 		else {stageCheck = SONG.stage;}
 
-		if (stageCheck == 'halloween')
+		if (stageCheck == 'spooky')
 		{
 			curStage = "spooky";
-			halloweenLevel = true;
 
 			var hallowTex = FlxAtlasFrames.fromSparrow('assets/images/halloween_bg.png', 'assets/images/halloween_bg.xml');
 
@@ -301,7 +297,6 @@ class PlayState extends MusicBeatState
 			halloweenBG.antialiasing = true;
 			add(halloweenBG);
 
-			isHalloween = true;
 		}
 		else if (stageCheck == 'philly')
 		{
@@ -3036,7 +3031,7 @@ class PlayState extends MusicBeatState
 				}
 		}
 
-		if (isHalloween && FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
+		if (curStage == "spooky" && FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
 		{
 			lightningStrikeShit();
 		}
