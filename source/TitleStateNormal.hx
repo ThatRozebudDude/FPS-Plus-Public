@@ -151,6 +151,7 @@ class TitleStateNormal extends MusicBeatState
 		ngSpr.screenCenter(X);
 		ngSpr.antialiasing = true;
 
+		FlxG.sound.muteKeys = null;
 		FlxG.mouse.visible = false;
 
 		if (initialized)

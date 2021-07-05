@@ -34,6 +34,10 @@ class PauseSubState extends MusicBeatSubstate
 			menuItems.insert(2, "Chart Editor");
 		}
 
+		if (!PlayState.isStoryMode && PlayState.sectionStart){
+			menuItems.insert(1, "Restart Section");
+		}
+
 		pauseMusic = new FlxSound().loadEmbedded('assets/music/breakfast' + TitleState.soundExt, true, true);
 		
 		pauseMusic.volume = 0;
@@ -92,6 +96,12 @@ class PauseSubState extends MusicBeatSubstate
 					unpause();
 					
 				case "Restart Song":
+					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
+					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
+					FlxG.resetState();
+					PlayState.sectionStart = false;
+
+				case "Restart Section":
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
 					FlxG.resetState();

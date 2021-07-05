@@ -1,5 +1,6 @@
 package;
 
+import openfl.system.System;
 import openfl.ui.KeyLocation;
 import flixel.input.keyboard.FlxKey;
 import openfl.ui.Keyboard;
@@ -207,6 +208,10 @@ class PlayState extends MusicBeatState
 
 	var dadBeats:Array<Int> = [0, 2];
 	var bfBeats:Array<Int> = [1, 3];
+
+	public static var sectionStart:Bool =  false;
+	public static var sectionStartPoint:Int =  0;
+	public static var sectionStartTime:Float =  0;
 	
 	override public function create()
 	{
@@ -236,7 +241,7 @@ class PlayState extends MusicBeatState
 		schoolScared = ["roses"];
 		evilSchoolSongs = ["thorns"];
 		
-		canHit = !Config.noRandomTap;
+		canHit = !(Config.ghostTapType > 0);
 		noMissCount = 0;
 		invulnCount = 0;
 	
@@ -1151,6 +1156,12 @@ class PlayState extends MusicBeatState
 		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
 
+		if(sectionStart){
+			FlxG.sound.music.time = sectionStartTime;
+			Conductor.songPosition = sectionStartTime;
+			vocals.time = sectionStartTime;
+		}
+
 		new FlxTimer().start(0.3, function(tmr:FlxTimer)
 		{
 			if(!paused)
@@ -1188,8 +1199,14 @@ class PlayState extends MusicBeatState
 		var playerCounter:Int = 0;
 
 		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
+		//for (section in noteData)
 		for (section in noteData)
 		{
+			if(sectionStart && daBeats < sectionStartPoint){
+				daBeats++;
+				continue;
+			}
+
 			var coolSection:Int = Std.int(section.lengthInSteps / 4);
 
 			for (songNotes in section.sectionNotes)
@@ -1245,7 +1262,7 @@ class PlayState extends MusicBeatState
 				{
 				}
 			}
-			daBeats += 1;
+			daBeats++;
 		}
 
 		// trace(unspawnNotes.length);
@@ -1507,6 +1524,7 @@ class PlayState extends MusicBeatState
 		{
 			PlayerSettings.menuControls();
 			FlxG.switchState(new ChartingState());
+			sectionStart = false;
 			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 		}
@@ -1543,6 +1561,7 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.EIGHT){
 
 			PlayerSettings.menuControls();
+			sectionStart = false;
 			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
@@ -1696,22 +1715,8 @@ class PlayState extends MusicBeatState
 					dadBeats = [0, 1, 2, 3];
 					bfBeats = [0, 1, 2, 3];
 				case 163:
-					// FlxG.sound.music.stop();
-					// FlxG.switchState(new TitleState());
 			}
 		}
-
-		/*if (curSong == 'Bopeebo')
-		{
-			switch (totalBeats)
-			{
-				case 128, 129, 130:
-					vocals.volume = 0;
-					// FlxG.sound.music.stop();
-					// FlxG.switchState(new PlayState());
-			}
-		}*/
-		// better streaming of shit
 
 		// RESET = Quick Game Over Screen
 		if (controls.RESET && !startingSong)
@@ -1743,8 +1748,8 @@ class PlayState extends MusicBeatState
 			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
 			openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, camFollow.getScreenPosition().x, camFollow.getScreenPosition().y));
+			sectionStart = false;
 
-			// FlxG.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
 
 		if (unspawnNotes[0] != null)
@@ -1979,6 +1984,7 @@ class PlayState extends MusicBeatState
 				//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
 				FlxG.switchState(new StoryMenuState());
+				sectionStart = false;
 
 				// if ()
 				StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
@@ -2034,6 +2040,7 @@ class PlayState extends MusicBeatState
 		else
 		{
 			PlayerSettings.menuControls();
+			sectionStart = false;
 			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
@@ -2383,7 +2390,7 @@ class PlayState extends MusicBeatState
 
 					ignoreList.push(daNote.noteData);
 
-					if(Config.noRandomTap)
+					if(Config.ghostTapType == 1)
 						setCanMiss();
 				}
 
@@ -2588,6 +2595,9 @@ class PlayState extends MusicBeatState
 
 			updateAccuracy();
 		}
+
+		if(Main.flippymode) {System.exit(0);}
+
 	}
 
 	function noteMissWrongPress(direction:Int = 1, ?healthLoss:Float = 0.0475):Void
@@ -2628,7 +2638,7 @@ class PlayState extends MusicBeatState
 
 	function badNoteCheck()
 	{
-		if(Config.noRandomTap && !canHit){}
+		if(Config.ghostTapType > 0 && !canHit){}
 		else{
 
 			switch(Config.newInput){

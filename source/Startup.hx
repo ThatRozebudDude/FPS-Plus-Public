@@ -38,6 +38,7 @@ class Startup extends MusicBeatState
 	{
 
         FlxG.mouse.visible = false;
+        FlxG.sound.muteKeys = null;
 
         splash = new FlxSprite(0, 0);
         splash.frames = FlxAtlasFrames.fromSparrow('assets/images/fpsPlus/rozeSplash.png', 'assets/images/fpsPlus/rozeSplash.xml');

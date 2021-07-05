@@ -14,7 +14,7 @@ class Config
 	public static var downscroll:Bool;
 	public static var newInput:Bool;
 	public static var noteGlow:Bool;
-	public static var noRandomTap:Bool;
+	public static var ghostTapType:Int;
 	public static var noFpsCap:Bool;
 	public static var controllerScheme:Int;
 
@@ -28,7 +28,7 @@ class Config
 		FlxG.save.data.downscroll = false;
 		FlxG.save.data.newInput = true;
 		FlxG.save.data.noteGlow = false;
-		FlxG.save.data.noRandomTap = false;
+		FlxG.save.data.ghostTapType = 0;
 		FlxG.save.data.noFpsCap = true;
 		FlxG.save.data.controllerScheme = 0;
 		reload();
@@ -45,7 +45,7 @@ class Config
 		downscroll = FlxG.save.data.downscroll;
 		newInput = FlxG.save.data.newInput;
 		noteGlow = FlxG.save.data.noteGlow;
-		noRandomTap = FlxG.save.data.noRandomTap;
+		ghostTapType = FlxG.save.data.ghostTapType;
 		noFpsCap = FlxG.save.data.noFpsCap;
 		controllerScheme = FlxG.save.data.controllerScheme;
 	}
@@ -59,7 +59,7 @@ class Config
 								downscrollW:Bool, 
 								newInputW:Bool,
 								noteGlowW:Bool,
-								noRandomTapW:Bool,
+								ghostTapTypeW:Int,
 								noFpsCapW:Bool,
 								controllerSchemeW:Int
 								):Void
@@ -73,7 +73,7 @@ class Config
 		FlxG.save.data.downscroll = downscrollW;
 		FlxG.save.data.newInput = newInputW;
 		FlxG.save.data.noteGlow = noteGlowW;
-		FlxG.save.data.noRandomTap = noRandomTapW;
+		FlxG.save.data.ghostTapType = ghostTapTypeW;
 		FlxG.save.data.noFpsCap = noFpsCapW;
 		FlxG.save.data.controllerScheme = controllerSchemeW;
 
@@ -101,8 +101,8 @@ class Config
 			FlxG.save.data.newInput = true;
 		if(FlxG.save.data.noteGlow == null)
 			FlxG.save.data.noteGlow = false;
-		if(FlxG.save.data.noRandomTap == null)
-			FlxG.save.data.noteGlow = false;
+		if(FlxG.save.data.ghostTapType == null)
+			FlxG.save.data.ghostTapType = 0;
 		if(FlxG.save.data.noFpsCap == null)
 			FlxG.save.data.noFpsCap = true;
 		if(FlxG.save.data.controllerScheme == null)

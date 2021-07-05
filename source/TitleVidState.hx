@@ -43,6 +43,7 @@ class TitleVidState extends MusicBeatState
 
 		super.create();
 		FlxG.mouse.visible = false;
+		FlxG.sound.muteKeys = null;
 
 		FlxG.sound.cache("assets/music/klaskiiLoop.ogg");
 		FlxG.sound.playMusic('assets/music/freakyMenu' + TitleState.soundExt, 0);
@@ -80,7 +81,7 @@ class TitleVidState extends MusicBeatState
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
-		if(Main.video){
+		if(!Main.novid){
 			FlxG.switchState(new VideoState('assets/videos/klaskiiTitle.webm', function(){
 
 				FlxG.camera.flash(FlxColor.WHITE, 60);

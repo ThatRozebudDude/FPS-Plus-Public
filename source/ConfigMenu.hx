@@ -1,5 +1,6 @@
 package;
 
+import openfl.system.System;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -25,6 +26,7 @@ class ConfigMenu extends MusicBeatState
 
 	var configText:FlxText;
 	var descText:FlxText;
+	var tabDisplay:FlxText;
 	var configSelected:Int = 0;
 	
 	var offsetValue:Float;
@@ -37,9 +39,12 @@ class ConfigMenu extends MusicBeatState
 	var downValue:Bool;
 	var inputValue:Bool;
 	var glowValue:Bool;
-	var randomTapValue:Bool;
+	var randomTapValue:Int;
+	var randomTapTypes:Array<String> = ["never", "not singing", "always"];
 	var noCapValue:Bool;
 	var scheme:Int;
+
+	var tabKeys:Array<String> = [];
 	
 	var canChangeItems:Bool = true;
 
@@ -74,6 +79,12 @@ class ConfigMenu extends MusicBeatState
 									"TEMP",
 									"Change key binds."
 									];
+
+	var ghostTapDesc:Array<String> = [
+									"Any key press that isn't for a valid note will cause you to miss.", 
+									"You can only  miss while you need to sing.", 
+									"You cannot miss unless you do not hit a note.\n[Note that this makes the game very easy and can remove a lot of the challenge.]"
+									];					
 
 	var controlSchemes:Array<String> = [
 									"DEFAULT", 
@@ -134,7 +145,7 @@ class ConfigMenu extends MusicBeatState
 		downValue = Config.downscroll;
 		inputValue = Config.newInput;
 		glowValue = Config.noteGlow;
-		randomTapValue = Config.noRandomTap;
+		randomTapValue = Config.ghostTapType;
 		noCapValue = Config.noFpsCap;
 		scheme = Config.controllerScheme;
 		
@@ -163,12 +174,18 @@ class ConfigMenu extends MusicBeatState
 		//descText.borderSize = 3;
 		descText.borderQuality = 1;
 
+		tabDisplay = new FlxText(5, FlxG.height - 53, 0, Std.string(tabKeys), 16);
+		tabDisplay.scrollFactor.set();
+		tabDisplay.visible = false;
+		tabDisplay.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+
 		var backText = new FlxText(5, FlxG.height - 37, 0, "ESCAPE - Back to Menu\nBACKSPACE - Reset to Defaults\n", 16);
 		backText.scrollFactor.set();
 		backText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 
 		add(configText);
 		add(descText);
+		add(tabDisplay);
 		add(backText);
 
 		textUpdate();
@@ -188,7 +205,7 @@ class ConfigMenu extends MusicBeatState
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
 
-		if(canChangeItems){
+		if(canChangeItems && !FlxG.keys.pressed.TAB){
 			if (controls.UP_P)
 				{
 					FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
@@ -278,10 +295,22 @@ class ConfigMenu extends MusicBeatState
 							inputValue = !inputValue;
 						}
 					case 4: //Random Tap 
-						if (controls.RIGHT_P || controls.LEFT_P || controls.ACCEPT) {
-							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
-							randomTapValue = !randomTapValue;
-						}
+						if (controls.RIGHT_P)
+							{
+								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+								randomTapValue += 1;
+							}
+							
+							if (controls.LEFT_P)
+							{
+								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+								randomTapValue -= 1;
+							}
+							
+							if (randomTapValue > 2)
+								randomTapValue = 0;
+							if (randomTapValue < 0)
+								randomTapValue = 2;
 					case 5: //Health Multiplier
 						if (controls.RIGHT_P)
 							{
@@ -421,27 +450,35 @@ class ConfigMenu extends MusicBeatState
 					
 			}
 		}
+		else if(FlxG.keys.pressed.TAB){
+			if(FlxG.keys.justPressed.ANY){
+				if(FlxG.keys.getIsDown()[0].ID.toString() != "TAB"){
+					tabKeys.push(FlxG.keys.getIsDown()[0].ID.toString());
+				}		
+			}
+		}
+
+		if(FlxG.keys.justPressed.TAB){
+			tabDisplay.visible = true;
+		}
+
+		if(FlxG.keys.justReleased.TAB){
+			secretPresetTest(tabKeys);
+			tabKeys = [];
+			tabDisplay.visible = false;
+		}
 
 		if (controls.BACK)
 		{
 			Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, inputValue, glowValue, randomTapValue, noCapValue, scheme);
-			canChangeItems = false;
-			FlxG.sound.music.stop();
-			FlxG.sound.play('assets/sounds/cancelMenu' + TitleState.soundExt);
-			FlxG.switchState(new MainMenuState());
+			exit();
 		}
 
 		if (FlxG.keys.justPressed.BACKSPACE)
 		{
 			Config.resetSettings();
 			FlxG.save.data.ee1 = false;
-
-			canChangeItems = false;
-
-			FlxG.sound.music.stop();
-			FlxG.sound.play('assets/sounds/cancelMenu' + TitleState.soundExt);
-
-			FlxG.switchState(new MainMenuState());
+			exit();
 		}
 
 		#if debug
@@ -487,6 +524,9 @@ class ConfigMenu extends MusicBeatState
 
 		switch(configSelected){
 
+			case 4:
+				descText.text = ghostTapDesc[randomTapValue];
+				
 			case 10:
 				descText.text = controlSchemesDesc[scheme];
 
@@ -494,7 +534,8 @@ class ConfigMenu extends MusicBeatState
 				descText.text = settingDesc[configSelected];
 
 		}
-		
+
+		tabDisplay.text = Std.string(tabKeys);
 
     }
 
@@ -506,7 +547,7 @@ class ConfigMenu extends MusicBeatState
 			case 1: return accuracyType;
 			case 2: return noCapValue;
 			case 3: return inputValue;
-			case 4: return randomTapValue;
+			case 4: return randomTapTypes[randomTapValue];
 			case 5: return healthValue / 10.0;
 			case 6: return healthDrainValue / 10.0;
 			case 7: return downValue;
@@ -517,6 +558,39 @@ class ConfigMenu extends MusicBeatState
 		}
 
 		return -1;
+
+	}
+
+	function exit(){
+		canChangeItems = false;
+		FlxG.sound.music.stop();
+		FlxG.sound.play('assets/sounds/cancelMenu' + TitleState.soundExt);
+		FlxG.switchState(new MainMenuState());
+	}
+
+	function secretPresetTest(_combo:Array<String>):Void{
+
+		var combo:String = "";
+
+		for(x in _combo){
+			combo += x;
+		}
+
+		switch(combo){
+
+			case "KADE":
+				Config.write(offsetValue, "complex", 5, 5, iconValue, downValue, true, false, 2, noCapValue, scheme);
+				exit();
+			case "ROZE":
+				Config.write(offsetValue, "simple", 1, 1, true, true, true, true, 0, noCapValue, scheme);
+				exit();
+			case "CVAL":
+				Config.write(offsetValue, "simple", 1, 1, iconValue, false, true, glowValue, 1, noCapValue, scheme);
+				exit();
+			case "GOTOHELLORSOMETHING":
+				System.exit(0); //I am very funny.
+
+		}
 
 	}
 

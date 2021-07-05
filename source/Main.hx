@@ -16,14 +16,15 @@ class Main extends Sprite
 		var webmHandle:WebmHandler;
 	#end
 
-	public static var video:Bool = !Sys.args().contains("-novid");
-	public static var preload:Bool = !Sys.args().contains("-nopreload");
+	public static var novid:Bool = Sys.args().contains("-novid");
+	public static var nopreload:Bool = Sys.args().contains("-nopreload");
+	public static var flippymode:Bool = Sys.args().contains("-flippymode");
 
 	public function new()
 	{
 		super();
 
-		if(preload)
+		if(!nopreload)
 			addChild(new FlxGame(0, 0, Startup, 1, 144, 144, true));
 		else
 			addChild(new FlxGame(0, 0, TitleVidState, 1, 144, 144, true));
@@ -34,7 +35,7 @@ class Main extends Sprite
 		addChild(fpsDisplay);
 		#end
 
-		if(video){
+		if(!novid){
 		var ourSource:String = "assets/videos/DO NOT DELETE OR GAME WILL CRASH/dontDelete.webm";
 
 		#if web
@@ -59,8 +60,9 @@ class Main extends Sprite
 		}
 
 		trace("-=Args=-");
-		trace("novid:" + video);
-		trace("nopreload:" + preload);
+		trace("novid: " + novid);
+		trace("nopreload: " + nopreload);
+		trace("flippymode: " + flippymode);
 
 	}
 }
