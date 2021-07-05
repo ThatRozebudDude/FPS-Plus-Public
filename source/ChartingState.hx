@@ -185,6 +185,11 @@ class ChartingState extends MusicBeatState
 			};
 		}
 
+		for(x in _song.notes){
+			if(!x.changeBPM)
+				x.bpm = 0;
+		}
+
 		FlxG.mouse.visible = true;
 		FlxG.save.bind(_song.song.replace(" ", "-"), "Chart Editor Autosaves");
 
@@ -403,8 +408,8 @@ class ChartingState extends MusicBeatState
 		stepperLength.value = _song.notes[curSection].lengthInSteps;
 		stepperLength.name = "section_length";
 
-		stepperSectionBPM = new FlxUINumericStepper(10, 80, 1, Conductor.bpm, 0, 999, 0);
-		stepperSectionBPM.value = Conductor.bpm;
+		stepperSectionBPM = new FlxUINumericStepper(10, 80, 1, 0, 0, 999, 0);
+		stepperSectionBPM.value = _song.notes[0].bpm;
 		stepperSectionBPM.name = 'section_bpm';
 
 		var stepperCopy:FlxUINumericStepper = new FlxUINumericStepper(110, 130, 1, 1, -999, 999, 0);

@@ -75,17 +75,11 @@ class MainMenuState extends MusicBeatState
 		add(menuItems);
 
 		var tex = FlxAtlasFrames.fromSparrow('assets/images/FNF_main_menu_assets.png', 'assets/images/FNF_main_menu_assets.xml');
-		var texMod = FlxAtlasFrames.fromSparrow('assets/images/FNF_mod_menu_assets.png', 'assets/images/FNF_mod_menu_assets.xml');
 
 		for (i in 0...optionShit.length)
 		{
 			var menuItem:FlxSprite = new FlxSprite(0, 60 + (i * 160));
-			if(optionShit[i] == "mod") {
-				menuItem.frames = texMod;
-			}
-			else {
-				menuItem.frames = tex;
-			}
+			menuItem.frames = tex;
 			
 			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
 			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
@@ -169,15 +163,6 @@ class MainMenuState extends MusicBeatState
 					Sys.command('/usr/bin/xdg-open', ["https://www.kickstarter.com/projects/funkin/friday-night-funkin-the-full-ass-game", "&"]);
 					#else
 					FlxG.openURL('https://www.kickstarter.com/projects/funkin/friday-night-funkin-the-full-ass-game');
-					#end
-				}
-
-				else if (optionShit[curSelected] == 'mod')
-				{
-					#if linux
-					Sys.command('/usr/bin/xdg-open', ["https://gamebanana.com/gamefiles/13982", "&"]);
-					#else
-					FlxG.openURL('https://gamebanana.com/gamefiles/13982');
 					#end
 				}
 				
