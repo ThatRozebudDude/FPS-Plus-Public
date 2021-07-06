@@ -1038,6 +1038,11 @@ class ChartingState extends MusicBeatState
 				updateCurStep();
 			}
 
+			//DON'T WORRY, THERE IS A REASON FOR THIS
+			swapSections();
+			swapSections();
+			//I DON'T FEEL LIKE EXPLAINING IT
+
 			updateGrid();
 			updateSectionUI();
 		}
