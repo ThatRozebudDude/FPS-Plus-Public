@@ -344,12 +344,12 @@ class PlayState extends MusicBeatState
 			curStage = 'limo';
 			defaultCamZoom = 0.90;
 
-			var skyBG:FlxSprite = new FlxSprite(-120, -50).loadGraphic('assets/images/limo/limoSunset.png');
+			var skyBG:FlxSprite = new FlxSprite(-120, -50).loadGraphic(ImageCache.get('assets/images/limo/limoSunset.png'));
 			skyBG.scrollFactor.set(0.1, 0.1);
 			add(skyBG);
 
 			var bgLimo:FlxSprite = new FlxSprite(-200, 480);
-			bgLimo.frames = FlxAtlasFrames.fromSparrow('assets/images/limo/bgLimo.png', 'assets/images/limo/bgLimo.xml');
+			bgLimo.frames = FlxAtlasFrames.fromSparrow(ImageCache.get('assets/images/limo/bgLimo.png'), 'assets/images/limo/bgLimo.xml');
 			bgLimo.animation.addByPrefix('drive', "background limo pink", 24);
 			bgLimo.animation.play('drive');
 			bgLimo.scrollFactor.set(0.4, 0.4);
@@ -365,9 +365,9 @@ class PlayState extends MusicBeatState
 				grpLimoDancers.add(dancer);
 			}
 
-			var overlayShit:FlxSprite = new FlxSprite(-500, -600).loadGraphic('assets/images/limo/limoOverlay.png');
-			overlayShit.alpha = 0.5;
-			// add(overlayShit);
+			//overlayShit:FlxSprite = new FlxSprite(-500, -600).loadGraphic('assets/images/limo/limoOverlay.png');
+			//overlayShit.alpha = 0.5;
+			//add(overlayShit);
 
 			// var shaderBullshit = new BlendModeEffect(new OverlayShader(), FlxColor.RED);
 
@@ -375,7 +375,7 @@ class PlayState extends MusicBeatState
 
 			// overlayShit.shader = shaderBullshit;
 
-			var limoTex = FlxAtlasFrames.fromSparrow('assets/images/limo/limoDrive.png', 'assets/images/limo/limoDrive.xml');
+			var limoTex = FlxAtlasFrames.fromSparrow(ImageCache.get('assets/images/limo/limoDrive.png'), 'assets/images/limo/limoDrive.xml');
 
 			limo = new FlxSprite(-120, 550);
 			limo.frames = limoTex;
@@ -383,7 +383,7 @@ class PlayState extends MusicBeatState
 			limo.animation.play('drive');
 			limo.antialiasing = true;
 
-			fastCar = new FlxSprite(-300, 160).loadGraphic('assets/images/limo/fastCarLol.png');
+			fastCar = new FlxSprite(-300, 160).loadGraphic(ImageCache.get('assets/images/limo/fastCarLol.png'));
 			// add(limo);
 		}
 		else if (stageCheck == 'mall')
