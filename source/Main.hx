@@ -48,7 +48,6 @@ class Main extends Sprite
 		GlobalVideo.setVid(vHandler);
 		vHandler.source(ourSource);
 		#elseif desktop
-		WebmPlayer.SKIP_STEP_LIMIT = 90; //Make sure to use my fork or Kade's fork of WebmPlayer and to rebuild it. If you are still having trouble you can just remove this line.
 		var str1:String = "WEBM SHIT"; 
 		webmHandle = new WebmHandler();
 		webmHandle.source(ourSource);

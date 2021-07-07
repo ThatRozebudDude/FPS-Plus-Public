@@ -39,17 +39,11 @@ Adjusted some of the health icons and adds winning icons.
     
     - You can ignore is the part about ignored files since FPS Plus removes them.
 
-- Install my fork of `extension-webm`:
+- Install GWebDev's fork of `extension-webm`:
 
-    - `haxelib git extension-webm https://github.com/ThatRozebudDude/extension-webm`
-
-        - `KadeDev's fork should also work, so if you have that, you should be set.`
+    - `haxelib git extension-webm https://github.com/GrowtopiaFli/extension-webm`
 
     - And then run `lime rebuild extension-webm [windows/mac/linux]`. Change the target OS based on your system.
-
-    - Alternatively if the fork isn't working, you can just delete this line in Main.hx: 
-
-        - `WebmPlayer.SKIP_STEP_LIMIT = 90;`
 
 ## Credits
 ### Friday Night Funkin'
