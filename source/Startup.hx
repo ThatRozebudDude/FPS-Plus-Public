@@ -16,7 +16,7 @@ class Startup extends MusicBeatState
     //var dummy:FlxSprite;
     var loadingText:FlxText;
 
-    var songsCached:Bool = false;
+    var songsCached:Bool = Main.skipsound;
     var songs:Array<String> =   ["Tutorial", 
                                 "Bopeebo", "Fresh", "Dadbattle", 
                                 "Spookeez", "South", "Monster",
@@ -27,7 +27,7 @@ class Startup extends MusicBeatState
                                 
     //List of character graphics and some other stuff.
     //Just in case it want to do something with it later.
-    var charactersCached:Bool = false;
+    var charactersCached:Bool = Main.skipcharacters;
     var characters:Array<String> =   ["BOYFRIEND", "bfCar", "christmas/bfChristmas", "weeb/bfPixel", "weeb/bfPixelsDEAD",
                                     "GF_assets", "gfCar", "christmas/gfChristmas", "weeb/gfPixel",
                                     "logoBumpin", "titleBG", "gfDanceTitle", "titleEnter",
@@ -36,8 +36,15 @@ class Startup extends MusicBeatState
                                     "christmas/mom_dad_christmas_assets", "christmas/monsterChristmas",
                                     "weeb/senpai", "weeb/spirit", "weeb/senpaiCrazy"];
 
-    var graphicsCached:Bool = false;
-    var graphics:Array<String> =    ["limo/bgLimo", "limo/fastCarLol", "limo/limoDancer", "limo/limoDrive", "limo/limoSunset"];
+    var graphicsCached:Bool = Main.skipgraphics;
+    var graphics:Array<String> =    ["stageback", "stagefront", "stagecurtains",
+                                    "halloween_bg",
+                                    "philly/sky", "philly/city", "philly/behindTrain", "philly/train", "philly/street",
+                                    "limo/bgLimo", "limo/fastCarLol", "limo/limoDancer", "limo/limoDrive", "limo/limoSunset",
+                                    "christmas/bgWalls", "christmas/upperBop", "christmas/bgEscalator", "christmas/christmasTree", "christmas/bottomBop", "christmas/fgSnow", "christmas/santa",
+                                    "christmas/evilBG", "christmas/evilTree", "christmas/evilSnow",
+                                    "weeb/weebSky", "weeb/weebSchool", "weeb/weebStreet", "weeb/weebTreesBack", "weeb/weebTrees", "weeb/petals", "weeb/bgFreaks",
+                                    "weeb/animatedEvilSchool"];
 
     var cacheStart:Bool = false;
 
@@ -95,17 +102,23 @@ class Startup extends MusicBeatState
 
     function preload(){
 
-        sys.thread.Thread.create(() -> {
-            preloadMusic();
-        });
+        if(!songsCached){
+            sys.thread.Thread.create(() -> {
+                preloadMusic();
+            });
+        }
 
-        sys.thread.Thread.create(() -> {
-            preloadCharacters();
-        });
+        if(!charactersCached){
+            sys.thread.Thread.create(() -> {
+                preloadCharacters();
+            });
+        }
 
-        sys.thread.Thread.create(() -> {
-            preloadGraphics();
-        });
+        if(!graphicsCached){
+            sys.thread.Thread.create(() -> {
+                preloadGraphics();
+            });
+        }
 
     }
 

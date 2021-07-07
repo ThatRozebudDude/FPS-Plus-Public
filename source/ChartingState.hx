@@ -236,6 +236,10 @@ class ChartingState extends MusicBeatState
 		add(curRenderedNotes);
 		add(curRenderedSustains);
 
+		for(i in 0..._song.notes.length){
+			removeDuplicates(i);
+		}
+
 		super.create();
 	}
 
@@ -1038,10 +1042,7 @@ class ChartingState extends MusicBeatState
 				updateCurStep();
 			}
 
-			//DON'T WORRY, THERE IS A REASON FOR THIS
-			swapSections();
-			swapSections();
-			//I DON'T FEEL LIKE EXPLAINING IT
+			//removeDuplicates(curSection);
 
 			updateGrid();
 			updateSectionUI();
@@ -1229,15 +1230,15 @@ class ChartingState extends MusicBeatState
 		updateNoteUI();
 	}
 
-	function deleteNote(note:Note):Void
-	{
-
+	function deleteNote(note:Note):Void{
+		
+		var tolerance:Float = 3;
 		//trace('Trying: ' + note.strumTime);
 
 		for (i in _song.notes[curSection].sectionNotes)
 		{
 			//trace("Testing: " + i[0]);
-			if (i[0] < note.strumTime + 0.01 && i[0] > note.strumTime - 0.01 && i[1] == note.absoluteNumber)
+			if (i[0] < note.strumTime + tolerance && i[0] > note.strumTime - tolerance && i[1] == note.absoluteNumber)
 			{
 				//trace('FOUND EVIL NUMBER');
 				_song.notes[curSection].sectionNotes.remove(i);
@@ -1423,9 +1424,9 @@ class ChartingState extends MusicBeatState
 		}
 	}
 
-	function sectionHasBfNotes(curSection):Bool{
-		var notes = _song.notes[curSection].sectionNotes;
-		var mustHit = _song.notes[curSection].mustHitSection;
+	function sectionHasBfNotes(section:Int):Bool{
+		var notes = _song.notes[section].sectionNotes;
+		var mustHit = _song.notes[section].mustHitSection;
 
 		for(x in notes){
 			if(mustHit) { if(x[1] < 4) { return true; } }
@@ -1433,6 +1434,34 @@ class ChartingState extends MusicBeatState
 		}
 
 		return false;
+
+	}
+
+	function removeDuplicates(section:Int){
+
+		var newNotes:Array<Dynamic> = [];
+		var tolerance:Float = 3;
+
+		for(x in _song.notes[section].sectionNotes){
+
+			var add = true;
+
+			for(y in newNotes){
+
+				if(newNotes.length > 0){
+					if((x[0] <= y[0] + tolerance && x[0] >= y[0] - tolerance) && x[1] == y[1]){
+						add = false;
+					}
+				}
+
+			}
+
+			if(add)
+				newNotes.push(x);
+
+		}
+
+		_song.notes[section].sectionNotes = newNotes;
 
 	}
 
