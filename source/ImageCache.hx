@@ -19,7 +19,7 @@ class ImageCache{
     }
 
     public static function get(path:String):FlxGraphic{
-        return FlxGraphic.fromBitmapData(BitmapData.fromFile(path));
+        return cache.get(path);
     }
 
     public static function exists(path:String){

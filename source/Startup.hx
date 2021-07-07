@@ -39,7 +39,7 @@ class Startup extends MusicBeatState
     var graphicsCached:Bool = Main.skipgraphics;
     var graphics:Array<String> =    ["stageback", "stagefront", "stagecurtains",
                                     "halloween_bg",
-                                    "philly/sky", "philly/city", "philly/behindTrain", "philly/train", "philly/street",
+                                    "philly/sky", "philly/city", "philly/behindTrain", "philly/train", "philly/street", "philly/win0", "philly/win1", "philly/win2", "philly/win3", "philly/win4",
                                     "limo/bgLimo", "limo/fastCarLol", "limo/limoDancer", "limo/limoDrive", "limo/limoSunset",
                                     "christmas/bgWalls", "christmas/upperBop", "christmas/bgEscalator", "christmas/christmasTree", "christmas/bottomBop", "christmas/fgSnow", "christmas/santa",
                                     "christmas/evilBG", "christmas/evilTree", "christmas/evilSnow",
