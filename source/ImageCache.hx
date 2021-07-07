@@ -1,9 +1,6 @@
 package;
 
 import flixel.graphics.FlxGraphic;
-import openfl.utils.AssetCache;
-import flixel.FlxG;
-import openfl.Assets;
 import openfl.display.BitmapData;
 
 class ImageCache{

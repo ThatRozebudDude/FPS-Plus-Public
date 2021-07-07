@@ -30,14 +30,14 @@ class Startup extends MusicBeatState
     var charactersCached:Bool = Main.skipcharacters;
     var characters:Array<String> =   ["BOYFRIEND", "bfCar", "christmas/bfChristmas", "weeb/bfPixel", "weeb/bfPixelsDEAD",
                                     "GF_assets", "gfCar", "christmas/gfChristmas", "weeb/gfPixel",
-                                    "logoBumpin", "titleBG", "gfDanceTitle", "titleEnter",
                                     "DADDY_DEAREST", "spooky_kids_assets", "Monster_Assets",
                                     "Pico_FNF_assetss", "Mom_Assets", "momCar",
                                     "christmas/mom_dad_christmas_assets", "christmas/monsterChristmas",
                                     "weeb/senpai", "weeb/spirit", "weeb/senpaiCrazy"];
 
     var graphicsCached:Bool = Main.skipgraphics;
-    var graphics:Array<String> =    ["stageback", "stagefront", "stagecurtains",
+    var graphics:Array<String> =    ["logoBumpin", "titleBG", "gfDanceTitle", "titleEnter",
+                                    "stageback", "stagefront", "stagecurtains",
                                     "halloween_bg",
                                     "philly/sky", "philly/city", "philly/behindTrain", "philly/train", "philly/street", "philly/win0", "philly/win1", "philly/win2", "philly/win3", "philly/win4",
                                     "limo/bgLimo", "limo/fastCarLol", "limo/limoDancer", "limo/limoDrive", "limo/limoSunset",
@@ -125,7 +125,7 @@ class Startup extends MusicBeatState
     function preloadMusic(){
         for(x in songs){
             FlxG.sound.cache("assets/music/" + x + "_Inst.ogg");
-            trace("Chaching " + x);
+            trace("Chached " + x);
         }
         FlxG.sound.cache("assets/music/klaskiiLoop.ogg");
         songsCached = true;
@@ -133,18 +133,16 @@ class Startup extends MusicBeatState
 
     function preloadCharacters(){
         for(x in characters){
-            var path = "assets/images/" + x + ".png";
-            ImageCache.add(path);
-            trace("Chaching " + x);
+            ImageCache.add("assets/images/" + x + ".png");
+            trace("Chached " + x);
         }
         charactersCached = true;
     }
 
     function preloadGraphics(){
         for(x in graphics){
-            var path = "assets/images/" + x + ".png";
-            ImageCache.add(path);
-            trace("Chaching " + x);
+            ImageCache.add("assets/images/" + x + ".png");
+            trace("Chached " + x);
         }
         graphicsCached = true;
     }
