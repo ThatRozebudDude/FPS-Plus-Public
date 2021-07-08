@@ -1231,7 +1231,7 @@ class ChartingState extends MusicBeatState
 	}
 
 	function deleteNote(note:Note):Void{
-		
+
 		var tolerance:Float = 3;
 		//trace('Trying: ' + note.strumTime);
 
@@ -1266,7 +1266,7 @@ class ChartingState extends MusicBeatState
 		updateGrid();
 	}
 
-	private function addNote(_noteStrum:Float, _noteData:Int):Void
+	private function addNote(_noteStrum:Float, _noteData:Int, ?skipSectionCheck:Bool = false):Void
 	{
 		var noteAdjust:Array<Int> = [0, 1, 2, 3, 4, 5, 6, 7];
 
@@ -1277,6 +1277,13 @@ class ChartingState extends MusicBeatState
 		var noteData = noteAdjust[_noteData];
 		var noteStrum = _noteStrum;
 		var noteSus = 0;
+
+		if(!skipSectionCheck){
+			while(noteStrum < sectionStartTime()){
+				noteStrum++;
+			}
+		}
+			
 
 		_song.notes[curSection].sectionNotes.push([noteStrum, noteData, noteSus]);
 
@@ -1440,7 +1447,7 @@ class ChartingState extends MusicBeatState
 	function removeDuplicates(section:Int){
 
 		var newNotes:Array<Dynamic> = [];
-		var tolerance:Float = 3;
+		var tolerance:Float = 6;
 
 		for(x in _song.notes[section].sectionNotes){
 

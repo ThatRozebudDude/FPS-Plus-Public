@@ -2768,7 +2768,7 @@ class PlayState extends MusicBeatState
 			}
 
 			if(Config.newInput && !note.isSustainNote){
-				setBoyfriendInvuln(2 / 60);
+				setBoyfriendInvuln(2.5 / 60);
 			}
 			
 
