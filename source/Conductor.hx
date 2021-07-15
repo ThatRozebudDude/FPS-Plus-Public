@@ -2,11 +2,6 @@ package;
 
 import Song.SwagSong;
 
-/**
- * ...
- * @author
- */
-
 typedef BPMChangeEvent =
 {
 	var stepTime:Int;
@@ -23,19 +18,17 @@ class Conductor
 	public static var lastSongPos:Float;
 	public static var offset:Float = 0;
 
-	public static var safeFramesOld:Float = 10;
-	public static var safeFramesNew:Float = 6;
+	public static var safeFrames:Float = 6;
 
-	public static var goodZone:Float = 0.2;
-	public static var badZone:Float = 0.75;
-	public static var shitZone:Float = 0.9;
+	public static var goodZone:Float = 0.25;
+	public static var badZone:Float = 0.50;
+	public static var shitZone:Float = 0.75;
 
-	public static var safeZoneOffset:Float = (safeFramesOld / 60) * 1000; // is calculated in create(), is safeFrames in milliseconds
+	public static var safeZoneOffset:Float = (safeFrames / 60) * 1000; // is calculated in create(), is safeFrames in milliseconds
 
 	public static var bpmChangeMap:Array<BPMChangeEvent> = [];
 
-	public function new()
-	{
+	public function new(){
 	}
 
 	public static function mapBPMChanges(song:SwagSong)
@@ -71,27 +64,6 @@ class Conductor
 
 		crochet = ((60 / bpm) * 1000);
 		stepCrochet = crochet / 4;
-	}
-
-	public static function setSafeZone():Void{
-
-		switch(Config.newInput){
-			case true:
-				safeZoneOffset = (safeFramesNew / 60) * 1000;
-				goodZone = 0.25;
-				badZone = 0.50;
-				shitZone = 0.75;
-
-			case false:
-				safeZoneOffset = (safeFramesOld / 60) * 1000;
-				goodZone = 0.2;
-				badZone = 0.75;
-				shitZone = 0.9;
-
-		}
-		
-
-
 	}
 
 }

@@ -63,7 +63,7 @@ class Startup extends MusicBeatState
         splash.updateHitbox();
         splash.screenCenter();
 
-        loadingText = new FlxText(5, FlxG.height - 30, 0, "Preloading Assets...", 24);
+        loadingText = new FlxText(5, FlxG.height - 30, 0, "", 24);
         loadingText.setFormat("assets/fonts/vcr.ttf", 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(loadingText);
 
@@ -89,10 +89,16 @@ class Startup extends MusicBeatState
         }
 
         if(songsCached && charactersCached && graphicsCached && !(splash.animation.curAnim.name == "end")){
-            loadingText.text = "Done!";
+            
             splash.animation.play("end");
             splash.updateHitbox();
             splash.screenCenter();
+
+            new FlxTimer().start(0.3, function(tmr:FlxTimer)
+            {
+                loadingText.text = "Done!";
+            });
+
             //FlxG.sound.play("assets/sounds/loadComplete.ogg");
         }
         
@@ -101,6 +107,8 @@ class Startup extends MusicBeatState
     }
 
     function preload(){
+
+        loadingText.text = "Preloading Assets...";
 
         if(!songsCached){
             sys.thread.Thread.create(() -> {
@@ -128,6 +136,7 @@ class Startup extends MusicBeatState
             trace("Chached " + x);
         }
         FlxG.sound.cache("assets/music/klaskiiLoop.ogg");
+        loadingText.text = "Songs cached...";
         songsCached = true;
     }
 
@@ -136,6 +145,7 @@ class Startup extends MusicBeatState
             ImageCache.add("assets/images/" + x + ".png");
             trace("Chached " + x);
         }
+        loadingText.text = "Characters cached...";
         charactersCached = true;
     }
 
@@ -144,6 +154,7 @@ class Startup extends MusicBeatState
             ImageCache.add("assets/images/" + x + ".png");
             trace("Chached " + x);
         }
+        loadingText.text = "Graphics cached...";
         graphicsCached = true;
     }
 

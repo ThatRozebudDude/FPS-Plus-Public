@@ -18,7 +18,6 @@ class Note extends FlxSprite
 	public var tooLate:Bool = false;
 	public var wasGoodHit:Bool = false;
 	public var prevNote:Note;
-	public var absoluteNumber:Int;
 
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
@@ -26,6 +25,8 @@ class Note extends FlxSprite
 	public var noteScore:Float = 1;
 
 	public var playedEditorClick:Bool = false;
+	public var editorBFNote:Bool = false;
+	public var absoluteNumber:Int;
 
 	public static var swagWidth:Float = 160 * 0.7;
 	public static var PURP_NOTE:Int = 0;
@@ -201,20 +202,12 @@ class Note extends FlxSprite
 
 		if (mustPress)
 		{
-			if(Config.newInput){
-
-				if(isSustainNote){
-					canBeHit = (strumTime < Conductor.songPosition + Conductor.safeZoneOffset * 0.25);
-				}
-				else{
-					canBeHit = (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
-								&& strumTime < Conductor.songPosition + Conductor.safeZoneOffset);
-				}
-
+			if(isSustainNote){
+				canBeHit = (strumTime < Conductor.songPosition + Conductor.safeZoneOffset * 0.25);
 			}
 			else{
 				canBeHit = (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
-							&& strumTime < Conductor.songPosition + Conductor.safeZoneOffset * 0.5);
+							&& strumTime < Conductor.songPosition + Conductor.safeZoneOffset);
 			}
 
 			if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset)

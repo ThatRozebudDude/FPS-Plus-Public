@@ -225,7 +225,6 @@ class PlayState extends MusicBeatState
 		else
 			openfl.Lib.current.stage.frameRate = 144;
 
-		Conductor.setSafeZone();
 		camTween = FlxTween.tween(this, {}, 0);
 	
 		stageSongs = ["tutorial", "bopeebo", "fresh", "dadbattle"];
@@ -1836,11 +1835,8 @@ class PlayState extends MusicBeatState
 
 					if (daNote.alpha > 0.3){
 
-						if(Config.newInput){
-							noteMiss(daNote.noteData, 0.055, false, true);
-							vocals.volume = 0;
-						}
-
+						noteMiss(daNote.noteData, 0.055, false, true);
+						vocals.volume = 0;
 						daNote.alpha = 0.3;
 		
 					}
@@ -1848,7 +1844,7 @@ class PlayState extends MusicBeatState
 				}
 
 				//Guitar Hero Type Held Notes
-				if(Config.newInput && daNote.isSustainNote && daNote.mustPress){
+				if(daNote.isSustainNote && daNote.mustPress){
 
 					if(daNote.prevNote.tooLate){
 						daNote.tooLate = true;
@@ -1892,35 +1888,15 @@ class PlayState extends MusicBeatState
 
 				if (Config.downscroll ? (daNote.y > strumLine.y + daNote.height + 50) : (daNote.y < strumLine.y - daNote.height - 50))
 				{
-					if(Config.newInput){
 
-						if (daNote.tooLate){
+					if (daNote.tooLate){
 								
-							daNote.active = false;
-							daNote.visible = false;
-			
-							daNote.destroy();
-		
-						}
-
-					}
-					else{
-
-						if (daNote.tooLate || !daNote.wasGoodHit){
-							
-							health -= 0.0475 * Config.healthDrainMultiplier;
-							misses += 1;
-							updateAccuracy();
-							vocals.volume = 0;
-						}
-		
 						daNote.active = false;
 						daNote.visible = false;
-		
+			
 						daNote.destroy();
-
+		
 					}
-					
 				}
 			});
 		}
@@ -2562,10 +2538,7 @@ class PlayState extends MusicBeatState
 			// FlxG.sound.play('assets/sounds/missnote1' + TitleState.soundExt, 1, false);
 			// FlxG.log.add('played imss note');
 
-			if(Config.newInput)
-				setBoyfriendInvuln(5 / 60);
-			else
-				setBoyfriendStunned();
+			setBoyfriendInvuln(5 / 60);
 
 			if(boyfriend.canAutoAnim){
 				switch (direction)
@@ -2584,7 +2557,7 @@ class PlayState extends MusicBeatState
 			updateAccuracy();
 		}
 
-		if(Main.flippymode) {System.exit(0);}
+		if(Main.flippymode) { System.exit(0); }
 
 	}
 
@@ -2628,29 +2601,14 @@ class PlayState extends MusicBeatState
 	{
 		if(Config.ghostTapType > 0 && !canHit){}
 		else{
-
-			switch(Config.newInput){
-				case true:
-					if (leftPress)
-						noteMissWrongPress(0);
-					if (upPress)
-						noteMissWrongPress(2);
-					if (rightPress)
-						noteMissWrongPress(3);
-					if (downPress)
-						noteMissWrongPress(1);
-	
-				case false:
-					if (leftPress)
-						noteMiss(0);
-					if (upPress)
-						noteMiss(2);
-					if (rightPress)
-						noteMiss(3);
-					if (downPress)
-						noteMiss(1);
-
-			}
+			if (leftPress)
+				noteMissWrongPress(0);
+			if (upPress)
+				noteMissWrongPress(2);
+			if (rightPress)
+				noteMissWrongPress(3);
+			if (downPress)
+				noteMissWrongPress(1);
 		}
 	}
 
@@ -2719,7 +2677,7 @@ class PlayState extends MusicBeatState
 	{
 
 		//Guitar Hero Styled Hold Notes
-		if(Config.newInput && note.isSustainNote && !note.prevNote.wasGoodHit){
+		if(note.isSustainNote && !note.prevNote.wasGoodHit){
 			noteMiss(note.noteData, 0.05, true, true);
 			note.prevNote.tooLate = true;
 			note.prevNote.destroy();
@@ -2737,20 +2695,10 @@ class PlayState extends MusicBeatState
 				totalNotesHit += 1;
 
 			if (note.noteData >= 0){
-				switch(Config.newInput){
-					case true:
-						health += 0.015 * Config.healthMultiplier;
-					case false:
-						health += 0.023 * Config.healthMultiplier;
-				}
+				health += 0.015 * Config.healthMultiplier;
 			}
 			else{
-				switch(Config.newInput){
-					case true:
-						health += 0.0015 * Config.healthMultiplier;
-					case false:
-						health += 0.004 * Config.healthMultiplier;
-				}
+				health += 0.0015 * Config.healthMultiplier;
 			}
 				
 			if(boyfriend.canAutoAnim){
@@ -2767,7 +2715,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-			if(Config.newInput && !note.isSustainNote){
+			if(!note.isSustainNote){
 				setBoyfriendInvuln(2.5 / 60);
 			}
 			

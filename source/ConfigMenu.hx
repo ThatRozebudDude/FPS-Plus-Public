@@ -37,7 +37,6 @@ class ConfigMenu extends MusicBeatState
 	var healthDrainValue:Int;
 	var iconValue:Bool;
 	var downValue:Bool;
-	var inputValue:Bool;
 	var glowValue:Bool;
 	var randomTapValue:Int;
 	var randomTapTypes:Array<String> = ["never", "not singing", "always"];
@@ -54,7 +53,6 @@ class ConfigMenu extends MusicBeatState
 									"NOTE OFFSET", 
 									"ACCURACY DISPLAY", 
 									"UNCAP FRAMERATE",
-									"NEW INPUT",
 									"ALLOW GHOST TAPPING",
 									"HP GAIN MULTIPLIER",
 									"HP DRAIN MULTIPLIER",
@@ -69,7 +67,6 @@ class ConfigMenu extends MusicBeatState
 									"Adjust note timings.\nPress \"ENTER\" to start the offset calibration." + (FlxG.save.data.ee1?"\nHold \"SHIFT\" to force the pixel calibration.\nHold \"CTRL\" to force the normal calibration.":""), 
 									"What type of accuracy calculation you want to use. Simple is just notes hit / total notes. Complex also factors in how early or late a note was.", 
 									"Uncaps the framerate during gameplay.",
-									"Use the FPS Plus input system.",
 									"Prevents you from missing when you don't need to play.",
 									"Modifies how much Health you gain when hitting a note.",
 									"Modifies how much Health you lose when missing a note.",
@@ -143,7 +140,6 @@ class ConfigMenu extends MusicBeatState
 		healthDrainValue = Std.int(Config.healthDrainMultiplier * 10);
 		iconValue = Config.betterIcons;
 		downValue = Config.downscroll;
-		inputValue = Config.newInput;
 		glowValue = Config.noteGlow;
 		randomTapValue = Config.ghostTapType;
 		noCapValue = Config.noFpsCap;
@@ -162,9 +158,9 @@ class ConfigMenu extends MusicBeatState
 		add(optionTitle);
 			
 		
-		configText = new FlxText(0, 215, 1280, "", 44);
+		configText = new FlxText(0, 215, 1280, "", 48);
 		configText.scrollFactor.set(0, 0);
-		configText.setFormat("assets/fonts/Funkin-Bold.otf", 44, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		configText.setFormat("assets/fonts/Funkin-Bold.otf", 48, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		configText.borderSize = 3;
 		configText.borderQuality = 1;
 		
@@ -260,7 +256,7 @@ class ConfigMenu extends MusicBeatState
 						if(FlxG.keys.justPressed.ENTER){
 							canChangeItems = false;
 							FlxG.sound.music.fadeOut(0.3);
-							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, inputValue, glowValue, randomTapValue, noCapValue, scheme);
+							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, glowValue, randomTapValue, noCapValue, scheme);
 							AutoOffsetState.forceEasterEgg = FlxG.keys.pressed.SHIFT ? 1 : (FlxG.keys.pressed.CONTROL ? -1 : 0);
 							FlxG.switchState(new AutoOffsetState());
 						}
@@ -289,12 +285,7 @@ class ConfigMenu extends MusicBeatState
 							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
 							noCapValue = !noCapValue;
 						}
-					case 3: //Miss Stun
-						if (controls.RIGHT_P || controls.LEFT_P || controls.ACCEPT) {
-							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
-							inputValue = !inputValue;
-						}
-					case 4: //Random Tap 
+					case 3: //Random Tap 
 						if (controls.RIGHT_P)
 							{
 								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
@@ -311,7 +302,7 @@ class ConfigMenu extends MusicBeatState
 								randomTapValue = 0;
 							if (randomTapValue < 0)
 								randomTapValue = 2;
-					case 5: //Health Multiplier
+					case 4: //Health Multiplier
 						if (controls.RIGHT_P)
 							{
 								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
@@ -358,7 +349,7 @@ class ConfigMenu extends MusicBeatState
 						{
 							leftRightCount = 0;
 						}				
-					case 6: //Health Drain Multiplier
+					case 5: //Health Drain Multiplier
 						if (controls.RIGHT_P)
 							{
 								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
@@ -400,22 +391,22 @@ class ConfigMenu extends MusicBeatState
 						{
 							leftRightCount = 0;
 						}
-					case 7: //Downscroll
+					case 6: //Downscroll
 						if (controls.RIGHT_P || controls.LEFT_P || controls.ACCEPT) {
 							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
 							downValue = !downValue;
 						}
-					case 8: //Note Glow
+					case 7: //Note Glow
 						if (controls.RIGHT_P || controls.LEFT_P || controls.ACCEPT) {
 							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
 							glowValue = !glowValue;
 						}
-					case 9: //Heads
+					case 8: //Heads
 						if (controls.RIGHT_P || controls.LEFT_P || controls.ACCEPT) {
 							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
 							iconValue = !iconValue;
 						}
-					case 10: //Controller Stuff
+					case 9: //Controller Stuff
 						if (controls.RIGHT_P)
 							{
 								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
@@ -436,15 +427,15 @@ class ConfigMenu extends MusicBeatState
 							if (controls.ACCEPT && scheme == controlSchemes.length - 1) {
 								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
 								canChangeItems = false;
-								Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, inputValue, glowValue, randomTapValue, noCapValue, scheme);
+								Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, glowValue, randomTapValue, noCapValue, scheme);
 								FlxG.switchState(new KeyBindMenuController());
 							}
 
-					case 11: //Binds
+					case 10: //Binds
 						if (controls.ACCEPT) {
 							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
 							canChangeItems = false;
-							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, inputValue, glowValue, randomTapValue, noCapValue, scheme);
+							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, glowValue, randomTapValue, noCapValue, scheme);
 							FlxG.switchState(new KeyBindMenu());
 						}
 					
@@ -470,7 +461,7 @@ class ConfigMenu extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, inputValue, glowValue, randomTapValue, noCapValue, scheme);
+			Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, glowValue, randomTapValue, noCapValue, scheme);
 			exit();
 		}
 
@@ -524,10 +515,10 @@ class ConfigMenu extends MusicBeatState
 
 		switch(configSelected){
 
-			case 4:
+			case 3:
 				descText.text = ghostTapDesc[randomTapValue];
 				
-			case 10:
+			case 9:
 				descText.text = controlSchemesDesc[scheme];
 
 			default:
@@ -546,14 +537,13 @@ class ConfigMenu extends MusicBeatState
 			case 0: return offsetValue;
 			case 1: return accuracyType;
 			case 2: return noCapValue;
-			case 3: return inputValue;
-			case 4: return randomTapTypes[randomTapValue];
-			case 5: return healthValue / 10.0;
-			case 6: return healthDrainValue / 10.0;
-			case 7: return downValue;
-			case 8: return glowValue;
-			case 9: return iconValue;
-			case 10: return controlSchemes[scheme];
+			case 3: return randomTapTypes[randomTapValue];
+			case 4: return healthValue / 10.0;
+			case 5: return healthDrainValue / 10.0;
+			case 6: return downValue;
+			case 7: return glowValue;
+			case 8: return iconValue;
+			case 9: return controlSchemes[scheme];
 
 		}
 
@@ -579,13 +569,13 @@ class ConfigMenu extends MusicBeatState
 		switch(combo){
 
 			case "KADE":
-				Config.write(offsetValue, "complex", 5, 5, iconValue, downValue, true, false, 2, noCapValue, scheme);
+				Config.write(offsetValue, "complex", 5, 5, iconValue, downValue, false, 2, noCapValue, scheme);
 				exit();
 			case "ROZE":
-				Config.write(offsetValue, "simple", 1, 1, true, true, true, true, 0, noCapValue, scheme);
+				Config.write(offsetValue, "simple", 1, 1, true, true, true, 0, noCapValue, scheme);
 				exit();
 			case "CVAL":
-				Config.write(offsetValue, "simple", 1, 1, iconValue, false, true, glowValue, 1, noCapValue, scheme);
+				Config.write(offsetValue, "simple", 1, 1, iconValue, false, glowValue, 1, noCapValue, scheme);
 				exit();
 			case "GOTOHELLORSOMETHING":
 				System.exit(0); //I am very funny.

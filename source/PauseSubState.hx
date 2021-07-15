@@ -119,6 +119,8 @@ class PauseSubState extends MusicBeatSubstate
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
 
+					PlayState.sectionStart = false;
+
 					switch(PlayState.returnLocation){
 						case "freeplay":
 							FlxG.switchState(new FreeplayState());

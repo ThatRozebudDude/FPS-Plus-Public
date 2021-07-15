@@ -59,7 +59,8 @@ class ChartingState extends MusicBeatState
 	var stageDropDown:FlxUIDropDownMenu;
 	var diffList:Array<String> = ["-easy", "", "-hard"];
 	var diffDropFinal:String = "";
-	var metronome:FlxUICheckBox;
+	var bfClick:FlxUICheckBox;
+	var opClick:FlxUICheckBox;
 	var gotoSectionStepper:FlxUINumericStepper;
 	//var halfSpeedCheck:FlxUICheckBox;
 
@@ -218,7 +219,8 @@ class ChartingState extends MusicBeatState
 		var tabs = [
 			{name: "Song", label: 'Song'},
 			{name: "Section", label: 'Section'},
-			{name: "Note", label: 'Note'}
+			{name: "Note", label: 'Note'},
+			{name: "Tools", label: 'Tools'}
 		];
 
 		UI_box = new FlxUITabMenu(null, tabs, true);
@@ -231,6 +233,7 @@ class ChartingState extends MusicBeatState
 		addSongUI();
 		addSectionUI();
 		addNoteUI();
+		addToolsUI();
 		updateHeads();
 
 		add(curRenderedNotes);
@@ -247,43 +250,6 @@ class ChartingState extends MusicBeatState
 	{
 		var UI_songTitle = new FlxUIInputText(10, 10, 70, _song.song, 8);
 		typingShit = UI_songTitle;
-
-		var check_voices = new FlxUICheckBox(10, 25, null, null, "Has voice track", 100);
-		check_voices.checked = _song.needsVoices;
-		// _song.needsVoices = check_voices.checked;
-		check_voices.callback = function()
-		{
-			_song.needsVoices = check_voices.checked;
-			trace('CHECKED!');
-		};
-
-		gotoSectionStepper = new FlxUINumericStepper(10, 400, 1, 0, 0, 999, 0);
-		gotoSectionStepper.name = 'gotoSection';
-
-		var gotoSectionButton:FlxButton = new FlxButton(gotoSectionStepper.x, gotoSectionStepper.y + 20, "Go to Section", function()
-		{
-			changeSection(Std.int(gotoSectionStepper.value), true);
-			gotoSectionStepper.value = 0;
-		});
-
-		var check_mute_inst = new FlxUICheckBox(75, 75, null, null, "Mute Instrumental (in editor)", 100);
-		check_mute_inst.checked = false;
-		check_mute_inst.callback = function()
-		{
-			var vol:Float = 1;
-
-			if (check_mute_inst.checked)
-				vol = 0;
-
-			FlxG.sound.music.volume = vol;
-		};
-
-		//This was gonna be a metronome but I gave up.
-		metronome = new FlxUICheckBox(75, 45, null, null, "Note Click", 100);
-		metronome.checked = false;
-
-		//halfSpeedCheck = new FlxUICheckBox(10, 170, null, null, "Half Speed", 100);
-		//halfSpeedCheck.checked = false;
 
 		var saveButton:FlxButton = new FlxButton(110, 8, "Save", function()
 		{
@@ -372,19 +338,14 @@ class ChartingState extends MusicBeatState
 
 		var tab_group_song = new FlxUI(null, UI_box);
 		tab_group_song.name = "Song";
-		tab_group_song.add(UI_songTitle);
 
-		tab_group_song.add(check_voices);
-		tab_group_song.add(check_mute_inst);
-		tab_group_song.add(metronome);
+		tab_group_song.add(UI_songTitle);
 		tab_group_song.add(saveButton);
 		tab_group_song.add(reloadSong);
 		tab_group_song.add(reloadSongJson);
 		tab_group_song.add(loadAutosaveBtn);
 		tab_group_song.add(stepperBPM);
 		tab_group_song.add(stepperSpeed);
-		tab_group_song.add(gotoSectionStepper);
-		tab_group_song.add(gotoSectionButton);
 		tab_group_song.add(diffDrop);
 		tab_group_song.add(gfDropDown);
 		tab_group_song.add(stageDropDown);
@@ -397,6 +358,54 @@ class ChartingState extends MusicBeatState
 
 		FlxG.camera.follow(strumLine);
 	}
+
+	function addToolsUI():Void
+		{
+			gotoSectionStepper = new FlxUINumericStepper(10, 400, 1, 0, 0, 999, 0);
+			gotoSectionStepper.name = 'gotoSection';
+	
+			var gotoSectionButton:FlxButton = new FlxButton(gotoSectionStepper.x, gotoSectionStepper.y + 20, "Go to Section", function()
+			{
+				changeSection(Std.int(gotoSectionStepper.value), true);
+				gotoSectionStepper.value = 0;
+			});
+	
+			var check_mute_inst = new FlxUICheckBox(10, 10, null, null, "Mute Instrumental (in editor)", 100);
+			check_mute_inst.checked = false;
+			check_mute_inst.callback = function()
+			{
+				var vol:Float = 1;
+	
+				if (check_mute_inst.checked)
+					vol = 0;
+	
+				FlxG.sound.music.volume = vol;
+			};
+	
+			bfClick = new FlxUICheckBox(10, 30, null, null, "BF Note Click", 100);
+			bfClick.checked = false;
+
+			opClick = new FlxUICheckBox(10, 50, null, null, "Opp Note Click", 100);
+			opClick.checked = false;
+	
+			//halfSpeedCheck = new FlxUICheckBox(10, 170, null, null, "Half Speed", 100);
+			//halfSpeedCheck.checked = false;
+	
+			var tab_group_tools = new FlxUI(null, UI_box);
+			tab_group_tools.name = "Tools";
+	
+			tab_group_tools.add(gotoSectionStepper);
+			tab_group_tools.add(gotoSectionButton);
+			tab_group_tools.add(check_mute_inst);
+			tab_group_tools.add(bfClick);
+			tab_group_tools.add(opClick);
+			
+	
+			UI_box.addGroup(tab_group_tools);
+			UI_box.scrollFactor.set();
+	
+			FlxG.camera.follow(strumLine);
+		}
 
 	var stepperLength:FlxUINumericStepper;
 	var check_mustHitSection:FlxUICheckBox;
@@ -489,7 +498,7 @@ class ChartingState extends MusicBeatState
 		check_changeBPM = new FlxUICheckBox(10, 60, null, null, 'Change BPM', 100);
 		check_changeBPM.name = 'check_changeBPM';
 
-		tab_group_section.add(stepperLength);
+		//tab_group_section.add(stepperLength);
 		tab_group_section.add(stepperSectionBPM);
 		tab_group_section.add(stepperCopy);
 		tab_group_section.add(check_mustHitSection);
@@ -897,8 +906,8 @@ class ChartingState extends MusicBeatState
 		if (FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.A)
 			changeSection(curSection - shiftThing);
 
-		bpmTxt.text = bpmTxt.text = Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2))
-			+ " / " + Std.string(FlxMath.roundDecimal(FlxG.sound.music.length / 1000, 2))
+		bpmTxt.text = bpmTxt.text = Std.string(FlxMath.roundDecimal(Conductor.songPosition, 0))
+			+ " / " + Std.string(FlxMath.roundDecimal(FlxG.sound.music.length, 0))
 			+ "\nSection: " + curSection
 			+ "\ncurBeat: " + curBeat
 			+ "\ncurStep: " + curStep;
@@ -920,11 +929,21 @@ class ChartingState extends MusicBeatState
 
 		}
 
-		if(metronome.checked && !justChanged){
+		if((bfClick.checked || opClick.checked) && !justChanged){
 			curRenderedNotes.forEach(function(x:Note) {
+
+				if(x.absoluteNumber < 4 && _song.notes[curSection].mustHitSection){
+					x.editorBFNote = true;
+				}
+				else if(x.absoluteNumber > 3 && !_song.notes[curSection].mustHitSection){
+					x.editorBFNote = true;
+				}
 				
 				if(x.y < strumLine.y && !x.playedEditorClick && FlxG.sound.music.playing){
-					FlxG.sound.play("assets/sounds/tick.ogg", 0.6);
+					if(x.editorBFNote && bfClick.checked)
+						FlxG.sound.play("assets/sounds/tick.ogg", 0.6);
+					else if(!x.editorBFNote && opClick.checked)
+						FlxG.sound.play("assets/sounds/tick.ogg", 0.6);
 				}
 
 				if(x.y > strumLine.y && x.alpha != 0.4){

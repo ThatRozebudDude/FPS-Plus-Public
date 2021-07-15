@@ -12,7 +12,6 @@ class Config
 	public static var healthDrainMultiplier:Float;
 	public static var betterIcons:Bool;
 	public static var downscroll:Bool;
-	public static var newInput:Bool;
 	public static var noteGlow:Bool;
 	public static var ghostTapType:Int;
 	public static var noFpsCap:Bool;
@@ -26,7 +25,6 @@ class Config
 		FlxG.save.data.healthDrainMultiplier = 1.0;
 		FlxG.save.data.betterIcons = true;
 		FlxG.save.data.downscroll = false;
-		FlxG.save.data.newInput = true;
 		FlxG.save.data.noteGlow = false;
 		FlxG.save.data.ghostTapType = 0;
 		FlxG.save.data.noFpsCap = true;
@@ -43,7 +41,6 @@ class Config
 		healthDrainMultiplier = FlxG.save.data.healthDrainMultiplier;
 		betterIcons = FlxG.save.data.betterIcons;
 		downscroll = FlxG.save.data.downscroll;
-		newInput = FlxG.save.data.newInput;
 		noteGlow = FlxG.save.data.noteGlow;
 		ghostTapType = FlxG.save.data.ghostTapType;
 		noFpsCap = FlxG.save.data.noFpsCap;
@@ -57,7 +54,6 @@ class Config
 								healthDrainMultiplierW:Float, 
 								betterIconsW:Bool, 
 								downscrollW:Bool, 
-								newInputW:Bool,
 								noteGlowW:Bool,
 								ghostTapTypeW:Int,
 								noFpsCapW:Bool,
@@ -71,7 +67,6 @@ class Config
 		FlxG.save.data.healthDrainMultiplier = healthDrainMultiplierW;
 		FlxG.save.data.betterIcons = betterIconsW;
 		FlxG.save.data.downscroll = downscrollW;
-		FlxG.save.data.newInput = newInputW;
 		FlxG.save.data.noteGlow = noteGlowW;
 		FlxG.save.data.ghostTapType = ghostTapTypeW;
 		FlxG.save.data.noFpsCap = noFpsCapW;
@@ -97,8 +92,6 @@ class Config
 			FlxG.save.data.betterIcons = true;
 		if(FlxG.save.data.downscroll == null)
 			FlxG.save.data.downscroll = false;
-		if(FlxG.save.data.newInput == null)
-			FlxG.save.data.newInput = true;
 		if(FlxG.save.data.noteGlow == null)
 			FlxG.save.data.noteGlow = false;
 		if(FlxG.save.data.ghostTapType == null)
