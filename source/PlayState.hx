@@ -149,6 +149,8 @@ class PlayState extends MusicBeatState
 	private var camHUD:FlxCamera;
 	private var camGame:FlxCamera;
 
+	private var autoCam:Bool = true;
+
 	var dialogue:Array<String> = [':bf:strange code', ':dad:>:]'];
 
 	/*var bfPos:Array<Array<Float>> = [
@@ -1603,7 +1605,7 @@ class PlayState extends MusicBeatState
 				// trace(PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection);
 			}
 
-			if (camFocus != "dad" && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
+			if (camFocus != "dad" && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && autoCam)
 			{
 
 				camTween.cancel();
@@ -1638,7 +1640,7 @@ class PlayState extends MusicBeatState
 
 			}
 
-			if (camFocus != "bf" && PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
+			if (camFocus != "bf" && PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && autoCam)
 			{
 
 				camTween.cancel();
