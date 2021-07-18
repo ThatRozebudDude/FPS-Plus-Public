@@ -434,6 +434,10 @@ class ChartingState extends MusicBeatState
 		});
 
 		var clearSectionButton:FlxButton = new FlxButton(10, 150, "Clear", clearSection);
+		
+		var clearSectionOppButton:FlxButton = new FlxButton(110, 150, "Clear Opp", clearSectionOpp);
+
+		var clearSectionBFButton:FlxButton = new FlxButton(210, 150, "Clear BF", clearSectionBF);
 
 		var swapSection:FlxButton = new FlxButton(10, 170, "Swap section", swapSections);
 
@@ -506,6 +510,8 @@ class ChartingState extends MusicBeatState
 		tab_group_section.add(check_changeBPM);
 		tab_group_section.add(copyButton);
 		tab_group_section.add(clearSectionButton);
+		tab_group_section.add(clearSectionOppButton);
+		tab_group_section.add(clearSectionBFButton);
 		tab_group_section.add(swapSection);
 		tab_group_section.add(blankButton);
 		tab_group_section.add(bSideButton);
@@ -1274,6 +1280,54 @@ class ChartingState extends MusicBeatState
 
 		updateGrid();
 	}
+
+	function clearSectionBF():Void
+	{
+
+		var newSectionNotes:Array<Dynamic> = [];
+
+		if(_song.notes[curSection].mustHitSection){
+			for(x in _song.notes[curSection].sectionNotes){
+				if(x[1] > 3)
+					newSectionNotes.push(x);
+			}
+		}
+		else{
+			for(x in _song.notes[curSection].sectionNotes){
+				if(x[1] < 4)
+					newSectionNotes.push(x);
+			}
+		}
+
+
+		_song.notes[curSection].sectionNotes = newSectionNotes;
+
+		updateGrid();
+	}
+
+	function clearSectionOpp():Void
+		{
+	
+			var newSectionNotes:Array<Dynamic> = [];
+	
+			if(_song.notes[curSection].mustHitSection){
+				for(x in _song.notes[curSection].sectionNotes){
+					if(x[1] < 4)
+						newSectionNotes.push(x);
+				}
+			}
+			else{
+				for(x in _song.notes[curSection].sectionNotes){
+					if(x[1] > 3)
+						newSectionNotes.push(x);
+				}
+			}
+	
+	
+			_song.notes[curSection].sectionNotes = newSectionNotes;
+	
+			updateGrid();
+		}
 
 	function clearSong():Void
 	{
