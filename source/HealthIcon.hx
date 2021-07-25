@@ -1,5 +1,7 @@
 package;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
 
 class HealthIcon extends FlxSprite
@@ -10,6 +12,8 @@ class HealthIcon extends FlxSprite
 	public var defualtIconScale:Float = 1;
 	public var iconScale:Float = 1;
 	public var iconSize:Float;
+
+	private var tween:FlxTween;
 
 	var pixelIcons:Array<String> = ["bf-pixel", "senpai", "senpai-angry", "spirit"];
 
@@ -75,6 +79,8 @@ class HealthIcon extends FlxSprite
 		antialiasing = !pixelIcons.contains(char);
 		animation.play(char);
 		scrollFactor.set();
+
+		tween = FlxTween.tween(this, {}, 0);
 	}
 
 	override function update(elapsed:Float)
@@ -97,9 +103,13 @@ class HealthIcon extends FlxSprite
 
 			}
 		}
+	}
 
+	public function tweenToDefaultScale(_time:Float, _ease:Null<flixel.tweens.EaseFunction>){
 
-			
+		tween.cancel();
+		tween = FlxTween.tween(this, {iconScale: this.defualtIconScale}, _time, {ease: _ease});
+
 	}
 
 }

@@ -78,8 +78,18 @@ class PlayState extends MusicBeatState
 
 	private var camFocus:String = "";
 	private var camTween:FlxTween;
+	private var camZoomTween:FlxTween;
+	private var uiZoomTween:FlxTween;
 	private var camFollow:FlxObject;
 	private var autoCam:Bool = true;
+	private var autoZoom:Bool = true;
+	private var autoUi:Bool = true;
+
+	private var bopSpeed:Int = 1;
+
+	private var sectionHasOppNotes:Bool = false;
+	private var sectionHasBFNotes:Bool = false;
+	private var sectionHaveNotes:Array<Array<Bool>> = [];
 
 	private var vocals:FlxSound;
 
@@ -127,10 +137,9 @@ class PlayState extends MusicBeatState
 	private var playerStrums:FlxTypedGroup<FlxSprite>;
 	private var enemyStrums:FlxTypedGroup<FlxSprite>;
 
-	private var camZooming:Bool = false;
+	private var camZooming:Bool = true;
 	private var curSong:String = "";
 
-	private var gfSpeed:Int = 1;
 	private var health:Float = 1;
 	private var combo:Int = 0;
 	private var misses:Int = 0;
@@ -188,7 +197,7 @@ class PlayState extends MusicBeatState
 	var santa:FlxSprite;
 
 	var bgGirls:BackgroundGirls;
-	var wiggleShit:WiggleEffect = new WiggleEffect();
+	//var wiggleShit:WiggleEffect = new WiggleEffect();
 
 	var talking:Bool = true;
 	var songScore:Int = 0;
@@ -226,6 +235,8 @@ class PlayState extends MusicBeatState
 			openfl.Lib.current.stage.frameRate = 144;
 
 		camTween = FlxTween.tween(this, {}, 0);
+		camZoomTween = FlxTween.tween(this, {}, 0);
+		uiZoomTween = FlxTween.tween(this, {}, 0);
 	
 		stageSongs = ["tutorial", "bopeebo", "fresh", "dadbattle"];
 		spookySongs = ["spookeez", "south", "monster"];
@@ -236,6 +247,17 @@ class PlayState extends MusicBeatState
 		schoolSongs = ["senpai", "roses"];
 		schoolScared = ["roses"];
 		evilSchoolSongs = ["thorns"];
+
+		for(i in 0 ... SONG.notes.length){
+
+			var array = [false, false];
+
+			array[0] = sectionContainsBfNotes(i);
+			array[1] = sectionContainsOppNotes(i);
+
+			sectionHaveNotes.push(array);
+
+		}
 		
 		canHit = !(Config.ghostTapType > 0);
 		noMissCount = 0;
@@ -609,11 +631,13 @@ class PlayState extends MusicBeatState
 
 		switch(SONG.song.toLowerCase()){
 			case "tutorial":
+				camZooming = false;
 				dadBeats = [0, 1, 2, 3];
 			case "bopeebo":
 				dadBeats = [0, 1, 2, 3];
 				bfBeats = [0, 1, 2, 3];
 			case "fresh":
+				camZooming = false;
 				dadBeats = [0, 1, 2, 3];
 				bfBeats = [0, 1, 2, 3];
 			case "spookeez":
@@ -634,7 +658,7 @@ class PlayState extends MusicBeatState
 
 		var gfCheck:String = 'gf';
 
-		if (SONG.gfVersion == null) {
+		if (SONG.gf == null) {
 			switch(storyWeek)
 			{
 				case 4: gfCheck = 'gf-car';
@@ -642,9 +666,9 @@ class PlayState extends MusicBeatState
 				case 6: gfCheck = 'gf-pixel';
 			}
 
-			SONG.gfVersion = gfCheck;
+			SONG.gf = gfCheck;
 
-		} else {gfCheck = SONG.gfVersion;}
+		} else {gfCheck = SONG.gf;}
 
 		switch (gfCheck)
 		{
@@ -671,7 +695,7 @@ class PlayState extends MusicBeatState
 				if (isStoryMode)
 				{
 					camPos.x += 600;
-					tweenCamIn();
+					camChangeZoom(1.3, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
 				}
 
 			case "spooky":
@@ -729,7 +753,7 @@ class PlayState extends MusicBeatState
 			case 'schoolEvil':
 				// trailArea.scrollFactor.set();
 
-				var evilTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069);
+				var evilTrail = new DeltaTrail(dad, null, 4, 24 / 60, 0.3, 0.069);
 				// evilTrail.changeValuesEnabled(false, false, false, false);
 				// evilTrail.changeGraphic()
 				add(evilTrail);
@@ -1378,11 +1402,6 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function tweenCamIn():Void
-	{
-		FlxTween.tween(FlxG.camera, {zoom: 1.3}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
-	}
-
 	override function openSubState(SubState:FlxSubState)
 	{
 		if (paused)
@@ -1616,12 +1635,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (camZooming)
-		{
-			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom, FlxG.camera.zoom, 0.95);
-			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, 0.95);
-		}
-
 		FlxG.watch.addQuick("totalBeats: ", totalBeats);
 
 		if (curSong == 'Fresh')
@@ -1630,19 +1643,19 @@ class PlayState extends MusicBeatState
 			{
 				case 16:
 					camZooming = true;
-					gfSpeed = 2;
+					bopSpeed = 2;
 					dadBeats = [0, 2];
 					bfBeats = [1, 3];
 				case 48:
-					gfSpeed = 1;
+					bopSpeed = 1;
 					dadBeats = [0, 1, 2, 3];
 					bfBeats = [0, 1, 2, 3];
 				case 80:
-					gfSpeed = 2;
+					bopSpeed = 2;
 					dadBeats = [0, 2];
 					bfBeats = [1, 3];
 				case 112:
-					gfSpeed = 1;
+					bopSpeed = 1;
 					dadBeats = [0, 1, 2, 3];
 					bfBeats = [0, 1, 2, 3];
 				case 163:
@@ -1712,8 +1725,6 @@ class PlayState extends MusicBeatState
 
 				if (!daNote.mustPress && daNote.wasGoodHit)
 				{
-					if (SONG.song != 'Tutorial')
-						camZooming = true;
 
 					var altAnim:String = "";
 
@@ -1800,28 +1811,28 @@ class PlayState extends MusicBeatState
 						switch(daNote.noteData){
 							case 0:
 								if(!leftHold){
-									noteMiss(0, 0.03, true, true);
+									noteMissWrongPress(daNote.noteData);
 									vocals.volume = 0;
 									daNote.tooLate = true;
 									daNote.destroy();
 								}
 							case 1:
 								if(!downHold){
-									noteMiss(1, 0.03, true, true);
+									noteMissWrongPress(daNote.noteData);
 									vocals.volume = 0;
 									daNote.tooLate = true;
 									daNote.destroy();
 								}
 							case 2:
 								if(!upHold){
-									noteMiss(2, 0.03, true, true);
+									noteMissWrongPress(daNote.noteData);
 									vocals.volume = 0;
 									daNote.tooLate = true;
 									daNote.destroy();
 								}
 							case 3:
 								if(!rightHold){
-									noteMiss(3, 0.03, true, true);
+									noteMissWrongPress(daNote.noteData);
 									vocals.volume = 0;
 									daNote.tooLate = true;
 									daNote.destroy();
@@ -2792,8 +2803,13 @@ class PlayState extends MusicBeatState
 
 	override function beatHit()
 	{
-		wiggleShit.update(Conductor.crochet);
+		//wiggleShit.update(Conductor.crochet);
 		super.beatHit();
+
+		if(curBeat % 4 == 0){
+			sectionHasBFNotes = sectionHaveNotes[Math.floor(curBeat / 4)][0];
+			sectionHasOppNotes = sectionHaveNotes[Math.floor(curBeat / 4)][1];
+		}
 
 		if (generatedMusic)
 		{
@@ -2811,7 +2827,7 @@ class PlayState extends MusicBeatState
 				Conductor.changeBPM(SONG.bpm);
 
 			// Dad doesnt interupt his own notes
-			if (SONG.notes[Math.floor(curStep / 16)].mustHitSection)
+			if (!sectionHasOppNotes)
 				if(dadBeats.contains(curBeat % 4) && dad.canAutoAnim)
 					dad.dance();
 			
@@ -2825,8 +2841,7 @@ class PlayState extends MusicBeatState
 		// HARDCODING FOR MILF ZOOMS!
 		if (curSong.toLowerCase() == 'milf' && curBeat >= 168 && curBeat <= 200 && camZooming && FlxG.camera.zoom < 1.35)
 		{
-			FlxG.camera.zoom += 0.015;
-			camHUD.zoom += 0.03;
+			uiBop(0.015, 0.03);
 		}
 
 		if (curSong.toLowerCase() == 'milf' && curBeat == 168)
@@ -2841,23 +2856,19 @@ class PlayState extends MusicBeatState
 			bfBeats = [1, 3];
 		}
 
-		if (camZooming && FlxG.camera.zoom < 1.35 && totalBeats % 4 == 0)
-		{
-			FlxG.camera.zoom += 0.015;
-			camHUD.zoom += 0.03;
+		if(curBeat % (4 * bopSpeed) == 0 && camZooming){
+			uiBop();
 		}
 
-		if (curBeat % 1 == 0){
+		if (curBeat % bopSpeed == 0){
 			iconP1.iconScale = iconP1.defualtIconScale * 1.25;
 			iconP2.iconScale = iconP2.defualtIconScale * 1.25;
 
-			FlxTween.tween(iconP1, {iconScale: iconP1.defualtIconScale}, 0.2, {ease: FlxEase.quintOut});
-			FlxTween.tween(iconP2, {iconScale: iconP2.defualtIconScale}, 0.2, {ease: FlxEase.quintOut});
-		}
+			iconP1.tweenToDefaultScale(0.2, FlxEase.quintOut);
+			iconP2.tweenToDefaultScale(0.2, FlxEase.quintOut);
 
-		if (totalBeats % gfSpeed == 0)
-		{
 			gf.dance();
+
 		}
 
 		if(bfBeats.contains(curBeat % 4) && boyfriend.canAutoAnim)
@@ -2924,11 +2935,31 @@ class PlayState extends MusicBeatState
 
 	var curLight:Int = 0;
 
-	function camFocusOpponent(){
+	function sectionContainsBfNotes(section:Int):Bool{
+		var notes = SONG.notes[section].sectionNotes;
+		var mustHit = SONG.notes[section].mustHitSection;
 
-		camTween.cancel();
-				
-		camFocus = "dad";
+		for(x in notes){
+			if(mustHit) { if(x[1] < 4) { return true; } }
+			else { if(x[1] > 3) { return true; } }
+		}
+
+		return false;
+	}
+
+	function sectionContainsOppNotes(section:Int):Bool{
+		var notes = SONG.notes[section].sectionNotes;
+		var mustHit = SONG.notes[section].mustHitSection;
+
+		for(x in notes){
+			if(mustHit) { if(x[1] > 3) { return true; } }
+			else { if(x[1] < 4) { return true; } }
+		}
+
+		return false;
+	}
+
+	function camFocusOpponent(){
 
 		var followX = dad.getMidpoint().x + 150;
 		var followY = dad.getMidpoint().y - 100;
@@ -2955,17 +2986,13 @@ class PlayState extends MusicBeatState
 
 		if (SONG.song.toLowerCase() == 'tutorial')
 		{
-			tweenCamIn();
+			camChangeZoom(1.3, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
 		}
 
-		camTween = FlxTween.tween(camFollow, {x: followX, y: followY}, 1.9, {ease: FlxEase.quintOut});
+		camMove(followX, followY, 1.9, FlxEase.quintOut, "dad");
 	}
 
 	function camFocusBF(){
-
-		camTween.cancel();
-
-		camFocus = "bf";
 
 		var followX = boyfriend.getMidpoint().x - 100;
 		var followY = boyfriend.getMidpoint().y - 100;
@@ -2988,10 +3015,60 @@ class PlayState extends MusicBeatState
 
 		if (SONG.song.toLowerCase() == 'tutorial')
 		{
-			FlxTween.tween(FlxG.camera, {zoom: 1}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
+			camChangeZoom(1, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
 		}
 
-		camTween = FlxTween.tween(camFollow, {x: followX, y: followY}, 1.95, {ease: FlxEase.quintOut});
+		camMove(followX, followY, 1.9, FlxEase.quintOut, "bf");
+	}
+
+	function camMove(_x:Float, _y:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_focus:String = "", ?_onComplete:Null<TweenCallback> = null):Void{
+
+		if(_onComplete == null){
+			_onComplete = function(tween:FlxTween){};
+		}
+
+		camTween.cancel();
+		camTween = FlxTween.tween(camFollow, {x: _x, y: _y}, _time, {ease: _ease, onComplete: _onComplete});
+		camFocus = _focus;
+
+	}
+
+	function camChangeZoom(_zoom:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
+
+		if(_onComplete == null){
+			_onComplete = function(tween:FlxTween){};
+		}
+
+		camZoomTween.cancel();
+		camZoomTween = FlxTween.tween(FlxG.camera, {zoom: _zoom}, _time, {ease: _ease, onComplete: _onComplete});
+
+	}
+
+	function uiChangeZoom(_zoom:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
+
+		if(_onComplete == null){
+			_onComplete = function(tween:FlxTween){};
+		}
+
+		uiZoomTween.cancel();
+		uiZoomTween = FlxTween.tween(camHUD, {zoom: _zoom}, _time, {ease: _ease, onComplete: _onComplete});
+
+	}
+
+	function uiBop(?_camZoom:Float = 0.01, ?_uiZoom:Float = 0.02){
+
+		if(autoZoom){
+			camZoomTween.cancel();
+			FlxG.camera.zoom = defaultCamZoom + _camZoom;
+			camChangeZoom(defaultCamZoom, 0.6, FlxEase.quintOut);
+		}
+
+		if(autoUi){
+			uiZoomTween.cancel();
+			camHUD.zoom = 1 + _uiZoom;
+			uiChangeZoom(1, 0.6, FlxEase.quintOut);
+		}
+
 	}
 
 
