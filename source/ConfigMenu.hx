@@ -472,15 +472,6 @@ class ConfigMenu extends MusicBeatState
 			exit();
 		}
 
-		#if debug
-		if (FlxG.keys.justPressed.Q)
-		{
-			canChangeItems = false;
-			Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, inputValue, glowValue, randomTapValue, noCapValue);
-			FlxG.switchState(new KeyBindQuick());
-		}
-		#end
-
 		super.update(elapsed);
 		
 		if(controls.LEFT_P || controls.RIGHT_P || controls.UP_P || controls.DOWN_P || controls.ACCEPT || FlxG.keys.justPressed.ANY)
