@@ -1,5 +1,6 @@
 package;
 
+import flixel.math.FlxRect;
 import openfl.system.System;
 import openfl.ui.KeyLocation;
 import flixel.input.keyboard.FlxKey;
@@ -631,7 +632,7 @@ class PlayState extends MusicBeatState
 
 		switch(SONG.song.toLowerCase()){
 			case "tutorial":
-				camZooming = false;
+				autoZoom = false;
 				dadBeats = [0, 1, 2, 3];
 			case "bopeebo":
 				dadBeats = [0, 1, 2, 3];
@@ -1771,18 +1772,54 @@ class PlayState extends MusicBeatState
 					if (SONG.needsVoices)
 						vocals.volume = 1;
 
-					daNote.destroy();
+					if(!daNote.isSustainNote){
+						daNote.destroy();
+					}
 				}
 
 				if(Config.downscroll){
-					daNote.y = (strumLine.y + (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(PlayState.SONG.speed, 2)));
+					daNote.y = (strumLine.y + (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(PlayState.SONG.speed, 2)));	
+
+					if(daNote.isSustainNote){
+
+						daNote.y -= daNote.height;
+						daNote.y += 125;
+
+						if ((!daNote.mustPress || daNote.wasGoodHit || daNote.prevNote.wasGoodHit && !daNote.canBeHit)
+							&& daNote.y - daNote.offset.y * daNote.scale.y + daNote.height >= (strumLine.y + Note.swagWidth / 2))
+						{
+							// Clip to strumline
+							var swagRect = new FlxRect(0, 0, daNote.frameWidth * 2, daNote.frameHeight * 2);
+							swagRect.height = (strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].y
+								+ Note.swagWidth / 2
+								- daNote.y) / daNote.scale.y;
+							swagRect.y = daNote.frameHeight - swagRect.height;
+	
+							daNote.clipRect = swagRect;
+						}
+
+					}
 				}
 				else {
 					daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(PlayState.SONG.speed, 2)));
-				}
 
-				// WIP interpolation shit? Need to fix the pause issue
-				// daNote.y = (strumLine.y - (songTime - daNote.strumTime) * (0.45 * PlayState.SONG.speed));
+					if(daNote.isSustainNote){
+
+						if ((!daNote.mustPress || daNote.wasGoodHit || daNote.prevNote.wasGoodHit && !daNote.canBeHit)
+							&& daNote.y + daNote.offset.y * daNote.scale.y <= (strumLine.y + Note.swagWidth / 2))
+						{
+							// Clip to strumline
+							var swagRect = new FlxRect(0, 0, daNote.width / daNote.scale.x, daNote.height / daNote.scale.y);
+							swagRect.y = (strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].y
+								+ Note.swagWidth / 2
+								- daNote.y) / daNote.scale.y;
+							swagRect.height -= swagRect.y;
+
+							daNote.clipRect = swagRect;
+						}
+
+					}
+				}
 
 
 				//MOVE NOTE TRANSPARENCY CODE BECAUSE REASONS 
@@ -1801,7 +1838,7 @@ class PlayState extends MusicBeatState
 				//Guitar Hero Type Held Notes
 				if(daNote.isSustainNote && daNote.mustPress){
 
-					if(daNote.prevNote.tooLate){
+					if(daNote.prevNote.tooLate && !daNote.prevNote.wasGoodHit){
 						daNote.tooLate = true;
 						daNote.destroy();
 					}
@@ -1844,7 +1881,7 @@ class PlayState extends MusicBeatState
 				if (Config.downscroll ? (daNote.y > strumLine.y + daNote.height + 50) : (daNote.y < strumLine.y - daNote.height - 50))
 				{
 
-					if (daNote.tooLate){
+					if (daNote.tooLate || daNote.wasGoodHit){
 								
 						daNote.active = false;
 						daNote.visible = false;
@@ -2379,10 +2416,10 @@ class PlayState extends MusicBeatState
 								noteCheck(leftP, daNote);
 					}
 				 */
-				if (daNote.wasGoodHit)
+				/*if (daNote.wasGoodHit)
 				{
 					daNote.destroy();
-				}
+				}*/
 			}
 			else
 			{
@@ -2686,7 +2723,9 @@ class PlayState extends MusicBeatState
 			note.wasGoodHit = true;
 			vocals.volume = 1;
 
-			note.destroy();
+			if(!note.isSustainNote){
+				note.destroy();
+			}
 			
 			updateAccuracy();
 		}
@@ -2807,8 +2846,13 @@ class PlayState extends MusicBeatState
 		super.beatHit();
 
 		if(curBeat % 4 == 0){
-			sectionHasBFNotes = sectionHaveNotes[Math.floor(curBeat / 4)][0];
-			sectionHasOppNotes = sectionHaveNotes[Math.floor(curBeat / 4)][1];
+
+			var sec = Math.floor(curBeat / 4);
+			if(sec >= sectionHaveNotes.length) { sec = -1; }
+
+			sectionHasBFNotes = sec >= 0 ? sectionHaveNotes[sec][0] : false;
+			sectionHasOppNotes = sec >= 0 ? sectionHaveNotes[sec][1] : false;
+			
 		}
 
 		if (generatedMusic)
@@ -2879,11 +2923,6 @@ class PlayState extends MusicBeatState
 			boyfriend.playAnim('hey', true);
 
 		}
-		
-		// if (SONG.song == 'Tutorial' && dad.curCharacter == 'gf')
-		// {
-			// dad.playAnim('cheer', true);
-		// }
 
 		switch (curStage)
 		{
@@ -2903,6 +2942,7 @@ class PlayState extends MusicBeatState
 
 				if (FlxG.random.bool(10) && fastCarCanDrive)
 					fastCarDrive();
+				
 			case "philly":
 				if (!trainMoving)
 					trainCooldown += 1;
