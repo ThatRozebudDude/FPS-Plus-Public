@@ -99,8 +99,8 @@
 	<haxelib name="newgrounds"/>
 	<haxelib name="faxe" if='switch'/>
 	<!--haxelib name="polymod"/-->
-	<haxelib name="actuate" />
-	<haxelib name="extension-webm" if="desktop" />
+	<!--haxelib name="actuate" />
+	<!--haxelib name="extension-webm" if="desktop" />
 
 	<!-- <haxelib name="markdown" /> -->
 	<!-- <haxelib name="HtmlParser" /> -->

@@ -1,6 +1,5 @@
 package;
 
-import webm.WebmPlayer;
 import flixel.FlxGame;
 import openfl.display.FPS;
 import openfl.display.Sprite;
