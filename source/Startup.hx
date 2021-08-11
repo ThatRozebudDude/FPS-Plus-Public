@@ -136,6 +136,7 @@ class Startup extends MusicBeatState
             trace("Chached " + x);
         }
         FlxG.sound.cache("assets/music/klaskiiLoop.ogg");
+        
         loadingText.text = "Songs cached...";
         songsCached = true;
     }

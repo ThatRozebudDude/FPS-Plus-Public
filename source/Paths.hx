@@ -40,6 +40,9 @@ class Paths
         return FlxAtlasFrames.fromSpriteSheetPacker(image(key), 'assets/images/$key.txt');
     }
 
-
+    inline static public function video(key:String)
+    {
+        return 'assets/videos/$key.mp4';
+    }
 
 }

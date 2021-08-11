@@ -44,6 +44,9 @@
 	<assets path="assets/data" />
 	<assets path="assets/videos" />
 	<!-- <template path='mods' /> -->
+
+	<assets path="plugins/" rename='' if="windows"/>
+	<assets path="dlls/" rename='' if="windows"/>
 	
 	<!-- <library name="noPreload" preload='false'/> -->
 	<!-- <library name="noPreload"/> -->
@@ -73,6 +76,8 @@
 		<library name="images"  preload="false" />
 		<library name="videos"  preload="false" />
 	</section>
+	
+
 
 	<!-- NOTE FOR FUTURE SELF SINCE FONTS ARE ALWAYS FUCKY 
 		TO FIX ONE OF THEM, I CONVERTED IT TO OTF. DUNNO IF YOU NEED TO
