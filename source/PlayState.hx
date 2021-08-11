@@ -219,6 +219,8 @@ class PlayState extends MusicBeatState
 	public static var sectionStart:Bool =  false;
 	public static var sectionStartPoint:Int =  0;
 	public static var sectionStartTime:Float =  0;
+
+	private var meta:SongMetaTags;
 	
 	override public function create()
 	{
@@ -824,6 +826,12 @@ class PlayState extends MusicBeatState
 
 		FlxG.fixedTimestep = false;
 
+		if(FileSystem.exists("assets/data/" + SONG.song.toLowerCase() + "/meta.txt")){
+			meta = new SongMetaTags(0, 144, SONG.song.toLowerCase());
+			meta.cameras = [camHUD];
+			add(meta);
+		}
+
 		healthBarBG = new FlxSprite(0, Config.downscroll ? FlxG.height * 0.1 : FlxG.height * 0.875).loadGraphic('assets/images/healthBar.png');
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
@@ -1091,6 +1099,9 @@ class PlayState extends MusicBeatState
 			{
 				case 0:
 					FlxG.sound.play('assets/sounds/intro3' + altSuffix + TitleState.soundExt, 0.6);
+					if(meta != null){
+						meta.start();
+					}
 				case 1:
 					var ready:FlxSprite = new FlxSprite().loadGraphic('assets/images/' + introAlts[0]);
 					ready.scrollFactor.set();
