@@ -73,8 +73,9 @@ extern class LibVLC
 	@:native("getHeight")
 	public function getHeight():Int;
 
-	// @:native("getMeta")
-	// public function getMeta(meta:Dynamic):String;
+	@:native("getMeta")
+	public function getMeta(meta:Dynamic):String;
+
 	@:native("isPlaying")
 	public function isPlaying():Bool;
 
@@ -109,7 +110,7 @@ extern class LibVLC
 	public function getRepeat():Int;
 
 	@:native("setRepeat")
-	public function setRepeat(repeat:Int = -1):Void;
+	public function setRepeat(repeat:Int = 1):Void;
 
 	@:native("getPixelData")
 	public function getPixelData():Pointer<UInt8>;
@@ -122,6 +123,6 @@ extern class LibVLC
 
 	public inline function dispose():Void
 	{
-		untyped __cpp__('::delete this');
+		// untyped __cpp__('::delete this');
 	}
 }

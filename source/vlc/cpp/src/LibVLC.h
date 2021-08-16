@@ -44,7 +44,7 @@ class LibVLC
 		void setVolume(float volume);
 		float getVolume();
 		//void setCallback(cpp::Function<void (String)> callback, int cbIndex);
-		libvlc_time_t LibVLC::getTime();
+		libvlc_time_t getTime();
 		void setTime(libvlc_time_t time);
 		float getPosition();
 		void setPosition(float pos);
@@ -59,7 +59,7 @@ class LibVLC
 		void openMedia(const char* mediaPathName);
 		int flags[16]={-1};
 		void setFormat(char* chroma, unsigned* width, unsigned* height, unsigned* pitches, unsigned* lines);
-		void LibVLC::setInitProps();
+		void setInitProps();
 		t_ctx ctx;
 		
 	private:

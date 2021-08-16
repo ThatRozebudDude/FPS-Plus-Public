@@ -1854,33 +1854,33 @@ class PlayState extends MusicBeatState
 						daNote.destroy();
 					}
 	
-					if(daNote.prevNote.wasGoodHit){
+					if(daNote.prevNote.wasGoodHit && !daNote.wasGoodHit){
 	
 						switch(daNote.noteData){
 							case 0:
-								if(!leftHold){
-									noteMissWrongPress(daNote.noteData);
+								if(leftRelease){
+									noteMissWrongPress(daNote.noteData, 0.0475, true);
 									vocals.volume = 0;
 									daNote.tooLate = true;
 									daNote.destroy();
 								}
 							case 1:
-								if(!downHold){
-									noteMissWrongPress(daNote.noteData);
+								if(downRelease){
+									noteMissWrongPress(daNote.noteData, 0.0475, true);
 									vocals.volume = 0;
 									daNote.tooLate = true;
 									daNote.destroy();
 								}
 							case 2:
-								if(!upHold){
-									noteMissWrongPress(daNote.noteData);
+								if(upRelease){
+									noteMissWrongPress(daNote.noteData, 0.0475, true);
 									vocals.volume = 0;
 									daNote.tooLate = true;
 									daNote.destroy();
 								}
 							case 3:
-								if(!rightHold){
-									noteMissWrongPress(daNote.noteData);
+								if(rightRelease){
+									noteMissWrongPress(daNote.noteData, 0.0475, true);
 									vocals.volume = 0;
 									daNote.tooLate = true;
 									daNote.destroy();
@@ -2370,7 +2370,7 @@ class PlayState extends MusicBeatState
 				// Jump notes
 				if (possibleNotes.length >= 2)
 				{
-					if (possibleNotes[0].strumTime == possibleNotes[1].strumTime)
+					if (inRange(possibleNotes[0].strumTime, possibleNotes[1].strumTime, 4))
 					{
 						for (coolNote in possibleNotes)
 						{
@@ -2397,7 +2397,9 @@ class PlayState extends MusicBeatState
 					{
 						for (coolNote in possibleNotes)
 						{
-							noteCheck(controlArray[coolNote.noteData], coolNote);
+							if(!coolNote.isSustainNote){
+								noteCheck(controlArray[coolNote.noteData], coolNote);
+							}
 						}
 					}
 				}
@@ -2564,16 +2566,19 @@ class PlayState extends MusicBeatState
 
 	}
 
-	function noteMissWrongPress(direction:Int = 1, ?healthLoss:Float = 0.0475):Void
+	function noteMissWrongPress(direction:Int = 1, ?healthLoss:Float = 0.0475, dropCombo:Bool = false):Void
 		{
 			if (!startingSong && !boyfriend.invuln)
 			{
 				health -= healthLoss * Config.healthDrainMultiplier;
-				if (combo > 5)
-				{
-					gf.playAnim('sad');
+
+				if(dropCombo){
+					if (combo > 5)
+					{
+						gf.playAnim('sad');
+					}
+					combo = 0;
 				}
-				combo = 0;
 	
 				songScore -= 25;
 				
@@ -3122,5 +3127,8 @@ class PlayState extends MusicBeatState
 
 	}
 
+	function inRange(a:Float, b:Float, tolerance:Float){
+		return (a <= b + tolerance && a >= b - tolerance);
+	}
 
 }
