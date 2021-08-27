@@ -200,6 +200,8 @@ class PlayState extends MusicBeatState
 	var bgGirls:BackgroundGirls;
 	//var wiggleShit:WiggleEffect = new WiggleEffect();
 
+	var video:VideoHandlerMP4;
+
 	var talking:Bool = true;
 	var songScore:Int = 0;
 	var scoreTxt:FlxText;
@@ -613,6 +615,11 @@ class PlayState extends MusicBeatState
 			bg.scrollFactor.set(0.9, 0.9);
 			bg.active = false;
 			add(bg);
+
+			//video = new VideoHandlerMP4();
+			//video.muted = true;
+			//video.playMP4(Paths.video('klaskiiTitle'), function(){}, true);
+			//add(video);
 
 			var stageFront:FlxSprite = new FlxSprite(-650, 600).loadGraphic(Paths.image("stagefront"));
 			stageFront.setGraphicSize(Std.int(stageFront.width * 1.1));

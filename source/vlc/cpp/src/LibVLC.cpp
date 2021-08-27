@@ -281,8 +281,8 @@ void LibVLC::setVolume(float volume)
 	{
 		try
 		{
-			//libvlc_audio_set_volume(libVlcMediaPlayer, volume);
-			libvlc_audio_set_volume(libVlcMediaPlayer, 255.0);
+			libvlc_audio_set_volume(libVlcMediaPlayer, volume);
+			//libvlc_audio_set_volume(libVlcMediaPlayer, 255.0);
 		}
 		catch(int e)
 		{

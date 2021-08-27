@@ -90,7 +90,8 @@ class TitleVidState extends MusicBeatState
 				FlxG.camera.flash(FlxColor.WHITE, 60);
 				FlxG.sound.playMusic("assets/music/klaskiiLoop.ogg", 0.75);
 				FlxG.switchState(new TitleState());
-			});
+			}, false, true);
+			add(video);
 		}
 		else{
 			FlxG.camera.flash(FlxColor.WHITE, 60);
@@ -100,12 +101,6 @@ class TitleVidState extends MusicBeatState
 	}
 
 	override public function update(elapsed:Float){
-
-		if(controls.ACCEPT){
-
-			video.onVLCComplete();
-
-		}
 
 		super.update(elapsed);
 

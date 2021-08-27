@@ -398,11 +398,11 @@ class VlcBitmap extends Bitmap
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	function setVolume(vol:Float)
+	public function setVolume(vol:Float)
 	{
 		#if (cpp && !mobile)
 		if (libvlc != null && initComplete)
-			libvlc.setVolume(vol * 255);
+			libvlc.setVolume(vol * 100);
 		#end
 	}
 
