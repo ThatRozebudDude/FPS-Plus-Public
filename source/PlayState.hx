@@ -200,7 +200,7 @@ class PlayState extends MusicBeatState
 	var bgGirls:BackgroundGirls;
 	//var wiggleShit:WiggleEffect = new WiggleEffect();
 
-	var video:VideoHandlerMP4;
+	//var video:VideoHandlerMP4;
 
 	var talking:Bool = true;
 	var songScore:Int = 0;

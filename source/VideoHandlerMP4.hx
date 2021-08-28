@@ -219,6 +219,14 @@ class VideoHandlerMP4 extends FlxSprite
 
 		super.update(elapsed);
 
+		if(vlcBitmap != null){
+
+			if(!muted)
+				vlcBitmap.volume = FlxG.sound.volume;
+			else
+				vlcBitmap.volume = 0;
+
+		}
 
 		if(waitingStart){
 
@@ -232,11 +240,6 @@ class VideoHandlerMP4 extends FlxSprite
 		}
 
 		if(startDrawing){
-
-			if(!muted)
-				vlcBitmap.volume = FlxG.sound.volume;
-			else
-				vlcBitmap.volume = 0;
 
 			pixels.draw(vlcBitmap.bitmapData);
 
@@ -260,6 +263,18 @@ class VideoHandlerMP4 extends FlxSprite
 		}
 		super.destroy();
 		
+	}
+
+	public function pause(){
+
+		vlcBitmap.pause();
+
+	}
+
+	public function resume(){
+
+		vlcBitmap.resume();
+
 	}
 	
 }
