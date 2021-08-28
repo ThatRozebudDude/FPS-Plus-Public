@@ -50,5 +50,5 @@ Adjusted some of the health icons and adds winning icons.
 
 ### Shoutouts
 - [KadeDev](https://twitter.com/KadeDeveloper) - *Rival*
-- [PolybiusProxy] - Haxeflixel Desktop MP4 stuff.
+- [PolybiusProxy](https://twitter.com/polybiusproxy) - Haxeflixel Desktop MP4 stuff.
 - [Ethab Taxi](https://twitter.com/EthabTaxi) - He's just sorta chillin'.
