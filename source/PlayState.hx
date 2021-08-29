@@ -2340,7 +2340,7 @@ class PlayState extends MusicBeatState
 						if (controlArray[daNote.noteData] && !directionsAccounted[daNote.noteData])
 						{
 							goodNoteHit(daNote);
-							directionsAccounted[coolNote.noteData] = true;
+							directionsAccounted[daNote.noteData] = true;
 						}
 					}
 					else
