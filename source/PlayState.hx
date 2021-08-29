@@ -2304,6 +2304,8 @@ class PlayState extends MusicBeatState
 
 			});
 
+			var directionsAccounted = [false,false,false,false];
+			
 			if (possibleNotes.length > 0)
 			{
 				var daNote = possibleNotes[0];
@@ -2315,8 +2317,11 @@ class PlayState extends MusicBeatState
 					{
 						for (coolNote in possibleNotes)
 						{
-							if (controlArray[coolNote.noteData])
+							if (controlArray[coolNote.noteData] && !directionsAccounted[coolNote.noteData])
+							{
 								goodNoteHit(coolNote);
+								directionsAccounted[coolNote.noteData] = true;
+							}
 							else
 							{
 								var inIgnoreList:Bool = false;
@@ -2332,19 +2337,31 @@ class PlayState extends MusicBeatState
 					}
 					else if (possibleNotes[0].noteData == possibleNotes[1].noteData)
 					{
-						noteCheck(controlArray[daNote.noteData], daNote);
+						if (controlArray[daNote.noteData] && !directionsAccounted[daNote.noteData])
+						{
+							goodNoteHit(daNote);
+							directionsAccounted[coolNote.noteData] = true;
+						}
 					}
 					else
 					{
 						for (coolNote in possibleNotes)
 						{
-							noteCheck(controlArray[coolNote.noteData], coolNote);
+							if (controlArray[coolNote.noteData] && !directionsAccounted[coolNote.noteData])
+							{
+								goodNoteHit(coolNote);
+								directionsAccounted[coolNote.noteData] = true;
+							}
 						}
 					}
 				}
 				else // regular notes?
 				{
-					noteCheck(controlArray[daNote.noteData], daNote);
+					if (controlArray[daNote.noteData] && !directionsAccounted[daNote.noteData])
+					{
+						goodNoteHit(daNote);
+						directionsAccounted[daNote.noteData] = true;
+					}
 				}
 				/* 
 					if (controlArray[daNote.noteData])
