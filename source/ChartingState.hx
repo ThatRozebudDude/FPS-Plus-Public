@@ -180,7 +180,7 @@ class ChartingState extends MusicBeatState
 				player1: 'bf',
 				player2: 'dad',
 				stage: 'stage',
-				gfVersion: 'gf',
+				gf: 'gf',
 				speed: 1,
 				validScore: false
 			};
@@ -280,7 +280,7 @@ class ChartingState extends MusicBeatState
 				player1: 'bf',
 				player2: 'dad',
 				stage: 'stage',
-				gfVersion: 'gf',
+				gf: 'gf',
 				speed: 1,
 				validScore: false
 			};
@@ -324,9 +324,9 @@ class ChartingState extends MusicBeatState
 
 		gfDropDown = new FlxUIDropDownMenu(10, 130, FlxUIDropDownMenu.makeStrIdLabelArray(gfs, true), function(gf:String)
 			{
-				_song.gfVersion = gfs[Std.parseInt(gf)];
+				_song.gf = gfs[Std.parseInt(gf)];
 			});
-		gfDropDown.selectedLabel = _song.gfVersion;
+		gfDropDown.selectedLabel = _song.gf;
 		
 		stageDropDown = new FlxUIDropDownMenu(140, 130, FlxUIDropDownMenu.makeStrIdLabelArray(stages, true), function(selStage:String)
 			{
