@@ -2409,7 +2409,7 @@ class PlayState extends MusicBeatState
 							if (controlArray[coolNote.noteData] && !directionsAccounted[coolNote.noteData])
 							{
 								goodNoteHit(coolNote);
-								directionsAccounted[coolNote.noteData] = true
+								directionsAccounted[coolNote.noteData] = true;
 							}
 						}
 					}
