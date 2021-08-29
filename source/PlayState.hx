@@ -1846,49 +1846,6 @@ class PlayState extends MusicBeatState
 
 				}
 
-				//Guitar Hero Type Held Notes
-				if(daNote.isSustainNote && daNote.mustPress){
-
-					if(daNote.prevNote.tooLate && !daNote.prevNote.wasGoodHit){
-						daNote.tooLate = true;
-						daNote.destroy();
-					}
-	
-					if(daNote.prevNote.wasGoodHit && !daNote.wasGoodHit){
-	
-						switch(daNote.noteData){
-							case 0:
-								if(leftRelease){
-									noteMissWrongPress(daNote.noteData, 0.0475, true);
-									vocals.volume = 0;
-									daNote.tooLate = true;
-									daNote.destroy();
-								}
-							case 1:
-								if(downRelease){
-									noteMissWrongPress(daNote.noteData, 0.0475, true);
-									vocals.volume = 0;
-									daNote.tooLate = true;
-									daNote.destroy();
-								}
-							case 2:
-								if(upRelease){
-									noteMissWrongPress(daNote.noteData, 0.0475, true);
-									vocals.volume = 0;
-									daNote.tooLate = true;
-									daNote.destroy();
-								}
-							case 3:
-								if(rightRelease){
-									noteMissWrongPress(daNote.noteData, 0.0475, true);
-									vocals.volume = 0;
-									daNote.tooLate = true;
-									daNote.destroy();
-								}
-						}
-					}
-				}
-
 				if (Config.downscroll ? (daNote.y > strumLine.y + daNote.height + 50) : (daNote.y < strumLine.y - daNote.height - 50))
 				{
 
@@ -2364,7 +2321,7 @@ class PlayState extends MusicBeatState
 			});
 
 			var directionsAccounted = [false,false,false,false];
-			
+
 			if (possibleNotes.length > 0)
 			{
 				var daNote = possibleNotes[0];
@@ -2389,8 +2346,9 @@ class PlayState extends MusicBeatState
 									if (controlArray[ignoreList[shit]])
 										inIgnoreList = true;
 								}
-								if (!inIgnoreList)
+								if (!inIgnoreList){
 									badNoteCheck();
+								}
 							}
 						}
 					}
@@ -2406,7 +2364,7 @@ class PlayState extends MusicBeatState
 					{
 						for (coolNote in possibleNotes)
 						{
-							if (controlArray[coolNote.noteData] && !directionsAccounted[coolNote.noteData])
+							if (controlArray[coolNote.noteData] && !directionsAccounted[coolNote.noteData] && !coolNote.isSustainNote)
 							{
 								goodNoteHit(coolNote);
 								directionsAccounted[coolNote.noteData] = true;
@@ -2444,7 +2402,7 @@ class PlayState extends MusicBeatState
 								noteCheck(leftP, daNote);
 					}
 				 */
-				/*if (daNote.wasGoodHit)
+				/*if (daNote.wasGoodHit && !daNote.isSustainNote)
 				{
 					daNote.destroy();
 				}*/
@@ -2454,11 +2412,10 @@ class PlayState extends MusicBeatState
 				badNoteCheck();
 			}
 		}
-
-		if ((upHold || rightHold || downHold || leftHold) && !boyfriend.stunned && generatedMusic)
+		
+		notes.forEachAlive(function(daNote:Note)
 		{
-			notes.forEachAlive(function(daNote:Note)
-			{
+			if ((upHold || rightHold || downHold || leftHold) && !boyfriend.stunned && generatedMusic){
 				if (daNote.canBeHit && daNote.mustPress && daNote.isSustainNote)
 				{
 					switch (daNote.noteData)
@@ -2478,8 +2435,55 @@ class PlayState extends MusicBeatState
 								goodNoteHit(daNote);
 					}
 				}
-			});
-		}
+			}
+
+				//Guitar Hero Type Held Notes
+			if(daNote.isSustainNote && daNote.mustPress){
+
+				if(daNote.prevNote.tooLate && !daNote.prevNote.wasGoodHit){
+					daNote.tooLate = true;
+					daNote.destroy();
+				}
+
+				if(daNote.prevNote.wasGoodHit && !daNote.wasGoodHit){
+
+					switch(daNote.noteData){
+						case 0:
+							if(leftRelease){
+								noteMissWrongPress(daNote.noteData, 0.0475, true);
+								vocals.volume = 0;
+								daNote.tooLate = true;
+								daNote.destroy();
+								boyfriend.holdTimer = 0;
+							}
+						case 1:
+							if(downRelease){
+								noteMissWrongPress(daNote.noteData, 0.0475, true);
+								vocals.volume = 0;
+								daNote.tooLate = true;
+								daNote.destroy();
+								boyfriend.holdTimer = 0;
+							}
+						case 2:
+							if(upRelease){
+								noteMissWrongPress(daNote.noteData, 0.0475, true);
+								vocals.volume = 0;
+								daNote.tooLate = true;
+								daNote.destroy();
+								boyfriend.holdTimer = 0;
+							}
+						case 3:
+							if(rightRelease){
+								noteMissWrongPress(daNote.noteData, 0.0475, true);
+								vocals.volume = 0;
+								daNote.tooLate = true;
+								daNote.destroy();
+								boyfriend.holdTimer = 0;
+							}
+					}
+				}
+			}
+		});
 
 		if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && !upHold && !downHold && !rightHold && !leftHold)
 		{
@@ -2536,6 +2540,52 @@ class PlayState extends MusicBeatState
 			}
 
 		});
+	}
+
+	private function keyShitAuto():Void
+	{
+
+		var hitNotes:Array<Note> = [];
+
+		notes.forEachAlive(function(daNote:Note)
+		{
+			if (daNote.mustPress && daNote.strumTime < Conductor.songPosition + Conductor.safeZoneOffset * 0.125)
+			{
+				hitNotes.push(daNote);
+			}
+		});
+
+		if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && !upHold && !downHold && !rightHold && !leftHold)
+		{
+			if (boyfriend.animation.curAnim.name.startsWith('sing'))
+				boyfriend.idleEnd();
+		}
+
+		for(x in hitNotes){
+
+			boyfriend.holdTimer = 0;
+
+			goodNoteHit(x);
+			
+			playerStrums.forEach(function(spr:FlxSprite)
+			{
+				if (Math.abs(x.noteData) == spr.ID)
+				{
+					spr.animation.play('confirm', true);
+					if (spr.animation.curAnim.name == 'confirm' && !curStage.startsWith('school'))
+					{
+						spr.centerOffsets();
+						spr.offset.x -= 14;
+						spr.offset.y -= 14;
+					}
+					else
+						spr.centerOffsets();
+				}
+			});
+
+		}
+
+		
 	}
 
 	function noteMiss(direction:Int = 1, ?healthLoss:Float = 0.04, ?playAudio:Bool = true, ?skipInvCheck:Bool = false):Void
@@ -2632,18 +2682,6 @@ class PlayState extends MusicBeatState
 				noteMissWrongPress(3);
 			if (downPress)
 				noteMissWrongPress(1);
-		}
-	}
-
-	function noteCheck(keyP:Bool, note:Note):Void
-	{
-		if (keyP)
-			{
-			goodNoteHit(note);
-			}
-		else
-		{
-			badNoteCheck();
 		}
 	}
 
