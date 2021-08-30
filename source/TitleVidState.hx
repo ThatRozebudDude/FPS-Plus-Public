@@ -38,6 +38,8 @@ class TitleVidState extends MusicBeatState
 
 	var wackyImage:FlxSprite;
 
+	var video:VideoHandlerMP4;
+
 	override public function create():Void
 	{
 
@@ -69,6 +71,7 @@ class TitleVidState extends MusicBeatState
 		KeyBinds.keyCheck();
 		PlayerSettings.init();
 
+		
 		var diamond:FlxGraphic = FlxGraphic.fromClass(GraphicTransTileDiamond);
 		diamond.persist = true;
 		diamond.destroyOnNoUse = false;
@@ -82,12 +85,13 @@ class TitleVidState extends MusicBeatState
 		transOut = FlxTransitionableState.defaultTransOut;
 
 		if(!Main.novid){
-			FlxG.switchState(new VideoState('assets/videos/klaskiiTitle.webm', function(){
-
+			video = new VideoHandlerMP4();
+			video.playMP4(Paths.video('klaskiiTitle'), function(){
 				FlxG.camera.flash(FlxColor.WHITE, 60);
 				FlxG.sound.playMusic("assets/music/klaskiiLoop.ogg", 0.75);
 				FlxG.switchState(new TitleState());
-			}, 90, true));
+			}, false, true);
+			add(video);
 		}
 		else{
 			FlxG.camera.flash(FlxColor.WHITE, 60);
@@ -95,4 +99,11 @@ class TitleVidState extends MusicBeatState
 			FlxG.switchState(new TitleState());
 		}
 	}
+
+	override public function update(elapsed:Float){
+
+		super.update(elapsed);
+
+	}
+	
 }

@@ -200,6 +200,8 @@ class PlayState extends MusicBeatState
 	var bgGirls:BackgroundGirls;
 	//var wiggleShit:WiggleEffect = new WiggleEffect();
 
+	//var video:VideoHandlerMP4;
+
 	var talking:Bool = true;
 	var songScore:Int = 0;
 	var scoreTxt:FlxText;
@@ -613,6 +615,11 @@ class PlayState extends MusicBeatState
 			bg.scrollFactor.set(0.9, 0.9);
 			bg.active = false;
 			add(bg);
+
+			//video = new VideoHandlerMP4();
+			//video.muted = true;
+			//video.playMP4(Paths.video('klaskiiTitle'), function(){}, true);
+			//add(video);
 
 			var stageFront:FlxSprite = new FlxSprite(-650, 600).loadGraphic(Paths.image("stagefront"));
 			stageFront.setGraphicSize(Std.int(stageFront.width * 1.1));
@@ -1105,6 +1112,7 @@ class PlayState extends MusicBeatState
 				case 1:
 					var ready:FlxSprite = new FlxSprite().loadGraphic('assets/images/' + introAlts[0]);
 					ready.scrollFactor.set();
+					ready.antialiasing = !curStage.startsWith('school');
 					ready.updateHitbox();
 
 					if (curStage.startsWith('school'))
@@ -1123,6 +1131,7 @@ class PlayState extends MusicBeatState
 				case 2:
 					var set:FlxSprite = new FlxSprite().loadGraphic('assets/images/' + introAlts[1]);
 					set.scrollFactor.set();
+					set.antialiasing = !curStage.startsWith('school');
 
 					if (curStage.startsWith('school'))
 						set.setGraphicSize(Std.int(set.width * daPixelZoom));
@@ -1140,6 +1149,7 @@ class PlayState extends MusicBeatState
 				case 3:
 					var go:FlxSprite = new FlxSprite().loadGraphic('assets/images/' + introAlts[2]);
 					go.scrollFactor.set();
+					go.antialiasing = !curStage.startsWith('school');
 
 					if (curStage.startsWith('school'))
 						go.setGraphicSize(Std.int(go.width * daPixelZoom));
@@ -1985,7 +1995,8 @@ class PlayState extends MusicBeatState
 		var coolText:FlxText = new FlxText(0, 0, 0, placement, 32);
 		coolText.screenCenter();
 		coolText.x = FlxG.width * 0.55;
-		//
+		coolText.x = boyfriend.x - 180;
+		coolText.y += 70;
 
 		var rating:FlxSprite = new FlxSprite();
 		var score:Int = 350;
@@ -2052,7 +2063,7 @@ class PlayState extends MusicBeatState
 		rating.loadGraphic('assets/images/' + pixelShitPart1 + daRating + pixelShitPart2 + ".png");
 		rating.screenCenter();
 		rating.x = coolText.x - 40;
-		rating.y -= 60;
+		rating.y = coolText.y - 60;
 		rating.acceleration.y = 550;
 		rating.velocity.y -= FlxG.random.int(140, 175);
 		rating.velocity.x -= FlxG.random.int(0, 10);
@@ -2094,7 +2105,7 @@ class PlayState extends MusicBeatState
 			var numScore:FlxSprite = new FlxSprite().loadGraphic('assets/images/' + pixelShitPart1 + 'num' + Std.int(i) + pixelShitPart2 + '.png');
 			numScore.screenCenter();
 			numScore.x = coolText.x + (43 * daLoop) - 90;
-			numScore.y += 80;
+			numScore.y = coolText.y + 80;
 
 			if (!curStage.startsWith('school'))
 			{
@@ -2111,7 +2122,7 @@ class PlayState extends MusicBeatState
 			numScore.velocity.y -= FlxG.random.int(140, 160);
 			numScore.velocity.x = FlxG.random.float(-5, 5);
 
-			if (combo >= 10 || combo == 0)
+			if (combo >= 10)
 				add(numScore);
 
 			FlxTween.tween(numScore, {alpha: 0}, 0.2, {

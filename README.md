@@ -39,12 +39,6 @@ Adjusted some of the health icons and adds winning icons.
     
     - You can ignore is the part about ignored files since FPS Plus removes them.
 
-- Install GWebDev's fork of `extension-webm`:
-
-    - `haxelib git extension-webm https://github.com/GrowtopiaFli/extension-webm`
-
-    - And then run `lime rebuild extension-webm [windows/mac/linux]`. Change the target OS based on your system.
-
 ## Credits
 ### Friday Night Funkin'
 - [ninjamuffin99](https://twitter.com/ninja_muffin99) - Programmer
@@ -56,5 +50,5 @@ Adjusted some of the health icons and adds winning icons.
 
 ### Shoutouts
 - [KadeDev](https://twitter.com/KadeDeveloper) - *Rival*
-- [GWebDev](https://twitter.com/GFlipaclip) - Haxeflixel Video
+- [PolybiusProxy](https://twitter.com/polybiusproxy) - Haxeflixel Desktop MP4 stuff.
 - [Ethab Taxi](https://twitter.com/EthabTaxi) - He's just sorta chillin'.
