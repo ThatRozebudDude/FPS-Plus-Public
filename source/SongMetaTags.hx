@@ -1,6 +1,10 @@
 package;
 
+import lime.utils.Assets;
+#if sys
 import sys.io.File;
+#end
+
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
@@ -24,7 +28,8 @@ class SongMetaTags extends FlxSpriteGroup
 
         var text = new FlxText(0, 0, 0, "", fontSize);
         text.setFormat("assets/fonts/vcr.ttf", fontSize, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-        text.text = File.getContent("assets/data/" + _song.toLowerCase() + "/meta.txt");
+
+        text.text = Assets.getText("assets/data/" + _song.toLowerCase() + "/meta.txt");
 
         size = text.fieldWidth;
         

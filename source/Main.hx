@@ -9,12 +9,12 @@ class Main extends Sprite
 
 	public static var fpsDisplay:FPS;
 
-	public static var novid:Bool = Sys.args().contains("-novid");
-	public static var nopreload:Bool = Sys.args().contains("-nopreload");
-	public static var skipsound:Bool = Sys.args().contains("-skipsound");
-	public static var skipcharacters:Bool = Sys.args().contains("-skipcharacters");
-	public static var skipgraphics:Bool = Sys.args().contains("-skipgraphics");
-	public static var flippymode:Bool = Sys.args().contains("-flippymode");
+	public static var novid:Bool = false;
+	public static var nopreload:Bool = false;
+	public static var skipsound:Bool = false;
+	public static var skipcharacters:Bool = false;
+	public static var skipgraphics:Bool = false;
+	public static var flippymode:Bool = false;
 
 	public function new()
 	{
@@ -29,6 +29,15 @@ class Main extends Sprite
 		fpsDisplay = new FPS(10, 3, 0xFFFFFF);
 		fpsDisplay.visible = false;
 		addChild(fpsDisplay);
+		#end
+
+		#if !html5
+		novid = Sys.args().contains("-novid");
+		nopreload = Sys.args().contains("-nopreload");
+		skipsound = Sys.args().contains("-skipsound");
+		skipcharacters = Sys.args().contains("-skipcharacters");
+		skipgraphics = Sys.args().contains("-skipgraphics");
+		flippymode = Sys.args().contains("-flippymode");
 		#end
 
 		trace("-=Args=-");

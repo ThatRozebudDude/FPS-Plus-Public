@@ -1,12 +1,16 @@
 package;
 
+import lime.utils.Assets;
+#if sys
+import sys.FileSystem;
+#end
+
 import flixel.math.FlxRect;
 import openfl.system.System;
 import openfl.ui.KeyLocation;
 import flixel.input.keyboard.FlxKey;
 import openfl.ui.Keyboard;
 import openfl.events.KeyboardEvent;
-import sys.FileSystem;
 //import polymod.fs.SysFileSystem;
 import Section.SwagSection;
 import Song.SwagSong;
@@ -286,7 +290,7 @@ class PlayState extends MusicBeatState
 
 		Conductor.changeBPM(SONG.bpm);
 
-		if(FileSystem.exists("assets/data/" + SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue.txt")){
+		if(Assets.exists("assets/data/" + SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue.txt")){
 			try{
 				dialogue = CoolUtil.coolTextFile("assets/data/" + SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue.txt");
 			}
@@ -833,7 +837,7 @@ class PlayState extends MusicBeatState
 
 		FlxG.fixedTimestep = false;
 
-		if(FileSystem.exists("assets/data/" + SONG.song.toLowerCase() + "/meta.txt")){
+		if(Assets.exists("assets/data/" + SONG.song.toLowerCase() + "/meta.txt")){
 			meta = new SongMetaTags(0, 144, SONG.song.toLowerCase());
 			meta.cameras = [camHUD];
 			add(meta);
