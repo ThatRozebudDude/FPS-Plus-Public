@@ -1,10 +1,10 @@
 package;
 
-import lime.utils.Assets;
 #if sys
 import sys.io.File;
 #end
 
+import lime.utils.Assets;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.FlxSprite;

@@ -38,7 +38,9 @@ class TitleVidState extends MusicBeatState
 
 	var wackyImage:FlxSprite;
 
-	var video:VideoHandlerMP4;
+	var oldFPS:Int = VideoHandler.MAX_FPS;
+
+	var video:VideoHandler;
 
 	override public function create():Void
 	{
@@ -85,13 +87,22 @@ class TitleVidState extends MusicBeatState
 		transOut = FlxTransitionableState.defaultTransOut;
 
 		if(!Main.novid){
-			video = new VideoHandlerMP4();
+
+			VideoHandler.MAX_FPS = 60;
+
+			video = new VideoHandler();
+
 			video.playMP4(Paths.video('klaskiiTitle'), function(){
 				FlxG.camera.flash(FlxColor.WHITE, 60);
 				FlxG.sound.playMusic("assets/music/klaskiiLoop.ogg", 0.75);
 				FlxG.switchState(new TitleState());
+				#if web
+					VideoHandler.MAX_FPS = oldFPS;
+				#end
 			}, false, true);
+
 			add(video);
+			
 		}
 		else{
 			FlxG.camera.flash(FlxColor.WHITE, 60);

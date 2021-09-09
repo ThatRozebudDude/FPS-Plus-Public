@@ -20,6 +20,15 @@ class Main extends Sprite
 	{
 		super();
 
+		#if sys
+		novid = Sys.args().contains("-novid");
+		nopreload = Sys.args().contains("-nopreload");
+		skipsound = Sys.args().contains("-skipsound");
+		skipcharacters = Sys.args().contains("-skipcharacters");
+		skipgraphics = Sys.args().contains("-skipgraphics");
+		flippymode = Sys.args().contains("-flippymode");
+		#end
+
 		if(!nopreload)
 			addChild(new FlxGame(0, 0, Startup, 1, 144, 144, true));
 		else
@@ -31,13 +40,9 @@ class Main extends Sprite
 		addChild(fpsDisplay);
 		#end
 
-		#if !html5
-		novid = Sys.args().contains("-novid");
-		nopreload = Sys.args().contains("-nopreload");
-		skipsound = Sys.args().contains("-skipsound");
-		skipcharacters = Sys.args().contains("-skipcharacters");
-		skipgraphics = Sys.args().contains("-skipgraphics");
-		flippymode = Sys.args().contains("-flippymode");
+		//On web builds, video 
+		#if web
+		VideoHandler.MAX_FPS = 30;
 		#end
 
 		trace("-=Args=-");

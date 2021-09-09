@@ -67,6 +67,10 @@ class Startup extends MusicBeatState
         loadingText.setFormat("assets/fonts/vcr.ttf", 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(loadingText);
 
+        #if web
+        FlxG.sound.play(Paths.sound("tick"), 0);   
+        #end
+
         new FlxTimer().start(1.1, function(tmr:FlxTimer)
         {
             FlxG.sound.play("assets/sounds/splashSound.ogg");   
@@ -80,7 +84,18 @@ class Startup extends MusicBeatState
     {
         
         if(splash.animation.curAnim.finished && splash.animation.curAnim.name == "start" && !cacheStart){
+            
+            #if web
+            new FlxTimer().start(1.5, function(tmr:FlxTimer)
+            {
+                songsCached = true;
+                charactersCached = true;
+                graphicsCached = true;
+            });
+            #else
             preload(); 
+            #end
+            
             cacheStart = true;
         }
         if(splash.animation.curAnim.finished && splash.animation.curAnim.name == "end"){
@@ -110,22 +125,23 @@ class Startup extends MusicBeatState
 
         loadingText.text = "Preloading Assets...";
 
-        if(!songsCached){
-            sys.thread.Thread.create(() -> {
+        
+        if(!songsCached){ 
+            #if sys sys.thread.Thread.create(() -> { #end
                 preloadMusic();
-            });
+            #if sys }); #end
         }
 
         if(!charactersCached){
-            sys.thread.Thread.create(() -> {
+            #if sys sys.thread.Thread.create(() -> { #end
                 preloadCharacters();
-            });
+            #if sys }); #end
         }
 
         if(!graphicsCached){
-            sys.thread.Thread.create(() -> {
+            #if sys sys.thread.Thread.create(() -> { #end
                 preloadGraphics();
-            });
+            #if sys }); #end
         }
 
     }

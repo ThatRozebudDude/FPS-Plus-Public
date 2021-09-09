@@ -1,5 +1,6 @@
 package;
 
+import openfl.media.SoundTransform;
 import flixel.util.FlxTimer;
 import flixel.FlxSprite;
 import flixel.FlxObject;
@@ -13,21 +14,24 @@ import openfl.net.NetStream;
 import vlc.VlcBitmap;
 
 /**
-	An adaptation of PolybiusProxy's OpenFL desktop MP4 code to not only make
-	work as a Flixel Sprite, but also allow it to work with standard OpenFL
-	NetStream video on Web builds as well.
-	Made by the Rozebud guy.
+	An adaptation of PolybiusProxy's OpenFL desktop MP4 code to not only make         
+	work as a Flixel Sprite, but also allow it to work with standard OpenFL               
+	on Web builds as well.              
+	By Rozebud.
 **/
 
-class VideoHandlerMP4 extends FlxSprite
+class VideoHandler extends FlxSprite
 {
-	public var finishCallback:Void->Void;
-	
-	public var waitingStart:Bool = false;
-	public var startDrawing:Bool = false;
+	public static var MAX_FPS = 60;
+
 	public var skipable:Bool = false;
 	public var muted:Bool = false;
 	public var completed:Bool = false;
+
+	var finishCallback:Void->Void;
+	var waitingStart:Bool = false;
+	var startDrawing:Bool = false;
+	var frameCount:Float = 0;
 
 	#if desktop
 	public var vlcBitmap:VlcBitmap;
@@ -47,43 +51,20 @@ class VideoHandlerMP4 extends FlxSprite
 
 	}
 
-	public function playWebMP4(videoPath:String, callback:Void->Void, ?repeat:Bool = false, ?canSkip:Bool = false)
-	{
-		skipable = canSkip;
-		netLoop = repeat;
-		netPath = videoPath;
+	public function playMP4(videoPath:String, callback:Void->Void, ?repeat:Bool = false, ?canSkip:Bool = false){
 
-		FlxG.autoPause = false;
+		#if desktop
+		playDesktopMP4(videoPath, callback, repeat, canSkip);
+		#end
 
-		if (FlxG.sound.music != null)
-		{
-			FlxG.sound.music.stop();
-		}
+		#if web
+		playWebMP4(videoPath, callback, repeat, canSkip);
+		#end
 
-		finishCallback = callback;
-
-		video = new Video();
-		video.x = 0;
-		video.y = 0;
-
-		FlxG.addChildBelowMouse(video);
-		video.visible = false;
-
-		var nc = new NetConnection();
-		nc.connect(null);
-
-		netStream = new NetStream(nc);
-		netStream.client = {onMetaData: client_onMetaData};
-
-		nc.addEventListener("netStatus", netConnection_onNetStatus);
-
-		netStream.play(netPath);
-
-		waitingStart = true;
 	}
 
 	#if desktop
-	public function playMP4(path:String, callback:Void->Void, ?repeat:Bool = false, ?canSkip:Bool = false, ?isWindow:Bool = false, ?isFullscreen:Bool = false):Void
+	public function playDesktopMP4(path:String, callback:Void->Void, ?repeat:Bool = false, ?canSkip:Bool = false, ?isWindow:Bool = false, ?isFullscreen:Bool = false):Void
 	{
 
 		skipable = canSkip;
@@ -168,12 +149,46 @@ class VideoHandlerMP4 extends FlxSprite
 	/////////////////////////////////////////////////////////////////////////////////////
 
 	#if web
+	public function playWebMP4(videoPath:String, callback:Void->Void, ?repeat:Bool = false, ?canSkip:Bool = false)
+	{
+		skipable = canSkip;
+		netLoop = repeat;
+		netPath = videoPath;
+
+		FlxG.autoPause = false;
+
+		if (FlxG.sound.music != null)
+		{
+			FlxG.sound.music.stop();
+		}
+
+		finishCallback = callback;
+
+		video = new Video();
+		video.x = -1280;
+		video.y = -720;
+
+		FlxG.addChildBelowMouse(video);
+
+		var nc = new NetConnection();
+		nc.connect(null);
+
+		netStream = new NetStream(nc);
+		netStream.client = {onMetaData: client_onMetaData};
+
+		nc.addEventListener("netStatus", netConnection_onNetStatus);
+
+		netStream.play(netPath);
+	}
+
 	function client_onMetaData(videoPath)
 	{
 		video.attachNetStream(netStream);
 
 		video.width = FlxG.width;
 		video.height = FlxG.height;
+
+		waitingStart = true;
 	}
 
 	function netConnection_onNetStatus(videoPath)
@@ -181,10 +196,25 @@ class VideoHandlerMP4 extends FlxSprite
 		if (videoPath.info.code == "NetStream.Play.Complete")
 		{
 			if(netLoop){
-				netstream.play(netPath);
+				netStream.play(netPath);
 			}
 			else{
 				finishVideo();
+			}
+		}
+		if (videoPath.info.code == "NetStream.Play.Start")
+		{
+			if(muted){
+				netStream.soundTransform = new SoundTransform(0);
+			}
+		}
+		if (videoPath.info.code == "NetStream.Play.Start")
+		{
+			if(!muted){
+				netStream.soundTransform = new SoundTransform(FlxG.sound.volume);
+			}
+			else{
+				netStream.soundTransform = new SoundTransform(0);
 			}
 		}
 	}
@@ -197,6 +227,12 @@ class VideoHandlerMP4 extends FlxSprite
 				finishCallback();
 		}
 		
+		netClean();
+
+	}
+
+	public function netClean(){
+		
 		netStream.dispose();
 
 		completed = true;
@@ -206,6 +242,8 @@ class VideoHandlerMP4 extends FlxSprite
 			FlxG.game.removeChild(video);
 		}
 
+		trace("Done!");
+		completed = true;
 	}
 	#end
 
@@ -236,7 +274,11 @@ class VideoHandlerMP4 extends FlxSprite
 
 		if(startDrawing){
 
-			pixels.draw(vlcBitmap.bitmapData);
+				if(frameCount >= 1/MAX_FPS){
+					pixels.draw(vlcBitmap.bitmapData);
+					frameCount = 0;
+				}
+				frameCount += elapsed;
 
 		}
 
@@ -251,9 +293,15 @@ class VideoHandlerMP4 extends FlxSprite
 		#end
 
 		#if web
+		if(!muted){
+			if(FlxG.keys.justPressed.MINUS || FlxG.keys.justPressed.PLUS){
+				netStream.soundTransform = new SoundTransform(FlxG.sound.volume);
+			}
+		}
+
 		if(waitingStart){
 
-			makeGraphic(video.width,video.height,FlxColor.TRANSPARENT);
+			makeGraphic(video.videoWidth, video.videoHeight, FlxColor.TRANSPARENT);
 
 			waitingStart = false;
 			startDrawing = true;
@@ -262,7 +310,11 @@ class VideoHandlerMP4 extends FlxSprite
 
 		if(startDrawing){
 
-			pixels.draw(video);
+			if(frameCount >= 1/MAX_FPS){
+				pixels.draw(video);
+				frameCount = 0;
+			}
+			frameCount += elapsed;
 
 		}
 
@@ -288,14 +340,7 @@ class VideoHandlerMP4 extends FlxSprite
 
 		#if web
 		if(!completed){
-			netStream.dispose();
-
-			if (FlxG.game.contains(video))
-			{
-				FlxG.game.removeChild(video);
-			}
-			
-			completed = true;
+			netClean();
 		}
 		#end
 
