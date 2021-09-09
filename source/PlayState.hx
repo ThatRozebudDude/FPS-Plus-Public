@@ -2433,6 +2433,9 @@ class PlayState extends MusicBeatState
 			if ((upHold || rightHold || downHold || leftHold) && !boyfriend.stunned && generatedMusic){
 				if (daNote.canBeHit && daNote.mustPress && daNote.isSustainNote)
 				{
+
+					boyfriend.holdTimer = 0;
+
 					switch (daNote.noteData)
 					{
 						// NOTES YOU ARE HOLDING
@@ -2452,7 +2455,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-				//Guitar Hero Type Held Notes
+			//Guitar Hero Type Held Notes
 			if(daNote.isSustainNote && daNote.mustPress){
 
 				if(daNote.prevNote.tooLate && !daNote.prevNote.wasGoodHit){
