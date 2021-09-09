@@ -40,7 +40,7 @@ class Main extends Sprite
 		addChild(fpsDisplay);
 		#end
 
-		//On web builds, video 
+		//On web builds, video tends to lag quite a bit, so this just helps it run a bit faster.
 		#if web
 		VideoHandler.MAX_FPS = 30;
 		#end
