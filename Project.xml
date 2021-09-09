@@ -50,10 +50,8 @@
 	
 	<!-- <library name="noPreload" preload='false'/> -->
 	<!-- <library name="noPreload"/> -->
-	<assets path="assets/music" include="*.mp3" if="web"/>
-	<assets path="assets/music" include="*.ogg" unless="web"/>
-	<assets path="assets/sounds" include="*.mp3" if="web" />
-	<assets path="assets/sounds" include="*.ogg" unless="web" />
+	<assets path="assets/music" include="*.ogg"/>
+	<assets path="assets/sounds" include="*.ogg"/>
 
 	<assets path="CHANGELOG.md"/>
 	

@@ -12,13 +12,15 @@ import openfl.net.NetConnection;
 import openfl.net.NetStream;
 import vlc.VlcBitmap;
 
-// THIS IS FOR TESTING
-// DONT STEAL MY CODE >:(
+/**
+	An adaptation of PolybiusProxy's OpenFL desktop MP4 code to not only make
+	work as a Flixel Sprite, but also allow it to work with standard OpenFL
+	NetStream video on Web builds as well.
+	Made by the Rozebud guy.
+**/
+
 class VideoHandlerMP4 extends FlxSprite
 {
-	public var video:Video;
-	public var netStream:NetStream;
-
 	public var finishCallback:Void->Void;
 	
 	public var waitingStart:Bool = false;
@@ -31,6 +33,13 @@ class VideoHandlerMP4 extends FlxSprite
 	public var vlcBitmap:VlcBitmap;
 	#end
 
+	#if web
+	public var video:Video;
+	public var netStream:NetStream;
+	public var netPath:String;
+	public var netLoop:Bool;
+	#end
+
 	public function new(?x:Float = 0, ?y:Float = 0)
 	{
 
@@ -38,26 +47,11 @@ class VideoHandlerMP4 extends FlxSprite
 
 	}
 
-	public function playWebMP4(videoPath:String, callback:Void->Void)
+	public function playWebMP4(videoPath:String, callback:Void->Void, ?repeat:Bool = false, ?canSkip:Bool = false)
 	{
-		/*
-			var nc:NetConnection = new NetConnection();
-			nc.connect(null);
-
-			var ns:NetStream = new NetStream(nc);
-
-			var myVideo:Video = new Video();
-
-			myVideo.width = FlxG.width;
-			myVideo.height = FlxG.height;
-			myVideo.attachNetStream(ns);
-
-			ns.play(path);
-
-			return myVideo;
-
-			ns.close();
-		 */
+		skipable = canSkip;
+		netLoop = repeat;
+		netPath = videoPath;
 
 		FlxG.autoPause = false;
 
@@ -73,6 +67,7 @@ class VideoHandlerMP4 extends FlxSprite
 		video.y = 0;
 
 		FlxG.addChildBelowMouse(video);
+		video.visible = false;
 
 		var nc = new NetConnection();
 		nc.connect(null);
@@ -82,7 +77,9 @@ class VideoHandlerMP4 extends FlxSprite
 
 		nc.addEventListener("netStatus", netConnection_onNetStatus);
 
-		netStream.play(videoPath);
+		netStream.play(netPath);
+
+		waitingStart = true;
 	}
 
 	#if desktop
@@ -141,16 +138,12 @@ class VideoHandlerMP4 extends FlxSprite
 
 	public function onVLCComplete()
 	{
-		sys.thread.Thread.create(() -> {
-			if (finishCallback != null)
-			{
-				finishCallback();
-			}
-        });
+		if (finishCallback != null)
+		{
+			finishCallback();
+		}
 
-		sys.thread.Thread.create(() -> {
-			vlcClean();
-		});
+		vlcClean();
 
 		//FlxG.autoPause = true;
 
@@ -174,6 +167,7 @@ class VideoHandlerMP4 extends FlxSprite
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
+	#if web
 	function client_onMetaData(videoPath)
 	{
 		video.attachNetStream(netStream);
@@ -186,39 +180,40 @@ class VideoHandlerMP4 extends FlxSprite
 	{
 		if (videoPath.info.code == "NetStream.Play.Complete")
 		{
-			finishVideo();
+			if(netLoop){
+				netstream.play(netPath);
+			}
+			else{
+				finishVideo();
+			}
 		}
 	}
 
 	function finishVideo()
 	{
 		
-		sys.thread.Thread.create(() -> {
-			if (finishCallback != null)
-			{
+		if (finishCallback != null)
+		{
 				finishCallback();
-			}
-			else
-				FlxG.switchState(new MainMenuState());
-        });
+		}
 		
-		sys.thread.Thread.create(() -> {
-			netStream.dispose();
+		netStream.dispose();
 
-			if (FlxG.game.contains(video))
-			{
-				FlxG.game.removeChild(video);
-			}
-		});
+		completed = true;
 
-		FlxG.autoPause = true;
+		if (FlxG.game.contains(video))
+		{
+			FlxG.game.removeChild(video);
+		}
 
 	}
+	#end
 
 	override function update(elapsed){
 
 		super.update(elapsed);
 
+		#if desktop
 		if(vlcBitmap != null){
 
 			if(!muted)
@@ -253,27 +248,82 @@ class VideoHandlerMP4 extends FlxSprite
 			}
 
 		}
+		#end
+
+		#if web
+		if(waitingStart){
+
+			makeGraphic(video.width,video.height,FlxColor.TRANSPARENT);
+
+			waitingStart = false;
+			startDrawing = true;
+			
+		}
+
+		if(startDrawing){
+
+			pixels.draw(video);
+
+		}
+
+		if(skipable){
+
+			if(PlayerSettings.player1.controls.ACCEPT){
+				finishVideo();
+				destroy();
+			}
+
+		}
+		#end
 
 	}
 
 	override function destroy(){
 
+		#if desktop
 		if(!completed){
 			vlcClean();
 		}
+		#end
+
+		#if web
+		if(!completed){
+			netStream.dispose();
+
+			if (FlxG.game.contains(video))
+			{
+				FlxG.game.removeChild(video);
+			}
+			
+			completed = true;
+		}
+		#end
+
 		super.destroy();
 		
 	}
 
 	public function pause(){
 
+		#if desktop
 		vlcBitmap.pause();
+		#end
+
+		#if web
+		netStream.pause();
+		#end
 
 	}
 
 	public function resume(){
 
+		#if desktop
 		vlcBitmap.resume();
+		#end
+
+		#if web
+		netStream.resume();
+		#end
 
 	}
 	
