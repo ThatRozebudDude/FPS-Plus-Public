@@ -17,40 +17,54 @@ import vlc.VlcBitmap;
 	An adaptation of PolybiusProxy's OpenFL desktop MP4 code to not only make         
 	work as a Flixel Sprite, but also allow it to work with standard OpenFL               
 	on Web builds as well.              
-	By Rozebud.
+	@author Rozebud
 **/
 
 class VideoHandler extends FlxSprite
 {
+	/**
+		Sets the maximum framerate that the video object will be to the sprite at.
+		Helps increase performance on lower end machines and web builds.
+	**/
 	public static var MAX_FPS = 60;
 
+	/**
+		Determines whether you can skip the video by pressing `ACCEPT`.
+	**/
 	public var skipable:Bool = false;
-	public var muted:Bool = false;
-	public var completed:Bool = false;
 
+	/**
+		Determines whether the video plays auido. 
+	**/
+	public var muted(get, set):Bool;
+
+	var __muted:Bool = false;
+	var paused:Bool = false;
 	var finishCallback:Void->Void;
 	var waitingStart:Bool = false;
 	var startDrawing:Bool = false;
 	var frameCount:Float = 0;
+	var completed:Bool = false;
 
 	#if desktop
-	public var vlcBitmap:VlcBitmap;
+	var vlcBitmap:VlcBitmap;
 	#end
 
 	#if web
-	public var video:Video;
-	public var netStream:NetStream;
-	public var netPath:String;
-	public var netLoop:Bool;
+	var video:Video;
+	var netStream:NetStream;
+	var netPath:String;
+	var netLoop:Bool;
 	#end
 
-	public function new(?x:Float = 0, ?y:Float = 0)
-	{
-
+	public function new(?x:Float = 0, ?y:Float = 0){
 		super(x, y);
-
 	}
 
+	/**
+		Generic play function. 
+		Works with both desktop and web builds.
+	**/
 	public function playMP4(videoPath:String, callback:Void->Void, ?repeat:Bool = false, ?canSkip:Bool = false){
 
 		#if desktop
@@ -63,8 +77,15 @@ class VideoHandler extends FlxSprite
 
 	}
 
+	//===========================================================================================================//
+
 	#if desktop
-	public function playDesktopMP4(path:String, callback:Void->Void, ?repeat:Bool = false, ?canSkip:Bool = false, ?isWindow:Bool = false, ?isFullscreen:Bool = false):Void
+	/**
+		Plays MP4s using VLC Bitmaps as the source.
+		Only works on desktop builds.
+		It is recommended that you use `playMP4()` instead since that works for desktop and web.
+	**/
+	@:noCompletion public function playDesktopMP4(path:String, callback:Void->Void, ?repeat:Bool = false, ?canSkip:Bool = false, ?isWindow:Bool = false, ?isFullscreen:Bool = false):Void
 	{
 
 		skipable = canSkip;
@@ -110,14 +131,12 @@ class VideoHandler extends FlxSprite
 		return pDir + fileName;
 	}
 
-	/////////////////////////////////////////////////////////////////////////////////////
-
 	function onVLCVideoReady()
 	{
 		trace("video loaded!");
 	}
 
-	public function onVLCComplete()
+	function onVLCComplete()
 	{
 		if (finishCallback != null)
 		{
@@ -130,7 +149,7 @@ class VideoHandler extends FlxSprite
 
 	}
 
-	public function vlcClean(){
+	function vlcClean(){
 		vlcBitmap.stop();
 
 		// Clean player, just in case!
@@ -146,10 +165,15 @@ class VideoHandler extends FlxSprite
 	}
 	#end
 
-	/////////////////////////////////////////////////////////////////////////////////////
+	//===========================================================================================================//
 
 	#if web
-	public function playWebMP4(videoPath:String, callback:Void->Void, ?repeat:Bool = false, ?canSkip:Bool = false)
+	/**
+		Plays MP4s using OpenFL NetStreams and Videos as the source.
+		Only works on web builds.
+		It is recommended that you use `playMP4()` instead since that works for desktop and web.
+	**/
+	@:noCompletion public function playWebMP4(videoPath:String, callback:Void->Void, ?repeat:Bool = false, ?canSkip:Bool = false)
 	{
 		skipable = canSkip;
 		netLoop = repeat;
@@ -191,8 +215,7 @@ class VideoHandler extends FlxSprite
 		waitingStart = true;
 	}
 
-	function netConnection_onNetStatus(videoPath)
-	{
+	function netConnection_onNetStatus(videoPath){
 		if (videoPath.info.code == "NetStream.Play.Complete")
 		{
 			if(netLoop){
@@ -204,23 +227,11 @@ class VideoHandler extends FlxSprite
 		}
 		if (videoPath.info.code == "NetStream.Play.Start")
 		{
-			if(muted){
-				netStream.soundTransform = new SoundTransform(0);
-			}
-		}
-		if (videoPath.info.code == "NetStream.Play.Start")
-		{
-			if(!muted){
-				netStream.soundTransform = new SoundTransform(FlxG.sound.volume);
-			}
-			else{
-				netStream.soundTransform = new SoundTransform(0);
-			}
+			setSoundTransform(__muted);
 		}
 	}
 
-	function finishVideo()
-	{
+	function finishVideo(){
 		
 		if (finishCallback != null)
 		{
@@ -231,7 +242,7 @@ class VideoHandler extends FlxSprite
 
 	}
 
-	public function netClean(){
+	function netClean(){
 		
 		netStream.dispose();
 
@@ -245,8 +256,20 @@ class VideoHandler extends FlxSprite
 		trace("Done!");
 		completed = true;
 	}
+
+	function setSoundTransform(isMuted:Bool){
+		if(!isMuted){
+			netStream.soundTransform = new SoundTransform(FlxG.sound.volume);
+		}
+		else{
+			netStream.soundTransform = new SoundTransform(0);
+		}
+	}
 	#end
 
+	//===========================================================================================================//
+
+	//Basically just grabbing the bitmap data from the video objects and drawing it to the FlxSprite every so often. 
 	override function update(elapsed){
 
 		super.update(elapsed);
@@ -254,7 +277,7 @@ class VideoHandler extends FlxSprite
 		#if desktop
 		if(vlcBitmap != null){
 
-			if(!muted)
+			if(!__muted)
 				vlcBitmap.volume = FlxG.sound.volume;
 			else
 				vlcBitmap.volume = 0;
@@ -272,7 +295,7 @@ class VideoHandler extends FlxSprite
 			
 		}
 
-		if(startDrawing){
+		if(startDrawing && !paused){
 
 				if(frameCount >= 1/MAX_FPS){
 					pixels.draw(vlcBitmap.bitmapData);
@@ -293,10 +316,8 @@ class VideoHandler extends FlxSprite
 		#end
 
 		#if web
-		if(!muted){
-			if(FlxG.keys.justPressed.MINUS || FlxG.keys.justPressed.PLUS){
-				netStream.soundTransform = new SoundTransform(FlxG.sound.volume);
-			}
+		if(FlxG.keys.justPressed.MINUS || FlxG.keys.justPressed.PLUS){
+			setSoundTransform(__muted);
 		}
 
 		if(waitingStart){
@@ -308,7 +329,7 @@ class VideoHandler extends FlxSprite
 			
 		}
 
-		if(startDrawing){
+		if(startDrawing && !paused){
 
 			if(frameCount >= 1/MAX_FPS){
 				pixels.draw(video);
@@ -348,6 +369,9 @@ class VideoHandler extends FlxSprite
 		
 	}
 
+	/**
+		Pauses playback of the video.
+	**/
 	public function pause(){
 
 		#if desktop
@@ -358,8 +382,13 @@ class VideoHandler extends FlxSprite
 		netStream.pause();
 		#end
 
+		paused = true;
+
 	}
 
+	/**
+		Resumes playback of the video.
+	**/
 	public function resume(){
 
 		#if desktop
@@ -370,6 +399,23 @@ class VideoHandler extends FlxSprite
 		netStream.resume();
 		#end
 
+		paused = false;
+
+	}
+
+	private function get_muted():Bool{
+		return __muted;
+	}
+
+	private function set_muted(value:Bool):Bool{
+
+		#if web
+		if(startDrawing){
+			setSoundTransform(value);
+		}
+		#end
+
+		return __muted = value;
 	}
 	
 }
