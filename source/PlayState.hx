@@ -72,15 +72,16 @@ class PlayState extends MusicBeatState
 	private var canHit:Bool = false;
 	private var noMissCount:Int = 0;
 
-	public static var stageSongs:Array<String>;
-	public static var spookySongs:Array<String>;
-	public static var phillySongs:Array<String>;
-	public static var limoSongs:Array<String>;
-	public static var mallSongs:Array<String>;
-	public static var evilMallSongs:Array<String>;
-	public static var schoolSongs:Array<String>;
-	public static var schoolScared:Array<String>;
-	public static var evilSchoolSongs:Array<String>;
+	public static final stageSongs = ["tutorial", "bopeebo", "fresh", "dadbattle"];
+	public static final spookySongs = ["spookeez", "south", "monster"];
+	public static final phillySongs = ["pico", "philly", "blammed"];
+	public static final limoSongs = ["satin-panties", "high", "milf"];
+	public static final mallSongs = ["cocoa", "eggnog"];
+	public static final evilMallSongs = ["winter-horrorland"];
+	public static final schoolSongs = ["senpai", "roses"];
+	public static final schoolScared = ["roses"];
+	public static final evilSchoolSongs = ["thorns"];
+	public static final pixelSongs = ["senpai", "roses", "thorns"];
 
 	private var camFocus:String = "";
 	private var camTween:FlxTween;
@@ -164,6 +165,9 @@ class PlayState extends MusicBeatState
 	private var camHUD:FlxCamera;
 	private var camGame:FlxCamera;
 
+	private var comboUI:ComboPopup;
+	private final minCombo:Int = 5;
+
 	var dialogue:Array<String> = [':bf:strange code', ':dad:>:]'];
 
 	/*var bfPos:Array<Array<Float>> = [
@@ -245,16 +249,6 @@ class PlayState extends MusicBeatState
 		camTween = FlxTween.tween(this, {}, 0);
 		camZoomTween = FlxTween.tween(this, {}, 0);
 		uiZoomTween = FlxTween.tween(this, {}, 0);
-	
-		stageSongs = ["tutorial", "bopeebo", "fresh", "dadbattle"];
-		spookySongs = ["spookeez", "south", "monster"];
-		phillySongs = ["pico", "philly", "blammed"];
-		limoSongs = ["satin-panties", "high", "milf"];
-		mallSongs = ["cocoa", "eggnog"];
-		evilMallSongs = ["winter-horrorland"];
-		schoolSongs = ["senpai", "roses"];
-		schoolScared = ["roses"];
-		evilSchoolSongs = ["thorns"];
 
 		for(i in 0 ... SONG.notes.length){
 
@@ -780,6 +774,38 @@ class PlayState extends MusicBeatState
 		
 		add(dad);
 		add(boyfriend);
+
+		if(!pixelSongs.contains(SONG.song.toLowerCase())){
+			comboUI = new ComboPopup(boyfriend.x - 250, boyfriend.y - 75,	[Paths.image("ratings"), 403, 163, true], 
+																			[Paths.image("numbers"), 100, 120, true], 
+																			[Paths.image("comboBreak"), 348, 211, true]);
+			add(comboUI);
+		}
+		else{
+			comboUI = new ComboPopup(boyfriend.x - 250, boyfriend.y - 75, 	[Paths.image("weeb/pixelUI/ratings-pixel"), 51, 20, false], 
+																			[Paths.image("weeb/pixelUI/numbers-pixel"), 11, 12, false], 
+																			[Paths.image("weeb/pixelUI/comboBreak-pixel"), 53, 32, false], daPixelZoom * 0.75);
+			add(comboUI);
+		}
+
+		/*if(true){
+
+			comboUI.setPosition(0, 0);
+			comboUI.scrollFactor.set(0, 0);
+
+			if(!Config.downscroll){
+				comboUI.ratingPosition = [700, 530];
+				comboUI.numberPosition = [340, 550];
+				comboUI.breakPosition = [690, 485];
+			}
+			else{
+				comboUI.ratingPosition = [700, 90];
+				comboUI.numberPosition = [340, 110];
+				comboUI.breakPosition = [690, 95];
+			}
+
+		}*/
+		
 
 		var doof:DialogueBox = new DialogueBox(false, dialogue);
 		// doof.x += 70;
@@ -1985,18 +2011,7 @@ class PlayState extends MusicBeatState
 	private function popUpScore(strumtime:Float):Void
 	{
 		var noteDiff:Float = Math.abs(strumtime - Conductor.songPosition);
-		// boyfriend.playAnim('hey');
-		vocals.volume = 1;
 
-		var placement:String = Std.string(combo);
-
-		var coolText:FlxText = new FlxText(0, 0, 0, placement, 32);
-		coolText.screenCenter();
-		coolText.x = FlxG.width * 0.55;
-		coolText.x = boyfriend.x - 180;
-		coolText.y += 70;
-
-		var rating:FlxSprite = new FlxSprite();
 		var score:Int = 350;
 
 		var daRating:String = "sick";
@@ -2041,122 +2056,11 @@ class PlayState extends MusicBeatState
 
 		songScore += score;
 
-		/* if (combo > 60)
-				daRating = 'sick';
-			else if (combo > 12)
-				daRating = 'good'
-			else if (combo > 4)
-				daRating = 'bad';
-		 */
+		comboUI.ratingPopup(daRating);
 
-		var pixelShitPart1:String = "";
-		var pixelShitPart2:String = '';
+		if(combo >= minCombo)
+			comboUI.comboPopup(combo);
 
-		if (curStage.startsWith('school'))
-		{
-			pixelShitPart1 = 'weeb/pixelUI/';
-			pixelShitPart2 = '-pixel';
-		}
-
-		rating.loadGraphic('assets/images/' + pixelShitPart1 + daRating + pixelShitPart2 + ".png");
-		rating.screenCenter();
-		rating.x = coolText.x - 40;
-		rating.y = coolText.y - 60;
-		rating.acceleration.y = 550;
-		rating.velocity.y -= FlxG.random.int(140, 175);
-		rating.velocity.x -= FlxG.random.int(0, 10);
-
-		var comboSpr:FlxSprite = new FlxSprite().loadGraphic('assets/images/' + pixelShitPart1 + 'combo' + pixelShitPart2 + '.png');
-		comboSpr.screenCenter();
-		comboSpr.x = coolText.x;
-		comboSpr.acceleration.y = 600;
-		comboSpr.velocity.y -= 150;
-
-		comboSpr.velocity.x += FlxG.random.int(1, 10);
-		add(rating);
-
-		if (!curStage.startsWith('school'))
-		{
-			rating.setGraphicSize(Std.int(rating.width * 0.7));
-			rating.antialiasing = true;
-			comboSpr.setGraphicSize(Std.int(comboSpr.width * 0.7));
-			comboSpr.antialiasing = true;
-		}
-		else
-		{
-			rating.setGraphicSize(Std.int(rating.width * daPixelZoom * 0.7));
-			comboSpr.setGraphicSize(Std.int(comboSpr.width * daPixelZoom * 0.7));
-		}
-
-		comboSpr.updateHitbox();
-		rating.updateHitbox();
-
-		var seperatedScore:Array<Int> = [];
-
-		seperatedScore.push(Math.floor(combo / 100));
-		seperatedScore.push(Math.floor((combo - (seperatedScore[0] * 100)) / 10));
-		seperatedScore.push(combo % 10);
-
-		var daLoop:Int = 0;
-		for (i in seperatedScore)
-		{
-			var numScore:FlxSprite = new FlxSprite().loadGraphic('assets/images/' + pixelShitPart1 + 'num' + Std.int(i) + pixelShitPart2 + '.png');
-			numScore.screenCenter();
-			numScore.x = coolText.x + (43 * daLoop) - 90;
-			numScore.y = coolText.y + 80;
-
-			if (!curStage.startsWith('school'))
-			{
-				numScore.antialiasing = true;
-				numScore.setGraphicSize(Std.int(numScore.width * 0.5));
-			}
-			else
-			{
-				numScore.setGraphicSize(Std.int(numScore.width * daPixelZoom));
-			}
-			numScore.updateHitbox();
-
-			numScore.acceleration.y = FlxG.random.int(200, 300);
-			numScore.velocity.y -= FlxG.random.int(140, 160);
-			numScore.velocity.x = FlxG.random.float(-5, 5);
-
-			if (combo >= 10)
-				add(numScore);
-
-			FlxTween.tween(numScore, {alpha: 0}, 0.2, {
-				onComplete: function(tween:FlxTween)
-				{
-					numScore.destroy();
-				},
-				startDelay: Conductor.crochet * 0.002
-			});
-
-			daLoop++;
-		}
-		/* 
-			trace(combo);
-			trace(seperatedScore);
-		 */
-
-		coolText.text = Std.string(seperatedScore);
-		// add(coolText);
-
-		FlxTween.tween(rating, {alpha: 0}, 0.2, {
-			startDelay: Conductor.crochet * 0.001
-		});
-
-		FlxTween.tween(comboSpr, {alpha: 0}, 0.2, {
-			onComplete: function(tween:FlxTween)
-			{
-				coolText.destroy();
-				comboSpr.destroy();
-
-				rating.destroy();
-			},
-			startDelay: Conductor.crochet * 0.001
-		});
-
-		curSection += 1;
 	}
 
 	public function keyDown(evt:KeyboardEvent):Void{
@@ -2605,9 +2509,10 @@ class PlayState extends MusicBeatState
 		if (!boyfriend.stunned && !startingSong && (!boyfriend.invuln || skipInvCheck) )
 		{
 			health -= healthLoss * Config.healthDrainMultiplier;
-			if (combo > 5)
+			if (combo > minCombo)
 			{
 				gf.playAnim('sad');
+				comboUI.breakPopup();
 			}
 			misses += 1;
 			combo = 0;
@@ -2650,10 +2555,10 @@ class PlayState extends MusicBeatState
 				health -= healthLoss * Config.healthDrainMultiplier;
 
 				if(dropCombo){
-					if (combo > 5)
-					{
+					if (combo > minCombo){
 						gf.playAnim('sad');
-					}
+						comboUI.breakPopup();
+					}	
 					combo = 0;
 				}
 	
