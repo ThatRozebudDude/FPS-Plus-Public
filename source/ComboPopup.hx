@@ -21,23 +21,24 @@ class ComboPopup extends FlxSpriteGroup
 	public var accelScale:Float = 1;
 	public var velocityScale:Float = 1;
 
-	var ratingInfo:Array<Dynamic>;
-	var numberInfo:Array<Dynamic>;
-	var comboBreakInfo:Array<Dynamic>;
+	@:noCompletion public var ratingInfo:Array<Dynamic>;
+	@:noCompletion public var numberInfo:Array<Dynamic>;
+	@:noCompletion public var comboBreakInfo:Array<Dynamic>;
 
 
-	private static final GRAPHIC = 0;
-	private static final WIDTH = 1;
-	private static final HEIGHT = 2;
-	private static final AA = 3;
+	@:noCompletion public static final GRAPHIC = 0;
+	@:noCompletion public static final WIDTH = 1;
+	@:noCompletion public static final HEIGHT = 2;
+	@:noCompletion public static final AA = 3;
 
-	private static final X = 0;
-	private static final Y = 1;
+	@:noCompletion public static final X = 0;
+	@:noCompletion public static final Y = 1;
 
-	private static final ratingList = ["sick", "good", "bad", "shit"];
+	@:noCompletion public static final ratingList = ["sick", "good", "bad", "shit"];
 
 	/**
 		The info arrays should be filled with [FlxGraphicAsset, Frame Width, Frame Height, Antialiasing]
+		Scales go in order of [Ratings, Numbers, Combo Break]
 	**/
 	public function new(_x:Float, _y:Float, _ratingInfo:Array<Dynamic>, _numberInfo:Array<Dynamic>, _comboBreakInfo:Array<Dynamic>, ?_scale:Array<Float>)
 	{
@@ -51,25 +52,35 @@ class ComboPopup extends FlxSpriteGroup
 			_scale = [0.7, 0.6, 0.6];
 		}
 
-		setScales(_scale);
+		setScales(_scale, false);
 
 	}
 
-	public function setScales(_scale:Array<Float>){
+	/**
+		Sets the scales for all the elements and re-aligns them.
+	**/
+	public function setScales(_scale:Array<Float>, ?positionReset:Bool = true):Void{
+
+		if(positionReset){
+			numberPosition[Y] -= (numberInfo[HEIGHT] * numberScale) * 1.6;
+			breakPosition[Y] += (comboBreakInfo[HEIGHT] * breakScale) / 2;
+		}
 
 		ratingScale = _scale[0];
 		numberScale = _scale[1];
 		breakScale = _scale[2];
 
-		numberPosition[Y] = 0 + (numberInfo[HEIGHT] * numberScale) * 1.6;
-		breakPosition[Y] = 0 - (comboBreakInfo[HEIGHT] * breakScale) / 2;
+		numberPosition[Y] += (numberInfo[HEIGHT] * numberScale) * 1.6;
+		breakPosition[Y] -= (comboBreakInfo[HEIGHT] * breakScale) / 2;
 
 	}
 
 	/**
-		
+		Causes the combo count to pop up with the given integer. Returns without effect if the integer is less than 0.
 	**/
-	public function comboPopup(_combo:Int){
+	public function comboPopup(_combo:Int):Void{
+
+		if(_combo < 0) { return; }
 
 		var combo:String = Std.string(_combo);
 
@@ -102,9 +113,9 @@ class ComboPopup extends FlxSpriteGroup
 	}
 
 	/**
-		
+		Causes a note rating to pop up with the specified rating. Returns without effect if the rating isn't in `ratingList`.
 	**/
-	public function ratingPopup(_rating:String){
+	public function ratingPopup(_rating:String):Void{
 
 		var rating = ratingList.indexOf(_rating);
 		if(rating == -1){ return; }
@@ -134,9 +145,9 @@ class ComboPopup extends FlxSpriteGroup
 	}
 
 	/**
-		
+		Causes the combo broken text to pop up.
 	**/
-	public function breakPopup(){
+	public function breakPopup():Void{
 
 		var breakSprite = new FlxSprite(breakPosition[X], breakPosition[Y]).loadGraphic(comboBreakInfo[GRAPHIC]);
 		breakSprite.setGraphicSize(Std.int(breakSprite.width * breakScale));
