@@ -779,33 +779,45 @@ class PlayState extends MusicBeatState
 			comboUI = new ComboPopup(boyfriend.x - 250, boyfriend.y - 75,	[Paths.image("ratings"), 403, 163, true], 
 																			[Paths.image("numbers"), 100, 120, true], 
 																			[Paths.image("comboBreak"), 348, 211, true]);
-			add(comboUI);
 		}
 		else{
 			comboUI = new ComboPopup(boyfriend.x - 250, boyfriend.y - 75, 	[Paths.image("weeb/pixelUI/ratings-pixel"), 51, 20, false], 
 																			[Paths.image("weeb/pixelUI/numbers-pixel"), 11, 12, false], 
-																			[Paths.image("weeb/pixelUI/comboBreak-pixel"), 53, 32, false], daPixelZoom * 0.75);
-			add(comboUI);
+																			[Paths.image("weeb/pixelUI/comboBreak-pixel"), 53, 32, false], 
+																			[daPixelZoom * 0.7, daPixelZoom * 0.8, daPixelZoom * 0.7]);
+			comboUI.numberPosition[0] -= 120;
 		}
 
-		/*if(true){
+		if(Config.comboType == 1){
 
+			comboUI.cameras = [camHUD];
 			comboUI.setPosition(0, 0);
 			comboUI.scrollFactor.set(0, 0);
+			comboUI.setScales([comboUI.ratingScale * 0.8, comboUI.numberScale, comboUI.breakScale * 0.8]);
+			comboUI.accelScale = 0.2;
+			comboUI.velocityScale = 0.2;
 
 			if(!Config.downscroll){
-				comboUI.ratingPosition = [700, 530];
-				comboUI.numberPosition = [340, 550];
-				comboUI.breakPosition = [690, 485];
+				comboUI.ratingPosition = [700, 510];
+				comboUI.numberPosition = [320, 480];
+				comboUI.breakPosition = [690, 465];
 			}
 			else{
-				comboUI.ratingPosition = [700, 90];
-				comboUI.numberPosition = [340, 110];
-				comboUI.breakPosition = [690, 95];
+				comboUI.ratingPosition = [700, 80];
+				comboUI.numberPosition = [320, 100];
+				comboUI.breakPosition = [690, 85];
 			}
 
-		}*/
-		
+			if(pixelSongs.contains(SONG.song.toLowerCase())){
+				comboUI.numberPosition[0] -= 120;
+				comboUI.setPosition(160, 60);
+			}
+
+		}
+
+		if(Config.comboType < 2){
+			add(comboUI);
+		}
 
 		var doof:DialogueBox = new DialogueBox(false, dialogue);
 		// doof.x += 70;
@@ -1594,19 +1606,15 @@ class PlayState extends MusicBeatState
 		//Heath Icons
 		if (healthBar.percent < 20){
 			iconP1.animation.curAnim.curFrame = 1;
-			if(Config.betterIcons){ //Better Icons Win Anim
-				iconP2.animation.curAnim.curFrame = 2;
-			}
+			iconP2.animation.curAnim.curFrame = 2;
 		}
 		else if (healthBar.percent > 80){
+			iconP1.animation.curAnim.curFrame = 2;
 			iconP2.animation.curAnim.curFrame = 1;
-			if(Config.betterIcons){ //Better Icons Win Anim
-				iconP1.animation.curAnim.curFrame = 2;
-			}
 		}
 		else{
-			iconP2.animation.curAnim.curFrame = 0;
 			iconP1.animation.curAnim.curFrame = 0;
+			iconP2.animation.curAnim.curFrame = 0;
 		}
 			
 		/* if (FlxG.keys.justPressed.NINE)

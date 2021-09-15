@@ -14,7 +14,12 @@ class ComboPopup extends FlxSpriteGroup
 	public var numberPosition:Array<Float> = [0.0, 0.0];
 	public var breakPosition:Array<Float> = [0.0, 0.0];
 
-	public var graphicScale:Float = 0.75;
+	public var ratingScale:Float = 0.7;
+	public var numberScale:Float = 0.6;
+	public var breakScale:Float = 0.6;
+
+	public var accelScale:Float = 1;
+	public var velocityScale:Float = 1;
 
 	var ratingInfo:Array<Dynamic>;
 	var numberInfo:Array<Dynamic>;
@@ -34,7 +39,7 @@ class ComboPopup extends FlxSpriteGroup
 	/**
 		The info arrays should be filled with [FlxGraphicAsset, Frame Width, Frame Height, Antialiasing]
 	**/
-	public function new(_x:Float, _y:Float, _ratingInfo:Array<Dynamic>, _numberInfo:Array<Dynamic>, _comboBreakInfo:Array<Dynamic>, ?_scale:Float = 0.75)
+	public function new(_x:Float, _y:Float, _ratingInfo:Array<Dynamic>, _numberInfo:Array<Dynamic>, _comboBreakInfo:Array<Dynamic>, ?_scale:Array<Float>)
 	{
 		super(_x, _y);
 
@@ -42,16 +47,22 @@ class ComboPopup extends FlxSpriteGroup
 		numberInfo = _numberInfo;
 		comboBreakInfo = _comboBreakInfo;
 
-		graphicScale = _scale;
+		if(_scale == null){
+			_scale = [0.7, 0.6, 0.6];
+		}
 
-		numberPosition[Y] += (numberInfo[HEIGHT] * graphicScale) * 1.6;
-		breakPosition[Y] -= (comboBreakInfo[HEIGHT] * graphicScale) / 2;
+		setScales(_scale);
 
 	}
 
-	override function update(elapsed:Float){
+	public function setScales(_scale:Array<Float>){
 
-		super.update(elapsed);
+		ratingScale = _scale[0];
+		numberScale = _scale[1];
+		breakScale = _scale[2];
+
+		numberPosition[Y] = 0 + (numberInfo[HEIGHT] * numberScale) * 1.6;
+		breakPosition[Y] = 0 - (comboBreakInfo[HEIGHT] * breakScale) / 2;
 
 	}
 
@@ -64,8 +75,8 @@ class ComboPopup extends FlxSpriteGroup
 
 		for(i in 0...combo.length){
 
-			var digit = new FlxSprite(numberPosition[X] + (numberInfo[WIDTH] * graphicScale * i), numberPosition[Y]).loadGraphic(numberInfo[GRAPHIC], true, numberInfo[WIDTH], numberInfo[HEIGHT]);
-			digit.scale.set(graphicScale, graphicScale);
+			var digit = new FlxSprite(numberPosition[X] + (numberInfo[WIDTH] * numberScale * i), numberPosition[Y]).loadGraphic(numberInfo[GRAPHIC], true, numberInfo[WIDTH], numberInfo[HEIGHT]);
+			digit.setGraphicSize(Std.int(digit.width * numberScale));
 			digit.antialiasing = numberInfo[AA];
 		
 			digit.animation.add("digit", [Std.parseInt(combo.charAt(i))], 0, false);
@@ -73,9 +84,9 @@ class ComboPopup extends FlxSpriteGroup
 
 			add(digit);
 
-			digit.acceleration.y = FlxG.random.int(150, 250);
-			digit.velocity.y -= FlxG.random.int(100, 130);
-			digit.velocity.x = FlxG.random.int(-5, 5);
+			digit.acceleration.y = FlxG.random.int(150, 250) * accelScale;
+			digit.velocity.y -= FlxG.random.int(100, 130) * velocityScale;
+			digit.velocity.x = FlxG.random.int(-5, 5) * velocityScale;
 
 			FlxTween.tween(digit, {alpha: 0}, 0.2, {
 				onComplete: function(tween:FlxTween){
@@ -99,15 +110,15 @@ class ComboPopup extends FlxSpriteGroup
 		if(rating == -1){ return; }
 		
 		var ratingSprite = new FlxSprite(ratingPosition[X], ratingPosition[Y]).loadGraphic(ratingInfo[GRAPHIC], true, ratingInfo[WIDTH], ratingInfo[HEIGHT]);
-		ratingSprite.scale.set(graphicScale, graphicScale);
+		ratingSprite.setGraphicSize(Std.int(ratingSprite.width * ratingScale));
 		ratingSprite.antialiasing = ratingInfo[AA];
 		
 		ratingSprite.animation.add("rating", [rating], 0, false);
 		ratingSprite.animation.play("rating");
 
-		ratingSprite.acceleration.y = 250;
-		ratingSprite.velocity.y -= FlxG.random.int(100, 130);
-		ratingSprite.velocity.x -= FlxG.random.int(-5, 5);
+		ratingSprite.acceleration.y = 250 * accelScale;
+		ratingSprite.velocity.y -= FlxG.random.int(100, 130) * velocityScale;
+		ratingSprite.velocity.x -= FlxG.random.int(-5, 5) * velocityScale;
 
 		add(ratingSprite);
 
@@ -128,12 +139,12 @@ class ComboPopup extends FlxSpriteGroup
 	public function breakPopup(){
 
 		var breakSprite = new FlxSprite(breakPosition[X], breakPosition[Y]).loadGraphic(comboBreakInfo[GRAPHIC]);
-		breakSprite.scale.set(graphicScale, graphicScale);
+		breakSprite.setGraphicSize(Std.int(breakSprite.width * breakScale));
 		breakSprite.antialiasing = ratingInfo[AA];
 		
-		breakSprite.acceleration.y = 300;
-		breakSprite.velocity.y -= FlxG.random.int(80, 130);
-		breakSprite.velocity.x -= FlxG.random.int(-5, 5);
+		breakSprite.acceleration.y = 300 * accelScale;
+		breakSprite.velocity.y -= FlxG.random.int(80, 130) * velocityScale;
+		breakSprite.velocity.x -= FlxG.random.int(-5, 5) * velocityScale;
 
 		add(breakSprite);
 

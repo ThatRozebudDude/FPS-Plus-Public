@@ -35,13 +35,16 @@ class ConfigMenu extends MusicBeatState
 	var accuracyTypes:Array<String> = ["none", "simple", "complex"];
 	var healthValue:Int;
 	var healthDrainValue:Int;
-	var iconValue:Bool;
+	var comboValue:Int;
+	var comboTypes:Array<String> = ["world", "hud", "off"];
 	var downValue:Bool;
 	var glowValue:Bool;
 	var randomTapValue:Int;
 	var randomTapTypes:Array<String> = ["never", "not singing", "always"];
 	var noCapValue:Bool;
 	var scheme:Int;
+
+	var genericOnOff:Array<String> = ["on", "off"];
 
 	var tabKeys:Array<String> = [];
 	
@@ -52,27 +55,28 @@ class ConfigMenu extends MusicBeatState
 	var settingText:Array<String> = [
 									"NOTE OFFSET", 
 									"ACCURACY DISPLAY", 
-									"UNCAP FRAMERATE",
+									"UNCAPPED FRAMERATE",
 									"ALLOW GHOST TAPPING",
 									"HP GAIN MULTIPLIER",
 									"HP DRAIN MULTIPLIER",
 									"DOWNSCROLL",
 									"NOTE GLOW",
-									"IMPROVED HEALTH HEADS",
+									"COMBO DISPLAY",
 									"CONTROLLER SCHEME",
 									"[EDIT KEY BINDS]"
 									];
-								
+		
+	//Any descriptions that say TEMP are replaced with a changing description based on the current config setting.
 	var settingDesc:Array<String> = [
 									"Adjust note timings.\nPress \"ENTER\" to start the offset calibration." + (FlxG.save.data.ee1?"\nHold \"SHIFT\" to force the pixel calibration.\nHold \"CTRL\" to force the normal calibration.":""), 
 									"What type of accuracy calculation you want to use. Simple is just notes hit / total notes. Complex also factors in how early or late a note was.", 
 									#if desktop "Uncaps the framerate during gameplay." #else "Disabled on Web builds." #end,
-									"Prevents you from missing when you don't need to play.",
+									"TEMP",
 									"Modifies how much Health you gain when hitting a note.",
 									"Modifies how much Health you lose when missing a note.",
 									"Makes notes appear from the top instead the bottom.",
 									"Makes note arrows glow if they are able to be hit.",
-									"Adds low health icons for characters missing them and adds winning icons.\n[This disables modded health icons unless there is a version of the files included in the mod.]",
+									"TEMP",
 									"TEMP",
 									"Change key binds."
 									];
@@ -82,6 +86,12 @@ class ConfigMenu extends MusicBeatState
 									"You can only  miss while you need to sing.", 
 									"You cannot miss unless you do not hit a note.\n[Note that this makes the game very easy and can remove a lot of the challenge.]"
 									];					
+
+	var comboDisplayDesc:Array<String> = [
+									"Ratings and combo count are a part of the world and move around with the camera.", 
+									"Ratings and combo count are a part of the hud and stay in a static position.", 
+									"Ratings and combo count are hidden."
+									];
 
 	var controlSchemes:Array<String> = [
 									"DEFAULT", 
@@ -138,7 +148,7 @@ class ConfigMenu extends MusicBeatState
 		accuracyTypeInt = accuracyTypes.indexOf(Config.accuracy);
 		healthValue = Std.int(Config.healthMultiplier * 10);
 		healthDrainValue = Std.int(Config.healthDrainMultiplier * 10);
-		iconValue = Config.betterIcons;
+		comboValue = Config.comboType;
 		downValue = Config.downscroll;
 		glowValue = Config.noteGlow;
 		randomTapValue = Config.ghostTapType;
@@ -256,7 +266,7 @@ class ConfigMenu extends MusicBeatState
 						if(FlxG.keys.justPressed.ENTER){
 							canChangeItems = false;
 							FlxG.sound.music.fadeOut(0.3);
-							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, glowValue, randomTapValue, noCapValue, scheme);
+							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme);
 							AutoOffsetState.forceEasterEgg = FlxG.keys.pressed.SHIFT ? 1 : (FlxG.keys.pressed.CONTROL ? -1 : 0);
 							FlxG.switchState(new AutoOffsetState());
 						}
@@ -403,10 +413,24 @@ class ConfigMenu extends MusicBeatState
 							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
 							glowValue = !glowValue;
 						}
-					case 8: //Heads
+					case 8: //Combo Display
 						if (controls.RIGHT_P || controls.LEFT_P || controls.ACCEPT) {
-							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
-							iconValue = !iconValue;
+							if (controls.RIGHT_P)
+								{
+									FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+									comboValue += 1;
+								}
+								
+								if (controls.LEFT_P)
+								{
+									FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+									comboValue -= 1;
+								}
+								
+								if (comboValue >= comboTypes.length)
+									comboValue = 0;
+								if (comboValue < 0)
+									comboValue = comboTypes.length - 1;
 						}
 					case 9: //Controller Stuff
 						if (controls.RIGHT_P)
@@ -429,7 +453,7 @@ class ConfigMenu extends MusicBeatState
 							if (controls.ACCEPT && scheme == controlSchemes.length - 1) {
 								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
 								canChangeItems = false;
-								Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, glowValue, randomTapValue, noCapValue, scheme);
+								Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme);
 								FlxG.switchState(new KeyBindMenuController());
 							}
 
@@ -437,7 +461,7 @@ class ConfigMenu extends MusicBeatState
 						if (controls.ACCEPT) {
 							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
 							canChangeItems = false;
-							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, glowValue, randomTapValue, noCapValue, scheme);
+							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme);
 							FlxG.switchState(new KeyBindMenu());
 						}
 					
@@ -463,7 +487,7 @@ class ConfigMenu extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, glowValue, randomTapValue, noCapValue, scheme);
+			Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme);
 			exit();
 		}
 
@@ -511,6 +535,9 @@ class ConfigMenu extends MusicBeatState
 			case 3:
 				descText.text = ghostTapDesc[randomTapValue];
 				
+			case 8:
+				descText.text = comboDisplayDesc[comboValue];
+				
 			case 9:
 				descText.text = controlSchemesDesc[scheme];
 
@@ -529,13 +556,13 @@ class ConfigMenu extends MusicBeatState
 
 			case 0: return offsetValue;
 			case 1: return accuracyType;
-			case 2: #if desktop return noCapValue; #else return "disabled"; #end
+			case 2: #if desktop return genericOnOff[noCapValue?0:1]; #else return "disabled"; #end
 			case 3: return randomTapTypes[randomTapValue];
 			case 4: return healthValue / 10.0;
 			case 5: return healthDrainValue / 10.0;
-			case 6: return downValue;
-			case 7: return glowValue;
-			case 8: return iconValue;
+			case 6: return genericOnOff[downValue?0:1];
+			case 7: return genericOnOff[glowValue?0:1];
+			case 8: return comboTypes[comboValue];
 			case 9: return controlSchemes[scheme];
 
 		}
@@ -562,13 +589,13 @@ class ConfigMenu extends MusicBeatState
 		switch(combo){
 
 			case "KADE":
-				Config.write(offsetValue, "complex", 5, 5, iconValue, downValue, false, 2, noCapValue, scheme);
+				Config.write(offsetValue, "complex", 5, 5, 1, downValue, false, 2, noCapValue, scheme);
 				exit();
 			case "ROZE":
-				Config.write(offsetValue, "simple", 1, 1, true, true, true, 0, noCapValue, scheme);
+				Config.write(offsetValue, "simple", 1, 1, 0, true, true, 0, noCapValue, scheme);
 				exit();
 			case "CVAL":
-				Config.write(offsetValue, "simple", 1, 1, iconValue, false, glowValue, 1, noCapValue, scheme);
+				Config.write(offsetValue, "simple", 1, 1, comboValue, false, glowValue, 1, noCapValue, scheme);
 				exit();
 			case "GOTOHELLORSOMETHING":
 				System.exit(0); //I am very funny.

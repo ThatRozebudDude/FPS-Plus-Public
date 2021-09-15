@@ -10,7 +10,7 @@ class Config
 	public static var accuracy:String;
 	public static var healthMultiplier:Float;
 	public static var healthDrainMultiplier:Float;
-	public static var betterIcons:Bool;
+	public static var comboType:Int;
 	public static var downscroll:Bool;
 	public static var noteGlow:Bool;
 	public static var ghostTapType:Int;
@@ -23,7 +23,7 @@ class Config
 		FlxG.save.data.accuracy = "simple";
 		FlxG.save.data.healthMultiplier = 1.0;
 		FlxG.save.data.healthDrainMultiplier = 1.0;
-		FlxG.save.data.betterIcons = true;
+		FlxG.save.data.comboType = 0;
 		FlxG.save.data.downscroll = false;
 		FlxG.save.data.noteGlow = false;
 		FlxG.save.data.ghostTapType = 0;
@@ -39,7 +39,7 @@ class Config
 		accuracy = FlxG.save.data.accuracy;
 		healthMultiplier = FlxG.save.data.healthMultiplier;
 		healthDrainMultiplier = FlxG.save.data.healthDrainMultiplier;
-		betterIcons = FlxG.save.data.betterIcons;
+		comboType = FlxG.save.data.comboType;
 		downscroll = FlxG.save.data.downscroll;
 		noteGlow = FlxG.save.data.noteGlow;
 		ghostTapType = FlxG.save.data.ghostTapType;
@@ -52,7 +52,7 @@ class Config
 								accuracyW:String, 
 								healthMultiplierW:Float, 
 								healthDrainMultiplierW:Float, 
-								betterIconsW:Bool, 
+								comboTypeW:Int, 
 								downscrollW:Bool, 
 								noteGlowW:Bool,
 								ghostTapTypeW:Int,
@@ -65,7 +65,7 @@ class Config
 		FlxG.save.data.accuracy = accuracyW;
 		FlxG.save.data.healthMultiplier = healthMultiplierW;
 		FlxG.save.data.healthDrainMultiplier = healthDrainMultiplierW;
-		FlxG.save.data.betterIcons = betterIconsW;
+		FlxG.save.data.comboType = comboTypeW;
 		FlxG.save.data.downscroll = downscrollW;
 		FlxG.save.data.noteGlow = noteGlowW;
 		FlxG.save.data.ghostTapType = ghostTapTypeW;
@@ -88,8 +88,8 @@ class Config
 			FlxG.save.data.healthMultiplier = 1.0;
 		if(FlxG.save.data.healthDrainMultiplier == null)
 			FlxG.save.data.healthDrainMultiplier = 1.0;
-		if(FlxG.save.data.betterIcons == null)
-			FlxG.save.data.betterIcons = true;
+		if(FlxG.save.data.comboType == null)
+			FlxG.save.data.comboType = 0;
 		if(FlxG.save.data.downscroll == null)
 			FlxG.save.data.downscroll = false;
 		if(FlxG.save.data.noteGlow == null)
