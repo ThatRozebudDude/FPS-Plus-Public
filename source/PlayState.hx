@@ -72,7 +72,7 @@ class PlayState extends MusicBeatState
 	private var canHit:Bool = false;
 	private var noMissCount:Int = 0;
 
-	public static final stageSongs = ["tutorial", "bopeebo", "fresh", "dadbattle"];
+	public static final stageSongs = ["tutorial", "bopeebo", "fresh", "dadbattle"]; //List isn't really used since stage is default, but whatever.
 	public static final spookySongs = ["spookeez", "south", "monster"];
 	public static final phillySongs = ["pico", "philly", "blammed"];
 	public static final limoSongs = ["satin-panties", "high", "milf"];
@@ -130,6 +130,7 @@ class PlayState extends MusicBeatState
 
 	//End of wacky input stuff===================
 
+	private var invuln:Bool = false;
 	private var invulnCount:Int = 0;
 
 	private var notes:FlxTypedGroup<Note>;
@@ -166,7 +167,7 @@ class PlayState extends MusicBeatState
 	private var camGame:FlxCamera;
 
 	private var comboUI:ComboPopup;
-	private final minCombo:Int = 5;
+	public static final minCombo:Int = 10;
 
 	var dialogue:Array<String> = [':bf:strange code', ':dad:>:]'];
 
@@ -1732,7 +1733,7 @@ class PlayState extends MusicBeatState
 
 		if (health <= 0)
 		{
-			boyfriend.stunned = true;
+			//boyfriend.stunned = true;
 
 			persistentUpdate = false;
 			persistentDraw = false;
@@ -2217,7 +2218,7 @@ class PlayState extends MusicBeatState
 
 		var controlArray:Array<Bool> = [leftPress, downPress, upPress, rightPress];
 
-		if ((upPress || rightPress || downPress || leftPress) && !boyfriend.stunned && generatedMusic)
+		if ((upPress || rightPress || downPress || leftPress) && generatedMusic)
 		{
 			boyfriend.holdTimer = 0;
 
@@ -2336,7 +2337,7 @@ class PlayState extends MusicBeatState
 		
 		notes.forEachAlive(function(daNote:Note)
 		{
-			if ((upHold || rightHold || downHold || leftHold) && !boyfriend.stunned && generatedMusic){
+			if ((upHold || rightHold || downHold || leftHold) && generatedMusic){
 				if (daNote.canBeHit && daNote.mustPress && daNote.isSustainNote)
 				{
 
@@ -2514,7 +2515,7 @@ class PlayState extends MusicBeatState
 
 	function noteMiss(direction:Int = 1, ?healthLoss:Float = 0.04, ?playAudio:Bool = true, ?skipInvCheck:Bool = false):Void
 	{
-		if (!boyfriend.stunned && !startingSong && (!boyfriend.invuln || skipInvCheck) )
+		if (!startingSong && (!invuln || skipInvCheck) )
 		{
 			health -= healthLoss * Config.healthDrainMultiplier;
 			if (combo > minCombo)
@@ -2558,7 +2559,7 @@ class PlayState extends MusicBeatState
 
 	function noteMissWrongPress(direction:Int = 1, ?healthLoss:Float = 0.0475, dropCombo:Bool = false):Void
 		{
-			if (!startingSong && !boyfriend.invuln)
+			if (!startingSong && !invuln)
 			{
 				health -= healthLoss * Config.healthDrainMultiplier;
 
@@ -2615,13 +2616,13 @@ class PlayState extends MusicBeatState
 		invulnCount++;
 		var invulnCheck = invulnCount;
 
-		boyfriend.invuln = true;
+		invuln = true;
 
 		new FlxTimer().start(time, function(tmr:FlxTimer)
 		{
 			if(invulnCount == invulnCheck){
 
-				boyfriend.invuln = false;
+				invuln = false;
 
 			}
 			
@@ -2648,7 +2649,7 @@ class PlayState extends MusicBeatState
 
 	}
 
-	function setBoyfriendStunned(time:Float = 5 / 60){
+	/*function setBoyfriendStunned(time:Float = 5 / 60){
 
 		boyfriend.stunned = true;
 
@@ -2657,7 +2658,7 @@ class PlayState extends MusicBeatState
 			boyfriend.stunned = false;
 		});
 
-	}
+	}*/
 
 	function goodNoteHit(note:Note):Void
 	{

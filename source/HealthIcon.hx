@@ -15,7 +15,7 @@ class HealthIcon extends FlxSprite
 
 	private var tween:FlxTween;
 
-	var pixelIcons:Array<String> = ["bf-pixel", "senpai", "senpai-angry", "spirit"];
+	private static final pixelIcons:Array<String> = ["bf-pixel", "senpai", "senpai-angry", "spirit"];
 
 	public function new(char:String = 'face', isPlayer:Bool = false, ?_id:Int = -1)
 	{
