@@ -165,6 +165,7 @@ class PlayState extends MusicBeatState
 	private var iconP2:HealthIcon;
 	private var camHUD:FlxCamera;
 	private var camGame:FlxCamera;
+	private var camOverlay:FlxCamera;
 
 	private var comboUI:ComboPopup;
 	public static final minCombo:Int = 10;
@@ -270,8 +271,11 @@ class PlayState extends MusicBeatState
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
+		camOverlay = new FlxCamera();
+		camOverlay.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
+		FlxG.cameras.add(camOverlay);
 		FlxG.cameras.add(camHUD);
 
 		FlxCamera.defaultCameras = [camGame];
@@ -980,6 +984,11 @@ class PlayState extends MusicBeatState
 		//FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 		//FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
 
+		var bgDim = new FlxSprite(1280 / -2, 720 / -2).makeGraphic(1280*2, 720*2, FlxColor.BLACK);
+		bgDim.cameras = [camOverlay];
+		bgDim.alpha = Config.bgDim/10;
+		add(bgDim);
+
 		super.create();
 	}
 
@@ -1103,17 +1112,7 @@ class PlayState extends MusicBeatState
 
 		var swagCounter:Int = 0;
 
-		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
-		{
-			if(dadBeats.contains((swagCounter % 4)))
-				dad.dance();
-
-			gf.dance();
-
-			if(bfBeats.contains((swagCounter % 4)))
-				boyfriend.dance();
-
-			var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
+		var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
 			introAssets.set('default', ['ready.png', "set.png", "go.png"]);
 			introAssets.set('school', [
 				'weeb/pixelUI/ready-pixel.png',
@@ -1138,6 +1137,17 @@ class PlayState extends MusicBeatState
 				}
 			}
 
+
+		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
+		{
+			if(dadBeats.contains((swagCounter % 4)))
+				dad.dance();
+
+			gf.dance();
+
+			if(bfBeats.contains((swagCounter % 4)))
+				boyfriend.dance();
+
 			switch (swagCounter)
 
 			{
@@ -1150,12 +1160,17 @@ class PlayState extends MusicBeatState
 					var ready:FlxSprite = new FlxSprite().loadGraphic('assets/images/' + introAlts[0]);
 					ready.scrollFactor.set();
 					ready.antialiasing = !curStage.startsWith('school');
-					ready.updateHitbox();
 
 					if (curStage.startsWith('school'))
-						ready.setGraphicSize(Std.int(ready.width * daPixelZoom));
+						ready.setGraphicSize(Std.int(ready.width * daPixelZoom * 0.8));
+					else
+						ready.setGraphicSize(Std.int(ready.width * 0.5));
+
+					ready.updateHitbox();
 
 					ready.screenCenter();
+					ready.y -= 120;
+					ready.cameras = [camHUD];
 					add(ready);
 					FlxTween.tween(ready, {y: ready.y += 100, alpha: 0}, Conductor.crochet / 1000, {
 						ease: FlxEase.cubeInOut,
@@ -1171,9 +1186,15 @@ class PlayState extends MusicBeatState
 					set.antialiasing = !curStage.startsWith('school');
 
 					if (curStage.startsWith('school'))
-						set.setGraphicSize(Std.int(set.width * daPixelZoom));
+						set.setGraphicSize(Std.int(set.width * daPixelZoom * 0.8));
+					else
+						set.setGraphicSize(Std.int(set.width * 0.5));
+
+					set.updateHitbox();
 
 					set.screenCenter();
+					set.y -= 120;
+					set.cameras = [camHUD];
 					add(set);
 					FlxTween.tween(set, {y: set.y += 100, alpha: 0}, Conductor.crochet / 1000, {
 						ease: FlxEase.cubeInOut,
@@ -1189,11 +1210,15 @@ class PlayState extends MusicBeatState
 					go.antialiasing = !curStage.startsWith('school');
 
 					if (curStage.startsWith('school'))
-						go.setGraphicSize(Std.int(go.width * daPixelZoom));
+						go.setGraphicSize(Std.int(go.width * daPixelZoom * 0.8));
+					else
+						go.setGraphicSize(Std.int(go.width * 0.8));
 
 					go.updateHitbox();
 
 					go.screenCenter();
+					go.y -= 120;
+					go.cameras = [camHUD];
 					add(go);
 					FlxTween.tween(go, {y: go.y += 100, alpha: 0}, Conductor.crochet / 1000, {
 						ease: FlxEase.cubeInOut,

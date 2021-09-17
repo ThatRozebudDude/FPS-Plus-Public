@@ -43,6 +43,7 @@ class ConfigMenu extends MusicBeatState
 	var randomTapTypes:Array<String> = ["never", "not singing", "always"];
 	var noCapValue:Bool;
 	var scheme:Int;
+	var dimValue:Int;
 
 	var genericOnOff:Array<String> = ["on", "off"];
 
@@ -62,6 +63,7 @@ class ConfigMenu extends MusicBeatState
 									"DOWNSCROLL",
 									"NOTE GLOW",
 									"COMBO DISPLAY",
+									"BACKGROUND DIM",
 									"CONTROLLER SCHEME",
 									"[EDIT KEY BINDS]"
 									];
@@ -77,6 +79,7 @@ class ConfigMenu extends MusicBeatState
 									"Makes notes appear from the top instead the bottom.",
 									"Makes note arrows glow if they are able to be hit.",
 									"TEMP",
+									"Adjusts how dark the background is.\nIt is recommended that you use the HUD combo display with a high background dim.",
 									"TEMP",
 									"Change key binds."
 									];
@@ -154,6 +157,7 @@ class ConfigMenu extends MusicBeatState
 		randomTapValue = Config.ghostTapType;
 		noCapValue = Config.noFpsCap;
 		scheme = Config.controllerScheme;
+		dimValue = Config.bgDim;
 		
 		var tex = FlxAtlasFrames.fromSparrow('assets/images/FNF_main_menu_assets.png', 'assets/images/FNF_main_menu_assets.xml');
 		var optionTitle:FlxSprite = new FlxSprite(0, 55);
@@ -168,9 +172,9 @@ class ConfigMenu extends MusicBeatState
 		add(optionTitle);
 			
 		
-		configText = new FlxText(0, 215, 1280, "", 48);
+		configText = new FlxText(0, 215, 1280, "", 44);
 		configText.scrollFactor.set(0, 0);
-		configText.setFormat("assets/fonts/Funkin-Bold.otf", 48, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		configText.setFormat("assets/fonts/Funkin-Bold.otf", 44, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		configText.borderSize = 3;
 		configText.borderQuality = 1;
 		
@@ -266,7 +270,7 @@ class ConfigMenu extends MusicBeatState
 						if(FlxG.keys.justPressed.ENTER){
 							canChangeItems = false;
 							FlxG.sound.music.fadeOut(0.3);
-							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme);
+							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue);
 							AutoOffsetState.forceEasterEgg = FlxG.keys.pressed.SHIFT ? 1 : (FlxG.keys.pressed.CONTROL ? -1 : 0);
 							FlxG.switchState(new AutoOffsetState());
 						}
@@ -414,25 +418,40 @@ class ConfigMenu extends MusicBeatState
 							glowValue = !glowValue;
 						}
 					case 8: //Combo Display
-						if (controls.RIGHT_P || controls.LEFT_P || controls.ACCEPT) {
-							if (controls.RIGHT_P)
-								{
-									FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
-									comboValue += 1;
-								}
-								
-								if (controls.LEFT_P)
-								{
-									FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
-									comboValue -= 1;
-								}
-								
-								if (comboValue >= comboTypes.length)
-									comboValue = 0;
-								if (comboValue < 0)
-									comboValue = comboTypes.length - 1;
+						if (controls.RIGHT_P)
+						{
+							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+							comboValue += 1;
 						}
-					case 9: //Controller Stuff
+						
+						if (controls.LEFT_P)
+						{
+							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+							comboValue -= 1;
+						}
+						
+						if (comboValue >= comboTypes.length)
+							comboValue = 0;
+						if (comboValue < 0)
+							comboValue = comboTypes.length - 1;
+					case 9: //BG Dim
+						if (controls.RIGHT_P)
+						{
+							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+							dimValue += 1;
+						}
+						
+						if (controls.LEFT_P)
+						{
+							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+							dimValue -= 1;
+						}
+						
+						if (dimValue > 10)
+							dimValue = 0;
+						if (dimValue < 0)
+							dimValue = 10;
+					case 10: //Controller Stuff
 						if (controls.RIGHT_P)
 							{
 								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
@@ -453,15 +472,15 @@ class ConfigMenu extends MusicBeatState
 							if (controls.ACCEPT && scheme == controlSchemes.length - 1) {
 								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
 								canChangeItems = false;
-								Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme);
+								Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue);
 								FlxG.switchState(new KeyBindMenuController());
 							}
 
-					case 10: //Binds
+					case 11: //Binds
 						if (controls.ACCEPT) {
 							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
 							canChangeItems = false;
-							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme);
+							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue);
 							FlxG.switchState(new KeyBindMenu());
 						}
 					
@@ -487,7 +506,7 @@ class ConfigMenu extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme);
+			Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue);
 			exit();
 		}
 
@@ -538,7 +557,7 @@ class ConfigMenu extends MusicBeatState
 			case 8:
 				descText.text = comboDisplayDesc[comboValue];
 				
-			case 9:
+			case 10:
 				descText.text = controlSchemesDesc[scheme];
 
 			default:
@@ -563,7 +582,8 @@ class ConfigMenu extends MusicBeatState
 			case 6: return genericOnOff[downValue?0:1];
 			case 7: return genericOnOff[glowValue?0:1];
 			case 8: return comboTypes[comboValue];
-			case 9: return controlSchemes[scheme];
+			case 9: return (dimValue * 10) + "%";
+			case 10: return controlSchemes[scheme];
 
 		}
 
@@ -589,13 +609,13 @@ class ConfigMenu extends MusicBeatState
 		switch(combo){
 
 			case "KADE":
-				Config.write(offsetValue, "complex", 5, 5, 1, downValue, false, 2, noCapValue, scheme);
+				Config.write(offsetValue, "complex", 5, 5, 1, downValue, false, 2, noCapValue, scheme, dimValue);
 				exit();
 			case "ROZE":
-				Config.write(offsetValue, "simple", 1, 1, 0, true, true, 0, noCapValue, scheme);
+				Config.write(offsetValue, "simple", 1, 1, 0, true, true, 0, noCapValue, scheme, dimValue);
 				exit();
 			case "CVAL":
-				Config.write(offsetValue, "simple", 1, 1, comboValue, false, glowValue, 1, noCapValue, scheme);
+				Config.write(offsetValue, "simple", 1, 1, comboValue, false, glowValue, 1, noCapValue, scheme, dimValue);
 				exit();
 			case "GOTOHELLORSOMETHING":
 				System.exit(0); //I am very funny.
