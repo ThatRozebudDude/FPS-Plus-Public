@@ -256,6 +256,11 @@ class ChartingState extends MusicBeatState
 			saveLevel();
 		});
 
+		var saveGenericButton:FlxButton = new FlxButton(110, saveButton.y + 30, "Save Generic", function()
+		{
+			saveGenericLevel();
+		});
+
 		var reloadSong:FlxButton = new FlxButton(saveButton.x + saveButton.width + 10, saveButton.y, "Reload Audio", function()
 		{
 			loadSong(_song.song);
@@ -341,6 +346,7 @@ class ChartingState extends MusicBeatState
 
 		tab_group_song.add(UI_songTitle);
 		tab_group_song.add(saveButton);
+		tab_group_song.add(saveGenericButton);
 		tab_group_song.add(reloadSong);
 		tab_group_song.add(reloadSongJson);
 		tab_group_song.add(loadAutosaveBtn);
@@ -1447,6 +1453,36 @@ class ChartingState extends MusicBeatState
 	{
 		var json = {
 			"song": _song
+		};
+
+		var data:String = Json.stringify(json);
+
+		if ((data != null) && (data.length > 0))
+		{
+			_file = new FileReference();
+			_file.addEventListener(Event.COMPLETE, onSaveComplete);
+			_file.addEventListener(Event.CANCEL, onSaveCancel);
+			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
+			_file.save(data.trim(), _song.song.toLowerCase() + diffDropFinal + ".json");
+		}
+	}
+	
+	private function saveGenericLevel()
+	{
+		var genericSong =
+		{
+			song: _song.song,
+			notes: _song.notes,
+			bpm: _song.bpm,
+			needsVoices: _song.needsVoices,
+			speed: _song.speed,
+			player1: _song.player1,
+			player2: _song.player2,
+			validScore: _song.validScore
+		};
+
+		var json = {
+			"song": genericSong
 		};
 
 		var data:String = Json.stringify(json);
