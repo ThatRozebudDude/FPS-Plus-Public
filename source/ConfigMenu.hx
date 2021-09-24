@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxState;
 import openfl.system.System;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -23,6 +24,8 @@ class ConfigMenu extends MusicBeatState
 {
 
 	public static var startSong = true;
+
+	public static var exitTo:FlxState;
 
 	var configText:FlxText;
 	var descText:FlxText;
@@ -115,7 +118,10 @@ class ConfigMenu extends MusicBeatState
 
 	override function create()
 	{	
-	
+		if(exitTo == null){
+			exitTo = new MainMenuState();
+		}
+
 		if(startSong)
 			FlxG.sound.playMusic(Paths.music('configurator'));
 		else
@@ -584,7 +590,8 @@ class ConfigMenu extends MusicBeatState
 		canChangeItems = false;
 		FlxG.sound.music.stop();
 		FlxG.sound.play(Paths.sound('cancelMenu'));
-		FlxG.switchState(new MainMenuState());
+		FlxG.switchState(exitTo);
+		exitTo = null;
 	}
 
 	function secretPresetTest(_combo:Array<String>):Void{

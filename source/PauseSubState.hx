@@ -15,7 +15,7 @@ class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Exit to menu'];
+	var menuItems:Array<String> = ['Resume', 'Restart Song', "Options",'Exit to menu'];
 	var curSelected:Int = 0;
 
 	var pauseMusic:FlxSound;
@@ -114,6 +114,10 @@ class PauseSubState extends MusicBeatSubstate
 					
 				case "Skip Song":
 					PlayState.instance.endSong();
+					
+				case "Options":
+					FlxG.switchState(new ConfigMenu());
+					ConfigMenu.exitTo = new PlayState();
 					
 				case "Exit to menu":
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);

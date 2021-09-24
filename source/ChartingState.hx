@@ -743,6 +743,28 @@ class ChartingState extends MusicBeatState
 			}
 		}
 
+		if (FlxG.mouse.justPressedMiddle)
+		{
+
+			if (FlxG.mouse.overlaps(curRenderedNotes))
+			{
+
+				trace("Overlapping Notes");
+
+				var selected:Bool = false;
+
+				curRenderedNotes.forEach(function(note:Note)
+				{
+					if (FlxG.mouse.overlaps(note) && !selected)
+					{
+						selectNote(note);
+						selected = true;
+
+					}
+				});
+			}
+		}
+
 		if(holding && FlxG.mouse.pressed){
 
 			setNoteSustain((getStrumTime(dummyArrow.y) + sectionStartTime()) - curSelectedNote[0]);
@@ -1288,17 +1310,19 @@ class ChartingState extends MusicBeatState
 
 	function selectNote(note:Note):Void
 	{
-		var swagNum:Int = 0;
 
-		for (i in _song.notes[curSection].sectionNotes)
-		{
-			if (i.strumTime == note.strumTime && i.noteData % 4 == note.noteData)
-			{
-				curSelectedNote = _song.notes[curSection].sectionNotes[swagNum];
+		for(x in _song.notes[curSection].sectionNotes){
+
+			if(approxEqual(x[0], note.strumTime, 3) && x[1] == note.absoluteNumber && approxEqual(x[2], note.sustainLength, 3)){
+
+				curSelectedNote = x;
+				break;
+
 			}
 
-			swagNum += 1;
 		}
+
+		//curSelectedNote = _song.notes[curSection].sectionNotes[_song.notes[curSection].sectionNotes.length - 1];
 
 		updateGrid();
 		updateNoteUI();
