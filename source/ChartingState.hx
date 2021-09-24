@@ -77,6 +77,7 @@ class ChartingState extends MusicBeatState
 	//var TRIPLE_GRID_SIZE:Float = 40 * 4/3;
 
 	var dummyArrow:FlxSprite;
+	var holding:Bool;
 
 	var curRenderedNotes:FlxTypedGroup<Note>;
 	var curRenderedSustains:FlxTypedGroup<FlxSprite>;
@@ -121,8 +122,8 @@ class ChartingState extends MusicBeatState
 
 		gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 8, GRID_SIZE * 16, true, 0xFFE7E7E7, 0xFFC5C5C5);
 
-		//gridBGTriple = FlxGridOverlay.create(GRID_SIZE, Std.int(GRID_SIZE * 4/3), GRID_SIZE * 8, GRID_SIZE * 16, true, 0xFFE7E7E7, 0xFFC5C5C5);
-		//gridBGTriple.visible = false;
+		gridBGTriple = FlxGridOverlay.create(GRID_SIZE, Std.int(GRID_SIZE * 4/3), GRID_SIZE * 8, GRID_SIZE * 16, true, 0xFFE7E7E7, 0xFFC5C5C5);
+		gridBGTriple.visible = false;
 
 		gridBG2 = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 8, GRID_SIZE * 16 * gridBG2Length, true, 0xFF515151, 0xFF3D3D3D);
 
@@ -720,6 +721,8 @@ class ChartingState extends MusicBeatState
 
 			}
 
+			holding = true;
+
 		}
 		if (FlxG.mouse.justPressedRight)
 		{
@@ -737,6 +740,17 @@ class ChartingState extends MusicBeatState
 					}
 				});
 			}
+		}
+
+		if(holding && FlxG.mouse.pressed){
+
+			setNoteSustain((getStrumTime(dummyArrow.y) + sectionStartTime()) - curSelectedNote[0]);
+
+		}
+		else{
+
+			holding = false;
+
 		}
 
 		if(curSection * 16 != curStep && curStep % 16 == 0 && FlxG.sound.music.playing){
@@ -997,6 +1011,21 @@ class ChartingState extends MusicBeatState
 			if (curSelectedNote[2] != null)
 			{
 				curSelectedNote[2] += value;
+				curSelectedNote[2] = Math.max(curSelectedNote[2], 0);
+			}
+		}
+
+		updateNoteUI();
+		updateGrid();
+	}
+
+	function setNoteSustain(value:Float):Void
+	{
+		if (curSelectedNote != null)
+		{
+			if (curSelectedNote[2] != null)
+			{
+				curSelectedNote[2] = value;
 				curSelectedNote[2] = Math.max(curSelectedNote[2], 0);
 			}
 		}
