@@ -724,6 +724,7 @@ class ChartingState extends MusicBeatState
 			holding = true;
 
 		}
+
 		if (FlxG.mouse.justPressedRight)
 		{
 
@@ -1247,6 +1248,14 @@ class ChartingState extends MusicBeatState
 
 				if(secOffset != 0)
 					note.alpha = 0.4;
+
+				if(curSelectedNote != null){
+					if(daStrumTime 	== curSelectedNote[0] &&
+					daNoteInfo 	== curSelectedNote[1] &&
+					daSus 		== curSelectedNote[2]){
+						note.glow();
+					}
+				}
 	
 				curRenderedNotes.add(note);
 	
@@ -1297,13 +1306,12 @@ class ChartingState extends MusicBeatState
 
 	function deleteNote(note:Note):Void{
 
-		var tolerance:Float = 3;
 		//trace('Trying: ' + note.strumTime);
 
 		for (i in _song.notes[curSection].sectionNotes)
 		{
 			//trace("Testing: " + i[0]);
-			if (i[0] < note.strumTime + tolerance && i[0] > note.strumTime - tolerance && i[1] == note.absoluteNumber)
+			if (approxEqual(i[0], note.strumTime, 3) && i[1] == note.absoluteNumber)
 			{
 				//trace('FOUND EVIL NUMBER');
 				_song.notes[curSection].sectionNotes.remove(i);
@@ -1592,7 +1600,6 @@ class ChartingState extends MusicBeatState
 	function removeDuplicates(section:Int, ?forceNote:Array<Dynamic> = null){
 
 		var newNotes:Array<Dynamic> = [];
-		var tolerance:Float = 6;
 
 		if(forceNote != null){
 			newNotes.push(forceNote);
@@ -1605,7 +1612,7 @@ class ChartingState extends MusicBeatState
 			for(y in newNotes){
 
 				if(newNotes.length > 0){
-					if((x[0] <= y[0] + tolerance && x[0] >= y[0] - tolerance) && x[1] == y[1]){
+					if(approxEqual(x[0], y[0], 6) && x[1] == y[1]){
 						add = false;
 					}
 				}
@@ -1618,6 +1625,12 @@ class ChartingState extends MusicBeatState
 		}
 
 		_song.notes[section].sectionNotes = newNotes;
+
+	}
+
+	function approxEqual(x:Dynamic, y:Dynamic, tolerance:Float){
+
+		return x <= y + tolerance && x >= y - tolerance;
 
 	}
 
