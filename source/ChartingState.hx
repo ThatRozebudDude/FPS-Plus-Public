@@ -718,10 +718,9 @@ class ChartingState extends MusicBeatState
 			{
 				FlxG.log.add('added note');
 				addNote(getStrumTime(dummyArrow.y) + sectionStartTime(), Math.floor(FlxG.mouse.x / GRID_SIZE));
+				holding = true;
 
 			}
-
-			holding = true;
 
 		}
 
