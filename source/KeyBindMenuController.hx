@@ -55,12 +55,10 @@ class KeyBindMenuController extends MusicBeatState
         for(i in 19...30){
             allowedKeys.remove(i);
         }
-
-		//FlxG.sound.playMusic('assets/music/configurator' + TitleState.soundExt);
-
+        
 		persistentUpdate = persistentDraw = true;
 
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic('assets/images/menuDesat.png');
+		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0;
 		bg.setGraphicSize(Std.int(bg.width * 1.18));
@@ -116,26 +114,26 @@ class KeyBindMenuController extends MusicBeatState
             case "select":
                 if (controls.UP_P)
 				{
-					FlxG.sound.play('assets/sounds/scrollMenu.ogg');
+					FlxG.sound.play(Paths.sound('scrollMenu'));
 					changeItem(-1);
 				}
 
 				if (controls.DOWN_P)
 				{
-					FlxG.sound.play('assets/sounds/scrollMenu.ogg');
+					FlxG.sound.play(Paths.sound('scrollMenu'));
 					changeItem(1);
 				}
 
                 if (controls.ACCEPT){
-                    FlxG.sound.play('assets/sounds/scrollMenu.ogg');
+                    FlxG.sound.play(Paths.sound('scrollMenu'));
                     state = "input";
                 }
                 else if(controls.PAUSE){
-                    FlxG.sound.play('assets/sounds/cancelMenu.ogg');
+                    FlxG.sound.play(Paths.sound('cancelMenu'));
                     quit();
                 }
 				else if (controls.RESET){
-                    FlxG.sound.play('assets/sounds/cancelMenu.ogg');
+                    FlxG.sound.play(Paths.sound('cancelMenu'));
                     reset();
                 }
 
@@ -149,7 +147,7 @@ class KeyBindMenuController extends MusicBeatState
                 if(controls.PAUSE){
                     keys[curSelected] = tempKey;
                     state = "select";
-                    FlxG.sound.play('assets/sounds/cancelMenu.ogg');
+                    FlxG.sound.play(Paths.sound('cancelMenu'));
                 }
                 else if(controls.RESET){
                     addKey(defaultKeys[curSelected]);
@@ -283,11 +281,11 @@ class KeyBindMenuController extends MusicBeatState
 
         if(shouldReturn){
             keys[curSelected] = r;
-            FlxG.sound.play('assets/sounds/scrollMenu.ogg');
+            FlxG.sound.play(Paths.sound('scrollMenu'));
         }
         else{
             keys[curSelected] = tempKey;
-            FlxG.sound.play('assets/sounds/cancelMenu.ogg');
+            FlxG.sound.play(Paths.sound('cancelMenu'));
             keyWarning.alpha = 1;
             warningTween.cancel();
             warningTween = FlxTween.tween(keyWarning, {alpha: 0}, 0.5, {ease: FlxEase.circOut, startDelay: 2});

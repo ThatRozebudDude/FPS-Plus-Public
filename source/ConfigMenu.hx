@@ -117,13 +117,13 @@ class ConfigMenu extends MusicBeatState
 	{	
 	
 		if(startSong)
-			FlxG.sound.playMusic('assets/music/configurator' + TitleState.soundExt);
+			FlxG.sound.playMusic(Paths.music('configurator'));
 		else
 			startSong = true;
 
 		persistentUpdate = persistentDraw = true;
 
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic('assets/images/menuDesat.png');
+		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0;
 		bg.setGraphicSize(Std.int(bg.width * 1.18));
@@ -132,17 +132,6 @@ class ConfigMenu extends MusicBeatState
 		bg.antialiasing = true;
 		bg.color = 0xFF5C6CA5;
 		add(bg);
-	
-		// var magenta = new FlxSprite(-80).loadGraphic('assets/images/menuBGMagenta.png');
-		// magenta.scrollFactor.x = 0;
-		// magenta.scrollFactor.y = 0;
-		// magenta.setGraphicSize(Std.int(magenta.width * 1.18));
-		// magenta.updateHitbox();
-		// magenta.screenCenter();
-		// magenta.visible = false;
-		// magenta.antialiasing = true;
-		// add(magenta);
-		// magenta.scrollFactor.set();
 		
 		Config.reload();
 		
@@ -159,7 +148,7 @@ class ConfigMenu extends MusicBeatState
 		scheme = Config.controllerScheme;
 		dimValue = Config.bgDim;
 		
-		var tex = FlxAtlasFrames.fromSparrow('assets/images/FNF_main_menu_assets.png', 'assets/images/FNF_main_menu_assets.xml');
+		var tex = Paths.getSparrowAtlas('FNF_main_menu_assets');
 		var optionTitle:FlxSprite = new FlxSprite(0, 55);
 		optionTitle.frames = tex;
 		optionTitle.animation.addByPrefix('selected', "options white", 24);
@@ -218,13 +207,13 @@ class ConfigMenu extends MusicBeatState
 		if(canChangeItems && !FlxG.keys.pressed.TAB){
 			if (controls.UP_P)
 				{
-					FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+					FlxG.sound.play(Paths.sound('scrollMenu'));
 					changeItem(-1);
 				}
 
 				if (controls.DOWN_P)
 				{
-					FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+					FlxG.sound.play(Paths.sound('scrollMenu'));
 					changeItem(1);
 				}
 				
@@ -232,13 +221,13 @@ class ConfigMenu extends MusicBeatState
 					case 0: //Offset
 						if (controls.RIGHT_P)
 						{
-							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+							FlxG.sound.play(Paths.sound('scrollMenu'));
 							offsetValue += 1;
 						}
 						
 						if (controls.LEFT_P)
 						{
-							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+							FlxG.sound.play(Paths.sound('scrollMenu'));
 							offsetValue -= 1;
 						}
 						
@@ -278,13 +267,13 @@ class ConfigMenu extends MusicBeatState
 					case 1: //Accuracy
 						if (controls.RIGHT_P)
 							{
-								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+								FlxG.sound.play(Paths.sound('scrollMenu'));
 								accuracyTypeInt += 1;
 							}
 							
 							if (controls.LEFT_P)
 							{
-								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+								FlxG.sound.play(Paths.sound('scrollMenu'));
 								accuracyTypeInt -= 1;
 							}
 							
@@ -297,20 +286,20 @@ class ConfigMenu extends MusicBeatState
 					case 2: //FPS Cap
 						#if desktop
 						if (controls.RIGHT_P || controls.LEFT_P || controls.ACCEPT) {
-							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+							FlxG.sound.play(Paths.sound('scrollMenu'));
 							noCapValue = !noCapValue;
 						}
 						#end
 					case 3: //Random Tap 
 						if (controls.RIGHT_P)
 							{
-								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+								FlxG.sound.play(Paths.sound('scrollMenu'));
 								randomTapValue += 1;
 							}
 							
 							if (controls.LEFT_P)
 							{
-								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+								FlxG.sound.play(Paths.sound('scrollMenu'));
 								randomTapValue -= 1;
 							}
 							
@@ -321,13 +310,13 @@ class ConfigMenu extends MusicBeatState
 					case 4: //Health Multiplier
 						if (controls.RIGHT_P)
 							{
-								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+								FlxG.sound.play(Paths.sound('scrollMenu'));
 								healthValue += 1;
 							}
 							
 							if (controls.LEFT_P)
 							{
-								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+								FlxG.sound.play(Paths.sound('scrollMenu'));
 								healthValue -= 1;
 							}
 							
@@ -368,13 +357,13 @@ class ConfigMenu extends MusicBeatState
 					case 5: //Health Drain Multiplier
 						if (controls.RIGHT_P)
 							{
-								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+								FlxG.sound.play(Paths.sound('scrollMenu'));
 								healthDrainValue += 1;
 							}
 							
 							if (controls.LEFT_P)
 							{
-								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+								FlxG.sound.play(Paths.sound('scrollMenu'));
 								healthDrainValue -= 1;
 							}
 							
@@ -409,24 +398,24 @@ class ConfigMenu extends MusicBeatState
 						}
 					case 6: //Downscroll
 						if (controls.RIGHT_P || controls.LEFT_P || controls.ACCEPT) {
-							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+							FlxG.sound.play(Paths.sound('scrollMenu'));
 							downValue = !downValue;
 						}
 					case 7: //Note Glow
 						if (controls.RIGHT_P || controls.LEFT_P || controls.ACCEPT) {
-							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+							FlxG.sound.play(Paths.sound('scrollMenu'));
 							glowValue = !glowValue;
 						}
 					case 8: //Combo Display
 						if (controls.RIGHT_P)
 						{
-							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+							FlxG.sound.play(Paths.sound('scrollMenu'));
 							comboValue += 1;
 						}
 						
 						if (controls.LEFT_P)
 						{
-							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+							FlxG.sound.play(Paths.sound('scrollMenu'));
 							comboValue -= 1;
 						}
 						
@@ -437,13 +426,13 @@ class ConfigMenu extends MusicBeatState
 					case 9: //BG Dim
 						if (controls.RIGHT_P)
 						{
-							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+							FlxG.sound.play(Paths.sound('scrollMenu'));
 							dimValue += 1;
 						}
 						
 						if (controls.LEFT_P)
 						{
-							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+							FlxG.sound.play(Paths.sound('scrollMenu'));
 							dimValue -= 1;
 						}
 						
@@ -454,13 +443,13 @@ class ConfigMenu extends MusicBeatState
 					case 10: //Controller Stuff
 						if (controls.RIGHT_P)
 							{
-								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+								FlxG.sound.play(Paths.sound('scrollMenu'));
 								scheme += 1;
 							}
 							
 							if (controls.LEFT_P)
 							{
-								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+								FlxG.sound.play(Paths.sound('scrollMenu'));
 								scheme -= 1;
 							}
 							
@@ -470,7 +459,7 @@ class ConfigMenu extends MusicBeatState
 								scheme = controlSchemes.length - 1;
 
 							if (controls.ACCEPT && scheme == controlSchemes.length - 1) {
-								FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+								FlxG.sound.play(Paths.sound('scrollMenu'));
 								canChangeItems = false;
 								Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue);
 								FlxG.switchState(new KeyBindMenuController());
@@ -478,7 +467,7 @@ class ConfigMenu extends MusicBeatState
 
 					case 11: //Binds
 						if (controls.ACCEPT) {
-							FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
+							FlxG.sound.play(Paths.sound('scrollMenu'));
 							canChangeItems = false;
 							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue);
 							FlxG.switchState(new KeyBindMenu());
@@ -594,7 +583,7 @@ class ConfigMenu extends MusicBeatState
 	function exit(){
 		canChangeItems = false;
 		FlxG.sound.music.stop();
-		FlxG.sound.play('assets/sounds/cancelMenu' + TitleState.soundExt);
+		FlxG.sound.play(Paths.sound('cancelMenu'));
 		FlxG.switchState(new MainMenuState());
 	}
 

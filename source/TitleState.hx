@@ -30,7 +30,6 @@ using StringTools;
 class TitleState extends MusicBeatState
 {
 	static var initialized:Bool = true;
-	static public var soundExt:String = ".ogg";
 
 	override public function create():Void
 	{
@@ -130,7 +129,7 @@ class TitleState extends MusicBeatState
 				titleText.animation.play('press');
 
 				FlxG.camera.flash(FlxColor.WHITE, 1);
-				FlxG.sound.play('assets/sounds/confirmMenu' + TitleState.soundExt, 0.7);
+				FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 				transitioning = true;
 				// FlxG.sound.music.stop();
@@ -140,7 +139,6 @@ class TitleState extends MusicBeatState
 					// Check if version is outdated
 					FlxG.switchState(new MainMenuState());
 				});
-				// FlxG.sound.play('assets/music/titleShoot' + TitleState.soundExt, 0.7);
 			}
 		}
 

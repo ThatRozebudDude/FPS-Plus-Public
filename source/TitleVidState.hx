@@ -49,8 +49,8 @@ class TitleVidState extends MusicBeatState
 		FlxG.mouse.visible = false;
 		FlxG.sound.muteKeys = null;
 
-		FlxG.sound.cache("assets/music/klaskiiLoop.ogg");
-		FlxG.sound.playMusic('assets/music/freakyMenu' + TitleState.soundExt, 0);
+		FlxG.sound.cache(Paths.music("klaskiiLoop"));
+		FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 
 		FlxG.save.bind('data');
 
@@ -94,7 +94,7 @@ class TitleVidState extends MusicBeatState
 
 			video.playMP4(Paths.video('klaskiiTitle'), function(){
 				FlxG.camera.flash(FlxColor.WHITE, 60);
-				FlxG.sound.playMusic("assets/music/klaskiiLoop.ogg", 0.75);
+				FlxG.sound.playMusic(Paths.music("klaskiiLoop"), 0.75);
 				FlxG.switchState(new TitleState());
 				#if web
 					VideoHandler.MAX_FPS = oldFPS;
@@ -106,7 +106,7 @@ class TitleVidState extends MusicBeatState
 		}
 		else{
 			FlxG.camera.flash(FlxColor.WHITE, 60);
-			FlxG.sound.playMusic("assets/music/klaskiiLoop.ogg", 0.75);
+			FlxG.sound.playMusic(Paths.music("klaskiiLoop"), 0.75);
 			FlxG.switchState(new TitleState());
 		}
 	}

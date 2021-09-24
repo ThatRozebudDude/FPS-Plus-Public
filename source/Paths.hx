@@ -5,6 +5,8 @@ import flixel.graphics.frames.FlxAtlasFrames;
 class Paths
 {
 
+    static final audioExtension:String = "ogg";
+
     inline static public function image(key:String):Dynamic{
 
         var data:String = 'assets/images/$key.png';
@@ -25,11 +27,11 @@ class Paths
     }
 
     inline static public function sound(key:String){
-        return 'assets/sounds/$key.ogg';
+        return 'assets/sounds/$key.' + audioExtension;
     }
 
     inline static public function music(key:String){
-        return 'assets/music/$key.ogg';
+        return 'assets/music/$key.' + audioExtension;
     }
 
     inline static public function getSparrowAtlas(key:String){

@@ -43,10 +43,10 @@ class AutoOffsetState extends MusicBeatState
 		FlxG.sound.music.volume = 0;
 
 		//Cache the 3 2 1 go
-		FlxG.sound.cache('assets/sounds/intro3' + (easterEgg?"-pixel":"") + TitleState.soundExt);
-		FlxG.sound.cache('assets/sounds/intro2' + (easterEgg?"-pixel":"") + TitleState.soundExt);
-		FlxG.sound.cache('assets/sounds/intro1' + (easterEgg?"-pixel":"") + TitleState.soundExt);
-		FlxG.sound.cache('assets/sounds/introGo' + (easterEgg?"-pixel":"") + TitleState.soundExt);
+		FlxG.sound.cache(Paths.sound('intro3' + (easterEgg?"-pixel":"")));
+		FlxG.sound.cache(Paths.sound('intro2' + (easterEgg?"-pixel":"")));
+		FlxG.sound.cache(Paths.sound('intro1' + (easterEgg?"-pixel":"")));
+		FlxG.sound.cache(Paths.sound('introGo' + (easterEgg?"-pixel":"")));
 
 		//Easter egg check
 		switch(forceEasterEgg){
@@ -58,14 +58,14 @@ class AutoOffsetState extends MusicBeatState
 
 		if(!easterEgg){
 			//Init BG
-			bg = new FlxSprite(0, 0).loadGraphic('assets/images/fpsPlus/offsetBG.png');
+			bg = new FlxSprite(0, 0).loadGraphic(Paths.image('fpsPlus/offsetBG'));
 			bg.antialiasing = true;
 			bg.active = true;
 			bg.screenCenter();
 			add(bg);
 
 			//Init Speakers
-			speakers.frames = FlxAtlasFrames.fromSparrow('assets/images/fpsPlus/speaker.png', 'assets/images/fpsPlus/speaker.xml');
+			speakers.frames = Paths.getSparrowAtlas('fpsPlus/speaker');
 			speakers.antialiasing = true;
 			speakers.animation.addByPrefix('idle', 'IDLE', 24, false);
 			speakers.animation.addByPrefix('bump', 'BUMP', 24, false);
@@ -80,7 +80,7 @@ class AutoOffsetState extends MusicBeatState
 			FlxG.save.data.ee1 = true;
 
 			//Init BG
-			bg = new FlxSprite(0, 0).loadGraphic('assets/images/fpsPlus/offsetBG-pixel.png');
+			bg = new FlxSprite(0, 0).loadGraphic(Paths.image('fpsPlus/offsetBG-pixel'));
 			bg.antialiasing = false;
 			bg.active = true;
 			bg.setGraphicSize(Std.int(bg.width * 6));
@@ -89,7 +89,7 @@ class AutoOffsetState extends MusicBeatState
 			add(bg);
 
 			//Init Speakers
-			speakers = new FlxSprite(0, 0).loadGraphic('assets/images/fpsPlus/speaker-pixel.png', true, 102, 52);
+			speakers = new FlxSprite(0, 0).loadGraphic(Paths.image('fpsPlus/speaker-pixel'), true, 102, 52);
 			speakers.antialiasing = false;
 			speakers.animation.add('idle',  [0], 0, false);
 			speakers.animation.add('bump', [2, 2, 1, 0], 24, false);
@@ -134,7 +134,7 @@ class AutoOffsetState extends MusicBeatState
 
 		FlxG.camera.fade(FlxColor.BLACK, 0.5, true, function(){
 			FlxG.sound.music.volume = 1;
-			FlxG.sound.playMusic("assets/music/offsetSong" + (easterEgg?"-pixel":"") + TitleState.soundExt, 1, false);
+			FlxG.sound.playMusic(Paths.music("offsetSong" + (easterEgg?"-pixel":"")), 1, false);
 			FlxG.sound.music.onComplete = exit;
 
 			started = true;
@@ -194,24 +194,24 @@ class AutoOffsetState extends MusicBeatState
 	//Cues the 3, 2, 1, GO! sound effects
 	function countdown(){
 
-		FlxG.sound.play('assets/sounds/intro3' + (easterEgg?"-pixel":"") + TitleState.soundExt, 0.6);
+		FlxG.sound.play(Paths.sound('intro3' + (easterEgg?"-pixel":"")), 0.6);
 		speakers.animation.play("bump", true);
 
 		new FlxTimer().start(0.6, function(tmr:FlxTimer)
 		{
-			FlxG.sound.play('assets/sounds/intro2' + (easterEgg?"-pixel":"") + TitleState.soundExt, 0.6);
+			FlxG.sound.play(Paths.sound('intro2' + (easterEgg?"-pixel":"")), 0.6);
 			speakers.animation.play("bump", true);
 		});
 
 		new FlxTimer().start(1.2, function(tmr:FlxTimer)
 		{
-			FlxG.sound.play('assets/sounds/intro1' + (easterEgg?"-pixel":"") + TitleState.soundExt, 0.6);
+			FlxG.sound.play(Paths.sound('intro1' + (easterEgg?"-pixel":"")), 0.6);
 			speakers.animation.play("bump", true);
 		});
 
 		new FlxTimer().start(1.8, function(tmr:FlxTimer)
 		{
-			FlxG.sound.play('assets/sounds/introGo' + (easterEgg?"-pixel":"") + TitleState.soundExt, 0.6);
+			FlxG.sound.play(Paths.sound('introGo' + (easterEgg?"-pixel":"")), 0.6);
 			speakers.animation.play("bump", true);
 		});
 

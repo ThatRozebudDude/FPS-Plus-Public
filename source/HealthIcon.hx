@@ -20,7 +20,7 @@ class HealthIcon extends FlxSprite
 	public function new(char:String = 'face', isPlayer:Bool = false, ?_id:Int = -1)
 	{
 		super();
-		loadGraphic('assets/images/iconGrid.png', true, 150, 150);
+		loadGraphic(Paths.image('iconGrid'), true, 150, 150);
 			
 		animation.add('bf', [0, 1, 30], 0, false, isPlayer);
 		animation.add('bf-car', [0, 1, 30], 0, false, isPlayer);

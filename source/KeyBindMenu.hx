@@ -44,13 +44,11 @@ class KeyBindMenu extends MusicBeatState
     var state:String = "select";
 
 	override function create()
-	{	
-	
-		//FlxG.sound.playMusic('assets/music/configurator' + TitleState.soundExt);
+	{
 
 		persistentUpdate = persistentDraw = true;
 
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic('assets/images/menuDesat.png');
+		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0;
 		bg.setGraphicSize(Std.int(bg.width * 1.18));
@@ -96,26 +94,26 @@ class KeyBindMenu extends MusicBeatState
             case "select":
                 if (controls.UP_P)
 				{
-					FlxG.sound.play('assets/sounds/scrollMenu.ogg');
+					FlxG.sound.play(Paths.sound('scrollMenu'));
 					changeItem(-1);
 				}
 
 				if (controls.DOWN_P)
 				{
-					FlxG.sound.play('assets/sounds/scrollMenu.ogg');
+					FlxG.sound.play(Paths.sound('scrollMenu'));
 					changeItem(1);
 				}
 
                 if (FlxG.keys.justPressed.ENTER){
-                    FlxG.sound.play('assets/sounds/scrollMenu.ogg');
+                    FlxG.sound.play(Paths.sound('scrollMenu'));
                     state = "input";
                 }
                 else if(FlxG.keys.justPressed.ESCAPE || FlxG.gamepads.anyJustPressed(ANY)){
-                    FlxG.sound.play('assets/sounds/cancelMenu.ogg');
+                    FlxG.sound.play(Paths.sound('cancelMenu'));
                     quit();
                 }
 				else if (FlxG.keys.justPressed.BACKSPACE){
-                    FlxG.sound.play('assets/sounds/cancelMenu.ogg');
+                    FlxG.sound.play(Paths.sound('cancelMenu'));
                     reset();
                 }
 
@@ -129,7 +127,7 @@ class KeyBindMenu extends MusicBeatState
                 if(FlxG.keys.justPressed.ESCAPE){
                     keys[curSelected] = tempKey;
                     state = "select";
-                    FlxG.sound.play('assets/sounds/cancelMenu.ogg');
+                    FlxG.sound.play(Paths.sound('cancelMenu'));
                 }
                 else if(FlxG.keys.justPressed.ENTER){
                     addKey(defaultKeys[curSelected]);
@@ -238,11 +236,11 @@ class KeyBindMenu extends MusicBeatState
 
         if(shouldReturn){
             keys[curSelected] = r;
-            FlxG.sound.play('assets/sounds/scrollMenu.ogg');
+            FlxG.sound.play(Paths.sound('scrollMenu'));
         }
         else{
             keys[curSelected] = tempKey;
-            FlxG.sound.play('assets/sounds/cancelMenu.ogg');
+            FlxG.sound.play(Paths.sound('cancelMenu'));
             keyWarning.alpha = 1;
             warningTween.cancel();
             warningTween = FlxTween.tween(keyWarning, {alpha: 0}, 0.5, {ease: FlxEase.circOut, startDelay: 2});

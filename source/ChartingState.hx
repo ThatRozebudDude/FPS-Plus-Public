@@ -111,7 +111,7 @@ class ChartingState extends MusicBeatState
 
 		openfl.Lib.current.stage.frameRate = 120;
 
-		var controlInfo = new FlxText(10, 30, 0, "SHIFT - Unlock cursor from grid\nALT - Triplets\nCONTROL - 1/32 Notes\nSHIFT + CONTROL - 1/64 Notes\n\nTAB - Place notes on both sides\nZXNM / HJKL - Place notes during\n                       playback\n\nR - Top of section\nSHIFT + R - Song start\n\nENTER - Test chart.\nCTRL + ENTER - Test chart from\n                         current section.", 12);
+		var controlInfo = new FlxText(10, 30, 0, "LEFT CLICK - Place Notes\nRIGHT CLICK - Delete Notes\n\nSHIFT - Unlock cursor from grid\nALT - Triplets\nCONTROL - 1/32 Notes\nSHIFT + CONTROL - 1/64 Notes\n\nTAB - Place notes on both sides\nHJKL - Place notes during\n                       playback\n\nR - Top of section\nSHIFT + R - Song start\n\nENTER - Test chart.\nCTRL + ENTER - Test chart from\n                         current section.", 12);
 		controlInfo.scrollFactor.set();
 		add(controlInfo);
 
@@ -553,10 +553,10 @@ class ChartingState extends MusicBeatState
 			// vocals.stop();
 		}
 
-		FlxG.sound.playMusic(("assets/music/" + daSong + "_Inst.ogg"), 0.6);
+		FlxG.sound.playMusic(Paths.music(daSong + "_Inst"), 0.6);
 
 		// WONT WORK FOR TUTORIAL OR TEST SONG!!! REDO LATER
-		vocals = new FlxSound().loadEmbedded("assets/music/" + daSong + "_Voices.ogg");
+		vocals = new FlxSound().loadEmbedded(Paths.music(daSong + "_Voices"));
 		FlxG.sound.list.add(vocals);
 
 		FlxG.sound.music.pause();
@@ -710,6 +710,20 @@ class ChartingState extends MusicBeatState
 		if (FlxG.mouse.justPressed)
 		{
 
+			if (FlxG.mouse.x > gridBG.x
+				&& FlxG.mouse.x < gridBG.x + gridBG.width
+				&& FlxG.mouse.y > gridBG.y
+				&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSection].lengthInSteps))
+			{
+				FlxG.log.add('added note');
+				addNote(getStrumTime(dummyArrow.y) + sectionStartTime(), Math.floor(FlxG.mouse.x / GRID_SIZE));
+
+			}
+
+		}
+		if (FlxG.mouse.justPressedRight)
+		{
+
 			if (FlxG.mouse.overlaps(curRenderedNotes))
 			{
 
@@ -722,17 +736,6 @@ class ChartingState extends MusicBeatState
 						deleteNote(note);
 					}
 				});
-			}
-			else
-			{
-				if (FlxG.mouse.x > gridBG.x
-					&& FlxG.mouse.x < gridBG.x + gridBG.width
-					&& FlxG.mouse.y > gridBG.y
-					&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSection].lengthInSteps))
-				{
-					FlxG.log.add('added note');
-					addNote(getStrumTime(dummyArrow.y) + sectionStartTime(), Math.floor(FlxG.mouse.x / GRID_SIZE));
-				}
 			}
 		}
 
@@ -919,7 +922,9 @@ class ChartingState extends MusicBeatState
 			changeSection(curSection - shiftThing);
 
 		bpmTxt.text = bpmTxt.text = Std.string(FlxMath.roundDecimal(Conductor.songPosition, 0))
-			+ " / " + Std.string(FlxMath.roundDecimal(FlxG.sound.music.length, 0))
+			+ "\t/ " + Std.string(FlxMath.roundDecimal(FlxG.sound.music.length, 0))
+			+ "\n" + Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2))
+			+ "\t/ " + Std.string(FlxMath.roundDecimal(FlxG.sound.music.length / 1000, 2))
 			+ "\nSection: " + curSection
 			+ "\ncurBeat: " + curBeat
 			+ "\ncurStep: " + curStep;
@@ -927,16 +932,16 @@ class ChartingState extends MusicBeatState
 // || FlxG.keys.justPressed.X  || FlxG.keys.justPressed.C || FlxG.keys.justPressed.V
 		if(FlxG.sound.music.playing){
 
-			if(FlxG.keys.justPressed.Z || FlxG.keys.justPressed.H)
+			if(FlxG.keys.justPressed.H)
 				addNote(getStrumTime(Math.floor((strumLine.y + strumLine.height) / GRID_SIZE) * GRID_SIZE) + sectionStartTime(), 0 + (_song.notes[curSection].mustHitSection ? 4 : 0));
 
-			if(FlxG.keys.justPressed.X || FlxG.keys.justPressed.J)
+			if(FlxG.keys.justPressed.J)
 				addNote(getStrumTime(Math.floor((strumLine.y + strumLine.height) / GRID_SIZE) * GRID_SIZE) + sectionStartTime(), 1 + (_song.notes[curSection].mustHitSection ? 4 : 0));
 
-			if(FlxG.keys.justPressed.N || FlxG.keys.justPressed.K)
+			if(FlxG.keys.justPressed.K)
 				addNote(getStrumTime(Math.floor((strumLine.y + strumLine.height) / GRID_SIZE) * GRID_SIZE) + sectionStartTime(), 2 + (_song.notes[curSection].mustHitSection ? 4 : 0));
 
-			if(FlxG.keys.justPressed.M || FlxG.keys.justPressed.L)
+			if(FlxG.keys.justPressed.L)
 				addNote(getStrumTime(Math.floor((strumLine.y + strumLine.height) / GRID_SIZE) * GRID_SIZE) + sectionStartTime(), 3 + (_song.notes[curSection].mustHitSection ? 4 : 0));
 
 		}
@@ -953,9 +958,9 @@ class ChartingState extends MusicBeatState
 				
 				if(x.y < strumLine.y && !x.playedEditorClick && FlxG.sound.music.playing){
 					if(x.editorBFNote && bfClick.checked)
-						FlxG.sound.play("assets/sounds/tick.ogg", 0.6);
+						FlxG.sound.play(Paths.sound("tick"), 0.6);
 					else if(!x.editorBFNote && opClick.checked)
-						FlxG.sound.play("assets/sounds/tick.ogg", 0.6);
+						FlxG.sound.play(Paths.sound("tick"), 0.6);
 				}
 
 				if(x.y > strumLine.y && x.alpha != 0.4){
@@ -1208,10 +1213,10 @@ class ChartingState extends MusicBeatState
 				
 				note.x = Math.floor(noteAdjust[daNoteInfo] * GRID_SIZE);
 
-				note.y = Math.floor(getYfromStrum((daStrumTime - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSection].lengthInSteps)));
+				note.y = (getYfromStrum((daStrumTime - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSection].lengthInSteps)));
 				note.y += GRID_SIZE * 16 * secOffset;
 
-				if(secOffset > 0)
+				if(secOffset != 0)
 					note.alpha = 0.4;
 	
 				curRenderedNotes.add(note);
@@ -1220,7 +1225,7 @@ class ChartingState extends MusicBeatState
 				{
 					var sustainVis:FlxSprite = new FlxSprite(note.x + (GRID_SIZE / 2) - 4,
 						note.y + GRID_SIZE).makeGraphic(8, Math.floor(FlxMath.remapToRange(daSus, 0, Conductor.stepCrochet * 16, 0, gridBG.height)), strumColors[daNoteInfo % 4]);
-					if(secOffset > 0)
+					if(secOffset != 0)
 						sustainVis.alpha = 0.4;
 					curRenderedSustains.add(sustainVis);
 				}
@@ -1372,6 +1377,8 @@ class ChartingState extends MusicBeatState
 		{
 			_song.notes[curSection].sectionNotes.push([noteStrum, (noteData + 4) % 8, noteSus]);
 		}
+
+		removeDuplicates(curSection, curSelectedNote);
 
 		trace(noteStrum);
 		trace(curSection);
@@ -1553,10 +1560,14 @@ class ChartingState extends MusicBeatState
 
 	}
 
-	function removeDuplicates(section:Int){
+	function removeDuplicates(section:Int, ?forceNote:Array<Dynamic> = null){
 
 		var newNotes:Array<Dynamic> = [];
 		var tolerance:Float = 6;
+
+		if(forceNote != null){
+			newNotes.push(forceNote);
+		}
 
 		for(x in _song.notes[section].sectionNotes){
 

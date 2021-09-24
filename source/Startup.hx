@@ -55,7 +55,7 @@ class Startup extends MusicBeatState
         FlxG.sound.muteKeys = null;
 
         splash = new FlxSprite(0, 0);
-        splash.frames = FlxAtlasFrames.fromSparrow('assets/images/fpsPlus/rozeSplash.png', 'assets/images/fpsPlus/rozeSplash.xml');
+        splash.frames = Paths.getSparrowAtlas('fpsPlus/rozeSplash');
         splash.animation.addByPrefix('start', 'Splash Start', 24, false);
         splash.animation.addByPrefix('end', 'Splash End', 24, false);
         add(splash);
@@ -73,7 +73,7 @@ class Startup extends MusicBeatState
 
         new FlxTimer().start(1.1, function(tmr:FlxTimer)
         {
-            FlxG.sound.play("assets/sounds/splashSound.ogg");   
+            FlxG.sound.play(Paths.sound("splashSound"));   
         });
         
         super.create();
@@ -113,8 +113,6 @@ class Startup extends MusicBeatState
             {
                 loadingText.text = "Done!";
             });
-
-            //FlxG.sound.play("assets/sounds/loadComplete.ogg");
         }
         
         super.update(elapsed);
@@ -148,10 +146,10 @@ class Startup extends MusicBeatState
 
     function preloadMusic(){
         for(x in songs){
-            FlxG.sound.cache("assets/music/" + x + "_Inst.ogg");
+            FlxG.sound.cache(Paths.music(x + "_Inst"));
             trace("Chached " + x);
         }
-        FlxG.sound.cache("assets/music/klaskiiLoop.ogg");
+        FlxG.sound.cache(Paths.music("klaskiiLoop"));
         
         loadingText.text = "Songs cached...";
         songsCached = true;
@@ -159,7 +157,7 @@ class Startup extends MusicBeatState
 
     function preloadCharacters(){
         for(x in characters){
-            ImageCache.add("assets/images/" + x + ".png");
+            ImageCache.add(Paths.image(x));
             trace("Chached " + x);
         }
         loadingText.text = "Characters cached...";
@@ -168,7 +166,7 @@ class Startup extends MusicBeatState
 
     function preloadGraphics(){
         for(x in graphics){
-            ImageCache.add("assets/images/" + x + ".png");
+            ImageCache.add(Paths.image(x));
             trace("Chached " + x);
         }
         loadingText.text = "Graphics cached...";
