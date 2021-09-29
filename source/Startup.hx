@@ -23,7 +23,7 @@ class Startup extends FlxState
     //var dummy:FlxSprite;
     var loadingText:FlxText;
 
-    var songsCached:Bool = Main.skipsound;
+    var songsCached:Bool;
     var songs:Array<String> =   ["Tutorial", 
                                 "Bopeebo", "Fresh", "Dadbattle", 
                                 "Spookeez", "South", "Monster",
@@ -34,7 +34,7 @@ class Startup extends FlxState
                                 
     //List of character graphics and some other stuff.
     //Just in case it want to do something with it later.
-    var charactersCached:Bool = Main.skipcharacters;
+    var charactersCached:Bool;
     var characters:Array<String> =   ["BOYFRIEND", "bfCar", "christmas/bfChristmas", "weeb/bfPixel", "weeb/bfPixelsDEAD",
                                     "GF_assets", "gfCar", "christmas/gfChristmas", "weeb/gfPixel",
                                     "DADDY_DEAREST", "spooky_kids_assets", "Monster_Assets",
@@ -42,7 +42,7 @@ class Startup extends FlxState
                                     "christmas/mom_dad_christmas_assets", "christmas/monsterChristmas",
                                     "weeb/senpai", "weeb/spirit", "weeb/senpaiCrazy"];
 
-    var graphicsCached:Bool = Main.skipgraphics;
+    var graphicsCached:Bool;
     var graphics:Array<String> =    ["logoBumpin", "titleBG", "gfDanceTitle", "titleEnter",
                                     "stageback", "stagefront", "stagecurtains",
                                     "halloween_bg",
