@@ -32,7 +32,7 @@ class CacheSettings extends MusicBeatState
     public static var thing:Bool = false;
 
     var settings:Array<Bool>;
-    var names:Array<String> = ["MUSIC", "CHARACTER", "GRAPHICS"];
+    var names:Array<String> = ["MUSIC", "CHARACTERS", "GRAPHICS"];
     var onOff:Array<String> = ["off", "on"];
 
     var curSelected:Int = 0;
