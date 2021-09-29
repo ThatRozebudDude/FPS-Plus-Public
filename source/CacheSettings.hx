@@ -1,0 +1,175 @@
+package;
+
+import flixel.FlxState;
+import flixel.input.FlxInput;
+import flixel.input.keyboard.FlxKey;
+import flixel.FlxG;
+import flixel.FlxObject;
+import flixel.FlxSprite;
+import flixel.effects.FlxFlicker;
+import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
+import io.newgrounds.NG;
+import lime.app.Application;
+import lime.utils.Assets;
+import flixel.math.FlxMath;
+import flixel.text.FlxText;
+import flixel.input.FlxKeyManager;
+
+
+using StringTools;
+
+class CacheSettings extends MusicBeatState
+{
+
+    var keyTextDisplay:FlxText;
+
+    public static var returnLoc:FlxState;
+    public static var thing:Bool = false;
+
+    var settings:Array<Bool>;
+    var names:Array<String> = ["MUSIC", "CHARACTER", "GRAPHICS"];
+    var onOff:Array<String> = ["off", "on"];
+
+    var curSelected:Int = 0;
+
+    /*var keys:Array<String> = [FlxG.save.data.leftBind,
+                              FlxG.save.data.downBind,
+                              FlxG.save.data.upBind,
+                              FlxG.save.data.rightBind,
+                              FlxG.save.data.killBind];*/
+
+    var state:String = "select";
+
+	override function create()
+	{
+		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
+		bg.scrollFactor.x = 0;
+		bg.scrollFactor.y = 0;
+		bg.setGraphicSize(Std.int(bg.width * 1.18));
+		bg.updateHitbox();
+		bg.screenCenter();
+		bg.antialiasing = true;
+		bg.color = 0xFF9766BE;
+		add(bg);
+
+        keyTextDisplay = new FlxText(0, 0, 1280, "", 72);
+		keyTextDisplay.scrollFactor.set(0, 0);
+		keyTextDisplay.setFormat("assets/fonts/Funkin-Bold.otf", 72, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		keyTextDisplay.borderSize = 3;
+		keyTextDisplay.borderQuality = 1;
+        add(keyTextDisplay);
+
+        var backText = new FlxText(5, FlxG.height - 21, 0, "ESCAPE - Back to Menu", 16);
+		backText.scrollFactor.set();
+		backText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        add(backText);
+
+        if( FlxG.save.data.musicPreload == null ||
+            FlxG.save.data.charPreload == null ||
+            FlxG.save.data.graphicsPreload == null)
+        {
+            FlxG.save.data.musicPreload = true;
+            FlxG.save.data.charPreload = true;
+            FlxG.save.data.graphicsPreload = true;
+        }
+
+        settings = [FlxG.save.data.musicPreload, FlxG.save.data.charPreload, FlxG.save.data.graphicsPreload];
+
+        textUpdate();
+
+		super.create();
+	}
+
+	override function update(elapsed:Float)
+	{
+
+        switch(state){
+
+            case "select":
+                if (controls.UP_P)
+				{
+					FlxG.sound.play(Paths.sound('scrollMenu'));
+					changeItem(-1);
+				}
+
+				if (controls.DOWN_P)
+				{
+					FlxG.sound.play(Paths.sound('scrollMenu'));
+					changeItem(1);
+				}
+
+                if (controls.ACCEPT || controls.LEFT_P || controls.RIGHT_P){
+                    FlxG.sound.play(Paths.sound('scrollMenu'));
+                    settings[curSelected] = !settings[curSelected];
+                }
+                else if(controls.BACK){
+                    FlxG.sound.play(Paths.sound('cancelMenu'));
+                    quit();
+                }
+
+            case "exiting":
+
+
+            default:
+                state = "select";
+
+        }
+
+        if(FlxG.keys.justPressed.ANY)
+            textUpdate();
+
+    }
+
+    function textUpdate(){
+
+        keyTextDisplay.text = "\n\nPRELOAD SETTINGS\n\n";
+
+        for(i in 0...3){
+
+            keyTextDisplay.text += (i == curSelected) ? ">" : "  ";
+            keyTextDisplay.text += names[i] + ": " + (settings[i]?onOff[1]:onOff[0]) + "\n";
+
+        }
+
+        keyTextDisplay.screenCenter();
+
+    }
+
+    function save(){
+
+        FlxG.save.data.musicPreload = settings[0];
+        FlxG.save.data.charPreload = settings[1];
+        FlxG.save.data.graphicsPreload = settings[2];
+
+        FlxG.save.flush();
+
+        //PlayerSettings.player1.controls.loadKeyBinds();
+
+    }
+
+    function quit(){
+
+        state = "exiting";
+
+        save();
+
+        ConfigMenu.startSong = false;
+        FlxG.switchState(returnLoc);
+
+    }
+
+    function changeItem(_amount:Int = 0)
+    {
+        curSelected += _amount;
+                
+        if (curSelected > 2)
+            curSelected = 0;
+        if (curSelected < 0)
+            curSelected = 2;
+    }
+}

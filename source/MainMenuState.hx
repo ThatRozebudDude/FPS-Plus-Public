@@ -25,9 +25,6 @@ class MainMenuState extends MusicBeatState
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	
-	//var configText:FlxText;
-	//var configSelected:Int = 0;
-	
 	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate', "options"];
 
 	var magenta:FlxSprite;
@@ -231,17 +228,11 @@ class MainMenuState extends MusicBeatState
 	function changeItem(huh:Int = 0)
 	{
 		curSelected += huh;
-		//configSelected += huh;
 
 		if (curSelected >= menuItems.length)
 			curSelected = 0;
  		if (curSelected < 0)
 			curSelected = menuItems.length - 1;
-			
-		/*if (configSelected > 3)
-			configSelected = 0;
-		if (configSelected < 0)
-			configSelected = 3;*/
 
 		menuItems.forEach(function(spr:FlxSprite)
 		{

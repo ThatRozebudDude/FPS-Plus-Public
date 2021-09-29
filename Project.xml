@@ -53,9 +53,9 @@
 	<assets path="assets/music" include="*.ogg"/>
 	<assets path="assets/sounds" include="*.ogg"/>
 
-	<assets path="CHANGELOG.md"/>
-	
+	<!--assets path="CHANGELOG.md"/-->
 	<!-- <define name="PRELOAD_ALL" /> -->
+	
 	<define name="PRELOAD_ALL" unless="web" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
 	

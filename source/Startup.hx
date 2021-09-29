@@ -1,15 +1,22 @@
 package;
 
+import flixel.FlxState;
+import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
+import flixel.graphics.FlxGraphic;
+import flixel.addons.transition.TransitionData;
+import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
+import flixel.math.FlxPoint;
+import flixel.math.FlxRect;
 
 using StringTools;
 
-class Startup extends MusicBeatState
+class Startup extends FlxState
 {
 
     var splash:FlxSprite;
@@ -48,11 +55,42 @@ class Startup extends MusicBeatState
 
     var cacheStart:Bool = false;
 
+    public static var thing = false;
+
 	override function create()
 	{
 
         FlxG.mouse.visible = false;
         FlxG.sound.muteKeys = null;
+
+        FlxG.save.bind('data');
+		Highscore.load();
+		KeyBinds.keyCheck();
+		PlayerSettings.init();
+
+        if( FlxG.save.data.musicPreload == null ||
+            FlxG.save.data.charPreload == null ||
+            FlxG.save.data.graphicsPreload == null)
+        {
+
+            var diamond:FlxGraphic = FlxGraphic.fromClass(GraphicTransTileDiamond);
+            diamond.persist = true;
+            diamond.destroyOnNoUse = false;
+            
+            FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 1, new FlxPoint(0, -1), {asset: diamond, width: 32, height: 32},
+	    		new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
+		    FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.7, new FlxPoint(0, 1),
+		    	{asset: diamond, width: 32, height: 32}, new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
+
+            FlxG.switchState(new CacheSettings());
+            CacheSettings.returnLoc = new Startup();
+
+        }
+        else{
+            songsCached = !FlxG.save.data.musicPreload;
+            charactersCached = !FlxG.save.data.charPreload;
+            graphicsCached = !FlxG.save.data.graphicsPreload;
+        }
 
         splash = new FlxSprite(0, 0);
         splash.frames = Paths.getSparrowAtlas('fpsPlus/rozeSplash');
@@ -75,7 +113,7 @@ class Startup extends MusicBeatState
         {
             FlxG.sound.play(Paths.sound("splashSound"));   
         });
-        
+
         super.create();
 
     }
@@ -103,7 +141,7 @@ class Startup extends MusicBeatState
             
         }
 
-        if(songsCached && charactersCached && graphicsCached && !(splash.animation.curAnim.name == "end")){
+        if(songsCached && charactersCached && graphicsCached && splash.animation.curAnim.finished && !(splash.animation.curAnim.name == "end")){
             
             splash.animation.play("end");
             splash.updateHitbox();

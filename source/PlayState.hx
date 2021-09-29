@@ -1744,14 +1744,14 @@ class PlayState extends MusicBeatState
 		if (controls.RESET && !startingSong)
 		{
 			health = 0;
-			trace("RESET = True");
+			//trace("RESET = True");
 		}
 
 		// CHEAT = brandon's a pussy
 		if (controls.CHEAT)
 		{
 			health += 1;
-			trace("User is cheating!");
+			//trace("User is cheating!");
 		}
 
 		if (health <= 0)
@@ -1997,8 +1997,8 @@ class PlayState extends MusicBeatState
 				if (storyDifficulty == 2)
 					difficulty = '-hard';
 
-				trace('LOADING NEXT SONG');
-				trace(PlayState.storyPlaylist[0].toLowerCase() + difficulty);
+				//trace('LOADING NEXT SONG');
+				//trace(PlayState.storyPlaylist[0].toLowerCase() + difficulty);
 
 				if (SONG.song.toLowerCase() == 'eggnog')
 				{
