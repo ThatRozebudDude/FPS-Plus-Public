@@ -100,9 +100,7 @@ class Startup extends FlxState
             FlxG.save.data.charPreload == null ||
             FlxG.save.data.graphicsPreload == null)
         {
-            FlxG.switchState(new CacheSettings());
-            CacheSettings.returnLoc = new Startup();
-
+            openPreloadSettings();
         }
         else{
             songsCached = !FlxG.save.data.musicPreload;
@@ -169,6 +167,13 @@ class Startup extends FlxState
                 loadingText.text = "Done!";
             });
         }
+
+        if(!cacheStart && FlxG.keys.justPressed.O){
+            
+           
+            openPreloadSettings();
+
+        }
         
         super.update(elapsed);
 
@@ -226,6 +231,14 @@ class Startup extends FlxState
         }
         loadingText.text = "Graphics cached...";
         graphicsCached = true;
+    }
+
+    function openPreloadSettings(){
+        #if desktop
+        CacheSettings.noFunMode = true;
+        FlxG.switchState(new CacheSettings());
+        CacheSettings.returnLoc = new Startup();
+        #end
     }
 
 }

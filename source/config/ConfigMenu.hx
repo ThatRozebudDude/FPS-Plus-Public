@@ -48,15 +48,15 @@ class ConfigMenu extends MusicBeatState
 	var scheme:Int;
 	var dimValue:Int;
 
-	var genericOnOff:Array<String> = ["on", "off"];
-
 	var tabKeys:Array<String> = [];
 	
 	var canChangeItems:Bool = true;
 
 	var leftRightCount:Int = 0;
+
+	final genericOnOff:Array<String> = ["on", "off"];
 	
-	var settingText:Array<String> = [
+	final settingText:Array<String> = [
 									"NOTE OFFSET", 
 									"ACCURACY DISPLAY", 
 									"UNCAPPED FRAMERATE",
@@ -73,7 +73,7 @@ class ConfigMenu extends MusicBeatState
 									];
 		
 	//Any descriptions that say TEMP are replaced with a changing description based on the current config setting.
-	var settingDesc:Array<String> = [
+	final settingDesc:Array<String> = [
 									"Adjust note timings.\nPress \"ENTER\" to start the offset calibration." + (FlxG.save.data.ee1?"\nHold \"SHIFT\" to force the pixel calibration.\nHold \"CTRL\" to force the normal calibration.":""), 
 									"What type of accuracy calculation you want to use. Simple is just notes hit / total notes. Complex also factors in how early or late a note was.", 
 									#if desktop "Uncaps the framerate during gameplay." #else "Disabled on Web builds." #end,
@@ -89,30 +89,30 @@ class ConfigMenu extends MusicBeatState
 									"Change key binds."
 									];
 
-	var ghostTapDesc:Array<String> = [
+	final ghostTapDesc:Array<String> = [
 									"Any key press that isn't for a valid note will cause you to miss.", 
 									"You can only  miss while you need to sing.", 
 									"You cannot miss unless you do not hit a note.\n[Note that this makes the game very easy and can remove a lot of the challenge.]"
 									];					
 
-	var comboDisplayDesc:Array<String> = [
+	final comboDisplayDesc:Array<String> = [
 									"Ratings and combo count are a part of the world and move around with the camera.", 
 									"Ratings and combo count are a part of the hud and stay in a static position.", 
 									"Ratings and combo count are hidden."
 									];
 
-	var controlSchemes:Array<String> = [
+	final controlSchemes:Array<String> = [
 									"DEFAULT", 
 									"ALT 1", 
 									"ALT 2",
 									"[CUSTOM]"
 									];
 
-	var controlSchemesDesc:Array<String> = [
+	final controlSchemesDesc:Array<String> = [
 									"LEFT: DPAD LEFT / X (SQUARE) / LEFT TRIGGER\nDOWN: DPAD DOWN / X (CROSS) / LEFT BUMPER\nUP: DPAD UP / Y (TRIANGLE) / RIGHT BUMPER\nRIGHT: DPAD RIGHT / B (CIRCLE) / RIGHT TRIGGER", 
 									"LEFT: DPAD LEFT / DPAD DOWN / LEFT TRIGGER\nDOWN: DPAD UP / DPAD RIGHT / LEFT BUMPER\nUP: X (SQUARE) / Y (TRIANGLE) / RIGHT BUMPER\nRIGHT: A (CROSS) / B (CIRCLE) / RIGHT TRIGGER", 
 									"LEFT: ALL DPAD DIRECTIONS\nDOWN: LEFT BUMPER / LEFT TRIGGER\nUP: RIGHT BUMPER / RIGHT TRIGGER\nRIGHT: ALL FACE BUTTONS",
-									"HIT A (CROSS) TO CHANGE CONTROLLER BINDS"
+									"Press A (CROSS) to change controller binds."
 									];
 
 									
@@ -546,17 +546,21 @@ class ConfigMenu extends MusicBeatState
 
 	function textUpdate(){
 
+        configText.clearFormats();
         configText.text = "";
 
-        for(i in 0...settingText.length - 1){
+        for(i in 0...settingText.length){
 
-            var textStart = (i == configSelected) ? ">" : "  ";
-            configText.text += textStart + settingText[i] + getSetting(i) + "\n";
+            var sectionStart = configText.text.length;
+            configText.text += settingText[i] + getSetting(i) + "\n";
+			var sectionEnd = configText.text.length - 1;
+
+            if(i == configSelected){
+				//Might change to applyMarkup later.
+                configText.addFormat(new FlxTextFormat(0xFFFFFF00), sectionStart, sectionEnd);
+            }
 
         }
-
-		var textStart = (configSelected == settingText.length - 1) ? ">" : "  ";
-		configText.text += textStart + settingText[settingText.length - 1] +  "\n";
 
 		switch(configSelected){
 
@@ -564,7 +568,7 @@ class ConfigMenu extends MusicBeatState
 				descText.text = ghostTapDesc[randomTapValue];
 				
 			case 8:
-				descText.text = settingDesc[configSelected];
+				descText.text = comboDisplayDesc[comboValue];
 
 			case 10:
 				descText.text = settingDesc[configSelected];

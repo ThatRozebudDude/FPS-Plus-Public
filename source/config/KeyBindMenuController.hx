@@ -178,6 +178,7 @@ class KeyBindMenuController extends MusicBeatState
 
     function textUpdate(){
 
+        keyTextDisplay.clearFormats();
         keyTextDisplay.text = "\n\n";
 
         for(i in 0...4){
@@ -199,8 +200,13 @@ class KeyBindMenuController extends MusicBeatState
 
             }
 
-            var textStart = (i == curSelected) ? ">" : "  ";
-            keyTextDisplay.text += textStart + keyText[i] + ": " + keyDisplay + "\n";
+            var sectionStart = keyTextDisplay.text.length;
+            keyTextDisplay.text += keyText[i] + ": " + ((keys[i] != keyText[i]) ? (keys[i] + " + ") : "" ) + keyText[i] + " ARROW\n";
+            var sectionEnd = keyTextDisplay.text.length - 1;
+
+            if(i == curSelected){
+                keyTextDisplay.addFormat(new FlxTextFormat(0xFFFFFF00), sectionStart, sectionEnd);
+            }
 
         }
 

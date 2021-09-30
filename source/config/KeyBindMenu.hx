@@ -158,18 +158,23 @@ class KeyBindMenu extends MusicBeatState
 
     function textUpdate(){
 
+        keyTextDisplay.clearFormats();
         keyTextDisplay.text = "\n\n";
 
-        for(i in 0...4){
+        for(i in 0...keys.length){
 
-            var textStart = (i == curSelected) ? ">" : "  ";
-            keyTextDisplay.text += textStart + keyText[i] + ": " + ((keys[i] != keyText[i]) ? (keys[i] + " + ") : "" ) + keyText[i] + " ARROW\n";
+            var sectionStart = keyTextDisplay.text.length;
+            if(i < 4)
+                keyTextDisplay.text += keyText[i] + ": " + ((keys[i] != keyText[i]) ? (keys[i] + " + ") : "" ) + keyText[i] + " ARROW\n";
+            else
+                keyTextDisplay.text += "RESET: " + keys[4]  + "\n";
+            var sectionEnd = keyTextDisplay.text.length - 1;
+
+            if(i == curSelected){
+                keyTextDisplay.addFormat(new FlxTextFormat(0xFFFFFF00), sectionStart, sectionEnd);
+            }
 
         }
-
-        var textStart = (curSelected == 4) ? ">" : "  ";
-
-        keyTextDisplay.text += textStart + "RESET: " + keys[4]  + "\n";
 
         keyTextDisplay.screenCenter();
 

@@ -150,8 +150,6 @@ class MainMenuState extends MusicBeatState
 			if (controls.ACCEPT)
 			{
 			
-				//Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0);
-			
 				if (optionShit[curSelected] == 'donate')
 				{
 					#if linux

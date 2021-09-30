@@ -26,6 +26,8 @@ using StringTools;
 class CacheSettings extends MusicBeatState
 {
 
+    public static var noFunMode = false;
+
     var keyTextDisplay:FlxText;
 
     public static var returnLoc:FlxState;
@@ -47,6 +49,16 @@ class CacheSettings extends MusicBeatState
 
 	override function create()
 	{
+
+        var bgColor:FlxColor = 0xFF9766BE;
+        var font:String = "assets/fonts/Funkin-Bold.otf";
+
+        if(noFunMode){
+            bgColor = 0xFF303030;
+            font = "VCR OSD Mono";
+            noFunMode = false;
+        }
+
 		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0;
@@ -54,12 +66,12 @@ class CacheSettings extends MusicBeatState
 		bg.updateHitbox();
 		bg.screenCenter();
 		bg.antialiasing = true;
-		bg.color = 0xFF9766BE;
+		bg.color = bgColor;
 		add(bg);
 
         keyTextDisplay = new FlxText(0, 0, 1280, "", 72);
 		keyTextDisplay.scrollFactor.set(0, 0);
-		keyTextDisplay.setFormat("assets/fonts/Funkin-Bold.otf", 72, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		keyTextDisplay.setFormat(font, 72, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		keyTextDisplay.borderSize = 3;
 		keyTextDisplay.borderQuality = 1;
         add(keyTextDisplay);
@@ -127,12 +139,18 @@ class CacheSettings extends MusicBeatState
 
     function textUpdate(){
 
+        keyTextDisplay.clearFormats();
         keyTextDisplay.text = "\n\nPRELOAD SETTINGS\n\n";
 
         for(i in 0...3){
 
-            keyTextDisplay.text += (i == curSelected) ? ">" : "  ";
+            var sectionStart = keyTextDisplay.text.length;
             keyTextDisplay.text += names[i] + ": " + (settings[i]?onOff[1]:onOff[0]) + "\n";
+            var sectionEnd = keyTextDisplay.text.length - 1;
+
+            if(i == curSelected){
+                keyTextDisplay.addFormat(new FlxTextFormat(0xFFFFFF00), sectionStart, sectionEnd);
+            }
 
         }
 
