@@ -1,4 +1,4 @@
-package;
+package config;
 
 import flixel.FlxState;
 import flixel.input.FlxInput;

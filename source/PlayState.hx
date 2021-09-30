@@ -5,6 +5,8 @@ package;
 import sys.FileSystem;
 #end
 
+import config.*;
+
 import lime.utils.Assets;
 import flixel.math.FlxRect;
 import openfl.system.System;

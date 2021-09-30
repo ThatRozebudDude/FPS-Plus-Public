@@ -1,13 +1,10 @@
 package;
 
-import openfl.events.KeyboardEvent;
-import openfl.events.KeyboardEvent;
-import Controls.Control;
+import config.*;
+
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxSubState;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.input.keyboard.FlxKey;
 import flixel.system.FlxSound;
 import flixel.util.FlxColor;
 
