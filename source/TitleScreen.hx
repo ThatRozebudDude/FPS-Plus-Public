@@ -27,10 +27,8 @@ import openfl.Assets;
 
 using StringTools;
 
-class TitleState extends MusicBeatState
+class TitleScreen extends MusicBeatState
 {
-	static var initialized:Bool = true;
-
 	override public function create():Void
 	{
 		//Polymod.init({modRoot: "mods", dirs: ['introMod']});
@@ -38,42 +36,9 @@ class TitleState extends MusicBeatState
 		// DEBUG BULLSHIT
 
 		super.create();
-		FlxG.mouse.visible = false;
 
-		FlxG.save.bind('data');
+		transIn = null;
 
-		Highscore.load();
-
-		if (FlxG.save.data.weekUnlocked != null)
-		{
-			// FIX LATER!!!
-			// WEEK UNLOCK PROGRESSION!!
-			// StoryMenuState.weekUnlocked = FlxG.save.data.weekUnlocked;
-
-			if (StoryMenuState.weekUnlocked.length < 4)
-				StoryMenuState.weekUnlocked.insert(0, true);
-
-			// QUICK PATCH OOPS!
-			if (!StoryMenuState.weekUnlocked[0])
-				StoryMenuState.weekUnlocked[0] = true;
-		}
-
-		KeyBinds.keyCheck();
-		PlayerSettings.init();
-
-		Main.fpsDisplay.visible = true;
-
-		startIntro();
-	}
-
-	var logoBl:FlxSprite;
-	var gfDance:FlxSprite;
-	var danceLeft:Bool = false;
-	var titleText:FlxSprite;
-
-	function startIntro()
-	{
-		Conductor.changeBPM(158);
 		persistentUpdate = true;
 
 		logoBl = new FlxSprite(-150, -100);
@@ -105,41 +70,45 @@ class TitleState extends MusicBeatState
 		titleText.updateHitbox();
 		// titleText.screenCenter(X);
 		add(titleText);
+		
+		FlxG.camera.flash(FlxColor.WHITE, 1);
 
-		skipIntro();
 	}
+
+	var logoBl:FlxSprite;
+	var gfDance:FlxSprite;
+	var danceLeft:Bool = false;
+	var titleText:FlxSprite;
 
 	var transitioning:Bool = false;
 
 	override function update(elapsed:Float)
 	{
-		if(initialized){
-			Conductor.songPosition = FlxG.sound.music.time;
+		Conductor.songPosition = FlxG.sound.music.time;
 			// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
 
-			if (FlxG.keys.justPressed.F)
+		if (FlxG.keys.justPressed.F)
+		{
+			FlxG.fullscreen = !FlxG.fullscreen;
+		}
+
+		var pressedEnter:Bool = controls.ACCEPT || controls.PAUSE;
+
+		if (pressedEnter && !transitioning)
+		{
+			titleText.animation.play('press');
+
+			FlxG.camera.flash(FlxColor.WHITE, 1);
+			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+
+			transitioning = true;
+			// FlxG.sound.music.stop();
+
+			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
-				FlxG.fullscreen = !FlxG.fullscreen;
-			}
-
-			var pressedEnter:Bool = controls.ACCEPT || controls.PAUSE;
-
-			if (pressedEnter && !transitioning && skippedIntro)
-			{
-				titleText.animation.play('press');
-
-				FlxG.camera.flash(FlxColor.WHITE, 1);
-				FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-
-				transitioning = true;
-				// FlxG.sound.music.stop();
-
-				new FlxTimer().start(2, function(tmr:FlxTimer)
-				{
-					// Check if version is outdated
-					FlxG.switchState(new MainMenuState());
-				});
-			}
+				// Check if version is outdated
+				FlxG.switchState(new MainMenuState());
+			});
 		}
 
 		super.update(elapsed);
@@ -160,16 +129,4 @@ class TitleState extends MusicBeatState
 		FlxG.log.add(curBeat);
 	}
 
-	var skippedIntro:Bool = false;
-
-	function skipIntro():Void
-	{
-		if (!skippedIntro)
-		{
-			FlxG.camera.flash(FlxColor.WHITE, 1);
-			PlayerSettings.player1.controls.loadKeyBinds();
-			Config.configCheck();
-			skippedIntro = true;
-		}
-	}
 }

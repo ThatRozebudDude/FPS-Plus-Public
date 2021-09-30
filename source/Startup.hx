@@ -68,20 +68,36 @@ class Startup extends FlxState
 		KeyBinds.keyCheck();
 		PlayerSettings.init();
 
+        PlayerSettings.player1.controls.loadKeyBinds();
+		Config.configCheck();
+
+        var diamond:FlxGraphic = FlxGraphic.fromClass(GraphicTransTileDiamond);
+        diamond.persist = true;
+        diamond.destroyOnNoUse = false;
+        
+        FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 1, new FlxPoint(0, -1), {asset: diamond, width: 32, height: 32},
+            new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
+        FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.7, new FlxPoint(0, 1),
+            {asset: diamond, width: 32, height: 32}, new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
+
+        if (FlxG.save.data.weekUnlocked != null)
+		{
+			// FIX LATER!!!
+			// WEEK UNLOCK PROGRESSION!!
+			// StoryMenuState.weekUnlocked = FlxG.save.data.weekUnlocked;
+
+			if (StoryMenuState.weekUnlocked.length < 4)
+				StoryMenuState.weekUnlocked.insert(0, true);
+
+			// QUICK PATCH OOPS!
+			if (!StoryMenuState.weekUnlocked[0])
+				StoryMenuState.weekUnlocked[0] = true;
+		}
+
         if( FlxG.save.data.musicPreload == null ||
             FlxG.save.data.charPreload == null ||
             FlxG.save.data.graphicsPreload == null)
         {
-
-            var diamond:FlxGraphic = FlxGraphic.fromClass(GraphicTransTileDiamond);
-            diamond.persist = true;
-            diamond.destroyOnNoUse = false;
-            
-            FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 1, new FlxPoint(0, -1), {asset: diamond, width: 32, height: 32},
-	    		new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
-		    FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.7, new FlxPoint(0, 1),
-		    	{asset: diamond, width: 32, height: 32}, new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
-
             FlxG.switchState(new CacheSettings());
             CacheSettings.returnLoc = new Startup();
 
@@ -137,8 +153,7 @@ class Startup extends FlxState
             cacheStart = true;
         }
         if(splash.animation.curAnim.finished && splash.animation.curAnim.name == "end"){
-            FlxG.switchState(new TitleVidState());
-            
+            FlxG.switchState(new TitleVideo());  
         }
 
         if(songsCached && charactersCached && graphicsCached && splash.animation.curAnim.finished && !(splash.animation.curAnim.name == "end")){
