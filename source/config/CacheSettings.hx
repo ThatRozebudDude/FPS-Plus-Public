@@ -20,7 +20,6 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.input.FlxKeyManager;
 
-
 using StringTools;
 
 class CacheSettings extends MusicBeatState
@@ -38,12 +37,6 @@ class CacheSettings extends MusicBeatState
     var onOff:Array<String> = ["off", "on"];
 
     var curSelected:Int = 0;
-
-    /*var keys:Array<String> = [FlxG.save.data.leftBind,
-                              FlxG.save.data.downBind,
-                              FlxG.save.data.upBind,
-                              FlxG.save.data.rightBind,
-                              FlxG.save.data.killBind];*/
 
     var state:String = "select";
 
