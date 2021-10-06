@@ -993,17 +993,15 @@ class PlayState extends MusicBeatState
 	}
 
 	function updateAccuracy()
-		{
+	{
 
-			totalPlayed += 1;
-			accuracy = totalNotesHit / totalPlayed * 100;
-			//trace(totalNotesHit + '/' + totalPlayed + '* 100 = ' + accuracy);
-			if (accuracy >= 100.00)
-			{
-					accuracy = 100;
-			}
-		
+		totalPlayed += 1;
+		accuracy = totalNotesHit / totalPlayed * 100;
+		if (accuracy >= 100){
+			accuracy = 100;
 		}
+		
+	}
 
 	function schoolIntro(?dialogueBox:DialogueBox):Void
 	{
@@ -2393,6 +2391,7 @@ class PlayState extends MusicBeatState
 				if(daNote.prevNote.tooLate && !daNote.prevNote.wasGoodHit){
 					daNote.tooLate = true;
 					daNote.destroy();
+					updateAccuracy();
 				}
 
 				if(daNote.prevNote.wasGoodHit && !daNote.wasGoodHit){
@@ -2405,6 +2404,7 @@ class PlayState extends MusicBeatState
 								daNote.tooLate = true;
 								daNote.destroy();
 								boyfriend.holdTimer = 0;
+								updateAccuracy();
 							}
 						case 1:
 							if(downRelease){
@@ -2413,6 +2413,7 @@ class PlayState extends MusicBeatState
 								daNote.tooLate = true;
 								daNote.destroy();
 								boyfriend.holdTimer = 0;
+								updateAccuracy();
 							}
 						case 2:
 							if(upRelease){
@@ -2421,6 +2422,7 @@ class PlayState extends MusicBeatState
 								daNote.tooLate = true;
 								daNote.destroy();
 								boyfriend.holdTimer = 0;
+								updateAccuracy();
 							}
 						case 3:
 							if(rightRelease){
@@ -2429,6 +2431,7 @@ class PlayState extends MusicBeatState
 								daNote.tooLate = true;
 								daNote.destroy();
 								boyfriend.holdTimer = 0;
+								updateAccuracy();
 							}
 					}
 				}

@@ -1,3 +1,5 @@
+package config;
+
 import flixel.FlxG;
 import flixel.input.FlxInput;
 import flixel.input.actions.FlxAction;
