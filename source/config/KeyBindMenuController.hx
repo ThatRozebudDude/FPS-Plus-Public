@@ -289,6 +289,11 @@ class KeyBindMenuController extends MusicBeatState
             keys[curSelected] = r;
             FlxG.sound.play(Paths.sound('scrollMenu'));
         }
+        else if(!shouldReturn && keys.contains(r)){
+            keys[keys.indexOf(r)] = tempKey;
+            keys[curSelected] = r;
+            FlxG.sound.play(Paths.sound('scrollMenu'));
+        }
         else{
             keys[curSelected] = tempKey;
             FlxG.sound.play(Paths.sound('cancelMenu'));
