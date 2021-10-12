@@ -290,9 +290,9 @@ class PlayState extends MusicBeatState
 
 		Conductor.changeBPM(SONG.bpm);
 
-		if(Assets.exists("assets/data/" + SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue.txt")){
+		if(Assets.exists(Paths.text(SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue"))){
 			try{
-				dialogue = CoolUtil.coolTextFile("assets/data/" + SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue.txt");
+				dialogue = CoolUtil.coolTextFile(Paths.text(SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue"));
 			}
 			catch(e){}
 		}
@@ -391,7 +391,7 @@ class PlayState extends MusicBeatState
 				grpLimoDancers.add(dancer);
 			}
 
-			//overlayShit:FlxSprite = new FlxSprite(-500, -600).loadGraphic('assets/images/limo/limoOverlay.png');
+			//overlayShit:FlxSprite = new FlxSprite(-500, -600).loadGraphic(Paths.images("limo/limoOverlay"));
 			//overlayShit.alpha = 0.5;
 			//add(overlayShit);
 
@@ -569,12 +569,12 @@ class PlayState extends MusicBeatState
 			add(bg);
 
 			/* 
-				var bg:FlxSprite = new FlxSprite(posX, posY).loadGraphic('assets/images/weeb/evilSchoolBG.png');
+				var bg:FlxSprite = new FlxSprite(posX, posY).loadGraphic(Paths.images("weeb/evilSchoolBG"));
 				bg.scale.set(6, 6);
 				// bg.setGraphicSize(Std.int(bg.width * 6));
 				// bg.updateHitbox();
 				add(bg);
-				var fg:FlxSprite = new FlxSprite(posX, posY).loadGraphic('assets/images/weeb/evilSchoolFG.png');
+				var fg:FlxSprite = new FlxSprite(posX, posY).loadGraphic(Paths.images("weeb/evilSchoolFG"));
 				fg.scale.set(6, 6);
 				// fg.setGraphicSize(Std.int(fg.width * 6));
 				// fg.updateHitbox();
@@ -874,7 +874,7 @@ class PlayState extends MusicBeatState
 
 		FlxG.fixedTimestep = false;
 
-		if(Assets.exists("assets/data/" + SONG.song.toLowerCase() + "/meta.txt")){
+		if(Assets.exists(Paths.text(SONG.song.toLowerCase() + "/meta"))){
 			meta = new SongMetaTags(0, 144, SONG.song.toLowerCase());
 			meta.cameras = [camHUD];
 			add(meta);
@@ -892,7 +892,7 @@ class PlayState extends MusicBeatState
 		// healthBar
 		
 		scoreTxt = new FlxText(healthBarBG.x - 105, (FlxG.height * 0.9) + 36, 800, "", 22);
-		scoreTxt.setFormat("assets/fonts/vcr.ttf", 22, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.setFormat(Paths.font("vcr"), 22, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 
 		iconP1 = new HealthIcon(SONG.player1, true);

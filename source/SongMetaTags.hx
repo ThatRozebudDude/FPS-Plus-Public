@@ -27,9 +27,9 @@ class SongMetaTags extends FlxSpriteGroup
         super(_x, _y);
 
         var text = new FlxText(0, 0, 0, "", fontSize);
-        text.setFormat("assets/fonts/vcr.ttf", fontSize, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        text.setFormat(Paths.font("vcr"), fontSize, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 
-        text.text = Assets.getText("assets/data/" + _song.toLowerCase() + "/meta.txt");
+        text.text = Assets.getText(Paths.text(_song.toLowerCase() + "/meta"));
 
         size = text.fieldWidth;
         

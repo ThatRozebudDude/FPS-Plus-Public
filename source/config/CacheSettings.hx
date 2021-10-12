@@ -44,7 +44,7 @@ class CacheSettings extends MusicBeatState
 	{
 
         var bgColor:FlxColor = 0xFF9766BE;
-        var font:String = "assets/fonts/Funkin-Bold.otf";
+        var font:String = Paths.font("Funkin-Bold", "otf");
 
         if(noFunMode){
             bgColor = 0xFF303030;

@@ -36,14 +36,9 @@ class FreeplayState extends MusicBeatState
 
 		openfl.Lib.current.stage.frameRate = 144;
 
-		var initSonglist = CoolUtil.coolTextFile('assets/data/freeplaySonglist.txt');
-
 		curSelected = 0;
 
-		for (i in 0...initSonglist.length)
-		{
-			songs.push(new SongMetadata(initSonglist[i], 1, 'gf'));
-		}
+		songs.push(new SongMetadata("Tutorial", 1, 'gf'));
 
 		var isDebug:Bool = true;
 
@@ -95,7 +90,7 @@ class FreeplayState extends MusicBeatState
 
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
 		// scoreText.autoSize = false;
-		scoreText.setFormat("assets/fonts/vcr.ttf", 32, FlxColor.WHITE, RIGHT);
+		scoreText.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, RIGHT);
 		// scoreText.alignment = RIGHT;
 
 		var scoreBG:FlxSprite = new FlxSprite(scoreText.x - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);

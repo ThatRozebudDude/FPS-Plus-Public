@@ -118,7 +118,7 @@ class Startup extends FlxState
         splash.screenCenter();
 
         loadingText = new FlxText(5, FlxG.height - 30, 0, "", 24);
-        loadingText.setFormat("assets/fonts/vcr.ttf", 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        loadingText.setFormat(Paths.font("vcr"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(loadingText);
 
         #if web
@@ -207,7 +207,7 @@ class Startup extends FlxState
     function preloadMusic(){
         for(x in songs){
             FlxG.sound.cache(Paths.music(x + "_Inst"));
-            trace("Chached " + x);
+            //trace("Chached " + x);
         }
         FlxG.sound.cache(Paths.music("klaskiiLoop"));
         
@@ -218,7 +218,7 @@ class Startup extends FlxState
     function preloadCharacters(){
         for(x in characters){
             ImageCache.add(Paths.image(x));
-            trace("Chached " + x);
+            //trace("Chached " + x);
         }
         loadingText.text = "Characters cached...";
         charactersCached = true;
@@ -227,7 +227,7 @@ class Startup extends FlxState
     function preloadGraphics(){
         for(x in graphics){
             ImageCache.add(Paths.image(x));
-            trace("Chached " + x);
+            //trace("Chached " + x);
         }
         loadingText.text = "Graphics cached...";
         graphicsCached = true;

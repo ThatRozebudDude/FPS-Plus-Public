@@ -16,7 +16,7 @@ class AutoOffsetState extends MusicBeatState
 
 	var easterEgg:Bool = FlxG.random.bool(1);
 	public static var forceEasterEgg:Int = 0;
-	var font:Array<String> = ["assets/fonts/Funkin-Bold.otf", "assets/fonts/vcr.ttf"];
+	var font:Array<String> = [Paths.font("Funkin-Bold", "otf"), Paths.font("vcr")];
 
 	var hitBeats:Int = 0;
 	var offsetCalc:Int = 0;
@@ -120,7 +120,7 @@ class AutoOffsetState extends MusicBeatState
 
 		descText = new FlxText(320, 540, 640, "Tap any key to the beat of the music!\n", 40);
 		descText.scrollFactor.set(0, 0);
-		descText.setFormat("assets/fonts/vcr.ttf", 40, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		descText.setFormat(Paths.font("vcr"), 40, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		descText.borderSize = 2;
 		descText.borderQuality = 1;
 		descText.alpha = 0;

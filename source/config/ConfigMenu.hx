@@ -171,13 +171,13 @@ class ConfigMenu extends MusicBeatState
 		
 		configText = new FlxText(0, 215, 1280, "", 42);
 		configText.scrollFactor.set(0, 0);
-		configText.setFormat("assets/fonts/Funkin-Bold.otf", 42, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		configText.setFormat(Paths.font("Funkin-Bold", "otf"), 42, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		configText.borderSize = 3;
 		configText.borderQuality = 1;
 		
 		descText = new FlxText(320, 638, 640, "", 20);
 		descText.scrollFactor.set(0, 0);
-		descText.setFormat("assets/fonts/vcr.ttf", 20, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		descText.setFormat(Paths.font("vcr"), 20, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		//descText.borderSize = 3;
 		descText.borderQuality = 1;
 

@@ -70,7 +70,7 @@ class StoryMenuState extends MusicBeatState
 			['senpai', 'bf', 'gf']
 		];
 	
-		weekNames = CoolUtil.coolTextFile("assets/data/weekNames.txt");
+		weekNames = CoolUtil.coolTextFile(Paths.text("weekNames"));
 	
 		if (FlxG.sound.music == null)
 		{
@@ -88,7 +88,7 @@ class StoryMenuState extends MusicBeatState
 
 		var rankText:FlxText = new FlxText(0, 10);
 		rankText.text = 'RANK: GREAT';
-		rankText.setFormat("assets/fonts/vcr.ttf", 32);
+		rankText.setFormat(Paths.font("vcr"), 32);
 		rankText.size = scoreText.size;
 		rankText.screenCenter(X);
 
