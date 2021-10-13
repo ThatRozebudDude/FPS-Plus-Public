@@ -1,5 +1,7 @@
 package;
 
+import openfl.desktop.ClipboardFormats;
+import openfl.desktop.Clipboard;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -132,6 +134,10 @@ class AnimationDebug extends FlxState
 		if (FlxG.keys.pressed.Q)
 			FlxG.camera.zoom -= 0.0025;
 
+		if(FlxG.keys.pressed.CONTROL && FlxG.keys.justPressed.C){
+			copyOffsetToClipboard();
+		}
+
 		if (FlxG.keys.pressed.I || FlxG.keys.pressed.J || FlxG.keys.pressed.K || FlxG.keys.pressed.L)
 		{
 			if (FlxG.keys.pressed.I)
@@ -199,21 +205,46 @@ class AnimationDebug extends FlxState
 
 		if (upP || rightP || downP || leftP)
 		{
-			updateTexts();
-			if (upP)
+			//updateTexts();
+			if (upP){
 				dad.animOffsets.get(animList[curAnim])[1] += 1 * multiplier;
-			if (downP)
+				dadBG.animOffsets.get(animList[curAnim])[1] += 1 * multiplier;
+			}
+				
+			if (downP){
 				dad.animOffsets.get(animList[curAnim])[1] -= 1 * multiplier;
-			if (leftP)
+				dadBG.animOffsets.get(animList[curAnim])[1] -= 1 * multiplier;
+			}
+				
+			if (leftP){
 				dad.animOffsets.get(animList[curAnim])[0] += 1 * multiplier;
-			if (rightP)
+				dadBG.animOffsets.get(animList[curAnim])[0] += 1 * multiplier;
+			}
+				
+			if (rightP){
 				dad.animOffsets.get(animList[curAnim])[0] -= 1 * multiplier;
+				dadBG.animOffsets.get(animList[curAnim])[0] -= 1 * multiplier;
+			}
+				
 
 			updateTexts();
 			genBoyOffsets(false);
-			dad.playAnim(animList[curAnim]);
+			dad.playAnim(animList[curAnim], true);
 		}
 
 		super.update(elapsed);
 	}
+
+	function copyOffsetToClipboard(){
+
+		var r = "";
+
+		for(x in animList){
+			r += "addOffset(\"" + x + "\", " + dad.animOffsets.get(x)[0] + ", " + dad.animOffsets.get(x)[1] + ");\n";
+		}
+
+		Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, r);
+
+	}
+
 }
