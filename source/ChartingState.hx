@@ -1148,8 +1148,7 @@ class ChartingState extends MusicBeatState
 			_song.notes[daSec].sectionNotes.push(copiedNote);
 		}
 
-		swapSections();
-		swapSections();
+		removeDuplicates(curSection);
 
 		updateGrid();
 	}
