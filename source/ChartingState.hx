@@ -816,6 +816,7 @@ class ChartingState extends MusicBeatState
 
 			FlxG.save.bind('data');
 
+			PlayState.sectionStart = false;
 			if(FlxG.keys.pressed.CONTROL && curSection > 0){
 				PlayState.sectionStart = true;
 				changeSection(curSection, true);
