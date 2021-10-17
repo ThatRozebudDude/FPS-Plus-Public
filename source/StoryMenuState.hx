@@ -1,5 +1,6 @@
 package;
 
+import title.*;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -74,7 +75,7 @@ class StoryMenuState extends MusicBeatState
 	
 		if (FlxG.sound.music == null)
 		{
-			FlxG.sound.playMusic(Paths.music("klaskiiLoop"), 0.75);
+			FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), 0.75);
 		}
 
 		persistentUpdate = persistentDraw = true;

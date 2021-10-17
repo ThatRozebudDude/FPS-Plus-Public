@@ -29,6 +29,9 @@ using StringTools;
 
 class TitleScreen extends MusicBeatState
 {
+
+	public static var titleMusic:String = "klaskiiLoop"; 
+
 	override public function create():Void
 	{
 		//Polymod.init({modRoot: "mods", dirs: ['introMod']});
@@ -70,6 +73,21 @@ class TitleScreen extends MusicBeatState
 		titleText.updateHitbox();
 		// titleText.screenCenter(X);
 		add(titleText);
+
+		if(FlxG.sound.music == null){
+			FlxG.sound.playMusic(Paths.music(titleMusic), 0.75);
+		}
+		else{
+			if(!FlxG.sound.music.playing){
+				FlxG.sound.playMusic(Paths.music(titleMusic), 0.75);
+				switch(titleMusic){
+					case "klaskiiLoop":
+						Conductor.changeBPM(158);
+					case "freakyMenu":
+						Conductor.changeBPM(102);
+				}
+			}
+		}
 		
 		FlxG.camera.flash(FlxColor.WHITE, 1);
 

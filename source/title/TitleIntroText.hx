@@ -61,6 +61,7 @@ class TitleIntroText extends MusicBeatState
 
 		Conductor.changeBPM(102);
 		FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.8);
+		TitleScreen.titleMusic = "freakyMenu";
 
 	}
 

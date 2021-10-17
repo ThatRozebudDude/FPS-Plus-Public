@@ -38,7 +38,7 @@ class MainMenuState extends MusicBeatState
 
 		if (!FlxG.sound.music.playing)
 		{	
-			FlxG.sound.playMusic(Paths.music("klaskiiLoop"), 0.75);
+			FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), 0.75);
 		}
 
 		persistentUpdate = persistentDraw = true;

@@ -21,6 +21,8 @@ using StringTools;
 class Startup extends FlxState
 {
 
+    var nextState:FlxState = new TitleVideo();
+
     var splash:FlxSprite;
     //var dummy:FlxSprite;
     var loadingText:FlxText;
@@ -153,7 +155,7 @@ class Startup extends FlxState
             cacheStart = true;
         }
         if(splash.animation.curAnim.finished && splash.animation.curAnim.name == "end"){
-            FlxG.switchState(new TitleVideo());  
+            FlxG.switchState(nextState);  
         }
 
         if(songsCached && charactersCached && graphicsCached && splash.animation.curAnim.finished && !(splash.animation.curAnim.name == "end")){
