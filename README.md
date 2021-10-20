@@ -1,9 +1,7 @@
 ![](/art/readme/logo.png)
 
-*Finally, it's open source.*
-
-# Friday Night Funkin' FPS Plus
-Friday Night Funkin' FPS Plus is a mod of Friday Night Funkin' that aims to improve gameplay and add quality of life features.
+# FPS Plus
+FPS Plus is a mod of Friday Night Funkin' that aims to improve the current game.
 
 *You can find the original game here:* **[Newgrounds](https://www.newgrounds.com/portal/view/770371) - [itch.io](https://ninja-muffin24.itch.io/funkin) - [GitHub](https://github.com/ninjamuffin99/Funkin)**
 
@@ -35,9 +33,9 @@ Adjusted some of the health icons and adds winning icons.
 ## Building
 - For build intructions, follow the guide on the Funkin github page [here](https://github.com/ninjamuffin99/Funkin#build-instructions).
 
-    - You do not need to install polymod since FPS Plus doesn't use it.
+    - You dont need to install polymod since Fps Plus doesnt use it.
     
-    - You can ignore is the part about ignored files since FPS Plus removes them.
+    - You can ignore the part about ignored files since its been removed.
 
 ## Credits
 ### Friday Night Funkin'
