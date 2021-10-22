@@ -1,5 +1,6 @@
 package;
 
+import lime.utils.Assets;
 import title.*;
 import config.*;
 
@@ -34,7 +35,8 @@ class Startup extends FlxState
                                 "Pico", "Philly", "Blammed", 
                                 "Satin-Panties", "High", "Milf", 
                                 "Cocoa", "Eggnog", "Winter-Horrorland", 
-                                "Senpai", "Roses", "Thorns"];
+                                "Senpai", "Roses", "Thorns",
+                                "klaskiiLoop", "freakyMenu"]; //Start of the non-gameplay songs.
                                 
     //List of character graphics and some other stuff.
     //Just in case it want to do something with it later.
@@ -208,11 +210,13 @@ class Startup extends FlxState
 
     function preloadMusic(){
         for(x in songs){
-            FlxG.sound.cache(Paths.music(x + "_Inst"));
-            //trace("Chached " + x);
+            if(Assets.exists(Paths.music(x + "_Inst"))){
+                FlxG.sound.cache(Paths.music(x + "_Inst"));
+            }
+            else{
+                FlxG.sound.cache(Paths.music(x));
+            }
         }
-        FlxG.sound.cache(Paths.music("klaskiiLoop"));
-        
         loadingText.text = "Songs cached...";
         songsCached = true;
     }
