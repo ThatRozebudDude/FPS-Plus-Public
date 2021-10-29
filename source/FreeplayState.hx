@@ -185,7 +185,7 @@ class FreeplayState extends MusicBeatState
 		{
 			FlxG.sound.music.stop();
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-			FlxG.switchState(new MainMenuState());
+			switchState(new MainMenuState());
 		}
 
 		if (accepted)
@@ -198,7 +198,7 @@ class FreeplayState extends MusicBeatState
 			PlayState.returnLocation = "freeplay";
 			PlayState.storyWeek = songs[curSelected].week;
 			trace('CUR WEEK' + PlayState.storyWeek);
-			FlxG.switchState(new PlayState());
+			switchState(new PlayState());
 			if (FlxG.sound.music != null)
 				FlxG.sound.music.stop();
 		}

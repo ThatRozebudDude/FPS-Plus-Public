@@ -39,8 +39,8 @@ class TitleIntroText extends MusicBeatState
 
 	override public function create():Void
 	{
-		transIn = null;
-		transOut = null;
+		useDefaultTransIn = false;
+		useDefaultTransOut = false;
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
@@ -189,6 +189,6 @@ class TitleIntroText extends MusicBeatState
 
 	function skipIntro():Void
 	{
-		FlxG.switchState(new TitleScreen());
+		switchState(new TitleScreen());
 	}
 }

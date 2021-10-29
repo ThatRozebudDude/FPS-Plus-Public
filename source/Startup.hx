@@ -1,21 +1,16 @@
 package;
 
-import lime.utils.Assets;
 import title.*;
 import config.*;
+import transition.data.*;
 
 import flixel.FlxState;
-import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
-import flixel.graphics.FlxGraphic;
-import flixel.addons.transition.TransitionData;
-import flixel.addons.transition.FlxTransitionableState;
+import lime.utils.Assets;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
-import flixel.math.FlxPoint;
-import flixel.math.FlxRect;
 
 using StringTools;
 
@@ -77,6 +72,7 @@ class Startup extends FlxState
         PlayerSettings.player1.controls.loadKeyBinds();
 		Config.configCheck();
 
+        /*Switched to a new custom transition system.
         var diamond:FlxGraphic = FlxGraphic.fromClass(GraphicTransTileDiamond);
         diamond.persist = true;
         diamond.destroyOnNoUse = false;
@@ -85,6 +81,12 @@ class Startup extends FlxState
             {asset: diamond, width: 32, height: 32},  new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
         FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.7, new FlxPoint(0, 1),
             {asset: diamond, width: 32, height: 32}, new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
+        */
+
+        MusicBeatState.defaultTransIn = ScreenWipeIn;
+        MusicBeatState.defaultTransInArgs = [1.2];
+        MusicBeatState.defaultTransOut = ScreenWipeOut;
+        MusicBeatState.defaultTransOutArgs = [0.6];
 
         if (FlxG.save.data.weekUnlocked != null)
 		{

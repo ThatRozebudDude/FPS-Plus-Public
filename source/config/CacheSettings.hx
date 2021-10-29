@@ -1,24 +1,12 @@
 package config;
 
+import transition.data.*;
+
 import flixel.FlxState;
-import flixel.input.FlxInput;
-import flixel.input.keyboard.FlxKey;
 import flixel.FlxG;
-import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.effects.FlxFlicker;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.text.FlxText;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import io.newgrounds.NG;
-import lime.app.Application;
-import lime.utils.Assets;
-import flixel.math.FlxMath;
 import flixel.text.FlxText;
-import flixel.input.FlxKeyManager;
 
 using StringTools;
 
@@ -86,6 +74,9 @@ class CacheSettings extends MusicBeatState
         settings = [FlxG.save.data.musicPreload, FlxG.save.data.charPreload, FlxG.save.data.graphicsPreload];
 
         textUpdate();
+
+        customTransIn = new WeirdBounceIn(0.6);
+		customTransOut = new WeirdBounceOut(0.6);
 
 		super.create();
 	}
@@ -170,7 +161,7 @@ class CacheSettings extends MusicBeatState
         save();
 
         ConfigMenu.startSong = false;
-        FlxG.switchState(returnLoc);
+        switchState(returnLoc);
 
     }
 

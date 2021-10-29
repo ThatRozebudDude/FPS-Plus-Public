@@ -38,9 +38,7 @@ class TitleScreen extends MusicBeatState
 
 		// DEBUG BULLSHIT
 
-		super.create();
-
-		transIn = null;
+		useDefaultTransIn = false;
 
 		persistentUpdate = true;
 
@@ -91,6 +89,8 @@ class TitleScreen extends MusicBeatState
 		
 		FlxG.camera.flash(FlxColor.WHITE, 1);
 
+		super.create();
+
 	}
 
 	var logoBl:FlxSprite;
@@ -125,7 +125,7 @@ class TitleScreen extends MusicBeatState
 			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
 				// Check if version is outdated
-				FlxG.switchState(new MainMenuState());
+				switchState(new MainMenuState());
 			});
 		}
 

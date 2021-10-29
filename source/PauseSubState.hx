@@ -107,13 +107,13 @@ class PauseSubState extends MusicBeatSubstate
 					PlayerSettings.menuControls();
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
-					FlxG.switchState(new ChartingState());
+					PlayState.instance.switchState(new ChartingState());
 					
 				case "Skip Song":
 					PlayState.instance.endSong();
 					
 				case "Options":
-					FlxG.switchState(new ConfigMenu());
+					PlayState.instance.switchState(new ConfigMenu());
 					ConfigMenu.exitTo = new PlayState();
 					
 				case "Exit to menu":
@@ -124,11 +124,11 @@ class PauseSubState extends MusicBeatSubstate
 
 					switch(PlayState.returnLocation){
 						case "freeplay":
-							FlxG.switchState(new FreeplayState());
+							PlayState.instance.switchState(new FreeplayState());
 						case "story":
-							FlxG.switchState(new StoryMenuState());
+							PlayState.instance.switchState(new StoryMenuState());
 						default:
-							FlxG.switchState(new MainMenuState());
+							PlayState.instance.switchState(new MainMenuState());
 					}
 					
 			}

@@ -1,10 +1,11 @@
 package;
 
 import flixel.FlxG;
-import flixel.addons.transition.FlxTransitionableState;
+import flixel.FlxState;
+import transition.*;
+import transition.data.*;
+
 import flixel.addons.ui.FlxUIState;
-import flixel.math.FlxRect;
-import flixel.util.FlxTimer;
 
 class MusicBeatState extends FlxUIState
 {
@@ -18,14 +19,27 @@ class MusicBeatState extends FlxUIState
 	private var curBeat:Int = 0;
 	private var controls(get, never):Controls;
 
+	private var useDefaultTransIn:Bool = true;
+	private var useDefaultTransOut:Bool = true;
+
+	public static var defaultTransIn:Class<Dynamic>;
+	public static var defaultTransInArgs:Array<Dynamic>;
+	public static var defaultTransOut:Class<Dynamic>;
+	public static var defaultTransOutArgs:Array<Dynamic>;
+
+	private var customTransIn:BasicTransition = null;
+	private var customTransOut:BasicTransition = null;
+
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
 
 	override function create()
 	{
-		if (transIn != null)
-			trace('reg ' + transIn.region);
-
+		if(customTransIn != null){
+			CustomTransition.transition(customTransIn, null);
+		}
+		else if(useDefaultTransIn)
+			CustomTransition.transition(Type.createInstance(defaultTransIn, defaultTransInArgs), null);
 		super.create();
 	}
 
@@ -86,4 +100,19 @@ class MusicBeatState extends FlxUIState
 		lastBeat += Conductor.crochet;
 		totalBeats += 1;
 	}
+
+	public function switchState(_state:FlxState){
+		if(customTransOut != null){
+			CustomTransition.transition(customTransOut, _state);
+		}
+		else if(useDefaultTransOut){
+			CustomTransition.transition(Type.createInstance(defaultTransOut, defaultTransOutArgs), _state);
+			return;
+		}
+		else{
+			FlxG.switchState(_state);
+			return;
+		}
+	}
+
 }

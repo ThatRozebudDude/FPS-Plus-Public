@@ -1,25 +1,14 @@
 package config;
 
-import flixel.input.gamepad.lists.FlxGamepadAnalogList;
-import flixel.input.FlxInput;
-import flixel.input.keyboard.FlxKey;
+import transition.data.*;
+
 import flixel.input.gamepad.FlxGamepad;
 import flixel.FlxG;
-import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.effects.FlxFlicker;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import io.newgrounds.NG;
-import lime.app.Application;
-import lime.utils.Assets;
-import flixel.math.FlxMath;
 import flixel.text.FlxText;
-import flixel.input.FlxKeyManager;
 
 
 using StringTools;
@@ -92,6 +81,9 @@ class KeyBindMenuController extends MusicBeatState
         warningTween = FlxTween.tween(keyWarning, {alpha: 0}, 0);
 
         textUpdate();
+
+        customTransIn = new WeirdBounceIn(0.6);
+		customTransOut = new WeirdBounceOut(0.6);
 
 		super.create();
 	}
@@ -241,7 +233,7 @@ class KeyBindMenuController extends MusicBeatState
         save();
 
         ConfigMenu.startSong = false;
-        FlxG.switchState(new ConfigMenu());
+        switchState(new ConfigMenu());
 
     }
 

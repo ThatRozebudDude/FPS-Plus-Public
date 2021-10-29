@@ -272,7 +272,7 @@ class StoryMenuState extends MusicBeatState
 		{
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			movedBack = true;
-			FlxG.switchState(new MainMenuState());
+			switchState(new MainMenuState());
 		}
 
 		super.update(elapsed);
@@ -319,7 +319,7 @@ class StoryMenuState extends MusicBeatState
 			{
 				if (FlxG.sound.music != null)
 					FlxG.sound.music.stop();
-				FlxG.switchState(new PlayState());
+				switchState(new PlayState());
 			});
 		}
 	}

@@ -1613,7 +1613,7 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.SEVEN)
 		{
 			PlayerSettings.menuControls();
-			FlxG.switchState(new ChartingState());
+			switchState(new ChartingState());
 			sectionStart = false;
 			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
@@ -1642,7 +1642,7 @@ class PlayState extends MusicBeatState
 		}
 			
 		/* if (FlxG.keys.justPressed.NINE)
-			FlxG.switchState(new Charting()); */
+			switchState(new Charting()); */
 
 		if (FlxG.keys.justPressed.EIGHT){
 
@@ -1652,13 +1652,13 @@ class PlayState extends MusicBeatState
 			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
 			if(FlxG.keys.pressed.SHIFT){
-				FlxG.switchState(new AnimationDebug(SONG.player1));
+				switchState(new AnimationDebug(SONG.player1));
 			}
 			else if(FlxG.keys.pressed.CONTROL){
-				FlxG.switchState(new AnimationDebug(gf.curCharacter));
+				switchState(new AnimationDebug(gf.curCharacter));
 			}
 			else{
-				FlxG.switchState(new AnimationDebug(SONG.player2));
+				switchState(new AnimationDebug(SONG.player2));
 			}
 		}
 			
@@ -1973,7 +1973,7 @@ class PlayState extends MusicBeatState
 				//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 				//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
-				FlxG.switchState(new StoryMenuState());
+				switchState(new StoryMenuState());
 				sectionStart = false;
 
 				// if ()
@@ -2021,7 +2021,7 @@ class PlayState extends MusicBeatState
 				PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
 				FlxG.sound.music.stop();
 
-				FlxG.switchState(new PlayState());
+				switchState(new PlayState());
 
 				transIn = FlxTransitionableState.defaultTransIn;
 				transOut = FlxTransitionableState.defaultTransOut;
@@ -2034,7 +2034,7 @@ class PlayState extends MusicBeatState
 			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
-			FlxG.switchState(new FreeplayState());
+			switchState(new FreeplayState());
 		}
 	}
 

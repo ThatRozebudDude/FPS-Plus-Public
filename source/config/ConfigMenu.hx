@@ -1,22 +1,13 @@
 package config;
 
+import transition.data.*;
+
 import flixel.FlxState;
 import openfl.system.System;
 import flixel.FlxG;
-import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.effects.FlxFlicker;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import io.newgrounds.NG;
-import lime.app.Application;
-import lime.utils.Assets;
-import flixel.math.FlxMath;
-import flixel.text.FlxText;
 
 using StringTools;
 
@@ -120,6 +111,9 @@ class ConfigMenu extends MusicBeatState
 
 	override function create()
 	{	
+		transOut = null;
+		transIn = null;
+
 		if(exitTo == null){
 			exitTo = new MainMenuState();
 		}
@@ -197,7 +191,11 @@ class ConfigMenu extends MusicBeatState
 
 		textUpdate();
 
+		customTransIn = new WeirdBounceIn(0.6);
+		customTransOut = new WeirdBounceOut(0.6);
+
 		super.create();
+
 	}
 
 	var selectedSomethin:Bool = false;
@@ -269,7 +267,7 @@ class ConfigMenu extends MusicBeatState
 							FlxG.sound.music.fadeOut(0.3);
 							writeToConfig();
 							AutoOffsetState.forceEasterEgg = FlxG.keys.pressed.SHIFT ? 1 : (FlxG.keys.pressed.CONTROL ? -1 : 0);
-							FlxG.switchState(new AutoOffsetState());
+							switchState(new AutoOffsetState());
 						}
 						
 					case 1: //Accuracy
@@ -455,7 +453,7 @@ class ConfigMenu extends MusicBeatState
 							FlxG.sound.play(Paths.sound('scrollMenu'));
 							canChangeItems = false;
 							writeToConfig();
-							FlxG.switchState(new CacheSettings());
+							switchState(new CacheSettings());
 							CacheSettings.returnLoc = new ConfigMenu();
 							#end
 						}
@@ -482,7 +480,7 @@ class ConfigMenu extends MusicBeatState
 								FlxG.sound.play(Paths.sound('scrollMenu'));
 								canChangeItems = false;
 								writeToConfig();
-								FlxG.switchState(new KeyBindMenuController());
+								switchState(new KeyBindMenuController());
 							}
 
 					case 12: //Binds
@@ -490,7 +488,7 @@ class ConfigMenu extends MusicBeatState
 							FlxG.sound.play(Paths.sound('scrollMenu'));
 							canChangeItems = false;
 							writeToConfig();
-							FlxG.switchState(new KeyBindMenu());
+							switchState(new KeyBindMenu());
 						}
 					
 			}
@@ -614,7 +612,7 @@ class ConfigMenu extends MusicBeatState
 		canChangeItems = false;
 		FlxG.sound.music.stop();
 		FlxG.sound.play(Paths.sound('cancelMenu'));
-		FlxG.switchState(exitTo);
+		switchState(exitTo);
 		exitTo = null;
 	}
 

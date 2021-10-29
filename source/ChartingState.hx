@@ -824,7 +824,7 @@ class ChartingState extends MusicBeatState
 				PlayState.sectionStartTime = FlxG.sound.music.time - (sectionHasBfNotes(curSection) ? Conductor.crochet : 0);
 			}
 
-			FlxG.switchState(new PlayState());
+			switchState(new PlayState());
 		}
 
 		if (FlxG.keys.justPressed.E)

@@ -139,12 +139,12 @@ class MainMenuState extends MusicBeatState
 			if (FlxG.keys.justPressed.BACKSPACE)
 			{
 				KeyBinds.resetBinds();
-				FlxG.switchState(new MainMenuState());
+				switchState(new MainMenuState());
 			}
 
 			if (controls.BACK)
 			{
-				FlxG.switchState(new TitleScreen());
+				switchState(new TitleScreen());
 			}
 
 			if (controls.ACCEPT)
@@ -193,17 +193,19 @@ class MainMenuState extends MusicBeatState
 							{
 								//var daChoice:String = optionShit[curSelected];
 
+								spr.visible = true;
+
 								switch (daChoice)
 								{
 									case 'story mode':
-										FlxG.switchState(new StoryMenuState());
+										switchState(new StoryMenuState());
 										trace("Story Menu Selected");
 									case 'freeplay':
 										FreeplayState.startingSelection = 0;
-										FlxG.switchState(new FreeplayState());
+										switchState(new FreeplayState());
 										trace("Freeplay Menu Selected");
 									case 'options':
-										FlxG.switchState(new ConfigMenu());
+										switchState(new ConfigMenu());
 										trace("options time");
 								}
 							});

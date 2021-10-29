@@ -1,5 +1,7 @@
 package config;
 
+import transition.data.*;
+
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -41,6 +43,9 @@ class AutoOffsetState extends MusicBeatState
 		Conductor.songPosition = 0;
 
 		FlxG.sound.music.volume = 0;
+
+		useDefaultTransIn = false;
+		customTransOut = new WeirdBounceOut(0.6);
 
 		//Cache the 3 2 1 go
 		FlxG.sound.cache(Paths.sound('intro3' + (easterEgg?"-pixel":"")));
@@ -152,6 +157,8 @@ class AutoOffsetState extends MusicBeatState
 			FlxTween.tween(descText, {y: descText.y + 10, alpha: 1}, 0.4, {ease: FlxEase.circOut, startDelay: 1.2});
 		});
 
+		super.create();
+
 	}
 
 	override function update(elapsed:Float) {
@@ -255,6 +262,6 @@ class AutoOffsetState extends MusicBeatState
 		FlxG.sound.music.fadeOut(0.4);
 		ending = true;
 		Config.write(offsetCalc, Config.accuracy, Config.healthMultiplier, Config.healthDrainMultiplier, Config.comboType, Config.downscroll, Config.noteGlow, Config.ghostTapType, Config.noFpsCap, Config.controllerScheme, Config.bgDim);
-		FlxG.switchState(new ConfigMenu());
+		switchState(new ConfigMenu());
 	}
 }
