@@ -37,7 +37,7 @@ Adjusted some of the health icons and adds winning icons.
 
     - You do not need to install polymod since FPS Plus doesn't use it.
     
-    - You can ignore is the part about ignored files since FPS Plus removes them.
+    - You can ignore the part about ignored files since FPS Plus removes them.
 
 ## Credits
 ### Friday Night Funkin'
