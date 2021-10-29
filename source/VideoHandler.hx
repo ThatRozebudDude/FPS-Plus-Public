@@ -59,7 +59,7 @@ class VideoHandler extends FlxSprite
 
 	public function new(?x:Float = 0, ?y:Float = 0){
 		super(x, y);
-		makeGraphic(0, 0, FlxColor.TRANSPARENT);
+		makeGraphic(1, 1, FlxColor.TRANSPARENT);
 	}
 
 	/**
@@ -136,6 +136,21 @@ class VideoHandler extends FlxSprite
 	{
 		trace("video loaded!");
 	}
+
+	public function onFocus(){
+		if(vlcBitmap != null && !paused){ 
+			vlcBitmap.resume();
+			paused = true;
+		}
+	}
+
+	public function onFocusLost(){
+		if(vlcBitmap != null && paused){
+			vlcBitmap.pause();
+			paused = false;
+		}
+	}
+
 
 	function onVLCComplete()
 	{
