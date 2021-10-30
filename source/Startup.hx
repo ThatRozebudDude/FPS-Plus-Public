@@ -83,10 +83,10 @@ class Startup extends FlxState
             {asset: diamond, width: 32, height: 32}, new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
         */
 
-        MusicBeatState.defaultTransIn = ScreenWipeIn;
-        MusicBeatState.defaultTransInArgs = [1.2];
-        MusicBeatState.defaultTransOut = ScreenWipeOut;
-        MusicBeatState.defaultTransOutArgs = [0.6];
+        UIStateExt.defaultTransIn = ScreenWipeIn;
+        UIStateExt.defaultTransInArgs = [1.2];
+        UIStateExt.defaultTransOut = ScreenWipeOut;
+        UIStateExt.defaultTransOutArgs = [0.6];
 
         if (FlxG.save.data.weekUnlocked != null)
 		{
