@@ -6,6 +6,7 @@ import sys.FileSystem;
 
 import config.*;
 import title.*;
+import transition.data.*;
 
 import lime.utils.Assets;
 import flixel.math.FlxRect;
@@ -241,6 +242,9 @@ class PlayState extends MusicBeatState
 		instance = this;
 		FlxG.mouse.visible = false;
 		PlayerSettings.gameControls();
+
+		customTransIn = new ScreenWipeIn(0.6);
+		customTransOut = new ScreenWipeOut(0.6);
 
 		FlxG.sound.cache(Paths.music(SONG.song + "_Inst"));
 		FlxG.sound.cache(Paths.music(SONG.song + "_Voices"));
