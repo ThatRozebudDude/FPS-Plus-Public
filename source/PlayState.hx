@@ -243,7 +243,7 @@ class PlayState extends MusicBeatState
 		FlxG.mouse.visible = false;
 		PlayerSettings.gameControls();
 
-		customTransIn = new ScreenWipeIn(0.6);
+		customTransIn = new ScreenWipeIn(1.2);
 		customTransOut = new ScreenWipeOut(0.6);
 
 		FlxG.sound.cache(Paths.music(SONG.song + "_Inst"));

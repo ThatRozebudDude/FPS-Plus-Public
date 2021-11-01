@@ -1,6 +1,7 @@
 package config;
 
 import transition.data.*;
+import transition.*;
 
 import flixel.FlxState;
 import openfl.system.System;
@@ -111,9 +112,6 @@ class ConfigMenu extends MusicBeatState
 
 	override function create()
 	{	
-		transOut = null;
-		transIn = null;
-
 		if(exitTo == null){
 			exitTo = new MainMenuState();
 		}
