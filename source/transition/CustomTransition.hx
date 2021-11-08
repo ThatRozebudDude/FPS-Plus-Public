@@ -26,7 +26,7 @@ class CustomTransition{
 
         var transitionCamera = new FlxCamera();
 		transitionCamera.bgColor.alpha = 0;
-		FlxG.cameras.add(transitionCamera);
+		FlxG.cameras.add(transitionCamera, false);
         
         transitionData.state = state;
         transitionData.cameras = [transitionCamera];
