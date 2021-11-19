@@ -114,7 +114,7 @@ class PauseSubState extends MusicBeatSubstate
 					
 				case "Options":
 					PlayState.instance.switchState(new ConfigMenu());
-					ConfigMenu.exitTo = new PlayState();
+					ConfigMenu.exitTo = PlayState;
 					
 				case "Exit to menu":
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);

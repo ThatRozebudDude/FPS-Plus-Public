@@ -17,7 +17,7 @@ class ConfigMenu extends MusicBeatState
 
 	public static var startSong = true;
 
-	public static var exitTo:FlxState;
+	public static var exitTo:Class<Dynamic>;
 
 	var configText:FlxText;
 	var descText:FlxText;
@@ -113,7 +113,7 @@ class ConfigMenu extends MusicBeatState
 	override function create()
 	{	
 		if(exitTo == null){
-			exitTo = new MainMenuState();
+			exitTo = MainMenuState;
 		}
 
 		if(startSong)
@@ -509,13 +509,13 @@ class ConfigMenu extends MusicBeatState
 			tabDisplay.visible = false;
 		}
 
-		if (controls.BACK)
+		if (controls.BACK && canChangeItems)
 		{
 			writeToConfig();
 			exit();
 		}
 
-		if (FlxG.keys.justPressed.BACKSPACE)
+		if (FlxG.keys.justPressed.BACKSPACE && canChangeItems)
 		{
 			Config.resetSettings();
 			FlxG.save.data.ee1 = false;
@@ -610,7 +610,7 @@ class ConfigMenu extends MusicBeatState
 		canChangeItems = false;
 		FlxG.sound.music.stop();
 		FlxG.sound.play(Paths.sound('cancelMenu'));
-		switchState(exitTo);
+		switchState(Type.createInstance(exitTo, []));
 		exitTo = null;
 	}
 
