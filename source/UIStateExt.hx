@@ -1,5 +1,6 @@
 package;
 
+import cpp.vm.Gc;
 import flixel.FlxG;
 import flixel.FlxState;
 import transition.*;
@@ -35,6 +36,7 @@ class UIStateExt extends FlxUIState
 	}
 
 	public function switchState(_state:FlxState){
+		Gc.run(true);
 		if(customTransOut != null){
 			CustomTransition.transition(customTransOut, _state);
 		}

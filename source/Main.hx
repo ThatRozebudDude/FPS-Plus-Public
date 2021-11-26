@@ -1,5 +1,7 @@
 package;
 
+import flixel.system.scaleModes.RatioScaleMode;
+import flixel.FlxG;
 import flixel.FlxGame;
 import openfl.display.FPS;
 import openfl.display.Sprite;
@@ -25,9 +27,11 @@ class Main extends Sprite
 
 		#if !mobile
 		fpsDisplay = new FPS(10, 3, 0xFFFFFF);
-		fpsDisplay.visible = false;
+		fpsDisplay.visible = true;
 		addChild(fpsDisplay);
 		#end
+
+		FlxG.scaleMode = new RatioScaleMode(true);
 
 		//On web builds, video tends to lag quite a bit, so this just helps it run a bit faster.
 		#if web

@@ -174,7 +174,7 @@ class Startup extends FlxState
             });
         }
 
-        if(!cacheStart && FlxG.keys.justPressed.O){
+        if(!cacheStart && FlxG.keys.justPressed.ANY){
             
            
             openPreloadSettings();
@@ -188,7 +188,6 @@ class Startup extends FlxState
     function preload(){
 
         loadingText.text = "Preloading Assets...";
-
         
         if(!songsCached){ 
             #if sys sys.thread.Thread.create(() -> { #end
@@ -197,15 +196,11 @@ class Startup extends FlxState
         }
 
         if(!charactersCached){
-            #if sys sys.thread.Thread.create(() -> { #end
-                preloadCharacters();
-            #if sys }); #end
+            preloadCharacters();
         }
 
         if(!graphicsCached){
-            #if sys sys.thread.Thread.create(() -> { #end
-                preloadGraphics();
-            #if sys }); #end
+            preloadGraphics();
         }
 
     }
@@ -225,7 +220,7 @@ class Startup extends FlxState
 
     function preloadCharacters(){
         for(x in characters){
-            ImageCache.add(Paths.image(x));
+            ImageCache.add(Paths.file(x, "images", "png"));
             //trace("Chached " + x);
         }
         loadingText.text = "Characters cached...";
@@ -234,7 +229,7 @@ class Startup extends FlxState
 
     function preloadGraphics(){
         for(x in graphics){
-            ImageCache.add(Paths.image(x));
+            ImageCache.add(Paths.file(x, "images", "png"));
             //trace("Chached " + x);
         }
         loadingText.text = "Graphics cached...";
