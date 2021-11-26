@@ -71,12 +71,10 @@ class Note extends FlxSprite
 				animation.add('blueScroll', [5]);
 				animation.add('purpleScroll', [4]);
 
-				if(Config.noteGlow){
-					animation.add('green glow', [22]);
-					animation.add('red glow', [23]);
-					animation.add('blue glow', [21]);
-					animation.add('purple glow', [20]);
-				}
+				animation.add('green glow', [22]);
+				animation.add('red glow', [23]);
+				animation.add('blue glow', [21]);
+				animation.add('purple glow', [20]);
 
 				if (isSustainNote)
 				{
@@ -114,12 +112,10 @@ class Note extends FlxSprite
 				animation.addByPrefix('redhold', 'red hold piece');
 				animation.addByPrefix('bluehold', 'blue hold piece');
 
-				if(Config.noteGlow){
-					animation.addByPrefix('purple glow', 'Purple Active');
-					animation.addByPrefix('green glow', 'Green Active');
-					animation.addByPrefix('red glow', 'Red Active');
-					animation.addByPrefix('blue glow', 'Blue Active');
-				}
+				animation.addByPrefix('purple glow', 'Purple Active');
+				animation.addByPrefix('green glow', 'Green Active');
+				animation.addByPrefix('red glow', 'Red Active');
+				animation.addByPrefix('blue glow', 'Blue Active');
 
 				setGraphicSize(Std.int(width * 0.7));
 				updateHitbox();
