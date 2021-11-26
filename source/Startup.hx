@@ -4,6 +4,7 @@ import title.*;
 import config.*;
 import transition.data.*;
 
+import cpp.vm.Gc;
 import flixel.FlxState;
 import lime.utils.Assets;
 import flixel.FlxG;
@@ -164,6 +165,7 @@ class Startup extends FlxState
 
         if(songsCached && charactersCached && graphicsCached && splash.animation.curAnim.finished && !(splash.animation.curAnim.name == "end")){
             
+            Gc.run(true);
             splash.animation.play("end");
             splash.updateHitbox();
             splash.screenCenter();
