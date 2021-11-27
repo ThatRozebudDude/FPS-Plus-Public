@@ -1,5 +1,6 @@
 package transition.data;
 
+import cpp.vm.Gc;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.group.FlxSpriteGroup;
@@ -37,6 +38,7 @@ class BasicTransition extends FlxSpriteGroup{
     public function end(){
         if(state != null){
             FlxG.switchState(state);
+            Gc.run(true);
         }
         else{
             this.destroy();

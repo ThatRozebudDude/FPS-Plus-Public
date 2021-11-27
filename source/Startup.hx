@@ -103,16 +103,16 @@ class Startup extends FlxState
 				StoryMenuState.weekUnlocked[0] = true;
 		}
 
-        if( FlxG.save.data.musicPreload == null ||
-            FlxG.save.data.charPreload == null ||
-            FlxG.save.data.graphicsPreload == null)
+        if( FlxG.save.data.musicPreload2 == null ||
+            FlxG.save.data.charPreload2 == null ||
+            FlxG.save.data.graphicsPreload2 == null)
         {
             openPreloadSettings();
         }
         else{
-            songsCached = !FlxG.save.data.musicPreload;
-            charactersCached = !FlxG.save.data.charPreload;
-            graphicsCached = !FlxG.save.data.graphicsPreload;
+            songsCached = !FlxG.save.data.musicPreload2;
+            charactersCached = !FlxG.save.data.charPreload2;
+            graphicsCached = !FlxG.save.data.graphicsPreload2;
         }
 
         splash = new FlxSprite(0, 0);

@@ -36,7 +36,6 @@ class UIStateExt extends FlxUIState
 	}
 
 	public function switchState(_state:FlxState){
-		Gc.run(true);
 		if(customTransOut != null){
 			CustomTransition.transition(customTransOut, _state);
 		}

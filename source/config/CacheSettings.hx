@@ -62,16 +62,16 @@ class CacheSettings extends MusicBeatState
 		backText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(backText);
 
-        if( FlxG.save.data.musicPreload == null ||
-            FlxG.save.data.charPreload == null ||
-            FlxG.save.data.graphicsPreload == null)
+        if( FlxG.save.data.musicPreload2 == null ||
+            FlxG.save.data.charPreload2 == null ||
+            FlxG.save.data.graphicsPreload2 == null)
         {
-            FlxG.save.data.musicPreload = true;
-            FlxG.save.data.charPreload = true;
-            FlxG.save.data.graphicsPreload = true;
+            FlxG.save.data.musicPreload2 = true;
+            FlxG.save.data.charPreload2 = true;
+            FlxG.save.data.graphicsPreload2 = false;
         }
 
-        settings = [FlxG.save.data.musicPreload, FlxG.save.data.charPreload, FlxG.save.data.graphicsPreload];
+        settings = [FlxG.save.data.musicPreload2, FlxG.save.data.charPreload2, FlxG.save.data.graphicsPreload2];
 
         textUpdate();
 
@@ -144,9 +144,9 @@ class CacheSettings extends MusicBeatState
 
     function save(){
 
-        FlxG.save.data.musicPreload = settings[0];
-        FlxG.save.data.charPreload = settings[1];
-        FlxG.save.data.graphicsPreload = settings[2];
+        FlxG.save.data.musicPreload2 = settings[0];
+        FlxG.save.data.charPreload2 = settings[1];
+        FlxG.save.data.graphicsPreload2 = settings[2];
 
         FlxG.save.flush();
 
