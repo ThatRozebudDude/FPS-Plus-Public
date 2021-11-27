@@ -1805,8 +1805,9 @@ class PlayState extends MusicBeatState
 					daNote.active = true;
 				}*/
 
-				if (!daNote.mustPress && daNote.wasGoodHit)
+				if (!daNote.mustPress && daNote.canBeHit && !daNote.wasGoodHit)
 				{
+					daNote.wasGoodHit = true;
 
 					var altAnim:String = "";
 

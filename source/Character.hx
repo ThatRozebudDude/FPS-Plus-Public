@@ -96,8 +96,7 @@ class Character extends FlxSprite
 				frames = Paths.getSparrowAtlas("gfCar");
 				animation.addByIndices('singUP', 'GF Dancing Beat Hair blowing CAR', [0], "", 24, false);
 				animation.addByIndices('danceLeft', 'GF Dancing Beat Hair blowing CAR', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-				animation.addByIndices('danceRight', 'GF Dancing Beat Hair blowing CAR', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24,
-					false);
+				animation.addByIndices('danceRight', 'GF Dancing Beat Hair blowing CAR', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 
 				addOffset('danceLeft', 0);
 				addOffset('danceRight', 0);
@@ -123,10 +122,10 @@ class Character extends FlxSprite
 				// DAD ANIMATION LOADING CODE
 				frames = Paths.getSparrowAtlas("DADDY_DEAREST");
 				animation.addByPrefix('idle', 'Dad idle dance', 24, false);
-				animation.addByPrefix('singUP', 'Dad Sing Note UP', 24);
-				animation.addByPrefix('singRIGHT', 'Dad Sing Note RIGHT', 24);
-				animation.addByPrefix('singDOWN', 'Dad Sing Note DOWN', 24);
-				animation.addByPrefix('singLEFT', 'Dad Sing Note LEFT', 24);
+				animation.addByPrefix('singUP', 'Dad Sing Note UP', 24, false);
+				animation.addByPrefix('singRIGHT', 'Dad Sing Note RIGHT', 24, false);
+				animation.addByPrefix('singDOWN', 'Dad Sing Note DOWN', 24, false);
+				animation.addByPrefix('singLEFT', 'Dad Sing Note LEFT', 24, false);
 
 				addOffset('idle');
 				addOffset("singUP", -9, 50);
@@ -266,7 +265,7 @@ class Character extends FlxSprite
 				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
 				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
 				animation.addByPrefix('hey', 'BF HEY', 24, false);
-				animation.addByPrefix('attack', 'boyfriend attack', 24, false);
+				//animation.addByPrefix('attack', 'boyfriend attack', 24, false);
 
 				animation.addByPrefix('firstDeath', "BF dies", 24, false);
 				animation.addByPrefix('deathLoop', "BF Dead Loop", 24, true);
@@ -629,32 +628,12 @@ class Character extends FlxSprite
 	function animationEnd(name:String){
 
 		switch(curCharacter){
-			case "mom-car":
-				switch(name){
-					case "idle":
-						playAnim(name, false, false, 8);
-					case "singUP":
-						playAnim(name, false, false, 4);
-					case "singDOWN":
-						playAnim(name, false, false, 4);
-					case "singLEFT":
-						playAnim(name, false, false, 2);
-					case "singRIGHT":
-						playAnim(name, false, false, 2);
-				}
+			case "dad" | "mom" | "mom-car" | "bf-car":
+				playAnim(name, true, false, animation.getByName(name).numFrames - 4);
 
-			case "bf-car":
-				switch(name){
-					case "idle":
-						playAnim(name, false, false, 8);
-					case "singUP":
-						playAnim(name, false, false, 3);
-					case "singDOWN":
-						playAnim(name, false, false, 2);
-					case "singLEFT":
-						playAnim(name, false, false, 4);
-					case "singRIGHT":
-						playAnim(name, false, false, 2);
+			case "bf" | "bf-christmas":
+				if(name.contains("miss")){
+					playAnim(name, true, false, animation.getByName(name).numFrames - 4);
 				}
 
 			case "monster-christmas" | "monster":
