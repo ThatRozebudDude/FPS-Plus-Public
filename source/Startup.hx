@@ -1,5 +1,6 @@
 package;
 
+import openfl.utils.Future;
 import title.*;
 import config.*;
 import transition.data.*;
@@ -12,6 +13,7 @@ import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
+import flixel.addons.util.FlxAsyncLoop;
 
 using StringTools;
 
@@ -196,13 +198,33 @@ class Startup extends FlxState
                 preloadMusic();
             #if sys }); #end
         }
+        
+
+        /*if(!charactersCached){
+            var i = 0;
+            var charLoadLoop = new FlxAsyncLoop(characters.length, function(){
+                ImageCache.add(Paths.file(characters[i], "images", "png"));
+                i++;
+            }, 1);
+        }
+
+        for(x in characters){
+            
+            //trace("Chached " + x);
+        }
+        loadingText.text = "Characters cached...";
+        charactersCached = true;*/
 
         if(!charactersCached){
-            preloadCharacters();
+            //#if sys sys.thread.Thread.create(() -> { #end
+                preloadCharacters();
+            //#if sys }); #end
         }
 
         if(!graphicsCached){
-            preloadGraphics();
+            //#if sys sys.thread.Thread.create(() -> { #end
+                preloadGraphics();
+            //#if sys }); #end
         }
 
     }
