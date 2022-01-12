@@ -112,6 +112,10 @@ class TitleScreen extends MusicBeatState
 
 		var pressedEnter:Bool = controls.ACCEPT || controls.PAUSE;
 
+		if(!transitioning && controls.BACK){
+			System.exit(0);
+		}
+
 		if (pressedEnter && !transitioning)
 		{
 			titleText.animation.play('press');

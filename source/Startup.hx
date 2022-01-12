@@ -1,6 +1,5 @@
 package;
 
-import cpp.vm.Gc;
 import title.*;
 import config.*;
 import transition.data.*;
@@ -12,6 +11,7 @@ import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
+import openfl.system.System;
 
 using StringTools;
 
@@ -165,7 +165,7 @@ class Startup extends FlxState
 
         if(songsCached && charactersCached && graphicsCached && splash.animation.curAnim.finished && !(splash.animation.curAnim.name == "end")){
             
-            Gc.run(true);
+            System.gc();
             splash.animation.play("end");
             splash.updateHitbox();
             splash.screenCenter();
