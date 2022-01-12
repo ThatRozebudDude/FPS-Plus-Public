@@ -1574,13 +1574,13 @@ class PlayState extends MusicBeatState
 			keyShit();
 		
 
-		if (FlxG.keys.justPressed.NINE)
+		/*if (FlxG.keys.justPressed.NINE)
 		{
 			if (iconP1.animation.curAnim.name == 'bf-old')
 				iconP1.animation.play(SONG.player1);
 			else
 				iconP1.animation.play('bf-old');
-		}
+		}*/
 
 		switch (curStage)
 		{
@@ -2976,12 +2976,15 @@ class PlayState extends MusicBeatState
 					trainCooldown = FlxG.random.int(-4, 0);
 					trainStart();
 				}
+
+			case "spooky":
+				if (FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset){
+					lightningStrikeShit();
+				}
+				
 		}
 
-		if (curStage == "spooky" && FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
-		{
-			lightningStrikeShit();
-		}
+		
 	}
 
 	var curLight:Int = 0;
