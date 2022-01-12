@@ -11,6 +11,7 @@ class ImageCache{
         
         var data:FlxGraphic = FlxGraphic.fromBitmapData(GPUBitmap.create(path));
         data.persist = true;
+        data.destroyOnNoUse = false;
 
         cache.set(path, data);
     }
