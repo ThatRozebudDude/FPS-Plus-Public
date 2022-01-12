@@ -1,5 +1,6 @@
 package;
 
+import cpp.vm.Gc;
 import title.*;
 import config.*;
 import transition.data.*;
@@ -164,6 +165,7 @@ class Startup extends FlxState
 
         if(songsCached && charactersCached && graphicsCached && splash.animation.curAnim.finished && !(splash.animation.curAnim.name == "end")){
             
+            Gc.run(true);
             splash.animation.play("end");
             splash.updateHitbox();
             splash.screenCenter();
