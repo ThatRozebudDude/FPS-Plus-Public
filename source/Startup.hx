@@ -1,11 +1,9 @@
 package;
 
-import openfl.utils.Future;
 import title.*;
 import config.*;
 import transition.data.*;
 
-import cpp.vm.Gc;
 import flixel.FlxState;
 import lime.utils.Assets;
 import flixel.FlxG;
@@ -13,7 +11,9 @@ import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
-import flixel.addons.util.FlxAsyncLoop;
+import openfl.system.System;
+//import openfl.utils.Future;
+//import flixel.addons.util.FlxAsyncLoop;
 
 using StringTools;
 
@@ -39,6 +39,8 @@ class Startup extends FlxState
     //List of character graphics and some other stuff.
     //Just in case it want to do something with it later.
     var charactersCached:Bool;
+    var startCachingCharacters:Bool = false;
+    var charI:Int = 0;
     var characters:Array<String> =   ["BOYFRIEND", "bfCar", "christmas/bfChristmas", "weeb/bfPixel", "weeb/bfPixelsDEAD",
                                     "GF_assets", "gfCar", "christmas/gfChristmas", "weeb/gfPixel",
                                     "DADDY_DEAREST", "spooky_kids_assets", "Monster_Assets",
@@ -47,6 +49,8 @@ class Startup extends FlxState
                                     "weeb/senpai", "weeb/spirit", "weeb/senpaiCrazy"];
 
     var graphicsCached:Bool;
+    var startCachingGraphics:Bool = false;
+    var gfxI:Int = 0;
     var graphics:Array<String> =    ["logoBumpin", "titleBG", "gfDanceTitle", "titleEnter",
                                     "stageback", "stagefront", "stagecurtains",
                                     "halloween_bg",
@@ -167,7 +171,7 @@ class Startup extends FlxState
 
         if(songsCached && charactersCached && graphicsCached && splash.animation.curAnim.finished && !(splash.animation.curAnim.name == "end")){
             
-            Gc.run(true);
+            System.gc();
             splash.animation.play("end");
             splash.updateHitbox();
             splash.screenCenter();
@@ -183,6 +187,30 @@ class Startup extends FlxState
            
             openPreloadSettings();
 
+        }
+
+        if(startCachingCharacters){
+            if(charI >= characters.length){
+                loadingText.text = "Characters cached...";
+                startCachingCharacters = false;
+                charactersCached = true;
+            }
+            else{
+                ImageCache.add(Paths.file(characters[charI], "images", "png"));
+                charI++;
+            }
+        }
+
+        if(startCachingGraphics){
+            if(gfxI >= graphics.length){
+                loadingText.text = "Graphics cached...";
+                startCachingGraphics = false;
+                graphicsCached = true;
+            }
+            else{
+                ImageCache.add(Paths.file(graphics[gfxI], "images", "png"));
+                gfxI++;
+            }
         }
         
         super.update(elapsed);
@@ -216,15 +244,11 @@ class Startup extends FlxState
         charactersCached = true;*/
 
         if(!charactersCached){
-            //#if sys sys.thread.Thread.create(() -> { #end
-                preloadCharacters();
-            //#if sys }); #end
+            startCachingCharacters = true;
         }
 
         if(!graphicsCached){
-            //#if sys sys.thread.Thread.create(() -> { #end
-                preloadGraphics();
-            //#if sys }); #end
+            startCachingGraphics = true;
         }
 
     }

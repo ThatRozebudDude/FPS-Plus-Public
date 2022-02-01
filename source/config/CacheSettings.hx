@@ -170,7 +170,7 @@ class CacheSettings extends MusicBeatState
 
         save();
 
-        ConfigMenu.startSong = false;
+        ConfigMenu.startSong = noFunMode;
         switchState(returnLoc);
 
     }
