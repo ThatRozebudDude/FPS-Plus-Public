@@ -16,6 +16,7 @@ class CacheSettings extends MusicBeatState
     public static var noFunMode = false;
 
     var keyTextDisplay:FlxText;
+    var warning:FlxText;
 
     public static var returnLoc:FlxState;
     public static var thing:Bool = false;
@@ -56,6 +57,15 @@ class CacheSettings extends MusicBeatState
 		keyTextDisplay.borderSize = 3;
 		keyTextDisplay.borderQuality = 1;
         add(keyTextDisplay);
+
+        warning = new FlxText(0, 580, 1280, "WARNING!\nEnabling this will load a large amount of graphics data to VRAM.\nIf you don't have the best GPU it might be best to leave this disabled.", 42);
+		warning.scrollFactor.set(0, 0);
+		warning.setFormat(Paths.font("vcr"), 42, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        warning.borderSize = 3;
+		warning.borderQuality = 1;
+        warning.screenCenter(X);
+        warning.visible = false;
+        add(warning);
 
         var backText = new FlxText(5, FlxG.height - 21, 0, "ESCAPE - Back to Menu", 16);
 		backText.scrollFactor.set();
@@ -173,5 +183,7 @@ class CacheSettings extends MusicBeatState
             curSelected = 0;
         if (curSelected < 0)
             curSelected = 2;
+
+        warning.visible = curSelected == 2;
     }
 }
