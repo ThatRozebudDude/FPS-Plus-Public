@@ -1,11 +1,12 @@
 package;
 
+import openfl.media.Sound;
 import title.*;
 import config.*;
 import transition.data.*;
 
 import flixel.FlxState;
-import lime.utils.Assets;
+import openfl.Assets;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
@@ -27,7 +28,7 @@ class Startup extends FlxState
     var loadingText:FlxText;
 
     var songsCached:Bool;
-    var songs:Array<String> =   ["Tutorial", 
+    public static final songs:Array<String> =   ["Tutorial", 
                                 "Bopeebo", "Fresh", "Dadbattle", 
                                 "Spookeez", "South", "Monster",
                                 "Pico", "Philly", "Blammed", 
@@ -41,7 +42,7 @@ class Startup extends FlxState
     var charactersCached:Bool;
     var startCachingCharacters:Bool = false;
     var charI:Int = 0;
-    var characters:Array<String> =   ["BOYFRIEND", "bfCar", "christmas/bfChristmas", "weeb/bfPixel", "weeb/bfPixelsDEAD",
+    public static final characters:Array<String> =   ["BOYFRIEND", "bfCar", "christmas/bfChristmas", "weeb/bfPixel", "weeb/bfPixelsDEAD",
                                     "GF_assets", "gfCar", "christmas/gfChristmas", "weeb/gfPixel",
                                     "DADDY_DEAREST", "spooky_kids_assets", "Monster_Assets",
                                     "Pico_FNF_assetss", "Mom_Assets", "momCar",
@@ -51,7 +52,7 @@ class Startup extends FlxState
     var graphicsCached:Bool;
     var startCachingGraphics:Bool = false;
     var gfxI:Int = 0;
-    var graphics:Array<String> =    ["logoBumpin", "titleBG", "gfDanceTitle", "titleEnter",
+    public static final graphics:Array<String> =    ["logoBumpin", "titleBG", "gfDanceTitle", "titleEnter",
                                     "stageback", "stagefront", "stagecurtains",
                                     "halloween_bg",
                                     "philly/sky", "philly/city", "philly/behindTrain", "philly/train", "philly/street", "philly/win0", "philly/win1", "philly/win2", "philly/win3", "philly/win4",
@@ -219,7 +220,7 @@ class Startup extends FlxState
 
     function preload(){
 
-        loadingText.text = "Preloading Assets...";
+        loadingText.text = "Caching Assets...";
         
         if(!songsCached){ 
             #if sys sys.thread.Thread.create(() -> { #end

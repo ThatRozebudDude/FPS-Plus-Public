@@ -75,12 +75,19 @@ class GPUBitmap
 				trackedTextures.remove(trackedTextures[i]);
 				counter++;
 			}
-			#if debug
-			else
-			//trace('Not disposing ' + trackedTextures[i].cacheKey + ' using $key');
-			#end
 		}
 		//trace('Disposed $counter textures using key $key');
+	}
+
+	public static function disposeAll()
+	{
+		for (i in 0...trackedTextures.length)
+		{
+			trackedTextures[i].texture.dispose();
+		}
+
+		trackedTextures = new Array<TexAsset>();
+
 	}
 }
 
