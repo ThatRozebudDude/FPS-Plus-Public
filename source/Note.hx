@@ -17,6 +17,7 @@ class Note extends FlxSprite
 	public var tooLate:Bool = false;
 	public var wasGoodHit:Bool = false;
 	public var prevNote:Note;
+	public var type:String = "";
 
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
@@ -38,9 +39,12 @@ class Note extends FlxSprite
 	public static var BLUE_NOTE:Int = 1;
 	public static var RED_NOTE:Int = 3;
 
-	public function new(_strumTime:Float, _noteData:Int, ?_editor = false, ?_prevNote:Note, ?_sustainNote:Bool = false)
+	public function new(_strumTime:Float, _noteData:Int, _type:String, ?_editor = false, ?_prevNote:Note, ?_sustainNote:Bool = false)
 	{
 		super();
+
+		if (_type != null)
+			type = _type;
 
 		if (_prevNote == null)
 			_prevNote = this;
@@ -188,6 +192,10 @@ class Note extends FlxSprite
 				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * PlayState.SONG.speed;
 				prevNote.updateHitbox();
 			}
+		}
+
+		if(type == "transparent"){
+			alpha = 0.35;
 		}
 	}
 

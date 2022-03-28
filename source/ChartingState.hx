@@ -90,6 +90,8 @@ class ChartingState extends MusicBeatState
 	var _song:SwagSong;
 
 	var typingShit:FlxInputText;
+
+	var noteType:FlxInputText;
 	/*
 	 * WILL BE THE CURRENT / LAST PLACED NOTE
 	**/
@@ -534,6 +536,8 @@ class ChartingState extends MusicBeatState
 		var tab_group_note = new FlxUI(null, UI_box);
 		tab_group_note.name = 'Note';
 
+		noteType = new FlxUIInputText(10, 70, 70, "", 8);
+
 		stepperSusLength = new FlxUINumericStepper(10, 10, Conductor.stepCrochet / 2, 0, 0, Conductor.stepCrochet * 16 * 16);
 		stepperSusLength.value = 0;
 		stepperSusLength.name = 'note_susLength';
@@ -542,6 +546,7 @@ class ChartingState extends MusicBeatState
 
 		tab_group_note.add(stepperSusLength);
 		tab_group_note.add(applyLength);
+		tab_group_note.add(noteType);
 
 		UI_box.addGroup(tab_group_note);
 	}
@@ -1255,8 +1260,9 @@ class ChartingState extends MusicBeatState
 				var daNoteInfo = i[1];
 				var daStrumTime = i[0];
 				var daSus = i[2];
+				var daNoteType = i[3];
 	
-				var note:Note = new Note(daStrumTime, daNoteInfo % 4, true);
+				var note:Note = new Note(daStrumTime, daNoteInfo % 4, daNoteType, true);
 				note.absoluteNumber = daNoteInfo;
 				note.sustainLength = daSus;
 				note.setGraphicSize(GRID_SIZE, GRID_SIZE);
@@ -1421,6 +1427,7 @@ class ChartingState extends MusicBeatState
 		var noteData = noteAdjust[_noteData];
 		var noteStrum = _noteStrum;
 		var noteSus = 0;
+		var noteTypeString = noteType.text;
 
 		if(!skipSectionCheck){
 			while(noteStrum < sectionStartTime()){
@@ -1429,19 +1436,21 @@ class ChartingState extends MusicBeatState
 		}
 			
 
-		_song.notes[curSection].sectionNotes.push([noteStrum, noteData, noteSus]);
+		_song.notes[curSection].sectionNotes.push([noteStrum, noteData, noteSus, noteTypeString]);
 
 		curSelectedNote = _song.notes[curSection].sectionNotes[_song.notes[curSection].sectionNotes.length - 1];
 
 		if (FlxG.keys.pressed.TAB)
 		{
-			_song.notes[curSection].sectionNotes.push([noteStrum, (noteData + 4) % 8, noteSus]);
+			_song.notes[curSection].sectionNotes.push([noteStrum, (noteData + 4) % 8, noteSus, noteTypeString]);
 		}
 
 		removeDuplicates(curSection, curSelectedNote);
 
 		trace(noteStrum);
 		trace(curSection);
+		trace("adding \"" + noteType.text + "\" note");
+		trace(_song.notes[curSection].sectionNotes);
 
 		updateGrid();
 		updateNoteUI();
@@ -1536,6 +1545,7 @@ class ChartingState extends MusicBeatState
 	
 	private function saveGenericLevel()
 	{
+		
 		var genericSong =
 		{
 			song: _song.song,
