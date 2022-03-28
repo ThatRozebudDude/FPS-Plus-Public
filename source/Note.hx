@@ -29,6 +29,9 @@ class Note extends FlxSprite
 
 	public var editor = false;
 
+	public var xOffset:Float = 0;
+	public var yOffset:Float = 0;
+
 	public static var swagWidth:Float = 160 * 0.7;
 	public static var PURP_NOTE:Int = 0;
 	public static var GREEN_NOTE:Int = 2;
@@ -45,7 +48,6 @@ class Note extends FlxSprite
 		prevNote = _prevNote;
 		isSustainNote = _sustainNote;
 
-		x += 100;
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
 		y -= 2000;
 
@@ -129,16 +131,12 @@ class Note extends FlxSprite
 		switch (noteData)
 		{
 			case 0:
-				x += swagWidth * 0;
 				animation.play('purpleScroll');
 			case 1:
-				x += swagWidth * 1;
 				animation.play('blueScroll');
 			case 2:
-				x += swagWidth * 2;
 				animation.play('greenScroll');
 			case 3:
-				x += swagWidth * 3;
 				animation.play('redScroll');
 		}
 
@@ -148,7 +146,7 @@ class Note extends FlxSprite
 		{
 			alpha = 0.6;
 
-			x += width / 2;
+			xOffset += width / 2;
 			
 			flipY = Config.downscroll;
 
@@ -168,10 +166,10 @@ class Note extends FlxSprite
 
 			updateHitbox();
 
-			x -= width / 2;
+			xOffset -= width / 2;
 
 			if (PlayState.curStage.startsWith('school'))
-				x += 30;
+				xOffset += 30;
 
 			if (prevNote.isSustainNote)
 			{

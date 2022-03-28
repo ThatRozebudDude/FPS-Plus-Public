@@ -1819,6 +1819,18 @@ class PlayState extends MusicBeatState
 	function updateNote(){
 		notes.forEachAlive(function(daNote:Note)
 		{
+			var targetY:Float;
+			var targetX:Float;
+
+			if(daNote.mustPress){
+				targetY = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].y;
+				targetX = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].x;
+			}
+			else{
+				targetY = enemyStrums.members[Math.floor(Math.abs(daNote.noteData))].y;
+				targetX = enemyStrums.members[Math.floor(Math.abs(daNote.noteData))].x;
+			}
+
 			if(Config.downscroll){
 				daNote.y = (strumLine.y + (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(PlayState.SONG.speed, 2)));	
 				if(daNote.isSustainNote){
@@ -1830,9 +1842,7 @@ class PlayState extends MusicBeatState
 					{
 						// Clip to strumline
 						var swagRect = new FlxRect(0, 0, daNote.frameWidth * 2, daNote.frameHeight * 2);
-						swagRect.height = (strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].y
-							+ Note.swagWidth / 2
-							- daNote.y) / daNote.scale.y;
+						swagRect.height = (targetY + Note.swagWidth / 2 - daNote.y) / daNote.scale.y;
 						swagRect.y = daNote.frameHeight - swagRect.height;
 	
 						daNote.clipRect = swagRect;
@@ -1847,9 +1857,7 @@ class PlayState extends MusicBeatState
 					{
 						// Clip to strumline
 						var swagRect = new FlxRect(0, 0, daNote.width / daNote.scale.x, daNote.height / daNote.scale.y);
-						swagRect.y = (strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].y
-							+ Note.swagWidth / 2
-							- daNote.y) / daNote.scale.y;
+						swagRect.y = (targetY + Note.swagWidth / 2 - daNote.y) / daNote.scale.y;
 						swagRect.height -= swagRect.y;
 
 						daNote.clipRect = swagRect;
@@ -1857,6 +1865,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 
+			daNote.x = targetX + daNote.xOffset;
 
 			//MOVE NOTE TRANSPARENCY CODE BECAUSE REASONS 
 			if(daNote.tooLate){
