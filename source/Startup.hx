@@ -1,17 +1,20 @@
 package;
 
+import openfl.media.Sound;
 import title.*;
 import config.*;
 import transition.data.*;
 
 import flixel.FlxState;
-import lime.utils.Assets;
+import openfl.Assets;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
 import openfl.system.System;
+//import openfl.utils.Future;
+//import flixel.addons.util.FlxAsyncLoop;
 
 using StringTools;
 
@@ -25,7 +28,7 @@ class Startup extends FlxState
     var loadingText:FlxText;
 
     var songsCached:Bool;
-    var songs:Array<String> =   ["Tutorial", 
+    public static final songs:Array<String> =   ["Tutorial", 
                                 "Bopeebo", "Fresh", "Dadbattle", 
                                 "Spookeez", "South", "Monster",
                                 "Pico", "Philly", "Blammed", 
@@ -37,7 +40,9 @@ class Startup extends FlxState
     //List of character graphics and some other stuff.
     //Just in case it want to do something with it later.
     var charactersCached:Bool;
-    var characters:Array<String> =   ["BOYFRIEND", "bfCar", "christmas/bfChristmas", "weeb/bfPixel", "weeb/bfPixelsDEAD",
+    var startCachingCharacters:Bool = false;
+    var charI:Int = 0;
+    public static final characters:Array<String> =   ["BOYFRIEND", "bfCar", "christmas/bfChristmas", "weeb/bfPixel", "weeb/bfPixelsDEAD",
                                     "GF_assets", "gfCar", "christmas/gfChristmas", "weeb/gfPixel",
                                     "DADDY_DEAREST", "spooky_kids_assets", "Monster_Assets",
                                     "Pico_FNF_assetss", "Mom_Assets", "momCar",
@@ -45,7 +50,9 @@ class Startup extends FlxState
                                     "weeb/senpai", "weeb/spirit", "weeb/senpaiCrazy"];
 
     var graphicsCached:Bool;
-    var graphics:Array<String> =    ["logoBumpin", "titleBG", "gfDanceTitle", "titleEnter",
+    var startCachingGraphics:Bool = false;
+    var gfxI:Int = 0;
+    public static final graphics:Array<String> =    ["logoBumpin", "titleBG", "gfDanceTitle", "titleEnter",
                                     "stageback", "stagefront", "stagecurtains",
                                     "halloween_bg",
                                     "philly/sky", "philly/city", "philly/behindTrain", "philly/train", "philly/street", "philly/win0", "philly/win1", "philly/win2", "philly/win3", "philly/win4",
@@ -103,16 +110,16 @@ class Startup extends FlxState
 				StoryMenuState.weekUnlocked[0] = true;
 		}
 
-        if( FlxG.save.data.musicPreload == null ||
-            FlxG.save.data.charPreload == null ||
-            FlxG.save.data.graphicsPreload == null)
+        if( FlxG.save.data.musicPreload2 == null ||
+            FlxG.save.data.charPreload2 == null ||
+            FlxG.save.data.graphicsPreload2 == null)
         {
             openPreloadSettings();
         }
         else{
-            songsCached = !FlxG.save.data.musicPreload;
-            charactersCached = !FlxG.save.data.charPreload;
-            graphicsCached = !FlxG.save.data.graphicsPreload;
+            songsCached = !FlxG.save.data.musicPreload2;
+            charactersCached = !FlxG.save.data.charPreload2;
+            graphicsCached = !FlxG.save.data.graphicsPreload2;
         }
 
         splash = new FlxSprite(0, 0);
@@ -176,11 +183,35 @@ class Startup extends FlxState
             });
         }
 
-        if(!cacheStart && FlxG.keys.justPressed.O){
+        if(!cacheStart && FlxG.keys.justPressed.ANY){
             
            
             openPreloadSettings();
 
+        }
+
+        if(startCachingCharacters){
+            if(charI >= characters.length){
+                loadingText.text = "Characters cached...";
+                startCachingCharacters = false;
+                charactersCached = true;
+            }
+            else{
+                ImageCache.add(Paths.file(characters[charI], "images", "png"));
+                charI++;
+            }
+        }
+
+        if(startCachingGraphics){
+            if(gfxI >= graphics.length){
+                loadingText.text = "Graphics cached...";
+                startCachingGraphics = false;
+                graphicsCached = true;
+            }
+            else{
+                ImageCache.add(Paths.file(graphics[gfxI], "images", "png"));
+                gfxI++;
+            }
         }
         
         super.update(elapsed);
@@ -189,25 +220,36 @@ class Startup extends FlxState
 
     function preload(){
 
-        loadingText.text = "Preloading Assets...";
-
+        loadingText.text = "Caching Assets...";
         
         if(!songsCached){ 
             #if sys sys.thread.Thread.create(() -> { #end
                 preloadMusic();
             #if sys }); #end
         }
+        
+
+        /*if(!charactersCached){
+            var i = 0;
+            var charLoadLoop = new FlxAsyncLoop(characters.length, function(){
+                ImageCache.add(Paths.file(characters[i], "images", "png"));
+                i++;
+            }, 1);
+        }
+
+        for(x in characters){
+            
+            //trace("Chached " + x);
+        }
+        loadingText.text = "Characters cached...";
+        charactersCached = true;*/
 
         if(!charactersCached){
-            #if sys sys.thread.Thread.create(() -> { #end
-                preloadCharacters();
-            #if sys }); #end
+            startCachingCharacters = true;
         }
 
         if(!graphicsCached){
-            #if sys sys.thread.Thread.create(() -> { #end
-                preloadGraphics();
-            #if sys }); #end
+            startCachingGraphics = true;
         }
 
     }
@@ -227,7 +269,7 @@ class Startup extends FlxState
 
     function preloadCharacters(){
         for(x in characters){
-            ImageCache.add(Paths.image(x));
+            ImageCache.add(Paths.file(x, "images", "png"));
             //trace("Chached " + x);
         }
         loadingText.text = "Characters cached...";
@@ -236,7 +278,7 @@ class Startup extends FlxState
 
     function preloadGraphics(){
         for(x in graphics){
-            ImageCache.add(Paths.image(x));
+            ImageCache.add(Paths.file(x, "images", "png"));
             //trace("Chached " + x);
         }
         loadingText.text = "Graphics cached...";

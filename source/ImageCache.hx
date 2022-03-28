@@ -9,7 +9,7 @@ class ImageCache{
 
     public static function add(path:String):Void{
         
-        var data:FlxGraphic = FlxGraphic.fromBitmapData(BitmapData.fromFile(path));
+        var data:FlxGraphic = FlxGraphic.fromBitmapData(GPUBitmap.create(path));
         data.persist = true;
         data.destroyOnNoUse = false;
 

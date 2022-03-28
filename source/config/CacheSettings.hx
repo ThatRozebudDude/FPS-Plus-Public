@@ -16,11 +16,13 @@ class CacheSettings extends MusicBeatState
     public static var noFunMode = false;
 
     var keyTextDisplay:FlxText;
+    var warning:FlxText;
 
     public static var returnLoc:FlxState;
     public static var thing:Bool = false;
 
     var settings:Array<Bool>;
+    var startingSettings:Array<Bool>;
     var names:Array<String> = ["MUSIC", "CHARACTERS", "GRAPHICS"];
     var onOff:Array<String> = ["off", "on"];
 
@@ -37,7 +39,6 @@ class CacheSettings extends MusicBeatState
         if(noFunMode){
             bgColor = 0xFF303030;
             font = "VCR OSD Mono";
-            noFunMode = false;
         }
 
 		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
@@ -57,21 +58,31 @@ class CacheSettings extends MusicBeatState
 		keyTextDisplay.borderQuality = 1;
         add(keyTextDisplay);
 
+        warning = new FlxText(0, 540, 1280, "WARNING!\nEnabling this will load a large amount of graphics data to VRAM.\nIf you don't have a decent GPU it might be best to leave this disabled.", 32);
+		warning.scrollFactor.set(0, 0);
+		warning.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        warning.borderSize = 3;
+		warning.borderQuality = 1;
+        warning.screenCenter(X);
+        warning.visible = false;
+        add(warning);
+
         var backText = new FlxText(5, FlxG.height - 21, 0, "ESCAPE - Back to Menu", 16);
 		backText.scrollFactor.set();
 		backText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(backText);
 
-        if( FlxG.save.data.musicPreload == null ||
-            FlxG.save.data.charPreload == null ||
-            FlxG.save.data.graphicsPreload == null)
+        if( FlxG.save.data.musicPreload2 == null ||
+            FlxG.save.data.charPreload2 == null ||
+            FlxG.save.data.graphicsPreload2 == null)
         {
-            FlxG.save.data.musicPreload = true;
-            FlxG.save.data.charPreload = true;
-            FlxG.save.data.graphicsPreload = true;
+            FlxG.save.data.musicPreload2 = true;
+            FlxG.save.data.charPreload2 = true;
+            FlxG.save.data.graphicsPreload2 = false;
         }
 
-        settings = [FlxG.save.data.musicPreload, FlxG.save.data.charPreload, FlxG.save.data.graphicsPreload];
+        settings = [FlxG.save.data.musicPreload2, FlxG.save.data.charPreload2, FlxG.save.data.graphicsPreload2];
+        startingSettings = [FlxG.save.data.musicPreload2, FlxG.save.data.charPreload2, FlxG.save.data.graphicsPreload2];
 
         textUpdate();
 
@@ -124,7 +135,7 @@ class CacheSettings extends MusicBeatState
     function textUpdate(){
 
         keyTextDisplay.clearFormats();
-        keyTextDisplay.text = "\n\nPRELOAD SETTINGS\n\n";
+        keyTextDisplay.text = "\n\nCACHE SETTINGS\n\n";
 
         for(i in 0...3){
 
@@ -144,9 +155,9 @@ class CacheSettings extends MusicBeatState
 
     function save(){
 
-        FlxG.save.data.musicPreload = settings[0];
-        FlxG.save.data.charPreload = settings[1];
-        FlxG.save.data.graphicsPreload = settings[2];
+        FlxG.save.data.musicPreload2 = settings[0];
+        FlxG.save.data.charPreload2 = settings[1];
+        FlxG.save.data.graphicsPreload2 = settings[2];
 
         FlxG.save.flush();
 
@@ -160,7 +171,25 @@ class CacheSettings extends MusicBeatState
 
         save();
 
-        ConfigMenu.startSong = false;
+        CacheReload.doMusic = true;
+        CacheReload.doGraphics = true;
+
+        if((startingSettings[0] != settings[0] || startingSettings[1] != settings[1] || startingSettings[2] != settings[2]) && !noFunMode){
+            if(startingSettings[0] == settings[0]){
+                CacheReload.doMusic = false;
+            }
+            if(startingSettings[1] == settings[1] && startingSettings[2] == settings[2]){
+                CacheReload.doGraphics = false;
+            }
+            returnLoc = new CacheReload();
+            ConfigMenu.startSong = false;
+        }
+        else if(!noFunMode){
+            ConfigMenu.startSong = false;
+        }
+
+        noFunMode = false;
+
         switchState(returnLoc);
 
     }
@@ -173,5 +202,7 @@ class CacheSettings extends MusicBeatState
             curSelected = 0;
         if (curSelected < 0)
             curSelected = 2;
+
+        warning.visible = curSelected == 2;
     }
 }

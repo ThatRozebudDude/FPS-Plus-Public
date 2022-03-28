@@ -24,11 +24,11 @@ class Paths
 
     }
 
-    inline static public function image(key:String):Dynamic{
+    inline static public function image(key:String, forceLoadFromDisk:Bool = false):Dynamic{
 
         var data:String = file(key, "images", "png");
 
-        if(ImageCache.exists(data)){
+        if(ImageCache.exists(data) && !forceLoadFromDisk){
             //trace(key + " is in the cache");
             return ImageCache.get(data);
         }

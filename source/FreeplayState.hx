@@ -35,7 +35,7 @@ class FreeplayState extends MusicBeatState
 	{
 
 		openfl.Lib.current.stage.frameRate = 144;
-
+		
 		curSelected = 0;
 
 		songs.push(new SongMetadata("Tutorial", 1, 'gf'));

@@ -1,5 +1,7 @@
 package;
 
+import flixel.system.scaleModes.RatioScaleMode;
+import flixel.FlxG;
 import flixel.FlxGame;
 import openfl.display.FPS;
 import openfl.display.Sprite;
@@ -25,7 +27,7 @@ class Main extends Sprite
 
 		#if !mobile
 		fpsDisplay = new FPS(10, 3, 0xFFFFFF);
-		fpsDisplay.visible = false;
+		fpsDisplay.visible = true;
 		addChild(fpsDisplay);
 		#end
 

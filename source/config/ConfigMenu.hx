@@ -59,7 +59,7 @@ class ConfigMenu extends MusicBeatState
 									"NOTE GLOW",
 									"COMBO DISPLAY",
 									"BACKGROUND DIM",
-									"[PRELOAD SETTINGS]",
+									"[CACHE SETTINGS]",
 									"CONTROLLER SCHEME",
 									"[EDIT KEY BINDS]"
 									];
@@ -76,7 +76,7 @@ class ConfigMenu extends MusicBeatState
 									"Makes note arrows glow if they are able to be hit.",
 									"TEMP",
 									"Adjusts how dark the background is.\nIt is recommended that you use the HUD combo display with a high background dim.",
-									"Change what assets the game preloads on startup.\n[A restart is required for these changes.]",
+									"Change what assets the game keeps cached.",
 									"TEMP",
 									"Change key binds."
 									];
@@ -112,6 +112,9 @@ class ConfigMenu extends MusicBeatState
 
 	override function create()
 	{	
+		
+		openfl.Lib.current.stage.frameRate = 144;
+
 		if(exitTo == null){
 			exitTo = MainMenuState;
 		}
