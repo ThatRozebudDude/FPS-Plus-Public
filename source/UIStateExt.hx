@@ -4,6 +4,7 @@ import transition.*;
 import transition.data.*;
 
 import cpp.vm.Gc;
+import openfl.system.System;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.addons.ui.FlxUIState;
@@ -45,6 +46,7 @@ class UIStateExt extends FlxUIState
 		}
 		else{
 			FlxG.switchState(_state);
+			System.gc();
 			return;
 		}
 	}
