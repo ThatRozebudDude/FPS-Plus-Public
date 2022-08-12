@@ -2270,94 +2270,12 @@ class PlayState extends MusicBeatState
 
 			var directionsAccounted = [false,false,false,false];
 
-			if (possibleNotes.length > 0)
-			{
-				var daNote = possibleNotes[0];
-
-				// Jump notes
-				if (possibleNotes.length >= 2)
+			for(note in possibleNotes){
+				if (controlArray[note.noteData] && !directionsAccounted[note.noteData])
 				{
-					if (inRange(possibleNotes[0].strumTime, possibleNotes[1].strumTime, 4))
-					{
-						for (coolNote in possibleNotes)
-						{
-							if (controlArray[coolNote.noteData] && !directionsAccounted[coolNote.noteData])
-							{
-								goodNoteHit(coolNote);
-								directionsAccounted[coolNote.noteData] = true;
-							}
-							else
-							{
-								var inIgnoreList:Bool = false;
-								for (shit in 0...ignoreList.length)
-								{
-									if (controlArray[ignoreList[shit]])
-										inIgnoreList = true;
-								}
-								if (!inIgnoreList){
-									badNoteCheck();
-								}
-							}
-						}
-					}
-					else if (possibleNotes[0].noteData == possibleNotes[1].noteData)
-					{
-						if (controlArray[daNote.noteData] && !directionsAccounted[daNote.noteData])
-						{
-							goodNoteHit(daNote);
-							directionsAccounted[daNote.noteData] = true;
-						}
-					}
-					else
-					{
-						for (coolNote in possibleNotes)
-						{
-							if (controlArray[coolNote.noteData] && !directionsAccounted[coolNote.noteData] && !coolNote.isSustainNote)
-							{
-								goodNoteHit(coolNote);
-								directionsAccounted[coolNote.noteData] = true;
-							}
-						}
-					}
+					goodNoteHit(note);
+					directionsAccounted[note.noteData] = true;
 				}
-				else // regular notes?
-				{
-					if (controlArray[daNote.noteData] && !directionsAccounted[daNote.noteData])
-					{
-						goodNoteHit(daNote);
-						directionsAccounted[daNote.noteData] = true;
-					}
-				}
-				/* 
-					if (controlArray[daNote.noteData])
-						goodNoteHit(daNote);
-				 */
-				// trace(daNote.noteData);
-				/* 
-					switch (daNote.noteData)
-					{
-						case 2: // NOTES YOU JUST PRESSED
-							if (upP || rightP || downP || leftP)
-								noteCheck(upP, daNote);
-						case 3:
-							if (upP || rightP || downP || leftP)
-								noteCheck(rightP, daNote);
-						case 1:
-							if (upP || rightP || downP || leftP)
-								noteCheck(downP, daNote);
-						case 0:
-							if (upP || rightP || downP || leftP)
-								noteCheck(leftP, daNote);
-					}
-				 */
-				/*if (daNote.wasGoodHit && !daNote.isSustainNote)
-				{
-					daNote.destroy();
-				}*/
-			}
-			else
-			{
-				badNoteCheck();
 			}
 		}
 		
@@ -2505,7 +2423,7 @@ class PlayState extends MusicBeatState
 
 		notes.forEachAlive(function(daNote:Note)
 		{
-			if (daNote.mustPress && daNote.strumTime < Conductor.songPosition + Conductor.safeZoneOffset * 0.125)
+			if (daNote.mustPress && daNote.strumTime < Conductor.songPosition + Conductor.safeZoneOffset * (!daNote.isSustainNote ? 0.125 : 1))
 			{
 				hitNotes.push(daNote);
 			}
