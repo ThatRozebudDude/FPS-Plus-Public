@@ -2270,12 +2270,21 @@ class PlayState extends MusicBeatState
 
 			var directionsAccounted = [false,false,false,false];
 
-			for(note in possibleNotes){
-				if (controlArray[note.noteData] && !directionsAccounted[note.noteData])
-				{
-					goodNoteHit(note);
-					directionsAccounted[note.noteData] = true;
+			if (possibleNotes.length > 0){
+				for(note in possibleNotes){
+					if (controlArray[note.noteData] && !directionsAccounted[note.noteData]){
+						goodNoteHit(note);
+						directionsAccounted[note.noteData] = true;
+					}
 				}
+				for(i in 0...4){
+					if(!ignoreList.contains(i) && controlArray[i]){
+						badNoteCheck(i);
+					}
+				}
+			}
+			else{
+				badNoteCheck();
 			}
 		}
 		
@@ -2540,17 +2549,17 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-	function badNoteCheck()
+	function badNoteCheck(direction:Int = -1)
 	{
 		if(Config.ghostTapType > 0 && !canHit){}
 		else{
-			if (leftPress)
+			if (leftPress && (direction == -1 || direction == 0))
 				noteMissWrongPress(0);
-			if (upPress)
+			if (upPress && (direction == -1 || direction == 2))
 				noteMissWrongPress(2);
-			if (rightPress)
+			if (rightPress && (direction == -1 || direction == 3))
 				noteMissWrongPress(3);
-			if (downPress)
+			if (downPress && (direction == -1 || direction == 1))
 				noteMissWrongPress(1);
 		}
 	}
