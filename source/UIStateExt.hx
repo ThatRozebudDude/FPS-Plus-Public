@@ -2,7 +2,6 @@ package;
 
 import transition.*;
 import transition.data.*;
-
 import openfl.system.System;
 import flixel.FlxG;
 import flixel.FlxState;
