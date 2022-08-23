@@ -37,8 +37,10 @@ jobs:
           haxelib install flixel-ui
           haxelib install hscript
           haxelib install flixel-addons
+          haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
+          haxelib git flixel-addons https://github.com/HaxeFlixel/flixel-addons
           haxelib list
-          haxelib run lime build html5
+          haxelib run lime build html5 -debug
           
       - uses: actions/upload-artifact@v2
         with:
