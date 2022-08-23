@@ -37,7 +37,7 @@ class MusicBeatState extends UIStateExt
 	/**
 	 * CHECKS EVERY FRAME
 	 */
-	private function everyStep():Void
+	 private function everyStep():Void
 	{
 		if (Conductor.songPosition > lastStep + Conductor.stepCrochet - Conductor.safeZoneOffset
 			|| Conductor.songPosition < lastStep + Conductor.safeZoneOffset)
