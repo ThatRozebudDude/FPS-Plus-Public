@@ -1,7 +1,6 @@
 package;
 
 import Conductor.BPMChangeEvent;
-
 class MusicBeatState extends UIStateExt
 {
 	private var lastBeat:Float = 0;
