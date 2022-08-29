@@ -17,6 +17,8 @@ class Character extends FlxSprite
 	public var holdTimer:Float = 0;
 
 	public var canAutoAnim:Bool = true;
+	public var danceLockout:Bool = false;
+	public var animSet:String = "";
 
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
 	{
@@ -549,6 +551,11 @@ class Character extends FlxSprite
 	{
 		if (!debugMode || ignoreDebug)
 		{
+
+			if(danceLockout){
+				return;
+			}
+
 			switch (curCharacter)
 			{
 				case 'gf' | 'gf-car' | 'gf-christmas' | 'gf-pixel':
@@ -592,6 +599,14 @@ class Character extends FlxSprite
 
 	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void
 	{
+
+		if(animSet != ""){
+			if(animation.exists(AnimName + "-" + animSet)){
+				AnimName = AnimName + "-" + animSet;
+			}
+			else { trace(AnimName + "-" + animSet + " not found. Reverting to " + AnimName); }
+		}
+
 		animation.play(AnimName, Force, Reversed, Frame);
 
 		var daOffset = animOffsets.get(animation.curAnim.name);
@@ -626,6 +641,8 @@ class Character extends FlxSprite
 	}
 
 	function animationEnd(name:String){
+
+		danceLockout = false;
 
 		switch(curCharacter){
 			case "dad" | "mom" | "mom-car" | "bf-car":

@@ -123,7 +123,7 @@ class ChartingState extends MusicBeatState
 
 		openfl.Lib.current.stage.frameRate = 120;
 
-		var controlInfo = new FlxText(10, 30, 0, "LEFT CLICK - Place Notes\nRIGHT CLICK - Delete Notes\nMIDDLE CLICK - Reselect a note.\n\nSHIFT - Unlock cursor from grid\nALT - Triplets\nCONTROL - 1/32 Notes\nSHIFT + CONTROL - 1/64 Notes\n\nTAB - Place notes on both sides\nHJKL - Place notes during\n                       playback\n\nR - Top of section\nSHIFT + R - Song start\n\nENTER - Test chart.\nCTRL + ENTER - Test chart from\n                         current section.", 12);
+		var controlInfo = new FlxText(10, 30, 0, "LEFT CLICK - Place Notes\nRIGHT CLICK - Delete Notes\nMIDDLE CLICK - Reselect a note.\n\nSHIFT - Unlock cursor from grid\nALT - Triplets\nCONTROL - 1/32 Notes\nSHIFT + CONTROL - 1/64 Notes\n\nTAB - Place notes on both sides\nHJKL - Place notes during\n                       playback\n\nR - Top of section\nCTRL + R - Song start\n\nENTER - Test chart.\nCTRL + ENTER - Test chart from\n                         current section.", 12);
 		controlInfo.scrollFactor.set();
 		add(controlInfo);
 
@@ -434,11 +434,23 @@ class ChartingState extends MusicBeatState
 				FlxG.sound.music.volume = vol;
 			};
 	
-			bfClick = new FlxUICheckBox(10, 30, null, null, "BF Note Click", 100);
+			bfClick = new FlxUICheckBox(10, 50, null, null, "BF Note Click", 100);
 			bfClick.checked = false;
 
-			opClick = new FlxUICheckBox(10, 50, null, null, "Opp Note Click", 100);
+			opClick = new FlxUICheckBox(10, 70, null, null, "Opp Note Click", 100);
 			opClick.checked = false;
+
+			var check_mute_vox = new FlxUICheckBox(10, 30, null, null, "Mute Vocals (in editor)", 100);
+			check_mute_vox.checked = false;
+			check_mute_vox.callback = function()
+			{
+				var vol:Float = 1;
+	
+				if (check_mute_vox.checked)
+					vol = 0;
+	
+				vocals.volume = vol;
+			};
 	
 			//halfSpeedCheck = new FlxUICheckBox(10, 170, null, null, "Half Speed", 100);
 			//halfSpeedCheck.checked = false;
@@ -449,6 +461,7 @@ class ChartingState extends MusicBeatState
 			tab_group_tools.add(gotoSectionStepper);
 			tab_group_tools.add(gotoSectionButton);
 			tab_group_tools.add(check_mute_inst);
+			tab_group_tools.add(check_mute_vox);
 			tab_group_tools.add(bfClick);
 			tab_group_tools.add(opClick);
 			
@@ -602,13 +615,21 @@ class ChartingState extends MusicBeatState
 		{
 			eventTagName.text = eventTagList[Std.parseInt(tag)];
 		});
-		//eventTagDrop.selectedLabel = _song.player1;
+
+		var stepperCopy:FlxUINumericStepper = new FlxUINumericStepper(110, 40, 1, 1, -999, 999, 0);
+
+		var copyButton:FlxButton = new FlxButton(10, 40, "Copy", function()
+		{
+			copyEventSection(Std.int(stepperCopy.value));
+		});
 
 		var tab_group_event = new FlxUI(null, UI_box);
 		tab_group_event.name = 'Event';
 
 		tab_group_event.add(eventTagName);
 		tab_group_event.add(eventTagDrop);
+		tab_group_event.add(stepperCopy);
+		tab_group_event.add(copyButton);
 
 		UI_box.addGroup(tab_group_event);
 		
@@ -976,7 +997,7 @@ class ChartingState extends MusicBeatState
 
 			if (FlxG.keys.justPressed.R)
 			{
-				if (FlxG.keys.pressed.SHIFT)
+				if (FlxG.keys.pressed.CONTROL)
 					resetSection(true);
 				else
 					resetSection();
@@ -1821,7 +1842,7 @@ class ChartingState extends MusicBeatState
 		var section = curSection;
 
 		for (i in _events.events){
-			if (approxEqual(i[1], noteStrum, 3) && eventTag == i[3]){
+			if (approxEqual(i[1], noteStrum, 3) && (eventTag == i[3] || noteData == i[2])){
 				return;
 			}
 		}
@@ -1832,14 +1853,10 @@ class ChartingState extends MusicBeatState
 		}
 
 		_events.events.push([section, noteStrum, noteData, eventTag]);
-			
-		//curSelectedNote = _song.notes[curSection].sectionNotes[_song.notes[curSection].sectionNotes.length - 1];
-
-		//removeDuplicateEvents(curSection, curSelectedNote);
-
-		trace("Slot: " + noteData);
-		trace("Time: " + noteStrum);
-		trace("Tag:  " + eventTag);
+		
+		//trace("Slot: " + noteData);
+		//trace("Time: " + noteStrum);
+		//trace("Tag:  " + eventTag);
 
 		updateGrid();
 		autosaveSong();
@@ -1847,7 +1864,7 @@ class ChartingState extends MusicBeatState
 
 	function deleteEvent(event:FlxSprite):Void{
 
-		var strumTime = getStrumTime(event.y);
+		var strumTime = getStrumTime(event.y) + sectionStartTime();
 
 		var tag = eventTagList[eventColors.indexOf(event.color)];
 
@@ -1872,6 +1889,25 @@ class ChartingState extends MusicBeatState
 			eventTagDrop.setData(FlxUIDropDownMenu.makeStrIdLabelArray(eventTagList, true));
 		}
 		
+
+		updateGrid();
+	}
+
+	function copyEventSection(?sectionNum:Int = 1)
+	{
+		var daSec = FlxMath.maxInt(curSection, sectionNum);
+
+		for (event in _events.events)
+		{
+			if(event[0] == daSec - sectionNum){
+				var strum = event[1] + Conductor.stepCrochet * (16 * sectionNum);
+
+				var copiedNote:Array<Dynamic> = [daSec, strum, event[2], event[3]];
+				_events.events.push(copiedNote);
+			}
+		}
+
+		//removeDuplicates(curSection);
 
 		updateGrid();
 	}
