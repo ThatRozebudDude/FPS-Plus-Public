@@ -18,6 +18,7 @@ import openfl.events.KeyboardEvent;
 //import polymod.fs.SysFileSystem;
 import Section.SwagSection;
 import Song.SwagSong;
+import Song.SongEvents;
 //import WiggleEffect.WiggleEffectType;
 //import flixel.FlxBasic;
 import flixel.FlxCamera;
@@ -64,6 +65,8 @@ class PlayState extends MusicBeatState
 
 	public static var curStage:String = '';
 	public static var SONG:SwagSong;
+	public static var EVENTS:SongEvents;
+	public static var loadEvents:Bool = true;
 	public static var isStoryMode:Bool = false;
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
@@ -170,6 +173,8 @@ class PlayState extends MusicBeatState
 	private var camGame:FlxCamera;
 	private var camOverlay:FlxCamera;
 
+	private var eventList:Array<Dynamic> = [];
+
 	private var comboUI:ComboPopup;
 	public static final minCombo:Int = 10;
 
@@ -245,6 +250,23 @@ class PlayState extends MusicBeatState
 
 		customTransIn = new ScreenWipeIn(1.2);
 		customTransOut = new ScreenWipeOut(0.6);
+
+		if(loadEvents){
+			if(Assets.exists("data/" + SONG.song.toLowerCase() + "/events.json")){
+				EVENTS = Song.parseEventJSON(Paths.json(SONG.song.toLowerCase() + "/events.json"));
+			}
+			else{
+				EVENTS = {
+					events: []
+				};
+			}
+		}
+
+		for(i in EVENTS.events){
+			eventList.push([i[1], i[3]]);
+		}
+
+		eventList.sort(sortByEventStuff);
 
 		FlxG.sound.cache(Paths.music(SONG.song + "_Inst"));
 		FlxG.sound.cache(Paths.music(SONG.song + "_Voices"));
@@ -1378,6 +1400,11 @@ class PlayState extends MusicBeatState
 		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.strumTime, Obj2.strumTime);
 	}
 
+	function sortByEventStuff(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int
+	{
+		return FlxSort.byValues(FlxSort.ASCENDING, Obj1[0], Obj2[0]);
+	}
+
 	private function generateStaticArrows(player:Int):Void
 	{
 		for (i in 0...4)
@@ -1582,6 +1609,18 @@ class PlayState extends MusicBeatState
 			else
 				iconP1.animation.play('bf-old');
 		}*/
+		
+		if(!startingSong){
+			for(i in eventList){
+				if(i[0] > Conductor.songPosition){
+					break;
+				}
+				else{
+					executeEvent(i[1]);
+					eventList.remove(i);
+				}
+			}
+		}
 
 		switch (curStage)
 		{
@@ -2922,6 +2961,14 @@ class PlayState extends MusicBeatState
 		}
 
 		
+	}
+
+	private function executeEvent(tag:String):Void{
+		switch(tag){
+			default:
+				trace(tag);
+		}
+		return;
 	}
 
 	var curLight:Int = 0;

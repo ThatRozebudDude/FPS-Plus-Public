@@ -194,6 +194,7 @@ class FreeplayState extends MusicBeatState
 			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
 			PlayState.isStoryMode = false;
 			PlayState.storyDifficulty = curDifficulty;
+			PlayState.loadEvents = true;
 			startingSelection = curSelected;
 			PlayState.returnLocation = "freeplay";
 			PlayState.storyWeek = songs[curSelected].week;
