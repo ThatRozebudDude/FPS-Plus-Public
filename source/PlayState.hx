@@ -252,10 +252,13 @@ class PlayState extends MusicBeatState
 		customTransOut = new ScreenWipeOut(0.6);
 
 		if(loadEvents){
-			if(Assets.exists("data/" + SONG.song.toLowerCase() + "/events.json")){
-				EVENTS = Song.parseEventJSON(Paths.json(SONG.song.toLowerCase() + "/events.json"));
+			if(Assets.exists("assets/data/" + SONG.song.toLowerCase() + "/events.json")){
+				trace("loaded events");
+				trace(Paths.json(SONG.song.toLowerCase() + "/events"));
+				EVENTS = Song.parseEventJSON(Assets.getText(Paths.json(SONG.song.toLowerCase() + "/events")));
 			}
 			else{
+				trace("No events found");
 				EVENTS = {
 					events: []
 				};
