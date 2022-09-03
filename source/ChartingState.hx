@@ -118,6 +118,9 @@ class ChartingState extends MusicBeatState
 	
 	var justChanged:Bool;
 
+	var lilBf:FlxSprite;
+	var lilOpp:FlxSprite;
+
 	override function create()
 	{
 
@@ -126,6 +129,22 @@ class ChartingState extends MusicBeatState
 		var controlInfo = new FlxText(10, 30, 0, "LEFT CLICK - Place Notes\nRIGHT CLICK - Delete Notes\nMIDDLE CLICK - Reselect a note.\n\nSHIFT - Unlock cursor from grid\nALT - Triplets\nCONTROL - 1/32 Notes\nSHIFT + CONTROL - 1/64 Notes\n\nTAB - Place notes on both sides\nHJKL - Place notes during\n                       playback\n\nR - Top of section\nCTRL + R - Song start\n\nENTER - Test chart.\nCTRL + ENTER - Test chart from\n                         current section.", 12);
 		controlInfo.scrollFactor.set();
 		add(controlInfo);
+
+		var lilStage = new FlxSprite(32, 432).loadGraphic(Paths.image("chartEditor/lilStage"));
+		lilStage.scrollFactor.set();
+		add(lilStage);
+
+		lilBf = new FlxSprite(32, 432).loadGraphic(Paths.image("chartEditor/lilBf"), true, 256, 256);
+		lilBf.animation.add("anims", [0, 1, 2, 3, 4], 0, false);
+		lilBf.animation.play("anims");
+		lilBf.scrollFactor.set();
+		add(lilBf);
+
+		lilOpp = new FlxSprite(32, 432).loadGraphic(Paths.image("chartEditor/lilOpp"), true, 256, 256);
+		lilOpp.animation.add("anims", [0, 1, 2, 3, 4], 0, false);
+		lilOpp.animation.play("anims");
+		lilOpp.scrollFactor.set();
+		add(lilOpp);
 
 		lastSection = 0;
 
@@ -162,9 +181,9 @@ class ChartingState extends MusicBeatState
 		leftIconBack = new FlxSprite(leftIcon.x - 2.5, leftIcon.y - 2.5).makeGraphic(75, 75, 0xFF00AAFF);
 		rightIconBack = new FlxSprite(rightIcon.x - 2.5, rightIcon.y - 2.5).makeGraphic(75, 75, 0xFF00AAFF);
 
-		var eventIcon = new FlxSprite().loadGraphic(Paths.image("chartEvent"));
+		var eventIcon = new FlxSprite().loadGraphic(Paths.image("chartEditor/event/genericEvent"));
 		eventIcon.setPosition(((gridBG.width / 6) * 5) - (eventIcon.width / 2), -75 + (eventIcon.width / 2));
-		eventIcon.color = 0xFFFF0000;
+		//eventIcon.color = 0xFFFF0000;
 		
 		add(leftIconBack);
 		add(rightIconBack);
@@ -987,11 +1006,17 @@ class ChartingState extends MusicBeatState
 				{
 					FlxG.sound.music.pause();
 					vocals.pause();
+
+					lilBf.animation.curAnim.curFrame = 0;
+					lilOpp.animation.curAnim.curFrame = 0;
 				}
 				else
 				{
 					vocals.play();
 					FlxG.sound.music.play();
+
+					lilBf.animation.curAnim.curFrame = 0;
+					lilOpp.animation.curAnim.curFrame = 0;
 				}
 			}
 
@@ -1110,7 +1135,7 @@ class ChartingState extends MusicBeatState
 
 		}
 
-		if((bfClick.checked || opClick.checked) && !justChanged){
+		if(!justChanged){
 			curRenderedNotes.forEach(function(x:Note) {
 
 				if(x.absoluteNumber < 4 && _song.notes[curSection].mustHitSection){
@@ -1121,10 +1146,14 @@ class ChartingState extends MusicBeatState
 				}
 				
 				if(x.y < strumLine.y && !x.playedEditorClick && FlxG.sound.music.playing){
-					if(x.editorBFNote && bfClick.checked)
-						FlxG.sound.play(Paths.sound("tick"), 0.6);
-					else if(!x.editorBFNote && opClick.checked)
-						FlxG.sound.play(Paths.sound("tick"), 0.6);
+					if(x.editorBFNote){
+						if(bfClick.checked){ FlxG.sound.play(Paths.sound("tick"), 0.6); }
+						lilBf.animation.curAnim.curFrame = (x.noteData % 4) + 1;
+					}
+					else if(!x.editorBFNote){
+						if(opClick.checked){ FlxG.sound.play(Paths.sound("tick"), 0.6); }
+						lilOpp.animation.curAnim.curFrame = (x.noteData % 4) + 1;
+					}
 				}
 
 				if(x.y > strumLine.y && x.alpha != 0.4){
@@ -1262,6 +1291,9 @@ class ChartingState extends MusicBeatState
 			updateGrid();
 			updateSectionUI();
 		}
+
+		lilBf.animation.curAnim.curFrame = 0;
+		lilOpp.animation.curAnim.curFrame = 0;
 	}
 
 	function copySection(?sectionNum:Int = 1)
@@ -1433,7 +1465,7 @@ class ChartingState extends MusicBeatState
 			var tag = i[3];
 
 			if(section == curSec + secOffset){
-				var eventSymbol = new FlxSprite().loadGraphic(Paths.image("chartEvent"));
+				var eventSymbol = new FlxSprite().loadGraphic(Paths.image("chartEditor/event/genericEvent"));
 				eventSymbol.x = Math.floor((slot + 8) * GRID_SIZE);
 
 				eventSymbol.y = (getYfromStrum((strumTime - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSection].lengthInSteps)));
