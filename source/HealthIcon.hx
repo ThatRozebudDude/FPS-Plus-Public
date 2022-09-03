@@ -1,45 +1,63 @@
-package; //its about time that we get a new icon system
+package;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
-
-using StringTools;
 
 class HealthIcon extends FlxSprite
 {
 	public var sprTracker:FlxSprite;
+	public var id:Int;
 
-	public var char:String;
-	public var isPlayer:Bool = false;
-	public var isOldIcon:Bool = false;
+	public var defualtIconScale:Float = 1;
+	public var iconScale:Float = 1;
+	public var iconSize:Float;
 
-	public function new(char:String = 'bf', isPlayer:Bool = false)
+	private var tween:FlxTween;
+
 	private static final pixelIcons:Array<String> = ["bf-pixel", "senpai", "senpai-angry", "spirit"];
+
+	public function new(char:String = 'bf', isPlayer:Bool = false, ?_id:Int = -1)
 	{
 		super();
-		this.isPlayer = isPlayer;
-		changeIcon(char);
+		loadGraphic(Paths.image('icons/icon-' + char), true, 150, 150);
+		animation.add(char, [0, 1, 2], 0, false, isPlayer);
+
+		iconSize = width;
+
+		id = _id;
+		
 		antialiasing = !pixelIcons.contains(char);
+		animation.play(char);
 		scrollFactor.set();
-	}
 
-	public function changeIcon(char:String)
-	{
-		if (char != 'bf-pixel' && char != 'bf-old')
-			char = char.split('-')[0].trim();
-
-		if (char != this.char)
-		{
-				loadGraphic(Paths.image('icons/icon-' + char), true, 150, 150);
-				animation.add(char, [0, 1, 2], 0, false, isPlayer);
+		tween = FlxTween.tween(this, {}, 0);
 	}
-			animation.play(char);
-			this.char = char;
-		}
 
 	override function update(elapsed:Float)
 	{
-		super.update(elapsed);
 
-		if (sprTracker != null)
+
+		super.update(elapsed);
+		setGraphicSize(Std.int(iconSize * iconScale));
+		updateHitbox();
+
+		if (sprTracker != null){
 			setPosition(sprTracker.x + sprTracker.width + 10, sprTracker.y - 30);
+			if(id == FreeplayState.curSelected){
+				animation.curAnim.curFrame = 2;
+			}
+			else{
+				animation.curAnim.curFrame = 0;
+			}
+		}
 	}
+
+	public function tweenToDefaultScale(_time:Float, _ease:Null<flixel.tweens.EaseFunction>){
+
+		tween.cancel();
+		tween = FlxTween.tween(this, {iconScale: this.defualtIconScale}, _time, {ease: _ease});
+
+	}
+
+}
