@@ -1,5 +1,7 @@
 package;
 
+import openfl.display.BitmapData;
+import flixel.graphics.FlxGraphic;
 import Song.SongEvents;
 import openfl.media.SoundChannel;
 import Conductor.BPMChangeEvent;
@@ -83,7 +85,7 @@ class ChartingState extends MusicBeatState
 
 	var curRenderedNotes:FlxTypedGroup<Note>;
 	var curRenderedSustains:FlxTypedGroup<FlxSprite>;
-	var curRenderedEvents:FlxTypedGroup<FlxSprite>;
+	var curRenderedEvents:FlxTypedGroup<EventSprite>;
 
 	var gridBG:FlxSprite;
 	var gridBG2:FlxSprite;
@@ -222,7 +224,7 @@ class ChartingState extends MusicBeatState
 
 		curRenderedNotes = new FlxTypedGroup<Note>();
 		curRenderedSustains = new FlxTypedGroup<FlxSprite>();
-		curRenderedEvents = new FlxTypedGroup<FlxSprite>();
+		curRenderedEvents = new FlxTypedGroup<EventSprite>();
 
 		if (PlayState.SONG != null)
 			_song = PlayState.SONG;
@@ -893,7 +895,7 @@ class ChartingState extends MusicBeatState
 
 				trace("Overlapping Events");
 
-				curRenderedEvents.forEach(function(event:FlxSprite)
+				curRenderedEvents.forEach(function(event:EventSprite)
 				{
 					if (FlxG.mouse.overlaps(event))
 					{
@@ -928,11 +930,11 @@ class ChartingState extends MusicBeatState
 
 				trace("Overlapping Events");
 
-				curRenderedEvents.forEach(function(event:FlxSprite)
+				curRenderedEvents.forEach(function(event:EventSprite)
 				{
 					if (FlxG.mouse.overlaps(event))
 					{
-						eventTagName.text = eventTagList[eventColors.indexOf(event.color)];
+						eventTagName.text = event.tag;
 					}
 				});
 			}
@@ -1067,6 +1069,9 @@ class ChartingState extends MusicBeatState
 				FlxG.sound.music.pause();
 				vocals.pause();
 
+				lilBf.animation.play("idle");
+				lilOpp.animation.play("idle");
+
 				if(wheelSpin > 0 && strumLine.y < gridBG.y)
 					wheelSpin = 0;
 
@@ -1098,6 +1103,9 @@ class ChartingState extends MusicBeatState
 					FlxG.sound.music.pause();
 					vocals.pause();
 
+					lilBf.animation.play("idle");
+					lilOpp.animation.play("idle");
+
 					var daTime:Float = 1000 * FlxG.elapsed;
 
 					if ((FlxG.keys.pressed.W || FlxG.keys.pressed.UP) && strumLine.y > gridBG.y)
@@ -1116,6 +1124,9 @@ class ChartingState extends MusicBeatState
 				{
 					FlxG.sound.music.pause();
 					vocals.pause();
+
+					lilBf.animation.play("idle");
+					lilOpp.animation.play("idle");
 
 					var daTime:Float = 2500 * FlxG.elapsed;
 
@@ -1271,6 +1282,9 @@ class ChartingState extends MusicBeatState
 		FlxG.sound.music.pause();
 		vocals.pause();
 
+		lilBf.animation.play("idle");
+		lilOpp.animation.play("idle");
+
 		// Basically old shit from changeSection???
 		FlxG.sound.music.time = sectionStartTime();
 
@@ -1303,6 +1317,9 @@ class ChartingState extends MusicBeatState
 			{
 				FlxG.sound.music.pause();
 				vocals.pause();
+
+				lilBf.animation.play("idle");
+				lilOpp.animation.play("idle");
 
 				/*var daNum:Int = 0;
 					var daLength:Float = 0;
@@ -1496,16 +1513,37 @@ class ChartingState extends MusicBeatState
 			var tag = i[3];
 
 			if(section == curSec + secOffset){
-				var eventSymbol = new FlxSprite().loadGraphic(Paths.image("chartEditor/event/genericEvent"));
+				var eventSymbol = new EventSprite();
+				var customIcon:Bool = false;
+
+				#if sys
+				if(sys.FileSystem.exists("assets/images/chartEditor/event/" + tag + ".png")){
+					eventSymbol.loadGraphic(FlxGraphic.fromBitmapData(BitmapData.fromFile("assets/images/chartEditor/event/" + tag + ".png")));
+					customIcon = true;
+				}
+				else{
+					eventSymbol.loadGraphic(Paths.image("chartEditor/event/genericEvent"));
+				}
+				#else
+					eventSymbol.loadGraphic(Paths.image("chartEditor/event/genericEvent"));
+				#end
+
+				eventSymbol.antialiasing = true;
+
+				eventSymbol.setGraphicSize(40, 40);
+				eventSymbol.updateHitbox();
 				eventSymbol.x = Math.floor((slot + 8) * GRID_SIZE);
 
 				eventSymbol.y = (getYfromStrum((strumTime - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSection].lengthInSteps)));
 				eventSymbol.y += GRID_SIZE * 16 * secOffset;
 
-				eventSymbol.color = eventColors[eventTagList.indexOf(tag) % eventColors.length];
+				if(!customIcon)
+					eventSymbol.color = eventColors[eventTagList.indexOf(tag) % eventColors.length];
 
 				if(secOffset != 0)
 					eventSymbol.alpha = 0.4;
+
+				eventSymbol.tag = tag;
 
 				curRenderedEvents.add(eventSymbol);
 			}
@@ -1925,11 +1963,11 @@ class ChartingState extends MusicBeatState
 		autosaveSong();
 	}
 
-	function deleteEvent(event:FlxSprite):Void{
+	function deleteEvent(event:EventSprite):Void{
 
 		var strumTime = getStrumTime(event.y) + sectionStartTime();
 
-		var tag = eventTagList[eventColors.indexOf(event.color)];
+		var tag = event.tag;
 
 		for (i in _events.events){
 			if (approxEqual(i[1], strumTime, 3) && tag == i[3]){
@@ -1998,4 +2036,10 @@ class ChartingState extends MusicBeatState
 		super.beatHit();
 	}
 	
+}
+
+class EventSprite extends FlxSprite{
+
+	public var tag:String;
+
 }
