@@ -36,20 +36,12 @@ class HealthIcon extends FlxSprite
 
 	override function update(elapsed:Float)
 	{
-
-
 		super.update(elapsed);
 		setGraphicSize(Std.int(iconSize * iconScale));
 		updateHitbox();
 
 		if (sprTracker != null){
 			setPosition(sprTracker.x + sprTracker.width + 10, sprTracker.y - 30);
-			if(id == FreeplayState.curSelected){
-				animation.curAnim.curFrame = 2;
-			}
-			else{
-				animation.curAnim.curFrame = 0;
-			}
 		}
 	}
 
