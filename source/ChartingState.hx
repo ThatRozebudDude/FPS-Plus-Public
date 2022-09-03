@@ -1179,11 +1179,11 @@ class ChartingState extends MusicBeatState
 				if(x.y < strumLine.y && !x.playedEditorClick && FlxG.sound.music.playing){
 					if(x.editorBFNote){
 						if(bfClick.checked){ FlxG.sound.play(Paths.sound("tick"), 0.6); }
-						lilBf.animation.play("" + (x.noteData % 4));
+						lilBf.animation.play("" + (x.noteData % 4), true);
 					}
 					else if(!x.editorBFNote){
 						if(opClick.checked){ FlxG.sound.play(Paths.sound("tick"), 0.6); }
-						lilOpp.animation.play("" + (x.noteData % 4));
+						lilOpp.animation.play("" + (x.noteData % 4), true);
 					}
 				}
 
