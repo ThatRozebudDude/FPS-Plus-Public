@@ -124,6 +124,8 @@ class ChartingState extends MusicBeatState
 	var lilBf:FlxSprite;
 	var lilOpp:FlxSprite;
 
+	var eventCache:Map<String, BitmapData> = new Map();
+
 	override function create()
 	{
 
@@ -1518,7 +1520,10 @@ class ChartingState extends MusicBeatState
 
 				#if sys
 				if(sys.FileSystem.exists("assets/images/chartEditor/event/" + tag + ".png")){
-					eventSymbol.loadGraphic(FlxGraphic.fromBitmapData(BitmapData.fromFile("assets/images/chartEditor/event/" + tag + ".png")));
+					if(!eventCache.exists("assets/images/chartEditor/event/" + tag + ".png")){
+						eventCache.set("assets/images/chartEditor/event/" + tag + ".png", BitmapData.fromFile("assets/images/chartEditor/event/" + tag + ".png"));
+					}
+					eventSymbol.loadGraphic(FlxGraphic.fromBitmapData(eventCache.get("assets/images/chartEditor/event/" + tag + ".png")));
 					customIcon = true;
 				}
 				else{
