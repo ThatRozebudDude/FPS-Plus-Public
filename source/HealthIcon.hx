@@ -65,12 +65,6 @@ class HealthIcon extends FlxSprite
 
 		if (sprTracker != null){
 			setPosition(sprTracker.x + sprTracker.width + 10, sprTracker.y - 30);
-			if(id == FreeplayState.curSelected){
-				animation.curAnim.curFrame = 2;
-			}
-			else{
-				animation.curAnim.curFrame = 0;
-			}
 		}
 	}
 
