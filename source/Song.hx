@@ -22,6 +22,11 @@ typedef SwagSong =
 	var validScore:Bool;
 }
 
+typedef SongEvents =
+{
+	var events:Array<Dynamic>;
+}
+
 class Song
 {
 	public var song:String;
@@ -75,6 +80,11 @@ class Song
 	{
 		var swagShit:SwagSong = cast Json.parse(rawJson).song;
 		swagShit.validScore = true;
+		return swagShit;
+	}
+	public static function parseEventJSON(rawJson:String):SongEvents
+	{
+		var swagShit:SongEvents = cast Json.parse(rawJson).events;
 		return swagShit;
 	}
 }

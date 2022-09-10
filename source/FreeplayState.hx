@@ -194,6 +194,7 @@ class FreeplayState extends MusicBeatState
 			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
 			PlayState.isStoryMode = false;
 			PlayState.storyDifficulty = curDifficulty;
+			PlayState.loadEvents = true;
 			startingSelection = curSelected;
 			PlayState.returnLocation = "freeplay";
 			PlayState.storyWeek = songs[curSelected].week;
@@ -254,9 +255,11 @@ class FreeplayState extends MusicBeatState
 		for (i in 0...iconArray.length)
 		{
 			iconArray[i].alpha = 0.6;
+			iconArray[i].animation.curAnim.curFrame = 0;
 		}
 
 		iconArray[curSelected].alpha = 1;
+		iconArray[curSelected].animation.curAnim.curFrame = 2;
 
 		for (item in grpSongs.members)
 		{
