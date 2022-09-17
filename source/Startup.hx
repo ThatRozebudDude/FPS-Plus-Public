@@ -256,8 +256,8 @@ class Startup extends FlxState
 
     function preloadMusic(){
         for(x in songs){
-            if(Assets.exists(Paths.music(x + "_Inst"))){
-                FlxG.sound.cache(Paths.music(x + "_Inst"));
+            if(Assets.exists(Paths.songs(x + "/Inst"))){
+                FlxG.sound.cache(Paths.songs(x + "/Inst"));
             }
             else{
                 FlxG.sound.cache(Paths.music(x));

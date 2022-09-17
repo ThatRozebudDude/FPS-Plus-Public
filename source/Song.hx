@@ -1,5 +1,6 @@
 package;
 
+import sys.io.File;
 import Section.SwagSection;
 import haxe.Json;
 import haxe.format.JsonParser;
@@ -49,7 +50,7 @@ class Song
 
 	public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong
 	{
-		var rawJson = Assets.getText(Paths.json(folder.toLowerCase() + '/' + jsonInput.toLowerCase())).trim();
+		var rawJson = File.getContent(Paths.json(folder.toLowerCase() + '/' + jsonInput.toLowerCase(), "songs")).trim();
 
 		while (!rawJson.endsWith("}"))
 		{

@@ -59,6 +59,10 @@ class Paths
         return file(key, "music", audioExtension);
     }
 
+    inline static public function songs(key:String){
+        return file(key, "songs", audioExtension);
+    }
+
     inline static public function getSparrowAtlas(key:String){
         return FlxAtlasFrames.fromSparrow(image(key), xml(key));
     }

@@ -252,10 +252,10 @@ class PlayState extends MusicBeatState
 		customTransOut = new ScreenWipeOut(0.6);
 
 		if(loadEvents){
-			if(Assets.exists("assets/data/" + SONG.song.toLowerCase() + "/events.json")){
+			if(Assets.exists("assets/songs/" + SONG.song.toLowerCase() + "/events.json")){
 				trace("loaded events");
-				trace(Paths.json(SONG.song.toLowerCase() + "/events"));
-				EVENTS = Song.parseEventJSON(Assets.getText(Paths.json(SONG.song.toLowerCase() + "/events")));
+				trace(Paths.json(SONG.song.toLowerCase() + "/events", "songs"));
+				EVENTS = Song.parseEventJSON(Assets.getText(Paths.json(SONG.song.toLowerCase() + "/events", "songs")));
 			}
 			else{
 				trace("No events found");
@@ -271,8 +271,8 @@ class PlayState extends MusicBeatState
 
 		eventList.sort(sortByEventStuff);
 
-		FlxG.sound.cache(Paths.music(SONG.song + "_Inst"));
-		FlxG.sound.cache(Paths.music(SONG.song + "_Voices"));
+		FlxG.sound.cache(Paths.songs(SONG.song.toLowerCase() + "/Inst"));
+		FlxG.sound.cache(Paths.songs(SONG.song.toLowerCase() + "/Voices"));
 		
 		if(Config.noFpsCap)
 			openfl.Lib.current.stage.frameRate = 999;
@@ -1275,7 +1275,7 @@ class PlayState extends MusicBeatState
 		lastReportedPlayheadPosition = 0;
 
 		if (!paused)
-			FlxG.sound.playMusic(Paths.music(SONG.song + "_Inst"), 1, false);
+			FlxG.sound.playMusic(Paths.songs(SONG.song.toLowerCase() + "/Inst"), 1, false);
 
 		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
@@ -1305,7 +1305,7 @@ class PlayState extends MusicBeatState
 
 		if (SONG.needsVoices)
 		{
-			vocals = new FlxSound().loadEmbedded(Paths.music(curSong + "_Voices"));
+			vocals = new FlxSound().loadEmbedded(Paths.songs(SONG.song.toLowerCase() + "/Voices"));
 		}
 		else
 			vocals = new FlxSound();

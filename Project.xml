@@ -51,6 +51,7 @@
 	<!-- <library name="noPreload" preload='false'/> -->
 	<!-- <library name="noPreload"/> -->
 	<assets path="assets/music" include="*.ogg"/>
+	<assets path="assets/songs" include="*.ogg"/>
 	<assets path="assets/sounds" include="*.ogg"/>
 
 	<!-- comment out the override define to disable overrides>
@@ -67,6 +68,7 @@
 		<library name="data"    preload="true" />
 		<library name="sounds"  preload="true" />
 		<library name="music" 	preload="true" />
+		<library name="songs" 	preload="true" />
 		<library name="images"  preload="true" />
 		<library name="videos"  preload="true" />
 	</section>
@@ -74,6 +76,7 @@
 	<section if="NO_PRELOAD_ALL">
 		<library name="data"    preload="false" />
 		<library name="sounds"  preload="false" />
+		<library name="songs" 	preload="false" />
 		<library name="music" 	preload="false" />
 		<library name="images"  preload="false" />
 		<library name="videos"  preload="false" />
