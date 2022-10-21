@@ -271,8 +271,8 @@ class PlayState extends MusicBeatState
 
 		eventList.sort(sortByEventStuff);
 
-		FlxG.sound.cache(Paths.music(SONG.song + "_Inst"));
-		FlxG.sound.cache(Paths.music(SONG.song + "_Voices"));
+		FlxG.sound.cache(Paths.inst(SONG.song));
+		FlxG.sound.cache(Paths.voices(SONG.song));
 		
 		if(Config.noFpsCap)
 			openfl.Lib.current.stage.frameRate = 999;
@@ -325,6 +325,33 @@ class PlayState extends MusicBeatState
 			}
 			catch(e){}
 		}
+
+		var gfCheck:String = 'gf';
+
+		if (SONG.gf == null) {
+			switch(storyWeek)
+			{
+				case 4: gfCheck = 'gf-car';
+				case 5: gfCheck = 'gf-christmas';
+				case 6: gfCheck = 'gf-pixel';
+			}
+
+			SONG.gf = gfCheck;
+
+		}
+
+		gfCheck = SONG.gf;
+
+		gf = new Character(400, 130, gfCheck);
+		gf.scrollFactor.set(0.95, 0.95);
+
+		var dadChar = SONG.player2;
+
+		dad = new Character(100, 100, dadChar);
+
+		var bfChar = SONG.player1;
+
+		boyfriend = new Boyfriend(770, 450, bfChar);
 
 		var stageCheck:String = 'stage';
 		if (SONG.stage == null) {
@@ -690,37 +717,6 @@ class PlayState extends MusicBeatState
 				dadBeats = [0, 1, 2, 3];
 		}
 
-		var gfVersion:String = 'gf';
-
-		var gfCheck:String = 'gf';
-
-		if (SONG.gf == null) {
-			switch(storyWeek)
-			{
-				case 4: gfCheck = 'gf-car';
-				case 5: gfCheck = 'gf-christmas';
-				case 6: gfCheck = 'gf-pixel';
-			}
-
-			SONG.gf = gfCheck;
-
-		} else {gfCheck = SONG.gf;}
-
-		switch (gfCheck)
-		{
-			case 'gf-car':
-				gfVersion = 'gf-car';
-			case 'gf-christmas':
-				gfVersion = 'gf-christmas';
-			case 'gf-pixel':
-				gfVersion = 'gf-pixel';
-		}
-
-		gf = new Character(400, 130, gfVersion);
-		gf.scrollFactor.set(0.95, 0.95);
-
-		dad = new Character(100, 100, SONG.player2);
-
 		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
 
 		switch (SONG.player2)
@@ -762,8 +758,6 @@ class PlayState extends MusicBeatState
 				dad.y += 100;
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
 		}
-
-		boyfriend = new Boyfriend(770, 450, SONG.player1);
 
 		// REPOSITIONING PER STAGE
 		switch (curStage)
@@ -1167,13 +1161,14 @@ class PlayState extends MusicBeatState
 
 		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 		{
-			if(dadBeats.contains((swagCounter % 4)))
-				dad.dance();
 
-			gf.dance();
+			if(swagCounter != 4) { gf.dance(); }
+
+			if(dadBeats.contains((swagCounter % 4)))
+				if(swagCounter != 4) { dad.dance(); }
 
 			if(bfBeats.contains((swagCounter % 4)))
-				boyfriend.dance();
+				if(swagCounter != 4) { boyfriend.dance(); }
 
 			switch (swagCounter)
 
@@ -1256,6 +1251,7 @@ class PlayState extends MusicBeatState
 					});
 					FlxG.sound.play(Paths.sound('introGo' + altSuffix), 0.6);
 				case 4:
+					beatHit();
 			}
 
 			swagCounter += 1;
@@ -1275,7 +1271,7 @@ class PlayState extends MusicBeatState
 		lastReportedPlayheadPosition = 0;
 
 		if (!paused)
-			FlxG.sound.playMusic(Paths.music(SONG.song + "_Inst"), 1, false);
+			FlxG.sound.playMusic(Paths.inst(SONG.song), 1, false);
 
 		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
@@ -1305,7 +1301,7 @@ class PlayState extends MusicBeatState
 
 		if (SONG.needsVoices)
 		{
-			vocals = new FlxSound().loadEmbedded(Paths.music(curSong + "_Voices"));
+			vocals = new FlxSound().loadEmbedded(Paths.voices(curSong));
 		}
 		else
 			vocals = new FlxSound();
@@ -2908,10 +2904,8 @@ class PlayState extends MusicBeatState
 		if(bfBeats.contains(curBeat % 4) && boyfriend.canAutoAnim)
 			boyfriend.dance();
 
-		if (totalBeats % 8 == 7 && curSong == 'Bopeebo')
-		{
+		if (curBeat % 8 == 7 && curSong == 'Bopeebo'){
 			boyfriend.playAnim('hey', true);
-
 		}
 
 		switch (curStage)

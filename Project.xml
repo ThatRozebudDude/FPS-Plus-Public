@@ -52,6 +52,7 @@
 	<!-- <library name="noPreload"/> -->
 	<assets path="assets/music" include="*.ogg"/>
 	<assets path="assets/sounds" include="*.ogg"/>
+	<assets path="assets/songs"/>
 
 	<!-- comment out the override define to disable overrides>
 	<define name="override" if="desktop"/>
