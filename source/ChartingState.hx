@@ -1353,8 +1353,10 @@ class ChartingState extends MusicBeatState
 		for (note in _song.notes[daSec - sectionNum].sectionNotes)
 		{
 			var strum = note[0] + Conductor.stepCrochet * (_song.notes[daSec].lengthInSteps * sectionNum);
+			var type = note[3];
+			if(type == null){ type = ""; }
 
-			var copiedNote:Array<Dynamic> = [strum, note[1], note[2]];
+			var copiedNote:Array<Dynamic> = [strum, note[1], note[2], type];
 			_song.notes[daSec].sectionNotes.push(copiedNote);
 		}
 
