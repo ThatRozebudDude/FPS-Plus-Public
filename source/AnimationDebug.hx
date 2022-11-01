@@ -21,7 +21,7 @@ class AnimationDebug extends FlxState
 {
 	var dad:Character;
 	var dadBG:Character;
-	//var char:Character;
+	// var char:Character;
 	var textAnim:FlxText;
 	var dumbTexts:FlxTypedGroup<FlxText>;
 	var animList:Array<String> = [];
@@ -43,7 +43,6 @@ class AnimationDebug extends FlxState
 
 	override function create()
 	{
-
 		openfl.Lib.current.stage.frameRate = 144;
 
 		camGame = new FlxCamera();
@@ -134,7 +133,8 @@ class AnimationDebug extends FlxState
 		if (FlxG.keys.pressed.Q)
 			FlxG.camera.zoom -= 0.0025;
 
-		if(FlxG.keys.pressed.CONTROL && FlxG.keys.justPressed.C){
+		if (FlxG.keys.pressed.CONTROL && FlxG.keys.justPressed.C)
+		{
 			copyOffsetToClipboard();
 		}
 
@@ -179,7 +179,7 @@ class AnimationDebug extends FlxState
 		{
 			dad.playAnim(animList[curAnim], true);
 
-			if(animList[curAnim].endsWith("miss"))
+			if (animList[curAnim].endsWith("miss"))
 				dadBG.playAnim(animList[curAnim].substring(0, animList[curAnim].length - 4), true);
 			else
 				dadBG.idleEnd(true);
@@ -187,7 +187,7 @@ class AnimationDebug extends FlxState
 			updateTexts();
 			genBoyOffsets(false);
 		}
-		
+
 		if (FlxG.keys.justPressed.ESCAPE)
 		{
 			FlxG.switchState(new PlayState());
@@ -205,27 +205,30 @@ class AnimationDebug extends FlxState
 
 		if (upP || rightP || downP || leftP)
 		{
-			//updateTexts();
-			if (upP){
+			// updateTexts();
+			if (upP)
+			{
 				dad.animOffsets.get(animList[curAnim])[1] += 1 * multiplier;
 				dadBG.animOffsets.get(animList[curAnim])[1] += 1 * multiplier;
 			}
-				
-			if (downP){
+
+			if (downP)
+			{
 				dad.animOffsets.get(animList[curAnim])[1] -= 1 * multiplier;
 				dadBG.animOffsets.get(animList[curAnim])[1] -= 1 * multiplier;
 			}
-				
-			if (leftP){
+
+			if (leftP)
+			{
 				dad.animOffsets.get(animList[curAnim])[0] += 1 * multiplier;
 				dadBG.animOffsets.get(animList[curAnim])[0] += 1 * multiplier;
 			}
-				
-			if (rightP){
+
+			if (rightP)
+			{
 				dad.animOffsets.get(animList[curAnim])[0] -= 1 * multiplier;
 				dadBG.animOffsets.get(animList[curAnim])[0] -= 1 * multiplier;
 			}
-				
 
 			updateTexts();
 			genBoyOffsets(false);
@@ -235,16 +238,15 @@ class AnimationDebug extends FlxState
 		super.update(elapsed);
 	}
 
-	function copyOffsetToClipboard(){
-
+	function copyOffsetToClipboard()
+	{
 		var r = "";
 
-		for(x in animList){
+		for (x in animList)
+		{
 			r += "addOffset(\"" + x + "\", " + dad.animOffsets.get(x)[0] + ", " + dad.animOffsets.get(x)[1] + ");\n";
 		}
 
 		Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, r);
-
 	}
-
 }

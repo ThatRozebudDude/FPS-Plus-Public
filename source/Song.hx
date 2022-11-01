@@ -2,8 +2,7 @@ package;
 
 import Section.SwagSection;
 import haxe.Json;
-import haxe.format.JsonParser;
-import lime.utils.Assets;
+import openfl.utils.Assets;
 
 using StringTools;
 
@@ -82,6 +81,7 @@ class Song
 		swagShit.validScore = true;
 		return swagShit;
 	}
+
 	public static function parseEventJSON(rawJson:String):SongEvents
 	{
 		var swagShit:SongEvents = cast Json.parse(rawJson).events;

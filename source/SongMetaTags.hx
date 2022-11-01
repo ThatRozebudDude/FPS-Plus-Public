@@ -1,60 +1,61 @@
 package;
 
-#if sys
-import sys.io.File;
-#end
-
-import lime.utils.Assets;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import openfl.utils.Assets;
 
 using StringTools;
-using flixel.util.FlxSpriteUtil;
 
 class SongMetaTags extends FlxSpriteGroup
 {
+	var meta:Array<Array<String>> = [];
+	var size:Float = 0;
+	var fontSize:Int = 24;
 
-    var meta:Array<Array<String>> = [];
-    var size:Float = 0;
-    var fontSize:Int = 24;
+	public function new(_x:Float, _y:Float, _song:String)
+	{
+		super(_x, _y);
 
-    public function new(_x:Float, _y:Float, _song:String) {
+		var text = new FlxText(0, 0, 0, "", fontSize);
+		text.setFormat(Paths.font("vcr"), fontSize, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 
-        super(_x, _y);
+		text.text = Assets.getText(Paths.text(_song.toLowerCase() + "/meta"));
 
-        var text = new FlxText(0, 0, 0, "", fontSize);
-        text.setFormat(Paths.font("vcr"), fontSize, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		size = text.fieldWidth;
 
-        text.text = Assets.getText(Paths.text(_song.toLowerCase() + "/meta"));
+		var bg = new FlxSprite(fontSize / -2, fontSize / -2).makeGraphic(Math.floor(size + fontSize), Math.floor(text.height + fontSize), FlxColor.BLACK);
+		bg.alpha = 0.67;
 
-        size = text.fieldWidth;
-        
-        var bg = new FlxSprite(fontSize/-2, fontSize/-2).makeGraphic(Math.floor(size + fontSize), Math.floor(text.height + fontSize), FlxColor.BLACK);
-        bg.alpha = 0.67;
+		text.text += "\n";
 
-        text.text += "\n";
+		add(bg);
+		add(text);
 
-        add(bg);
-        add(text);
+		x -= size;
+		visible = false;
+	}
 
-        x -= size;
-        visible = false;
-        
-    }
+	public function start()
+	{
+		visible = true;
 
-
-
-    public function start(){
-
-        visible = true;
-
-        FlxTween.tween(this, {x: x + size + (fontSize/2)}, 1, {ease: FlxEase.quintOut, onComplete: function(twn:FlxTween){
-            FlxTween.tween(this, {x: x - size}, 1, {ease: FlxEase.quintIn, startDelay: 2, onComplete: function(twn:FlxTween){ this.destroy(); }});
-        }});
-
-    }
+		FlxTween.tween(this, {x: x + size + (fontSize / 2)}, 1, {
+			ease: FlxEase.quintOut,
+			onComplete: function(twn:FlxTween)
+			{
+				FlxTween.tween(this, {x: x - size}, 1, {
+					ease: FlxEase.quintIn,
+					startDelay: 2,
+					onComplete: function(twn:FlxTween)
+					{
+						this.destroy();
+					}
+				});
+			}
+		});
+	}
 }

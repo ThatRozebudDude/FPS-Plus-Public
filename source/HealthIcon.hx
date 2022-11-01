@@ -21,7 +21,7 @@ class HealthIcon extends FlxSprite
 	{
 		super();
 		loadGraphic(Paths.image('iconGrid'), true, 150, 150);
-			
+
 		animation.add('bf', [0, 1, 30], 0, false, isPlayer);
 		animation.add('bf-car', [0, 1, 30], 0, false, isPlayer);
 		animation.add('bf-christmas', [0, 1, 30], 0, false, isPlayer);
@@ -47,7 +47,7 @@ class HealthIcon extends FlxSprite
 		iconSize = width;
 
 		id = _id;
-		
+
 		antialiasing = !pixelIcons.contains(char);
 		animation.play(char);
 		scrollFactor.set();
@@ -57,22 +57,19 @@ class HealthIcon extends FlxSprite
 
 	override function update(elapsed:Float)
 	{
-
-
 		super.update(elapsed);
 		setGraphicSize(Std.int(iconSize * iconScale));
 		updateHitbox();
 
-		if (sprTracker != null){
+		if (sprTracker != null)
+		{
 			setPosition(sprTracker.x + sprTracker.width + 10, sprTracker.y - 30);
 		}
 	}
 
-	public function tweenToDefaultScale(_time:Float, _ease:Null<flixel.tweens.EaseFunction>){
-
+	public function tweenToDefaultScale(_time:Float, _ease:Null<flixel.tweens.EaseFunction>)
+	{
 		tween.cancel();
 		tween = FlxTween.tween(this, {iconScale: this.defualtIconScale}, _time, {ease: _ease});
-
 	}
-
 }

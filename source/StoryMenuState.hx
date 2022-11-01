@@ -1,6 +1,5 @@
 package;
 
-import title.*;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -12,6 +11,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.net.curl.CURLCode;
+import title.TitleScreen;
 
 using StringTools;
 
@@ -20,9 +20,12 @@ class StoryMenuState extends MusicBeatState
 	var scoreText:FlxText;
 
 	public static var weekData:Array<Dynamic>;
+
 	var curDifficulty:Int = 1;
 
-	public static var weekUnlocked:Array<Bool> = [true, true, true, true, true, true, true, true, true, true, true, true, true, true];
+	public static var weekUnlocked:Array<Bool> = [
+		true, true, true, true, true, true, true, true, true, true, true, true, true, true
+	];
 
 	public static var weekCharacters:Array<Dynamic>;
 
@@ -48,9 +51,8 @@ class StoryMenuState extends MusicBeatState
 
 	override function create()
 	{
-
 		openfl.Lib.current.stage.frameRate = 144;
-	
+
 		weekData = [
 			['Tutorial'],
 			['Bopeebo', 'Fresh', 'Dadbattle'],
@@ -60,7 +62,7 @@ class StoryMenuState extends MusicBeatState
 			['Cocoa', 'Eggnog', 'Winter-Horrorland'],
 			['Senpai', 'Roses', 'Thorns']
 		];
-		
+
 		weekCharacters = [
 			['dad', 'bf', 'gf'],
 			['dad', 'bf', 'gf'],
@@ -70,9 +72,9 @@ class StoryMenuState extends MusicBeatState
 			['parents-christmas', 'bf', 'gf'],
 			['senpai', 'bf', 'gf']
 		];
-	
+
 		weekNames = CoolUtil.coolTextFile(Paths.text("weekNames"));
-	
+
 		if (FlxG.sound.music == null)
 		{
 			FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), 0.75);

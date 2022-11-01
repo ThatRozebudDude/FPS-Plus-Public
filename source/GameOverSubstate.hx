@@ -1,14 +1,12 @@
 package;
 
-import openfl.events.KeyboardEvent;
 import flixel.FlxG;
 import flixel.FlxObject;
-import flixel.FlxSubState;
-import flixel.math.FlxPoint;
-import flixel.util.FlxColor;
-import flixel.util.FlxTimer;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
+import openfl.events.KeyboardEvent;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
@@ -103,8 +101,8 @@ class GameOverSubstate extends MusicBeatSubstate
 	{
 		if (!isEnding)
 		{
-			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
-			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
+			// FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
+			// FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
 			isEnding = true;
 			bf.playAnim('deathConfirm', true);
 			FlxG.sound.music.stop();

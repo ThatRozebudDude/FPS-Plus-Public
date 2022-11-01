@@ -17,8 +17,8 @@ class MenuItem extends FlxSpriteGroup
 		var tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
 
 		week = new FlxSprite();
-			week.frames = tex;
-		
+		week.frames = tex;
+
 		// TUTORIAL IS WEEK 0
 		week.animation.addByPrefix('week0', 'tutorial selected', 24);
 		week.animation.addByPrefix('week1', "WEEK1 select", 24);

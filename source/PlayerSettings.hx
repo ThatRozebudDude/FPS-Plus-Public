@@ -1,12 +1,9 @@
 package;
 
 import Controls;
-import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.util.FlxSignal;
 
-// import ui.DeviceManager;
-// import props.Player;
 class PlayerSettings
 {
 	static public var numPlayers(default, null) = 0;
@@ -29,9 +26,6 @@ class PlayerSettings
 	#else
 	public var controls:Controls;
 	#end
-
-	// public var avatar:Player;
-	// public var camera(get, never):PlayCamera;
 
 	function new(id, scheme)
 	{
@@ -63,27 +57,10 @@ class PlayerSettings
 		}
 
 		menuControls();
-
-		/*if (numGamepads > 1)
-		{
-			if (player2 == null)
-			{
-				player2 = new PlayerSettings(1, None);
-				++numPlayers;
-			}
-
-			var gamepad = FlxG.gamepads.getByID(1);
-			if (gamepad == null)
-				throw 'Unexpected null gamepad. id:0';
-
-			player2.controls.setMenuControls(1);
-		}*/
-
-		// DeviceManager.init();
 	}
 
-	static public function menuControls(){
-
+	static public function menuControls()
+	{
 		var numGamepads = FlxG.gamepads.numActiveGamepads;
 		if (numGamepads > 0)
 		{
@@ -93,11 +70,10 @@ class PlayerSettings
 
 			player1.controls.setMenuControls(0);
 		}
-
 	}
 
-	static public function gameControls(){
-
+	static public function gameControls()
+	{
 		var numGamepads = FlxG.gamepads.numActiveGamepads;
 		if (numGamepads > 0)
 		{
@@ -107,7 +83,6 @@ class PlayerSettings
 
 			player1.controls.setGameControls(0);
 		}
-
 	}
 
 	static public function reset()

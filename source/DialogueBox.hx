@@ -172,9 +172,8 @@ class DialogueBox extends FlxSpriteGroup
 
 		if (FlxG.keys.justPressed.ANY || FlxG.gamepads.anyJustPressed(ANY))
 		{
-
-			if(dialogueFinished){
-
+			if (dialogueFinished)
+			{
 				remove(dialogue);
 
 				FlxG.sound.play(Paths.sound('clickText'), 0.8);
@@ -212,11 +211,10 @@ class DialogueBox extends FlxSpriteGroup
 					startDialogue();
 				}
 			}
-			else{
-
+			else
+			{
 				swagDialogue.skip();
 				dialogueFinished = true;
-
 			}
 		}
 
@@ -236,7 +234,10 @@ class DialogueBox extends FlxSpriteGroup
 		// swagDialogue.text = ;
 		swagDialogue.resetText(dialogueList[0]);
 		swagDialogue.start(0.04, true);
-		swagDialogue.completeCallback = function(){dialogueFinished = true;};
+		swagDialogue.completeCallback = function()
+		{
+			dialogueFinished = true;
+		};
 
 		switch (curCharacter)
 		{

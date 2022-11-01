@@ -1,7 +1,6 @@
 package;
 
 import flixel.FlxSprite;
-import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
 
 using StringTools;
@@ -98,7 +97,8 @@ class Character extends FlxSprite
 				frames = Paths.getSparrowAtlas("gfCar");
 				animation.addByIndices('singUP', 'GF Dancing Beat Hair blowing CAR', [0], "", 24, false);
 				animation.addByIndices('danceLeft', 'GF Dancing Beat Hair blowing CAR', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-				animation.addByIndices('danceRight', 'GF Dancing Beat Hair blowing CAR', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+				animation.addByIndices('danceRight', 'GF Dancing Beat Hair blowing CAR', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24,
+					false);
 
 				addOffset('danceLeft', 0);
 				addOffset('danceRight', 0);
@@ -267,7 +267,7 @@ class Character extends FlxSprite
 				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
 				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
 				animation.addByPrefix('hey', 'BF HEY', 24, false);
-				//animation.addByPrefix('attack', 'boyfriend attack', 24, false);
+				// animation.addByPrefix('attack', 'boyfriend attack', 24, false);
 
 				animation.addByPrefix('firstDeath', "BF dies", 24, false);
 				animation.addByPrefix('deathLoop', "BF Dead Loop", 24, true);
@@ -509,7 +509,6 @@ class Character extends FlxSprite
 		}
 
 		animation.finishCallback = animationEnd;
-
 	}
 
 	override function update(elapsed:Float)
@@ -551,8 +550,8 @@ class Character extends FlxSprite
 	{
 		if (!debugMode || ignoreDebug)
 		{
-
-			if(danceLockout){
+			if (danceLockout)
+			{
 				return;
 			}
 
@@ -577,7 +576,7 @@ class Character extends FlxSprite
 					else
 						playAnim('danceLeft', true);
 				default:
-					if(holdTimer == 0)
+					if (holdTimer == 0)
 						playAnim('idle', true);
 			}
 		}
@@ -599,12 +598,16 @@ class Character extends FlxSprite
 
 	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void
 	{
-
-		if(animSet != ""){
-			if(animation.exists(AnimName + "-" + animSet)){
+		if (animSet != "")
+		{
+			if (animation.exists(AnimName + "-" + animSet))
+			{
 				AnimName = AnimName + "-" + animSet;
 			}
-			else { trace(AnimName + "-" + animSet + " not found. Reverting to " + AnimName); }
+			else
+			{
+				trace(AnimName + "-" + animSet + " not found. Reverting to " + AnimName);
+			}
 		}
 
 		animation.play(AnimName, Force, Reversed, Frame);
@@ -640,21 +643,24 @@ class Character extends FlxSprite
 		animOffsets[name] = [x, y];
 	}
 
-	function animationEnd(name:String){
-
+	function animationEnd(name:String)
+	{
 		danceLockout = false;
 
-		switch(curCharacter){
+		switch (curCharacter)
+		{
 			case "dad" | "mom" | "mom-car" | "bf-car":
 				playAnim(name, true, false, animation.getByName(name).numFrames - 4);
 
 			case "bf" | "bf-christmas":
-				if(name.contains("miss")){
+				if (name.contains("miss"))
+				{
 					playAnim(name, true, false, animation.getByName(name).numFrames - 4);
 				}
 
 			case "monster-christmas" | "monster":
-				switch(name){
+				switch (name)
+				{
 					case "idle":
 						playAnim(name, false, false, 10);
 					case "singUP":
@@ -666,8 +672,6 @@ class Character extends FlxSprite
 					case "singRIGHT":
 						playAnim(name, false, false, 6);
 				}
-
 		}
-
 	}
 }

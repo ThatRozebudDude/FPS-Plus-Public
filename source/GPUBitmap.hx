@@ -1,13 +1,10 @@
 package;
 
-import openfl.display3D.textures.RectangleTexture;
-import openfl.display3D.textures.Texture;
-import openfl.Assets;
-import lime.utils.Assets as LimeAssets;
-import openfl.display.BitmapData;
 import flixel.FlxG;
+import openfl.display.BitmapData;
 import openfl.display3D.Context3DTextureFormat;
-import openfl.display3D.Context3D;
+import openfl.display3D.textures.Texture;
+import openfl.utils.Assets;
 
 using StringTools;
 
@@ -15,7 +12,6 @@ using StringTools;
 	Creates textures that exist only in VRAM and not standard RAM.
 	Originally written by Smokey, additional developement by Rozebud.
 **/
-
 class GPUBitmap
 {
 	static var trackedTextures:Array<TexAsset> = new Array<TexAsset>();
@@ -35,14 +31,16 @@ class GPUBitmap
 		if (_cachekey == null)
 			_cachekey = path;
 
-		for (tex in trackedTextures){
-			if (tex.cacheKey == _cachekey){
-				//trace('Texture $_cachekey already exists! Reusing existing tex');
+		for (tex in trackedTextures)
+		{
+			if (tex.cacheKey == _cachekey)
+			{
+				// trace('Texture $_cachekey already exists! Reusing existing tex');
 				return BitmapData.fromTexture(tex.texture);
 			}
 		}
 
-		//trace('creating new texture');
+		// trace('creating new texture');
 		var bmp = Assets.getBitmapData(path, false);
 		var _texture = FlxG.stage.context3D.createTexture(bmp.width, bmp.height, texFormat, optimizeForRender);
 		_texture.uploadFromBitmapData(bmp);
@@ -56,12 +54,13 @@ class GPUBitmap
 	public static function disposeAllTextures():Void
 	{
 		var counter:Int = 0;
-		for (texture in trackedTextures){
+		for (texture in trackedTextures)
+		{
 			texture.texture.dispose();
 			trackedTextures.remove(texture);
 			counter++;
 		}
-		//trace('Disposed $counter textures');
+		// trace('Disposed $counter textures');
 	}
 
 	public static function disposeTexturesByKey(key:String)
@@ -76,7 +75,7 @@ class GPUBitmap
 				counter++;
 			}
 		}
-		//trace('Disposed $counter textures using key $key');
+		// trace('Disposed $counter textures using key $key');
 	}
 
 	public static function disposeAll()
@@ -87,7 +86,6 @@ class GPUBitmap
 		}
 
 		trackedTextures = new Array<TexAsset>();
-
 	}
 }
 

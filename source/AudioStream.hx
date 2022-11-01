@@ -5,16 +5,16 @@ import openfl.media.SoundTransform;
 import flixel.tweens.FlxTween;
 import openfl.media.Sound;
 import openfl.media.SoundChannel;
-import openfl.Assets;
+import openfl.utils.Assets;
 
 /**
 	Uses OpenFL audio functions instead of HaxeFlixel for better memory usage.
 	Written by Smokey.
 **/
-
 class AudioStream
 {
 	public var sound:Sound;
+
 	var channel:SoundChannel;
 	var fadeTween:FlxTween;
 	var volume:Float = 1;

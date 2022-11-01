@@ -86,5 +86,4 @@ class MusicBeatState extends UIStateExt
 		lastBeat += Conductor.crochet;
 		totalBeats += 1;
 	}
-
 }

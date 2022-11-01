@@ -1,11 +1,11 @@
 package config;
 
 import flixel.FlxG;
+
 using StringTools;
 
 class Config
 {
-	
 	public static var offset:Float;
 	public static var accuracy:String;
 	public static var healthMultiplier:Float;
@@ -18,8 +18,8 @@ class Config
 	public static var controllerScheme:Int;
 	public static var bgDim:Int;
 
-	public static function resetSettings():Void{
-
+	public static function resetSettings():Void
+	{
 		FlxG.save.data.offset = 0.0;
 		FlxG.save.data.accuracy = "simple";
 		FlxG.save.data.healthMultiplier = 1.0;
@@ -31,9 +31,8 @@ class Config
 		FlxG.save.data.noFpsCap = true;
 		FlxG.save.data.controllerScheme = 0;
 		reload();
-
 	}
-	
+
 	public static function reload():Void
 	{
 		offset = FlxG.save.data.offset;
@@ -48,22 +47,10 @@ class Config
 		controllerScheme = FlxG.save.data.controllerScheme;
 		bgDim = FlxG.save.data.bgDim;
 	}
-	
-	public static function write(
-								offsetW:Float, 
-								accuracyW:String, 
-								healthMultiplierW:Float, 
-								healthDrainMultiplierW:Float, 
-								comboTypeW:Int, 
-								downscrollW:Bool, 
-								noteGlowW:Bool,
-								ghostTapTypeW:Int,
-								noFpsCapW:Bool,
-								controllerSchemeW:Int,
-								bgDimW:Int
-								):Void
-	{
 
+	public static function write(offsetW:Float, accuracyW:String, healthMultiplierW:Float, healthDrainMultiplierW:Float, comboTypeW:Int, downscrollW:Bool,
+			noteGlowW:Bool, ghostTapTypeW:Int, noFpsCapW:Bool, controllerSchemeW:Int, bgDimW:Int):Void
+	{
 		FlxG.save.data.offset = offsetW;
 		FlxG.save.data.accuracy = accuracyW;
 		FlxG.save.data.healthMultiplier = healthMultiplierW;
@@ -77,38 +64,36 @@ class Config
 		FlxG.save.data.bgDim = bgDimW;
 
 		FlxG.save.flush();
-		
-		reload();
 
+		reload();
 	}
-	
+
 	public static function configCheck():Void
 	{
-		if(FlxG.save.data.offset == null)
+		if (FlxG.save.data.offset == null)
 			FlxG.save.data.offset = 0.0;
-		if(FlxG.save.data.accuracy == null)
+		if (FlxG.save.data.accuracy == null)
 			FlxG.save.data.accuracy = "simple";
-		if(FlxG.save.data.healthMultiplier == null)
+		if (FlxG.save.data.healthMultiplier == null)
 			FlxG.save.data.healthMultiplier = 1.0;
-		if(FlxG.save.data.healthDrainMultiplier == null)
+		if (FlxG.save.data.healthDrainMultiplier == null)
 			FlxG.save.data.healthDrainMultiplier = 1.0;
-		if(FlxG.save.data.comboType == null)
+		if (FlxG.save.data.comboType == null)
 			FlxG.save.data.comboType = 0;
-		if(FlxG.save.data.downscroll == null)
+		if (FlxG.save.data.downscroll == null)
 			FlxG.save.data.downscroll = false;
-		if(FlxG.save.data.noteGlow == null)
+		if (FlxG.save.data.noteGlow == null)
 			FlxG.save.data.noteGlow = false;
-		if(FlxG.save.data.ghostTapType == null)
+		if (FlxG.save.data.ghostTapType == null)
 			FlxG.save.data.ghostTapType = 0;
-		if(FlxG.save.data.noFpsCap == null)
+		if (FlxG.save.data.noFpsCap == null)
 			FlxG.save.data.noFpsCap = true;
-		if(FlxG.save.data.controllerScheme == null)
+		if (FlxG.save.data.controllerScheme == null)
 			FlxG.save.data.controllerScheme = 0;
-		if(FlxG.save.data.bgDim == null)
+		if (FlxG.save.data.bgDim == null)
 			FlxG.save.data.bgDim = 0;
 
-		if(FlxG.save.data.ee1 == null)
+		if (FlxG.save.data.ee1 == null)
 			FlxG.save.data.ee1 = false;
 	}
-	
 }

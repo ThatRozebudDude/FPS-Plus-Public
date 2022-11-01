@@ -3,40 +3,17 @@ package title;
 import openfl.system.System;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxState;
-import flixel.addons.display.FlxGridOverlay;
-import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.addons.transition.TransitionData;
-import flixel.graphics.FlxGraphic;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxGroup;
-import flixel.input.gamepad.FlxGamepad;
-import flixel.math.FlxPoint;
-import flixel.math.FlxRect;
-import flixel.system.FlxSound;
-import flixel.system.ui.FlxSoundTray;
-import flixel.text.FlxText;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import io.newgrounds.NG;
-import lime.app.Application;
-import openfl.Assets;
-//import polymod.Polymod;
 
 using StringTools;
 
 class TitleScreen extends MusicBeatState
 {
-
-	public static var titleMusic:String = "klaskiiLoop"; 
+	public static var titleMusic:String = "klaskiiLoop";
 
 	override public function create():Void
 	{
-		//Polymod.init({modRoot: "mods", dirs: ['introMod']});
-
 		// DEBUG BULLSHIT
 
 		useDefaultTransIn = false;
@@ -73,13 +50,17 @@ class TitleScreen extends MusicBeatState
 		// titleText.screenCenter(X);
 		add(titleText);
 
-		if(FlxG.sound.music == null){
+		if (FlxG.sound.music == null)
+		{
 			FlxG.sound.playMusic(Paths.music(titleMusic), 0.75);
 		}
-		else{
-			if(!FlxG.sound.music.playing){
+		else
+		{
+			if (!FlxG.sound.music.playing)
+			{
 				FlxG.sound.playMusic(Paths.music(titleMusic), 0.75);
-				switch(titleMusic){
+				switch (titleMusic)
+				{
 					case "klaskiiLoop":
 						Conductor.changeBPM(158);
 					case "freakyMenu":
@@ -87,11 +68,10 @@ class TitleScreen extends MusicBeatState
 				}
 			}
 		}
-		
+
 		FlxG.camera.flash(FlxColor.WHITE, 1);
 
 		super.create();
-
 	}
 
 	var logoBl:FlxSprite;
@@ -104,7 +84,7 @@ class TitleScreen extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		Conductor.songPosition = FlxG.sound.music.time;
-			// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
+		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
 
 		if (FlxG.keys.justPressed.F)
 		{
@@ -113,7 +93,8 @@ class TitleScreen extends MusicBeatState
 
 		var pressedEnter:Bool = controls.ACCEPT || controls.PAUSE;
 
-		if(!transitioning && controls.BACK){
+		if (!transitioning && controls.BACK)
+		{
 			System.exit(0);
 		}
 
@@ -151,5 +132,4 @@ class TitleScreen extends MusicBeatState
 
 		FlxG.log.add(curBeat);
 	}
-
 }
