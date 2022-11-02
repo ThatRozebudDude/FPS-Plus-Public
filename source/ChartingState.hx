@@ -26,6 +26,7 @@ import openfl.display.BitmapData;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import openfl.net.FileReference;
+import openfl.utils.Assets;
 
 using StringTools;
 
@@ -59,7 +60,7 @@ class ChartingState extends MusicBeatState
 
 	// var halfSpeedCheck:FlxUICheckBox;
 	var strumLine:FlxSprite;
-	var curSong:String = 'Dadbattle';
+	var curSong:String = 'Test';
 	var amountSteps:Int = 0;
 	var bullshitUI:FlxGroup;
 
@@ -118,7 +119,7 @@ class ChartingState extends MusicBeatState
 	var lilBf:FlxSprite;
 	var lilOpp:FlxSprite;
 
-	var eventCache:Map<String, BitmapData> = new Map();
+	var eventCache:Map<String, FlxGraphic> = new Map();
 
 	override function create()
 	{
@@ -1533,24 +1534,16 @@ class ChartingState extends MusicBeatState
 				var eventSymbol = new EventSprite();
 				var customIcon:Bool = false;
 
-				#if sys
-				if (sys.FileSystem.exists("assets/images/chartEditor/event/" + tag + ".png"))
+				if (Assets.exists(Paths.file("chartEditor/event/" + tag, 'images', Paths.imageExtension)))
 				{
-					if (!eventCache.exists("assets/images/chartEditor/event/" + tag + ".png"))
-					{
-						eventCache.set("assets/images/chartEditor/event/" + tag + ".png",
-							BitmapData.fromFile("assets/images/chartEditor/event/" + tag + ".png"));
-					}
-					eventSymbol.loadGraphic(FlxGraphic.fromBitmapData(eventCache.get("assets/images/chartEditor/event/" + tag + ".png")));
+					if (!eventCache.exists(tag))
+						eventCache.set(tag, Paths.image("chartEditor/event/" + tag));
+
+					eventSymbol.loadGraphic(eventCache.get(tag));
 					customIcon = true;
 				}
 				else
-				{
 					eventSymbol.loadGraphic(Paths.image("chartEditor/event/genericEvent"));
-				}
-				#else
-				eventSymbol.loadGraphic(Paths.image("chartEditor/event/genericEvent"));
-				#end
 
 				eventSymbol.antialiasing = true;
 

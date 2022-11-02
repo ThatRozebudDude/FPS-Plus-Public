@@ -14,89 +14,70 @@ using StringTools;
 **/
 class GPUBitmap
 {
-	static var trackedTextures:Array<TexAsset> = new Array<TexAsset>();
+	private static var trackedTextures:Map<String, Texture> = [];
 
 	/**
-
-		* Creates BitmapData for a sprite and deletes the reference stored in RAM leaving only the texture in VRAM.
-		*
-		* @param   path                The file path.
-		* @param   texFormat           The texture format.
-		* @param   optimizeForRender   Generates mipmaps.
-		* @param   cachekey            Key for the Texture Buffer cache. 
-		*
+	 * Creates BitmapData for a sprite and deletes the reference stored in RAM leaving only the texture in VRAM.
+	 * 
+	 * @param	path				The file path.
+	 * @param	format				The texture format.
+	 * @param	optimizeForRender   Generates mipmaps.
+	 * @param	cacheKey			Key for the Texture Buffer cache.
+	 * 
 	 */
-	public static function create(path:String, texFormat:Context3DTextureFormat = BGRA, optimizeForRender:Bool = false, ?_cachekey:String):BitmapData
+	public static function create(path:String, format:Context3DTextureFormat = BGRA, optimizeForRender:Bool = false, ?cacheKey:String):BitmapData
 	{
-		if (_cachekey == null)
-			_cachekey = path;
+		if (cacheKey == null)
+			cacheKey = path;
 
-		for (tex in trackedTextures)
+		if (trackedTextures.exists(cacheKey))
+			return BitmapData.fromTexture(trackedTextures.get(cacheKey));
+
+		var bitmapData:BitmapData = Assets.getBitmapData(path, false);
+
+		var texture:Texture = FlxG.stage.context3D.createTexture(bitmapData.width, bitmapData.height, format, optimizeForRender);
+		texture.uploadFromBitmapData(bitmapData);
+
+		if (bitmapData != null)
 		{
-			if (tex.cacheKey == _cachekey)
-			{
-				// trace('Texture $_cachekey already exists! Reusing existing tex');
-				return BitmapData.fromTexture(tex.texture);
-			}
+			bitmapData.dispose();
+			bitmapData.disposeImage();
+			bitmapData = null;
 		}
 
-		// trace('creating new texture');
-		var bmp = Assets.getBitmapData(path, false);
-		var _texture = FlxG.stage.context3D.createTexture(bmp.width, bmp.height, texFormat, optimizeForRender);
-		_texture.uploadFromBitmapData(bmp);
-		bmp.dispose();
-		bmp.disposeImage();
-		var trackedTex = new TexAsset(_texture, _cachekey);
-		trackedTextures.push(trackedTex);
-		return BitmapData.fromTexture(_texture);
+		trackedTextures.set(cacheKey, texture);
+		return BitmapData.fromTexture(trackedTextures.get(cacheKey));
 	}
 
 	public static function disposeAllTextures():Void
 	{
-		var counter:Int = 0;
-		for (texture in trackedTextures)
+		for (key => texture in trackedTextures)
 		{
-			texture.texture.dispose();
-			trackedTextures.remove(texture);
-			counter++;
+			texture.dispose();
+			trackedTextures.remove(key);
 		}
-		// trace('Disposed $counter textures');
 	}
 
-	public static function disposeTexturesByKey(key:String)
+	public static function disposeTexturesByKey(key:String):Void
 	{
-		var counter:Int = 0;
-		for (i in 0...trackedTextures.length)
+		for (key => texture in trackedTextures)
 		{
-			if (trackedTextures[i].cacheKey.contains(key))
+			if (trackedTextures.exists(key))
 			{
-				trackedTextures[i].texture.dispose();
-				trackedTextures.remove(trackedTextures[i]);
-				counter++;
+				texture.dispose();
+				trackedTextures.remove(key);
 			}
 		}
-		// trace('Disposed $counter textures using key $key');
 	}
 
-	public static function disposeAll()
+	public static function disposeAll():Void
 	{
-		for (i in 0...trackedTextures.length)
+		for (key => texture in trackedTextures)
 		{
-			trackedTextures[i].texture.dispose();
+			texture.dispose();
+			trackedTextures.remove(key);
 		}
 
-		trackedTextures = new Array<TexAsset>();
-	}
-}
-
-class TexAsset
-{
-	public var texture:Texture;
-	public var cacheKey:String;
-
-	public function new(texture:Texture, cacheKey:String)
-	{
-		this.texture = texture;
-		this.cacheKey = cacheKey;
+		trackedTextures = [];
 	}
 }
