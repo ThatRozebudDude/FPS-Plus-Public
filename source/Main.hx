@@ -13,7 +13,7 @@ class Main extends Sprite
 
 	public static var novid:Bool = false;
 	public static var flippymode:Bool = false;
-	public static var framerate:Int = 144;
+	public static var framerate:Int = #if web 60 #else 144 #end; // For some reason 144 can't work on web browser XD
 	public static var fpsDisplay:FPS;
 
 	public function new()
