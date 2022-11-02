@@ -20,6 +20,6 @@ class ImageCache
 	public static function get(path:String):FlxGraphic
 		return cache.get(path);
 
-	public static function exists(path:String)
+	public static function exists(path:String):Bool
 		return cache.exists(path);
 }
