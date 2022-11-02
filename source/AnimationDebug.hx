@@ -43,7 +43,7 @@ class AnimationDebug extends FlxState
 
 	override function create()
 	{
-		openfl.Lib.current.stage.frameRate = 144;
+		openfl.Lib.current.stage.frameRate = Main.framerate;
 
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();

@@ -21,7 +21,7 @@ class PauseSubState extends MusicBeatSubstate
 	{
 		super();
 
-		openfl.Lib.current.stage.frameRate = 144;
+		openfl.Lib.current.stage.frameRate = Main.framerate;
 
 		if (PlayState.storyPlaylist.length > 1 && PlayState.isStoryMode)
 		{
