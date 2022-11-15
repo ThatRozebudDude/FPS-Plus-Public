@@ -19,6 +19,7 @@ class Character extends FlxSprite
 	public var canAutoAnim:Bool = true;
 	public var danceLockout:Bool = false;
 	public var animSet:String = "";
+	public var iconName:String = 'face';
 
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
 	{
@@ -64,6 +65,8 @@ class Character extends FlxSprite
 
 				playAnim('danceRight');
 
+				iconName = 'gf';
+
 			case 'gf-christmas':
 				frames = Paths.getSparrowAtlas("christmas/gfChristmas");
 				animation.addByPrefix('cheer', 'GF Cheer', 24, false);
@@ -94,6 +97,8 @@ class Character extends FlxSprite
 
 				playAnim('danceRight');
 
+				iconName = 'gf';
+
 			case 'gf-car':
 				frames = Paths.getSparrowAtlas("gfCar");
 				animation.addByIndices('singUP', 'GF Dancing Beat Hair blowing CAR', [0], "", 24, false);
@@ -104,6 +109,8 @@ class Character extends FlxSprite
 				addOffset('danceRight', 0);
 
 				playAnim('danceRight');
+
+				iconName = 'gf';
 
 			case 'gf-pixel':
 				frames = Paths.getSparrowAtlas("weeb/gfPixel");
@@ -136,6 +143,9 @@ class Character extends FlxSprite
 				addOffset("singDOWN", 2, -32);
 
 				playAnim('idle');
+
+				iconName = 'dad';
+				
 			case 'spooky':
 				frames = Paths.getSparrowAtlas("spooky_kids_assets");
 				animation.addByPrefix('singUP', 'spooky UP NOTE', 24, false);
@@ -154,6 +164,9 @@ class Character extends FlxSprite
 				addOffset("singDOWN", -46, -144);
 
 				playAnim('danceRight');
+
+				iconName = 'spooky';
+
 			case 'mom':
 				frames = Paths.getSparrowAtlas("Mom_Assets");
 				animation.addByPrefix('idle', "Mom Idle", 24, false);
@@ -172,6 +185,8 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 
+				iconName = 'mom';
+
 			case 'mom-car':
 				frames = Paths.getSparrowAtlas("momCar");
 				animation.addByPrefix('idle', "Mom Idle", 24, false);
@@ -189,6 +204,9 @@ class Character extends FlxSprite
 				addOffset("singDOWN", 20, -157);
 
 				playAnim('idle');
+
+				iconName = 'mom';
+
 			case 'monster':
 				frames = Paths.getSparrowAtlas("Monster_Assets");
 				animation.addByPrefix('idle', 'monster idle', 24, false);
@@ -203,6 +221,9 @@ class Character extends FlxSprite
 				addOffset("singLEFT", -31, 4);
 				addOffset("singDOWN", -63, -86);
 				playAnim('idle');
+
+				iconName = 'monster';
+
 			case 'monster-christmas':
 				frames = Paths.getSparrowAtlas("christmas/monsterChristmas");
 				animation.addByPrefix('idle', 'monster idle', 24, false);
@@ -217,6 +238,9 @@ class Character extends FlxSprite
 				addOffset("singLEFT", -30, 7);
 				addOffset("singDOWN", -52, -91);
 				playAnim('idle');
+
+				iconName = 'monster';
+
 			case 'pico':
 				frames = Paths.getSparrowAtlas("Pico_FNF_assetss");
 				animation.addByPrefix('idle', "Pico Idle Dance", 24, false);
@@ -254,6 +278,8 @@ class Character extends FlxSprite
 				playAnim('idle');
 
 				flipX = true;
+
+				iconName = 'pico';
 
 			case 'bf':
 				frames = Paths.getSparrowAtlas("BOYFRIEND");
@@ -294,6 +320,8 @@ class Character extends FlxSprite
 
 				flipX = true;
 
+				iconName = 'bf';
+
 			case 'bf-christmas':
 				frames = Paths.getSparrowAtlas("christmas/bfChristmas");
 				animation.addByPrefix('idle', 'BF idle dance', 24, false);
@@ -321,6 +349,9 @@ class Character extends FlxSprite
 				playAnim('idle');
 
 				flipX = true;
+
+				iconName = 'bf';
+
 			case 'bf-car':
 				frames = Paths.getSparrowAtlas("bfCar");
 				animation.addByPrefix('idle', 'BF idle dance', 24, false);
@@ -345,6 +376,9 @@ class Character extends FlxSprite
 				playAnim('idle');
 
 				flipX = true;
+
+				iconName = 'bf';
+
 			case 'bf-pixel':
 				frames = Paths.getSparrowAtlas("weeb/bfPixel");
 				animation.addByPrefix('idle', 'BF IDLE', 24, false);
@@ -378,6 +412,9 @@ class Character extends FlxSprite
 				antialiasing = false;
 
 				flipX = true;
+
+				iconName = 'bf-pixel';
+
 			case 'bf-pixel-dead':
 				frames = Paths.getSparrowAtlas("weeb/bfPixelsDEAD");
 				animation.addByPrefix('singUP', "BF Dies pixel", 24, false);
@@ -416,6 +453,9 @@ class Character extends FlxSprite
 				updateHitbox();
 
 				antialiasing = false;
+
+				iconName = 'senpai';
+
 			case 'senpai-angry':
 				frames = Paths.getSparrowAtlas("weeb/senpai");
 				animation.addByPrefix('idle', 'Angry Senpai Idle', 24, false);
@@ -435,6 +475,8 @@ class Character extends FlxSprite
 				updateHitbox();
 
 				antialiasing = false;
+
+				iconName = 'senpai-angry';
 
 			case 'spirit':
 				frames = Paths.getPackerAtlas("weeb/spirit");
@@ -456,6 +498,8 @@ class Character extends FlxSprite
 				playAnim('idle');
 
 				antialiasing = false;
+
+				iconName = 'spirit';
 
 			case 'parents-christmas':
 				frames = Paths.getSparrowAtlas("christmas/mom_dad_christmas_assets");
@@ -482,6 +526,8 @@ class Character extends FlxSprite
 				addOffset("singDOWN-alt", -30, -27);
 
 				playAnim('idle');
+
+				iconName = 'parents-christmas';
 		}
 
 		dance();
