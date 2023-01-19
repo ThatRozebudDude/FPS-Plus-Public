@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin' FPS Plus" file="FunkinFPSPlus" main="Main" version="FNF: v0.2.7 | FPS Plus: v3.7" company="Rozebud" />
+	<app title="Friday Night Funkin' FPS Plus" file="FunkinFPSPlus" main="Main" version="FNF: v0.2.7 | FPS Plus: v3.8" company="Rozebud" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -52,6 +52,7 @@
 	<!-- <library name="noPreload"/> -->
 	<assets path="assets/music" include="*.ogg"/>
 	<assets path="assets/sounds" include="*.ogg"/>
+	<assets path="assets/songs"/>
 
 	<!-- comment out the override define to disable overrides>
 	<define name="override" if="desktop"/>

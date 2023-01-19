@@ -59,6 +59,14 @@ class Paths
         return file(key, "music", audioExtension);
     }
 
+    inline static public function voices(key:String){
+        return 'assets/songs/$key/Voices.ogg';
+    }
+
+    inline static public function inst(key:String){
+        return 'assets/songs/$key/Inst.ogg';
+    }
+
     inline static public function getSparrowAtlas(key:String){
         return FlxAtlasFrames.fromSparrow(image(key), xml(key));
     }
