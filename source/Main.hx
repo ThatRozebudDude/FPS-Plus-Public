@@ -23,7 +23,7 @@ class Main extends Sprite
 		flippymode = Sys.args().contains("-flippymode");
 		#end
 
-		addChild(new FlxGame(0, 0, Startup, 1, 144, 144, true));
+		addChild(new FlxGame(0, 0, Startup, 144, 144, true));
 
 		#if !mobile
 		fpsDisplay = new FPS(10, 3, 0xFFFFFF);

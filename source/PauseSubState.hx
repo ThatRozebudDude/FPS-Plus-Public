@@ -95,13 +95,13 @@ class PauseSubState extends MusicBeatSubstate
 				case "Restart Song":
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
-					FlxG.resetState();
+					PlayState.instance.switchState(new PlayState());
 					PlayState.sectionStart = false;
 
 				case "Restart Section":
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
-					FlxG.resetState();
+					PlayState.instance.switchState(new PlayState());
 
 				case "Chart Editor":
 					PlayerSettings.menuControls();
