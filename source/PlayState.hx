@@ -136,6 +136,9 @@ class PlayState extends MusicBeatState
 
 	//End of wacky input stuff===================
 
+	private var autoplay:Bool = false;
+	private var usedAutoplay:Bool = false;
+
 	private var invuln:Bool = false;
 	private var invulnCount:Int = 0;
 
@@ -783,11 +786,9 @@ class PlayState extends MusicBeatState
 			case 'schoolEvil':
 				// trailArea.scrollFactor.set();
 
-				var evilTrail = new DeltaTrail(dad, null, 4, 24 / 60, 0.3, 0.069);
-				// evilTrail.changeValuesEnabled(false, false, false, false);
-				// evilTrail.changeGraphic()
+				var evilTrail = new DeltaTrail(dad, null, 10, 3 / 60, 0.4);
+				//var evilTrail = new DeltaTrail(dad, null, 10, 24 / 60, 0.4, 0.005); //This is basically the default look of Spirit in base game.
 				add(evilTrail);
-				// evilTrail.scrollFactor.set(1.1, 1.1);
 
 				boyfriend.x += 200;
 				boyfriend.y += 220;
@@ -797,8 +798,9 @@ class PlayState extends MusicBeatState
 
 		add(gf);
 		
-		if (curStage == 'limo')
+		if (curStage == 'limo'){
 			add(limo);
+		}
 		
 		add(dad);
 		add(boyfriend);
@@ -1495,6 +1497,14 @@ class PlayState extends MusicBeatState
 			if (player == 1)
 			{
 				playerStrums.add(babyArrow);
+				babyArrow.animation.finishCallback = function(name:String){
+					if(autoplay){
+						if(name == "confirm"){
+							babyArrow.animation.play('static', true);
+							babyArrow.centerOffsets();
+						}
+					}
+				}
 			}
 			else
 			{
@@ -1580,6 +1590,7 @@ class PlayState extends MusicBeatState
 	{
 
 		/*New keyboard input stuff. Disables the listener when using controller because controller uses the other input set thing I did.
+		we love fps plus input :]
 		
 		if(skipListener) {keyCheck();}
 
@@ -1597,9 +1608,19 @@ class PlayState extends MusicBeatState
 
 		keyCheck(); //Gonna stick with this for right now. I have the other stuff on standby in case this still is not working for people.
 
-		if (!inCutscene)
-			keyShit();
+		if (!inCutscene){
+			if(!autoplay){
+				keyShit();
+			}
+			else{
+				keyShitAuto();
+			}
+		}
 		
+		if(FlxG.keys.pressed.SHIFT && FlxG.keys.justPressed.TAB && !isStoryMode){
+			autoplay = !autoplay;
+			usedAutoplay = true;
+		}
 
 		/*if (FlxG.keys.justPressed.NINE)
 		{
@@ -1993,8 +2014,7 @@ class PlayState extends MusicBeatState
 		canPause = false;
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
-		if (SONG.validScore)
-		{
+		if (SONG.validScore && !usedAutoplay){
 			#if !switch
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
 			#end
@@ -2020,8 +2040,7 @@ class PlayState extends MusicBeatState
 				// if ()
 				StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
 
-				if (SONG.validScore)
-				{
+				if (SONG.validScore){
 					Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
 				}
 
@@ -2264,7 +2283,7 @@ class PlayState extends MusicBeatState
 		leftHold = leftTime > 0;
 		rightHold = rightTime > 0;
 
-		/*THE FUNNY 4AM CODE!
+		/*THE FUNNY 4AM CODE! [bro what was i doin????]
 		trace((leftHold?(leftPress?"^":"|"):(leftRelease?"^":" "))+(downHold?(downPress?"^":"|"):(downRelease?"^":" "))+(upHold?(upPress?"^":"|"):(upRelease?"^":" "))+(rightHold?(rightPress?"^":"|"):(rightRelease?"^":" ")));
 		I should probably remove this from the code because it literally serves no purpose, but I'm gonna keep it in because I think it's funny.
 		It just sorta prints 4 lines in the console that look like the arrows being pressed. Looks something like this:
