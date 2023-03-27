@@ -97,7 +97,7 @@ class Config
 		if(FlxG.save.data.downscroll == null)
 			FlxG.save.data.downscroll = false;
 		if(FlxG.save.data.noteGlow == null)
-			FlxG.save.data.noteGlow = false;
+			FlxG.save.data.noteGlow = true;
 		if(FlxG.save.data.ghostTapType == null)
 			FlxG.save.data.ghostTapType = 0;
 		if(FlxG.save.data.noFpsCap == null)

@@ -84,7 +84,7 @@ class ConfigMenu extends MusicBeatState
 	final ghostTapDesc:Array<String> = [
 									"Any key press that isn't for a valid note will cause you to miss.", 
 									"You can only  miss while you need to sing.", 
-									"You cannot miss unless you do not hit a note.\n[Note that this makes the game very easy and can remove a lot of the challenge.]"
+									"You cannot miss unless you do not hit a note."
 									];					
 
 	final comboDisplayDesc:Array<String> = [
@@ -560,6 +560,8 @@ class ConfigMenu extends MusicBeatState
             }
 
         }
+
+		configText.text += "\n";
 
 		switch(configSelected){
 

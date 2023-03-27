@@ -135,7 +135,7 @@ class CacheSettings extends MusicBeatState
     function textUpdate(){
 
         keyTextDisplay.clearFormats();
-        keyTextDisplay.text = "\n\nCACHE SETTINGS\n\n";
+        keyTextDisplay.text = "CACHE SETTINGS\n\n";
 
         for(i in 0...3){
 

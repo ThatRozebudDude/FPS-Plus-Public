@@ -152,7 +152,7 @@ class KeyBindMenu extends MusicBeatState
     function textUpdate(){
 
         keyTextDisplay.clearFormats();
-        keyTextDisplay.text = "\n\n";
+        keyTextDisplay.text = "";
 
         for(i in 0...keys.length){
 

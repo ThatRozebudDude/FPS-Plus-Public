@@ -74,7 +74,7 @@ class Note extends FlxSprite
 		switch (daStage)
 		{
 			case 'school' | 'schoolEvil':
-				loadGraphic(Paths.image('weeb/pixelUI/arrows-pixels'), true, 17, 17);
+				loadGraphic(Paths.image('weeb/pixelUI/arrows-pixels'), true, 19, 19);
 
 				animation.add('greenScroll', [6]);
 				animation.add('redScroll', [7]);
@@ -173,7 +173,7 @@ class Note extends FlxSprite
 			xOffset -= width / 2;
 
 			if (PlayState.curStage.startsWith('school'))
-				xOffset += 30;
+				xOffset += 36;
 
 			if (prevNote.isSustainNote)
 			{
