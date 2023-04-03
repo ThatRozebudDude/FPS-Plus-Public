@@ -2028,7 +2028,7 @@ class PlayState extends MusicBeatState
 
 			if (storyPlaylist.length <= 0)
 			{
-				FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), 0.75);
+				FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), 1);
 
 				PlayerSettings.menuControls();
 				//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);

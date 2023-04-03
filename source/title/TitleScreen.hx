@@ -1,5 +1,7 @@
 package title;
 
+import flixel.addons.display.FlxBackdrop;
+import flixel.FlxCamera;
 import openfl.system.System;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -33,6 +35,11 @@ class TitleScreen extends MusicBeatState
 
 	public static var titleMusic:String = "klaskiiLoop"; 
 
+	var camBackground:FlxCamera;
+	var camMain:FlxCamera;
+
+	final bgScrollSpeed = 20;
+
 	override public function create():Void
 	{
 		//Polymod.init({modRoot: "mods", dirs: ['introMod']});
@@ -41,29 +48,59 @@ class TitleScreen extends MusicBeatState
 
 		useDefaultTransIn = false;
 
-		persistentUpdate = true;
+		camBackground = new FlxCamera();
+		camBackground.width *= 2;
+		camBackground.x -= 640;
+		camBackground.angle = -6.26;
 
-		logoBl = new FlxSprite(-150, -100);
+		camMain = new FlxCamera();
+		camMain.bgColor.alpha = 0;
+		camMain.bgColor.alpha = 0;
+
+		FlxG.cameras.reset(camBackground);
+		FlxG.cameras.add(camMain);
+
+		FlxCamera.defaultCameras = [camMain];
+
+		var bgBfTop = new FlxBackdrop(Paths.image("fpsPlus/title/backgroundBf"), X);
+		bgBfTop.y = 360 - bgBfTop.height;
+		bgBfTop.velocity.x = bgScrollSpeed;
+		bgBfTop.antialiasing = true;
+		bgBfTop.alpha = 0.5;
+		bgBfTop.cameras = [camBackground];
+
+		var bgBfBottom = new FlxBackdrop(Paths.image("fpsPlus/title/backgroundBf"), X);
+		bgBfBottom.y = 360;
+		bgBfBottom.velocity.x = bgScrollSpeed * -1;
+		bgBfBottom.antialiasing = true;
+		bgBfBottom.alpha = 0.5;
+		bgBfBottom.cameras = [camBackground];
+
+		logoBl = new FlxSprite(-175, -125);
 		logoBl.frames = Paths.getSparrowAtlas("logoBumpin");
 		logoBl.antialiasing = true;
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
 		logoBl.animation.play('bump');
-		logoBl.updateHitbox();
+		logoBl.scale.set(0.85, 0.85);
+		logoBl.angle = camBackground.angle;
 
-		var bgGrad:FlxSprite = new FlxSprite().loadGraphic(Paths.image('titleBG'));
-		bgGrad.antialiasing = true;
-		bgGrad.updateHitbox();
+		var glow:FlxSprite = new FlxSprite().loadGraphic(Paths.image('fpsPlus/title/glow'));
+		glow.antialiasing = true;
 
-		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
-		gfDance.frames = Paths.getSparrowAtlas("gfDanceTitle");
-		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+		var topBar:FlxSprite = new FlxSprite().loadGraphic(Paths.image('fpsPlus/title/barTop'));
+		topBar.antialiasing = true;
+		
+		var bottomBar:FlxSprite = new FlxSprite().loadGraphic(Paths.image('fpsPlus/title/barBottom'));
+		bottomBar.antialiasing = true;
+
+		gfDance = new FlxSprite(462, 15);
+		gfDance.frames = Paths.getSparrowAtlas("fpsPlus/title/gf");
+		gfDance.animation.addByIndices('danceLeft', 'GF Dancing Beat instance 1', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
+		gfDance.animation.addByIndices('danceRight', 'GF Dancing Beat instance 1', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+		gfDance.animation.play("danceRight", true, false, 14);
 		gfDance.antialiasing = true;
-		add(bgGrad);
-		add(gfDance);
-		add(logoBl);
 
-		titleText = new FlxSprite(100, FlxG.height * 0.8);
+		titleText = new FlxSprite(139, FlxG.height * 0.8);
 		titleText.frames = Paths.getSparrowAtlas("titleEnter");
 		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
 		titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
@@ -71,14 +108,24 @@ class TitleScreen extends MusicBeatState
 		titleText.animation.play('idle');
 		titleText.updateHitbox();
 		// titleText.screenCenter(X);
+
+		add(bgBfTop);
+		add(bgBfBottom);
+
+		add(topBar);
+		add(gfDance);
+		add(bottomBar);
+		add(glow);
+
+		add(logoBl);
 		add(titleText);
 
 		if(FlxG.sound.music == null){
-			FlxG.sound.playMusic(Paths.music(titleMusic), 0.75);
+			FlxG.sound.playMusic(Paths.music(titleMusic), 1);
 		}
 		else{
 			if(!FlxG.sound.music.playing){
-				FlxG.sound.playMusic(Paths.music(titleMusic), 0.75);
+				FlxG.sound.playMusic(Paths.music(titleMusic), 1);
 				switch(titleMusic){
 					case "klaskiiLoop":
 						Conductor.changeBPM(158);
@@ -88,7 +135,7 @@ class TitleScreen extends MusicBeatState
 			}
 		}
 		
-		FlxG.camera.flash(FlxColor.WHITE, 1);
+		camMain.flash(FlxColor.WHITE, 1);
 
 		super.create();
 
@@ -121,7 +168,7 @@ class TitleScreen extends MusicBeatState
 		{
 			titleText.animation.play('press');
 
-			FlxG.camera.flash(FlxColor.WHITE, 1);
+			camMain.flash(FlxColor.WHITE, 1);
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 			transitioning = true;
@@ -142,12 +189,20 @@ class TitleScreen extends MusicBeatState
 		super.beatHit();
 
 		logoBl.animation.play('bump', true);
-		danceLeft = !danceLeft;
+		
 
-		if (danceLeft)
-			gfDance.animation.play('danceRight', true);
-		else
-			gfDance.animation.play('danceLeft', true);
+		//i want the option
+		if(curBeat % 1 == 0){
+
+			danceLeft = !danceLeft;
+
+			if (danceLeft){
+				gfDance.animation.play('danceRight', true);
+			}
+			else{
+				gfDance.animation.play('danceLeft', true);
+			}
+		}
 
 		FlxG.log.add(curBeat);
 	}

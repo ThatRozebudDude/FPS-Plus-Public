@@ -17,7 +17,7 @@ class TitleVideo extends FlxState
 
 		super.create();
 
-		FlxG.sound.cache(Paths.music("klaskiiLoop"));
+		//FlxG.sound.cache(Paths.music("klaskiiLoop"));
 
 		if(!Main.novid){
 
@@ -49,7 +49,7 @@ class TitleVideo extends FlxState
 	function next():Void{
 
 		FlxG.camera.flash(FlxColor.WHITE, 60);
-		FlxG.sound.playMusic(Paths.music("klaskiiLoop"), 0.75);
+		FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), 1);
 		Conductor.changeBPM(158);
 		FlxG.switchState(titleState);
 

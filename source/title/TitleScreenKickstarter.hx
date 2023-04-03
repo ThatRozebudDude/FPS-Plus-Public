@@ -81,11 +81,11 @@ class TitleScreenKickstarter extends MusicBeatState
 		add(titleText);
 
 		if(FlxG.sound.music == null){
-			FlxG.sound.playMusic(Paths.music(titleMusic), 0.75);
+			FlxG.sound.playMusic(Paths.music(titleMusic), 1);
 		}
 		else{
 			if(!FlxG.sound.music.playing){
-				FlxG.sound.playMusic(Paths.music(titleMusic), 0.75);
+				FlxG.sound.playMusic(Paths.music(titleMusic), 1);
 				switch(titleMusic){
 					case "klaskiiLoop":
 						Conductor.changeBPM(158);

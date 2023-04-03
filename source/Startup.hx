@@ -52,7 +52,7 @@ class Startup extends FlxState
     var graphicsCached:Bool;
     var startCachingGraphics:Bool = false;
     var gfxI:Int = 0;
-    public static final graphics:Array<String> =    ["logoBumpin", "logoBumpin2", "titleBG", "gfDanceTitle", "gfDanceTitle2", "titleEnter",
+    public static final graphics:Array<String> =    ["logoBumpin", "logoBumpin2", "gfDanceTitle2", "titleEnter", "fpsPlus/title/backgroundBf", "fpsPlus/title/barBottom", "fpsPlus/title/barTop", "fpsPlus/title/gf", "fpsPlus/title/glow", 
                                     "stageback", "stagefront", "stagecurtains",
                                     "halloween_bg",
                                     "philly/sky", "philly/city", "philly/behindTrain", "philly/train", "philly/street", "philly/win0", "philly/win1", "philly/win2", "philly/win3", "philly/win4",
