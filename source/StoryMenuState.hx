@@ -53,22 +53,17 @@ class StoryMenuState extends MusicBeatState
 	
 		weekData = [
 			['Tutorial'],
+			["It's Complicated"],
 			['Bopeebo', 'Fresh', 'Dadbattle'],
-			['Spookeez', 'South', 'Monster'],
-			['Pico', 'Philly', "Blammed"],
-			['Satin-Panties', "High", "Milf"],
-			['Cocoa', 'Eggnog', 'Winter-Horrorland'],
-			['Senpai', 'Roses', 'Thorns']
+			['Satin-Panties', "High", "Milf"]
+
 		];
 		
 		weekCharacters = [
+			['none', 'bf', 'gf'],
 			['dad', 'bf', 'gf'],
 			['dad', 'bf', 'gf'],
-			['spooky', 'bf', 'gf'],
-			['pico', 'bf', 'gf'],
-			['mom', 'bf', 'gf'],
-			['parents-christmas', 'bf', 'gf'],
-			['senpai', 'bf', 'gf']
+			['mom', 'bf', 'gf']
 		];
 	
 		weekNames = CoolUtil.coolTextFile(Paths.text("weekNames"));
@@ -117,7 +112,7 @@ class StoryMenuState extends MusicBeatState
 			grpWeekText.add(weekThing);
 
 			weekThing.screenCenter(X);
-			weekThing.antialiasing = true;
+			weekThing.antialiasing = false;
 			// weekThing.updateHitbox();
 
 			// Needs an offset thingie
@@ -153,11 +148,9 @@ class StoryMenuState extends MusicBeatState
 				case 'gf':
 					weekCharacterThing.setGraphicSize(Std.int(weekCharacterThing.width * 0.5));
 					weekCharacterThing.updateHitbox();
-				case 'pico':
-					weekCharacterThing.flipX = true;
-				case 'parents-christmas':
-					weekCharacterThing.setGraphicSize(Std.int(weekCharacterThing.width * 0.9));
-					weekCharacterThing.updateHitbox();
+					
+				case 'none':
+					weekCharacterThing.visible = false;
 			}
 
 			grpWeekCharacters.add(weekCharacterThing);
@@ -197,7 +190,11 @@ class StoryMenuState extends MusicBeatState
 		add(yellowBG);
 		add(grpWeekCharacters);
 
-		txtTracklist = new FlxText(FlxG.width * 0.05, yellowBG.x + yellowBG.height + 100, 0, "Tracks", 32);
+					
+					
+					
+					// Track List
+		txtTracklist = new FlxText(FlxG.width * 0.05, yellowBG.x + yellowBG.height + 100, 0, "Songs:", 32);
 		txtTracklist.alignment = CENTER;
 		txtTracklist.font = rankText.font;
 		txtTracklist.color = 0xFFe55777;
@@ -406,14 +403,6 @@ class StoryMenuState extends MusicBeatState
 
 		switch (grpWeekCharacters.members[0].animation.curAnim.name)
 		{
-			case 'parents-christmas':
-				grpWeekCharacters.members[0].offset.set(200, 200);
-				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 0.99));
-
-			case 'senpai':
-				grpWeekCharacters.members[0].offset.set(130, 0);
-				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1.4));
-
 			case 'mom':
 				grpWeekCharacters.members[0].offset.set(100, 200);
 				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1));
