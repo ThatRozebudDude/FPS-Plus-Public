@@ -12,7 +12,7 @@ class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = ['Resume', 'Restart Song', "Options",'Exit to menu'];
+	var menuItems:Array<String> = ['Resume', 'Restart Song', "Options",'Exit to menu','Exit Game'];
 	var curSelected:Int = 0;
 
 	var pauseMusic:FlxSound;
@@ -122,7 +122,8 @@ class PauseSubState extends MusicBeatSubstate
 
 					PlayState.sectionStart = false;
 
-					switch(PlayState.returnLocation){
+					switch(PlayState.returnLocation)
+					{
 						case "freeplay":
 							PlayState.instance.switchState(new FreeplayState());
 						case "story":
@@ -130,7 +131,8 @@ class PauseSubState extends MusicBeatSubstate
 						default:
 							PlayState.instance.switchState(new MainMenuState());
 					}
-					
+				case "Exit Game":
+					sys.exit;
 			}
 		}
 	}
