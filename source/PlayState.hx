@@ -1659,7 +1659,18 @@ class PlayState extends MusicBeatState
 		}
 
 		super.update(elapsed);
-
+	// This is where the Score Text UI is stored	
+		// This is where the Score Text UI is stored				
+		// This is where the Score Text UI is stored				
+		// This is where the Score Text UI is stored				
+		// This is where the Score Text UI is stored		// This is where the Score Text UI is stored				
+				
+		// This is where the Score Text UI is stored		// This is where the Score Text UI is stored		// This is where the Score Text UI is stored				
+		// This is where the Score Text UI is stored		// This is where the Score Text UI is stored				
+		// This is where the Score Text UI is stored				
+		// This is where the Score Text UI is stored				
+	// This is where the Score Text UI is stored					
+				
 		switch(Config.accuracy){
 			case "none":
 				scoreTxt.text = "Score:" + songScore;
@@ -1667,6 +1678,25 @@ class PlayState extends MusicBeatState
 				scoreTxt.text = "Score:" + songScore + " | Misses:" + misses + " | Accuracy:" + truncateFloat(accuracy, 2) + "%";
 		}
 
+		
+	// This is where the Score Text UI is stored	
+		
+		// This is where the Score Text UI is stored		
+		// This is where the Score Text UI is stored		
+		// This is where the Score Text UI is stored		
+		// This is where the Score Text UI is stored		
+		// This is where the Score Text UI is stored		
+		// This is where the Score Text UI is stored		// This is where the Score Text UI is stored		
+		// This is where the Score Text UI is stored		
+		// This is where the Score Text UI is stored		
+		
+		
+		
+		
+		
+		
+		
+		
 		if (controls.PAUSE && startedCountdown && canPause)
 		{
 			persistentUpdate = false;
@@ -1711,6 +1741,10 @@ class PlayState extends MusicBeatState
 			
 		/* if (FlxG.keys.justPressed.NINE)
 			switchState(new Charting()); */
+		
+		if (FlxG.keys.justPressed.NINE)
+			iconP1.swapOldIcon();
+
 
 		if (FlxG.keys.justPressed.EIGHT){
 
