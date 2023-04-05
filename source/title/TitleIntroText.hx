@@ -43,6 +43,15 @@ class TitleIntroText extends MusicBeatState
 		useDefaultTransOut = false;
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
+		
+		
+		titlestatebg = new FlxBackdrop(Paths.image('notsoloading'), 0.2, 0, true, true);
+		titlestatebg.velocity.set(200, 110);
+		titlestatebg.updateHitbox();
+		titlestatebg.alpha = 0.25;
+		titlestatebg.screenCenter(X);
+		//title screen bg is so real
+		add(titlestatebg);
 
 		credGroup = new FlxGroup();
 		add(credGroup);
