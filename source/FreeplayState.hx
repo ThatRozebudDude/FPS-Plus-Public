@@ -42,29 +42,42 @@ class FreeplayState extends MusicBeatState
 
 		var isDebug:Bool = true;
 
+		// Main Cover.
 		if (StoryMenuState.weekUnlocked[2] || isDebug)
-			addWeek(['Bopeebo', 'Fresh', 'Dadbattle'], 1, ['dad']);
-
-		if (StoryMenuState.weekUnlocked[2] || isDebug)
-			addWeek(['Spookeez', 'South', 'Monster'], 2, ['spooky', 'spooky', "monster"]);
-
+			addWeek(["It's Complicated"], 1, ['ivan-stressed']);
+		// Week 1 and 4 covers.
 		if (StoryMenuState.weekUnlocked[3] || isDebug)
-			addWeek(['Pico', 'Philly', 'Blammed'], 3, ['pico']);
+			addWeek(['Bopeebo', 'Fresh', 'Dadbattle'], 2, ['dad']);
 
 		if (StoryMenuState.weekUnlocked[4] || isDebug)
-			addWeek(['Satin-Panties', 'High', 'Milf'], 4, ['mom']);
+			addWeek(['Satin-Panties', 'High', 'Milf'], 4, ['cawth']);
 
-		if (StoryMenuState.weekUnlocked[5] || isDebug)
-			addWeek(['Cocoa', 'Eggnog', 'Winter-Horrorland'], 5, ['parents-christmas', 'parents-christmas', 'monster-christmas']);
-
+		// More covers.
 		if (StoryMenuState.weekUnlocked[6] || isDebug)
-			addWeek(['Senpai', 'Roses', 'Thorns'], 6, ['senpai', 'senpai-angry', 'spirit']);
+			addWeek(['Really Happy', 'Sink', 'Cycles'], 6, ['ivan-twoface-win', 'sink', 'lordX']);
 
 
 		// LOAD CHARACTERS
 
+		
+		
+		
+		
+		
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
+
+		
+		titlestatebg = new FlxBackdrop(Paths.image('notsoloading'), 0.2, 0, true, true);
+		titlestatebg.velocity.set(200, 110);
+		titlestatebg.updateHitbox();
+		titlestatebg.alpha = 0.5;
+		titlestatebg.screenCenter(X);
+		//taken from vs july plus nick title screen code (yet edited)
+		//even then, that code was taken from os engine
+		
 		add(bg);
+		add(titlestatebg);
+
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
@@ -116,7 +129,7 @@ class FreeplayState extends MusicBeatState
 
 		var swag:Alphabet = new Alphabet(1, 0, "swag");
 
-		// JUST DOIN THIS SHIT FOR TESTING!!!
+		// Why is this here???
 		/* 
 			var md:String = Markdown.markdownToHtml(Assets.getText('CHANGELOG.md'));
 			var texFel:TextField = new TextField();
@@ -140,7 +153,7 @@ class FreeplayState extends MusicBeatState
 	public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>)
 	{
 		if (songCharacters == null)
-			songCharacters = ['bf'];
+			songCharacters = ['face'];
 
 		var num:Int = 0;
 		for (song in songs)
@@ -161,7 +174,7 @@ class FreeplayState extends MusicBeatState
 		if (Math.abs(lerpScore - intendedScore) <= 10)
 			lerpScore = intendedScore;
 
-		scoreText.text = "PERSONAL BEST:" + lerpScore;
+		scoreText.text = "High Score:" + lerpScore;
 
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
