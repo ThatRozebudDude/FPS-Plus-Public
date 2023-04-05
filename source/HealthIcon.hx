@@ -31,6 +31,7 @@ class HealthIcon extends FlxSprite
 		//Ivan Icons
 		animation.add('ivan-stressed', [3, 4, 5], 0, false, isPlayer);
 		animation.add('ivan-twoface', [6, 7, 8], 0, false, isPlayer);
+		animation.add('ivan-twoface-win', [8], 0, false, isPlayer);
 		
 		// epic cawth woman
 		animation.add('cawth', [9, 10, 11], 0, false, isPlayer);
