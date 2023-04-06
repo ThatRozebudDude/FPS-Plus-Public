@@ -10,7 +10,7 @@ Friday Night Funkin' FPS Plus is a mod of Friday Night Funkin' that aims to impr
 ## Features
 
 ### Increased FPS
-The orignal purpose of FPS Plus. The game has an increased framerate over the base game and even an option for a completely uncapped framerate.
+The original purpose of FPS Plus. The game has an increased framerate over the base game and even an option for a completely uncapped framerate.
 
 ### Better Input
 Adjusts how the game handles input allowing you to hit notes more consistently.
