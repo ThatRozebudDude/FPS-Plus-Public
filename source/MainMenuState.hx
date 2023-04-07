@@ -88,7 +88,7 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow, null, 0.004);
 
-		versionText = new FlxText(5, FlxG.height - 21, 0, "FNF: v0.2.7 | FPS Plus: v3.8.0", 16);
+		versionText = new FlxText(5, FlxG.height - 21, 0, "FNF: v0.2.7 | FPS Plus: v4.0.0 (Experimental)", 16);
 		versionText.scrollFactor.set();
 		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionText);
