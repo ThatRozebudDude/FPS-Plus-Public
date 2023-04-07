@@ -62,7 +62,7 @@ class Startup extends FlxState
                                     "week5/christmas/bgWalls", "week5/christmas/upperBop", "week5/christmas/bgEscalator", "week5/christmas/christmasTree", "week5/christmas/bottomBop", "week5/christmas/fgSnow", "week5/christmas/santa",
                                     "week5/christmas/evilBG", "week5/christmas/evilTree", "week5/christmas/evilSnow",
                                     "week6/weeb/weebSky", "week6/weeb/weebSchool", "week6/weeb/weebStreet", "week6/weeb/weebTreesBack", "week6/weeb/weebTrees", "week6/weeb/petals", "week6/weeb/bgFreaks",
-                                    "weeb/animatedEvilSchool", "week6/weeb/senpaiCrazy"];
+                                    "week6/weeb/animatedEvilSchool", "week6/weeb/senpaiCrazy"];
 
     var cacheStart:Bool = false;
 

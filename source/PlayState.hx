@@ -88,6 +88,7 @@ class PlayState extends MusicBeatState
 	public static final schoolScared = ["roses"];
 	public static final evilSchoolSongs = ["thorns"];
 	public static final pixelSongs = ["senpai", "roses", "thorns"];
+	public static final tankmanSongs = ["ugh", "guns", "stress"];
 
 	private var camFocus:String = "";
 	private var camTween:FlxTween;
@@ -337,6 +338,7 @@ class PlayState extends MusicBeatState
 				case 4: gfCheck = 'gf-car';
 				case 5: gfCheck = 'gf-christmas';
 				case 6: gfCheck = 'gf-pixel';
+				//case 7:
 			}
 
 			SONG.gf = gfCheck;

@@ -63,14 +63,14 @@ class TitleScreen extends MusicBeatState
 		FlxCamera.defaultCameras = [camMain];
 
 		var bgBfTop = new FlxBackdrop(Paths.image("fpsPlus/title/backgroundBf"), X);
-		bgBfTop.y = 360 - bgBfTop.height;
+		bgBfTop.y = 365 - bgBfTop.height;
 		bgBfTop.velocity.x = bgScrollSpeed;
 		bgBfTop.antialiasing = true;
 		bgBfTop.alpha = 0.5;
 		bgBfTop.cameras = [camBackground];
 
 		var bgBfBottom = new FlxBackdrop(Paths.image("fpsPlus/title/backgroundBf"), X);
-		bgBfBottom.y = 360;
+		bgBfBottom.y = 355;
 		bgBfBottom.velocity.x = bgScrollSpeed * -1;
 		bgBfBottom.antialiasing = true;
 		bgBfBottom.alpha = 0.5;
@@ -107,7 +107,9 @@ class TitleScreen extends MusicBeatState
 		titleText.antialiasing = true;
 		titleText.animation.play('idle');
 		titleText.updateHitbox();
-		// titleText.screenCenter(X);
+		/*titleText.angle = camBackground.angle;
+		titleText.x += 120;
+		titleText.y -= 24;*/
 
 		add(bgBfTop);
 		add(bgBfBottom);
@@ -134,6 +136,8 @@ class TitleScreen extends MusicBeatState
 				}
 			}
 		}
+
+		FlxG.sound.music.onComplete = function(){lastStep = 0;}
 		
 		camMain.flash(FlxColor.WHITE, 1);
 

@@ -120,6 +120,47 @@ class Character extends FlxSprite
 				updateHitbox();
 				antialiasing = false;
 
+			case 'gf-tankmen':
+				frames = Paths.getSparrowAtlas('week7/gfTankmen');
+				animation.addByIndices('sad', 'GF Crying at Gunpoint', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "", 24, true);
+				animation.addByIndices('danceLeft', 'GF Dancing at Gunpoint', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
+				animation.addByIndices('danceRight', 'GF Dancing at Gunpoint', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+
+				addOffset('sad', -2, -21);
+				addOffset('danceLeft', 0, -9);
+				addOffset('danceRight', 0, -9);
+
+				playAnim('danceRight');
+
+			case 'bf-holding-gf':
+				frames = Paths.getSparrowAtlas('week7/bfAndGF');
+				animation.addByPrefix('idle', 'BF idle dance', 24, false);
+				animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
+				animation.addByPrefix('singLEFT', 'BF NOTE LEFT0', 24, false);
+				animation.addByPrefix('singRIGHT', 'BF NOTE RIGHT0', 24, false);
+				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
+
+				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
+				animation.addByPrefix('singUPmiss', 'BF NOTE UP MISS', 24, false);
+				animation.addByPrefix('bfCatch', 'BF catches GF', 24, false);
+				
+				addOffset("idle", 0, 0);
+				addOffset("singUP", -29, 10);
+				addOffset("singRIGHT", -41, 23);
+				addOffset("singLEFT", 12, 7);
+				addOffset("singDOWN", -10, -10);
+				addOffset("singUPmiss", -29, 10);
+				addOffset("singRIGHTmiss", -41, 23);
+				addOffset("singLEFTmiss", 12, 7);
+				addOffset("singDOWNmiss", -10, -10);
+				addOffset("bfCatch", 0, 0);
+
+				playAnim('idle');
+
+				flipX = true;
+
 			case 'dad':
 				// DAD ANIMATION LOADING CODE
 				frames = Paths.getSparrowAtlas("week1/DADDY_DEAREST");
@@ -482,6 +523,31 @@ class Character extends FlxSprite
 				addOffset("singDOWN-alt", -30, -27);
 
 				playAnim('idle');
+
+			case "tankman":
+				frames = Paths.getSparrowAtlas("week7/tankmanCaptain");
+
+				animation.addByPrefix('idle', "Tankman Idle Dance", 24, false);
+				animation.addByPrefix('singUP', 'Tankman UP note ', 24, false);
+				animation.addByPrefix('singDOWN', 'Tankman DOWN note ', 24, false);
+				animation.addByPrefix('singLEFT', 'Tankman Right Note ', 24, false);
+				animation.addByPrefix('singRIGHT', 'Tankman Note Left ', 24, false);
+
+				animation.addByPrefix('singDOWN-alt', 'PRETTY GOOD', 24, false);
+				animation.addByPrefix('singUP-alt', 'TANKMAN UGH', 24, false);
+
+				addOffset("idle", 0, 0);
+				addOffset("singDOWN-alt", 0, 15);
+				addOffset("singDOWN", 78, -106);
+				addOffset("singRIGHT", -18, -30);
+				addOffset("singUP-alt", -14, -8);
+				addOffset("singUP", 51, 51);
+				addOffset("singLEFT", 85, -11);
+
+				flipX = true;
+				playAnim('idle');
+				
+
 		}
 
 		dance();
@@ -558,7 +624,7 @@ class Character extends FlxSprite
 
 			switch (curCharacter)
 			{
-				case 'gf' | 'gf-car' | 'gf-christmas' | 'gf-pixel':
+				case 'gf' | 'gf-car' | 'gf-christmas' | 'gf-pixel' | "gf-tankmen":
 					if (!animation.curAnim.name.startsWith('hair'))
 					{
 						danced = !danced;
@@ -589,7 +655,7 @@ class Character extends FlxSprite
 		{
 			switch (curCharacter)
 			{
-				case 'gf' | 'gf-car' | 'gf-christmas' | 'gf-pixel' | "spooky":
+				case 'gf' | 'gf-car' | 'gf-christmas' | 'gf-pixel' | "spooky" | "gf-tankmen":
 					playAnim('danceRight', true, false, animation.getByName('danceRight').numFrames - 1);
 				default:
 					playAnim('idle', true, false, animation.getByName('idle').numFrames - 1);
@@ -648,7 +714,7 @@ class Character extends FlxSprite
 			case "dad" | "mom" | "mom-car" | "bf-car":
 				playAnim(name, true, false, animation.getByName(name).numFrames - 4);
 
-			case "bf" | "bf-christmas":
+			case "bf" | "bf-christmas" | "bf-holding-gf":
 				if(name.contains("miss")){
 					playAnim(name, true, false, animation.getByName(name).numFrames - 4);
 				}
