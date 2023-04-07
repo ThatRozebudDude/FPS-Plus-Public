@@ -41,7 +41,7 @@ class CacheSettings extends MusicBeatState
             font = "VCR OSD Mono";
         }
 
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
+		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menu/menuDesat'));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0;
 		bg.setGraphicSize(Std.int(bg.width * 1.18));

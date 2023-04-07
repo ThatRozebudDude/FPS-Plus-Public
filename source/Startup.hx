@@ -42,25 +42,27 @@ class Startup extends FlxState
     var charactersCached:Bool;
     var startCachingCharacters:Bool = false;
     var charI:Int = 0;
-    public static final characters:Array<String> =   ["BOYFRIEND", "bfCar", "christmas/bfChristmas", "weeb/bfPixel", "weeb/bfPixelsDEAD",
-                                    "GF_assets", "gfCar", "christmas/gfChristmas", "weeb/gfPixel",
-                                    "DADDY_DEAREST", "spooky_kids_assets", "Monster_Assets",
-                                    "Pico_FNF_assetss", "Mom_Assets", "momCar",
-                                    "christmas/mom_dad_christmas_assets", "christmas/monsterChristmas",
-                                    "weeb/senpai", "weeb/spirit", "weeb/senpaiCrazy"];
+    public static final characters:Array<String> =   ["BOYFRIEND", "week4/bfCar", "week5/bfChristmas", "week6/bfPixel", "week6/bfPixelsDEAD",
+                                    "GF_assets", "week4/gfCar", "week5/gfChristmas", "week6/gfPixel",
+                                    "week1/DADDY_DEAREST", 
+                                    "week2/spooky_kids_assets", "week2/Monster_Assets",
+                                    "week3/Pico_FNF_assetss", 
+                                    "week4/Mom_Assets", "week4/momCar",
+                                    "week5/mom_dad_christmas_assets", "week5/monsterChristmas",
+                                    "week6/senpai", "week6/spirit"];
 
     var graphicsCached:Bool;
     var startCachingGraphics:Bool = false;
     var gfxI:Int = 0;
     public static final graphics:Array<String> =    ["logoBumpin", "logoBumpin2", "gfDanceTitle2", "titleEnter", "fpsPlus/title/backgroundBf", "fpsPlus/title/barBottom", "fpsPlus/title/barTop", "fpsPlus/title/gf", "fpsPlus/title/glow", 
-                                    "stageback", "stagefront", "stagecurtains",
-                                    "halloween_bg",
-                                    "philly/sky", "philly/city", "philly/behindTrain", "philly/train", "philly/street", "philly/win0", "philly/win1", "philly/win2", "philly/win3", "philly/win4",
-                                    "limo/bgLimo", "limo/fastCarLol", "limo/limoDancer", "limo/limoDrive", "limo/limoSunset",
-                                    "christmas/bgWalls", "christmas/upperBop", "christmas/bgEscalator", "christmas/christmasTree", "christmas/bottomBop", "christmas/fgSnow", "christmas/santa",
-                                    "christmas/evilBG", "christmas/evilTree", "christmas/evilSnow",
-                                    "weeb/weebSky", "weeb/weebSchool", "weeb/weebStreet", "weeb/weebTreesBack", "weeb/weebTrees", "weeb/petals", "weeb/bgFreaks",
-                                    "weeb/animatedEvilSchool"];
+                                    "week1/stageback", "week1/stagefront", "week1/stagecurtains",
+                                    "week2/halloween_bg",
+                                    "week3/philly/sky", "week3/philly/city", "week3/philly/behindTrain", "week3/philly/train", "week3/philly/street", "week3/philly/win0", "week3/philly/win1", "week3/philly/win2", "week3/philly/win3", "week3/philly/win4",
+                                    "week4/limo/bgLimo", "week4/limo/fastCarLol", "week4/limo/limoDancer", "week4/limo/limoDrive", "week4/limo/limoSunset",
+                                    "week5/christmas/bgWalls", "week5/christmas/upperBop", "week5/christmas/bgEscalator", "week5/christmas/christmasTree", "week5/christmas/bottomBop", "week5/christmas/fgSnow", "week5/christmas/santa",
+                                    "week5/christmas/evilBG", "week5/christmas/evilTree", "week5/christmas/evilSnow",
+                                    "week6/weeb/weebSky", "week6/weeb/weebSchool", "week6/weeb/weebStreet", "week6/weeb/weebTreesBack", "week6/weeb/weebTrees", "week6/weeb/petals", "week6/weeb/bgFreaks",
+                                    "weeb/animatedEvilSchool", "week6/weeb/senpaiCrazy"];
 
     var cacheStart:Bool = false;
 

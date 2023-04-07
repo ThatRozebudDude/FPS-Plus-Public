@@ -126,7 +126,7 @@ class ConfigMenu extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
+		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menu/menuDesat'));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0;
 		bg.setGraphicSize(Std.int(bg.width * 1.18));
@@ -151,7 +151,7 @@ class ConfigMenu extends MusicBeatState
 		scheme = Config.controllerScheme;
 		dimValue = Config.bgDim;
 		
-		var tex = Paths.getSparrowAtlas('FNF_main_menu_assets');
+		var tex = Paths.getSparrowAtlas('menu/FNF_main_menu_assets');
 		var optionTitle:FlxSprite = new FlxSprite(0, 55);
 		optionTitle.frames = tex;
 		optionTitle.animation.addByPrefix('selected', "options white", 24);
