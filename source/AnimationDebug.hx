@@ -57,8 +57,9 @@ class AnimationDebug extends FlxState
 
 		FlxG.sound.music.stop();
 
-		var gridBG:FlxSprite = FlxGridOverlay.create(10, 10);
+		var gridBG:FlxSprite = FlxGridOverlay.create(10, 10, 1280*4, 720*4);
 		gridBG.scrollFactor.set(0.5, 0.5);
+		gridBG.screenCenter(XY);
 		add(gridBG);
 
 		dad = new Character(0, 0, daAnim);

@@ -1,5 +1,6 @@
 package;
 
+import flixel.tweens.FlxTween;
 import config.*;
 
 import flixel.FlxG;
@@ -22,6 +23,8 @@ class PauseSubState extends MusicBeatSubstate
 		super();
 
 		openfl.Lib.current.stage.frameRate = 144;
+
+		FlxTween.globalManager.active = false;
 		
 		if (PlayState.storyPlaylist.length > 1 && PlayState.isStoryMode){
 			menuItems.insert(2, "Skip Song");
@@ -35,7 +38,14 @@ class PauseSubState extends MusicBeatSubstate
 			menuItems.insert(1, "Restart Section");
 		}
 
-		pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
+		var pauseSongName = "breakfast";
+
+		switch(PlayState.SONG.song.toLowerCase()){
+			case "ugh" | "guns" | "stress":
+				pauseSongName = "distorto";
+		}
+
+		pauseMusic = new FlxSound().loadEmbedded(Paths.music(pauseSongName), true, true);
 		
 		pauseMusic.volume = 0;
 		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
@@ -65,7 +75,7 @@ class PauseSubState extends MusicBeatSubstate
 
 	override function update(elapsed:Float)
 	{
-		if (pauseMusic.volume < 0.5)
+		if (pauseMusic.volume < 0.8)
 			pauseMusic.volume += 0.05 * elapsed;
 
 		super.update(elapsed);
@@ -83,8 +93,10 @@ class PauseSubState extends MusicBeatSubstate
 			changeSelection(1);
 		}
 
-		if (accepted)
-		{
+		if (accepted){
+
+			FlxTween.globalManager.active = true;
+
 			var daSelected:String = menuItems[curSelected];
 
 			switch (daSelected)
@@ -95,30 +107,36 @@ class PauseSubState extends MusicBeatSubstate
 				case "Restart Song":
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
+					FlxTween.globalManager.clear();
 					PlayState.instance.switchState(new PlayState());
 					PlayState.sectionStart = false;
 
 				case "Restart Section":
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
+					FlxTween.globalManager.clear();
 					PlayState.instance.switchState(new PlayState());
 
 				case "Chart Editor":
 					PlayerSettings.menuControls();
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
+					FlxTween.globalManager.clear();
 					PlayState.instance.switchState(new ChartingState());
 					
 				case "Skip Song":
+					FlxTween.globalManager.clear();
 					PlayState.instance.endSong();
 					
 				case "Options":
+					FlxTween.globalManager.clear();
 					PlayState.instance.switchState(new ConfigMenu());
 					ConfigMenu.exitTo = PlayState;
 					
 				case "Exit to menu":
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
 					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
+					FlxTween.globalManager.clear();
 
 					PlayState.sectionStart = false;
 

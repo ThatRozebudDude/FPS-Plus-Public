@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -533,20 +534,36 @@ class Character extends FlxSprite
 				animation.addByPrefix('singLEFT', 'Tankman Right Note ', 24, false);
 				animation.addByPrefix('singRIGHT', 'Tankman Note Left ', 24, false);
 
-				animation.addByPrefix('singDOWN-alt', 'PRETTY GOOD', 24, false);
-				animation.addByPrefix('singUP-alt', 'TANKMAN UGH', 24, false);
+				animation.addByPrefix('prettyGood', 'PRETTY GOOD', 24, false);
+				animation.addByPrefix('ugh', 'TANKMAN UGH', 24, false);
 
 				addOffset("idle", 0, 0);
-				addOffset("singDOWN-alt", 0, 15);
 				addOffset("singDOWN", 78, -106);
 				addOffset("singRIGHT", -18, -30);
-				addOffset("singUP-alt", -14, -8);
 				addOffset("singUP", 51, 51);
 				addOffset("singLEFT", 85, -11);
 
+				addOffset("ugh", -14, -8);
+				addOffset("prettyGood", 0, 15);
+
 				flipX = true;
 				playAnim('idle');
-				
+
+			case 'pico-speaker':
+				frames = Paths.getSparrowAtlas('week7/picoSpeaker');
+
+				animation.addByPrefix('shoot1', "Pico shoot 1", 24, false);
+				animation.addByPrefix('shoot2', "Pico shoot 2", 24, false);
+				animation.addByPrefix('shoot3', "Pico shoot 3", 24, false);
+				animation.addByPrefix('shoot4', "Pico shoot 4", 24, false);
+
+				// here for now, will be replaced later for less copypaste
+				addOffset("shoot3", 413, -64);
+				addOffset("shoot1", 0, 0);
+				addOffset("shoot4", 440, -19);
+				addOffset("shoot2", 0, -128);
+
+				playAnim('shoot1');
 
 		}
 
@@ -591,7 +608,7 @@ class Character extends FlxSprite
 
 			if (curCharacter == 'dad')
 				dadVar = 6.1;
-			if (holdTimer >= Conductor.stepCrochet * dadVar * 0.001)
+			if (holdTimer >= Conductor.stepCrochet * dadVar * 0.001 && canAutoAnim)
 			{
 				idleEnd();
 				holdTimer = 0;
@@ -603,6 +620,26 @@ class Character extends FlxSprite
 			case 'gf':
 				if (animation.curAnim.name == 'hairFall' && animation.curAnim.finished)
 					playAnim('danceRight');
+
+			case "pico-speaker":
+				// for pico??
+				if (TankmenBG.animationNotes.length > 0)
+				{
+					if (Conductor.songPosition > TankmenBG.animationNotes[0][0])
+					{
+						//trace('played shoot anim' + TankmenBG.animationNotes[0][1]);
+
+						var shootAnim:Int = 1;
+
+						if (TankmenBG.animationNotes[0][1] >= 2)
+							shootAnim = 3;
+
+						shootAnim += FlxG.random.int(0, 1);
+
+						playAnim('shoot' + shootAnim, true);
+						TankmenBG.animationNotes.shift();
+					}
+				}
 		}
 
 		super.update(elapsed);
@@ -642,8 +679,11 @@ class Character extends FlxSprite
 						playAnim('danceRight', true);
 					else
 						playAnim('danceLeft', true);
+
+				case "pico-speaker":
+					playAnim('shoot1');
+
 				default:
-					if(holdTimer == 0)
 						playAnim('idle', true);
 			}
 		}
@@ -657,6 +697,8 @@ class Character extends FlxSprite
 			{
 				case 'gf' | 'gf-car' | 'gf-christmas' | 'gf-pixel' | "spooky" | "gf-tankmen":
 					playAnim('danceRight', true, false, animation.getByName('danceRight').numFrames - 1);
+				case "pico-speaker":
+					playAnim(animation.curAnim.name, true, false, animation.getByName(animation.curAnim.name).numFrames - 1);
 				default:
 					playAnim('idle', true, false, animation.getByName('idle').numFrames - 1);
 			}
@@ -732,6 +774,9 @@ class Character extends FlxSprite
 					case "singRIGHT":
 						playAnim(name, false, false, 6);
 				}
+
+			case "pico-speaker":
+				playAnim(animation.curAnim.name, false, false, animation.curAnim.numFrames - 3);
 
 		}
 
