@@ -21,6 +21,8 @@ class Character extends FlxSprite
 	public var danceLockout:Bool = false;
 	public var animSet:String = "";
 
+	public var deathCharacter:String = "bf";
+
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
 	{
 		animOffsets = new Map<String, Array<Dynamic>>();
@@ -159,6 +161,22 @@ class Character extends FlxSprite
 				addOffset("bfCatch", 0, 0);
 
 				playAnim('idle');
+
+				flipX = true;
+
+				deathCharacter = "bf-holding-gf-dead";
+
+			case 'bf-holding-gf-dead':
+				frames = Paths.getSparrowAtlas('week7/bfHoldingGF-DEAD');
+				animation.addByPrefix('firstDeath', "BF Dies with GF", 24, false);
+				animation.addByPrefix('deathLoop', "BF Dead with GF Loop", 24, true);
+				animation.addByPrefix('deathConfirm', "RETRY confirm holding gf", 24, false);
+				animation.play('firstDeath');
+
+				addOffset('firstDeath', 37, 14);
+				addOffset('deathLoop', 37, -3);
+				addOffset('deathConfirm', 37, 28);
+				playAnim('firstDeath');
 
 				flipX = true;
 
@@ -418,6 +436,8 @@ class Character extends FlxSprite
 				height -= 100;
 
 				antialiasing = false;
+
+				deathCharacter = "bf-pixel-dead";
 
 				flipX = true;
 			case 'bf-pixel-dead':

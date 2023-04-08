@@ -1991,7 +1991,7 @@ class PlayState extends MusicBeatState
 			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
-			openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, camFollow.getScreenPosition().x, camFollow.getScreenPosition().y));
+			openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, camFollow.getScreenPosition().x, camFollow.getScreenPosition().y, boyfriend.deathCharacter));
 			sectionStart = false;
 
 		}

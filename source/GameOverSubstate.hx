@@ -17,20 +17,14 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	var stageSuffix:String = "";
 
-	public function new(x:Float, y:Float, camX:Float, camY:Float)
+	public function new(x:Float, y:Float, camX:Float, camY:Float, character:String)
 	{
 		var daStage = PlayState.curStage;
-		var daBf:String = '';
-		switch (daStage)
+		var daBf:String = character;
+		switch (daBf)
 		{
-			case 'school':
+			case 'bf-pixel-dead':
 				stageSuffix = '-pixel';
-				daBf = 'bf-pixel-dead';
-			case 'schoolEvil':
-				stageSuffix = '-pixel';
-				daBf = 'bf-pixel-dead';
-			default:
-				daBf = 'bf';
 		}
 
 		super();
@@ -81,7 +75,20 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished)
 		{
-			FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix));
+			switch(PlayState.SONG.player2){
+
+				case "tankman":
+					FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix), 0.2);
+					FlxG.sound.play(Paths.sound('week7/jeffGameover/jeffGameover-' + FlxG.random.int(1, 25)), 1, false, null, true, function()
+					{
+						if (!isEnding)
+							FlxG.sound.music.fadeIn(2.5, 0.2, 1);
+					});
+
+				default:
+					FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix));
+			}
+			
 		}
 
 		if (FlxG.sound.music.playing)
