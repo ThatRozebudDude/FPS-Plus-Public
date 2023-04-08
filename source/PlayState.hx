@@ -2254,49 +2254,66 @@ class PlayState extends MusicBeatState
 
 	var endingSong:Bool = false;
 
-	private function popUpScore(strumtime:Float):Void
-	{
+	private function popUpScore(note:Note):Void{
+
+		var strumtime = note.strumTime;
+
 		var noteDiff:Float = Math.abs(strumtime - Conductor.songPosition);
 
 		var score:Int = 350;
 
 		var daRating:String = "sick";
 
-		if (noteDiff > Conductor.safeZoneOffset * Conductor.shitZone)
-			{
-				daRating = 'shit';
-				if(Config.accuracy == "complex") {
-					totalNotesHit += 1 - Conductor.shitZone;
-				}
-				else {
-					totalNotesHit += 1;
-				}
-				score = 50;
+		if (noteDiff > Conductor.safeZoneOffset * Conductor.shitZone){
+			daRating = 'shit';
+			if(Config.accuracy == "complex") {
+				totalNotesHit += 1 - Conductor.shitZone;
 			}
-		else if (noteDiff > Conductor.safeZoneOffset * Conductor.badZone)
-			{
-				daRating = 'bad';
-				score = 100;
-				if(Config.accuracy == "complex") {
-					totalNotesHit += 1 - Conductor.badZone;
-				}
-				else {
-					totalNotesHit += 1;
-				}
+			else {
+				totalNotesHit += 1;
 			}
-		else if (noteDiff > Conductor.safeZoneOffset * Conductor.goodZone)
-			{
-				daRating = 'good';
-				if(Config.accuracy == "complex") {
-					totalNotesHit += 1 - Conductor.goodZone;
-				}
-				else {
-					totalNotesHit += 1;
-				}
+			score = 50;
+
+			if(Config.noteSplashType == 2){
+				createNoteSplash(note.noteData);
+			}
+		}
+		else if (noteDiff > Conductor.safeZoneOffset * Conductor.badZone){
+			daRating = 'bad';
+			score = 100;
+			if(Config.accuracy == "complex") {
+				totalNotesHit += 1 - Conductor.badZone;
+			}
+			else {
+				totalNotesHit += 1;
+			}
+
+			if(Config.noteSplashType == 2){
+				createNoteSplash(note.noteData);
+			}
+		}
+		else if (noteDiff > Conductor.safeZoneOffset * Conductor.goodZone){
+			daRating = 'good';
+			if(Config.accuracy == "complex") {
+				totalNotesHit += 1 - Conductor.goodZone;
+			}
+			else {
+				totalNotesHit += 1;
+			}
 				score = 200;
+
+			if(Config.noteSplashType == 2){
+				createNoteSplash(note.noteData);
 			}
-		if (daRating == 'sick')
+		}
+		if (daRating == 'sick'){
 			totalNotesHit += 1;
+
+			if(Config.noteSplashType > 0){
+				createNoteSplash(note.noteData);
+			}
+		}
+			
 	
 		//trace('hit ' + daRating);
 
@@ -2307,6 +2324,12 @@ class PlayState extends MusicBeatState
 		if(combo >= minCombo)
 			comboUI.comboPopup(combo);
 
+	}
+
+	private function createNoteSplash(note:Int){
+		var bigSplashy = new NoteSplash(playerStrums.members[note].x, playerStrums.members[note].y, note);
+		bigSplashy.cameras = [camHUD];
+		add(bigSplashy);
 	}
 
 	public function keyDown(evt:KeyboardEvent):Void{
@@ -2839,7 +2862,7 @@ class PlayState extends MusicBeatState
 		{
 			if (!note.isSustainNote)
 			{
-				popUpScore(note.strumTime);
+				popUpScore(note);
 				combo += 1;
 			}
 			else

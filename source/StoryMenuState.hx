@@ -58,7 +58,8 @@ class StoryMenuState extends MusicBeatState
 			['Pico', 'Philly', "Blammed"],
 			['Satin-Panties', "High", "Milf"],
 			['Cocoa', 'Eggnog', 'Winter-Horrorland'],
-			['Senpai', 'Roses', 'Thorns']
+			['Senpai', 'Roses', 'Thorns'],
+			['Ugh', 'Guns', 'Stress']
 		];
 		
 		weekCharacters = [
@@ -68,7 +69,8 @@ class StoryMenuState extends MusicBeatState
 			['pico', 'bf', 'gf'],
 			['mom', 'bf', 'gf'],
 			['parents-christmas', 'bf', 'gf'],
-			['senpai', 'bf', 'gf']
+			['senpai', 'bf', 'gf'],
+			['tankman', 'bf', 'gf']
 		];
 	
 		weekNames = CoolUtil.coolTextFile(Paths.text("weekNames"));
@@ -290,7 +292,7 @@ class StoryMenuState extends MusicBeatState
 			{
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 
-				grpWeekText.members[curWeek].week.animation.resume();
+				grpWeekText.members[curWeek].startFlashing();
 				grpWeekCharacters.members[1].animation.play('bfConfirm');
 				stopspamming = true;
 			}
@@ -402,7 +404,6 @@ class StoryMenuState extends MusicBeatState
 		grpWeekCharacters.members[0].animation.play(weekCharacters[curWeek][0]);
 		grpWeekCharacters.members[1].animation.play(weekCharacters[curWeek][1]);
 		grpWeekCharacters.members[2].animation.play(weekCharacters[curWeek][2]);
-		txtTracklist.text = "Tracks\n";
 
 		switch (grpWeekCharacters.members[0].animation.curAnim.name)
 		{
@@ -422,11 +423,17 @@ class StoryMenuState extends MusicBeatState
 				grpWeekCharacters.members[0].offset.set(120, 200);
 				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1));
 
+			case 'tankman':
+				grpWeekCharacters.members[0].offset.set(60, -20);
+				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1));
+
 			default:
 				grpWeekCharacters.members[0].offset.set(100, 100);
 				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1));
 				// grpWeekCharacters.members[0].updateHitbox();
 		}
+
+		txtTracklist.text = "Tracks\n";
 
 		var stringThing:Array<String> = weekData[curWeek];
 
