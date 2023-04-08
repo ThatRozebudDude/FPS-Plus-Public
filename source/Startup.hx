@@ -35,6 +35,7 @@ class Startup extends FlxState
                                 "Satin-Panties", "High", "Milf", 
                                 "Cocoa", "Eggnog", "Winter-Horrorland", 
                                 "Senpai", "Roses", "Thorns",
+                                "Ugh", "Guns", "Stress",
                                 "klaskiiLoop", "freakyMenu"]; //Start of the non-gameplay songs.
                                 
     //List of character graphics and some other stuff.
@@ -42,14 +43,15 @@ class Startup extends FlxState
     var charactersCached:Bool;
     var startCachingCharacters:Bool = false;
     var charI:Int = 0;
-    public static final characters:Array<String> =   ["BOYFRIEND", "week4/bfCar", "week5/bfChristmas", "week6/bfPixel", "week6/bfPixelsDEAD",
-                                    "GF_assets", "week4/gfCar", "week5/gfChristmas", "week6/gfPixel",
+    public static final characters:Array<String> =   ["BOYFRIEND", "week4/bfCar", "week5/bfChristmas", "week6/bfPixel", "week6/bfPixelsDEAD", "week7/bfAndGF", "week7/bfHoldingGF-DEAD",
+                                    "GF_assets", "week4/gfCar", "week5/gfChristmas", "week6/gfPixel", "week7/gfTankmen",
                                     "week1/DADDY_DEAREST", 
                                     "week2/spooky_kids_assets", "week2/Monster_Assets",
-                                    "week3/Pico_FNF_assetss", 
+                                    "week3/Pico_FNF_assetss", "week7/picoSpeaker",
                                     "week4/Mom_Assets", "week4/momCar",
                                     "week5/mom_dad_christmas_assets", "week5/monsterChristmas",
-                                    "week6/senpai", "week6/spirit"];
+                                    "week6/senpai", "week6/spirit",
+                                    "week7/tankmanCaptain"];
 
     var graphicsCached:Bool;
     var startCachingGraphics:Bool = false;
@@ -62,7 +64,9 @@ class Startup extends FlxState
                                     "week5/christmas/bgWalls", "week5/christmas/upperBop", "week5/christmas/bgEscalator", "week5/christmas/christmasTree", "week5/christmas/bottomBop", "week5/christmas/fgSnow", "week5/christmas/santa",
                                     "week5/christmas/evilBG", "week5/christmas/evilTree", "week5/christmas/evilSnow",
                                     "week6/weeb/weebSky", "week6/weeb/weebSchool", "week6/weeb/weebStreet", "week6/weeb/weebTreesBack", "week6/weeb/weebTrees", "week6/weeb/petals", "week6/weeb/bgFreaks",
-                                    "week6/weeb/animatedEvilSchool", "week6/weeb/senpaiCrazy"];
+                                    "week6/weeb/animatedEvilSchool", "week6/weeb/senpaiCrazy",
+                                    "week7/stage/tank0", "week7/stage/tank1", "week7/stage/tank2", "week7/stage/tank3", "week7/stage/tank4", "week7/stage/tank5", "week7/stage/tankmanKilled1", 
+                                    "week7/stage/smokeLeft", "week7/stage/smokeRight", "week7/stage/tankBuildings", "week7/stage/tankClouds", "week7/stage/tankGround", "week7/stage/tankMountains", "week7/stage/tankRolling", "week7/stage/tankRuins", "week7/stage/tankSky", "week7/stage/tankWatchtower"];
 
     var cacheStart:Bool = false;
 
