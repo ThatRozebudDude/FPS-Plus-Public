@@ -911,6 +911,7 @@ class PlayState extends MusicBeatState
 			comboUI = new ComboPopup(boyfriend.x - 250, boyfriend.y - 75,	[Paths.image("ui/ratings"), 403, 163, true], 
 																			[Paths.image("ui/numbers"), 100, 120, true], 
 																			[Paths.image("ui/comboBreak"), 348, 211, true]);
+			NoteSplash.splashPath = "ui/noteSplashes";
 		}
 		else{
 			comboUI = new ComboPopup(boyfriend.x - 250, boyfriend.y - 75, 	[Paths.image("week6/weeb/pixelUI/ratings-pixel"), 51, 20, false], 
@@ -918,6 +919,7 @@ class PlayState extends MusicBeatState
 																			[Paths.image("week6/weeb/pixelUI/comboBreak-pixel"), 53, 32, false], 
 																			[daPixelZoom * 0.7, daPixelZoom * 0.8, daPixelZoom * 0.7]);
 			comboUI.numberPosition[0] -= 120;
+			NoteSplash.splashPath = "week6/weeb/pixelUI/noteSplashes-pixel";
 		}
 
 		if(Config.comboType == 1){

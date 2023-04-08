@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="pixelNoteSplash.png">
+	<!-- Created with Adobe Animate version 22.0.2.168 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="note impact 1 blue0000" x="2" y="2" width="44" height="51"/>
+	<SubTexture name="note impact 1 blue0001" x="48" y="2" width="44" height="51"/>
+	<SubTexture name="note impact 1 blue0002" x="94" y="2" width="44" height="51"/>
+	<SubTexture name="note impact 1 blue0003" x="140" y="2" width="44" height="51"/>
+	<SubTexture name="note impact 1 green0000" x="186" y="2" width="44" height="51"/>
+	<SubTexture name="note impact 1 green0001" x="232" y="2" width="44" height="51"/>
+	<SubTexture name="note impact 1 green0002" x="278" y="2" width="44" height="51"/>
+	<SubTexture name="note impact 1 green0003" x="324" y="2" width="44" height="51"/>
+	<SubTexture name="note impact 1 purple0000" x="370" y="2" width="44" height="51"/>
+	<SubTexture name="note impact 1 purple0001" x="416" y="2" width="44" height="51"/>
+	<SubTexture name="note impact 1 purple0002" x="462" y="2" width="44" height="51"/>
+	<SubTexture name="note impact 1 purple0003" x="2" y="55" width="44" height="51"/>
+	<SubTexture name="note impact 1 red0000" x="48" y="55" width="44" height="51"/>
+	<SubTexture name="note impact 1 red0001" x="94" y="55" width="44" height="51"/>
+	<SubTexture name="note impact 1 red0002" x="140" y="55" width="44" height="51"/>
+	<SubTexture name="note impact 1 red0003" x="186" y="55" width="44" height="51"/>
+	<SubTexture name="note impact 2 blue0000" x="232" y="55" width="47" height="45"/>
+	<SubTexture name="note impact 2 blue0001" x="281" y="55" width="47" height="45"/>
+	<SubTexture name="note impact 2 blue0002" x="330" y="55" width="47" height="45"/>
+	<SubTexture name="note impact 2 blue0003" x="379" y="55" width="47" height="45"/>
+	<SubTexture name="note impact 2 green0000" x="428" y="55" width="47" height="45"/>
+	<SubTexture name="note impact 2 green0001" x="2" y="108" width="47" height="45"/>
+	<SubTexture name="note impact 2 green0002" x="51" y="108" width="47" height="45"/>
+	<SubTexture name="note impact 2 green0003" x="100" y="108" width="47" height="45"/>
+	<SubTexture name="note impact 2 purple0000" x="149" y="108" width="47" height="45"/>
+	<SubTexture name="note impact 2 purple0001" x="198" y="108" width="47" height="45"/>
+	<SubTexture name="note impact 2 purple0002" x="247" y="108" width="47" height="45"/>
+	<SubTexture name="note impact 2 purple0003" x="296" y="108" width="47" height="45"/>
+	<SubTexture name="note impact 2 red0000" x="345" y="108" width="47" height="45"/>
+	<SubTexture name="note impact 2 red0001" x="394" y="108" width="47" height="45"/>
+	<SubTexture name="note impact 2 red0002" x="443" y="108" width="47" height="45"/>
+	<SubTexture name="note impact 2 red0003" x="2" y="155" width="47" height="45"/>
+</TextureAtlas>

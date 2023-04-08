@@ -113,7 +113,7 @@ class Config
 		if(FlxG.save.data.bgDim == null)
 			FlxG.save.data.bgDim = 0;
 		if(FlxG.save.data.noteSplashType == null)
-			FlxG.save.data.noteSplashType = 0;
+			FlxG.save.data.noteSplashType = 1;
 
 		if(FlxG.save.data.ee1 == null)
 			FlxG.save.data.ee1 = false;
