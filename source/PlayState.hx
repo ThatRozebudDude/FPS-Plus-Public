@@ -821,7 +821,8 @@ class PlayState extends MusicBeatState
 				dad.y += 100;
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
 			case 'tankman':
-				dad.y += 180;
+				dad.y += 165;
+				dad.x -= 40;
 		}
 
 		// REPOSITIONING PER STAGE
@@ -1099,11 +1100,31 @@ class PlayState extends MusicBeatState
 					schoolIntro(doof);
 
 				case "ugh":
-					videoCutscene(Paths.video("week7/ughCutscene"));
+					videoCutscene(Paths.video("week7/ughCutsceneFade"), function(){
+						camMove(camFollow.x, camFollow.y + 100, 0, null);
+						FlxG.camera.zoom = defaultCamZoom * 1.2;
+						if(PlayState.SONG.notes[0].mustHitSection){ camFocusBF(); }
+						else{ camFocusOpponent(); }
+						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
+					});
+					
 				case "guns":
-					videoCutscene(Paths.video("week7/gunsCutscene"));
+					videoCutscene(Paths.video("week7/gunsCutsceneFade"), function(){
+						camMove(camFollow.x, camFollow.y + 100, 0, null);
+						FlxG.camera.zoom = defaultCamZoom * 1.2;
+						if(PlayState.SONG.notes[0].mustHitSection){ camFocusBF(); }
+						else{ camFocusOpponent(); }
+						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
+					});
+
 				case "stress":
-					videoCutscene(Paths.video("week7/stressCutscene"));
+					videoCutscene(Paths.video("week7/stressCutsceneFade"), function(){
+						camMove(camFollow.x, camFollow.y + 100, 0, null);
+						FlxG.camera.zoom = defaultCamZoom * 1.2;
+						if(PlayState.SONG.notes[0].mustHitSection){ camFocusBF(); }
+						else{ camFocusOpponent(); }
+						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
+					});
 					
 				default:
 					startCountdown();
@@ -1113,12 +1134,32 @@ class PlayState extends MusicBeatState
 		{
 			switch (curSong.toLowerCase())
 			{
-				case "ugh":
-					videoCutscene(Paths.video("week7/ughCutscene"));
+				/*case "ugh":
+					videoCutscene(Paths.video("week7/ughCutsceneFade"), function(){
+						camMove(camFollow.x, camFollow.y + 100, 0, null);
+						FlxG.camera.zoom = defaultCamZoom * 1.2;
+						if(PlayState.SONG.notes[0].mustHitSection){ camFocusBF(); }
+						else{ camFocusOpponent(); }
+						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
+					});
+					
 				case "guns":
-					videoCutscene(Paths.video("week7/gunsCutscene"));
+					videoCutscene(Paths.video("week7/gunsCutsceneFade"), function(){
+						camMove(camFollow.x, camFollow.y + 100, 0, null);
+						FlxG.camera.zoom = defaultCamZoom * 1.2;
+						if(PlayState.SONG.notes[0].mustHitSection){ camFocusBF(); }
+						else{ camFocusOpponent(); }
+						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
+					});
+
 				case "stress":
-					videoCutscene(Paths.video("week7/stressCutscene"));
+					videoCutscene(Paths.video("week7/stressCutsceneFade"), function(){
+						camMove(camFollow.x, camFollow.y + 100, 0, null);
+						FlxG.camera.zoom = defaultCamZoom * 1.2;
+						if(PlayState.SONG.notes[0].mustHitSection){ camFocusBF(); }
+						else{ camFocusOpponent(); }
+						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
+					});*/
 
 				default:
 					startCountdown();
@@ -1232,7 +1273,7 @@ class PlayState extends MusicBeatState
 		});
 	}
 
-	function videoCutscene(path:String){
+	function videoCutscene(path:String, ?endFunc:Void->Void, ?startFunc:Void->Void){
 		inCutscene = true;
 	
 		var blackShit:FlxSprite = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
@@ -1244,26 +1285,27 @@ class PlayState extends MusicBeatState
 		video.scrollFactor.set();
 		video.antialiasing = true;
 
-		var prevZoom = defaultCamZoom;
 		FlxG.camera.zoom = 1;
 
 		video.playMP4(path, function(){
-			remove(blackShit);
-			remove(video);
-			FlxG.camera.zoom = prevZoom;
-
-			//FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, (Conductor.crochet / 1000) * 5, {ease: FlxEase.quadInOut});
-			/*FlxTween.tween(blackShit, {alpha: 0}, 0.3, {onComplete: function(t){
+			
+			FlxTween.tween(blackShit, {alpha: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
 				remove(blackShit);
-			}});*/
+			}});
+
+			remove(video);
+
+			FlxG.camera.zoom = defaultCamZoom;
+
+			if(endFunc != null){ endFunc(); }
 
 			startCountdown();
-			//cameraMovement();
+
 		}, false, true);
 
 		add(video);
-
-		camFocusOpponent();
+		
+		if(startFunc != null){ startFunc(); }
 	}
 
 	var startTimer:FlxTimer;
@@ -3313,8 +3355,15 @@ class PlayState extends MusicBeatState
 			_onComplete = function(tween:FlxTween){};
 		}
 
-		camTween.cancel();
-		camTween = FlxTween.tween(camFollow, {x: _x, y: _y}, _time, {ease: _ease, onComplete: _onComplete});
+		if(_time > 0){
+			camTween.cancel();
+			camTween = FlxTween.tween(camFollow, {x: _x, y: _y}, _time, {ease: _ease, onComplete: _onComplete});
+		}
+		else{
+			camTween.cancel();
+			camFollow.setPosition(_x, _y);
+		}
+		
 		camFocus = _focus;
 
 	}
@@ -3325,8 +3374,14 @@ class PlayState extends MusicBeatState
 			_onComplete = function(tween:FlxTween){};
 		}
 
-		camZoomTween.cancel();
-		camZoomTween = FlxTween.tween(FlxG.camera, {zoom: _zoom}, _time, {ease: _ease, onComplete: _onComplete});
+		if(_time > 0){
+			camZoomTween.cancel();
+			camZoomTween = FlxTween.tween(FlxG.camera, {zoom: _zoom}, _time, {ease: _ease, onComplete: _onComplete});
+		}
+		else{
+			camZoomTween.cancel();
+			FlxG.camera.zoom = _zoom;
+		}
 
 	}
 
@@ -3336,8 +3391,15 @@ class PlayState extends MusicBeatState
 			_onComplete = function(tween:FlxTween){};
 		}
 
-		uiZoomTween.cancel();
-		uiZoomTween = FlxTween.tween(camHUD, {zoom: _zoom}, _time, {ease: _ease, onComplete: _onComplete});
+
+		if(_time > 0){
+			uiZoomTween.cancel();
+			uiZoomTween = FlxTween.tween(camHUD, {zoom: _zoom}, _time, {ease: _ease, onComplete: _onComplete});
+		}
+		else{
+			uiZoomTween.cancel();
+			camHUD.zoom = _zoom;
+		}
 
 	}
 

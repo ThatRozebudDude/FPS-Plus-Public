@@ -776,7 +776,7 @@ class Character extends FlxSprite
 			case "dad" | "mom" | "mom-car" | "bf-car":
 				playAnim(name, true, false, animation.getByName(name).numFrames - 4);
 
-			case "bf" | "bf-christmas" | "bf-holding-gf":
+			case "bf" | "bf-christmas" | "bf-pixel" | "bf-holding-gf":
 				if(name.contains("miss")){
 					playAnim(name, true, false, animation.getByName(name).numFrames - 4);
 				}

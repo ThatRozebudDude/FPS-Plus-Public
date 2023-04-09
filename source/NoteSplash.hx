@@ -1,5 +1,6 @@
 package;
 
+import openfl.display.BlendMode;
 import openfl.display.BitmapData;
 import flixel.FlxSprite;
 import flixel.animation.FlxBaseAnimation;
@@ -28,7 +29,7 @@ class NoteSplash extends FlxSprite{
 
         frames = Paths.getSparrowAtlas(splashPath);
         antialiasing = true;
-        animation.addByPrefix("splash", "note impact " + FlxG.random.int(1, 2) + " " + noteColor, 24 + FlxG.random.int(-4, 4), false);
+        animation.addByPrefix("splash", "note impact " + FlxG.random.int(1, 2) + " " + noteColor, 24 + FlxG.random.int(-3, 4), false);
         animation.finishCallback = function(n){ kill(); }
         animation.play("splash");
 
@@ -42,13 +43,16 @@ class NoteSplash extends FlxSprite{
                 offset.set(width * -0.1, height * -0.1);
                 var angles = [0, 90, 180, 270];
                 angle = angles[FlxG.random.int(0, 3)];
+                //alpha = 0.8;
 
             default:
                 updateHitbox();
                 offset.set(width * 0.3, height * 0.3);
-                angle = FlxG.random.int(0, 360);
+                angle = FlxG.random.int(0, 359);
 
         }
+
+        //blend = BlendMode.SCREEN;
 
     }
 
