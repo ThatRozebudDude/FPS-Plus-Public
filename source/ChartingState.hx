@@ -1380,8 +1380,8 @@ class ChartingState extends MusicBeatState
 
 	function updateHeads():Void
 	{
-		leftIcon.animation.play(player2DropDown.selectedLabel);
-		rightIcon.animation.play(player1DropDown.selectedLabel);
+		leftIcon.setIconCharacter(player2DropDown.selectedLabel);
+		rightIcon.setIconCharacter(player1DropDown.selectedLabel);
 
 		if (_song.notes[curSection].mustHitSection)
 		{

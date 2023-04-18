@@ -111,7 +111,7 @@ class PlayState extends MusicBeatState
 
 	private var dad:Character;
 	private var gf:Character;
-	private var boyfriend:Boyfriend;
+	private var boyfriend:Character;
 
 	//Wacky input stuff=========================
 
@@ -377,7 +377,7 @@ class PlayState extends MusicBeatState
 
 		var bfChar = SONG.player1;
 
-		boyfriend = new Boyfriend(770, 450, bfChar);
+		boyfriend = new Character(770, 450, bfChar, true);
 
 		var stageCheck:String = 'stage';
 		if (SONG.stage == null) {
@@ -1018,18 +1018,18 @@ class PlayState extends MusicBeatState
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
 			'health', 0, 2);
 		healthBar.scrollFactor.set();
-		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
+		healthBar.createFilledBar(dad.characterColor, boyfriend.characterColor);
 		// healthBar
 		
 		scoreTxt = new FlxText(healthBarBG.x - 105, (FlxG.height * 0.9) + 36, 800, "", 22);
 		scoreTxt.setFormat(Paths.font("vcr"), 22, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 
-		iconP1 = new HealthIcon(SONG.player1, true);
+		iconP1 = new HealthIcon(boyfriend.iconName, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
 		
 
-		iconP2 = new HealthIcon(SONG.player2, false);
+		iconP2 = new HealthIcon(dad.iconName, false);
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		
 		add(healthBar);
@@ -2646,7 +2646,7 @@ class PlayState extends MusicBeatState
 			}
 		});
 
-		if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && !upHold && !downHold && !rightHold && !leftHold)
+		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold)
 		{
 			if (boyfriend.animation.curAnim.name.startsWith('sing'))
 				boyfriend.idleEnd();
@@ -2716,7 +2716,7 @@ class PlayState extends MusicBeatState
 			}
 		});
 
-		if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && !upHold && !downHold && !rightHold && !leftHold)
+		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold)
 		{
 			if (boyfriend.animation.curAnim.name.startsWith('sing'))
 				boyfriend.idleEnd();

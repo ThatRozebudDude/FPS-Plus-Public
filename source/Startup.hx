@@ -203,7 +203,12 @@ class Startup extends FlxState
                 charactersCached = true;
             }
             else{
-                ImageCache.add(Paths.file(characters[charI], "images", "png"));
+                if(Assets.exists(Paths.file(characters[charI], "images", "png"))){
+                    ImageCache.add(Paths.file(characters[charI], "images", "png"));
+                }
+                else{
+                    trace("Character: File at " + characters[charI] + " not found, skipping cache.");
+                }
                 charI++;
             }
         }
@@ -215,7 +220,12 @@ class Startup extends FlxState
                 graphicsCached = true;
             }
             else{
-                ImageCache.add(Paths.file(graphics[gfxI], "images", "png"));
+                if(Assets.exists(Paths.file(graphics[gfxI], "images", "png"))){
+                    ImageCache.add(Paths.file(graphics[gfxI], "images", "png"));
+                }
+                else{
+                    trace("Character: File at " + graphics[gfxI] + " not found, skipping cache.");
+                }
                 gfxI++;
             }
         }

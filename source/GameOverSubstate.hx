@@ -71,6 +71,8 @@ class GameOverSubstate extends MusicBeatSubstate
 				PlayState.instance.switchState(new StoryMenuState());
 			else
 				PlayState.instance.switchState(new FreeplayState());
+
+			
 		}
 
 		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished)
@@ -78,6 +80,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			switch(PlayState.SONG.player2){
 
 				case "tankman":
+					bf.playAnim('deathLoop');
 					FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix), 0.2);
 					FlxG.sound.play(Paths.sound('week7/jeffGameover/jeffGameover-' + FlxG.random.int(1, 25)), 1, false, null, true, function()
 					{
@@ -86,6 +89,7 @@ class GameOverSubstate extends MusicBeatSubstate
 					});
 
 				default:
+					bf.playAnim('deathLoop');
 					FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix));
 			}
 			
