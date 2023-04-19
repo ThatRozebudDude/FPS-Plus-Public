@@ -924,6 +924,9 @@ class PlayState extends MusicBeatState
 			NoteSplash.splashPath = "week6/weeb/pixelUI/noteSplashes-pixel";
 		}
 
+		//Prevents the game from lagging at first note splash.
+		var preloadSplash = new NoteSplash(-2000, -2000, 0);
+
 		if(Config.comboType == 1){
 
 			comboUI.cameras = [camHUD];
