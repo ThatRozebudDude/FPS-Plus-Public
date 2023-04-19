@@ -12,7 +12,7 @@ import flixel.tweens.FlxTween;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
-	var bf:Boyfriend;
+	var bf:Character;
 	var camFollow:FlxObject;
 
 	var stageSuffix:String = "";
@@ -31,7 +31,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		Conductor.songPosition = 0;
 
-		bf = new Boyfriend(x, y, daBf);
+		bf = new Character(x, y, daBf, true);
 		add(bf);
 
 		camFollow = new FlxObject(camX, camY, 1, 1);
@@ -64,8 +64,8 @@ class GameOverSubstate extends MusicBeatSubstate
 		{
 			FlxG.sound.music.stop();
 
-			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
-			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
+			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
+			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
 
 			if (PlayState.isStoryMode)
 				PlayState.instance.switchState(new StoryMenuState());

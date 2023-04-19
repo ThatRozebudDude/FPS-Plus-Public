@@ -806,6 +806,7 @@ class PlayState extends MusicBeatState
 			case 'pico':
 				camPos.x += 600;
 				dad.y += 300;
+				dad.x -= 280;
 			case 'parents-christmas':
 				dad.x -= 500;
 			case 'senpai':
@@ -3297,6 +3298,8 @@ class PlayState extends MusicBeatState
 		{
 			case "spooky":
 				followY = dad.getMidpoint().y - 30;
+			case "pico":
+				followX += 280;
 			case "mom" | "mom-car":
 				followY = dad.getMidpoint().y;
 			case 'senpai':

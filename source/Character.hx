@@ -27,9 +27,13 @@ class Character extends FlxSprite
 	public var iconName:String = "face";
 	public var characterColor:Null<FlxColor> = null;
 
-	public function new(x:Float, y:Float, ?character:String = "bf", ?_isPlayer:Bool = false)
-	{
+	var facesLeft:Bool = false;
+
+	public function new(x:Float, y:Float, ?character:String = "bf", ?_isPlayer:Bool = false, ?_enableDebug:Bool = false){
+
+		debugMode = _enableDebug;
 		animOffsets = new Map<String, Array<Dynamic>>();
+
 		super(x, y);
 
 		curCharacter = character;
@@ -176,7 +180,7 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 
-				flipX = true;
+				facesLeft = true;
 
 				deathCharacter = "bf-holding-gf-dead";
 				iconName = "bf";
@@ -193,7 +197,7 @@ class Character extends FlxSprite
 				addOffset('deathConfirm', 37, 28);
 				playAnim('firstDeath');
 
-				flipX = true;
+				facesLeft = true;
 
 				iconName = "bf";
 
@@ -317,26 +321,14 @@ class Character extends FlxSprite
 				animation.addByPrefix('idle', "Pico Idle Dance", 24, false);
 				animation.addByPrefix('singUP', 'pico Up note0', 24, false);
 				animation.addByPrefix('singDOWN', 'Pico Down Note0', 24, false);
-				if (isPlayer)
-				{
-					animation.addByPrefix('singLEFT', 'Pico NOTE LEFT0', 24, false);
-					animation.addByPrefix('singRIGHT', 'Pico Note Right0', 24, false);
-					animation.addByPrefix('singRIGHTmiss', 'Pico Note Right Miss', 24, false);
-					animation.addByPrefix('singLEFTmiss', 'Pico NOTE LEFT miss', 24, false);
-				}
-				else
-				{
-					// Need to be flipped! REDO THIS LATER!
-					animation.addByPrefix('singLEFT', 'Pico Note Right0', 24, false);
-					animation.addByPrefix('singRIGHT', 'Pico NOTE LEFT0', 24, false);
-					animation.addByPrefix('singRIGHTmiss', 'Pico NOTE LEFT miss', 24, false);
-					animation.addByPrefix('singLEFTmiss', 'Pico Note Right Miss', 24, false);
-				}
-
+				animation.addByPrefix('singLEFT', 'Pico NOTE LEFT0', 24, false);
+				animation.addByPrefix('singRIGHT', 'Pico Note Right0', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'Pico Note Right Miss', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'Pico NOTE LEFT miss', 24, false);
 				animation.addByPrefix('singUPmiss', 'pico Up note miss', 24, false);
 				animation.addByPrefix('singDOWNmiss', 'Pico Down Note MISS', 24, false);
 
-				addOffset('idle');
+				/*addOffset('idle');
 				addOffset("singUP", -43, 29);
 				addOffset("singRIGHT", -85, -11);
 				addOffset("singLEFT", 54, 2);
@@ -344,11 +336,21 @@ class Character extends FlxSprite
 				addOffset("singUPmiss", -29, 67);
 				addOffset("singRIGHTmiss", -70, 28);
 				addOffset("singLEFTmiss", 62, 50);
-				addOffset("singDOWNmiss", 200, -34);
+				addOffset("singDOWNmiss", 200, -34);*/
+
+				addOffset("singRIGHTmiss", -40, 49);
+				addOffset("singDOWN", 92, -77);
+				addOffset("singLEFTmiss", 82, 27);
+				addOffset("singUP", 20, 29);
+				addOffset("idle", 0, 0);
+				addOffset("singDOWNmiss", 86, -37);
+				addOffset("singRIGHT", -46, 1);
+				addOffset("singLEFT", 86, -11);
+				addOffset("singUPmiss", 26, 67);
 
 				playAnim('idle');
 
-				flipX = true;
+				facesLeft = true;
 
 				iconName = "pico";
 
@@ -389,7 +391,7 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 
-				flipX = true;
+				facesLeft = true;
 
 				iconName = "bf";
 
@@ -419,7 +421,7 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 
-				flipX = true;
+				facesLeft = true;
 
 				iconName = "bf";
 
@@ -446,7 +448,7 @@ class Character extends FlxSprite
 				addOffset("singDOWNmiss", -11, -19);
 				playAnim('idle');
 
-				flipX = true;
+				facesLeft = true;
 				
 				iconName = "bf";
 
@@ -485,7 +487,7 @@ class Character extends FlxSprite
 				deathCharacter = "bf-pixel-dead";
 				iconName = "bf-pixel";
 
-				flipX = true;
+				facesLeft = true;
 
 			case 'bf-pixel-dead':
 				frames = Paths.getSparrowAtlas("week6/bfPixelsDEAD");
@@ -503,7 +505,7 @@ class Character extends FlxSprite
 				setGraphicSize(Std.int(width * 6));
 				updateHitbox();
 				antialiasing = false;
-				flipX = true;
+				facesLeft = true;
 
 				iconName = "bf-pixel";
 
@@ -615,16 +617,23 @@ class Character extends FlxSprite
 				animation.addByPrefix('prettyGood', 'PRETTY GOOD', 24, false);
 				animation.addByPrefix('ugh', 'TANKMAN UGH', 24, false);
 
-				addOffset("idle", 0, 0);
+				/*addOffset("idle", 0, 0);
 				addOffset("singDOWN", 78, -106);
 				addOffset("singRIGHT", -18, -30);
 				addOffset("singUP", 51, 51);
 				addOffset("singLEFT", 85, -11);
-
 				addOffset("ugh", -14, -8);
-				addOffset("prettyGood", 0, 15);
+				addOffset("prettyGood", 0, 15);*/
 
-				flipX = true;
+				addOffset("idle", 0, 0);
+				addOffset("singRIGHT", 91, -25);
+				addOffset("singDOWN", 68, -106);
+				addOffset("ugh", -14, -8);
+				addOffset("singLEFT", -23, -11);
+				addOffset("singUP", 27, 58);
+				addOffset("prettyGood", 101, 15);
+
+				facesLeft = true;
 				playAnim('idle');
 
 				iconName = "tankman";
@@ -651,25 +660,26 @@ class Character extends FlxSprite
 
 		dance();
 
-		if (isPlayer)
-		{
-			flipX = !flipX;
+		if (((facesLeft && !isPlayer) || (!facesLeft && isPlayer)) && !debugMode){
 
-			// Doesn't flip for BF, since his are already in the right place???
-			if (!curCharacter.startsWith('bf'))
-			{
-				// var animArray
-				var oldRight = animation.getByName('singRIGHT').frames;
-				animation.getByName('singRIGHT').frames = animation.getByName('singLEFT').frames;
-				animation.getByName('singLEFT').frames = oldRight;
+			flipX = true;
 
-				// IF THEY HAVE MISS ANIMATIONS??
-				if (animation.getByName('singRIGHTmiss') != null)
-				{
-					var oldMiss = animation.getByName('singRIGHTmiss').frames;
-					animation.getByName('singRIGHTmiss').frames = animation.getByName('singLEFTmiss').frames;
-					animation.getByName('singLEFTmiss').frames = oldMiss;
-				}
+			// var animArray
+			var oldRight = animation.getByName("singRIGHT").frames;
+			var oldRightOffset = animOffsets.get("singRIGHT");
+			animation.getByName("singRIGHT").frames = animation.getByName("singLEFT").frames;
+			animOffsets.set("singRIGHT", animOffsets.get("singLEFT"));
+			animation.getByName('singLEFT').frames = oldRight;
+			animOffsets.set("singLEFT", oldRightOffset);
+
+			// IF THEY HAVE MISS ANIMATIONS??
+			if (animation.getByName('singRIGHTmiss') != null){
+				var oldMiss = animation.getByName("singRIGHTmiss").frames;
+				var oldMissOffset = animOffsets.get("singRIGHTmiss");
+				animation.getByName("singRIGHTmiss").frames = animation.getByName("singLEFTmiss").frames;
+				animOffsets.set("singRIGHTmiss", animOffsets.get("singLEFTmiss"));
+				animation.getByName('singLEFTmiss').frames = oldMiss;
+				animOffsets.set("singLEFTmiss", oldMissOffset);
 			}
 		}
 
@@ -734,6 +744,8 @@ class Character extends FlxSprite
 		}
 
 		super.update(elapsed);
+		changeOffsets();
+
 	}
 
 	private var danced:Bool = false;
@@ -807,14 +819,7 @@ class Character extends FlxSprite
 		}
 
 		animation.play(AnimName, Force, Reversed, Frame);
-
-		var daOffset = animOffsets.get(animation.curAnim.name);
-		if (animOffsets.exists(animation.curAnim.name))
-		{
-			offset.set(daOffset[0], daOffset[1]);
-		}
-		else
-			offset.set(0, 0);
+		changeOffsets();
 
 		if (curCharacter == 'gf')
 		{
@@ -834,6 +839,20 @@ class Character extends FlxSprite
 		}
 	}
 
+	function changeOffsets() {
+		if (animOffsets.exists(animation.curAnim.name)) { 
+			var animOffset = animOffsets.get(animation.curAnim.name);
+			var xOffsetAdjust:Float = animOffset[0];
+			if(flipX == true){
+				xOffsetAdjust *= -1;
+				xOffsetAdjust += frameWidth;
+				xOffsetAdjust -= width;
+			}
+			offset.set(xOffsetAdjust, animOffset[1]); 
+		}
+		else { offset.set(0, 0); }
+	}
+
 	public function addOffset(name:String, x:Float = 0, y:Float = 0)
 	{
 		animOffsets[name] = [x, y];
@@ -847,7 +866,7 @@ class Character extends FlxSprite
 			case "dad" | "mom" | "mom-car" | "bf-car":
 				playAnim(name, true, false, animation.getByName(name).numFrames - 4);
 
-			case "bf" | "bf-christmas" | "bf-pixel" | "bf-holding-gf":
+			case "bf" | "bf-christmas" | "bf-pixel" | "bf-holding-gf" | "pico":
 				if(name.contains("miss")){
 					playAnim(name, true, false, animation.getByName(name).numFrames - 4);
 				}
