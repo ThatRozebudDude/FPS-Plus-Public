@@ -2169,7 +2169,7 @@ class PlayState extends MusicBeatState
 
 				//trace("DA ALT THO?: " + SONG.notes[Math.floor(curStep / 16)].altAnim);
 
-				if(dad.canAutoAnim){
+				if(dad.canAutoAnim && (Character.LOOP_ANIM_ON_HOLD ? true : !daNote.isSustainNote)){
 					switch (Math.abs(daNote.noteData))
 					{
 						case 2:
@@ -2652,8 +2652,15 @@ class PlayState extends MusicBeatState
 
 		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold)
 		{
-			if (boyfriend.animation.curAnim.name.startsWith('sing'))
-				boyfriend.idleEnd();
+			if (boyfriend.animation.curAnim.name.startsWith('sing')){
+				if(Character.USE_IDLE_END){ 
+					boyfriend.idleEnd(); 
+				}
+				else{ 
+					boyfriend.dance(); 
+					boyfriend.danceLockout = true;
+				}
+			}	
 		}
 
 		playerStrums.forEach(function(spr:FlxSprite)
@@ -2722,8 +2729,15 @@ class PlayState extends MusicBeatState
 
 		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold)
 		{
-			if (boyfriend.animation.curAnim.name.startsWith('sing'))
-				boyfriend.idleEnd();
+			if (boyfriend.animation.curAnim.name.startsWith('sing')){
+				if(Character.USE_IDLE_END){ 
+					boyfriend.idleEnd(); 
+				}
+				else{ 
+					boyfriend.dance(); 
+					boyfriend.danceLockout = true;
+				}
+			}
 		}
 
 		for(x in hitNotes){
@@ -2923,7 +2937,7 @@ class PlayState extends MusicBeatState
 				health += 0.0015 * Config.healthMultiplier;
 			}
 				
-			if(boyfriend.canAutoAnim){
+			if(boyfriend.canAutoAnim && (Character.LOOP_ANIM_ON_HOLD ? true : !note.isSustainNote)){
 				switch (note.noteData)
 				{
 					case 2:

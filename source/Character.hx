@@ -10,6 +10,11 @@ using StringTools;
 
 class Character extends FlxSprite
 {
+
+	//Global character properties.
+	public static var LOOP_ANIM_ON_HOLD:Bool = true; 	//Determines whether hold notes will loop the sing animation. Default is true.
+	public static var USE_IDLE_END:Bool = true; 		//Determines whether you will go back to the start of the idle or the end of the idle when letting go of a note. Default is true for FPS Plus, false for base game.
+
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	public var debugMode:Bool = false;
 
@@ -700,7 +705,13 @@ class Character extends FlxSprite
 				}
 				
 				if (holdTimer >= Conductor.stepCrochet * stepsUntilRelease * 0.001 && canAutoAnim){
-					idleEnd();
+					if(USE_IDLE_END){ 
+						idleEnd(); 
+					}
+					else{ 
+						dance(); 
+						danceLockout = true;
+					}
 					holdTimer = 0;
 				}
 			}
@@ -713,7 +724,13 @@ class Character extends FlxSprite
 				}
 					
 				if (animation.curAnim.name.endsWith('miss') && animation.curAnim.finished && canAutoAnim){
-					idleEnd();
+					if(USE_IDLE_END){ 
+						idleEnd(); 
+					}
+					else{ 
+						dance(); 
+						danceLockout = true;
+					}
 				}
 			}
 	
@@ -759,6 +776,7 @@ class Character extends FlxSprite
 		{
 
 			if(danceLockout){
+				danceLockout = false;
 				return;
 			}
 

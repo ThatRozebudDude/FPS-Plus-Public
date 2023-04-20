@@ -311,7 +311,7 @@ class ChartingState extends MusicBeatState
 		addNoteUI();
 		addEventUI();
 		addToolsUI();
-		updateHeads();
+		updateHeads(true);
 
 		add(curRenderedNotes);
 		add(curRenderedSustains);
@@ -391,14 +391,14 @@ class ChartingState extends MusicBeatState
 		player1DropDown = new FlxUIDropDownMenu(10, 100, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true), function(character:String)
 		{
 			_song.player1 = characters[Std.parseInt(character)];
-			updateHeads();
+			updateHeads(true);
 		});
 		player1DropDown.selectedLabel = _song.player1;
 
 		player2DropDown = new FlxUIDropDownMenu(140, 100, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true), function(character:String)
 		{
 			_song.player2 = characters[Std.parseInt(character)];
-			updateHeads();
+			updateHeads(true);
 		});
 
 		player2DropDown.selectedLabel = _song.player2;
@@ -1378,18 +1378,24 @@ class ChartingState extends MusicBeatState
 		updateHeads();
 	}
 
-	function updateHeads():Void
-	{
-		leftIcon.setIconCharacter(player2DropDown.selectedLabel);
-		rightIcon.setIconCharacter(player1DropDown.selectedLabel);
+	function updateHeads(?changedCharacters:Bool = false):Void{
 
-		if (_song.notes[curSection].mustHitSection)
-		{
+		if(changedCharacters){
+			var leftChar = new Character(0, 0, player2DropDown.selectedLabel);
+			var rightChar = new Character(0, 0, player1DropDown.selectedLabel);
+
+			leftIcon.setIconCharacter(leftChar.iconName);
+			rightIcon.setIconCharacter(rightChar.iconName);
+
+			leftChar.destroy();
+			rightChar.destroy();
+		}
+
+		if (_song.notes[curSection].mustHitSection){
 			leftIconBack.alpha = 0;
 			rightIconBack.alpha = 1;
 		}
-		else
-		{
+		else{
 			leftIconBack.alpha = 1;
 			rightIconBack.alpha = 0;
 		}
