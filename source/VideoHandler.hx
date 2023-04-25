@@ -293,10 +293,16 @@ class VideoHandler extends FlxSprite
 		#if desktop
 		if(vlcBitmap != null){
 
-			if(!__muted)
-				vlcBitmap.volume = FlxG.sound.volume;
-			else
+			if(!__muted){
+				//I'm going to blow up a retirement home.
+				var vol:Float = FlxG.sound.volume;
+				vol = (vol) * 0.7;
+				vol += 0.3;
+				vlcBitmap.volume = vol;
+			}
+			else{
 				vlcBitmap.volume = 0;
+			}
 
 		}
 
