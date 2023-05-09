@@ -55,14 +55,16 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		FlxG.camera.follow(camFollow, LOCKON);
 
-		if (controls.ACCEPT)
+		if (controls.ACCEPT && !isEnding)
 		{
 			endBullshit();
 		}
 
-		if (controls.BACK)
+		if (controls.BACK && !isEnding)
 		{
 			FlxG.sound.music.stop();
+			isEnding = true;
+			FlxG.sound.play(Paths.sound('cancelMenu'));
 
 			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
 			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
@@ -71,6 +73,9 @@ class GameOverSubstate extends MusicBeatSubstate
 				PlayState.instance.switchState(new StoryMenuState());
 			else
 				PlayState.instance.switchState(new FreeplayState());
+
+			FlxG.camera.fade(FlxColor.BLACK, 0.1, false);
+			
 
 			
 		}
@@ -112,21 +117,18 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	function endBullshit():Void
 	{
-		if (!isEnding)
+		//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
+		//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
+		isEnding = true;
+		bf.playAnim('deathConfirm', true);
+		FlxG.sound.music.stop();
+		FlxG.sound.play(Paths.music('gameOverEnd' + stageSuffix));
+		new FlxTimer().start(0.4, function(tmr:FlxTimer)
 		{
-			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
-			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
-			isEnding = true;
-			bf.playAnim('deathConfirm', true);
-			FlxG.sound.music.stop();
-			FlxG.sound.play(Paths.music('gameOverEnd' + stageSuffix));
-			new FlxTimer().start(0.4, function(tmr:FlxTimer)
+			FlxG.camera.fade(FlxColor.BLACK, 1.2, false, function()
 			{
-				FlxG.camera.fade(FlxColor.BLACK, 1.2, false, function()
-				{
-					PlayState.instance.switchState(new PlayState());
-				});
+				PlayState.instance.switchState(new PlayState());
 			});
-		}
+		});
 	}
 }

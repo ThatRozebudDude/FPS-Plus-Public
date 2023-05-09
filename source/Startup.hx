@@ -1,5 +1,7 @@
 package;
 
+import flixel.tweens.FlxTween;
+import flixel.ui.FlxBar;
 import openfl.media.Sound;
 import title.*;
 import config.*;
@@ -24,8 +26,11 @@ class Startup extends FlxState
     var nextState:FlxState = new TitleVideo();
 
     var splash:FlxSprite;
-    //var dummy:FlxSprite;
+    var loadingBar:FlxBar;
     var loadingText:FlxText;
+
+    var currentLoaded:Int = 0;
+    var loadTotal:Int = 0;
 
     var songsCached:Bool;
     public static final songs:Array<String> =   ["Tutorial", 
@@ -137,9 +142,19 @@ class Startup extends FlxState
         splash.updateHitbox();
         splash.screenCenter();
 
+        loadTotal = (!songsCached ? songs.length : 0) + (!charactersCached ? characters.length : 0) + (!graphicsCached ? graphics.length : 0);
+
+        loadingBar = new FlxBar(0, 605, LEFT_TO_RIGHT, 600, 24, this, 'currentLoaded', 0, loadTotal);
+        loadingBar.createFilledBar(0xFF333333, 0xFF95579A);
+        loadingBar.screenCenter(X);
+        loadingBar.visible = false;
+        add(loadingBar);
+
         loadingText = new FlxText(5, FlxG.height - 30, 0, "", 24);
         loadingText.setFormat(Paths.font("vcr"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(loadingText);
+
+        
 
         #if web
         FlxG.sound.play(Paths.sound("tick"), 0);   
@@ -167,7 +182,9 @@ class Startup extends FlxState
                 graphicsCached = true;
             });
             #else
-            preload(); 
+            if(!songsCached && !charactersCached && !graphicsCached){
+                preload(); 
+            }
             #end
             
             cacheStart = true;
@@ -183,9 +200,9 @@ class Startup extends FlxState
             splash.updateHitbox();
             splash.screenCenter();
 
-            new FlxTimer().start(0.3, function(tmr:FlxTimer)
-            {
+            new FlxTimer().start(0.3, function(tmr:FlxTimer){
                 loadingText.text = "Done!";
+                FlxTween.tween(loadingBar, {alpha: 0}, 0.3);
             });
         }
 
@@ -210,6 +227,7 @@ class Startup extends FlxState
                     trace("Character: File at " + characters[charI] + " not found, skipping cache.");
                 }
                 charI++;
+                currentLoaded++;
             }
         }
 
@@ -227,6 +245,7 @@ class Startup extends FlxState
                     trace("Character: File at " + graphics[gfxI] + " not found, skipping cache.");
                 }
                 gfxI++;
+                currentLoaded++;
             }
         }
         
@@ -237,6 +256,7 @@ class Startup extends FlxState
     function preload(){
 
         loadingText.text = "Caching Assets...";
+        loadingBar.visible = true;
         
         if(!songsCached){ 
             #if sys sys.thread.Thread.create(() -> { #end
@@ -278,6 +298,7 @@ class Startup extends FlxState
             else{
                 FlxG.sound.cache(Paths.music(x));
             }
+            currentLoaded++;
         }
         loadingText.text = "Songs cached...";
         songsCached = true;
