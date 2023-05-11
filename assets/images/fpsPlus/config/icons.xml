@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="fpsPlusOptionsIcons.png">
+	<!-- Created with Adobe Animate version 22.0.2.168 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="inputIcon0000" x="2" y="2" width="345" height="244"/>
+	<SubTexture name="inputIcon0001" x="2" y="2" width="345" height="244"/>
+	<SubTexture name="inputIcon0002" x="349" y="2" width="345" height="244"/>
+	<SubTexture name="inputIcon0003" x="349" y="2" width="345" height="244"/>
+	<SubTexture name="miscIcon0000" x="696" y="2" width="237" height="237"/>
+	<SubTexture name="miscIcon0001" x="696" y="2" width="237" height="237"/>
+	<SubTexture name="miscIcon0002" x="2" y="248" width="237" height="237"/>
+	<SubTexture name="miscIcon0003" x="2" y="248" width="237" height="237"/>
+	<SubTexture name="videoIcon0000" x="241" y="248" width="227" height="241"/>
+	<SubTexture name="videoIcon0001" x="241" y="248" width="227" height="241"/>
+	<SubTexture name="videoIcon0002" x="470" y="248" width="227" height="241"/>
+	<SubTexture name="videoIcon0003" x="470" y="248" width="227" height="241"/>
+</TextureAtlas>

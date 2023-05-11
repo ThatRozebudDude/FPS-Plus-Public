@@ -88,7 +88,7 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow, null, 0.004);
 
-		versionText = new FlxText(5, FlxG.height - 21, 0, "FNF: v0.2.7 | FPS Plus: v4.0.0 (Non-Release Build)", 16);
+		versionText = new FlxText(5, FlxG.height - 21, 0, "FNF: v0.2.7 | FPS Plus: v4.0.0 (Experimental)", 16);
 		versionText.scrollFactor.set();
 		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionText);
@@ -205,7 +205,7 @@ class MainMenuState extends MusicBeatState
 										switchState(new FreeplayState());
 										trace("Freeplay Menu Selected");
 									case 'options':
-										switchState(new ConfigMenu());
+										switchState(new ConfigMenuCategories());
 										trace("options time");
 								}
 							});

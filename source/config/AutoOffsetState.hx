@@ -63,14 +63,14 @@ class AutoOffsetState extends MusicBeatState
 
 		if(!easterEgg){
 			//Init BG
-			bg = new FlxSprite(0, 0).loadGraphic(Paths.image('fpsPlus/offsetBG'));
+			bg = new FlxSprite(0, 0).loadGraphic(Paths.image('fpsPlus/config/offset/offsetBG'));
 			bg.antialiasing = true;
 			bg.active = true;
 			bg.screenCenter();
 			add(bg);
 
 			//Init Speakers
-			speakers.frames = Paths.getSparrowAtlas('fpsPlus/speaker');
+			speakers.frames = Paths.getSparrowAtlas('fpsPlus/config/offset/speaker');
 			speakers.antialiasing = true;
 			speakers.animation.addByPrefix('idle', 'IDLE', 24, false);
 			speakers.animation.addByPrefix('bump', 'BUMP', 24, false);
@@ -85,7 +85,7 @@ class AutoOffsetState extends MusicBeatState
 			FlxG.save.data.ee1 = true;
 
 			//Init BG
-			bg = new FlxSprite(0, 0).loadGraphic(Paths.image('fpsPlus/offsetBG-pixel'));
+			bg = new FlxSprite(0, 0).loadGraphic(Paths.image('fpsPlus/config/offset/offsetBG-pixel'));
 			bg.antialiasing = false;
 			bg.active = true;
 			bg.setGraphicSize(Std.int(bg.width * 6));
@@ -94,7 +94,7 @@ class AutoOffsetState extends MusicBeatState
 			add(bg);
 
 			//Init Speakers
-			speakers = new FlxSprite(0, 0).loadGraphic(Paths.image('fpsPlus/speaker-pixel'), true, 102, 52);
+			speakers = new FlxSprite(0, 0).loadGraphic(Paths.image('fpsPlus/config/offset/speaker-pixel'), true, 102, 52);
 			speakers.antialiasing = false;
 			speakers.animation.add('idle',  [0], 0, false);
 			speakers.animation.add('bump', [2, 2, 1, 0], 24, false);

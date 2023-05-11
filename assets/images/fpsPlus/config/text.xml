@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="fpsPlusOptionsText.png">
+	<!-- Created with Adobe Animate version 22.0.2.168 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="inputText0000" x="2" y="2" width="286" height="125"/>
+	<SubTexture name="inputText0001" x="290" y="2" width="285" height="125" frameX="0" frameY="0" frameWidth="286" frameHeight="125"/>
+	<SubTexture name="inputText0002" x="577" y="2" width="286" height="125"/>
+	<SubTexture name="inputText0003" x="2" y="129" width="238" height="105" frameX="-22" frameY="-14" frameWidth="286" frameHeight="125"/>
+	<SubTexture name="inputText0004" x="2" y="129" width="238" height="105" frameX="-22" frameY="-14" frameWidth="286" frameHeight="125"/>
+	<SubTexture name="inputText0005" x="2" y="129" width="238" height="105" frameX="-22" frameY="-14" frameWidth="286" frameHeight="125"/>
+	<SubTexture name="inputText0006" x="242" y="129" width="237" height="105" frameX="-22" frameY="-14" frameWidth="286" frameHeight="125"/>
+	<SubTexture name="inputText0007" x="242" y="129" width="237" height="105" frameX="-22" frameY="-14" frameWidth="286" frameHeight="125"/>
+	<SubTexture name="inputText0008" x="242" y="129" width="237" height="105" frameX="-22" frameY="-14" frameWidth="286" frameHeight="125"/>
+	<SubTexture name="inputText0009" x="481" y="129" width="238" height="105" frameX="-22" frameY="-14" frameWidth="286" frameHeight="125"/>
+	<SubTexture name="inputText0010" x="481" y="129" width="238" height="105" frameX="-22" frameY="-14" frameWidth="286" frameHeight="125"/>
+	<SubTexture name="inputText0011" x="481" y="129" width="238" height="105" frameX="-22" frameY="-14" frameWidth="286" frameHeight="125"/>
+	<SubTexture name="miscText0000" x="721" y="129" width="243" height="123"/>
+	<SubTexture name="miscText0001" x="2" y="254" width="243" height="122" frameX="0" frameY="0" frameWidth="243" frameHeight="123"/>
+	<SubTexture name="miscText0002" x="247" y="254" width="243" height="123"/>
+	<SubTexture name="miscText0003" x="492" y="254" width="214" height="101" frameX="-12" frameY="-12" frameWidth="243" frameHeight="123"/>
+	<SubTexture name="miscText0004" x="492" y="254" width="214" height="101" frameX="-12" frameY="-12" frameWidth="243" frameHeight="123"/>
+	<SubTexture name="miscText0005" x="492" y="254" width="214" height="101" frameX="-12" frameY="-12" frameWidth="243" frameHeight="123"/>
+	<SubTexture name="miscText0006" x="708" y="254" width="214" height="101" frameX="-12" frameY="-12" frameWidth="243" frameHeight="123"/>
+	<SubTexture name="miscText0007" x="708" y="254" width="214" height="101" frameX="-12" frameY="-12" frameWidth="243" frameHeight="123"/>
+	<SubTexture name="miscText0008" x="708" y="254" width="214" height="101" frameX="-12" frameY="-12" frameWidth="243" frameHeight="123"/>
+	<SubTexture name="miscText0009" x="2" y="379" width="214" height="101" frameX="-12" frameY="-12" frameWidth="243" frameHeight="123"/>
+	<SubTexture name="miscText0010" x="2" y="379" width="214" height="101" frameX="-12" frameY="-12" frameWidth="243" frameHeight="123"/>
+	<SubTexture name="miscText0011" x="2" y="379" width="214" height="101" frameX="-12" frameY="-12" frameWidth="243" frameHeight="123"/>
+	<SubTexture name="videoText0000" x="218" y="379" width="281" height="121"/>
+	<SubTexture name="videoText0001" x="501" y="379" width="280" height="119" frameX="0" frameY="-1" frameWidth="281" frameHeight="121"/>
+	<SubTexture name="videoText0002" x="2" y="502" width="281" height="121"/>
+	<SubTexture name="videoText0003" x="285" y="502" width="241" height="103" frameX="-12" frameY="-7" frameWidth="281" frameHeight="121"/>
+	<SubTexture name="videoText0004" x="285" y="502" width="241" height="103" frameX="-12" frameY="-7" frameWidth="281" frameHeight="121"/>
+	<SubTexture name="videoText0005" x="285" y="502" width="241" height="103" frameX="-12" frameY="-7" frameWidth="281" frameHeight="121"/>
+	<SubTexture name="videoText0006" x="528" y="502" width="240" height="103" frameX="-13" frameY="-7" frameWidth="281" frameHeight="121"/>
+	<SubTexture name="videoText0007" x="528" y="502" width="240" height="103" frameX="-13" frameY="-7" frameWidth="281" frameHeight="121"/>
+	<SubTexture name="videoText0008" x="528" y="502" width="240" height="103" frameX="-13" frameY="-7" frameWidth="281" frameHeight="121"/>
+	<SubTexture name="videoText0009" x="770" y="502" width="241" height="101" frameX="-12" frameY="-9" frameWidth="281" frameHeight="121"/>
+	<SubTexture name="videoText0010" x="770" y="502" width="241" height="101" frameX="-12" frameY="-9" frameWidth="281" frameHeight="121"/>
+	<SubTexture name="videoText0011" x="770" y="502" width="241" height="101" frameX="-12" frameY="-9" frameWidth="281" frameHeight="121"/>
+</TextureAtlas>

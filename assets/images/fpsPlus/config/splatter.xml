@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="fpsPlusOptionsSplatter.png">
+	<!-- Created with Adobe Animate version 22.0.2.168 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="splatterdrawn0000" x="2" y="2" width="367" height="280"/>
+	<SubTexture name="splatterdrawn0001" x="371" y="2" width="366" height="280" frameX="0" frameY="0" frameWidth="367" frameHeight="280"/>
+</TextureAtlas>
