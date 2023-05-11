@@ -161,6 +161,8 @@ class PlayState extends MusicBeatState
 	private var curSong:String = "";
 
 	private var health:Float = 1;
+	private var healthLerp:Float = 1;
+
 	private var combo:Int = 0;
 	private var misses:Int = 0;
 	private var accuracy:Float = 0.00;
@@ -1017,12 +1019,13 @@ class PlayState extends MusicBeatState
 		healthBarBG = new FlxSprite(0, Config.downscroll ? FlxG.height * 0.1 : FlxG.height * 0.875).loadGraphic(Paths.image("ui/healthBar"));
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
+		healthBarBG.antialiasing = true;
 		add(healthBarBG);
 
-		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
-			'health', 0, 2);
+		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this, 'healthLerp', 0, 2);
 		healthBar.scrollFactor.set();
 		healthBar.createFilledBar(dad.characterColor, boyfriend.characterColor);
+		healthBar.antialiasing = true;
 		// healthBar
 		
 		scoreTxt = new FlxText(healthBarBG.x - 105, (FlxG.height * 0.9) + 36, 800, "", 22);
@@ -1894,10 +1897,19 @@ class PlayState extends MusicBeatState
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 
-		if (health > 2)
+		if (health > 2){
 			health = 2;
+		}
 
-		//Heath Icons
+		if(healthLerp != health){
+			healthLerp = CoolUtil.fpsAdjsutedLerp(healthLerp, health, 0.7);
+		}
+		if(inRange(healthLerp, 2, 0.001)){
+			healthLerp = 2;
+		}
+		//trace(healthLerp);
+
+		//Health Icons
 		if (healthBar.percent < 20){
 			iconP1.animation.curAnim.curFrame = 1;
 			iconP2.animation.curAnim.curFrame = 2;
@@ -2600,52 +2612,39 @@ class PlayState extends MusicBeatState
 			//Guitar Hero Type Held Notes
 			if(daNote.isSustainNote && daNote.mustPress){
 
+				//This is for all subsequent released notes.
 				if(daNote.prevNote.tooLate && !daNote.prevNote.wasGoodHit){
 					daNote.tooLate = true;
 					daNote.destroy();
 					updateAccuracy();
+					noteMiss(daNote.noteData, 0.035, false, true, false);
 				}
 
+				//This is for the first released note.
 				if(daNote.prevNote.wasGoodHit && !daNote.wasGoodHit){
+
+					var doTheMiss:Bool = false;
 
 					switch(daNote.noteData){
 						case 0:
-							if(leftRelease){
-								noteMissWrongPress(daNote.noteData, 0.0475, true);
-								vocals.volume = 0;
-								daNote.tooLate = true;
-								daNote.destroy();
-								boyfriend.holdTimer = 0;
-								updateAccuracy();
-							}
+							doTheMiss = leftRelease;
 						case 1:
-							if(downRelease){
-								noteMissWrongPress(daNote.noteData, 0.0475, true);
-								vocals.volume = 0;
-								daNote.tooLate = true;
-								daNote.destroy();
-								boyfriend.holdTimer = 0;
-								updateAccuracy();
-							}
+							doTheMiss = downRelease;
 						case 2:
-							if(upRelease){
-								noteMissWrongPress(daNote.noteData, 0.0475, true);
-								vocals.volume = 0;
-								daNote.tooLate = true;
-								daNote.destroy();
-								boyfriend.holdTimer = 0;
-								updateAccuracy();
-							}
+							doTheMiss = upRelease;
 						case 3:
-							if(rightRelease){
-								noteMissWrongPress(daNote.noteData, 0.0475, true);
-								vocals.volume = 0;
-								daNote.tooLate = true;
-								daNote.destroy();
-								boyfriend.holdTimer = 0;
-								updateAccuracy();
-							}
+							doTheMiss = rightRelease;
 					}
+
+					if(doTheMiss){
+						noteMiss(daNote.noteData, 0.055, true, true, false);
+						vocals.volume = 0;
+						daNote.tooLate = true;
+						daNote.destroy();
+						boyfriend.holdTimer = 0;
+						updateAccuracy();
+					}
+					
 				}
 			}
 		});
@@ -2767,26 +2766,31 @@ class PlayState extends MusicBeatState
 		
 	}
 
-	function noteMiss(direction:Int = 1, ?healthLoss:Float = 0.04, ?playAudio:Bool = true, ?skipInvCheck:Bool = false):Void
+	function noteMiss(direction:Int = 1, ?healthLoss:Float = 0.04, ?playAudio:Bool = true, ?skipInvCheck:Bool = false, ?countMiss:Bool = true, ?dropCombo:Bool = true, ?invulnTime:Int = 5, ?scoreAdjust:Int = 100):Void
 	{
 		if (!startingSong && (!invuln || skipInvCheck) )
 		{
 			health -= healthLoss * Config.healthDrainMultiplier;
-			if (combo > minCombo)
-			{
-				gf.playAnim('sad');
-				comboUI.breakPopup();
-			}
-			misses += 1;
-			combo = 0;
 
-			songScore -= 100;
+			if(dropCombo){
+				if (combo > minCombo){
+					gf.playAnim('sad');
+					comboUI.breakPopup();
+				}
+				combo = 0;
+			}
+
+			if(countMiss){
+				misses += 1;
+			}
+
+			songScore -= scoreAdjust;
 			
 			if(playAudio){
 				FlxG.sound.play(Paths.sound('missnote' + FlxG.random.int(1, 3)), FlxG.random.float(0.1, 0.2));
 			}
 
-			setBoyfriendInvuln(5 / 60);
+			setBoyfriendInvuln(invulnTime / 60);
 
 			if(boyfriend.canAutoAnim){
 				switch (direction)
@@ -2809,41 +2813,9 @@ class PlayState extends MusicBeatState
 
 	}
 
-	function noteMissWrongPress(direction:Int = 1, ?healthLoss:Float = 0.0475, dropCombo:Bool = false):Void
-		{
-			if (!startingSong && !invuln)
-			{
-				health -= healthLoss * Config.healthDrainMultiplier;
-
-				if(dropCombo){
-					if (combo > minCombo){
-						gf.playAnim('sad');
-						comboUI.breakPopup();
-					}	
-					combo = 0;
-				}
-	
-				songScore -= 25;
-				
-				FlxG.sound.play(Paths.sound('missnote' + FlxG.random.int(1, 3)), FlxG.random.float(0.1, 0.2));
-	
-				setBoyfriendInvuln(4 / 60);
-	
-				if(boyfriend.canAutoAnim){
-					switch (direction)
-					{
-						case 2:
-							boyfriend.playAnim('singUPmiss', true);
-						case 3:
-							boyfriend.playAnim('singRIGHTmiss', true);
-						case 1:
-							boyfriend.playAnim('singDOWNmiss', true);
-						case 0:
-							boyfriend.playAnim('singLEFTmiss', true);
-					}
-				}
-			}
-		}
+	inline function noteMissWrongPress(direction:Int = 1, ?healthLoss:Float = 0.0475):Void{
+		noteMiss(direction, healthLoss, true, false, false, false, 4, 25);
+	}
 
 	function badNoteCheck(direction:Int = -1)
 	{
@@ -2913,11 +2885,14 @@ class PlayState extends MusicBeatState
 	{
 
 		//Guitar Hero Styled Hold Notes
+		//This is to make sure that if hold notes are hit out of order they are destroyed. Should not be possible though.
 		if(note.isSustainNote && !note.prevNote.wasGoodHit){
-			noteMiss(note.noteData, 0.05, true, true);
+			noteMiss(note.noteData, 0.055, true, true, false);
+			vocals.volume = 0;
 			note.prevNote.tooLate = true;
 			note.prevNote.destroy();
-			vocals.volume = 0;
+			boyfriend.holdTimer = 0;
+			updateAccuracy();
 		}
 
 		else if (!note.wasGoodHit)

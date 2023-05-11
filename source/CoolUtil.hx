@@ -38,16 +38,16 @@ class CoolUtil
 			Actually make and modify the scroll and lerp shit in it's own function
 			instead of solely relying on changing the lerp on the fly
 	 */
-	public static function camLerpShit(lerp:Float):Float
+	public static inline function fpsAdjust(value:Float, ?referenceFps:Float = 60):Float
 	{
-		return lerp * (FlxG.elapsed / (1 / 60));
+		return value * (FlxG.elapsed / (1 / referenceFps));
 	}
 
 	/*
 	* just lerp that does camLerpShit for u so u dont have to do it every time
 	*/
-	public static function coolLerp(a:Float, b:Float, ratio:Float):Float
+	public static inline function fpsAdjsutedLerp(a:Float, b:Float, ratio:Float):Float
 	{
-		return FlxMath.lerp(a, b, camLerpShit(ratio));
+		return FlxMath.lerp(a, b, fpsAdjust(ratio));
 	}
 }
