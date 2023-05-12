@@ -48,6 +48,7 @@ class ConfigMenu extends UIStateExt
 
     var configOptions:Array<Array<ConfigOption>> = [];
 
+    final genericOnOff:Array<String> = ["on", "off"];
     static var offsetValue:Float;
 	static var accuracyType:String;
 	static var accuracyTypeInt:Int;
@@ -65,7 +66,8 @@ class ConfigMenu extends UIStateExt
 	static var dimValue:Int;
 	static var noteSplashValue:Int;
 	final noteSplashTypes:Array<String> = ["off", "sick only", "always"];
-    final genericOnOff:Array<String> = ["on", "off"];
+    static var centeredValue:Bool;
+    static var scrollSpeedValue:Int;
 
 	override function create(){
 
@@ -179,10 +181,6 @@ class ConfigMenu extends UIStateExt
         switch(state){
 
             case "topLevelMenu":
-                if (controls.BACK){
-                    exit();
-                }
-
                 if (controls.LEFT_P){
                     FlxG.sound.play(Paths.sound('scrollMenu'));
                     changeSelected(-1);
@@ -192,7 +190,10 @@ class ConfigMenu extends UIStateExt
                     changeSelected(1);
                 }
 
-                if (controls.ACCEPT){
+                if (controls.BACK){
+                    exit();
+                }
+                else if (controls.ACCEPT){
                     FlxG.sound.play(Paths.sound('confirmMenu'));
                     bringTextToTop(curSelected);
                     curSelectedSub = 0;
@@ -218,7 +219,7 @@ class ConfigMenu extends UIStateExt
                     configOptions[curSelected][curSelectedSub].optionUpdate();
                 }
 
-                if(controls.UP_P || controls.DOWN_P || controls.LEFT_P || controls.RIGHT_P){
+                if(controls.UP_P || controls.DOWN_P || controls.LEFT_P || controls.RIGHT_P || controls.ACCEPT){
                     textUpdate();
                 }
 
@@ -347,6 +348,7 @@ class ConfigMenu extends UIStateExt
         }
 
         configText.screenCenter(XY);
+        configText.y += 30;
 
 		configText.text += "\n";
 
@@ -371,6 +373,8 @@ class ConfigMenu extends UIStateExt
 		scheme = Config.controllerScheme;
 		dimValue = Config.bgDim;
 		noteSplashValue = Config.noteSplashType;
+		centeredValue = Config.centeredNotes;
+		scrollSpeedValue = Std.int(Config.scrollSpeedOverride * 10);
 
         //VIDEO
 
@@ -483,6 +487,7 @@ class ConfigMenu extends UIStateExt
                 
             if(!controls.RIGHT && !controls.LEFT){
                 noteOffset.extraData[0] = 0;
+                textUpdate();
             }
 
             if(FlxG.keys.justPressed.ENTER){
@@ -506,6 +511,17 @@ class ConfigMenu extends UIStateExt
                 downValue = !downValue;
             }
             downscroll.setting = ": " + genericOnOff[downValue?0:1];
+        }
+
+
+
+        var centeredNotes = new ConfigOption("CENTERED STRUM LINE", ": " + genericOnOff[centeredValue?0:1], "Makes the strum line centered instead of to the side.");
+        centeredNotes.optionUpdate = function(){
+            if (controls.RIGHT_P || controls.LEFT_P || controls.ACCEPT) {
+                FlxG.sound.play(Paths.sound('scrollMenu'));
+                centeredValue = !centeredValue;
+            }
+            centeredNotes.setting = ": " + genericOnOff[centeredValue?0:1];
         }
 
 
@@ -685,6 +701,7 @@ class ConfigMenu extends UIStateExt
             
             if(!controls.RIGHT && !controls.LEFT){
                 hpGain.extraData[0] = 0;
+                textUpdate();
             }
             
             hpGain.setting = ": " + healthValue / 10.0;
@@ -730,6 +747,7 @@ class ConfigMenu extends UIStateExt
             
             if(!controls.RIGHT && !controls.LEFT){
                 hpGain.extraData[0] = 0;
+                textUpdate();
             }
             
             hpDrain.setting = ": " + healthDrainValue / 10.0;
@@ -753,16 +771,79 @@ class ConfigMenu extends UIStateExt
 
 
 
+        var scrollSpeed = new ConfigOption("STATIC SCROLL SPEED", ": " + (scrollSpeedValue > 0 ? "" + (scrollSpeedValue / 10.0) : "[DISABLED]"), "");
+        scrollSpeed.extraData[0] = 0;
+        scrollSpeed.extraData[1] = "Press ENTER to enable.\nSets the song scroll speed to the set value instead of the song's default.";
+        scrollSpeed.extraData[2] = "Press ENTER to disable.\nSets the song scroll speed to the set value instead of the song's default.";
+        scrollSpeed.optionUpdate = function(){
+
+            if(scrollSpeedValue != -10){
+                if (controls.RIGHT_P){
+                    FlxG.sound.play(Paths.sound('scrollMenu'));
+                    scrollSpeedValue += 1;
+                }
+                    
+                if (controls.LEFT_P){
+                    FlxG.sound.play(Paths.sound('scrollMenu'));
+                    scrollSpeedValue -= 1;
+                }
+                    
+                if (scrollSpeedValue > 50)
+                    scrollSpeedValue = 10;
+                if (scrollSpeedValue < 10)
+                    scrollSpeedValue = 50;
+                        
+                if (controls.RIGHT){
+                    scrollSpeed.extraData[0]++;
+                    
+                    if(scrollSpeed.extraData[0] > 64 && scrollSpeed.extraData[0] % 10 == 0) {
+                        scrollSpeedValue += 1;
+                        textUpdate();
+                    }
+                }
+                
+                if (controls.LEFT){
+                    scrollSpeed.extraData[0]++;
+                    
+                    if(scrollSpeed.extraData[0] > 64 && scrollSpeed.extraData[0] % 10 == 0) {
+                        scrollSpeedValue -= 1;
+                        textUpdate();
+                    }
+                }
+                
+                if(!controls.RIGHT && !controls.LEFT){
+                    scrollSpeed.extraData[0] = 0;
+                    textUpdate();
+                }
+
+                if(controls.ACCEPT){
+                    FlxG.sound.play(Paths.sound('scrollMenu'));
+                    scrollSpeedValue = -10;
+                }
+            }
+            else{
+                if(controls.ACCEPT){
+                    FlxG.sound.play(Paths.sound('scrollMenu'));
+                    scrollSpeedValue = 10;
+                }
+            }
+
+            scrollSpeed.description = scrollSpeedValue > 0 ? scrollSpeed.extraData[2] : scrollSpeed.extraData[1];
+            scrollSpeed.setting = ": " + (scrollSpeedValue > 0 ? "" + (scrollSpeedValue / 10.0) : "[DISABLED]");
+        };
+
+
+
         configOptions = [
                             [fpsCap, noteSplash, noteGlow, bgDim],
-                            [noteOffset, downscroll, ghostTap, controllerBinds, keyBinds],
-                            [accuracyDisplay, comboDisplay, hpGain, hpDrain, cacheSettings]
+                            [noteOffset, downscroll, centeredNotes, ghostTap, controllerBinds, keyBinds],
+                            [accuracyDisplay, comboDisplay, scrollSpeed, hpGain, hpDrain, cacheSettings]
                         ];
 
     }
 
     function writeToConfig(){
-		Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue, noteSplashValue);
+		Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0);
 	}
 
 }

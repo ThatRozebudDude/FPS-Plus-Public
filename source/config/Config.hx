@@ -18,6 +18,8 @@ class Config
 	public static var controllerScheme:Int;
 	public static var bgDim:Int;
 	public static var noteSplashType:Int;
+	public static var centeredNotes:Bool;
+	public static var scrollSpeedOverride:Float;
 
 	public static function resetSettings():Void{
 
@@ -33,6 +35,8 @@ class Config
 		FlxG.save.data.controllerScheme = 0;
 		FlxG.save.data.bgDim = 0;
 		FlxG.save.data.noteSplashType = 0;
+		FlxG.save.data.centeredNotes = false;
+		FlxG.save.data.scrollSpeedOverride = -1;
 		reload();
 
 	}
@@ -51,6 +55,8 @@ class Config
 		controllerScheme = FlxG.save.data.controllerScheme;
 		bgDim = FlxG.save.data.bgDim;
 		noteSplashType = FlxG.save.data.noteSplashType;
+		centeredNotes = FlxG.save.data.centeredNotes;
+		scrollSpeedOverride = FlxG.save.data.scrollSpeedOverride;
 	}
 	
 	public static function write(
@@ -65,7 +71,9 @@ class Config
 								noFpsCapW:Bool,
 								controllerSchemeW:Int,
 								bgDimW:Int,
-								noteSplashTypeW:Int
+								noteSplashTypeW:Int,
+								centeredNotesW:Bool,
+								scrollSpeedOverrideW:Float
 								):Void
 	{
 
@@ -81,6 +89,8 @@ class Config
 		FlxG.save.data.controllerScheme = controllerSchemeW;
 		FlxG.save.data.bgDim = bgDimW;
 		FlxG.save.data.noteSplashType = noteSplashTypeW;
+		FlxG.save.data.centeredNotes = centeredNotesW;
+		FlxG.save.data.scrollSpeedOverride = scrollSpeedOverrideW;
 
 		FlxG.save.flush();
 		
@@ -114,6 +124,10 @@ class Config
 			FlxG.save.data.bgDim = 0;
 		if(FlxG.save.data.noteSplashType == null)
 			FlxG.save.data.noteSplashType = 1;
+		if(FlxG.save.data.centeredNotes == null)
+			FlxG.save.data.centeredNotes = false;
+		if(FlxG.save.data.scrollSpeedOverride == null)
+			FlxG.save.data.scrollSpeedOverride = -1;
 
 		if(FlxG.save.data.ee1 == null)
 			FlxG.save.data.ee1 = false;
