@@ -205,7 +205,7 @@ class MainMenuState extends MusicBeatState
 										switchState(new FreeplayState());
 										trace("Freeplay Menu Selected");
 									case 'options':
-										switchState(new ConfigMenuCategories());
+										switchState(new ConfigMenu());
 										trace("options time");
 								}
 							});
