@@ -189,7 +189,16 @@ class Note extends FlxSprite
 						prevNote.animation.play('purplehold');
 				}
 
-				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * PlayState.SONG.speed;
+				var speed;
+
+				if(Config.scrollSpeedOverride > 0){
+					speed = Config.scrollSpeedOverride;
+				}
+				else{
+					speed = PlayState.SONG.speed;
+				}
+
+				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * speed;
 				prevNote.updateHitbox();
 			}
 		}

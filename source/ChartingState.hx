@@ -1,5 +1,6 @@
 package;
 
+import flixel.addons.plugin.screengrab.FlxScreenGrab;
 import openfl.display.BitmapData;
 import flixel.graphics.FlxGraphic;
 import Song.SongEvents;
@@ -1212,6 +1213,8 @@ class ChartingState extends MusicBeatState
 		}
 
 		justChanged = false;
+
+		
 
 		super.update(elapsed);
 
