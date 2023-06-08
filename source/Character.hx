@@ -514,6 +514,41 @@ class Character extends FlxSprite
 
 				iconName = "bf-pixel";
 
+			case 'bf-lil':
+				loadGraphic(Paths.image("chartEditor/lilBf"), true, 300, 256);
+
+				animation.add("idle", [0, 1], 12, true);
+
+				animation.add("singLEFT", 	[3, 4, 5], 		12, false);
+				animation.add("singDOWN", 	[6, 7, 8], 		12, false);
+				animation.add("singUP", 	[9, 10, 11], 	12, false);
+				animation.add("singRIGHT", 	[12, 13, 14], 	12, false);
+
+				animation.add("singLEFTmiss", 	[3, 15, 15, 16, 16], 	24, false);
+				animation.add("singDOWNmiss", 	[6, 18, 18, 19, 19], 	24, false);
+				animation.add("singUPmiss", 	[9, 21, 21, 22, 22], 	24, false);
+				animation.add("singRIGHTmiss", 	[12, 24, 24, 25, 25], 	24, false);
+
+				animation.add("hey", [17, 20, 23], 12, false);
+
+				addOffset('idle');
+				addOffset("singUP");
+				addOffset("singRIGHT");
+				addOffset("singLEFT");
+				addOffset("singDOWN");
+				addOffset("singUPmiss");
+				addOffset("singRIGHTmiss");
+				addOffset("singLEFTmiss");
+				addOffset("singDOWNmiss");
+				addOffset("hey");
+
+				playAnim('idle');
+
+				facesLeft = true;
+				antialiasing = false;
+
+				iconName = "bf-lil";
+
 			case 'senpai':
 				frames = Paths.getSparrowAtlas("week6/senpai");
 				animation.addByPrefix('idle', 'Senpai Idle', 24, false);
@@ -660,6 +695,28 @@ class Character extends FlxSprite
 				playAnim('shoot1');
 
 				iconName = "pico";
+
+			case 'guy-lil':
+				loadGraphic(Paths.image("chartEditor/lilOpp"), true, 300, 256);
+
+				animation.add("idle", [0, 1], 12, true);
+
+				animation.add("singLEFT", 	[3, 4, 5], 		12, false);
+				animation.add("singDOWN", 	[6, 7, 8], 		12, false);
+				animation.add("singUP", 	[9, 10, 11], 	12, false);
+				animation.add("singRIGHT", 	[12, 13, 14], 	12, false);
+
+				addOffset('idle');
+				addOffset("singUP");
+				addOffset("singRIGHT");
+				addOffset("singLEFT");
+				addOffset("singDOWN");
+
+				playAnim('idle');
+
+				antialiasing = false;
+
+				iconName = "face-lil";
 
 		}
 
@@ -887,6 +944,14 @@ class Character extends FlxSprite
 			case "bf" | "bf-christmas" | "bf-pixel" | "bf-holding-gf" | "pico":
 				if(name.contains("miss")){
 					playAnim(name, true, false, animation.getByName(name).numFrames - 4);
+				}
+
+			case "bf-lil" | "guy-lil":
+				if(name.contains("miss")){
+					playAnim(name, true, false, animation.getByName(name).numFrames - 4);
+				}
+				else{
+					playAnim(name, true, false, animation.getByName(name).numFrames - 2);
 				}
 
 			case "monster-christmas" | "monster":

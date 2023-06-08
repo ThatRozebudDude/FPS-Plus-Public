@@ -19,3 +19,5 @@ tankman
 bf-holding-gf
 gf-tankman
 pico-speaker
+bf-lil
+guy-lil

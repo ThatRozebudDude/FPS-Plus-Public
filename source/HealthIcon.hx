@@ -18,7 +18,7 @@ class HealthIcon extends FlxSprite
 
 	private var tween:FlxTween;
 
-	private static final pixelIcons:Array<String> = ["bf-pixel", "senpai", "senpai-angry", "spirit"];
+	private static final pixelIcons:Array<String> = ["bf-pixel", "senpai", "senpai-angry", "spirit", "bf-lil", "guy-lil"];
 
 	public function new(_character:String = 'face', _isPlayer:Bool = false, ?_id:Int = -1)
 	{
@@ -26,7 +26,7 @@ class HealthIcon extends FlxSprite
 
 		isPlayer = _isPlayer;
 
-		if(Assets.exists(Paths.file("ui/heathIcons/" + _character, "images", "png"))){
+		if(CoolUtil.exists(Paths.file("ui/heathIcons/" + _character, "images", "png"))){
 			character = _character;
 		}
 		else{

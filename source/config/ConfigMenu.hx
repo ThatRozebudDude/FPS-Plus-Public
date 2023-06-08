@@ -68,6 +68,7 @@ class ConfigMenu extends UIStateExt
 	final noteSplashTypes:Array<String> = ["off", "sick only", "always"];
     static var centeredValue:Bool;
     static var scrollSpeedValue:Int;
+    static var showComboBreaksValue:Bool;
 
 	override function create(){
 
@@ -834,16 +835,27 @@ class ConfigMenu extends UIStateExt
 
 
 
+        var showComboBreaks = new ConfigOption("SHOW COMBO BREAKS", ": " + genericOnOff[showComboBreaksValue?0:1], "Show combo breaks instead of misses.\nMisses only happen when you actually miss a note.\nCombo breaks can happen in other instances like dropping hold notes.");
+        showComboBreaks.optionUpdate = function(){
+            if (controls.RIGHT_P || controls.LEFT_P || controls.ACCEPT) {
+                FlxG.sound.play(Paths.sound('scrollMenu'));
+                showComboBreaksValue = !showComboBreaksValue;
+            }
+            showComboBreaks.setting = ": " + genericOnOff[showComboBreaksValue?0:1];
+        }
+
+
+
         configOptions = [
                             [fpsCap, noteSplash, noteGlow, bgDim],
                             [noteOffset, downscroll, centeredNotes, ghostTap, controllerBinds, keyBinds],
-                            [accuracyDisplay, comboDisplay, scrollSpeed, hpGain, hpDrain, cacheSettings]
+                            [accuracyDisplay, showComboBreaks, comboDisplay, scrollSpeed, hpGain, hpDrain, cacheSettings]
                         ];
 
     }
 
     function writeToConfig(){
-		Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0);
+		Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue);
 	}
 
 }

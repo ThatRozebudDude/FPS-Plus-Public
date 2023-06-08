@@ -1,5 +1,8 @@
 package;
 
+import flixel.group.FlxSpriteGroup;
+import transition.data.BasicTransition;
+import openfl.display.Bitmap;
 import flixel.addons.plugin.screengrab.FlxScreenGrab;
 import openfl.display.BitmapData;
 import flixel.graphics.FlxGraphic;
@@ -41,6 +44,9 @@ using StringTools;
 
 class ChartingState extends MusicBeatState
 {
+
+	public static var screenshotBitmap:Bitmap = null;
+
 	var _file:FileReference;
 
 	var UI_box:FlxUITabMenu;
@@ -52,6 +58,8 @@ class ChartingState extends MusicBeatState
 	var curSection:Int = 0;
 
 	var timeOld:Float = 0;
+
+	var ee2Check = FlxG.save.data.ee2;
 
 	public static var lastSection:Int = 0;
 
@@ -66,15 +74,14 @@ class ChartingState extends MusicBeatState
 	var bfClick:FlxUICheckBox;
 	var opClick:FlxUICheckBox;
 	var gotoSectionStepper:FlxUINumericStepper;
+	var lilBuddiesBox:FlxUICheckBox;
 	//var halfSpeedCheck:FlxUICheckBox;
 
 	var strumLine:FlxSprite;
-	var curSong:String = 'Dadbattle';
-	var amountSteps:Int = 0;
 	var bullshitUI:FlxGroup;
 
-	var strumColors:Array<FlxColor> = [0xFFC24B99, 0xFF00FFFF, 0xFF12FA05, 0xFFF9393F];
-	var eventColors:Array<FlxColor> = [0xFFFFFFFF, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFFFF00FF, 0xFFFFFF00, 0xFF00FFFF, 0xFFFF9100, 0xFFA200FF, 0xFFC24B99, 0xFF00FFFF, 0xFF12FA05, 0xFFF9393F, 0xFF00FFBF, 0xFFFF0095, 0xFFC8FF00, 0xFF0077FF];
+	final strumColors:Array<FlxColor> = [0xFFC24B99, 0xFF00FFFF, 0xFF12FA05, 0xFFF9393F];
+	final eventColors:Array<FlxColor> = [0xFFFFFFFF, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFFFF00FF, 0xFFFFFF00, 0xFF00FFFF, 0xFFFF9100, 0xFFA200FF, 0xFFC24B99, 0xFF00FFFF, 0xFF12FA05, 0xFFF9393F, 0xFF00FFBF, 0xFFFF0095, 0xFFC8FF00, 0xFF0077FF];
 
 	var highlight:FlxSprite;
 
@@ -90,7 +97,7 @@ class ChartingState extends MusicBeatState
 
 	var gridBG:FlxSprite;
 	var gridBG2:FlxSprite;
-	var gridBGTriple:FlxSprite;
+	//var gridBGTriple:FlxSprite;
 	var gridBGOverlay:FlxSprite;
 
 	var _song:SwagSong;
@@ -146,6 +153,7 @@ class ChartingState extends MusicBeatState
 		lilBf.animation.add("1", [6, 7, 8], 12, false);
 		lilBf.animation.add("2", [9, 10, 11], 12, false);
 		lilBf.animation.add("3", [12, 13, 14], 12, false);
+		lilBf.animation.add("yeah", [17, 20, 23], 12, false);
 		lilBf.animation.play("idle");
 		lilBf.animation.finishCallback = function(name:String){
 			lilBf.animation.play(name, true, false, lilBf.animation.getByName(name).numFrames - 2);
@@ -168,23 +176,44 @@ class ChartingState extends MusicBeatState
 
 		lastSection = 0;
 
-		var gridBG2Length = 4;
+		var gridBG2Length:Int = 4;
 
-		gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 12, GRID_SIZE * 16, true, 0xFFE7E7E7, 0xFFC5C5C5);
+		//gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 12, GRID_SIZE * 16, true, 0xFFE7E7E7, 0xFFC5C5C5);
+		gridBG = new FlxSprite().makeGraphic(GRID_SIZE * 12, GRID_SIZE * 16);
 
-		gridBGTriple = FlxGridOverlay.create(GRID_SIZE, Std.int(GRID_SIZE * 4/3), GRID_SIZE * 12, GRID_SIZE * 16, true, 0xFFE7E7E7, 0xFFC5C5C5);
-		gridBGTriple.visible = false;
 
-		gridBG2 = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 12, GRID_SIZE * 16 * gridBG2Length, true, 0xFF515151, 0xFF3D3D3D);
+		//gridBGTriple = FlxGridOverlay.create(GRID_SIZE, Std.int(GRID_SIZE * 4/3), GRID_SIZE * 12, GRID_SIZE * 16, true, 0xFFE7E7E7, 0xFFC5C5C5);
+		//gridBGTriple.visible = false;
 
-		gridBGOverlay = FlxGridOverlay.create(GRID_SIZE * 4, GRID_SIZE * 4, GRID_SIZE * 12, GRID_SIZE * 16 * gridBG2Length, true, 0xFFFFFFFF, 0xFFB5A5CE);
-		gridBGOverlay.blend = "multiply";
+		//gridBG2 = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 12, GRID_SIZE * 16 * gridBG2Length, true, 0xFF515151, 0xFF3D3D3D);
+		gridBG2 = new FlxSprite().makeGraphic(GRID_SIZE * 12, GRID_SIZE * 16 * gridBG2Length);
 
-		add(gridBG2);
-		add(gridBG);
-		add(gridBGTriple);
-		add(gridBGOverlay);
-		
+		//gridBGOverlay = FlxGridOverlay.create(GRID_SIZE * 4, GRID_SIZE * 4, GRID_SIZE * 12, GRID_SIZE * 16 * gridBG2Length, true, 0xFFFFFFFF, 0xFFB5A5CE);
+		//gridBGOverlay.blend = "multiply";
+
+		var gridParts:FlxSpriteGroup = new FlxSpriteGroup();
+
+		var gridWhiteBitmap = FlxGridOverlay.createGrid(GRID_SIZE, GRID_SIZE, GRID_SIZE * 4, GRID_SIZE * 4, true, 0xFFE7E7E7, 0xFFC5C5C5);
+		var gridPurpleBitmap = FlxGridOverlay.createGrid(GRID_SIZE, GRID_SIZE, GRID_SIZE * 4, GRID_SIZE * 4, true, 0xFFA495BB, 0xFF8C7F9F);
+		var gridDarkWhiteBitmap = FlxGridOverlay.createGrid(GRID_SIZE, GRID_SIZE, GRID_SIZE * 4, GRID_SIZE * 4, true, 0xFF515151, 0xFF3D3D3D);
+		var gridDarkPurpleBitmap = FlxGridOverlay.createGrid(GRID_SIZE, GRID_SIZE, GRID_SIZE * 4, GRID_SIZE * 4, true, 0xFF393441, 0xFF2B2731);
+
+		for(iy in 0...4 * gridBG2Length){
+			for(ix in 0...3){
+				var isDark = iy >= 4;
+				var isPurple = (iy % 2 == 0 && ix == 1) || (iy % 2 == 1 && ix != 1);
+				var gridSegment = new FlxSprite(GRID_SIZE * ix * 4, GRID_SIZE * iy * 4).loadGraphic((isPurple ? (isDark ? gridDarkPurpleBitmap : gridPurpleBitmap) : (isDark ? gridDarkWhiteBitmap : gridWhiteBitmap)));
+				gridSegment.active = false;
+				gridParts.add(gridSegment);
+			}
+		}
+
+		//add(gridBG2);
+		//add(gridBG);
+		//add(gridBGTriple);
+		//add(gridBGOverlay);
+
+		add(gridParts);
 
 		leftIcon = new HealthIcon('bf');
 		rightIcon = new HealthIcon('dad');
@@ -313,6 +342,8 @@ class ChartingState extends MusicBeatState
 		addEventUI();
 		addToolsUI();
 		updateHeads(true);
+
+		FlxG.camera.follow(strumLine);
 
 		add(curRenderedNotes);
 		add(curRenderedSustains);
@@ -446,8 +477,6 @@ class ChartingState extends MusicBeatState
 
 		UI_box.addGroup(tab_group_song);
 		UI_box.scrollFactor.set();
-
-		FlxG.camera.follow(strumLine);
 	}
 
 	function addToolsUI():Void
@@ -491,7 +520,7 @@ class ChartingState extends MusicBeatState
 				vocals.volume = vol;
 			};
 
-			var lilBuddiesBox = new FlxUICheckBox(10, 90, null, null, "Lil' Buddies", 100);
+			lilBuddiesBox = new FlxUICheckBox(10, 90, null, null, "Lil' Buddies", 100);
 			lilBuddiesBox.checked = true;
 			lilBuddiesBox.callback = function()
 			{
@@ -517,8 +546,6 @@ class ChartingState extends MusicBeatState
 	
 			UI_box.addGroup(tab_group_tools);
 			UI_box.scrollFactor.set();
-	
-			FlxG.camera.follow(strumLine);
 		}
 
 	var stepperLength:FlxUINumericStepper;
@@ -977,12 +1004,14 @@ class ChartingState extends MusicBeatState
 
 			if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT)
 				dummyArrow.y = Math.floor(FlxG.mouse.y / (GRID_SIZE / 4)) * (GRID_SIZE / 4);
-			else if (FlxG.keys.pressed.SHIFT)
-				dummyArrow.y = FlxG.mouse.y;
+			else if (FlxG.keys.pressed.SHIFT && FlxG.keys.pressed.ALT)
+				dummyArrow.y = Math.floor(FlxG.mouse.y / (GRID_SIZE * 4/6)) * (GRID_SIZE * 4/6);
 			else if (FlxG.keys.pressed.ALT)
 				dummyArrow.y = Math.floor(FlxG.mouse.y / (GRID_SIZE * 4/3)) * (GRID_SIZE * 4/3);
 			else if (FlxG.keys.pressed.CONTROL)
 				dummyArrow.y = Math.floor(FlxG.mouse.y / (GRID_SIZE / 2)) * (GRID_SIZE / 2);
+			else if (FlxG.keys.pressed.SHIFT)
+				dummyArrow.y = FlxG.mouse.y;
 			else
 				dummyArrow.y = Math.floor(FlxG.mouse.y / GRID_SIZE) * GRID_SIZE;
 		}
@@ -1125,11 +1154,13 @@ class ChartingState extends MusicBeatState
 			{
 				if (FlxG.keys.pressed.W || FlxG.keys.pressed.S || FlxG.keys.pressed.UP || FlxG.keys.pressed.DOWN)
 				{
+					if(FlxG.sound.music.playing){
+						lilBf.animation.play("idle");
+						lilOpp.animation.play("idle");
+					}
+
 					FlxG.sound.music.pause();
 					vocals.pause();
-
-					lilBf.animation.play("idle");
-					lilOpp.animation.play("idle");
 
 					var daTime:Float = 2500 * FlxG.elapsed;
 
@@ -1214,7 +1245,65 @@ class ChartingState extends MusicBeatState
 
 		justChanged = false;
 
-		
+		if(Startup.hasEe2 && FlxG.keys.justPressed.B && FlxG.keys.pressed.SHIFT){
+			ee2Check = false;
+			FlxG.save.bind('data');
+			FlxG.save.data.ee2 = false;
+			FlxG.save.flush();
+			FlxG.save.bind(_song.song.replace(" ", "-"), "Chart Editor Autosaves");
+		}
+
+		if(Startup.hasEe2 && lilBuddiesBox.checked){
+			if(!ee2Check && 
+				!FlxG.sound.music.playing &&
+				FlxG.mouse.screenX >= lilBf.x &&
+				FlxG.mouse.screenX <= lilBf.x + lilBf.width &&
+				FlxG.mouse.screenY >= lilBf.y &&
+				FlxG.mouse.screenY <= lilBf.y + lilBf.height &&
+				FlxG.mouse.justPressed){
+	
+					autosaveSong();
+
+					FlxG.save.bind('data');
+					FlxG.save.data.ee2 = true;
+					FlxG.save.flush();
+	
+					PlayState.fromChartEditor = true;
+					screenshotBitmap = FlxScreenGrab.grab(null, false, true);
+	
+					customTransOut = new BasicTransition();
+	
+					var poop:String = Highscore.formatSong("lil-buddies", 2);
+					PlayState.SONG = Song.loadFromJson(poop, "lil-buddies");
+					PlayState.isStoryMode = false;
+					PlayState.storyDifficulty = 2;
+					PlayState.loadEvents = true;
+					PlayState.returnLocation = "freeplay";
+					PlayState.storyWeek = 0;
+					trace('CUR WEEK' + PlayState.storyWeek);
+					switchState(new PlayState());
+	
+					//lilBf.animation.play("yeah");
+			}
+			else if(!FlxG.sound.music.playing &&
+				FlxG.mouse.screenX >= lilBf.x &&
+				FlxG.mouse.screenX <= lilBf.x + lilBf.width &&
+				FlxG.mouse.screenY >= lilBf.y &&
+				FlxG.mouse.screenY <= lilBf.y + lilBf.height &&
+				FlxG.mouse.justPressed){
+					lilBf.animation.play("yeah");
+			}
+		}
+		else if(lilBuddiesBox.checked){
+			if(!FlxG.sound.music.playing &&
+				FlxG.mouse.screenX >= lilBf.x &&
+				FlxG.mouse.screenX <= lilBf.x + lilBf.width &&
+				FlxG.mouse.screenY >= lilBf.y &&
+				FlxG.mouse.screenY <= lilBf.y + lilBf.height &&
+				FlxG.mouse.justPressed){
+					lilBf.animation.play("yeah");
+			}
+		}
 
 		super.update(elapsed);
 

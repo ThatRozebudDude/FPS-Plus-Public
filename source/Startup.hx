@@ -1,5 +1,6 @@
 package;
 
+import sys.FileSystem;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
 import openfl.media.Sound;
@@ -41,6 +42,7 @@ class Startup extends FlxState
                                 "Cocoa", "Eggnog", "Winter-Horrorland", 
                                 "Senpai", "Roses", "Thorns",
                                 "Ugh", "Guns", "Stress",
+                                "Lil-Buddies",
                                 "klaskiiLoop", "freakyMenu"]; //Start of the non-gameplay songs.
                                 
     //List of character graphics and some other stuff.
@@ -76,6 +78,8 @@ class Startup extends FlxState
     var cacheStart:Bool = false;
 
     public static var thing = false;
+
+    public static var hasEe2:Bool;
 
 	override function create()
 	{
@@ -133,6 +137,8 @@ class Startup extends FlxState
             graphicsCached = !FlxG.save.data.graphicsPreload2;
         }
 
+        hasEe2 = CoolUtil.exists(Paths.inst("Lil-Buddies"));
+
         splash = new FlxSprite(0, 0);
         splash.frames = Paths.getSparrowAtlas('fpsPlus/rozeSplash');
         splash.animation.addByPrefix('start', 'Splash Start', 24, false);
@@ -182,7 +188,7 @@ class Startup extends FlxState
                 graphicsCached = true;
             });
             #else
-            if(!songsCached && !charactersCached && !graphicsCached){
+            if(!songsCached || !charactersCached || !graphicsCached){
                 preload(); 
             }
             #end
@@ -220,7 +226,7 @@ class Startup extends FlxState
                 charactersCached = true;
             }
             else{
-                if(Assets.exists(Paths.file(characters[charI], "images", "png"))){
+                if(CoolUtil.exists(Paths.file(characters[charI], "images", "png"))){
                     ImageCache.add(Paths.file(characters[charI], "images", "png"));
                 }
                 else{
@@ -238,7 +244,7 @@ class Startup extends FlxState
                 graphicsCached = true;
             }
             else{
-                if(Assets.exists(Paths.file(graphics[gfxI], "images", "png"))){
+                if(CoolUtil.exists(Paths.file(graphics[gfxI], "images", "png"))){
                     ImageCache.add(Paths.file(graphics[gfxI], "images", "png"));
                 }
                 else{
@@ -292,7 +298,7 @@ class Startup extends FlxState
 
     function preloadMusic(){
         for(x in songs){
-            if(Assets.exists(Paths.inst(x))){
+            if(CoolUtil.exists(Paths.inst(x))){
                 FlxG.sound.cache(Paths.inst(x));
             }
             else{
