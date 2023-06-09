@@ -88,12 +88,12 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow, null, 0.004);
 
-		versionText = new FlxText(5, FlxG.height - 21, 0, "FNF: v0.2.7 | FPS Plus: v4.0.0 (Experimental)", 16);
+		versionText = new FlxText(5, FlxG.height - 21, 0, "FPS Plus: v4.0.0", 16);
 		versionText.scrollFactor.set();
 		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionText);
 
-		keyWarning = new FlxText(5, FlxG.height - 21 + 16, 0, "If your controls aren't working, try pressing BACKSPACE to reset them.", 16);
+		keyWarning = new FlxText(5, FlxG.height - 21 + 16, 0, "If your controls aren't working, try pressing CTRL + BACKSPACE to reset them.", 16);
 		keyWarning.scrollFactor.set();
 		keyWarning.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		keyWarning.alpha = 0;
@@ -136,7 +136,7 @@ class MainMenuState extends MusicBeatState
 				changeItem(1);
 			}
 
-			if (FlxG.keys.justPressed.BACKSPACE)
+			if (FlxG.keys.justPressed.BACKSPACE && FlxG.keys.pressed.CONTROL)
 			{
 				KeyBinds.resetBinds();
 				switchState(new MainMenuState());
