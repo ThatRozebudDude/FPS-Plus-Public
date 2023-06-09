@@ -150,11 +150,13 @@ class Startup extends FlxState
 
         loadTotal = (!songsCached ? songs.length : 0) + (!charactersCached ? characters.length : 0) + (!graphicsCached ? graphics.length : 0);
 
-        loadingBar = new FlxBar(0, 605, LEFT_TO_RIGHT, 600, 24, this, 'currentLoaded', 0, loadTotal);
-        loadingBar.createFilledBar(0xFF333333, 0xFF95579A);
-        loadingBar.screenCenter(X);
-        loadingBar.visible = false;
-        add(loadingBar);
+        if(loadTotal > 0){
+            loadingBar = new FlxBar(0, 605, LEFT_TO_RIGHT, 600, 24, this, 'currentLoaded', 0, loadTotal);
+            loadingBar.createFilledBar(0xFF333333, 0xFF95579A);
+            loadingBar.screenCenter(X);
+            loadingBar.visible = false;
+            add(loadingBar);
+        }
 
         loadingText = new FlxText(5, FlxG.height - 30, 0, "", 24);
         loadingText.setFormat(Paths.font("vcr"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -208,7 +210,9 @@ class Startup extends FlxState
 
             new FlxTimer().start(0.3, function(tmr:FlxTimer){
                 loadingText.text = "Done!";
-                FlxTween.tween(loadingBar, {alpha: 0}, 0.3);
+                if(loadingBar != null){
+                    FlxTween.tween(loadingBar, {alpha: 0}, 0.3);
+                }
             });
         }
 
@@ -262,7 +266,10 @@ class Startup extends FlxState
     function preload(){
 
         loadingText.text = "Caching Assets...";
-        loadingBar.visible = true;
+        
+        if(loadingBar != null){
+            loadingBar.visible = true;
+        }
         
         if(!songsCached){ 
             #if sys sys.thread.Thread.create(() -> { #end
