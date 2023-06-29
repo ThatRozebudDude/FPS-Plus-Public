@@ -3037,8 +3037,7 @@ class PlayState extends MusicBeatState
 
 		else if (!note.wasGoodHit)
 		{
-			if (!note.isSustainNote)
-			{
+			if (!note.isSustainNote){
 				popUpScore(note);
 				combo += 1;
 			}
@@ -3047,12 +3046,12 @@ class PlayState extends MusicBeatState
 			}
 				
 
-			/*if (note.noteData >= 0){
+			if (!note.isSustainNote){
 				health += 0.015 * Config.healthMultiplier;
 			}
 			else{
-				health += 0.0015 * Config.healthMultiplier;
-			}*/
+				health += 0.0075 * Config.healthMultiplier;
+			}
 
 			health += 0.015 * Config.healthMultiplier;
 				
