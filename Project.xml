@@ -90,17 +90,17 @@
 	<assets path="assets/fonts" embed='true'/>
 	<!-- _______________________________ Libraries ______________________________ -->
 
-	<haxelib name="flixel" />
 	<haxedev set='webgl' />
 
-	<!--In case you want to use the addons package-->
+	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />
 	<haxelib name="hscript" />
+	<haxelib name="flixel-ui" />
 
 	<!--In case you want to use the ui package-->
-	<haxelib name="flixel-ui" />
-	<haxelib name="newgrounds"/>
-	<haxelib name="faxe" if='switch'/>
+	
+	<!--haxelib name="newgrounds"/-->
+	<!--haxelib name="faxe" if='switch'/-->
 	<!--haxelib name="polymod"/-->
 	<!--haxelib name="actuate" /-->
 	<!--haxelib name="extension-webm" if="desktop"/-->
@@ -146,10 +146,8 @@
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
-	<icon path="art/iconOG.png" />
+	<icon path="art/icon128.png" />
 	<icon path="art/icon16.png" size='16'/>
-	<icon path="art/icon32.png" size='32'/>
-	<icon path="art/icon64.png" size='64'/>
 
 
 	<!-- <haxedef name="SKIP_TO_PLAYSTATE" if="debug" /> -->

@@ -42,7 +42,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 //import flixel.math.FlxRect;
-import flixel.system.FlxSound;
+import flixel.sound.FlxSound;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -79,7 +79,12 @@ class PlayState extends MusicBeatState
 	public static var returnSong:Int = 0;
 	
 	private var canHit:Bool = false;
-	private var noMissCount:Int = 0;
+	//private var noMissCount:Int = 0;
+	private var missTime:Float = 0;
+
+	private var invuln:Bool = false;
+	//private var invulnCount:Int = 0;
+	private var invulnTime:Float = 0;
 
 	public static final stageSongs = ["tutorial", "bopeebo", "fresh", "dadbattle"]; //List isn't really used since stage is default, but whatever.
 	public static final spookySongs = ["spookeez", "south", "monster"];
@@ -142,9 +147,6 @@ class PlayState extends MusicBeatState
 
 	private var autoplay:Bool = false;
 	private var usedAutoplay:Bool = false;
-
-	private var invuln:Bool = false;
-	private var invulnCount:Int = 0;
 
 	private var notes:FlxTypedGroup<Note>;
 	private var unspawnNotes:Array<Note> = [];
@@ -314,8 +316,8 @@ class PlayState extends MusicBeatState
 		}
 		
 		canHit = !(Config.ghostTapType > 0);
-		noMissCount = 0;
-		invulnCount = 0;
+		//noMissCount = 0;
+		//invulnCount = 0;
 	
 		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = new FlxCamera();
@@ -1929,6 +1931,22 @@ class PlayState extends MusicBeatState
 
 		keyCheck(); //Gonna stick with this for right now. I have the other stuff on standby in case this still is not working for people.
 
+		if(invulnTime > 0){
+			invulnTime -= elapsed;
+			//trace(invulnTime);
+			if(invulnTime <= 0){
+				invuln = false;
+			}
+		}
+
+		if(missTime > 0){
+			missTime -= elapsed;
+			//trace(missTime);
+			if(missTime <= 0){
+				canHit = false;
+			}
+		}
+
 		if (!inCutscene){
 			if(!autoplay){
 				keyShit();
@@ -1937,6 +1955,7 @@ class PlayState extends MusicBeatState
 				keyShitAuto();
 			}
 		}
+		
 		
 		if(FlxG.keys.pressed.SHIFT && FlxG.keys.justPressed.TAB && !isStoryMode){
 			autoplay = !autoplay;
@@ -2689,8 +2708,9 @@ class PlayState extends MusicBeatState
 
 					ignoreList.push(daNote.noteData);
 
-					if(Config.ghostTapType == 1)
+					if(Config.ghostTapType == 1){
 						setCanMiss();
+					}
 				}
 
 			});
@@ -2973,41 +2993,18 @@ class PlayState extends MusicBeatState
 	}
 
 	function setBoyfriendInvuln(time:Float = 5 / 60){
-
-		invulnCount++;
-		var invulnCheck = invulnCount;
-
-		invuln = true;
-
-		new FlxTimer().start(time, function(tmr:FlxTimer)
-		{
-			if(invulnCount == invulnCheck){
-
-				invuln = false;
-
-			}
-			
-		});
-
+		if(time > invulnTime){
+			invulnTime = time;
+			invuln = true;
+		}
 	}
 
 	function setCanMiss(time:Float = 10 / 60){
-
-		noMissCount++;
-		var noMissCheck = noMissCount;
-
-		canHit = true;
-
-		new FlxTimer().start(time, function(tmr:FlxTimer)
-		{
-			if(noMissCheck == noMissCount){
-
-				canHit = false;
-
-			}
-			
-		});
-
+		if(time > missTime){
+			missTime = time;
+			canHit = true;
+		}
+		
 	}
 
 	/*function setBoyfriendStunned(time:Float = 5 / 60){
