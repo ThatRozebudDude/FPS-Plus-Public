@@ -1225,9 +1225,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		//FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-		//FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
-
 		var bgDim = new FlxSprite(1280 / -2, 720 / -2).makeGraphic(1280*2, 720*2, FlxColor.BLACK);
 		bgDim.cameras = [camOverlay];
 		bgDim.alpha = Config.bgDim/10;
@@ -2031,8 +2028,6 @@ class PlayState extends MusicBeatState
 			PlayerSettings.menuControls();
 			switchState(new ChartingState());
 			sectionStart = false;
-			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 		}
 
 		var iconOffset:Int = 26;
@@ -2073,8 +2068,6 @@ class PlayState extends MusicBeatState
 
 			PlayerSettings.menuControls();
 			sectionStart = false;
-			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
 			if(FlxG.keys.pressed.SHIFT){
 				switchState(new AnimationDebug(SONG.player1));
@@ -2191,8 +2184,6 @@ class PlayState extends MusicBeatState
 			FlxG.sound.music.stop();
 
 			PlayerSettings.menuControls();
-			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
 			openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, camFollow.getScreenPosition().x, camFollow.getScreenPosition().y, boyfriend.deathCharacter));
 			sectionStart = false;
@@ -2397,8 +2388,6 @@ class PlayState extends MusicBeatState
 				FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), 1);
 
 				PlayerSettings.menuControls();
-				//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-				//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
 				switchState(new StoryMenuState());
 				sectionStart = false;
@@ -2457,8 +2446,6 @@ class PlayState extends MusicBeatState
 		{
 			PlayerSettings.menuControls();
 			sectionStart = false;
-			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyUp);
 
 			switchState(new FreeplayState());
 		}
@@ -2542,112 +2529,6 @@ class PlayState extends MusicBeatState
 		var bigSplashy = new NoteSplash(playerStrums.members[note].x, playerStrums.members[note].y, note);
 		bigSplashy.cameras = [camHUD];
 		add(bigSplashy);
-	}
-
-	public function keyDown(evt:KeyboardEvent):Void{
-
-		if(skipListener) {return;}
-
-		@:privateAccess
-		var key = FlxKey.toStringMap.get(Keyboard.__convertKeyCode(evt.keyCode));
-	
-		var binds:Array<String> = [FlxG.save.data.leftBind,FlxG.save.data.downBind, FlxG.save.data.upBind, FlxG.save.data.rightBind];
-
-		var data = -1;
-
-		switch(evt.keyCode) // arrow keys
-		{
-			case 37:
-				data = 0;
-			case 40:
-				data = 1;
-			case 38:
-				data = 2;
-			case 39:
-				data = 3;
-		}
-
-		for (i in 0...binds.length) // binds
-		{
-			if (binds[i].toLowerCase() == key.toLowerCase())
-				data = i;
-		}
-
-		if (data == -1)
-			return;
-
-		switch(data){
-
-			case 0:
-				if(leftHold) { return; }
-				leftPress = true;
-				leftHold = true;
-			case 1:
-				if(downHold) { return; }
-				downPress = true;
-				downHold = true;
-			case 2:
-				if(upHold) { return; }
-				upPress = true;
-				upHold = true;
-			case 3:
-				if(rightHold) { return; }
-				rightPress = true;
-				rightHold = true;
-
-		}
-
-	}
-
-	public function keyUp(evt:KeyboardEvent):Void{
-
-		if(skipListener) {return;}
-
-		@:privateAccess
-		var key = FlxKey.toStringMap.get(Keyboard.__convertKeyCode(evt.keyCode));
-	
-		var binds:Array<String> = [FlxG.save.data.leftBind,FlxG.save.data.downBind, FlxG.save.data.upBind, FlxG.save.data.rightBind];
-
-		var data = -1;
-
-		switch(evt.keyCode) // arrow keys
-		{
-			case 37:
-				data = 0;
-			case 40:
-				data = 1;
-			case 38:
-				data = 2;
-			case 39:
-				data = 3;
-		}
-
-		for (i in 0...binds.length) // binds
-		{
-			if (binds[i].toLowerCase() == key.toLowerCase())
-				data = i;
-		}
-
-		if (data == -1)
-			return;
-
-		switch(data){
-
-			case 0:
-				leftRelease = true;
-				leftHold = false;
-			case 1:
-				downRelease = true;
-				downHold = false;
-			case 2:
-				upRelease = true;
-				upHold = false;
-			case 3:
-				rightRelease = true;
-				rightHold = false;
-
-		}
-		
 	}
 
 	private function keyCheck():Void{

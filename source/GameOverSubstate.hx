@@ -66,9 +66,6 @@ class GameOverSubstate extends MusicBeatSubstate
 			isEnding = true;
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 
-			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
-			//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
-
 			if (PlayState.isStoryMode)
 				PlayState.instance.switchState(new StoryMenuState());
 			else
@@ -106,8 +103,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		}
 	}
 
-	override function beatHit()
-	{
+	override function beatHit(){
 		super.beatHit();
 
 		FlxG.log.add('beat');
@@ -115,10 +111,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	var isEnding:Bool = false;
 
-	function endBullshit():Void
-	{
-		//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
-		//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
+	function endBullshit():Void{
 		isEnding = true;
 		bf.playAnim('deathConfirm', true);
 		FlxG.sound.music.stop();

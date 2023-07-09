@@ -105,22 +105,16 @@ class PauseSubState extends MusicBeatSubstate
 					unpause();
 					
 				case "Restart Song":
-					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
-					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
 					FlxTween.globalManager.clear();
 					PlayState.instance.switchState(new PlayState());
 					PlayState.sectionStart = false;
 
 				case "Restart Section":
-					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
-					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
 					FlxTween.globalManager.clear();
 					PlayState.instance.switchState(new PlayState());
 
 				case "Chart Editor":
 					PlayerSettings.menuControls();
-					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
-					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
 					FlxTween.globalManager.clear();
 					PlayState.instance.switchState(new ChartingState());
 					
@@ -134,8 +128,6 @@ class PauseSubState extends MusicBeatSubstate
 					ConfigMenu.exitTo = PlayState;
 					
 				case "Exit to menu":
-					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyDown);
-					//FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, PlayState.instance.keyUp);
 					FlxTween.globalManager.clear();
 
 					PlayState.sectionStart = false;
