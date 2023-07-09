@@ -1908,26 +1908,7 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
-
-		/*New keyboard input stuff. Disables the listener when using controller because controller uses the other input set thing I did.
-		we love fps plus input :]
 		
-		if(skipListener) {keyCheck();}
-
-		if(FlxG.gamepads.anyJustPressed(ANY) && !skipListener) {
-			skipListener = true;
-			trace("Using controller.");
-		}
-		
-		if(FlxG.keys.justPressed.ANY && skipListener) {
-			skipListener = false;
-			trace("Using keyboard.");
-		}
-
-		//=============================================================*/
-
-		keyCheck(); //Gonna stick with this for right now. I have the other stuff on standby in case this still is not working for people.
-
 		if(invulnTime > 0){
 			invulnTime -= elapsed;
 			//trace(invulnTime);
@@ -1944,13 +1925,15 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		keyCheck();
+
 		if (!inCutscene){
-			if(!autoplay){
-				keyShit();
+		 	if(!autoplay){
+		 		keyShit();
 			}
-			else{
+		 	else{
 				keyShitAuto();
-			}
+		 	}
 		}
 		
 		
