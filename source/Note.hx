@@ -188,17 +188,17 @@ class Note extends FlxSprite
 					case 0:
 						prevNote.animation.play('purplehold');
 				}
-
-				var speed;
+				
+				var speed = PlayState.SONG.speed;
 
 				if(Config.scrollSpeedOverride > 0){
 					speed = Config.scrollSpeedOverride;
 				}
-				else{
-					speed = PlayState.SONG.speed;
-				}
 
-				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * speed;
+				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.485 * speed;
+				if(PlayState.curStage.startsWith('school')) {
+					prevNote.scale.y *= 0.833 * (1.5 / 1.485); // Kinda weird, just roll with it.
+				}
 				prevNote.updateHitbox();
 			}
 		}
