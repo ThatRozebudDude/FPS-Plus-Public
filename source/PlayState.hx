@@ -2185,6 +2185,8 @@ class PlayState extends MusicBeatState
 
 				var index:Int = unspawnNotes.indexOf(dunceNote);
 				unspawnNotes.splice(index, 1);
+
+				sortNotes();
 			}
 		}
 
@@ -3097,10 +3099,7 @@ class PlayState extends MusicBeatState
 			
 		}
 
-		if (generatedMusic)
-		{
-			notes.sort(FlxSort.byY, FlxSort.DESCENDING);
-		}
+		//sortNotes();
 
 		if (SONG.notes[Math.floor(curStep / 16)] != null)
 		{
@@ -3432,6 +3431,12 @@ class PlayState extends MusicBeatState
 
 	function inRange(a:Float, b:Float, tolerance:Float){
 		return (a <= b + tolerance && a >= b - tolerance);
+	}
+
+	function sortNotes(){
+		if (generatedMusic){
+			notes.sort(FlxSort.byY, Config.downscroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
+		}
 	}
 
 }
