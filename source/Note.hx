@@ -69,11 +69,11 @@ class Note extends FlxSprite
 
 		noteData = _noteData;
 
-		var daStage:String = PlayState.curStage;
+		var uiType:String = PlayState.curUiType;
 
-		switch (daStage)
+		switch (uiType)
 		{
-			case 'school' | 'schoolEvil':
+			case 'pixel':
 				loadGraphic(Paths.image('week6/weeb/pixelUI/arrows-pixels'), true, 19, 19);
 
 				animation.add('greenScroll', [6]);
@@ -172,7 +172,7 @@ class Note extends FlxSprite
 
 			xOffset -= width / 2;
 
-			if (PlayState.curStage.startsWith('school'))
+			if (PlayState.curUiType == "pixel")
 				xOffset += 36;
 
 			if (prevNote.isSustainNote)
@@ -196,7 +196,7 @@ class Note extends FlxSprite
 				}
 
 				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.485 * speed;
-				if(PlayState.curStage.startsWith('school')) {
+				if(PlayState.curUiType == "pixel") {
 					prevNote.scale.y *= 0.833 * (1.5 / 1.485); // Kinda weird, just roll with it.
 				}
 				prevNote.updateHitbox();

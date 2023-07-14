@@ -26,7 +26,7 @@ class CacheReload extends FlxState
 
     var nextState:FlxState = new ConfigMenu();
 
-    var splash:FlxSprite;
+    //var splash:FlxSprite;
     //var dummy:FlxSprite;
     var loadingText:FlxText;
 

@@ -1,8 +1,9 @@
-stage
-spooky
-philly
-limo
-mall
-mallEvil
-school
-schoolEvil
+Stage
+Spooky
+Philly
+Limo
+Mall
+MallEvil
+School
+SchoolEvil
+Tank

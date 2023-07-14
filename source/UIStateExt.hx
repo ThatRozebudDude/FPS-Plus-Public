@@ -45,8 +45,8 @@ class UIStateExt extends FlxUIState
 			return;
 		}
 		else{
-			FlxG.switchState(_state);
 			System.gc();
+			FlxG.switchState(_state);
 			return;
 		}
 	}

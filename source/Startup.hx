@@ -198,12 +198,13 @@ class Startup extends FlxState
             cacheStart = true;
         }
         if(splash.animation.curAnim.finished && splash.animation.curAnim.name == "end"){
+            System.gc();
             FlxG.switchState(nextState);  
         }
 
         if(songsCached && charactersCached && graphicsCached && splash.animation.curAnim.finished && !(splash.animation.curAnim.name == "end")){
             
-            System.gc();
+            //System.gc();
             splash.animation.play("end");
             splash.updateHitbox();
             splash.screenCenter();

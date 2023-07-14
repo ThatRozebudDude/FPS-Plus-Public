@@ -297,7 +297,7 @@ class ChartingState extends MusicBeatState
 		}
 
 		FlxG.mouse.visible = true;
-		FlxG.save.bind(_song.song.replace(" ", "-"), "Chart Editor Autosaves");
+		FlxG.save.bind(_song.song.replace(" ", "-"), "Chart-Editor-Autosaves");
 
 		tempBpm = _song.bpm;
 
@@ -1250,7 +1250,7 @@ class ChartingState extends MusicBeatState
 			FlxG.save.bind('data');
 			FlxG.save.data.ee2 = false;
 			FlxG.save.flush();
-			FlxG.save.bind(_song.song.replace(" ", "-"), "Chart Editor Autosaves");
+			FlxG.save.bind(_song.song.replace(" ", "-"), "Chart-Editor-Autosaves");
 		}
 
 		if(Startup.hasEe2 && lilBuddiesBox.checked){
