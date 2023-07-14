@@ -7,6 +7,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
+import stages.elements.*;
 
 class Tank extends BasicStage
 {

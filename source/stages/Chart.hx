@@ -4,6 +4,7 @@ import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
+import stages.elements.*;
 
 class Chart extends BasicStage
 {

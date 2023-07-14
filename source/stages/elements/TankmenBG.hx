@@ -1,4 +1,4 @@
-package;
+package stages.elements;
 
 import flixel.util.FlxSort;
 import flixel.FlxG;

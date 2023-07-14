@@ -3,6 +3,7 @@ package stages;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
+import stages.elements.*;
 
 class MallEvil extends BasicStage
 {

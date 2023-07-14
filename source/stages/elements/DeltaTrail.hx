@@ -1,4 +1,4 @@
-package;
+package stages.elements;
 
 import flixel.addons.effects.FlxTrail;
 import flixel.animation.FlxAnimation;

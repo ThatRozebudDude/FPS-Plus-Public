@@ -8,6 +8,7 @@ import config.*;
 import title.*;
 import transition.data.*;
 import stages.*;
+import stages.elements.*;
 
 import flixel.math.FlxAngle;
 import flixel.group.FlxGroup;

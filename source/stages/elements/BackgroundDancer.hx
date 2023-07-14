@@ -1,4 +1,4 @@
-package;
+package stages.elements;
 
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
