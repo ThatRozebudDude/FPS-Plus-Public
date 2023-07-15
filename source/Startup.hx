@@ -94,6 +94,9 @@ class Startup extends FlxState
 
         PlayerSettings.player1.controls.loadKeyBinds();
 		Config.configCheck();
+		Config.reload();
+
+        Main.fpsDisplay.visible = Config.showFPS;
 
         /*Switched to a new custom transition system.
         var diamond:FlxGraphic = FlxGraphic.fromClass(GraphicTransTileDiamond);

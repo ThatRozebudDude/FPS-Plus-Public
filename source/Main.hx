@@ -23,13 +23,11 @@ class Main extends Sprite
 		flippymode = Sys.args().contains("-flippymode");
 		#end
 
-		addChild(new FlxGame(0, 0, Startup, 144, 144, true));
-
-		#if !mobile
 		fpsDisplay = new FPS(10, 3, 0xFFFFFF);
 		fpsDisplay.visible = true;
+
+		addChild(new FlxGame(0, 0, Startup, 144, 144, true));
 		addChild(fpsDisplay);
-		#end
 
 		//On web builds, video tends to lag quite a bit, so this just helps it run a bit faster.
 		#if web

@@ -69,6 +69,7 @@ class ConfigMenu extends UIStateExt
     static var centeredValue:Bool;
     static var scrollSpeedValue:Int;
     static var showComboBreaksValue:Bool;
+    static var showFPSValue:Bool;
 
 	override function create(){
 
@@ -376,6 +377,8 @@ class ConfigMenu extends UIStateExt
 		noteSplashValue = Config.noteSplashType;
 		centeredValue = Config.centeredNotes;
 		scrollSpeedValue = Std.int(Config.scrollSpeedOverride * 10);
+		showComboBreaksValue = Config.showComboBreaks;
+		showFPSValue = Config.showFPS;
 
         //VIDEO
 
@@ -603,6 +606,18 @@ class ConfigMenu extends UIStateExt
 
             controllerBinds.setting = ": " + controllerBinds.extraData[scheme];
             controllerBinds.description = controllerBinds.extraData[scheme+4];
+        }
+
+
+
+        var showFPS = new ConfigOption("SHOW FPS", ": " + genericOnOff[showFPSValue?0:1], "Show or hide the game's framerate.");
+        showFPS.optionUpdate = function(){
+            if (controls.RIGHT_P || controls.LEFT_P || controls.ACCEPT) {
+                FlxG.sound.play(Paths.sound('scrollMenu'));
+                showFPSValue = !showFPSValue;
+                Main.fpsDisplay.visible = showFPSValue;
+            }
+            showFPS.setting = ": " + genericOnOff[showFPSValue?0:1];
         }
 
 
@@ -847,7 +862,7 @@ class ConfigMenu extends UIStateExt
 
 
         configOptions = [
-                            [fpsCap, noteSplash, noteGlow, bgDim],
+                            [fpsCap, noteSplash, noteGlow, bgDim, showFPS],
                             [noteOffset, downscroll, centeredNotes, ghostTap, controllerBinds, keyBinds],
                             [accuracyDisplay, showComboBreaks, comboDisplay, scrollSpeed, hpGain, hpDrain, cacheSettings]
                         ];
@@ -855,7 +870,7 @@ class ConfigMenu extends UIStateExt
     }
 
     function writeToConfig(){
-		Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue);
+		Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue);
 	}
 
 }

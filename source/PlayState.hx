@@ -124,7 +124,7 @@ class PlayState extends MusicBeatState
 
 	//Wacky input stuff=========================
 
-	private var skipListener:Bool = false;
+	//private var skipListener:Bool = false;
 
 	private var upTime:Int = 0;
 	private var downTime:Int = 0;
@@ -562,13 +562,9 @@ class PlayState extends MusicBeatState
 		FlxG.camera.follow(camFollow, LOCKON);
 
 		defaultCamZoom = stage.startingZoom;
-
-		trace(defaultCamZoom);
 		
 		// FlxG.camera.setScrollBounds(0, FlxG.width, 0, FlxG.height);
 		FlxG.camera.zoom = defaultCamZoom;
-
-		trace(FlxG.camera.zoom);
 
 		FlxG.camera.focusOn(camFollow.getPosition());
 
@@ -1401,8 +1397,8 @@ class PlayState extends MusicBeatState
 		Conductor.songPosition = FlxG.sound.music.time;
 		if (Conductor.songPosition <= vocals.length){
 			vocals.time = Conductor.songPosition;
+			vocals.play();
 		}
-		vocals.play();
 
 		trace("resyncing vocals");
 	}
@@ -1610,32 +1606,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		FlxG.watch.addQuick("totalBeats: ", totalBeats);
-
-		if (curSong == 'Fresh')
-		{
-			switch (totalBeats)
-			{
-				case 16:
-					camZooming = true;
-					bopSpeed = 2;
-					dadBeats = [0, 2];
-					bfBeats = [1, 3];
-				case 48:
-					bopSpeed = 1;
-					dadBeats = [0, 1, 2, 3];
-					bfBeats = [0, 1, 2, 3];
-				case 80:
-					bopSpeed = 2;
-					dadBeats = [0, 2];
-					bfBeats = [1, 3];
-				case 112:
-					bopSpeed = 1;
-					dadBeats = [0, 1, 2, 3];
-					bfBeats = [0, 1, 2, 3];
-				case 163:
-			}
-		}
+		//FlxG.watch.addQuick("totalBeats: ", totalBeats);
 
 		// RESET = Quick Game Over Screen
 		if (controls.RESET && !startingSong)
@@ -2510,24 +2481,6 @@ class PlayState extends MusicBeatState
 		}
 		// FlxG.log.add('change bpm' + SONG.notes[Std.int(curStep / 16)].changeBPM);
 
-		// HARDCODING FOR MILF ZOOMS!
-		if (curSong.toLowerCase() == 'milf' && curBeat >= 168 && curBeat <= 200 && camZooming && FlxG.camera.zoom < 1.35)
-		{
-			uiBop(0.015, 0.03);
-		}
-
-		if (curSong.toLowerCase() == 'milf' && curBeat == 168)
-		{
-			dadBeats = [0, 1, 2, 3];
-			bfBeats = [0, 1, 2, 3];
-		}
-
-		if (curSong.toLowerCase() == 'milf' && curBeat == 200)
-		{
-			dadBeats = [0, 2];
-			bfBeats = [1, 3];
-		}
-
 		if(curBeat % (4 * bopSpeed) == 0 && camZooming){
 			uiBop();
 		}
@@ -2547,8 +2500,49 @@ class PlayState extends MusicBeatState
 			boyfriend.dance();
 		}
 
-		if (curBeat % 8 == 7 && curSong == 'Bopeebo'){
-			boyfriend.playAnim('hey', true);
+		switch(curSong.toLowerCase()){
+
+			case "bopeebo":
+				if (curBeat % 8 == 7 && curSong == 'Bopeebo'){
+					boyfriend.playAnim('hey', true);
+				}
+
+			case "fresh":
+				switch(curBeat){
+					case 16:
+						camZooming = true;
+						bopSpeed = 2;
+						dadBeats = [0, 2];
+						bfBeats = [1, 3];
+					case 48:
+						bopSpeed = 1;
+						dadBeats = [0, 1, 2, 3];
+						bfBeats = [0, 1, 2, 3];
+					case 80:
+						bopSpeed = 2;
+						dadBeats = [0, 2];
+						bfBeats = [1, 3];
+					case 112:
+						bopSpeed = 1;
+						dadBeats = [0, 1, 2, 3];
+						bfBeats = [0, 1, 2, 3];
+				}
+
+			case "milf":
+				if (curSong.toLowerCase() == 'milf' && curBeat >= 168 && curBeat <= 200 && camZooming && FlxG.camera.zoom < 1.35){
+					uiBop(0.015, 0.03);
+				}
+
+				if (curSong.toLowerCase() == 'milf' && curBeat == 168){
+					dadBeats = [0, 1, 2, 3];
+					bfBeats = [0, 1, 2, 3];
+				}
+			
+				if (curSong.toLowerCase() == 'milf' && curBeat == 200){
+					dadBeats = [0, 2];
+					bfBeats = [1, 3];
+				}
+
 		}
 
 		stage.beat(curBeat);

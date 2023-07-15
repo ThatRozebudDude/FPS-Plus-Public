@@ -121,7 +121,7 @@ class Tank extends BasicStage
 
 			var tempTankman:TankmenBG = new TankmenBG(20, 500, true);
 			tempTankman.strumTime = 10;
-			tempTankman.resetShit(20, 600, true);
+			tempTankman.resetShit(20, 900, true);
 			tankmanRun.add(tempTankman);
 
 			for (i in 0...TankmenBG.animationNotes.length)
