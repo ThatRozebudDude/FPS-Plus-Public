@@ -13,32 +13,32 @@ class MusicBeatState extends UIStateExt
 	private var curStep:Int = 0;
 	private var curBeat:Int = 0;
 
-	override function create()
-	{
+	override function create(){
 		super.create();
 	}
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float){
+
 		everyStep();
 
 		updateCurStep();
-		// Needs to be ROUNED, rather than ceil or floor
+
 		updateBeat();
 
 		super.update(elapsed);
 	}
 
-	private function updateBeat():Void
-	{
+	private function updateBeat():Void{
+
+		// Needs to be ROUNED, rather than ceil or floor
 		curBeat = Math.round(curStep / 4);
 	}
 
 	/**
 	 * CHECKS EVERY FRAME
 	 */
-	private function everyStep():Void
-	{
+	private function everyStep():Void{
+
 		if (Conductor.songPosition > lastStep + Conductor.stepCrochet - Conductor.safeZoneOffset
 			|| Conductor.songPosition < lastStep + Conductor.safeZoneOffset)
 		{
@@ -49,8 +49,8 @@ class MusicBeatState extends UIStateExt
 		}
 	}
 
-	private function updateCurStep():Void
-	{
+	private function updateCurStep():Void{
+		
 		var lastChange:BPMChangeEvent = {
 			stepTime: 0,
 			songTime: 0,
@@ -65,8 +65,8 @@ class MusicBeatState extends UIStateExt
 		curStep = lastChange.stepTime + Math.floor((Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet);
 	}
 
-	public function stepHit():Void
-	{
+	public function stepHit():Void{
+
 		totalSteps += 1;
 		lastStep += Conductor.stepCrochet;
 
@@ -81,8 +81,8 @@ class MusicBeatState extends UIStateExt
 			beatHit();
 	}
 
-	public function beatHit():Void
-	{
+	public function beatHit():Void{
+
 		lastBeat += Conductor.crochet;
 		totalBeats += 1;
 	}
