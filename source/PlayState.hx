@@ -89,6 +89,9 @@ class PlayState extends MusicBeatState
 	//private var invulnCount:Int = 0;
 	private var invulnTime:Float = 0;
 
+	private var releaseTimes:Array<Float> = [-1, -1, -1, -1];
+	private final releaseBufferTime = (2/60);
+
 	public static final stageSongs = ["tutorial", "bopeebo", "fresh", "dadbattle"]; //List isn't really used since stage is default, but whatever.
 	public static final spookySongs = ["spookeez", "south", "monster"];
 	public static final phillySongs = ["pico", "philly", "blammed"];
@@ -1436,6 +1439,13 @@ class PlayState extends MusicBeatState
 
 		keyCheck();
 
+		for(i in 0...releaseTimes.length){
+			if(releaseTimes[i] != -1){
+				releaseTimes[i] += elapsed;
+				//trace(i + ": " + releaseTimes[i]);
+			}
+		}
+
 		if (!inCutscene){
 		 	if(!autoplay){
 		 		keyShit();
@@ -1674,6 +1684,13 @@ class PlayState extends MusicBeatState
 		rightPress = false;
 		rightRelease = false;
 
+		for(i in 0...releaseTimes.length){
+			if(releaseTimes[i] >= releaseBufferTime){
+				releaseTimes[i] = -1;
+				//trace(i + ": reset");
+			}
+		}
+
 	}
 
 	function updateNote(){
@@ -1762,8 +1779,6 @@ class PlayState extends MusicBeatState
 		{
 			if (!daNote.mustPress && daNote.canBeHit && !daNote.wasGoodHit)
 			{
-				daNote.wasGoodHit = true;
-
 				daNote.wasGoodHit = true;
 
 				var altAnim:String = "";
@@ -2005,6 +2020,18 @@ class PlayState extends MusicBeatState
 		leftHold = leftTime > 0;
 		rightHold = rightTime > 0;
 
+		if(leftRelease){ releaseTimes[0] = 0; }
+		else if(leftPress){ releaseTimes[0] = -1; }
+
+		if(downRelease){ releaseTimes[1] = 0; }
+		else if(downPress){ releaseTimes[1] = -1; }
+
+		if(upRelease){ releaseTimes[2] = 0; }
+		else if(upPress){ releaseTimes[2] = -1; }
+
+		if(rightRelease){ releaseTimes[3] = 0; }
+		else if(rightPress){ releaseTimes[3] = -1; }
+
 		/*THE FUNNY 4AM CODE! [bro what was i doin????]
 		trace((leftHold?(leftPress?"^":"|"):(leftRelease?"^":" "))+(downHold?(downPress?"^":"|"):(downRelease?"^":" "))+(upHold?(upPress?"^":"|"):(upRelease?"^":" "))+(rightHold?(rightPress?"^":"|"):(rightRelease?"^":" ")));
 		I should probably remove this from the code because it literally serves no purpose, but I'm gonna keep it in because I think it's funny.
@@ -2111,7 +2138,9 @@ class PlayState extends MusicBeatState
 
 					var doTheMiss:Bool = false;
 
-					switch(daNote.noteData){
+					doTheMiss = releaseTimes[daNote.noteData] >= releaseBufferTime;
+
+					/*switch(daNote.noteData){
 						case 0:
 							doTheMiss = leftRelease;
 						case 1:
@@ -2120,9 +2149,10 @@ class PlayState extends MusicBeatState
 							doTheMiss = upRelease;
 						case 3:
 							doTheMiss = rightRelease;
-					}
+					}*/
 
 					if(doTheMiss){
+						trace("SHOULD MISS NOW!!!");
 						noteMiss(daNote.noteData, 0.055, true, true, false, true);
 						vocals.volume = 0;
 						daNote.tooLate = true;

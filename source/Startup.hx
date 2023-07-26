@@ -9,7 +9,7 @@ import config.*;
 import transition.data.*;
 
 import flixel.FlxState;
-import openfl.Assets;
+import lime.utils.Assets;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;

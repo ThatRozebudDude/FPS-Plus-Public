@@ -918,13 +918,22 @@ class Character extends FlxSprite
 	function changeOffsets() {
 		if (animOffsets.exists(animation.curAnim.name)) { 
 			var animOffset = animOffsets.get(animation.curAnim.name);
+
 			var xOffsetAdjust:Float = animOffset[0];
 			if(flipX == true){
 				xOffsetAdjust *= -1;
 				xOffsetAdjust += frameWidth;
 				xOffsetAdjust -= width;
 			}
-			offset.set(xOffsetAdjust, animOffset[1]); 
+
+			var yOffsetAdjust:Float = animOffset[1];
+			/*if(flipY == true){
+				yOffsetAdjust *= -1;
+				yOffsetAdjust += frameHeight;
+				yOffsetAdjust -= height;
+			}*/
+
+			offset.set(xOffsetAdjust, yOffsetAdjust); 
 		}
 		else { offset.set(0, 0); }
 	}

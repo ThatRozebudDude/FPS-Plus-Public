@@ -30,7 +30,7 @@ class GPUBitmap
 		* @param   cachekey            Key for the Texture Buffer cache. 
 		*
 	 */
-	public static function create(path:String, texFormat:Context3DTextureFormat = BGRA, optimizeForRender:Bool = false, ?_cachekey:String):BitmapData
+	public static function create(path:String, texFormat:Context3DTextureFormat = BGRA, optimizeForRender:Bool = true, ?_cachekey:String):BitmapData
 	{
 		if (_cachekey == null)
 			_cachekey = path;
