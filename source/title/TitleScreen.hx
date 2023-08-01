@@ -57,10 +57,10 @@ class TitleScreen extends MusicBeatState
 		camMain.bgColor.alpha = 0;
 		camMain.bgColor.alpha = 0;
 
-		FlxG.cameras.reset(camBackground);
-		FlxG.cameras.add(camMain);
-
-		FlxCamera.defaultCameras = [camMain];
+		FlxG.cameras.reset();
+		FlxG.cameras.add(camBackground, false);
+		FlxG.cameras.add(camMain, true);
+		FlxG.cameras.setDefaultDrawTarget(camMain, true);
 
 		var bgBfTop = new FlxBackdrop(Paths.image("fpsPlus/title/backgroundBf"), X);
 		bgBfTop.y = 365 - bgBfTop.height;

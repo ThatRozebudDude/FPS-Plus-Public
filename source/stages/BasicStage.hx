@@ -85,16 +85,22 @@ class BasicStage
 
     /**
 	 * Called every frame in PlayState update.
+     *
+     * @param   elpased  The elapsed time between previous frames passed in by PlayState.
 	 */
     public function update(elpased:Float){}
 
     /**
 	 * Called every beat hit in PlayState.
+     *
+     * @param   curBeat  The current song beat passed in by PlayState.
 	 */
     public function beat(curBeat:Int){}
 
     /**
 	 * Called every step hit in PlayState.
+     *
+     * @param   curStep  The current song step passed in by PlayState.
 	 */
     public function step(curStep:Int){}
 
