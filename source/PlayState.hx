@@ -1790,7 +1790,7 @@ class PlayState extends MusicBeatState
 
 				//trace("DA ALT THO?: " + SONG.notes[Math.floor(curStep / 16)].altAnim);
 
-				if(dad.canAutoAnim && (Character.LOOP_ANIM_ON_HOLD ? true : !daNote.isSustainNote)){
+				if(dad.canAutoAnim && (Character.LOOP_ANIM_ON_HOLD ? (daNote.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!dad.animation.name.contains("sing") || (dad.animation.curAnim.curFrame >= 3 || dad.animation.curAnim.finished)) : true) : true) : !daNote.isSustainNote)){
 					switch (Math.abs(daNote.noteData))
 					{
 						case 2:
@@ -2414,7 +2414,7 @@ class PlayState extends MusicBeatState
 
 			health += 0.015 * Config.healthMultiplier;
 				
-			if(boyfriend.canAutoAnim && (Character.LOOP_ANIM_ON_HOLD ? true : !note.isSustainNote)){
+			if(boyfriend.canAutoAnim && (Character.LOOP_ANIM_ON_HOLD ? (note.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!boyfriend.animation.name.contains("sing") || (boyfriend.animation.curAnim.curFrame >= 3 || boyfriend.animation.curAnim.finished)) : true) : true) : !note.isSustainNote)){
 				switch (note.noteData)
 				{
 					case 2:
