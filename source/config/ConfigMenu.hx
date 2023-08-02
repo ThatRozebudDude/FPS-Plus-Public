@@ -1,5 +1,7 @@
 package config;
 
+import title.TitleScreen;
+import flixel.sound.FlxSound;
 import flixel.group.FlxSpriteGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import transition.data.*;
@@ -17,14 +19,23 @@ using StringTools;
 class ConfigMenu extends UIStateExt
 {
 
+    public static var USE_LAYERED_MUSIC:Bool = true;    //If you're not using a layered options theme, set this to false.
+    public static var USE_MENU_MUSIC:Bool = false;      //Set this to true if you want to use the menu theme instead of a unique options song. Overrides USE_LAYERED_MUSIC.
+
     public static var exitTo:Class<Dynamic>;
     public static var startSong = true;
     public static var startInSubMenu:Int = -1;
+
+    final baseSongTrack:String = "nuConfiguratorBase";
+    final layerSongTrack:String = "nuConfiguratorDrums";
+
+    var songLayer:FlxSound;
 
     var curSelected:Int = 0;
     var curSelectedSub:Int = 0;
 
     var state:String = "topLevelMenu";
+    var exiting:Bool = false;
 
     var icons:Array<FlxSprite> = [];
     var titles:Array<FlxSprite> = [];
@@ -79,10 +90,28 @@ class ConfigMenu extends UIStateExt
 			exitTo = MainMenuState;
 		}
 
+        FlxG.sound.cache(Paths.music(baseSongTrack));
+        if(USE_LAYERED_MUSIC){
+            FlxG.sound.cache(Paths.music(layerSongTrack));
+        }
+        
+
         if(startSong){
-            FlxG.sound.playMusic(Paths.music('configurator'));
+            if(!USE_MENU_MUSIC){
+                FlxG.sound.playMusic(Paths.music(baseSongTrack), 1);
+                if(USE_LAYERED_MUSIC){
+                    songLayer = FlxG.sound.play(Paths.music(layerSongTrack), 0, true);
+                }
+            }
+            else{
+                FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), 1);
+            }
         }
 		else{
+            if(USE_LAYERED_MUSIC && !USE_MENU_MUSIC){
+                songLayer = FlxG.sound.play(Paths.music(layerSongTrack), 0, true);
+                songLayer.time = FlxG.sound.music.time;
+            }
             startSong = true;
         }
 
@@ -180,50 +209,62 @@ class ConfigMenu extends UIStateExt
 
 		super.update(elapsed);
 
-        switch(state){
+        if(!exiting){
 
-            case "topLevelMenu":
-                if (controls.LEFT_P){
-                    FlxG.sound.play(Paths.sound('scrollMenu'));
-                    changeSelected(-1);
-                }
-                else if(controls.RIGHT_P){
-                    FlxG.sound.play(Paths.sound('scrollMenu'));
-                    changeSelected(1);
-                }
+            switch(state){
 
-                if (controls.BACK){
-                    exit();
-                }
-                else if (controls.ACCEPT){
-                    FlxG.sound.play(Paths.sound('confirmMenu'));
-                    bringTextToTop(curSelected);
-                    curSelectedSub = 0;
-                    textUpdate();
-                }
+                case "topLevelMenu":
+                    if(USE_LAYERED_MUSIC && !USE_MENU_MUSIC){
+                        songLayer.volume = 0;
+                    }
 
-            case "subMenu":
-                if (controls.BACK){
-                    FlxG.sound.play(Paths.sound('cancelMenu'));
-                    backToCategories();
-                }
+                    if (controls.LEFT_P){
+                        FlxG.sound.play(Paths.sound('scrollMenu'));
+                        changeSelected(-1);
+                    }
+                    else if(controls.RIGHT_P){
+                        FlxG.sound.play(Paths.sound('scrollMenu'));
+                        changeSelected(1);
+                    }
 
-                if (controls.UP_P){
-                    FlxG.sound.play(Paths.sound('scrollMenu'));
-                    changeSubSelected(-1);
-                }
-                else if(controls.DOWN_P){
-                    FlxG.sound.play(Paths.sound('scrollMenu'));
-                    changeSubSelected(1);
-                }
+                    if (controls.BACK){
+                        exit();
+                    }
+                    else if (controls.ACCEPT){
+                        FlxG.sound.play(Paths.sound('confirmMenu'));
+                        bringTextToTop(curSelected);
+                        curSelectedSub = 0;
+                        textUpdate();
+                    }
 
-                if(configOptions[curSelected][curSelectedSub].optionUpdate != null){
-                    configOptions[curSelected][curSelectedSub].optionUpdate();
-                }
+                case "subMenu":
+                    if(USE_LAYERED_MUSIC && !USE_MENU_MUSIC){
+                        songLayer.volume = 1;
+                    }
 
-                if(controls.UP_P || controls.DOWN_P || controls.LEFT_P || controls.RIGHT_P || controls.ACCEPT){
-                    textUpdate();
-                }
+                    if (controls.BACK){
+                        FlxG.sound.play(Paths.sound('cancelMenu'));
+                        backToCategories();
+                    }
+
+                    if (controls.UP_P){
+                        FlxG.sound.play(Paths.sound('scrollMenu'));
+                        changeSubSelected(-1);
+                    }
+                    else if(controls.DOWN_P){
+                        FlxG.sound.play(Paths.sound('scrollMenu'));
+                        changeSubSelected(1);
+                    }
+
+                    if(configOptions[curSelected][curSelectedSub].optionUpdate != null){
+                        configOptions[curSelected][curSelectedSub].optionUpdate();
+                    }
+
+                    if(controls.UP_P || controls.DOWN_P || controls.LEFT_P || controls.RIGHT_P || controls.ACCEPT){
+                        textUpdate();
+                    }
+
+            }
 
         }
         
@@ -233,7 +274,13 @@ class ConfigMenu extends UIStateExt
 
     function exit(){
         writeToConfig();
-        FlxG.sound.music.stop();
+        exiting = true;
+        if(!USE_MENU_MUSIC || exitTo != MainMenuState){
+            FlxG.sound.music.stop();
+        }
+        if(USE_LAYERED_MUSIC && !USE_MENU_MUSIC){
+            songLayer.stop();
+        }
 		FlxG.sound.play(Paths.sound('cancelMenu'));
 		switchState(Type.createInstance(exitTo, []));
         exitTo = null;
@@ -500,6 +547,9 @@ class ConfigMenu extends UIStateExt
                 FlxG.sound.music.fadeOut(0.3);
                 writeToConfig();
                 AutoOffsetState.forceEasterEgg = FlxG.keys.pressed.SHIFT ? 1 : (FlxG.keys.pressed.CONTROL ? -1 : 0);
+                if(USE_LAYERED_MUSIC && !USE_MENU_MUSIC){
+                    songLayer.fadeOut(0.3);
+                }
                 switchState(new AutoOffsetState());
             }
 
@@ -564,6 +614,9 @@ class ConfigMenu extends UIStateExt
                 state = "transitioning";
                 startInSubMenu = curSelected;
                 writeToConfig();
+                if(USE_LAYERED_MUSIC && !USE_MENU_MUSIC){
+                    songLayer.fadeOut(0.3);
+                }
                 switchState(new KeyBindMenu());
             }
         }
@@ -601,6 +654,9 @@ class ConfigMenu extends UIStateExt
                 state = "transitioning";
                 startInSubMenu = curSelected;
                 writeToConfig();
+                if(USE_LAYERED_MUSIC && !USE_MENU_MUSIC){
+                    songLayer.fadeOut(0.3);
+                }
                 switchState(new KeyBindMenuController());
             }
 
@@ -779,6 +835,9 @@ class ConfigMenu extends UIStateExt
                 state = "transitioning";
                 startInSubMenu = curSelected;
                 writeToConfig();
+                if(USE_LAYERED_MUSIC && !USE_MENU_MUSIC){
+                    songLayer.fadeOut(0.3);
+                }
                 switchState(new CacheSettings());
                 CacheSettings.returnLoc = new ConfigMenu();
                 #end

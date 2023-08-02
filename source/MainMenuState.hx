@@ -170,7 +170,12 @@ class MainMenuState extends MusicBeatState
 						case 'freeplay':
 							FlxG.sound.music.stop();
 						case 'options':
-							FlxG.sound.music.stop();
+							if(!ConfigMenu.USE_MENU_MUSIC){
+								FlxG.sound.music.stop();
+							}
+							else{
+								ConfigMenu.startSong = false;
+							}
 					}
 
 					FlxFlicker.flicker(magenta, 1.1, 0.15, false);

@@ -1402,7 +1402,7 @@ class PlayState extends MusicBeatState
 			vocals.play();
 		}
 
-		trace("resyncing vocals");
+		//trace("resyncing vocals");
 	}
 
 	private var paused:Bool = false;
@@ -2151,7 +2151,7 @@ class PlayState extends MusicBeatState
 					}*/
 
 					if(doTheMiss){
-						trace("SHOULD MISS NOW!!!");
+						//trace("SHOULD MISS NOW!!!");
 						noteMiss(daNote.noteData, 0.055, true, true, false, true);
 						vocals.volume = 0;
 						daNote.tooLate = true;
