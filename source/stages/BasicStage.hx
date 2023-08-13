@@ -22,21 +22,10 @@ class BasicStage
     public var middleElements:Array<Dynamic> = [];
     public var foregroundElements:Array<Dynamic> = [];
 
-    var boyfriend:Character;
-    var gf:Character;
-    var dad:Character;
-
     /**
 	 * Do not override this function, override `init()` instead.
-	 *
-	 * @param   _bf  Reference to the PlayState's boyfriend.
-	 * @param   _gf  Reference to the PlayState's gf.
-	 * @param   _dad  Reference to the PlayState's dad.
 	 */
-    public function new(_bf:Character, _gf:Character, _dad:Character){
-        boyfriend = _bf;
-        gf = _gf;
-        dad = _dad;
+    public function new(){
         init();
     }
 
@@ -103,5 +92,9 @@ class BasicStage
      * @param   curStep  The current song step passed in by PlayState.
 	 */
     public function step(curStep:Int){}
+
+    inline function boyfriend() { return PlayState.instance.boyfriend; }
+    inline function gf()        { return PlayState.instance.gf; }
+    inline function dad()       { return PlayState.instance.dad; }
 
 }

@@ -25,13 +25,13 @@ class SchoolEvil extends BasicStage
 
 		// trailArea.scrollFactor.set();
 
-		var evilTrail = new DeltaTrail(dad, null, 10, 3 / 60, 0.4);
+		var evilTrail = new DeltaTrail(dad(), null, 10, 3 / 60, 0.4);
 		//var evilTrail = new DeltaTrail(dad, null, 10, 24 / 60, 0.4, 0.005); //This is basically the default look of Spirit in base game.
 		addToBackground(evilTrail);
 
-		boyfriend.x += 200;
-		boyfriend.y += 220;
-		gf.x += 180;
-		gf.y += 300;
+		boyfriend().x += 200;
+		boyfriend().y += 220;
+		gf().x += 180;
+		gf().y += 300;
     }
 }

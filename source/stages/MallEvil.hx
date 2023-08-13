@@ -28,7 +28,7 @@ class MallEvil extends BasicStage
 		evilSnow.antialiasing = true;
 		addToBackground(evilSnow);
 
-		boyfriend.x += 320;
-		dad.y -= 80;
+		boyfriend().x += 320;
+		dad().y -= 80;
     }
 }

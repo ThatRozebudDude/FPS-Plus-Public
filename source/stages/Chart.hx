@@ -34,9 +34,9 @@ class Chart extends BasicStage
 		var lilStage = new FlxSprite(32, 432).loadGraphic(Paths.image("chartEditor/lilStage"));
 		addToBackground(lilStage);
 
-		gf.visible = false;
-		boyfriend.setPosition(32, 432);
-		dad.setPosition(32, 432);
+		gf().visible = false;
+		boyfriend().setPosition(32, 432);
+		dad().setPosition(32, 432);
 
 		cameraMovementEnabled = false;
 

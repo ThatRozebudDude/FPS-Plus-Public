@@ -76,10 +76,10 @@ class School extends BasicStage
 		bgGirls.updateHitbox();
 		addToBackground(bgGirls);
 
-		boyfriend.x += 200;
-		boyfriend.y += 220;
-		gf.x += 180;
-		gf.y += 300;
+		boyfriend().x += 200;
+		boyfriend().y += 220;
+		gf().x += 180;
+		gf().y += 300;
     }
 
 	public override function beat(curBeat:Int){

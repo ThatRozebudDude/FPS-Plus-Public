@@ -121,9 +121,9 @@ class PlayState extends MusicBeatState
 
 	private var vocals:FlxSound;
 
-	private var dad:Character;
-	private var gf:Character;
-	private var boyfriend:Character;
+	public var dad:Character;
+	public var gf:Character;
+	public var boyfriend:Character;
 
 	//Wacky input stuff=========================
 
@@ -371,7 +371,7 @@ class PlayState extends MusicBeatState
 			stageClass = BasicStage;
 		}
 
-		stage = Type.createInstance(Type.resolveClass("stages." + stageCheck), [boyfriend, gf, dad]);
+		stage = Type.createInstance(Type.resolveClass("stages." + stageCheck), []);
 
 		curStage = stage.name;
 		curUiType = stage.uiType;
@@ -2135,22 +2135,7 @@ class PlayState extends MusicBeatState
 				//This is for the first released note.
 				if(daNote.prevNote.wasGoodHit && !daNote.wasGoodHit){
 
-					var doTheMiss:Bool = false;
-
-					doTheMiss = releaseTimes[daNote.noteData] >= releaseBufferTime;
-
-					/*switch(daNote.noteData){
-						case 0:
-							doTheMiss = leftRelease;
-						case 1:
-							doTheMiss = downRelease;
-						case 2:
-							doTheMiss = upRelease;
-						case 3:
-							doTheMiss = rightRelease;
-					}*/
-
-					if(doTheMiss){
+					if(releaseTimes[daNote.noteData] >= releaseBufferTime){
 						//trace("SHOULD MISS NOW!!!");
 						noteMiss(daNote.noteData, 0.055, true, true, false, true);
 						vocals.volume = 0;

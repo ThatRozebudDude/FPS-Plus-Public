@@ -99,24 +99,24 @@ class Tank extends BasicStage
 		addToForeground(fgTank3);
 
 
-		gf.y += 10;
-		gf.x -= 30;
-		boyfriend.x += 40;
-		boyfriend.y += 0;
-		dad.y += 60;
-		dad.x -= 80;
+		gf().y += 10;
+		gf().x -= 30;
+		boyfriend().x += 40;
+		boyfriend().y += 0;
+		dad().y += 60;
+		dad().x -= 80;
 
-		if (gf.curCharacter != 'pico-speaker'){
-			gf.x -= 170;
-			gf.y -= 75;
+		if (gf().curCharacter != 'pico-speaker'){
+			gf().x -= 170;
+			gf().y -= 75;
 		}
 		else{
-			gf.x -= 50;
-			gf.y -= 200;
+			gf().x -= 50;
+			gf().y -= 200;
 		}
 
 
-		if(gf.curCharacter == "pico-speaker" && PlayState.SONG.song.toLowerCase() == "stress"){
+		if(gf().curCharacter == "pico-speaker" && PlayState.SONG.song.toLowerCase() == "stress"){
 			TankmenBG.loadMappedAnims("picospeaker", "stress");
 
 			var tempTankman:TankmenBG = new TankmenBG(20, 500, true);
