@@ -20,8 +20,8 @@ class HealthIcon extends FlxSprite
 
 	private static final pixelIcons:Array<String> = ["bf-pixel", "senpai", "senpai-angry", "spirit", "bf-lil", "guy-lil"];
 
-	public function new(_character:String = 'face', _isPlayer:Bool = false, ?_id:Int = -1)
-	{
+	public function new(_character:String = 'face', _isPlayer:Bool = false, ?_id:Int = -1){
+		
 		super();
 
 		isPlayer = _isPlayer;
@@ -44,9 +44,7 @@ class HealthIcon extends FlxSprite
 		tween = FlxTween.tween(this, {}, 0);
 	}
 
-	override function update(elapsed:Float)
-	{
-
+	override function update(elapsed:Float){
 
 		super.update(elapsed);
 		setGraphicSize(Std.int(iconSize * iconScale));
