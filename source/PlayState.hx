@@ -2624,7 +2624,7 @@ class PlayState extends MusicBeatState
 		return false;
 	}
 
-	function camFocusOpponent(){
+	public function camFocusOpponent(){
 
 		var followX = dad.getMidpoint().x + 150;
 		var followY = dad.getMidpoint().y - 100;
@@ -2659,7 +2659,7 @@ class PlayState extends MusicBeatState
 		camMove(followX, followY, 1.9, FlxEase.quintOut, "dad");
 	}
 
-	function camFocusBF(){
+	public function camFocusBF(){
 
 		var followX = boyfriend.getMidpoint().x - 100;
 		var followY = boyfriend.getMidpoint().y - 100;
@@ -2688,7 +2688,7 @@ class PlayState extends MusicBeatState
 		camMove(followX, followY, 1.9, FlxEase.quintOut, "bf");
 	}
 
-	function camMove(_x:Float, _y:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_focus:String = "", ?_onComplete:Null<TweenCallback> = null):Void{
+	public function camMove(_x:Float, _y:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_focus:String = "", ?_onComplete:Null<TweenCallback> = null):Void{
 
 		if(_onComplete == null){
 			_onComplete = function(tween:FlxTween){};
@@ -2707,7 +2707,7 @@ class PlayState extends MusicBeatState
 
 	}
 
-	function camChangeZoom(_zoom:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
+	public function camChangeZoom(_zoom:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
 
 		if(_onComplete == null){
 			_onComplete = function(tween:FlxTween){};
@@ -2724,7 +2724,7 @@ class PlayState extends MusicBeatState
 
 	}
 
-	function uiChangeZoom(_zoom:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
+	public function uiChangeZoom(_zoom:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
 
 		if(_onComplete == null){
 			_onComplete = function(tween:FlxTween){};
@@ -2742,18 +2742,22 @@ class PlayState extends MusicBeatState
 
 	}
 
-	function uiBop(?_camZoom:Float = 0.01, ?_uiZoom:Float = 0.02){
+	public function uiBop(?_camZoom:Float = 0.01, ?_uiZoom:Float = 0.02, ?_time:Float = 0.6, ?_ease:Null<flixel.tweens.EaseFunction>){
+
+		if(_ease == null){
+			_ease = FlxEase.quintOut;
+		}
 
 		if(autoZoom){
 			camZoomTween.cancel();
 			FlxG.camera.zoom = defaultCamZoom + _camZoom;
-			camChangeZoom(defaultCamZoom, 0.6, FlxEase.quintOut);
+			camChangeZoom(defaultCamZoom, _time, _ease);
 		}
 
 		if(autoUi){
 			uiZoomTween.cancel();
 			camHUD.zoom = 1 + _uiZoom;
-			uiChangeZoom(1, 0.6, FlxEase.quintOut);
+			uiChangeZoom(1, _time, _ease);
 		}
 
 	}
