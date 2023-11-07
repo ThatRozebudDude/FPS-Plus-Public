@@ -16,6 +16,7 @@ class BasicStage
     public var startingZoom:Float = 1.05;
     public var uiType:String = "default";
     public var cameraMovementEnabled:Bool = true;
+    public var extraCameraMovementAmount:Null<Float> = null; //Leave null for PlayState default.
     public var cameraStartPosition:FlxPoint; //Leave null for PlayState default.
 
     public var backgroundElements:Array<Dynamic> = [];

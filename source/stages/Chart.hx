@@ -39,6 +39,7 @@ class Chart extends BasicStage
 		dad().setPosition(32, 432);
 
 		cameraMovementEnabled = false;
+		extraCameraMovementAmount = 0;
 
 		if(PlayState.fromChartEditor){
 			cameraStartPosition = new FlxPoint(1280/2, 720/2);

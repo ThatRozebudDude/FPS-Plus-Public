@@ -81,6 +81,7 @@ class ConfigMenu extends UIStateExt
     static var scrollSpeedValue:Int;
     static var showComboBreaksValue:Bool;
     static var showFPSValue:Bool;
+    static var extraCamMovementValue:Bool;
 
 	override function create(){
 
@@ -426,6 +427,7 @@ class ConfigMenu extends UIStateExt
 		scrollSpeedValue = Std.int(Config.scrollSpeedOverride * 10);
 		showComboBreaksValue = Config.showComboBreaks;
 		showFPSValue = Config.showFPS;
+		extraCamMovementValue = Config.extraCamMovement;
 
         //VIDEO
 
@@ -498,6 +500,17 @@ class ConfigMenu extends UIStateExt
             }
             noteGlow.setting = ": " + genericOnOff[glowValue?0:1];
         }
+
+
+
+        var extraCamStuff = new ConfigOption("DYNAMIC CAMERA", ": " + genericOnOff[extraCamMovementValue?0:1] , "Moves the camera in the direction of hit notes.");
+        extraCamStuff.optionUpdate = function(){
+			if (controls.RIGHT_P || controls.LEFT_P || controls.ACCEPT) {
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				extraCamMovementValue = !extraCamMovementValue;
+			}
+            extraCamStuff.setting = ": " + genericOnOff[extraCamMovementValue?0:1];
+        };
 
 
 
@@ -921,7 +934,7 @@ class ConfigMenu extends UIStateExt
 
 
         configOptions = [
-                            [fpsCap, noteSplash, noteGlow, bgDim, showFPS],
+                            [fpsCap, noteSplash, noteGlow, extraCamStuff, bgDim, showFPS],
                             [noteOffset, downscroll, centeredNotes, ghostTap, controllerBinds, keyBinds],
                             [accuracyDisplay, showComboBreaks, comboDisplay, scrollSpeed, hpGain, hpDrain, cacheSettings]
                         ];
@@ -929,7 +942,7 @@ class ConfigMenu extends UIStateExt
     }
 
     function writeToConfig(){
-		Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue);
+		Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, extraCamMovementValue);
 	}
 
 }
