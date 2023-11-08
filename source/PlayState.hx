@@ -1484,7 +1484,13 @@ class PlayState extends MusicBeatState
 			else
 				iconP1.animation.play('bf-old');
 		}*/
-		
+
+		super.update(elapsed);
+
+		stage.update(elapsed);
+
+		updateAccuracyText();
+
 		if(!startingSong){
 			for(i in eventList){
 				if(i[0] > Conductor.songPosition){
@@ -1495,22 +1501,6 @@ class PlayState extends MusicBeatState
 					eventList.remove(i);
 				}
 			}
-		}
-
-		stage.update(elapsed);
-
-		super.update(elapsed);
-
-		switch(Config.accuracy){
-			case "none":
-				scoreTxt.text = "Score:" + songScore;
-			default:
-				if(Config.showComboBreaks){
-					scoreTxt.text = "Score:" + songScore + " | Combo Breaks:" + comboBreaks + " | Accuracy:" + truncateFloat(accuracy, 2) + "%";
-				}
-				else{
-					scoreTxt.text = "Score:" + songScore + " | Misses:" + misses + " | Accuracy:" + truncateFloat(accuracy, 2) + "%";
-				}
 		}
 
 		if (controls.PAUSE && startedCountdown && canPause)
@@ -2687,7 +2677,7 @@ class PlayState extends MusicBeatState
 			camChangeZoom(1.3, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
 		}
 
-		camMove(followX, followY, 1.9, FlxEase.quintOut, "dad");
+		camMove(followX, followY, 1.9, FlxEase.expoOut, "dad");
 	}
 
 	public function camFocusBF(){
@@ -2718,7 +2708,7 @@ class PlayState extends MusicBeatState
 			camChangeZoom(1, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
 		}
 
-		camMove(followX, followY, 1.9, FlxEase.quintOut, "bf");
+		camMove(followX, followY, 1.9, FlxEase.expoOut, "bf");
 	}
 
 	public function camMove(_x:Float, _y:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_focus:String = "", ?_onComplete:Null<TweenCallback> = null):Void{
@@ -2794,7 +2784,7 @@ class PlayState extends MusicBeatState
 	function changeCamOffset(_x:Float, _y:Float, ?_time:Float = 1.4, ?_ease:Null<flixel.tweens.EaseFunction>){
 
 		if(_ease == null){
-			_ease = FlxEase.quintOut;
+			_ease = FlxEase.expoOut;
 		}
 
 		offsetTween.cancel();
@@ -2805,6 +2795,20 @@ class PlayState extends MusicBeatState
 			camFollowOffset.setPosition(_x, _y);
 		}
 
+	}
+
+	function updateAccuracyText(){
+		switch(Config.accuracy){
+			case "none":
+				scoreTxt.text = "Score:" + songScore;
+			default:
+				if(Config.showComboBreaks){
+					scoreTxt.text = "Score:" + songScore + " | Combo Breaks:" + comboBreaks + " | Accuracy:" + truncateFloat(accuracy, 2) + "%";
+				}
+				else{
+					scoreTxt.text = "Score:" + songScore + " | Misses:" + misses + " | Accuracy:" + truncateFloat(accuracy, 2) + "%";
+				}
+		}
 	}
 
 	override public function onFocus(){
