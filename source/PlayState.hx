@@ -107,6 +107,7 @@ class PlayState extends MusicBeatState
 	private var camFocus:String = "";
 	private var camTween:FlxTween;
 	private var camZoomTween:FlxTween;
+	private var camZoomAdjustTween:FlxTween;
 	private var uiZoomTween:FlxTween;
 
 	private var camFollow:FlxObject;
@@ -119,8 +120,11 @@ class PlayState extends MusicBeatState
 	private var autoCam:Bool = true;
 	private var autoZoom:Bool = true;
 	private var autoUi:Bool = true;
+	private var autoCamBop:Bool = true;
 
-	private var bopSpeed:Int = 1;
+	private var gfBopFrequency:Int = 1;
+	private var iconBopFrequency:Int = 1;
+	private var camBopFrequency:Int = 4;
 
 	private var sectionHasOppNotes:Bool = false;
 	private var sectionHasBFNotes:Bool = false;
@@ -173,7 +177,6 @@ class PlayState extends MusicBeatState
 	private var playerStrums:FlxTypedGroup<FlxSprite>;
 	private var enemyStrums:FlxTypedGroup<FlxSprite>;
 
-	private var camZooming:Bool = true;
 	private var curSong:String = "";
 
 	private var health:Float = 1;
@@ -197,6 +200,7 @@ class PlayState extends MusicBeatState
 	private var camHUD:FlxCamera;
 	private var camGame:FlxCamera;
 	private var camOverlay:FlxCamera;
+	private var camGameZoomAdjust:Float = 0;
 
 	private var eventList:Array<Dynamic> = [];
 
@@ -212,6 +216,8 @@ class PlayState extends MusicBeatState
 	var talking:Bool = true;
 	var songScore:Int = 0;
 	var scoreTxt:FlxText;
+
+	var ccText:SongCaptions;
 
 	public static var campaignScore:Int = 0;
 
@@ -274,6 +280,7 @@ class PlayState extends MusicBeatState
 		camZoomTween = FlxTween.tween(this, {}, 0);
 		uiZoomTween = FlxTween.tween(this, {}, 0);
 		offsetTween = FlxTween.tween(this, {}, 0);
+		camZoomAdjustTween = FlxTween.tween(this, {}, 0);
 
 		for(i in 0 ... SONG.notes.length){
 
@@ -379,7 +386,7 @@ class PlayState extends MusicBeatState
 			stageClass = BasicStage;
 		}
 
-		stage = Type.createInstance(Type.resolveClass("stages." + stageCheck), []);
+		stage = Type.createInstance(stageClass, []);
 
 		curStage = stage.name;
 		curUiType = stage.uiType;
@@ -396,7 +403,7 @@ class PlayState extends MusicBeatState
 				dadBeats = [0, 1, 2, 3];
 				bfBeats = [0, 1, 2, 3];
 			case "fresh":
-				camZooming = false;
+				//autoCamBop = false;
 				dadBeats = [0, 1, 2, 3];
 				bfBeats = [0, 1, 2, 3];
 			case "spookeez":
@@ -484,19 +491,22 @@ class PlayState extends MusicBeatState
 
 		//add(foregroundSprites);
 
-		if(!pixelSongs.contains(SONG.song.toLowerCase())){
-			comboUI = new ComboPopup(boyfriend.x - 250, boyfriend.y - 75,	[Paths.image("ui/ratings"), 403, 163, true], 
-																			[Paths.image("ui/numbers"), 100, 120, true], 
-																			[Paths.image("ui/comboBreak"), 348, 211, true]);
-			NoteSplash.splashPath = "ui/noteSplashes";
-		}
-		else{
-			comboUI = new ComboPopup(boyfriend.x - 250, boyfriend.y - 75, 	[Paths.image("week6/weeb/pixelUI/ratings-pixel"), 51, 20, false], 
-																			[Paths.image("week6/weeb/pixelUI/numbers-pixel"), 11, 12, false], 
-																			[Paths.image("week6/weeb/pixelUI/comboBreak-pixel"), 53, 32, false], 
-																			[daPixelZoom * 0.7, daPixelZoom * 0.8, daPixelZoom * 0.7]);
-			comboUI.numberPosition[0] -= 120;
-			NoteSplash.splashPath = "week6/weeb/pixelUI/noteSplashes-pixel";
+		switch(curUiType){
+
+			default:
+				comboUI = new ComboPopup(boyfriend.x - 250, boyfriend.y - 75,	[Paths.image("ui/ratings"), 403, 163, true], 
+				[Paths.image("ui/numbers"), 100, 120, true], 
+				[Paths.image("ui/comboBreak"), 348, 211, true]);
+				NoteSplash.splashPath = "ui/noteSplashes";
+
+			case "pixel":
+				comboUI = new ComboPopup(boyfriend.x - 250, boyfriend.y - 75, 	[Paths.image("week6/weeb/pixelUI/ratings-pixel"), 51, 20, false], 
+																				[Paths.image("week6/weeb/pixelUI/numbers-pixel"), 11, 12, false], 
+																				[Paths.image("week6/weeb/pixelUI/comboBreak-pixel"), 53, 32, false], 
+																				[daPixelZoom * 0.7, daPixelZoom * 0.8, daPixelZoom * 0.7]);
+				comboUI.numberPosition[0] -= 120;
+				NoteSplash.splashPath = "week6/weeb/pixelUI/noteSplashes-pixel";
+
 		}
 
 		//Prevents the game from lagging at first note splash.
@@ -619,11 +629,15 @@ class PlayState extends MusicBeatState
 
 		iconP2 = new HealthIcon(dad.iconName, false);
 		iconP2.y = healthBar.y - (iconP2.height / 2);
+
+		ccText = new SongCaptions(Config.downscroll);
+		ccText.scrollFactor.set();
 		
 		add(healthBar);
 		add(iconP2);
 		add(iconP1);
 		add(scoreTxt);
+		add(ccText);
 
 		strumLineNotes.cameras = [camHUD];
 		notes.cameras = [camHUD];
@@ -633,6 +647,7 @@ class PlayState extends MusicBeatState
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
+		ccText.cameras = [camHUD];
 
 		healthBar.visible = false;
 		healthBarBG.visible = false;
@@ -987,7 +1002,7 @@ class PlayState extends MusicBeatState
 				"-pixel"
 			]);
 
-		var introAlts:Array<String> = introAssets.get(stage.uiType);
+		var introAlts:Array<String> = introAssets.get(curUiType);
 		var altSuffix = introAlts[3];
 
 		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
@@ -1012,9 +1027,9 @@ class PlayState extends MusicBeatState
 				case 1:
 					var ready:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[0]));
 					ready.scrollFactor.set();
-					ready.antialiasing = !(stage.uiType == "pixel");
+					ready.antialiasing = !(curUiType == "pixel");
 
-					if (stage.uiType == "pixel")
+					if (curUiType == "pixel")
 						ready.setGraphicSize(Std.int(ready.width * daPixelZoom * 0.8));
 					else
 						ready.setGraphicSize(Std.int(ready.width * 0.5));
@@ -1036,9 +1051,9 @@ class PlayState extends MusicBeatState
 				case 2:
 					var set:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[1]));
 					set.scrollFactor.set();
-					set.antialiasing = !(stage.uiType == "pixel");
+					set.antialiasing = !(curUiType == "pixel");
 
-					if (stage.uiType == "pixel")
+					if (curUiType == "pixel")
 						set.setGraphicSize(Std.int(set.width * daPixelZoom * 0.8));
 					else
 						set.setGraphicSize(Std.int(set.width * 0.5));
@@ -1060,9 +1075,9 @@ class PlayState extends MusicBeatState
 				case 3:
 					var go:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[2]));
 					go.scrollFactor.set();
-					go.antialiasing = !(stage.uiType == "pixel");
+					go.antialiasing = !(curUiType == "pixel");
 
-					if (stage.uiType == "pixel")
+					if (curUiType == "pixel")
 						go.setGraphicSize(Std.int(go.width * daPixelZoom * 0.8));
 					else
 						go.setGraphicSize(Std.int(go.width * 0.8));
@@ -1244,7 +1259,7 @@ class PlayState extends MusicBeatState
 			// FlxG.log.add(i);
 			var babyArrow:FlxSprite = new FlxSprite(50, strumLine.y);
 
-			switch (stage.uiType)
+			switch (curUiType)
 			{
 				case "pixel":
 					babyArrow.loadGraphic(Paths.image('week6/weeb/pixelUI/arrows-pixels'), true, 19, 19);
@@ -1623,6 +1638,7 @@ class PlayState extends MusicBeatState
 		}
 
 		camFollowFinal.setPosition(camFollow.x + camFollowOffset.x, camFollow.y + camFollowOffset.y);
+		camGame.zoom = defaultCamZoom + camGameZoomAdjust;
 
 		//FlxG.watch.addQuick("totalBeats: ", totalBeats);
 
@@ -1822,7 +1838,7 @@ class PlayState extends MusicBeatState
 					if (Math.abs(daNote.noteData) == spr.ID)
 					{
 						spr.animation.play('confirm', true);
-						if (spr.animation.curAnim.name == 'confirm' && !(stage.uiType == "pixel"))
+						if (spr.animation.curAnim.name == 'confirm' && !(curUiType == "pixel"))
 						{
 							spr.centerOffsets();
 							spr.offset.x -= 14;
@@ -2214,7 +2230,7 @@ class PlayState extends MusicBeatState
 					//spr.alpha = 1;
 					spr.centerOffsets();
 
-					if(!(stage.uiType == "pixel")){
+					if(!(curUiType == "pixel")){
 						spr.offset.x -= 14;
 						spr.offset.y -= 14;
 					}
@@ -2269,7 +2285,7 @@ class PlayState extends MusicBeatState
 				if (Math.abs(x.noteData) == spr.ID)
 				{
 					spr.animation.play('confirm', true);
-					if (spr.animation.curAnim.name == 'confirm' && !(stage.uiType == "pixel"))
+					if (spr.animation.curAnim.name == 'confirm' && !(curUiType == "pixel"))
 					{
 						spr.centerOffsets();
 						spr.offset.x -= 14;
@@ -2512,70 +2528,24 @@ class PlayState extends MusicBeatState
 		}
 		// FlxG.log.add('change bpm' + SONG.notes[Std.int(curStep / 16)].changeBPM);
 
-		if(curBeat % (4 * bopSpeed) == 0 && camZooming){
-			//uiBop();
+		if(curBeat % camBopFrequency == 0 && autoCamBop){
 			uiBop(0.0175, 0.03, 0.8);
 		}
 
-		if (curBeat % bopSpeed == 0){
+		if (curBeat % iconBopFrequency == 0){
 			iconP1.iconScale = iconP1.defualtIconScale * 1.25;
 			iconP2.iconScale = iconP2.defualtIconScale * 1.25;
 
 			iconP1.tweenToDefaultScale(0.2, FlxEase.quintOut);
 			iconP2.tweenToDefaultScale(0.2, FlxEase.quintOut);
-
+		}
+		
+		if (curBeat % gfBopFrequency == 0){
 			gf.dance();
-
 		}
 
 		if(bfBeats.contains(curBeat % 4) && boyfriend.canAutoAnim && !boyfriend.animation.curAnim.name.startsWith('sing')){
 			boyfriend.dance();
-		}
-
-		switch(curSong.toLowerCase()){
-
-			case "bopeebo":
-				if (curBeat % 8 == 7 && curSong == 'Bopeebo'){
-					boyfriend.playAnim('hey', true);
-				}
-
-			case "fresh":
-				switch(curBeat){
-					case 16:
-						camZooming = true;
-						bopSpeed = 2;
-						dadBeats = [0, 2];
-						bfBeats = [1, 3];
-					case 48:
-						bopSpeed = 1;
-						dadBeats = [0, 1, 2, 3];
-						bfBeats = [0, 1, 2, 3];
-					case 80:
-						bopSpeed = 2;
-						dadBeats = [0, 2];
-						bfBeats = [1, 3];
-					case 112:
-						bopSpeed = 1;
-						dadBeats = [0, 1, 2, 3];
-						bfBeats = [0, 1, 2, 3];
-				}
-
-			case "milf":
-				if (curSong.toLowerCase() == 'milf' && curBeat >= 168 && curBeat <= 200 && camZooming && FlxG.camera.zoom < 1.35){
-					//uiBop(0.015, 0.03);
-					uiBop(0.035, 0.06, 0.8);
-				}
-
-				if (curSong.toLowerCase() == 'milf' && curBeat == 168){
-					dadBeats = [0, 1, 2, 3];
-					bfBeats = [0, 1, 2, 3];
-				}
-			
-				if (curSong.toLowerCase() == 'milf' && curBeat == 200){
-					dadBeats = [0, 2];
-					bfBeats = [1, 3];
-				}
-
 		}
 
 		stage.beat(curBeat);
@@ -2586,7 +2556,7 @@ class PlayState extends MusicBeatState
 
 		if(tag.startsWith("playAnim;")){
 			var tagSplit = tag.split(";");
-			trace(tagSplit);
+			//trace(tagSplit);
 
 			switch(tagSplit[1]){
 				case "dad":
@@ -2599,6 +2569,43 @@ class PlayState extends MusicBeatState
 					boyfriend.playAnim(tagSplit[2]);
 			}
 		}
+		else if(tag.startsWith("cc;")){ ccText.display(tag.split("cc;")[1]); }
+		else if(tag.startsWith("camMove;")){
+			var properties = tag.split(";");
+			//trace(properties);
+			camMove(Std.parseFloat(properties[1]), Std.parseFloat(properties[2]), Std.parseFloat(properties[3]), easeNameToEase(properties[4]), null);
+		}
+		else if(tag.startsWith("camZoom;")){
+			var properties = tag.split(";");
+			camChangeZoom(Std.parseFloat(properties[1]), Std.parseFloat(properties[2]), easeNameToEase(properties[3]), null);
+		}
+		else if(tag.startsWith("gfBopFreq;")){ gfBopFrequency = Std.parseInt(tag.split("gfBopFreq;")[1]); }
+		else if(tag.startsWith("iconBopFreq;")){ iconBopFrequency = Std.parseInt(tag.split("iconBopFreq;")[1]); }
+		else if(tag.startsWith("camBopFreq;")){ camBopFrequency = Std.parseInt(tag.split("camBopFreq;")[1]); }
+		else if(tag.startsWith("bfBop")){
+			switch(tag.split("bfBop")[1]){
+				case "EveryBeat":
+					bfBeats = [0, 1, 2, 3];
+				case "OddBeats": //Swapped due to event icon starting at 1 instead of 0
+					bfBeats = [0, 2];
+				case "EvenBeats": //Swapped due to event icon starting at 1 instead of 0
+					bfBeats = [1, 3];
+				case "Never":
+					bfBeats = [];
+			}
+		}
+		else if(tag.startsWith("dadBop")){
+			switch(tag.split("dadBop")[1]){
+				case "EveryBeat":
+					dadBeats = [0, 1, 2, 3];
+				case "OddBeats": //Swapped due to event icon starting at 1 instead of 0
+					dadBeats = [0, 2];
+				case "EvenBeats": //Swapped due to event icon starting at 1 instead of 0
+					dadBeats = [1, 3];
+				case "Never":
+					dadBeats = [];
+			}
+		}
 		else{
 			switch(tag){
 				case "dadAnimLockToggle":
@@ -2609,6 +2616,21 @@ class PlayState extends MusicBeatState
 
 				case "gfAnimLockToggle":
 					gf.canAutoAnim = !gf.canAutoAnim;
+
+				case "ccHide":
+					ccText.hide();
+
+				case "toggleCamBop":
+					autoCamBop = !autoCamBop;
+
+				case "toggleCamMovement":
+					autoCam = !autoCam;
+
+				case "camBop":
+					uiBop(0.0175, 0.03, 0.8);
+					
+				case "camBopBig":
+					uiBop(0.035, 0.06, 0.8);
 
 				default:
 					trace(tag);
@@ -2737,10 +2759,26 @@ class PlayState extends MusicBeatState
 
 		camZoomTween.cancel();
 		if(_time > 0){
-			camZoomTween = FlxTween.tween(FlxG.camera, {zoom: _zoom}, _time, {ease: _ease, onComplete: _onComplete});
+			camZoomTween = FlxTween.tween(this, {defaultCamZoom: _zoom}, _time, {ease: _ease, onComplete: _onComplete});
 		}
 		else{
-			FlxG.camera.zoom = _zoom;
+			defaultCamZoom = _zoom;
+		}
+
+	}
+
+	public function camChangeZoomAdjust(_zoom:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
+
+		if(_onComplete == null){
+			_onComplete = function(tween:FlxTween){};
+		}
+
+		camZoomAdjustTween.cancel();
+		if(_time > 0){
+			camZoomAdjustTween = FlxTween.tween(this, {camGameZoomAdjust: _zoom}, _time, {ease: _ease, onComplete: _onComplete});
+		}
+		else{
+			camGameZoomAdjust = _zoom;
 		}
 
 	}
@@ -2763,14 +2801,20 @@ class PlayState extends MusicBeatState
 
 	public function uiBop(?_camZoom:Float = 0.01, ?_uiZoom:Float = 0.02, ?_time:Float = 0.6, ?_ease:Null<flixel.tweens.EaseFunction>){
 
+		if(Config.camBopAmount == 2){ return; }
+		else if(Config.camBopAmount == 1){
+			_camZoom /= 3;
+			_uiZoom /= 3;
+		}
+
 		if(_ease == null){
 			_ease = FlxEase.quintOut;
 		}
 
 		if(autoZoom){
-			camZoomTween.cancel();
-			FlxG.camera.zoom = defaultCamZoom + _camZoom;
-			camChangeZoom(defaultCamZoom, _time, _ease);
+			camZoomAdjustTween.cancel();
+			camGameZoomAdjust = _camZoom;
+			camChangeZoomAdjust(0, _time, _ease);
 		}
 
 		if(autoUi){
@@ -2835,6 +2879,99 @@ class PlayState extends MusicBeatState
 
 	public static inline function noteSortThing(Order:Int, Obj1:Note, Obj2:Note):Int{
 		return FlxSort.byValues(Order, Obj1.strumTime, Obj2.strumTime);
+	}
+
+	public static inline function easeNameToEase(ease:String):Null<flixel.tweens.EaseFunction>{
+		var r;
+		switch(ease){
+			default:
+				r = FlxEase.linear;
+
+			case "quadIn":
+				r = FlxEase.quadIn;
+			case "quadOut":
+				r = FlxEase.quadOut;
+			case "quadInOut":
+				r = FlxEase.quadInOut;
+
+			case "cubeIn":
+				r = FlxEase.cubeIn;
+			case "cubeOut":
+				r = FlxEase.cubeOut;
+			case "cubeInOut":
+				r = FlxEase.cubeInOut;
+
+			case "quartIn":
+				r = FlxEase.quartIn;
+			case "quartOut":
+				r = FlxEase.quartOut;
+			case "quartInOut":
+				r = FlxEase.quartInOut;
+
+			case "quintIn":
+				r = FlxEase.quintIn;
+			case "quintOut":
+				r = FlxEase.quintOut;
+			case "quintInOut":
+				r = FlxEase.quintInOut;
+
+			case "smoothStepIn":
+				r = FlxEase.smoothStepIn;
+			case "smoothStepOut":
+				r = FlxEase.smoothStepOut;
+			case "smoothStepInOut":
+				r = FlxEase.smoothStepInOut;
+
+			case "smootherStepIn":
+				r = FlxEase.smootherStepIn;
+			case "smootherStepOut":
+				r = FlxEase.smootherStepOut;
+			case "smootherStepInOut":
+				r = FlxEase.smootherStepInOut;
+
+			case "sineIn":
+				r = FlxEase.sineIn;
+			case "sineOut":
+				r = FlxEase.sineOut;
+			case "sineInOut":
+				r = FlxEase.sineInOut;
+
+			case "bounceIn":
+				r = FlxEase.bounceIn;
+			case "bounceOut":
+				r = FlxEase.bounceOut;
+			case "bounceInOut":
+				r = FlxEase.bounceInOut;
+
+			case "circIn":
+				r = FlxEase.circIn;
+			case "circOut":
+				r = FlxEase.circOut;
+			case "circInOut":
+				r = FlxEase.circInOut;
+
+			case "expoIn":
+				r = FlxEase.expoIn;
+			case "expoOut":
+				r = FlxEase.expoOut;
+			case "expoInOut":
+				r = FlxEase.expoInOut;
+
+			case "backIn":
+				r = FlxEase.backIn;
+			case "backOut":
+				r = FlxEase.backOut;
+			case "backInOut":
+				r = FlxEase.backInOut;
+
+			case "elasticIn":
+				r = FlxEase.elasticIn;
+			case "elasticOut":
+				r = FlxEase.elasticOut;
+			case "elasticInOut":
+				r = FlxEase.elasticInOut;
+		}
+		return r;
 	}
 
 }

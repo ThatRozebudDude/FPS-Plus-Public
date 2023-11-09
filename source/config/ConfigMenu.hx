@@ -82,6 +82,8 @@ class ConfigMenu extends UIStateExt
     static var showComboBreaksValue:Bool;
     static var showFPSValue:Bool;
     static var extraCamMovementValue:Bool;
+    static var camBopAmountValue:Int;
+    final camBopAmountTypes:Array<String> = ["on", "reduced", "off"];
 
 	override function create(){
 
@@ -428,6 +430,7 @@ class ConfigMenu extends UIStateExt
 		showComboBreaksValue = Config.showComboBreaks;
 		showFPSValue = Config.showFPS;
 		extraCamMovementValue = Config.extraCamMovement;
+		camBopAmountValue = Config.camBopAmount;
 
         //VIDEO
 
@@ -514,6 +517,29 @@ class ConfigMenu extends UIStateExt
 
 
 
+        var camBopStuff = new ConfigOption("CAMERA BOP", ": " + camBopAmountTypes[camBopAmountValue] , "Adjust how much the camera zooms on beat.");
+        camBopStuff.optionUpdate = function(){
+			if (controls.RIGHT_P){
+                FlxG.sound.play(Paths.sound('scrollMenu'));
+                camBopAmountValue += 1;
+            }
+                
+            if (controls.LEFT_P)
+            {
+                FlxG.sound.play(Paths.sound('scrollMenu'));
+                camBopAmountValue -= 1;
+            }
+                
+            if (camBopAmountValue > 2)
+                camBopAmountValue = 0;
+            if (camBopAmountValue < 0)
+                camBopAmountValue = 2;
+
+            camBopStuff.setting = ": " + camBopAmountTypes[camBopAmountValue];
+        };
+
+
+
         //INPUT
 
 
@@ -549,7 +575,7 @@ class ConfigMenu extends UIStateExt
                 }
             }
                 
-            if(!controls.RIGHT && !controls.LEFT){
+            if(!controls.RIGHT && !controls.LEFT && noteOffset.extraData[0] != 0){
                 noteOffset.extraData[0] = 0;
                 textUpdate();
             }
@@ -934,7 +960,7 @@ class ConfigMenu extends UIStateExt
 
 
         configOptions = [
-                            [fpsCap, noteSplash, noteGlow, extraCamStuff, bgDim, showFPS],
+                            [fpsCap, noteSplash, noteGlow, extraCamStuff, camBopStuff, bgDim, showFPS],
                             [noteOffset, downscroll, centeredNotes, ghostTap, controllerBinds, keyBinds],
                             [accuracyDisplay, showComboBreaks, comboDisplay, scrollSpeed, hpGain, hpDrain, cacheSettings]
                         ];
@@ -942,7 +968,7 @@ class ConfigMenu extends UIStateExt
     }
 
     function writeToConfig(){
-		Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, extraCamMovementValue);
+		Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, extraCamMovementValue, camBopAmountValue);
 	}
 
 }

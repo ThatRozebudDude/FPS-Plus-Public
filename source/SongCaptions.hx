@@ -1,0 +1,63 @@
+package;
+
+#if sys
+import sys.io.File;
+#end
+
+import lime.utils.Assets;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import flixel.group.FlxSpriteGroup;
+import flixel.text.FlxText;
+import flixel.util.FlxColor;
+
+using StringTools;
+using flixel.util.FlxSpriteUtil;
+
+class SongCaptions extends FlxSpriteGroup
+{
+
+    var text:FlxText;
+    var bg:FlxSprite;
+
+    var meta:Array<Array<String>> = [];
+    var size:Float = 0;
+    var fontSize:Int = 24;
+
+    public function new(_isDownScroll:Bool = false) {
+
+        super();
+
+        text = new FlxText(0, !_isDownScroll ? 540 : 140, 0, "", fontSize);
+        text.setFormat(Paths.font("vcr"), fontSize, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+
+        bg = new FlxSprite(0, 0).makeGraphic(1, 1, FlxColor.BLACK);
+
+        add(bg);
+        add(text);
+
+        hide();
+    }
+
+
+
+    public function hide(){ visible = false; }
+
+    public function display(_text:String){
+        visible = true;
+
+        text.text = _text;
+        text.screenCenter(X);
+
+        remove(bg);
+        
+        bg = new FlxSprite(0, text.y - (fontSize / 2)).makeGraphic(Math.floor(text.width + fontSize), Math.floor(text.height + fontSize), FlxColor.BLACK);
+        bg.screenCenter(X);
+        bg.alpha = 0.67;
+
+        add(bg);
+
+        text.text += "\n";
+    }
+}
