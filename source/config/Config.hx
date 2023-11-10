@@ -24,6 +24,7 @@ class Config
 	public static var showFPS:Bool;
 	public static var extraCamMovement:Bool;
 	public static var camBopAmount:Int;
+	public static var showCaptions:Bool;
 
 	public static function resetSettings():Void{
 
@@ -45,6 +46,7 @@ class Config
 		FlxG.save.data.showFPS = false;
 		FlxG.save.data.extraCamMovement = false;
 		FlxG.save.data.camBopAmount = 0;
+		FlxG.save.data.showCaptions = true;
 		reload();
 
 	}
@@ -69,6 +71,7 @@ class Config
 		showFPS = FlxG.save.data.showFPS;
 		extraCamMovement = FlxG.save.data.extraCamMovement;
 		camBopAmount = FlxG.save.data.camBopAmount;
+		showCaptions = FlxG.save.data.showCaptions;
 	}
 	
 	public static function write(
@@ -89,7 +92,8 @@ class Config
 								showComboBreaksW:Bool,
 								showFPSW:Bool,
 								extraCamMovementW:Bool,
-								camBopAmountW:Int
+								camBopAmountW:Int,
+								showCaptionsW:Bool
 								):Void
 	{
 
@@ -111,6 +115,7 @@ class Config
 		FlxG.save.data.showFPS = showFPSW;
 		FlxG.save.data.extraCamMovement = extraCamMovementW;
 		FlxG.save.data.camBopAmount = camBopAmountW;
+		FlxG.save.data.showCaptions = showCaptionsW;
 
 		FlxG.save.flush();
 		
@@ -156,6 +161,8 @@ class Config
 			FlxG.save.data.extraCamMovement = false;
 		if(FlxG.save.data.camBopAmount == null)
 			FlxG.save.data.camBopAmount = 0;
+		if(FlxG.save.data.showCaptions == null)
+			FlxG.save.data.showCaptions = true;
 
 		if(FlxG.save.data.ee1 == null)
 			FlxG.save.data.ee1 = false;

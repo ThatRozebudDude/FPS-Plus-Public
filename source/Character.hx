@@ -14,7 +14,7 @@ class Character extends FlxSprite
 
 	//Global character properties.
 	public static var LOOP_ANIM_ON_HOLD:Bool = true; 	//Determines whether hold notes will loop the sing animation. Default is true.
-	public static var HOLD_LOOP_WAIT:Bool = false; 		//Determines whether hold notes will only loop the sing animation if 4 frames of animation have passed. Default is false.
+	public static var HOLD_LOOP_WAIT:Bool = true; 		//Determines whether hold notes will only loop the sing animation if 4 frames of animation have passed. Default is true for FPS Plus, false for base game.
 	public static var USE_IDLE_END:Bool = true; 		//Determines whether you will go back to the start of the idle or the end of the idle when letting go of a note. Default is true for FPS Plus, false for base game.
 
 	public var animOffsets:Map<String, Array<Dynamic>>;
@@ -294,13 +294,13 @@ class Character extends FlxSprite
 				animation.addByPrefix('idle', 'monster idle', 24, false);
 				animation.addByPrefix('singUP', 'monster up note', 24, false);
 				animation.addByPrefix('singDOWN', 'monster down', 24, false);
-				animation.addByPrefix('singLEFT', 'Monster left note', 24, false);
-				animation.addByPrefix('singRIGHT', 'Monster Right note', 24, false);
+				animation.addByPrefix('singLEFT', 'Monster Right note', 24, false);
+				animation.addByPrefix('singRIGHT', 'Monster left note', 24, false);
 
 				addOffset('idle');
 				addOffset("singUP", -23, 87);
-				addOffset("singRIGHT", -51, 15);
-				addOffset("singLEFT", -31, 4);
+				addOffset("singLEFT", -51, 15);
+				addOffset("singRIGHT", -31, 4);
 				addOffset("singDOWN", -63, -86);
 				playAnim('idle');
 
@@ -311,13 +311,13 @@ class Character extends FlxSprite
 				animation.addByPrefix('idle', 'monster idle', 24, false);
 				animation.addByPrefix('singUP', 'monster up note', 24, false);
 				animation.addByPrefix('singDOWN', 'monster down', 24, false);
-				animation.addByPrefix('singLEFT', 'Monster left note', 24, false);
-				animation.addByPrefix('singRIGHT', 'Monster Right note', 24, false);
+				animation.addByPrefix('singLEFT', 'Monster Right note', 24, false);
+				animation.addByPrefix('singRIGHT', 'Monster left note', 24, false);
 
 				addOffset('idle');
 				addOffset("singUP", -21, 53);
-				addOffset("singRIGHT", -51, 10);
-				addOffset("singLEFT", -30, 7);
+				addOffset("singLEFT", -51, 10);
+				addOffset("singRIGHT", -30, 7);
 				addOffset("singDOWN", -52, -91);
 				playAnim('idle');
 

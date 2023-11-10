@@ -637,7 +637,7 @@ class PlayState extends MusicBeatState
 		add(iconP2);
 		add(iconP1);
 		add(scoreTxt);
-		add(ccText);
+		if(Config.showCaptions){ add(ccText); } 
 
 		strumLineNotes.cameras = [camHUD];
 		notes.cameras = [camHUD];
@@ -2569,19 +2569,23 @@ class PlayState extends MusicBeatState
 					boyfriend.playAnim(tagSplit[2]);
 			}
 		}
+
 		else if(tag.startsWith("cc;")){ ccText.display(tag.split("cc;")[1]); }
+
 		else if(tag.startsWith("camMove;")){
 			var properties = tag.split(";");
 			//trace(properties);
-			camMove(Std.parseFloat(properties[1]), Std.parseFloat(properties[2]), Std.parseFloat(properties[3]), easeNameToEase(properties[4]), null);
+			camMove(Std.parseFloat(properties[1]), Std.parseFloat(properties[2]), eventConvertTime(properties[3]), easeNameToEase(properties[4]), null);
 		}
 		else if(tag.startsWith("camZoom;")){
 			var properties = tag.split(";");
-			camChangeZoom(Std.parseFloat(properties[1]), Std.parseFloat(properties[2]), easeNameToEase(properties[3]), null);
+			camChangeZoom(Std.parseFloat(properties[1]), eventConvertTime(properties[2]), easeNameToEase(properties[3]), null);
 		}
+
 		else if(tag.startsWith("gfBopFreq;")){ gfBopFrequency = Std.parseInt(tag.split("gfBopFreq;")[1]); }
 		else if(tag.startsWith("iconBopFreq;")){ iconBopFrequency = Std.parseInt(tag.split("iconBopFreq;")[1]); }
 		else if(tag.startsWith("camBopFreq;")){ camBopFrequency = Std.parseInt(tag.split("camBopFreq;")[1]); }
+
 		else if(tag.startsWith("bfBop")){
 			switch(tag.split("bfBop")[1]){
 				case "EveryBeat":
@@ -2606,6 +2610,24 @@ class PlayState extends MusicBeatState
 					dadBeats = [];
 			}
 		}
+
+		else if(tag.startsWith("flash;")){ 
+			var properties = tag.split(";");
+			camGame.fade(0xFFFFFFFF, eventConvertTime(properties[1]), true);
+		}
+		else if(tag.startsWith("flashHud;")){ 
+			var properties = tag.split(";");
+			camHUD.fade(0xFFFFFFFF, eventConvertTime(properties[1]), true);
+		}
+		else if(tag.startsWith("fadeOut;")){ 
+			var properties = tag.split(";");
+			camGame.fade(0xFF000000, eventConvertTime(properties[1]));
+		}
+		else if(tag.startsWith("fadeOutHud;")){ 
+			var properties = tag.split(";");
+			camHUD.fade(0xFF000000, eventConvertTime(properties[1]));
+		}
+
 		else{
 			switch(tag){
 				case "dadAnimLockToggle":
@@ -2631,6 +2653,15 @@ class PlayState extends MusicBeatState
 					
 				case "camBopBig":
 					uiBop(0.035, 0.06, 0.8);
+
+				case "camFocusBf":
+					camFocusBF();
+
+				case "camFocusDad":
+					camFocusOpponent();
+
+				case "camFocusGf":
+					camFocusGF();
 
 				default:
 					trace(tag);
@@ -2691,9 +2722,6 @@ class PlayState extends MusicBeatState
 				followY = dad.getMidpoint().y;
 		}
 
-		/*if (dad.curCharacter == 'mom')
-			vocals.volume = 1;*/
-
 		if (SONG.song.toLowerCase() == 'tutorial')
 		{
 			camChangeZoom(1.3, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
@@ -2731,6 +2759,16 @@ class PlayState extends MusicBeatState
 		}
 
 		camMove(followX, followY, 1.9, FlxEase.expoOut, "bf");
+	}
+
+	public function camFocusGF(){
+
+		if(Config.extraCamMovement){ changeCamOffset(0, 0); }
+
+		var followX = gf.getMidpoint().x;
+		var followY = gf.getMidpoint().y;
+
+		camMove(followX, followY, 1.9, FlxEase.expoOut, "gf");
 	}
 
 	public function camMove(_x:Float, _y:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_focus:String = "", ?_onComplete:Null<TweenCallback> = null):Void{
@@ -2803,8 +2841,8 @@ class PlayState extends MusicBeatState
 
 		if(Config.camBopAmount == 2){ return; }
 		else if(Config.camBopAmount == 1){
-			_camZoom /= 3;
-			_uiZoom /= 3;
+			_camZoom /= 2;
+			_uiZoom /= 2;
 		}
 
 		if(_ease == null){
@@ -2881,6 +2919,7 @@ class PlayState extends MusicBeatState
 		return FlxSort.byValues(Order, Obj1.strumTime, Obj2.strumTime);
 	}
 
+	//For converting event properties to easing functions. Please let me know if there is a better way.
 	public static inline function easeNameToEase(ease:String):Null<flixel.tweens.EaseFunction>{
 		var r;
 		switch(ease){
@@ -2970,6 +3009,23 @@ class PlayState extends MusicBeatState
 				r = FlxEase.elasticOut;
 			case "elasticInOut":
 				r = FlxEase.elasticInOut;
+		}
+		return r;
+	}
+
+	//Coverts event properties to time. If value ends in "b" the number is treated as a beat duration, if the value ends in "s" the number is treated as a step duration, otherwise it's just time in seconds.
+	public static inline function eventConvertTime(v:String):Float{
+		var r;
+		if(v.endsWith("b")){
+			v = v.split("b")[0];
+			r = (Conductor.crochet * Std.parseFloat(v) / 1000);
+		}
+		else if(v.endsWith("s")){
+			v = v.split("s")[0];
+			r = (Conductor.stepCrochet * Std.parseFloat(v) / 1000);
+		}
+		else{
+			r = Std.parseFloat(v);
 		}
 		return r;
 	}

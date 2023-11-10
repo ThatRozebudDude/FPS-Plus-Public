@@ -1667,6 +1667,22 @@ class ChartingState extends MusicBeatState
 					eventSymbol.loadGraphic(loadAndCacheEventGraphic("camBopFreq"));
 					customIcon = true;
 				}
+				else if(tag.startsWith("flash;")){
+					eventSymbol.loadGraphic(loadAndCacheEventGraphic("flash"));
+					customIcon = true;
+				}
+				else if(tag.startsWith("flashHud;")){
+					eventSymbol.loadGraphic(loadAndCacheEventGraphic("flashHud"));
+					customIcon = true;
+				}
+				else if(tag.startsWith("fadeOut;")){
+					eventSymbol.loadGraphic(loadAndCacheEventGraphic("fadeOut"));
+					customIcon = true;
+				}
+				else if(tag.startsWith("fadeOutHud;")){
+					eventSymbol.loadGraphic(loadAndCacheEventGraphic("fadeOutHud"));
+					customIcon = true;
+				}
 
 				else if(sys.FileSystem.exists("assets/images/chartEditor/event/" + tag + ".png")){
 					eventSymbol.loadGraphic(loadAndCacheEventGraphic(tag));
@@ -1939,7 +1955,7 @@ class ChartingState extends MusicBeatState
 			"song": _song
 		};
 
-		var data:String = Json.stringify(json);
+		var data:String = Json.stringify(json, null, "\t");
 
 		if ((data != null) && (data.length > 0))
 		{
@@ -1970,7 +1986,7 @@ class ChartingState extends MusicBeatState
 			"song": genericSong
 		};
 
-		var data:String = Json.stringify(json);
+		var data:String = Json.stringify(json, null, "\t");
 
 		if ((data != null) && (data.length > 0))
 		{
@@ -1988,7 +2004,7 @@ class ChartingState extends MusicBeatState
 			"events": _events
 		};
 
-		var data:String = Json.stringify(json);
+		var data:String = Json.stringify(json, null, "\t");
 
 		if ((data != null) && (data.length > 0))
 		{

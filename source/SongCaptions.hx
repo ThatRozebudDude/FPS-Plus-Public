@@ -33,6 +33,8 @@ class SongCaptions extends FlxSpriteGroup
         text.setFormat(Paths.font("vcr"), fontSize, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 
         bg = new FlxSprite(0, 0).makeGraphic(1, 1, FlxColor.BLACK);
+        bg.alpha = 0.67;
+
 
         add(bg);
         add(text);
@@ -50,13 +52,10 @@ class SongCaptions extends FlxSpriteGroup
         text.text = _text;
         text.screenCenter(X);
 
-        remove(bg);
-        
-        bg = new FlxSprite(0, text.y - (fontSize / 2)).makeGraphic(Math.floor(text.width + fontSize), Math.floor(text.height + fontSize), FlxColor.BLACK);
+        bg.setGraphicSize(Math.floor(text.width + fontSize), Math.floor(text.height + fontSize));
+        bg.updateHitbox();
+        bg.y = text.y - (fontSize / 2);
         bg.screenCenter(X);
-        bg.alpha = 0.67;
-
-        add(bg);
 
         text.text += "\n";
     }

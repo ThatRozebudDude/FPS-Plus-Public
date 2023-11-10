@@ -60,30 +60,31 @@ class ConfigMenu extends UIStateExt
     var configOptions:Array<Array<ConfigOption>> = [];
 
     final genericOnOff:Array<String> = ["on", "off"];
-    static var offsetValue:Float;
-	static var accuracyType:String;
-	static var accuracyTypeInt:Int;
+    var offsetValue:Float;
+	var accuracyType:String;
+	var accuracyTypeInt:Int;
 	final accuracyTypes:Array<String> = ["none", "simple", "complex"];
-	static var healthValue:Int;
-	static var healthDrainValue:Int;
-	static var comboValue:Int;
+	var healthValue:Int;
+	var healthDrainValue:Int;
+	var comboValue:Int;
 	final comboTypes:Array<String> = ["world", "hud", "off"];
-	static var downValue:Bool;
-	static var glowValue:Bool;
-	static var randomTapValue:Int;
+	var downValue:Bool;
+	var glowValue:Bool;
+	var randomTapValue:Int;
 	final randomTapTypes:Array<String> = ["never", "not singing", "always"];
-	static var noCapValue:Bool;
-	static var scheme:Int;
-	static var dimValue:Int;
-	static var noteSplashValue:Int;
+	var noCapValue:Bool;
+	var scheme:Int;
+	var dimValue:Int;
+	var noteSplashValue:Int;
 	final noteSplashTypes:Array<String> = ["off", "sick only", "always"];
-    static var centeredValue:Bool;
-    static var scrollSpeedValue:Int;
-    static var showComboBreaksValue:Bool;
-    static var showFPSValue:Bool;
-    static var extraCamMovementValue:Bool;
-    static var camBopAmountValue:Int;
+    var centeredValue:Bool;
+    var scrollSpeedValue:Int;
+    var showComboBreaksValue:Bool;
+    var showFPSValue:Bool;
+    var extraCamMovementValue:Bool;
+    var camBopAmountValue:Int;
     final camBopAmountTypes:Array<String> = ["on", "reduced", "off"];
+    var showCaptionsValue:Bool;
 
 	override function create(){
 
@@ -431,6 +432,7 @@ class ConfigMenu extends UIStateExt
 		showFPSValue = Config.showFPS;
 		extraCamMovementValue = Config.extraCamMovement;
 		camBopAmountValue = Config.camBopAmount;
+		showCaptionsValue = Config.showCaptions;
 
         //VIDEO
 
@@ -536,6 +538,17 @@ class ConfigMenu extends UIStateExt
                 camBopAmountValue = 2;
 
             camBopStuff.setting = ": " + camBopAmountTypes[camBopAmountValue];
+        };
+
+
+
+        var captionsStuff = new ConfigOption("CAPTIONS", ": " + genericOnOff[showCaptionsValue?0:1] , "Enables captions for songs that have them.");
+        captionsStuff.optionUpdate = function(){
+			if (controls.RIGHT_P || controls.LEFT_P || controls.ACCEPT) {
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				showCaptionsValue = !showCaptionsValue;
+			}
+            captionsStuff.setting = ": " + genericOnOff[showCaptionsValue?0:1];
         };
 
 
@@ -960,7 +973,7 @@ class ConfigMenu extends UIStateExt
 
 
         configOptions = [
-                            [fpsCap, noteSplash, noteGlow, extraCamStuff, camBopStuff, bgDim, showFPS],
+                            [fpsCap, noteSplash, noteGlow, extraCamStuff, camBopStuff, captionsStuff, bgDim, showFPS],
                             [noteOffset, downscroll, centeredNotes, ghostTap, controllerBinds, keyBinds],
                             [accuracyDisplay, showComboBreaks, comboDisplay, scrollSpeed, hpGain, hpDrain, cacheSettings]
                         ];
@@ -968,7 +981,7 @@ class ConfigMenu extends UIStateExt
     }
 
     function writeToConfig(){
-		Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, extraCamMovementValue, camBopAmountValue);
+		Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue);
 	}
 
 }
