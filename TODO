@@ -1,0 +1,2 @@
+[LOW] Change character loading so it's not all in Character.hx (note sure if I'll make it a json or unique classes like stages)
+[LOW] Change the input/controls system 'cuz I dont't like it >:[

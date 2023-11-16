@@ -34,10 +34,10 @@ class Note extends FlxSprite
 	public var yOffset:Float = 0;
 
 	public static var swagWidth:Float = 160 * 0.7;
-	public static final PURP_NOTE:Int = 0;
-	public static final GREEN_NOTE:Int = 2;
-	public static final BLUE_NOTE:Int = 1;
-	public static final RED_NOTE:Int = 3;
+	inline public static final PURP_NOTE:Int = 0;
+	inline public static final GREEN_NOTE:Int = 2;
+	inline public static final BLUE_NOTE:Int = 1;
+	inline public static final RED_NOTE:Int = 3;
 
 	public function new(_strumTime:Float, _noteData:Int, _type:String, ?_editor = false, ?_prevNote:Note, ?_sustainNote:Bool = false)
 	{
@@ -134,13 +134,13 @@ class Note extends FlxSprite
 
 		switch (noteData)
 		{
-			case 0:
+			case PURP_NOTE:
 				animation.play('purpleScroll');
-			case 1:
+			case BLUE_NOTE:
 				animation.play('blueScroll');
-			case 2:
+			case GREEN_NOTE:
 				animation.play('greenScroll');
-			case 3:
+			case RED_NOTE:
 				animation.play('redScroll');
 		}
 
@@ -179,13 +179,13 @@ class Note extends FlxSprite
 			{
 				switch (prevNote.noteData)
 				{
-					case 2:
+					case GREEN_NOTE:
 						prevNote.animation.play('greenhold');
-					case 3:
+					case RED_NOTE:
 						prevNote.animation.play('redhold');
-					case 1:
+					case BLUE_NOTE:
 						prevNote.animation.play('bluehold');
-					case 0:
+					case PURP_NOTE:
 						prevNote.animation.play('purplehold');
 				}
 				
@@ -252,13 +252,13 @@ class Note extends FlxSprite
 
 		switch (noteData)
 		{
-			case 2:
+			case GREEN_NOTE:
 				animation.play('green glow');
-				case 3:
+			case RED_NOTE:
 				animation.play('red glow');
-			case 1:
+			case BLUE_NOTE:
 				animation.play('blue glow');
-			case 0:
+			case PURP_NOTE:
 				animation.play('purple glow');
 		}
 
@@ -268,13 +268,13 @@ class Note extends FlxSprite
 
 		switch (noteData)
 		{
-			case 2:
+			case GREEN_NOTE:
 				animation.play('greenScroll');
-			case 3:
+			case RED_NOTE:
 				animation.play('redScroll');
-			case 1:
+			case BLUE_NOTE:
 				animation.play('blueScroll');
-			case 0:
+			case PURP_NOTE:
 				animation.play('purpleScroll');
 		}
 

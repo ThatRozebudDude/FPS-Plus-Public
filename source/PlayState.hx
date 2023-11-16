@@ -236,6 +236,13 @@ class PlayState extends MusicBeatState
 	public static var sectionStartTime:Float =  0;
 
 	private var meta:SongMetaTags;
+
+	private static final NOTE_HIT_HEAL:Float = 0.015; 
+	private static final HOLD_HIT_HEAL:Float = 0.0075; 
+
+	private static final NOTE_MISS_DAMAGE:Float = 0.055; 
+	private static final HOLD_RELEASE_STEP_DAMAGE:Float = 0.0425;
+	private static final WRONG_TAP_DAMAGE:Float = 0.0475; 
 	
 	override public function create(){
 
@@ -299,8 +306,10 @@ class PlayState extends MusicBeatState
 	
 		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = new FlxCamera();
+
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
+
 		camOverlay = new FlxCamera();
 		camOverlay.bgColor.alpha = 0;
 
@@ -1780,7 +1789,7 @@ class PlayState extends MusicBeatState
 			//MOVE NOTE TRANSPARENCY CODE BECAUSE REASONS 
 			if(daNote.tooLate){
 				if (daNote.alpha > 0.3){
-					noteMiss(daNote.noteData, 0.055, false, true);
+					noteMiss(daNote.noteData, NOTE_MISS_DAMAGE, true, true);
 					vocals.volume = 0;
 					daNote.alpha = 0.3;
 				}
@@ -2158,7 +2167,7 @@ class PlayState extends MusicBeatState
 					daNote.tooLate = true;
 					daNote.destroy();
 					updateAccuracy();
-					noteMiss(daNote.noteData, 0.0425, false, true, false, false);
+					noteMiss(daNote.noteData, HOLD_RELEASE_STEP_DAMAGE, false, true, false, false);
 				}
 
 				//This is for the first released note.
@@ -2166,7 +2175,7 @@ class PlayState extends MusicBeatState
 
 					if(releaseTimes[daNote.noteData] >= releaseBufferTime){
 						//trace("SHOULD MISS NOW!!!");
-						noteMiss(daNote.noteData, 0.055, true, true, false, true);
+						noteMiss(daNote.noteData, NOTE_MISS_DAMAGE, true, true, false, true);
 						vocals.volume = 0;
 						daNote.tooLate = true;
 						daNote.destroy();
@@ -2349,8 +2358,8 @@ class PlayState extends MusicBeatState
 
 	}
 
-	inline function noteMissWrongPress(direction:Int = 1, ?healthLoss:Float = 0.0475):Void{
-		noteMiss(direction, healthLoss, true, false, false, false, 4, 25);
+	inline function noteMissWrongPress(direction:Int = 1):Void{
+		noteMiss(direction, WRONG_TAP_DAMAGE, true, false, false, false, 4, 25);
 	}
 
 	function badNoteCheck(direction:Int = -1)
@@ -2400,7 +2409,7 @@ class PlayState extends MusicBeatState
 		//Guitar Hero Styled Hold Notes
 		//This is to make sure that if hold notes are hit out of order they are destroyed. Should not be possible though.
 		if(note.isSustainNote && !note.prevNote.wasGoodHit){
-			noteMiss(note.noteData, 0.055, true, true, false);
+			noteMiss(note.noteData, NOTE_MISS_DAMAGE, true, true, false);
 			vocals.volume = 0;
 			note.prevNote.tooLate = true;
 			note.prevNote.destroy();
@@ -2417,16 +2426,13 @@ class PlayState extends MusicBeatState
 			else{
 				totalNotesHit += 1;
 			}
-				
 
 			if (!note.isSustainNote){
-				health += 0.015 * Config.healthMultiplier;
+				health += NOTE_HIT_HEAL * Config.healthMultiplier;
 			}
 			else{
-				health += 0.0075 * Config.healthMultiplier;
+				health += HOLD_HIT_HEAL * Config.healthMultiplier;
 			}
-
-			health += 0.015 * Config.healthMultiplier;
 				
 			if(boyfriend.canAutoAnim && (Character.LOOP_ANIM_ON_HOLD ? (note.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!boyfriend.animation.name.contains("sing") || (boyfriend.animation.curAnim.curFrame >= 3 || boyfriend.animation.curAnim.finished)) : true) : true) : !note.isSustainNote)){
 				switch (note.noteData)
