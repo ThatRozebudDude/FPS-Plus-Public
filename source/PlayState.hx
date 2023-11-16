@@ -237,12 +237,12 @@ class PlayState extends MusicBeatState
 
 	private var meta:SongMetaTags;
 
-	private static final NOTE_HIT_HEAL:Float = 0.015; 
-	private static final HOLD_HIT_HEAL:Float = 0.0075; 
+	private static final NOTE_HIT_HEAL:Float = 0.02;
+	private static final HOLD_HIT_HEAL:Float = 0.01;
 
-	private static final NOTE_MISS_DAMAGE:Float = 0.055; 
-	private static final HOLD_RELEASE_STEP_DAMAGE:Float = 0.0425;
-	private static final WRONG_TAP_DAMAGE:Float = 0.0475; 
+	private static final NOTE_MISS_DAMAGE:Float = 0.065;
+	private static final HOLD_RELEASE_STEP_DAMAGE:Float = 0.04;
+	private static final WRONG_TAP_DAMAGE:Float = 0.05;
 	
 	override public function create(){
 
@@ -2713,7 +2713,7 @@ class PlayState extends MusicBeatState
 		switch (dad.curCharacter)
 		{
 			case "spooky":
-				followY = dad.getMidpoint().y - 30;
+				followY = dad.getMidpoint().y - 45;
 			case "pico":
 				followX += 280;
 			case "mom" | "mom-car":
@@ -2746,7 +2746,7 @@ class PlayState extends MusicBeatState
 		switch (stage.name)
 		{
 			case 'spooky':
-				followY = boyfriend.getMidpoint().y - 125;
+				followY = boyfriend.getMidpoint().y - 140;
 			case 'limo':
 				followX = boyfriend.getMidpoint().x - 300;
 			case 'mall':
@@ -2756,7 +2756,7 @@ class PlayState extends MusicBeatState
 				followY = boyfriend.getMidpoint().y - 225;
 			case 'schoolEvil':
 				followX = boyfriend.getMidpoint().x - 200;
-				followY = boyfriend.getMidpoint().y - 225;
+				followY = boyfriend.getMidpoint().y - 250;
 		}
 
 		if (SONG.song.toLowerCase() == 'tutorial')
