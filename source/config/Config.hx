@@ -28,6 +28,8 @@ class Config
 
 	public static function resetSettings():Void{
 
+		SaveManager.global();
+
 		FlxG.save.data.offset = 0.0;
 		FlxG.save.data.accuracy = "simple";
 		FlxG.save.data.healthMultiplier = 1.0;
@@ -53,6 +55,9 @@ class Config
 	
 	public static function reload():Void
 	{
+
+		SaveManager.global();
+
 		offset = FlxG.save.data.offset;
 		accuracy = FlxG.save.data.accuracy;
 		healthMultiplier = FlxG.save.data.healthMultiplier;
@@ -97,6 +102,8 @@ class Config
 								):Void
 	{
 
+		SaveManager.global();
+
 		FlxG.save.data.offset = offsetW;
 		FlxG.save.data.accuracy = accuracyW;
 		FlxG.save.data.healthMultiplier = healthMultiplierW;
@@ -125,6 +132,9 @@ class Config
 	
 	public static function configCheck():Void
 	{
+
+		SaveManager.global();
+
 		if(FlxG.save.data.offset == null)
 			FlxG.save.data.offset = 0.0;
 		if(FlxG.save.data.accuracy == null)
