@@ -23,6 +23,8 @@ class Main extends Sprite
 		flippymode = Sys.args().contains("-flippymode");
 		#end
 
+		SaveManager.global();
+
 		fpsDisplay = new FPS(10, 3, 0xFFFFFF);
 		fpsDisplay.visible = true;
 

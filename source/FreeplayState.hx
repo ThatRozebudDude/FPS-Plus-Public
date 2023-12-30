@@ -153,32 +153,28 @@ class FreeplayState extends MusicBeatState
 
 		scoreText.text = "PERSONAL BEST:" + lerpScore;
 
-		var upP = controls.UP_P;
-		var downP = controls.DOWN_P;
-		var accepted = controls.ACCEPT;
-
-		if (upP){
+		if (Binds.justPressed("menuUp")){
 			changeSelection(-1);
 			changeDiff(0);
 		}
-		if (downP){
+		if (Binds.justPressed("menuDown")){
 			changeSelection(1);
 			changeDiff(0);
 		}
 
-		if (controls.LEFT_P)
+		if (Binds.justPressed("menuLeft"))
 			changeDiff(-1);
-		if (controls.RIGHT_P)
+		if (Binds.justPressed("menuRight"))
 			changeDiff(1);
 
-		if (controls.BACK)
+		if (Binds.justPressed("menuBack"))
 		{
 			FlxG.sound.music.stop();
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			switchState(new MainMenuState());
 		}
 
-		if (accepted)
+		if (Binds.justPressed("menuAccept"))
 		{
 			var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
 			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());

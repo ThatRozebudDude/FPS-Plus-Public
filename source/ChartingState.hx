@@ -1946,6 +1946,7 @@ class ChartingState extends MusicBeatState
 
 	function autosaveSong():Void
 	{
+		SaveManager.chartAutosave(_song.song.replace(" ", "-"));
 		FlxG.save.data.autosave = Json.stringify({
 			"song": _song
 		});

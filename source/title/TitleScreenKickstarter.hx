@@ -21,7 +21,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import io.newgrounds.NG;
+//import io.newgrounds.NG;
 import lime.app.Application;
 import openfl.Assets;
 //import polymod.Polymod;
@@ -118,9 +118,9 @@ class TitleScreenKickstarter extends MusicBeatState
 			FlxG.fullscreen = !FlxG.fullscreen;
 		}
 
-		var pressedEnter:Bool = controls.ACCEPT || controls.PAUSE;
+		var pressedEnter:Bool = Binds.justPressed("menuAccept");
 
-		if(!transitioning && controls.BACK){
+		if(!transitioning && Binds.justPressed("menuBack")){
 			System.exit(0);
 		}
 

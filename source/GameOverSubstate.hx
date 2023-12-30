@@ -55,12 +55,12 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		FlxG.camera.follow(camFollow, LOCKON);
 
-		if (controls.ACCEPT && !isEnding)
+		if (Binds.justPressed("menuAccept") && !isEnding)
 		{
 			endBullshit();
 		}
 
-		if (controls.BACK && !isEnding)
+		if (Binds.justPressed("menuBack") && !isEnding)
 		{
 			FlxG.sound.music.stop();
 			isEnding = true;

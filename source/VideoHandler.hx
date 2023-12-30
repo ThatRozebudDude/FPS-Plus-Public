@@ -329,7 +329,7 @@ class VideoHandler extends FlxSprite
 
 		if(skipable){
 
-			if(PlayerSettings.player1.controls.ACCEPT){
+			if(Binds.justPressed("menuAccept")){
 				onVLCComplete();
 				destroy();
 			}
@@ -363,7 +363,7 @@ class VideoHandler extends FlxSprite
 
 		if(skipable){
 
-			if(PlayerSettings.player1.controls.ACCEPT){
+			if(Binds.justPressed("menuAccept")){
 				finishVideo();
 				destroy();
 			}

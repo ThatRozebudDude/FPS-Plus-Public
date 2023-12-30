@@ -1527,7 +1527,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (controls.PAUSE && startedCountdown && canPause)
+		if (Binds.justPressed("pause") && startedCountdown && canPause)
 		{
 			persistentUpdate = false;
 			persistentDraw = true;
@@ -1652,17 +1652,10 @@ class PlayState extends MusicBeatState
 		//FlxG.watch.addQuick("totalBeats: ", totalBeats);
 
 		// RESET = Quick Game Over Screen
-		if (controls.RESET && !startingSong)
+		if (Binds.justPressed("killbind") && !startingSong)
 		{
 			health = 0;
 			//trace("RESET = True");
-		}
-
-		// CHEAT = brandon's a pussy
-		if (controls.CHEAT)
-		{
-			health += 1;
-			//trace("User is cheating!");
 		}
 
 		if (health <= 0)
@@ -2037,10 +2030,10 @@ class PlayState extends MusicBeatState
 
 	private function keyCheck():Void{
 
-		upTime = controls.UP ? upTime + 1 : 0;
-		downTime = controls.DOWN ? downTime + 1 : 0;
-		leftTime = controls.LEFT ? leftTime + 1 : 0;
-		rightTime = controls.RIGHT ? rightTime + 1 : 0;
+		upTime = Binds.pressed("gameplayUp") ? upTime + 1 : 0;
+		downTime = Binds.pressed("gameplayDown") ? downTime + 1 : 0;
+		leftTime = Binds.pressed("gameplayLeft") ? leftTime + 1 : 0;
+		rightTime = Binds.pressed("gameplayRight") ? rightTime + 1 : 0;
 
 		upPress = upTime == 1;
 		downPress = downTime == 1;

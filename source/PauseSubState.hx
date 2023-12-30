@@ -80,20 +80,16 @@ class PauseSubState extends MusicBeatSubstate
 
 		super.update(elapsed);
 
-		var upP = controls.UP_P;
-		var downP = controls.DOWN_P;
-		var accepted = controls.ACCEPT;
-
-		if (upP)
+		if (Binds.justPressed("menuUp"))
 		{
 			changeSelection(-1);
 		}
-		if (downP)
+		if (Binds.justPressed("menuDown"))
 		{
 			changeSelection(1);
 		}
 
-		if (accepted){
+		if (Binds.justPressed("menuAccept")){
 
 			FlxTween.globalManager.active = true;
 

@@ -124,13 +124,13 @@ class MainMenuState extends MusicBeatState
 
 		if (!selectedSomethin)
 		{
-			if (controls.UP_P)
+			if (Binds.justPressed("menuUp"))
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(-1);
 			}
 
-			if (controls.DOWN_P)
+			if (Binds.justPressed("menuDown"))
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(1);
@@ -142,12 +142,12 @@ class MainMenuState extends MusicBeatState
 				switchState(new MainMenuState());
 			}
 
-			if (controls.BACK)
+			if (Binds.justPressed("menuBack"))
 			{
 				switchState(new TitleScreen());
 			}
 
-			if (controls.ACCEPT)
+			if (Binds.justPressed("menuAccept"))
 			{
 			
 				if (optionShit[curSelected] == 'donate')

@@ -98,23 +98,23 @@ class CacheSettings extends MusicBeatState
         switch(state){
 
             case "select":
-                if (controls.UP_P)
+                if (Binds.justPressed("menuUp"))
 				{
 					FlxG.sound.play(Paths.sound('scrollMenu'));
 					changeItem(-1);
 				}
 
-				if (controls.DOWN_P)
+				if (Binds.justPressed("menuDown"))
 				{
 					FlxG.sound.play(Paths.sound('scrollMenu'));
 					changeItem(1);
 				}
 
-                if (controls.ACCEPT || controls.LEFT_P || controls.RIGHT_P){
+                if (Binds.justPressed("menuAccept") || Binds.justPressed("menuLeft") || Binds.justPressed("menuRight")){
                     FlxG.sound.play(Paths.sound('scrollMenu'));
                     settings[curSelected] = !settings[curSelected];
                 }
-                else if(controls.BACK){
+                else if(Binds.justPressed("menuBack")){
                     FlxG.sound.play(Paths.sound('cancelMenu'));
                     quit();
                 }

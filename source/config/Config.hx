@@ -144,7 +144,7 @@ class Config
 		if(FlxG.save.data.healthDrainMultiplier == null)
 			FlxG.save.data.healthDrainMultiplier = 1.0;
 		if(FlxG.save.data.comboType == null)
-			FlxG.save.data.comboType = 0;
+			FlxG.save.data.comboType = 1;
 		if(FlxG.save.data.downscroll == null)
 			FlxG.save.data.downscroll = false;
 		if(FlxG.save.data.noteGlow == null)
