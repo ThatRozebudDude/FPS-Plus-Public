@@ -169,6 +169,9 @@ class Startup extends FlxState
         add(loadingText);
 
         
+        /*var testKeyThing = new KeyIcon(30, 30, BACKSPACE);
+        add(testKeyThing);*/
+        
 
         #if web
         FlxG.sound.play(Paths.sound("tick"), 0);   

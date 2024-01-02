@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="controlsUI.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="Controls0000" x="2" y="2" width="579" height="154"/>
+	<SubTexture name="Controls0001" x="2" y="158" width="579" height="154"/>
+	<SubTexture name="Controls0002" x="2" y="314" width="579" height="154"/>
+</TextureAtlas>

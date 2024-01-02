@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="controlsController.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="a0000" x="2" y="2" width="80" height="80"/>
+	<SubTexture name="a_ps0000" x="84" y="2" width="80" height="80"/>
+	<SubTexture name="b0000" x="166" y="2" width="80" height="80"/>
+	<SubTexture name="b_ps0000" x="248" y="2" width="80" height="80"/>
+	<SubTexture name="back0000" x="330" y="2" width="50" height="35"/>
+	<SubTexture name="back_ps0000" x="382" y="2" width="50" height="35"/>
+	<SubTexture name="back_x0000" x="434" y="2" width="50" height="51"/>
+	<SubTexture name="dpad_down0000" x="486" y="2" width="80" height="80"/>
+	<SubTexture name="dpad_down_ps0000" x="568" y="2" width="80" height="80"/>
+	<SubTexture name="dpad_left0000" x="650" y="2" width="80" height="80"/>
+	<SubTexture name="dpad_left_ps0000" x="732" y="2" width="80" height="80"/>
+	<SubTexture name="dpad_right0000" x="814" y="2" width="80" height="80"/>
+	<SubTexture name="dpad_right_ps0000" x="896" y="2" width="80" height="80"/>
+	<SubTexture name="dpad_up0000" x="2" y="84" width="80" height="80"/>
+	<SubTexture name="dpad_up_ps0000" x="84" y="84" width="80" height="80"/>
+	<SubTexture name="left_shoulder0000" x="166" y="84" width="80" height="80"/>
+	<SubTexture name="left_shoulder_ps0000" x="248" y="84" width="80" height="80"/>
+	<SubTexture name="left_stick_click0000" x="330" y="84" width="80" height="80"/>
+	<SubTexture name="left_stick_click_ps0000" x="412" y="84" width="80" height="80"/>
+	<SubTexture name="left_stick_digital_down0000" x="494" y="84" width="80" height="80"/>
+	<SubTexture name="left_stick_digital_left0000" x="576" y="84" width="80" height="80"/>
+	<SubTexture name="left_stick_digital_right0000" x="658" y="84" width="80" height="80"/>
+	<SubTexture name="left_stick_digital_up0000" x="740" y="84" width="80" height="80"/>
+	<SubTexture name="left_trigger0000" x="822" y="84" width="80" height="80"/>
+	<SubTexture name="left_trigger_ps0000" x="904" y="84" width="80" height="80"/>
+	<SubTexture name="right_shoulder0000" x="2" y="166" width="80" height="80"/>
+	<SubTexture name="right_shoulder_ps0000" x="84" y="166" width="80" height="80"/>
+	<SubTexture name="right_stick_click0000" x="166" y="166" width="80" height="80"/>
+	<SubTexture name="right_stick_click_ps0000" x="248" y="166" width="80" height="80"/>
+	<SubTexture name="right_stick_digital_down0000" x="330" y="166" width="80" height="80"/>
+	<SubTexture name="right_stick_digital_left0000" x="412" y="166" width="80" height="80"/>
+	<SubTexture name="right_stick_digital_right0000" x="494" y="166" width="80" height="80"/>
+	<SubTexture name="right_stick_digital_up0000" x="576" y="166" width="80" height="80"/>
+	<SubTexture name="right_trigger0000" x="658" y="166" width="80" height="80"/>
+	<SubTexture name="right_trigger_ps0000" x="740" y="166" width="80" height="80"/>
+	<SubTexture name="start0000" x="822" y="166" width="50" height="35"/>
+	<SubTexture name="start_ps0000" x="874" y="166" width="50" height="35"/>
+	<SubTexture name="start_x0000" x="926" y="166" width="50" height="51"/>
+	<SubTexture name="x0000" x="2" y="248" width="80" height="80"/>
+	<SubTexture name="x_ps0000" x="84" y="248" width="80" height="80"/>
+	<SubTexture name="y0000" x="166" y="248" width="80" height="80"/>
+	<SubTexture name="y_ps0000" x="248" y="248" width="80" height="80"/>
+</TextureAtlas>
