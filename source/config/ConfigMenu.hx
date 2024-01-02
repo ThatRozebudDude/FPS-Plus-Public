@@ -691,7 +691,7 @@ class ConfigMenu extends UIStateExt
                 if(USE_LAYERED_MUSIC && !USE_MENU_MUSIC){
                     songLayer.fadeOut(0.3);
                 }
-                switchState(new KeyBindMenu());
+                switchState(new KeyBindMenuNew());
             }
         }
 

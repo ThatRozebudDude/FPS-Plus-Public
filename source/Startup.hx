@@ -168,11 +168,6 @@ class Startup extends FlxState
         loadingText.setFormat(Paths.font("vcr"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(loadingText);
 
-        
-        /*var testKeyThing = new KeyIcon(30, 30, BACKSPACE);
-        add(testKeyThing);*/
-        
-
         #if web
         FlxG.sound.play(Paths.sound("tick"), 0);   
         #end
