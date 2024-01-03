@@ -28,8 +28,8 @@ class MainMenuState extends MusicBeatState
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 
-	var versionText:FlxText;
-	var keyWarning:FlxText;
+	var versionText:FlxTextExt;
+	var keyWarning:FlxTextExt;
 
 	override function create()
 	{
@@ -88,12 +88,12 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow, null, 0.004);
 
-		versionText = new FlxText(5, FlxG.height - 21, 0, "FPS Plus: v4.1.0", 16);
+		versionText = new FlxTextExt(5, FlxG.height - 21, 0, "FPS Plus: v4.1.0", 16);
 		versionText.scrollFactor.set();
 		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionText);
 
-		keyWarning = new FlxText(5, FlxG.height - 21 + 16, 0, "If your controls aren't working, try pressing CTRL + BACKSPACE to reset them.", 16);
+		keyWarning = new FlxTextExt(5, FlxG.height - 21 + 16, 0, "If your controls aren't working, try pressing CTRL + BACKSPACE to reset them.", 16);
 		keyWarning.scrollFactor.set();
 		keyWarning.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		keyWarning.alpha = 0;

@@ -18,7 +18,7 @@ using flixel.util.FlxSpriteUtil;
 class SongCaptions extends FlxSpriteGroup
 {
 
-    var text:FlxText;
+    var text:FlxTextExt;
     var bg:FlxSprite;
 
     var meta:Array<Array<String>> = [];
@@ -29,7 +29,7 @@ class SongCaptions extends FlxSpriteGroup
 
         super();
 
-        text = new FlxText(0, !_isDownScroll ? 540 : 140, 0, "", fontSize);
+        text = new FlxTextExt(0, !_isDownScroll ? 540 : 140, 0, "", fontSize);
         text.setFormat(Paths.font("vcr"), fontSize, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 
         bg = new FlxSprite(0, 0).makeGraphic(1, 1, FlxColor.BLACK);

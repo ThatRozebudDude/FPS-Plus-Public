@@ -1,5 +1,6 @@
 package config;
 
+import flixel.group.FlxSpriteGroup;
 import flixel.input.keyboard.FlxKey;
 import transition.data.*;
 import flixel.FlxG;
@@ -16,20 +17,24 @@ class KeyBindMenuNew extends MusicBeatState
 {
 
     var state:String = "selecting";
+    var prevState:String = "selecting";
 
     var controlBox:FlxSprite;
     var selectionBox:FlxSprite;
 
-    var selectedBind:Int = 0;
-    var selectedCategory:Int = 0;
+    var selected:Int = 0;
 
     var selectedVisual:Int = 0;
     var selectionTop:Int = 0;
 
-    var tempNames = ["Bind 1", "Bind 2", "Bind 3", "Bind 4", "Bind 5", "Bind 6"];
-    var bindText:Array<FlxText> = [];
+    var bindStrings = [];
+    var bindIDs = [];
+    var categoryNameIndecies = [];
+    var bindText:Array<FlxTextExt> = [];
+    var bindsArray:Array<Array<FlxKey>> = [];
+    var bindSprites:FlxSpriteGroup;
 
-    var testKeyThing:KeyIcon;
+    //var testKeyThing:KeyIcon;
 
 	override function create() {
 
@@ -64,16 +69,24 @@ class KeyBindMenuNew extends MusicBeatState
         add(selectionBox);
 
         for(i in 0...4){
-            var text:FlxText = new FlxText();
+            var text:FlxTextExt = new FlxTextExt();
 
-            var text = new FlxText(controlBox.x + 10, controlBox.y + (100 * i) + 10, 1150, "", 80);
+            var text = new FlxTextExt(controlBox.x + 10, controlBox.y + (100 * i) + 10, 1130, "", 80);
             text.setFormat(Paths.font("Funkin-Bold", "otf"), text.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-            text.borderSize = 5;
+            text.borderSize = 4;
             text.borderQuality = 1;
             add(text);
 
             bindText.push(text);
         }
+
+        bindSprites = new FlxSpriteGroup();
+        add(bindSprites);
+
+        generateCategories();
+        updateBindList();
+
+        changeBindSelection(0);
 
 		super.create();
 	}
@@ -82,9 +95,12 @@ class KeyBindMenuNew extends MusicBeatState
 
 		super.update(elapsed);
 
-        if(FlxG.keys.anyJustPressed([ESCAPE])){
-            ConfigMenu.startSong = false;
-            switchState(new ConfigMenu());
+        if(prevState != state){
+            prevState = state;
+            switch(state){
+                case "enteringKey":
+                    
+            }
         }
 
         switch(state){
@@ -92,31 +108,36 @@ class KeyBindMenuNew extends MusicBeatState
             case "selecting":
                 if(Binds.justPressed("menuUp")){
                     changeBindSelection(-1);
+                    FlxG.sound.play(Paths.sound('scrollMenu'));
                 }
                 if(Binds.justPressed("menuDown")){
                     changeBindSelection(1);
+                    FlxG.sound.play(Paths.sound('scrollMenu'));
                 }
-
+                if(FlxG.keys.anyJustPressed([ESCAPE])){
+                    ConfigMenu.startSong = false;
+                    switchState(new ConfigMenu());
+                    FlxG.sound.play(Paths.sound('cancelMenu'));
+                }
         }
 
-        selectionBox.y = controlBox.y + (100 * selectedVisual);
-
-        for(i in 0...4){
-            bindText[i].text = tempNames[i + selectionTop];
-        }
-
-        if(FlxG.keys.anyJustPressed([ANY])){
+        /*if(FlxG.keys.anyJustPressed([ANY])){
             if(testKeyThing != null){
                 testKeyThing.destroy();
                 remove(testKeyThing);
             }
             testKeyThing = new KeyIcon(controlBox.x + 10, controlBox.y + 10, FlxG.keys.getIsDown()[0].ID);
             add(testKeyThing);
-        }
+        }*/
 		
 	}
 
-    function changeBindSelection(change:Int){
+    function changeBindSelection(change:Int, updateList:Bool = true){
+
+        selected += change;
+        if(selected < 0){ selected = 0; }
+        if(selected > bindStrings.length - 1){ selected = bindStrings.length - 1; }
+
         selectedVisual += change;
         
         if(selectedVisual > 3 || selectedVisual < 0){
@@ -124,10 +145,73 @@ class KeyBindMenuNew extends MusicBeatState
         }
 
         if(selectionTop < 0){ selectionTop = 0; }
-        if(selectionTop > tempNames.length - 4){ selectionTop = tempNames.length - 4; }
+        if(selectionTop > bindStrings.length - 4){ selectionTop = bindStrings.length - 4; }
 
         if(selectedVisual < 0){ selectedVisual = 0; }
         if(selectedVisual > 3){ selectedVisual = 3; }
+
+        if(categoryNameIndecies.contains(selected)){
+            changeBindSelection(change < 0 ? (selected > 1 ? -1 : 1) : (selected < bindStrings.length - 1 ? 1 : -1), false);
+        }
+
+        if(updateList) { updateBindList(); }
+
+    }
+
+    function generateCategories(){
+
+        var categories = [];
+        var index:Int = 0;
+
+        for(x in Binds.binds.keys){
+            var b = Binds.binds.get(x);
+            if(!categories.contains(b.category)){
+                categories.push(b.category);
+                bindStrings.push(b.category);
+                bindIDs.push("");
+                categoryNameIndecies.push(index);
+                bindsArray.push([]);
+                index++;
+            }
+            bindStrings.push(b.name);
+            bindIDs.push(x);
+            bindsArray.push(b.binds);
+            index++;
+        }
+
+    }
+
+    function updateBindList(){
+        selectionBox.y = controlBox.y + (100 * selectedVisual);
+
+        bindSprites.forEachAlive(function(x){
+            bindSprites.remove(x);
+            x.destroy();
+        });
+
+        for(i in 0...4){
+            var index = i + selectionTop;
+            bindText[i].text = bindStrings[index].toUpperCase();
+            bindText[i].text += "\n\n";
+            if(categoryNameIndecies.contains(index)){
+                bindText[i].alignment = FlxTextAlign.CENTER;
+                bindText[i].color = FlxColor.YELLOW;
+            }
+            else{
+                bindText[i].alignment = FlxTextAlign.LEFT;
+                bindText[i].color = FlxColor.WHITE;
+            }
+
+            var bindPos = controlBox.x + controlBox.width - 10;
+            for(x in  bindsArray[index]){
+                var key = new KeyIcon(bindPos, bindText[i].y, x);
+                key.x -= key.iconWidth;
+                bindPos -= key.iconWidth + 10;
+                bindSprites.add(key);
+            }
+        }
+
+
     }
 
 }

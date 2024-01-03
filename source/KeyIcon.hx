@@ -41,16 +41,20 @@ class KeyIcon extends FlxSpriteGroup
 			switch(key){
 				case BACKSLASH:
 					keyText = "\\";
+					yOffset += 3;
 				case COMMA:
 					keyText = ",";
 				case LBRACKET:
 					keyText = "[";
+					yOffset += 4;
 				case RBRACKET:
 					keyText = "]";
+					yOffset += 4;
 				case QUOTE:
 					keyText = "'";
 				case SEMICOLON:
 					keyText = ";";
+					yOffset -= 10;
 				case PLUS:
 					keyText = "=";
 				case NUMPADPLUS:
@@ -61,6 +65,7 @@ class KeyIcon extends FlxSpriteGroup
 					keyText = "*";
 				case SLASH | NUMPADSLASH:
 					keyText = "/";
+					yOffset += 2;
 				case PERIOD | NUMPADPERIOD:
 					keyText = ".";
 				case ZERO | NUMPADZERO:
@@ -85,7 +90,7 @@ class KeyIcon extends FlxSpriteGroup
 					keyText = "9";
 				default:
 					if(key.toString().length == 1){
-						keyText = key.toString().charAt(0);
+						keyText = key.toString();
 					}
 					else{ keyText = "?"; }
 			}
@@ -99,8 +104,9 @@ class KeyIcon extends FlxSpriteGroup
 		var keyBg = loadKeyGraphic("key" + (isKeypad ? "_kp" : "0"));
 
 		var text = new FlxText(0, 0, 80, text, 80);
-		text.setFormat(Paths.font("Funkin-Bold", "otf"), 80, FlxColor.BLACK, FlxTextAlign.CENTER);
+		text.setFormat(Paths.font("funkin", "otf"), 80, FlxColor.BLACK, FlxTextAlign.CENTER);
 		text.y = (keyBg.height / 2) - (text.height / 2) + yOffset;
+		text.text += "\n\n";
         add(text);
 
 	}

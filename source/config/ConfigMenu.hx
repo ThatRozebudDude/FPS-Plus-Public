@@ -54,8 +54,8 @@ class ConfigMenu extends UIStateExt
     final menuTweenTime:Float = 0.6;
     final menuAlphaTweenTime:Float = 0.4;
 
-    var configText:FlxText;
-    var descText:FlxText;
+    var configText:FlxTextExt;
+    var descText:FlxTextExt;
 
     var configOptions:Array<Array<ConfigOption>> = [];
 
@@ -193,14 +193,14 @@ class ConfigMenu extends UIStateExt
 
         }
 
-        configText = new FlxText(0, 0, 1280, "", 60);
+        configText = new FlxTextExt(0, 0, 1280, "", 60);
 		configText.scrollFactor.set(0, 0);
 		configText.setFormat(Paths.font("Funkin-Bold", "otf"), configText.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		configText.borderSize = 3;
+		configText.borderSize = 6;
 		configText.borderQuality = 1;
         subMenuGroup.add(configText);
 
-        descText = new FlxText(320, 638, 640, "", 20);
+        descText = new FlxTextExt(320, 638, 640, "", 20);
 		descText.scrollFactor.set(0, 0);
 		descText.setFormat(Paths.font("vcr"), descText.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		//descText.borderSize = 3;
