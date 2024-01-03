@@ -26,8 +26,9 @@ class ConfigMenu extends UIStateExt
     public static var startSong = true;
     public static var startInSubMenu:Int = -1;
 
-    final baseSongTrack:String = "nuConfiguratorBase";
-    final layerSongTrack:String = "nuConfiguratorDrums";
+    public static final baseSongTrack:String = "nuConfiguratorBase";
+    public static final layerSongTrack:String = "nuConfiguratorDrums";
+    public static final keySongTrack:String = "nuConfiguratorKey";
 
     var songLayer:FlxSound;
 
@@ -108,6 +109,7 @@ class ConfigMenu extends UIStateExt
         FlxG.sound.cache(Paths.music(baseSongTrack));
         if(USE_LAYERED_MUSIC){
             FlxG.sound.cache(Paths.music(layerSongTrack));
+            FlxG.sound.cache(Paths.music(keySongTrack));
         }
         
 
@@ -196,7 +198,7 @@ class ConfigMenu extends UIStateExt
         configText = new FlxTextExt(0, 0, 1280, "", 60);
 		configText.scrollFactor.set(0, 0);
 		configText.setFormat(Paths.font("Funkin-Bold", "otf"), configText.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		configText.borderSize = 6;
+		configText.borderSize = 4;
 		configText.borderQuality = 1;
         subMenuGroup.add(configText);
 

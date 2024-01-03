@@ -33,26 +33,8 @@ class FlxTextExt extends FlxText
 				_matrix.translate(-shadowOffset.x * borderSize, -shadowOffset.y * borderSize);
 
 			case OUTLINE:
-				// Render an outline around the text
-				// (do 8 offset draw calls)
+                
 				applyFormats(_formatAdjusted, true);
-
-				/*var curDelta:Float = delta;
-				for (i in 0...iterations)
-				{
-					copyTextWithOffset(-curDelta, -curDelta); // upper-left
-					copyTextWithOffset(curDelta, 0); // upper-middle
-					copyTextWithOffset(curDelta, 0); // upper-right
-					copyTextWithOffset(0, curDelta); // middle-right
-					copyTextWithOffset(0, curDelta); // lower-right
-					copyTextWithOffset(-curDelta, 0); // lower-middle
-					copyTextWithOffset(-curDelta, 0); // lower-left
-					copyTextWithOffset(0, -curDelta); // lower-left
-
-					_matrix.translate(curDelta, 0); // return to center
-					curDelta += delta;
-                    
-				}*/
 
                 var outlineExpandDelta:Float = outlineExpandDistance;
 
@@ -111,6 +93,7 @@ class FlxTextExt extends FlxText
         _matrix.translate(-newX, -newY);
 	}
 
+    //my lookup table :face_holding_back_tears:
     inline function cos(a:Float):Float{
 
         switch(a){

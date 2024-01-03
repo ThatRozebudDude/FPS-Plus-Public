@@ -1,5 +1,6 @@
 package config;
 
+import flixel.sound.FlxSound;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.keyboard.FlxKey;
 import transition.data.*;
@@ -34,12 +35,20 @@ class KeyBindMenuNew extends MusicBeatState
     var bindsArray:Array<Array<FlxKey>> = [];
     var bindSprites:FlxSpriteGroup;
 
+    var songLayer:FlxSound;
+
     //var testKeyThing:KeyIcon;
 
 	override function create() {
 
         customTransIn = new WeirdBounceIn(0.6);
 		customTransOut = new WeirdBounceOut(0.6);
+
+        if(!ConfigMenu.USE_MENU_MUSIC && ConfigMenu.USE_LAYERED_MUSIC){
+            songLayer = FlxG.sound.play(Paths.music(ConfigMenu.keySongTrack), 0, true);
+            songLayer.time = FlxG.sound.music.time;
+            songLayer.fadeIn(0.6);
+        }
 
         var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menu/menuDesat'));
 		bg.scrollFactor.x = 0;
@@ -73,7 +82,7 @@ class KeyBindMenuNew extends MusicBeatState
 
             var text = new FlxTextExt(controlBox.x + 10, controlBox.y + (100 * i) + 10, 1130, "", 80);
             text.setFormat(Paths.font("Funkin-Bold", "otf"), text.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-            text.borderSize = 4;
+            text.borderSize = 5;
             text.borderQuality = 1;
             add(text);
 
@@ -98,8 +107,10 @@ class KeyBindMenuNew extends MusicBeatState
         if(prevState != state){
             prevState = state;
             switch(state){
+                case "selecting":
+                    updateBindList();
                 case "enteringKey":
-                    
+                    updateBindList(selectedVisual);
             }
         }
 
@@ -114,10 +125,16 @@ class KeyBindMenuNew extends MusicBeatState
                     changeBindSelection(1);
                     FlxG.sound.play(Paths.sound('scrollMenu'));
                 }
-                if(FlxG.keys.anyJustPressed([ESCAPE])){
-                    ConfigMenu.startSong = false;
-                    switchState(new ConfigMenu());
-                    FlxG.sound.play(Paths.sound('cancelMenu'));
+                if(Binds.justPressed("menuBack")){
+                    exit();
+                }
+                if(Binds.justPressed("menuAccept")){
+                    state = "enteringKey";
+                }
+
+            case "enteringKey":
+                if(Binds.justPressed("menuBack")){
+                    state = "selecting";
                 }
         }
 
@@ -181,7 +198,7 @@ class KeyBindMenuNew extends MusicBeatState
 
     }
 
-    function updateBindList(){
+    function updateBindList(?setOptionToSelecting:Int = -1){
         selectionBox.y = controlBox.y + (100 * selectedVisual);
 
         bindSprites.forEachAlive(function(x){
@@ -190,28 +207,45 @@ class KeyBindMenuNew extends MusicBeatState
         });
 
         for(i in 0...4){
-            var index = i + selectionTop;
-            bindText[i].text = bindStrings[index].toUpperCase();
-            bindText[i].text += "\n\n";
-            if(categoryNameIndecies.contains(index)){
-                bindText[i].alignment = FlxTextAlign.CENTER;
-                bindText[i].color = FlxColor.YELLOW;
+            if(i != setOptionToSelecting){
+                var index = i + selectionTop;
+                bindText[i].text = bindStrings[index].toUpperCase();
+                bindText[i].text += "\n\n";
+                if(categoryNameIndecies.contains(index)){
+                    bindText[i].alignment = FlxTextAlign.CENTER;
+                    bindText[i].color = FlxColor.YELLOW;
+                }
+                else{
+                    bindText[i].alignment = FlxTextAlign.LEFT;
+                    bindText[i].color = FlxColor.WHITE;
+                }
+    
+                var bindPos = controlBox.x + controlBox.width - 10;
+                for(x in  bindsArray[index]){
+                    var key = new KeyIcon(bindPos, bindText[i].y, x);
+                    key.x -= key.iconWidth;
+                    bindPos -= key.iconWidth + 10;
+                    bindSprites.add(key);
+                }
             }
             else{
+                bindText[i].text = "PRESS ANY KEY\n\n";
                 bindText[i].alignment = FlxTextAlign.LEFT;
                 bindText[i].color = FlxColor.WHITE;
             }
-
-            var bindPos = controlBox.x + controlBox.width - 10;
-            for(x in  bindsArray[index]){
-                var key = new KeyIcon(bindPos, bindText[i].y, x);
-                key.x -= key.iconWidth;
-                bindPos -= key.iconWidth + 10;
-                bindSprites.add(key);
-            }
         }
 
+    }
 
+    function exit() {
+        if(!ConfigMenu.USE_MENU_MUSIC && ConfigMenu.USE_LAYERED_MUSIC){
+            songLayer.fadeOut(0.5, 0, function(x){
+                songLayer.stop();
+            });
+        }
+        ConfigMenu.startSong = false;
+        switchState(new ConfigMenu());
+        FlxG.sound.play(Paths.sound('cancelMenu'));
     }
 
 }
