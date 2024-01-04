@@ -24,7 +24,7 @@ class Binds
         }
         else{
             binds = FlxG.save.data.binds;
-            if(binds.length() != generateDefaultControls().length()){
+            if(checkForRepair()){
                 binds = repairControls();
                 FlxG.save.data.binds = binds;
                 SaveManager.flush();
@@ -75,7 +75,7 @@ class Binds
         r.set("pause", k);
 
         var k:Keybind = {
-            name: "Reset",
+            name: "Die",
             category: "Gameplay",
             binds: [R]
         };
@@ -135,6 +135,25 @@ class Binds
         SaveManager.global();
         FlxG.save.data.binds = binds;
         SaveManager.flush();
+    }
+
+    static function checkForRepair():Bool {
+        
+        var defaultThing = generateDefaultControls();
+
+        var r = (binds.length() != defaultThing.length());
+
+        if(!r){
+            for(i in 0...binds.binds.length){
+                if(binds.binds[i].name != defaultThing.binds[i].name){
+                    r = true;
+                    break;
+                }
+            }
+        }
+
+        return r;
+
     }
 
     static public function repairControls():KeybindMap {
