@@ -1,5 +1,6 @@
 package;
 
+import cpp.Float32;
 import sys.io.File;
 import sys.FileSystem;
 import flixel.math.FlxMath;
@@ -30,22 +31,18 @@ class CoolUtil
 		return dumbArray;
 	}
 
-	/**
-		Lerps camera, but accountsfor framerate shit?
-		Right now it's simply for use to change the followLerp variable of a camera during update
-		TODO LATER MAYBE:
-			Actually make and modify the scroll and lerp shit in it's own function
-			instead of solely relying on changing the lerp on the fly
-	 */
+	/*
+	*	Adjusts the value based on the reference FPS.
+	*/
 	public static inline function fpsAdjust(value:Float, ?referenceFps:Float = 60):Float{
-		return value * (FlxG.elapsed / (1 / referenceFps));
+		return value * (referenceFps * FlxG.elapsed);
 	}
 
 	/*
-	* just lerp that does camLerpShit for u so u dont have to do it every time
+	*	Lerp that calls `fpsAdjust` on the ratio.
 	*/
 	public static inline function fpsAdjsutedLerp(a:Float, b:Float, ratio:Float):Float{
-		return FlxMath.lerp(a, b, fpsAdjust(ratio));
+		return FlxMath.lerp(a, b, clamp(fpsAdjust(ratio), 0, 1));
 	}
 
 	/*
@@ -69,5 +66,11 @@ class CoolUtil
         #else
         return Assets.getText(path);
 		#end
+	}
+
+	public static function clamp(v:Float, min:Float, max:Float):Float {
+		if(v < min) { v = min; }
+		if(v > max) { v = max; }
+		return v;
 	}
 }

@@ -14,7 +14,7 @@ class Config
 	public static var downscroll:Bool;
 	public static var noteGlow:Bool;
 	public static var ghostTapType:Int;
-	public static var noFpsCap:Bool;
+	public static var framerate:Int;
 	public static var controllerScheme:Int;
 	public static var bgDim:Int;
 	public static var noteSplashType:Int;
@@ -38,7 +38,7 @@ class Config
 		FlxG.save.data.downscroll = false;
 		FlxG.save.data.noteGlow = false;
 		FlxG.save.data.ghostTapType = 0;
-		FlxG.save.data.noFpsCap = true;
+		FlxG.save.data.framerate = 999;
 		FlxG.save.data.controllerScheme = 0;
 		FlxG.save.data.bgDim = 0;
 		FlxG.save.data.noteSplashType = 0;
@@ -66,7 +66,7 @@ class Config
 		downscroll = FlxG.save.data.downscroll;
 		noteGlow = FlxG.save.data.noteGlow;
 		ghostTapType = FlxG.save.data.ghostTapType;
-		noFpsCap = FlxG.save.data.noFpsCap;
+		framerate = FlxG.save.data.framerate;
 		controllerScheme = FlxG.save.data.controllerScheme;
 		bgDim = FlxG.save.data.bgDim;
 		noteSplashType = FlxG.save.data.noteSplashType;
@@ -88,7 +88,7 @@ class Config
 								downscrollW:Bool, 
 								noteGlowW:Bool,
 								ghostTapTypeW:Int,
-								noFpsCapW:Bool,
+								framerateW:Int,
 								controllerSchemeW:Int,
 								bgDimW:Int,
 								noteSplashTypeW:Int,
@@ -112,7 +112,7 @@ class Config
 		FlxG.save.data.downscroll = downscrollW;
 		FlxG.save.data.noteGlow = noteGlowW;
 		FlxG.save.data.ghostTapType = ghostTapTypeW;
-		FlxG.save.data.noFpsCap = noFpsCapW;
+		FlxG.save.data.framerate = framerateW;
 		FlxG.save.data.controllerScheme = controllerSchemeW;
 		FlxG.save.data.bgDim = bgDimW;
 		FlxG.save.data.noteSplashType = noteSplashTypeW;
@@ -124,7 +124,7 @@ class Config
 		FlxG.save.data.camBopAmount = camBopAmountW;
 		FlxG.save.data.showCaptions = showCaptionsW;
 
-		FlxG.save.flush();
+		SaveManager.flush();
 		
 		reload();
 
@@ -151,8 +151,8 @@ class Config
 			FlxG.save.data.noteGlow = true;
 		if(FlxG.save.data.ghostTapType == null)
 			FlxG.save.data.ghostTapType = 0;
-		if(FlxG.save.data.noFpsCap == null)
-			FlxG.save.data.noFpsCap = true;
+		if(FlxG.save.data.framerate == null)
+			FlxG.save.data.framerate = 999;
 		if(FlxG.save.data.controllerScheme == null)
 			FlxG.save.data.controllerScheme = 0;
 		if(FlxG.save.data.bgDim == null)
@@ -178,6 +178,14 @@ class Config
 			FlxG.save.data.ee1 = false;
 		if(FlxG.save.data.ee2 == null)
 			FlxG.save.data.ee2 = false;
+	}
+
+	public static function setFramerate(cap:Int, ?useValueInsteadOfSave:Int = -1){
+		var fps:Int = framerate;
+		if(useValueInsteadOfSave > -1){ fps = useValueInsteadOfSave; }
+		if(fps > cap) { fps = cap; }
+		FlxG.updateFramerate = fps;
+		FlxG.drawFramerate  = fps;
 	}
 	
 }

@@ -278,10 +278,7 @@ class PlayState extends MusicBeatState
 		FlxG.sound.cache(Paths.inst(SONG.song));
 		FlxG.sound.cache(Paths.voices(SONG.song));
 		
-		if(Config.noFpsCap)
-			openfl.Lib.current.stage.frameRate = 999;
-		else
-			openfl.Lib.current.stage.frameRate = 144;
+		Config.setFramerate(999);
 
 		camTween = FlxTween.tween(this, {}, 0);
 		camZoomTween = FlxTween.tween(this, {}, 0);
@@ -2892,7 +2889,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	override public function onFocus(){
+	/*override public function onFocus(){
 		super.onFocus();
 		new FlxTimer().start(0.3, function(t){
 			if(Config.noFpsCap && !paused){
@@ -2902,7 +2899,7 @@ class PlayState extends MusicBeatState
 				openfl.Lib.current.stage.frameRate = 144;
 			}
 		});
-	}
+	}*/
 
 	function inRange(a:Float, b:Float, tolerance:Float){
 		return (a <= b + tolerance && a >= b - tolerance);

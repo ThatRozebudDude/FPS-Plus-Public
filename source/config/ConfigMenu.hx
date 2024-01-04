@@ -32,6 +32,8 @@ class ConfigMenu extends UIStateExt
 
     var songLayer:FlxSound;
 
+    final fpsCapInSettings:Int = 120;
+
     var curSelected:Int = 0;
     var curSelectedSub:Int = 0;
 
@@ -73,7 +75,8 @@ class ConfigMenu extends UIStateExt
 	var glowValue:Bool;
 	var randomTapValue:Int;
 	final randomTapTypes:Array<String> = ["never", "not singing", "always"];
-	var noCapValue:Bool;
+	final allowedFramerates:Array<Int> = [60, 120, 144, 240, 999];
+	var framerateValue:Int;
 	var scheme:Int;
 	var dimValue:Int;
 	var noteSplashValue:Int;
@@ -100,7 +103,7 @@ class ConfigMenu extends UIStateExt
 
 	override function create(){
 
-        openfl.Lib.current.stage.frameRate = 144;
+		Config.setFramerate(fpsCapInSettings);
 
         if(exitTo == null){
 			exitTo = MainMenuState;
@@ -446,7 +449,6 @@ class ConfigMenu extends UIStateExt
 		downValue = Config.downscroll;
 		glowValue = Config.noteGlow;
 		randomTapValue = Config.ghostTapType;
-		noCapValue = Config.noFpsCap;
 		scheme = Config.controllerScheme;
 		dimValue = Config.bgDim;
 		noteSplashValue = Config.noteSplashType;
@@ -458,16 +460,35 @@ class ConfigMenu extends UIStateExt
 		camBopAmountValue = Config.camBopAmount;
 		showCaptionsValue = Config.showCaptions;
 
+        framerateValue = allowedFramerates.indexOf(Config.framerate);
+        if(framerateValue == -1){
+            framerateValue = allowedFramerates.length - 1;
+        }
+
         //VIDEO
 
-        var fpsCap = new ConfigOption("UNCAPPED FRAMERATE", #if desktop ": " + genericOnOff[noCapValue?0:1] #else ": disabled" #end, #if desktop "Uncaps the framerate during gameplay." #else "Disabled on Web builds." #end);
+        var fpsCap = new ConfigOption("FRAMERATE", #if desktop ": " + (allowedFramerates[framerateValue] == 999 ? "uncapped" : ""+allowedFramerates[framerateValue]) #else ": disabled" #end, #if desktop "Uncaps the framerate during gameplay.\n(Some menus will limit framerate but gameplay will always be at the specified framerate.)" #else "Disabled on Web builds." #end);
         fpsCap.optionUpdate = function(){
             #if desktop
-			if (pressRight || pressLeft || pressAccept) {
+			if (pressRight) {
 				FlxG.sound.play(Paths.sound('scrollMenu'));
-				noCapValue = !noCapValue;
+				framerateValue++;
 			}
-            fpsCap.setting = ": " + genericOnOff[noCapValue?0:1];
+            else if (pressRight || pressLeft) {
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				framerateValue--;
+			}
+
+            if(framerateValue < 0){
+                framerateValue = allowedFramerates.length - 1;
+            }
+            if(framerateValue >= allowedFramerates.length){
+                framerateValue = 0;
+            }
+
+            Config.setFramerate(fpsCapInSettings, allowedFramerates[framerateValue]);
+
+            fpsCap.setting = ": " + (allowedFramerates[framerateValue] == 999 ? "uncapped" : ""+allowedFramerates[framerateValue]);
             #end
         };
 
@@ -683,7 +704,7 @@ class ConfigMenu extends UIStateExt
 
 
 
-        var keyBinds = new ConfigOption("[EDIT KEY BINDS]", "", "Press ENTER to change key binds.");
+        var keyBinds = new ConfigOption("[EDIT CONTROLS]", "", "Press ENTER to change key binds.");
         keyBinds.optionUpdate = function(){
             if (pressAccept) {
                 FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -693,7 +714,7 @@ class ConfigMenu extends UIStateExt
                 if(USE_LAYERED_MUSIC && !USE_MENU_MUSIC){
                     songLayer.fadeOut(0.3);
                 }
-                switchState(new KeyBindMenuNew());
+                switchState(new KeyBindMenu());
             }
         }
 
@@ -998,14 +1019,14 @@ class ConfigMenu extends UIStateExt
 
         configOptions = [
                             [fpsCap, noteSplash, noteGlow, extraCamStuff, camBopStuff, captionsStuff, bgDim, showFPS],
-                            [noteOffset, downscroll, centeredNotes, ghostTap, controllerBinds, keyBinds],
+                            [noteOffset, downscroll, centeredNotes, ghostTap, /*controllerBinds,*/ keyBinds],
                             [accuracyDisplay, showComboBreaks, comboDisplay, scrollSpeed, hpGain, hpDrain, cacheSettings]
                         ];
 
     }
 
     function writeToConfig(){
-		Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, noCapValue, scheme, dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue);
+		Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, allowedFramerates[framerateValue], scheme, dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue);
 	}
 
 }

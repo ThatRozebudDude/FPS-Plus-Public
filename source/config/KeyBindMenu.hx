@@ -1,7 +1,10 @@
 package config;
 
+import Binds.Keybind;
+import flixel.sound.FlxSound;
+import flixel.group.FlxSpriteGroup;
+import flixel.input.keyboard.FlxKey;
 import transition.data.*;
-
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
@@ -15,30 +18,46 @@ using StringTools;
 class KeyBindMenu extends MusicBeatState
 {
 
-    var keyTextDisplay:FlxText;
-    var keyWarning:FlxText;
-    var warningTween:FlxTween;
-    var keyText:Array<String> = ["LEFT", "DOWN", "UP", "RIGHT"];
-    var defaultKeys:Array<String> = ["A", "S", "W", "D", "R"];
-    var curSelected:Int = 0;
+    var state:String = "selecting";
+    var prevState:String = "selecting";
 
-    var keys:Array<String> = [FlxG.save.data.leftBind,
-                              FlxG.save.data.downBind,
-                              FlxG.save.data.upBind,
-                              FlxG.save.data.rightBind,
-                              FlxG.save.data.killBind];
+    var bg:FlxSprite;
+    var controlBox:FlxSprite;
+    var selectionBox:FlxSprite;
 
-    var tempKey:String = "";
-    var blacklist:Array<String> = ["ESCAPE", "ENTER", "BACKSPACE", "SPACE"];
+    var selected:Int = 0;
 
-    var state:String = "select";
+    var selectedVisual:Int = 0;
+    var selectionTop:Int = 0;
 
-	override function create()
-	{
+    var bindStrings:Array<String> = [];
+    var bindIDs:Array<String> = [];
+    var categoryNameIndecies:Array<Int> = [];
+    var bindText:Array<FlxTextExt> = [];
+    var bindsArray:Array<Array<FlxKey>> = [];
+    var bindSprites:FlxSpriteGroup;
+    var selectionTimerText:FlxTextExt;
+    var selectionTimer:Float = 0;
 
-		persistentUpdate = persistentDraw = true;
+    var resetTimer:Float = 0;
+    var didReset:Bool = false;
 
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menu/menuDesat'));
+    var songLayer:FlxSound;
+
+    //var testKeyThing:KeyIcon;
+
+	override function create() {
+
+        customTransIn = new WeirdBounceIn(0.6);
+		customTransOut = new WeirdBounceOut(0.6);
+
+        if(!ConfigMenu.USE_MENU_MUSIC && ConfigMenu.USE_LAYERED_MUSIC){
+            songLayer = FlxG.sound.play(Paths.music(ConfigMenu.keySongTrack), 0, true);
+            songLayer.time = FlxG.sound.music.time;
+            songLayer.fadeIn(0.6);
+        }
+
+        bg = new FlxSprite(-80).loadGraphic(Paths.image('menu/menuDesat'));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0;
 		bg.setGraphicSize(Std.int(bg.width * 1.18));
@@ -48,216 +67,288 @@ class KeyBindMenu extends MusicBeatState
 		bg.color = 0xFF9766BE;
 		add(bg);
 
-        keyTextDisplay = new FlxText(0, 0, 1280, "", 72);
-		keyTextDisplay.scrollFactor.set(0, 0);
-		keyTextDisplay.setFormat(Paths.font("Funkin-Bold", "otf"), 72, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		keyTextDisplay.borderSize = 3;
-		keyTextDisplay.borderQuality = 1;
-        add(keyTextDisplay);
+        var controlText:FlxSprite = new FlxSprite(0, 40);
+        controlText.frames = Paths.getSparrowAtlas("fpsPlus/config/controls/title");
+        controlText.animation.addByPrefix("boil", "", 24);
+        controlText.animation.play("boil");
+		controlText.screenCenter(X);
+		controlText.antialiasing = true;
+		add(controlText);
 
-        keyWarning = new FlxText(0, 580, 1280, "WARNING: BIND NOT SET, TRY ANOTHER KEY", 42);
-		keyWarning.scrollFactor.set(0, 0);
-		keyWarning.setFormat(Paths.font("vcr"), 42, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-        keyWarning.borderSize = 3;
-		keyWarning.borderQuality = 1;
-        keyWarning.screenCenter(X);
-        keyWarning.alpha = 0;
-        add(keyWarning);
+        controlBox = new FlxSprite(65, 0).makeGraphic(1150, 400, FlxColor.WHITE);
+        controlBox.y = (720 - 65) - controlBox.height;
+        controlBox.alpha = 0.4;
+        add(controlBox);
 
-        var backText = new FlxText(5, FlxG.height - 37, 0, "ESCAPE - Back to Menu\nBACKSPACE - Reset to Defaults\n", 16);
-		backText.scrollFactor.set();
-		backText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-        add(backText);
+        selectionBox = new FlxSprite(65, controlBox.y).makeGraphic(1150, 100, FlxColor.WHITE);
+        selectionBox.alpha = 0.4;
+        add(selectionBox);
 
-        warningTween = FlxTween.tween(keyWarning, {alpha: 0}, 0);
+        for(i in 0...4){
+            var text:FlxTextExt = new FlxTextExt();
 
-        textUpdate();
+            var text = new FlxTextExt(controlBox.x + 10, controlBox.y + (100 * i) + 10, 1130, "", 80);
+            text.setFormat(Paths.font("Funkin-Bold", "otf"), text.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+            text.borderSize = 5;
+            text.borderQuality = 1;
+            add(text);
 
-        customTransIn = new WeirdBounceIn(0.6);
-		customTransOut = new WeirdBounceOut(0.6);
+            bindText.push(text);
+        }
+
+        selectionTimerText = new FlxTextExt(controlBox.x + 10, controlBox.y + 10, 1130, "", 80);
+        selectionTimerText.setFormat(Paths.font("Funkin-Bold", "otf"), selectionTimerText.textField.defaultTextFormat.size, FlxColor.BLACK, FlxTextAlign.RIGHT);
+        selectionTimerText.visible = false;
+        add(selectionTimerText);
+
+        bindSprites = new FlxSpriteGroup();
+        add(bindSprites);
+
+        var infoText = new FlxTextExt(5, FlxG.height - 21, 0, "Press BACKSPACE to remove a bind. Hold DELETE to reset all binds.", 16);
+		infoText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(infoText);
+
+        generateCategories();
+        updateBindList();
+
+        changeBindSelection(0);
 
 		super.create();
 	}
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float) {
+
+		super.update(elapsed);
+
+        if(prevState != state){
+            prevState = state;
+            switch(state){
+                case "selecting":
+                    updateBindList();
+                    selectionTimerText.visible = false;
+                case "enteringKey":
+                    updateBindList(selectedVisual);
+                    selectionTimer = 3;
+                    selectionTimerText.visible = true;
+            }
+        }
 
         switch(state){
 
-            case "select":
-                if (controls.UP_P)
-				{
-					FlxG.sound.play(Paths.sound('scrollMenu'));
-					changeItem(-1);
-				}
-
-				if (controls.DOWN_P)
-				{
-					FlxG.sound.play(Paths.sound('scrollMenu'));
-					changeItem(1);
-				}
-
-                if (FlxG.keys.justPressed.ENTER){
+            case "selecting":
+                if(Binds.justPressed("menuUp")){
+                    changeBindSelection(-1);
                     FlxG.sound.play(Paths.sound('scrollMenu'));
-                    state = "input";
                 }
-                else if(FlxG.keys.justPressed.ESCAPE || FlxG.gamepads.anyJustPressed(ANY)){
+                else if(Binds.justPressed("menuDown")){
+                    changeBindSelection(1);
+                    FlxG.sound.play(Paths.sound('scrollMenu'));
+                }
+                else if(Binds.justPressed("menuAccept")){
+                    state = "enteringKey";
+                    FlxG.sound.play(Paths.sound('scrollMenu'));
+                    FlxTween.cancelTweensOf(bg);
+                    FlxTween.color(bg, 1.75, 0xFF9850D3, 0xFF9766BE, {ease: FlxEase.quintOut});
+                }
+                else if(FlxG.keys.anyJustPressed([ESCAPE])){
+                    exit();
+                }
+                else if(FlxG.keys.anyJustPressed([BACKSPACE])){
+                    removeBind();
+                    updateBindList();
+                    FlxG.sound.play(Paths.sound('scrollMenu'));
+                    FlxTween.cancelTweensOf(bg);
+                    FlxTween.color(bg, 1.75, 0xFFA784BA, 0xFF9766BE, {ease: FlxEase.quintOut});
+                }
+
+                if(FlxG.keys.anyPressed([DELETE])){
+                    resetTimer += elapsed;
+                }
+                else{
+                    resetTimer = 0;
+                    didReset = false;
+                }
+
+                if(resetTimer >= 1.5 && !didReset){
+                    Binds.resetToDefaultControls();
+                    generateCategories();
+                    updateBindList();
+                    didReset = true;
+                    FlxG.sound.play(Paths.sound('confirmMenu'));
+                    FlxTween.cancelTweensOf(bg);
+                    FlxTween.color(bg, 1.75, 0xFFA784BA, 0xFF9766BE, {ease: FlxEase.quintOut});
+                }
+
+            case "enteringKey":
+                selectionTimerText.text = ""+Math.ceil(selectionTimer);
+                selectionTimer -= elapsed;
+
+                if(FlxG.keys.anyJustPressed([ANY])){
+                    addBind(FlxG.keys.getIsDown()[0].ID);
+                    FlxG.sound.play(Paths.sound('confirmMenu'));
+                    state = "selecting";
+                    FlxTween.cancelTweensOf(bg);
+                    FlxTween.color(bg, 1.75, 0xFF9142BC, 0xFF9766BE, {ease: FlxEase.quintOut});
+
+                }
+
+                if(selectionTimer <= 0 ){
+                    state = "selecting";
                     FlxG.sound.play(Paths.sound('cancelMenu'));
-                    quit();
+                    FlxTween.cancelTweensOf(bg);
+                    FlxTween.color(bg, 1.75, 0xFFA784BA, 0xFF9766BE, {ease: FlxEase.quintOut});
                 }
-				else if (FlxG.keys.justPressed.BACKSPACE){
-                    FlxG.sound.play(Paths.sound('cancelMenu'));
-                    reset();
-                }
-
-            case "input":
-                tempKey = keys[curSelected];
-                keys[curSelected] = "?";
-                textUpdate();
-                state = "waiting";
-
-            case "waiting":
-                if(FlxG.keys.justPressed.ESCAPE){
-                    keys[curSelected] = tempKey;
-                    state = "select";
-                    FlxG.sound.play(Paths.sound('cancelMenu'));
-                }
-                else if(FlxG.keys.justPressed.ENTER){
-                    addKey(defaultKeys[curSelected]);
-                    save();
-                    state = "select";
-                }
-                else if(FlxG.keys.justPressed.ANY){
-                    addKey(FlxG.keys.getIsDown()[0].ID.toString());
-                    save();
-                    state = "select";
-                }
-
-
-            case "exiting":
-
-
-            default:
-                state = "select";
-
         }
 
-        if(FlxG.keys.justPressed.ANY)
-			textUpdate();
-
-		super.update(elapsed);
+        /*if(FlxG.keys.anyJustPressed([ANY])){
+            if(testKeyThing != null){
+                testKeyThing.destroy();
+                remove(testKeyThing);
+            }
+            testKeyThing = new KeyIcon(controlBox.x + 10, controlBox.y + 10, FlxG.keys.getIsDown()[0].ID);
+            add(testKeyThing);
+        }*/
 		
 	}
 
-    function textUpdate(){
+    function changeBindSelection(change:Int, updateList:Bool = true){
 
-        keyTextDisplay.clearFormats();
-        keyTextDisplay.text = "";
+        selected += change;
+        if(selected < 0){ selected = 0; }
+        if(selected > bindStrings.length - 1){ selected = bindStrings.length - 1; }
 
-        for(i in 0...keys.length){
+        selectedVisual += change;
+        
+        if(selectedVisual > 3 || selectedVisual < 0){
+            selectionTop += change;
+        }
 
-            var sectionStart = keyTextDisplay.text.length;
-            if(i < 4)
-                keyTextDisplay.text += keyText[i] + ": " + ((keys[i] != keyText[i]) ? (keys[i] + " + ") : "" ) + keyText[i] + " ARROW\n";
-            else
-                keyTextDisplay.text += "RESET: " + keys[4]  + "\n";
-            var sectionEnd = keyTextDisplay.text.length - 1;
+        if(selectionTop < 0){ selectionTop = 0; }
+        if(selectionTop > bindStrings.length - 4){ selectionTop = bindStrings.length - 4; }
 
-            if(i == curSelected){
-                keyTextDisplay.addFormat(new FlxTextFormat(0xFFFFFF00), sectionStart, sectionEnd);
+        if(selectedVisual < 0){ selectedVisual = 0; }
+        if(selectedVisual > 3){ selectedVisual = 3; }
+
+        if(categoryNameIndecies.contains(selected)){
+            changeBindSelection(change < 0 ? (selected > 1 ? -1 : 1) : (selected < bindStrings.length - 1 ? 1 : -1), false);
+        }
+
+        if(updateList) { updateBindList(); }
+
+    }
+
+    function generateCategories(){
+
+        bindStrings = [];
+        bindIDs = [];
+        categoryNameIndecies = [];
+        bindsArray = [];
+
+        var categories = [];
+        var index:Int = 0;
+
+        for(x in Binds.binds.keys){
+            var b = Binds.binds.get(x);
+            if(!categories.contains(b.category)){
+                categories.push(b.category);
+                bindStrings.push(b.category);
+                bindIDs.push("");
+                categoryNameIndecies.push(index);
+                bindsArray.push([]);
+                index++;
             }
-
+            bindStrings.push(b.name);
+            bindIDs.push(x);
+            bindsArray.push(b.binds);
+            index++;
         }
 
-        keyTextDisplay.screenCenter();
-
     }
 
-    function save(){
+    function updateBindList(?setOptionToSelecting:Int = -1){
+        selectionBox.y = controlBox.y + (100 * selectedVisual);
 
-        FlxG.save.data.upBind = keys[2];
-        FlxG.save.data.downBind = keys[1];
-        FlxG.save.data.leftBind = keys[0];
-        FlxG.save.data.rightBind = keys[3];
-        FlxG.save.data.killBind = keys[4];
+        bindSprites.forEachAlive(function(x){
+            bindSprites.remove(x);
+            x.destroy();
+        });
 
-        FlxG.save.flush();
-
-        PlayerSettings.player1.controls.loadKeyBinds();
-
-    }
-
-    function reset(){
-
-        for(i in 0...5){
-            keys[i] = defaultKeys[i];
+        for(i in 0...4){
+            if(i != setOptionToSelecting){
+                var index = i + selectionTop;
+                bindText[i].text = bindStrings[index].toUpperCase();
+                bindText[i].text += "\n\n";
+                if(categoryNameIndecies.contains(index)){
+                    bindText[i].alignment = FlxTextAlign.CENTER;
+                    bindText[i].color = FlxColor.YELLOW;
+                }
+                else{
+                    bindText[i].alignment = FlxTextAlign.LEFT;
+                    bindText[i].color = FlxColor.WHITE;
+                }
+    
+                var bindPos = controlBox.x + controlBox.width - 10;
+                for(x in  bindsArray[index]){
+                    var key = new KeyIcon(bindPos, bindText[i].y, x);
+                    key.x -= key.iconWidth;
+                    bindPos -= key.iconWidth + 10;
+                    bindSprites.add(key);
+                }
+            }
+            else{
+                bindText[i].text = "PRESS ANY KEY\n\n";
+                bindText[i].alignment = FlxTextAlign.LEFT;
+                bindText[i].color = FlxColor.WHITE;
+                selectionTimerText.y = controlBox.y + (100 * i) + 10;
+            }
         }
-        quit();
 
     }
 
-    function quit(){
-
-        state = "exiting";
-
-        save();
-
+    function exit() {
+        if(!ConfigMenu.USE_MENU_MUSIC && ConfigMenu.USE_LAYERED_MUSIC){
+            songLayer.fadeOut(0.5, 0, function(x){
+                songLayer.stop();
+            });
+        }
         ConfigMenu.startSong = false;
         switchState(new ConfigMenu());
-
+        FlxG.sound.play(Paths.sound('cancelMenu'));
     }
 
-	function addKey(r:String){
+    function addBind(key:FlxKey) {
+        var minCheckIndex:Int = 0;
+        var maxCheckIndex:Int = bindsArray.length;
 
-        var shouldReturn:Bool = true;
-
-        var notAllowed:Array<String> = [];
-
-        for(x in keys){
-            if(x != tempKey){notAllowed.push(x);}
-        }
-
-        for(x in blacklist){notAllowed.push(x);}
-
-        if(curSelected != 4){
-
-            for(x in keyText){
-                if(x != keyText[curSelected]){notAllowed.push(x);}
+        for(x in categoryNameIndecies){
+            if(selected > x) { minCheckIndex = x; }
+            if(selected < x) { 
+                maxCheckIndex = x;
+                break;
             }
-            
-        }
-        else {for(x in keyText){notAllowed.push(x);}}
-
-        trace(notAllowed);
-
-        for(x in notAllowed){if(x == r){shouldReturn = false;}}
-
-        if(shouldReturn){
-            keys[curSelected] = r;
-            FlxG.sound.play(Paths.sound('scrollMenu'));
-        }
-        else if(!shouldReturn && keys.contains(r)){
-            keys[keys.indexOf(r)] = tempKey;
-            keys[curSelected] = r;
-            FlxG.sound.play(Paths.sound('scrollMenu'));
-        }
-        else{
-            keys[curSelected] = tempKey;
-            FlxG.sound.play(Paths.sound('cancelMenu'));
-            keyWarning.alpha = 1;
-            warningTween.cancel();
-            warningTween = FlxTween.tween(keyWarning, {alpha: 0}, 0.5, {ease: FlxEase.circOut, startDelay: 2});
         }
 
-	}
+        for(i in minCheckIndex...maxCheckIndex){
+            if(bindsArray[i].remove(key)){
+                modifyBind(i);
+            }
+        }
 
-    function changeItem(_amount:Int = 0)
-    {
-        curSelected += _amount;
-                
-        if (curSelected > 4)
-            curSelected = 0;
-        if (curSelected < 0)
-            curSelected = 4;
+        bindsArray[selected].push(key);
+        modifyBind(selected);
+
     }
+
+    function removeBind() {
+        bindsArray[selected].pop();
+        modifyBind(selected);
+    }
+
+    function modifyBind(index:Int) {
+        var k:Keybind = Binds.binds.get(bindIDs[index]);
+        k.binds = bindsArray[index];
+        Binds.binds.set(bindIDs[index], k);
+        Binds.saveControls();
+    }
+
 }

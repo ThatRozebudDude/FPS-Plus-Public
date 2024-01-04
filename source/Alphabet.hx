@@ -224,8 +224,8 @@ class Alphabet extends FlxSpriteGroup
 		{
 			var scaledY = FlxMath.remapToRange(targetY, 0, 1, 0, 1.3);
 
-			y = FlxMath.lerp(y, (scaledY * 120) + (FlxG.height * 0.48), 0.16);
-			x = FlxMath.lerp(x, (targetY * 20) + 90, 0.16);
+			y = CoolUtil.fpsAdjsutedLerp(y, (scaledY * 120) + (FlxG.height * 0.48), 0.42);
+			x = CoolUtil.fpsAdjsutedLerp(x, (targetY * 20) + 90, 0.42);
 		}
 
 		super.update(elapsed);

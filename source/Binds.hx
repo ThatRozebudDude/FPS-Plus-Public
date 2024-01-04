@@ -42,28 +42,28 @@ class Binds
         var k:Keybind = {
             name: "Left Note",
             category: "Gameplay",
-            binds: [A, LEFT]
+            binds: [LEFT, A]
         };
         r.set("gameplayLeft", k);
 
         var k:Keybind = {
             name: "Down Note",
             category: "Gameplay",
-            binds: [S, DOWN]
+            binds: [DOWN, S]
         };
         r.set("gameplayDown", k);
 
         var k:Keybind = {
             name: "Up Note",
             category: "Gameplay",
-            binds: [W, UP]
+            binds: [UP, W]
         };
         r.set("gameplayUp", k);
 
         var k:Keybind = {
             name: "Right Note",
             category: "Gameplay",
-            binds: [D, RIGHT]
+            binds: [RIGHT, D]
         };
         r.set("gameplayRight", k);
 
@@ -87,28 +87,28 @@ class Binds
         var k:Keybind = {
             name: "Up",
             category: "Menu",
-            binds: [W, UP]
+            binds: [UP, W]
         };
         r.set("menuUp", k);
 
         var k:Keybind = {
             name: "Down",
             category: "Menu",
-            binds: [S, DOWN]
+            binds: [DOWN, S]
         };
         r.set("menuDown", k);
 
         var k:Keybind = {
             name: "Left",
             category: "Menu",
-            binds: [A, LEFT]
+            binds: [LEFT, A]
         };
         r.set("menuLeft", k);
 
         var k:Keybind = {
             name: "Right",
             category: "Menu",
-            binds: [D, RIGHT]
+            binds: [RIGHT, D]
         };
         r.set("menuRight", k);
 
@@ -152,6 +152,13 @@ class Binds
         }
 
         return r;
+    }
+
+    static public function resetToDefaultControls() {
+        SaveManager.global();
+        binds = generateDefaultControls();
+        FlxG.save.data.binds = binds;
+        SaveManager.flush();
     }
 
     inline static public function pressed(input:String){

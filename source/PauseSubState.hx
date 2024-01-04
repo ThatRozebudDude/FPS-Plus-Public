@@ -22,7 +22,7 @@ class PauseSubState extends MusicBeatSubstate
 	{
 		super();
 
-		openfl.Lib.current.stage.frameRate = 144;
+		Config.setFramerate(144);
 
 		FlxTween.globalManager.active = false;
 		
@@ -142,8 +142,7 @@ class PauseSubState extends MusicBeatSubstate
 	}
 
 	function unpause(){
-		if(Config.noFpsCap)
-			openfl.Lib.current.stage.frameRate = 999;
+		Config.setFramerate(999);
 		close();
 	}
 

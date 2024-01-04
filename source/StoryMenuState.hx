@@ -1,5 +1,6 @@
 package;
 
+import config.Config;
 import title.*;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -49,7 +50,7 @@ class StoryMenuState extends MusicBeatState
 	override function create()
 	{
 
-		openfl.Lib.current.stage.frameRate = 144;
+		Config.setFramerate(144);
 	
 		weekData = [
 			['Tutorial'],
@@ -218,7 +219,7 @@ class StoryMenuState extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		// scoreText.setFormat('VCR OSD Mono', 32);
-		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, 0.5));
+		lerpScore = Math.floor(CoolUtil.fpsAdjsutedLerp(lerpScore, intendedScore, 0.5));
 
 		scoreText.text = "WEEK SCORE:" + lerpScore;
 

@@ -1,5 +1,6 @@
 package;
 
+import config.Config;
 import openfl.desktop.ClipboardFormats;
 import openfl.desktop.Clipboard;
 import flixel.FlxCamera;
@@ -44,7 +45,7 @@ class AnimationDebug extends FlxState
 	override function create()
 	{
 
-		openfl.Lib.current.stage.frameRate = 144;
+		Config.setFramerate(144);
 
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();

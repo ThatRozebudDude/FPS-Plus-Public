@@ -1,5 +1,6 @@
 package title;
 
+import config.Config;
 import flixel.addons.display.FlxBackdrop;
 import flixel.FlxCamera;
 import openfl.system.System;
@@ -45,6 +46,8 @@ class TitleScreen extends MusicBeatState
 		//Polymod.init({modRoot: "mods", dirs: ['introMod']});
 
 		// DEBUG BULLSHIT
+
+		Config.setFramerate(144);
 
 		useDefaultTransIn = false;
 

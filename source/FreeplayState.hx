@@ -1,5 +1,6 @@
 package;
 
+import config.Config;
 import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -34,7 +35,7 @@ class FreeplayState extends MusicBeatState
 	override function create()
 	{
 
-		openfl.Lib.current.stage.frameRate = 144;
+		Config.setFramerate(144);
 		
 		curSelected = 0;
 
@@ -146,7 +147,7 @@ class FreeplayState extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, 0.4));
+		lerpScore = Math.floor(CoolUtil.fpsAdjsutedLerp(lerpScore, intendedScore, 0.4));
 
 		if (Math.abs(lerpScore - intendedScore) <= 10)
 			lerpScore = intendedScore;

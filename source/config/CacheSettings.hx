@@ -15,8 +15,8 @@ class CacheSettings extends MusicBeatState
 
     public static var noFunMode = false;
 
-    var keyTextDisplay:FlxText;
-    var warning:FlxText;
+    var keyTextDisplay:FlxTextExt;
+    var warning:FlxTextExt;
 
     public static var returnLoc:FlxState;
     public static var thing:Bool = false;
@@ -51,14 +51,14 @@ class CacheSettings extends MusicBeatState
 		bg.color = bgColor;
 		add(bg);
 
-        keyTextDisplay = new FlxText(0, 0, 1280, "", 72);
+        keyTextDisplay = new FlxTextExt(0, 0, 1280, "", 72);
 		keyTextDisplay.scrollFactor.set(0, 0);
 		keyTextDisplay.setFormat(font, 72, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		keyTextDisplay.borderSize = 3;
+		keyTextDisplay.borderSize = 4;
 		keyTextDisplay.borderQuality = 1;
         add(keyTextDisplay);
 
-        warning = new FlxText(0, 540, 1280, "WARNING!\nEnabling this will load a large amount of graphics data to VRAM.\nIf you don't have a decent GPU it might be best to leave this disabled.", 32);
+        warning = new FlxTextExt(0, 540, 1280, "WARNING!\nEnabling this will load a large amount of graphics data to VRAM.\nIf you don't have a decent GPU it might be best to leave this disabled.", 32);
 		warning.scrollFactor.set(0, 0);
 		warning.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         warning.borderSize = 3;
@@ -67,7 +67,21 @@ class CacheSettings extends MusicBeatState
         warning.visible = false;
         add(warning);
 
-        var backText = new FlxText(5, FlxG.height - 21, 0, "ESCAPE - Back to Menu", 16);
+        var binds = Binds.binds.get("menuBack").binds;
+        var backBindsString = "";
+
+        for(x in binds){
+            backBindsString += x.toString() + "/";
+        }
+
+        if(backBindsString != ""){
+            backBindsString = backBindsString.substr(0, backBindsString.length - 1);
+        }
+        else{
+            backBindsString = "You can't leave I guess. Reset your game and press BACKSPACE or DELETE before the preload.";
+        }
+
+        var backText = new FlxTextExt(5, FlxG.height - 21, 0, backBindsString + " - Back to Menu", 16);
 		backText.scrollFactor.set();
 		backText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(backText);

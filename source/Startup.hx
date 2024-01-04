@@ -221,11 +221,13 @@ class Startup extends FlxState
             });
         }
 
-        if(!cacheStart && FlxG.keys.justPressed.ANY){
-            
-           
-            openPreloadSettings();
-
+        if(!cacheStart){
+            if(FlxG.keys.anyJustPressed([BACKSPACE, DELETE])){
+                Binds.resetToDefaultControls();
+            }
+            else if(FlxG.keys.justPressed.ANY){
+                openPreloadSettings();
+            }
         }
 
         if(startCachingCharacters){
