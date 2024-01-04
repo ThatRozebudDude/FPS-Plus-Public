@@ -175,30 +175,6 @@ class Binds
     
 }
 
-/*class KeybindMap extends StringMap<Keybind>
-{
-
-    public var keyOrder:Array<String> = [];
-
-    override public function set(key:String, value:Keybind):Void {
-        if(!keyOrder.contains(key)){
-            keyOrder.push(key);
-        }
-        super.set(key, value);
-    }
-
-    override public function remove(key:String):Bool {
-        keyOrder.remove(key);
-        return super.remove(key);
-    }
-
-    override public function clear():Void {
-        keyOrder = [];
-        super.clear();
-    }
-
-}*/
-
 class KeybindMap
 {
 

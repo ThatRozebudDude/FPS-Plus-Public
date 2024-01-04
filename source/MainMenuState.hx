@@ -138,8 +138,8 @@ class MainMenuState extends MusicBeatState
 
 			if (FlxG.keys.justPressed.BACKSPACE && FlxG.keys.pressed.CONTROL)
 			{
-				KeyBinds.resetBinds();
-				switchState(new MainMenuState());
+				Binds.resetToDefaultControls();
+				FlxG.sound.play(Paths.sound('cancelMenu'));
 			}
 
 			if (Binds.justPressed("menuBack"))

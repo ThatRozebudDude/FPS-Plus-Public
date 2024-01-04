@@ -170,12 +170,11 @@ class AutoOffsetState extends MusicBeatState
 			Conductor.songPosition = FlxG.sound.music.time;
 			//trace(Conductor.songPosition);
 
-			if((FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.ENTER) && canExit){
+			if((Binds.justPressed("menuBack")) && canExit){
 				endOfSong = true;
 				endSong();
 			}
-
-			if (FlxG.keys.justPressed.ANY && (Conductor.songPosition >= 4500 && Conductor.songPosition <= 43500) && !(ending || endOfSong)){
+			else if (FlxG.keys.justPressed.ANY && (Conductor.songPosition >= 4500 && Conductor.songPosition <= 43500) && !(ending || endOfSong)){
 				hitBeat();
 			}
 
