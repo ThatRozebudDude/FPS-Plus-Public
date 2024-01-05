@@ -29,6 +29,7 @@ class ConfigMenu extends UIStateExt
     public static final baseSongTrack:String = "nuConfiguratorBase";
     public static final layerSongTrack:String = "nuConfiguratorDrums";
     public static final keySongTrack:String = "nuConfiguratorKey";
+    public static final cacheSongTrack:String = "nuConfiguratorCache";
 
     var songLayer:FlxSound;
 
@@ -113,6 +114,7 @@ class ConfigMenu extends UIStateExt
         if(USE_LAYERED_MUSIC){
             FlxG.sound.cache(Paths.music(layerSongTrack));
             FlxG.sound.cache(Paths.music(keySongTrack));
+            FlxG.sound.cache(Paths.music(cacheSongTrack));
         }
         
 

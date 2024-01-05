@@ -147,8 +147,6 @@ class KeyBindMenu extends MusicBeatState
                 else if(Binds.justPressed("menuAccept")){
                     state = "enteringKey";
                     FlxG.sound.play(Paths.sound('scrollMenu'));
-                    FlxTween.cancelTweensOf(bg);
-                    FlxTween.color(bg, 1.75, 0xFF9850D3, 0xFF9766BE, {ease: FlxEase.quintOut});
                 }
                 else if(FlxG.keys.anyJustPressed([ESCAPE])){
                     exit();
@@ -188,7 +186,7 @@ class KeyBindMenu extends MusicBeatState
                     FlxG.sound.play(Paths.sound('confirmMenu'));
                     state = "selecting";
                     FlxTween.cancelTweensOf(bg);
-                    FlxTween.color(bg, 1.75, 0xFF9142BC, 0xFF9766BE, {ease: FlxEase.quintOut});
+                    FlxTween.color(bg, 1.75, 0xFF9850D3, 0xFF9766BE, {ease: FlxEase.quintOut});
 
                 }
 

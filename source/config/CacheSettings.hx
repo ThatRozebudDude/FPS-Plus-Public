@@ -1,5 +1,6 @@
 package config;
 
+import flixel.sound.FlxSound;
 import transition.data.*;
 
 import flixel.FlxState;
@@ -30,6 +31,8 @@ class CacheSettings extends MusicBeatState
 
     var state:String = "select";
 
+    var songLayer:FlxSound;
+
 	override function create()
 	{
 
@@ -39,6 +42,12 @@ class CacheSettings extends MusicBeatState
         if(noFunMode){
             bgColor = 0xFF303030;
             font = "VCR OSD Mono";
+        }
+
+        if(!ConfigMenu.USE_MENU_MUSIC && ConfigMenu.USE_LAYERED_MUSIC && !noFunMode){
+            songLayer = FlxG.sound.play(Paths.music(ConfigMenu.cacheSongTrack), 0, true);
+            songLayer.time = FlxG.sound.music.time;
+            songLayer.fadeIn(0.6);
         }
 
 		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menu/menuDesat'));
@@ -200,6 +209,12 @@ class CacheSettings extends MusicBeatState
         }
         else if(!noFunMode){
             ConfigMenu.startSong = false;
+        }
+
+        if(!ConfigMenu.USE_MENU_MUSIC && ConfigMenu.USE_LAYERED_MUSIC && !noFunMode){
+            songLayer.fadeOut(0.5, 0, function(x){
+                songLayer.stop();
+            });
         }
 
         noFunMode = false;

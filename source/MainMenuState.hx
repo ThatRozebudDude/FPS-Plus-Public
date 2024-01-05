@@ -142,7 +142,7 @@ class MainMenuState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 			}
 
-			if (Binds.justPressed("menuBack"))
+			if (Binds.justPressed("menuBack") && !FlxG.keys.pressed.CONTROL)
 			{
 				switchState(new TitleScreen());
 			}
