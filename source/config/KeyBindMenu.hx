@@ -1,5 +1,6 @@
 package config;
 
+import flixel.input.gamepad.FlxGamepad;
 import KeyIcon.ControllerIcon;
 import flixel.input.gamepad.FlxGamepadInputID;
 import Binds.Keybind;
@@ -48,8 +49,14 @@ class KeyBindMenu extends MusicBeatState
     var songLayer:FlxSound;
 
     var controllerMode:Bool = false;
+    var currentController:FlxGamepad;
 
     //var testKeyThing:KeyIcon;
+
+    override public function new(startInControllerMode:Bool = false) {
+        super();
+        controllerMode = startInControllerMode;
+    }
 
 	override function create() {
 
@@ -138,9 +145,22 @@ class KeyBindMenu extends MusicBeatState
             }
         }
 
+        if(controllerMode){
+            currentController = FlxG.gamepads.lastActive;
+        }
+
         switch(state){
 
             case "selecting":
+                if(FlxG.keys.anyPressed([ANY]) && controllerMode){
+                    controllerMode = false;
+                    updateBindList();
+                }
+                else if(FlxG.gamepads.anyJustPressed(ANY) && !controllerMode){
+                    controllerMode = true;
+                    updateBindList();
+                }
+
                 if(Binds.justPressed("menuUp")){
                     changeBindSelection(-1);
                     FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -153,18 +173,25 @@ class KeyBindMenu extends MusicBeatState
                     state = "enteringKey";
                     FlxG.sound.play(Paths.sound('scrollMenu'));
                 }
-                else if(FlxG.keys.anyJustPressed([ESCAPE])){
+                else if((FlxG.keys.anyJustPressed([ESCAPE]) && !controllerMode) || (FlxG.gamepads.anyJustPressed(B) && controllerMode)){
                     exit();
                 }
-                else if(FlxG.keys.anyJustPressed([BACKSPACE])){
+                else if(FlxG.keys.anyJustPressed([BACKSPACE]) && !controllerMode){
                     removeBind();
                     updateBindList();
                     FlxG.sound.play(Paths.sound('scrollMenu'));
                     FlxTween.cancelTweensOf(bg);
                     FlxTween.color(bg, 1.75, 0xFFA784BA, 0xFF9766BE, {ease: FlxEase.quintOut});
                 }
+                else if(FlxG.gamepads.anyJustPressed(X)  && controllerMode){
+                    removeBindController();
+                    updateBindList();
+                    FlxG.sound.play(Paths.sound('scrollMenu'));
+                    FlxTween.cancelTweensOf(bg);
+                    FlxTween.color(bg, 1.75, 0xFFA784BA, 0xFF9766BE, {ease: FlxEase.quintOut});
+                }
 
-                if(FlxG.keys.anyPressed([DELETE])){
+                if(FlxG.keys.anyPressed([DELETE]) || FlxG.gamepads.anyPressed(BACK)){
                     resetTimer += elapsed;
                 }
                 else{
@@ -186,13 +213,22 @@ class KeyBindMenu extends MusicBeatState
                 selectionTimerText.text = ""+Math.ceil(selectionTimer);
                 selectionTimer -= elapsed;
 
-                if(FlxG.keys.anyJustPressed([ANY])){
+                if(FlxG.keys.anyJustPressed([ANY]) && !controllerMode){
                     addBind(FlxG.keys.getIsDown()[0].ID);
                     FlxG.sound.play(Paths.sound('confirmMenu'));
                     state = "selecting";
                     FlxTween.cancelTweensOf(bg);
                     FlxTween.color(bg, 1.75, 0xFF9850D3, 0xFF9766BE, {ease: FlxEase.quintOut});
-
+                }
+                else if(FlxG.gamepads.anyJustPressed(ANY) && controllerMode){
+                    var key:FlxGamepadInputID = currentController.firstJustPressedID();
+                    if(key.toString() != null){
+                        addBindController(key);
+                        FlxG.sound.play(Paths.sound('confirmMenu'));
+                        state = "selecting";
+                        FlxTween.cancelTweensOf(bg);
+                        FlxTween.color(bg, 1.75, 0xFF9850D3, 0xFF9766BE, {ease: FlxEase.quintOut});
+                    }
                 }
 
                 if(selectionTimer <= 0 ){
@@ -379,12 +415,12 @@ class KeyBindMenu extends MusicBeatState
 
         for(i in minCheckIndex...maxCheckIndex){
             if(controllerBindsArray[i].remove(key)){
-                modifyBind(i);
+                modifyBindController(i);
             }
         }
 
         controllerBindsArray[selected].push(key);
-        modifyBind(selected);
+        modifyBindController(selected);
 
     }
 
@@ -395,7 +431,7 @@ class KeyBindMenu extends MusicBeatState
 
     function removeBindController() {
         controllerBindsArray[selected].pop();
-        modifyBind(selected);
+        modifyBindController(selected);
     }
 
     function modifyBind(index:Int) {
