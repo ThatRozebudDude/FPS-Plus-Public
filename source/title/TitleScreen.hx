@@ -41,6 +41,8 @@ class TitleScreen extends MusicBeatState
 
 	final bgScrollSpeed = 20;
 
+	var allowControllerPress:Bool = false;
+
 	override public function create():Void
 	{
 		//Polymod.init({modRoot: "mods", dirs: ['introMod']});
@@ -165,7 +167,7 @@ class TitleScreen extends MusicBeatState
 			FlxG.fullscreen = !FlxG.fullscreen;
 		}
 
-		var pressedEnter:Bool = Binds.justPressed("menuAccept");
+		var pressedEnter:Bool = (!allowControllerPress ? Binds.justPressedKeyboardOnly("menuAccept") : Binds.justPressed("menuAccept"));
 
 		if(!transitioning && Binds.justPressed("menuBack")){
 			System.exit(0);
@@ -186,6 +188,10 @@ class TitleScreen extends MusicBeatState
 				// Check if version is outdated
 				switchState(new MainMenuState());
 			});
+		}
+
+		if(!allowControllerPress && Binds.justReleasedControllerOnly("menuAccept")){
+			allowControllerPress = true;
 		}
 
 		super.update(elapsed);

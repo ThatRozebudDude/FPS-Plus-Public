@@ -33,6 +33,8 @@ class TitleScreenKickstarter extends MusicBeatState
 
 	public static var titleMusic:String = "klaskiiLoop"; 
 
+	var allowControllerPress:Bool = false;
+
 	override public function create():Void
 	{
 		//Polymod.init({modRoot: "mods", dirs: ['introMod']});
@@ -118,7 +120,7 @@ class TitleScreenKickstarter extends MusicBeatState
 			FlxG.fullscreen = !FlxG.fullscreen;
 		}
 
-		var pressedEnter:Bool = Binds.justPressed("menuAccept");
+		var pressedEnter:Bool = (!allowControllerPress ? Binds.justPressedKeyboardOnly("menuAccept") : Binds.justPressed("menuAccept"));
 
 		if(!transitioning && Binds.justPressed("menuBack")){
 			System.exit(0);
@@ -139,6 +141,10 @@ class TitleScreenKickstarter extends MusicBeatState
 				// Check if version is outdated
 				switchState(new MainMenuState());
 			});
+		}
+
+		if(!allowControllerPress && Binds.justReleasedControllerOnly("menuAccept")){
+			allowControllerPress = true;
 		}
 
 		super.update(elapsed);

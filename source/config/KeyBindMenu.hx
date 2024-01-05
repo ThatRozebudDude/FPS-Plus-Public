@@ -1,5 +1,7 @@
 package config;
 
+import KeyIcon.ControllerIcon;
+import flixel.input.gamepad.FlxGamepadInputID;
 import Binds.Keybind;
 import flixel.sound.FlxSound;
 import flixel.group.FlxSpriteGroup;
@@ -35,6 +37,7 @@ class KeyBindMenu extends MusicBeatState
     var categoryNameIndecies:Array<Int> = [];
     var bindText:Array<FlxTextExt> = [];
     var bindsArray:Array<Array<FlxKey>> = [];
+    var controllerBindsArray:Array<Array<FlxGamepadInputID>> = [];
     var bindSprites:FlxSpriteGroup;
     var selectionTimerText:FlxTextExt;
     var selectionTimer:Float = 0;
@@ -43,6 +46,8 @@ class KeyBindMenu extends MusicBeatState
     var didReset:Bool = false;
 
     var songLayer:FlxSound;
+
+    var controllerMode:Bool = false;
 
     //var testKeyThing:KeyIcon;
 
@@ -206,6 +211,11 @@ class KeyBindMenu extends MusicBeatState
             testKeyThing = new KeyIcon(controlBox.x + 10, controlBox.y + 10, FlxG.keys.getIsDown()[0].ID);
             add(testKeyThing);
         }*/
+
+        if(FlxG.keys.justPressed.GRAVEACCENT){
+            controllerMode = !controllerMode;
+            updateBindList();
+        }
 		
 	}
 
@@ -241,6 +251,7 @@ class KeyBindMenu extends MusicBeatState
         bindIDs = [];
         categoryNameIndecies = [];
         bindsArray = [];
+        controllerBindsArray = [];
 
         var categories = [];
         var index:Int = 0;
@@ -253,11 +264,13 @@ class KeyBindMenu extends MusicBeatState
                 bindIDs.push("");
                 categoryNameIndecies.push(index);
                 bindsArray.push([]);
+                controllerBindsArray.push([]);
                 index++;
             }
             bindStrings.push(b.name);
             bindIDs.push(x);
             bindsArray.push(b.binds);
+            controllerBindsArray.push(b.controllerBinds);
             index++;
         }
 
@@ -286,12 +299,27 @@ class KeyBindMenu extends MusicBeatState
                 }
     
                 var bindPos = controlBox.x + controlBox.width - 10;
-                for(x in  bindsArray[index]){
-                    var key = new KeyIcon(bindPos, bindText[i].y, x);
-                    key.x -= key.iconWidth;
-                    bindPos -= key.iconWidth + 10;
-                    bindSprites.add(key);
+
+                //Keyboard icons
+                if(!controllerMode){
+                    for(x in  bindsArray[index]){
+                        var key = new KeyIcon(bindPos, bindText[i].y, x);
+                        key.x -= key.iconWidth;
+                        bindPos -= key.iconWidth + 10;
+                        bindSprites.add(key);
+                    }
                 }
+                //Controller icons
+                else{
+                    for(x in  controllerBindsArray[index]){
+                        var key = new ControllerIcon(bindPos, bindText[i].y, x);
+                        key.x -= key.iconWidth;
+                        key.y += (80 - key.iconHeight)/2;
+                        bindPos -= key.iconWidth + 10;
+                        bindSprites.add(key);
+                    } 
+                }
+                
             }
             else{
                 bindText[i].text = "PRESS ANY KEY\n\n";
@@ -337,14 +365,49 @@ class KeyBindMenu extends MusicBeatState
 
     }
 
+    function addBindController(key:FlxGamepadInputID) {
+        var minCheckIndex:Int = 0;
+        var maxCheckIndex:Int = controllerBindsArray.length;
+
+        for(x in categoryNameIndecies){
+            if(selected > x) { minCheckIndex = x; }
+            if(selected < x) { 
+                maxCheckIndex = x;
+                break;
+            }
+        }
+
+        for(i in minCheckIndex...maxCheckIndex){
+            if(controllerBindsArray[i].remove(key)){
+                modifyBind(i);
+            }
+        }
+
+        controllerBindsArray[selected].push(key);
+        modifyBind(selected);
+
+    }
+
     function removeBind() {
         bindsArray[selected].pop();
+        modifyBind(selected);
+    }
+
+    function removeBindController() {
+        controllerBindsArray[selected].pop();
         modifyBind(selected);
     }
 
     function modifyBind(index:Int) {
         var k:Keybind = Binds.binds.get(bindIDs[index]);
         k.binds = bindsArray[index];
+        Binds.binds.set(bindIDs[index], k);
+        Binds.saveControls();
+    }
+
+    function modifyBindController(index:Int) {
+        var k:Keybind = Binds.binds.get(bindIDs[index]);
+        k.controllerBinds = controllerBindsArray[index];
         Binds.binds.set(bindIDs[index], k);
         Binds.saveControls();
     }

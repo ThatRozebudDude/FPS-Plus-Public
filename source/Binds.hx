@@ -42,42 +42,48 @@ class Binds
         var k:Keybind = {
             name: "Left Note",
             category: "Gameplay",
-            binds: [LEFT, A]
+            binds: [LEFT, A],
+            controllerBinds: [DPAD_LEFT, X]
         };
         r.set("gameplayLeft", k);
 
         var k:Keybind = {
             name: "Down Note",
             category: "Gameplay",
-            binds: [DOWN, S]
+            binds: [DOWN, S],
+            controllerBinds: [DPAD_DOWN, A]
         };
         r.set("gameplayDown", k);
 
         var k:Keybind = {
             name: "Up Note",
             category: "Gameplay",
-            binds: [UP, W]
+            binds: [UP, W],
+            controllerBinds: [DPAD_UP, Y]
         };
         r.set("gameplayUp", k);
 
         var k:Keybind = {
             name: "Right Note",
             category: "Gameplay",
-            binds: [RIGHT, D]
+            binds: [RIGHT, D],
+            controllerBinds: [DPAD_RIGHT, B]
         };
         r.set("gameplayRight", k);
 
         var k:Keybind = {
             name: "Pause",
             category: "Gameplay",
-            binds: [ESCAPE, ENTER]
+            binds: [ESCAPE, ENTER],
+            controllerBinds: [START]
         };
         r.set("pause", k);
 
         var k:Keybind = {
             name: "Die",
             category: "Gameplay",
-            binds: [R]
+            binds: [R],
+            controllerBinds: [BACK]
         };
         r.set("killbind", k);
 
@@ -87,42 +93,48 @@ class Binds
         var k:Keybind = {
             name: "Up",
             category: "Menu",
-            binds: [UP, W]
+            binds: [UP, W],
+            controllerBinds: [DPAD_UP, LEFT_STICK_DIGITAL_UP]
         };
         r.set("menuUp", k);
 
         var k:Keybind = {
             name: "Down",
             category: "Menu",
-            binds: [DOWN, S]
+            binds: [DOWN, S],
+            controllerBinds: [DPAD_DOWN, LEFT_STICK_DIGITAL_DOWN]
         };
         r.set("menuDown", k);
 
         var k:Keybind = {
             name: "Left",
             category: "Menu",
-            binds: [LEFT, A]
+            binds: [LEFT, A],
+            controllerBinds: [DPAD_LEFT, LEFT_STICK_DIGITAL_LEFT]
         };
         r.set("menuLeft", k);
 
         var k:Keybind = {
             name: "Right",
             category: "Menu",
-            binds: [RIGHT, D]
+            binds: [RIGHT, D],
+            controllerBinds: [DPAD_RIGHT, LEFT_STICK_DIGITAL_RIGHT]
         };
         r.set("menuRight", k);
 
         var k:Keybind = {
             name: "Accept",
             category: "Menu",
-            binds: [ENTER, SPACE]
+            binds: [ENTER, SPACE],
+            controllerBinds: [A, START]
         };
         r.set("menuAccept", k);
 
         var k:Keybind = {
             name: "Back",
             category: "Menu",
-            binds: [ESCAPE, BACKSPACE]
+            binds: [ESCAPE, BACKSPACE],
+            controllerBinds: [B]
         };
         r.set("menuBack", k);
 
@@ -164,7 +176,8 @@ class Binds
                 var k:Keybind = {
                     name: r.get(x).name,
                     category: r.get(x).category,
-                    binds: binds.get(x).binds
+                    binds: binds.get(x).binds,
+                    controllerBinds: binds.get(x).controllerBinds
                 };
                 r.set(x, k);
             }
@@ -181,15 +194,55 @@ class Binds
     }
 
     inline static public function pressed(input:String){
-        return FlxG.keys.anyPressed(binds.get(input).binds);
+        return pressedKeyboardOnly(input) || pressedControllerOnly(input);
     }
 
     inline static public function justPressed(input:String){
-        return FlxG.keys.anyJustPressed(binds.get(input).binds);
+        return justPressedKeyboardOnly(input) || justPressedControllerOnly(input);
     }
 
     inline static public function justReleased(input:String){
+        return justReleasedKeyboardOnly(input) || justReleasedControllerOnly(input);
+    }
+
+    inline static public function pressedKeyboardOnly(input:String){
+        return FlxG.keys.anyPressed(binds.get(input).binds);
+    }
+
+    inline static public function justPressedKeyboardOnly(input:String){
+        return FlxG.keys.anyJustPressed(binds.get(input).binds);
+    }
+
+    inline static public function justReleasedKeyboardOnly(input:String){
         return FlxG.keys.anyJustReleased(binds.get(input).binds);
+    }
+
+    inline static public function pressedControllerOnly(input:String){
+        var r:Bool = false;
+        for(x in binds.get(input).controllerBinds){
+            r = FlxG.gamepads.anyPressed(x);
+            if(r){ break; }
+        }
+        return r;
+    }
+
+    inline static public function justPressedControllerOnly(input:String){
+        var r:Bool = false;
+        for(x in binds.get(input).controllerBinds){
+            r = FlxG.gamepads.anyJustPressed(x);
+            if(r){
+                break; }
+        }
+        return r;
+    }
+
+    inline static public function justReleasedControllerOnly(input:String){
+        var r:Bool = false;
+        for(x in binds.get(input).controllerBinds){
+            r = FlxG.gamepads.anyJustReleased(x);
+            if(r){ break; }
+        }
+        return r;
     }
     
 }
@@ -251,4 +304,5 @@ typedef Keybind = {
     var name:String;
     var category:String;
     var binds:Array<FlxKey>;
+    var controllerBinds:Array<FlxGamepadInputID>;
 }

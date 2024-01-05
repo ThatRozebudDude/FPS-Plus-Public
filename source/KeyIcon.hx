@@ -1,5 +1,6 @@
 package;
 
+import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.text.FlxText.FlxTextBorderStyle;
 import flixel.text.FlxText.FlxTextAlign;
 import flixel.util.FlxColor;
@@ -20,6 +21,7 @@ class KeyIcon extends FlxSpriteGroup
 	public var key:FlxKey;
 
 	public var iconWidth:Float = 80;
+	public var iconHeight:Float = 80;
 
 	public function new(_x:Float, _y:Float, _key:FlxKey){
 
@@ -119,7 +121,54 @@ class KeyIcon extends FlxSpriteGroup
 		add(k);
 
 		iconWidth = Std.int(k.frameWidth / 10) * 10;
-		//trace(key.toString() + ": " + iconWidth);
+		iconHeight = Std.int(k.frameHeight / 10) * 10;
+
+		return k;
+	}
+
+}
+
+//Controller version of KeyIcon
+class ControllerIcon extends FlxSpriteGroup
+{
+
+	static final psSkinKeys:Array<FlxGamepadInputID> = [A, B, X, Y, BACK, DPAD_DOWN, DPAD_LEFT, DPAD_UP, DPAD_RIGHT, LEFT_SHOULDER, LEFT_TRIGGER, RIGHT_SHOULDER, RIGHT_TRIGGER, LEFT_STICK_CLICK, RIGHT_STICK_CLICK, START];
+	static final xSkinKeys:Array<FlxGamepadInputID> = [START, BACK];
+
+	public var key:FlxGamepadInputID;
+
+	public var skin:String;
+
+	public var iconWidth:Float = 80;
+	public var iconHeight:Float = 80;
+
+	public function new(_x:Float, _y:Float, _key:FlxGamepadInputID, ?_skin = ""){
+
+		super(_x, _y);
+		key = _key;
+		skin = _skin;
+		createGraphics();
+
+	}
+
+	function createGraphics() {
+
+		var postfix:String = "0";
+		if(xSkinKeys.contains(key) && skin == "x"){ postfix = "_x"; }
+		if(psSkinKeys.contains(key) && skin == "ps"){ postfix = "_ps"; }
+		loadKeyGraphic(key.toString().toLowerCase() + postfix);
+
+	}
+
+	function loadKeyGraphic(frame:String):FlxSprite {
+		var k = new FlxSprite(0, 0);
+		k.frames = Paths.getSparrowAtlas("ui/controllerIcons");
+		k.animation.addByPrefix("k", frame, 0, false);
+		k.animation.play("k");
+		add(k);
+
+		iconWidth = Std.int(k.frameWidth / 10) * 10;
+		iconHeight = Std.int(k.frameHeight / 10) * 10;
 
 		return k;
 	}

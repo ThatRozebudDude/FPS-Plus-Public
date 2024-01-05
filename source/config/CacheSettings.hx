@@ -174,6 +174,8 @@ class CacheSettings extends MusicBeatState
 
         keyTextDisplay.screenCenter();
 
+        keyTextDisplay.text += "\n\n";
+
     }
 
     function save(){
