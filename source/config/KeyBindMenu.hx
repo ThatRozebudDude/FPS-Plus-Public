@@ -28,6 +28,8 @@ class KeyBindMenu extends MusicBeatState
     var controlBox:FlxSprite;
     var selectionBox:FlxSprite;
 
+    var infoText:FlxTextExt;
+
     var selected:Int = 0;
 
     var selectedVisual:Int = 0;
@@ -50,6 +52,8 @@ class KeyBindMenu extends MusicBeatState
 
     var controllerMode:Bool = false;
     var currentController:FlxGamepad;
+    var controllerButtonSkin:String = "";
+    var prevControllerButtonSkin:String = "";
 
     //var testKeyThing:KeyIcon;
 
@@ -116,11 +120,14 @@ class KeyBindMenu extends MusicBeatState
         bindSprites = new FlxSpriteGroup();
         add(bindSprites);
 
-        var infoText = new FlxTextExt(5, FlxG.height - 21, 0, "Press BACKSPACE to remove a bind. Hold DELETE to reset all binds.", 16);
+        infoText = new FlxTextExt(5, FlxG.height - 21, 0, generateInfoString(), 16);
 		infoText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(infoText);
 
         generateCategories();
+
+        if(controllerMode){ updateCurrentController(); }
+
         updateBindList();
 
         changeBindSelection(0);
@@ -146,7 +153,7 @@ class KeyBindMenu extends MusicBeatState
         }
 
         if(controllerMode){
-            currentController = FlxG.gamepads.lastActive;
+            updateCurrentController();
         }
 
         switch(state){
@@ -154,10 +161,13 @@ class KeyBindMenu extends MusicBeatState
             case "selecting":
                 if(FlxG.keys.anyPressed([ANY]) && controllerMode){
                     controllerMode = false;
+                    infoText.text = generateInfoString();
                     updateBindList();
                 }
                 else if(FlxG.gamepads.anyJustPressed(ANY) && !controllerMode){
                     controllerMode = true;
+                    updateCurrentController();
+                    infoText.text = generateInfoString();
                     updateBindList();
                 }
 
@@ -237,20 +247,6 @@ class KeyBindMenu extends MusicBeatState
                     FlxTween.cancelTweensOf(bg);
                     FlxTween.color(bg, 1.75, 0xFFA784BA, 0xFF9766BE, {ease: FlxEase.quintOut});
                 }
-        }
-
-        /*if(FlxG.keys.anyJustPressed([ANY])){
-            if(testKeyThing != null){
-                testKeyThing.destroy();
-                remove(testKeyThing);
-            }
-            testKeyThing = new KeyIcon(controlBox.x + 10, controlBox.y + 10, FlxG.keys.getIsDown()[0].ID);
-            add(testKeyThing);
-        }*/
-
-        if(FlxG.keys.justPressed.GRAVEACCENT){
-            controllerMode = !controllerMode;
-            updateBindList();
         }
 		
 	}
@@ -348,7 +344,7 @@ class KeyBindMenu extends MusicBeatState
                 //Controller icons
                 else{
                     for(x in  controllerBindsArray[index]){
-                        var key = new ControllerIcon(bindPos, bindText[i].y, x);
+                        var key = new ControllerIcon(bindPos, bindText[i].y, x, controllerButtonSkin);
                         key.x -= key.iconWidth;
                         key.y += (80 - key.iconHeight)/2;
                         bindPos -= key.iconWidth + 10;
@@ -446,6 +442,43 @@ class KeyBindMenu extends MusicBeatState
         k.controllerBinds = controllerBindsArray[index];
         Binds.binds.set(bindIDs[index], k);
         Binds.saveControls();
+    }
+
+    function updateCurrentController() {
+        currentController = FlxG.gamepads.lastActive;
+            switch(currentController.model){
+                case PS4:
+                    controllerButtonSkin = "ps";
+                case XINPUT:
+                    controllerButtonSkin = "x";
+                default:
+                    controllerButtonSkin = "";
+            }
+        if(prevControllerButtonSkin != controllerButtonSkin){
+            prevControllerButtonSkin = controllerButtonSkin;
+            infoText.text = generateInfoString();
+        }
+    }
+
+    function generateInfoString():String {
+        var removeKey:String = "BACKSPACE";
+        var resetKey:String = "DELETE";
+
+        if(controllerMode){
+            switch(controllerButtonSkin){
+                case "ps":
+                    removeKey = "SQUARE";
+                    resetKey = "SELECT";
+                case "x":
+                    removeKey = "X";
+                    resetKey = "VIEW";
+                default:
+                    removeKey = "X";
+                    resetKey = "BACK";
+            }
+        }
+
+        return 'Press $removeKey to remove a bind. Hold $resetKey to reset all binds.';
     }
 
 }
