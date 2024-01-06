@@ -91,10 +91,6 @@ class Startup extends FlxState
         //FlxG.save.bind("data", "Rozebud/FunkinFPSPlus");
 		Highscore.load();
 
-		KeyBinds.keyCheck();
-		PlayerSettings.init();
-
-        PlayerSettings.player1.controls.loadKeyBinds();
 		Config.configCheck();
 		Config.reload();
 

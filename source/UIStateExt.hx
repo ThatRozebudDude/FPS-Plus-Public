@@ -22,10 +22,6 @@ class UIStateExt extends FlxUIState
 	private var customTransIn:BasicTransition = null;
 	private var customTransOut:BasicTransition = null;
 
-    private var controls(get, never):Controls;
-	inline function get_controls():Controls
-		return PlayerSettings.player1.controls;
-
 	override function create()
 	{
 		if(customTransIn != null){

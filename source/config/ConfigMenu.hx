@@ -701,7 +701,7 @@ class ConfigMenu extends UIStateExt
                 randomTapValue = 2;
 
             ghostTap.setting = ": " + randomTapTypes[randomTapValue];
-            ghostTap.description = ": " + ghostTap.extraData[randomTapValue];
+            ghostTap.description = ghostTap.extraData[randomTapValue];
         }
 
 
@@ -724,51 +724,6 @@ class ConfigMenu extends UIStateExt
                 }
             }
         }
-
-
-
-        var controllerBinds = new ConfigOption("CONTROLLER SCHEME", "", "");
-        controllerBinds.extraData[0] = "DEFAULT";
-        controllerBinds.extraData[1] = "ALT 1";
-        controllerBinds.extraData[2] = "ALT 2";
-        controllerBinds.extraData[3] = "[CUSTOM]";
-        controllerBinds.extraData[4] = "LEFT: DPAD LEFT / X (SQUARE) / LEFT TRIGGER\nDOWN: DPAD DOWN / X (CROSS) / LEFT BUMPER\nUP: DPAD UP / Y (TRIANGLE) / RIGHT BUMPER\nRIGHT: DPAD RIGHT / B (CIRCLE) / RIGHT TRIGGER";
-        controllerBinds.extraData[5] = "LEFT: DPAD LEFT / DPAD DOWN / LEFT TRIGGER\nDOWN: DPAD UP / DPAD RIGHT / LEFT BUMPER\nUP: X (SQUARE) / Y (TRIANGLE) / RIGHT BUMPER\nRIGHT: A (CROSS) / B (CIRCLE) / RIGHT TRIGGER";
-        controllerBinds.extraData[6] = "LEFT: ALL DPAD DIRECTIONS\nDOWN: LEFT BUMPER / LEFT TRIGGER\nUP: RIGHT BUMPER / RIGHT TRIGGER\nRIGHT: ALL FACE BUTTONS";
-        controllerBinds.extraData[7] = "Press A (CROSS) to change controller binds.";
-        controllerBinds.setting = ": " + controllerBinds.extraData[scheme];
-        controllerBinds.optionUpdate = function(){
-            if (pressRight){
-                FlxG.sound.play(Paths.sound('scrollMenu'));
-                scheme += 1;
-            }
-                
-            if (pressLeft){
-                FlxG.sound.play(Paths.sound('scrollMenu'));
-                scheme -= 1;
-            }
-                
-            if (scheme >= 4)
-                scheme = 0;
-            if (scheme < 0)
-                scheme = 4 - 1;
-
-            if (pressAccept && scheme == 4 - 1) {
-                FlxG.sound.play(Paths.sound('scrollMenu'));
-                state = "transitioning";
-                startInSubMenu = curSelected;
-                writeToConfig();
-                if(USE_LAYERED_MUSIC && !USE_MENU_MUSIC){
-                    songLayer.fadeOut(0.3);
-                }
-                switchState(new KeyBindMenuController());
-            }
-
-            controllerBinds.setting = ": " + controllerBinds.extraData[scheme];
-            controllerBinds.description = controllerBinds.extraData[scheme+4];
-        }
-
-
 
         var showFPS = new ConfigOption("SHOW FPS", ": " + genericOnOff[showFPSValue?0:1], "Show or hide the game's framerate.");
         showFPS.optionUpdate = function(){
@@ -1026,7 +981,7 @@ class ConfigMenu extends UIStateExt
 
         configOptions = [
                             [fpsCap, noteSplash, noteGlow, extraCamStuff, camBopStuff, captionsStuff, bgDim, showFPS],
-                            [noteOffset, downscroll, centeredNotes, ghostTap, /*controllerBinds,*/ keyBinds],
+                            [noteOffset, downscroll, centeredNotes, ghostTap, keyBinds],
                             [accuracyDisplay, showComboBreaks, comboDisplay, scrollSpeed, hpGain, hpDrain, cacheSettings]
                         ];
 

@@ -451,6 +451,8 @@ class KeyBindMenu extends MusicBeatState
                     controllerButtonSkin = "ps";
                 case XINPUT:
                     controllerButtonSkin = "x";
+                case SWITCH_PRO:
+                    controllerButtonSkin = "nin";
                 default:
                     controllerButtonSkin = "";
             }
@@ -472,6 +474,9 @@ class KeyBindMenu extends MusicBeatState
                 case "x":
                     removeKey = "X";
                     resetKey = "VIEW";
+                case "nin":
+                    removeKey = "Y";
+                    resetKey = "MINUS";
                 default:
                     removeKey = "X";
                     resetKey = "BACK";

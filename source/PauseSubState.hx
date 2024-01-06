@@ -112,7 +112,6 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.switchState(new PlayState());
 
 				case "Chart Editor":
-					PlayerSettings.menuControls();
 					FlxTween.globalManager.clear();
 					PlayState.instance.switchState(new ChartingState());
 					

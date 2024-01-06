@@ -248,7 +248,6 @@ class PlayState extends MusicBeatState
 
 		instance = this;
 		FlxG.mouse.visible = false;
-		PlayerSettings.gameControls();
 
 		customTransIn = new ScreenWipeIn(1.2);
 		customTransOut = new ScreenWipeOut(0.6);
@@ -1410,9 +1409,6 @@ class PlayState extends MusicBeatState
 
 	override function closeSubState()
 	{
-
-		PlayerSettings.gameControls();
-
 		if (paused)
 		{
 			if (FlxG.sound.music != null && !startingSong)
@@ -1530,14 +1526,11 @@ class PlayState extends MusicBeatState
 			persistentDraw = true;
 			paused = true;
 
-			PlayerSettings.menuControls();
-
 			openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
 
 		if (FlxG.keys.justPressed.SEVEN)
 		{
-			PlayerSettings.menuControls();
 			switchState(new ChartingState());
 			sectionStart = false;
 		}
@@ -1578,7 +1571,6 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.EIGHT){
 
-			PlayerSettings.menuControls();
 			sectionStart = false;
 
 			if(FlxG.keys.pressed.SHIFT){
@@ -1665,8 +1657,6 @@ class PlayState extends MusicBeatState
 
 			vocals.stop();
 			FlxG.sound.music.stop();
-
-			PlayerSettings.menuControls();
 
 			openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, camFollowFinal.getScreenPosition().x, camFollowFinal.getScreenPosition().y, boyfriend.deathCharacter));
 			sectionStart = false;
@@ -1881,8 +1871,6 @@ class PlayState extends MusicBeatState
 			{
 				FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), 1);
 
-				PlayerSettings.menuControls();
-
 				switchState(new StoryMenuState());
 				sectionStart = false;
 
@@ -1938,7 +1926,6 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
-			PlayerSettings.menuControls();
 			sectionStart = false;
 
 			switchState(new FreeplayState());

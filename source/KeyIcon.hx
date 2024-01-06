@@ -132,8 +132,9 @@ class KeyIcon extends FlxSpriteGroup
 class ControllerIcon extends FlxSpriteGroup
 {
 
-	static final psSkinKeys:Array<FlxGamepadInputID> = [A, B, X, Y, BACK, DPAD_DOWN, DPAD_LEFT, DPAD_UP, DPAD_RIGHT, LEFT_SHOULDER, LEFT_TRIGGER, RIGHT_SHOULDER, RIGHT_TRIGGER, LEFT_STICK_CLICK, RIGHT_STICK_CLICK, START];
-	static final xSkinKeys:Array<FlxGamepadInputID> = [START, BACK];
+	static final psSkinKeys:Array<FlxGamepadInputID> = [A, B, X, Y, BACK, DPAD_DOWN, DPAD_LEFT, DPAD_UP, DPAD_RIGHT, LEFT_SHOULDER, LEFT_TRIGGER, RIGHT_SHOULDER, RIGHT_TRIGGER, LEFT_STICK_CLICK, RIGHT_STICK_CLICK, START, GUIDE];
+	static final xSkinKeys:Array<FlxGamepadInputID> = [START, BACK, GUIDE];
+	static final ninSkinKeys:Array<FlxGamepadInputID> = [A, B, X, Y, BACK, START, LEFT_SHOULDER, LEFT_TRIGGER, RIGHT_SHOULDER, RIGHT_TRIGGER, LEFT_STICK_CLICK, RIGHT_STICK_CLICK, EXTRA_0];
 
 	public var key:FlxGamepadInputID;
 
@@ -156,6 +157,7 @@ class ControllerIcon extends FlxSpriteGroup
 		var postfix:String = "0";
 		if(xSkinKeys.contains(key) && skin == "x"){ postfix = "_x"; }
 		if(psSkinKeys.contains(key) && skin == "ps"){ postfix = "_ps"; }
+		if(ninSkinKeys.contains(key) && skin == "nin"){ postfix = "_nin"; }
 		loadKeyGraphic(key.toString().toLowerCase() + postfix);
 
 	}
