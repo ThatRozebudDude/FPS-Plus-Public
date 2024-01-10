@@ -150,8 +150,9 @@ class CacheSettings extends MusicBeatState
 
         }
 
-        if(FlxG.keys.justPressed.ANY)
+        if(FlxG.keys.justPressed.ANY || FlxG.gamepads.anyJustPressed(ANY)){
             textUpdate();
+        }
 
     }
 
