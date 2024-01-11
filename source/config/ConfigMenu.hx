@@ -12,11 +12,13 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
+import flixelExtensions.FlxUIStateExt;
+import flixelExtensions.FlxTextExt;
 
 
 using StringTools;
 
-class ConfigMenu extends UIStateExt
+class ConfigMenu extends FlxUIStateExt
 {
 
     public static var USE_LAYERED_MUSIC:Bool = true;    //If you're not using a layered options theme, set this to false.
@@ -383,7 +385,7 @@ class ConfigMenu extends UIStateExt
         else if(curSelected >= options.length){
             curSelected = 0;
         }
-        
+
         for(i in 0...options.length){
             if(i == curSelected){
                 icons[i].scale.set(1, 1);
@@ -391,6 +393,9 @@ class ConfigMenu extends UIStateExt
                 splatter.setPosition(icons[i].getGraphicMidpoint().x, icons[i].getGraphicMidpoint().y);
                 splatter.x -= splatter.width/2;
                 splatter.y -= splatter.height/2;
+                /*FlxTween.cancelTweensOf(splatter.scale);
+                splatter.scale.set(1.075, 1.075);
+                FlxTween.tween(splatter.scale, {x: 1, y: 1}, 0.6, {ease: FlxEase.quintOut});*/
             }
             else{
                 icons[i].scale.set(0.85, 0.85);

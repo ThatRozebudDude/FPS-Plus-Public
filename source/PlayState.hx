@@ -59,6 +59,7 @@ import flixel.util.FlxTimer;
 //import openfl.display.BlendMode;
 //import openfl.display.StageQuality;
 //import openfl.filters.ShaderFilter;
+import flixelExtensions.FlxTextExt;
 
 using StringTools;
 

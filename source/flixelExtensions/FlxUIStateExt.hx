@@ -1,4 +1,4 @@
-package;
+package flixelExtensions;
 
 import transition.*;
 import transition.data.*;
@@ -9,7 +9,7 @@ import flixel.FlxG;
 import flixel.FlxState;
 import flixel.addons.ui.FlxUIState;
 
-class UIStateExt extends FlxUIState
+class FlxUIStateExt extends FlxUIState
 {
 	private var useDefaultTransIn:Bool = true;
 	private var useDefaultTransOut:Bool = true;
@@ -27,8 +27,9 @@ class UIStateExt extends FlxUIState
 		if(customTransIn != null){
 			CustomTransition.transition(customTransIn, null);
 		}
-		else if(useDefaultTransIn)
+		else if(useDefaultTransIn){
 			CustomTransition.transition(Type.createInstance(defaultTransIn, defaultTransInArgs), null);
+		}
 		super.create();
 	}
 

@@ -1,5 +1,6 @@
 package config;
 
+import flixelExtensions.FlxUIStateExt;
 import flixel.input.gamepad.FlxGamepad;
 import KeyIcon.ControllerIcon;
 import flixel.input.gamepad.FlxGamepadInputID;
@@ -14,11 +15,12 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
+import flixelExtensions.FlxTextExt;
 
 
 using StringTools;
 
-class KeyBindMenu extends MusicBeatState
+class KeyBindMenu extends FlxUIStateExt
 {
 
     var state:String = "selecting";

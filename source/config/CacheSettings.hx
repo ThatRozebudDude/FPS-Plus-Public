@@ -1,5 +1,7 @@
 package config;
 
+import flixelExtensions.FlxUIStateExt;
+import flixelExtensions.FlxTextExt;
 import flixel.sound.FlxSound;
 import transition.data.*;
 
@@ -11,7 +13,7 @@ import flixel.text.FlxText;
 
 using StringTools;
 
-class CacheSettings extends MusicBeatState
+class CacheSettings extends FlxUIStateExt
 {
 
     public static var noFunMode = false;

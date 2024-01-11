@@ -19,6 +19,7 @@ import flixel.text.FlxText;
 import openfl.system.System;
 //import openfl.utils.Future;
 //import flixel.addons.util.FlxAsyncLoop;
+import flixelExtensions.FlxUIStateExt;
 
 using StringTools;
 
@@ -98,10 +99,10 @@ class Startup extends FlxState
 
         Main.fpsDisplay.visible = Config.showFPS;
 
-        UIStateExt.defaultTransIn = ScreenWipeIn;
-        UIStateExt.defaultTransInArgs = [1.2];
-        UIStateExt.defaultTransOut = ScreenWipeOut;
-        UIStateExt.defaultTransOutArgs = [0.6];
+        FlxUIStateExt.defaultTransIn = ScreenWipeIn;
+        FlxUIStateExt.defaultTransInArgs = [1.2];
+        FlxUIStateExt.defaultTransOut = ScreenWipeOut;
+        FlxUIStateExt.defaultTransOutArgs = [0.6];
 
         if (FlxG.save.data.weekUnlocked != null)
 		{
