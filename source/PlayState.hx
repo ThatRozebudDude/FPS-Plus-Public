@@ -132,6 +132,8 @@ class PlayState extends MusicBeatState
 	private var sectionHaveNotes:Array<Array<Bool>> = [];
 
 	private var vocals:FlxSound;
+	private var vocalsOther:FlxSound;
+	private var vocalType:Int = 1; // 0 - No vocal track, 1 - Single vocal track, 2 - Split vocal track
 
 	public var dad:Character;
 	public var gf:Character;
@@ -275,8 +277,7 @@ class PlayState extends MusicBeatState
 
 		inCutscene = false;
 
-		FlxG.sound.cache(Paths.inst(SONG.song));
-		FlxG.sound.cache(Paths.voices(SONG.song));
+		songPreload();
 		
 		Config.setFramerate(999);
 
@@ -1127,11 +1128,17 @@ class PlayState extends MusicBeatState
 
 		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
+		if(vocalType == 2){
+			vocalsOther.play();
+		}
 
 		if(sectionStart){
 			FlxG.sound.music.time = sectionStartTime;
 			Conductor.songPosition = sectionStartTime;
 			vocals.time = sectionStartTime;
+			if(vocalType == 2){
+				vocalsOther.time = sectionStartTime;
+			}
 		}
 
 		/*
@@ -1153,12 +1160,16 @@ class PlayState extends MusicBeatState
 
 		curSong = songData.song;
 
-		if (SONG.needsVoices)
-		{
-			vocals = new FlxSound().loadEmbedded(Paths.voices(curSong));
+		switch(vocalType){
+			case 2:
+				vocals = new FlxSound().loadEmbedded(Paths.voices(curSong, "Player"));
+				vocalsOther = new FlxSound().loadEmbedded(Paths.voices(curSong, "Opponent"));
+				FlxG.sound.list.add(vocalsOther);
+			case 1:
+				vocals = new FlxSound().loadEmbedded(Paths.voices(curSong));
+			case 0:
+				vocals = new FlxSound();
 		}
-		else
-			vocals = new FlxSound();
 
 		FlxG.sound.list.add(vocals);
 
@@ -1399,6 +1410,9 @@ class PlayState extends MusicBeatState
 			{
 				FlxG.sound.music.pause();
 				vocals.pause();
+				if(vocalType == 2){
+					vocalsOther.pause();
+				}
 			}
 
 			if (startTimer != null && !startTimer.finished)
@@ -1430,12 +1444,21 @@ class PlayState extends MusicBeatState
 	function resyncVocals():Void
 	{
 		vocals.pause();
+		if(vocalType == 2){ vocalsOther.pause(); }
 		FlxG.sound.music.play();
 		Conductor.songPosition = FlxG.sound.music.time;
 		if (Conductor.songPosition <= vocals.length){
 			vocals.time = Conductor.songPosition;
 			vocals.play();
 		}
+
+		if(vocalType == 2){
+			if (Conductor.songPosition <= vocalsOther.length){
+				vocalsOther.time = Conductor.songPosition;
+				vocalsOther.play();
+			}
+		}
+		
 
 		//trace("resyncing vocals");
 	}
@@ -1657,6 +1680,7 @@ class PlayState extends MusicBeatState
 			paused = true;
 
 			vocals.stop();
+			if(vocalType == 2){ vocalsOther.stop(); }
 			FlxG.sound.music.stop();
 
 			openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, camFollowFinal.getScreenPosition().x, camFollowFinal.getScreenPosition().y, boyfriend.deathCharacter));
@@ -1841,8 +1865,13 @@ class PlayState extends MusicBeatState
 
 				dad.holdTimer = 0;
 
-				if (SONG.needsVoices)
-					vocals.volume = 1;
+				switch(vocalType){
+					case 2:
+						vocalsOther.volume = 1;
+					case 1:
+						vocals.volume = 1;
+				}
+					
 
 				if(!daNote.isSustainNote){
 					daNote.destroy();
@@ -1856,6 +1885,7 @@ class PlayState extends MusicBeatState
 		canPause = false;
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
+		if(vocalType == 2) { vocalsOther.volume = 0; }
 		if (SONG.validScore && !usedAutoplay){
 			#if !switch
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
@@ -2457,14 +2487,15 @@ class PlayState extends MusicBeatState
 	override function stepHit()
 	{
 
-		if (Math.abs(FlxG.sound.music.time - (Conductor.songPosition)) > 20 || (SONG.needsVoices && Math.abs(vocals.time - (Conductor.songPosition)) > 20)){
+		if (Math.abs(FlxG.sound.music.time - (Conductor.songPosition)) > 20 || (vocalType > 0 && Math.abs(vocals.time - (Conductor.songPosition)) > 20)){
 			resyncVocals();
 		}
 
-		/*if (dad.curCharacter == 'spooky' && totalSteps % 4 == 2)
-		{
-			// dad.dance();
-		}*/
+		if(vocalType == 2){
+			if (Math.abs(vocalsOther.time - (Conductor.songPosition)) > 20){
+				resyncVocals();
+			}
+		}
 
 		stage.step(curStep);
 
@@ -3012,6 +3043,22 @@ class PlayState extends MusicBeatState
 			r = Std.parseFloat(v);
 		}
 		return r;
+	}
+
+	function songPreload():Void {
+		FlxG.sound.cache(Paths.inst(SONG.song));
+		
+		if(CoolUtil.exists(Paths.voices(SONG.song, "Player"))){
+			FlxG.sound.cache(Paths.voices(SONG.song, "Player"));
+			FlxG.sound.cache(Paths.voices(SONG.song, "Opponent"));
+			vocalType = 2;
+		}
+		else if(CoolUtil.exists(Paths.voices(SONG.song))){
+			FlxG.sound.cache(Paths.voices(SONG.song));
+		}
+		else{
+			vocalType = 0;
+		}
 	}
 
 }

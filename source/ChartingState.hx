@@ -123,6 +123,7 @@ class ChartingState extends MusicBeatState
 	var tempBpm:Float = 0;
 
 	var vocals:FlxSound;
+	var vocalsOther:FlxSound;
 
 	var leftIcon:HealthIcon;
 	var rightIcon:HealthIcon;
@@ -495,7 +496,7 @@ class ChartingState extends MusicBeatState
 				gotoSectionStepper.value = 0;
 			});
 	
-			var check_mute_inst = new FlxUICheckBox(10, 10, null, null, "Mute Instrumental (in editor)", 100);
+			var check_mute_inst = new FlxUICheckBox(10, 20, null, null, "Mute Instrumental", 100);
 			check_mute_inst.checked = false;
 			check_mute_inst.callback = function()
 			{
@@ -507,25 +508,35 @@ class ChartingState extends MusicBeatState
 				FlxG.sound.music.volume = vol;
 			};
 	
-			bfClick = new FlxUICheckBox(10, 50, null, null, "BF Note Click", 100);
+			bfClick = new FlxUICheckBox(10, 80, null, null, "BF Note Click", 100);
 			bfClick.checked = false;
 
-			opClick = new FlxUICheckBox(10, 70, null, null, "Opp Note Click", 100);
+			opClick = new FlxUICheckBox(10, 100, null, null, "Opp Note Click", 100);
 			opClick.checked = false;
 
-			var check_mute_vox = new FlxUICheckBox(10, 30, null, null, "Mute Vocals (in editor)", 100);
+			var check_mute_vox = new FlxUICheckBox(10, 40, null, null, "Mute Vocals", 100);
 			check_mute_vox.checked = false;
-			check_mute_vox.callback = function()
-			{
-				var vol:Float = 1;
-	
-				if (check_mute_vox.checked)
-					vol = 0;
-	
-				vocals.volume = vol;
+			check_mute_vox.callback = function() {
+				if(check_mute_vox.checked){
+					vocals.volume = 0;
+				}
+				else{
+					vocals.volume = 1;
+				}
 			};
 
-			lilBuddiesBox = new FlxUICheckBox(10, 90, null, null, "Lil' Buddies", 100);
+			var check_mute_vox_other = new FlxUICheckBox(10, 60, null, null, "Mute Opponent Vocals (if available)", 200);
+			check_mute_vox_other.checked = false;
+			check_mute_vox_other.callback = function() {
+				if(check_mute_vox_other.checked){
+					vocalsOther.volume = 0;
+				}
+				else{
+					vocalsOther.volume = 1;
+				}
+			};
+
+			lilBuddiesBox = new FlxUICheckBox(10, 120, null, null, "Lil' Buddies", 100);
 			lilBuddiesBox.checked = true;
 			lilBuddiesBox.callback = function()
 			{
@@ -544,6 +555,7 @@ class ChartingState extends MusicBeatState
 			tab_group_tools.add(gotoSectionButton);
 			tab_group_tools.add(check_mute_inst);
 			tab_group_tools.add(check_mute_vox);
+			tab_group_tools.add(check_mute_vox_other);
 			tab_group_tools.add(bfClick);
 			tab_group_tools.add(opClick);
 			tab_group_tools.add(lilBuddiesBox);
@@ -735,18 +747,39 @@ class ChartingState extends MusicBeatState
 		FlxG.sound.playMusic(Paths.inst(daSong), 0.6);
 
 		// WONT WORK FOR TUTORIAL OR TEST SONG!!! REDO LATER
-		vocals = new FlxSound().loadEmbedded(Paths.voices(daSong));
+		if(CoolUtil.exists(Paths.voices(daSong, "Player"))){
+			vocals = new FlxSound().loadEmbedded(Paths.voices(daSong, "Player"));
+			vocalsOther = new FlxSound().loadEmbedded(Paths.voices(daSong, "Opponent"));
+			
+		}
+		else if(CoolUtil.exists(Paths.voices(daSong))){
+			vocals = new FlxSound().loadEmbedded(Paths.voices(daSong));
+			vocalsOther = new FlxSound();
+		}
+		else{
+			vocals = new FlxSound();
+			vocalsOther = new FlxSound();
+		}
+
 		FlxG.sound.list.add(vocals);
+		FlxG.sound.list.add(vocalsOther);
 
 		FlxG.sound.music.pause();
 		vocals.play();
 		vocals.pause();
 		vocals.time = FlxG.sound.music.time;
 
+		vocalsOther.play();
+		vocalsOther.pause();
+		vocalsOther.time = FlxG.sound.music.time;
+
 		FlxG.sound.music.onComplete = function()
 		{
 			vocals.pause();
 			vocals.time = 0;
+			vocalsOther.pause();
+			vocalsOther.time = 0;
+
 			FlxG.sound.music.pause();
 			FlxG.sound.music.time = 0;
 			changeSection();
@@ -901,6 +934,7 @@ class ChartingState extends MusicBeatState
 				{
 					FlxG.sound.music.pause();
 					vocals.pause();
+					vocalsOther.pause();
 
 					lilBf.animation.play("idle");
 					lilOpp.animation.play("idle");
@@ -908,6 +942,7 @@ class ChartingState extends MusicBeatState
 				else
 				{
 					vocals.play();
+					vocalsOther.play();
 					FlxG.sound.music.play();
 
 					lilBf.animation.play("idle");
@@ -930,6 +965,7 @@ class ChartingState extends MusicBeatState
 
 				FlxG.sound.music.pause();
 				vocals.pause();
+				vocalsOther.pause();
 
 				lilBf.animation.play("idle");
 				lilOpp.animation.play("idle");
@@ -955,6 +991,7 @@ class ChartingState extends MusicBeatState
 				}*/
 
 				vocals.time = FlxG.sound.music.time;
+				vocalsOther.time = FlxG.sound.music.time;
 				
 			}
 
@@ -964,6 +1001,7 @@ class ChartingState extends MusicBeatState
 				{
 					FlxG.sound.music.pause();
 					vocals.pause();
+					vocalsOther.pause();
 
 					lilBf.animation.play("idle");
 					lilOpp.animation.play("idle");
@@ -978,6 +1016,7 @@ class ChartingState extends MusicBeatState
 						FlxG.sound.music.time += daTime;
 
 					vocals.time = FlxG.sound.music.time;
+					vocalsOther.time = FlxG.sound.music.time;
 				}
 			}
 			else
@@ -991,6 +1030,7 @@ class ChartingState extends MusicBeatState
 
 					FlxG.sound.music.pause();
 					vocals.pause();
+					vocalsOther.pause();
 
 					var daTime:Float = 2500 * FlxG.elapsed;
 
@@ -1002,6 +1042,7 @@ class ChartingState extends MusicBeatState
 						FlxG.sound.music.time += daTime;
 
 					vocals.time = FlxG.sound.music.time;
+					vocalsOther.time = FlxG.sound.music.time;
 				}
 			}
 
@@ -1148,6 +1189,7 @@ class ChartingState extends MusicBeatState
 					PlayState.EVENTS = _events;
 					FlxG.sound.music.stop();
 					vocals.stop();
+					vocalsOther.stop();
 		
 					//FlxG.save.bind("data", "Rozebud/FPSPlus");
 					SaveManager.global();
@@ -1394,6 +1436,7 @@ class ChartingState extends MusicBeatState
 
 		FlxG.sound.music.pause();
 		vocals.pause();
+		vocalsOther.pause();
 
 		lilBf.animation.play("idle");
 		lilOpp.animation.play("idle");
@@ -1408,6 +1451,7 @@ class ChartingState extends MusicBeatState
 		}
 
 		vocals.time = FlxG.sound.music.time;
+		vocalsOther.time = FlxG.sound.music.time;
 		updateCurStep();
 
 		updateGrid();
@@ -1430,6 +1474,7 @@ class ChartingState extends MusicBeatState
 			{
 				FlxG.sound.music.pause();
 				vocals.pause();
+				vocalsOther.pause();
 
 				lilBf.animation.play("idle");
 				lilOpp.animation.play("idle");
@@ -1444,6 +1489,7 @@ class ChartingState extends MusicBeatState
 
 				FlxG.sound.music.time = sectionStartTime();
 				vocals.time = FlxG.sound.music.time;
+				vocalsOther.time = FlxG.sound.music.time;
 				updateCurStep();
 			}
 

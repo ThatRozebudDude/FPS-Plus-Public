@@ -59,8 +59,9 @@ class Paths
         return file(key, "music", audioExtension);
     }
 
-    inline static public function voices(key:String){
-        return 'assets/songs/$key/Voices.ogg';
+    inline static public function voices(key:String, type:String = ""){
+        if(type.length > 0){ type = "-" + type; }
+        return 'assets/songs/$key/Voices$type.ogg';
     }
 
     inline static public function inst(key:String){
