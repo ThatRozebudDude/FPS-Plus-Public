@@ -1,0 +1,42 @@
+{
+	"events": {
+		"events": [
+			[
+				7,
+				18000,
+				0,
+				"playAnim;dad;cheer"
+			],
+			[
+				7,
+				17850,
+				1,
+				"dadAnimLockToggle"
+			],
+			[
+				7,
+				19050,
+				1,
+				"dadAnimLockToggle"
+			],
+			[
+				11,
+				27600,
+				0,
+				"playAnim;dad;cheer"
+			],
+			[
+				11,
+				27450,
+				1,
+				"dadAnimLockToggle"
+			],
+			[
+				11,
+				28650,
+				1,
+				"dadAnimLockToggle"
+			]
+		]
+	}
+}
