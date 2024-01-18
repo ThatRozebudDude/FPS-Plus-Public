@@ -495,24 +495,19 @@ class ChartingState extends MusicBeatState
 				changeSection(Std.int(gotoSectionStepper.value), true);
 				gotoSectionStepper.value = 0;
 			});
-	
-			var check_mute_inst = new FlxUICheckBox(10, 20, null, null, "Mute Instrumental", 100);
-			check_mute_inst.checked = false;
-			check_mute_inst.callback = function()
-			{
-				var vol:Float = 1;
-	
-				if (check_mute_inst.checked)
-					vol = 0;
-	
-				FlxG.sound.music.volume = vol;
-			};
-	
-			bfClick = new FlxUICheckBox(10, 80, null, null, "BF Note Click", 100);
-			bfClick.checked = false;
 
-			opClick = new FlxUICheckBox(10, 100, null, null, "Opp Note Click", 100);
-			opClick.checked = false;
+			//I DO NOT KNOW WHY THE TEXT IS FUCKING MISALIGNED WHY IS FLXUI LIKE THIS????????????
+	
+			var check_mute_inst = new FlxUICheckBox(10, 10, null, null, "Mute Instrumental", 100);
+			check_mute_inst.checked = false;
+			check_mute_inst.callback = function() {
+				if(check_mute_inst.checked){
+					FlxG.sound.music.volume = 0;
+				}
+				else{
+					FlxG.sound.music.volume = 1;
+				}
+			};
 
 			var check_mute_vox = new FlxUICheckBox(10, 40, null, null, "Mute Vocals", 100);
 			check_mute_vox.checked = false;
@@ -525,7 +520,7 @@ class ChartingState extends MusicBeatState
 				}
 			};
 
-			var check_mute_vox_other = new FlxUICheckBox(10, 60, null, null, "Mute Opponent Vocals (if available)", 200);
+			var check_mute_vox_other = new FlxUICheckBox(10, 70, null, null, "Mute Opponent Vocals (if available)", 200);
 			check_mute_vox_other.checked = false;
 			check_mute_vox_other.callback = function() {
 				if(check_mute_vox_other.checked){
@@ -535,8 +530,14 @@ class ChartingState extends MusicBeatState
 					vocalsOther.volume = 1;
 				}
 			};
+	
+			bfClick = new FlxUICheckBox(10, 100, null, null, "BF Note Click", 100);
+			bfClick.checked = false;
 
-			lilBuddiesBox = new FlxUICheckBox(10, 120, null, null, "Lil' Buddies", 100);
+			opClick = new FlxUICheckBox(10, 130, null, null, "Opp Note Click", 100);
+			opClick.checked = false;
+
+			lilBuddiesBox = new FlxUICheckBox(10, 160, null, null, "Lil' Buddies", 100);
 			lilBuddiesBox.checked = true;
 			lilBuddiesBox.callback = function()
 			{
