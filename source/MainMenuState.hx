@@ -39,7 +39,7 @@ class MainMenuState extends MusicBeatState
 
 		if (!FlxG.sound.music.playing)
 		{	
-			FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), 1);
+			FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
 		}
 
 		persistentUpdate = persistentDraw = true;
@@ -169,7 +169,9 @@ class MainMenuState extends MusicBeatState
 					
 					switch (daChoice){
 						case 'freeplay':
-							FlxG.sound.music.stop();
+							if(CacheConfig.music){
+								FlxG.sound.music.stop();
+							}
 						case 'options':
 							if(!ConfigMenu.USE_MENU_MUSIC){
 								FlxG.sound.music.stop();
@@ -208,6 +210,7 @@ class MainMenuState extends MusicBeatState
 										trace("Story Menu Selected");
 									case 'freeplay':
 										FreeplayState.startingSelection = 0;
+										FreeplayState.fromMainMenu = true;
 										switchState(new FreeplayState());
 										trace("Freeplay Menu Selected");
 									case 'options':

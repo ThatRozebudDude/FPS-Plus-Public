@@ -1,5 +1,7 @@
 package;
 
+import config.CacheConfig;
+import title.TitleScreen;
 import config.Config;
 import flash.text.TextField;
 import flixel.FlxG;
@@ -16,6 +18,8 @@ using StringTools;
 class FreeplayState extends MusicBeatState
 {
 	var songs:Array<SongMetadata> = [];
+
+	public static var fromMainMenu:Bool = false;
 
 	public static var startingSelection:Int = 0;
 	var selector:FlxText;
@@ -95,10 +99,14 @@ class FreeplayState extends MusicBeatState
 		add(scoreText);
 
 		changeSelection(startingSelection);
-		changeDiff();
+		changeDiff(0, false);
 
-		// FlxG.sound.playMusic(Paths.music('title'), 0);
-		// FlxG.sound.music.fadeIn(2, 0, 0.8);
+		if(!fromMainMenu && !CacheConfig.music){
+			FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
+		}
+
+		fromMainMenu = false;
+
 		selector = new FlxText();
 
 		selector.size = 40;
@@ -156,21 +164,24 @@ class FreeplayState extends MusicBeatState
 
 		if (Binds.justPressed("menuUp")){
 			changeSelection(-1);
-			changeDiff(0);
+			changeDiff(0, false);
 		}
 		if (Binds.justPressed("menuDown")){
 			changeSelection(1);
-			changeDiff(0);
+			changeDiff(0, false);
 		}
 
-		if (Binds.justPressed("menuLeft"))
+		if (Binds.justPressed("menuLeft")){
 			changeDiff(-1);
-		if (Binds.justPressed("menuRight"))
+		}
+			
+		if (Binds.justPressed("menuRight")){
 			changeDiff(1);
+		}
+			
 
-		if (Binds.justPressed("menuBack"))
-		{
-			FlxG.sound.music.stop();
+		if (Binds.justPressed("menuBack")){
+			if(CacheConfig.music){ FlxG.sound.music.stop(); }
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			switchState(new MainMenuState());
 		}
@@ -192,8 +203,12 @@ class FreeplayState extends MusicBeatState
 		}
 	}
 
-	function changeDiff(change:Int = 0)
-	{
+	function changeDiff(change:Int = 0, playSound:Bool = true){
+
+		if(playSound){
+			FlxG.sound.play(Paths.sound('scrollMenu'));
+		}
+
 		curDifficulty += change;
 
 		if (curDifficulty < 0)
@@ -220,9 +235,9 @@ class FreeplayState extends MusicBeatState
 		}
 	}
 
-	function changeSelection(change:Int = 0)
-	{
-		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+	function changeSelection(change:Int = 0){
+
+		FlxG.sound.play(Paths.sound('scrollMenu'));
 
 		curSelected += change;
 
@@ -238,8 +253,10 @@ class FreeplayState extends MusicBeatState
 		// lerpScore = 0;
 		#end
 
-		FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
-		FlxG.sound.music.fadeIn(1, 0, 0.8);
+		if(CacheConfig.music){
+			FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
+			FlxG.sound.music.fadeIn(1, 0, 1);
+		}
 
 		var bullShit:Int = 0;
 

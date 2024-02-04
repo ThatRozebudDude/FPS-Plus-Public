@@ -20,6 +20,11 @@ class CacheSettings extends FlxUIStateExt
 
     var keyTextDisplay:FlxTextExt;
     var warning:FlxTextExt;
+    var warningText:Array<String> = [
+                                    "Enabling this will load the song instrumentals into RAM. This will decrease loading times and allow you to preview songs in the Freeplay menu at the cost of using more memory. Leave this disabled to reduce memory usage.",
+                                    "Enabling this will load the character sprites into VRAM. This will decrease loading times. Disabling this will increase RAM usage slightly during gameplay.",
+                                    "Enabling this will load most of the stage graphics into VRAM. This will decrease loading times. Disabling this will increase RAM usage during gameplay. If you don't have a decent GPU it might be best to leave this disabled.",
+                                    ];
 
     public static var returnLoc:FlxState;
     public static var thing:Bool = false;
@@ -69,13 +74,12 @@ class CacheSettings extends FlxUIStateExt
 		keyTextDisplay.borderQuality = 1;
         add(keyTextDisplay);
 
-        warning = new FlxTextExt(0, 540, 1280, "WARNING!\nEnabling this will load a large amount of graphics data to VRAM.\nIf you don't have a decent GPU it might be best to leave this disabled.", 32);
+        warning = new FlxTextExt(0, 540, 1120, warningText[curSelected], 32);
 		warning.scrollFactor.set(0, 0);
 		warning.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         warning.borderSize = 3;
 		warning.borderQuality = 1;
         warning.screenCenter(X);
-        warning.visible = false;
         add(warning);
 
         var binds = Binds.binds.get("menuBack").binds;
@@ -97,17 +101,15 @@ class CacheSettings extends FlxUIStateExt
 		backText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(backText);
 
-        if( FlxG.save.data.musicPreload2 == null ||
-            FlxG.save.data.charPreload2 == null ||
-            FlxG.save.data.graphicsPreload2 == null)
+        if(!CacheConfig.check())
         {
-            FlxG.save.data.musicPreload2 = true;
-            FlxG.save.data.charPreload2 = true;
-            FlxG.save.data.graphicsPreload2 = false;
+            CacheConfig.music = false;
+            CacheConfig.characters = true;
+            CacheConfig.graphics = false;
         }
 
-        settings = [FlxG.save.data.musicPreload2, FlxG.save.data.charPreload2, FlxG.save.data.graphicsPreload2];
-        startingSettings = [FlxG.save.data.musicPreload2, FlxG.save.data.charPreload2, FlxG.save.data.graphicsPreload2];
+        settings = [CacheConfig.music, CacheConfig.characters, CacheConfig.graphics];
+        startingSettings = [CacheConfig.music, CacheConfig.characters, CacheConfig.graphics];
 
         textUpdate();
 
@@ -144,6 +146,10 @@ class CacheSettings extends FlxUIStateExt
                     quit();
                 }
 
+                if(FlxG.keys.justPressed.ANY || FlxG.gamepads.anyJustPressed(ANY)){
+                    textUpdate();
+                }
+
             case "exiting":
 
 
@@ -152,16 +158,14 @@ class CacheSettings extends FlxUIStateExt
 
         }
 
-        if(FlxG.keys.justPressed.ANY || FlxG.gamepads.anyJustPressed(ANY)){
-            textUpdate();
-        }
-
     }
 
     function textUpdate(){
 
         keyTextDisplay.clearFormats();
-        keyTextDisplay.text = "CACHE SETTINGS\n\n";
+        if(!noFunMode){ keyTextDisplay.text = "\n"; }
+        else{ keyTextDisplay.text = ""; }
+        keyTextDisplay.text += "\n\nCACHE SETTINGS\n\n";
 
         for(i in 0...3){
 
@@ -175,17 +179,15 @@ class CacheSettings extends FlxUIStateExt
 
         }
 
-        keyTextDisplay.screenCenter();
-
         keyTextDisplay.text += "\n\n";
 
     }
 
     function save(){
 
-        FlxG.save.data.musicPreload2 = settings[0];
-        FlxG.save.data.charPreload2 = settings[1];
-        FlxG.save.data.graphicsPreload2 = settings[2];
+        CacheConfig.music = settings[0];
+        CacheConfig.characters = settings[1];
+        CacheConfig.graphics = settings[2];
 
         FlxG.save.flush();
 
@@ -237,6 +239,8 @@ class CacheSettings extends FlxUIStateExt
         if (curSelected < 0)
             curSelected = 2;
 
-        warning.visible = curSelected == 2;
+        switch(curSelected){}
+
+        warning.text = warningText[curSelected];
     }
 }

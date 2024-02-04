@@ -36,9 +36,9 @@ class BasicTransition extends FlxSpriteGroup{
         This shouldn't need to be overrided, but you can for whatever edge case you might have.
     **/
     public function end(){
+        System.gc();
         if(state != null){
             FlxG.switchState(state);
-            System.gc();
         }
         else{
             this.destroy();

@@ -1,5 +1,6 @@
 package config;
 
+import openfl.utils.Assets;
 import title.TitleScreen;
 import flixel.sound.FlxSound;
 import flixel.group.FlxSpriteGroup;
@@ -128,7 +129,7 @@ class ConfigMenu extends FlxUIStateExt
                 }
             }
             else{
-                FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), 1);
+                FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
             }
         }
 		else{
@@ -244,6 +245,12 @@ class ConfigMenu extends FlxUIStateExt
         holdLeft = Binds.pressed("menuLeft");
         holdRight = Binds.pressed("menuRight");
 
+        if(USE_LAYERED_MUSIC){
+            if (!exiting && (Math.abs(songLayer.time - (FlxG.sound.music.time)) > 20)){
+                resyncLayers();
+            }
+        }
+
         if(!exiting){
 
             switch(state){
@@ -312,9 +319,14 @@ class ConfigMenu extends FlxUIStateExt
         exiting = true;
         if(!USE_MENU_MUSIC || exitTo != MainMenuState){
             FlxG.sound.music.stop();
+            Assets.cache.removeSound(baseSongTrack);
         }
         if(USE_LAYERED_MUSIC && !USE_MENU_MUSIC){
             songLayer.stop();
+            songLayer.destroy();
+            Assets.cache.removeSound(layerSongTrack);
+            Assets.cache.removeSound(keySongTrack);
+            Assets.cache.removeSound(cacheSongTrack);
         }
 		FlxG.sound.play(Paths.sound('cancelMenu'));
 		switchState(Type.createInstance(exitTo, []));
@@ -995,6 +1007,13 @@ class ConfigMenu extends FlxUIStateExt
     function writeToConfig(){
 		Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, allowedFramerates[framerateValue], scheme, dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue);
 	}
+
+    function resyncLayers():Void {
+		songLayer.pause();
+		FlxG.sound.music.play();
+		songLayer.time = FlxG.sound.music.time;
+		songLayer.play();
+    }
 
 }
 

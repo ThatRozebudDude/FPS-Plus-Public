@@ -104,16 +104,16 @@ class PauseSubState extends MusicBeatSubstate
 					
 				case "Restart Song":
 					FlxTween.globalManager.clear();
-					PlayState.instance.switchState(new PlayState());
+					PlayState.instance.changeState(new PlayState(), false);
 					PlayState.sectionStart = false;
 
 				case "Restart Section":
 					FlxTween.globalManager.clear();
-					PlayState.instance.switchState(new PlayState());
+					PlayState.instance.changeState(new PlayState(), false);
 
 				case "Chart Editor":
 					FlxTween.globalManager.clear();
-					PlayState.instance.switchState(new ChartingState());
+					PlayState.instance.changeState(new ChartingState(), false);
 					
 				case "Skip Song":
 					FlxTween.globalManager.clear();
@@ -121,7 +121,7 @@ class PauseSubState extends MusicBeatSubstate
 					
 				case "Options":
 					FlxTween.globalManager.clear();
-					PlayState.instance.switchState(new ConfigMenu());
+					PlayState.instance.changeState(new ConfigMenu(), false);
 					ConfigMenu.exitTo = PlayState;
 					
 				case "Exit to menu":
@@ -131,11 +131,11 @@ class PauseSubState extends MusicBeatSubstate
 
 					switch(PlayState.returnLocation){
 						case "freeplay":
-							PlayState.instance.switchState(new FreeplayState());
+							PlayState.instance.changeState(new FreeplayState());
 						case "story":
-							PlayState.instance.switchState(new StoryMenuState());
+							PlayState.instance.changeState(new StoryMenuState());
 						default:
-							PlayState.instance.switchState(new MainMenuState());
+							PlayState.instance.changeState(new MainMenuState());
 					}
 					
 			}

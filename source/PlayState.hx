@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxState;
 #if sys
 import sys.FileSystem;
 #end
@@ -12,7 +13,7 @@ import stages.elements.*;
 
 import flixel.math.FlxAngle;
 import flixel.group.FlxGroup;
-import lime.utils.Assets;
+import openfl.utils.Assets;
 import flixel.math.FlxRect;
 import openfl.system.System;
 import openfl.ui.KeyLocation;
@@ -1545,7 +1546,7 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.SEVEN)
 		{
-			switchState(new ChartingState());
+			changeState(new ChartingState(), false);
 			sectionStart = false;
 		}
 
@@ -1579,22 +1580,19 @@ class PlayState extends MusicBeatState
 			iconP1.animation.curAnim.curFrame = 0;
 			iconP2.animation.curAnim.curFrame = 0;
 		}
-			
-		/* if (FlxG.keys.justPressed.NINE)
-			switchState(new Charting()); */
 
 		if (FlxG.keys.justPressed.EIGHT){
 
 			sectionStart = false;
 
 			if(FlxG.keys.pressed.SHIFT){
-				switchState(new AnimationDebug(SONG.player1));
+				changeState(new AnimationDebug(SONG.player1), false);
 			}
 			else if(FlxG.keys.pressed.CONTROL){
-				switchState(new AnimationDebug(gf.curCharacter));
+				changeState(new AnimationDebug(gf.curCharacter), false);
 			}
 			else{
-				switchState(new AnimationDebug(SONG.player2));
+				changeState(new AnimationDebug(SONG.player2), false);
 			}
 		}
 			
@@ -1890,9 +1888,9 @@ class PlayState extends MusicBeatState
 
 			if (storyPlaylist.length <= 0)
 			{
-				FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), 1);
+				FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
 
-				switchState(new StoryMenuState());
+				changeState(new StoryMenuState());
 				sectionStart = false;
 
 				// if ()
@@ -1939,7 +1937,7 @@ class PlayState extends MusicBeatState
 				PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
 				FlxG.sound.music.stop();
 
-				switchState(new PlayState());
+				changeState(new PlayState(), false);
 
 				transIn = FlxTransitionableState.defaultTransIn;
 				transOut = FlxTransitionableState.defaultTransOut;
@@ -1949,7 +1947,7 @@ class PlayState extends MusicBeatState
 		{
 			sectionStart = false;
 
-			switchState(new FreeplayState());
+			changeState(new FreeplayState());
 		}
 	}
 
@@ -3049,6 +3047,39 @@ class PlayState extends MusicBeatState
 		else{
 			vocalType = 0;
 		}
+	}
+
+	public function changeState(_state:FlxState, clearImagesFromCache:Bool = true) {
+
+		if(CoolUtil.exists(Paths.voices(SONG.song, "Player"))){
+			Assets.cache.removeSound(Paths.voices(SONG.song, "Player"));
+			Assets.cache.removeSound(Paths.voices(SONG.song, "Opponent"));
+		}
+		else if(CoolUtil.exists(Paths.voices(SONG.song))){
+			Assets.cache.removeSound(Paths.voices(SONG.song));
+		}
+
+		if(!CacheConfig.music){
+			Assets.cache.removeSound(Paths.inst(SONG.song));
+		}
+
+		if(clearImagesFromCache){
+			Assets.cache.clear("assets/images");
+		}
+
+
+		switchState(_state);
+	}
+
+	/**
+	DO NOTE USE THIS FUNCTION FOR PLAYSTATE!
+
+	Use `changeState()` instead. It's needed for asset cache management.
+
+	I would have overrided the normal `switchState()` but I need new arguments.
+	**/
+	override function switchState(_state:FlxState) {
+		super.switchState(_state);
 	}
 
 }

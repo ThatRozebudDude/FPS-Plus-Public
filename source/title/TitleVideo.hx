@@ -49,7 +49,7 @@ class TitleVideo extends FlxState
 	function next():Void{
 
 		FlxG.camera.flash(FlxColor.WHITE, 60);
-		FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), 1);
+		FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
 		Conductor.changeBPM(158);
 		FlxG.switchState(titleState);
 

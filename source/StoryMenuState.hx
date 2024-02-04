@@ -78,7 +78,7 @@ class StoryMenuState extends MusicBeatState
 	
 		if (FlxG.sound.music == null)
 		{
-			FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), 1);
+			FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
 		}
 
 		persistentUpdate = persistentDraw = true;

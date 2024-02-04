@@ -86,6 +86,8 @@ class Startup extends FlxState
 	override function create()
 	{
 
+        SaveManager.global();
+
         FlxG.mouse.visible = false;
         FlxG.sound.muteKeys = null;
 
@@ -115,16 +117,13 @@ class Startup extends FlxState
 				StoryMenuState.weekUnlocked[0] = true;
 		}
 
-        if( FlxG.save.data.musicPreload2 == null ||
-            FlxG.save.data.charPreload2 == null ||
-            FlxG.save.data.graphicsPreload2 == null)
-        {
+        if(!CacheConfig.check()) {
             openPreloadSettings();
         }
         else{
-            songsCached = !FlxG.save.data.musicPreload2;
-            charactersCached = !FlxG.save.data.charPreload2;
-            graphicsCached = !FlxG.save.data.graphicsPreload2;
+            songsCached = !CacheConfig.music;
+            charactersCached = !CacheConfig.characters;
+            graphicsCached = !CacheConfig.graphics;
         }
 
         hasEe2 = CoolUtil.exists(Paths.inst("Lil-Buddies"));
@@ -208,6 +207,7 @@ class Startup extends FlxState
         if(!cacheStart){
             if(FlxG.keys.anyJustPressed([BACKSPACE, DELETE])){
                 Binds.resetToDefaultControls();
+                FlxG.sound.play(Paths.sound('cancelMenu'));
             }
             else if(FlxG.keys.justPressed.ANY){
                 openPreloadSettings();
@@ -299,7 +299,7 @@ class Startup extends FlxState
             if(CoolUtil.exists(Paths.inst(x))){
                 FlxG.sound.cache(Paths.inst(x));
             }
-            else{
+            else if(CoolUtil.exists(Paths.music(x))){
                 FlxG.sound.cache(Paths.music(x));
             }
             currentLoaded++;
@@ -328,6 +328,7 @@ class Startup extends FlxState
 
     function openPreloadSettings(){
         #if desktop
+        FlxG.sound.play(Paths.sound('cancelMenu'));
         CacheSettings.noFunMode = true;
         FlxG.switchState(new CacheSettings());
         CacheSettings.returnLoc = new Startup();

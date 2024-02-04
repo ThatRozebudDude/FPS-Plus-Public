@@ -44,9 +44,9 @@ class CacheReload extends FlxState
 
 	override function create()
 	{
-        songsCached = !FlxG.save.data.musicPreload2;
-        charactersCached = !FlxG.save.data.charPreload2;
-        graphicsCached = !FlxG.save.data.graphicsPreload2;
+        songsCached = !CacheConfig.music;
+        charactersCached = !CacheConfig.characters;
+        graphicsCached = !CacheConfig.graphics;
 
         if(doGraphics){
             GPUBitmap.disposeAll();
@@ -58,7 +58,7 @@ class CacheReload extends FlxState
         }
 
         if(doMusic){
-            Assets.cache.clear("music");
+            Assets.cache.clear();
         }
         else{
             songsCached = true;
@@ -162,7 +162,7 @@ class CacheReload extends FlxState
             if(CoolUtil.exists(Paths.inst(x))){
                 FlxG.sound.cache(Paths.inst(x));
             }
-            else{
+            else if(CoolUtil.exists(Paths.music(x))){
                 FlxG.sound.cache(Paths.music(x));
             }
         }

@@ -35,6 +35,7 @@ class TitleScreen extends MusicBeatState
 {
 
 	public static var titleMusic:String = "klaskiiLoop"; 
+	public static var titleMusicVolume:Float = 0.9; 
 
 	var camBackground:FlxCamera;
 	var camMain:FlxCamera;
@@ -128,11 +129,11 @@ class TitleScreen extends MusicBeatState
 		add(titleText);
 
 		if(FlxG.sound.music == null){
-			FlxG.sound.playMusic(Paths.music(titleMusic), 1);
+			FlxG.sound.playMusic(Paths.music(titleMusic), titleMusicVolume);
 		}
 		else{
 			if(!FlxG.sound.music.playing){
-				FlxG.sound.playMusic(Paths.music(titleMusic), 1);
+				FlxG.sound.playMusic(Paths.music(titleMusic), titleMusicVolume);
 				switch(titleMusic){
 					case "klaskiiLoop":
 						Conductor.changeBPM(158);

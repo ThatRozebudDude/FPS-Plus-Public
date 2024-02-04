@@ -31,8 +31,6 @@ using StringTools;
 class TitleScreenKickstarter extends MusicBeatState
 {
 
-	public static var titleMusic:String = "klaskiiLoop"; 
-
 	var allowControllerPress:Bool = false;
 
 	override public function create():Void
@@ -40,6 +38,8 @@ class TitleScreenKickstarter extends MusicBeatState
 		//Polymod.init({modRoot: "mods", dirs: ['introMod']});
 
 		// DEBUG BULLSHIT
+
+		TitleScreen.titleMusic = "klaskiiLoop";
 
 		useDefaultTransIn = false;
 
@@ -83,12 +83,12 @@ class TitleScreenKickstarter extends MusicBeatState
 		add(titleText);
 
 		if(FlxG.sound.music == null){
-			FlxG.sound.playMusic(Paths.music(titleMusic), 1);
+			FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
 		}
 		else{
 			if(!FlxG.sound.music.playing){
-				FlxG.sound.playMusic(Paths.music(titleMusic), 1);
-				switch(titleMusic){
+				FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
+				switch(TitleScreen.titleMusic){
 					case "klaskiiLoop":
 						Conductor.changeBPM(158);
 					case "freakyMenu":
