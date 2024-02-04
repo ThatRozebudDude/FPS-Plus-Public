@@ -955,10 +955,9 @@ class PlayState extends MusicBeatState
 		customTransIn = new BasicTransition();
 
 		autoZoom = false;
-		defaultCamZoom = 2.8;
 		var hudElementsFadeInTime = 0.2;
 		
-		camChangeZoom(defaultCamZoom, Conductor.crochet / 1000 * 16, FlxEase.quadInOut, function(t){
+		camChangeZoom(2.8, Conductor.crochet / 1000 * 16, FlxEase.quadInOut, function(t){
 			autoZoom = true;
 			FlxTween.tween(healthBar, {alpha: 1}, hudElementsFadeInTime);
 			FlxTween.tween(healthBarBG, {alpha: 1}, hudElementsFadeInTime);
