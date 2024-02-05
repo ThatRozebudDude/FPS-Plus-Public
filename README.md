@@ -46,9 +46,12 @@ Adjusted some of the health icons and adds winning icons.
 - [Kawaisprite](https://twitter.com/kawaisprite) - Musician
 
 ### FPS Plus
-- [Rozebud](https://twitter.com/helpme_thebigt) - *Everything*
+- [Rozebud](https://twitter.com/helpme_thebigt) - *Basically everything.*
 
 ### Shoutouts
-- [KadeDev](https://twitter.com/KadeDeveloper) - *Rival*
+- [Smokey](https://twitter.com/Smokey_5_) - Helped with coding a few systems.
+- [Fabs](https://twitter.com/fabsthefabs) - Coding buddy.
+- [KadeDev](https://twitter.com/kade0912) - *Rest in Peace* (Engine not the guy lol)
+- [ShadowMario](https://twitter.com/Shadow_Mario_) - Showing support for FPS Plus on Twitter. (Also sometimes I adapt Psych code, *shhhh...*)
 - [PolybiusProxy](https://twitter.com/polybiusproxy) - Haxeflixel Desktop MP4 stuff.
 - [Ethab Taxi](https://twitter.com/EthabTaxi) - He's just sorta chillin'.
