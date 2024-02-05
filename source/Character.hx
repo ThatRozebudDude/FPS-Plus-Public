@@ -1,5 +1,6 @@
 package;
 
+import characters.CharacterInfoBase;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -35,6 +36,7 @@ class Character extends FlxSprite
 	public var characterColor:Null<FlxColor> = null;
 
 	var facesLeft:Bool = false;
+	var hasLeftAndRightIdle:Bool = false;
 
 	public function new(x:Float, y:Float, ?character:String = "bf", ?_isPlayer:Bool = false, ?_enableDebug:Bool = false){
 
@@ -83,6 +85,7 @@ class Character extends FlxSprite
 				playAnim('danceRight');
 
 				iconName = "gf";
+				hasLeftAndRightIdle = true;
 
 			case 'gf-christmas':
 				frames = Paths.getSparrowAtlas("week5/gfChristmas");
@@ -115,6 +118,7 @@ class Character extends FlxSprite
 				playAnim('danceRight');
 
 				iconName = "gf";
+				hasLeftAndRightIdle = true;
 
 			case 'gf-car':
 				frames = Paths.getSparrowAtlas("week4/gfCar");
@@ -128,6 +132,7 @@ class Character extends FlxSprite
 				playAnim('danceRight');
 
 				iconName = "gf";
+				hasLeftAndRightIdle = true;
 
 			case 'gf-pixel':
 				frames = Paths.getSparrowAtlas("week6/gfPixel");
@@ -145,6 +150,7 @@ class Character extends FlxSprite
 				antialiasing = false;
 
 				iconName = "gf";
+				hasLeftAndRightIdle = true;
 
 			case 'gf-tankmen':
 				frames = Paths.getSparrowAtlas('week7/gfTankmen');
@@ -159,6 +165,7 @@ class Character extends FlxSprite
 				playAnim('danceRight');
 
 				iconName = "gf";
+				hasLeftAndRightIdle = true;
 
 			case 'bf-holding-gf':
 				frames = Paths.getSparrowAtlas('week7/bfAndGF');
@@ -248,6 +255,7 @@ class Character extends FlxSprite
 				playAnim('danceRight');
 
 				iconName = "spooky";
+				hasLeftAndRightIdle = true;
 
 			case 'mom':
 				frames = Paths.getSparrowAtlas("week4/Mom_Assets");
@@ -362,45 +370,8 @@ class Character extends FlxSprite
 				iconName = "pico";
 
 			case 'bf':
-				frames = Paths.getSparrowAtlas("BOYFRIEND");
-				animation.addByPrefix('idle', 'BF idle dance', 24, false);
-				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
-				animation.addByPrefix('singLEFT', 'BF NOTE LEFT0', 24, false);
-				animation.addByPrefix('singRIGHT', 'BF NOTE RIGHT0', 24, false);
-				animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
-				animation.addByPrefix('singUPmiss', 'BF NOTE UP MISS', 24, false);
-				animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
-				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
-				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
-				animation.addByPrefix('hey', 'BF HEY', 24, false);
-				//animation.addByPrefix('attack', 'boyfriend attack', 24, false);
 
-				animation.addByPrefix('firstDeath', "BF dies", 24, false);
-				animation.addByPrefix('deathLoop', "BF Dead Loop", 24, true);
-				animation.addByPrefix('deathConfirm', "BF Dead confirm", 24, false);
-
-				animation.addByPrefix('scared', 'BF idle shaking', 24);
-
-				addOffset('idle', -5);
-				addOffset("singUP", -29, 27);
-				addOffset("singRIGHT", -38, -7);
-				addOffset("singLEFT", 12, -6);
-				addOffset("singDOWN", -10, -50);
-				addOffset("singUPmiss", -29, 27);
-				addOffset("singRIGHTmiss", -30, 21);
-				addOffset("singLEFTmiss", 12, 24);
-				addOffset("singDOWNmiss", -11, -19);
-				addOffset("hey", 7, 4);
-				addOffset('firstDeath', 37, 11);
-				addOffset('deathLoop', 37, 5);
-				addOffset('deathConfirm', 37, 69);
-				addOffset('scared', -4);
-
-				playAnim('idle');
-
-				facesLeft = true;
-
-				iconName = "bf";
+				createCharacterFromInfo("Bf");
 
 			case 'bf-christmas':
 				frames = Paths.getSparrowAtlas("week5/bfChristmas");
@@ -841,7 +812,7 @@ class Character extends FlxSprite
 
 			switch (curCharacter)
 			{
-				case 'gf' | 'gf-car' | 'gf-christmas' | 'gf-pixel' | "gf-tankmen":
+				case 'gf':
 					if (!animation.curAnim.name.startsWith('hair'))
 					{
 						danced = !danced;
@@ -852,19 +823,22 @@ class Character extends FlxSprite
 							playAnim('danceLeft', true);
 					}
 
-				case 'spooky':
-					danced = !danced;
-
-					if (danced)
-						playAnim('danceRight', true);
-					else
-						playAnim('danceLeft', true);
-
 				case "pico-speaker":
 					playAnim('shoot1');
 
 				default:
+					if(hasLeftAndRightIdle){
+						danced = !danced;
+
+						if (danced)
+							playAnim('danceRight', true);
+						else
+							playAnim('danceLeft', true);
+					}
+					else{
 						playAnim('idle', true);
+					}
+					
 			}
 		}
 	}
@@ -875,12 +849,16 @@ class Character extends FlxSprite
 		{
 			switch (curCharacter)
 			{
-				case 'gf' | 'gf-car' | 'gf-christmas' | 'gf-pixel' | "spooky" | "gf-tankmen":
-					playAnim('danceRight', true, false, animation.getByName('danceRight').numFrames - 1);
 				case "pico-speaker":
 					playAnim(animation.curAnim.name, true, false, animation.getByName(animation.curAnim.name).numFrames - 1);
 				default:
-					playAnim('idle', true, false, animation.getByName('idle').numFrames - 1);
+					if(hasLeftAndRightIdle){
+						playAnim('danceRight', true, false, animation.getByName('danceRight').numFrames - 1);
+					}
+					else{
+						playAnim('idle', true, false, animation.getByName('idle').numFrames - 1);
+					}
+					
 			}
 		}
 	}
@@ -985,4 +963,77 @@ class Character extends FlxSprite
 		}
 
 	}
+
+	function createCharacterFromInfo(name:String) {
+
+		var characterClass = Type.resolveClass("characters." + name);
+		if(characterClass == null){ characterClass = characters.Bf; }
+		var char:CharacterInfoBase = Type.createInstance(characterClass, []);
+		
+		curCharacter = char.info.name;
+		iconName = char.info.iconName;
+		deathCharacter = char.info.deathCharacter;
+		characterColor = char.info.healthColor;
+		facesLeft = char.info.facesLeft;
+		hasLeftAndRightIdle = char.info.hasLeftAndRightIdle;
+		antialiasing = char.info.antialiasing;
+
+		switch(char.info.frameLoadType){
+			case load(x, y):
+				loadGraphic(Paths.image(char.info.spritePath), true, x, y);
+			case sparrow:
+				frames = Paths.getSparrowAtlas(char.info.spritePath);
+			case packer:
+				frames = Paths.getPackerAtlas(char.info.spritePath);
+		}
+
+		for(x in char.info.anims){
+			switch(x.type){
+				case frames:
+					animation.add(x.name, x.data.frames, x.data.framerate, x.data.loop, x.data.flipX, x.data.flipY);
+				case prefix:
+					animation.addByPrefix(x.name, x.data.prefix, x.data.framerate, x.data.loop, x.data.flipX, x.data.flipY);
+				case indices:
+					animation.addByIndices(x.name, x.data.prefix, x.data.frames, x.data.postfix, x.data.framerate, x.data.loop, x.data.flipX, x.data.flipY);
+			}
+			addOffset(x.name, x.data.offset[0], x.data.offset[1]);
+		}
+
+		if(char.info.anims.length > 0){
+			playAnim(char.info.anims[0].name);
+		}
+
+	}
+
+	/*
+typedef AnimInfo = {
+    var name:String;
+	var type:AnimType;
+    var data:AnimData;
+}
+
+typedef AnimData = {
+	var prefix:String;
+	var frames:Array<Int>;
+	var postfix:String;
+	var framerate:Float;
+	var loop:Bool;
+	var flipX:Bool;
+	var flipY:Bool;
+	var offset:Array<Float>;
+}
+
+	info = {
+            name: "",
+            spritePath: "",
+            frameLoadType: sparrow,
+            iconName: "",
+            deathCharacter: "",
+            healthColor: null,
+            facesLeft: false,
+            hasLeftAndRightIdle: false,
+            antialiasing: true,
+            anims: []
+        };
+	*/
 }
