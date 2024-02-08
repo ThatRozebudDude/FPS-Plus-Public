@@ -201,38 +201,12 @@ class Character extends FlxSprite
 				createCharacterFromInfo("MomCar");
 
 			case 'monster':
-				frames = Paths.getSparrowAtlas("week2/Monster_Assets");
-				animation.addByPrefix('idle', 'monster idle', 24, false);
-				animation.addByPrefix('singUP', 'monster up note', 24, false);
-				animation.addByPrefix('singDOWN', 'monster down', 24, false);
-				animation.addByPrefix('singLEFT', 'Monster Right note', 24, false);
-				animation.addByPrefix('singRIGHT', 'Monster left note', 24, false);
 
-				addOffset('idle');
-				addOffset("singUP", -23, 87);
-				addOffset("singLEFT", -51, 15);
-				addOffset("singRIGHT", -31, 4);
-				addOffset("singDOWN", -63, -86);
-				playAnim('idle');
-
-				iconName = "monster";
+				createCharacterFromInfo("Monster");
 
 			case 'monster-christmas':
-				frames = Paths.getSparrowAtlas("week5/monsterChristmas");
-				animation.addByPrefix('idle', 'monster idle', 24, false);
-				animation.addByPrefix('singUP', 'monster up note', 24, false);
-				animation.addByPrefix('singDOWN', 'monster down', 24, false);
-				animation.addByPrefix('singLEFT', 'Monster Right note', 24, false);
-				animation.addByPrefix('singRIGHT', 'Monster left note', 24, false);
 
-				addOffset('idle');
-				addOffset("singUP", -21, 53);
-				addOffset("singLEFT", -51, 10);
-				addOffset("singRIGHT", -30, 7);
-				addOffset("singDOWN", -52, -91);
-				playAnim('idle');
-
-				iconName = "monster";
+				createCharacterFromInfo("MonsterChristmas");
 
 			case 'pico':
 				
@@ -460,32 +434,8 @@ class Character extends FlxSprite
 				iconName = "spirit";
 
 			case 'parents-christmas':
-				frames = Paths.getSparrowAtlas("week5/mom_dad_christmas_assets");
-				animation.addByPrefix('idle', 'Parent Christmas Idle', 24, false);
-				animation.addByPrefix('singUP', 'Parent Up Note Dad', 24, false);
-				animation.addByPrefix('singDOWN', 'Parent Down Note Dad', 24, false);
-				animation.addByPrefix('singLEFT', 'Parent Left Note Dad', 24, false);
-				animation.addByPrefix('singRIGHT', 'Parent Right Note Dad', 24, false);
-
-				animation.addByPrefix('singUP-alt', 'Parent Up Note Mom', 24, false);
-
-				animation.addByPrefix('singDOWN-alt', 'Parent Down Note Mom', 24, false);
-				animation.addByPrefix('singLEFT-alt', 'Parent Left Note Mom', 24, false);
-				animation.addByPrefix('singRIGHT-alt', 'Parent Right Note Mom', 24, false);
-
-				addOffset('idle');
-				addOffset("singUP", -47, 24);
-				addOffset("singRIGHT", -1, -23);
-				addOffset("singLEFT", -30, 16);
-				addOffset("singDOWN", -31, -29);
-				addOffset("singUP-alt", -47, 24);
-				addOffset("singRIGHT-alt", -1, -24);
-				addOffset("singLEFT-alt", -30, 15);
-				addOffset("singDOWN-alt", -30, -27);
-
-				playAnim('idle');
-
-				iconName = "parents";
+				
+				createCharacterFromInfo("ParentsChristmas");
 
 			case "tankman":
 				frames = Paths.getSparrowAtlas("week7/tankmanCaptain");
@@ -876,6 +826,7 @@ class Character extends FlxSprite
 						stepsUntilRelease = data;
 					case "scale":
 						setGraphicSize(Std.int(width * data));
+						updateHitbox();
 					case "adjustHitboxSize":
 						width += data[0];
 						height += data[1];
