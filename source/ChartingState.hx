@@ -53,6 +53,10 @@ class ChartingState extends MusicBeatState
 
 	var UI_box:FlxUITabMenu;
 
+	static var charactersList:Array<String> = [];
+	static var gfList:Array<String> = [];
+	static var stageList:Array<String> = [];
+
 	/**
 	 * Array of notes showing when each section STARTS in STEPS
 	 * Usually rounded up??
@@ -422,20 +426,20 @@ class ChartingState extends MusicBeatState
 		stepperBPM.value = Conductor.bpm;
 		stepperBPM.name = 'song_bpm';
 
-		var characters:Array<String> = CoolUtil.coolTextFile(Paths.text("characterList"));
-		var gfs:Array<String> = CoolUtil.coolTextFile(Paths.text("gfList"));
-		var stages:Array<String> = CoolUtil.coolTextFile(Paths.text("stageList"));
+		//var characters:Array<String> = CoolUtil.coolTextFile(Paths.text("characterList"));
+		//var gfs:Array<String> = CoolUtil.coolTextFile(Paths.text("gfList"));
+		//var stages:Array<String> = CoolUtil.coolTextFile(Paths.text("stageList"));
 
-		player1DropDown = new FlxUIDropDownMenu(10, 100, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true), function(character:String)
+		player1DropDown = new FlxUIDropDownMenu(10, 100, FlxUIDropDownMenu.makeStrIdLabelArray(charactersList, true), function(character:String)
 		{
-			_song.player1 = characters[Std.parseInt(character)];
+			_song.player1 = charactersList[Std.parseInt(character)];
 			updateHeads(true);
 		});
 		player1DropDown.selectedLabel = _song.player1;
 
-		player2DropDown = new FlxUIDropDownMenu(140, 100, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true), function(character:String)
+		player2DropDown = new FlxUIDropDownMenu(140, 100, FlxUIDropDownMenu.makeStrIdLabelArray(charactersList, true), function(character:String)
 		{
-			_song.player2 = characters[Std.parseInt(character)];
+			_song.player2 = charactersList[Std.parseInt(character)];
 			updateHeads(true);
 		});
 
@@ -448,15 +452,15 @@ class ChartingState extends MusicBeatState
 			
 		});
 
-		gfDropDown = new FlxUIDropDownMenu(10, 130, FlxUIDropDownMenu.makeStrIdLabelArray(gfs, true), function(gf:String)
+		gfDropDown = new FlxUIDropDownMenu(10, 130, FlxUIDropDownMenu.makeStrIdLabelArray(charactersList, true), function(gf:String)
 			{
-				_song.gf = gfs[Std.parseInt(gf)];
+				_song.gf = charactersList[Std.parseInt(gf)];
 			});
 		gfDropDown.selectedLabel = _song.gf;
 		
-		stageDropDown = new FlxUIDropDownMenu(140, 130, FlxUIDropDownMenu.makeStrIdLabelArray(stages, true), function(selStage:String)
+		stageDropDown = new FlxUIDropDownMenu(140, 130, FlxUIDropDownMenu.makeStrIdLabelArray(stageList, true), function(selStage:String)
 			{
-				_song.stage = stages[Std.parseInt(selStage)];
+				_song.stage = stageList[Std.parseInt(selStage)];
 			});
 		stageDropDown.selectedLabel = _song.stage;
 		
@@ -2258,6 +2262,25 @@ class ChartingState extends MusicBeatState
 			eventCache.set("assets/images/chartEditor/event/" + tag + ".png", BitmapData.fromFile("assets/images/chartEditor/event/" + tag + ".png"));
 		}
 		return FlxGraphic.fromBitmapData(eventCache.get("assets/images/chartEditor/event/" + tag + ".png"));
+	}
+
+	public static function loadLists():Void{
+		
+
+		//static var charactersList:Array<String> = [];
+		//static var gfList:Array<String> = [];
+		//static var stageList:Array<String> = [];
+
+		var characterClasses = CompileTime.getAllClasses("characters", false, characters.CharacterInfoBase);
+		for(x in characterClasses){
+			charactersList.push(Type.getClassName(x).split("characters.")[1]);
+		}
+
+		var stageClasses = CompileTime.getAllClasses("stages", false, stages.BasicStage);
+		for(x in stageClasses){
+			stageList.push(Type.getClassName(x).split("stages.")[1]);
+		}
+
 	}
 
 	override function beatHit()

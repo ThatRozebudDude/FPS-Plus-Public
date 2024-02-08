@@ -11,7 +11,6 @@ class Gf extends CharacterInfoBase
         info.spritePath = "GF_assets";
         info.frameLoadType = sparrow;
         
-        info.deathCharacter = "Gf";
         info.iconName = "gf";
         info.hasLeftAndRightIdle = true;
 

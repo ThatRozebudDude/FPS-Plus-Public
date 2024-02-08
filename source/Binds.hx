@@ -31,8 +31,6 @@ class Binds
             }
         }
 
-        trace(binds);
-
     }
 
     static public function generateDefaultControls():KeybindMap {

@@ -1,13 +1,22 @@
 package;
 
-import cpp.Float32;
 import sys.io.File;
 import sys.FileSystem;
 import flixel.math.FlxMath;
 import flixel.FlxG;
 import lime.utils.Assets;
 
+import haxe.macro.Context;
+import haxe.macro.Expr;
+import haxe.macro.Type;
+#if yaml
+import yaml.Yaml;
+import yaml.Parser;
+import yaml.Renderer;
+import yaml.util.ObjectMap;
+#end
 using StringTools;
+using Lambda;
 
 class CoolUtil
 {

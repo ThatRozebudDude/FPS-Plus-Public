@@ -189,66 +189,16 @@ class Character extends FlxSprite
 				createCharacterFromInfo("Dad");
 
 			case 'spooky':
-				frames = Paths.getSparrowAtlas("week2/spooky_kids_assets");
-				animation.addByPrefix('singUP', 'spooky UP NOTE', 24, false);
-				animation.addByPrefix('singDOWN', 'spooky DOWN note', 24, false);
-				animation.addByPrefix('singLEFT', 'note sing left', 24, false);
-				animation.addByPrefix('singRIGHT', 'spooky sing right', 24, false);
-				animation.addByIndices('danceLeft', 'spooky dance idle', [0, 2, 6], "", 12, false);
-				animation.addByIndices('danceRight', 'spooky dance idle', [8, 10, 12, 14], "", 12, false);
 
-				addOffset('danceLeft');
-				addOffset('danceRight');
-
-				addOffset("singUP", -18, 25);
-				addOffset("singRIGHT", -130, -14);
-				addOffset("singLEFT", 124, -13);
-				addOffset("singDOWN", -46, -144);
-
-				playAnim('danceRight');
-
-				iconName = "spooky";
-				hasLeftAndRightIdle = true;
+				createCharacterFromInfo("Spooky");
 
 			case 'mom':
-				frames = Paths.getSparrowAtlas("week4/Mom_Assets");
-				animation.addByPrefix('idle', "Mom Idle", 24, false);
-				animation.addByPrefix('singUP', "Mom Up Pose", 24, false);
-				animation.addByPrefix('singDOWN', "MOM DOWN POSE", 24, false);
-				animation.addByPrefix('singLEFT', 'Mom Left Pose', 24, false);
-				// ANIMATION IS CALLED MOM LEFT POSE BUT ITS FOR THE RIGHT
-				// CUZ DAVE IS DUMB!
-				animation.addByPrefix('singRIGHT', 'Mom Pose Left', 24, false);
 
-				addOffset('idle');
-				addOffset("singUP", -1, 81);
-				addOffset("singRIGHT", 21, -54);
-				addOffset("singLEFT", 250, -23);
-				addOffset("singDOWN", 20, -157);
-
-				playAnim('idle');
-
-				iconName = "mom";
+				createCharacterFromInfo("Mom");
 
 			case 'mom-car':
-				frames = Paths.getSparrowAtlas("week4/momCar");
-				animation.addByPrefix('idle', "Mom Idle", 24, false);
-				animation.addByPrefix('singUP', "Mom Up Pose", 24, false);
-				animation.addByPrefix('singDOWN', "MOM DOWN POSE", 24, false);
-				animation.addByPrefix('singLEFT', 'Mom Left Pose', 24, false);
-				// ANIMATION IS CALLED MOM LEFT POSE BUT ITS FOR THE RIGHT
-				// CUZ DAVE IS DUMB!
-				animation.addByPrefix('singRIGHT', 'Mom Pose Left', 24, false);
 
-				addOffset('idle');
-				addOffset("singUP", -1, 81);
-				addOffset("singRIGHT", 21, -54);
-				addOffset("singLEFT", 250, -23);
-				addOffset("singDOWN", 20, -157);
-
-				playAnim('idle');
-
-				iconName = "mom";
+				createCharacterFromInfo("MomCar");
 
 			case 'monster':
 				frames = Paths.getSparrowAtlas("week2/Monster_Assets");
@@ -285,42 +235,8 @@ class Character extends FlxSprite
 				iconName = "monster";
 
 			case 'pico':
-				frames = Paths.getSparrowAtlas("week3/Pico_FNF_assetss");
-				animation.addByPrefix('idle', "Pico Idle Dance", 24, false);
-				animation.addByPrefix('singUP', 'pico Up note0', 24, false);
-				animation.addByPrefix('singDOWN', 'Pico Down Note0', 24, false);
-				animation.addByPrefix('singLEFT', 'Pico NOTE LEFT0', 24, false);
-				animation.addByPrefix('singRIGHT', 'Pico Note Right0', 24, false);
-				animation.addByPrefix('singRIGHTmiss', 'Pico Note Right Miss', 24, false);
-				animation.addByPrefix('singLEFTmiss', 'Pico NOTE LEFT miss', 24, false);
-				animation.addByPrefix('singUPmiss', 'pico Up note miss', 24, false);
-				animation.addByPrefix('singDOWNmiss', 'Pico Down Note MISS', 24, false);
-
-				/*addOffset('idle');
-				addOffset("singUP", -43, 29);
-				addOffset("singRIGHT", -85, -11);
-				addOffset("singLEFT", 54, 2);
-				addOffset("singDOWN", 198, -76);
-				addOffset("singUPmiss", -29, 67);
-				addOffset("singRIGHTmiss", -70, 28);
-				addOffset("singLEFTmiss", 62, 50);
-				addOffset("singDOWNmiss", 200, -34);*/
-
-				addOffset("singRIGHTmiss", -40, 49);
-				addOffset("singDOWN", 92, -77);
-				addOffset("singLEFTmiss", 82, 27);
-				addOffset("singUP", 20, 29);
-				addOffset("idle", 0, 0);
-				addOffset("singDOWNmiss", 86, -37);
-				addOffset("singRIGHT", -46, 1);
-				addOffset("singLEFT", 86, -11);
-				addOffset("singUPmiss", 26, 67);
-
-				playAnim('idle');
-
-				facesLeft = true;
-
-				iconName = "pico";
+				
+				createCharacterFromInfo("Pico");
 
 			case 'bf':
 
@@ -766,7 +682,7 @@ class Character extends FlxSprite
 			switch (curCharacter)
 			{
 				case 'gf':
-					if (!animation.curAnim.name.startsWith('hair'))
+					if (animation.curAnim == null || !animation.curAnim.name.startsWith('hair'))
 					{
 						danced = !danced;
 

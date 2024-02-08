@@ -35,6 +35,8 @@ Adjusted some of the health icons and adds winning icons.
 ## Building
 - For basic build intructions, follow the guide on the Funkin github page [here](https://github.com/ninjamuffin99/Funkin#build-instructions) since it's basically the same.
 
+    - You need to install `compiletime` to compile the game. You can just run `haxelib install compiletime`.
+
     - You do not need to install polymod since FPS Plus doesn't use it.
     
     - You can ignore the part about ignored files since FPS Plus removes them.

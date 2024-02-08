@@ -98,6 +98,8 @@ class Startup extends FlxState
 		Config.reload();
 
         Binds.init();
+        
+        ChartingState.loadLists();
 
         Main.fpsDisplay.visible = Config.showFPS;
 

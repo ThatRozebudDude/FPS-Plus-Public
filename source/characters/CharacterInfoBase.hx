@@ -11,7 +11,7 @@ enum AnimType {
 
 enum FrameLoadType {
     sparrow;
-    packer;
+    packer();
     load(frameWidth:Int, frameHeight:Int);
 }
 
