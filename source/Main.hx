@@ -36,6 +36,14 @@ class Main extends Sprite
 		VideoHandler.MAX_FPS = 30;
 		#end
 
+		var testcases = compiletime.CompileTime.getAllClasses("characters", false, characters.CharacterInfoBase);
+		trace(testcases);
+
+		var test2:Array<String> = [];
+		for(x in testcases){
+			//var name = Type.getClassName(x).split();
+		}
+
 		trace("-=Args=-");
 		trace("novid: " + novid);
 		trace("flippymode: " + flippymode);

@@ -43,6 +43,7 @@ typedef CharacterInfo = {
     var hasLeftAndRightIdle:Bool;
     var antialiasing:Bool;
     var anims:Array<AnimInfo>;
+    var extraData:Map<String, Dynamic>;
 }
 
 class CharacterInfoBase
@@ -55,13 +56,14 @@ class CharacterInfoBase
             name: "",
             spritePath: "",
             frameLoadType: sparrow,
-            iconName: "",
-            deathCharacter: "",
+            iconName: "face",
+            deathCharacter: "Bf",
             healthColor: null,
             facesLeft: false,
             hasLeftAndRightIdle: false,
             antialiasing: true,
-            anims: []
+            anims: [],
+            extraData: null
         };
     }
 
@@ -107,7 +109,7 @@ class CharacterInfoBase
         info.anims.push(animInfo);
     }
 
-    function addByIndecies(_name:String, _offset:Array<Float>, _prefix:String, _indices:Array<Int>, _postfix:String, _frameRate:Float = 30, _looped:Bool = true, _flipX:Bool = false, _flipY:Bool = false):Void{
+    function addByIndices(_name:String, _offset:Array<Float>, _prefix:String, _indices:Array<Int>, _postfix:String, _frameRate:Float = 30, _looped:Bool = true, _flipX:Bool = false, _flipY:Bool = false):Void{
         var animData:AnimData = {
             prefix: _prefix,
             frames: _indices,
@@ -124,6 +126,13 @@ class CharacterInfoBase
             data: animData
         }
         info.anims.push(animInfo);
+    }
+
+    function addExtraData(key:String, data:Dynamic):Void{
+        if(info.extraData == null){
+            info.extraData = new Map<String, Dynamic>();
+        }
+        info.extraData.set(key, data);
     }
 
 }

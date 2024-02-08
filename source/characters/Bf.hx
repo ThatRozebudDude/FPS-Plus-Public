@@ -11,7 +11,6 @@ class Bf extends CharacterInfoBase
         info.spritePath = "BOYFRIEND";
         info.frameLoadType = sparrow;
         
-        info.deathCharacter = "Bf";
         info.iconName = "bf";
         info.facesLeft = true;
 

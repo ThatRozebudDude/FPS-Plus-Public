@@ -48,44 +48,13 @@ class Character extends FlxSprite
 		curCharacter = character;
 		isPlayer = _isPlayer;
 
-		var tex:FlxAtlasFrames;
 		antialiasing = true;
 
 		switch (curCharacter)
 		{
 			case 'gf':
-				// GIRLFRIEND CODE
-				frames = Paths.getSparrowAtlas("GF_assets");
-				animation.addByPrefix('cheer', 'GF Cheer', 24, false);
-				animation.addByPrefix('singLEFT', 'GF left note', 24, false);
-				animation.addByPrefix('singRIGHT', 'GF Right Note', 24, false);
-				animation.addByPrefix('singUP', 'GF Up Note', 24, false);
-				animation.addByPrefix('singDOWN', 'GF Down Note', 24, false);
-				animation.addByIndices('sad', 'gf sad', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "", 24, false);
-				animation.addByIndices('danceLeft', 'GF Dancing Beat', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-				animation.addByIndices('danceRight', 'GF Dancing Beat', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-				animation.addByIndices('hairBlow', "GF Dancing Beat Hair blowing", [0, 1, 2, 3], "", 24);
-				animation.addByIndices('hairFall', "GF Dancing Beat Hair Landing", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], "", 24, false);
-				animation.addByPrefix('scared', 'GF FEAR', 24);
-
-				addOffset('cheer');
-				addOffset('sad', -2, -21);
-				addOffset('danceLeft', 0, -9);
-				addOffset('danceRight', 0, -9);
-
-				addOffset("singUP", 0, 4);
-				addOffset("singRIGHT", 0, -20);
-				addOffset("singLEFT", 0, -19);
-				addOffset("singDOWN", 0, -20);
-				addOffset('hairBlow', 45, -8);
-				addOffset('hairFall', 0, -9);
-
-				addOffset('scared', -2, -17);
-
-				playAnim('danceRight');
-
-				iconName = "gf";
-				hasLeftAndRightIdle = true;
+				
+				createCharacterFromInfo("Gf");
 
 			case 'gf-christmas':
 				frames = Paths.getSparrowAtlas("week5/gfChristmas");
@@ -216,24 +185,8 @@ class Character extends FlxSprite
 				iconName = "bf";
 
 			case 'dad':
-				// DAD ANIMATION LOADING CODE
-				frames = Paths.getSparrowAtlas("week1/DADDY_DEAREST");
-				animation.addByPrefix('idle', 'Dad idle dance', 24, false);
-				animation.addByPrefix('singUP', 'Dad Sing Note UP', 24, false);
-				animation.addByPrefix('singRIGHT', 'Dad Sing Note RIGHT', 24, false);
-				animation.addByPrefix('singDOWN', 'Dad Sing Note DOWN', 24, false);
-				animation.addByPrefix('singLEFT', 'Dad Sing Note LEFT', 24, false);
-
-				addOffset('idle');
-				addOffset("singUP", -9, 50);
-				addOffset("singRIGHT", -4, 26);
-				addOffset("singLEFT", -11, 10);
-				addOffset("singDOWN", 2, -32);
-
-				playAnim('idle');
-
-				stepsUntilRelease = 6.1;
-				iconName = "dad";
+				
+				createCharacterFromInfo("Dad");
 
 			case 'spooky':
 				frames = Paths.getSparrowAtlas("week2/spooky_kids_assets");
@@ -999,9 +952,29 @@ class Character extends FlxSprite
 			addOffset(x.name, x.data.offset[0], x.data.offset[1]);
 		}
 
-		if(char.info.anims.length > 0){
-			playAnim(char.info.anims[0].name);
+		//This should be used if you need to pass any weird non-standard data to the character (ex: pixel character scales)
+		if(char.info.extraData != null){
+			for(type => data in char.info.extraData){
+				switch(type){
+					case "stepsUntilRelease":
+						stepsUntilRelease = data;
+					case "scale":
+						setGraphicSize(Std.int(width * data));
+					case "adjustHitboxSize":
+						width += data[0];
+						height += data[1];
+					default:
+						//Do nothing by default.
+				}
+			}
 		}
+
+		/*if(char.info.anims.length > 0){
+			playAnim(char.info.anims[0].name);
+		}*/
+
+		danced = true;
+		dance();
 
 	}
 
