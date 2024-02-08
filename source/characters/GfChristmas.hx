@@ -1,14 +1,14 @@
 package characters;
 
-class Gf extends CharacterInfoBase
+class GfChristmas extends CharacterInfoBase
 {
 
     override public function new(){
 
         super();
 
-        info.name = "gf";
-        info.spritePath = "GF_assets";
+        info.name = "gf-christmas";
+        info.spritePath = "week5/gfChristmas";
         info.frameLoadType = sparrow;
         
         info.iconName = "gf";
