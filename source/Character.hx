@@ -585,7 +585,7 @@ class Character extends FlxSprite
 			addOffset(x.name, x.data.offset[0], x.data.offset[1]);
 		}
 
-		//This should be used if you need to pass any weird non-standard data to the character (ex: pixel character scales)
+		//This should be used if you need to pass any weird non-standard data to the character
 		if(char.info.extraData != null){
 			for(type => data in char.info.extraData){
 				switch(type){
@@ -608,35 +608,4 @@ class Character extends FlxSprite
 
 	}
 
-	/*
-typedef AnimInfo = {
-    var name:String;
-	var type:AnimType;
-    var data:AnimData;
-}
-
-typedef AnimData = {
-	var prefix:String;
-	var frames:Array<Int>;
-	var postfix:String;
-	var framerate:Float;
-	var loop:Bool;
-	var flipX:Bool;
-	var flipY:Bool;
-	var offset:Array<Float>;
-}
-
-	info = {
-            name: "",
-            spritePath: "",
-            frameLoadType: sparrow,
-            iconName: "",
-            deathCharacter: "",
-            healthColor: null,
-            facesLeft: false,
-            hasLeftAndRightIdle: false,
-            antialiasing: true,
-            anims: []
-        };
-	*/
 }
