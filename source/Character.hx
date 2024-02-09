@@ -133,149 +133,32 @@ class Character extends FlxSprite
 				createCharacterFromInfo("BfLil");
 
 			case 'senpai':
-				frames = Paths.getSparrowAtlas("week6/senpai");
-				animation.addByPrefix('idle', 'Senpai Idle', 24, false);
-				animation.addByPrefix('singUP', 'SENPAI UP NOTE', 24, false);
-				animation.addByPrefix('singLEFT', 'SENPAI LEFT NOTE', 24, false);
-				animation.addByPrefix('singRIGHT', 'SENPAI RIGHT NOTE', 24, false);
-				animation.addByPrefix('singDOWN', 'SENPAI DOWN NOTE', 24, false);
 
-				addOffset('idle');
-				addOffset("singUP", 12, 36);
-				addOffset("singRIGHT", 6);
-				addOffset("singLEFT", 30);
-				addOffset("singDOWN", 12);
-
-				playAnim('idle');
-
-				setGraphicSize(Std.int(width * 6));
-				updateHitbox();
-
-				antialiasing = false;
-
-				iconName = "senpai";
+				createCharacterFromInfo("Senpai");
 
 			case 'senpai-angry':
-				frames = Paths.getSparrowAtlas("week6/senpai");
-				animation.addByPrefix('idle', 'Angry Senpai Idle', 24, false);
-				animation.addByPrefix('singUP', 'Angry Senpai UP NOTE', 24, false);
-				animation.addByPrefix('singLEFT', 'Angry Senpai LEFT NOTE', 24, false);
-				animation.addByPrefix('singRIGHT', 'Angry Senpai RIGHT NOTE', 24, false);
-				animation.addByPrefix('singDOWN', 'Angry Senpai DOWN NOTE', 24, false);
 
-				addOffset('idle');
-				addOffset("singUP", 6, 36);
-				addOffset("singRIGHT");
-				addOffset("singLEFT", 24, 6);
-				addOffset("singDOWN", 6, 6);
-				playAnim('idle');
-
-				setGraphicSize(Std.int(width * 6));
-				updateHitbox();
-
-				antialiasing = false;
-
-				iconName = "senpai-angry";
+				createCharacterFromInfo("SenpaiAngry");
 
 			case 'spirit':
-				frames = Paths.getPackerAtlas("week6/spirit");
-				animation.addByPrefix('idle', "idle spirit_", 24, false);
-				animation.addByPrefix('singUP', "up_", 24, false);
-				animation.addByPrefix('singRIGHT', "right_", 24, false);
-				animation.addByPrefix('singLEFT', "left_", 24, false);
-				animation.addByPrefix('singDOWN', "spirit down_", 24, false);
 
-				addOffset('idle', -220, -280);
-				addOffset('singUP', -220, -238);
-				addOffset("singRIGHT", -220, -280);
-				addOffset("singLEFT", -202, -280);
-				addOffset("singDOWN", 170, 110);
-
-				setGraphicSize(Std.int(width * 6));
-				updateHitbox();
-
-				playAnim('idle');
-
-				antialiasing = false;
-
-				iconName = "spirit";
+				createCharacterFromInfo("Spirit");
 
 			case 'parents-christmas':
 				
 				createCharacterFromInfo("ParentsChristmas");
 
 			case "tankman":
-				frames = Paths.getSparrowAtlas("week7/tankmanCaptain");
 
-				animation.addByPrefix('idle', "Tankman Idle Dance", 24, false);
-				animation.addByPrefix('singUP', 'Tankman UP note ', 24, false);
-				animation.addByPrefix('singDOWN', 'Tankman DOWN note ', 24, false);
-				animation.addByPrefix('singRIGHT', 'Tankman Right Note ', 24, false);
-				animation.addByPrefix('singLEFT', 'Tankman Note Left ', 24, false);
-
-				animation.addByPrefix('prettyGood', 'PRETTY GOOD', 24, false);
-				animation.addByPrefix('ugh', 'TANKMAN UGH', 24, false);
-
-				/*addOffset("idle", 0, 0);
-				addOffset("singDOWN", 78, -106);
-				addOffset("singRIGHT", -18, -30);
-				addOffset("singUP", 51, 51);
-				addOffset("singLEFT", 85, -11);
-				addOffset("ugh", -14, -8);
-				addOffset("prettyGood", 0, 15);*/
-
-				addOffset("idle", 0, 0);
-				addOffset("singLEFT", 91, -25);
-				addOffset("singDOWN", 68, -106);
-				addOffset("ugh", -14, -8);
-				addOffset("singRIGHT", -23, -11);
-				addOffset("singUP", 27, 58);
-				addOffset("prettyGood", 101, 15);
-
-				facesLeft = true;
-				playAnim('idle');
-
-				iconName = "tankman";
+				createCharacterFromInfo("Tankman");
 
 			case 'pico-speaker':
-				frames = Paths.getSparrowAtlas('week7/picoSpeaker');
 
-				animation.addByPrefix('shoot1', "Pico shoot 1", 24, false);
-				animation.addByPrefix('shoot2', "Pico shoot 2", 24, false);
-				animation.addByPrefix('shoot3', "Pico shoot 3", 24, false);
-				animation.addByPrefix('shoot4', "Pico shoot 4", 24, false);
-
-				// here for now, will be replaced later for less copypaste
-				addOffset("shoot3", 413, -64);
-				addOffset("shoot1", 0, 0);
-				addOffset("shoot4", 440, -19);
-				addOffset("shoot2", 0, -128);
-
-				playAnim('shoot1');
-
-				iconName = "pico";
+				createCharacterFromInfo("PicoSpeaker");
 
 			case 'guy-lil':
-				loadGraphic(Paths.image("chartEditor/lilOpp"), true, 300, 256);
 
-				animation.add("idle", [0, 1], 12, true);
-
-				animation.add("singLEFT", 	[3, 4, 5], 		12, false);
-				animation.add("singDOWN", 	[6, 7, 8], 		12, false);
-				animation.add("singUP", 	[9, 10, 11], 	12, false);
-				animation.add("singRIGHT", 	[12, 13, 14], 	12, false);
-
-				addOffset('idle');
-				addOffset("singUP");
-				addOffset("singRIGHT");
-				addOffset("singLEFT");
-				addOffset("singDOWN");
-
-				playAnim('idle');
-
-				antialiasing = false;
-
-				iconName = "face-lil";
+				createCharacterFromInfo("GuyLil");
 
 		}
 
@@ -585,6 +468,12 @@ class Character extends FlxSprite
 			addOffset(x.name, x.data.offset[0], x.data.offset[1]);
 		}
 
+		if(char.info.anims.length > 0){
+			playAnim(char.info.anims[0].name);
+			danced = true;
+			dance();
+		}
+
 		//This should be used if you need to pass any weird non-standard data to the character
 		if(char.info.extraData != null){
 			for(type => data in char.info.extraData){
@@ -598,12 +487,6 @@ class Character extends FlxSprite
 						//Do nothing by default.
 				}
 			}
-		}
-
-		if(char.info.anims.length > 0){
-			playAnim(char.info.anims[0].name);
-			danced = true;
-			dance();
 		}
 
 	}
