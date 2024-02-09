@@ -1543,14 +1543,11 @@ class ChartingState extends MusicBeatState
 	function updateHeads(?changedCharacters:Bool = false):Void{
 
 		if(changedCharacters){
-			var leftChar = new Character(0, 0, player2DropDown.selectedLabel);
-			var rightChar = new Character(0, 0, player1DropDown.selectedLabel);
+			var leftChar:characters.CharacterInfoBase = Type.createInstance(Type.resolveClass("characters." + player2DropDown.selectedLabel), []);
+			var rightChar:characters.CharacterInfoBase = Type.createInstance(Type.resolveClass("characters." + player1DropDown.selectedLabel), []);
 
-			leftIcon.setIconCharacter(leftChar.iconName);
-			rightIcon.setIconCharacter(rightChar.iconName);
-
-			leftChar.destroy();
-			rightChar.destroy();
+			leftIcon.setIconCharacter(leftChar.info.iconName);
+			rightIcon.setIconCharacter(rightChar.info.iconName);
 		}
 
 		if (_song.notes[curSection].mustHitSection){

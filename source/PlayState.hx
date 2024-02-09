@@ -140,6 +140,8 @@ class PlayState extends MusicBeatState
 	public var gf:Character;
 	public var boyfriend:Character;
 
+	var gfCheck:String;
+
 	//Wacky input stuff=========================
 
 	//private var skipListener:Bool = false;
@@ -335,23 +337,23 @@ class PlayState extends MusicBeatState
 			catch(e){}
 		}
 
-		var gfCheck:String = 'gf';
+		gfCheck = "Gf";
 
 		if (SONG.gf == null) {
 			switch(storyWeek)
 			{
 				case 4:
-					gfCheck = 'gf-car';
+					gfCheck = "GfCar";
 				case 5:
-					gfCheck = 'gf-christmas';
+					gfCheck = "GfChristmas";
 				case 6:
-					gfCheck = 'gf-pixel';
+					gfCheck = "GfPixel";
 				case 7:
 					if(SONG.song.toLowerCase() == "stress"){
-						gfCheck = 'pico-speaker';
+						gfCheck = "PicoSpeaker";
 					}
 					else{
-						gfCheck = 'gf-tankmen';
+						gfCheck = "GfTankmen";
 					}
 			}
 
@@ -430,7 +432,7 @@ class PlayState extends MusicBeatState
 
 		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
 
-		switch (SONG.player2)
+		switch (dad.curCharacter)
 		{
 			case 'gf':
 				dad.setPosition(gf.x, gf.y);
@@ -1589,7 +1591,7 @@ class PlayState extends MusicBeatState
 				changeState(new AnimationDebug(SONG.player1), false);
 			}
 			else if(FlxG.keys.pressed.CONTROL){
-				changeState(new AnimationDebug(gf.curCharacter), false);
+				changeState(new AnimationDebug(gfCheck), false);
 			}
 			else{
 				changeState(new AnimationDebug(SONG.player2), false);

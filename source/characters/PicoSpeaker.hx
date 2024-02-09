@@ -7,17 +7,16 @@ class PicoSpeaker extends CharacterInfoBase
 
         super();
 
-        info.name = "gf-car";
-        info.spritePath = "week4/gfCar";
+        info.name = "pico-speaker";
+        info.spritePath = "week7/picoSpeaker";
         info.frameLoadType = sparrow;
         
-        info.iconName = "gf";
-        info.hasLeftAndRightIdle = true;
+        info.iconName = "pico";
 
-        addByIndices('singUP', offset(), 'GF Dancing Beat Hair blowing CAR', [0], "", 24, false);
-		addByIndices('danceLeft', offset(), 'GF Dancing Beat Hair blowing CAR', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-		addByIndices('danceRight', offset(), 'GF Dancing Beat Hair blowing CAR', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-
+        addByPrefix('shoot1', offset(), "Pico shoot 1", 24, false);
+		addByPrefix('shoot2', offset(0, -128), "Pico shoot 2", 24, false);
+		addByPrefix('shoot3', offset(413, -64), "Pico shoot 3", 24, false);
+		addByPrefix('shoot4', offset(440, -19), "Pico shoot 4", 24, false);
 
     }
 

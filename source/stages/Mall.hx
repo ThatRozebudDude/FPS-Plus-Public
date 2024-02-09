@@ -64,7 +64,7 @@ class Mall extends BasicStage
 		santa.frames = Paths.getSparrowAtlas("week5/christmas/santa");
 		santa.animation.addByPrefix('idle', 'santa idle in fear', 24, false);
 		santa.antialiasing = true;
-		addToBackground(santa);
+		addToForeground(santa);
 
 		boyfriend().x += 200;
     }
