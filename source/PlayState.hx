@@ -1,6 +1,5 @@
 package;
 
-import flixel.FlxState;
 #if sys
 import sys.FileSystem;
 #end
@@ -11,6 +10,7 @@ import transition.data.*;
 import stages.*;
 import stages.elements.*;
 
+import flixel.FlxState;
 import flixel.math.FlxAngle;
 import flixel.group.FlxGroup;
 import openfl.utils.Assets;
@@ -20,46 +20,29 @@ import openfl.ui.KeyLocation;
 import flixel.input.keyboard.FlxKey;
 import openfl.ui.Keyboard;
 import openfl.events.KeyboardEvent;
-//import polymod.fs.SysFileSystem;
 import Section.SwagSection;
 import Song.SwagSong;
 import Song.SongEvents;
-//import WiggleEffect.WiggleEffectType;
-//import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
-//import flixel.FlxGame;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-//import flixel.FlxState;
 import flixel.FlxSubState;
-//import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.effects.FlxTrail;
-//import flixel.addons.effects.FlxTrailArea;
-//import flixel.addons.effects.chainable.FlxEffectSprite;
 import flixel.addons.effects.chainable.FlxWaveEffect;
 import flixel.addons.transition.FlxTransitionableState;
-//import flixel.graphics.atlas.FlxAtlas;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
-//import flixel.math.FlxRect;
 import flixel.sound.FlxSound;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
-//import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
-//import flixel.util.FlxStringUtil;
 import flixel.util.FlxTimer;
-//import haxe.Json;
-//import lime.utils.Assets;
-//import openfl.display.BlendMode;
-//import openfl.display.StageQuality;
-//import openfl.filters.ShaderFilter;
 import flixelExtensions.FlxTextExt;
 
 using StringTools;
@@ -84,11 +67,9 @@ class PlayState extends MusicBeatState
 	public static var returnSong:Int = 0;
 	
 	private var canHit:Bool = false;
-	//private var noMissCount:Int = 0;
 	private var missTime:Float = 0;
 
 	private var invuln:Bool = false;
-	//private var invulnCount:Int = 0;
 	private var invulnTime:Float = 0;
 
 	private var releaseTimes:Array<Float> = [-1, -1, -1, -1];
