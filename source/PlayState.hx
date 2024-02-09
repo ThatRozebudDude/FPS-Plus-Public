@@ -2749,11 +2749,11 @@ class PlayState extends MusicBeatState
 			case 'mall':
 				followY = boyfriend.getMidpoint().y - 200;
 			case 'school':
-				followX = boyfriend.getMidpoint().x - 200;
-				followY = boyfriend.getMidpoint().y - 225;
+				followX = boyfriend.getMidpoint().x - 250;
+				followY = boyfriend.getMidpoint().y - 275;
 			case 'schoolEvil':
-				followX = boyfriend.getMidpoint().x - 200;
-				followY = boyfriend.getMidpoint().y - 250;
+				followX = boyfriend.getMidpoint().x - 250;
+				followY = boyfriend.getMidpoint().y - 300;
 		}
 
 		if (SONG.song.toLowerCase() == 'tutorial')

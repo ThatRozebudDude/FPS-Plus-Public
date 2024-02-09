@@ -73,52 +73,12 @@ class Character extends FlxSprite
 				createCharacterFromInfo("GfTankmen");
 
 			case 'bf-holding-gf':
-				frames = Paths.getSparrowAtlas('week7/bfAndGF');
-				animation.addByPrefix('idle', 'BF idle dance', 24, false);
-				animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
-				animation.addByPrefix('singLEFT', 'BF NOTE LEFT0', 24, false);
-				animation.addByPrefix('singRIGHT', 'BF NOTE RIGHT0', 24, false);
-				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
 
-				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
-				animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
-				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
-				animation.addByPrefix('singUPmiss', 'BF NOTE UP MISS', 24, false);
-				animation.addByPrefix('bfCatch', 'BF catches GF', 24, false);
-				
-				addOffset("idle", 0, 0);
-				addOffset("singUP", -29, 10);
-				addOffset("singRIGHT", -41, 23);
-				addOffset("singLEFT", 12, 7);
-				addOffset("singDOWN", -10, -10);
-				addOffset("singUPmiss", -29, 10);
-				addOffset("singRIGHTmiss", -41, 23);
-				addOffset("singLEFTmiss", 12, 7);
-				addOffset("singDOWNmiss", -10, -10);
-				addOffset("bfCatch", 0, 0);
-
-				playAnim('idle');
-
-				facesLeft = true;
-
-				deathCharacter = "bf-holding-gf-dead";
-				iconName = "bf";
+				createCharacterFromInfo("BfHoldingGf");
 
 			case 'bf-holding-gf-dead':
-				frames = Paths.getSparrowAtlas('week7/bfHoldingGF-DEAD');
-				animation.addByPrefix('firstDeath', "BF Dies with GF", 24, false);
-				animation.addByPrefix('deathLoop', "BF Dead with GF Loop", 24, true);
-				animation.addByPrefix('deathConfirm', "RETRY confirm holding gf", 24, false);
-				animation.play('firstDeath');
 
-				addOffset('firstDeath', 37, 14);
-				addOffset('deathLoop', 37, -3);
-				addOffset('deathConfirm', 37, 28);
-				playAnim('firstDeath');
-
-				facesLeft = true;
-
-				iconName = "bf";
+				createCharacterFromInfo("BfHoldingGfDead");
 
 			case 'dad':
 				
@@ -153,153 +113,24 @@ class Character extends FlxSprite
 				createCharacterFromInfo("Bf");
 
 			case 'bf-christmas':
-				frames = Paths.getSparrowAtlas("week5/bfChristmas");
-				animation.addByPrefix('idle', 'BF idle dance', 24, false);
-				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
-				animation.addByPrefix('singLEFT', 'BF NOTE LEFT0', 24, false);
-				animation.addByPrefix('singRIGHT', 'BF NOTE RIGHT0', 24, false);
-				animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
-				animation.addByPrefix('singUPmiss', 'BF NOTE UP MISS', 24, false);
-				animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
-				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
-				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
-				animation.addByPrefix('hey', 'BF HEY', 24, false);
 
-				addOffset('idle', -5);
-				addOffset("singUP", -29, 27);
-				addOffset("singRIGHT", -38, -7);
-				addOffset("singLEFT", 12, -6);
-				addOffset("singDOWN", -10, -50);
-				addOffset("singUPmiss", -29, 27);
-				addOffset("singRIGHTmiss", -30, 21);
-				addOffset("singLEFTmiss", 12, 24);
-				addOffset("singDOWNmiss", -11, -19);
-				addOffset("hey", 7, 4);
-
-				playAnim('idle');
-
-				facesLeft = true;
-
-				iconName = "bf";
+				createCharacterFromInfo("BfChristmas");
 
 			case 'bf-car':
-				frames = Paths.getSparrowAtlas("week4/bfCar");
-				animation.addByPrefix('idle', 'BF idle dance', 24, false);
-				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
-				animation.addByPrefix('singLEFT', 'BF NOTE LEFT0', 24, false);
-				animation.addByPrefix('singRIGHT', 'BF NOTE RIGHT0', 24, false);
-				animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
-				animation.addByPrefix('singUPmiss', 'BF NOTE UP MISS', 24, false);
-				animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
-				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
-				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
 
-				addOffset('idle', -5);
-				addOffset("singUP", -29, 27);
-				addOffset("singRIGHT", -38, -7);
-				addOffset("singLEFT", 12, -6);
-				addOffset("singDOWN", -10, -50);
-				addOffset("singUPmiss", -29, 27);
-				addOffset("singRIGHTmiss", -30, 21);
-				addOffset("singLEFTmiss", 12, 24);
-				addOffset("singDOWNmiss", -11, -19);
-				playAnim('idle');
-
-				facesLeft = true;
-				
-				iconName = "bf";
+				createCharacterFromInfo("BfCar");
 
 			case 'bf-pixel':
-				frames = Paths.getSparrowAtlas("week6/bfPixel");
-				animation.addByPrefix('idle', 'BF IDLE', 24, false);
-				animation.addByPrefix('singUP', 'BF UP NOTE', 24, false);
-				animation.addByPrefix('singLEFT', 'BF LEFT NOTE', 24, false);
-				animation.addByPrefix('singRIGHT', 'BF RIGHT NOTE', 24, false);
-				animation.addByPrefix('singDOWN', 'BF DOWN NOTE', 24, false);
-				animation.addByPrefix('singUPmiss', 'BF UP MISS', 24, false);
-				animation.addByPrefix('singLEFTmiss', 'BF LEFT MISS', 24, false);
-				animation.addByPrefix('singRIGHTmiss', 'BF RIGHT MISS', 24, false);
-				animation.addByPrefix('singDOWNmiss', 'BF DOWN MISS', 24, false);
 
-				addOffset('idle');
-				addOffset("singUP", -6);
-				addOffset("singRIGHT");
-				addOffset("singLEFT", -12);
-				addOffset("singDOWN");
-				addOffset("singUPmiss", -6);
-				addOffset("singRIGHTmiss");
-				addOffset("singLEFTmiss", -12);
-				addOffset("singDOWNmiss");
-
-				setGraphicSize(Std.int(width * 6));
-				updateHitbox();
-
-				playAnim('idle');
-
-				width -= 100;
-				height -= 100;
-
-				antialiasing = false;
-
-				deathCharacter = "bf-pixel-dead";
-				iconName = "bf-pixel";
-
-				facesLeft = true;
+				createCharacterFromInfo("BfPixel");
 
 			case 'bf-pixel-dead':
-				frames = Paths.getSparrowAtlas("week6/bfPixelsDEAD");
-				animation.addByPrefix('singUP', "BF Dies pixel", 24, false);
-				animation.addByPrefix('firstDeath', "BF Dies pixel", 24, false);
-				animation.addByPrefix('deathLoop', "Retry Loop", 24, true);
-				animation.addByPrefix('deathConfirm', "RETRY CONFIRM", 24, false);
-				animation.play('firstDeath');
 
-				addOffset('firstDeath');
-				addOffset('deathLoop', -36);
-				addOffset('deathConfirm', -36);
-				playAnim('firstDeath');
-				// pixel bullshit
-				setGraphicSize(Std.int(width * 6));
-				updateHitbox();
-				antialiasing = false;
-				facesLeft = true;
-
-				iconName = "bf-pixel";
+				createCharacterFromInfo("BfPixelDead");
 
 			case 'bf-lil':
-				loadGraphic(Paths.image("chartEditor/lilBf"), true, 300, 256);
 
-				animation.add("idle", [0, 1], 12, true);
-
-				animation.add("singLEFT", 	[3, 4, 5], 		12, false);
-				animation.add("singDOWN", 	[6, 7, 8], 		12, false);
-				animation.add("singUP", 	[9, 10, 11], 	12, false);
-				animation.add("singRIGHT", 	[12, 13, 14], 	12, false);
-
-				animation.add("singLEFTmiss", 	[3, 15, 15, 16, 16], 	24, false);
-				animation.add("singDOWNmiss", 	[6, 18, 18, 19, 19], 	24, false);
-				animation.add("singUPmiss", 	[9, 21, 21, 22, 22], 	24, false);
-				animation.add("singRIGHTmiss", 	[12, 24, 24, 25, 25], 	24, false);
-
-				animation.add("hey", [17, 20, 23], 12, false);
-
-				addOffset('idle');
-				addOffset("singUP");
-				addOffset("singRIGHT");
-				addOffset("singLEFT");
-				addOffset("singDOWN");
-				addOffset("singUPmiss");
-				addOffset("singRIGHTmiss");
-				addOffset("singLEFTmiss");
-				addOffset("singDOWNmiss");
-				addOffset("hey");
-
-				playAnim('idle');
-
-				facesLeft = true;
-				antialiasing = false;
-
-				iconName = "bf-lil";
+				createCharacterFromInfo("BfLil");
 
 			case 'senpai':
 				frames = Paths.getSparrowAtlas("week6/senpai");
@@ -568,7 +399,7 @@ class Character extends FlxSprite
 			switch (curCharacter)
 			{
 				case 'gf':
-					if (animation.curAnim == null || !animation.curAnim.name.startsWith('hair'))
+					if (!animation.curAnim.name.startsWith('hair'))
 					{
 						danced = !danced;
 
@@ -625,7 +456,7 @@ class Character extends FlxSprite
 			if(animation.exists(AnimName + "-" + animSet)){
 				AnimName = AnimName + "-" + animSet;
 			}
-			else { trace(AnimName + "-" + animSet + " not found. Reverting to " + AnimName); }
+			//else { trace(AnimName + "-" + animSet + " not found. Reverting to " + AnimName); }
 		}
 
 		animation.play(AnimName, Force, Reversed, Frame);
@@ -701,19 +532,19 @@ class Character extends FlxSprite
 			case "monster-christmas" | "monster":
 				switch(name){
 					case "idle":
-						playAnim(name, false, false, 10);
+						playAnim(name, true, false, 10);
 					case "singUP":
-						playAnim(name, false, false, 8);
+						playAnim(name, true, false, 8);
 					case "singDOWN":
-						playAnim(name, false, false, 7);
+						playAnim(name, true, false, 7);
 					case "singLEFT":
-						playAnim(name, false, false, 5);
+						playAnim(name, true, false, 5);
 					case "singRIGHT":
-						playAnim(name, false, false, 6);
+						playAnim(name, true, false, 6);
 				}
 
 			case "pico-speaker":
-				playAnim(animation.curAnim.name, false, false, animation.curAnim.numFrames - 3);
+				playAnim(animation.curAnim.name, true, false, animation.curAnim.numFrames - 3);
 
 		}
 
@@ -763,21 +594,17 @@ class Character extends FlxSprite
 					case "scale":
 						setGraphicSize(Std.int(width * data));
 						updateHitbox();
-					case "adjustHitboxSize":
-						width += data[0];
-						height += data[1];
 					default:
 						//Do nothing by default.
 				}
 			}
 		}
 
-		/*if(char.info.anims.length > 0){
+		if(char.info.anims.length > 0){
 			playAnim(char.info.anims[0].name);
-		}*/
-
-		danced = true;
-		dance();
+			danced = true;
+			dance();
+		}
 
 	}
 

@@ -1,6 +1,5 @@
 package characters;
 
-import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 
 enum AnimType {
