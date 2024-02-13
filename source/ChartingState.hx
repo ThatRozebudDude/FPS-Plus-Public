@@ -275,13 +275,11 @@ class ChartingState extends MusicBeatState
 				song: 'Test',
 				notes: [],
 				bpm: 150,
-				needsVoices: true,
 				player1: 'bf',
 				player2: 'dad',
 				stage: 'stage',
 				gf: 'gf',
-				speed: 1,
-				validScore: false
+				speed: 1
 			};
 		}
 
@@ -376,12 +374,7 @@ class ChartingState extends MusicBeatState
 			saveLevel();
 		});
 
-		var saveGenericButton:FlxButton = new FlxButton(110, saveButton.y + 30, "Save Generic", function()
-		{
-			saveGenericLevel();
-		});
-
-		var saveEventsButton:FlxButton = new FlxButton(110, saveGenericButton.y + 30, "Save Events", function()
+		var saveEventsButton:FlxButton = new FlxButton(110, saveButton.y + 30, "Save Events", function()
 		{
 			saveEvents();
 		});
@@ -406,13 +399,11 @@ class ChartingState extends MusicBeatState
 				song: song_name,
 				notes: [],
 				bpm: 120.0,
-				needsVoices: true,
 				player1: 'bf',
 				player2: 'dad',
 				stage: 'stage',
 				gf: 'gf',
-				speed: 1,
-				validScore: false
+				speed: 1
 			};
 
 			FlxG.resetState();
@@ -471,7 +462,6 @@ class ChartingState extends MusicBeatState
 
 		tab_group_song.add(typingShit);
 		tab_group_song.add(saveButton);
-		tab_group_song.add(saveGenericButton);
 		tab_group_song.add(saveEventsButton);
 		tab_group_song.add(reloadSong);
 		tab_group_song.add(reloadSongJson);
@@ -657,8 +647,8 @@ class ChartingState extends MusicBeatState
 		check_mustHitSection = new FlxUICheckBox(10, 30, null, null, "Must hit section", 100);
 		check_mustHitSection.name = 'check_mustHit';
 		check_mustHitSection.checked = _song.notes[0].mustHitSection;
-		// _song.needsVoices = check_mustHit.checked;
 
+		//will remove later btw just use events :]
 		check_altAnim = new FlxUICheckBox(10, 400, null, null, "Alt Animation", 100);
 		check_altAnim.name = 'check_altAnim';
 
@@ -789,24 +779,6 @@ class ChartingState extends MusicBeatState
 			FlxG.sound.music.time = 0;
 			changeSection();
 		};
-	}
-
-	function generateUI():Void
-	{
-		while (bullshitUI.members.length > 0)
-		{
-			bullshitUI.remove(bullshitUI.members[0], true);
-		}
-
-		// general shit
-		var title:FlxText = new FlxText(UI_box.x + 20, UI_box.y + 20, 0);
-		bullshitUI.add(title);
-		/* 
-			var loopCheck = new FlxUICheckBox(UI_box.x + 10, UI_box.y + 50, null, null, "Loops", 100, ['loop check']);
-			loopCheck.checked = curNoteSelected.doesLoop;
-			tooltips.add(loopCheck, {title: 'Section looping', body: "Whether or not it's a simon says style section", style: tooltipType});
-			bullshitUI.add(loopCheck);
-		 */
 	}
 
 	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>)
@@ -2023,6 +1995,7 @@ class ChartingState extends MusicBeatState
 		}
 	}
 	
+	/* No more save generic no one uses that shit
 	private function saveGenericLevel()
 	{
 		
@@ -2035,7 +2008,7 @@ class ChartingState extends MusicBeatState
 			speed: _song.speed,
 			player1: _song.player1,
 			player2: _song.player2,
-			validScore: _song.validScore
+			validScore: true
 		};
 
 		var json = {
@@ -2052,7 +2025,7 @@ class ChartingState extends MusicBeatState
 			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 			_file.save(data.trim(), _song.song.toLowerCase() + diffDropFinal + ".json");
 		}
-	}
+	}*/
 
 	private function saveEvents()
 	{

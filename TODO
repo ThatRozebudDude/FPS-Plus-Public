@@ -1,1 +1,3 @@
-[IN PROGRESS] Change character loading so it's not all in Character.hx (note sure if I'll make it a json or unique classes like stages)
+Add metadata to characters to identify the type of character.
+Re-export all the charts.
+Remove redundant features and have them done in a more FPS Plus styled way.

@@ -1,14 +1,8 @@
 package stages.elements;
 
 import flixel.addons.effects.FlxTrail;
-import flixel.animation.FlxAnimation;
-import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.group.FlxGroup;
-import flixel.group.FlxSpriteGroup;
 import flixel.system.FlxAssets;
-import flixel.util.FlxArrayUtil;
-import flixel.util.FlxDestroyUtil;
 import flixel.math.FlxPoint;
 
 /**

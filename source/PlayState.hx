@@ -11,15 +11,9 @@ import stages.*;
 import stages.elements.*;
 
 import flixel.FlxState;
-import flixel.math.FlxAngle;
-import flixel.group.FlxGroup;
 import openfl.utils.Assets;
 import flixel.math.FlxRect;
 import openfl.system.System;
-import openfl.ui.KeyLocation;
-import flixel.input.keyboard.FlxKey;
-import openfl.ui.Keyboard;
-import openfl.events.KeyboardEvent;
 import Section.SwagSection;
 import Song.SwagSong;
 import Song.SongEvents;
@@ -28,10 +22,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
-import flixel.addons.effects.FlxTrail;
-import flixel.addons.effects.chainable.FlxWaveEffect;
 import flixel.addons.transition.FlxTransitionableState;
-import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
@@ -394,7 +385,6 @@ class PlayState extends MusicBeatState
 				dadBeats = [0, 1, 2, 3];
 				bfBeats = [0, 1, 2, 3];
 			case "fresh":
-				//autoCamBop = false;
 				dadBeats = [0, 1, 2, 3];
 				bfBeats = [0, 1, 2, 3];
 			case "spookeez":
@@ -523,9 +513,10 @@ class PlayState extends MusicBeatState
 				comboUI.breakPosition = [690, 85];
 			}
 
-			if(pixelSongs.contains(SONG.song.toLowerCase())){
-				comboUI.numberPosition[0] -= 120;
-				comboUI.setPosition(160, 60);
+			switch(curUiType){
+				case "pixel":
+					comboUI.numberPosition[0] -= 120;
+					comboUI.setPosition(160, 60);
 			}
 
 		}
@@ -1857,10 +1848,8 @@ class PlayState extends MusicBeatState
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
 		if(vocalType == 2) { vocalsOther.volume = 0; }
-		if (SONG.validScore && !usedAutoplay){
-			#if !switch
+		if (!usedAutoplay){
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
-			#end
 		}
 
 		if (isStoryMode)
@@ -1879,9 +1868,7 @@ class PlayState extends MusicBeatState
 				// if ()
 				StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
 
-				if (SONG.validScore){
-					Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
-				}
+				Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
 
 				FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
 				FlxG.save.flush();
