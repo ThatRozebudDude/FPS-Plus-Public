@@ -68,7 +68,7 @@ class School extends BasicStage
 		bgGirls = new BackgroundGirls(-100, 190);
 		bgGirls.scrollFactor.set(0.9, 0.9);
 
-		if (PlayState.schoolScared.contains(PlayState.SONG.song.toLowerCase())){
+		if (PlayState.SONG.song.toLowerCase() == "roses"){
 			bgGirls.getScared();
 		}
 

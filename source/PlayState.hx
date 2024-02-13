@@ -66,18 +66,6 @@ class PlayState extends MusicBeatState
 	private var releaseTimes:Array<Float> = [-1, -1, -1, -1];
 	private final releaseBufferTime = (2/60);
 
-	public static final stageSongs = ["tutorial", "bopeebo", "fresh", "dadbattle"]; //List isn't really used since stage is default, but whatever.
-	public static final spookySongs = ["spookeez", "south", "monster"];
-	public static final phillySongs = ["pico", "philly", "blammed"];
-	public static final limoSongs = ["satin-panties", "high", "milf"];
-	public static final mallSongs = ["cocoa", "eggnog"];
-	public static final evilMallSongs = ["winter-horrorland"];
-	public static final schoolSongs = ["senpai", "roses"];
-	public static final schoolScared = ["roses"];
-	public static final evilSchoolSongs = ["thorns"];
-	public static final pixelSongs = ["senpai", "roses", "thorns"];
-	public static final tankSongs = ["ugh", "guns", "stress"];
-
 	private var camFocus:String = "";
 	private var camTween:FlxTween;
 	private var camZoomTween:FlxTween;
@@ -311,29 +299,9 @@ class PlayState extends MusicBeatState
 
 		gfCheck = "Gf";
 
-		if (SONG.gf == null) {
-			switch(storyWeek)
-			{
-				case 4:
-					gfCheck = "GfCar";
-				case 5:
-					gfCheck = "GfChristmas";
-				case 6:
-					gfCheck = "GfPixel";
-				case 7:
-					if(SONG.song.toLowerCase() == "stress"){
-						gfCheck = "PicoSpeaker";
-					}
-					else{
-						gfCheck = "GfTankmen";
-					}
-			}
-
-			SONG.gf = gfCheck;
-
+		if (SONG.gf != null) {
+			gfCheck = SONG.gf;
 		}
-
-		gfCheck = SONG.gf;
 
 		gf = new Character(400, 130, gfCheck);
 		gf.scrollFactor.set(0.95, 0.95);
@@ -347,21 +315,9 @@ class PlayState extends MusicBeatState
 		boyfriend = new Character(770, 450, bfChar, true);
 
 		var stageCheck:String = 'Stage';
-		if (SONG.stage == null) {
-
-			if(spookySongs.contains(SONG.song.toLowerCase())) { stageCheck = 'Spooky'; }
-			else if(phillySongs.contains(SONG.song.toLowerCase())) { stageCheck = 'Philly'; }
-			else if(limoSongs.contains(SONG.song.toLowerCase())) { stageCheck = 'Limo'; }
-			else if(mallSongs.contains(SONG.song.toLowerCase())) { stageCheck = 'Mall'; }
-			else if(evilMallSongs.contains(SONG.song.toLowerCase())) { stageCheck = 'MallEvil'; }
-			else if(schoolSongs.contains(SONG.song.toLowerCase())) { stageCheck = 'School'; }
-			else if(evilSchoolSongs.contains(SONG.song.toLowerCase())) { stageCheck = 'SchoolEvil'; }
-			else if(tankSongs.contains(SONG.song.toLowerCase())) { stageCheck = 'Tank'; }
-
-			SONG.stage = stageCheck;
-
+		if (SONG.stage != null) {
+			stageCheck = SONG.stage;
 		}
-		else {stageCheck = SONG.stage;}
 
 		var stageClass = Type.resolveClass("stages." + stageCheck);
 		if(stageClass == null){
