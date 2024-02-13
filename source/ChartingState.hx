@@ -76,8 +76,10 @@ class ChartingState extends MusicBeatState
 	var player2DropDown:FlxUIDropDownMenu;
 	var gfDropDown:FlxUIDropDownMenu;
 	var stageDropDown:FlxUIDropDownMenu;
+	var diffNameList:Array<String> = ["Easy", "Normal", "Hard"];
 	var diffList:Array<String> = ["-easy", "", "-hard"];
 	var diffDropFinal:String = "";
+	var diffDrop:FlxUIDropDownMenu;
 	var bfClick:FlxUICheckBox;
 	var opClick:FlxUICheckBox;
 	var gotoSectionStepper:FlxUINumericStepper;
@@ -268,10 +270,11 @@ class ChartingState extends MusicBeatState
 		curRenderedSustains = new FlxTypedGroup<FlxSprite>();
 		curRenderedEvents = new FlxTypedGroup<EventSprite>();
 
-		if (PlayState.SONG != null)
+		if (PlayState.SONG != null){
 			_song = PlayState.SONG;
-		else
-		{
+			_song = sanatizeSong(_song);
+		}
+		else {
 			_song = {
 				song: 'Test',
 				notes: [],
@@ -434,15 +437,17 @@ class ChartingState extends MusicBeatState
 			_song.player2 = charactersList[Std.parseInt(character)];
 			updateHeads(true);
 		});
-
 		player2DropDown.selectedLabel = _song.player2;
 
-		var diffDrop:FlxUIDropDownMenu = new FlxUIDropDownMenu(10, 160, FlxUIDropDownMenu.makeStrIdLabelArray(["Easy", "Normal", "Hard"], true), function(diff:String)
+		diffDrop = new FlxUIDropDownMenu(10, 160, FlxUIDropDownMenu.makeStrIdLabelArray(diffNameList, true), function(diff:String)
 		{
 			trace(diff);
 			diffDropFinal = diffList[Std.parseInt(diff)];
+			PlayState.storyDifficulty = Std.parseInt(diff);
 			
 		});
+		diffDrop.selectedLabel = diffNameList[PlayState.storyDifficulty];
+		diffDropFinal = diffList[Std.parseInt(diffDrop.selectedId)];
 
 		gfDropDown = new FlxUIDropDownMenu(10, 130, FlxUIDropDownMenu.makeStrIdLabelArray(gfList, true), function(gf:String)
 			{
@@ -455,8 +460,6 @@ class ChartingState extends MusicBeatState
 				_song.stage = stageList[Std.parseInt(selStage)];
 			});
 		stageDropDown.selectedLabel = _song.stage;
-		
-		diffDrop.selectedLabel = "Normal";
 
 		var tab_group_song = new FlxUI(null, UI_box);
 		tab_group_song.name = "Song";
@@ -1653,7 +1656,7 @@ class ChartingState extends MusicBeatState
 					eventSymbol.loadGraphic(loadAndCacheEventGraphic("gfPlayAnim"));
 					customIcon = true;
 				}
-				if(tag.startsWith("setAnimSet;dad;")){
+				else if(tag.startsWith("setAnimSet;dad;")){
 					eventSymbol.loadGraphic(loadAndCacheEventGraphic("dadSetAnimSet"));
 					customIcon = true;
 				}
@@ -1930,6 +1933,12 @@ class ChartingState extends MusicBeatState
 	function loadJson(song:String):Void
 	{
 		PlayState.SONG = Song.loadFromJson(song.toLowerCase() + diffDropFinal, song.toLowerCase());
+		if(PlayState.SONG.stage == null){
+			PlayState.SONG.stage = _song.stage;
+		}
+		if(PlayState.SONG.gf == null){
+			PlayState.SONG.gf = _song.gf;
+		}
 		FlxG.resetState();
 	}
 
@@ -2242,6 +2251,36 @@ class ChartingState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
+	}
+
+	function sanatizeSong(song:SwagSong):SwagSong {
+
+		var newNotes:Array<SwagSection> = [];
+
+		for(x in song.notes){
+			var sec = {
+				lengthInSteps: x.lengthInSteps,
+				bpm: x.bpm,
+				changeBPM: x.changeBPM,
+				mustHitSection: x.mustHitSection,
+				sectionNotes: x.sectionNotes
+			};
+			newNotes.push(sec);
+		}
+
+		song = {
+			song: song.song,
+			notes: newNotes,
+			bpm: song.bpm,
+			player1: song.player1,
+			player2: song.player2,
+			stage: song.stage,
+			gf: song.gf,
+			speed: song.speed
+		};
+
+		return song;
+		
 	}
 	
 }
