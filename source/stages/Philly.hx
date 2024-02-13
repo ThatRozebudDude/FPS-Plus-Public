@@ -1,5 +1,8 @@
 package stages;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
 import flixel.sound.FlxSound;
 import flixel.FlxG;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -11,7 +14,9 @@ import stages.elements.*;
 class Philly extends BasicStage
 {
 
-	var phillyCityLights:FlxTypedGroup<FlxSprite>;
+	var phillyCityLights:FlxSprite;
+	var phillyCityLightsGlow:FlxSprite;
+
 	var phillyTrain:FlxSprite;
 
 	var trainSound:FlxSound;
@@ -24,6 +29,9 @@ class Philly extends BasicStage
 	var trainCooldown:Int = 0;
 
 	var startedMoving:Bool = false;
+
+	var windowColorIndex:Int = -1;
+	final windowColors:Array<FlxColor> = [0x31A2FD, 0x31FD8C, 0xFB33F5, 0xFD4531, 0xFBA633];
 
     public override function init(){
         name = 'philly';
@@ -40,19 +48,21 @@ class Philly extends BasicStage
 		city.antialiasing = true;
 		addToBackground(city);
 
-		phillyCityLights = new FlxTypedGroup<FlxSprite>();
+		phillyCityLights = new FlxSprite(city.x).loadGraphic(Paths.image("week3/philly/windowWhite"));
+		phillyCityLights.scrollFactor.set(0.3, 0.3);
+		phillyCityLights.setGraphicSize(Std.int(phillyCityLights.width * 0.85));
+		phillyCityLights.updateHitbox();
+		phillyCityLights.antialiasing = true;
 		addToBackground(phillyCityLights);
 
-		for (i in 0...5)
-		{
-			var light:FlxSprite = new FlxSprite(city.x).loadGraphic(Paths.image('week3/philly/win' + i));
-			light.scrollFactor.set(0.3, 0.3);
-			light.visible = false;
-			light.setGraphicSize(Std.int(light.width * 0.85));
-			light.updateHitbox();
-			light.antialiasing = true;
-			phillyCityLights.add(light);
-		}
+		phillyCityLightsGlow = new FlxSprite(city.x).loadGraphic(Paths.image("week3/philly/windowWhiteGlow"));
+		phillyCityLightsGlow.scrollFactor.set(0.3, 0.3);
+		phillyCityLightsGlow.setGraphicSize(Std.int(phillyCityLightsGlow.width * 0.85));
+		phillyCityLightsGlow.updateHitbox();
+		phillyCityLightsGlow.antialiasing = true;
+		phillyCityLightsGlow.blend = ADD;
+		phillyCityLightsGlow.alpha = 0;
+		addToBackground(phillyCityLightsGlow);
 
 		changeLightColor();
 
@@ -84,37 +94,33 @@ class Philly extends BasicStage
 	}
 
 	public override function beat(curBeat){
-		if (!trainMoving)
+		if (!trainMoving){
 			trainCooldown += 1;
+		}
 
 		if (curBeat % 4 == 0){
 			changeLightColor();
 		}
 
-		if (curBeat % 8 == 4 && FlxG.random.bool(30) && !trainMoving && trainCooldown > 8)
-		{
-			trainCooldown = FlxG.random.int(-4, 0);
+		if (curBeat % 8 == 4 && FlxG.random.bool(30) && !trainMoving && trainCooldown > 12){
+			trainCooldown = FlxG.random.int(0, 4);
 			trainStart();
 		}
 	}
 
 
 	function changeLightColor(){
-		phillyCityLights.forEach(function(light:FlxSprite){
-			light.visible = false;
-		});
-
-		var curLight = FlxG.random.int(0, phillyCityLights.length - 1);
-
-		phillyCityLights.members[curLight].visible = true;
-		// phillyCityLights.members[curLight].alpha = 1;
+		windowColorIndex = FlxG.random.int(0, 4, [windowColorIndex]);
+		phillyCityLights.color = windowColors[windowColorIndex];
+		phillyCityLightsGlow.color = windowColors[windowColorIndex];
+		FlxTween.cancelTweensOf(phillyCityLightsGlow);
+		phillyCityLightsGlow.alpha = 0.9;
+		FlxTween.tween(phillyCityLightsGlow, {alpha: 0}, (Conductor.crochet/1000) * 3.5, {ease: FlxEase.quadOut});
 	}
 
 	function trainStart():Void{
 		trainMoving = true;
-		if (!trainSound.playing){
-			trainSound.play(true);
-		}
+		trainSound.play(true);
 	}
 
 	function updateTrainPos():Void{

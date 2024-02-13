@@ -68,7 +68,7 @@ class Startup extends FlxState
     public static final graphics:Array<String> =    ["logoBumpin", "logoBumpin2", "gfDanceTitle2", "titleEnter", "fpsPlus/title/backgroundBf", "fpsPlus/title/barBottom", "fpsPlus/title/barTop", "fpsPlus/title/gf", "fpsPlus/title/glow", 
                                     "week1/stageback", "week1/stagefront", "week1/stagecurtains",
                                     "week2/halloween_bg",
-                                    "week3/philly/sky", "week3/philly/city", "week3/philly/behindTrain", "week3/philly/train", "week3/philly/street", "week3/philly/win0", "week3/philly/win1", "week3/philly/win2", "week3/philly/win3", "week3/philly/win4",
+                                    "week3/philly/sky", "week3/philly/city", "week3/philly/behindTrain", "week3/philly/train", "week3/philly/street", "week3/philly/windowWhite", "week3/philly/windowWhiteGlow",
                                     "week4/limo/bgLimo", "week4/limo/fastCarLol", "week4/limo/limoDancer", "week4/limo/limoDrive", "week4/limo/limoSunset",
                                     "week5/christmas/bgWalls", "week5/christmas/upperBop", "week5/christmas/bgEscalator", "week5/christmas/christmasTree", "week5/christmas/bottomBop", "week5/christmas/fgSnow", "week5/christmas/santa",
                                     "week5/christmas/evilBG", "week5/christmas/evilTree", "week5/christmas/evilSnow",
