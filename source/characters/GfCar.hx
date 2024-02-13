@@ -1,5 +1,7 @@
 package characters;
 
+@charList(false)
+@gfList(true)
 class GfCar extends CharacterInfoBase
 {
 

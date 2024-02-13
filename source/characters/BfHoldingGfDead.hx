@@ -1,5 +1,6 @@
 package characters;
 
+@charList(false)
 class BfHoldingGfDead extends CharacterInfoBase
 {
 

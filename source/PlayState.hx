@@ -1781,30 +1781,20 @@ class PlayState extends MusicBeatState
 			{
 				daNote.wasGoodHit = true;
 
-				var altAnim:String = "";
-
-				if (SONG.notes[Math.floor(curStep / 16)] != null)
-				{
-					if (SONG.notes[Math.floor(curStep / 16)].altAnim)
-						altAnim = '-alt';
-				}
-
-				//trace("DA ALT THO?: " + SONG.notes[Math.floor(curStep / 16)].altAnim);
-
 				if(dad.canAutoAnim && (Character.LOOP_ANIM_ON_HOLD ? (daNote.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!dad.animation.name.contains("sing") || (dad.animation.curAnim.curFrame >= 3 || dad.animation.curAnim.finished)) : true) : true) : !daNote.isSustainNote)){
 					switch (Math.abs(daNote.noteData))
 					{
 						case 2:
-							dad.playAnim('singUP' + altAnim, true);
+							dad.playAnim('singUP', true);
 							if(Config.extraCamMovement && !daNote.isSustainNote){ changeCamOffset(0, -1 * camOffsetAmount); }
 						case 3:
-							dad.playAnim('singRIGHT' + altAnim, true);
+							dad.playAnim('singRIGHT', true);
 							if(Config.extraCamMovement && !daNote.isSustainNote){ changeCamOffset(camOffsetAmount, 0); }
 						case 1:
-							dad.playAnim('singDOWN' + altAnim, true);
+							dad.playAnim('singDOWN', true);
 							if(Config.extraCamMovement && !daNote.isSustainNote){ changeCamOffset(0, camOffsetAmount); }
 						case 0:
-							dad.playAnim('singLEFT' + altAnim, true);
+							dad.playAnim('singLEFT', true);
 							if(Config.extraCamMovement && !daNote.isSustainNote){ changeCamOffset(-1 * camOffsetAmount, 0); }
 					}
 				}
@@ -2529,7 +2519,6 @@ class PlayState extends MusicBeatState
 
 		if(tag.startsWith("playAnim;")){
 			var tagSplit = tag.split(";");
-			//trace(tagSplit);
 
 			switch(tagSplit[1]){
 				case "dad":
@@ -2543,11 +2532,25 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		if(tag.startsWith("setAnimSet;")){
+			var tagSplit = tag.split(";");
+
+			switch(tagSplit[1]){
+				case "dad":
+					dad.animSet = tagSplit[2];
+
+				case "gf":
+					gf.animSet = tagSplit[2];
+
+				default:
+					boyfriend.animSet = tagSplit[2];
+			}
+		}
+
 		else if(tag.startsWith("cc;")){ ccText.display(tag.split("cc;")[1]); }
 
 		else if(tag.startsWith("camMove;")){
 			var properties = tag.split(";");
-			//trace(properties);
 			camMove(Std.parseFloat(properties[1]), Std.parseFloat(properties[2]), eventConvertTime(properties[3]), easeNameToEase(properties[4]), null);
 		}
 		else if(tag.startsWith("camZoom;")){

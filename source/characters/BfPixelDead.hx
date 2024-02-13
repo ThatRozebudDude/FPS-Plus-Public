@@ -1,5 +1,6 @@
 package characters;
 
+@charList(false)
 class BfPixelDead extends CharacterInfoBase
 {
 

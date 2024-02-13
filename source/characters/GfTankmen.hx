@@ -1,5 +1,7 @@
 package characters;
 
+@charList(false)
+@gfList(true)
 class GfTankmen extends CharacterInfoBase
 {
 

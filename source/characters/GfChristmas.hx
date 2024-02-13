@@ -1,5 +1,6 @@
 package characters;
 
+@gfList(true)
 class GfChristmas extends CharacterInfoBase
 {
 

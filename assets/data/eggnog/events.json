@@ -1,0 +1,48 @@
+{
+	"events": {
+		"events": [
+			[
+				10,
+				16000,
+				0,
+				"setAnimSet;dad;alt"
+			],
+			[
+				18,
+				28800,
+				0,
+				"setAnimSet;dad;"
+			],
+			[
+				26,
+				41600,
+				0,
+				"setAnimSet;dad;alt"
+			],
+			[
+				30,
+				48000,
+				0,
+				"setAnimSet;dad;"
+			],
+			[
+				38,
+				60800,
+				0,
+				"setAnimSet;dad;alt"
+			],
+			[
+				46,
+				73600,
+				0,
+				"setAnimSet;dad;"
+			],
+			[
+				54,
+				86400,
+				0,
+				"setAnimSet;dad;alt"
+			]
+		]
+	}
+}
