@@ -67,7 +67,7 @@ class Limo extends BasicStage
 
 		resetFastCar();
 
-		boyfriend().y -= 220;
+		boyfriend().y -= 258;
 		boyfriend().x += 260;
     }
 

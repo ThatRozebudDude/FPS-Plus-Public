@@ -2239,6 +2239,7 @@ class PlayState extends MusicBeatState
 
 			if(countMiss){
 				misses++;
+				updateAccuracy();
 			}
 
 			songScore -= scoreAdjust;
@@ -2262,8 +2263,7 @@ class PlayState extends MusicBeatState
 						boyfriend.playAnim('singLEFTmiss', true);
 				}
 			}
-
-			updateAccuracy();
+			
 		}
 
 		if(Main.flippymode) { System.exit(0); }
