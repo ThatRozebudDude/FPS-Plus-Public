@@ -50,7 +50,7 @@ typedef CharacterInfo = {
 *   To exclude characters from the character list add the metadata @charList(false) to the class. If this is not included it is interpreted as true.
 *   To include characters in the GF list add the metadata @gfList(true) to the class. If this is not included it is interpreted as false.
 *   You can use @charList(false) and @gfList(false) to hide the character from both lists.
-*/ 
+*/  
 
 class CharacterInfoBase
 {

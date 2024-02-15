@@ -22,7 +22,8 @@ class Character extends FlxSprite
 	public var debugMode:Bool = false;
 
 	public var isPlayer:Bool = false;
-	public var curCharacter:String = 'bf';
+	public var curCharacter:String = "bf";
+	public var charClass:String = "Bf";
 
 	public var holdTimer:Float = 0;
 	public var stepsUntilRelease:Float = 4;
@@ -38,7 +39,7 @@ class Character extends FlxSprite
 	var facesLeft:Bool = false;
 	var hasLeftAndRightIdle:Bool = false;
 
-	public function new(x:Float, y:Float, ?character:String = "bf", ?_isPlayer:Bool = false, ?_enableDebug:Bool = false){
+	public function new(x:Float, y:Float, ?character:String = "Bf", ?_isPlayer:Bool = false, ?_enableDebug:Bool = false){
 
 		debugMode = _enableDebug;
 		animOffsets = new Map<String, Array<Dynamic>>();
@@ -49,7 +50,9 @@ class Character extends FlxSprite
 
 		antialiasing = true;
 
-		createCharacterFromInfo(character);
+		charClass = character;
+
+		createCharacterFromInfo(charClass);
 
 		if (((facesLeft && !isPlayer) || (!facesLeft && isPlayer)) && !debugMode){
 

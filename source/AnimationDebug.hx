@@ -1,5 +1,6 @@
 package;
 
+import characters.CharacterInfoBase;
 import config.Config;
 import openfl.desktop.ClipboardFormats;
 import openfl.desktop.Clipboard;
@@ -22,12 +23,12 @@ class AnimationDebug extends FlxState
 {
 	var dad:Character;
 	var dadBG:Character;
+	var charInfo:CharacterInfoBase;
 	//var char:Character;
 	var textAnim:FlxText;
 	var dumbTexts:FlxTypedGroup<FlxText>;
 	var animList:Array<String> = [];
 	var curAnim:Int = 0;
-	var isDad:Bool = true;
 	var daAnim:String = 'spooky';
 	var camFollow:FlxObject;
 
@@ -65,16 +66,16 @@ class AnimationDebug extends FlxState
 		dad = new Character(0, 0, daAnim, false, true);
 		dad.screenCenter();
 
+		var characterClass = Type.resolveClass("characters." + dad.charClass);
+		charInfo = Type.createInstance(characterClass, []);
+
 		dadBG = new Character(0, 0, daAnim, false, true);
 		dadBG.screenCenter();
-		dadBG.alpha = 0.75;
+		dadBG.alpha = 0.5;
 		dadBG.color = 0xFF000000;
 
 		add(dadBG);
 		add(dad);
-
-		//dad.flipX = flippedChars.contains(dad.curCharacter);
-		//dadBG.flipX = flippedChars.contains(dadBG.curCharacter);
 
 		dumbTexts = new FlxTypedGroup<FlxText>();
 		add(dumbTexts);
@@ -86,6 +87,8 @@ class AnimationDebug extends FlxState
 		add(textAnim);
 
 		genBoyOffsets();
+
+		dad.playAnim(animList[0], true);
 
 		camFollow = new FlxObject(0, 0, 2, 2);
 		camFollow.screenCenter();
@@ -100,16 +103,16 @@ class AnimationDebug extends FlxState
 	{
 		var daLoop:Int = 0;
 
-		for (anim => offsets in dad.animOffsets)
+		for (x in charInfo.info.anims)
 		{
-			var text:FlxText = new FlxText(10, 20 + (18 * daLoop), 0, anim + ": " + offsets, 15);
+			var text:FlxText = new FlxText(10, 20 + (18 * daLoop), 0, x.name + ": " + x.data.offset, 15);
 			text.scrollFactor.set(0);
 			text.color = FlxColor.BLUE;
 			text.cameras = [camHUD];
 			dumbTexts.add(text);
 
 			if (pushList)
-				animList.push(anim);
+				animList.push(x.name);
 
 			daLoop++;
 		}
@@ -238,8 +241,15 @@ class AnimationDebug extends FlxState
 
 		var r = "";
 
-		for(x in animList){
-			r += "addOffset(\"" + x + "\", " + dad.animOffsets.get(x)[0] + ", " + dad.animOffsets.get(x)[1] + ");\n";
+		for(x in charInfo.info.anims){
+			switch(x.type){
+				case frames:
+					r += "add(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), " + x.data.frames + ", " + x.data.framerate +", " + x.data.loop + ", " + x.data.flipX + ", " + x.data.flipY + ");\n";
+				case prefix:
+					r += "addByPrefix(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.framerate +", " + x.data.loop + ", " + x.data.flipX + ", " + x.data.flipY + ");\n";
+				case indices:
+					r += "addByIndices(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.frames + ", \"" + x.data.postfix + "\", " +  x.data.framerate +", " + x.data.loop + ", " + x.data.flipX + ", " + x.data.flipY + ");\n";
+			}
 		}
 
 		Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, r);

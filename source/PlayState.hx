@@ -262,10 +262,7 @@ class PlayState extends MusicBeatState
 		}
 		
 		canHit = !(Config.ghostTapType > 0);
-		//noMissCount = 0;
-		//invulnCount = 0;
-	
-		// var gameCam:FlxCamera = FlxG.camera;
+
 		camGame = new FlxCamera();
 
 		camHUD = new FlxCamera();
@@ -425,8 +422,6 @@ class PlayState extends MusicBeatState
 		for(i in 0...stage.foregroundElements.length){
 			add(stage.foregroundElements[i]);
 		}
-
-		//add(foregroundSprites);
 
 		switch(curUiType){
 
@@ -682,32 +677,6 @@ class PlayState extends MusicBeatState
 					else{
 						startCountdown();
 					}
-				/*case "ugh":
-					videoCutscene(Paths.video("week7/ughCutsceneFade"), function(){
-						camMove(camFollow.x, camFollow.y + 100, 0, null);
-						FlxG.camera.zoom = defaultCamZoom * 1.2;
-						if(PlayState.SONG.notes[0].mustHitSection){ camFocusBF(); }
-						else{ camFocusOpponent(); }
-						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
-					});
-					
-				case "guns":
-					videoCutscene(Paths.video("week7/gunsCutsceneFade"), function(){
-						camMove(camFollow.x, camFollow.y + 100, 0, null);
-						FlxG.camera.zoom = defaultCamZoom * 1.2;
-						if(PlayState.SONG.notes[0].mustHitSection){ camFocusBF(); }
-						else{ camFocusOpponent(); }
-						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
-					});
-
-				case "stress":
-					videoCutscene(Paths.video("week7/stressCutsceneFade"), function(){
-						camMove(camFollow.x, camFollow.y + 100, 0, null);
-						FlxG.camera.zoom = defaultCamZoom * 1.2;
-						if(PlayState.SONG.notes[0].mustHitSection){ camFocusBF(); }
-						else{ camFocusOpponent(); }
-						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
-					});*/
 
 				default:
 					startCountdown();
@@ -900,10 +869,6 @@ class PlayState extends MusicBeatState
 			}
 		});
 		camMove(155, 600, Conductor.crochet / 1000 * 16, FlxEase.quadOut, "center");
-
-		/*if(stage.name == "chart"){
-			stage.blackBGFade();
-		}*/
 
 		beatHit();
 	}
@@ -1439,14 +1404,6 @@ class PlayState extends MusicBeatState
 			usedAutoplay = true;
 		}
 
-		/*if (FlxG.keys.justPressed.NINE)
-		{
-			if (iconP1.animation.curAnim.name == 'bf-old')
-				iconP1.animation.play(SONG.player1);
-			else
-				iconP1.animation.play('bf-old');
-		}*/
-
 		super.update(elapsed);
 
 		stage.update(elapsed);
@@ -1495,7 +1452,6 @@ class PlayState extends MusicBeatState
 		if(inRange(healthLerp, 2, 0.001)){
 			healthLerp = 2;
 		}
-		//trace(healthLerp);
 
 		//Health Icons
 		if (healthBar.percent < 20){
@@ -1551,20 +1507,12 @@ class PlayState extends MusicBeatState
 				{
 					songTime = (songTime + Conductor.songPosition) / 2;
 					Conductor.lastSongPos = Conductor.songPosition;
-					// Conductor.songPosition += FlxG.elapsed * 1000;
-					// trace('MISSED FRAME');
 				}
 			}
 
-			// Conductor.lastSongPos = FlxG.sound.music.time;
 		}
 
-		if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null)
-		{
-			if (curBeat % 4 == 0)
-			{
-				// trace(PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection);
-			}
+		if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null) {
 
 			if (camFocus != "dad" && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && autoCam)
 			{
@@ -1583,15 +1531,11 @@ class PlayState extends MusicBeatState
 		//FlxG.watch.addQuick("totalBeats: ", totalBeats);
 
 		// RESET = Quick Game Over Screen
-		if (Binds.justPressed("killbind") && !startingSong)
-		{
+		if (Binds.justPressed("killbind") && !startingSong) {
 			health = 0;
-			//trace("RESET = True");
 		}
 
-		if (health <= 0)
-		{
-			//boyfriend.stunned = true;
+		if (health <= 0) {
 
 			persistentUpdate = false;
 			persistentDraw = false;
@@ -1629,7 +1573,6 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.ONE)
 			endSong();
 		#end
-
 		
 		leftPress = false;
 		leftRelease = false;
@@ -1643,7 +1586,6 @@ class PlayState extends MusicBeatState
 		for(i in 0...releaseTimes.length){
 			if(releaseTimes[i] >= releaseBufferTime){
 				releaseTimes[i] = -1;
-				//trace(i + ": reset");
 			}
 		}
 
@@ -1829,9 +1771,6 @@ class PlayState extends MusicBeatState
 				if (storyDifficulty == 2)
 					difficulty = '-hard';
 
-				//trace('LOADING NEXT SONG');
-				//trace(PlayState.storyPlaylist[0].toLowerCase() + difficulty);
-
 				if (SONG.song.toLowerCase() == 'eggnog')
 				{
 					var blackShit:FlxSprite = new FlxSprite(-FlxG.width * FlxG.camera.zoom,
@@ -1928,9 +1867,6 @@ class PlayState extends MusicBeatState
 				createNoteSplash(note.noteData);
 			}
 		}
-			
-	
-		//trace('hit ' + daRating);
 
 		songScore += score;
 
@@ -2086,7 +2022,6 @@ class PlayState extends MusicBeatState
 				if(daNote.prevNote.wasGoodHit && !daNote.wasGoodHit){
 
 					if(releaseTimes[daNote.noteData] >= releaseBufferTime){
-						//trace("SHOULD MISS NOW!!!");
 						noteMiss(daNote.noteData, NOTE_MISS_DAMAGE, true, true, false, true);
 						vocals.volume = 0;
 						daNote.tooLate = true;
@@ -2304,17 +2239,6 @@ class PlayState extends MusicBeatState
 		
 	}
 
-	/*function setBoyfriendStunned(time:Float = 5 / 60){
-
-		boyfriend.stunned = true;
-
-		new FlxTimer().start(time, function(tmr:FlxTimer)
-		{
-			boyfriend.stunned = false;
-		});
-
-	}*/
-
 	function goodNoteHit(note:Note):Void
 	{
 
@@ -2425,13 +2349,10 @@ class PlayState extends MusicBeatState
 
 		if (SONG.notes[Math.floor(curStep / 16)] != null)
 		{
-			if (SONG.notes[Math.floor(curStep / 16)].changeBPM)
-			{
+			if (SONG.notes[Math.floor(curStep / 16)].changeBPM){
 				Conductor.changeBPM(SONG.notes[Math.floor(curStep / 16)].bpm);
 				FlxG.log.add('CHANGED BPM!');
 			}
-			//else
-			//	Conductor.changeBPM(SONG.bpm);
 
 			// Dad doesnt interupt his own notes
 			if (!sectionHasOppNotes){
@@ -2824,18 +2745,6 @@ class PlayState extends MusicBeatState
 				}
 		}
 	}
-
-	/*override public function onFocus(){
-		super.onFocus();
-		new FlxTimer().start(0.3, function(t){
-			if(Config.noFpsCap && !paused){
-				openfl.Lib.current.stage.frameRate = 999;
-			}
-			else{
-				openfl.Lib.current.stage.frameRate = 144;
-			}
-		});
-	}*/
 
 	function inRange(a:Float, b:Float, tolerance:Float){
 		return (a <= b + tolerance && a >= b - tolerance);
