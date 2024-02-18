@@ -217,8 +217,6 @@ class TitleScreen extends MusicBeatState
 				gfDance.animation.play('danceLeft', true);
 			}
 		}
-
-		FlxG.log.add(curBeat);
 	}
 
 }

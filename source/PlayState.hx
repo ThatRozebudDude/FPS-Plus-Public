@@ -526,7 +526,7 @@ class PlayState extends MusicBeatState
 		defaultCamZoom = stage.startingZoom;
 		
 		// FlxG.camera.setScrollBounds(0, FlxG.width, 0, FlxG.height);
-		FlxG.camera.zoom = defaultCamZoom;
+		camGame.zoom = defaultCamZoom;
 
 		FlxG.camera.focusOn(camFollowFinal.getPosition());
 
@@ -612,7 +612,7 @@ class PlayState extends MusicBeatState
 						camFollow.y = -2050;
 						camFollow.x += 200;
 						FlxG.camera.focusOn(camFollow.getPosition());
-						FlxG.camera.zoom = 1.5;
+						camGame.zoom = 1.5;
 
 						new FlxTimer().start(0.8, function(tmr:FlxTimer)
 						{
@@ -638,28 +638,28 @@ class PlayState extends MusicBeatState
 				case "ugh":
 					videoCutscene(Paths.video("week7/ughCutsceneFade"), function(){
 						camMove(camFollow.x, camFollow.y + 100, 0, null);
-						FlxG.camera.zoom = defaultCamZoom * 1.2;
+						defaultCamZoom *= 1.2;
 						if(PlayState.SONG.notes[0].mustHitSection){ camFocusBF(); }
 						else{ camFocusOpponent(); }
-						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
+						FlxTween.tween(this, {defaultCamZoom: defaultCamZoom / 1.2}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
 					});
 					
 				case "guns":
 					videoCutscene(Paths.video("week7/gunsCutsceneFade"), function(){
 						camMove(camFollow.x, camFollow.y + 100, 0, null);
-						FlxG.camera.zoom = defaultCamZoom * 1.2;
+						defaultCamZoom *= 1.2;
 						if(PlayState.SONG.notes[0].mustHitSection){ camFocusBF(); }
 						else{ camFocusOpponent(); }
-						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
+						FlxTween.tween(this, {defaultCamZoom: defaultCamZoom / 1.2}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
 					});
 
 				case "stress":
 					videoCutscene(Paths.video("week7/stressCutsceneFade"), function(){
 						camMove(camFollow.x, camFollow.y + 100, 0, null);
-						FlxG.camera.zoom = defaultCamZoom * 1.2;
+						defaultCamZoom *= 1.2;
 						if(PlayState.SONG.notes[0].mustHitSection){ camFocusBF(); }
 						else{ camFocusOpponent(); }
-						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
+						FlxTween.tween(this, {defaultCamZoom: defaultCamZoom / 1.2}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
 					});
 					
 				default:
@@ -790,6 +790,7 @@ class PlayState extends MusicBeatState
 	}
 
 	function videoCutscene(path:String, ?endFunc:Void->Void, ?startFunc:Void->Void){
+		
 		inCutscene = true;
 	
 		var blackShit:FlxSprite = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
@@ -801,7 +802,7 @@ class PlayState extends MusicBeatState
 		video.scrollFactor.set();
 		video.antialiasing = true;
 
-		FlxG.camera.zoom = 1;
+		camGame.zoom = 1;
 
 		video.playMP4(path, function(){
 			
@@ -810,8 +811,6 @@ class PlayState extends MusicBeatState
 			}});
 
 			remove(video);
-
-			FlxG.camera.zoom = defaultCamZoom;
 
 			if(endFunc != null){ endFunc(); }
 
@@ -1042,9 +1041,7 @@ class PlayState extends MusicBeatState
 
 	}
 
-	private function generateSong(dataPath:String):Void
-	{
-		// FlxG.log.add(ChartParser.parse());
+	private function generateSong(dataPath:String):Void {
 
 		var songData = SONG;
 		Conductor.changeBPM(songData.bpm);
@@ -1075,15 +1072,13 @@ class PlayState extends MusicBeatState
 		var playerCounter:Int = 0;
 
 		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
-		//for (section in noteData)
+
 		for (section in noteData)
 		{
 			if(sectionStart && daBeats < sectionStartPoint){
 				daBeats++;
 				continue;
 			}
-
-			var coolSection:Int = Std.int(section.lengthInSteps / 4);
 
 			for (songNotes in section.sectionNotes)
 			{
@@ -1093,16 +1088,17 @@ class PlayState extends MusicBeatState
 
 				var gottaHitNote:Bool = section.mustHitSection;
 
-				if (songNotes[1] > 3)
-				{
+				if (songNotes[1] > 3){
 					gottaHitNote = !section.mustHitSection;
 				}
 
 				var oldNote:Note;
-				if (unspawnNotes.length > 0)
+				if (unspawnNotes.length > 0){
 					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
-				else
+				}
+				else{
 					oldNote = null;
+				}
 
 				var swagNote:Note = new Note(daStrumTime, daNoteData, daNoteType, false, oldNote);
 				swagNote.sustainLength = songNotes[2];
@@ -1150,21 +1146,18 @@ class PlayState extends MusicBeatState
 		generatedMusic = true;
 	}
 
-	function sortByShit(Obj1:Note, Obj2:Note):Int
-	{
+	function sortByShit(Obj1:Note, Obj2:Note):Int {
 		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.strumTime, Obj2.strumTime);
 	}
 
-	function sortByEventStuff(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int
-	{
+	function sortByEventStuff(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int {
 		return FlxSort.byValues(FlxSort.ASCENDING, Obj1[0], Obj2[0]);
 	}
 
-	private function generateStaticArrows(player:Int, ?instant:Bool = false):Void
-	{
+	private function generateStaticArrows(player:Int, ?instant:Bool = false):Void {
+
 		for (i in 0...4)
 		{
-			// FlxG.log.add(i);
 			var babyArrow:FlxSprite = new FlxSprite(50, strumLine.y);
 
 			switch (curUiType)
@@ -1293,8 +1286,8 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	override function openSubState(SubState:FlxSubState)
-	{
+	override function openSubState(SubState:FlxSubState) {
+
 		if (paused)
 		{
 			if (FlxG.sound.music != null)
@@ -1311,8 +1304,8 @@ class PlayState extends MusicBeatState
 		super.openSubState(SubState);
 	}
 
-	override function closeSubState()
-	{
+	override function closeSubState() {
+		
 		if (paused)
 		{
 			if (FlxG.sound.music != null && !startingSong){
@@ -1361,8 +1354,7 @@ class PlayState extends MusicBeatState
 		}
 
 
-	override public function update(elapsed:Float)
-	{
+	override public function update(elapsed:Float) {
 		
 		if(invulnTime > 0){
 			invulnTime -= elapsed;
@@ -1526,7 +1518,10 @@ class PlayState extends MusicBeatState
 		}
 
 		camFollowFinal.setPosition(camFollow.x + camFollowOffset.x, camFollow.y + camFollowOffset.y);
-		camGame.zoom = defaultCamZoom + camGameZoomAdjust;
+
+		if(!inCutscene){
+			camGame.zoom = defaultCamZoom + camGameZoomAdjust;
+		}
 
 		//FlxG.watch.addQuick("totalBeats: ", totalBeats);
 
@@ -1773,8 +1768,8 @@ class PlayState extends MusicBeatState
 
 				if (SONG.song.toLowerCase() == 'eggnog')
 				{
-					var blackShit:FlxSprite = new FlxSprite(-FlxG.width * FlxG.camera.zoom,
-						-FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+					var blackShit:FlxSprite = new FlxSprite(-FlxG.width * camGame.zoom,
+						-FlxG.height * camGame.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
 					blackShit.scrollFactor.set();
 					add(blackShit);
 					camHUD.visible = false;
@@ -2351,7 +2346,6 @@ class PlayState extends MusicBeatState
 		{
 			if (SONG.notes[Math.floor(curStep / 16)].changeBPM){
 				Conductor.changeBPM(SONG.notes[Math.floor(curStep / 16)].bpm);
-				FlxG.log.add('CHANGED BPM!');
 			}
 
 			// Dad doesnt interupt his own notes
@@ -2366,7 +2360,6 @@ class PlayState extends MusicBeatState
 			if(dadBeats.contains(curBeat % 4))
 				dad.dance();
 		}
-		// FlxG.log.add('change bpm' + SONG.notes[Std.int(curStep / 16)].changeBPM);
 
 		if(curBeat % camBopFrequency == 0 && autoCamBop){
 			uiBop(0.0175, 0.03, 0.8);
