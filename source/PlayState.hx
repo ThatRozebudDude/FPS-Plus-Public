@@ -192,7 +192,9 @@ class PlayState extends MusicBeatState
 	// how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
 
-	public static var inCutscene:Bool = false;
+	var video:VideoHandler;
+	var inCutscene:Bool = false;
+	var inVideoCutscene:Bool = false;
 
 	var dadBeats:Array<Int> = [0, 2];
 	var bfBeats:Array<Int> = [1, 3];
@@ -792,13 +794,14 @@ class PlayState extends MusicBeatState
 	function videoCutscene(path:String, ?endFunc:Void->Void, ?startFunc:Void->Void){
 		
 		inCutscene = true;
+		inVideoCutscene = true;
 	
 		var blackShit:FlxSprite = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
 		blackShit.screenCenter(XY);
 		blackShit.scrollFactor.set();
 		add(blackShit);
 
-		var video = new VideoHandler();
+		video = new VideoHandler();
 		video.scrollFactor.set();
 		video.antialiasing = true;
 
@@ -810,13 +813,15 @@ class PlayState extends MusicBeatState
 				remove(blackShit);
 			}});
 
+			inVideoCutscene = false;
+
 			remove(video);
 
 			if(endFunc != null){ endFunc(); }
 
 			startCountdown();
 
-		}, false, true);
+		}, false);
 
 		add(video);
 		
@@ -874,8 +879,8 @@ class PlayState extends MusicBeatState
 
 	var startTimer:FlxTimer;
 
-	function startCountdown():Void
-	{
+	function startCountdown():Void {
+
 		inCutscene = false;
 
 		healthBar.visible = true;
@@ -1355,6 +1360,14 @@ class PlayState extends MusicBeatState
 
 
 	override public function update(elapsed:Float) {
+
+		if(inCutscene && inVideoCutscene){
+			if(Binds.justPressed("menuAccept")){
+				FlxTween.tween(video, {alpha: 0, volume: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
+					video.skip();
+				}});
+			}
+		}
 		
 		if(invulnTime > 0){
 			invulnTime -= elapsed;
@@ -2897,7 +2910,6 @@ class PlayState extends MusicBeatState
 		if(clearImagesFromCache){
 			Assets.cache.clear("assets/images");
 		}
-
 
 		switchState(_state);
 	}

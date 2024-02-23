@@ -147,11 +147,12 @@ class Tank extends BasicStage
 		for(x in foregroundElements){
 			x.dance();
 		}
+		tankMoving = true;
 	}
 
 	function moveTank():Void
 	{
-		if (!PlayState.inCutscene)
+		if (tankMoving)
 		{
 			var daAngleOffset:Float = 1;
 			tankAngle += FlxG.elapsed * tankSpeed;

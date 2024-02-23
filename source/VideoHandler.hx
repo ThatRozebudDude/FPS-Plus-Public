@@ -29,14 +29,10 @@ class VideoHandler extends FlxSprite
 	public static var MAX_FPS = 60;
 
 	/**
-		Determines whether you can skip the video by pressing `ACCEPT`.
-	**/
-	public var skipable:Bool = false;
-
-	/**
 		Determines whether the video plays auido. 
 	**/
 	public var muted(get, set):Bool;
+	public var volume:Float = 1;
 
 	var __muted:Bool = false;
 	var paused:Bool = false;
@@ -66,14 +62,14 @@ class VideoHandler extends FlxSprite
 		Generic play function. 
 		Works with both desktop and web builds.
 	**/
-	public function playMP4(videoPath:String, callback:Void->Void, ?repeat:Bool = false, ?canSkip:Bool = false){
+	public function playMP4(videoPath:String, callback:Void->Void, ?repeat:Bool = false){
 
 		#if desktop
-		playDesktopMP4(videoPath, callback, repeat, canSkip);
+		playDesktopMP4(videoPath, callback, repeat);
 		#end
 
 		#if web
-		playWebMP4(videoPath, callback, repeat, canSkip);
+		playWebMP4(videoPath, callback, repeat);
 		#end
 
 	}
@@ -86,10 +82,7 @@ class VideoHandler extends FlxSprite
 		Only works on desktop builds.
 		It is recommended that you use `playMP4()` instead since that works for desktop and web.
 	**/
-	@:noCompletion public function playDesktopMP4(path:String, callback:Void->Void, ?repeat:Bool = false, ?canSkip:Bool = false, ?isWindow:Bool = false, ?isFullscreen:Bool = false):Void
-	{
-
-		skipable = canSkip;
+	@:noCompletion public function playDesktopMP4(path:String, callback:Void->Void, ?repeat:Bool = false, ?isWindow:Bool = false, ?isFullscreen:Bool = false):Void {
 
 		//FlxG.autoPause = false;
 
@@ -154,12 +147,11 @@ class VideoHandler extends FlxSprite
 
 	function onVLCComplete()
 	{
-		if (finishCallback != null)
-		{
+		if (finishCallback != null){
 			finishCallback();
 		}
 
-		vlcClean();
+		destroy();
 
 		//FlxG.autoPause = true;
 
@@ -189,9 +181,8 @@ class VideoHandler extends FlxSprite
 		Only works on web builds.
 		It is recommended that you use `playMP4()` instead since that works for desktop and web.
 	**/
-	@:noCompletion public function playWebMP4(videoPath:String, callback:Void->Void, ?repeat:Bool = false, ?canSkip:Bool = false)
-	{
-		skipable = canSkip;
+	@:noCompletion public function playWebMP4(videoPath:String, callback:Void->Void, ?repeat:Bool = false) {
+
 		netLoop = repeat;
 		netPath = videoPath;
 
@@ -249,12 +240,11 @@ class VideoHandler extends FlxSprite
 
 	function finishVideo(){
 		
-		if (finishCallback != null)
-		{
+		if (finishCallback != null){
 				finishCallback();
 		}
 		
-		netClean();
+		destroy();
 
 	}
 
@@ -298,7 +288,7 @@ class VideoHandler extends FlxSprite
 				var vol:Float = FlxG.sound.volume;
 				vol = (vol) * 0.7;
 				vol += 0.3;
-				vlcBitmap.volume = vol;
+				vlcBitmap.volume = vol * volume;
 			}
 			else{
 				vlcBitmap.volume = 0;
@@ -326,15 +316,6 @@ class VideoHandler extends FlxSprite
 				frameCount += elapsed;
 
 		}
-
-		if(skipable){
-
-			if(Binds.justPressed("menuAccept")){
-				onVLCComplete();
-				destroy();
-			}
-
-		}
 		#end
 
 		#if web
@@ -358,15 +339,6 @@ class VideoHandler extends FlxSprite
 				frameCount = 0;
 			}
 			frameCount += elapsed;
-
-		}
-
-		if(skipable){
-
-			if(Binds.justPressed("menuAccept")){
-				finishVideo();
-				destroy();
-			}
 
 		}
 		#end
@@ -422,6 +394,17 @@ class VideoHandler extends FlxSprite
 		#end
 
 		paused = false;
+
+	}
+
+	public function skip(){
+
+		#if desktop
+		onVLCComplete();
+		#end
+		#if web
+		finishVideo();
+		#end
 
 	}
 

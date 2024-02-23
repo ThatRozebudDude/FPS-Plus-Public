@@ -14,12 +14,6 @@ class Paths
     inline static public function file(key:String, location:String, extension:String):String{
 
         var data:String = 'assets/$location/$key.$extension';
-        /*#if override
-        if(FileSystem.exists('override/$location/$key.$extension')){
-            data = 'override/$location/$key.$extension';
-            //trace("OVERRIDE FOR " + key + " FOUND!");
-        }
-        #end*/
         return data;
 
     }

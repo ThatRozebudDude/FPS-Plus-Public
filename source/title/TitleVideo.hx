@@ -30,7 +30,7 @@ class TitleVideo extends FlxState
 				#if web
 					VideoHandler.MAX_FPS = oldFPS;
 				#end
-			}, false, true);
+			}, false);
 
 			add(video);
 			
@@ -43,6 +43,10 @@ class TitleVideo extends FlxState
 	override public function update(elapsed:Float){
 
 		super.update(elapsed);
+
+		if(Binds.justPressed("menuAccept")){
+			video.skip();
+		}
 
 	}
 

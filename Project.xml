@@ -58,10 +58,6 @@
 	<assets path="assets/sounds" include="*.ogg"/>
 	<assets path="assets/songs"/>
 
-	<!-- comment out the override define to disable overrides>
-	<define name="override" if="desktop"/>
-	<assets path="override/" if="override"/-->
-
 	<!--assets path="CHANGELOG.md"/-->
 	<!-- <define name="PRELOAD_ALL" /> -->
 	
