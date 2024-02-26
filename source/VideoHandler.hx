@@ -1,12 +1,8 @@
 package;
 
 import openfl.media.SoundTransform;
-import flixel.util.FlxTimer;
 import flixel.FlxSprite;
-import flixel.FlxObject;
 import flixel.FlxG;
-import flixel.FlxState;
-import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import openfl.media.Video;
 import openfl.net.NetConnection;
@@ -41,6 +37,7 @@ class VideoHandler extends FlxSprite
 	var startDrawing:Bool = false;
 	var frameCount:Float = 0;
 	var completed:Bool = false;
+	var destroyed:Bool = false;
 
 	#if desktop
 	var vlcBitmap:VlcBitmap;
@@ -299,7 +296,7 @@ class VideoHandler extends FlxSprite
 		if(waitingStart){
 
 			if(vlcBitmap.initComplete){
-				makeGraphic(vlcBitmap.bitmapData.width,vlcBitmap.bitmapData.height,FlxColor.TRANSPARENT);
+				makeGraphic(vlcBitmap.bitmapData.width, vlcBitmap.bitmapData.height, FlxColor.TRANSPARENT);
 
 				waitingStart = false;
 				startDrawing = true;
@@ -345,7 +342,13 @@ class VideoHandler extends FlxSprite
 
 	}
 
-	override function destroy(){
+	override function destroy():Void{
+
+		if(destroyed){
+			return;
+		}
+			
+		destroyed = true;
 
 		#if desktop
 		if(!completed){

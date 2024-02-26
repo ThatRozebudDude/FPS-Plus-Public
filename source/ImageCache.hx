@@ -5,7 +5,7 @@ import openfl.display.BitmapData;
 
 class ImageCache{
 
-    public static var cache:Map<String,FlxGraphic> = new Map<String,FlxGraphic>();
+    public static var cache:Map<String, FlxGraphic> = new Map<String, FlxGraphic>();
 
     public static function add(path:String):Void{
         

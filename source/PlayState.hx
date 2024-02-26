@@ -2893,6 +2893,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	
 	public function changeState(_state:FlxState, clearImagesFromCache:Bool = true) {
 
 		if(CoolUtil.exists(Paths.voices(SONG.song, "Player"))){
@@ -2907,9 +2908,12 @@ class PlayState extends MusicBeatState
 			Assets.cache.removeSound(Paths.inst(SONG.song));
 		}
 
+		/*
+		Turns out this doesn't do anything :[
+		I WILL FIGURRE IT OUT THO MAYBE
 		if(clearImagesFromCache){
-			Assets.cache.clear("assets/images");
-		}
+			FlxG.bitmap.clearCache();
+		}*/
 
 		switchState(_state);
 	}

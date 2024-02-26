@@ -35,7 +35,6 @@ class BasicStage
 	 */
     function init(){}
 
-
     /**
 	 * Adds an object to `backgroundElements` to be added to PlayState.
 	 *
@@ -71,7 +70,6 @@ class BasicStage
         for(x in middleElements){ x.destroy(); }
         for(x in foregroundElements){ x.destroy(); }
     }
-
 
     /**
 	 * Called every frame in PlayState update.
