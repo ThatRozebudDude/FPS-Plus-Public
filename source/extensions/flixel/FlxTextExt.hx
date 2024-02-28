@@ -1,4 +1,4 @@
-package flixelExtensions;
+package extensions.flixel;
 
 import openfl.display.BitmapData;
 import flixel.text.FlxText;

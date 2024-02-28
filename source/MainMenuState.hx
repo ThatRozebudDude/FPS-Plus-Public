@@ -13,7 +13,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
 import flixel.text.FlxText;
-import flixelExtensions.FlxTextExt;
+import extensions.flixel.FlxTextExt;
 
 using StringTools;
 

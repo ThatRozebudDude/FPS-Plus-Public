@@ -4,8 +4,7 @@ package stages;
 import flixel.math.FlxPoint;
 
 /**
-	This is the base class for stages. 
-	When making your own stage make a new class extending this one.    
+	This is the base class for stages. When making your own stage make a new class extending this one.    
 	@author Rozebud
 **/
 

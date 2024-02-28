@@ -1,6 +1,6 @@
 package config;
 
-import flixelExtensions.FlxUIStateExt;
+import extensions.flixel.FlxUIStateExt;
 import flixel.input.gamepad.FlxGamepad;
 import KeyIcon.ControllerIcon;
 import flixel.input.gamepad.FlxGamepadInputID;
@@ -15,7 +15,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
-import flixelExtensions.FlxTextExt;
+import extensions.flixel.FlxTextExt;
 
 
 using StringTools;

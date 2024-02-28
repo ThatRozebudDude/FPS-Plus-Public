@@ -67,9 +67,9 @@ class GameOverSubstate extends MusicBeatSubstate
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 
 			if (PlayState.isStoryMode)
-				PlayState.instance.changeState(new StoryMenuState());
+				PlayState.instance.switchState(new StoryMenuState());
 			else
-				PlayState.instance.changeState(new FreeplayState());
+				PlayState.instance.switchState(new FreeplayState());
 
 			FlxG.camera.fade(FlxColor.BLACK, 0.1, false);
 			
@@ -118,7 +118,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		{
 			FlxG.camera.fade(FlxColor.BLACK, 1.2, false, function()
 			{
-				PlayState.instance.changeState(new PlayState(), false);
+				PlayState.instance.switchState(new PlayState());
 			});
 		});
 	}

@@ -1,4 +1,4 @@
-package flixelExtensions;
+package extensions.flixel;
 
 import transition.*;
 import transition.data.*;

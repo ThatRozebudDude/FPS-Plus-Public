@@ -1,7 +1,7 @@
 package config;
 
-import flixelExtensions.FlxUIStateExt;
-import flixelExtensions.FlxTextExt;
+import extensions.flixel.FlxUIStateExt;
+import extensions.flixel.FlxTextExt;
 import flixel.sound.FlxSound;
 import transition.data.*;
 

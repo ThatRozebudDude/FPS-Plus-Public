@@ -1,7 +1,7 @@
 package;
 
 import Conductor.BPMChangeEvent;
-import flixelExtensions.FlxUIStateExt;
+import extensions.flixel.FlxUIStateExt;
 
 class MusicBeatState extends FlxUIStateExt
 {

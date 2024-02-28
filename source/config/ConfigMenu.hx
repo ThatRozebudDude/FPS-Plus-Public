@@ -13,8 +13,8 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
-import flixelExtensions.FlxUIStateExt;
-import flixelExtensions.FlxTextExt;
+import extensions.flixel.FlxUIStateExt;
+import extensions.flixel.FlxTextExt;
 
 
 using StringTools;

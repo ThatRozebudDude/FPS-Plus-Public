@@ -19,7 +19,7 @@ import flixel.text.FlxText;
 import openfl.system.System;
 //import openfl.utils.Future;
 //import flixel.addons.util.FlxAsyncLoop;
-import flixelExtensions.FlxUIStateExt;
+import extensions.flixel.FlxUIStateExt;
 
 using StringTools;
 

@@ -11,7 +11,7 @@ import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import flixelExtensions.FlxTextExt;
+import extensions.flixel.FlxTextExt;
 
 using StringTools;
 using flixel.util.FlxSpriteUtil;

@@ -34,7 +34,7 @@ import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxTimer;
-import flixelExtensions.FlxTextExt;
+import extensions.flixel.FlxTextExt;
 
 using StringTools;
 
@@ -94,7 +94,7 @@ class PlayState extends MusicBeatState
 
 	private var vocals:FlxSound;
 	private var vocalsOther:FlxSound;
-	private var vocalType:Int = 1; // 0 - No vocal track, 1 - Single vocal track, 2 - Split vocal track
+	private var vocalType:VocalType = combinedVocalTrack;
 
 	public var dad:Character;
 	public var gf:Character;
@@ -1027,13 +1027,13 @@ class PlayState extends MusicBeatState
 
 		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
-		if(vocalType == 2){ vocalsOther.play(); }
+		if(vocalType == splitVocalTrack){ vocalsOther.play(); }
 
 		if(sectionStart){
 			FlxG.sound.music.time = sectionStartTime;
 			Conductor.songPosition = sectionStartTime;
 			vocals.time = sectionStartTime;
-			if(vocalType == 2){ vocalsOther.time = sectionStartTime; }
+			if(vocalType == splitVocalTrack){ vocalsOther.time = sectionStartTime; }
 		}
 
 		/*
@@ -1054,13 +1054,13 @@ class PlayState extends MusicBeatState
 		curSong = songData.song;
 
 		switch(vocalType){
-			case 2:
+			case splitVocalTrack:
 				vocals = new FlxSound().loadEmbedded(Paths.voices(curSong, "Player"));
 				vocalsOther = new FlxSound().loadEmbedded(Paths.voices(curSong, "Opponent"));
 				FlxG.sound.list.add(vocalsOther);
-			case 1:
+			case combinedVocalTrack:
 				vocals = new FlxSound().loadEmbedded(Paths.voices(curSong));
-			case 0:
+			case noVocalTrack:
 				vocals = new FlxSound();
 		}
 
@@ -1299,7 +1299,7 @@ class PlayState extends MusicBeatState
 			{
 				FlxG.sound.music.pause();
 				vocals.pause();
-				if(vocalType == 2){ vocalsOther.pause(); }
+				if(vocalType == splitVocalTrack){ vocalsOther.pause(); }
 			}
 
 			if (startTimer != null && !startTimer.finished)
@@ -1338,7 +1338,7 @@ class PlayState extends MusicBeatState
 			vocals.play();
 		}
 
-		if(vocalType == 2){
+		if(vocalType == splitVocalTrack){
 			vocalsOther.pause();
 			if (Conductor.songPosition <= vocalsOther.length){
 				vocalsOther.time = Conductor.songPosition;
@@ -1438,7 +1438,7 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.SEVEN)
 		{
-			changeState(new ChartingState(), false);
+			switchState(new ChartingState());
 			sectionStart = false;
 		}
 
@@ -1477,13 +1477,13 @@ class PlayState extends MusicBeatState
 			sectionStart = false;
 
 			if(FlxG.keys.pressed.SHIFT){
-				changeState(new AnimationDebug(SONG.player1), false);
+				switchState(new AnimationDebug(SONG.player1));
 			}
 			else if(FlxG.keys.pressed.CONTROL){
-				changeState(new AnimationDebug(gfCheck), false);
+				switchState(new AnimationDebug(gfCheck));
 			}
 			else{
-				changeState(new AnimationDebug(SONG.player2), false);
+				switchState(new AnimationDebug(SONG.player2));
 			}
 		}
 			
@@ -1550,7 +1550,7 @@ class PlayState extends MusicBeatState
 			paused = true;
 
 			vocals.stop();
-			if(vocalType == 2){ vocalsOther.stop(); }
+			if(vocalType == splitVocalTrack){ vocalsOther.stop(); }
 			FlxG.sound.music.stop();
 
 			openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, camFollowFinal.getScreenPosition().x, camFollowFinal.getScreenPosition().y, boyfriend.deathCharacter));
@@ -1724,10 +1724,11 @@ class PlayState extends MusicBeatState
 				dad.holdTimer = 0;
 
 				switch(vocalType){
-					case 2:
+					case splitVocalTrack:
 						vocalsOther.volume = 1;
-					case 1:
+					case combinedVocalTrack:
 						vocals.volume = 1;
+					default:
 				}
 					
 
@@ -1743,7 +1744,7 @@ class PlayState extends MusicBeatState
 		canPause = false;
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
-		if(vocalType == 2) { vocalsOther.volume = 0; }
+		if(vocalType == splitVocalTrack) { vocalsOther.volume = 0; }
 		if (!usedAutoplay){
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
 		}
@@ -1758,7 +1759,7 @@ class PlayState extends MusicBeatState
 			{
 				FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
 
-				changeState(new StoryMenuState());
+				switchState(new StoryMenuState());
 				sectionStart = false;
 
 				// if ()
@@ -1800,7 +1801,7 @@ class PlayState extends MusicBeatState
 				PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
 				FlxG.sound.music.stop();
 
-				changeState(new PlayState(), false);
+				switchState(new PlayState());
 
 				transIn = FlxTransitionableState.defaultTransIn;
 				transOut = FlxTransitionableState.defaultTransOut;
@@ -1810,7 +1811,7 @@ class PlayState extends MusicBeatState
 		{
 			sectionStart = false;
 
-			changeState(new FreeplayState());
+			switchState(new FreeplayState());
 		}
 	}
 
@@ -2323,11 +2324,11 @@ class PlayState extends MusicBeatState
 	override function stepHit()
 	{
 
-		if (Math.abs(FlxG.sound.music.time - (Conductor.songPosition)) > 20 || (vocalType > 0 && Math.abs(vocals.time - (Conductor.songPosition)) > 20)){
+		if (Math.abs(FlxG.sound.music.time - (Conductor.songPosition)) > 20 || (vocalType != noVocalTrack && Math.abs(vocals.time - (Conductor.songPosition)) > 20)){
 			resyncVocals();
 		}
 
-		if(vocalType == 2){
+		if(vocalType == splitVocalTrack){
 			if (Math.abs(vocalsOther.time - (Conductor.songPosition)) > 20){
 				resyncVocals();
 			}
@@ -2883,17 +2884,17 @@ class PlayState extends MusicBeatState
 		if(CoolUtil.exists(Paths.voices(SONG.song, "Player"))){
 			FlxG.sound.cache(Paths.voices(SONG.song, "Player"));
 			FlxG.sound.cache(Paths.voices(SONG.song, "Opponent"));
-			vocalType = 2;
+			vocalType = splitVocalTrack;
 		}
 		else if(CoolUtil.exists(Paths.voices(SONG.song))){
 			FlxG.sound.cache(Paths.voices(SONG.song));
 		}
 		else{
-			vocalType = 0;
+			vocalType = noVocalTrack;
 		}
 	}
 
-	
+	/*
 	public function changeState(_state:FlxState, clearImagesFromCache:Bool = true) {
 
 		if(CoolUtil.exists(Paths.voices(SONG.song, "Player"))){
@@ -2908,25 +2909,36 @@ class PlayState extends MusicBeatState
 			Assets.cache.removeSound(Paths.inst(SONG.song));
 		}
 
-		/*
-		Turns out this doesn't do anything :[
-		I WILL FIGURRE IT OUT THO MAYBE
+		
+		//Turns out this doesn't do anything :[
+		//I WILL FIGURRE IT OUT THO MAYBE
 		if(clearImagesFromCache){
 			FlxG.bitmap.clearCache();
-		}*/
+		}
 
 		switchState(_state);
-	}
+	}*/
 
-	/**
-	DO NOTE USE THIS FUNCTION FOR PLAYSTATE!
-
-	Use `changeState()` instead. It's needed for asset cache management.
-
-	I would have overrided the normal `switchState()` but I need new arguments.
-	**/
 	override function switchState(_state:FlxState) {
+		if(CoolUtil.exists(Paths.voices(SONG.song, "Player"))){
+			Assets.cache.removeSound(Paths.voices(SONG.song, "Player"));
+			Assets.cache.removeSound(Paths.voices(SONG.song, "Opponent"));
+		}
+		else if(CoolUtil.exists(Paths.voices(SONG.song))){
+			Assets.cache.removeSound(Paths.voices(SONG.song));
+		}
+
+		if(!CacheConfig.music){
+			Assets.cache.removeSound(Paths.inst(SONG.song));
+		}
+
 		super.switchState(_state);
 	}
 
+}
+
+enum VocalType {
+	noVocalTrack;
+	combinedVocalTrack;
+	splitVocalTrack;
 }
