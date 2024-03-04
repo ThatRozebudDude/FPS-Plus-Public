@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.FlxTimer;
 import haxe.rtti.Meta;
 import config.Config;
 import flixel.input.FlxInput;
@@ -49,6 +50,7 @@ class ChartingState extends MusicBeatState
 {
 
 	public static var screenshotBitmap:Bitmap = null;
+	public static var startSection:Int = 0;
 
 	var _file:FileReference;
 
@@ -366,6 +368,13 @@ class ChartingState extends MusicBeatState
 		}
 
 		super.create();
+
+		if(startSection > 0){
+			changeSection(startSection);
+		}
+
+		startSection = 0;
+		
 	}
 
 	function addSongUI():Void
@@ -503,7 +512,7 @@ class ChartingState extends MusicBeatState
 					FlxG.sound.music.volume = 0;
 				}
 				else{
-					FlxG.sound.music.volume = 1;
+					FlxG.sound.music.volume = 0.6;
 				}
 			};
 
@@ -758,6 +767,7 @@ class ChartingState extends MusicBeatState
 		FlxG.sound.list.add(vocalsOther);
 
 		FlxG.sound.music.pause();
+
 		vocals.play();
 		vocals.pause();
 		vocals.time = FlxG.sound.music.time;
@@ -765,6 +775,8 @@ class ChartingState extends MusicBeatState
 		vocalsOther.play();
 		vocalsOther.pause();
 		vocalsOther.time = FlxG.sound.music.time;
+
+		FlxG.sound.music.volume = 0.6;
 
 		FlxG.sound.music.onComplete = function()
 		{
@@ -917,7 +929,6 @@ class ChartingState extends MusicBeatState
 					vocals.play();
 					vocalsOther.play();
 					FlxG.sound.music.play();
-					FlxG.sound.music.volume = 0.6;
 
 					lilBf.animation.play("idle");
 					lilOpp.animation.play("idle");

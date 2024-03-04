@@ -1034,6 +1034,7 @@ class PlayState extends MusicBeatState
 			Conductor.songPosition = sectionStartTime;
 			vocals.time = sectionStartTime;
 			if(vocalType == splitVocalTrack){ vocalsOther.time = sectionStartTime; }
+			curSection = sectionStartPoint;
 		}
 
 		/*
@@ -1436,8 +1437,12 @@ class PlayState extends MusicBeatState
 			openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
 
-		if (FlxG.keys.justPressed.SEVEN)
-		{
+		if (FlxG.keys.justPressed.SEVEN){
+
+			if(!FlxG.keys.pressed.SHIFT){
+				ChartingState.startSection = curSection;
+			}
+
 			switchState(new ChartingState());
 			sectionStart = false;
 		}
@@ -2332,6 +2337,10 @@ class PlayState extends MusicBeatState
 			if (Math.abs(vocalsOther.time - (Conductor.songPosition)) > 20){
 				resyncVocals();
 			}
+		}
+
+		if(curStep > 0 && curStep % 16 == 0){
+			curSection++;
 		}
 
 		stage.step(curStep);
