@@ -1666,10 +1666,10 @@ class PlayState extends MusicBeatState
 
 			//MOVE NOTE TRANSPARENCY CODE BECAUSE REASONS 
 			if(daNote.tooLate){
-				if (daNote.alpha > 0.3){
+				if (!daNote.didTooLateAction){
 					noteMiss(daNote.noteData, NOTE_MISS_DAMAGE, true, true);
 					vocals.volume = 0;
-					daNote.alpha = 0.3;
+					daNote.didTooLateAction = true;
 				}
 			}
 

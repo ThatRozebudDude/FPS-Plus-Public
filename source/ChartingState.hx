@@ -1,5 +1,6 @@
 package;
 
+import flixel.addons.ui.FlxUIText;
 import flixel.util.FlxTimer;
 import haxe.rtti.Meta;
 import config.Config;
@@ -680,24 +681,17 @@ class ChartingState extends MusicBeatState
 		UI_box.addGroup(tab_group_section);
 	}
 
-	var stepperSusLength:FlxUINumericStepper;
-
 	function addNoteUI():Void
 	{
 		var tab_group_note = new FlxUI(null, UI_box);
 		tab_group_note.name = 'Note';
 
-		noteType = new FlxUIInputText(10, 70, 160, "", 8);
+		noteType = new FlxUIInputText(10, 30, 160, "", 8);
 		textBoxArray.push(noteType);
 
-		stepperSusLength = new FlxUINumericStepper(10, 10, Conductor.stepCrochet / 2, 0, 0, Conductor.stepCrochet * 16 * 16);
-		stepperSusLength.value = 0;
-		stepperSusLength.name = 'note_susLength';
+		var noteTagText = new FlxUIText(10, noteType.y - 20, 0, "Note Tag");
 
-		var applyLength:FlxButton = new FlxButton(100, 10, 'Apply');
-
-		tab_group_note.add(stepperSusLength);
-		tab_group_note.add(applyLength);
+		tab_group_note.add(noteTagText);
 		tab_group_note.add(noteType);
 
 		UI_box.addGroup(tab_group_note);
@@ -767,6 +761,8 @@ class ChartingState extends MusicBeatState
 		FlxG.sound.list.add(vocalsOther);
 
 		FlxG.sound.music.pause();
+
+		FlxG.sound.music.time = 0;
 
 		vocals.play();
 		vocals.pause();
@@ -1529,28 +1525,15 @@ class ChartingState extends MusicBeatState
 		}
 	}
 
-	function updateNoteUI():Void
-	{
-		if (curSelectedNote != null)
-			stepperSusLength.value = curSelectedNote[2];
+	function updateNoteUI():Void{
+		
 	}
 
-	function updateGrid():Void
-	{
-		while (curRenderedNotes.members.length > 0)
-		{
-			curRenderedNotes.remove(curRenderedNotes.members[0], true);
-		}
+	function updateGrid():Void{
 
-		while (curRenderedSustains.members.length > 0)
-		{
-			curRenderedSustains.remove(curRenderedSustains.members[0], true);
-		}
-		
-		while (curRenderedEvents.members.length > 0)
-		{
-			curRenderedEvents.remove(curRenderedEvents.members[0], true);
-		}
+		curRenderedNotes.clear();
+		curRenderedSustains.clear();
+		curRenderedEvents.clear();
 				
 		if (_song.notes[curSection].changeBPM && _song.notes[curSection].bpm > 0)
 		{
@@ -1775,6 +1758,7 @@ class ChartingState extends MusicBeatState
 			if(approxEqual(x[0], note.strumTime, 3) && x[1] == note.absoluteNumber && approxEqual(x[2], note.sustainLength, 3)){
 
 				curSelectedNote = x;
+				noteType.text = x[3];
 				break;
 
 			}

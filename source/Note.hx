@@ -19,6 +19,8 @@ class Note extends FlxSprite
 	public var prevNote:Note;
 	public var type:String = "";
 
+	public var didTooLateAction:Bool = false;
+
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
 
