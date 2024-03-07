@@ -41,8 +41,8 @@ class Note extends FlxSprite
 	inline public static final BLUE_NOTE:Int = 1;
 	inline public static final RED_NOTE:Int = 3;
 
-	public function new(_strumTime:Float, _noteData:Int, _type:String, ?_editor = false, ?_prevNote:Note, ?_sustainNote:Bool = false)
-	{
+	public function new(_strumTime:Float, _noteData:Int, _type:String, ?_editor = false, ?_prevNote:Note, ?_sustainNote:Bool = false){
+		
 		super();
 
 		if (_type != null)
@@ -210,8 +210,8 @@ class Note extends FlxSprite
 		}
 	}
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float){
+
 		super.update(elapsed);
 
 		if (mustPress)
@@ -240,17 +240,19 @@ class Note extends FlxSprite
 
 		//Glow note stuff.
 
-		if (canBeHit && Config.noteGlow && !isSustainNote && !editor && animation.curAnim.name.contains("Scroll")){
-			glow();
-		}
-
-		if (tooLate && !isSustainNote && !editor && !animation.curAnim.name.contains("Scroll")){
-			idle();
+		if(Config.noteGlow){
+			if (canBeHit && !isSustainNote && !editor && animation.curAnim.name.contains("Scroll")){
+				glow();
+			}
+	
+			if (tooLate && !isSustainNote && !editor && !animation.curAnim.name.contains("Scroll")){
+				idle();
+			}
 		}
 
 	}
 
-	public function glow(){
+	public function glow():Void{
 
 		switch (noteData)
 		{
@@ -266,7 +268,7 @@ class Note extends FlxSprite
 
 	}
 
-	public function idle(){
+	public function idle():Void{
 
 		switch (noteData)
 		{

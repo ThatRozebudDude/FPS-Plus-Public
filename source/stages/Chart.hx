@@ -18,7 +18,25 @@ class Chart extends BasicStage
 			startingZoom = 1;
 			var chartBg = new FlxSprite().loadGraphic(ChartingState.screenshotBitmap.bitmapData);
 			chartBg.antialiasing = true;
+
+			if(chartBg.width != 1280 || chartBg.height != 720){
+				if(chartBg.width/1280 < chartBg.height/720){
+					var newScale = 1280 / chartBg.width;
+					chartBg.setGraphicSize(1280, newScale * chartBg.height);
+					chartBg.updateHitbox();
+					chartBg.y -= (chartBg.height - 720)/2;
+				}
+				else{
+					var newScale = 720 / chartBg.height;
+					chartBg.setGraphicSize(newScale * chartBg.width, 720);
+					chartBg.updateHitbox();
+					chartBg.x -= (chartBg.width - 1280)/2;
+				}
+			}
+
 			addToBackground(chartBg);
+
+			ChartingState.screenshotBitmap = null;
 
 			chartBlackBG = new FlxSprite(0, 0).makeGraphic(1280, 720, 0xFF000000);
 			chartBlackBG.alpha = 0;
