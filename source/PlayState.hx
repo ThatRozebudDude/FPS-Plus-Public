@@ -1664,7 +1664,6 @@ class PlayState extends MusicBeatState
 
 			daNote.x = targetX + daNote.xOffset;
 
-			//MOVE NOTE TRANSPARENCY CODE BECAUSE REASONS 
 			if(daNote.tooLate){
 				if (!daNote.didTooLateAction){
 					noteMiss(daNote.noteData, NOTE_MISS_DAMAGE, true, true);
