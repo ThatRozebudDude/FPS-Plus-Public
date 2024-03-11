@@ -227,6 +227,12 @@ class AnimationDebug extends FlxState
 				dad.animOffsets.get(animList[curAnim])[0] -= 1 * multiplier;
 				dadBG.animOffsets.get(animList[curAnim])[0] -= 1 * multiplier;
 			}
+
+			for(x in charInfo.info.anims){
+				if(x.name != animList[curAnim]){ continue; }
+				x.data.offset = [dad.animOffsets.get(animList[curAnim])[0], dad.animOffsets.get(animList[curAnim])[1]];
+				break;
+			}
 				
 
 			updateTexts();
