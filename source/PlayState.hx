@@ -1823,9 +1823,7 @@ class PlayState extends MusicBeatState
 
 	private function popUpScore(note:Note):Void{
 
-		var strumtime = note.strumTime;
-
-		var noteDiff:Float = Math.abs(strumtime - Conductor.songPosition);
+		var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition);
 
 		var score:Int = 350;
 
