@@ -23,7 +23,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		var daBf:String = character;
 		switch (daBf)
 		{
-			case 'bf-pixel-dead':
+			case 'BfPixelDead':
 				stageSuffix = '-pixel';
 		}
 
@@ -81,7 +81,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		{
 			switch(PlayState.SONG.player2){
 
-				case "tankman":
+				case "Tankman":
 					bf.playAnim('deathLoop');
 					FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix), 0.2);
 					FlxG.sound.play(Paths.sound('week7/jeffGameover/jeffGameover-' + FlxG.random.int(1, 25)), 1, false, null, true, function()
