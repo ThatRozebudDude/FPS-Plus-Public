@@ -69,7 +69,7 @@ class ChartingState extends MusicBeatState
 
 	var timeOld:Float = 0;
 
-	var ee2Check = FlxG.save.data.ee2;
+	var ee2Check:Bool;
 
 	public static var lastSection:Int = 0;
 
@@ -153,6 +153,9 @@ class ChartingState extends MusicBeatState
 	{
 
 		Config.setFramerate(120);
+
+		SaveManager.global();
+		ee2Check = FlxG.save.data.ee2;
 
 		var controlInfo = new FlxText(10, 30, 0, "LEFT CLICK - Place Notes\nRIGHT CLICK - Delete Notes\nMIDDLE CLICK - Reselect a note.\n\nSHIFT - Unlock cursor from grid\nALT - Triplets\nCONTROL - 1/32 Notes\nSHIFT + CONTROL - 1/64 Notes\n\nTAB - Place notes on both sides\nHJKL - Place notes during\n                       playback\n\nR - Top of section\nCTRL + R - Song start\n\nENTER - Test chart.\nCTRL + ENTER - Test chart from\n                         current section.", 12);
 		controlInfo.scrollFactor.set();
