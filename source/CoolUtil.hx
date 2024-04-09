@@ -1,5 +1,7 @@
 package;
 
+import flixel.math.FlxPoint;
+import flixel.FlxSprite;
 import sys.io.File;
 import sys.FileSystem;
 import flixel.math.FlxMath;
@@ -38,6 +40,14 @@ class CoolUtil
 			dumbArray.push(i);
 		}
 		return dumbArray;
+	}
+
+	//find actual graphic mid point until its fixed in flixel (i will make a pr :])
+	public static function getTrueGraphicMidpoint(sprite:FlxSprite, ?point:FlxPoint):FlxPoint{
+		if (point == null){
+			point = FlxPoint.get();
+		}
+		return point.set(sprite.x + sprite.frameWidth * 0.5 * sprite.scale.x, sprite.y + sprite.frameHeight * 0.5 * sprite.scale.y);
 	}
 
 	/*
