@@ -40,19 +40,19 @@ class NoteSplash extends FlxSprite{
         animation.finishCallback = function(n){ destroy(); }
         animation.play("splash");
 
-        alpha = 0.6;
-
         switch(splashPath){
             case "week6/weeb/pixelUI/noteSplashes-pixel":
+                alpha = 0.7;
+
                 setGraphicSize(Std.int(width * PlayState.daPixelZoom));
                 antialiasing = false;
                 updateHitbox();
 
                 if(random == 1){
-                    offset.set(21, 25);
+                    offset.set(20, 26);
                 }
                 else{
-                    offset.set(25, 25);
+                    offset.set(24, 26);
                 }
                 origin = offset;
 
@@ -60,6 +60,7 @@ class NoteSplash extends FlxSprite{
                 angle = angles[FlxG.random.int(0, 3)];
 
             default:
+                alpha = 0.6;
                 //center offsets and rotate around center
                 if(random == 1){
                     offset.set(127, 153);
