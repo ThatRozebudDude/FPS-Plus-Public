@@ -5,6 +5,7 @@ import sys.FileSystem;
 #end
 
 import config.*;
+import debug.*;
 import title.*;
 import transition.data.*;
 import stages.*;

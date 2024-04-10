@@ -1,4 +1,4 @@
-package;
+package debug;
 
 import flixel.addons.ui.FlxUIText;
 import flixel.util.FlxTimer;

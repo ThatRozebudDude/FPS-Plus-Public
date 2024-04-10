@@ -99,7 +99,7 @@ class Startup extends FlxState
 
         Binds.init();
         
-        ChartingState.loadLists();
+        debug.ChartingState.loadLists();
 
         Main.fpsDisplay.visible = Config.showFPS;
 

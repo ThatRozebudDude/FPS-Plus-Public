@@ -13,7 +13,7 @@ class NoteSplash extends FlxSprite{
 
     public static var splashPath:String = "ui/noteSplashes";
 
-    public function new(x:Float, y:Float, note:Int){
+    public function new(x:Float, y:Float, note:Int, ?forceSplashNumber:Null<Int>){
 
         super(x, y);
         
@@ -27,16 +27,20 @@ class NoteSplash extends FlxSprite{
                 noteColor = "red";
         }
 
-        var random:Int;
+        var splashAnimNumber:Int;
 
         switch(splashPath){
             default:
-                random = FlxG.random.int(1, 2);
+                splashAnimNumber = FlxG.random.int(1, 2);
+        }
+
+        if(forceSplashNumber != null){
+            splashAnimNumber = forceSplashNumber;
         }
 
         frames = Paths.getSparrowAtlas(splashPath);
         antialiasing = true;
-        animation.addByPrefix("splash", "note impact " + random + " " + noteColor, 24 + FlxG.random.int(-3, 4), false);
+        animation.addByPrefix("splash", "note impact " + splashAnimNumber + " " + noteColor, 24 + FlxG.random.int(-3, 4), false);
         animation.finishCallback = function(n){ destroy(); }
         animation.play("splash");
 
@@ -48,11 +52,11 @@ class NoteSplash extends FlxSprite{
                 antialiasing = false;
                 updateHitbox();
 
-                if(random == 1){
-                    offset.set(20, 26);
+                if(splashAnimNumber == 1){
+                    offset.set(21, 25);
                 }
                 else{
-                    offset.set(24, 26);
+                    offset.set(23, 23);
                 }
                 origin = offset;
 
@@ -62,11 +66,11 @@ class NoteSplash extends FlxSprite{
             default:
                 alpha = 0.6;
                 //center offsets and rotate around center
-                if(random == 1){
-                    offset.set(127, 153);
+                if(splashAnimNumber == 1){
+                    offset.set(126, 150);
                 }
                 else{
-                    offset.set(142, 161);
+                    offset.set(138, 138);
                 }
                 origin = offset;
 

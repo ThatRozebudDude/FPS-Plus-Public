@@ -1,4 +1,4 @@
-package;
+package debug;
 
 import characters.CharacterInfoBase;
 import config.Config;

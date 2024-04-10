@@ -16,7 +16,7 @@ class Chart extends BasicStage
 
 		if(PlayState.fromChartEditor){
 			startingZoom = 1;
-			var chartBg = new FlxSprite().loadGraphic(ChartingState.screenshotBitmap.bitmapData);
+			var chartBg = new FlxSprite().loadGraphic(debug.ChartingState.screenshotBitmap.bitmapData);
 			chartBg.antialiasing = true;
 
 			if(chartBg.width != 1280 || chartBg.height != 720){
@@ -36,7 +36,7 @@ class Chart extends BasicStage
 
 			addToBackground(chartBg);
 
-			ChartingState.screenshotBitmap = null;
+			debug.ChartingState.screenshotBitmap = null;
 
 			chartBlackBG = new FlxSprite(0, 0).makeGraphic(1280, 720, 0xFF000000);
 			chartBlackBG.alpha = 0;
@@ -73,8 +73,4 @@ class Chart extends BasicStage
 			FlxTween.tween(chartBlackBG, {alpha: 1}, Conductor.crochet / 1000 * 16);
 		}
 	}
-
-	/*public function blackBGFade(){
-		FlxTween.tween(chartBlackBG, {alpha: 1}, Conductor.crochet / 1000 * 16);
-	}*/
 }
