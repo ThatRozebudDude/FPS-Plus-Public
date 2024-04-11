@@ -9,7 +9,7 @@ import flixel.FlxSprite;
 /**
     Transition animation made to test the new transition system.
 **/
-class WeirdBounceIn extends BasicTransition{
+class WeirdBounceIn extends BaseTransition{
 
     var blockThing:FlxSprite;
     var time:Float;

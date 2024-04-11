@@ -279,7 +279,7 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
-		persistentUpdate = true;
+		persistentUpdate = false;
 		persistentDraw = true;
 
 		if (SONG == null)
@@ -857,7 +857,7 @@ class PlayState extends MusicBeatState
 		Conductor.songPosition = 0;
 		//Conductor.songPosition -= Conductor.crochet * 5;
 
-		customTransIn = new BasicTransition();
+		customTransIn = new InstantTransition();
 
 		autoZoom = false;
 		var hudElementsFadeInTime = 0.2;
@@ -1295,10 +1295,9 @@ class PlayState extends MusicBeatState
 
 	override function openSubState(SubState:FlxSubState) {
 
-		if (paused)
-		{
-			if (FlxG.sound.music != null)
-			{
+		if (paused){
+
+			if (FlxG.sound.music != null){
 				FlxG.sound.music.pause();
 				vocals.pause();
 				if(vocalType == splitVocalTrack){ vocalsOther.pause(); }
@@ -1313,8 +1312,8 @@ class PlayState extends MusicBeatState
 
 	override function closeSubState() {
 		
-		if (paused)
-		{
+		if (paused){
+
 			if (FlxG.sound.music != null && !startingSong){
 				resyncVocals();
 			}
@@ -1429,12 +1428,8 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (Binds.justPressed("pause") && startedCountdown && canPause)
-		{
-			persistentUpdate = false;
-			persistentDraw = true;
+		if (Binds.justPressed("pause") && startedCountdown && canPause){
 			paused = true;
-
 			openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
 
@@ -1551,7 +1546,6 @@ class PlayState extends MusicBeatState
 
 		if (health <= 0) {
 
-			persistentUpdate = false;
 			persistentDraw = false;
 			paused = true;
 

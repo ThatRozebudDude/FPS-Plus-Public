@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxCamera;
 import debug.ChartingState;
 import flixel.tweens.FlxTween;
 import config.*;
@@ -20,6 +21,8 @@ class PauseSubState extends MusicBeatSubstate
 
 	var allowControllerPress:Bool = false;
 
+	var camPause:FlxCamera;
+
 	public function new(x:Float, y:Float)
 	{
 		super();
@@ -27,6 +30,11 @@ class PauseSubState extends MusicBeatSubstate
 		Config.setFramerate(144);
 
 		FlxTween.globalManager.active = false;
+
+		camPause = new FlxCamera();
+		camPause.bgColor.alpha = 0;
+		FlxG.cameras.add(camPause, false);
+		cameras = [camPause];
 		
 		if (PlayState.storyPlaylist.length > 1 && PlayState.isStoryMode){
 			menuItems.insert(2, "Skip Song");
@@ -72,7 +80,6 @@ class PauseSubState extends MusicBeatSubstate
 
 		changeSelection();
 
-		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
 
 	override function update(elapsed:Float)
@@ -149,6 +156,7 @@ class PauseSubState extends MusicBeatSubstate
 
 	function unpause(){
 		Config.setFramerate(999);
+		FlxG.cameras.remove(camPause, true);
 		close();
 	}
 

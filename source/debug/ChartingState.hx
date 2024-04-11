@@ -1,12 +1,13 @@
 package debug;
 
+import transition.data.InstantTransition;
 import flixel.addons.ui.FlxUIText;
 import flixel.util.FlxTimer;
 import haxe.rtti.Meta;
 import config.Config;
 import flixel.input.FlxInput;
 import flixel.group.FlxSpriteGroup;
-import transition.data.BasicTransition;
+import transition.data.InstantTransition;
 import openfl.display.Bitmap;
 import flixel.addons.plugin.screengrab.FlxScreenGrab;
 import openfl.display.BitmapData;
@@ -1306,7 +1307,7 @@ class ChartingState extends MusicBeatState
 					PlayState.fromChartEditor = true;
 					screenshotBitmap = FlxScreenGrab.grab(null, false, true);
 	
-					customTransOut = new BasicTransition();
+					customTransOut = new InstantTransition();
 	
 					var poop:String = Highscore.formatSong("lil-buddies", 2);
 					PlayState.SONG = Song.loadFromJson(poop, "lil-buddies");

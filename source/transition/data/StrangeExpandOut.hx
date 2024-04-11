@@ -9,7 +9,7 @@ import flixel.FlxSprite;
 /**
     Transition animation made to test the new transition system.
 **/
-class StrangeExpandOut extends BasicTransition{
+class StrangeExpandOut extends BaseTransition{
 
     var blockThing:FlxSprite;
     var time:Float;

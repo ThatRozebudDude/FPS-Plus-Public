@@ -19,8 +19,8 @@ class FlxUIStateExt extends FlxUIState
 	public static var defaultTransOut:Class<Dynamic>;
 	public static var defaultTransOutArgs:Array<Dynamic>;
 
-	private var customTransIn:BasicTransition = null;
-	private var customTransOut:BasicTransition = null;
+	private var customTransIn:BaseTransition = null;
+	private var customTransOut:BaseTransition = null;
 
 	override function create()
 	{
@@ -42,8 +42,7 @@ class FlxUIStateExt extends FlxUIState
 			return;
 		}
 		else{
-			System.gc();
-			FlxG.switchState(_state);
+			CustomTransition.transition(new InstantTransition(), _state);
 			return;
 		}
 	}

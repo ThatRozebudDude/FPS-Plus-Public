@@ -1,5 +1,6 @@
-package transition.data;
+package transition;
 
+import flixel.FlxCamera;
 import openfl.system.System;
 import flixel.FlxG;
 import flixel.FlxState;
@@ -8,7 +9,7 @@ import flixel.group.FlxSpriteGroup;
 /**
     The base class for state transitions.
 **/
-class BasicTransition extends FlxSpriteGroup{
+class BaseTransition extends FlxSpriteGroup{
 
     public var state:FlxState = null;
 
@@ -41,6 +42,7 @@ class BasicTransition extends FlxSpriteGroup{
             FlxG.switchState(state);
         }
         else{
+            FlxG.cameras.remove(cameras[0], true);
             this.destroy();
         }
     }

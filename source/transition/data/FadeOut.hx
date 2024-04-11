@@ -9,7 +9,7 @@ import flixel.FlxSprite;
 /**
     A simple fade to a color.
 **/
-class FadeOut extends BasicTransition{
+class FadeOut extends BaseTransition{
 
     var blockThing:FlxSprite;
     var time:Float;

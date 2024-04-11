@@ -9,7 +9,7 @@ import flixel.util.FlxGradient;
 /**
     Recreation of the normal FNF transition in.
 **/
-class ScreenWipeIn extends BasicTransition{
+class ScreenWipeIn extends BaseTransition{
 
     var blockThing:FlxSprite;
     var time:Float;
