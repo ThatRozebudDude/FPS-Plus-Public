@@ -304,9 +304,7 @@ class ChartingState extends MusicBeatState
 		}
 
 		for(i in _events.events){
-			if(!eventTagList.contains(i[3])){
-				eventTagList.push(i[3]);
-			}
+			pushEvent(i[3]);
 		}
 		
 		for(x in _song.notes){
@@ -2127,8 +2125,7 @@ class ChartingState extends MusicBeatState
 			}
 		}
 
-		if(!eventTagList.contains(eventTagName.text)){
-			eventTagList.push(eventTagName.text);
+		if(pushEvent(eventTagName.text)){
 			eventTagDrop.setData(FlxUIDropDownMenu.makeStrIdLabelArray(eventTagList, true));
 		}
 
@@ -2280,6 +2277,14 @@ class ChartingState extends MusicBeatState
 
 		return song;
 		
+	}
+
+	function pushEvent(e:String):Bool{
+		if(!eventTagList.contains(e) && !e.startsWith("cc;")){
+			eventTagList.push(e);
+			return true;
+		}
+		return false;
 	}
 	
 }

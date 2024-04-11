@@ -2405,15 +2405,19 @@ class PlayState extends MusicBeatState
 		if(tag.startsWith("playAnim;")){
 			var tagSplit = tag.split(";");
 
+			if(tagSplit.length < 4){ tagSplit.push("false"); }
+			if(tagSplit.length < 5){ tagSplit.push("false"); }
+			if(tagSplit.length < 6){ tagSplit.push("0"); }
+
 			switch(tagSplit[1]){
 				case "dad":
-					dad.playAnim(tagSplit[2]);
+					dad.playAnim(tagSplit[2], parseBool(tagSplit[3]), parseBool(tagSplit[4]), Std.parseInt(tagSplit[5]));
 
 				case "gf":
-					gf.playAnim(tagSplit[2]);
+					gf.playAnim(tagSplit[2], parseBool(tagSplit[3]), parseBool(tagSplit[4]), Std.parseInt(tagSplit[5]));
 
 				default:
-					boyfriend.playAnim(tagSplit[2]);
+					boyfriend.playAnim(tagSplit[2], parseBool(tagSplit[3]), parseBool(tagSplit[4]), Std.parseInt(tagSplit[5]));
 			}
 		}
 
@@ -2474,19 +2478,23 @@ class PlayState extends MusicBeatState
 
 		else if(tag.startsWith("flash;")){ 
 			var properties = tag.split(";");
-			camGame.fade(0xFFFFFFFF, eventConvertTime(properties[1]), true);
+			if(properties.length < 3){ properties.push("0xFFFFFFFF"); }
+			camGame.fade(Std.parseInt(properties[2]), eventConvertTime(properties[1]), true);
 		}
 		else if(tag.startsWith("flashHud;")){ 
 			var properties = tag.split(";");
-			camHUD.fade(0xFFFFFFFF, eventConvertTime(properties[1]), true);
+			if(properties.length < 3){ properties.push("0xFFFFFFFF"); }
+			camHUD.fade(Std.parseInt(properties[2]), eventConvertTime(properties[1]), true);
 		}
 		else if(tag.startsWith("fadeOut;")){ 
 			var properties = tag.split(";");
-			camGame.fade(0xFF000000, eventConvertTime(properties[1]));
+			if(properties.length < 3){ properties.push("0xFF000000"); }
+			camGame.fade(Std.parseInt(properties[2]), eventConvertTime(properties[1]));
 		}
 		else if(tag.startsWith("fadeOutHud;")){ 
 			var properties = tag.split(";");
-			camHUD.fade(0xFF000000, eventConvertTime(properties[1]));
+			if(properties.length < 3){ properties.push("0xFF000000"); }
+			camHUD.fade(Std.parseInt(properties[2]), eventConvertTime(properties[1]));
 		}
 
 		else{
@@ -2877,6 +2885,10 @@ class PlayState extends MusicBeatState
 			r = Std.parseFloat(v);
 		}
 		return r;
+	}
+
+	public static inline function parseBool(v:String):Bool{
+		return (v.toLowerCase() == "true");
 	}
 
 	function songPreload():Void {
