@@ -11,7 +11,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class Philly extends BasicStage
+class Philly extends BaseStage
 {
 
 	var phillyCityLights:FlxSprite;

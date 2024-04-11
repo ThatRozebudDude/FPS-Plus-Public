@@ -8,7 +8,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class Limo extends BasicStage
+class Limo extends BaseStage
 {
 
 	var limo:FlxSprite;

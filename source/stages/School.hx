@@ -5,7 +5,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class School extends BasicStage
+class School extends BaseStage
 {
 
 	var bgGirls:BackgroundGirls;

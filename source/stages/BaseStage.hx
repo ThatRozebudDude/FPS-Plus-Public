@@ -8,7 +8,7 @@ import flixel.math.FlxPoint;
 	@author Rozebud
 **/
 
-class BasicStage
+class BaseStage
 {
 
     public var name:String;

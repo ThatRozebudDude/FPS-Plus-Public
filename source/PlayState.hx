@@ -56,7 +56,6 @@ class PlayState extends MusicBeatState
 	public static var fromChartEditor:Bool = false;
 	
 	public static var returnLocation:String = "main";
-	public static var returnSong:Int = 0;
 	
 	private var canHit:Bool = false;
 	private var missTime:Float = 0;
@@ -178,8 +177,6 @@ class PlayState extends MusicBeatState
 
 	var stage:Dynamic;
 
-	var foregroundSprites:FlxTypedGroup<BGSprite>;
-
 	var talking:Bool = true;
 	var songScore:Int = 0;
 	var scoreTxt:FlxTextExt;
@@ -288,8 +285,6 @@ class PlayState extends MusicBeatState
 		Conductor.changeBPM(SONG.bpm);
 		Conductor.mapBPMChanges(SONG);
 
-		foregroundSprites = new FlxTypedGroup<BGSprite>();
-
 		if(CoolUtil.exists(Paths.text(SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue"))){
 			try{
 				dialogue = CoolUtil.coolTextFile(Paths.text(SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue"));
@@ -321,7 +316,7 @@ class PlayState extends MusicBeatState
 
 		var stageClass = Type.resolveClass("stages." + stageCheck);
 		if(stageClass == null){
-			stageClass = BasicStage;
+			stageClass = BaseStage;
 		}
 
 		stage = Type.createInstance(stageClass, []);

@@ -9,7 +9,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class Tank extends BasicStage
+class Tank extends BaseStage
 {
 
 	//var gfCutsceneLayer:FlxGroup;

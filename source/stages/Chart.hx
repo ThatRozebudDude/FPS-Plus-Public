@@ -6,7 +6,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class Chart extends BasicStage
+class Chart extends BaseStage
 {
 
 	var chartBlackBG:FlxSprite;

@@ -5,7 +5,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class SchoolEvil extends BasicStage
+class SchoolEvil extends BaseStage
 {
 
     public override function init(){

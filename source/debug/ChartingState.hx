@@ -2232,7 +2232,7 @@ class ChartingState extends MusicBeatState
 			}
 		}
 
-		var stageClasses = CompileTime.getAllClasses("stages", false, stages.BasicStage);
+		var stageClasses = CompileTime.getAllClasses("stages", false, stages.BaseStage);
 		for(x in stageClasses){
 			stageList.push(Type.getClassName(x).split("stages.")[1]);
 		}
