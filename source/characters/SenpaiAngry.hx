@@ -14,13 +14,21 @@ class SenpaiAngry extends CharacterInfoBase
         info.iconName = "senpai-angry";
         info.antialiasing = false;
 
-        addByPrefix('idle', offset(), 'Angry Senpai Idle', 24, false);
-		addByPrefix('singUP', offset(6, 36), 'Angry Senpai UP NOTE', 24, false);
-		addByPrefix('singLEFT', offset(24, 6), 'Angry Senpai LEFT NOTE', 24, false);
-		addByPrefix('singRIGHT', offset(), 'Angry Senpai RIGHT NOTE', 24, false);
-		addByPrefix('singDOWN', offset(6, 6), 'Angry Senpai DOWN NOTE', 24, false);
+        addByPrefix('idle', offset(), 'Angry Senpai Idle', 24, loop(false));
+		addByPrefix('singUP', offset(1, 6), 'Angry Senpai UP NOTE', 24, loop(false));
+		addByPrefix('singLEFT', offset(4, 1), 'Angry Senpai LEFT NOTE', 24, loop(false));
+		addByPrefix('singRIGHT', offset(), 'Angry Senpai RIGHT NOTE', 24, loop(false));
+		addByPrefix('singDOWN', offset(1, 1), 'Angry Senpai DOWN NOTE', 24, loop(false));
 
 		addExtraData("scale", PlayState.daPixelZoom);
+
+         /*
+        addByPrefix("idle", offset(-312, -410), "Angry Senpai Idle", 24, false, false, false);
+        addByPrefix("singUP", offset(-312, -374), "Angry Senpai UP NOTE", 24, false, false, false);
+        addByPrefix("singLEFT", offset(-288, -404), "Angry Senpai LEFT NOTE", 24, false, false, false);
+        addByPrefix("singRIGHT", offset(-312, -410), "Angry Senpai RIGHT NOTE", 24, false, false, false);
+        addByPrefix("singDOWN", offset(-306, -404), "Angry Senpai DOWN NOTE", 24, false, false, false);
+        */
 
     }
 

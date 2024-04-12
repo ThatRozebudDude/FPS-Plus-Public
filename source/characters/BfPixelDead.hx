@@ -16,9 +16,9 @@ class BfPixelDead extends CharacterInfoBase
         info.facesLeft = true;
 		info.antialiasing = false;
 
-		addByPrefix('firstDeath', offset(), "BF Dies pixel", 24, false);
-		addByPrefix('deathLoop', offset(-36), "Retry Loop", 24, true);
-		addByPrefix('deathConfirm', offset(-36), "RETRY CONFIRM", 24, false);
+		addByPrefix('firstDeath', offset(), "BF Dies pixel", 24, loop(false));
+		addByPrefix('deathLoop', offset(-6), "Retry Loop", 24, loop(true));
+		addByPrefix('deathConfirm', offset(-6), "RETRY CONFIRM", 24, loop(false));
 
 		addExtraData("scale", PlayState.daPixelZoom);
 

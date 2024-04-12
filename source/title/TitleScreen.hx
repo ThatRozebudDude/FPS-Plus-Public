@@ -178,6 +178,7 @@ class TitleScreen extends MusicBeatState
 		{
 			titleText.animation.play('press');
 
+			camMain.stopFX();
 			camMain.flash(FlxColor.WHITE, 1);
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 

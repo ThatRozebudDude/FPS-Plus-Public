@@ -13,11 +13,11 @@ class Dad extends CharacterInfoBase
         
         info.iconName = "dad";
 
-        addByPrefix('idle', offset(), 'Dad idle dance', 24, false);
-        addByPrefix('singUP', offset(-9, 50), 'Dad Sing Note UP', 24, false);
-        addByPrefix('singRIGHT', offset(-4, 26), 'Dad Sing Note RIGHT', 24, false);
-        addByPrefix('singDOWN', offset(2, -32), 'Dad Sing Note DOWN', 24, false);
-        addByPrefix('singLEFT', offset(-11, 10), 'Dad Sing Note LEFT', 24, false);
+        addByPrefix('idle', offset(), 'Dad idle dance', 24, loop(true, -4));
+        addByPrefix('singUP', offset(-9, 50), 'Dad Sing Note UP', 24, loop(true, -4));
+        addByPrefix('singRIGHT', offset(-4, 26), 'Dad Sing Note RIGHT', 24, loop(true, -4));
+        addByPrefix('singDOWN', offset(2, -32), 'Dad Sing Note DOWN', 24, loop(true, -4));
+        addByPrefix('singLEFT', offset(-11, 10), 'Dad Sing Note LEFT', 24, loop(true, -4));
 
         addExtraData("stepsUntilRelease", 6.1);
 

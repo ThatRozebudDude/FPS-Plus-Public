@@ -25,10 +25,15 @@ typedef AnimData = {
 	var frames:Array<Int>;
 	var postfix:String;
 	var framerate:Float;
-	var loop:Bool;
+	var loop:LoopData;
 	var flipX:Bool;
 	var flipY:Bool;
 	var offset:Array<Float>;
+}
+
+typedef LoopData = {
+	var looped:Bool;
+	var loopPoint:Int;
 }
 
 typedef CharacterInfo = {
@@ -81,7 +86,16 @@ class CharacterInfoBase
         return [_x, _y];
     }
 
-    function add(_name:String, _offset:Array<Float>, _frames:Array<Int>, _frameRate:Float = 30.0, _looped:Bool = true, _flipX:Bool = false, _flipY:Bool = false):Void{
+    inline function loop(_loop:Bool, ?_frame:Int = 0):LoopData{
+        return {looped: _loop, loopPoint: _frame};
+    }
+
+    function add(_name:String, _offset:Array<Float>, _frames:Array<Int>, _frameRate:Float = 30.0, _looped:LoopData = null, _flipX:Bool = false, _flipY:Bool = false):Void{
+
+        if(_looped == null){
+            _looped = loop(true);
+        }
+
         var animData:AnimData = {
             prefix: null,
             frames: _frames,
@@ -100,7 +114,12 @@ class CharacterInfoBase
         info.anims.push(animInfo);
     }
 
-    function addByPrefix(_name:String, _offset:Array<Float>, _prefix:String, _frameRate:Float = 30.0, _looped:Bool = true, _flipX:Bool = false, _flipY:Bool = false):Void{
+    function addByPrefix(_name:String, _offset:Array<Float>, _prefix:String, _frameRate:Float = 30.0, _looped:LoopData = null, _flipX:Bool = false, _flipY:Bool = false):Void{
+
+        if(_looped == null){
+            _looped = loop(true);
+        }
+
         var animData:AnimData = {
             prefix: _prefix,
             frames: null,
@@ -119,7 +138,12 @@ class CharacterInfoBase
         info.anims.push(animInfo);
     }
 
-    function addByIndices(_name:String, _offset:Array<Float>, _prefix:String, _indices:Array<Int>, _postfix:String, _frameRate:Float = 30, _looped:Bool = true, _flipX:Bool = false, _flipY:Bool = false):Void{
+    function addByIndices(_name:String, _offset:Array<Float>, _prefix:String, _indices:Array<Int>, _postfix:String, _frameRate:Float = 30, _looped:LoopData = null, _flipX:Bool = false, _flipY:Bool = false):Void{
+
+        if(_looped == null){
+            _looped = loop(true);
+        }
+
         var animData:AnimData = {
             prefix: _prefix,
             frames: _indices,

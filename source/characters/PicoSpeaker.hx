@@ -15,10 +15,10 @@ class PicoSpeaker extends CharacterInfoBase
         
         info.iconName = "pico";
 
-        addByPrefix('shoot1', offset(), "Pico shoot 1", 24, false);
-		addByPrefix('shoot2', offset(0, -128), "Pico shoot 2", 24, false);
-		addByPrefix('shoot3', offset(413, -64), "Pico shoot 3", 24, false);
-		addByPrefix('shoot4', offset(440, -19), "Pico shoot 4", 24, false);
+        addByPrefix('shoot1', offset(), "Pico shoot 1", 24, loop(true, -3));
+		addByPrefix('shoot2', offset(0, -128), "Pico shoot 2", 24, loop(true, -3));
+		addByPrefix('shoot3', offset(413, -64), "Pico shoot 3", 24, loop(true, -3));
+		addByPrefix('shoot4', offset(440, -19), "Pico shoot 4", 24, loop(true, -3));
 
     }
 

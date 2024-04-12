@@ -81,18 +81,13 @@ class School extends BaseStage
 		gf().x += 180;
 		gf().y += 300;
 
-		/*ignore dis i was bored
-		for(e in backgroundElements){
-			e.x = Math.floor(e.x / PlayState.daPixelZoom) * PlayState.daPixelZoom;
-			e.y = Math.floor(e.y / PlayState.daPixelZoom) * PlayState.daPixelZoom;
-		}
-
-		boyfriend().x = Math.floor(boyfriend().x / PlayState.daPixelZoom) * PlayState.daPixelZoom;
-		boyfriend().y = Math.floor(boyfriend().y / PlayState.daPixelZoom) * PlayState.daPixelZoom;
-		gf().x = Math.floor(gf().x / PlayState.daPixelZoom) * PlayState.daPixelZoom;
-		gf().y = Math.floor(gf().y / PlayState.daPixelZoom) * PlayState.daPixelZoom;
-		dad().x = Math.floor(dad().x / PlayState.daPixelZoom) * PlayState.daPixelZoom;
-		dad().y = Math.floor(dad().y / PlayState.daPixelZoom) * PlayState.daPixelZoom;*/
+		//fix the fucked up offsets
+		dad().x += -312.5;
+		dad().y += -410;
+		boyfriend().x += -182.5;
+		boyfriend().y += -182.5;
+		gf().x += -300;
+		gf().y += -265;
     }
 
 	public override function beat(curBeat:Int){

@@ -1,5 +1,6 @@
 package;
 
+import flixel.math.FlxPoint;
 import characters.CharacterInfoBase;
 import flixel.util.FlxColor;
 import flixel.FlxG;
@@ -19,6 +20,8 @@ class Character extends FlxSprite
 	public static final USE_IDLE_END:Bool = false; 		//Determines whether you will go back to the start of the idle or the end of the idle when letting go of a note. Default is false.
 
 	public var animOffsets:Map<String, Array<Dynamic>>;
+	private var originalAnimOffsets:Map<String, Array<Dynamic>>;
+	private var animLoopPoints:Map<String, Int>;
 	public var debugMode:Bool = false;
 
 	public var isPlayer:Bool = false;
@@ -43,6 +46,8 @@ class Character extends FlxSprite
 
 		debugMode = _enableDebug;
 		animOffsets = new Map<String, Array<Dynamic>>();
+		originalAnimOffsets = new Map<String, Array<Dynamic>>();
+		animLoopPoints = new Map<String, Int>();
 
 		super(x, y);
 
@@ -276,54 +281,21 @@ class Character extends FlxSprite
 		else { offset.set(0, 0); }
 	}
 
-	public function addOffset(name:String, x:Float = 0, y:Float = 0)
-	{
+	public function addOffset(name:String, x:Float = 0, y:Float = 0, ?addToOriginal:Bool = false){
 		animOffsets[name] = [x, y];
+		if(addToOriginal){ originalAnimOffsets[name] = [x, y]; }
 	}
 
 	function animationEnd(name:String){
-
 		danceLockout = false;
 
-		switch(curCharacter){
-			case "dad" | "mom" | "mom-car" | "bf-car":
-				playAnim(name, true, false, animation.getByName(name).numFrames - 4);
-
-			case "bf" | "bf-christmas" | "bf-pixel" | "bf-holding-gf" | "pico":
-				if(name.contains("miss")){
-					playAnim(name, true, false, animation.getByName(name).numFrames - 4);
-				}
-
-			case "bf-lil" | "guy-lil":
-				if(name.contains("miss")){
-					playAnim(name, true, false, animation.getByName(name).numFrames - 4);
-				}
-				else{
-					playAnim(name, true, false, animation.getByName(name).numFrames - 2);
-				}
-
-			case "monster-christmas" | "monster":
-				switch(name){
-					case "idle":
-						playAnim(name, true, false, 10);
-					case "singUP":
-						playAnim(name, true, false, 8);
-					case "singDOWN":
-						playAnim(name, true, false, 7);
-					case "singLEFT":
-						playAnim(name, true, false, 5);
-					case "singRIGHT":
-						playAnim(name, true, false, 6);
-				}
-
-			case "pico-speaker":
-				playAnim(animation.curAnim.name, true, false, animation.curAnim.numFrames - 3);
-
+		//custom method for looping animations since the anim end callback doesnt run on looped anmations normally
+		if(animLoopPoints.exists(name)){
+			playAnim(name, true, false, animLoopPoints.get(name));
 		}
-
 	}
 
-	function createCharacterFromInfo(name:String) {
+	function createCharacterFromInfo(name:String):Void{
 
 		var characterClass = Type.resolveClass("characters." + name);
 		if(characterClass == null){ characterClass = characters.Bf; }
@@ -349,13 +321,21 @@ class Character extends FlxSprite
 		for(x in char.info.anims){
 			switch(x.type){
 				case frames:
-					animation.add(x.name, x.data.frames, x.data.framerate, x.data.loop, x.data.flipX, x.data.flipY);
+					animation.add(x.name, x.data.frames, x.data.framerate, false, x.data.flipX, x.data.flipY);
 				case prefix:
-					animation.addByPrefix(x.name, x.data.prefix, x.data.framerate, x.data.loop, x.data.flipX, x.data.flipY);
+					animation.addByPrefix(x.name, x.data.prefix, x.data.framerate, false, x.data.flipX, x.data.flipY);
 				case indices:
-					animation.addByIndices(x.name, x.data.prefix, x.data.frames, x.data.postfix, x.data.framerate, x.data.loop, x.data.flipX, x.data.flipY);
+					animation.addByIndices(x.name, x.data.prefix, x.data.frames, x.data.postfix, x.data.framerate, false, x.data.flipX, x.data.flipY);
 			}
-			addOffset(x.name, x.data.offset[0], x.data.offset[1]);
+			if(x.data.loop.looped){
+				if(x.data.loop.loopPoint < 0){
+					animLoopPoints.set(x.name, animation.getByName(x.name).numFrames + x.data.loop.loopPoint);
+				}
+				else{
+					animLoopPoints.set(x.name, x.data.loop.loopPoint);
+				}
+			}
+			addOffset(x.name, x.data.offset[0], x.data.offset[1], true);
 		}
 
 		if(char.info.anims.length > 0){
@@ -371,14 +351,24 @@ class Character extends FlxSprite
 					case "stepsUntilRelease":
 						stepsUntilRelease = data;
 					case "scale":
-						setGraphicSize(Std.int(width * data));
-						updateHitbox();
+						changeCharacterScale(data);
 					default:
 						//Do nothing by default.
 				}
 			}
 		}
 
+	}
+
+	function changeCharacterScale(_scale:Float):Void{
+		if(debugMode){ return; }
+		scale.set(_scale, _scale);
+		updateHitbox();
+		var offsetBase = new FlxPoint(offset.x, offset.y);
+		for(name => pos in animOffsets){
+			addOffset(name, offsetBase.x + (originalAnimOffsets.get(name)[0] * _scale), offsetBase.y + (originalAnimOffsets.get(name)[1] * _scale));
+		}
+		trace(offsetBase);
 	}
 
 }

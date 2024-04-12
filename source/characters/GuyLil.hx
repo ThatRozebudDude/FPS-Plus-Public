@@ -14,12 +14,12 @@ class GuyLil extends CharacterInfoBase
         info.iconName = "face-lil";
         info.antialiasing = false;
 
-        add("idle", offset(), [0, 1], 12, true);
+        add("idle", offset(), [0, 1], 12, loop(true));
 
-		add("singLEFT", 	offset(),   [3, 4, 5], 		12, false);
-		add("singDOWN", 	offset(),   [6, 7, 8], 		12, false);
-		add("singUP", 	    offset(),   [9, 10, 11], 	12, false);
-	    add("singRIGHT", 	offset(),   [12, 13, 14], 	12, false);
+		add("singLEFT", 	offset(),   [3, 4, 5], 		12, loop(true, 2));
+		add("singDOWN", 	offset(),   [6, 7, 8], 		12, loop(true, 2));
+		add("singUP", 	    offset(),   [9, 10, 11], 	12, loop(true, 2));
+	    add("singRIGHT", 	offset(),   [12, 13, 14], 	12, loop(true, 2));
 
     }
 

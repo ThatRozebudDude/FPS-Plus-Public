@@ -15,9 +15,9 @@ class BfHoldingGfDead extends CharacterInfoBase
         info.iconName = "bf";
         info.facesLeft = true;
 
-        addByPrefix('firstDeath', offset(37, 14), "BF Dies with GF", 24, false);
-		addByPrefix('deathLoop', offset(37, -3), "BF Dead with GF Loop", 24, true);
-		addByPrefix('deathConfirm', offset(37, 28), "RETRY confirm holding gf", 24, false);
+        addByPrefix('firstDeath', offset(37, 14), "BF Dies with GF", 24, loop(false));
+		addByPrefix('deathLoop', offset(37, -3), "BF Dead with GF Loop", 24, loop(true));
+		addByPrefix('deathConfirm', offset(37, 28), "RETRY confirm holding gf", 24, loop(false));
 
     }
 

@@ -33,5 +33,12 @@ class SchoolEvil extends BaseStage
 		boyfriend().y += 220;
 		gf().x += 180;
 		gf().y += 300;
+
+		dad().x += -320;
+		dad().y += -320;
+		boyfriend().x += -182.5;
+		boyfriend().y += -182.5;
+		gf().x += -300;
+		gf().y += -265;
     }
 }

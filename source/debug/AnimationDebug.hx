@@ -68,6 +68,14 @@ class AnimationDebug extends FlxState
 
 		var characterClass = Type.resolveClass("characters." + dad.charClass);
 		charInfo = Type.createInstance(characterClass, []);
+		if(charInfo.info.extraData != null){
+			for(type => data in charInfo.info.extraData){
+				switch(type){
+					case "scale":
+						camGame.zoom = data;
+				}
+			}
+		}
 
 		dadBG = new Character(0, 0, daAnim, false, true);
 		dadBG.screenCenter();
@@ -250,11 +258,11 @@ class AnimationDebug extends FlxState
 		for(x in charInfo.info.anims){
 			switch(x.type){
 				case frames:
-					r += "add(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), " + x.data.frames + ", " + x.data.framerate +", " + x.data.loop + ", " + x.data.flipX + ", " + x.data.flipY + ");\n";
+					r += "add(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), " + x.data.frames + ", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "), " + x.data.flipX + ", " + x.data.flipY + ");\n";
 				case prefix:
-					r += "addByPrefix(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.framerate +", " + x.data.loop + ", " + x.data.flipX + ", " + x.data.flipY + ");\n";
+					r += "addByPrefix(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "), " + x.data.flipX + ", " + x.data.flipY + ");\n";
 				case indices:
-					r += "addByIndices(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.frames + ", \"" + x.data.postfix + "\", " +  x.data.framerate +", " + x.data.loop + ", " + x.data.flipX + ", " + x.data.flipY + ");\n";
+					r += "addByIndices(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.frames + ", \"" + x.data.postfix + "\", " +  x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "), " + x.data.flipX + ", " + x.data.flipY + ");\n";
 			}
 		}
 

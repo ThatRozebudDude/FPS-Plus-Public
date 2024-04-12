@@ -352,7 +352,7 @@ class PlayState extends MusicBeatState
 				dadBeats = [0, 1, 2, 3];
 		}
 
-		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
+		var camPos:FlxPoint = new FlxPoint(CoolUtil.getTrueGraphicMidpoint(dad).x, CoolUtil.getTrueGraphicMidpoint(dad).y);
 
 		switch (dad.curCharacter)
 		{
@@ -367,10 +367,10 @@ class PlayState extends MusicBeatState
 
 			case "spooky":
 				dad.y += 200;
-				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y - 100);
+				camPos.set(CoolUtil.getTrueGraphicMidpoint(dad).x + 300, CoolUtil.getTrueGraphicMidpoint(dad).y - 100);
 			case "monster":
 				dad.y += 100;
-				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y - 100);
+				camPos.set(CoolUtil.getTrueGraphicMidpoint(dad).x + 300, CoolUtil.getTrueGraphicMidpoint(dad).y - 100);
 			case 'monster-christmas':
 				dad.y += 130;
 			case 'dad':
@@ -384,15 +384,15 @@ class PlayState extends MusicBeatState
 			case 'senpai':
 				dad.x += 150;
 				dad.y += 360;
-				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
+				camPos.set(CoolUtil.getTrueGraphicMidpoint(dad).x + 300, CoolUtil.getTrueGraphicMidpoint(dad).y);
 			case 'senpai-angry':
 				dad.x += 150;
 				dad.y += 360;
-				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
+				camPos.set(CoolUtil.getTrueGraphicMidpoint(dad).x + 300, CoolUtil.getTrueGraphicMidpoint(dad).y);
 			case 'spirit':
 				dad.x -= 150;
 				dad.y += 100;
-				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
+				camPos.set(CoolUtil.getTrueGraphicMidpoint(dad).x + 300, CoolUtil.getTrueGraphicMidpoint(dad).y);
 			case 'tankman':
 				dad.y += 165;
 				dad.x -= 40;
@@ -2473,22 +2473,30 @@ class PlayState extends MusicBeatState
 
 		else if(tag.startsWith("flash;")){ 
 			var properties = tag.split(";");
-			if(properties.length < 3){ properties.push("0xFFFFFFFF"); }
+			if(properties.length < 2){ properties.push("1b"); }
+			if(properties.length < 3){ properties.push("0xFFFFFF"); }
+			camGame.stopFX();
 			camGame.fade(Std.parseInt(properties[2]), eventConvertTime(properties[1]), true);
 		}
 		else if(tag.startsWith("flashHud;")){ 
 			var properties = tag.split(";");
-			if(properties.length < 3){ properties.push("0xFFFFFFFF"); }
+			if(properties.length < 2){ properties.push("1b"); }
+			if(properties.length < 3){ properties.push("0xFFFFFF"); }
+			camHUD.stopFX();
 			camHUD.fade(Std.parseInt(properties[2]), eventConvertTime(properties[1]), true);
 		}
 		else if(tag.startsWith("fadeOut;")){ 
 			var properties = tag.split(";");
-			if(properties.length < 3){ properties.push("0xFF000000"); }
+			if(properties.length < 2){ properties.push("1b"); }
+			if(properties.length < 3){ properties.push("0x000000"); }
+			camGame.stopFX();
 			camGame.fade(Std.parseInt(properties[2]), eventConvertTime(properties[1]));
 		}
 		else if(tag.startsWith("fadeOutHud;")){ 
 			var properties = tag.split(";");
-			if(properties.length < 3){ properties.push("0xFF000000"); }
+			if(properties.length < 2){ properties.push("1b"); }
+			if(properties.length < 3){ properties.push("0x000000"); }
+			camHUD.stopFX();
 			camHUD.fade(Std.parseInt(properties[2]), eventConvertTime(properties[1]));
 		}
 
@@ -2577,13 +2585,14 @@ class PlayState extends MusicBeatState
 			case "mom" | "mom-car":
 				followY = dad.getMidpoint().y;
 			case 'senpai':
-				followY = dad.getMidpoint().y - 430;
-				followX = dad.getMidpoint().x - 100;
+				followY = dad.getMidpoint().y - 20;
+				followX = dad.getMidpoint().x + 212;
 			case 'senpai-angry':
-				followY = dad.getMidpoint().y - 430;
-				followX = dad.getMidpoint().x - 100;
+				followY = dad.getMidpoint().y - 20;
+				followX = dad.getMidpoint().x + 212;
 			case 'spirit':
-				followY = dad.getMidpoint().y;
+				followX = dad.getMidpoint().x + 470;
+				followY = dad.getMidpoint().y + 320;
 		}
 
 		if (SONG.song.toLowerCase() == 'tutorial')
@@ -2610,11 +2619,11 @@ class PlayState extends MusicBeatState
 			case 'mall':
 				followY = boyfriend.getMidpoint().y - 200;
 			case 'school':
-				followX = boyfriend.getMidpoint().x - 250;
-				followY = boyfriend.getMidpoint().y - 275;
+				followX = boyfriend.getMidpoint().x - 68;
+				followY = boyfriend.getMidpoint().y - 92;
 			case 'schoolEvil':
-				followX = boyfriend.getMidpoint().x - 250;
-				followY = boyfriend.getMidpoint().y - 300;
+				followX = boyfriend.getMidpoint().x - 68;
+				followY = boyfriend.getMidpoint().y - 117;
 		}
 
 		if (SONG.song.toLowerCase() == 'tutorial')
