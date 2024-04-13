@@ -82,14 +82,37 @@ class CharacterInfoBase
         };
     }
 
+    /**
+	 * Generates the x and y offsets for an animation.
+	 *
+	 * @param   _x  The x offset of the animation.
+	 * @param   _y  The y offset of the animation.
+	 */
     inline function offset(_x:Float = 0, _y:Float = 0):Array<Float>{
         return [_x, _y];
     }
 
+    /**
+	 * Generates the loop data for an animation.
+	 *
+	 * @param   _loop   Whether the animation loops or not.
+	 * @param   _frame  The frame the animation goes to when looping. Note: positive values are the absolute frame, negative values are subtracted from the end of the animation.
+	 */
     inline function loop(_loop:Bool, ?_frame:Int = 0):LoopData{
         return {looped: _loop, loopPoint: _frame};
     }
 
+    /**
+	 * Adds a new animation to the sprite.
+	 *
+	 * @param   _name       What this animation should be called (e.g. `"run"`).
+	 * @param   _offset     The visual offset of the animation. Use `offset()` to generate the data.
+	 * @param   _frames     An array of indices indicating what frames to play in what order (e.g. `[0, 1, 2]`).
+	 * @param   _frameRate  The speed in frames per second that the animation should play at (e.g. `40` fps).
+	 * @param   _looped     Whether or not the animation loops and what frame it loops on. Use `loop()` to generate the data.
+	 * @param   _flipX      Whether the frames should be flipped horizontally.
+	 * @param   _flipY      Whether the frames should be flipped vertically.
+	 */
     function add(_name:String, _offset:Array<Float>, _frames:Array<Int>, _frameRate:Float = 30.0, _looped:LoopData = null, _flipX:Bool = false, _flipY:Bool = false):Void{
 
         if(_looped == null){
@@ -114,6 +137,17 @@ class CharacterInfoBase
         info.anims.push(animInfo);
     }
 
+    /**
+	 * Adds a new animation to the sprite.
+	 *
+	 * @param   _name       What this animation should be called (e.g. `"run"`).
+	 * @param   _offset     The visual offset of the animation. Use `offset()` to generate the data.
+	 * @param   _prefix     Common beginning of image names in atlas (e.g. `"tiles-"`).
+	 * @param   _frameRate  The speed in frames per second that the animation should play at (e.g. `40` fps).
+	 * @param   _looped     Whether or not the animation loops and what frame it loops on. Use `loop()` to generate the data.
+	 * @param   _flipX      Whether the frames should be flipped horizontally.
+	 * @param   _flipY      Whether the frames should be flipped vertically.
+	 */
     function addByPrefix(_name:String, _offset:Array<Float>, _prefix:String, _frameRate:Float = 30.0, _looped:LoopData = null, _flipX:Bool = false, _flipY:Bool = false):Void{
 
         if(_looped == null){
@@ -138,6 +172,19 @@ class CharacterInfoBase
         info.anims.push(animInfo);
     }
 
+    /**
+	 * Adds a new animation to the sprite.
+	 *
+	 * @param   _name       What this animation should be called (e.g. `"run"`).
+	 * @param   _offset     The visual offset of the animation. Use `offset()` to generate the data.
+	 * @param   _prefix     Common beginning of image names in the atlas (e.g. "tiles-").
+	 * @param   _indices    An array of numbers indicating what frames to play in what order (e.g. `[0, 1, 2]`).
+	 * @param   _postfix    Common ending of image names in the atlas (e.g. `".png"`).
+	 * @param   _frameRate  The speed in frames per second that the animation should play at (e.g. `40` fps).
+	 * @param   _looped     Whether or not the animation loops and what frame it loops on. Use `loop()` to generate the data.
+	 * @param   _flipX      Whether the frames should be flipped horizontally.
+	 * @param   _flipY      Whether the frames should be flipped vertically.
+	 */
     function addByIndices(_name:String, _offset:Array<Float>, _prefix:String, _indices:Array<Int>, _postfix:String, _frameRate:Float = 30, _looped:LoopData = null, _flipX:Bool = false, _flipY:Bool = false):Void{
 
         if(_looped == null){
@@ -162,6 +209,12 @@ class CharacterInfoBase
         info.anims.push(animInfo);
     }
 
+    /**
+	 * Adds arbitrary data to the character that can be defined in `Character.hx`
+	 *
+	 * @param   key     The name that will be used to identify the data.
+	 * @param   data    The data.
+	 */
     function addExtraData(key:String, data:Dynamic):Void{
         if(info.extraData == null){
             info.extraData = new Map<String, Dynamic>();
