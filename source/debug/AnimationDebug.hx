@@ -35,6 +35,9 @@ class AnimationDebug extends FlxState
 	private var camHUD:FlxCamera;
 	private var camGame:FlxCamera;
 
+	final zoomSpeed:Float = 0.005;
+	final moveSpeed:Float = 400;
+
 	//var flippedChars:Array<String> = ["pico", "tankman"];
 
 	public function new(daAnim:String = 'spooky')
@@ -140,9 +143,9 @@ class AnimationDebug extends FlxState
 		textAnim.text = dad.animation.curAnim.name;
 
 		if (FlxG.keys.pressed.E)
-			FlxG.camera.zoom += 0.0025;
+			FlxG.camera.zoom += zoomSpeed * FlxG.camera.zoom;
 		if (FlxG.keys.pressed.Q)
-			FlxG.camera.zoom -= 0.0025;
+			FlxG.camera.zoom -= zoomSpeed * FlxG.camera.zoom;
 
 		if(FlxG.keys.pressed.CONTROL && FlxG.keys.justPressed.C){
 			copyOffsetToClipboard();
@@ -151,16 +154,16 @@ class AnimationDebug extends FlxState
 		if (FlxG.keys.pressed.I || FlxG.keys.pressed.J || FlxG.keys.pressed.K || FlxG.keys.pressed.L)
 		{
 			if (FlxG.keys.pressed.I)
-				camFollow.velocity.y = -150;
+				camFollow.velocity.y = -1 * moveSpeed / FlxG.camera.zoom;
 			else if (FlxG.keys.pressed.K)
-				camFollow.velocity.y = 150;
+				camFollow.velocity.y = moveSpeed / FlxG.camera.zoom;
 			else
 				camFollow.velocity.y = 0;
 
 			if (FlxG.keys.pressed.J)
-				camFollow.velocity.x = -150;
+				camFollow.velocity.x = -1 * moveSpeed / FlxG.camera.zoom;
 			else if (FlxG.keys.pressed.L)
-				camFollow.velocity.x = 150;
+				camFollow.velocity.x = moveSpeed / FlxG.camera.zoom;
 			else
 				camFollow.velocity.x = 0;
 		}
