@@ -2576,8 +2576,7 @@ class PlayState extends MusicBeatState
 		var followY = dad.getMidpoint().y - 100;
 		// camFollow.setPosition(lucky.getMidpoint().x - 120, lucky.getMidpoint().y + 210);
 
-		switch (dad.curCharacter)
-		{
+		switch (dad.curCharacter){
 			case "spooky":
 				followY = dad.getMidpoint().y - 45;
 			case "pico":
@@ -2595,8 +2594,7 @@ class PlayState extends MusicBeatState
 				followY = dad.getMidpoint().y + 320;
 		}
 
-		if (SONG.song.toLowerCase() == 'tutorial')
-		{
+		if (SONG.song.toLowerCase() == 'tutorial'){
 			camChangeZoom(1.3, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
 		}
 
@@ -2610,8 +2608,7 @@ class PlayState extends MusicBeatState
 		var followX = boyfriend.getMidpoint().x - 100;
 		var followY = boyfriend.getMidpoint().y - 100;
 
-		switch (stage.name)
-		{
+		switch (stage.name){
 			case 'spooky':
 				followY = boyfriend.getMidpoint().y - 140;
 			case 'limo':
@@ -2626,8 +2623,7 @@ class PlayState extends MusicBeatState
 				followY = boyfriend.getMidpoint().y - 117;
 		}
 
-		if (SONG.song.toLowerCase() == 'tutorial')
-		{
+		if (SONG.song.toLowerCase() == 'tutorial'){
 			camChangeZoom(1, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
 		}
 
