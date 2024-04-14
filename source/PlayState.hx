@@ -324,6 +324,20 @@ class PlayState extends MusicBeatState
 		curStage = stage.name;
 		curUiType = stage.uiType;
 
+		
+		if(stage.useStartPoints){
+			dad.setPosition(stage.dadStart.x - ((dad.frameWidth * dad.scale.x)/2), stage.dadStart.y - (dad.frameHeight * dad.scale.y));
+			boyfriend.setPosition(stage.bfStart.x - ((boyfriend.frameWidth * boyfriend.scale.x)/2), stage.bfStart.y - (boyfriend.frameHeight * boyfriend.scale.y));
+			gf.setPosition(stage.gfStart.x - ((gf.frameWidth * gf.scale.x)/2), stage.gfStart.y - (gf.frameHeight * gf.scale.y));
+		}
+		
+		dad.x += dad.reposition.x;
+		dad.y += dad.reposition.y;
+		boyfriend.x += boyfriend.reposition.x;
+		boyfriend.y += boyfriend.reposition.y;
+		gf.x += gf.reposition.x;
+		gf.y += gf.reposition.y;
+
 		for(i in 0...stage.backgroundElements.length){
 			add(stage.backgroundElements[i]);
 		}
@@ -359,43 +373,49 @@ class PlayState extends MusicBeatState
 			case 'gf':
 				dad.setPosition(gf.x, gf.y);
 				gf.visible = false;
-				if (isStoryMode)
-				{
-					camPos.x += 600;
+				camPos.x += 600;
+				if (isStoryMode){
 					camChangeZoom(1.3, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
 				}
 
 			case "spooky":
-				dad.y += 200;
+				//dad.y += 200;
 				camPos.set(CoolUtil.getTrueGraphicMidpoint(dad).x + 300, CoolUtil.getTrueGraphicMidpoint(dad).y - 100);
 			case "monster":
-				dad.y += 100;
+				//dad.y += 100;
 				camPos.set(CoolUtil.getTrueGraphicMidpoint(dad).x + 300, CoolUtil.getTrueGraphicMidpoint(dad).y - 100);
 			case 'monster-christmas':
-				dad.y += 130;
+				//dad.y += 130;
+				camPos.set(CoolUtil.getTrueGraphicMidpoint(dad).x + 300, CoolUtil.getTrueGraphicMidpoint(dad).y - 100);
 			case 'dad':
 				camPos.x += 400;
 			case 'pico':
 				camPos.x += 600;
-				dad.y += 300;
-				dad.x -= 280;
+				//dad.y += 300;
+				//dad.x -= 280;
+				//dad.x += 270;
+				//dad.y -= 250;
+				//dad.x += 160;
 			case 'parents-christmas':
-				dad.x -= 500;
+				//dad.x -= 500;
 			case 'senpai':
-				dad.x += 150;
-				dad.y += 360;
+				//dad.x += 150;
+				//dad.y += 360;
 				camPos.set(CoolUtil.getTrueGraphicMidpoint(dad).x + 300, CoolUtil.getTrueGraphicMidpoint(dad).y);
 			case 'senpai-angry':
-				dad.x += 150;
-				dad.y += 360;
+				//dad.x += 150;
+				//dad.y += 360;
 				camPos.set(CoolUtil.getTrueGraphicMidpoint(dad).x + 300, CoolUtil.getTrueGraphicMidpoint(dad).y);
 			case 'spirit':
-				dad.x -= 150;
-				dad.y += 100;
+				//dad.x -= 150;
+				//dad.y += 100;
+				//dad.x += 36 * 6;
+				//dad.y += 46 * 6;
 				camPos.set(CoolUtil.getTrueGraphicMidpoint(dad).x + 300, CoolUtil.getTrueGraphicMidpoint(dad).y);
 			case 'tankman':
-				dad.y += 165;
-				dad.x -= 40;
+				//dad.y += 165;
+				//dad.x -= 40;
+				camPos.x += 400;
 		}
 
 		autoCam = stage.cameraMovementEnabled;
@@ -416,6 +436,19 @@ class PlayState extends MusicBeatState
 		
 		add(dad);
 		add(boyfriend);
+
+		/*Start pos debug shit. I'll leave it in for now incase everything breaks.
+		var dadPos = new FlxSprite(CoolUtil.getTrueGraphicMidpoint(dad).x, dad.y + (dad.frameHeight * dad.scale.y)).makeGraphic(24, 24, 0xFFFF00FF);
+		var bfPos = new FlxSprite(CoolUtil.getTrueGraphicMidpoint(boyfriend).x, boyfriend.y + (boyfriend.frameHeight * boyfriend.scale.y)).makeGraphic(24, 24, 0xFF00FFFF);
+		var gfPos = new FlxSprite(CoolUtil.getTrueGraphicMidpoint(gf).x, gf.y + (gf.frameHeight * gf.scale.y)).makeGraphic(24, 24, 0xFFFF0000);
+
+		add(dadPos);
+		add(bfPos);
+		add(gfPos);
+
+		trace("dad: " + dadPos.x + ", " + dadPos.y);
+		trace("bf: " + bfPos.x + ", " + bfPos.y);
+		trace("gf: " + gfPos.x + ", " + gfPos.y);*/
 
 		for(i in 0...stage.foregroundElements.length){
 			add(stage.foregroundElements[i]);
@@ -2580,7 +2613,7 @@ class PlayState extends MusicBeatState
 			case "spooky":
 				followY = dad.getMidpoint().y - 45;
 			case "pico":
-				followX += 280;
+				followX += 162;
 			case "mom" | "mom-car":
 				followY = dad.getMidpoint().y;
 			case 'senpai':
@@ -2590,8 +2623,8 @@ class PlayState extends MusicBeatState
 				followY = dad.getMidpoint().y - 20;
 				followX = dad.getMidpoint().x + 212;
 			case 'spirit':
-				followX = dad.getMidpoint().x + 470;
-				followY = dad.getMidpoint().y + 320;
+				followX = dad.getMidpoint().x + 254;
+				followY = dad.getMidpoint().y + 44;
 		}
 
 		if (SONG.song.toLowerCase() == 'tutorial'){

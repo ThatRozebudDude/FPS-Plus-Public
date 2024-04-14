@@ -22,6 +22,7 @@ class Character extends FlxSprite
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	private var originalAnimOffsets:Map<String, Array<Dynamic>>;
 	private var animLoopPoints:Map<String, Int>;
+	public var reposition:FlxPoint = new FlxPoint();
 	public var debugMode:Bool = false;
 
 	public var isPlayer:Bool = false;
@@ -83,6 +84,7 @@ class Character extends FlxSprite
 		}
 
 		animation.finishCallback = animationEnd;
+		animation.callback = frameUpdate;
 
 		if(characterColor == null){
 			characterColor = (isPlayer) ? 0xFF66FF33 : 0xFFFF0000;
@@ -155,7 +157,6 @@ class Character extends FlxSprite
 		}
 
 		super.update(elapsed);
-		changeOffsets();
 
 	}
 
@@ -295,6 +296,10 @@ class Character extends FlxSprite
 		}
 	}
 
+	function frameUpdate(name:String, frameNumber:Int, frameIndex:Int){
+		changeOffsets();
+	}
+
 	function createCharacterFromInfo(name:String):Void{
 
 		var characterClass = Type.resolveClass("characters." + name);
@@ -352,6 +357,8 @@ class Character extends FlxSprite
 						stepsUntilRelease = data;
 					case "scale":
 						changeCharacterScale(data);
+					case "reposition":
+						reposition.set(data[0], data[1]);
 					default:
 						//Do nothing by default.
 				}
@@ -360,15 +367,16 @@ class Character extends FlxSprite
 
 	}
 
-	function changeCharacterScale(_scale:Float):Void{
+	//Update character scale and adjust the character's offsets
+	public function changeCharacterScale(_scaleX:Float, ?_scaleY:Null<Float> = null):Void{
 		if(debugMode){ return; }
-		scale.set(_scale, _scale);
+		if(_scaleY == null){ _scaleY = _scaleX; }
+		scale.set(_scaleX, _scaleY);
 		updateHitbox();
 		var offsetBase = new FlxPoint(offset.x, offset.y);
 		for(name => pos in animOffsets){
-			addOffset(name, offsetBase.x + (originalAnimOffsets.get(name)[0] * _scale), offsetBase.y + (originalAnimOffsets.get(name)[1] * _scale));
+			addOffset(name, offsetBase.x + (originalAnimOffsets.get(name)[0] * _scaleX), offsetBase.y + (originalAnimOffsets.get(name)[1] * _scaleY));
 		}
-		trace(offsetBase);
 	}
 
 }

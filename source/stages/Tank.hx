@@ -98,21 +98,16 @@ class Tank extends BaseStage
 		var fgTank3:BGSprite = new BGSprite('week7/stage/tank3', 1300, 1225, 3.5, 2.5, ['fg']);
 		addToForeground(fgTank3);
 
+		dadStart.set(196, 898);
+		bfStart.set(1015.5, 862);
+		gfStart.set(655.5, 713);
 
-		gf().y += 10;
-		gf().x -= 30;
-		boyfriend().x += 40;
-		boyfriend().y += 0;
-		dad().y += 60;
-		dad().x -= 80;
-
-		if (gf().curCharacter != 'pico-speaker'){
-			gf().x -= 170;
-			gf().y -= 75;
+		if (gf().curCharacter == 'pico-speaker'){
+			gfStart.set(909, 731);
 		}
-		else{
-			gf().x -= 50;
-			gf().y -= 200;
+
+		if (boyfriend().curCharacter == 'pico-speaker'){
+			bfStart.set(1090.5, 882);
 		}
 
 

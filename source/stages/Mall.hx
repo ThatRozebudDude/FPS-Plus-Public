@@ -66,7 +66,9 @@ class Mall extends BaseStage
 		santa.antialiasing = true;
 		addToForeground(santa);
 
-		boyfriend().x += 200;
+		dadStart.set(42, 882);
+		bfStart.set(1175.5, 866);
+		gfStart.set(808.5, 845);
     }
 
 	public override function beat(curBeat:Int){

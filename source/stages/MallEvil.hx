@@ -28,7 +28,8 @@ class MallEvil extends BaseStage
 		evilSnow.antialiasing = true;
 		addToBackground(evilSnow);
 
-		boyfriend().x += 320;
-		dad().y -= 80;
+		dadStart.set(342, 861);
+		bfStart.set(1295.5, 866);
+		gfStart.set(808.5, 845);
     }
 }

@@ -22,6 +22,11 @@ class BaseStage
     public var middleElements:Array<Dynamic> = [];
     public var foregroundElements:Array<Dynamic> = [];
 
+    public var useStartPoints:Bool = true; //Auto positions characters if set to true
+    public var dadStart:FlxPoint = new FlxPoint(314.5, 867);
+    public var bfStart:FlxPoint = new FlxPoint(975.5, 862);
+    public var gfStart:FlxPoint = new FlxPoint(751.5, 778);
+
     /**
 	 * Do not override this function, override `init()` instead.
 	 */

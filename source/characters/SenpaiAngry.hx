@@ -21,6 +21,7 @@ class SenpaiAngry extends CharacterInfoBase
 		addByPrefix('singDOWN', offset(1, 1), 'Angry Senpai DOWN NOTE', 24, loop(false));
 
 		addExtraData("scale", PlayState.daPixelZoom);
+        addExtraData("reposition", [0, 102]);
 
          /*
         addByPrefix("idle", offset(-312, -410), "Angry Senpai Idle", 24, false, false, false);

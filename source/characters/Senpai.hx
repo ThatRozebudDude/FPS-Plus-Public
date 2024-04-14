@@ -21,6 +21,7 @@ class Senpai extends CharacterInfoBase
 		addByPrefix('singDOWN', offset(2), 'SENPAI DOWN NOTE', 24, loop(false));
 
 		addExtraData("scale", PlayState.daPixelZoom);
+		addExtraData("reposition", [0, 102]);
 
     }
 

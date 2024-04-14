@@ -25,6 +25,8 @@ class Spooky extends BaseStage
 		halloweenBG.animation.play('idle');
 		halloweenBG.antialiasing = true;
 		addToBackground(halloweenBG);
+
+		dadStart.set(346, 849);
     }
 
 	public override function beat(curBeat:Int){

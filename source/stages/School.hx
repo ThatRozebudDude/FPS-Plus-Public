@@ -76,18 +76,9 @@ class School extends BaseStage
 		bgGirls.updateHitbox();
 		addToBackground(bgGirls);
 
-		boyfriend().x += 200;
-		boyfriend().y += 220;
-		gf().x += 180;
-		gf().y += 300;
-
-		//fix the fucked up offsets
-		dad().x += -312.5;
-		dad().y += -410;
-		boyfriend().x += -182.5;
-		boyfriend().y += -182.5;
-		gf().x += -300;
-		gf().y += -265;
+		dadStart.set(312.5, 932);
+		bfStart.set(1006.5, 925.5);
+		gfStart.set(640, 801);
     }
 
 	public override function beat(curBeat:Int){

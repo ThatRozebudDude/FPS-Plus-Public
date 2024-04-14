@@ -56,6 +56,8 @@ class Chart extends BaseStage
 		boyfriend().setPosition(32, 432);
 		dad().setPosition(32, 432);
 
+		useStartPoints = false;
+
 		cameraMovementEnabled = false;
 		extraCameraMovementAmount = 0;
 

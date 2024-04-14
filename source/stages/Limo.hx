@@ -67,8 +67,9 @@ class Limo extends BaseStage
 
 		resetFastCar();
 
-		boyfriend().y -= 258;
-		boyfriend().x += 260;
+		dadStart.set(341, 914);
+		bfStart.set(1235.5, 604);
+		gfStart.set(787, 779);
     }
 
 	public override function beat(curBeat:Float){

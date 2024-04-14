@@ -14,11 +14,11 @@ class Spirit extends CharacterInfoBase
         info.iconName = "spirit";
         info.antialiasing = false;
 
-        addByPrefix('idle', offset(-36, -46), "idle spirit_", 24, loop(false));
-		addByPrefix('singUP', offset(-36, -39), "up_", 24, loop(false));
-		addByPrefix('singRIGHT', offset(-36, -46), "right_", 24, loop(false));
-		addByPrefix('singLEFT', offset(-33, -46), "left_", 24, loop(false));
-		addByPrefix('singDOWN', offset(28, 18), "spirit down_", 24, loop(false));
+        addByPrefix("idle", offset(0, 0), "idle spirit_", 24, loop(false, 0), false, false);
+        addByPrefix("singUP", offset(0, 7), "up_", 24, loop(false, 0), false, false);
+        addByPrefix("singRIGHT", offset(0, 0), "right_", 24, loop(false, 0), false, false);
+        addByPrefix("singLEFT", offset(3, 0), "left_", 24, loop(false, 0), false, false);
+        addByPrefix("singDOWN", offset(64, 64), "spirit down_", 24, loop(false, 0), false, false);
 
 		addExtraData("scale", PlayState.daPixelZoom);
 

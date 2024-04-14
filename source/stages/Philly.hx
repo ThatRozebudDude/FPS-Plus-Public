@@ -80,6 +80,8 @@ class Philly extends BaseStage
 		var street:FlxSprite = new FlxSprite(-40, streetBehind.y).loadGraphic(Paths.image('week3/philly/street'));
 		street.antialiasing = true;
 		addToBackground(street);
+
+		dadStart.set(316.5, 875);
     }
 
 	public override function update(elapsed:Float){
