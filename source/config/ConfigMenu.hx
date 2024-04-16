@@ -340,7 +340,7 @@ class ConfigMenu extends FlxUIStateExt
         FlxTween.cancelTweensOf(subMenuGroup);
         FlxTween.cancelTweensOf(descBar);
         FlxTween.cancelTweensOf(bg);
-        FlxTween.tween(titles[x], {x: optionTitle.getGraphicMidpoint().x - titles[x].width/2, y: optionTitle.getGraphicMidpoint().y - titles[x].height/2, alpha: 1}, menuTweenTime, {ease: FlxEase.quintOut});
+        FlxTween.tween(titles[x], {x: CoolUtil.getGraphicMidpoint(optionTitle).x - titles[x].width/2, y: CoolUtil.getGraphicMidpoint(optionTitle).y - titles[x].height/2, alpha: 1}, menuTweenTime, {ease: FlxEase.quintOut});
         FlxTween.tween(topLevelMenuGroup, {alpha: 0}, menuAlphaTweenTime, {ease: FlxEase.quintOut});
         FlxTween.tween(subMenuGroup, {alpha: 1}, menuAlphaTweenTime, {ease: FlxEase.quintOut});
         FlxTween.tween(descBar, {y: 720 - descBar.height}, menuAlphaTweenTime, {ease: FlxEase.quintOut});
@@ -357,8 +357,8 @@ class ConfigMenu extends FlxUIStateExt
         state = "subMenu";
         curSelected = x;
         startInSubMenu = -1;
-        titles[x].x = optionTitle.getGraphicMidpoint().x - titles[x].width/2;
-        titles[x].y = optionTitle.getGraphicMidpoint().y - titles[x].height/2;
+        titles[x].x = CoolUtil.getGraphicMidpoint(optionTitle).x - titles[x].width/2;
+        titles[x].y = CoolUtil.getGraphicMidpoint(optionTitle).y - titles[x].height/2;
         titles[x].alpha = 1;
         topLevelMenuGroup.alpha = 0;
         subMenuGroup.alpha = 1;
