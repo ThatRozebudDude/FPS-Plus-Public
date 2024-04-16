@@ -195,7 +195,7 @@ class ConfigMenu extends FlxUIStateExt
             text.animation.addByIndices('inactive', options[i] + "Text", [3, 6, 9], "", 8, true);
             text.animation.play("inactive");
             text.antialiasing = true;
-            text.x = icon.getGraphicMidpoint().x;
+            text.x = CoolUtil.oldGetGraphicMidpoint(icon).x;
             text.y = 3/4 * 720;
             text.x -= text.frameWidth/2;
             titles.push(text);
@@ -348,7 +348,7 @@ class ConfigMenu extends FlxUIStateExt
         for(i in 0...titles.length){
             if(i != x){
                 FlxTween.cancelTweensOf(titles[i]);
-                FlxTween.tween(titles[i], {x: icons[i].getGraphicMidpoint().x - titles[i].frameWidth/2, y: 3/4 * 720, alpha: 0}, menuAlphaTweenTime, {ease: FlxEase.quintOut});
+                FlxTween.tween(titles[i], {x: CoolUtil.oldGetGraphicMidpoint(icons[i]).x - titles[i].frameWidth/2, y: 3/4 * 720, alpha: 0}, menuAlphaTweenTime, {ease: FlxEase.quintOut});
             }
         }
     }
@@ -365,7 +365,7 @@ class ConfigMenu extends FlxUIStateExt
         descBar.y = 720 - descBar.height;
         for(i in 0...titles.length){
             if(i != x){
-                titles[i].x = icons[i].getGraphicMidpoint().x - titles[i].frameWidth/2;
+                titles[i].x = CoolUtil.oldGetGraphicMidpoint(icons[i]).x - titles[i].frameWidth/2;
                 titles[i].y = 3/4 * 720;
                 titles[i].alpha = 0;
             }
@@ -380,7 +380,7 @@ class ConfigMenu extends FlxUIStateExt
         FlxTween.cancelTweensOf(descBar);
         for(i in 0...titles.length){
             FlxTween.cancelTweensOf(titles[i]);
-            FlxTween.tween(titles[i], {x: icons[i].getGraphicMidpoint().x - titles[i].frameWidth/2, y: 3/4 * 720, alpha: 1}, menuTweenTime, {ease: FlxEase.quintOut});
+            FlxTween.tween(titles[i], {x: CoolUtil.oldGetGraphicMidpoint(icons[i]).x - titles[i].frameWidth/2, y: 3/4 * 720, alpha: 1}, menuTweenTime, {ease: FlxEase.quintOut});
         }   
         FlxTween.tween(descBar, {y: 720}, menuAlphaTweenTime, {ease: FlxEase.quintOut});
         FlxTween.tween(topLevelMenuGroup, {alpha: 1}, menuAlphaTweenTime, {ease: FlxEase.quintOut});
@@ -402,7 +402,7 @@ class ConfigMenu extends FlxUIStateExt
             if(i == curSelected){
                 icons[i].scale.set(1, 1);
                 titles[i].animation.play("active");
-                splatter.setPosition(icons[i].getGraphicMidpoint().x, icons[i].getGraphicMidpoint().y);
+                splatter.setPosition(CoolUtil.oldGetGraphicMidpoint(icons[i]).x, CoolUtil.oldGetGraphicMidpoint(icons[i]).y);
                 splatter.x -= splatter.width/2;
                 splatter.y -= splatter.height/2;
                 /*FlxTween.cancelTweensOf(splatter.scale);

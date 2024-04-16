@@ -366,7 +366,7 @@ class PlayState extends MusicBeatState
 				dadBeats = [0, 1, 2, 3];
 		}
 
-		var camPos:FlxPoint = new FlxPoint(CoolUtil.getTrueGraphicMidpoint(dad).x, CoolUtil.getTrueGraphicMidpoint(dad).y);
+		var camPos:FlxPoint = new FlxPoint(CoolUtil.getGraphicMidpoint(dad).x, CoolUtil.getGraphicMidpoint(dad).y);
 
 		switch (dad.curCharacter)
 		{
@@ -380,13 +380,13 @@ class PlayState extends MusicBeatState
 
 			case "spooky":
 				//dad.y += 200;
-				camPos.set(CoolUtil.getTrueGraphicMidpoint(dad).x + 300, CoolUtil.getTrueGraphicMidpoint(dad).y - 100);
+				camPos.set(CoolUtil.getGraphicMidpoint(dad).x + 300, CoolUtil.getGraphicMidpoint(dad).y - 100);
 			case "monster":
 				//dad.y += 100;
-				camPos.set(CoolUtil.getTrueGraphicMidpoint(dad).x + 300, CoolUtil.getTrueGraphicMidpoint(dad).y - 100);
+				camPos.set(CoolUtil.getGraphicMidpoint(dad).x + 300, CoolUtil.getGraphicMidpoint(dad).y - 100);
 			case 'monster-christmas':
 				//dad.y += 130;
-				camPos.set(CoolUtil.getTrueGraphicMidpoint(dad).x + 300, CoolUtil.getTrueGraphicMidpoint(dad).y - 100);
+				camPos.set(CoolUtil.getGraphicMidpoint(dad).x + 300, CoolUtil.getGraphicMidpoint(dad).y - 100);
 			case 'dad':
 				camPos.x += 400;
 			case 'pico':
@@ -401,17 +401,17 @@ class PlayState extends MusicBeatState
 			case 'senpai':
 				//dad.x += 150;
 				//dad.y += 360;
-				camPos.set(CoolUtil.getTrueGraphicMidpoint(dad).x + 300, CoolUtil.getTrueGraphicMidpoint(dad).y);
+				camPos.set(CoolUtil.getGraphicMidpoint(dad).x + 300, CoolUtil.getGraphicMidpoint(dad).y);
 			case 'senpai-angry':
 				//dad.x += 150;
 				//dad.y += 360;
-				camPos.set(CoolUtil.getTrueGraphicMidpoint(dad).x + 300, CoolUtil.getTrueGraphicMidpoint(dad).y);
+				camPos.set(CoolUtil.getGraphicMidpoint(dad).x + 300, CoolUtil.getGraphicMidpoint(dad).y);
 			case 'spirit':
 				//dad.x -= 150;
 				//dad.y += 100;
 				//dad.x += 36 * 6;
 				//dad.y += 46 * 6;
-				camPos.set(CoolUtil.getTrueGraphicMidpoint(dad).x + 300, CoolUtil.getTrueGraphicMidpoint(dad).y);
+				camPos.set(CoolUtil.getGraphicMidpoint(dad).x + 300, CoolUtil.getGraphicMidpoint(dad).y);
 			case 'tankman':
 				//dad.y += 165;
 				//dad.x -= 40;
@@ -438,9 +438,9 @@ class PlayState extends MusicBeatState
 		add(boyfriend);
 
 		/*Start pos debug shit. I'll leave it in for now incase everything breaks.
-		var dadPos = new FlxSprite(CoolUtil.getTrueGraphicMidpoint(dad).x, dad.y + (dad.frameHeight * dad.scale.y)).makeGraphic(24, 24, 0xFFFF00FF);
-		var bfPos = new FlxSprite(CoolUtil.getTrueGraphicMidpoint(boyfriend).x, boyfriend.y + (boyfriend.frameHeight * boyfriend.scale.y)).makeGraphic(24, 24, 0xFF00FFFF);
-		var gfPos = new FlxSprite(CoolUtil.getTrueGraphicMidpoint(gf).x, gf.y + (gf.frameHeight * gf.scale.y)).makeGraphic(24, 24, 0xFFFF0000);
+		var dadPos = new FlxSprite(CoolUtil.getGraphicMidpoint(dad).x, dad.y + (dad.frameHeight * dad.scale.y)).makeGraphic(24, 24, 0xFFFF00FF);
+		var bfPos = new FlxSprite(CoolUtil.getGraphicMidpoint(boyfriend).x, boyfriend.y + (boyfriend.frameHeight * boyfriend.scale.y)).makeGraphic(24, 24, 0xFF00FFFF);
+		var gfPos = new FlxSprite(CoolUtil.getGraphicMidpoint(gf).x, gf.y + (gf.frameHeight * gf.scale.y)).makeGraphic(24, 24, 0xFFFF0000);
 
 		add(dadPos);
 		add(bfPos);
@@ -1912,7 +1912,7 @@ class PlayState extends MusicBeatState
 	}
 
 	private function createNoteSplash(note:Int){
-		var bigSplashy = new NoteSplash(CoolUtil.getTrueGraphicMidpoint(playerStrums.members[note]).x, CoolUtil.getTrueGraphicMidpoint(playerStrums.members[note]).y, note);
+		var bigSplashy = new NoteSplash(CoolUtil.getGraphicMidpoint(playerStrums.members[note]).x, CoolUtil.getGraphicMidpoint(playerStrums.members[note]).y, note);
 		bigSplashy.cameras = [camHUD];
 		add(bigSplashy);
 	}

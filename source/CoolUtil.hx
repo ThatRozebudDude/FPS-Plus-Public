@@ -42,12 +42,24 @@ class CoolUtil
 		return dumbArray;
 	}
 
-	//find actual graphic mid point until its fixed in flixel (i will make a pr :])
-	public static function getTrueGraphicMidpoint(sprite:FlxSprite, ?point:FlxPoint):FlxPoint{
+	//find actual graphic mid point (for backwards compatanility with people who don't update flixel)
+	public static inline function getGraphicMidpoint(sprite:FlxSprite, ?point:FlxPoint):FlxPoint{
+		#if (flixel >= "5.7.0")
+		return sprite.getGraphicMidpoint(point);
+		#else
 		if (point == null){
 			point = FlxPoint.get();
 		}
 		return point.set(sprite.x + sprite.frameWidth * 0.5 * sprite.scale.x, sprite.y + sprite.frameHeight * 0.5 * sprite.scale.y);
+		#end
+	}
+
+	//the options menu requires the old one to work :[[[[[
+	public static inline function oldGetGraphicMidpoint(sprite:FlxSprite, ?point:FlxPoint):FlxPoint{
+		if (point == null){
+			point = FlxPoint.get();
+		}
+		return point.set(sprite.x + sprite.frameWidth * 0.5, sprite.y + sprite.frameHeight * 0.5);
 	}
 
 	/*
