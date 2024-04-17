@@ -20,7 +20,7 @@ import yaml.util.ObjectMap;
 using StringTools;
 using Lambda;
 
-class CoolUtil
+class Utils
 {
 
 	public static function coolTextFile(path:String):Array<String>{

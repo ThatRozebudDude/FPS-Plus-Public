@@ -26,7 +26,7 @@ class HealthIcon extends FlxSprite
 
 		isPlayer = _isPlayer;
 
-		if(CoolUtil.exists(Paths.file("ui/heathIcons/" + _character, "images", "png"))){
+		if(Utils.exists(Paths.file("ui/heathIcons/" + _character, "images", "png"))){
 			character = _character;
 		}
 		else{

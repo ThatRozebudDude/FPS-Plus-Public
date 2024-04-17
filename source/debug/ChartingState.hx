@@ -433,9 +433,9 @@ class ChartingState extends MusicBeatState
 		stepperBPM.value = Conductor.bpm;
 		stepperBPM.name = 'song_bpm';
 
-		//var characters:Array<String> = CoolUtil.coolTextFile(Paths.text("characterList"));
-		//var gfs:Array<String> = CoolUtil.coolTextFile(Paths.text("gfList"));
-		//var stages:Array<String> = CoolUtil.coolTextFile(Paths.text("stageList"));
+		//var characters:Array<String> = Utils.coolTextFile(Paths.text("characterList"));
+		//var gfs:Array<String> = Utils.coolTextFile(Paths.text("gfList"));
+		//var stages:Array<String> = Utils.coolTextFile(Paths.text("stageList"));
 
 		player1DropDown = new FlxUIDropDownMenu(10, 100, FlxUIDropDownMenu.makeStrIdLabelArray(charactersList, true), function(character:String)
 		{
@@ -745,12 +745,12 @@ class ChartingState extends MusicBeatState
 		FlxG.sound.playMusic(Paths.inst(daSong), 0);
 
 		// WONT WORK FOR TUTORIAL OR TEST SONG!!! REDO LATER
-		if(CoolUtil.exists(Paths.voices(daSong, "Player"))){
+		if(Utils.exists(Paths.voices(daSong, "Player"))){
 			vocals = new FlxSound().loadEmbedded(Paths.voices(daSong, "Player"));
 			vocalsOther = new FlxSound().loadEmbedded(Paths.voices(daSong, "Opponent"));
 			
 		}
-		else if(CoolUtil.exists(Paths.voices(daSong))){
+		else if(Utils.exists(Paths.voices(daSong))){
 			vocals = new FlxSound().loadEmbedded(Paths.voices(daSong));
 			vocalsOther = new FlxSound();
 		}

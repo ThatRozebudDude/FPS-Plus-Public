@@ -117,7 +117,7 @@ class FreeplayState extends MusicBeatState
 
 		// JUST DOIN THIS SHIT FOR TESTING!!!
 		/* 
-			var md:String = Markdown.markdownToHtml(CoolUtil.getText('CHANGELOG.md'));
+			var md:String = Markdown.markdownToHtml(Utils.getText('CHANGELOG.md'));
 			var texFel:TextField = new TextField();
 			texFel.width = FlxG.width;
 			texFel.height = FlxG.height;
@@ -155,7 +155,7 @@ class FreeplayState extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		lerpScore = Math.floor(CoolUtil.fpsAdjsutedLerp(lerpScore, intendedScore, 0.4));
+		lerpScore = Math.floor(Utils.fpsAdjsutedLerp(lerpScore, intendedScore, 0.4));
 
 		if (Math.abs(lerpScore - intendedScore) <= 10)
 			lerpScore = intendedScore;

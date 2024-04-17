@@ -219,10 +219,10 @@ class PlayState extends MusicBeatState
 		customTransOut = new ScreenWipeOut(0.6);
 
 		if(loadEvents){
-			if(CoolUtil.exists("assets/data/" + SONG.song.toLowerCase() + "/events.json")){
+			if(Utils.exists("assets/data/" + SONG.song.toLowerCase() + "/events.json")){
 				trace("loaded events");
 				trace(Paths.json(SONG.song.toLowerCase() + "/events"));
-				EVENTS = Song.parseEventJSON(CoolUtil.getText(Paths.json(SONG.song.toLowerCase() + "/events")));
+				EVENTS = Song.parseEventJSON(Utils.getText(Paths.json(SONG.song.toLowerCase() + "/events")));
 			}
 			else{
 				trace("No events found");
@@ -285,9 +285,9 @@ class PlayState extends MusicBeatState
 		Conductor.changeBPM(SONG.bpm);
 		Conductor.mapBPMChanges(SONG);
 
-		if(CoolUtil.exists(Paths.text(SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue"))){
+		if(Utils.exists(Paths.text(SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue"))){
 			try{
-				dialogue = CoolUtil.coolTextFile(Paths.text(SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue"));
+				dialogue = Utils.coolTextFile(Paths.text(SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue"));
 			}
 			catch(e){}
 		}
@@ -366,7 +366,7 @@ class PlayState extends MusicBeatState
 				dadBeats = [0, 1, 2, 3];
 		}
 
-		var camPos:FlxPoint = new FlxPoint(CoolUtil.getGraphicMidpoint(dad).x, CoolUtil.getGraphicMidpoint(dad).y);
+		var camPos:FlxPoint = new FlxPoint(Utils.getGraphicMidpoint(dad).x, Utils.getGraphicMidpoint(dad).y);
 
 		switch (dad.curCharacter)
 		{
@@ -380,13 +380,13 @@ class PlayState extends MusicBeatState
 
 			case "spooky":
 				//dad.y += 200;
-				camPos.set(CoolUtil.getGraphicMidpoint(dad).x + 300, CoolUtil.getGraphicMidpoint(dad).y - 100);
+				camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y - 100);
 			case "monster":
 				//dad.y += 100;
-				camPos.set(CoolUtil.getGraphicMidpoint(dad).x + 300, CoolUtil.getGraphicMidpoint(dad).y - 100);
+				camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y - 100);
 			case 'monster-christmas':
 				//dad.y += 130;
-				camPos.set(CoolUtil.getGraphicMidpoint(dad).x + 300, CoolUtil.getGraphicMidpoint(dad).y - 100);
+				camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y - 100);
 			case 'dad':
 				camPos.x += 400;
 			case 'pico':
@@ -401,17 +401,17 @@ class PlayState extends MusicBeatState
 			case 'senpai':
 				//dad.x += 150;
 				//dad.y += 360;
-				camPos.set(CoolUtil.getGraphicMidpoint(dad).x + 300, CoolUtil.getGraphicMidpoint(dad).y);
+				camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y);
 			case 'senpai-angry':
 				//dad.x += 150;
 				//dad.y += 360;
-				camPos.set(CoolUtil.getGraphicMidpoint(dad).x + 300, CoolUtil.getGraphicMidpoint(dad).y);
+				camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y);
 			case 'spirit':
 				//dad.x -= 150;
 				//dad.y += 100;
 				//dad.x += 36 * 6;
 				//dad.y += 46 * 6;
-				camPos.set(CoolUtil.getGraphicMidpoint(dad).x + 300, CoolUtil.getGraphicMidpoint(dad).y);
+				camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y);
 			case 'tankman':
 				//dad.y += 165;
 				//dad.x -= 40;
@@ -438,9 +438,9 @@ class PlayState extends MusicBeatState
 		add(boyfriend);
 
 		/*Start pos debug shit. I'll leave it in for now incase everything breaks.
-		var dadPos = new FlxSprite(CoolUtil.getGraphicMidpoint(dad).x, dad.y + (dad.frameHeight * dad.scale.y)).makeGraphic(24, 24, 0xFFFF00FF);
-		var bfPos = new FlxSprite(CoolUtil.getGraphicMidpoint(boyfriend).x, boyfriend.y + (boyfriend.frameHeight * boyfriend.scale.y)).makeGraphic(24, 24, 0xFF00FFFF);
-		var gfPos = new FlxSprite(CoolUtil.getGraphicMidpoint(gf).x, gf.y + (gf.frameHeight * gf.scale.y)).makeGraphic(24, 24, 0xFFFF0000);
+		var dadPos = new FlxSprite(Utils.getGraphicMidpoint(dad).x, dad.y + (dad.frameHeight * dad.scale.y)).makeGraphic(24, 24, 0xFFFF00FF);
+		var bfPos = new FlxSprite(Utils.getGraphicMidpoint(boyfriend).x, boyfriend.y + (boyfriend.frameHeight * boyfriend.scale.y)).makeGraphic(24, 24, 0xFF00FFFF);
+		var gfPos = new FlxSprite(Utils.getGraphicMidpoint(gf).x, gf.y + (gf.frameHeight * gf.scale.y)).makeGraphic(24, 24, 0xFFFF0000);
 
 		add(dadPos);
 		add(bfPos);
@@ -565,7 +565,7 @@ class PlayState extends MusicBeatState
 
 		FlxG.fixedTimestep = false;
 
-		if(CoolUtil.exists(Paths.text(SONG.song.toLowerCase() + "/meta"))){
+		if(Utils.exists(Paths.text(SONG.song.toLowerCase() + "/meta"))){
 			meta = new SongMetaTags(0, 144, SONG.song.toLowerCase());
 			meta.cameras = [camHUD];
 			add(meta);
@@ -1481,7 +1481,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if(healthLerp != health){
-			healthLerp = CoolUtil.fpsAdjsutedLerp(healthLerp, health, 0.7);
+			healthLerp = Utils.fpsAdjsutedLerp(healthLerp, health, 0.7);
 		}
 		if(inRange(healthLerp, 2, 0.001)){
 			healthLerp = 2;
@@ -1912,7 +1912,7 @@ class PlayState extends MusicBeatState
 	}
 
 	private function createNoteSplash(note:Int){
-		var bigSplashy = new NoteSplash(CoolUtil.getGraphicMidpoint(playerStrums.members[note]).x, CoolUtil.getGraphicMidpoint(playerStrums.members[note]).y, note);
+		var bigSplashy = new NoteSplash(Utils.getGraphicMidpoint(playerStrums.members[note]).x, Utils.getGraphicMidpoint(playerStrums.members[note]).y, note);
 		bigSplashy.cameras = [camHUD];
 		add(bigSplashy);
 	}
@@ -2927,12 +2927,12 @@ class PlayState extends MusicBeatState
 	function songPreload():Void {
 		FlxG.sound.cache(Paths.inst(SONG.song));
 		
-		if(CoolUtil.exists(Paths.voices(SONG.song, "Player"))){
+		if(Utils.exists(Paths.voices(SONG.song, "Player"))){
 			FlxG.sound.cache(Paths.voices(SONG.song, "Player"));
 			FlxG.sound.cache(Paths.voices(SONG.song, "Opponent"));
 			vocalType = splitVocalTrack;
 		}
-		else if(CoolUtil.exists(Paths.voices(SONG.song))){
+		else if(Utils.exists(Paths.voices(SONG.song))){
 			FlxG.sound.cache(Paths.voices(SONG.song));
 		}
 		else{
@@ -2943,11 +2943,11 @@ class PlayState extends MusicBeatState
 	/*
 	public function changeState(_state:FlxState, clearImagesFromCache:Bool = true) {
 
-		if(CoolUtil.exists(Paths.voices(SONG.song, "Player"))){
+		if(Utils.exists(Paths.voices(SONG.song, "Player"))){
 			Assets.cache.removeSound(Paths.voices(SONG.song, "Player"));
 			Assets.cache.removeSound(Paths.voices(SONG.song, "Opponent"));
 		}
-		else if(CoolUtil.exists(Paths.voices(SONG.song))){
+		else if(Utils.exists(Paths.voices(SONG.song))){
 			Assets.cache.removeSound(Paths.voices(SONG.song));
 		}
 
@@ -2966,11 +2966,11 @@ class PlayState extends MusicBeatState
 	}*/
 
 	override function switchState(_state:FlxState) {
-		if(CoolUtil.exists(Paths.voices(SONG.song, "Player"))){
+		if(Utils.exists(Paths.voices(SONG.song, "Player"))){
 			Assets.cache.removeSound(Paths.voices(SONG.song, "Player"));
 			Assets.cache.removeSound(Paths.voices(SONG.song, "Opponent"));
 		}
-		else if(CoolUtil.exists(Paths.voices(SONG.song))){
+		else if(Utils.exists(Paths.voices(SONG.song))){
 			Assets.cache.removeSound(Paths.voices(SONG.song));
 		}
 

@@ -128,7 +128,7 @@ class Startup extends FlxState
             graphicsCached = !CacheConfig.graphics;
         }
 
-        hasEe2 = CoolUtil.exists(Paths.inst("Lil-Buddies"));
+        hasEe2 = Utils.exists(Paths.inst("Lil-Buddies"));
 
         splash = new FlxSprite(0, 0);
         splash.frames = Paths.getSparrowAtlas('fpsPlus/rozeSplash');
@@ -223,7 +223,7 @@ class Startup extends FlxState
                 charactersCached = true;
             }
             else{
-                if(CoolUtil.exists(Paths.file(characters[charI], "images", "png"))){
+                if(Utils.exists(Paths.file(characters[charI], "images", "png"))){
                     ImageCache.add(Paths.file(characters[charI], "images", "png"));
                 }
                 else{
@@ -241,7 +241,7 @@ class Startup extends FlxState
                 graphicsCached = true;
             }
             else{
-                if(CoolUtil.exists(Paths.file(graphics[gfxI], "images", "png"))){
+                if(Utils.exists(Paths.file(graphics[gfxI], "images", "png"))){
                     ImageCache.add(Paths.file(graphics[gfxI], "images", "png"));
                 }
                 else{
@@ -298,10 +298,10 @@ class Startup extends FlxState
 
     function preloadMusic(){
         for(x in songs){
-            if(CoolUtil.exists(Paths.inst(x))){
+            if(Utils.exists(Paths.inst(x))){
                 FlxG.sound.cache(Paths.inst(x));
             }
-            else if(CoolUtil.exists(Paths.music(x))){
+            else if(Utils.exists(Paths.music(x))){
                 FlxG.sound.cache(Paths.music(x));
             }
             currentLoaded++;

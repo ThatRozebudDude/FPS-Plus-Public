@@ -68,7 +68,7 @@ class TitleIntroText extends MusicBeatState
 
 	function getIntroTextShit():Array<Array<String>>
 	{
-		var fullText:String = CoolUtil.getText(Paths.text("introText"));
+		var fullText:String = Utils.getText(Paths.text("introText"));
 
 		var firstArray:Array<String> = fullText.split('\n');
 		var swagGoodArray:Array<Array<String>> = [];

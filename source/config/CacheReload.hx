@@ -159,10 +159,10 @@ class CacheReload extends FlxState
 
     function preloadMusic(){
         for(x in Startup.songs){
-            if(CoolUtil.exists(Paths.inst(x))){
+            if(Utils.exists(Paths.inst(x))){
                 FlxG.sound.cache(Paths.inst(x));
             }
-            else if(CoolUtil.exists(Paths.music(x))){
+            else if(Utils.exists(Paths.music(x))){
                 FlxG.sound.cache(Paths.music(x));
             }
         }

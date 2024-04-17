@@ -74,7 +74,7 @@ class StoryMenuState extends MusicBeatState
 			['tankman', 'bf', 'gf']
 		];
 	
-		weekNames = CoolUtil.coolTextFile(Paths.text("weekNames"));
+		weekNames = Utils.coolTextFile(Paths.text("weekNames"));
 	
 		if (FlxG.sound.music == null)
 		{
@@ -219,7 +219,7 @@ class StoryMenuState extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		// scoreText.setFormat('VCR OSD Mono', 32);
-		lerpScore = Math.floor(CoolUtil.fpsAdjsutedLerp(lerpScore, intendedScore, 0.5));
+		lerpScore = Math.floor(Utils.fpsAdjsutedLerp(lerpScore, intendedScore, 0.5));
 
 		scoreText.text = "WEEK SCORE:" + lerpScore;
 
