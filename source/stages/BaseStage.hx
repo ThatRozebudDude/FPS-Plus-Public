@@ -80,7 +80,7 @@ class BaseStage
      *
      * @param   elpased  The elapsed time between previous frames passed in by PlayState.
 	 */
-    public function update(elpased:Float){}
+    public function update(elapsed:Float){}
 
     /**
 	 * Called every beat hit in PlayState.
