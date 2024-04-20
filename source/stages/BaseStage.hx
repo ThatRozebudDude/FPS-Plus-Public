@@ -19,6 +19,7 @@ class BaseStage
     public var cameraStartPosition:FlxPoint; //Leave null for PlayState default.
     public var globalCameraOffset:FlxPoint = new FlxPoint();
     public var extraData:Map<String, Dynamic> = new Map<String, Dynamic>();
+    public var events:Map<String, Void->Void> = new Map<String, Void->Void>();
 
     public var backgroundElements:Array<Dynamic> = [];
     public var middleElements:Array<Dynamic> = [];
@@ -76,6 +77,16 @@ class BaseStage
 	 */
     public function addExtraData(k:String, x:Dynamic){
         extraData.set(k, x);
+    }
+
+    /**
+     * Adds arbitrary info to the stage that can be read in PlayState.
+     *
+     * @param   name    The name of the event.
+     * @param   func    The function that gets called when the event is triggered. Must have no arguments and no return type.
+     */
+    public function addEvent(name:String, func:Void->Void){
+        events.set(name, func);
     }
 
     /**

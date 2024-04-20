@@ -1559,13 +1559,11 @@ class PlayState extends MusicBeatState
 
 		if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null) {
 
-			if (camFocus != "dad" && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && autoCam)
-			{
+			if (camFocus != "dad" && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && autoCam){
 				camFocusOpponent();
 			}
 
-			if (camFocus != "bf" && PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && autoCam)
-			{
+			if (camFocus != "bf" && PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && autoCam){
 				camFocusBF();
 			}
 		}
@@ -2595,7 +2593,12 @@ class PlayState extends MusicBeatState
 					camFocusGF();
 
 				default:
-					trace(tag);
+					if(stage.events.exists(tag)){
+						stage.events.get(tag)();
+					}
+					else{
+						trace("No event found for: " + tag);
+					}
 			}
 		}
 		return;
