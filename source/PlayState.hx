@@ -179,7 +179,7 @@ class PlayState extends MusicBeatState
 
 	var dialogue:Array<String> = [':bf:strange code', ':dad:>:]'];
 
-	var stage:Dynamic;
+	var stage:BaseStage;
 
 	var talking:Bool = true;
 	var songScore:Int = 0;
@@ -457,6 +457,13 @@ class PlayState extends MusicBeatState
 
 		for(i in 0...stage.foregroundElements.length){
 			add(stage.foregroundElements[i]);
+		}
+
+		for(type => data in stage.extraData){
+			switch(type){
+				default:
+					//Do nothing by default.
+			}
 		}
 
 		switch(curUiType){
@@ -1563,7 +1570,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		camFollowFinal.setPosition(camFollow.x + camFollowOffset.x + camFollowShake.x, camFollow.y + camFollowOffset.y + camFollowShake.y);
+		camFollowFinal.setPosition(camFollow.x + camFollowOffset.x + camFollowShake.x + stage.globalCameraOffset.x, camFollow.y + camFollowOffset.y + camFollowShake.y + stage.globalCameraOffset.y);
 
 		if(!inCutscene){
 			camGame.zoom = defaultCamZoom + camGameZoomAdjust;

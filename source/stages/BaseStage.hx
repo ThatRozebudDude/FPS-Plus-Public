@@ -17,6 +17,8 @@ class BaseStage
     public var cameraMovementEnabled:Bool = true;
     public var extraCameraMovementAmount:Null<Float> = null; //Leave null for PlayState default.
     public var cameraStartPosition:FlxPoint; //Leave null for PlayState default.
+    public var globalCameraOffset:FlxPoint = new FlxPoint();
+    public var extraData:Map<String, Dynamic> = new Map<String, Dynamic>();
 
     public var backgroundElements:Array<Dynamic> = [];
     public var middleElements:Array<Dynamic> = [];
@@ -64,6 +66,16 @@ class BaseStage
 	 */
     public function addToForeground(x:Dynamic){
         foregroundElements.push(x);
+    }
+
+    /**
+	 * Adds arbitrary info to the stage that can be read in PlayState.
+	 *
+	 * @param   k  A string key.
+	 * @param   x  The dyanmic data.
+	 */
+    public function addExtraData(k:String, x:Dynamic){
+        extraData.set(k, x);
     }
 
     /**
