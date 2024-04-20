@@ -73,9 +73,13 @@ class PlayState extends MusicBeatState
 	private var uiZoomTween:FlxTween;
 
 	private var camFollow:FlxObject;
-	private var camFollowOffset:FlxObject;
 	private var camFollowFinal:FlxObject;
+
+	private var camFollowOffset:FlxPoint;
 	private var offsetTween:FlxTween;
+
+	private var camFollowShake:FlxPoint;
+	private var shakeTween:FlxTween;
 	
 	private var camOffsetAmount:Float = 25;
 
@@ -248,6 +252,7 @@ class PlayState extends MusicBeatState
 		camZoomTween = FlxTween.tween(this, {}, 0);
 		uiZoomTween = FlxTween.tween(this, {}, 0);
 		offsetTween = FlxTween.tween(this, {}, 0);
+		shakeTween = FlxTween.tween(this, {}, 0);
 		camZoomAdjustTween = FlxTween.tween(this, {}, 0);
 
 		for(i in 0 ... SONG.notes.length){
@@ -536,7 +541,7 @@ class PlayState extends MusicBeatState
 		// add(strumLine);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
-		camFollowOffset = new FlxObject(0, 0, 1, 1);
+		camFollowOffset = new FlxPoint();
 		camFollowFinal = new FlxObject(0, 0, 1, 1);
 
 		camFollow.setPosition(camPos.x, camPos.y);
@@ -549,7 +554,6 @@ class PlayState extends MusicBeatState
 		}
 
 		add(camFollow);
-		add(camFollowOffset);
 		add(camFollowFinal);
 
 		FlxG.camera.follow(camFollowFinal, LOCKON);
@@ -1559,7 +1563,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		camFollowFinal.setPosition(camFollow.x + camFollowOffset.x, camFollow.y + camFollowOffset.y);
+		camFollowFinal.setPosition(camFollow.x + camFollowOffset.x + camFollowShake.x, camFollow.y + camFollowOffset.y + camFollowShake.y);
 
 		if(!inCutscene){
 			camGame.zoom = defaultCamZoom + camGameZoomAdjust;
@@ -2504,33 +2508,48 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		else if(tag.startsWith("flash;")){ 
+		else if(tag.startsWith("flash")){ 
 			var properties = tag.split(";");
 			if(properties.length < 2){ properties.push("1b"); }
 			if(properties.length < 3){ properties.push("0xFFFFFF"); }
 			camGame.stopFX();
 			camGame.fade(Std.parseInt(properties[2]), eventConvertTime(properties[1]), true);
 		}
-		else if(tag.startsWith("flashHud;")){ 
+		else if(tag.startsWith("flashHud")){ 
 			var properties = tag.split(";");
 			if(properties.length < 2){ properties.push("1b"); }
 			if(properties.length < 3){ properties.push("0xFFFFFF"); }
 			camHUD.stopFX();
 			camHUD.fade(Std.parseInt(properties[2]), eventConvertTime(properties[1]), true);
 		}
-		else if(tag.startsWith("fadeOut;")){ 
+		else if(tag.startsWith("fadeOut")){ 
 			var properties = tag.split(";");
 			if(properties.length < 2){ properties.push("1b"); }
 			if(properties.length < 3){ properties.push("0x000000"); }
 			camGame.stopFX();
 			camGame.fade(Std.parseInt(properties[2]), eventConvertTime(properties[1]));
 		}
-		else if(tag.startsWith("fadeOutHud;")){ 
+		else if(tag.startsWith("fadeOutHud")){ 
 			var properties = tag.split(";");
 			if(properties.length < 2){ properties.push("1b"); }
 			if(properties.length < 3){ properties.push("0x000000"); }
 			camHUD.stopFX();
 			camHUD.fade(Std.parseInt(properties[2]), eventConvertTime(properties[1]));
+		}
+
+		else if(tag.startsWith("camShake")){
+			var properties = tag.split(";");
+			if(properties.length < 2){ properties.push("8.0"); }
+			if(properties.length < 3){ properties.push("0.042"); }
+			if(properties.length < 4){ properties.push("linear"); }
+			trace(properties);
+			startCamShake(Std.parseFloat(properties[1]), eventConvertTime(properties[2]), easeNameToEase(properties[3]));
+		}
+		else if(tag.startsWith("endCamShake")){
+			var properties = tag.split(";");
+			if(properties.length < 2){ properties.push("0.042"); }
+			if(properties.length < 3){ properties.push("linear"); }
+			endCamShake(eventConvertTime(properties[1]), easeNameToEase(properties[2]));
 		}
 
 		else{
@@ -2776,8 +2795,38 @@ class PlayState extends MusicBeatState
 			offsetTween = FlxTween.tween(camFollowOffset, {x: _x, y: _y}, _time, {ease: _ease});
 		}
 		else{
-			camFollowOffset.setPosition(_x, _y);
+			camFollowOffset.set(_x, _y);
 		}
+
+	}
+
+	function startCamShake(_distance:Float, ?_period:Float = 1/24, ?_ease:Null<flixel.tweens.EaseFunction>){
+
+		if(_ease == null){
+			_ease = FlxEase.linear;
+		}
+		if(_period < 1/60){
+			_period = 1/60;
+		}
+
+		shakeTween.cancel();
+		shakeTween = FlxTween.tween(camFollowShake, {x: FlxG.random.float(0, _distance), y: FlxG.random.float(0, _distance)}, _period, {ease: _ease, onComplete: function(t){
+			startCamShake(_distance, _period, _ease);
+		}});
+
+	}
+
+	function endCamShake(?_time:Float = 1/24, ?_ease:Null<flixel.tweens.EaseFunction>){
+
+		if(_ease == null){
+			_ease = FlxEase.linear;
+		}
+		if(_time < 1/60){
+			_time = 1/60;
+		}
+
+		shakeTween.cancel();
+		shakeTween = FlxTween.tween(camFollowShake, {x: 0, y: 0}, _time, {ease: _ease});
 
 	}
 
