@@ -1155,31 +1155,27 @@ class PlayState extends MusicBeatState
 				susLength = susLength / Conductor.stepCrochet;
 				unspawnNotes.push(swagNote);
 
-				for (susNote in 0...Math.round(susLength))
-				{
-					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
-
-					var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, daNoteType, false, oldNote, true);
-					sustainNote.scrollFactor.set();
-					unspawnNotes.push(sustainNote);
-
-					sustainNote.mustPress = gottaHitNote;
-
-					if (sustainNote.mustPress)
-					{
-						sustainNote.x += FlxG.width / 2; // general offset
+				if(Math.round(susLength) > 0){
+					for (susNote in 0...(Math.round(susLength) + 1)){
+						oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
+	
+						var typeAdd = "";
+						var timeAdd = 0.0;
+						if(susNote == 0){ 
+							typeAdd = "-fake"; 
+							timeAdd = 0.1; 
+						}
+	
+						var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + timeAdd, daNoteData, daNoteType + typeAdd, false, oldNote, true);
+						sustainNote.scrollFactor.set();
+						unspawnNotes.push(sustainNote);
+	
+						sustainNote.mustPress = gottaHitNote;
 					}
 				}
 
 				swagNote.mustPress = gottaHitNote;
 
-				if (swagNote.mustPress)
-				{
-					swagNote.x += FlxG.width / 2; // general offset
-				}
-				else
-				{
-				}
 			}
 			daBeats++;
 		}
@@ -1661,7 +1657,7 @@ class PlayState extends MusicBeatState
 			}
 
 			if(Config.downscroll){
-				daNote.y = (strumLine.y + (Conductor.songPosition - daNote.strumTime) * (0.45 * scrollSpeed));	
+				daNote.y = (strumLine.y + (Conductor.songPosition - daNote.strumTime) * (0.45 * scrollSpeed)) - daNote.yOffset;	
 				if(daNote.isSustainNote){
 					daNote.y -= daNote.height;
 					daNote.y += 125;
@@ -1679,7 +1675,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 			else {
-				daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * scrollSpeed));
+				daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * scrollSpeed)) + daNote.yOffset;
 				if(daNote.isSustainNote){
 					if ((!daNote.mustPress || daNote.wasGoodHit || daNote.prevNote.wasGoodHit && !daNote.canBeHit)
 						&& daNote.y + daNote.offset.y * daNote.scale.y <= (strumLine.y + Note.swagWidth / 2))
@@ -2058,7 +2054,7 @@ class PlayState extends MusicBeatState
 					daNote.tooLate = true;
 					daNote.destroy();
 					updateAccuracy();
-					noteMiss(daNote.noteData, HOLD_RELEASE_STEP_DAMAGE, false, true, false, false);
+					noteMiss(daNote.noteData, HOLD_RELEASE_STEP_DAMAGE * (daNote.type.endsWith("-fake") ? 0 : 1), false, true, false, false);
 				}
 
 				//This is for the first released note.
@@ -2309,7 +2305,7 @@ class PlayState extends MusicBeatState
 			if (!note.isSustainNote){
 				health += NOTE_HIT_HEAL * Config.healthMultiplier;
 			}
-			else{
+			else if(!note.type.endsWith("-fake")){
 				health += HOLD_HIT_HEAL * Config.healthMultiplier;
 			}
 				

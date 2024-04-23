@@ -197,11 +197,19 @@ class Note extends FlxSprite
 					speed = Config.scrollSpeedOverride;
 				}
 
+				var mult:Float = 1;
+				if(prevNote.type.endsWith("-fake")){ mult = 0.5; }
+
 				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.485 * speed;
 				if(PlayState.curUiType == "pixel") {
 					prevNote.scale.y *= 0.833 * (1.5 / 1.485); // Kinda weird, just roll with it.
 				}
+				
+				prevNote.scale.y *= mult;
+
 				prevNote.updateHitbox();
+
+				if(prevNote.type.endsWith("-fake")){ prevNote.yOffset = prevNote.height; }
 			}
 		}
 
