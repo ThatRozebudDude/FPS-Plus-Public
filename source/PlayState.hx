@@ -549,6 +549,7 @@ class PlayState extends MusicBeatState
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 		camFollowOffset = new FlxPoint();
+		camFollowShake = new FlxPoint();
 		camFollowFinal = new FlxObject(0, 0, 1, 1);
 
 		camFollow.setPosition(camPos.x, camPos.y);
