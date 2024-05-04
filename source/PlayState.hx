@@ -2493,7 +2493,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if(tag.startsWith("setAnimSet;")){
+		else if(tag.startsWith("setAnimSet;")){
 			var tagSplit = tag.split(";");
 
 			switch(tagSplit[1]){
