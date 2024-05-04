@@ -84,7 +84,7 @@ class ConfigMenu extends FlxUIStateExt
 	var scheme:Int;
 	var dimValue:Int;
 	var noteSplashValue:Int;
-	final noteSplashTypes:Array<String> = ["off", "sick only", "always"];
+	final noteSplashTypes:Array<String> = ["off", "both", "hit only", "hold only"];
     var centeredValue:Bool;
     var scrollSpeedValue:Int;
     var showComboBreaksValue:Bool;
@@ -535,10 +535,11 @@ class ConfigMenu extends FlxUIStateExt
 
 
 
-        var noteSplash = new ConfigOption("NOTE SPLASH", ": " + noteSplashTypes[noteSplashValue], "Adjusts how dark the background is.\nIt is recommended that you use the HUD combo display with a high background dim.");
-        noteSplash.extraData[0] = "Note splashes are disabled.";
-        noteSplash.extraData[1] = "Note splashes are created when you get a sick rating.";
-        noteSplash.extraData[2] = "Note splashes are created every time you hit a note. \nWhy?";
+        var noteSplash = new ConfigOption("NOTE SPLASH", ": " + noteSplashTypes[noteSplashValue], "temp :]");
+        noteSplash.extraData[0] = "All note splashes are disabled.";
+        noteSplash.extraData[1] = "Both note splashes and hold covers are enabled.";
+        noteSplash.extraData[2] = "Only note splashes are enabled, not hold covers.";
+        noteSplash.extraData[3] = "Only hold covers are enabled, not note splashes.";
         noteSplash.optionUpdate = function(){
             if (pressRight){
                 FlxG.sound.play(Paths.sound('scrollMenu'));
