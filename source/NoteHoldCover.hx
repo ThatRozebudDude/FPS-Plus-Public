@@ -74,13 +74,13 @@ class NoteHoldCover extends FlxSprite{
     }
 
     public function start() {
-        visible = (Config.noteSplashType == 1 || Config.noteSplashType == 3);
+        visible = (Config.noteSplashType == 1 || Config.noteSplashType == 2 || Config.noteSplashType == 4);
         alpha = 1;
         animation.play("start");
     }
 
     public function end(playSplash:Bool) {
-        visible = playSplash && (Config.noteSplashType == 1 || Config.noteSplashType == 3);
+        visible = playSplash && (Config.noteSplashType == 1 || Config.noteSplashType == 4);
         alpha = splashAlpha;
         animation.getByName("end").frameRate = 24 + FlxG.random.int(0, 6);
         animation.play("end");

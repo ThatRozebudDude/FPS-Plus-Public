@@ -84,7 +84,7 @@ class ConfigMenu extends FlxUIStateExt
 	var scheme:Int;
 	var dimValue:Int;
 	var noteSplashValue:Int;
-	final noteSplashTypes:Array<String> = ["off", "both", "hit only", "hold only"];
+	final noteSplashTypes:Array<String> = ["off", "both", "partial", "hit only", "hold only"];
     var centeredValue:Bool;
     var scrollSpeedValue:Int;
     var showComboBreaksValue:Bool;
@@ -538,8 +538,9 @@ class ConfigMenu extends FlxUIStateExt
         var noteSplash = new ConfigOption("NOTE SPLASH", ": " + noteSplashTypes[noteSplashValue], "temp :]");
         noteSplash.extraData[0] = "All note splashes are disabled.";
         noteSplash.extraData[1] = "Both note splashes and hold covers are enabled.";
-        noteSplash.extraData[2] = "Only note splashes are enabled, not hold covers.";
-        noteSplash.extraData[3] = "Only hold covers are enabled, not note splashes.";
+        noteSplash.extraData[2] = "Both note splashes and hold covers are enabled, but there is no hold release splash.";
+        noteSplash.extraData[3] = "Only note splashes are enabled, not hold covers.";
+        noteSplash.extraData[4] = "Only hold covers are enabled, not note splashes.";
         noteSplash.optionUpdate = function(){
             if (pressRight){
                 FlxG.sound.play(Paths.sound('scrollMenu'));

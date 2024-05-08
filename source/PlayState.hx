@@ -1925,7 +1925,7 @@ class PlayState extends MusicBeatState
 		if (daRating == 'sick'){
 			totalNotesHit += 1;
 
-			if(Config.noteSplashType == 1 || Config.noteSplashType == 2){
+			if(Config.noteSplashType >= 1 && Config.noteSplashType < 4){
 				createNoteSplash(note.noteData);
 			}
 		}
