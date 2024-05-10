@@ -1,5 +1,6 @@
 package;
 
+import transition.data.StickerIn;
 import config.Config;
 import title.*;
 import flixel.FlxG;
@@ -19,6 +20,8 @@ using StringTools;
 class StoryMenuState extends MusicBeatState
 {
 	var scoreText:FlxText;
+
+	public static var fromPlayState:Bool = false;
 
 	public static var weekData:Array<Dynamic>;
 	var curDifficulty:Int = 1;
@@ -212,6 +215,12 @@ class StoryMenuState extends MusicBeatState
 		updateText();
 
 		trace("Line 165");
+
+		if(fromPlayState){
+			customTransIn = new StickerIn();
+		}
+
+		fromPlayState = false;
 
 		super.create();
 	}

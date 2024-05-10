@@ -1,5 +1,7 @@
 package;
 
+import transition.data.StickerIn;
+import extensions.flixel.FlxUIStateExt;
 import config.CacheConfig;
 import title.TitleScreen;
 import config.Config;
@@ -20,6 +22,7 @@ class FreeplayState extends MusicBeatState
 	var songs:Array<SongMetadata> = [];
 
 	public static var fromMainMenu:Bool = false;
+	public static var fromPlayStateFinishSong:Bool = false;
 
 	public static var startingSelection:Int = 0;
 	var selector:FlxText;
@@ -105,7 +108,12 @@ class FreeplayState extends MusicBeatState
 			FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
 		}
 
+		if(fromPlayStateFinishSong){
+			customTransIn = new StickerIn();
+		}
+
 		fromMainMenu = false;
+		fromPlayStateFinishSong = false;
 
 		selector = new FlxText();
 
@@ -180,13 +188,13 @@ class FreeplayState extends MusicBeatState
 		}
 			
 
-		if (Binds.justPressed("menuBack")){
+		if (Binds.justPressed("menuBack") && !FlxUIStateExt.inTransition){
 			if(CacheConfig.music){ FlxG.sound.music.stop(); }
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			switchState(new MainMenuState());
 		}
 
-		if (Binds.justPressed("menuAccept"))
+		if (Binds.justPressed("menuAccept") && !FlxUIStateExt.inTransition)
 		{
 			var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
 			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());

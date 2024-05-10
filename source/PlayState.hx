@@ -207,6 +207,8 @@ class PlayState extends MusicBeatState
 	public static var sectionStartPoint:Int =  0;
 	public static var sectionStartTime:Float =  0;
 
+	var endingSong:Bool = false;
+
 	private var meta:SongMetaTags;
 
 	private static final NOTE_HIT_HEAL:Float = 0.02;
@@ -1448,7 +1450,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (!inCutscene){
+		if (!inCutscene || !endingSong){
 		 	if(!autoplay){
 		 		keyShit();
 			}
@@ -1571,7 +1573,7 @@ class PlayState extends MusicBeatState
 
 		}
 
-		if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null) {
+		if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null && !endingSong) {
 
 			if (camFocus != "dad" && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && autoCam){
 				camFocusOpponent();
@@ -1812,6 +1814,9 @@ class PlayState extends MusicBeatState
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
 		if(vocalType == splitVocalTrack) { vocalsOther.volume = 0; }
+
+		endingSong = true;
+
 		if (!usedAutoplay){
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
 		}
@@ -1826,6 +1831,9 @@ class PlayState extends MusicBeatState
 			{
 				FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
 
+				customTransOut = new StickerOut();
+
+				StoryMenuState.fromPlayState = true;
 				switchState(new StoryMenuState());
 				sectionStart = false;
 
@@ -1877,12 +1885,11 @@ class PlayState extends MusicBeatState
 		else
 		{
 			sectionStart = false;
-
+			customTransOut = new StickerOut();
+			FreeplayState.fromPlayStateFinishSong = true;
 			switchState(new FreeplayState());
 		}
 	}
-
-	var endingSong:Bool = false;
 
 	private function popUpScore(note:Note):Void{
 

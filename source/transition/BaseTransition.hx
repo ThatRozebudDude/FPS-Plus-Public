@@ -1,6 +1,6 @@
 package transition;
 
-import flixel.FlxCamera;
+import extensions.flixel.FlxUIStateExt;
 import openfl.system.System;
 import flixel.FlxG;
 import flixel.FlxState;
@@ -37,6 +37,7 @@ class BaseTransition extends FlxSpriteGroup{
         This shouldn't need to be overrided, but you can for whatever edge case you might have.
     **/
     public function end(){
+        FlxUIStateExt.inTransition = false;
         System.gc();
         if(state != null){
             FlxG.switchState(state);

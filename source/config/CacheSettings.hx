@@ -146,7 +146,7 @@ class CacheSettings extends FlxUIStateExt
                     quit();
                 }
 
-                if(FlxG.keys.justPressed.ANY || FlxG.gamepads.anyJustPressed(ANY)){
+                if((FlxG.keys.justPressed.ANY || FlxG.gamepads.anyJustPressed(ANY)) && state != "exiting"){
                     textUpdate();
                 }
 

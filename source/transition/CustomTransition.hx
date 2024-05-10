@@ -1,5 +1,6 @@
 package transition;
 
+import extensions.flixel.FlxUIStateExt;
 import flixel.FlxState;
 import flixel.FlxG;
 import flixel.FlxCamera;
@@ -31,6 +32,8 @@ class CustomTransition{
         transitionData.state = state;
         transitionData.cameras = [transitionCamera];
         transitionData.play();
+
+        FlxUIStateExt.inTransition = true;
 
         FlxG.state.add(transitionData);
 

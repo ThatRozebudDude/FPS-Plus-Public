@@ -19,6 +19,8 @@ class FlxUIStateExt extends FlxUIState
 	public static var defaultTransOut:Class<Dynamic>;
 	public static var defaultTransOutArgs:Array<Dynamic>;
 
+	public static var inTransition:Bool = false;
+
 	private var customTransIn:BaseTransition = null;
 	private var customTransOut:BaseTransition = null;
 
