@@ -10,7 +10,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 
 /**
-    A simple fade from a color.
+    Cover the screen in stickers.
 **/
 class StickerOut extends BaseTransition{
 

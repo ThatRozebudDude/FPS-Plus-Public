@@ -8,7 +8,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 
 /**
-    A simple fade from a color.
+    Remove stickers from the screen.
 **/
 class StickerIn extends BaseTransition{
 
