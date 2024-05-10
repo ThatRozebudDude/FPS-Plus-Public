@@ -2042,10 +2042,9 @@ class PlayState extends MusicBeatState
 			}
 		}
 		
-		notes.forEachAlive(function(daNote:Note)
-		{
+		notes.forEachAlive(function(daNote:Note) {
 			if ((upHold || rightHold || downHold || leftHold) && generatedMusic){
-				if (daNote.canBeHit && daNote.mustPress && daNote.isSustainNote)
+				if (daNote.canBeHit && daNote.mustPress && daNote.isSustainNote && !daNote.wasGoodHit)
 				{
 
 					boyfriend.holdTimer = 0;
