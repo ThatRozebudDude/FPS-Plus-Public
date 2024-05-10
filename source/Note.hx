@@ -226,39 +226,41 @@ class Note extends FlxSprite
 
 		super.update(elapsed);
 
-		if (mustPress)
-		{
-			if(isSustainNote){
-				canBeHit = (strumTime < Conductor.songPosition + Conductor.safeZoneOffset * 1 && (prevNote == null ? true : prevNote.wasGoodHit));
+		if(!editor){
+			if (mustPress){
+				if(isSustainNote){
+					canBeHit = (strumTime < Conductor.songPosition + Conductor.safeZoneOffset * 1 && (prevNote == null ? true : prevNote.wasGoodHit));
+					if(wasGoodHit && isSustainEnd && (Config.noteSplashType == 1 || Config.noteSplashType == 4)){
+						visible = false;
+						if(prevNote != null && prevNote.isSustainNote){
+							prevNote.visible = false;
+						}
+					}
+				}
+				else{
+					canBeHit = (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
+							 && strumTime < Conductor.songPosition + Conductor.safeZoneOffset);
+				}
+
+				if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit){
+					tooLate = true;
+				}
+				
 			}
-			else{
-				canBeHit = (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
-							&& strumTime < Conductor.songPosition + Conductor.safeZoneOffset);
+			else {
+				canBeHit = (strumTime <= Conductor.songPosition);
 			}
 
-			if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
-				tooLate = true;
-			
-		}
-		else
-		{
-			canBeHit = false;
+			//Glow note stuff.
 
-			if (strumTime <= Conductor.songPosition)
-			{
-				canBeHit = true;
-			}
-		}
+			if(Config.noteGlow){
+				if (canBeHit && !isSustainNote && animation.curAnim.name.contains("Scroll")){
+					glow();
+				}
 
-		//Glow note stuff.
-
-		if(Config.noteGlow){
-			if (canBeHit && !isSustainNote && !editor && animation.curAnim.name.contains("Scroll")){
-				glow();
-			}
-	
-			if (tooLate && !isSustainNote && !editor && !animation.curAnim.name.contains("Scroll")){
-				idle();
+				if (tooLate && !isSustainNote && !animation.curAnim.name.contains("Scroll")){
+					idle();
+				}
 			}
 		}
 
