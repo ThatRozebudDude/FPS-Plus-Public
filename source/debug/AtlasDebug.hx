@@ -12,6 +12,7 @@ using StringTools;
 class AtlasDebug extends FlxState
 {
 
+	var charPos:FlxSprite;
 	var character:AtlasSprite;
 
 	public function new() {
@@ -35,13 +36,17 @@ class AtlasDebug extends FlxState
 		character.antialiasing = true;
 		character.screenCenter();
 		character.playAnim("idle");
-
 		add(character);
+
+		charPos = new FlxSprite().makeGraphic(8, 8, 0xFF00AAFF);
+		add(charPos);
 
 		super.create();
 	}
 
 	override function update(elapsed:Float) {
+
+		charPos.setPosition(character.x, character.y);
 
 		if (FlxG.keys.anyJustPressed([ONE])) {
 			character.playAnim("idle");
@@ -58,13 +63,19 @@ class AtlasDebug extends FlxState
 		else if (FlxG.keys.anyJustPressed([FIVE])) {
 			character.playAnim("singRIGHT");
 		}
-		else if (FlxG.keys.anyJustPressed([ZERO])) {
+		else if (FlxG.keys.anyJustPressed([NINE])) {
 			character.playAnim("idleWeird");
+		}
+
+		if (FlxG.keys.anyJustPressed([SPACE])) {
+			character.playAnim(character.curAnim);
 		}
 
 		if (FlxG.keys.anyJustPressed([Q])) {
 			character.flipX = !character.flipX;
-			trace(character.flipX);
+		}
+		else if (FlxG.keys.anyJustPressed([W])) {
+			character.flipY = !character.flipY;
 		}
 
 		super.update(elapsed);

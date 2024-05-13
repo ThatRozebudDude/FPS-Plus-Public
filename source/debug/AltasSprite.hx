@@ -15,7 +15,7 @@ class AtlasSprite extends FlxAnimate
 {
 
     var animInfoMap:Map<String, AtlasAnimInfo> = new Map<String, AtlasAnimInfo>();
-	var curAnim:String;
+	public var curAnim:String;
 
     public function new(?_x:Float, ?_y:Float, _path:String) {
         super(_x, _y, _path);
@@ -74,5 +74,22 @@ class AtlasSprite extends FlxAnimate
             }
 		}
 	}
+
+    override function set_flipX(Value:Bool):Bool {
+        flipX = Value;
+        return super.set_flipX(Value);
+    }
+
+    override function set_flipY(Value:Bool):Bool {
+        flipY = Value;
+        return super.set_flipY(Value);
+    }
+
+    override function update(elapsed:Float) {
+
+        trace("width: " + width + ", frameWidth: " + frameWidth);
+
+        super.update(elapsed);
+    }
 
 }
