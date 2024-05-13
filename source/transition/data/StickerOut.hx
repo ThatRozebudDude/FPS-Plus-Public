@@ -15,9 +15,8 @@ import flixel.FlxSprite;
 class StickerOut extends BaseTransition{
 
     public static var stickerInfo:Array<StickerInfo> = [];
-    public static var stickerSet:String = "set1";
 
-    var stickerList:Array<String>;
+    var stickerList:Array<String> = [];
     var excludePos:Array<FlxPoint> = [];
 
     public static final stickerCount:Int = 100;
@@ -25,13 +24,19 @@ class StickerOut extends BaseTransition{
     public static final stickerTime:Float = 1/48;
     public static final stickerDistance:Float = 10;
 
-    override public function new(_set:String = "set1"){
+    override public function new(?_sets:Array<String>){
         
         super();
 
-        stickerSet = _set;
-        stickerList = FileSystem.readDirectory("assets/images/ui/stickers/" + stickerSet + "/");
-        for(i in 0...stickerList.length){ stickerList[i] = stickerList[i].split(".png")[0]; }
+        if(_sets == null){ 
+            _sets = FileSystem.readDirectory("assets/images/ui/stickers/"); 
+        }
+
+        for(set in _sets){
+            for(path in FileSystem.readDirectory("assets/images/ui/stickers/" + set + "/")){
+                stickerList.push("assets/images/ui/stickers/" + set + "/" + path);
+            }
+        }
 
     }
 
@@ -39,7 +44,7 @@ class StickerOut extends BaseTransition{
 
         for(i in 0...stickerCount){
             var sticker:StickerInfo = {
-                image: Paths.image("ui/stickers/" + stickerSet + "/" + stickerList[FlxG.random.int(0, stickerList.length-1)], true),
+                image: stickerList[FlxG.random.int(0, stickerList.length-1)],
                 pos: generateRandomOutSideDistance(),
                 angle: FlxG.random.float(0, 360)
             }

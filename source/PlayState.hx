@@ -1831,7 +1831,26 @@ class PlayState extends MusicBeatState
 			{
 				FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
 
-				customTransOut = new StickerOut();
+				var stickerSets:Array<String> = null;
+
+				switch(storyWeek){
+					case 0:
+						stickerSets = ["bf", "gf"];
+					case 1:
+						stickerSets = ["bf", "gf", "dad"];
+					case 2:
+						stickerSets = ["bf", "gf", "monster"];
+					case 3:
+						stickerSets = ["bf", "gf", "pico"];
+					case 4:
+						stickerSets = ["bf", "gf", "mom"];
+					case 5:
+						stickerSets = ["bf", "gf", "dad", "mom", "monster"];
+					case 7:
+						stickerSets = ["bf", "gf", "pico"];
+				}
+
+				customTransOut = new StickerOut(stickerSets);
 
 				StoryMenuState.fromPlayState = true;
 				switchState(new StoryMenuState());
