@@ -33,23 +33,22 @@ Notes appear from the top of the screen instead of the bottom. This make help so
 Adjusted some of the health icons and adds winning icons.
 
 ## Building
-- For basic build intructions, follow the guide on the Funkin github page [here](https://github.com/ninjamuffin99/Funkin#build-instructions) since it's basically the same.
 
-    - You need to install the following haxelibs:
+You need to install the following haxelibs:
 
-        - `openfl`
-        - `lime`
-        - `flixel`
-        - `flixel-addons`
-        - `flixel-ui`
-        - `compiletime`
-        - `flxanimte`
+- `openfl`
+- `lime`
+- `flixel`
+- `flixel-addons`
+- `flixel-ui`
+- `compiletime`
+- `flxanimte`
 
-            - `flxanimate` should be installed from the FunkinCrew git by running `haxelib git flxanimate "https://github.com/FunkinCrew/flxanimate"`
+    - `flxanimate` should be installed from the FunkinCrew git by running `haxelib git flxanimate "https://github.com/FunkinCrew/flxanimate"`
 
-    - To set up build tools, refer to part 5 of [this document](https://github.com/FunkinCrew/Funkin/blob/main/docs/COMPILING.md).
+To set up build tools, refer to part 5 of [this document](https://github.com/FunkinCrew/Funkin/blob/main/docs/COMPILING.md).
 
-    - Run `lime test PLATFORM` or `lime build PLATFORM` to compile the game.
+Run `lime test PLATFORM` or `lime build PLATFORM` to compile the game.
 
 ## Credits
 ### Friday Night Funkin'
