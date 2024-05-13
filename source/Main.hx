@@ -5,7 +5,7 @@ import flixel.FlxG;
 import flixel.FlxGame;
 import openfl.display.FPS;
 import openfl.display.Sprite;
-//import debug.*;
+import debug.*;
 
 class Main extends Sprite
 {
@@ -29,7 +29,7 @@ class Main extends Sprite
 		fpsDisplay = new FPS(10, 3, 0xFFFFFF);
 		fpsDisplay.visible = true;
 
-		addChild(new FlxGame(0, 0, Startup, 60, 60, true));
+		addChild(new FlxGame(0, 0, AtlasDebug, 60, 60, true));
 		addChild(fpsDisplay);
 
 		//On web builds, video tends to lag quite a bit, so this just helps it run a bit faster.

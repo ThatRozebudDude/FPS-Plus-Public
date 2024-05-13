@@ -70,6 +70,10 @@ class Paths
         return FlxAtlasFrames.fromSpriteSheetPacker(image(key), text(key, "images"));
     }
 
+    inline static public function getTextureAtlas(key:String){
+        return 'assets/images/$key';
+    }
+
     inline static public function video(key:String){
         return file(key, "videos", "mp4");
     }
