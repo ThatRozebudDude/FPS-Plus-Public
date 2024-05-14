@@ -3,7 +3,6 @@ package debug;
 import flxanimate.FlxAnimate;
 
 typedef AtlasAnimInfo = {
-    label:String,
 	startFrame:Int,
 	length:Int,
 	framerate:Float,
@@ -20,6 +19,8 @@ class AtlasSprite extends FlxAnimate
     public function new(?_x:Float, ?_y:Float, _path:String) {
         super(_x, _y, _path);
         anim.callback = animCallback;
+        width = pixels.width/2;
+        height = pixels.height/2;
     }
 
     public function addAnimationByLabel(name:String, label:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
@@ -44,9 +45,22 @@ class AtlasSprite extends FlxAnimate
         }
 
 		animInfoMap.set(name, {
-            label: label,
 		    startFrame: frame.index,
 			length: nextAnimFrame - frame.index,
+			framerate: framerate,
+            looped: looped,
+            loopFrame: loopFrame
+		});
+    }
+
+    public function addAnimationByFrame(name:String, frame:Int, length:Int, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
+        if(looped && loopFrame == null){
+            loopFrame = 0;
+        }
+
+		animInfoMap.set(name, {
+		    startFrame: frame,
+			length: length,
 			framerate: framerate,
             looped: looped,
             loopFrame: loopFrame
@@ -87,7 +101,11 @@ class AtlasSprite extends FlxAnimate
 
     override function update(elapsed:Float) {
 
-        trace("width: " + width + ", frameWidth: " + frameWidth);
+        if(flipX){ offset.x = -width; }
+        else { offset.x = 0; }
+
+        if(flipY){ offset.y = -height; }
+        else { offset.y = 0; }
 
         super.update(elapsed);
     }
