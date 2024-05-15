@@ -335,9 +335,9 @@ class PlayState extends MusicBeatState
 
 		
 		if(stage.useStartPoints){
-			dad.setPosition(stage.dadStart.x - ((dad.frameWidth * dad.scale.x)/2), stage.dadStart.y - (dad.frameHeight * dad.scale.y));
-			boyfriend.setPosition(stage.bfStart.x - ((boyfriend.frameWidth * boyfriend.scale.x)/2), stage.bfStart.y - (boyfriend.frameHeight * boyfriend.scale.y));
-			gf.setPosition(stage.gfStart.x - ((gf.frameWidth * gf.scale.x)/2), stage.gfStart.y - (gf.frameHeight * gf.scale.y));
+			dad.setPosition(stage.dadStart.x - ((dad.getFrameWidth() * dad.getScale().x)/2), stage.dadStart.y - (dad.getFrameHeight() * dad.getScale().y));
+			boyfriend.setPosition(stage.bfStart.x - ((boyfriend.getFrameWidth() * boyfriend.getScale().x)/2), stage.bfStart.y - (boyfriend.getFrameHeight() * boyfriend.getScale().y));
+			gf.setPosition(stage.gfStart.x - ((gf.getFrameWidth() * gf.getScale().x)/2), stage.gfStart.y - (gf.getFrameHeight() * gf.getScale().y));
 		}
 		
 		dad.x += dad.reposition.x;
@@ -1739,7 +1739,7 @@ class PlayState extends MusicBeatState
 			{
 				daNote.wasGoodHit = true;
 
-				if(dad.canAutoAnim && (Character.LOOP_ANIM_ON_HOLD ? (daNote.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!dad.animation.name.contains("sing") || (dad.animation.curAnim.curFrame >= 3 || dad.animation.curAnim.finished)) : true) : true) : !daNote.isSustainNote)){
+				if(dad.canAutoAnim && (Character.LOOP_ANIM_ON_HOLD ? (daNote.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!dad.curAnim.contains("sing") || (dad.curAnimFrame() >= 3 || dad.curAnimFinished())) : true) : true) : !daNote.isSustainNote)){
 					switch (Math.abs(daNote.noteData))
 					{
 						case 2:
@@ -2135,7 +2135,7 @@ class PlayState extends MusicBeatState
 
 		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold)
 		{
-			if (boyfriend.animation.curAnim.name.startsWith('sing')){
+			if (boyfriend.curAnim.startsWith('sing')){
 				if(Character.USE_IDLE_END){ 
 					boyfriend.idleEnd(); 
 				}
@@ -2212,7 +2212,7 @@ class PlayState extends MusicBeatState
 
 		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold)
 		{
-			if (boyfriend.animation.curAnim.name.startsWith('sing')){
+			if (boyfriend.curAnim.startsWith('sing')){
 				if(Character.USE_IDLE_END){ 
 					boyfriend.idleEnd(); 
 				}
@@ -2363,7 +2363,7 @@ class PlayState extends MusicBeatState
 				health += HOLD_HIT_HEAL * Config.healthMultiplier;
 			}
 				
-			if(boyfriend.canAutoAnim && (Character.LOOP_ANIM_ON_HOLD ? (note.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!boyfriend.animation.name.contains("sing") || (boyfriend.animation.curAnim.curFrame >= 3 || boyfriend.animation.curAnim.finished)) : true) : true) : !note.isSustainNote)){
+			if(boyfriend.canAutoAnim && (Character.LOOP_ANIM_ON_HOLD ? (note.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!boyfriend.curAnim.contains("sing") || (boyfriend.curAnimFrame() >= 3 || boyfriend.curAnimFinished())) : true) : true) : !note.isSustainNote)){
 				switch (note.noteData)
 				{
 					case 2:
@@ -2489,7 +2489,7 @@ class PlayState extends MusicBeatState
 			gf.dance();
 		}
 
-		if(bfBeats.contains(curBeat % 4) && boyfriend.canAutoAnim && !boyfriend.animation.curAnim.name.startsWith('sing')){
+		if(bfBeats.contains(curBeat % 4) && boyfriend.canAutoAnim && !boyfriend.curAnim.startsWith('sing')){
 			boyfriend.dance();
 		}
 

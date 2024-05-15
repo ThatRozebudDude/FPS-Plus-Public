@@ -1,6 +1,5 @@
 package debug;
 
-import debug.AltasSprite.AtlasSprite;
 import flixel.FlxG;
 import flxanimate.FlxAnimate;
 import flixel.FlxSprite;

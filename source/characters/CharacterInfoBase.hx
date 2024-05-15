@@ -6,12 +6,15 @@ enum AnimType {
     prefix;
     frames;
     indices;
+    label;
+    start;
 }
 
 enum FrameLoadType {
     sparrow;
     packer;
     load(frameWidth:Int, frameHeight:Int);
+    atlas;
 }
 
 typedef AnimInfo = {
@@ -204,6 +207,75 @@ class CharacterInfoBase
         var animInfo:AnimInfo = {
             name: _name,
             type: indices,
+            data: animData
+        }
+        info.anims.push(animInfo);
+    }
+
+    /**
+	 * Adds a new animation to the sprite.
+	 * Texture Atlas sprites only!
+	 *
+	 * @param   _name       What this animation should be called (e.g. `"run"`).
+	 * @param   _offset     The visual offset of the animation. Use `offset()` to generate the data.
+	 * @param   _label      The name of the label that the animation starts on.
+	 * @param   _frameRate  The speed in frames per second that the animation should play at (e.g. `40` fps).
+	 * @param   _looped     Whether or not the animation loops and what frame it loops on. Use `loop()` to generate the data.
+	 */
+    function addByLabel(_name:String, _offset:Array<Float>, _label:String, _frameRate:Float = 30.0, _looped:LoopData = null):Void{
+
+        if(_looped == null){
+            _looped = loop(true);
+        }
+
+        var animData:AnimData = {
+            prefix: _label,
+            frames: null,
+            postfix: null,
+            framerate: _frameRate,
+            loop: _looped,
+            flipX: false,
+            flipY: false,
+            offset: _offset
+        }
+        var animInfo:AnimInfo = {
+            name: _name,
+            type: label,
+            data: animData
+        }
+        info.anims.push(animInfo);
+    }
+
+    /**
+	 * Adds a new animation to the sprite.
+	 * Texture Atlas sprites only!
+	 *
+	 * @param   _name       What this animation should be called (e.g. `"run"`).
+	 * @param   _offset     The visual offset of the animation. Use `offset()` to generate the data.
+	 * @param   _start      The frame number that the animation starts on. (Zero indexed).
+	 * @param   _length     The length in frames of the animation.
+	 * @param   _frameRate  The speed in frames per second that the animation should play at (e.g. `40` fps).
+	 * @param   _looped     Whether or not the animation loops and what frame it loops on. Use `loop()` to generate the data.
+	 */
+     function addByFrame(_name:String, _offset:Array<Float>, _start:Int, _length:Int, _frameRate:Float = 30.0, _looped:LoopData = null):Void{
+
+        if(_looped == null){
+            _looped = loop(true);
+        }
+
+        var animData:AnimData = {
+            prefix: null,
+            frames: [_start, _length],
+            postfix: null,
+            framerate: _frameRate,
+            loop: _looped,
+            flipX: false,
+            flipY: false,
+            offset: _offset
+        }
+        var animInfo:AnimInfo = {
+            name: _name,
+            type: start,
             data: animData
         }
         info.anims.push(animInfo);

@@ -1,4 +1,4 @@
-package debug;
+package;
 
 import flxanimate.FlxAnimate;
 
@@ -13,8 +13,11 @@ typedef AtlasAnimInfo = {
 class AtlasSprite extends FlxAnimate
 {
 
-    var animInfoMap:Map<String, AtlasAnimInfo> = new Map<String, AtlasAnimInfo>();
+    public var animInfoMap:Map<String, AtlasAnimInfo> = new Map<String, AtlasAnimInfo>();
 	public var curAnim:String;
+
+    public var frameCallback:(String, Int, Int)->Void;
+    public var animationEndCallback:String->Void;
 
     public function new(?_x:Float, ?_y:Float, _path:String) {
         super(_x, _y, _path);
@@ -67,19 +70,24 @@ class AtlasSprite extends FlxAnimate
 		});
     }
 
-    public function playAnim(name:String, ?force:Bool = true, ?frameOffset:Int = 0) {
+    public function playAnim(name:String, ?force:Bool = true, ?reverse:Bool = false, ?frameOffset:Int = 0) {
         curAnim = name;
 
         if(frameOffset >= animInfoMap.get(name).length){
             frameOffset = animInfoMap.get(name).length - 1;
         }
 
-		anim.play("", force, false, animInfoMap.get(name).startFrame + frameOffset);
+		anim.play("", force, reverse, animInfoMap.get(name).startFrame + frameOffset);
     }
 
     function animCallback(name:String, frame:Int):Void{
 		var animInfo = animInfoMap.get(curAnim);
+
+        if(frameCallback != null){ frameCallback(name, frame, frame); }
+
 		if(frame == (animInfo.startFrame + animInfo.length) - 1){
+            if(animationEndCallback != null){ animationEndCallback(name); }
+
             if(animInfo.looped){
                 playAnim(curAnim, true, animInfo.loopFrame);
             }
