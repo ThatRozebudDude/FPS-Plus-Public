@@ -50,6 +50,8 @@ To set up build tools, refer to part 5 of [this document](https://github.com/Fun
 
 Run `lime test PLATFORM` or `lime build PLATFORM` to compile the game.
 
+**If you are getting an error that says that a bunch of Flixel classes are missing fields, you need to reinstall Haxe. I don't know what causes this I just know that reinstalling Haxe should fix it.**
+
 ## Credits
 ### Friday Night Funkin'
 - [ninjamuffin99](https://twitter.com/ninja_muffin99) - Programmer
