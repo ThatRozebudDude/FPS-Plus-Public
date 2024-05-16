@@ -471,7 +471,7 @@ class Character extends FlxSpriteGroup
 			}
 		}
 		else{ //Code for atlas characters
-			//NOT DONE YET!!!!
+			//DOES NOT FUNCTION
 		}
 		
 	}
@@ -487,7 +487,6 @@ class Character extends FlxSpriteGroup
 
 
 
-	
 
 	public function setFlipX(value:Bool):Void {
 		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters

@@ -19,11 +19,16 @@ class AtlasSprite extends FlxAnimate
     public var frameCallback:(String, Int, Int)->Void;
     public var animationEndCallback:String->Void;
 
+    private var baseWidth:Float;
+    private var baseHeight:Float;
+
     public function new(?_x:Float, ?_y:Float, _path:String) {
         super(_x, _y, _path);
         anim.callback = animCallback;
-        width = pixels.width/2;
-        height = pixels.height/2;
+        baseWidth = pixels.width/2;
+        baseHeight = pixels.height/2;
+        width = baseWidth;
+        height = baseHeight;
     }
 
     public function addAnimationByLabel(name:String, label:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
@@ -116,6 +121,11 @@ class AtlasSprite extends FlxAnimate
         else { offset.y = 0; }
 
         super.update(elapsed);
+    }
+
+    override function updateHitbox() {
+        width = Math.abs(scale.x) * baseWidth;
+		height = Math.abs(scale.y) * baseHeight;
     }
 
 }
