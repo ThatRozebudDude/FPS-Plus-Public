@@ -1,8 +1,8 @@
 package config;
 
+import config.KeyIcon.ControllerIcon;
 import extensions.flixel.FlxUIStateExt;
 import flixel.input.gamepad.FlxGamepad;
-import KeyIcon.ControllerIcon;
 import flixel.input.gamepad.FlxGamepadInputID;
 import Binds.Keybind;
 import flixel.sound.FlxSound;

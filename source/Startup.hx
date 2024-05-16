@@ -1,6 +1,5 @@
 package;
 
-import KeyIcon.ControllerIcon;
 import sys.FileSystem;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
