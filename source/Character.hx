@@ -631,4 +631,13 @@ class Character extends FlxSpriteGroup
 		return Value;
 	}
 
+	public function getSprite():FlxSprite{
+		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+			return character;
+		}
+		else{ //Code for atlas characters
+			return atlasCharacter;
+		}
+	}
+
 }
