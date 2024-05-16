@@ -3,34 +3,13 @@
 *Finally, it's open source.*
 
 # Friday Night Funkin' FPS Plus
-Friday Night Funkin' FPS Plus is a mod of Friday Night Funkin' that aims to improve gameplay and add quality of life features.
+Friday Night Funkin' FPS Plus is an engine mod of Friday Night Funkin' that aims to improve gameplay and add quality of life features.
 
 *You can find the original game here:* **[Newgrounds](https://www.newgrounds.com/portal/view/770371) - [itch.io](https://ninja-muffin24.itch.io/funkin) - [GitHub](https://github.com/ninjamuffin99/Funkin)**
 
-## Features
+## 
 
-### Increased FPS
-The original purpose of FPS Plus. The game has an increased framerate over the base game and even an option for a completely uncapped framerate.
-
-### Better Input
-Adjusts how the game handles input allowing you to hit notes more consistently.
-
-This also changes held notes so that they disappear if released to early.
-
-### Fully Rebindable Keys
-So that you can use whatever wacky control scheme you come up with. Or you could just be boring and use DFJK. That works too...
-
-### Improved Chart Editor
-FPS Plus contains a modified chart editor that has more utility features and is way more user friendly.
-
-### Improved Animation Debug
-The animation debug has been adjusted to make editing offsets way easier and faster while requiring less guess work.
-
-### Downscroll
-Notes appear from the top of the screen instead of the bottom. This make help some people read patterns more easily.
-
-### Improved Health Icons
-Adjusted some of the health icons and adds winning icons.
+FPS Plus was designed to increase the framerate of Friday Night Funkin' and is still currently (as far as I know) the only engine that allows for an unlocked framerate. It also features a plethora of enhancements and quality of life features. A bunch of systems are also changed as well that alter the workflow of coding stuff into the engine.
 
 ## Building
 
@@ -59,11 +38,11 @@ Run `lime test PLATFORM` or `lime build PLATFORM` to compile the game.
 - [Kawaisprite](https://twitter.com/kawaisprite) - Musician
 
 ### FPS Plus
-- [Rozebud](https://twitter.com/helpme_thebigt) - *Basically everything.*
+- [Rozebud](https://twitter.com/helpme_thebigt) - *Basically everything that's been added.*
 
 ### Shoutouts
-- [Smokey](https://twitter.com/Smokey_5_) - Helped with coding a few systems.
 - [Fabs](https://twitter.com/fabsthefabs) - Coding buddy.
+- [Smokey](https://twitter.com/Smokey_5_) - Helped with coding a few systems.
 - [KadeDev](https://twitter.com/kade0912) - *Rest in Peace* (Engine not the guy lol)
 - [ShadowMario](https://twitter.com/Shadow_Mario_) - Showing support for FPS Plus on Twitter. (Also sometimes I adapt Psych code, *shhhh...*)
 - [PolybiusProxy](https://twitter.com/polybiusproxy) - Haxeflixel Desktop MP4 stuff.
