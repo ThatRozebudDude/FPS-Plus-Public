@@ -69,7 +69,7 @@ class AnimationDebug extends FlxState
 		dad = new Character(0, 0, daAnim, false, true);
 		dad.screenCenter();
 
-		var characterClass = Type.resolveClass("characters." + dad.charClass);
+		var characterClass = Type.resolveClass("characters.data." + dad.charClass);
 		charInfo = Type.createInstance(characterClass, []);
 		if(charInfo.info.extraData != null){
 			for(type => data in charInfo.info.extraData){

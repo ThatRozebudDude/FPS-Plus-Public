@@ -1510,8 +1510,8 @@ class ChartingState extends MusicBeatState
 	function updateHeads(?changedCharacters:Bool = false):Void{
 
 		if(changedCharacters){
-			var leftChar:characters.CharacterInfoBase = Type.createInstance(Type.resolveClass("characters." + player2DropDown.selectedLabel), []);
-			var rightChar:characters.CharacterInfoBase = Type.createInstance(Type.resolveClass("characters." + player1DropDown.selectedLabel), []);
+			var leftChar:characters.CharacterInfoBase = Type.createInstance(Type.resolveClass("characters.data." + player2DropDown.selectedLabel), []);
+			var rightChar:characters.CharacterInfoBase = Type.createInstance(Type.resolveClass("characters.data." + player1DropDown.selectedLabel), []);
 
 			leftIcon.setIconCharacter(leftChar.info.iconName);
 			rightIcon.setIconCharacter(rightChar.info.iconName);
@@ -2221,20 +2221,20 @@ class ChartingState extends MusicBeatState
 		//static var gfList:Array<String> = [];
 		//static var stageList:Array<String> = [];
 
-		var characterClasses = CompileTime.getAllClasses("characters", false, characters.CharacterInfoBase);
+		var characterClasses = CompileTime.getAllClasses("characters.data", false, characters.CharacterInfoBase);
 		for(x in characterClasses){
 			var meta = Meta.getType(x);
 			if(meta.charList == null || meta.charList[0]){
-				charactersList.push(Type.getClassName(x).split("characters.")[1]);
+				charactersList.push(Type.getClassName(x).split("characters.data.")[1]);
 			}
 			if(meta.gfList != null && meta.gfList[0]){
-				gfList.push(Type.getClassName(x).split("characters.")[1]);
+				gfList.push(Type.getClassName(x).split("characters.data.")[1]);
 			}
 		}
 
-		var stageClasses = CompileTime.getAllClasses("stages", false, stages.BaseStage);
+		var stageClasses = CompileTime.getAllClasses("stages.data", false, stages.BaseStage);
 		for(x in stageClasses){
-			stageList.push(Type.getClassName(x).split("stages.")[1]);
+			stageList.push(Type.getClassName(x).split("stages.data.")[1]);
 		}
 
 		//makes them be in alphabetical order instead of reverse alphabetical order

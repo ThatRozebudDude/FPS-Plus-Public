@@ -370,8 +370,8 @@ class Character extends FlxSpriteGroup
 
 	function createCharacterFromInfo(name:String):Void{
 
-		var characterClass = Type.resolveClass("characters." + name);
-		if(characterClass == null){ characterClass = characters.Bf; }
+		var characterClass = Type.resolveClass("characters.data." + name);
+		if(characterClass == null){ characterClass = characters.data.Bf; }
 		characterInfo = Type.createInstance(characterClass, []);
 		
 		curCharacter = characterInfo.info.name;

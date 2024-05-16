@@ -1,0 +1,161 @@
+package stages.data;
+
+import flixel.math.FlxAngle;
+import flixel.FlxG;
+import flixel.group.FlxGroup;
+import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.FlxSprite;
+import flixel.math.FlxPoint;
+import flixel.FlxObject;
+import stages.elements.*;
+
+class Tank extends BaseStage
+{
+
+	//var gfCutsceneLayer:FlxGroup;
+	//var bfTankCutsceneLayer:FlxGroup;
+
+	var tankmanRun:FlxTypedGroup<TankmenBG>;
+	var tankWatchtower:BGSprite;
+	var tankGround:BGSprite;
+
+	var tankResetShit:Bool = false;
+	var tankMoving:Bool = false;
+	var tankAngle:Float = FlxG.random.int(-90, 45);
+	var tankSpeed:Float = FlxG.random.float(5, 7);
+	var tankX:Float = 400;
+
+    public override function init(){
+        name = "tank";
+		startingZoom = 0.9;
+
+		var bg:BGSprite = new BGSprite('week7/stage/tankSky', -400, -400, 0, 0);
+		addToBackground(bg);
+
+		var tankSky:BGSprite = new BGSprite('week7/stage/tankClouds', FlxG.random.int(-700, -100), FlxG.random.int(-20, 20), 0.1, 0.1);
+		tankSky.active = true;
+		tankSky.velocity.x = FlxG.random.float(5, 15);
+		addToBackground(tankSky);
+
+		var tankMountains:BGSprite = new BGSprite('week7/stage/tankMountains', -300, -20, 0.2, 0.2);
+		tankMountains.setGraphicSize(Std.int(tankMountains.width * 1.2));
+		tankMountains.updateHitbox();
+		addToBackground(tankMountains);
+
+		var tankBuildings:BGSprite = new BGSprite('week7/stage/tankBuildings', -200, 0, 0.30, 0.30);
+		tankBuildings.setGraphicSize(Std.int(tankBuildings.width * 1.1));
+		tankBuildings.updateHitbox();
+		addToBackground(tankBuildings);
+
+		var tankRuins:BGSprite = new BGSprite('week7/stage/tankRuins', -200, 0, 0.35, 0.35);
+		tankRuins.setGraphicSize(Std.int(tankRuins.width * 1.1));
+		tankRuins.updateHitbox();
+		addToBackground(tankRuins);
+
+		var smokeLeft:BGSprite = new BGSprite('week7/stage/smokeLeft', -200, -100, 0.4, 0.4, ['SmokeBlurLeft'], true);
+		addToBackground(smokeLeft);
+
+		var smokeRight:BGSprite = new BGSprite('week7/stage/smokeRight', 1100, -100, 0.4, 0.4, ['SmokeRight'], true);
+		addToBackground(smokeRight);
+
+		// tankGround.
+
+		tankWatchtower = new BGSprite('week7/stage/tankWatchtower', 100, 50, 0.5, 0.5, ['watchtower gradient color']);
+		addToBackground(tankWatchtower);
+
+		tankGround = new BGSprite('week7/stage/tankRolling', 300, 300, 0.5, 0.5, ['BG tank w lighting'], true);
+		addToBackground(tankGround);
+		// tankGround.active = false;
+
+		tankmanRun = new FlxTypedGroup<TankmenBG>();
+		addToBackground(tankmanRun);
+
+		var tankGround:BGSprite = new BGSprite('week7/stage/tankGround', -420, -150);
+		tankGround.setGraphicSize(Std.int(tankGround.width * 1.15));
+		tankGround.updateHitbox();
+		addToBackground(tankGround);
+
+		moveTank();
+
+		// smokeLeft.screenCenter();
+
+		var fgTank0:BGSprite = new BGSprite('week7/stage/tank0', -500, 650, 1.7, 1.5, ['fg']);
+		addToForeground(fgTank0);
+
+		var fgTank1:BGSprite = new BGSprite('week7/stage/tank1', -300, 750, 2, 0.2, ['fg']);
+		addToForeground(fgTank1);
+
+		// just called 'foreground' just cuz small inconsistency no bbiggei
+		var fgTank2:BGSprite = new BGSprite('week7/stage/tank2', 450, 940, 1.5, 1.5, ['foreground']);
+		addToForeground(fgTank2);
+
+		var fgTank4:BGSprite = new BGSprite('week7/stage/tank4', 1300, 900, 1.5, 1.5, ['fg']);
+		addToForeground(fgTank4);
+
+		var fgTank5:BGSprite = new BGSprite('week7/stage/tank5', 1620, 700, 1.5, 1.5, ['fg']);
+		addToForeground(fgTank5);
+
+		var fgTank3:BGSprite = new BGSprite('week7/stage/tank3', 1300, 1225, 3.5, 2.5, ['fg']);
+		addToForeground(fgTank3);
+
+		dadStart.set(196, 898);
+		bfStart.set(1015.5, 862);
+		gfStart.set(655.5, 713);
+
+		if (gf().curCharacter == 'pico-speaker'){
+			gfStart.set(909, 731);
+		}
+
+		if (boyfriend().curCharacter == 'pico-speaker'){
+			bfStart.set(1090.5, 882);
+		}
+
+
+		if(gf().curCharacter == "pico-speaker" && PlayState.SONG.song.toLowerCase() == "stress"){
+			TankmenBG.loadMappedAnims("picospeaker", "stress");
+
+			var tempTankman:TankmenBG = new TankmenBG(20, 500, true);
+			tempTankman.strumTime = 10;
+			tempTankman.resetShit(20, 900, true);
+			tankmanRun.add(tempTankman);
+
+			for (i in 0...TankmenBG.animationNotes.length)
+			{
+				if (FlxG.random.bool(16))
+				{
+					var tankman:TankmenBG = tankmanRun.recycle(TankmenBG);
+					// new TankmenBG(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
+					tankman.strumTime = TankmenBG.animationNotes[i][0];
+					tankman.resetShit(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
+					tankmanRun.add(tankman);
+				}
+			}
+		}
+
+    }
+
+	public override function update(elapsed:Float){
+		moveTank();
+	}
+
+	public override function beat(curBeat:Int){
+		for(x in foregroundElements){
+			x.dance();
+		}
+		tankMoving = true;
+	}
+
+	function moveTank():Void
+	{
+		if (tankMoving)
+		{
+			var daAngleOffset:Float = 1;
+			tankAngle += FlxG.elapsed * tankSpeed;
+			tankGround.angle = tankAngle - 90 + 15;
+
+			tankGround.x = tankX + Math.cos(FlxAngle.asRadians((tankAngle * daAngleOffset) + 180)) * 1500;
+			tankGround.y = 1300 + Math.sin(FlxAngle.asRadians((tankAngle * daAngleOffset) + 180)) * 1100;
+		}
+	}
+
+}

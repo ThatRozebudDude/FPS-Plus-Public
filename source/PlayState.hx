@@ -323,7 +323,7 @@ class PlayState extends MusicBeatState
 			stageCheck = SONG.stage;
 		}
 
-		var stageClass = Type.resolveClass("stages." + stageCheck);
+		var stageClass = Type.resolveClass("stages.data." + stageCheck);
 		if(stageClass == null){
 			stageClass = BaseStage;
 		}
