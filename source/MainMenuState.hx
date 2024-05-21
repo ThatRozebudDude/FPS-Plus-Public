@@ -1,8 +1,12 @@
 package;
 
+import flixel.util.FlxTimer;
+import flixel.system.debug.console.ConsoleUtil;
+import flixel.math.FlxPoint;
 import config.*;
-
+import transition.data.*;
 import title.TitleScreen;
+import freeplay.NewFreeplayState;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -20,17 +24,23 @@ using StringTools;
 class MainMenuState extends MusicBeatState
 {
 	
-	var curSelected:Int = 0;
+	static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	
-	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate', "options"];
+	public static var optionShit:Array<String> = ['story mode', 'freeplay', 'donate', "options"];
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
+	var camTarget:FlxPoint = new FlxPoint();
+	var instantCamFollow:Bool = false;
 
 	var versionText:FlxTextExt;
 	var keyWarning:FlxTextExt;
+	var canCancelWarning:Bool = true;
+
+	public static final lerpSpeed:Float = 0.01;
+	final warningDelay:Float = 10;
 
 	override function create()
 	{
@@ -87,7 +97,7 @@ class MainMenuState extends MusicBeatState
 			menuItem.antialiasing = true;
 		}
 
-		FlxG.camera.follow(camFollow, null, 0.004);
+		FlxG.camera.follow(camFollow);
 
 		versionText = new FlxTextExt(5, FlxG.height - 21, 0, "FPS Plus: v4.1.0", 16);
 		versionText.scrollFactor.set();
@@ -100,10 +110,16 @@ class MainMenuState extends MusicBeatState
 		keyWarning.alpha = 0;
 		add(keyWarning);
 
-		FlxTween.tween(versionText, {y: versionText.y - 16}, 0.75, {ease: FlxEase.quintOut, startDelay: 10});
-		FlxTween.tween(keyWarning, {alpha: 1, y: keyWarning.y - 16}, 0.75, {ease: FlxEase.quintOut, startDelay: 10});
+		FlxTween.tween(versionText, {y: versionText.y - 16}, 0.75, {ease: FlxEase.quintOut, startDelay: warningDelay});
+		FlxTween.tween(keyWarning, {alpha: 1, y: keyWarning.y - 16}, 0.75, {ease: FlxEase.quintOut, startDelay: warningDelay});
+
+		new FlxTimer().start(warningDelay, function(t){
+			canCancelWarning = false;
+		});
 
 		// NG.core.calls.event.logEvent('swag').send();
+
+		instantCamFollow = true;
 
 		changeItem();
 		
@@ -115,53 +131,55 @@ class MainMenuState extends MusicBeatState
 
 	var selectedSomethin:Bool = false;
 
-	override function update(elapsed:Float)
-	{
-	
-		if (FlxG.sound.music.volume < 0.8)
-		{
-			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
-		}
+	override function update(elapsed:Float){
 
-		if (!selectedSomethin)
-		{
-			if (Binds.justPressed("menuUp"))
-			{
+		if(canCancelWarning && (Binds.justPressed("menuUp") || Binds.justPressed("menuDown")) || Binds.justPressed("menuAccept")){
+			canCancelWarning = false;
+			FlxTween.cancelTweensOf(versionText);
+			FlxTween.cancelTweensOf(keyWarning);
+		}
+	
+		if (!selectedSomethin){
+			if (Binds.justPressed("menuUp")){
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(-1);
 			}
-
-			if (Binds.justPressed("menuDown"))
-			{
+			else if (Binds.justPressed("menuDown")){
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(1);
 			}
 
-			if (FlxG.keys.justPressed.BACKSPACE && FlxG.keys.pressed.CONTROL)
-			{
+			if (FlxG.keys.justPressed.BACKSPACE && FlxG.keys.pressed.CONTROL){
 				Binds.resetToDefaultControls();
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 			}
-
-			if (Binds.justPressed("menuBack") && !FlxG.keys.pressed.CONTROL)
-			{
+			else if (Binds.justPressed("menuBack") && !FlxG.keys.pressed.CONTROL){
 				switchState(new TitleScreen());
 			}
 
-			if (Binds.justPressed("menuAccept"))
-			{
+			if (Binds.justPressed("menuAccept")){
 			
-				if (optionShit[curSelected] == 'donate')
-				{
+				if (optionShit[curSelected] == 'donate'){
 					#if linux
 					Sys.command('/usr/bin/xdg-open', ["https://ninja-muffin24.itch.io/funkin", "&"]);
 					#else
 					FlxG.openURL('https://ninja-muffin24.itch.io/funkin');
 					#end
 				}
+
+				else if(optionShit[curSelected] == 'freeplay' && FlxG.keys.anyPressed([TAB])){
+					selectedSomethin = true;
+					var ctrl = FlxG.keys.anyPressed([CONTROL]);
+					if(!ctrl){
+						customTransOut = new InstantTransition();
+					}
+					else{
+						customTransOut = new StickerOut();
+					}
+					switchState(new NewFreeplayState(!ctrl, camFollow.getPosition()));
+				}
 				
-				else
-				{
+				else{
 					selectedSomethin = true;
 					FlxG.sound.play(Paths.sound('confirmMenu'));
 					
@@ -183,24 +201,17 @@ class MainMenuState extends MusicBeatState
 
 					FlxFlicker.flicker(magenta, 1.1, 0.15, false);
 
-					menuItems.forEach(function(spr:FlxSprite)
-					{
-						if (curSelected != spr.ID)
-						{
+					menuItems.forEach(function(spr:FlxSprite){
+						if (curSelected != spr.ID){
 							FlxTween.tween(spr, {alpha: 0}, 0.4, {
 								ease: FlxEase.quadOut,
-								onComplete: function(twn:FlxTween)
-								{
+								onComplete: function(twn:FlxTween){
 									spr.kill();
 								}
 							});
 						}
-						else
-						{
-							FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
-							{
-								//var daChoice:String = optionShit[curSelected];
-
+						else{
+							FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker){
 								spr.visible = true;
 
 								switch (daChoice)
@@ -224,6 +235,16 @@ class MainMenuState extends MusicBeatState
 			}
 		}
 
+		if(!instantCamFollow){
+			camFollow.x = Utils.fpsAdjsutedLerp(camFollow.x, camTarget.x, lerpSpeed);
+			camFollow.y = Utils.fpsAdjsutedLerp(camFollow.y, camTarget.y, lerpSpeed);
+		}
+		else{
+			camFollow.x = camTarget.x;
+			camFollow.y = camTarget.y;
+			instantCamFollow = false;
+		}
+
 		super.update(elapsed);
 
 		menuItems.forEach(function(spr:FlxSprite)
@@ -232,23 +253,22 @@ class MainMenuState extends MusicBeatState
 		});
 	}
 
-	function changeItem(huh:Int = 0)
-	{
+	function changeItem(huh:Int = 0){
 		curSelected += huh;
 
-		if (curSelected >= menuItems.length)
+		if (curSelected >= menuItems.length){
 			curSelected = 0;
- 		if (curSelected < 0)
+		}
+ 		if (curSelected < 0){
 			curSelected = menuItems.length - 1;
+		}
 
-		menuItems.forEach(function(spr:FlxSprite)
-		{
+		menuItems.forEach(function(spr:FlxSprite){
 			spr.animation.play('idle');
 
-			if (spr.ID == curSelected)
-			{
+			if (spr.ID == curSelected){
 				spr.animation.play('selected');
-				camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
+				camTarget.set(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
 			}
 
 			spr.updateHitbox();

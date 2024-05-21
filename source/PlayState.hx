@@ -734,7 +734,9 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		var bgDim = new FlxSprite(1280 / -2, 720 / -2).makeGraphic(1280*2, 720*2, FlxColor.BLACK);
+		var bgDim = new FlxSprite(1280 / -2, 720 / -2).makeGraphic(1, 1, FlxColor.BLACK);
+		bgDim.scale.set(1280*2, 720*2);
+		bgDim.updateHitbox();
 		bgDim.cameras = [camOverlay];
 		bgDim.alpha = Config.bgDim/10;
 		add(bgDim);

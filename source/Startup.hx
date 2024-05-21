@@ -59,7 +59,8 @@ class Startup extends FlxState
                                     "week4/Mom_Assets", "week4/momCar",
                                     "week5/mom_dad_christmas_assets", "week5/monsterChristmas",
                                     "week6/senpai", "week6/spirit",
-                                    "week7/tankmanCaptain"];
+                                    "week7/tankmanCaptain",
+                                    "menu/freeplay/dj/bf"]; //not a character but idc!!!
 
     var graphicsCached:Bool;
     var startCachingGraphics:Bool = false;

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="Boyfriend_Freeplay_assets ADJUST.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="Boyfriend DJ0000" x="2" y="2" width="394" height="439" frameX="0" frameY="-19" frameWidth="394" frameHeight="458"/>
+	<SubTexture name="Boyfriend DJ0001" x="2" y="2" width="394" height="439" frameX="0" frameY="-19" frameWidth="394" frameHeight="458"/>
+	<SubTexture name="Boyfriend DJ0002" x="398" y="2" width="394" height="432" frameX="0" frameY="-26" frameWidth="394" frameHeight="458"/>
+	<SubTexture name="Boyfriend DJ0003" x="398" y="2" width="394" height="432" frameX="0" frameY="-26" frameWidth="394" frameHeight="458"/>
+	<SubTexture name="Boyfriend DJ0004" x="794" y="2" width="394" height="458"/>
+	<SubTexture name="Boyfriend DJ0005" x="794" y="2" width="394" height="458"/>
+	<SubTexture name="Boyfriend DJ0006" x="1190" y="2" width="394" height="456" frameX="0" frameY="-2" frameWidth="394" frameHeight="458"/>
+	<SubTexture name="Boyfriend DJ0007" x="1190" y="2" width="394" height="456" frameX="0" frameY="-2" frameWidth="394" frameHeight="458"/>
+	<SubTexture name="Boyfriend DJ0008" x="1586" y="2" width="394" height="452" frameX="0" frameY="-6" frameWidth="394" frameHeight="458"/>
+	<SubTexture name="Boyfriend DJ0009" x="1586" y="2" width="394" height="452" frameX="0" frameY="-6" frameWidth="394" frameHeight="458"/>
+	<SubTexture name="Boyfriend DJ0010" x="1982" y="2" width="394" height="451" frameX="0" frameY="-7" frameWidth="394" frameHeight="458"/>
+	<SubTexture name="Boyfriend DJ0011" x="1982" y="2" width="394" height="451" frameX="0" frameY="-7" frameWidth="394" frameHeight="458"/>
+	<SubTexture name="Boyfriend DJ0012" x="2378" y="2" width="394" height="451" frameX="0" frameY="-7" frameWidth="394" frameHeight="458"/>
+	<SubTexture name="Boyfriend DJ0013" x="2378" y="2" width="394" height="451" frameX="0" frameY="-7" frameWidth="394" frameHeight="458"/>
+	<SubTexture name="Boyfriend DJ confirm0000" x="2774" y="2" width="429" height="418" frameX="-5" frameY="-16" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0001" x="3205" y="2" width="429" height="418" frameX="-5" frameY="-16" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0002" x="3636" y="2" width="433" height="418" frameX="-4" frameY="-16" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0003" x="3636" y="2" width="433" height="418" frameX="-4" frameY="-16" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0004" x="3636" y="2" width="433" height="418" frameX="-4" frameY="-16" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0005" x="2" y="462" width="437" height="418" frameX="0" frameY="-16" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0006" x="441" y="462" width="437" height="418" frameX="0" frameY="-16" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0007" x="880" y="462" width="394" height="413" frameX="-43" frameY="-21" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0008" x="1276" y="462" width="394" height="434" frameX="-43" frameY="0" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0009" x="1672" y="462" width="394" height="434" frameX="-43" frameY="0" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0010" x="2068" y="462" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0011" x="2464" y="462" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0012" x="2860" y="462" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0013" x="2860" y="462" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0014" x="3256" y="462" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0015" x="3256" y="462" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0016" x="3256" y="462" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0017" x="3256" y="462" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0018" x="3652" y="462" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0019" x="3652" y="462" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0020" x="2860" y="462" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0021" x="2860" y="462" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0022" x="2860" y="462" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0023" x="2860" y="462" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0024" x="2" y="898" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0025" x="2" y="898" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0026" x="398" y="898" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0027" x="398" y="898" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0028" x="2860" y="462" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="Boyfriend DJ confirm0029" x="2860" y="462" width="394" height="429" frameX="-43" frameY="-5" frameWidth="437" frameHeight="434"/>
+	<SubTexture name="boyfriend dj intro0000" x="794" y="898" width="394" height="225" frameX="-5" frameY="-784" frameWidth="405" frameHeight="1009"/>
+	<SubTexture name="boyfriend dj intro0001" x="1190" y="898" width="394" height="225" frameX="-5" frameY="-704" frameWidth="405" frameHeight="1009"/>
+	<SubTexture name="boyfriend dj intro0002" x="1586" y="898" width="394" height="226" frameX="-5" frameY="-662" frameWidth="405" frameHeight="1009"/>
+	<SubTexture name="boyfriend dj intro0003" x="1982" y="898" width="394" height="888" frameX="-5" frameY="0" frameWidth="405" frameHeight="1009"/>
+	<SubTexture name="boyfriend dj intro0004" x="2378" y="898" width="394" height="884" frameX="-5" frameY="0" frameWidth="405" frameHeight="1009"/>
+	<SubTexture name="boyfriend dj intro0005" x="2774" y="898" width="394" height="642" frameX="-5" frameY="-242" frameWidth="405" frameHeight="1009"/>
+	<SubTexture name="boyfriend dj intro0006" x="3170" y="898" width="405" height="346" frameX="0" frameY="-540" frameWidth="405" frameHeight="1009"/>
+	<SubTexture name="boyfriend dj intro0007" x="3577" y="898" width="405" height="346" frameX="0" frameY="-540" frameWidth="405" frameHeight="1009"/>
+	<SubTexture name="boyfriend dj intro0008" x="2" y="1788" width="394" height="399" frameX="-5" frameY="-485" frameWidth="405" frameHeight="1009"/>
+	<SubTexture name="boyfriend dj intro0009" x="398" y="1788" width="394" height="399" frameX="-5" frameY="-485" frameWidth="405" frameHeight="1009"/>
+	<SubTexture name="boyfriend dj intro0010" x="794" y="1788" width="394" height="419" frameX="-5" frameY="-465" frameWidth="405" frameHeight="1009"/>
+	<SubTexture name="boyfriend dj intro0011" x="1190" y="1788" width="394" height="419" frameX="-5" frameY="-465" frameWidth="405" frameHeight="1009"/>
+	<SubTexture name="boyfriend dj intro0012" x="1586" y="1788" width="394" height="457" frameX="-5" frameY="-427" frameWidth="405" frameHeight="1009"/>
+	<SubTexture name="boyfriend dj intro0013" x="1982" y="1788" width="394" height="457" frameX="-5" frameY="-427" frameWidth="405" frameHeight="1009"/>
+	<SubTexture name="boyfriend dj intro0014" x="2378" y="1788" width="394" height="456" frameX="-5" frameY="-428" frameWidth="405" frameHeight="1009"/>
+	<SubTexture name="boyfriend dj intro0015" x="2774" y="1788" width="394" height="456" frameX="-5" frameY="-428" frameWidth="405" frameHeight="1009"/>
+	<SubTexture name="boyfriend dj intro0016" x="2774" y="1788" width="394" height="456" frameX="-5" frameY="-428" frameWidth="405" frameHeight="1009"/>
+</TextureAtlas>
