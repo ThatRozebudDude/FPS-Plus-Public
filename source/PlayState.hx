@@ -1715,7 +1715,7 @@ class PlayState extends MusicBeatState
 			daNote.x = targetX + daNote.xOffset;
 
 			if(daNote.tooLate){
-				if (!daNote.didTooLateAction){
+				if (!daNote.didTooLateAction && !daNote.type.endsWith("-fake")){
 					noteMiss(daNote.noteData, NOTE_MISS_DAMAGE, true, true);
 					vocals.volume = 0;
 					daNote.didTooLateAction = true;
@@ -2103,8 +2103,8 @@ class PlayState extends MusicBeatState
 				if(daNote.prevNote.tooLate && !daNote.prevNote.wasGoodHit){
 					daNote.tooLate = true;
 					daNote.destroy();
-					updateAccuracy();
 					noteMiss(daNote.noteData, HOLD_RELEASE_STEP_DAMAGE * (daNote.type.endsWith("-fake") ? 0 : 1), false, true, false, false);
+					updateAccuracy();
 				}
 
 				//This is for the first released note.
@@ -2348,21 +2348,21 @@ class PlayState extends MusicBeatState
 			updateAccuracy();
 		}
 
-		else if (!note.wasGoodHit)
-		{
-			if (!note.isSustainNote){
-				popUpScore(note);
-				combo += 1;
-			}
-			else{
-				totalNotesHit += 1;
+		else if (!note.wasGoodHit){
+
+			if(note.type.endsWith("-fake")){
+				note.wasGoodHit = true;
+				return;
 			}
 
 			if (!note.isSustainNote){
+				popUpScore(note);
+				combo += 1;
 				health += NOTE_HIT_HEAL * Config.healthMultiplier;
 			}
-			else if(!note.type.endsWith("-fake")){
+			else{
 				health += HOLD_HIT_HEAL * Config.healthMultiplier;
+				totalNotesHit += 1;
 			}
 				
 			if(boyfriend.canAutoAnim && (Character.LOOP_ANIM_ON_HOLD ? (note.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!boyfriend.curAnim.contains("sing") || (boyfriend.curAnimFrame() >= 3 || boyfriend.curAnimFinished())) : true) : true) : !note.isSustainNote)){

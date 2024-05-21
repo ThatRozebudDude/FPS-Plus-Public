@@ -1,5 +1,9 @@
 package freeplay;
 
+import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+import flixel.addons.display.FlxBackdrop;
+import freeplay.ScrollingText.ScrollingTextInfo;
+import flixel.util.FlxTimer;
 import flixel.FlxCamera;
 import flixel.math.FlxPoint;
 import config.*;
@@ -23,9 +27,14 @@ class NewFreeplayState extends MusicBeatState
 {
 
 	var bg:FlxSprite;
+	var flash:FlxSprite;
 	var cover:FlxSprite;
 	var topBar:FlxSprite;
-	
+	var freeplayText:FlxText;
+	var highscoreSprite:FlxSprite;
+	var clearPercentSprite:FlxSprite;
+	var scrollingText:FlxTypedSpriteGroup<FlxBackdrop> = new FlxTypedSpriteGroup<FlxBackdrop>();
+
 	var dj:FlxSprite;
 
 	var transitionOver:Bool = false;
@@ -41,11 +50,13 @@ class NewFreeplayState extends MusicBeatState
 	private var camMenu:FlxCamera;
 	private var camFreeplay:FlxCamera;
 
+	var scrollingTextStuff:Array<ScrollingTextInfo> = [];
+
 	static final freeplaySong:String = "freeplayRandom"; 
 	static final freeplaySongBpm:Float = 145; 
 	static final freeplaySongVolume:Float = 0.9; 
 
-	override public function new(?_transitionFromMenu:Bool = false, camFollowPos:FlxPoint) {
+	public function new(?_transitionFromMenu:Bool = false, camFollowPos:FlxPoint) {
 		super();
 		transitionFromMenu = _transitionFromMenu;
 		if(camFollowPos == null){
@@ -85,6 +96,8 @@ class NewFreeplayState extends MusicBeatState
 		}
 
 		fakeMainMenuSetup();
+
+		setUpScrollingText();
 
 		super.create();
 	}
@@ -129,15 +142,39 @@ class NewFreeplayState extends MusicBeatState
 		
 		bg = new FlxSprite().loadGraphic(Paths.image('menu/freeplay/bg'));
 
+		addScrollingText();
+		scrollingText.visible = false;
+
+		flash = new FlxSprite().makeGraphic(1, 1, 0xFFFFFFFF);
+		flash.scale.set(1280, 720);
+		flash.updateHitbox();
+		flash.alpha = 0;
+		flash.visible = false;
+
 		cover = new FlxSprite().loadGraphic(Paths.image('menu/freeplay/sideCover'));
 
 		topBar = new FlxSprite().makeGraphic(1, 1, 0xFF000000);
 		topBar.scale.set(1280, 64);
 		topBar.updateHitbox();
 
+		freeplayText = new FlxText(16, 16, 0, "FREEPLAY", 32);
+		freeplayText.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE);
+
+		highscoreSprite = new FlxSprite(860, 70);
+		highscoreSprite.frames = Paths.getSparrowAtlas("menu/freeplay/highscore");
+		highscoreSprite.animation.addByPrefix("loop", "", 24, true);
+		highscoreSprite.animation.play("loop");
+
+		clearPercentSprite = new FlxSprite(1165, 65).loadGraphic(Paths.image('menu/freeplay/clearBox'));
+
 		add(bg);
+		add(scrollingText);
+		add(flash);
 		add(cover);
 		add(topBar);
+		add(freeplayText);
+		add(highscoreSprite);
+		add(clearPercentSprite);
 
 		dj = new FlxSprite(-10, 296);
 		dj.cameras = [camFreeplay];
@@ -165,8 +202,7 @@ class NewFreeplayState extends MusicBeatState
 					dj.animation.play("idle", true, false, dj.animation.curAnim.numFrames - 4);
 				case "intro":
 					if(transitionFromMenu && !transitionOver){
-						transitionOver = true;
-						startFreeplaySong();
+						djIntroFinish();
 						dj.animation.play("idle", true);
 					}
 			}
@@ -184,22 +220,27 @@ class NewFreeplayState extends MusicBeatState
 
 		if(transitionFromMenu){
 			var transitionTime:Float = 1;
+			var staggerTime:Float = 0.1;
 			var transitionEase:flixel.tweens.EaseFunction = FlxEase.quintOut;
 			
 			bg.x -= 1280;
+			flash.visible = true;
 			cover.x += 1280;
 			topBar.y -= 720;
+			freeplayText.y -= 720;
+			highscoreSprite.x += 1280;
+			clearPercentSprite.x += 1280;
 
-			FlxTween.tween(bg, {x: 0}, transitionTime, {ease: transitionEase, onComplete: function(t) {
-				
-			}});
+			FlxTween.tween(bg, {x: 0}, transitionTime, {ease: transitionEase});
 			FlxTween.tween(cover, {x: 0}, transitionTime, {ease: transitionEase});
 			FlxTween.tween(topBar, {y: 0}, transitionTime, {ease: transitionEase});
+			FlxTween.tween(freeplayText, {y: 16}, transitionTime, {ease: transitionEase});
+			FlxTween.tween(highscoreSprite, {x: highscoreSprite.x-1280}, transitionTime, {ease: transitionEase, startDelay: staggerTime});
+			FlxTween.tween(clearPercentSprite, {x: clearPercentSprite.x-1280}, transitionTime, {ease: transitionEase, startDelay: staggerTime*2});
 
 		}
 		else{
-			transitionOver = true;
-			startFreeplaySong();
+			djIntroFinish();
 		}
 
 	}
@@ -261,6 +302,15 @@ class NewFreeplayState extends MusicBeatState
 			spr.screenCenter(X);
 		});
 	}
+
+	function djIntroFinish():Void{
+		transitionOver = true;
+		startFreeplaySong();
+
+		flash.alpha = 1;
+		scrollingText.visible = true;
+		FlxTween.tween(flash, {alpha: 0}, 1, {startDelay: 0.1});
+	}
 	
 	function startFreeplaySong():Void{
 		FlxG.sound.playMusic(Paths.music(freeplaySong), freeplaySongVolume);
@@ -272,5 +322,75 @@ class NewFreeplayState extends MusicBeatState
 		totalSteps = 0;
 		curStep = 0;
 		curBeat = 0;
+	}
+
+	function setUpScrollingText():Void{
+		scrollingTextStuff.push({
+			text: "HOT BLOODED IN MORE WAYS THAN ONE ",
+			font: Paths.font("5by7"),
+			size: 43,
+			color: 0xFFFFF383,
+			position: new FlxPoint(0, 160),
+			velocity: 6.8
+		});
+
+		scrollingTextStuff.push({
+			text: "BOYFRIEND ",
+			font: Paths.font("5by7"),
+			size: 60,
+			color: 0xFFFF9963,
+			position: new FlxPoint(0, 220),
+			velocity: -3.8
+		});
+
+		scrollingTextStuff.push({
+			text: "PROTECT YO NUTS ",
+			font: Paths.font("5by7"),
+			size: 43,
+			color: 0xFFFFFFFF,
+			position: new FlxPoint(0, 285),
+			velocity: 3.5
+		});
+
+		scrollingTextStuff.push({
+			text: "BOYFRIEND ",
+			font: Paths.font("5by7"),
+			size: 60,
+			color: 0xFFFF9963,
+			position: new FlxPoint(0, 335),
+			velocity: -3.8
+		});
+
+		scrollingTextStuff.push({
+			text: "HOT BLOODED IN MORE WAYS THAN ONE ",
+			font: Paths.font("5by7"),
+			size: 43,
+			color: 0xFFFFF383,
+			position: new FlxPoint(0, 397),
+			velocity: 6.8
+		});
+
+		scrollingTextStuff.push({
+			text: "BOYFRIEND ",
+			font: Paths.font("5by7"),
+			size: 60,
+			color: 0xFFFEA400,
+			position: new FlxPoint(0, 455),
+			velocity: -3.8
+		});
+	}
+
+	function addScrollingText():Void{
+
+		for(x in scrollingTextStuff){
+			var tempText = new FlxText(0, 0, 0, x.text);
+			tempText.setFormat(x.font, x.size, x.color);
+
+			var scrolling:FlxBackdrop = ScrollingText.createScrollingText(x.position.x, x.position.y, tempText);
+			scrolling.velocity.x = x.velocity * 60;
+			
+			scrollingText.add(scrolling);
+		}
+		
 	}
 }
