@@ -33,6 +33,15 @@ class NewFreeplayState extends MusicBeatState
 	var freeplayText:FlxText;
 	var highscoreSprite:FlxSprite;
 	var clearPercentSprite:FlxSprite;
+	var scoreDisplay:DigitDisplay;
+	var percentDisplay:DigitDisplay;
+	var albumTitle:FlxSprite;
+
+	var album:FlxSprite;
+	var albumDummy:FlxObject;
+	var albumTime:Float = 0;
+	final ablumPeriod:Float = 1/24;
+
 	var scrollingText:FlxTypedSpriteGroup<FlxBackdrop> = new FlxTypedSpriteGroup<FlxBackdrop>();
 
 	var dj:FlxSprite;
@@ -115,6 +124,41 @@ class NewFreeplayState extends MusicBeatState
 			Conductor.songPosition = FlxG.sound.music.time;
 		}
 
+		albumTime += elapsed;
+		if(albumTime >= ablumPeriod){
+			albumTime = 0;
+			album.setPosition(albumDummy.x, albumDummy.y);
+			album.angle = albumDummy.angle;
+		}
+
+		/*if(FlxG.keys.anyJustPressed([UP])){
+			percentDisplay.y -= 1;
+		}
+		else if(FlxG.keys.anyJustPressed([DOWN])){
+			percentDisplay.y += 1;
+		}
+		else if(FlxG.keys.anyJustPressed([LEFT])){
+			percentDisplay.x -= 1;
+		}
+		else if(FlxG.keys.anyJustPressed([RIGHT])){
+			percentDisplay.x += 1;
+		}
+
+		trace(percentDisplay.getPosition());*/
+
+		if(FlxG.keys.anyJustPressed([SPACE])){
+			scoreDisplay.tweenNumber(FlxG.random.int(0, 9999999), 1);
+			percentDisplay.tweenNumber(FlxG.random.int(0, 100), 1);
+		}
+		else if(FlxG.keys.anyJustPressed([Q])){
+			scoreDisplay.tweenNumber(0, 1);
+			percentDisplay.tweenNumber(0, 1);
+		}
+		else if(FlxG.keys.anyJustPressed([E])){
+			scoreDisplay.tweenNumber(9999999, 1);
+			percentDisplay.tweenNumber(100, 1);
+		}
+
 		if(Binds.justPressed("menuBack")){
 			switchState(new MainMenuState());
 		}
@@ -167,6 +211,23 @@ class NewFreeplayState extends MusicBeatState
 
 		clearPercentSprite = new FlxSprite(1165, 65).loadGraphic(Paths.image('menu/freeplay/clearBox'));
 
+		scoreDisplay = new DigitDisplay(915, 120, "digital_numbers", 7, 0.4, -25);
+		scoreDisplay.setDigitOffset(1, 20);
+		scoreDisplay.tweenNumber(1234567, 1);
+
+		percentDisplay = new DigitDisplay(1154, 87, "menu/freeplay/clearText", 3, 1, 3, 0, true);
+		percentDisplay.setDigitOffset(1, -8);
+		percentDisplay.tweenNumber(100, 1);
+
+		albumDummy = new FlxObject(950, 285, 1, 1);
+		albumDummy.angle = 10;
+		album = new FlxSprite(albumDummy.x, albumDummy.y).loadGraphic(Paths.image("menu/freeplay/album/vol1/album"));
+		album.antialiasing = true;
+		album.angle = albumDummy.angle;
+		
+		albumTitle = new FlxSprite(album.x - 5, album.y + 205).loadGraphic(Paths.image("menu/freeplay/album/vol1/title"));
+		albumTitle.antialiasing = true;
+
 		add(bg);
 		add(scrollingText);
 		add(flash);
@@ -175,6 +236,10 @@ class NewFreeplayState extends MusicBeatState
 		add(freeplayText);
 		add(highscoreSprite);
 		add(clearPercentSprite);
+		add(scoreDisplay);
+		add(percentDisplay);
+		add(album);
+		add(albumTitle);
 
 		dj = new FlxSprite(-10, 296);
 		dj.cameras = [camFreeplay];
@@ -220,7 +285,8 @@ class NewFreeplayState extends MusicBeatState
 
 		if(transitionFromMenu){
 			var transitionTime:Float = 1;
-			var staggerTime:Float = 0.1;
+			var staggerTime:Float = 0.07;
+			var randomVariation:Float = 0.1;
 			var transitionEase:flixel.tweens.EaseFunction = FlxEase.quintOut;
 			
 			bg.x -= 1280;
@@ -230,13 +296,26 @@ class NewFreeplayState extends MusicBeatState
 			freeplayText.y -= 720;
 			highscoreSprite.x += 1280;
 			clearPercentSprite.x += 1280;
+			scoreDisplay.x += 1280;
+			percentDisplay.x += 1280;
+			albumTitle.x += 1280;
 
-			FlxTween.tween(bg, {x: 0}, transitionTime, {ease: transitionEase});
-			FlxTween.tween(cover, {x: 0}, transitionTime, {ease: transitionEase});
-			FlxTween.tween(topBar, {y: 0}, transitionTime, {ease: transitionEase});
-			FlxTween.tween(freeplayText, {y: 16}, transitionTime, {ease: transitionEase});
-			FlxTween.tween(highscoreSprite, {x: highscoreSprite.x-1280}, transitionTime, {ease: transitionEase, startDelay: staggerTime});
-			FlxTween.tween(clearPercentSprite, {x: clearPercentSprite.x-1280}, transitionTime, {ease: transitionEase, startDelay: staggerTime*2});
+			var albumPos = albumDummy.x;
+			albumDummy.x = 1280;
+			albumDummy.angle = 70;
+			album.x = albumDummy.x;
+			album.angle = albumDummy.angle;
+
+			FlxTween.tween(bg, {x: 0}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase});
+			FlxTween.tween(cover, {x: 0}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase});
+			FlxTween.tween(topBar, {y: 0}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase});
+			FlxTween.tween(freeplayText, {y: 16}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase});
+			FlxTween.tween(highscoreSprite, {x: highscoreSprite.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
+			FlxTween.tween(clearPercentSprite, {x: clearPercentSprite.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
+			FlxTween.tween(scoreDisplay, {x: scoreDisplay.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*3});
+			FlxTween.tween(percentDisplay, {x: percentDisplay.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
+			FlxTween.tween(albumDummy, {x: albumPos, angle: 10}, transitionTime/1.1 + FlxG.random.float(-randomVariation, randomVariation), {ease: albumElasticOut});
+			FlxTween.tween(albumTitle, {x: albumTitle.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase});
 
 		}
 		else{
@@ -392,5 +471,11 @@ class NewFreeplayState extends MusicBeatState
 			scrollingText.add(scrolling);
 		}
 		
+	}
+
+	static inline function albumElasticOut(t:Float):Float{
+		var ELASTIC_AMPLITUDE:Float = 1;
+		var ELASTIC_PERIOD:Float = 0.6;
+		return (ELASTIC_AMPLITUDE * Math.pow(2, -10 * t) * Math.sin((t - (ELASTIC_PERIOD / (2 * Math.PI) * Math.asin(1 / ELASTIC_AMPLITUDE))) * (2 * Math.PI) / ELASTIC_PERIOD) + 1);
 	}
 }

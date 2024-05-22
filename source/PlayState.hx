@@ -1841,15 +1841,17 @@ class PlayState extends MusicBeatState
 					case 1:
 						stickerSets = ["bf", "gf", "dad"];
 					case 2:
-						stickerSets = ["bf", "gf", "monster"];
+						stickerSets = ["bf", "gf", "skid", "pump", "monster"];
 					case 3:
 						stickerSets = ["bf", "gf", "pico"];
 					case 4:
 						stickerSets = ["bf", "gf", "mom"];
 					case 5:
 						stickerSets = ["bf", "gf", "dad", "mom", "monster"];
+					case 6:
+						stickerSets = ["bf", "gf", "spirit", "senpai"];
 					case 7:
-						stickerSets = ["bf", "gf", "pico"];
+						stickerSets = ["bf", "gf", "pico", "tankman"];
 				}
 
 				customTransOut = new StickerOut(stickerSets);
@@ -2352,6 +2354,13 @@ class PlayState extends MusicBeatState
 
 			if(note.type.endsWith("-fake")){
 				note.wasGoodHit = true;
+				if(note.prevNote == null || !note.prevNote.isSustainNote){
+					playerCovers.forEach(function(cover:NoteHoldCover) {
+						if (Math.abs(note.noteData) == cover.noteDirection) {
+							cover.start();
+						}
+					});
+				}
 				return;
 			}
 
