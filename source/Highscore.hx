@@ -83,7 +83,7 @@ class Highscore
 	public static function load():Void{
 		SaveManager.scores();
 
-		if(FlxG.save.data.scoreFormatVersion == null || cast (FlxG.save.data.scoreFormatVersio, String).split(".")[0] != scoreFormatVersion.split(".")[0] || forceResetScores){
+		if(FlxG.save.data.scoreFormatVersion == null || cast (FlxG.save.data.scoreFormatVersion, String).split(".")[0] != scoreFormatVersion.split(".")[0] || forceResetScores){
 			FlxG.save.data.songScores = songScores;
 		}
 		else{

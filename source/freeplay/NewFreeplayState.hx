@@ -1,5 +1,6 @@
 package freeplay;
 
+import Highscore.SongStats;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.addons.display.FlxBackdrop;
 import freeplay.ScrollingText.ScrollingTextInfo;
@@ -43,11 +44,17 @@ class NewFreeplayState extends MusicBeatState
 	var album:FlxSprite;
 	var albumDummy:FlxObject;
 	var albumTime:Float = 0;
+	var curAlbum:String = "vol1";
 	final ablumPeriod:Float = 1/24;
+
+	var capsules:Array<Capsule> = [];
 
 	var scrollingText:FlxTypedSpriteGroup<FlxBackdrop> = new FlxTypedSpriteGroup<FlxBackdrop>();
 
 	var dj:FlxSprite;
+
+	var curSelected:Int = 0;
+	var curDifficulty:Int = 1;
 
 	var transitionOver:Bool = false;
 	var waitForFirstUpdateToStart:Bool = true;
@@ -111,6 +118,36 @@ class NewFreeplayState extends MusicBeatState
 
 		setUpScrollingText();
 
+		addSong("Tutorial", "Tutorial", "gf", 0);
+
+		addSong("Bopeebo", "Bopeebo", "dad", 1);
+		addSong("Fresh", "Fresh", "dad", 1);
+		addSong("Dadbattle", "Dad Battle", "dad", 1);
+
+		addSong("Spookeez", "Spookeez", "spooky", 2);
+		addSong("South", "South", "spooky", 2);
+		addSong("Monster", "Monster", "monster", 2);
+
+		addSong("Pico", "Pico", "pico", 3);
+		addSong("Philly", "Philly Nice", "pico", 3);
+		addSong("Blammed", "Blammed", "pico", 3);
+
+		addSong("Satin-Panties", "Satin Panties", "mom", 4);
+		addSong("High", "High", "mom", 4);
+		addSong("Milf", "M.I.L.F.", "mom", 4);
+
+		addSong("Cocoa", "Cocoa", "parents-christmas", 5);
+		addSong("Eggnog", "Eggnog", "parents-christmas", 5);
+		addSong("Winter-Horrorland", "Winter Horrorland", "monster", 5);
+
+		addSong("Senpai", "Senpai", "senpai", 6, "vol2");
+		addSong("Roses", "Roses", "senpai", 6, "vol2");
+		addSong("Thorns", "Thorns", "spirit", 6, "vol2");
+
+		addSong("Ugh", "Ugh", "tankman", 7, "vol2");
+		addSong("Guns", "Guns", "tankman", 7, "vol2");
+		addSong("Stress", "Stress", "tankman", 7, "vol2");
+
 		super.create();
 	}
 
@@ -134,50 +171,38 @@ class NewFreeplayState extends MusicBeatState
 			album.angle = albumDummy.angle;
 		}
 
-		/*if(FlxG.keys.anyJustPressed([UP])){
-			percentDisplay.y -= 1;
-		}
-		else if(FlxG.keys.anyJustPressed([DOWN])){
-			percentDisplay.y += 1;
-		}
-		else if(FlxG.keys.anyJustPressed([LEFT])){
-			percentDisplay.x -= 1;
-		}
-		else if(FlxG.keys.anyJustPressed([RIGHT])){
-			percentDisplay.x += 1;
-		}
+		if(transitionOver){
+			if(Binds.justPressed("menuUp")){
+				changeSelected(-1);
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+			}
+			else if(Binds.justPressed("menuDown")){
+				changeSelected(1);
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+			}
 
-		trace(percentDisplay.getPosition());*/
-
-		if(FlxG.keys.anyJustPressed([SPACE])){
-			scoreDisplay.tweenNumber(FlxG.random.int(0, 9999999), 1);
-			percentDisplay.tweenNumber(FlxG.random.int(0, 100), 1);
-		}
-		else if(FlxG.keys.anyJustPressed([Q])){
-			scoreDisplay.tweenNumber(0, 1);
-			percentDisplay.tweenNumber(0, 1);
-		}
-		else if(FlxG.keys.anyJustPressed([E])){
-			scoreDisplay.tweenNumber(9999999, 1);
-			percentDisplay.tweenNumber(100, 1);
-		}
-
-		if(Binds.pressed("menuLeft")){
-			arrowLeft.scale.set(0.75, 0.75);
-		}
-		else{
-			arrowLeft.scale.set(1, 1);
-		}
-
-		if(Binds.pressed("menuRight")){
-			arrowRight.scale.set(0.75, 0.75);
-		}
-		else{
-			arrowRight.scale.set(1, 1);
-		}
-
-		if(Binds.justPressed("menuBack")){
-			switchState(new MainMenuState());
+			if(Binds.justPressed("menuLeft")){
+				changeDifficulty(-1);
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+			}
+			else if(Binds.justPressed("menuRight")){
+				changeDifficulty(1);
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+			}
+	
+			for(i in 0...capsules.length){
+				updateCapsulePosition(i);
+			}
+	
+			if(Binds.pressed("menuLeft")){ arrowLeft.scale.set(0.8, 0.8); }
+			else{ arrowLeft.scale.set(1, 1); }
+	
+			if(Binds.pressed("menuRight")){ arrowRight.scale.set(0.8, 0.8); }
+			else{ arrowRight.scale.set(1, 1); }
+	
+			if(Binds.justPressed("menuBack")){
+				switchState(new MainMenuState());
+			}
 		}
 		
 		camFollow.x = Utils.fpsAdjsutedLerp(camFollow.x, camTarget.x, MainMenuState.lerpSpeed);
@@ -233,11 +258,11 @@ class NewFreeplayState extends MusicBeatState
 
 		scoreDisplay = new DigitDisplay(915, 120, "digital_numbers", 7, 0.4, -25);
 		scoreDisplay.setDigitOffset(1, 20);
-		scoreDisplay.tweenNumber(1234567, 1);
+		scoreDisplay.ease = FlxEase.cubeOut;
 
 		percentDisplay = new DigitDisplay(1154, 87, "menu/freeplay/clearText", 3, 1, 3, 0, true);
 		percentDisplay.setDigitOffset(1, -8);
-		percentDisplay.tweenNumber(100, 1);
+		percentDisplay.ease = FlxEase.quadOut;
 
 		albumDummy = new FlxObject(950, 285, 1, 1);
 		albumDummy.angle = 10;
@@ -265,23 +290,8 @@ class NewFreeplayState extends MusicBeatState
 		difficulty.offset.set(difficulty.width/2, difficulty.height/2);
 		difficulty.antialiasing = true;
 
-		add(bg);
-		add(scrollingText);
-		add(flash);
-		add(arrowLeft);
-		add(arrowRight);
-		add(difficulty);
-		add(cover);
-		add(topBar);
-		add(freeplayText);
-		add(highscoreSprite);
-		add(clearPercentSprite);
-		add(scoreDisplay);
-		add(percentDisplay);
-		add(album);
-		add(albumTitle);
-
-		dj = new FlxSprite(-10, 296);
+		//DJ STUFF
+		dj = new FlxSprite(-9, 290);
 		dj.cameras = [camFreeplay];
 		dj.frames = Paths.getSparrowAtlas("menu/freeplay/dj/bf");
 		dj.antialiasing = true;
@@ -319,9 +329,33 @@ class NewFreeplayState extends MusicBeatState
 		else {
 			dj.animation.play("idle", true);
 		}
-		
+
+		//ADDING STUFF
+		add(bg);
+		add(scrollingText);
+		add(flash);
+		add(cover);
+
+		add(arrowLeft);
+		add(arrowRight);
+		add(difficulty);
 
 		add(dj);
+
+		add(highscoreSprite);
+		add(clearPercentSprite);
+		add(scoreDisplay);
+		add(percentDisplay);
+		add(album);
+		add(albumTitle);
+
+		addCapsules();
+		
+		add(topBar);
+		add(freeplayText);
+
+		updateScore();
+		updateAlbum();
 
 		if(transitionFromMenu){
 			var transitionTime:Float = 1;
@@ -362,6 +396,11 @@ class NewFreeplayState extends MusicBeatState
 			FlxTween.tween(arrowLeft, {y: arrowLeft.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
 			FlxTween.tween(arrowRight, {y: arrowRight.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
 			FlxTween.tween(difficulty, {y: difficulty.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
+
+			for(i in 0...capsules.length){
+				capsules[i].xPositionOffset = 1000;
+				FlxTween.tween(capsules[i], {xPositionOffset: 0}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: (staggerTime/4) * i});
+			}
 
 		}
 		else{
@@ -519,7 +558,83 @@ class NewFreeplayState extends MusicBeatState
 		
 	}
 
-	static inline function albumElasticOut(t:Float):Float{
+	function addSong(_song:String, _displayName:String, _icon:String, _week:Int, ?_album:String = "vol1"):Void{
+		var capsule:Capsule = new Capsule(_song, _displayName, _icon, _week, _album);
+		capsules.push(capsule);
+	}
+
+	function addCapsules():Void{
+		for(i in 0...capsules.length){
+			updateCapsulePosition(i);
+			capsules[i].snapToTargetPos();
+			add(capsules[i]);
+		}
+	}
+
+	function updateCapsulePosition(index:Int):Void{
+		capsules[index].deslect();
+		capsules[index].targetPos.x = capsules[index].intendedX(index - curSelected);
+		capsules[index].targetPos.y = capsules[index].intendedY(index - curSelected);
+		if(index == curSelected){
+			capsules[index].select();
+		}
+	}
+
+	function changeSelected(change:Int):Void{
+		curSelected += change;
+		if(curSelected < 0){
+			curSelected = capsules.length-1;
+		}
+		else if(curSelected >= capsules.length){
+			curSelected = 0;
+		}
+		updateScore();
+		updateAlbum();
+	}
+
+	function changeDifficulty(change:Int):Void{
+		curDifficulty += change;
+		if(curDifficulty < 0){
+			curDifficulty = 2;
+		}
+		else if(curDifficulty > 2){
+			curDifficulty = 0;
+		}
+
+		difficulty.loadGraphic(Paths.image("menu/freeplay/diff/" + diffNumberToDiffName(curDifficulty)));
+		difficulty.offset.set(difficulty.width/2, difficulty.height/2);
+
+		updateScore();
+	}
+
+	function updateScore():Void{
+		var score:SongStats = Highscore.getScore(capsules[curSelected].song, curDifficulty);
+		scoreDisplay.tweenNumber(score.score, 0.8);
+		percentDisplay.tweenNumber(Math.floor(score.accuracy), 0.8);
+	}
+
+	function updateAlbum():Void{
+		var newAlbum:String = capsules[curSelected].album;
+		if(newAlbum != curAlbum){
+			curAlbum = newAlbum;
+			album.loadGraphic(Paths.image("menu/freeplay/album/" + curAlbum + "/album"));
+			albumTitle.loadGraphic(Paths.image("menu/freeplay/album/" + curAlbum + "/title"));
+		}
+	}
+
+	function diffNumberToDiffName(diff:Int):String{
+		switch(diff){
+			case 0:
+				return "easy";
+			case 1:
+				return "normal";
+			case 2:
+				return "hard";
+		}
+		return "normal";
+	}
+
+	inline function albumElasticOut(t:Float):Float{
 		var ELASTIC_AMPLITUDE:Float = 1;
 		var ELASTIC_PERIOD:Float = 0.6;
 		return (ELASTIC_AMPLITUDE * Math.pow(2, -10 * t) * Math.sin((t - (ELASTIC_PERIOD / (2 * Math.PI) * Math.asin(1 / ELASTIC_AMPLITUDE))) * (2 * Math.PI) / ELASTIC_PERIOD) + 1);

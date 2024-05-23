@@ -1,6 +1,7 @@
 package freeplay;
 
 import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
 import flixel.group.FlxSpriteGroup;
 import flixel.FlxSprite;
 
@@ -9,6 +10,8 @@ class DigitDisplay extends FlxSpriteGroup
     var numString:String;
     var hideTrailingZeroes:Bool;
     var tweenValue:FlxTween;
+
+    public var ease:Null<flixel.tweens.EaseFunction>;
 
     var digitScale:Float = 1;
     var spacing:Float = 0;
@@ -22,6 +25,8 @@ class DigitDisplay extends FlxSpriteGroup
         spacing = _spacing;
         hideTrailingZeroes = _hideTrailingZeroes;
 
+        ease = FlxEase.linear;
+        
         tweenValue = FlxTween.tween(this, {}, 0);
 
         for(i in 0...digitCount){
@@ -77,7 +82,7 @@ class DigitDisplay extends FlxSpriteGroup
     public function tweenNumber(newNumber:Int, tweenTime:Float, ?force:Bool = false) {
         tweenValue.cancel();
         var value = Std.parseFloat(numString);
-        tweenValue = FlxTween.num(value, newNumber, tweenTime, {}, function(v){
+        tweenValue = FlxTween.num(value, newNumber, tweenTime, {ease: ease}, function(v){
             setNumber(Std.int(v), force);
         });
     }
@@ -88,10 +93,6 @@ class DigitDisplay extends FlxSpriteGroup
             digits[i].setOffset();
         }
     }
-}
-
-typedef TweenValue = {
-    value:Int
 }
 
 class Digit extends FlxSprite
