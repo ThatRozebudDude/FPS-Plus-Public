@@ -1,5 +1,6 @@
 package;
 
+import freeplay.NewFreeplayState;
 import Highscore.SongStats;
 #if sys
 import sys.FileSystem;
@@ -1628,7 +1629,7 @@ class PlayState extends MusicBeatState
 			if(vocalType == splitVocalTrack){ vocalsOther.stop(); }
 			FlxG.sound.music.stop();
 
-			openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, camFollowFinal.getScreenPosition().x, camFollowFinal.getScreenPosition().y, boyfriend.deathCharacter));
+			openSubState(new GameOverSubstate(boyfriend.getSprite().getScreenPosition().x, boyfriend.getSprite().getScreenPosition().y, camFollowFinal.getScreenPosition().x, camFollowFinal.getScreenPosition().y, boyfriend.deathCharacter));
 			sectionStart = false;
 
 		}
@@ -1830,8 +1831,7 @@ class PlayState extends MusicBeatState
 		});
 	}
 
-	public function endSong():Void
-	{
+	public function endSong():Void{
 		canPause = false;
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
@@ -1882,7 +1882,7 @@ class PlayState extends MusicBeatState
 				customTransOut = new StickerOut(stickerSets);
 
 				StoryMenuState.fromPlayState = true;
-				switchState(new StoryMenuState());
+				returnToMenu();
 				sectionStart = false;
 
 				// if ()
@@ -1917,8 +1917,8 @@ class PlayState extends MusicBeatState
 
 				if (SONG.song.toLowerCase() == 'senpai')
 				{
-					transIn = null;
-					transOut = null;
+					//transIn = null;
+					//transOut = null;
 					prevCamFollow = camFollowFinal;
 				}
 
@@ -1933,11 +1933,22 @@ class PlayState extends MusicBeatState
 		}
 		//CODE FOR ENDING A FREEPLAY SONG
 		else{
-			
+
 			sectionStart = false;
 			customTransOut = new StickerOut();
-			FreeplayState.fromPlayStateFinishSong = true;
-			switchState(new FreeplayState());
+			NewFreeplayState.playStickerIntro = true;
+			returnToMenu();
+		}
+	}
+
+	public function returnToMenu():Void{
+		switch(returnLocation){
+			case "story":
+				switchState(new StoryMenuState());
+			case "freeplay":
+				switchState(new NewFreeplayState(false));
+			default:
+				switchState(new MainMenuState());
 		}
 	}
 

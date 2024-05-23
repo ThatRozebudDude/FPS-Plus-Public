@@ -167,16 +167,10 @@ class MainMenuState extends MusicBeatState
 					#end
 				}
 
-				else if(optionShit[curSelected] == 'freeplay' && FlxG.keys.anyPressed([TAB])){
+				else if(optionShit[curSelected] == 'freeplay'){
 					selectedSomethin = true;
-					var ctrl = FlxG.keys.anyPressed([CONTROL]);
-					if(!ctrl){
-						customTransOut = new InstantTransition();
-					}
-					else{
-						customTransOut = new StickerOut();
-					}
-					switchState(new NewFreeplayState(!ctrl, camFollow.getPosition()));
+					customTransOut = new InstantTransition();
+					switchState(new NewFreeplayState(true, camFollow.getPosition()));
 				}
 				
 				else{

@@ -133,18 +133,8 @@ class PauseSubState extends MusicBeatSubstate
 					
 				case "Exit to menu":
 					FlxTween.globalManager.clear();
-
 					PlayState.sectionStart = false;
-
-					switch(PlayState.returnLocation){
-						case "freeplay":
-							PlayState.instance.switchState(new FreeplayState());
-						case "story":
-							PlayState.instance.switchState(new StoryMenuState());
-						default:
-							PlayState.instance.switchState(new MainMenuState());
-					}
-					
+					PlayState.instance.returnToMenu();
 			}
 		}
 

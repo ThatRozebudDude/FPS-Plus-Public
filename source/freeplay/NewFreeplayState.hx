@@ -1,5 +1,6 @@
 package freeplay;
 
+import flixel.math.FlxMath;
 import Highscore.SongStats;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.addons.display.FlxBackdrop;
@@ -53,8 +54,10 @@ class NewFreeplayState extends MusicBeatState
 
 	var dj:FlxSprite;
 
-	var curSelected:Int = 0;
-	var curDifficulty:Int = 1;
+	public static var curSelected:Int = 0;
+	public static var curDifficulty:Int = 1;
+
+	public static var playStickerIntro:Bool = false;
 
 	var transitionOver:Bool = false;
 	var waitForFirstUpdateToStart:Bool = true;
@@ -75,7 +78,7 @@ class NewFreeplayState extends MusicBeatState
 	static final freeplaySongBpm:Float = 145; 
 	static final freeplaySongVolume:Float = 0.9; 
 
-	public function new(?_transitionFromMenu:Bool = false, camFollowPos:FlxPoint) {
+	public function new(?_transitionFromMenu:Bool = false, ?camFollowPos:FlxPoint = null) {
 		super();
 		transitionFromMenu = _transitionFromMenu;
 		if(camFollowPos == null){
@@ -110,8 +113,9 @@ class NewFreeplayState extends MusicBeatState
 		if(transitionFromMenu){
 			customTransIn = new transition.data.InstantTransition();
 		}
-		else{
+		else if(playStickerIntro){
 			customTransIn = new transition.data.StickerIn();
+			playStickerIntro = false;
 		}
 
 		fakeMainMenuSetup();
@@ -188,6 +192,18 @@ class NewFreeplayState extends MusicBeatState
 			else if(Binds.justPressed("menuRight")){
 				changeDifficulty(1);
 				FlxG.sound.play(Paths.sound('scrollMenu'));
+			}
+
+			if(Binds.justPressed("menuAccept")){
+				transitionOver = false;
+				setUpScrollingTextAccept();
+				addScrollingText();
+				flash.alpha = 1;
+				flash.visible = true;
+				FlxTween.tween(flash, {alpha: 0}, 1, {startDelay: 0.1});
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				dj.animation.play("confirm", true);
+				startSong();
 			}
 	
 			for(i in 0...capsules.length){
@@ -286,7 +302,7 @@ class NewFreeplayState extends MusicBeatState
 		arrowRight.flipX = true;
 		arrowRight.antialiasing = true;
 
-		difficulty = new FlxSprite(197, 115).loadGraphic(Paths.image("menu/freeplay/diff/normal"));
+		difficulty = new FlxSprite(197, 115).loadGraphic(Paths.image("menu/freeplay/diff/" + diffNumberToDiffName(curDifficulty)));
 		difficulty.offset.set(difficulty.width/2, difficulty.height/2);
 		difficulty.antialiasing = true;
 
@@ -336,10 +352,6 @@ class NewFreeplayState extends MusicBeatState
 		add(flash);
 		add(cover);
 
-		add(arrowLeft);
-		add(arrowRight);
-		add(difficulty);
-
 		add(dj);
 
 		add(highscoreSprite);
@@ -350,6 +362,10 @@ class NewFreeplayState extends MusicBeatState
 		add(albumTitle);
 
 		addCapsules();
+
+		add(arrowLeft);
+		add(arrowRight);
+		add(difficulty);
 		
 		add(topBar);
 		add(freeplayText);
@@ -488,7 +504,10 @@ class NewFreeplayState extends MusicBeatState
 		curBeat = 0;
 	}
 
+	//INITIAL TEXT
 	function setUpScrollingText():Void{
+		scrollingTextStuff = [];
+
 		scrollingTextStuff.push({
 			text: "HOT BLOODED IN MORE WAYS THAN ONE ",
 			font: Paths.font("5by7"),
@@ -544,7 +563,69 @@ class NewFreeplayState extends MusicBeatState
 		});
 	}
 
+	//CHANGED TEXT
+	function setUpScrollingTextAccept():Void{
+		scrollingTextStuff = [];
+
+		scrollingTextStuff.push({
+			text: "DON'T FUCK THIS ONE UP ",
+			font: Paths.font("5by7"),
+			size: 43,
+			color: 0xFFFFF383,
+			position: new FlxPoint(0, 168),
+			velocity: 6.8
+		});
+
+		scrollingTextStuff.push({
+			text: "LET'S GO ",
+			font: Paths.font("5by7"),
+			size: 60,
+			color: 0xFFFF9963,
+			position: new FlxPoint(0, 220),
+			velocity: -3.8
+		});
+
+		scrollingTextStuff.push({
+			text: "YOU GOT THIS ",
+			font: Paths.font("5by7"),
+			size: 43,
+			color: 0xFFFFFFFF,
+			position: new FlxPoint(0, 285),
+			velocity: 3.5
+		});
+
+		scrollingTextStuff.push({
+			text: "LET'S GO ",
+			font: Paths.font("5by7"),
+			size: 60,
+			color: 0xFFFF9963,
+			position: new FlxPoint(0, 335),
+			velocity: -3.8
+		});
+
+		scrollingTextStuff.push({
+			text: "DON'T FUCK THIS ONE UP ",
+			font: Paths.font("5by7"),
+			size: 43,
+			color: 0xFFFFF383,
+			position: new FlxPoint(0, 397),
+			velocity: 6.8
+		});
+
+		scrollingTextStuff.push({
+			text: "LET'S GO ",
+			font: Paths.font("5by7"),
+			size: 60,
+			color: 0xFFFEA400,
+			position: new FlxPoint(0, 455),
+			velocity: -3.8
+		});
+	}
+
 	function addScrollingText():Void{
+
+		scrollingText.forEachExists(function(text){ text.destroy(); });
+		scrollingText.clear();
 
 		for(x in scrollingTextStuff){
 			var tempText = new FlxText(0, 0, 0, x.text);
@@ -572,12 +653,8 @@ class NewFreeplayState extends MusicBeatState
 	}
 
 	function updateCapsulePosition(index:Int):Void{
-		capsules[index].deslect();
 		capsules[index].targetPos.x = capsules[index].intendedX(index - curSelected);
 		capsules[index].targetPos.y = capsules[index].intendedY(index - curSelected);
-		if(index == curSelected){
-			capsules[index].select();
-		}
 	}
 
 	function changeSelected(change:Int):Void{
@@ -588,6 +665,7 @@ class NewFreeplayState extends MusicBeatState
 		else if(curSelected >= capsules.length){
 			curSelected = 0;
 		}
+
 		updateScore();
 		updateAlbum();
 	}
@@ -611,6 +689,13 @@ class NewFreeplayState extends MusicBeatState
 		var score:SongStats = Highscore.getScore(capsules[curSelected].song, curDifficulty);
 		scoreDisplay.tweenNumber(score.score, 0.8);
 		percentDisplay.tweenNumber(Math.floor(score.accuracy), 0.8);
+
+		for(i in 0...capsules.length){
+			capsules[i].deslect();
+			if(i == curSelected){
+				capsules[i].select();
+			}
+		}
 	}
 
 	function updateAlbum():Void{
@@ -632,6 +717,20 @@ class NewFreeplayState extends MusicBeatState
 				return "hard";
 		}
 		return "normal";
+	}
+
+	function startSong():Void{
+		var formattedSong:String = Highscore.formatSong(capsules[curSelected].song.toLowerCase(), curDifficulty);
+		PlayState.SONG = Song.loadFromJson(formattedSong, capsules[curSelected].song.toLowerCase());
+		PlayState.isStoryMode = false;
+		PlayState.storyDifficulty = curDifficulty;
+		PlayState.loadEvents = true;
+		PlayState.returnLocation = "freeplay";
+		PlayState.storyWeek = capsules[curSelected].week;
+		new FlxTimer().start(1, function(t){
+			switchState(new PlayState());
+			FlxG.sound.music.fadeOut(0.5);
+		});
 	}
 
 	inline function albumElasticOut(t:Float):Float{

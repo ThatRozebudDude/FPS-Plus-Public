@@ -36,7 +36,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		camFollow = new FlxObject(camX, camY, 1, 1);
 		add(camFollow);
-		FlxTween.tween(camFollow, {x: Utils.getGraphicMidpoint(bf).x, y: Utils.getGraphicMidpoint(bf).y}, 3, {ease: FlxEase.expoOut, startDelay: 0.5});
+		FlxTween.tween(camFollow, {x: bf.getGraphicMidpoint().x, y: bf.getGraphicMidpoint().y}, 3, {ease: FlxEase.expoOut, startDelay: 0.5});
 
 		FlxG.sound.play(Paths.sound('fnf_loss_sfx' + stageSuffix));
 		Conductor.changeBPM(100);
@@ -66,10 +66,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			isEnding = true;
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 
-			if (PlayState.isStoryMode)
-				PlayState.instance.switchState(new StoryMenuState());
-			else
-				PlayState.instance.switchState(new FreeplayState());
+			PlayState.instance.returnToMenu();
 
 			FlxG.camera.fade(FlxColor.BLACK, 0.1, false);
 			
@@ -77,7 +74,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			
 		}
 
-		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished)
+		if (bf.curAnim == 'firstDeath' && bf.curAnimFinished())
 		{
 			switch(PlayState.SONG.player2){
 

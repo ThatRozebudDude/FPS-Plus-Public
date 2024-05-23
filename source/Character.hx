@@ -382,17 +382,17 @@ class Character extends FlxSpriteGroup
 		hasLeftAndRightIdle = characterInfo.info.hasLeftAndRightIdle;
 
 		switch(characterInfo.info.frameLoadType){
-			case load(x, y):
-				character = new FlxSprite(x, y);
-				character.loadGraphic(Paths.image(characterInfo.info.spritePath), true, x, y);
+			case load(fw, fh):
+				character = new FlxSprite();
+				character.loadGraphic(Paths.image(characterInfo.info.spritePath), true, fw, fh);
 			case sparrow:
-				character = new FlxSprite(x, y);
+				character = new FlxSprite();
 				character.frames = Paths.getSparrowAtlas(characterInfo.info.spritePath);
 			case packer:
-				character = new FlxSprite(x, y);
+				character = new FlxSprite();
 				character.frames = Paths.getPackerAtlas(characterInfo.info.spritePath);
 			case atlas:
-				atlasCharacter = new AtlasSprite(x, y, Paths.getTextureAtlas(characterInfo.info.spritePath));
+				atlasCharacter = new AtlasSprite(0, 0, Paths.getTextureAtlas(characterInfo.info.spritePath));
 		}
 
 		for(x in characterInfo.info.anims){
@@ -579,11 +579,13 @@ class Character extends FlxSpriteGroup
 
 	override function getGraphicMidpoint(?point:FlxPoint):FlxPoint {
 		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
-			return character.getGraphicMidpoint();
+			if (point == null)
+				point = FlxPoint.get();
+			return point.set(x + character.frameWidth * 0.5 * getScale().x, y + character.frameHeight * 0.5 * getScale().y);
 		}
 		else{ //Code for atlas characters
 			//NOT DONE YET!!!!
-			return atlasCharacter.getMidpoint();
+			return atlasCharacter.getMidpoint(point);
 		}
 	}
 
