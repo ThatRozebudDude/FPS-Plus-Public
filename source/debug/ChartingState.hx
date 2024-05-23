@@ -155,6 +155,7 @@ class ChartingState extends MusicBeatState
 
 		Config.setFramerate(120);
 
+		PlayState.fromChartEditor = true;
 		SaveManager.global();
 		ee2Check = FlxG.save.data.ee2;
 
@@ -1179,6 +1180,7 @@ class ChartingState extends MusicBeatState
 					FlxG.sound.music.stop();
 					vocals.stop();
 					vocalsOther.stop();
+					autosaveSong();
 		
 					//FlxG.save.bind("data", "Rozebud/FPSPlus");
 					SaveManager.global();

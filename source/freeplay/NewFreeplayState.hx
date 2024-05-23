@@ -36,6 +36,9 @@ class NewFreeplayState extends MusicBeatState
 	var scoreDisplay:DigitDisplay;
 	var percentDisplay:DigitDisplay;
 	var albumTitle:FlxSprite;
+	var arrowLeft:FlxSprite;
+	var arrowRight:FlxSprite;
+	var difficulty:FlxSprite;
 
 	var album:FlxSprite;
 	var albumDummy:FlxObject;
@@ -159,6 +162,20 @@ class NewFreeplayState extends MusicBeatState
 			percentDisplay.tweenNumber(100, 1);
 		}
 
+		if(Binds.pressed("menuLeft")){
+			arrowLeft.scale.set(0.75, 0.75);
+		}
+		else{
+			arrowLeft.scale.set(1, 1);
+		}
+
+		if(Binds.pressed("menuRight")){
+			arrowRight.scale.set(0.75, 0.75);
+		}
+		else{
+			arrowRight.scale.set(1, 1);
+		}
+
 		if(Binds.justPressed("menuBack")){
 			switchState(new MainMenuState());
 		}
@@ -185,6 +202,7 @@ class NewFreeplayState extends MusicBeatState
 	function createFreeplayStuff():Void{
 		
 		bg = new FlxSprite().loadGraphic(Paths.image('menu/freeplay/bg'));
+		bg.antialiasing = true;
 
 		addScrollingText();
 		scrollingText.visible = false;
@@ -196,6 +214,7 @@ class NewFreeplayState extends MusicBeatState
 		flash.visible = false;
 
 		cover = new FlxSprite().loadGraphic(Paths.image('menu/freeplay/sideCover'));
+		cover.antialiasing = true;
 
 		topBar = new FlxSprite().makeGraphic(1, 1, 0xFF000000);
 		topBar.scale.set(1280, 64);
@@ -210,6 +229,7 @@ class NewFreeplayState extends MusicBeatState
 		highscoreSprite.animation.play("loop");
 
 		clearPercentSprite = new FlxSprite(1165, 65).loadGraphic(Paths.image('menu/freeplay/clearBox'));
+		clearPercentSprite.antialiasing = true;
 
 		scoreDisplay = new DigitDisplay(915, 120, "digital_numbers", 7, 0.4, -25);
 		scoreDisplay.setDigitOffset(1, 20);
@@ -228,9 +248,29 @@ class NewFreeplayState extends MusicBeatState
 		albumTitle = new FlxSprite(album.x - 5, album.y + 205).loadGraphic(Paths.image("menu/freeplay/album/vol1/title"));
 		albumTitle.antialiasing = true;
 
+		arrowLeft = new FlxSprite(20, 70);
+		arrowLeft.frames = Paths.getSparrowAtlas("menu/freeplay/freeplaySelector");
+		arrowLeft.animation.addByPrefix("loop", "arrow pointer loop", 24, true);
+		arrowLeft.animation.play("loop");
+		arrowLeft.antialiasing = true;
+
+		arrowRight = new FlxSprite(325, 70);
+		arrowRight.frames = Paths.getSparrowAtlas("menu/freeplay/freeplaySelector");
+		arrowRight.animation.addByPrefix("loop", "arrow pointer loop", 24, true);
+		arrowRight.animation.play("loop");
+		arrowRight.flipX = true;
+		arrowRight.antialiasing = true;
+
+		difficulty = new FlxSprite(197, 115).loadGraphic(Paths.image("menu/freeplay/diff/normal"));
+		difficulty.offset.set(difficulty.width/2, difficulty.height/2);
+		difficulty.antialiasing = true;
+
 		add(bg);
 		add(scrollingText);
 		add(flash);
+		add(arrowLeft);
+		add(arrowRight);
+		add(difficulty);
 		add(cover);
 		add(topBar);
 		add(freeplayText);
@@ -285,8 +325,8 @@ class NewFreeplayState extends MusicBeatState
 
 		if(transitionFromMenu){
 			var transitionTime:Float = 1;
-			var staggerTime:Float = 0.07;
-			var randomVariation:Float = 0.1;
+			var staggerTime:Float = 0.1;
+			var randomVariation:Float = 0.04;
 			var transitionEase:flixel.tweens.EaseFunction = FlxEase.quintOut;
 			
 			bg.x -= 1280;
@@ -299,6 +339,9 @@ class NewFreeplayState extends MusicBeatState
 			scoreDisplay.x += 1280;
 			percentDisplay.x += 1280;
 			albumTitle.x += 1280;
+			arrowLeft.y -= 720;
+			arrowRight.y -= 720;
+			difficulty.y -= 720;
 
 			var albumPos = albumDummy.x;
 			albumDummy.x = 1280;
@@ -316,6 +359,9 @@ class NewFreeplayState extends MusicBeatState
 			FlxTween.tween(percentDisplay, {x: percentDisplay.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
 			FlxTween.tween(albumDummy, {x: albumPos, angle: 10}, transitionTime/1.1 + FlxG.random.float(-randomVariation, randomVariation), {ease: albumElasticOut});
 			FlxTween.tween(albumTitle, {x: albumTitle.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase});
+			FlxTween.tween(arrowLeft, {y: arrowLeft.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
+			FlxTween.tween(arrowRight, {y: arrowRight.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
+			FlxTween.tween(difficulty, {y: difficulty.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
 
 		}
 		else{
@@ -409,7 +455,7 @@ class NewFreeplayState extends MusicBeatState
 			font: Paths.font("5by7"),
 			size: 43,
 			color: 0xFFFFF383,
-			position: new FlxPoint(0, 160),
+			position: new FlxPoint(0, 168),
 			velocity: 6.8
 		});
 

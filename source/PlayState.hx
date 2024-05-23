@@ -1,5 +1,6 @@
 package;
 
+import Highscore.SongStats;
 #if sys
 import sys.FileSystem;
 #end
@@ -133,7 +134,7 @@ class PlayState extends MusicBeatState
 	//End of wacky input stuff===================
 
 	private var autoplay:Bool = false;
-	private var usedAutoplay:Bool = false;
+	private var preventScoreSaving:Bool = false;
 
 	private var notes:FlxTypedGroup<Note>;
 	private var unspawnNotes:Array<Note> = [];
@@ -155,10 +156,6 @@ class PlayState extends MusicBeatState
 	private var healthLerp:Float = 1;
 
 	private var combo:Int = 0;
-	private var misses:Int = 0;
-	private var comboBreaks:Int = 0;
-	private var accuracy:Float = 0.00;
-	private var totalNotesHit:Float = 0;
 	private var totalPlayed:Int = 0;
 
 	private var healthBarBG:FlxSprite;
@@ -184,12 +181,24 @@ class PlayState extends MusicBeatState
 	var stage:BaseStage;
 
 	var talking:Bool = true;
-	var songScore:Int = 0;
 	var scoreTxt:FlxTextExt;
 
 	var ccText:SongCaptions;
 
+	var songStats:ScoreStats = {
+		score: 0,
+		accuracy: 0,
+		accuracyPrecise: 0,
+		sickCount: 0,
+		goodCount: 0,
+		badCount: 0,
+		shitCount: 0,
+		susCount: 0,
+		missCount: 0,
+		comboBreakCount: 0,
+	};
 	public static var campaignScore:Int = 0;
+	public static var campaignAccuracy:Float = 0;
 
 	var defaultCamZoom:Float = 1.05;
 
@@ -741,18 +750,29 @@ class PlayState extends MusicBeatState
 		bgDim.alpha = Config.bgDim/10;
 		add(bgDim);
 
+		if(PlayState.fromChartEditor && curSong.toLowerCase() != "lil-buddies"){
+			preventScoreSaving = true;
+		}
 		fromChartEditor = false;
 
 		super.create();
 	}
 
-	function updateAccuracy()
-	{
-
+	function updateAccuracy(){
 		totalPlayed += 1;
-		accuracy = totalNotesHit / totalPlayed * 100;
-		if (accuracy >= 100){
-			accuracy = 100;
+
+		var totalNotesHit = (songStats.sickCount) + (songStats.goodCount) + (songStats.badCount) + (songStats.shitCount) + (songStats.susCount);
+		var totalNotesHitP = (songStats.sickCount) + (songStats.goodCount * Conductor.goodZone) + (songStats.badCount * Conductor.badZone) + (songStats.shitCount * Conductor.shitZone) + (songStats.susCount);
+
+		songStats.accuracy = totalNotesHit / totalPlayed * 100;
+		songStats.accuracyPrecise = totalNotesHitP / totalPlayed * 100;
+		
+		if (songStats.accuracy >= 100){
+			songStats.accuracy = 100;
+		}
+
+		if (songStats.accuracyPrecise >= 100){
+			songStats.accuracyPrecise = 100;
 		}
 		
 	}
@@ -1464,7 +1484,7 @@ class PlayState extends MusicBeatState
 		
 		if(FlxG.keys.pressed.SHIFT && FlxG.keys.justPressed.TAB && !isStoryMode){
 			autoplay = !autoplay;
-			usedAutoplay = true;
+			preventScoreSaving = true;
 		}
 
 		super.update(elapsed);
@@ -1819,16 +1839,21 @@ class PlayState extends MusicBeatState
 
 		endingSong = true;
 
-		if (!usedAutoplay){
-			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
+		if (!preventScoreSaving){
+			Highscore.saveScore(SONG.song, songStats.score, songStats.accuracy, storyDifficulty);
 		}
 
-		if (isStoryMode)
-		{
-			campaignScore += songScore;
+		if (isStoryMode){
+
+			if (!preventScoreSaving){
+				campaignScore += songStats.score;
+				campaignAccuracy += songStats.score;
+			}
+			
 
 			storyPlaylist.remove(storyPlaylist[0]);
 
+			//CODE FOR ENDING A WEEK
 			if (storyPlaylist.length <= 0)
 			{
 				FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
@@ -1868,8 +1893,9 @@ class PlayState extends MusicBeatState
 				FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
 				FlxG.save.flush();
 			}
-			else
-			{
+			//CODE FOR CONTINUING A WEEK
+			else{
+
 				var difficulty:String = "";
 
 				if (storyDifficulty == 0)
@@ -1905,8 +1931,9 @@ class PlayState extends MusicBeatState
 				transOut = FlxTransitionableState.defaultTransOut;
 			}
 		}
-		else
-		{
+		//CODE FOR ENDING A FREEPLAY SONG
+		else{
+			
 			sectionStart = false;
 			customTransOut = new StickerOut();
 			FreeplayState.fromPlayStateFinishSong = true;
@@ -1924,43 +1951,27 @@ class PlayState extends MusicBeatState
 
 		if (noteDiff > Conductor.safeZoneOffset * Conductor.shitZone){
 			daRating = 'shit';
-			if(Config.accuracy == "complex") {
-				totalNotesHit += 1 - Conductor.shitZone;
-			}
-			else {
-				totalNotesHit += 1;
-			}
+			songStats.shitCount++;
 			score = 50;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * Conductor.badZone){
 			daRating = 'bad';
+			songStats.badCount++;
 			score = 100;
-			if(Config.accuracy == "complex") {
-				totalNotesHit += 1 - Conductor.badZone;
-			}
-			else {
-				totalNotesHit += 1;
-			}
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * Conductor.goodZone){
 			daRating = 'good';
-			if(Config.accuracy == "complex") {
-				totalNotesHit += 1 - Conductor.goodZone;
-			}
-			else {
-				totalNotesHit += 1;
-			}
-				score = 200;
+			songStats.goodCount++;
+			score = 200;
 		}
 		if (daRating == 'sick'){
-			totalNotesHit += 1;
-
+			songStats.sickCount++;
 			if(Config.noteSplashType >= 1 && Config.noteSplashType < 4){
 				createNoteSplash(note.noteData);
 			}
 		}
 
-		songScore += score;
+		songStats.score += score;
 
 		comboUI.ratingPopup(daRating);
 
@@ -2266,15 +2277,15 @@ class PlayState extends MusicBeatState
 					comboUI.breakPopup();
 				}
 				combo = 0;
-				comboBreaks++;
+				songStats.comboBreakCount++;
 			}
 
 			if(countMiss){
-				misses++;
+				songStats.missCount++;
 				updateAccuracy();
 			}
 
-			songScore -= scoreAdjust;
+			songStats.score -= scoreAdjust;
 			
 			if(playAudio){
 				FlxG.sound.play(Paths.sound('missnote' + FlxG.random.int(1, 3)), FlxG.random.float(0.1, 0.2));
@@ -2371,7 +2382,7 @@ class PlayState extends MusicBeatState
 			}
 			else{
 				health += HOLD_HIT_HEAL * Config.healthMultiplier;
-				totalNotesHit += 1;
+				songStats.susCount++;
 			}
 				
 			if(boyfriend.canAutoAnim && (Character.LOOP_ANIM_ON_HOLD ? (note.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!boyfriend.curAnim.contains("sing") || (boyfriend.curAnimFrame() >= 3 || boyfriend.curAnimFinished())) : true) : true) : !note.isSustainNote)){
@@ -2912,17 +2923,24 @@ class PlayState extends MusicBeatState
 	}
 
 	function updateAccuracyText(){
-		switch(Config.accuracy){
-			case "none":
-				scoreTxt.text = "Score:" + songScore;
-			default:
-				if(Config.showComboBreaks){
-					scoreTxt.text = "Score:" + songScore + " | Combo Breaks:" + comboBreaks + " | Accuracy:" + truncateFloat(accuracy, 2) + "%";
-				}
-				else{
-					scoreTxt.text = "Score:" + songScore + " | Misses:" + misses + " | Accuracy:" + truncateFloat(accuracy, 2) + "%";
-				}
+
+		scoreTxt.text = "Score:" + songStats.score;
+
+		if(Config.accuracy != "none"){
+			if(Config.showComboBreaks){
+				scoreTxt.text += " | Combo Breaks:" + songStats.comboBreakCount;
+			}
+			else{
+				scoreTxt.text += " | Misses:" + songStats.missCount;
+			}
+			if(Config.accuracy == "complex"){
+				scoreTxt.text += " | Accuracy:" + truncateFloat(songStats.accuracyPrecise, 2) + "%";
+			}
+			else{
+				scoreTxt.text += " | Accuracy:" + truncateFloat(songStats.accuracy, 2) + "%";
+			}
 		}
+
 	}
 
 	function inRange(a:Float, b:Float, tolerance:Float){
@@ -3117,4 +3135,17 @@ enum VocalType {
 	noVocalTrack;
 	combinedVocalTrack;
 	splitVocalTrack;
+}
+
+typedef ScoreStats = {
+	score:Int,
+	accuracy:Float,
+	accuracyPrecise:Float,
+	sickCount:Int,
+	goodCount:Int,
+	badCount:Int,
+	shitCount:Int,
+	susCount:Int,
+	missCount:Int,
+	comboBreakCount:Int,
 }

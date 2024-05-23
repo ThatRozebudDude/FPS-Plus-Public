@@ -2,88 +2,100 @@ package;
 
 import flixel.FlxG;
 
+typedef SongStats = {
+	score:Int,
+	accuracy:Float
+}
+
 class Highscore
 {
-	#if (haxe >= "4.0.0")
-	public static var songScores:Map<String, Int> = new Map();
-	#else
-	public static var songScores:Map<String, Int> = new Map<String, Int>();
-	#end
 
+	
+	//Major versions will be incompatible and will wipe scores. Minor versions should always convert / repair scores.
+	static var scoreFormatVersion:String = "1.0";
 
-	public static function saveScore(song:String, score:Int = 0, ?diff:Int = 0):Void
-	{
-		var daSong:String = formatSong(song, diff);
+	public static var songScores:Map<String, SongStats> = new Map<String, SongStats>();
 
-		if (songScores.exists(daSong))
-		{
-			if (songScores.get(daSong) < score)
-				setScore(daSong, score);
+	static final forceResetScores:Bool = false;
+
+	public static function saveScore(_song:String, _score:Int = 0, _accurracy:Float = 0, ?_diff:Int = 1):Void{
+		var song:String = formatSong(_song, _diff);
+
+		var proposedStats:SongStats = {
+			score: _score,
+			accuracy: _accurracy
+		};
+
+		if (songScores.exists(song)){
+			var currentStats = songScores.get(song);
+
+			if (proposedStats.score < currentStats.score){
+				proposedStats.score = currentStats.score;
+			}
+			if (proposedStats.accuracy < currentStats.accuracy){
+				proposedStats.accuracy = currentStats.accuracy;
+			}
+			
+			setScore(song, proposedStats);
 		}
-		else
-			setScore(daSong, score);
+		else{
+			setScore(song, proposedStats);
+		}
 	}
 
-	public static function saveWeekScore(week:Int = 1, score:Int = 0, ?diff:Int = 0):Void
-	{
-		var daWeek:String = formatSong('week' + week, diff);
+	public static function saveWeekScore(_week:Int = 1, _score:Int = 0, _accurracy:Float = 0, ?_diff:Int = 1):Void{
+		saveScore("week" + _week, _score, _accurracy, _diff);
+	}
 
-		if (songScores.exists(daWeek))
-		{
-			if (songScores.get(daWeek) < score)
-				setScore(daWeek, score);
-		}
-		else
-			setScore(daWeek, score);
+	static function setScore(_song:String, _stats:SongStats):Void{
+		// Reminder that I don't need to format this song, it should come formatted!
+		SaveManager.scores();
+		songScores.set(_song, _stats);
+		FlxG.save.data.songScores = songScores;
+		SaveManager.global();
+	}
+
+	public static function formatSong(song:String, diff:Int):String{
+		if (diff == 0){ song += '-easy'; }
+		else if (diff == 2){ song += '-hard'; }
+		return song;
 	}
 
 	/**
 	 * YOU SHOULD FORMAT SONG WITH formatSong() BEFORE TOSSING IN SONG VARIABLE
 	 */
-	static function setScore(song:String, score:Int):Void
-	{
-		// Reminder that I don't need to format this song, it should come formatted!
-		SaveManager.scores();
-		songScores.set(song, score);
-		FlxG.save.data.songScores = songScores;
-		SaveManager.global();
-	}
-
-	public static function formatSong(song:String, diff:Int):String
-	{
-		var daSong:String = song;
-
-		if (diff == 0)
-			daSong += '-easy';
-		else if (diff == 2)
-			daSong += '-hard';
-
-		return daSong;
-	}
-
-	public static function getScore(song:String, diff:Int):Int
-	{
-		if (!songScores.exists(formatSong(song, diff)))
-			setScore(formatSong(song, diff), 0);
+	public static function getScore(song:String, diff:Int):SongStats{
+		if (!songScores.exists(formatSong(song, diff))){
+			var emptyScore:SongStats = {
+				score: 0,
+				accuracy: 0
+			}
+			setScore(formatSong(song, diff), emptyScore);
+		}
 
 		return songScores.get(formatSong(song, diff));
 	}
 
-	public static function getWeekScore(week:Int, diff:Int):Int
-	{
-		if (!songScores.exists(formatSong('week' + week, diff)))
-			setScore(formatSong('week' + week, diff), 0);
-
-		return songScores.get(formatSong('week' + week, diff));
+	public static function getWeekScore(week:Int, diff:Int):SongStats{
+		return getScore("week" + week, diff);
 	}
 
-	public static function load():Void
-	{
+	public static function load():Void{
 		SaveManager.scores();
-		if (FlxG.save.data.songScores != null)
-		{
+
+		if(FlxG.save.data.scoreFormatVersion == null || cast (FlxG.save.data.scoreFormatVersio, String).split(".")[0] != scoreFormatVersion.split(".")[0] || forceResetScores){
+			FlxG.save.data.songScores = songScores;
+		}
+		else{
+			//Code to update score versions in the future.
+		}
+
+		if (FlxG.save.data.songScores != null){
 			songScores = FlxG.save.data.songScores;
 		}
+
+		FlxG.save.data.scoreFormatVersion = scoreFormatVersion;
+
 		SaveManager.global();
 	}
 }
