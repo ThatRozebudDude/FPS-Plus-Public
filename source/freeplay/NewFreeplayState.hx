@@ -57,6 +57,9 @@ class NewFreeplayState extends MusicBeatState
 	public static var curSelected:Int = 0;
 	public static var curDifficulty:Int = 1;
 
+	var prevScore:Int;
+	var prevAccuracy:Int;
+
 	public static var playStickerIntro:Bool = false;
 
 	var transitionOver:Bool = false;
@@ -415,7 +418,7 @@ class NewFreeplayState extends MusicBeatState
 
 			for(i in 0...capsules.length){
 				capsules[i].xPositionOffset = 1000;
-				FlxTween.tween(capsules[i], {xPositionOffset: 0}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: (staggerTime/4) * i});
+				FlxTween.tween(capsules[i], {xPositionOffset: 0}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: Utils.clamp((staggerTime/4) * (i+1-curSelected), 0, 100) });
 			}
 
 		}
@@ -687,8 +690,16 @@ class NewFreeplayState extends MusicBeatState
 
 	function updateScore():Void{
 		var score:SongStats = Highscore.getScore(capsules[curSelected].song, curDifficulty);
-		scoreDisplay.tweenNumber(score.score, 0.8);
-		percentDisplay.tweenNumber(Math.floor(score.accuracy), 0.8);
+
+		if(prevScore != score.score){
+			scoreDisplay.tweenNumber(score.score, 0.8);
+			prevScore = score.score;
+		}
+		
+		if(prevAccuracy != Math.floor(score.accuracy)){
+			percentDisplay.tweenNumber(Math.floor(score.accuracy), 0.8);
+			prevAccuracy = Math.floor(score.accuracy);
+		}
 
 		for(i in 0...capsules.length){
 			capsules[i].deslect();
