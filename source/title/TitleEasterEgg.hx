@@ -22,6 +22,8 @@ class TitleEasterEgg extends MusicBeatState
 
     var ballin:Bool = true;
 
+    var beatTime:Float = 0;
+
     override function create() {
 
         customTransIn = new InstantTransition();
@@ -76,6 +78,18 @@ class TitleEasterEgg extends MusicBeatState
         if(ballin){
             Conductor.songPosition = FlxG.sound.music.time;
 
+            if(Binds.justPressed("menuAccept")){
+                if((beatTime + Conductor.crochet*2) >= FlxG.sound.music.length){
+                    FlxG.sound.music.onComplete = null;
+                    exit();
+                }
+                else{
+                    FlxG.sound.music.time = beatTime + Conductor.crochet*2;
+                    beatTime = FlxG.sound.music.time;
+                    djHit();
+                }
+            }
+
             if(Binds.justPressed("menuBack")){
                 FlxG.sound.music.onComplete = null;
                 exit();
@@ -90,15 +104,24 @@ class TitleEasterEgg extends MusicBeatState
         super.beatHit();
 
         if(curBeat % 2 == 0){
-            dj.animation.play("idle", true);
-
-            topText.velocity.x = -350;
-            FlxTween.tween(topText.velocity, {x: -50}, Conductor.crochet/575, {ease: FlxEase.quadOut});
-
-            bottomText.velocity.x = 350;
-            FlxTween.tween(bottomText.velocity, {x: 50}, Conductor.crochet/575, {ease: FlxEase.quadOut});
+            beatTime = Conductor.songPosition;
+            djHit();
         }
 
+    }
+
+    function djHit():Void{
+        dj.animation.play("idle", true);
+
+        var velSet = bottomText.velocity.x + 300;
+
+        FlxTween.cancelTweensOf(topText.velocity);
+        topText.velocity.x = -velSet;
+        FlxTween.tween(topText.velocity, {x: -50}, Conductor.crochet/575, {ease: FlxEase.quadOut});
+
+        FlxTween.cancelTweensOf(bottomText.velocity);
+        bottomText.velocity.x = velSet;
+        FlxTween.tween(bottomText.velocity, {x: 50}, Conductor.crochet/575, {ease: FlxEase.quadOut});
     }
 
     function exit() {

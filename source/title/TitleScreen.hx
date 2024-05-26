@@ -205,12 +205,13 @@ class TitleScreen extends MusicBeatState
 		else{
 			inputIndex = 0;
 		}
-		if(Binds.justPressed(inputSequence[inputIndex])){
+		if(Binds.justPressed(inputSequence[inputIndex]) && !transitioning){
 			trace(inputSequence[inputIndex]);
 			inputIndex++;
 			inputTime = 1;
 		}
 		if(inputIndex == inputSequence.length){
+			transitioning = true;
 			customTransOut = new InstantTransition();
 			switchState(new TitleEasterEgg());
 		}
