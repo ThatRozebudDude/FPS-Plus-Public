@@ -80,7 +80,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 				case "Tankman":
 					bf.playAnim('deathLoop');
-					FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix), 0.2);
+					FlxG.sound.playMusic(Paths.music('gameOver/gameOver' + stageSuffix), 0.2);
 					FlxG.sound.play(Paths.sound('week7/jeffGameover/jeffGameover-' + FlxG.random.int(1, 25)), 1, false, null, true, function()
 					{
 						if (!isEnding)
@@ -89,7 +89,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 				default:
 					bf.playAnim('deathLoop');
-					FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix));
+					FlxG.sound.playMusic(Paths.music('gameOver/gameOver' + stageSuffix));
 			}
 			
 		}
@@ -110,7 +110,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		isEnding = true;
 		bf.playAnim('deathConfirm', true);
 		FlxG.sound.music.stop();
-		FlxG.sound.play(Paths.music('gameOverEnd' + stageSuffix));
+		FlxG.sound.play(Paths.music('gameOver/gameOverEnd' + stageSuffix));
 		new FlxTimer().start(0.4, function(tmr:FlxTimer)
 		{
 			FlxG.camera.fade(FlxColor.BLACK, 1.2, false, function()

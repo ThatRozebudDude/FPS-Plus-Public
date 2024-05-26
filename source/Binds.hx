@@ -136,6 +136,22 @@ class Binds
         };
         r.set("menuBack", k);
 
+        var k:Keybind = {
+            name: "Cycle Left",
+            category: "Menu",
+            binds: [Q],
+            controllerBinds: [LEFT_SHOULDER]
+        };
+        r.set("menuCycleLeft", k);
+
+        var k:Keybind = {
+            name: "Cycle Right",
+            category: "Menu",
+            binds: [E],
+            controllerBinds: [RIGHT_SHOULDER]
+        };
+        r.set("menuCycleRight", k);
+
 
 
         return r;

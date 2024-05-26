@@ -216,11 +216,11 @@ class NewFreeplayState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
 
-			if(FlxG.keys.anyJustPressed([Q])){
+			if(Binds.justPressed("menuCycleLeft")){
 				changeCategory(-1);
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
-			else if(FlxG.keys.anyJustPressed([E])){
+			else if(Binds.justPressed("menuCycleRight")){
 				changeCategory(1);
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
@@ -247,10 +247,10 @@ class NewFreeplayState extends MusicBeatState
 			if(Binds.pressed("menuRight")){ arrowRight.scale.set(0.8, 0.8); }
 			else{ arrowRight.scale.set(1, 1); }
 
-			if(FlxG.keys.anyPressed([Q])){ miniArrowLeft.scale.set(0.6, 0.6); }
+			if(Binds.pressed("menuCycleLeft")){ miniArrowLeft.scale.set(0.6, 0.6); }
 			else{ miniArrowLeft.scale.set(1, 1); }
 	
-			if(FlxG.keys.anyPressed([E])){ miniArrowRight.scale.set(0.6, 0.6); }
+			if(Binds.pressed("menuCycleRight")){ miniArrowRight.scale.set(0.6, 0.6); }
 			else{ miniArrowRight.scale.set(1, 1); }
 	
 			if(Binds.justPressed("menuBack")){
@@ -751,7 +751,7 @@ class NewFreeplayState extends MusicBeatState
 
 		if(!allowedDifficulties.contains(curDifficulty)){
 			curDifficulty = 0;
-			changeDifficulty((curDifficulty > allowedDifficulties[allowedDifficulties.length-1]) ? allowedDifficulties[allowedDifficulties.length-1] : 0);
+			changeDifficulty((curDifficulty > allowedDifficulties[allowedDifficulties.length-1]) ? allowedDifficulties[allowedDifficulties.length-1] : allowedDifficulties[0]);
 			return;
 		}
 

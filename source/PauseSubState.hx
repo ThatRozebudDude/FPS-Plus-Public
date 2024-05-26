@@ -48,11 +48,13 @@ class PauseSubState extends MusicBeatSubstate
 			menuItems.insert(1, "Restart Section");
 		}
 
-		var pauseSongName = "breakfast";
+		var pauseSongName = "pause/breakfast";
 
 		switch(PlayState.SONG.song.toLowerCase()){
+			case "senpai" | "roses" | "thorns":
+				pauseSongName = "pause/breakfast-pixel";
 			case "ugh" | "guns" | "stress":
-				pauseSongName = "distorto";
+				pauseSongName = "week7/distorto";
 		}
 
 		pauseMusic = new FlxSound().loadEmbedded(Paths.music(pauseSongName), true, true);

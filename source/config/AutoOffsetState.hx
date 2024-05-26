@@ -139,7 +139,7 @@ class AutoOffsetState extends MusicBeatState
 
 		FlxG.camera.fade(FlxColor.BLACK, 0.5, true, function(){
 			FlxG.sound.music.volume = 1;
-			FlxG.sound.playMusic(Paths.music("offsetSong" + (easterEgg?"-pixel":"")), 1, false);
+			FlxG.sound.playMusic(Paths.music("config/offsetSong" + (easterEgg?"-pixel":"")), 1, false);
 			FlxG.sound.music.onComplete = exit;
 
 			started = true;

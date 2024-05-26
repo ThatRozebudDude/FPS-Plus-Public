@@ -1,5 +1,6 @@
 package title;
 
+import transition.data.InstantTransition;
 import config.Config;
 import flixel.addons.display.FlxBackdrop;
 import flixel.FlxCamera;
@@ -43,6 +44,10 @@ class TitleScreen extends MusicBeatState
 	final bgScrollSpeed = 20;
 
 	var allowControllerPress:Bool = false;
+
+	var inputIndex:Int = 0;
+	var inputSequence:Array<String> = ["menuUp", "menuUp", "menuDown", "menuDown", "menuLeft", "menuRight", "menuLeft", "menuRight"];
+	var inputTime:Float = 0;
 
 	override public function create():Void
 	{
@@ -190,6 +195,23 @@ class TitleScreen extends MusicBeatState
 				// Check if version is outdated
 				switchState(new MainMenuState());
 			});
+		}
+
+		//Titlescreen Easter Egg
+		if(inputTime > 0){
+			inputTime -= elapsed;
+		}
+		else{
+			inputIndex = 0;
+		}
+		if(Binds.justPressed(inputSequence[inputIndex])){
+			trace(inputSequence[inputIndex]);
+			inputIndex++;
+			inputTime = 1;
+		}
+		if(inputIndex == inputSequence.length){
+			customTransOut = new InstantTransition();
+			switchState(new TitleEasterEgg());
 		}
 
 		if(!allowControllerPress && Binds.justReleasedControllerOnly("menuAccept")){

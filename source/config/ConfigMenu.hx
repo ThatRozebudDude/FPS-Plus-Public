@@ -29,10 +29,10 @@ class ConfigMenu extends FlxUIStateExt
     public static var startSong = true;
     public static var startInSubMenu:Int = -1;
 
-    public static final baseSongTrack:String = "nuConfiguratorBase";
-    public static final layerSongTrack:String = "nuConfiguratorDrums";
-    public static final keySongTrack:String = "nuConfiguratorKey";
-    public static final cacheSongTrack:String = "nuConfiguratorCache";
+    public static final baseSongTrack:String = "config/nuConfiguratorBase";
+    public static final layerSongTrack:String = "config/nuConfiguratorDrums";
+    public static final keySongTrack:String = "config/nuConfiguratorKey";
+    public static final cacheSongTrack:String = "config/nuConfiguratorCache";
 
     var songLayer:FlxSound;
 
