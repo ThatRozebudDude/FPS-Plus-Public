@@ -24,7 +24,7 @@ using StringTools;
 class MainMenuState extends MusicBeatState
 {
 	
-	static var curSelected:Int = 0;
+	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	
@@ -38,6 +38,8 @@ class MainMenuState extends MusicBeatState
 	var versionText:FlxTextExt;
 	var keyWarning:FlxTextExt;
 	var canCancelWarning:Bool = true;
+
+	public static var fromFreeplay:Bool = false;
 
 	public static final lerpSpeed:Float = 0.01;
 	final warningDelay:Float = 10;
@@ -53,6 +55,11 @@ class MainMenuState extends MusicBeatState
 		}
 
 		persistentUpdate = persistentDraw = true;
+
+		if(fromFreeplay){
+			fromFreeplay = false;
+			customTransIn = new InstantTransition();
+		}
 
 		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menu/menuBG'));
 		bg.scrollFactor.x = 0;
@@ -170,6 +177,8 @@ class MainMenuState extends MusicBeatState
 				else if(optionShit[curSelected] == 'freeplay'){
 					selectedSomethin = true;
 					customTransOut = new InstantTransition();
+					NewFreeplayState.curSelected = 0;
+					NewFreeplayState.curCategory = 0;
 					switchState(new NewFreeplayState(true, camFollow.getPosition()));
 				}
 				

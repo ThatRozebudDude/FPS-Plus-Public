@@ -1,5 +1,6 @@
 package freeplay;
 
+import transition.data.InstantTransition;
 import sys.FileSystem;
 import flixel.graphics.frames.FlxBitmapFont;
 import flixel.text.FlxBitmapText;
@@ -98,6 +99,11 @@ class NewFreeplayState extends MusicBeatState
 	static final  randomVariation:Float = 0.04;
 	static final  transitionEase:flixel.tweens.EaseFunction = FlxEase.quintOut;
 
+	static final  transitionTimeExit:Float = 0.7;
+	static final  staggerTimeExit:Float = 0.07;
+	static final  randomVariationExit:Float = 0.03;
+	static final  transitionEaseExit:flixel.tweens.EaseFunction = FlxEase.cubeIn;
+
 	public function new(?_transitionFromMenu:Bool = false, ?camFollowPos:FlxPoint = null) {
 		super();
 		transitionFromMenu = _transitionFromMenu;
@@ -186,7 +192,7 @@ class NewFreeplayState extends MusicBeatState
 			waitForFirstUpdateToStart = false;
 		}
 
-		if(transitionOver){
+		if(FlxG.sound.music.playing){
 			Conductor.songPosition = FlxG.sound.music.time;
 		}
 
@@ -229,6 +235,7 @@ class NewFreeplayState extends MusicBeatState
 				transitionOver = false;
 				setUpScrollingTextAccept();
 				addScrollingText();
+				FlxTween.completeTweensOf(flash);
 				flash.alpha = 1;
 				flash.visible = true;
 				FlxTween.tween(flash, {alpha: 0}, 1, {startDelay: 0.1});
@@ -254,7 +261,17 @@ class NewFreeplayState extends MusicBeatState
 			else{ miniArrowRight.scale.set(1, 1); }
 	
 			if(Binds.justPressed("menuBack")){
-				switchState(new MainMenuState());
+				transitionOver = false;
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+				FlxG.sound.music.fadeOut(0.5, 0, function(t) {
+					FlxG.sound.music.stop();
+				});
+				exitAnimation();
+				customTransOut = new InstantTransition();
+				MainMenuState.fromFreeplay = true;
+				new FlxTimer().start(transitionTimeExit + (staggerTimeExit*4), function(t) {
+					switchState(new MainMenuState());
+				});
 			}
 		}
 		
@@ -268,7 +285,7 @@ class NewFreeplayState extends MusicBeatState
 
 
 	override function beatHit() {
-		if(transitionOver && curBeat % 2 == 0 && dj.animation.curAnim.name == "idle"){
+		if(FlxG.sound.music.playing && curBeat % 2 == 0 && dj.animation.curAnim.name == "idle"){
 			dj.animation.play("idle", true);
 		}
 
@@ -423,13 +440,13 @@ class NewFreeplayState extends MusicBeatState
 		add(arrowLeft);
 		add(arrowRight);
 		add(difficulty);
-		
-		add(topBar);
-		add(freeplayText);
 
 		add(miniArrowLeft);
 		add(miniArrowRight);
 		add(categoryTitle);
+		
+		add(topBar);
+		add(freeplayText);
 
 		addCapsules();
 
@@ -470,7 +487,7 @@ class NewFreeplayState extends MusicBeatState
 			FlxTween.tween(scoreDisplay, {x: scoreDisplay.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*3});
 			FlxTween.tween(percentDisplay, {x: percentDisplay.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
 			FlxTween.tween(albumDummy, {x: albumPos, angle: 10}, transitionTime/1.1 + FlxG.random.float(-randomVariation, randomVariation), {ease: albumElasticOut});
-			FlxTween.tween(albumTitle, {x: albumTitle.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase});
+			FlxTween.tween(albumTitle, {x: albumTitle.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
 			FlxTween.tween(arrowLeft, {y: arrowLeft.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
 			FlxTween.tween(arrowRight, {y: arrowRight.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
 			FlxTween.tween(difficulty, {y: difficulty.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
@@ -551,6 +568,9 @@ class NewFreeplayState extends MusicBeatState
 		flash.alpha = 1;
 		scrollingText.visible = true;
 		FlxTween.tween(flash, {alpha: 0}, 1, {startDelay: 0.1});
+
+		camFollow.x = camTarget.x;
+		camFollow.y = camTarget.y;
 	}
 	
 	function startFreeplaySong():Void{
@@ -885,6 +905,40 @@ class NewFreeplayState extends MusicBeatState
 			categoryMap[categoryNames[curCategory]][i].snapToTargetPos();
 			FlxTween.tween(categoryMap[categoryNames[curCategory]][i], {xPositionOffset: 0}, _transitionTime + FlxG.random.float(-_randomVariation, _randomVariation), {ease: transitionEase, startDelay: Utils.clamp((_staggerTime/4) * (i+1-curSelected), 0, 100) });
 		}
+	}
+
+	function tweenCapsulesOffScreen(_transitionTime:Float, _randomVariation:Float, _staggerTime:Float, ?_distance:Float = 1000):Void{
+		for(i in 0...categoryMap[categoryNames[curCategory]].length){
+			FlxTween.cancelTweensOf(categoryMap[categoryNames[curCategory]][i]);
+			FlxTween.tween(categoryMap[categoryNames[curCategory]][i], {xPositionOffset: _distance}, _transitionTime + FlxG.random.float(-_randomVariation, _randomVariation), {ease: transitionEaseExit, startDelay: Utils.clamp((_staggerTime/4) * (i+1-curSelected), 0, 100) });
+		}
+	}
+
+	function exitAnimation():Void{
+		FlxTween.tween(bg, {x: bg.x-1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
+		FlxTween.tween(cover, {x: cover.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
+		FlxTween.tween(dj, {x: dj.x-1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
+		FlxTween.tween(topBar, {y: -720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
+		FlxTween.tween(freeplayText, {y: 16-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
+		FlxTween.tween(highscoreSprite, {x: highscoreSprite.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*2});
+		FlxTween.tween(clearPercentSprite, {x: clearPercentSprite.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
+		FlxTween.tween(scoreDisplay, {x: scoreDisplay.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*0});
+		FlxTween.tween(percentDisplay, {x: percentDisplay.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
+		FlxTween.tween(albumDummy, {x: 1380, angle: 70}, transitionTimeExit/1.1 + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: albumElasticOut, startDelay: staggerTimeExit*3});
+		FlxTween.tween(albumTitle, {x: albumTitle.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*2});
+		FlxTween.tween(arrowLeft, {y: arrowLeft.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
+		FlxTween.tween(arrowRight, {y: arrowRight.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
+		FlxTween.tween(difficulty, {y: difficulty.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*2});
+		FlxTween.tween(categoryTitle, {y: categoryTitle.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*2});
+		FlxTween.tween(miniArrowLeft, {y: miniArrowLeft.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
+		FlxTween.tween(miniArrowRight, {y: miniArrowRight.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
+		tweenCapsulesOffScreen(transitionTimeExit, randomVariationExit, staggerTimeExit);
+		scrollingText.forEachExists(function(text){ text.destroy(); });
+		scrollingText.clear();
+		FlxTween.completeTweensOf(flash);
+		flash.alpha = 1;
+		flash.visible = true;
+		FlxTween.tween(flash, {alpha: 0}, 0.5, {startDelay: 0.1});
 	}
 
 	inline function albumElasticOut(t:Float):Float{

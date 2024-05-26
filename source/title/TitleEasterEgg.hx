@@ -61,9 +61,9 @@ class TitleEasterEgg extends MusicBeatState
 		bottomText.velocity.x = 50;
 
         add(waveform);
+        add(circle);
         add(topText);
         add(bottomText);
-        add(circle);
         add(dj);
 
         FlxG.camera.flash();

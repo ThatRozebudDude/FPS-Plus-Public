@@ -189,6 +189,7 @@ class TitleScreen extends MusicBeatState
 
 			transitioning = true;
 			// FlxG.sound.music.stop();
+			MainMenuState.curSelected = 0;
 
 			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
