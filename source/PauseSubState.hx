@@ -91,13 +91,15 @@ class PauseSubState extends MusicBeatSubstate
 
 		super.update(elapsed);
 
-		if (Binds.justPressed("menuUp"))
-		{
+		if (Binds.justPressed("menuUp")){
 			changeSelection(-1);
 		}
-		if (Binds.justPressed("menuDown"))
-		{
+		if (Binds.justPressed("menuDown")){
 			changeSelection(1);
+		}
+
+		if (Binds.justPressed("menuBack")){
+			unpause();
 		}
 
 		if (!allowControllerPress ? Binds.justPressedKeyboardOnly("menuAccept") : Binds.justPressed("menuAccept")){

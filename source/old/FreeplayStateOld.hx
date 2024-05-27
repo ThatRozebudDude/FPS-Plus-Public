@@ -1,4 +1,4 @@
-package;
+package old;
 
 import transition.data.StickerIn;
 import extensions.flixel.FlxUIStateExt;
@@ -17,7 +17,7 @@ import lime.utils.Assets;
 
 using StringTools;
 
-class FreeplayState extends MusicBeatState
+class FreeplayStateOld extends MusicBeatState
 {
 	var songs:Array<SongMetadata> = [];
 

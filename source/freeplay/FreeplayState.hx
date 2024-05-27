@@ -29,7 +29,7 @@ import extensions.flixel.FlxTextExt;
 
 using StringTools;
 
-class NewFreeplayState extends MusicBeatState
+class FreeplayState extends MusicBeatState
 {
 
 	var bg:FlxSprite;

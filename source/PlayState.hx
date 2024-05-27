@@ -1,6 +1,6 @@
 package;
 
-import freeplay.NewFreeplayState;
+import freeplay.FreeplayState;
 import Highscore.SongStats;
 #if sys
 import sys.FileSystem;
@@ -1937,7 +1937,7 @@ class PlayState extends MusicBeatState
 
 			sectionStart = false;
 			customTransOut = new StickerOut();
-			NewFreeplayState.playStickerIntro = true;
+			FreeplayState.playStickerIntro = true;
 			returnToMenu();
 		}
 	}
@@ -1947,7 +1947,7 @@ class PlayState extends MusicBeatState
 			case "story":
 				switchState(new StoryMenuState());
 			case "freeplay":
-				switchState(new NewFreeplayState(false));
+				switchState(new FreeplayState(false));
 			default:
 				switchState(new MainMenuState());
 		}

@@ -6,7 +6,7 @@ import flixel.math.FlxPoint;
 import config.*;
 import transition.data.*;
 import title.TitleScreen;
-import freeplay.NewFreeplayState;
+import freeplay.FreeplayState;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -177,9 +177,9 @@ class MainMenuState extends MusicBeatState
 				else if(optionShit[curSelected] == 'freeplay'){
 					selectedSomethin = true;
 					customTransOut = new InstantTransition();
-					NewFreeplayState.curSelected = 0;
-					NewFreeplayState.curCategory = 0;
-					switchState(new NewFreeplayState(true, camFollow.getPosition()));
+					FreeplayState.curSelected = 0;
+					FreeplayState.curCategory = 0;
+					switchState(new FreeplayState(true, camFollow.getPosition()));
 				}
 				
 				else{
@@ -222,11 +222,11 @@ class MainMenuState extends MusicBeatState
 									case 'story mode':
 										switchState(new StoryMenuState());
 										trace("Story Menu Selected");
-									case 'freeplay':
+									/*case 'freeplay':
 										FreeplayState.startingSelection = 0;
 										FreeplayState.fromMainMenu = true;
 										switchState(new FreeplayState());
-										trace("Freeplay Menu Selected");
+										trace("Freeplay Menu Selected");*/
 									case 'options':
 										switchState(new ConfigMenu());
 										trace("options time");
