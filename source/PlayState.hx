@@ -188,6 +188,7 @@ class PlayState extends MusicBeatState
 
 	var songStats:ScoreStats = {
 		score: 0,
+		highestCombo: 0,
 		accuracy: 0,
 		accuracyPrecise: 0,
 		sickCount: 0,
@@ -2388,8 +2389,9 @@ class PlayState extends MusicBeatState
 
 			if (!note.isSustainNote){
 				popUpScore(note);
-				combo += 1;
+				combo++;
 				health += NOTE_HIT_HEAL * Config.healthMultiplier;
+				if(combo > songStats.highestCombo) { songStats.highestCombo = combo; }
 			}
 			else{
 				health += HOLD_HIT_HEAL * Config.healthMultiplier;
@@ -3150,6 +3152,7 @@ enum VocalType {
 
 typedef ScoreStats = {
 	score:Int,
+	highestCombo:Int,
 	accuracy:Float,
 	accuracyPrecise:Float,
 	sickCount:Int,
