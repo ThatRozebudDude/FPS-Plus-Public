@@ -66,8 +66,8 @@ class Capsule extends FlxSpriteGroup
         text.antialiasing = true;
         scrollTween = FlxTween.tween(this, {}, 0);
 
-        var debugDot:FlxSprite = new FlxSprite(text.x, text.y).makeGraphic(2, 2, 0xFFFFAAFF);
-        var debugDot2:FlxSprite = new FlxSprite(0, 0).makeGraphic(4, 4, 0xFFAAFFFF);
+        //var debugDot:FlxSprite = new FlxSprite(text.x, text.y).makeGraphic(2, 2, 0xFFFFAAFF);
+        //var debugDot2:FlxSprite = new FlxSprite(0, 0).makeGraphic(4, 4, 0xFFAAFFFF);
 
         var iconXOffset:Float = 0;
         switch(_icon){
@@ -81,8 +81,8 @@ class Capsule extends FlxSpriteGroup
         add(capsule);
         add(text);
         add(icon);
-        add(debugDot);
-        add(debugDot2);
+        //add(debugDot);
+        //add(debugDot2);
 
         deslect();
 
