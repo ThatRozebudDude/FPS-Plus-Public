@@ -1,5 +1,7 @@
 package freeplay;
 
+import flixel.tweens.FlxEase;
+import flixel.math.FlxRect;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 import flixel.text.FlxText.FlxTextBorderStyle;
@@ -29,6 +31,11 @@ class Capsule extends FlxSpriteGroup
     public var xPositionOffset:Float = 0;
     public var selected:Bool = true;
 
+    var scrollOffset:Float = 0;
+    var scrollTween:FlxTween;
+
+    var totalElapsed:Float = 0;
+
     public function new(_song:String, _displayName:String, _icon:String, _week:Int, ?_album:String = "vol1") {
         super();
 
@@ -57,6 +64,10 @@ class Capsule extends FlxSpriteGroup
         text.setFormat(Paths.font("5by7"), 32, selectColor, LEFT, FlxTextBorderStyle.OUTLINE, selectBorderColor);
         text.borderSize = 1;
         text.antialiasing = true;
+        scrollTween = FlxTween.tween(this, {}, 0);
+
+        var debugDot:FlxSprite = new FlxSprite(text.x, text.y).makeGraphic(2, 2, 0xFFFFAAFF);
+        var debugDot2:FlxSprite = new FlxSprite(0, 0).makeGraphic(4, 4, 0xFFAAFFFF);
 
         var iconXOffset:Float = 0;
         switch(_icon){
@@ -70,6 +81,8 @@ class Capsule extends FlxSpriteGroup
         add(capsule);
         add(text);
         add(icon);
+        add(debugDot);
+        add(debugDot2);
 
         deslect();
 
@@ -78,6 +91,13 @@ class Capsule extends FlxSpriteGroup
     override function update(elapsed:Float) {
         x = Utils.fpsAdjsutedLerp(x, targetPos.x, 0.3) + xPositionOffset;
         y = Utils.fpsAdjsutedLerp(y, targetPos.y, 0.4);
+
+        totalElapsed += elapsed;
+
+        text.x = x + 95 + scrollOffset;
+
+        var rectPos = Utils.worldToLocal(text, x + 85, y + 24);
+        text.clipRect = new FlxRect(rectPos.x, rectPos.y, 317, 48);
 
         super.update(elapsed);
     }
@@ -88,6 +108,13 @@ class Capsule extends FlxSpriteGroup
         text.color = selectColor;
         text.borderColor = selectBorderColor;
         selected = true;
+
+        if(text.width > 297 && text.width <= 307){
+            scrollOffset = (text.width - 297)/-2;
+        }
+        else if(text.width > 307){
+            scrollEaseStart();
+        }
     }
 
     public function deslect():Void{
@@ -96,6 +123,28 @@ class Capsule extends FlxSpriteGroup
         text.color = deselectColor;
         text.borderColor = deselectBorderColor;
         selected = false;
+
+        scrollTween.cancel();
+        scrollOffset = 0;
+        if(text.width > 297 && text.width <= 307){
+            scrollOffset = (text.width - 297)/-2;
+        }
+    }
+
+    function scrollEaseStart():Void{
+        scrollTween = FlxTween.num(0, text.width - 297, 5, {ease: FlxEase.sineInOut, startDelay: 1, onComplete: function(t) {
+            scrollEaseBack();
+        }}, function(v) {
+            scrollOffset = -v;
+        });
+    }
+    
+    function scrollEaseBack():Void{
+        scrollTween = FlxTween.num(text.width - 297, 0, 5, {ease: FlxEase.sineInOut, startDelay: 1, onComplete: function(t) {
+            scrollEaseStart();
+        }}, function(v) {
+            scrollOffset = -v;
+        });
     }
 
     public function snapToTargetPos():Void{

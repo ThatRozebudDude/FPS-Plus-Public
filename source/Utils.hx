@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxObject;
 import flixel.math.FlxPoint;
 import flixel.FlxSprite;
 import sys.io.File;
@@ -104,4 +105,8 @@ class Utils
 		if(v > max) { v = max; }
 		return v;
 	}
+
+	public static function worldToLocal(object:FlxObject, x:Float, y:Float):FlxPoint{
+        return new FlxPoint(x - object.x, y - object.y);
+    }
 }
