@@ -94,6 +94,8 @@ class PlayState extends MusicBeatState
 	private var iconBopFrequency:Int = 1;
 	private var camBopFrequency:Int = 4;
 
+	public var tweenManager:FlxTweenManager = new FlxTweenManager();
+
 	private var sectionHasOppNotes:Bool = false;
 	private var sectionHasBFNotes:Bool = false;
 	private var sectionHaveNotes:Array<Array<Bool>> = [];
@@ -233,6 +235,7 @@ class PlayState extends MusicBeatState
 
 		instance = this;
 		FlxG.mouse.visible = false;
+		add(tweenManager);
 
 		customTransIn = new ScreenWipeIn(1.2);
 		customTransOut = new ScreenWipeOut(0.6);
@@ -263,12 +266,12 @@ class PlayState extends MusicBeatState
 		
 		Config.setFramerate(999);
 
-		camTween = FlxTween.tween(this, {}, 0);
-		camZoomTween = FlxTween.tween(this, {}, 0);
-		uiZoomTween = FlxTween.tween(this, {}, 0);
-		offsetTween = FlxTween.tween(this, {}, 0);
-		shakeTween = FlxTween.tween(this, {}, 0);
-		camZoomAdjustTween = FlxTween.tween(this, {}, 0);
+		camTween = tweenManager.tween(this, {}, 0);
+		camZoomTween = tweenManager.tween(this, {}, 0);
+		uiZoomTween = tweenManager.tween(this, {}, 0);
+		offsetTween = tweenManager.tween(this, {}, 0);
+		shakeTween = tweenManager.tween(this, {}, 0);
+		camZoomAdjustTween = tweenManager.tween(this, {}, 0);
 
 		for(i in 0 ... SONG.notes.length){
 
@@ -680,7 +683,7 @@ class PlayState extends MusicBeatState
 						{
 							camHUD.visible = true;
 							remove(blackScreen);
-							FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, 2.5, {
+							tweenManager.tween(FlxG.camera, {zoom: defaultCamZoom}, 2.5, {
 								ease: FlxEase.quadInOut,
 								onComplete: function(twn:FlxTween)
 								{
@@ -703,7 +706,7 @@ class PlayState extends MusicBeatState
 						defaultCamZoom *= 1.2;
 						if(PlayState.SONG.notes[0].mustHitSection){ camFocusBF(); }
 						else{ camFocusOpponent(); }
-						FlxTween.tween(this, {defaultCamZoom: defaultCamZoom / 1.2}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
+						tweenManager.tween(this, {defaultCamZoom: defaultCamZoom / 1.2}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
 					});
 					
 				case "guns":
@@ -712,7 +715,7 @@ class PlayState extends MusicBeatState
 						defaultCamZoom *= 1.2;
 						if(PlayState.SONG.notes[0].mustHitSection){ camFocusBF(); }
 						else{ camFocusOpponent(); }
-						FlxTween.tween(this, {defaultCamZoom: defaultCamZoom / 1.2}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
+						tweenManager.tween(this, {defaultCamZoom: defaultCamZoom / 1.2}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
 					});
 
 				case "stress":
@@ -721,7 +724,7 @@ class PlayState extends MusicBeatState
 						defaultCamZoom *= 1.2;
 						if(PlayState.SONG.notes[0].mustHitSection){ camFocusBF(); }
 						else{ camFocusOpponent(); }
-						FlxTween.tween(this, {defaultCamZoom: defaultCamZoom / 1.2}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
+						tweenManager.tween(this, {defaultCamZoom: defaultCamZoom / 1.2}, ((Conductor.crochet / 1000) * 5) - 0.1, {ease: FlxEase.quadOut});
 					});
 					
 				default:
@@ -882,7 +885,7 @@ class PlayState extends MusicBeatState
 
 		video.playMP4(path, function(){
 			
-			FlxTween.tween(blackShit, {alpha: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
+			tweenManager.tween(blackShit, {alpha: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
 				remove(blackShit);
 			}});
 
@@ -939,16 +942,16 @@ class PlayState extends MusicBeatState
 		
 		camChangeZoom(2.8, Conductor.crochet / 1000 * 16, FlxEase.quadInOut, function(t){
 			autoZoom = true;
-			FlxTween.tween(healthBar, {alpha: 1}, hudElementsFadeInTime);
-			FlxTween.tween(healthBarBG, {alpha: 1}, hudElementsFadeInTime);
-			FlxTween.tween(iconP1, {alpha: 1}, hudElementsFadeInTime);
-			FlxTween.tween(iconP2, {alpha: 1}, hudElementsFadeInTime);
-			FlxTween.tween(scoreTxt, {alpha: 1}, hudElementsFadeInTime);
+			tweenManager.tween(healthBar, {alpha: 1}, hudElementsFadeInTime);
+			tweenManager.tween(healthBarBG, {alpha: 1}, hudElementsFadeInTime);
+			tweenManager.tween(iconP1, {alpha: 1}, hudElementsFadeInTime);
+			tweenManager.tween(iconP2, {alpha: 1}, hudElementsFadeInTime);
+			tweenManager.tween(scoreTxt, {alpha: 1}, hudElementsFadeInTime);
 			for(x in playerStrums.members){
-				FlxTween.tween(x, {alpha: 1}, hudElementsFadeInTime);
+				tweenManager.tween(x, {alpha: 1}, hudElementsFadeInTime);
 			}
 			for(x in enemyStrums.members){
-				FlxTween.tween(x, {alpha: 1}, hudElementsFadeInTime);
+				tweenManager.tween(x, {alpha: 1}, hudElementsFadeInTime);
 			}
 		});
 		camMove(155, 600, Conductor.crochet / 1000 * 16, FlxEase.quadOut, "center");
@@ -1025,7 +1028,7 @@ class PlayState extends MusicBeatState
 					ready.y -= 120;
 					ready.cameras = [camHUD];
 					add(ready);
-					FlxTween.tween(ready, {y: ready.y += 100, alpha: 0}, Conductor.crochet / 1000, {
+					tweenManager.tween(ready, {y: ready.y += 100, alpha: 0}, Conductor.crochet / 1000, {
 						ease: FlxEase.cubeInOut,
 						onComplete: function(twn:FlxTween)
 						{
@@ -1049,7 +1052,7 @@ class PlayState extends MusicBeatState
 					set.y -= 120;
 					set.cameras = [camHUD];
 					add(set);
-					FlxTween.tween(set, {y: set.y += 100, alpha: 0}, Conductor.crochet / 1000, {
+					tweenManager.tween(set, {y: set.y += 100, alpha: 0}, Conductor.crochet / 1000, {
 						ease: FlxEase.cubeInOut,
 						onComplete: function(twn:FlxTween)
 						{
@@ -1073,7 +1076,7 @@ class PlayState extends MusicBeatState
 					go.y -= 120;
 					go.cameras = [camHUD];
 					add(go);
-					FlxTween.tween(go, {y: go.y += 100, alpha: 0}, Conductor.crochet / 1000, {
+					tweenManager.tween(go, {y: go.y += 100, alpha: 0}, Conductor.crochet / 1000, {
 						ease: FlxEase.cubeInOut,
 						onComplete: function(twn:FlxTween)
 						{
@@ -1365,7 +1368,7 @@ class PlayState extends MusicBeatState
 			if(!instant){
 				babyArrow.y -= 10;
 				babyArrow.alpha = 0;
-				FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
+				tweenManager.tween(babyArrow, {y: babyArrow.y + 10, alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
 			}
 
 			babyArrow.animation.play('static');
@@ -1443,7 +1446,7 @@ class PlayState extends MusicBeatState
 
 		if(inCutscene && inVideoCutscene){
 			if(Binds.justPressed("menuAccept")){
-				FlxTween.tween(video, {alpha: 0, volume: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
+				tweenManager.tween(video, {alpha: 0, volume: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
 					video.skip();
 				}});
 			}
@@ -2805,7 +2808,7 @@ class PlayState extends MusicBeatState
 
 		camTween.cancel();
 		if(_time > 0){
-			camTween = FlxTween.tween(camFollow, {x: _x, y: _y}, _time, {ease: _ease, onComplete: _onComplete});
+			camTween = tweenManager.tween(camFollow, {x: _x, y: _y}, _time, {ease: _ease, onComplete: _onComplete});
 		}
 		else{
 			camFollow.setPosition(_x, _y);
@@ -2823,7 +2826,7 @@ class PlayState extends MusicBeatState
 
 		camZoomTween.cancel();
 		if(_time > 0){
-			camZoomTween = FlxTween.tween(this, {defaultCamZoom: _zoom}, _time, {ease: _ease, onComplete: _onComplete});
+			camZoomTween = tweenManager.tween(this, {defaultCamZoom: _zoom}, _time, {ease: _ease, onComplete: _onComplete});
 		}
 		else{
 			defaultCamZoom = _zoom;
@@ -2839,7 +2842,7 @@ class PlayState extends MusicBeatState
 
 		camZoomAdjustTween.cancel();
 		if(_time > 0){
-			camZoomAdjustTween = FlxTween.tween(this, {camGameZoomAdjust: _zoom}, _time, {ease: _ease, onComplete: _onComplete});
+			camZoomAdjustTween = tweenManager.tween(this, {camGameZoomAdjust: _zoom}, _time, {ease: _ease, onComplete: _onComplete});
 		}
 		else{
 			camGameZoomAdjust = _zoom;
@@ -2855,7 +2858,7 @@ class PlayState extends MusicBeatState
 
 		uiZoomTween.cancel();
 		if(_time > 0){
-			uiZoomTween = FlxTween.tween(camHUD, {zoom: _zoom}, _time, {ease: _ease, onComplete: _onComplete});
+			uiZoomTween = tweenManager.tween(camHUD, {zoom: _zoom}, _time, {ease: _ease, onComplete: _onComplete});
 		}
 		else{
 			camHUD.zoom = _zoom;
@@ -2897,7 +2900,7 @@ class PlayState extends MusicBeatState
 
 		offsetTween.cancel();
 		if(_time > 0){
-			offsetTween = FlxTween.tween(camFollowOffset, {x: _x, y: _y}, _time, {ease: _ease});
+			offsetTween = tweenManager.tween(camFollowOffset, {x: _x, y: _y}, _time, {ease: _ease});
 		}
 		else{
 			camFollowOffset.set(_x, _y);
@@ -2915,7 +2918,7 @@ class PlayState extends MusicBeatState
 		}
 
 		shakeTween.cancel();
-		shakeTween = FlxTween.tween(camFollowShake, {x: FlxG.random.float(0, _distance), y: FlxG.random.float(0, _distance)}, _period, {ease: _ease, onComplete: function(t){
+		shakeTween = tweenManager.tween(camFollowShake, {x: FlxG.random.float(0, _distance), y: FlxG.random.float(0, _distance)}, _period, {ease: _ease, onComplete: function(t){
 			startCamShake(_distance, _period, _ease);
 		}});
 
@@ -2931,7 +2934,7 @@ class PlayState extends MusicBeatState
 		}
 
 		shakeTween.cancel();
-		shakeTween = FlxTween.tween(camFollowShake, {x: 0, y: 0}, _time, {ease: _ease});
+		shakeTween = tweenManager.tween(camFollowShake, {x: 0, y: 0}, _time, {ease: _ease});
 
 	}
 

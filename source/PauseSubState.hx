@@ -23,13 +23,13 @@ class PauseSubState extends MusicBeatSubstate
 
 	var camPause:FlxCamera;
 
-	public function new(x:Float, y:Float)
-	{
+	public function new(x:Float, y:Float){
+
 		super();
 
 		Config.setFramerate(144);
 
-		FlxTween.globalManager.active = false;
+		PlayState.instance.tweenManager.active = false;
 
 		camPause = new FlxCamera();
 		camPause.bgColor.alpha = 0;
@@ -61,6 +61,7 @@ class PauseSubState extends MusicBeatSubstate
 		
 		pauseMusic.volume = 0;
 		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
+		pauseMusic.fadeIn(16, 0, 0.8);
 
 		FlxG.sound.list.add(pauseMusic);
 
@@ -72,8 +73,7 @@ class PauseSubState extends MusicBeatSubstate
 		grpMenuShit = new FlxTypedGroup<Alphabet>();
 		add(grpMenuShit);
 
-		for (i in 0...menuItems.length)
-		{
+		for (i in 0...menuItems.length){
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, menuItems[i], true, false);
 			songText.isMenuItem = true;
 			songText.targetY = i;
@@ -84,11 +84,8 @@ class PauseSubState extends MusicBeatSubstate
 
 	}
 
-	override function update(elapsed:Float)
-	{
-		if (pauseMusic.volume < 0.8)
-			pauseMusic.volume += 0.05 * elapsed;
-
+	override function update(elapsed:Float){
+			
 		super.update(elapsed);
 
 		if (Binds.justPressed("menuUp")){
@@ -104,7 +101,7 @@ class PauseSubState extends MusicBeatSubstate
 
 		if (!allowControllerPress ? Binds.justPressedKeyboardOnly("menuAccept") : Binds.justPressed("menuAccept")){
 
-			FlxTween.globalManager.active = true;
+			PlayState.instance.tweenManager.active = true;
 
 			var daSelected:String = menuItems[curSelected];
 
@@ -114,29 +111,29 @@ class PauseSubState extends MusicBeatSubstate
 					unpause();
 					
 				case "Restart Song":
-					FlxTween.globalManager.clear();
+					PlayState.instance.tweenManager.clear();
 					PlayState.instance.switchState(new PlayState());
 					PlayState.sectionStart = false;
 
 				case "Restart Section":
-					FlxTween.globalManager.clear();
+					PlayState.instance.tweenManager.clear();
 					PlayState.instance.switchState(new PlayState());
 
 				case "Chart Editor":
-					FlxTween.globalManager.clear();
+					PlayState.instance.tweenManager.clear();
 					PlayState.instance.switchState(new ChartingState());
 					
 				case "Skip Song":
-					FlxTween.globalManager.clear();
+					PlayState.instance.tweenManager.clear();
 					PlayState.instance.endSong();
 					
 				case "Options":
-					FlxTween.globalManager.clear();
+					PlayState.instance.tweenManager.clear();
 					PlayState.instance.switchState(new ConfigMenu());
 					ConfigMenu.exitTo = PlayState;
 					
 				case "Exit to menu":
-					FlxTween.globalManager.clear();
+					PlayState.instance.tweenManager.clear();
 					PlayState.sectionStart = false;
 					PlayState.instance.returnToMenu();
 			}
@@ -154,10 +151,9 @@ class PauseSubState extends MusicBeatSubstate
 		close();
 	}
 
-	override function destroy()
-	{
+	override function destroy(){
+		pauseMusic.fadeTween.cancel();
 		pauseMusic.destroy();
-
 		super.destroy();
 	}
 
