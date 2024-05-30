@@ -88,7 +88,7 @@ class DialogueBox extends FlxSpriteGroup
 				box.animation.addByPrefix('normalOpen', 'Text Box Appear', 24, false);
 				box.animation.addByIndices('normal', 'Text Box Appear', [4], "", 24);
 			case 'roses':
-				FlxG.sound.play(Paths.sound('ANGRY_TEXT_BOX'));
+				FlxG.sound.play(Paths.sound('week6/ANGRY_TEXT_BOX'));
 
 				box.frames = Paths.getSparrowAtlas('week6/weeb/pixelUI/dialogueBox-senpaiMad');
 				box.animation.addByPrefix('normalOpen', 'SENPAI ANGRY IMPACT SPEECH', 24, false);
@@ -128,7 +128,7 @@ class DialogueBox extends FlxSpriteGroup
 		swagDialogue = new FlxTypeText(240, 500, Std.int(FlxG.width * 0.6), "", 32);
 		swagDialogue.font = 'Pixel Arial 11 Bold';
 		swagDialogue.color = 0xFF3F2021;
-		swagDialogue.sounds = [FlxG.sound.load(Paths.sound('pixelText'), 0.6)];
+		swagDialogue.sounds = [FlxG.sound.load(Paths.sound('week6/pixelText'), 0.6)];
 		add(swagDialogue);
 
 		dialogue = new Alphabet(0, 80, "", false, true);
@@ -177,7 +177,7 @@ class DialogueBox extends FlxSpriteGroup
 
 				remove(dialogue);
 
-				FlxG.sound.play(Paths.sound('clickText'), 0.8);
+				FlxG.sound.play(Paths.sound('week6/clickText'), 0.8);
 
 				if (dialogueList[1] == null)
 				{
@@ -207,7 +207,7 @@ class DialogueBox extends FlxSpriteGroup
 				}
 				else
 				{
-					FlxG.sound.play(Paths.sound('pixelText'), 0.6);
+					FlxG.sound.play(Paths.sound('week6/pixelText'), 0.6);
 					dialogueList.remove(dialogueList[0]);
 					startDialogue();
 				}

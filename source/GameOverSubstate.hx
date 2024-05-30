@@ -16,6 +16,7 @@ class GameOverSubstate extends MusicBeatSubstate
 	var camFollow:FlxObject;
 
 	var stageSuffix:String = "";
+	var stagePrefix:String = "";
 
 	public function new(x:Float, y:Float, camX:Float, camY:Float, character:String)
 	{
@@ -25,6 +26,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		{
 			case 'BfPixelDead':
 				stageSuffix = '-pixel';
+				stagePrefix = 'week6/';
 		}
 
 		super();
@@ -38,7 +40,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		add(camFollow);
 		FlxTween.tween(camFollow, {x: bf.getGraphicMidpoint().x, y: bf.getGraphicMidpoint().y}, 3, {ease: FlxEase.expoOut, startDelay: 0.5});
 
-		FlxG.sound.play(Paths.sound('fnf_loss_sfx' + stageSuffix));
+		FlxG.sound.play(Paths.sound(stagePrefix + 'fnf_loss_sfx' + stageSuffix));
 		Conductor.changeBPM(100);
 
 		// FlxG.camera.followLerp = 1;

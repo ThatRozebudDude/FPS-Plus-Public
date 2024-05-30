@@ -673,7 +673,7 @@ class PlayState extends MusicBeatState
 					new FlxTimer().start(0.1, function(tmr:FlxTimer)
 					{
 						remove(blackScreen);
-						FlxG.sound.play(Paths.sound('Lights_Turn_On'));
+						FlxG.sound.play(Paths.sound('week5/Lights_Turn_On'));
 						camFollow.y = -2050;
 						camFollow.x += 200;
 						FlxG.camera.focusOn(camFollow.getPosition());
@@ -695,7 +695,7 @@ class PlayState extends MusicBeatState
 				case 'senpai':
 					schoolIntro(doof);
 				case 'roses':
-					FlxG.sound.play(Paths.sound('ANGRY'));
+					FlxG.sound.play(Paths.sound('week6/ANGRY'));
 					schoolIntro(doof);
 				case 'thorns':
 					schoolIntro(doof);
@@ -838,7 +838,7 @@ class PlayState extends MusicBeatState
 							else
 							{
 								senpaiEvil.animation.play('idle');
-								FlxG.sound.play(Paths.sound('Senpai_Dies'), 1, false, null, true, function()
+								FlxG.sound.play(Paths.sound('week6/Senpai_Dies'), 1, false, null, true, function()
 								{
 									remove(senpaiEvil);
 									remove(red);
@@ -982,16 +982,18 @@ class PlayState extends MusicBeatState
 		var swagCounter:Int = 0;
 
 		var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
-			introAssets.set('default', ['ui/ready', "ui/set", "ui/go", ""]);
+			introAssets.set('default', ['ui/ready', "ui/set", "ui/go", "", ""]);
 			introAssets.set('pixel', [
 				"week6/weeb/pixelUI/ready-pixel",
 				"week6/weeb/pixelUI/set-pixel",
 				"week6/weeb/pixelUI/date-pixel",
-				"-pixel"
+				"-pixel",
+				"week6/"
 			]);
 
 		var introAlts:Array<String> = introAssets.get(curUiType);
 		var altSuffix = introAlts[3];
+		var altPrefix = introAlts[4];
 
 		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 		{
@@ -1008,7 +1010,7 @@ class PlayState extends MusicBeatState
 
 			{
 				case 0:
-					FlxG.sound.play(Paths.sound('intro3' + altSuffix), 0.6);
+					FlxG.sound.play(Paths.sound(altPrefix + 'intro3' + altSuffix), 0.6);
 					if(meta != null){
 						meta.start();
 					}
@@ -1035,7 +1037,7 @@ class PlayState extends MusicBeatState
 							ready.destroy();
 						}
 					});
-					FlxG.sound.play(Paths.sound('intro2' + altSuffix), 0.6);
+					FlxG.sound.play(Paths.sound(altPrefix + 'intro2' + altSuffix), 0.6);
 				case 2:
 					var set:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[1]));
 					set.scrollFactor.set();
@@ -1059,7 +1061,7 @@ class PlayState extends MusicBeatState
 							set.destroy();
 						}
 					});
-					FlxG.sound.play(Paths.sound('intro1' + altSuffix), 0.6);
+					FlxG.sound.play(Paths.sound(altPrefix + 'intro1' + altSuffix), 0.6);
 				case 3:
 					var go:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[2]));
 					go.scrollFactor.set();
@@ -1083,7 +1085,7 @@ class PlayState extends MusicBeatState
 							go.destroy();
 						}
 					});
-					FlxG.sound.play(Paths.sound('introGo' + altSuffix), 0.6);
+					FlxG.sound.play(Paths.sound(altPrefix + 'introGo' + altSuffix), 0.6);
 				case 4:
 					beatHit();
 			}
@@ -1515,7 +1517,7 @@ class PlayState extends MusicBeatState
 			openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
 
-		if (FlxG.keys.justPressed.SEVEN){
+		if (FlxG.keys.justPressed.SEVEN && !isStoryMode){
 
 			if(!FlxG.keys.pressed.SHIFT){
 				ChartingState.startSection = curSection;
@@ -1555,7 +1557,7 @@ class PlayState extends MusicBeatState
 			iconP2.animation.curAnim.curFrame = 0;
 		}
 
-		if (FlxG.keys.justPressed.EIGHT){
+		if (FlxG.keys.justPressed.EIGHT && !isStoryMode){
 
 			sectionStart = false;
 
@@ -1916,7 +1918,7 @@ class PlayState extends MusicBeatState
 					add(blackShit);
 					camHUD.visible = false;
 
-					FlxG.sound.play(Paths.sound('Lights_Shut_off'));
+					FlxG.sound.play(Paths.sound('week5/Lights_Shut_off'));
 				}
 
 				if (SONG.song.toLowerCase() == 'senpai')

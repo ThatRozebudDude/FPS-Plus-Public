@@ -44,7 +44,7 @@ class Startup extends FlxState
                                 "Senpai", "Roses", "Thorns",
                                 "Ugh", "Guns", "Stress",
                                 "Lil-Buddies",
-                                "klaskiiLoop", "freakyMenu"]; //Start of the non-gameplay songs.
+                                "klaskiiLoop", "freeplayRandom"]; //Start of the non-gameplay songs.
                                 
     //List of character graphics and some other stuff.
     //Just in case it want to do something with it later.

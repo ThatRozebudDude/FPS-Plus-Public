@@ -148,6 +148,9 @@ class FreeplayState extends MusicBeatState
 
 		setUpScrollingText();
 
+		createCategory("ALL");
+		//createCategory("ERECT");
+
 		addSong("Tutorial", "Tutorial", "gf", 0, ["ALL", "Week 1"]);
 
 		addSong("Bopeebo", "Bopeebo", "dad", 1, ["ALL", "Week 1"]);
@@ -179,6 +182,7 @@ class FreeplayState extends MusicBeatState
 		addSong("Stress", "Stress", "tankman", 7, "vol2", ["ALL", "Week 7"]);
 
 		addSong("Lil-Buddies", "Lil' Buddies", "bf", 0, "lil", ["Secret"]);
+		addSong("Lil-Buddies-Erect", "Lil' Buddies Erect", "bf", 0, "lil", [/*"ERECT",*/ "Secret"]);
 
 		super.create();
 	}
@@ -724,11 +728,15 @@ class FreeplayState extends MusicBeatState
 		if(categories == null){ categories = ["All"]; }
 		var capsule:Capsule = new Capsule(_song, _displayName, _icon, _week, _album);
 		for(cat in categories){
-			if(!categoryMap.exists(cat)){
-				categoryNames.push(cat);
-				categoryMap.set(cat, []);
-			}
+			createCategory(cat);
 			categoryMap[cat].push(capsule);
+		}
+	}
+
+	function createCategory(name:String):Void{
+		if(!categoryMap.exists(name)){
+			categoryNames.push(name);
+			categoryMap.set(name, []);
 		}
 	}
 
@@ -772,11 +780,11 @@ class FreeplayState extends MusicBeatState
 		if(!allowedDifficulties.contains(curDifficulty)){
 			curDifficulty = 0;
 			changeDifficulty((curDifficulty > allowedDifficulties[allowedDifficulties.length-1]) ? allowedDifficulties[allowedDifficulties.length-1] : allowedDifficulties[0]);
+			updateDifficultyGraphic();
 			return;
 		}
 
-		difficulty.loadGraphic(Paths.image("menu/freeplay/diff/" + diffNumberToDiffName(curDifficulty)));
-		difficulty.offset.set(difficulty.width/2, difficulty.height/2);
+		updateDifficultyGraphic();
 
 		FlxTween.completeTweensOf(difficulty);
 		difficulty.y -= 15;
@@ -784,6 +792,29 @@ class FreeplayState extends MusicBeatState
 
 		updateScore();
 	}
+
+	function updateDifficultyGraphic():Void{
+		var prefix = "";
+		if(categoryMap[categoryNames[curCategory]][curSelected].song.endsWith("-Erect")){
+			prefix = "erect/";
+		}
+
+		if(!Utils.exists(Paths.image("menu/freeplay/diff/" + prefix + diffNumberToDiffName(curDifficulty), true))){
+			prefix = "";
+		}
+
+		if(Utils.exists(Paths.xml("menu/freeplay/diff/" + prefix + diffNumberToDiffName(curDifficulty)))){
+			difficulty.frames = Paths.getSparrowAtlas("menu/freeplay/diff/" + prefix + diffNumberToDiffName(curDifficulty));
+			difficulty.animation.addByPrefix("idle", "", 24, true);
+			difficulty.animation.play("idle");
+		}
+		else{
+			difficulty.loadGraphic(Paths.image("menu/freeplay/diff/" + prefix + diffNumberToDiffName(curDifficulty)));
+		}
+
+		difficulty.offset.set(difficulty.width/2, difficulty.height/2);
+	}
+
 
 	function changeCategory(change:Int):Void{
 		curCategory += change;
@@ -870,6 +901,8 @@ class FreeplayState extends MusicBeatState
 			curDifficulty = 0;
 			changeDifficulty(allowedDifficulties[0]);
 		}
+
+		updateDifficultyGraphic();
 	}
 
 	function diffNumberToDiffName(diff:Int):String{
@@ -932,7 +965,7 @@ class FreeplayState extends MusicBeatState
 		FlxTween.tween(categoryTitle, {y: categoryTitle.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*2});
 		FlxTween.tween(miniArrowLeft, {y: miniArrowLeft.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
 		FlxTween.tween(miniArrowRight, {y: miniArrowRight.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
-		tweenCapsulesOffScreen(transitionTimeExit, randomVariationExit, staggerTimeExit);
+		//tweenCapsulesOffScreen(transitionTimeExit, randomVariationExit, staggerTimeExit);
 		scrollingText.forEachExists(function(text){ text.destroy(); });
 		scrollingText.clear();
 		FlxTween.completeTweensOf(flash);

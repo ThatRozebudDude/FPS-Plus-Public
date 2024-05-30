@@ -91,7 +91,7 @@ class Limo extends BaseStage
 
 	function fastCarDrive()
 	{
-		FlxG.sound.play(Paths.sound('carPass' + FlxG.random.int(0, 1)), 0.7);
+		FlxG.sound.play(Paths.sound('week4/carPass' + FlxG.random.int(0, 1)), 0.7);
 
 		fastCar.velocity.x = (FlxG.random.int(170, 220) / FlxG.elapsed) * 3;
 		fastCarCanDrive = false;

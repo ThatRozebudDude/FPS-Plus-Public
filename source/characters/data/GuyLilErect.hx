@@ -1,15 +1,15 @@
 package characters.data;
 
-class GuyLil extends CharacterInfoBase
+class GuyLilErect extends CharacterInfoBase
 {
 
     override public function new(){
 
         super();
 
-        info.name = "guy-lil";
-        info.spritePath = "chartEditor/lilOpp";
-        info.frameLoadType = load(300, 256);
+        info.name = "guy-lil-erect";
+        info.spritePath = "fpsPlus/lil/lilGuyE";
+        info.frameLoadType = load(256, 256);
         
         info.iconName = "face-lil";
         info.antialiasing = false;
