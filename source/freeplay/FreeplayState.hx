@@ -965,7 +965,7 @@ class FreeplayState extends MusicBeatState
 		FlxTween.tween(categoryTitle, {y: categoryTitle.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*2});
 		FlxTween.tween(miniArrowLeft, {y: miniArrowLeft.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
 		FlxTween.tween(miniArrowRight, {y: miniArrowRight.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
-		//tweenCapsulesOffScreen(transitionTimeExit, randomVariationExit, staggerTimeExit);
+		tweenCapsulesOffScreen(transitionTimeExit, randomVariationExit, staggerTimeExit);
 		scrollingText.forEachExists(function(text){ text.destroy(); });
 		scrollingText.clear();
 		FlxTween.completeTweensOf(flash);
