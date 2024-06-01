@@ -43,5 +43,5 @@ output = output[:-1]
 
 output += "\n],"
 
-print(output)
+print("notes copied to clipbaord!!")
 pyperclip.copy(output)
