@@ -62,7 +62,7 @@ class FreeplayState extends MusicBeatState
 
 	var scrollingText:FlxTypedSpriteGroup<FlxBackdrop> = new FlxTypedSpriteGroup<FlxBackdrop>();
 
-	var dj:FlxSprite;
+	var dj:DJCharacter;
 
 	public static var curSelected:Int = 0;
 	public static var curDifficulty:Int = 1;
@@ -149,29 +149,29 @@ class FreeplayState extends MusicBeatState
 		setUpScrollingText();
 
 		createCategory("ALL");
-		//createCategory("ERECT");
+		createCategory("ERECT");
 
 		addSong("Tutorial", "Tutorial", "gf", 0, ["ALL", "Week 1"]);
 
-		addSong("Bopeebo", "Bopeebo", "dad", 1, ["ALL", "Week 1"]);
-		addSong("Fresh", "Fresh", "dad", 1, ["ALL", "Week 1"]);
-		addSong("Dadbattle", "Dad Battle", "dad", 1, ["ALL", "Week 1"]);
+		addSong("Bopeebo", "Bopeebo", "dad", 1, "vol1", ["ALL", "Week 1"]);
+		addSong("Fresh", "Fresh", "dad", 1, "vol1", ["ALL", "Week 1"]);
+		addSong("Dadbattle", "Dad Battle", "dad", 1, "vol1", ["ALL", "Week 1"]);
 
-		addSong("Spookeez", "Spookeez", "spooky", 2, ["ALL", "Week 2"]);
-		addSong("South", "South", "spooky", 2, ["ALL", "Week 2"]);
-		addSong("Monster", "Monster", "monster", 2, ["ALL", "Week 2"]);
+		addSong("Spookeez", "Spookeez", "spooky", 2, "vol1", ["ALL", "Week 2"]);
+		addSong("South", "South", "spooky", 2, "vol1", ["ALL", "Week 2"]);
+		addSong("Monster", "Monster", "monster", 2, "vol1", ["ALL", "Week 2"]);
 
-		addSong("Pico", "Pico", "pico", 3, ["ALL", "Week 3"]);
-		addSong("Philly", "Philly Nice", "pico", 3, ["ALL", "Week 3"]);
-		addSong("Blammed", "Blammed", "pico", 3, ["ALL", "Week 3"]);
+		addSong("Pico", "Pico", "pico", 3, "vol1", ["ALL", "Week 3"]);
+		addSong("Philly", "Philly Nice", "pico", 3, "vol1", ["ALL", "Week 3"]);
+		addSong("Blammed", "Blammed", "pico", 3, "vol1", ["ALL", "Week 3"]);
 
-		addSong("Satin-Panties", "Satin Panties", "mom", 4, ["ALL", "Week 4"]);
-		addSong("High", "High", "mom", 4, ["ALL", "Week 4"]);
-		addSong("Milf", "M.I.L.F.", "mom", 4, ["ALL", "Week 4"]);
+		addSong("Satin-Panties", "Satin Panties", "mom", 4, "vol1", ["ALL", "Week 4"]);
+		addSong("High", "High", "mom", 4, "vol1", ["ALL", "Week 4"]);
+		addSong("Milf", "M.I.L.F.", "mom", 4, "vol1", ["ALL", "Week 4"]);
 
-		addSong("Cocoa", "Cocoa", "parents-christmas", 5, ["ALL", "Week 5"]);
-		addSong("Eggnog", "Eggnog", "parents-christmas", 5, ["ALL", "Week 5"]);
-		addSong("Winter-Horrorland", "Winter Horrorland", "monster", 5, ["ALL", "Week 5"]);
+		addSong("Cocoa", "Cocoa", "parents-christmas", 5, "vol1", ["ALL", "Week 5"]);
+		addSong("Eggnog", "Eggnog", "parents-christmas", 5, "vol1", ["ALL", "Week 5"]);
+		addSong("Winter-Horrorland", "Winter Horrorland", "monster", 5, "vol1", ["ALL", "Week 5"]);
 
 		addSong("Senpai", "Senpai", "senpai", 6, "vol2", ["ALL", "Week 6"]);
 		addSong("Roses", "Roses", "senpai", 6, "vol2", ["ALL", "Week 6"]);
@@ -182,6 +182,26 @@ class FreeplayState extends MusicBeatState
 		addSong("Stress", "Stress", "tankman", 7, "vol2", ["ALL", "Week 7"]);
 
 		addSong("Lil-Buddies", "Lil' Buddies", "bf", 0, "lil", ["Secret"]);
+
+		//ERECT SONGS!!!!
+
+		addSong("Bopeebo-Erect", "Bopeebo Erect", "dad", 1, "vol3", ["ERECT", "Week 1"]);
+		addSong("Fresh-Erect", "Fresh Erect", "dad", 1, "vol3", ["ERECT", "Week 1"]);
+		addSong("Dadbattle-Erect", "Dad Battle Erect", "dad", 1, "vol3", ["ERECT", "Week 1"]);
+
+		addSong("Spookeez-Erect", "Spookeez Erect", "spooky", 2, "vol3", ["ERECT", "Week 2"]);
+		addSong("South-Erect", "South Erect", "spooky", 2, "vol3", ["ERECT", "Week 2"]);
+
+		addSong("Pico-Erect", "Pico Erect", "pico", 3, "vol3", ["ERECT", "Week 3"]);
+		addSong("Philly-Erect", "Philly Nice Erect", "pico", 3, "vol3", ["ERECT", "Week 3"]);
+		addSong("Blammed-Erect", "Blammed Erect", "pico", 3, "vol3", ["ERECT", "Week 3"]);
+
+		addSong("High-Erect", "High Erect", "mom", 4, "vol3", ["ERECT", "Week 4"]);
+
+		addSong("Senpai-Erect", "Senpai Erect", "senpai", 6, "vol3", ["ERECT", "Week 6"]);
+		addSong("Roses-Erect", "Roses Erect", "senpai", 6, "vol3", ["ERECT", "Week 6"]);
+		addSong("Thorns-Erect", "Thorns Erect", "spirit", 6, "vol3", ["ERECT", "Week 6"]);
+
 		addSong("Lil-Buddies-Erect", "Lil' Buddies Erect", "bf", 0, "lil", [/*"ERECT",*/ "Secret"]);
 
 		super.create();
@@ -385,37 +405,8 @@ class FreeplayState extends MusicBeatState
 		miniArrowRight.y -= 7;
 
 		//DJ STUFF
-		dj = new FlxSprite(-9, 290);
+		dj = new DJCharacter(-9, 290, "bf", djIntroFinish);
 		dj.cameras = [camFreeplay];
-		dj.frames = Paths.getSparrowAtlas("menu/freeplay/dj/bf");
-		dj.antialiasing = true;
-
-		dj.animation.addByPrefix("idle", "Boyfriend DJ0", 24, false, false, false);
-		dj.animation.addByPrefix("intro", "boyfriend dj intro", 24, false, false, false);
-        dj.animation.addByPrefix("confirm", "Boyfriend DJ confirm", 24, false, false, false);
-		
-		dj.animation.callback = function(name, frameNumber, frameIndex) {
-			switch(name){
-				case "idle":
-					dj.offset.set(0, 0);
-				case "intro":
-					dj.offset.set(5, 427);
-				case "confirm":
-					dj.offset.set(43, -24);
-			}
-		}
-
-		dj.animation.finishCallback = function(name) {
-			switch(name){
-				case "idle":
-					dj.animation.play("idle", true, false, dj.animation.curAnim.numFrames - 4);
-				case "intro":
-					if(transitionFromMenu && !transitionOver){
-						djIntroFinish();
-						dj.animation.play("idle", true);
-					}
-			}
-		}
 
 		if(transitionFromMenu){
 			dj.animation.play("intro", true);
@@ -566,6 +557,8 @@ class FreeplayState extends MusicBeatState
 	}
 
 	function djIntroFinish():Void{
+		if(transitionOver){ return; }
+
 		transitionOver = true;
 		startFreeplaySong();
 
