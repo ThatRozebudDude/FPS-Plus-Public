@@ -942,6 +942,13 @@ class ChartingState extends MusicBeatState
 					resetSection();
 			}
 
+			if (FlxG.keys.justPressed.U){
+				_song.notes[curSection].mustHitSection = !_song.notes[curSection].mustHitSection;
+				check_mustHitSection.checked = _song.notes[curSection].mustHitSection;
+				updateHeads();
+				swapSections();
+			}
+
 			if (FlxG.mouse.wheel != 0)
 			{
 				// && strumLine.y > gridBG.y)
