@@ -205,7 +205,7 @@ class FreeplayState extends MusicBeatState
 		addSong("Lil-Buddies-Erect", "Lil' Buddies Erect", "bf", 0, "lil", [/*"ERECT",*/ "Secret"]);
 
 		super.create();
-	}
+	} 
 
 
 
@@ -771,9 +771,7 @@ class FreeplayState extends MusicBeatState
 		}
 
 		if(!allowedDifficulties.contains(curDifficulty)){
-			curDifficulty = 0;
-			changeDifficulty((curDifficulty > allowedDifficulties[allowedDifficulties.length-1]) ? allowedDifficulties[allowedDifficulties.length-1] : allowedDifficulties[0]);
-			updateDifficultyGraphic();
+			changeDifficulty(Utils.sign(change));
 			return;
 		}
 

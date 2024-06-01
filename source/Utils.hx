@@ -109,4 +109,8 @@ class Utils
 	public static function worldToLocal(object:FlxObject, x:Float, y:Float):FlxPoint{
         return new FlxPoint(x - object.x, y - object.y);
     }
+
+	public static inline function sign(v:Float):Int {
+		return (v > 0 ? 1 : (v < 0 ? -1 : 0));
+	}
 }
