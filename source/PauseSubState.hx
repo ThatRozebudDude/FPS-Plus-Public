@@ -51,7 +51,7 @@ class PauseSubState extends MusicBeatSubstate
 		var pauseSongName = "pause/breakfast";
 
 		switch(PlayState.SONG.song.toLowerCase()){
-			case "senpai" | "roses" | "thorns":
+			case "senpai" | "roses" | "thorns" | "senpai-erect" | "roses-erect" | "thorns-erect":
 				pauseSongName = "pause/breakfast-pixel";
 			case "ugh" | "guns" | "stress":
 				pauseSongName = "week7/distorto";
