@@ -90,6 +90,11 @@ class FreeplayState extends MusicBeatState
 
 	var scrollingTextStuff:Array<ScrollingTextInfo> = [];
 
+	var afkTimer:Float = 0;
+	var nextAfkTime:Float = 5;
+	static final minAfkTime:Float = 9;
+	static final maxAfkTime:Float = 27;
+
 	static final freeplaySong:String = "freeplayRandom"; 
 	static final freeplaySongBpm:Float = 145; 
 	static final freeplaySongVolume:Float = 0.9; 
@@ -118,6 +123,8 @@ class FreeplayState extends MusicBeatState
 		Config.setFramerate(144);
 
 		persistentUpdate = persistentDraw = true;
+
+		nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
 
 		if(transitionFromMenu){
 			if(FlxG.sound.music.playing){
@@ -264,7 +271,7 @@ class FreeplayState extends MusicBeatState
 				flash.visible = true;
 				FlxTween.tween(flash, {alpha: 0}, 1, {startDelay: 0.1});
 				FlxG.sound.play(Paths.sound('confirmMenu'));
-				dj.animation.play("confirm", true);
+				dj.playAnim("confirm", true);
 				startSong();
 			}
 	
@@ -297,7 +304,24 @@ class FreeplayState extends MusicBeatState
 					switchState(new MainMenuState());
 				});
 			}
+
+			if(dj.curAnim == "idle"){
+				afkTimer += elapsed;
+				if(afkTimer >= nextAfkTime){
+					trace("random idle set");
+					afkTimer = 0;
+					nextAfkTime = nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
+					dj.doRandomIdle = true;
+				}
+			}
+
+			//big if
+			if(Binds.justPressed("menuUp")||Binds.justPressed("menuDown")||Binds.justPressed("menuLeft")||Binds.justPressed("menuRight")||Binds.justPressed("menuCycleLeft")||Binds.justPressed("menuCycleRight")){
+				pressedAnything();
+			}
 		}
+
+		if(FlxG.keys.justPressed.ONE){ dj.doRandomIdle = true; }
 		
 		camFollow.x = Utils.fpsAdjsutedLerp(camFollow.x, camTarget.x, MainMenuState.lerpSpeed);
 		camFollow.y = Utils.fpsAdjsutedLerp(camFollow.y, camTarget.y, MainMenuState.lerpSpeed);
@@ -306,14 +330,16 @@ class FreeplayState extends MusicBeatState
 
 	}
 
-
-
 	override function beatHit() {
-		if(FlxG.sound.music.playing && curBeat % 2 == 0 && dj.animation.curAnim.name == "idle"){
-			dj.animation.play("idle", true);
-		}
-
+		dj.beat(curBeat);
 		super.beatHit();
+	}
+
+	function pressedAnything():Void{
+		afkTimer = 0;
+		nextAfkTime = nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
+		dj.doRandomIdle = false;
+		dj.buttonPress();
 	}
 
 
@@ -409,10 +435,10 @@ class FreeplayState extends MusicBeatState
 		dj.cameras = [camFreeplay];
 
 		if(transitionFromMenu){
-			dj.animation.play("intro", true);
+			dj.playAnim("intro", true);
 		}
 		else {
-			dj.animation.play("idle", true);
+			dj.playAnim("idle", true);
 		}
 
 		//ADDING STUFF
@@ -573,7 +599,9 @@ class FreeplayState extends MusicBeatState
 	function startFreeplaySong():Void{
 		FlxG.sound.playMusic(Paths.music(freeplaySong), freeplaySongVolume);
 		Conductor.changeBPM(freeplaySongBpm);
-		FlxG.sound.music.onComplete = function(){lastStep = 0;}
+		FlxG.sound.music.onComplete = function(){ 
+			lastStep = -Conductor.stepCrochet;
+		}
 		lastBeat = 0;
 		lastStep = 0;
 		totalBeats = 0;

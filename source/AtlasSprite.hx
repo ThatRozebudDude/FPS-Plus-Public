@@ -14,17 +14,23 @@ class AtlasSprite extends FlxAnimate
 {
 
     public var animInfoMap:Map<String, AtlasAnimInfo> = new Map<String, AtlasAnimInfo>();
+
 	public var curAnim:String;
+	public var finishedAnim:Bool = true;
 
     public var frameCallback:(String, Int, Int)->Void;
     public var animationEndCallback:String->Void;
 
-    private var baseWidth:Float;
-    private var baseHeight:Float;
+    private var baseWidth:Float = 0;
+    private var baseHeight:Float = 0;
 
     public function new(?_x:Float, ?_y:Float, _path:String) {
         super(_x, _y, _path);
         anim.callback = animCallback;
+    }
+
+    override function loadAtlas(Path:String) {
+        super.loadAtlas(Path);
         baseWidth = pixels.width/2;
         baseHeight = pixels.height/2;
         width = baseWidth;
@@ -48,13 +54,18 @@ class AtlasSprite extends FlxAnimate
 			nextAnimFrame = anim.length;
 		}
 
+        var length = nextAnimFrame - frame.index;
+
         if(looped && loopFrame == null){
             loopFrame = 0;
+        }
+        else if(looped && loopFrame < 0){
+            loopFrame = length + loopFrame;
         }
 
 		animInfoMap.set(name, {
 		    startFrame: frame.index,
-			length: nextAnimFrame - frame.index,
+			length: length,
 			framerate: framerate,
             looped: looped,
             loopFrame: loopFrame
@@ -64,6 +75,9 @@ class AtlasSprite extends FlxAnimate
     public function addAnimationByFrame(name:String, frame:Int, length:Int, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
         if(looped && loopFrame == null){
             loopFrame = 0;
+        }
+        else if(looped && loopFrame < 0){
+            loopFrame = length + loopFrame;
         }
 
 		animInfoMap.set(name, {
@@ -75,8 +89,15 @@ class AtlasSprite extends FlxAnimate
 		});
     }
 
-    public function playAnim(name:String, ?force:Bool = true, ?reverse:Bool = false, ?frameOffset:Int = 0) {
+    public function playAnim(name:String, ?force:Bool = true, ?reverse:Bool = false, ?frameOffset:Int = 0):Void{
+
+        if(!animInfoMap.exists(name)){
+            trace("ANIMATION " + name + " DOES NOT EXIST");
+            return;
+        }
+
         curAnim = name;
+        finishedAnim = false;
 
         if(frameOffset >= animInfoMap.get(name).length){
             frameOffset = animInfoMap.get(name).length - 1;
@@ -88,17 +109,19 @@ class AtlasSprite extends FlxAnimate
     function animCallback(name:String, frame:Int):Void{
 		var animInfo = animInfoMap.get(curAnim);
 
-        if(frameCallback != null){ frameCallback(name, frame, frame); }
+        if(frameCallback != null){ frameCallback(curAnim, frame - animInfo.startFrame, frame); }
 
 		if(frame == (animInfo.startFrame + animInfo.length) - 1){
-            if(animationEndCallback != null){ animationEndCallback(name); }
-
             if(animInfo.looped){
-                playAnim(curAnim, true, animInfo.loopFrame);
+                playAnim(curAnim, true, false, animInfo.loopFrame);
+                finishedAnim = true;
             }
             else{
                 anim.pause();
+                finishedAnim = true;
             }
+
+            if(animationEndCallback != null){ animationEndCallback(curAnim); }
 		}
 	}
 
@@ -112,7 +135,7 @@ class AtlasSprite extends FlxAnimate
         return super.set_flipY(Value);
     }
 
-    override function update(elapsed:Float) {
+    override function update(elapsed:Float):Void{
 
         if(flipX){ offset.x = -width; }
         else { offset.x = 0; }
@@ -123,7 +146,7 @@ class AtlasSprite extends FlxAnimate
         super.update(elapsed);
     }
 
-    override function updateHitbox() {
+    override function updateHitbox():Void{
         width = Math.abs(scale.x) * baseWidth;
 		height = Math.abs(scale.y) * baseHeight;
     }

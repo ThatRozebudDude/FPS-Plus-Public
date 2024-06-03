@@ -375,9 +375,9 @@ class PlayState extends MusicBeatState
 			case "fresh":
 				dadBeats = [0, 1, 2, 3];
 				bfBeats = [0, 1, 2, 3];
-			case "spookeez":
+			case "spookeez" | "spookeez-erect":
 				dadBeats = [0, 1, 2, 3];
-			case "south":
+			case "south" | "south-erect":
 				dadBeats = [0, 1, 2, 3];
 			case "monster":
 				dadBeats = [0, 1, 2, 3];

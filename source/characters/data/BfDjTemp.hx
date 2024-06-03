@@ -9,14 +9,19 @@ class BfDjTemp extends CharacterInfoBase
 
         super();
 
+        info.name = "bf-dj-atlas-temp";
         info.spritePath = "menu/freeplay/dj/bf";
-        info.frameLoadType = sparrow;
+        info.frameLoadType = atlas;
         
         info.iconName = "bf";
 
-        addByPrefix("idle", offset(0, 0), "Boyfriend DJ0", 24, loop(false, 0), false, false);
-        addByPrefix("intro", offset(5, 427), "boyfriend dj intro", 24, loop(false, 0), false, false);
-        addByPrefix("confirm", offset(43, -24), "Boyfriend DJ confirm", 24, loop(false, 0), false, false);
+        addByLabel('idle', offset(), "Idle", 24, loop(false));
+        addByLabel('intro', offset(), "Intro", 24, loop(false));
+        addByLabel('confirm', offset(), "Confirm", 24, loop(false));
+        addByLabel('idle1start', offset(), "Idle1", 24, loop(false));
+        addByLabel('idle2start', offset(), "Idle2Start", 24, loop(false));
+        addByLabel('idle2loop', offset(), "Idle2Loop", 24, loop(false));
+        addByLabel('idle2end', offset(), "Idle2End", 24, loop(false));
 
     }
 
