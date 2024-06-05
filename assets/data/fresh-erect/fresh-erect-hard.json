@@ -1705,7 +1705,7 @@
 					[
 						43740,
 						7,
-						240,
+						360,
 						""
 					],
 					[
@@ -3135,6 +3135,20 @@
 				],
 				"bpm": 0,
 				"changeBPM": null,
+				"mustHitSection": true
+			},
+			{
+				"lengthInSteps": 16,
+				"sectionNotes": [],
+				"bpm": 0,
+				"changeBPM": false,
+				"mustHitSection": true
+			},
+			{
+				"lengthInSteps": 16,
+				"sectionNotes": [],
+				"bpm": 0,
+				"changeBPM": false,
 				"mustHitSection": true
 			},
 			{
