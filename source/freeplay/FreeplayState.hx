@@ -188,8 +188,6 @@ class FreeplayState extends MusicBeatState
 		addSong("Guns", "Guns", "tankman", 7, "vol2", ["ALL", "Week 7"]);
 		addSong("Stress", "Stress", "tankman", 7, "vol2", ["ALL", "Week 7"]);
 
-		addSong("Lil-Buddies", "Lil' Buddies", "bf", 0, "lil", ["Secret"]);
-
 		//ERECT SONGS!!!!
 
 		addSong("Bopeebo-Erect", "Bopeebo Erect", "dad", 1, "vol3", ["ERECT", "Week 1"]);
@@ -209,7 +207,14 @@ class FreeplayState extends MusicBeatState
 		addSong("Roses-Erect", "Roses Erect", "senpai", 6, "vol3", ["ERECT", "Week 6"]);
 		addSong("Thorns-Erect", "Thorns Erect", "spirit", 6, "vol3", ["ERECT", "Week 6"]);
 
-		addSong("Lil-Buddies-Erect", "Lil' Buddies Erect", "bf", 0, "lil", [/*"ERECT",*/ "Secret"]);
+		//LIL BUDDIES :D
+
+		if(FlxG.save.data.ee2 && Startup.hasEe2){
+			addSong("Lil-Buddies", "Lil' Buddies", "bf", 0, "lil", ["Secret"]);
+			addSong("Lil-Buddies-Erect", "Lil' Buddies Erect", "bf", 0, "lil", [/*"ERECT",*/ "Secret"]);
+		}
+
+		
 
 		super.create();
 	} 

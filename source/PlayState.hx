@@ -56,6 +56,7 @@ class PlayState extends MusicBeatState
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
 	public static var fromChartEditor:Bool = false;
+	public static var fceForLilBuddies:Bool = false;
 	
 	public static var returnLocation:String = "main";
 	
@@ -736,7 +737,7 @@ class PlayState extends MusicBeatState
 			switch (curSong.toLowerCase())
 			{
 				case "lil-buddies":
-					if(fromChartEditor){
+					if(fceForLilBuddies){
 						lilBuddiesStart();
 					}
 					else{
@@ -755,10 +756,11 @@ class PlayState extends MusicBeatState
 		bgDim.alpha = Config.bgDim/10;
 		add(bgDim);
 
-		if(PlayState.fromChartEditor && curSong.toLowerCase() != "lil-buddies"){
+		if(fromChartEditor){
 			preventScoreSaving = true;
 		}
 		fromChartEditor = false;
+		fceForLilBuddies = false;
 
 		super.create();
 	}

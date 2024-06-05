@@ -19,15 +19,13 @@ class Binds
         //Key binds
         if(FlxG.save.data.binds == null){
             binds = generateDefaultControls();
-            FlxG.save.data.binds = binds;
-            SaveManager.flush();
+            saveControls();
         }
         else{
-            binds = FlxG.save.data.binds;
+            setControls();
             if(checkForRepair()){
                 binds = repairControls();
-                FlxG.save.data.binds = binds;
-                SaveManager.flush();
+                saveControls();
             }
         }
 
@@ -41,7 +39,8 @@ class Binds
             name: "Left Note",
             category: "Gameplay",
             binds: [LEFT, A],
-            controllerBinds: [DPAD_LEFT, X]
+            controllerBinds: [DPAD_LEFT, X],
+            local: false
         };
         r.set("gameplayLeft", k);
 
@@ -49,7 +48,8 @@ class Binds
             name: "Down Note",
             category: "Gameplay",
             binds: [DOWN, S],
-            controllerBinds: [DPAD_DOWN, A]
+            controllerBinds: [DPAD_DOWN, A],
+            local: false
         };
         r.set("gameplayDown", k);
 
@@ -57,7 +57,8 @@ class Binds
             name: "Up Note",
             category: "Gameplay",
             binds: [UP, W],
-            controllerBinds: [DPAD_UP, Y]
+            controllerBinds: [DPAD_UP, Y],
+            local: false
         };
         r.set("gameplayUp", k);
 
@@ -65,7 +66,8 @@ class Binds
             name: "Right Note",
             category: "Gameplay",
             binds: [RIGHT, D],
-            controllerBinds: [DPAD_RIGHT, B]
+            controllerBinds: [DPAD_RIGHT, B],
+            local: false
         };
         r.set("gameplayRight", k);
 
@@ -73,7 +75,8 @@ class Binds
             name: "Pause",
             category: "Gameplay",
             binds: [ESCAPE, ENTER],
-            controllerBinds: [START]
+            controllerBinds: [START],
+            local: false
         };
         r.set("pause", k);
 
@@ -81,7 +84,8 @@ class Binds
             name: "Die",
             category: "Gameplay",
             binds: [R],
-            controllerBinds: [BACK]
+            controllerBinds: [BACK],
+            local: false
         };
         r.set("killbind", k);
 
@@ -92,7 +96,8 @@ class Binds
             name: "Up",
             category: "Menu",
             binds: [UP, W],
-            controllerBinds: [DPAD_UP, LEFT_STICK_DIGITAL_UP]
+            controllerBinds: [DPAD_UP, LEFT_STICK_DIGITAL_UP],
+            local: false
         };
         r.set("menuUp", k);
 
@@ -100,7 +105,8 @@ class Binds
             name: "Down",
             category: "Menu",
             binds: [DOWN, S],
-            controllerBinds: [DPAD_DOWN, LEFT_STICK_DIGITAL_DOWN]
+            controllerBinds: [DPAD_DOWN, LEFT_STICK_DIGITAL_DOWN],
+            local: false
         };
         r.set("menuDown", k);
 
@@ -108,7 +114,8 @@ class Binds
             name: "Left",
             category: "Menu",
             binds: [LEFT, A],
-            controllerBinds: [DPAD_LEFT, LEFT_STICK_DIGITAL_LEFT]
+            controllerBinds: [DPAD_LEFT, LEFT_STICK_DIGITAL_LEFT],
+            local: false
         };
         r.set("menuLeft", k);
 
@@ -116,7 +123,8 @@ class Binds
             name: "Right",
             category: "Menu",
             binds: [RIGHT, D],
-            controllerBinds: [DPAD_RIGHT, LEFT_STICK_DIGITAL_RIGHT]
+            controllerBinds: [DPAD_RIGHT, LEFT_STICK_DIGITAL_RIGHT],
+            local: false
         };
         r.set("menuRight", k);
 
@@ -124,7 +132,8 @@ class Binds
             name: "Accept",
             category: "Menu",
             binds: [ENTER, SPACE],
-            controllerBinds: [A, START]
+            controllerBinds: [A, START],
+            local: false
         };
         r.set("menuAccept", k);
 
@@ -132,7 +141,8 @@ class Binds
             name: "Back",
             category: "Menu",
             binds: [ESCAPE, BACKSPACE],
-            controllerBinds: [B]
+            controllerBinds: [B],
+            local: false
         };
         r.set("menuBack", k);
 
@@ -140,7 +150,8 @@ class Binds
             name: "Cycle Left",
             category: "Menu",
             binds: [Q],
-            controllerBinds: [LEFT_SHOULDER]
+            controllerBinds: [LEFT_SHOULDER],
+            local: false
         };
         r.set("menuCycleLeft", k);
 
@@ -148,7 +159,8 @@ class Binds
             name: "Cycle Right",
             category: "Menu",
             binds: [E],
-            controllerBinds: [RIGHT_SHOULDER]
+            controllerBinds: [RIGHT_SHOULDER],
+            local: false
         };
         r.set("menuCycleRight", k);
 
@@ -157,10 +169,46 @@ class Binds
         return r;
     }
 
-    static public function saveControls() {
+    static public function setControls():Void{
+        binds.clear();
+
         SaveManager.global();
-        FlxG.save.data.binds = binds;
+        for(key in cast(FlxG.save.data.binds, KeybindMap).keys){
+            binds.set(key, FlxG.save.data.binds.get(key));
+        }
+
+        SaveManager.modSpecific();
+        if(FlxG.save.data.binds != null){
+            for(key in cast(FlxG.save.data.binds, KeybindMap).keys){
+                binds.set(key, FlxG.save.data.binds.get(key));
+            }
+        }
+
+        SaveManager.global();
+    }
+
+    static public function saveControls():Void{
+        var g:KeybindMap = new KeybindMap();
+        var l:KeybindMap = new KeybindMap();
+
+        for(key in binds.keys){
+            if(binds.get(key).local){
+                l.set(key, binds.get(key));
+            }
+            else{
+                g.set(key, binds.get(key));
+            }
+        }
+
+        SaveManager.global();
+        FlxG.save.data.binds = g;
         SaveManager.flush();
+
+        SaveManager.modSpecific();
+        FlxG.save.data.binds = l;
+        SaveManager.flush();
+
+        SaveManager.global();
     }
 
     static function checkForRepair():Bool {
@@ -171,7 +219,9 @@ class Binds
 
         if(!r){
             for(i in 0...binds.binds.length){
-                if(binds.binds[i].name != defaultThing.binds[i].name){
+                if(binds.binds[i].name != defaultThing.binds[i].name || 
+                   binds.binds[i].category != defaultThing.binds[i].category || 
+                   binds.binds[i].local != defaultThing.binds[i].local){
                     r = true;
                     break;
                 }
@@ -191,7 +241,8 @@ class Binds
                     name: r.get(x).name,
                     category: r.get(x).category,
                     binds: binds.get(x).binds,
-                    controllerBinds: binds.get(x).controllerBinds
+                    controllerBinds: binds.get(x).controllerBinds,
+                    local: r.get(x).local
                 };
                 r.set(x, k);
             }
@@ -201,10 +252,8 @@ class Binds
     }
 
     static public function resetToDefaultControls() {
-        SaveManager.global();
         binds = generateDefaultControls();
-        FlxG.save.data.binds = binds;
-        SaveManager.flush();
+        saveControls();
     }
 
     inline static public function pressed(input:String){
@@ -315,8 +364,9 @@ class KeybindMap
 }
 
 typedef Keybind = {
-    var name:String;
-    var category:String;
-    var binds:Array<FlxKey>;
-    var controllerBinds:Array<FlxGamepadInputID>;
+    var name:String;                                //The name of the input in the config menu.
+    var category:String;                            //The category of the input in the config menu.
+    var binds:Array<FlxKey>;                        //The default keyboard keys of input.
+    var controllerBinds:Array<FlxGamepadInputID>;   //The default controller buttons of input.
+    var local:Bool;                                 //Whether the input is global (false) or mod specific (true). If you need to add extra keys that are only for a mod, make this true.
 }

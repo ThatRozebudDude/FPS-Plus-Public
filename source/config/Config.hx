@@ -46,7 +46,7 @@ class Config
 		FlxG.save.data.scrollSpeedOverride = -1;
 		FlxG.save.data.showComboBreaks = false;
 		FlxG.save.data.showFPS = false;
-		FlxG.save.data.extraCamMovement = false;
+		FlxG.save.data.extraCamMovement = true;
 		FlxG.save.data.camBopAmount = 0;
 		FlxG.save.data.showCaptions = true;
 		reload();
@@ -168,7 +168,7 @@ class Config
 		if(FlxG.save.data.showFPS == null)
 			FlxG.save.data.showFPS = false;
 		if(FlxG.save.data.extraCamMovement == null)
-			FlxG.save.data.extraCamMovement = false;
+			FlxG.save.data.extraCamMovement = true;
 		if(FlxG.save.data.camBopAmount == null)
 			FlxG.save.data.camBopAmount = 0;
 		if(FlxG.save.data.showCaptions == null)

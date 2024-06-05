@@ -1311,7 +1311,7 @@ class ChartingState extends MusicBeatState
 					//FlxG.save.flush();
 					SaveManager.flush();
 	
-					PlayState.fromChartEditor = true;
+					PlayState.fceForLilBuddies = true;
 					screenshotBitmap = FlxScreenGrab.grab(null, false, true);
 	
 					customTransOut = new InstantTransition();
