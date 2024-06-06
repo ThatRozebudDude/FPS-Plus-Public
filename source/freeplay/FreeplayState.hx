@@ -1,5 +1,6 @@
 package freeplay;
 
+import haxe.Json;
 import transition.data.InstantTransition;
 import sys.FileSystem;
 import flixel.graphics.frames.FlxBitmapFont;
@@ -158,60 +159,60 @@ class FreeplayState extends MusicBeatState
 		createCategory("ALL");
 		createCategory("ERECT");
 
-		addSong("Tutorial", "Tutorial", "gf", 0, ["ALL", "Week 1"]);
+		addSong("Tutorial", "gf", 0, ["ALL", "Week 1"]);
 
-		addSong("Bopeebo", "Bopeebo", "dad", 1, "vol1", ["ALL", "Week 1"]);
-		addSong("Fresh", "Fresh", "dad", 1, "vol1", ["ALL", "Week 1"]);
-		addSong("Dadbattle", "Dad Battle", "dad", 1, "vol1", ["ALL", "Week 1"]);
+		addSong("Bopeebo", "dad", 1, ["ALL", "Week 1"]);
+		addSong("Fresh", "dad", 1, ["ALL", "Week 1"]);
+		addSong("Dadbattle", "dad", 1, ["ALL", "Week 1"]);
 
-		addSong("Spookeez", "Spookeez", "spooky", 2, "vol1", ["ALL", "Week 2"]);
-		addSong("South", "South", "spooky", 2, "vol1", ["ALL", "Week 2"]);
-		addSong("Monster", "Monster", "monster", 2, "vol1", ["ALL", "Week 2"]);
+		addSong("Spookeez", "spooky", 2, ["ALL", "Week 2"]);
+		addSong("South", "spooky", 2, ["ALL", "Week 2"]);
+		addSong("Monster", "monster", 2, ["ALL", "Week 2"]);
 
-		addSong("Pico", "Pico", "pico", 3, "vol1", ["ALL", "Week 3"]);
-		addSong("Philly", "Philly Nice", "pico", 3, "vol1", ["ALL", "Week 3"]);
-		addSong("Blammed", "Blammed", "pico", 3, "vol1", ["ALL", "Week 3"]);
+		addSong("Pico", "pico", 3, ["ALL", "Week 3"]);
+		addSong("Philly", "pico", 3, ["ALL", "Week 3"]);
+		addSong("Blammed", "pico", 3, ["ALL", "Week 3"]);
 
-		addSong("Satin-Panties", "Satin Panties", "mom", 4, "vol1", ["ALL", "Week 4"]);
-		addSong("High", "High", "mom", 4, "vol1", ["ALL", "Week 4"]);
-		addSong("Milf", "M.I.L.F.", "mom", 4, "vol1", ["ALL", "Week 4"]);
+		addSong("Satin-Panties", "mom", 4, ["ALL", "Week 4"]);
+		addSong("High", "mom", 4, ["ALL", "Week 4"]);
+		addSong("Milf", "mom", 4, ["ALL", "Week 4"]);
 
-		addSong("Cocoa", "Cocoa", "parents-christmas", 5, "vol1", ["ALL", "Week 5"]);
-		addSong("Eggnog", "Eggnog", "parents-christmas", 5, "vol1", ["ALL", "Week 5"]);
-		addSong("Winter-Horrorland", "Winter Horrorland", "monster", 5, "vol1", ["ALL", "Week 5"]);
+		addSong("Cocoa", "parents-christmas", 5, ["ALL", "Week 5"]);
+		addSong("Eggnog", "parents-christmas", 5, ["ALL", "Week 5"]);
+		addSong("Winter-Horrorland", "monster", 5, ["ALL", "Week 5"]);
 
-		addSong("Senpai", "Senpai", "senpai", 6, "vol2", ["ALL", "Week 6"]);
-		addSong("Roses", "Roses", "senpai", 6, "vol2", ["ALL", "Week 6"]);
-		addSong("Thorns", "Thorns", "spirit", 6, "vol2", ["ALL", "Week 6"]);
+		addSong("Senpai", "senpai", 6, ["ALL", "Week 6"]);
+		addSong("Roses", "senpai", 6, ["ALL", "Week 6"]);
+		addSong("Thorns", "spirit", 6, ["ALL", "Week 6"]);
 
-		addSong("Ugh", "Ugh", "tankman", 7, "vol2", ["ALL", "Week 7"]);
-		addSong("Guns", "Guns", "tankman", 7, "vol2", ["ALL", "Week 7"]);
-		addSong("Stress", "Stress", "tankman", 7, "vol2", ["ALL", "Week 7"]);
+		addSong("Ugh", "tankman", 7, ["ALL", "Week 7"]);
+		addSong("Guns", "tankman", 7, ["ALL", "Week 7"]);
+		addSong("Stress", "tankman", 7, ["ALL", "Week 7"]);
 
 		//ERECT SONGS!!!!
 
-		addSong("Bopeebo-Erect", "Bopeebo Erect", "dad", 1, "vol3", ["ERECT", "Week 1"]);
-		addSong("Fresh-Erect", "Fresh Erect", "dad", 1, "vol3", ["ERECT", "Week 1"]);
-		addSong("Dadbattle-Erect", "Dad Battle Erect", "dad", 1, "vol3", ["ERECT", "Week 1"]);
+		addSong("Bopeebo-Erect", "dad", 1, ["ERECT", "Week 1"]);
+		addSong("Fresh-Erect", "dad", 1, ["ERECT", "Week 1"]);
+		addSong("Dadbattle-Erect", "dad", 1, ["ERECT", "Week 1"]);
 
-		addSong("Spookeez-Erect", "Spookeez Erect", "spooky", 2, "vol3", ["ERECT", "Week 2"]);
-		addSong("South-Erect", "South Erect", "spooky", 2, "vol3", ["ERECT", "Week 2"]);
+		addSong("Spookeez-Erect", "spooky", 2, ["ERECT", "Week 2"]);
+		addSong("South-Erect", "spooky", 2, ["ERECT", "Week 2"]);
 
-		addSong("Pico-Erect", "Pico Erect", "pico", 3, "vol3", ["ERECT", "Week 3"]);
-		addSong("Philly-Erect", "Philly Nice Erect", "pico", 3, "vol3", ["ERECT", "Week 3"]);
-		addSong("Blammed-Erect", "Blammed Erect", "pico", 3, "vol3", ["ERECT", "Week 3"]);
+		addSong("Pico-Erect", "pico", 3, ["ERECT", "Week 3"]);
+		addSong("Philly-Erect", "pico", 3, ["ERECT", "Week 3"]);
+		addSong("Blammed-Erect", "pico", 3, ["ERECT", "Week 3"]);
 
-		addSong("High-Erect", "High Erect", "mom", 4, "vol3", ["ERECT", "Week 4"]);
+		addSong("High-Erect", "mom", 4, ["ERECT", "Week 4"]);
 
-		addSong("Senpai-Erect", "Senpai Erect", "senpai", 6, "vol3", ["ERECT", "Week 6"]);
-		addSong("Roses-Erect", "Roses Erect", "senpai", 6, "vol3", ["ERECT", "Week 6"]);
-		addSong("Thorns-Erect", "Thorns Erect", "spirit", 6, "vol3", ["ERECT", "Week 6"]);
+		addSong("Senpai-Erect", "senpai", 6, ["ERECT", "Week 6"]);
+		addSong("Roses-Erect", "senpai", 6, ["ERECT", "Week 6"]);
+		addSong("Thorns-Erect", "spirit", 6, ["ERECT", "Week 6"]);
 
 		//LIL BUDDIES :D
 
 		if(FlxG.save.data.ee2 && Startup.hasEe2){
-			addSong("Lil-Buddies", "Lil' Buddies", "bf", 0, "lil", ["Secret"]);
-			addSong("Lil-Buddies-Erect", "Lil' Buddies Erect", "bf", 0, "lil", [/*"ERECT",*/ "Secret"]);
+			addSong("Lil-Buddies", "bf", 0, ["Secret"]);
+			addSong("Lil-Buddies-Erect", "bf", 0, [/*"ERECT",*/ "Secret"]);
 		}
 
 		
@@ -750,9 +751,19 @@ class FreeplayState extends MusicBeatState
 		
 	}
 
-	function addSong(_song:String, _displayName:String, _icon:String, _week:Int, ?_album:String = "vol1", ?categories:Array<String>):Void{
+	function addSong(_song:String, _icon:String, _week:Int, ?categories:Array<String>):Void{
+
+		var meta = {
+			name: _song.replace("-", ""),
+			artist: "",
+			album: "vol1"
+		}
+		if(Utils.exists("assets/songs/" + _song + "/meta.json")){
+			meta = Json.parse(Utils.getText("assets/songs/" + _song + "/meta.json"));
+		}
+
 		if(categories == null){ categories = ["All"]; }
-		var capsule:Capsule = new Capsule(_song, _displayName, _icon, _week, _album);
+		var capsule:Capsule = new Capsule(_song, meta.name, _icon, _week, meta.album);
 		for(cat in categories){
 			createCategory(cat);
 			categoryMap[cat].push(capsule);

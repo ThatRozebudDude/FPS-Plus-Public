@@ -1,5 +1,9 @@
 package;
 
+import flixel.tweens.FlxEase;
+import extensions.flixel.FlxTextExt;
+import haxe.Json;
+import flixel.text.FlxText;
 import flixel.FlxCamera;
 import debug.ChartingState;
 import flixel.tweens.FlxTween;
@@ -22,6 +26,9 @@ class PauseSubState extends MusicBeatSubstate
 	var allowControllerPress:Bool = false;
 
 	var camPause:FlxCamera;
+
+	var songName:FlxTextExt;
+	var songArtist:FlxTextExt;
 
 	public function new(x:Float, y:Float){
 
@@ -78,6 +85,30 @@ class PauseSubState extends MusicBeatSubstate
 			songText.isMenuItem = true;
 			songText.targetY = i;
 			grpMenuShit.add(songText);
+		}
+
+		if(Utils.exists("assets/songs/" + PlayState.SONG.song + "/meta.json")){
+			var meta = Json.parse(Utils.getText("assets/songs/" + PlayState.SONG.song + "/meta.json"));
+			var distance:Float = 32;
+
+			songName = new FlxTextExt(16, 16, 1280-32, meta.name, 40);
+			songName.setFormat(Paths.font("vcr"), 40, FlxColor.WHITE, RIGHT, OUTLINE, FlxColor.BLACK);
+			songName.borderSize = 3;
+			songName.alpha = 0;
+
+			songArtist = new FlxTextExt(16, 32 + 40, 1280-32, meta.artist, 40);
+			songArtist.setFormat(Paths.font("vcr"), 40, FlxColor.WHITE, RIGHT, OUTLINE, FlxColor.BLACK);
+			songArtist.borderSize = 3;
+			songArtist.alpha = 0;
+
+			songName.y -= distance;
+			songArtist.y -= distance;
+
+			FlxTween.tween(songName, {alpha: 1, y: songName.y + distance}, 0.6, {ease: FlxEase.quartOut});
+			FlxTween.tween(songArtist, {alpha: 1, y: songArtist.y + distance}, 0.6, {ease: FlxEase.quartOut, startDelay: 0.25});
+
+			add(songName);
+			add(songArtist);
 		}
 
 		changeSelection();
@@ -154,11 +185,14 @@ class PauseSubState extends MusicBeatSubstate
 	override function destroy(){
 		pauseMusic.fadeTween.cancel();
 		pauseMusic.destroy();
+		if(songName != null){
+			FlxTween.cancelTweensOf(songName);
+			FlxTween.cancelTweensOf(songArtist);
+		}
 		super.destroy();
 	}
 
-	function changeSelection(change:Int = 0):Void
-	{
+	function changeSelection(change:Int = 0):Void{
 		curSelected += change;
 
 		if (curSelected < 0)
@@ -168,18 +202,14 @@ class PauseSubState extends MusicBeatSubstate
 
 		var bullShit:Int = 0;
 
-		for (item in grpMenuShit.members)
-		{
+		for (item in grpMenuShit.members){
 			item.targetY = bullShit - curSelected;
 			bullShit++;
 
 			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
 
-			if (item.targetY == 0)
-			{
+			if (item.targetY == 0){
 				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
 			}
 		}
 	}

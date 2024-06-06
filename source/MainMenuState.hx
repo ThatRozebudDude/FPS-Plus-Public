@@ -28,7 +28,7 @@ class MainMenuState extends MusicBeatState
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	
-	public static var optionShit:Array<String> = ['story mode', 'freeplay', 'donate', "options"];
+	public static var optionShit:Array<String> = ['storymode', 'freeplay', 'donate', "options"];
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
@@ -87,15 +87,13 @@ class MainMenuState extends MusicBeatState
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
-		var tex = Paths.getSparrowAtlas('menu/FNF_main_menu_assets');
-
 		for (i in 0...optionShit.length)
 		{
 			var menuItem:FlxSprite = new FlxSprite(0, 60 + (i * 160));
-			menuItem.frames = tex;
+			menuItem.frames = Paths.getSparrowAtlas("menu/main/" + optionShit[i]);
 			
-			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
-			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
+			menuItem.animation.addByPrefix('idle', "idle", 24);
+			menuItem.animation.addByPrefix('selected', "selected", 24);
 			menuItem.animation.play('idle');
 			menuItem.ID = i;
 			menuItem.screenCenter(X);
@@ -219,7 +217,7 @@ class MainMenuState extends MusicBeatState
 
 								switch (daChoice)
 								{
-									case 'story mode':
+									case 'storymode':
 										switchState(new StoryMenuState());
 										trace("Story Menu Selected");
 									/*case 'freeplay':

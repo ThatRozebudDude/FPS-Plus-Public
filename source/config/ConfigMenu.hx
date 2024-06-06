@@ -150,8 +150,8 @@ class ConfigMenu extends FlxUIStateExt
 		bg.color = 0xFF5C6CA5;
 
 		optionTitle = new FlxSprite(0, 40);
-		optionTitle.frames = Paths.getSparrowAtlas('menu/FNF_main_menu_assets');
-		optionTitle.animation.addByPrefix('selected', "options white", 24);
+		optionTitle.frames = Paths.getSparrowAtlas("menu/main/options");
+		optionTitle.animation.addByPrefix('selected', "selected", 24);
 		optionTitle.animation.play('selected');
 		optionTitle.scrollFactor.set();
 		optionTitle.antialiasing = true;
