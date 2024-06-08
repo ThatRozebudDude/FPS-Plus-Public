@@ -192,8 +192,7 @@ class PlayState extends MusicBeatState
 	var songStats:ScoreStats = {
 		score: 0,
 		highestCombo: 0,
-		accuracy: 0,
-		accuracyPrecise: 0,
+		accuracy: 0.0,
 		sickCount: 0,
 		goodCount: 0,
 		badCount: 0,
@@ -224,19 +223,13 @@ class PlayState extends MusicBeatState
 	var endingSong:Bool = false;
 
 	private var meta:SongMetaTags;
-
-	private static final NOTE_HIT_HEAL:Float = 0.02;
-	private static final HOLD_HIT_HEAL:Float = 0.01;
-
-	private static final NOTE_MISS_DAMAGE:Float = 0.065;
-	private static final HOLD_RELEASE_STEP_DAMAGE:Float = 0.04;
-	private static final WRONG_TAP_DAMAGE:Float = 0.05;
 	
 	override public function create(){
 
 		instance = this;
 		FlxG.mouse.visible = false;
 		add(tweenManager);
+		trace(songStats);
 
 		customTransIn = new ScreenWipeIn(1.2);
 		customTransOut = new ScreenWipeOut(0.6);
@@ -765,23 +758,24 @@ class PlayState extends MusicBeatState
 		super.create();
 	}
 
-	function updateAccuracy(){
+	/*function updateAccuracyOld(){
 		totalPlayed += 1;
 
 		var totalNotesHit = (songStats.sickCount) + (songStats.goodCount) + (songStats.badCount) + (songStats.shitCount) + (songStats.susCount);
-		var totalNotesHitP = (songStats.sickCount) + (songStats.goodCount * Conductor.goodZone) + (songStats.badCount * Conductor.badZone) + (songStats.shitCount * Conductor.shitZone) + (songStats.susCount);
 
 		songStats.accuracy = totalNotesHit / totalPlayed * 100;
-		songStats.accuracyPrecise = totalNotesHitP / totalPlayed * 100;
 		
 		if (songStats.accuracy >= 100){
 			songStats.accuracy = 100;
 		}
+	}*/
 
-		if (songStats.accuracyPrecise >= 100){
-			songStats.accuracyPrecise = 100;
-		}
-		
+	function updateAccuracy(){
+
+		var total:Float = (songStats.sickCount) + (songStats.goodCount) + (songStats.badCount) + (songStats.shitCount) + (songStats.missCount);
+		songStats.accuracy = total == 0 ? 0 : (((songStats.sickCount + songStats.goodCount) / total) * 100);
+		songStats.accuracy = Utils.clamp(songStats.accuracy, 0, 100);
+
 	}
 
 	function schoolIntro(?dialogueBox:DialogueBox):Void
@@ -1205,14 +1199,15 @@ class PlayState extends MusicBeatState
 					for (susNote in 0...(Math.round(susLength) + 1)){
 						oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 	
-						var typeAdd = "";
+						var makeFake = false;
 						var timeAdd = 0.0;
 						if(susNote == 0){ 
-							typeAdd = "-fake"; 
+							makeFake = true; 
 							timeAdd = 0.1; 
 						}
 	
-						var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + timeAdd, daNoteData, daNoteType + typeAdd, false, oldNote, true);
+						var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + timeAdd, daNoteData, daNoteType, false, oldNote, true);
+						sustainNote.isFake = makeFake;
 						sustainNote.scrollFactor.set();
 						unspawnNotes.push(sustainNote);
 	
@@ -1496,11 +1491,12 @@ class PlayState extends MusicBeatState
 			preventScoreSaving = true;
 		}
 
+		updateAccuracy();
+		updateScoreText();
+
 		super.update(elapsed);
 
 		stage.update(elapsed);
-
-		updateAccuracyText();
 
 		if(!startingSong){
 			for(i in eventList){
@@ -1744,8 +1740,8 @@ class PlayState extends MusicBeatState
 			daNote.x = targetX + daNote.xOffset;
 
 			if(daNote.tooLate){
-				if (!daNote.didTooLateAction && !daNote.type.endsWith("-fake")){
-					noteMiss(daNote.noteData, NOTE_MISS_DAMAGE, true, true);
+				if (!daNote.didTooLateAction && !daNote.isFake){
+					noteMiss(daNote.noteData, Scoring.MISS_DAMAGE_AMMOUNT, true, true);
 					vocals.volume = 0;
 					daNote.didTooLateAction = true;
 				}
@@ -1848,7 +1844,7 @@ class PlayState extends MusicBeatState
 		endingSong = true;
 
 		if (!preventScoreSaving){
-			Highscore.saveScore(SONG.song, songStats.score, songStats.accuracy, storyDifficulty);
+			Highscore.saveScore(SONG.song, songStats.score, songStats.accuracy, storyDifficulty, Highscore.calculateRank(songStats));
 		}
 
 		if (isStoryMode){
@@ -1962,37 +1958,30 @@ class PlayState extends MusicBeatState
 
 	private function popUpScore(note:Note):Void{
 
-		var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition);
+		var noteDiff:Float = note.strumTime - Conductor.songPosition;
 
-		var score:Int = 350;
+		songStats.score += Scoring.scoreNote(noteDiff);
+		var rating:String = Scoring.rateNote(noteDiff);
 
-		var daRating:String = "sick";
-
-		if (noteDiff > Conductor.safeZoneOffset * Conductor.shitZone){
-			daRating = 'shit';
-			songStats.shitCount++;
-			score = 50;
-		}
-		else if (noteDiff > Conductor.safeZoneOffset * Conductor.badZone){
-			daRating = 'bad';
-			songStats.badCount++;
-			score = 100;
-		}
-		else if (noteDiff > Conductor.safeZoneOffset * Conductor.goodZone){
-			daRating = 'good';
-			songStats.goodCount++;
-			score = 200;
-		}
-		if (daRating == 'sick'){
-			songStats.sickCount++;
-			if(Config.noteSplashType >= 1 && Config.noteSplashType < 4){
-				createNoteSplash(note.noteData);
-			}
+		switch(rating){
+			case "sick":
+				health += Scoring.SICK_HEAL_AMMOUNT * Config.healthMultiplier;
+				songStats.sickCount++;
+				if(Config.noteSplashType >= 1 && Config.noteSplashType < 4){
+					createNoteSplash(note.noteData);
+				}
+			case "good":
+				health += Scoring.GOOD_HEAL_AMMOUNT * Config.healthMultiplier;
+				songStats.goodCount++;
+			case "bad":
+				health += Scoring.BAD_HEAL_AMMOUNT * Config.healthMultiplier;
+				songStats.badCount++;
+			case "shit":
+				health += Scoring.SHIT_HEAL_AMMOUNT * Config.healthMultiplier;
+				songStats.shitCount++;
 		}
 
-		songStats.score += score;
-
-		comboUI.ratingPopup(daRating);
+		comboUI.ratingPopup(rating);
 
 		if(combo >= minCombo)
 			comboUI.comboPopup(combo);
@@ -2135,20 +2124,20 @@ class PlayState extends MusicBeatState
 				if(daNote.prevNote.tooLate && !daNote.prevNote.wasGoodHit){
 					daNote.tooLate = true;
 					daNote.destroy();
-					noteMiss(daNote.noteData, HOLD_RELEASE_STEP_DAMAGE * (daNote.type.endsWith("-fake") ? 0 : 1), false, true, false, false);
-					updateAccuracy();
+					noteMiss(daNote.noteData, Scoring.HOLD_DROP_DMAMGE_PER_NOTE * (daNote.isFake ? 0 : 1), false, true, false, false, 5, Scoring.HOLD_DROP_PENALTY);
+					//updateAccuracyOld();
 				}
 
 				//This is for the first released note.
 				if(daNote.prevNote.wasGoodHit && !daNote.wasGoodHit){
 
 					if(releaseTimes[daNote.noteData] >= releaseBufferTime){
-						noteMiss(daNote.noteData, NOTE_MISS_DAMAGE, true, true, false, true);
+						noteMiss(daNote.noteData, Scoring.HOLD_DROP_INITAL_DAMAGE, true, true, false, true, Scoring.HOLD_DROP_INITIAL_PENALTY);
 						vocals.volume = 0;
 						daNote.tooLate = true;
 						daNote.destroy();
 						boyfriend.holdTimer = 0;
-						updateAccuracy();
+						//updateAccuracyOld();
 
 						playerCovers.forEach(function(cover:NoteHoldCover) {
 							if (Math.abs(daNote.noteData) == cover.noteDirection) {
@@ -2284,8 +2273,12 @@ class PlayState extends MusicBeatState
 		
 	}
 
-	function noteMiss(direction:Int = 1, ?healthLoss:Float = 0.04, ?playAudio:Bool = true, ?skipInvCheck:Bool = false, ?countMiss:Bool = true, ?dropCombo:Bool = true, ?invulnTime:Int = 5, ?scoreAdjust:Int = 100):Void
-	{
+	function noteMiss(direction:Int = 1, ?healthLoss:Float = 0.04, ?playAudio:Bool = true, ?skipInvCheck:Bool = false, ?countMiss:Bool = true, ?dropCombo:Bool = true, ?invulnTime:Int = 5, ?scoreAdjust:Null<Int>):Void{
+
+		if(scoreAdjust == null){
+			scoreAdjust = Scoring.MISS_PENALTY;
+		}
+
 		if (!startingSong && (!invuln || skipInvCheck) )
 		{
 			health -= healthLoss * Config.healthDrainMultiplier;
@@ -2301,7 +2294,7 @@ class PlayState extends MusicBeatState
 
 			if(countMiss){
 				songStats.missCount++;
-				updateAccuracy();
+				//updateAccuracyOld();
 			}
 
 			songStats.score -= scoreAdjust;
@@ -2333,7 +2326,7 @@ class PlayState extends MusicBeatState
 	}
 
 	inline function noteMissWrongPress(direction:Int = 1):Void{
-		noteMiss(direction, WRONG_TAP_DAMAGE, true, false, false, false, 4, 25);
+		noteMiss(direction, Scoring.WRONG_TAP_DAMAGE_AMMOUNT, true, false, false, false, 4, Scoring.WRONG_PRESS_PENALTY);
 	}
 
 	function badNoteCheck(direction:Int = -1)
@@ -2371,18 +2364,18 @@ class PlayState extends MusicBeatState
 
 		//Guitar Hero Styled Hold Notes
 		//This is to make sure that if hold notes are hit out of order they are destroyed. Should not be possible though.
-		if(note.isSustainNote && !note.prevNote.wasGoodHit){
-			noteMiss(note.noteData, NOTE_MISS_DAMAGE, true, true, false);
+		/*if(note.isSustainNote && !note.prevNote.wasGoodHit){
+			noteMiss(note.noteData, Scoring.HOLD_DROP_INITIAL_PENALTY, true, true, false,);
 			vocals.volume = 0;
 			note.prevNote.tooLate = true;
 			note.prevNote.destroy();
 			boyfriend.holdTimer = 0;
-			updateAccuracy();
-		}
+			//updateAccuracyOld();
+		}*/
 
-		else if (!note.wasGoodHit){
+		if (!note.wasGoodHit){
 
-			if(note.type.endsWith("-fake")){
+			if(note.isFake){
 				note.wasGoodHit = true;
 				if(note.prevNote == null || !note.prevNote.isSustainNote){
 					playerCovers.forEach(function(cover:NoteHoldCover) {
@@ -2397,11 +2390,11 @@ class PlayState extends MusicBeatState
 			if (!note.isSustainNote){
 				popUpScore(note);
 				combo++;
-				health += NOTE_HIT_HEAL * Config.healthMultiplier;
 				if(combo > songStats.highestCombo) { songStats.highestCombo = combo; }
 			}
 			else{
-				health += HOLD_HIT_HEAL * Config.healthMultiplier;
+				health += Scoring.HOLD_HEAL_AMMOUNT * Config.healthMultiplier;
+				songStats.score += Std.int(Scoring.HOLD_SCORE_PER_SECOND * (Conductor.stepCrochet/1000));
 				songStats.susCount++;
 			}
 				
@@ -2453,7 +2446,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 			
-			updateAccuracy();
+			//updateAccuracyOld();
 		}
 	}
 
@@ -2942,23 +2935,19 @@ class PlayState extends MusicBeatState
 
 	}
 
-	function updateAccuracyText(){
+	function updateScoreText(){
 
 		scoreTxt.text = "Score:" + songStats.score;
 
-		if(Config.accuracy != "none"){
-			if(Config.showComboBreaks){
-				scoreTxt.text += " | Combo Breaks:" + songStats.comboBreakCount;
-			}
-			else{
-				scoreTxt.text += " | Misses:" + songStats.missCount;
-			}
-			if(Config.accuracy == "complex"){
-				scoreTxt.text += " | Accuracy:" + truncateFloat(songStats.accuracyPrecise, 2) + "%";
-			}
-			else{
-				scoreTxt.text += " | Accuracy:" + truncateFloat(songStats.accuracy, 2) + "%";
-			}
+		if(Config.showMisses == 1){
+			scoreTxt.text += " | Misses:" + songStats.missCount;
+		}
+		else if(Config.showMisses == 2){
+			scoreTxt.text += " | Combo Breaks:" + songStats.comboBreakCount;
+		}
+
+		if(Config.showAccuracy){
+			scoreTxt.text += " | Accuracy:" + truncateFloat(songStats.accuracy, 2) + "%";
 		}
 
 	}
@@ -3161,7 +3150,6 @@ typedef ScoreStats = {
 	score:Int,
 	highestCombo:Int,
 	accuracy:Float,
-	accuracyPrecise:Float,
 	sickCount:Int,
 	goodCount:Int,
 	badCount:Int,

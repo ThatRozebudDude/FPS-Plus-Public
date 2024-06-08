@@ -7,7 +7,6 @@ class Config
 {
 	
 	public static var offset:Float;
-	public static var accuracy:String;
 	public static var healthMultiplier:Float;
 	public static var healthDrainMultiplier:Float;
 	public static var comboType:Int;
@@ -15,7 +14,6 @@ class Config
 	public static var noteGlow:Bool;
 	public static var ghostTapType:Int;
 	public static var framerate:Int;
-	public static var controllerScheme:Int;
 	public static var bgDim:Int;
 	public static var noteSplashType:Int;
 	public static var centeredNotes:Bool;
@@ -25,13 +23,14 @@ class Config
 	public static var extraCamMovement:Bool;
 	public static var camBopAmount:Int;
 	public static var showCaptions:Bool;
+	public static var showAccuracy:Bool;
+	public static var showMisses:Int;
 
 	public static function resetSettings():Void{
 
 		SaveManager.global();
 
 		FlxG.save.data.offset = 0.0;
-		FlxG.save.data.accuracy = "simple";
 		FlxG.save.data.healthMultiplier = 1.0;
 		FlxG.save.data.healthDrainMultiplier = 1.0;
 		FlxG.save.data.comboType = 0;
@@ -39,7 +38,6 @@ class Config
 		FlxG.save.data.noteGlow = false;
 		FlxG.save.data.ghostTapType = 0;
 		FlxG.save.data.framerate = 999;
-		FlxG.save.data.controllerScheme = 0;
 		FlxG.save.data.bgDim = 0;
 		FlxG.save.data.noteSplashType = 0;
 		FlxG.save.data.centeredNotes = false;
@@ -49,6 +47,8 @@ class Config
 		FlxG.save.data.extraCamMovement = true;
 		FlxG.save.data.camBopAmount = 0;
 		FlxG.save.data.showCaptions = true;
+		FlxG.save.data.showAccuracy = true;
+		FlxG.save.data.showMisses = 1;
 		reload();
 
 	}
@@ -59,7 +59,6 @@ class Config
 		SaveManager.global();
 
 		offset = FlxG.save.data.offset;
-		accuracy = FlxG.save.data.accuracy;
 		healthMultiplier = FlxG.save.data.healthMultiplier;
 		healthDrainMultiplier = FlxG.save.data.healthDrainMultiplier;
 		comboType = FlxG.save.data.comboType;
@@ -67,7 +66,6 @@ class Config
 		noteGlow = FlxG.save.data.noteGlow;
 		ghostTapType = FlxG.save.data.ghostTapType;
 		framerate = FlxG.save.data.framerate;
-		controllerScheme = FlxG.save.data.controllerScheme;
 		bgDim = FlxG.save.data.bgDim;
 		noteSplashType = FlxG.save.data.noteSplashType;
 		centeredNotes = FlxG.save.data.centeredNotes;
@@ -77,11 +75,12 @@ class Config
 		extraCamMovement = FlxG.save.data.extraCamMovement;
 		camBopAmount = FlxG.save.data.camBopAmount;
 		showCaptions = FlxG.save.data.showCaptions;
+		showAccuracy = FlxG.save.data.showAccuracy;
+		showMisses = FlxG.save.data.showMisses;
 	}
 	
 	public static function write(
 								offsetW:Float, 
-								accuracyW:String, 
 								healthMultiplierW:Float, 
 								healthDrainMultiplierW:Float, 
 								comboTypeW:Int, 
@@ -89,7 +88,6 @@ class Config
 								noteGlowW:Bool,
 								ghostTapTypeW:Int,
 								framerateW:Int,
-								controllerSchemeW:Int,
 								bgDimW:Int,
 								noteSplashTypeW:Int,
 								centeredNotesW:Bool,
@@ -98,14 +96,15 @@ class Config
 								showFPSW:Bool,
 								extraCamMovementW:Bool,
 								camBopAmountW:Int,
-								showCaptionsW:Bool
+								showCaptionsW:Bool,
+								showAccuracyW:Bool,
+								showMissesW:Int
 								):Void
 	{
 
 		SaveManager.global();
 
 		FlxG.save.data.offset = offsetW;
-		FlxG.save.data.accuracy = accuracyW;
 		FlxG.save.data.healthMultiplier = healthMultiplierW;
 		FlxG.save.data.healthDrainMultiplier = healthDrainMultiplierW;
 		FlxG.save.data.comboType = comboTypeW;
@@ -113,7 +112,6 @@ class Config
 		FlxG.save.data.noteGlow = noteGlowW;
 		FlxG.save.data.ghostTapType = ghostTapTypeW;
 		FlxG.save.data.framerate = framerateW;
-		FlxG.save.data.controllerScheme = controllerSchemeW;
 		FlxG.save.data.bgDim = bgDimW;
 		FlxG.save.data.noteSplashType = noteSplashTypeW;
 		FlxG.save.data.centeredNotes = centeredNotesW;
@@ -123,6 +121,8 @@ class Config
 		FlxG.save.data.extraCamMovement = extraCamMovementW;
 		FlxG.save.data.camBopAmount = camBopAmountW;
 		FlxG.save.data.showCaptions = showCaptionsW;
+		FlxG.save.data.showAccuracy = showAccuracyW;
+		FlxG.save.data.showMisses = showMissesW;
 
 		SaveManager.flush();
 		
@@ -137,8 +137,6 @@ class Config
 
 		if(FlxG.save.data.offset == null)
 			FlxG.save.data.offset = 0.0;
-		if(FlxG.save.data.accuracy == null)
-			FlxG.save.data.accuracy = "simple";
 		if(FlxG.save.data.healthMultiplier == null)
 			FlxG.save.data.healthMultiplier = 1.0;
 		if(FlxG.save.data.healthDrainMultiplier == null)
@@ -153,8 +151,6 @@ class Config
 			FlxG.save.data.ghostTapType = 0;
 		if(FlxG.save.data.framerate == null)
 			FlxG.save.data.framerate = 999;
-		if(FlxG.save.data.controllerScheme == null)
-			FlxG.save.data.controllerScheme = 0;
 		if(FlxG.save.data.bgDim == null)
 			FlxG.save.data.bgDim = 0;
 		if(FlxG.save.data.noteSplashType == null)
@@ -173,6 +169,11 @@ class Config
 			FlxG.save.data.camBopAmount = 0;
 		if(FlxG.save.data.showCaptions == null)
 			FlxG.save.data.showCaptions = true;
+		if(FlxG.save.data.showAccuracy == null)
+			FlxG.save.data.showAccuracy = true;
+		if(FlxG.save.data.showMisses == null)
+			FlxG.save.data.showMisses = 1;
+		
 
 		if(FlxG.save.data.ee1 == null)
 			FlxG.save.data.ee1 = false;

@@ -1,5 +1,7 @@
 package freeplay;
 
+import openfl.display.BlendMode;
+import Highscore.SongStats;
 import flixel.tweens.FlxEase;
 import flixel.math.FlxRect;
 import flixel.math.FlxPoint;
@@ -23,9 +25,13 @@ class Capsule extends FlxSpriteGroup
     var capsule:FlxSprite;
     var icon:FlxSprite;
     var text:FlxTextExt;
+    var rank:FlxSprite;
+
     public var song:String;
     public var album:String;
     public var week:Int;
+    public var highscoreData:Array<SongStats> = [];
+    public var difficulties:Array<Int> = [];
 
     public var targetPos:FlxPoint = new FlxPoint();
     public var xPositionOffset:Float = 0;
@@ -34,12 +40,17 @@ class Capsule extends FlxSpriteGroup
     var scrollOffset:Float = 0;
     var scrollTween:FlxTween;
 
-    public function new(_song:String, _displayName:String, _icon:String, _week:Int, ?_album:String = "vol1") {
+    public function new(_song:String, _displayName:String, _icon:String, _week:Int, _album:String = "vol1", _difficulties:Array<Int>) {
         super();
 
         song = _song;
         week = _week;
         album = _album;
+        difficulties = _difficulties;
+
+        for(i in 0...3){
+            highscoreData.push(Highscore.getScore(song, i));
+        }
 
         capsule = new FlxSprite();
         capsule.frames = Paths.getSparrowAtlas("menu/freeplay/freeplayCapsule");
@@ -76,9 +87,23 @@ class Capsule extends FlxSpriteGroup
         icon.origin.set(0, 0);
         icon.scale.set(2, 2);
 
+        rank = new FlxSprite(358, 27);
+        rank.frames = Paths.getSparrowAtlas("menu/freeplay/rankbadges");
+        rank.animation.addByPrefix("loss", "LOSS", 24, false);
+        rank.animation.addByPrefix("good", "GOOD", 24, false);
+        rank.animation.addByPrefix("great", "GREAT", 24, false);
+        rank.animation.addByPrefix("excellent", "EXCELLENT", 24, false);
+        rank.animation.addByPrefix("perfect", "PERFECT", 24, false);
+        rank.animation.addByPrefix("gold", "GOLD", 24, false);
+        rank.animation.play("loss");
+        rank.antialiasing = true;
+        rank.blend = BlendMode.ADD;
+        rank.visible = false;
+
         add(capsule);
         add(text);
         add(icon);
+        add(rank);
         //add(debugDot);
         //add(debugDot2);
 
@@ -124,6 +149,26 @@ class Capsule extends FlxSpriteGroup
         scrollOffset = 0;
         if(text.width > 297 && text.width <= 307){
             scrollOffset = (text.width - 297)/-2;
+        }
+    }
+
+    public function showRank(difficulty:Int):Void{
+        rank.visible = true;
+        switch(highscoreData[difficulty].rank){
+            case gold:
+                rank.animation.play("gold", true);
+            case perfect:
+                rank.animation.play("perfect", true);
+            case excellent:
+                rank.animation.play("excellent", true);
+            case great:
+                rank.animation.play("great", true);
+            case good:
+                rank.animation.play("good", true);
+            case loss:
+                rank.animation.play("loss", true);
+            default:
+                rank.visible = false;
         }
     }
 

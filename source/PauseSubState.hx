@@ -87,8 +87,8 @@ class PauseSubState extends MusicBeatSubstate
 			grpMenuShit.add(songText);
 		}
 
-		if(Utils.exists("assets/songs/" + PlayState.SONG.song + "/meta.json")){
-			var meta = Json.parse(Utils.getText("assets/songs/" + PlayState.SONG.song + "/meta.json"));
+		if(Utils.exists("assets/data/" + PlayState.SONG.song.toLowerCase() + "/meta.json")){
+			var meta = Json.parse(Utils.getText("assets/data/" + PlayState.SONG.song.toLowerCase() + "/meta.json"));
 			var distance:Float = 32;
 
 			songName = new FlxTextExt(16, 16, 1280-32, meta.name, 40);

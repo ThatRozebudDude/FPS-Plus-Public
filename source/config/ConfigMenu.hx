@@ -68,9 +68,6 @@ class ConfigMenu extends FlxUIStateExt
 
     final genericOnOff:Array<String> = ["on", "off"];
     var offsetValue:Float;
-	var accuracyType:String;
-	var accuracyTypeInt:Int;
-	final accuracyTypes:Array<String> = ["none", "simple", "complex"];
 	var healthValue:Int;
 	var healthDrainValue:Int;
 	var comboValue:Int;
@@ -81,7 +78,6 @@ class ConfigMenu extends FlxUIStateExt
 	final randomTapTypes:Array<String> = ["never", "not singing", "always"];
 	final allowedFramerates:Array<Int> = [60, 120, 144, 240, 999];
 	var framerateValue:Int;
-	var scheme:Int;
 	var dimValue:Int;
 	var noteSplashValue:Int;
 	final noteSplashTypes:Array<String> = ["off", "both", "partial", "hit only", "hold only"];
@@ -93,6 +89,9 @@ class ConfigMenu extends FlxUIStateExt
     var camBopAmountValue:Int;
     final camBopAmountTypes:Array<String> = ["on", "reduced", "off"];
     var showCaptionsValue:Bool;
+    var showAccuracyValue:Bool;
+    var showMissesValue:Int;
+    final showMissesTypes:Array<String> = ["off", "on", "combo breaks"];
 
     var pressUp:Bool = false;
     var pressDown:Bool = false;
@@ -460,15 +459,12 @@ class ConfigMenu extends FlxUIStateExt
     function setupOptions(){
 
         offsetValue = Config.offset;
-		accuracyType = Config.accuracy;
-		accuracyTypeInt = accuracyTypes.indexOf(Config.accuracy);
 		healthValue = Std.int(Config.healthMultiplier * 10);
 		healthDrainValue = Std.int(Config.healthDrainMultiplier * 10);
 		comboValue = Config.comboType;
 		downValue = Config.downscroll;
 		glowValue = Config.noteGlow;
 		randomTapValue = Config.ghostTapType;
-		scheme = Config.controllerScheme;
 		dimValue = Config.bgDim;
 		noteSplashValue = Config.noteSplashType;
 		centeredValue = Config.centeredNotes;
@@ -478,6 +474,8 @@ class ConfigMenu extends FlxUIStateExt
 		extraCamMovementValue = Config.extraCamMovement;
 		camBopAmountValue = Config.camBopAmount;
 		showCaptionsValue = Config.showCaptions;
+		showAccuracyValue = Config.showAccuracy;
+		showMissesValue = Config.showMisses;
 
         framerateValue = allowedFramerates.indexOf(Config.framerate);
         if(framerateValue == -1){
@@ -760,7 +758,7 @@ class ConfigMenu extends FlxUIStateExt
 
 
 
-        var accuracyDisplay = new ConfigOption("ACCURACY DISPLAY", ": " + accuracyType, "What type of accuracy calculation you want to use. Simple is just notes hit / total notes. Complex also factors in how early or late a note was.");
+        /*var accuracyDisplay = new ConfigOption("ACCURACY DISPLAY", ": " + accuracyType, "What type of accuracy calculation you want to use. Simple is just notes hit / total notes. Complex also factors in how early or late a note was.");
         accuracyDisplay.optionUpdate = function(){
             if (pressRight){
                 FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -781,7 +779,18 @@ class ConfigMenu extends FlxUIStateExt
             accuracyType = accuracyTypes[accuracyTypeInt];
             
             accuracyDisplay.setting = ": " + accuracyType;
-        };
+        };*/
+
+
+
+        var showAccuracyDisplay = new ConfigOption("SHOW ACCURACY", ": " + genericOnOff[showAccuracyValue?0:1], "Shows the accuracy on the in-game HUD.");
+        showAccuracyDisplay.optionUpdate = function(){
+            if (pressRight || pressLeft || pressAccept) {
+                FlxG.sound.play(Paths.sound('scrollMenu'));
+                showAccuracyValue = !showAccuracyValue;
+            }
+            showAccuracyDisplay.setting = ": " + genericOnOff[showAccuracyValue?0:1];
+        }
 
 
 
@@ -987,27 +996,53 @@ class ConfigMenu extends FlxUIStateExt
 
 
 
-        var showComboBreaks = new ConfigOption("SHOW COMBO BREAKS", ": " + genericOnOff[showComboBreaksValue?0:1], "Show combo breaks instead of misses.\nMisses only happen when you actually miss a note.\nCombo breaks can happen in other instances like dropping hold notes.");
+        /*var showComboBreaks = new ConfigOption("SHOW COMBO BREAKS", ": " + genericOnOff[showComboBreaksValue?0:1], "Show combo breaks instead of misses.\nMisses only happen when you actually miss a note.\nCombo breaks can happen in other instances like dropping hold notes.");
         showComboBreaks.optionUpdate = function(){
             if (pressRight || pressLeft || pressAccept) {
                 FlxG.sound.play(Paths.sound('scrollMenu'));
                 showComboBreaksValue = !showComboBreaksValue;
             }
             showComboBreaks.setting = ": " + genericOnOff[showComboBreaksValue?0:1];
-        }
+        }*/
+
+
+
+        var showMissesSetting = new ConfigOption("SHOW MISSES", ": " + showMissesTypes[showMissesValue], "TEMP");
+        showMissesSetting.extraData[0] = "Misses are not shown on the in-game HUD.";
+        showMissesSetting.extraData[1] = "Misses are shown on the in-game HUD.";
+        showMissesSetting.extraData[2] = "Combo breaks are shown on the in-game HUD.";
+        showMissesSetting.optionUpdate = function(){
+            if (pressRight){
+                FlxG.sound.play(Paths.sound('scrollMenu'));
+                showMissesValue += 1;
+            }
+                
+            if (pressLeft){
+                FlxG.sound.play(Paths.sound('scrollMenu'));
+                showMissesValue -= 1;
+            }
+                
+            if (showMissesValue > 2)
+                showMissesValue = 0;
+            if (showMissesValue < 0)
+                showMissesValue = 2;
+            
+            showMissesSetting.setting = ": " + showMissesTypes[showMissesValue];
+            showMissesSetting.description = showMissesSetting.extraData[showMissesValue];
+        };
 
 
 
         configOptions = [
                             [fpsCap, noteSplash, noteGlow, extraCamStuff, camBopStuff, captionsStuff, bgDim, showFPS],
                             [noteOffset, downscroll, centeredNotes, ghostTap, keyBinds],
-                            [accuracyDisplay, showComboBreaks, comboDisplay, scrollSpeed, hpGain, hpDrain, cacheSettings]
+                            [showMissesSetting, showAccuracyDisplay, comboDisplay, scrollSpeed, hpGain, hpDrain, cacheSettings]
                         ];
 
     }
 
     function writeToConfig(){
-		Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, allowedFramerates[framerateValue], scheme, dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue);
+		Config.write(offsetValue, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, allowedFramerates[framerateValue], dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue, showAccuracyValue, showMissesValue);
 	}
 
     function resyncLayers():Void {

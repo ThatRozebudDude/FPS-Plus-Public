@@ -24,6 +24,7 @@ class Note extends FlxSprite
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
 	public var isSustainEnd:Bool = true;
+	public var isFake:Bool = false;
 
 	public var noteScore:Float = 1;
 
@@ -202,7 +203,7 @@ class Note extends FlxSprite
 				}
 
 				var mult:Float = 1;
-				if(prevNote.type.endsWith("-fake")){ mult = 0.5; }
+				if(prevNote.isFake){ mult = 0.5; }
 
 				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.485 * speed;
 				if(PlayState.curUiType == "pixel") {
@@ -213,7 +214,7 @@ class Note extends FlxSprite
 
 				prevNote.updateHitbox();
 
-				if(prevNote.type.endsWith("-fake")){ prevNote.yOffset = prevNote.height; }
+				if(prevNote.isFake){ prevNote.yOffset = prevNote.height; }
 			}
 		}
 

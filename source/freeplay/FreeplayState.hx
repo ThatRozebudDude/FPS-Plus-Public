@@ -49,6 +49,7 @@ class FreeplayState extends MusicBeatState
 	var categoryTitle:FlxBitmapText;
 	var miniArrowLeft:FlxSprite;
 	var miniArrowRight:FlxSprite;
+	var difficultyStars:DifficultyStars;
 
 	var album:FlxSprite;
 	var albumDummy:FlxObject;
@@ -327,7 +328,7 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 
-		if(FlxG.keys.justPressed.ONE){ dj.doRandomIdle = true; }
+		if(FlxG.keys.justPressed.ONE){ difficultyStars.setNumber(FlxG.random.int(0, 20)); }
 		
 		camFollow.x = Utils.fpsAdjsutedLerp(camFollow.x, camTarget.x, MainMenuState.lerpSpeed);
 		camFollow.y = Utils.fpsAdjsutedLerp(camFollow.y, camTarget.y, MainMenuState.lerpSpeed);
@@ -436,6 +437,8 @@ class FreeplayState extends MusicBeatState
 		miniArrowRight.x += 20;
 		miniArrowRight.y -= 7;
 
+		difficultyStars = new DifficultyStars(953, 237);
+
 		//DJ STUFF
 		dj = new DJCharacter(-9, 290, "bf", djIntroFinish);
 		dj.cameras = [camFreeplay];
@@ -461,6 +464,7 @@ class FreeplayState extends MusicBeatState
 		add(percentDisplay);
 		add(album);
 		add(albumTitle);
+		add(difficultyStars);
 
 		add(capsuleGroup);
 
@@ -522,6 +526,7 @@ class FreeplayState extends MusicBeatState
 			FlxTween.tween(miniArrowLeft, {y: miniArrowLeft.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
 			FlxTween.tween(miniArrowRight, {y: miniArrowRight.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
 
+			difficultyStars.tweenIn(transitionTime, 0, transitionEase, staggerTime*2);
 			tweenCapsulesOnScreen(transitionTime, randomVariation, staggerTime);
 		}
 		else{
@@ -553,10 +558,10 @@ class FreeplayState extends MusicBeatState
 		for (i in 0...MainMenuState.optionShit.length)
 		{
 			var menuItem:FlxSprite = new FlxSprite(0, 60 + (i * 160));
-			menuItem.frames = tex;
+			menuItem.frames = Paths.getSparrowAtlas("menu/main/" + MainMenuState.optionShit[i]);
 			
-			menuItem.animation.addByPrefix('idle', MainMenuState.optionShit[i] + " basic", 24);
-			menuItem.animation.addByPrefix('selected', MainMenuState.optionShit[i] + " white", 24);
+			menuItem.animation.addByPrefix('idle', "idle", 24);
+			menuItem.animation.addByPrefix('selected', "selected", 24);
 			menuItem.animation.play('idle');
 			menuItem.ID = i;
 			menuItem.screenCenter(X);
@@ -756,14 +761,18 @@ class FreeplayState extends MusicBeatState
 		var meta = {
 			name: _song.replace("-", ""),
 			artist: "",
-			album: "vol1"
+			album: "vol1",
+			difficulties: [0, 0, 0]
 		}
-		if(Utils.exists("assets/songs/" + _song + "/meta.json")){
-			meta = Json.parse(Utils.getText("assets/songs/" + _song + "/meta.json"));
+		if(Utils.exists("assets/data/" + _song.toLowerCase() + "/meta.json")){
+			meta = Json.parse(Utils.getText("assets/data/" + _song.toLowerCase() + "/meta.json"));
 		}
 
+		//temp
+		if(meta.difficulties == null){ meta.difficulties = [0, 0, 0]; }
+
 		if(categories == null){ categories = ["All"]; }
-		var capsule:Capsule = new Capsule(_song, meta.name, _icon, _week, meta.album);
+		var capsule:Capsule = new Capsule(_song, meta.name, _icon, _week, meta.album, meta.difficulties);
 		for(cat in categories){
 			createCategory(cat);
 			categoryMap[cat].push(capsule);
@@ -782,6 +791,7 @@ class FreeplayState extends MusicBeatState
 		for(i in 0...categoryMap[categoryNames[curCategory]].length){
 			updateCapsulePosition(i);
 			categoryMap[categoryNames[curCategory]][i].snapToTargetPos();
+			categoryMap[categoryNames[curCategory]][i].showRank(curDifficulty);
 			capsuleGroup.add(categoryMap[categoryNames[curCategory]][i]);
 		}
 	}
@@ -803,6 +813,7 @@ class FreeplayState extends MusicBeatState
 		calcAvailableDifficulties();
 		updateScore();
 		updateAlbum();
+		updateSongDifficulty();
 	}
 
 	function changeDifficulty(change:Int):Void{
@@ -820,10 +831,15 @@ class FreeplayState extends MusicBeatState
 		}
 
 		updateDifficultyGraphic();
+		updateSongDifficulty();
 
 		FlxTween.completeTweensOf(difficulty);
 		difficulty.y -= 15;
 		FlxTween.tween(difficulty, {y: difficulty.y + 15}, 0.1, {ease: FlxEase.cubeOut});
+
+		for(capsule in capsuleGroup){
+			capsule.showRank(curDifficulty);
+		}
 
 		updateScore();
 	}
@@ -880,11 +896,12 @@ class FreeplayState extends MusicBeatState
 		updateScore();
 		updateAlbum();
 		addCapsules();
+		updateSongDifficulty();
 		tweenCapsulesOnScreen(transitionTime/2, randomVariation/2, staggerTime, 400);
 	}
 
 	function updateScore():Void{
-		var score:SongStats = Highscore.getScore(categoryMap[categoryNames[curCategory]][curSelected].song, curDifficulty);
+		var score:SongStats = categoryMap[categoryNames[curCategory]][curSelected].highscoreData[curDifficulty];
 
 		if(prevScore != score.score){
 			scoreDisplay.tweenNumber(score.score, 0.8);
@@ -922,6 +939,10 @@ class FreeplayState extends MusicBeatState
 				}});
 			}
 		}
+	}
+
+	function updateSongDifficulty():Void{
+		difficultyStars.setNumber(categoryMap[categoryNames[curCategory]][curSelected].difficulties[curDifficulty]);
 	}
 
 	function calcAvailableDifficulties():Void{
@@ -1000,7 +1021,10 @@ class FreeplayState extends MusicBeatState
 		FlxTween.tween(categoryTitle, {y: categoryTitle.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*2});
 		FlxTween.tween(miniArrowLeft, {y: miniArrowLeft.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
 		FlxTween.tween(miniArrowRight, {y: miniArrowRight.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
+		
+		difficultyStars.tweenOut(transitionTimeExit, 0, transitionEaseExit, staggerTimeExit);
 		tweenCapsulesOffScreen(transitionTimeExit, randomVariationExit, staggerTimeExit);
+
 		scrollingText.forEachExists(function(text){ text.destroy(); });
 		scrollingText.clear();
 		FlxTween.completeTweensOf(flash);
