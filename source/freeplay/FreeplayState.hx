@@ -99,7 +99,7 @@ class FreeplayState extends MusicBeatState
 
 	static final freeplaySong:String = "freeplayRandom"; 
 	static final freeplaySongBpm:Float = 145; 
-	static final freeplaySongVolume:Float = 0.9; 
+	static final freeplaySongVolume:Float = 0.8; 
 
 	static final  transitionTime:Float = 1;
 	static final  staggerTime:Float = 0.1;

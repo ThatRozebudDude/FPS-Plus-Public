@@ -1976,9 +1976,11 @@ class PlayState extends MusicBeatState
 			case "bad":
 				health += Scoring.BAD_HEAL_AMMOUNT * Config.healthMultiplier;
 				songStats.badCount++;
+				comboBreak();
 			case "shit":
 				health += Scoring.SHIT_HEAL_AMMOUNT * Config.healthMultiplier;
 				songStats.shitCount++;
+				comboBreak();
 		}
 
 		comboUI.ratingPopup(rating);
@@ -2284,12 +2286,7 @@ class PlayState extends MusicBeatState
 			health -= healthLoss * Config.healthDrainMultiplier;
 
 			if(dropCombo){
-				if (combo > minCombo){
-					gf.playAnim('sad');
-					comboUI.breakPopup();
-				}
-				combo = 0;
-				songStats.comboBreakCount++;
+				comboBreak();
 			}
 
 			if(countMiss){
@@ -2950,6 +2947,15 @@ class PlayState extends MusicBeatState
 			scoreTxt.text += " | Accuracy:" + truncateFloat(songStats.accuracy, 2) + "%";
 		}
 
+	}
+
+	function comboBreak():Void{
+		if (combo > minCombo){
+			gf.playAnim('sad');
+			comboUI.breakPopup();
+		}
+		combo = 0;
+		songStats.comboBreakCount++;
 	}
 
 	function inRange(a:Float, b:Float, tolerance:Float){

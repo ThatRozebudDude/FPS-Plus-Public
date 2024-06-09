@@ -1,5 +1,7 @@
 package freeplay;
 
+import flixel.util.FlxTimer;
+import flixel.FlxG;
 import openfl.display.BlendMode;
 import Highscore.SongStats;
 import flixel.tweens.FlxEase;
@@ -26,6 +28,7 @@ class Capsule extends FlxSpriteGroup
     var icon:FlxSprite;
     var text:FlxTextExt;
     var rank:FlxSprite;
+    var sparkle:FlxSprite;
 
     public var song:String;
     public var album:String;
@@ -100,10 +103,33 @@ class Capsule extends FlxSpriteGroup
         rank.blend = BlendMode.ADD;
         rank.visible = false;
 
+        sparkle = new FlxSprite(383, 48);
+        sparkle.frames = Paths.getSparrowAtlas("menu/freeplay/sparkle");
+        sparkle.animation.addByPrefix("sparkle", "", FlxG.random.int(23, 25), false);
+        sparkle.animation.play("sparkle", true);
+        sparkle.offset.set(30, 30);
+        sparkle.offset.x += FlxG.random.int(-10, 10);
+        sparkle.offset.y += FlxG.random.int(-10, 10);
+        sparkle.animation.finishCallback = function(name) {
+            sparkle.visible = false;
+            new FlxTimer().start(FlxG.random.float(0.4, 1.2), function(t) {
+                sparkle.visible = true;
+                sparkle.offset.set(30, 30);
+                sparkle.offset.x += FlxG.random.int(-10, 10);
+                sparkle.offset.y += FlxG.random.int(-10, 10);
+                sparkle.animation.play("sparkle", true);
+            });
+        }
+        sparkle.scale.set(0.75, 0.75);
+        sparkle.antialiasing = true;
+        sparkle.alpha = 0;
+        sparkle.blend = BlendMode.ADD;
+
         add(capsule);
         add(text);
         add(icon);
         add(rank);
+        add(sparkle);
         //add(debugDot);
         //add(debugDot2);
 
@@ -154,9 +180,11 @@ class Capsule extends FlxSpriteGroup
 
     public function showRank(difficulty:Int):Void{
         rank.visible = true;
+        sparkle.alpha = 0;
         switch(highscoreData[difficulty].rank){
             case gold:
                 rank.animation.play("gold", true);
+                sparkle.alpha = 1;
             case perfect:
                 rank.animation.play("perfect", true);
             case excellent:

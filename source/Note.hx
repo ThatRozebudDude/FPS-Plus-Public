@@ -230,7 +230,7 @@ class Note extends FlxSprite
 		if(!editor){
 			if (mustPress){
 				if(isSustainNote){
-					canBeHit = (strumTime < Conductor.songPosition + Conductor.safeZoneOffset * 1 && (prevNote == null ? true : prevNote.wasGoodHit));
+					canBeHit = (strumTime < Conductor.songPosition + Conductor.badZone && (prevNote == null ? true : prevNote.wasGoodHit));
 					if(wasGoodHit && isSustainEnd && (Config.noteSplashType == 1 || Config.noteSplashType == 4)){
 						visible = false;
 						if(prevNote != null && prevNote.isSustainNote){

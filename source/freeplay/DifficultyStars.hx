@@ -1,5 +1,7 @@
 package freeplay;
 
+import transition.data.FadeIn;
+import flixel.sound.FlxSound;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.FlxG;
@@ -67,7 +69,7 @@ class DifficultyStars extends FlxSpriteGroup
         var animName = "on";
         var scale:Float = 1;
         var delayAdd:Float = 0;
-        final fastDelayTime:Float = 0.0075;
+        final fastDelayTime:Float = 0.015;
         final delayTime:Float = 0.025;
 
         if(value > 10){
@@ -101,6 +103,7 @@ class DifficultyStars extends FlxSpriteGroup
                 if(animName == "blue"){
                     flames[i].animation.play("start");
                     flames[i].visible = true;
+                    if(i == 0){ FlxG.sound.play(Paths.sound("freeplay/starIgnite"), 0.8); }
                 }
             }});
         }
