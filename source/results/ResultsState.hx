@@ -1,5 +1,11 @@
 package results;
 
+import flixel.math.FlxPoint;
+import extensions.flixel.FlxTextExt;
+import freeplay.ScrollingText;
+import flixel.text.FlxText;
+import flixel.addons.display.FlxBackdrop;
+import flixel.group.FlxSpriteGroup;
 import freeplay.DigitDisplay;
 import config.Config;
 import flixel.tweens.FlxEase;
@@ -24,6 +30,7 @@ class ResultsState extends FlxUIStateExt
     var resultsTitle:FlxSprite;
     var ratingsStuff:FlxSprite;
     var scoreStuff:FlxSprite;
+    var highscoreNew:FlxSprite;
 
     var totalNoteCounter:DigitDisplay;
     var maxComboCounter:DigitDisplay;
@@ -33,6 +40,17 @@ class ResultsState extends FlxUIStateExt
     var shitCounter:DigitDisplay;
     var missCounter:DigitDisplay;
     var scoreCounter:DigitDisplay;
+
+    var scrollingRankName:FlxBackdrop;
+
+    var scrollingTextGroup:FlxSpriteGroup = new FlxSpriteGroup();
+
+    final goldText:Array<String> =      ["PERFECT ", "CAN'T GET MUCH BETTER ", "UNTOUCHABLE ", "NOTHING BUT THE BEST ", "FLAWLESS ", "AAA+++ TRIPLE ULTRA DELUXE "];
+    final perfectText:Array<String> =   ["PERFECT ", "TOP NOTCH ", "CAN'T MISS ", "YOU DID IT ", "SICK "];
+    final excellentText:Array<String> = ["EXCELLENT ", "YOU DID IT ", "AMAZING EXECUTION ", "HIT THOSE NOTES ", "AWESOME "];
+    final greatText:Array<String> =     ["GREAT ", "GREAT JOB ", "NICE JOB ", "WELL DONE ", "KEEP IT UP "];
+    final goodText:Array<String> =      ["GOOD ", "ACCEPTABLE ", "NOT BAD ", "WELL DONE ", "KEEP IT UP "];
+    final lossText:Array<String> =      ["LOSS ", "YOU'RE A FAILURE ", "BE ASHAMED ", "WHAT WAS THAT ", "HORRIBLE ", "TRY AGAIN "];
 
     public function new() {
         super();    
@@ -48,6 +66,7 @@ class ResultsState extends FlxUIStateExt
 
         camScroll = new FlxCamera();
         camScroll.bgColor = FlxColor.TRANSPARENT;
+        camScroll.angle = -3.8;
 
         camCharacter = new FlxCamera();
         camCharacter.bgColor = FlxColor.TRANSPARENT;
@@ -66,6 +85,7 @@ class ResultsState extends FlxUIStateExt
         FlxG.sound.playMusic(Paths.music("results/excellent-intro"), 1, false);
         FlxG.sound.music.onComplete = function() {
             FlxG.sound.playMusic(Paths.music("results/excellent-loop"), 1, true); 
+            finishedCounting();
         }
 
         var bg:FlxSprite = FlxGradient.createGradientFlxSprite(FlxG.width, FlxG.height, [0xFFFECC5C, 0xFFFDC05C], 90);
@@ -112,6 +132,14 @@ class ResultsState extends FlxUIStateExt
             scoreStuff.animation.play("");
         });
 
+        highscoreNew = new FlxSprite(44, 557);
+        highscoreNew.frames = Paths.getSparrowAtlas("menu/results/highscoreNew");
+        highscoreNew.animation.addByPrefix("", "highscoreAnim", 24, false);
+        highscoreNew.visible = false;
+        highscoreNew.animation.finishCallback = function(name) {
+            highscoreNew.animation.play("", true, false, highscoreNew.animation.curAnim.numFrames - 12);
+        }
+
         //COUNTER STUFF AAAHHHHHHHH!!!!!
 
         totalNoteCounter = new DigitDisplay(374, 152, "menu/results/tallieNumber", -1, 1, 10);
@@ -119,7 +147,7 @@ class ResultsState extends FlxUIStateExt
         totalNoteCounter.visible = false;
         new FlxTimer().start((0.3 * 0) + 1.2, function(t){
             totalNoteCounter.visible = true;
-            totalNoteCounter.tweenNumber(500, 0.5);
+            totalNoteCounter.tweenNumber(FlxG.random.int(0, 1000), 0.5);
         });
 
         maxComboCounter = new DigitDisplay(374, 202, "menu/results/tallieNumber", -1, 1, 10);
@@ -127,47 +155,52 @@ class ResultsState extends FlxUIStateExt
         maxComboCounter.visible = false;
         new FlxTimer().start((0.3 * 1) + 1.2, function(t){
             maxComboCounter.visible = true;
-            maxComboCounter.tweenNumber(372, 0.5);
+            maxComboCounter.tweenNumber(FlxG.random.int(0, 1000), 0.5);
         });
 
         sickCounter = new DigitDisplay(229, 278, "menu/results/tallieNumber", -1, 1, 10);
         sickCounter.ease = FlxEase.quartOut;
         sickCounter.visible = false;
+        sickCounter.digitColor = 0xFF8AE2A0;
         new FlxTimer().start((0.3 * 2) + 1.2, function(t){
             sickCounter.visible = true;
-            sickCounter.tweenNumber(250, 0.5);
+            sickCounter.tweenNumber(FlxG.random.int(0, 1000), 0.5);
         });
 
         goodCounter = new DigitDisplay(208, 332, "menu/results/tallieNumber", -1, 1, 10);
         goodCounter.ease = FlxEase.quartOut;
         goodCounter.visible = false;
+        goodCounter.digitColor = 0xFF8CC8E6;
         new FlxTimer().start((0.3 * 3) + 1.2, function(t){
             goodCounter.visible = true;
-            goodCounter.tweenNumber(100, 0.5);
+            goodCounter.tweenNumber(FlxG.random.int(0, 1000), 0.5);
         });
 
         badCounter = new DigitDisplay(189, 383, "menu/results/tallieNumber", -1, 1, 10);
         badCounter.ease = FlxEase.quartOut;
         badCounter.visible = false;
+        badCounter.digitColor = 0xFFE5CF90;
         new FlxTimer().start((0.3 * 4) + 1.2, function(t){
             badCounter.visible = true;
-            badCounter.tweenNumber(75, 0.5);
+            badCounter.tweenNumber(FlxG.random.int(0, 1000), 0.5);
         });
 
         shitCounter = new DigitDisplay(219, 438, "menu/results/tallieNumber", -1, 1, 10);
         shitCounter.ease = FlxEase.quartOut;
         shitCounter.visible = false;
+        shitCounter.digitColor = 0xFFE68C8D;
         new FlxTimer().start((0.3 * 5) + 1.2, function(t){
             shitCounter.visible = true;
-            shitCounter.tweenNumber(40, 0.5);
+            shitCounter.tweenNumber(FlxG.random.int(0, 1000), 0.5);
         });
 
         missCounter = new DigitDisplay(259, 492, "menu/results/tallieNumber", -1, 1, 10);
         missCounter.ease = FlxEase.quartOut;
         missCounter.visible = false;
+        missCounter.digitColor = 0xFFC38ADE;
         new FlxTimer().start((0.3 * 6) + 1.2, function(t){
             missCounter.visible = true;
-            missCounter.tweenNumber(35, 0.5);
+            missCounter.tweenNumber(FlxG.random.int(0, 1000), 0.5);
         });
 
         scoreCounter = new DigitDisplay(71, 611, "menu/results/score-digital-numbers", 10, 1, -31, 0, false, true);
@@ -175,10 +208,53 @@ class ResultsState extends FlxUIStateExt
         scoreCounter.y += 150;
         new FlxTimer().start((0.3 * 7) + 1.2, function(t){
             FlxTween.tween(scoreCounter, {y: scoreCounter.y - 150}, 0.7, {ease: FlxEase.quintOut});
-            scoreCounter.tweenNumber(123456, 1.5);
+            scoreCounter.tweenNumber(FlxG.random.int(123456, 12345678), 1.5);
         });
 
+        //SCROLLING TEXT!!!!!
+
+        var prevRandomArray = [];
+        var textArray = tempReturnRandomArray(FlxG.random.int(0, 5));
+        for (i in 0...12){
+            
+            var textIndex = (i % 2 == 1) ? FlxG.random.int(1, textArray.length-1, prevRandomArray) : 0;
+            prevRandomArray.push(textIndex);
+            prevRandomArray.remove(0);
+            if(prevRandomArray.length == textArray.length - 1){ prevRandomArray = []; }
+
+            var tempText = new FlxText(0, 0, 0, textArray[textIndex]);
+			tempText.setFormat(Paths.font("5by7"), 50, 0xFFFEDA6C);
+			tempText.antialiasing = true;
+
+			var scrolling:FlxBackdrop = ScrollingText.createScrollingText(0, 50 + (135 * (i+1) / 2) + 10, tempText);
+			//scrolling.velocity.x = FlxG.random.int(5, 9);
+			scrolling.velocity.x = (i % 2 == 0) ? -8 : 8;
+			scrolling.antialiasing = true;
+			
+			scrollingTextGroup.add(scrolling);
+        }
+        scrollingTextGroup.visible = false;
+        scrollingTextGroup.cameras = [camScroll];
+
+        var rankName:String = "";
+        for(char in textArray[0].split("")){ rankName += char + "\n"; }
+        rankName = rankName.substr(0, rankName.length-2);
+
+        var tempRankText = new FlxTextExt(0, 0, 0, rankName);
+		tempRankText.setFormat(Paths.font("5by7"), 100, 0xFFFFFFFF);
+		tempRankText.antialiasing = true;
+		tempRankText.leading = 10;
+
+		scrollingRankName = ScrollingText.createScrollingText(1280 - tempRankText.width, 0, tempRankText, Y);
+		scrollingRankName.velocity.y = 30;
+		scrollingRankName.antialiasing = true;
+		scrollingRankName.visible = false;
+		scrollingRankName.spacing.y = 7;
+
         add(bg);
+
+        add(scrollingRankName);
+
         add(blackTopBar);
         add(soundSystem);
         add(resultsTitle);
@@ -194,6 +270,10 @@ class ResultsState extends FlxUIStateExt
         add(missCounter);
         add(scoreCounter);
 
+        add(highscoreNew);
+
+        add(scrollingTextGroup);
+
         super.create();
     }
 
@@ -207,7 +287,24 @@ class ResultsState extends FlxUIStateExt
     }
 
     function finishedCounting():Void{
-        
+        scrollingTextGroup.visible = true;
+        camBg.flash(0xFFFEDA6C, 1);
+
+        highscoreNew.animation.play("", true);
+        highscoreNew.visible = true;
+
+        scrollingRankName.visible = true;
+    }
+
+    inline function tempReturnRandomArray(value:Int) {
+        return switch(value){
+            case 0: lossText;
+            case 1: goodText;
+            case 2: greatText;
+            case 3: excellentText;
+            case 4: perfectText;
+            default: goldText;
+        }
     }
 
 }

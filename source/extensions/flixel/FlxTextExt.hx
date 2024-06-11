@@ -9,6 +9,8 @@ class FlxTextExt extends FlxText
     public var outlineSteps:Int = 16;
     public var outlineExpandDistance:Float = 8;
 
+    public var leading(get, set):Null<Int>;
+
     override function applyBorderStyle():Void
 	{
 		var iterations:Int = Std.int(borderSize * borderQuality);
@@ -150,4 +152,13 @@ class FlxTextExt extends FlxText
 
     }
 
+    function set_leading(value:Null<Int>):Null<Int> {
+        _defaultFormat.leading = value;
+		updateDefaultFormat();
+		return value;
+    }
+
+	inline function get_leading():Null<Int> {
+		return _defaultFormat.leading;
+	}
 }

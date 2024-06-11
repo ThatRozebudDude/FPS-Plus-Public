@@ -1,5 +1,6 @@
 package freeplay;
 
+import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.group.FlxSpriteGroup;
@@ -14,6 +15,8 @@ class DigitDisplay extends FlxSpriteGroup
     var tweenValue:FlxTween;
 
     public var ease:Null<flixel.tweens.EaseFunction>;
+
+    public var digitColor(default, set):FlxColor = 0xFFFFFFFF;
 
     var digitScale:Float = 1;
     var spacing:Float = 0;
@@ -49,6 +52,7 @@ class DigitDisplay extends FlxSpriteGroup
 
     function addDigit():Void{
         var digit:Digit = new Digit(0, 0, digitPath, hasEmptyDigit);
+        digit.color = digitColor;
         digits.push(digit);
         add(digit);
     }
@@ -120,6 +124,12 @@ class DigitDisplay extends FlxSpriteGroup
             digits[i].offsetMap.set(number, offset);
             digits[i].setOffset();
         }
+    }
+
+    function set_digitColor(value:FlxColor):FlxColor {
+        digitColor = value;
+        for(digit in digits){ digit.color = value; }
+        return value;
     }
 }
 
