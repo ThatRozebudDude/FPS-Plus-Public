@@ -19,6 +19,11 @@ class DigitDisplay extends FlxSpriteGroup
     var spacing:Float = 0;
     var digitCount:Int = 1;
     var digits:Array<Digit> = [];
+    var digitPath:String;
+    var hasEmptyDigit:Bool;
+
+    var totalDistance:Float = 0;
+    var offsetMap:Map<String, Float> = new Map<String, Float>();
 
     public function new(_x:Float, _y:Float, _path:String, _digitCount:Int, ?_scale:Float = 1, ?_spacing:Float = 0, ?_startingNumber:Int = 0, ?_hideTrailingZeroes:Bool = false, ?_hasEmptyDigit:Bool = false) {
         super(_x, _y);
@@ -26,43 +31,68 @@ class DigitDisplay extends FlxSpriteGroup
         digitScale = _scale;
         spacing = _spacing;
         hideTrailingZeroes = _hideTrailingZeroes;
+        digitPath = _path;
+        hasEmptyDigit = _hasEmptyDigit;
 
         ease = FlxEase.linear;
         
         tweenValue = FlxTween.tween(this, {}, 0);
 
-        for(i in 0...digitCount){
-
-            var digit:Digit = new Digit(0, 0, _path, _hasEmptyDigit);
-            digits.push(digit);
-            add(digit);
-
+        var addDigitCount = digitCount >= 1 ? digitCount : 1;
+        for(i in 0...addDigitCount){
+            addDigit();
         }
 
         repositionDigits();
         setNumber(_startingNumber);
     }
 
+    function addDigit():Void{
+        var digit:Digit = new Digit(0, 0, digitPath, hasEmptyDigit);
+        digits.push(digit);
+        add(digit);
+    }
+
     public function repositionDigits():Void{
-        var totalDistance:Float = 0;
         for(digit in digits){
+            if(digit.ready) { continue; }
             digit.scale.set(digitScale, digitScale);
             digit.updateHitbox();
             digit.setOffset();
             digit.x = x + totalDistance;
+            digit.ready = true;
             totalDistance += digit.width + (spacing * digitScale);
         }
     }
 
     public function setNumber(number:Int, ?forceAllDigitsToAnimate:Bool = false) {
         numString = ""+number;
-        if(numString.length < digitCount){
-            while(numString.length < digitCount){
-                numString = "-" + numString;
+
+        if(digitCount >= 0){
+            if(numString.length < digitCount){
+                while(numString.length < digitCount){
+                    numString = "-" + numString;
+                }
+            }
+            else if(numString.length > digitCount){
+                numString = numString.substr(numString.length - digitCount);
             }
         }
-        else if(numString.length > digitCount){
-            numString = numString.substr(numString.length - digitCount);
+        else{
+            if(numString.length < digits.length){
+                while(numString.length < digits.length){
+                    numString = "-" + numString;
+                }
+            }
+            else{
+                while(numString.length > digits.length){
+                    addDigit();
+                }
+                for(key => value in offsetMap){
+                    setDigitOffset(key, value);
+                }
+                repositionDigits();
+            }
         }
         
         for(i in 0...numString.length){
@@ -84,9 +114,10 @@ class DigitDisplay extends FlxSpriteGroup
         });
     }
 
-    public function setDigitOffset(number:Int, offset:Float) {
-        for(i in 0...numString.length){
-            digits[i].offsetMap.set(""+number, offset);
+    public function setDigitOffset(number:String, offset:Float) {
+        for(i in 0...digits.length){
+            offsetMap.set(number, offset);
+            digits[i].offsetMap.set(number, offset);
             digits[i].setOffset();
         }
     }
@@ -97,6 +128,7 @@ class Digit extends FlxSprite
 
     static final numberString:Array<String> = ["ZERO", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE"];
     public var offsetMap:Map<String, Float> = new Map<String, Float>();
+    public var ready:Bool = false;
 
     public function new(_x:Float, _y:Float, _path:String, _hasEmptyDigit:Bool) {
         super(_x, _y);

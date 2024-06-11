@@ -385,11 +385,11 @@ class FreeplayState extends MusicBeatState
 		clearPercentSprite.antialiasing = true;
 
 		scoreDisplay = new DigitDisplay(915, 120, "menu/freeplay/digital_numbers", 7, 0.4, -25);
-		scoreDisplay.setDigitOffset(1, 20);
+		scoreDisplay.setDigitOffset("1", 20);
 		scoreDisplay.ease = FlxEase.cubeOut;
 
 		percentDisplay = new DigitDisplay(1154, 87, "menu/freeplay/clearText", 3, 1, 3, 0, true);
-		percentDisplay.setDigitOffset(1, -8);
+		percentDisplay.setDigitOffset("1", -8);
 		percentDisplay.ease = FlxEase.quadOut;
 
 		albumDummy = new FlxObject(950, 285, 1, 1);
