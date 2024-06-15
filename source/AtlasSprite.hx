@@ -72,7 +72,10 @@ class AtlasSprite extends FlxAnimate
 		});
     }
 
-    public function addAnimationByFrame(name:String, frame:Int, length:Int, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
+    public function addAnimationByFrame(name:String, frame:Int, length:Null<Int>, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
+        if(length == null){
+            length = anim.length;
+        }
         if(looped && loopFrame == null){
             loopFrame = 0;
         }
@@ -83,6 +86,23 @@ class AtlasSprite extends FlxAnimate
 		animInfoMap.set(name, {
 		    startFrame: frame,
 			length: length,
+			framerate: framerate,
+            looped: looped,
+            loopFrame: loopFrame
+		});
+    }
+
+    public function addFullAnimation(name:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null) {
+        if(looped && loopFrame == null){
+            loopFrame = 0;
+        }
+        else if(looped && loopFrame < 0){
+            loopFrame = anim.length + loopFrame;
+        }
+
+        animInfoMap.set(name, {
+		    startFrame: 0,
+			length: anim.length,
 			framerate: framerate,
             looped: looped,
             loopFrame: loopFrame

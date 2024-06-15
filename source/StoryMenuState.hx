@@ -23,14 +23,41 @@ class StoryMenuState extends MusicBeatState
 
 	public static var fromPlayState:Bool = false;
 
-	public static var weekData:Array<Dynamic>;
+	public static var weekData = [
+		['Tutorial'],
+		['Bopeebo', 'Fresh', 'Dadbattle'],
+		['Spookeez', 'South', 'Monster'],
+		['Pico', 'Philly', "Blammed"],
+		['Satin-Panties', "High", "Milf"],
+		['Cocoa', 'Eggnog', 'Winter-Horrorland'],
+		['Senpai', 'Roses', 'Thorns'],
+		['Ugh', 'Guns', 'Stress']
+	];
 	var curDifficulty:Int = 1;
 
 	public static var weekUnlocked:Array<Bool> = [true, true, true, true, true, true, true, true, true, true, true, true, true, true];
 
-	public static var weekCharacters:Array<Dynamic>;
+	public static var weekCharacters = [
+		['dad', 'bf', 'gf'],
+		['dad', 'bf', 'gf'],
+		['spooky', 'bf', 'gf'],
+		['pico', 'bf', 'gf'],
+		['mom', 'bf', 'gf'],
+		['parents-christmas', 'bf', 'gf'],
+		['senpai', 'bf', 'gf'],
+		['tankman', 'bf', 'gf']
+	];
 
-	public static var weekNames:Array<String>;
+	public static var weekNames = [
+		"Tutorial",
+		"Daddy Dearest",
+		"Spooky Month",
+		"Pico",
+		"Mommy Must Murder",
+		"Red Snow",
+		"Hating Simulator ft. Moawling",
+		"Tankman"
+	];
 
 	var txtWeekTitle:FlxText;
 
@@ -50,37 +77,19 @@ class StoryMenuState extends MusicBeatState
 	var leftArrow:FlxSprite;
 	var rightArrow:FlxSprite;
 
+	public function new(?stickerIntro:Bool = false) {
+		super();
+		if(stickerIntro){
+			customTransIn = new transition.data.StickerIn();
+		}
+	}
+
 	override function create()
 	{
 
 		Config.setFramerate(144);
 	
-		weekData = [
-			['Tutorial'],
-			['Bopeebo', 'Fresh', 'Dadbattle'],
-			['Spookeez', 'South', 'Monster'],
-			['Pico', 'Philly', "Blammed"],
-			['Satin-Panties', "High", "Milf"],
-			['Cocoa', 'Eggnog', 'Winter-Horrorland'],
-			['Senpai', 'Roses', 'Thorns'],
-			['Ugh', 'Guns', 'Stress']
-		];
-		
-		weekCharacters = [
-			['dad', 'bf', 'gf'],
-			['dad', 'bf', 'gf'],
-			['spooky', 'bf', 'gf'],
-			['pico', 'bf', 'gf'],
-			['mom', 'bf', 'gf'],
-			['parents-christmas', 'bf', 'gf'],
-			['senpai', 'bf', 'gf'],
-			['tankman', 'bf', 'gf']
-		];
-	
-		weekNames = Utils.coolTextFile(Paths.text("weekNames"));
-	
-		if (FlxG.sound.music == null)
-		{
+		if (FlxG.sound.music == null){
 			FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
 		}
 
@@ -326,8 +335,20 @@ class StoryMenuState extends MusicBeatState
 			PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
 			PlayState.storyWeek = curWeek;
 			PlayState.returnLocation = "story";
-			PlayState.campaignScore = 0;
-			PlayState.campaignAccuracy = 0;
+
+			PlayState.weekStats = {
+				score: 0,
+				highestCombo: 0,
+				accuracy: 0.0,
+				sickCount: 0,
+				goodCount: 0,
+				badCount: 0,
+				shitCount: 0,
+				susCount: 0,
+				missCount: 0,
+				comboBreakCount: 0,
+			};
+
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
 				if (FlxG.sound.music != null)

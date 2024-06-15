@@ -1,5 +1,11 @@
 package results;
 
+import flixel.graphics.frames.FlxBitmapFont;
+import flixel.text.FlxBitmapText;
+import transition.data.StickerOut;
+import freeplay.FreeplayState;
+import Highscore.Rank;
+import PlayState.ScoreStats;
 import flixel.math.FlxPoint;
 import extensions.flixel.FlxTextExt;
 import freeplay.ScrollingText;
@@ -27,6 +33,8 @@ class ResultsState extends FlxUIStateExt
     var camCharacter:FlxCamera;
     var camUi:FlxCamera;
 
+    var character:ResultsCharacter;
+
     var resultsTitle:FlxSprite;
     var ratingsStuff:FlxSprite;
     var scoreStuff:FlxSprite;
@@ -41,7 +49,11 @@ class ResultsState extends FlxUIStateExt
     var missCounter:DigitDisplay;
     var scoreCounter:DigitDisplay;
 
+    var clearPercentGraphic:FlxSprite;
+    var clearPercentCounter:DigitDisplay;
+
     var scrollingRankName:FlxBackdrop;
+    var scrollingSongName:FlxBackdrop;
 
     var scrollingTextGroup:FlxSpriteGroup = new FlxSpriteGroup();
 
@@ -52,8 +64,49 @@ class ResultsState extends FlxUIStateExt
     final goodText:Array<String> =      ["GOOD ", "ACCEPTABLE ", "NOT BAD ", "WELL DONE ", "KEEP IT UP "];
     final lossText:Array<String> =      ["LOSS ", "YOU'RE A FAILURE ", "BE ASHAMED ", "WHAT WAS THAT ", "HORRIBLE ", "TRY AGAIN "];
 
-    public function new() {
-        super();    
+    var characterString:String;
+    var scoreStats:ScoreStats;
+    var songNameText:String;
+    var saveInfo:SaveInfo;
+
+    var totalNotes:Int = 0;
+    var grade:Float = 0;
+    var rank:Rank = none;
+
+    public function new(_scoreStats:ScoreStats, ?_songNameText:String = "Fabs works on base game.", ?_character:String = "bf", ?saveInfo:SaveInfo = null) {
+        super();
+
+        if(_scoreStats == null){
+            _scoreStats = {
+                score: FlxG.random.int(123456, 12345678),
+                highestCombo: FlxG.random.int(0, 999),
+                accuracy: FlxG.random.int(50, 100),
+                sickCount: FlxG.random.int(0, 400),
+                goodCount: FlxG.random.int(0, 300),
+                badCount: FlxG.random.int(0, 200),
+                shitCount: FlxG.random.int(0, 100),
+                susCount: FlxG.random.int(0, 999),
+                missCount: FlxG.random.int(0, 50),
+                comboBreakCount: FlxG.random.int(0, 999),
+            };
+        }
+
+        characterString = _character;
+        scoreStats = _scoreStats;
+        songNameText = _songNameText;
+
+        totalNotes = scoreStats.sickCount + scoreStats.goodCount + scoreStats.badCount + scoreStats.shitCount;
+        grade = (scoreStats.sickCount + scoreStats.goodCount) / (totalNotes + scoreStats.missCount);
+        rank = Highscore.calculateRank(scoreStats);
+
+        if(saveInfo != null){
+            if(saveInfo.song != null){
+                Highscore.saveScore(saveInfo.song, scoreStats.score, scoreStats.accuracy, saveInfo.diff, rank);
+            }
+            else if(saveInfo.week != null){
+                Highscore.saveWeekScore(saveInfo.week, scoreStats.score, scoreStats.accuracy, saveInfo.diff, rank);
+            }
+        }
     }
 
     override function create() {
@@ -147,7 +200,7 @@ class ResultsState extends FlxUIStateExt
         totalNoteCounter.visible = false;
         new FlxTimer().start((0.3 * 0) + 1.2, function(t){
             totalNoteCounter.visible = true;
-            totalNoteCounter.tweenNumber(FlxG.random.int(0, 1000), 0.5);
+            totalNoteCounter.tweenNumber(totalNotes, 0.5);
         });
 
         maxComboCounter = new DigitDisplay(374, 202, "menu/results/tallieNumber", -1, 1, 10);
@@ -155,7 +208,7 @@ class ResultsState extends FlxUIStateExt
         maxComboCounter.visible = false;
         new FlxTimer().start((0.3 * 1) + 1.2, function(t){
             maxComboCounter.visible = true;
-            maxComboCounter.tweenNumber(FlxG.random.int(0, 1000), 0.5);
+            maxComboCounter.tweenNumber(scoreStats.highestCombo, 0.5);
         });
 
         sickCounter = new DigitDisplay(229, 278, "menu/results/tallieNumber", -1, 1, 10);
@@ -164,7 +217,7 @@ class ResultsState extends FlxUIStateExt
         sickCounter.digitColor = 0xFF8AE2A0;
         new FlxTimer().start((0.3 * 2) + 1.2, function(t){
             sickCounter.visible = true;
-            sickCounter.tweenNumber(FlxG.random.int(0, 1000), 0.5);
+            sickCounter.tweenNumber(scoreStats.sickCount, 0.5);
         });
 
         goodCounter = new DigitDisplay(208, 332, "menu/results/tallieNumber", -1, 1, 10);
@@ -173,7 +226,7 @@ class ResultsState extends FlxUIStateExt
         goodCounter.digitColor = 0xFF8CC8E6;
         new FlxTimer().start((0.3 * 3) + 1.2, function(t){
             goodCounter.visible = true;
-            goodCounter.tweenNumber(FlxG.random.int(0, 1000), 0.5);
+            goodCounter.tweenNumber(scoreStats.goodCount, 0.5);
         });
 
         badCounter = new DigitDisplay(189, 383, "menu/results/tallieNumber", -1, 1, 10);
@@ -182,7 +235,7 @@ class ResultsState extends FlxUIStateExt
         badCounter.digitColor = 0xFFE5CF90;
         new FlxTimer().start((0.3 * 4) + 1.2, function(t){
             badCounter.visible = true;
-            badCounter.tweenNumber(FlxG.random.int(0, 1000), 0.5);
+            badCounter.tweenNumber(scoreStats.badCount, 0.5);
         });
 
         shitCounter = new DigitDisplay(219, 438, "menu/results/tallieNumber", -1, 1, 10);
@@ -191,7 +244,7 @@ class ResultsState extends FlxUIStateExt
         shitCounter.digitColor = 0xFFE68C8D;
         new FlxTimer().start((0.3 * 5) + 1.2, function(t){
             shitCounter.visible = true;
-            shitCounter.tweenNumber(FlxG.random.int(0, 1000), 0.5);
+            shitCounter.tweenNumber(scoreStats.shitCount, 0.5);
         });
 
         missCounter = new DigitDisplay(259, 492, "menu/results/tallieNumber", -1, 1, 10);
@@ -200,21 +253,39 @@ class ResultsState extends FlxUIStateExt
         missCounter.digitColor = 0xFFC38ADE;
         new FlxTimer().start((0.3 * 6) + 1.2, function(t){
             missCounter.visible = true;
-            missCounter.tweenNumber(FlxG.random.int(0, 1000), 0.5);
+            missCounter.tweenNumber(scoreStats.missCount, 0.5);
+        });
+
+        clearPercentCounter = new DigitDisplay(838 - 80, 349, "menu/results/clearPercentNumbers", 3, 1, 0, 0, true, false);
+        clearPercentCounter.ease = FlxEase.quartOut;
+        clearPercentCounter.setDigitOffset("1", -13);
+        clearPercentCounter.visible = false;
+
+        clearPercentGraphic = new FlxSprite(clearPercentCounter.x + 80, clearPercentCounter.y + clearPercentCounter.height).loadGraphic(Paths.image("menu/results/clearPercentText"));
+        clearPercentGraphic.y -= clearPercentGraphic.height;
+        clearPercentGraphic.antialiasing = true;
+        clearPercentGraphic.visible = false;
+
+        new FlxTimer().start((0.3 * 7) + 1.2, function(t){
+            clearPercentCounter.visible = true;
+            clearPercentCounter.tweenNumber(Math.floor(grade * 100), 1.7);
+
+            clearPercentGraphic.visible = true;
         });
 
         scoreCounter = new DigitDisplay(71, 611, "menu/results/score-digital-numbers", 10, 1, -31, 0, false, true);
         scoreCounter.ease = FlxEase.cubeOut;
         scoreCounter.y += 150;
+
         new FlxTimer().start((0.3 * 7) + 1.2, function(t){
             FlxTween.tween(scoreCounter, {y: scoreCounter.y - 150}, 0.7, {ease: FlxEase.quintOut});
-            scoreCounter.tweenNumber(FlxG.random.int(123456, 12345678), 1.5);
+            scoreCounter.tweenNumber(scoreStats.score, 1.5);
         });
 
         //SCROLLING TEXT!!!!!
 
         var prevRandomArray = [];
-        var textArray = tempReturnRandomArray(FlxG.random.int(0, 5));
+        var textArray = rankToRankText(rank);
         for (i in 0...12){
             
             var textIndex = (i % 2 == 1) ? FlxG.random.int(1, textArray.length-1, prevRandomArray) : 0;
@@ -251,6 +322,16 @@ class ResultsState extends FlxUIStateExt
 		scrollingRankName.visible = false;
 		scrollingRankName.spacing.y = 7;
 
+        /*var fontLetters:String = "AaBbCcDdEeFfGgHhiIJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz:1234567890.";
+		var bitmapSongName = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), fontLetters, FlxPoint.get(49, 62)));
+		bitmapSongName.text = songNameText + " ";
+		bitmapSongName.letterSpacing = -15;
+        scrollingSongName = ScrollingText.createScrollingText(0, 50 + (135 * (1) / 2) + 10, bitmapSongName, X);
+        scrollingSongName.cameras = [camScroll];*/
+
+        character = new ResultsCharacter(characterString, rank);
+        character.cameras = [camCharacter];
+
         add(bg);
 
         add(scrollingRankName);
@@ -270,17 +351,23 @@ class ResultsState extends FlxUIStateExt
         add(missCounter);
         add(scoreCounter);
 
+        add(clearPercentCounter);
+        add(clearPercentGraphic);
+
         add(highscoreNew);
 
         add(scrollingTextGroup);
+        //add(scrollingSongName);
+
+        add(character);
 
         super.create();
     }
 
     override function update(elapsed:Float) {
 
-        if(FlxG.keys.anyJustPressed([TAB])){
-            switchState(new ResultsState());
+        if(Binds.justPressed("menuAccept")){
+            returnToMenu();
         }
 
         super.update(elapsed);
@@ -294,17 +381,51 @@ class ResultsState extends FlxUIStateExt
         highscoreNew.visible = true;
 
         scrollingRankName.visible = true;
+
+        FlxTween.tween(clearPercentCounter, {x: clearPercentCounter.x + 100, y: clearPercentCounter.y + 265}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});
+        FlxTween.tween(clearPercentGraphic, {x: clearPercentGraphic.x + 100, y: clearPercentGraphic.y + 265}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});
+
+        character.playAnim();
     }
 
-    inline function tempReturnRandomArray(value:Int) {
+    public function returnToMenu():Void{
+		switch(PlayState.returnLocation){
+			case "story":
+                customTransOut = new StickerOut();
+				switchState(new StoryMenuState(true));
+                FlxG.sound.music.fadeOut(1, 0, function(t) {
+                    FlxG.sound.music.stop();
+                });
+			case "freeplay":
+                customTransOut = new StickerOut();
+			    FreeplayState.playStickerIntro = true;
+				switchState(new FreeplayState(false));
+                FlxG.sound.music.fadeOut(1, 0, function(t) {
+                    FlxG.sound.music.stop();
+                });
+			default:
+				switchState(new MainMenuState());
+                FlxG.sound.music.fadeOut(0.3, 0, function(t) {
+                    FlxG.sound.music.stop();
+                });
+		}
+	}
+
+    inline function rankToRankText(value:Rank) {
         return switch(value){
-            case 0: lossText;
-            case 1: goodText;
-            case 2: greatText;
-            case 3: excellentText;
-            case 4: perfectText;
+            case loss: lossText;
+            case good: goodText;
+            case great: greatText;
+            case excellent: excellentText;
+            case perfect: perfectText;
             default: goldText;
         }
     }
 
+}
+
+typedef SaveInfo = {
+    song:String,
+    week:Null<Int>,
+    diff:Int
 }

@@ -1,5 +1,6 @@
 package;
 
+import results.ResultsState;
 import freeplay.FreeplayState;
 import Highscore.SongStats;
 #if sys
@@ -201,8 +202,19 @@ class PlayState extends MusicBeatState
 		missCount: 0,
 		comboBreakCount: 0,
 	};
-	public static var campaignScore:Int = 0;
-	public static var campaignAccuracy:Float = 0;
+
+	public static var weekStats:ScoreStats = {
+		score: 0,
+		highestCombo: 0,
+		accuracy: 0.0,
+		sickCount: 0,
+		goodCount: 0,
+		badCount: 0,
+		shitCount: 0,
+		susCount: 0,
+		missCount: 0,
+		comboBreakCount: 0,
+	};
 
 	var defaultCamZoom:Float = 1.05;
 
@@ -1842,19 +1854,23 @@ class PlayState extends MusicBeatState
 
 		endingSong = true;
 
-		if (!preventScoreSaving){
-			Highscore.saveScore(SONG.song, songStats.score, songStats.accuracy, storyDifficulty, Highscore.calculateRank(songStats));
-		}
-
 		if (isStoryMode){
 
-			if (!preventScoreSaving){
-				campaignScore += songStats.score;
-				campaignAccuracy += songStats.score;
-			}
-			
-
 			storyPlaylist.remove(storyPlaylist[0]);
+
+			if (!preventScoreSaving){
+				Highscore.saveScore(SONG.song, songStats.score, songStats.accuracy, storyDifficulty, Highscore.calculateRank(songStats));
+				weekStats.score += songStats.score;
+				weekStats.highestCombo += songStats.highestCombo;
+				weekStats.accuracy += songStats.accuracy;
+				weekStats.sickCount += songStats.sickCount;
+				weekStats.goodCount += songStats.goodCount;
+				weekStats.badCount += songStats.badCount;
+				weekStats.shitCount += songStats.shitCount;
+				weekStats.susCount += songStats.susCount;
+				weekStats.missCount += songStats.missCount;
+				weekStats.comboBreakCount += songStats.comboBreakCount;
+			}
 
 			//CODE FOR ENDING A WEEK
 			if (storyPlaylist.length <= 0)
@@ -1885,13 +1901,24 @@ class PlayState extends MusicBeatState
 				customTransOut = new StickerOut(stickerSets);
 
 				StoryMenuState.fromPlayState = true;
-				returnToMenu();
+				//returnToMenu();
 				sectionStart = false;
 
 				// if ()
 				StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
 
-				Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
+				weekStats.accuracy / StoryMenuState.weekData[storyWeek].length;
+
+				//Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
+				var songSaveStuff:SaveInfo = null;
+				if(!preventScoreSaving){
+					songSaveStuff = {
+						song: null,
+						week: storyWeek,
+						diff: storyDifficulty
+					}
+				}
+				switchState(new ResultsState(weekStats, "", "bf", songSaveStuff));
 
 				FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
 				FlxG.save.flush();
@@ -1938,9 +1965,17 @@ class PlayState extends MusicBeatState
 		else{
 
 			sectionStart = false;
-			customTransOut = new StickerOut();
-			FreeplayState.playStickerIntro = true;
-			returnToMenu();
+			//returnToMenu();
+
+			var songSaveStuff:SaveInfo = null;
+			if(!preventScoreSaving){
+				songSaveStuff = {
+					song: SONG.song,
+					week: null,
+					diff: storyDifficulty
+				}
+			}
+			switchState(new ResultsState(songStats, "", "bf", songSaveStuff));
 		}
 	}
 
