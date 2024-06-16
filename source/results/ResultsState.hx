@@ -73,7 +73,9 @@ class ResultsState extends FlxUIStateExt
     var grade:Float = 0;
     var rank:Rank = none;
 
-    public function new(_scoreStats:ScoreStats, ?_songNameText:String = "Fabs works on base game.", ?_character:String = "bf", ?saveInfo:SaveInfo = null) {
+    var prevHighscore:Int = 0;
+
+    public function new(_scoreStats:ScoreStats, ?_songNameText:String = "Base Game - Fabs Remix", ?_character:String = "bf", ?saveInfo:SaveInfo = null) {
         super();
 
         if(_scoreStats == null){
@@ -101,9 +103,11 @@ class ResultsState extends FlxUIStateExt
 
         if(saveInfo != null){
             if(saveInfo.song != null){
+                prevHighscore = Highscore.getScore(saveInfo.song, saveInfo.diff).score;
                 Highscore.saveScore(saveInfo.song, scoreStats.score, scoreStats.accuracy, saveInfo.diff, rank);
             }
             else if(saveInfo.week != null){
+                prevHighscore = Highscore.getWeekScore(saveInfo.week, saveInfo.diff).score;
                 Highscore.saveWeekScore(saveInfo.week, scoreStats.score, scoreStats.accuracy, saveInfo.diff, rank);
             }
         }
@@ -322,12 +326,13 @@ class ResultsState extends FlxUIStateExt
 		scrollingRankName.visible = false;
 		scrollingRankName.spacing.y = 7;
 
-        /*var fontLetters:String = "AaBbCcDdEeFfGgHhiIJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz:1234567890.";
-		var bitmapSongName = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), fontLetters, FlxPoint.get(49, 62)));
-		bitmapSongName.text = songNameText + " ";
-		bitmapSongName.letterSpacing = -15;
-        scrollingSongName = ScrollingText.createScrollingText(0, 50 + (135 * (1) / 2) + 10, bitmapSongName, X);
-        scrollingSongName.cameras = [camScroll];*/
+        //var fontLetters:String = "AaBbCcDdEeFfGgHhiIJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz:1234567890.-";
+		//var bitmapSongName = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), fontLetters, FlxPoint.get(49, 62)));
+		//bitmapSongName.text = songNameText + " ";
+		//bitmapSongName.letterSpacing = -15;
+
+        //var testPROPROP = ScrollingText.createScrollingText(0, 50 + (135 * (1) / 2) + 10, bitmapSongName, X);
+        //testPROPROP.cameras = [camScroll];
 
         character = new ResultsCharacter(characterString, rank);
         character.cameras = [camCharacter];
@@ -357,7 +362,8 @@ class ResultsState extends FlxUIStateExt
         add(highscoreNew);
 
         add(scrollingTextGroup);
-        //add(scrollingSongName);
+        //add(bitmapSongName);
+        //add(testPROPROP);
 
         add(character);
 
@@ -370,6 +376,10 @@ class ResultsState extends FlxUIStateExt
             returnToMenu();
         }
 
+        if(FlxG.keys.anyJustPressed([TAB])){
+            switchState(new ResultsState(scoreStats, songNameText, characterString, saveInfo));
+        }
+
         super.update(elapsed);
     }
 
@@ -377,13 +387,20 @@ class ResultsState extends FlxUIStateExt
         scrollingTextGroup.visible = true;
         camBg.flash(0xFFFEDA6C, 1);
 
-        highscoreNew.animation.play("", true);
-        highscoreNew.visible = true;
+        if(prevHighscore < scoreStats.score){
+            highscoreNew.animation.play("", true);
+            highscoreNew.visible = true;
+        }
 
         scrollingRankName.visible = true;
 
-        FlxTween.tween(clearPercentCounter, {x: clearPercentCounter.x + 100, y: clearPercentCounter.y + 265}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});
-        FlxTween.tween(clearPercentGraphic, {x: clearPercentGraphic.x + 100, y: clearPercentGraphic.y + 265}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});
+        var gradeAdjust = 0;
+        if(grade == 1){
+            gradeAdjust = 35;
+        }
+
+        FlxTween.tween(clearPercentCounter, {x: clearPercentCounter.x + 65 + gradeAdjust, y: clearPercentCounter.y + 265}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});
+        FlxTween.tween(clearPercentGraphic, {x: clearPercentGraphic.x + 65 + gradeAdjust, y: clearPercentGraphic.y + 265}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});
 
         character.playAnim();
     }
