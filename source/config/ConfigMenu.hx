@@ -66,6 +66,8 @@ class ConfigMenu extends FlxUIStateExt
 
     var configOptions:Array<Array<ConfigOption>> = [];
 
+    var updateTextOnce:Bool = false;
+
     final genericOnOff:Array<String> = ["on", "off"];
     var offsetValue:Float;
 	var healthValue:Int;
@@ -301,15 +303,14 @@ class ConfigMenu extends FlxUIStateExt
                         configOptions[curSelected][curSelectedSub].optionUpdate();
                     }
 
-                    if(pressUp || pressDown || pressLeft || pressRight || pressAccept){
+                    if(pressUp || pressDown || pressLeft || pressRight || pressAccept || !updateTextOnce){
                         textUpdate();
+                        updateTextOnce = true;
                     }
 
             }
 
         }
-        
-
 
 	}
 
