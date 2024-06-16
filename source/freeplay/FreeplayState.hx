@@ -418,8 +418,7 @@ class FreeplayState extends MusicBeatState
 		difficulty.offset.set(difficulty.width/2, difficulty.height/2);
 		difficulty.antialiasing = true;
 
-		var fontLetters:String = "AaBbCcDdEeFfGgHhiIJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz:1234567890.";
-		categoryTitle = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), fontLetters, FlxPoint.get(49, 62)));
+		categoryTitle = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
 		categoryTitle.text = categoryNames[curCategory];
 		categoryTitle.letterSpacing = -15;
 		categoryTitle.screenCenter(X);
@@ -484,6 +483,7 @@ class FreeplayState extends MusicBeatState
 		calcAvailableDifficulties();
 		updateScore();
 		updateAlbum(false);
+		updateSongDifficulty();
 
 		if(transitionFromMenu){
 			bg.x -= 1280;
@@ -767,9 +767,6 @@ class FreeplayState extends MusicBeatState
 		if(Utils.exists("assets/data/" + _song.toLowerCase() + "/meta.json")){
 			meta = Json.parse(Utils.getText("assets/data/" + _song.toLowerCase() + "/meta.json"));
 		}
-
-		//temp
-		if(meta.difficulties == null){ meta.difficulties = [0, 0, 0]; }
 
 		if(categories == null){ categories = ["All"]; }
 		var capsule:Capsule = new Capsule(_song, meta.name, _icon, _week, meta.album, meta.difficulties);

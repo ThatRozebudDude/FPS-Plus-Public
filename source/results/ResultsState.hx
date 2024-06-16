@@ -1,5 +1,6 @@
 package results;
 
+import shaders.ColorGradientShader;
 import flixel.graphics.frames.FlxBitmapFont;
 import flixel.text.FlxBitmapText;
 import transition.data.StickerOut;
@@ -35,6 +36,8 @@ class ResultsState extends FlxUIStateExt
 
     var character:ResultsCharacter;
 
+    var extraGradient:FlxSprite;
+
     var resultsTitle:FlxSprite;
     var ratingsStuff:FlxSprite;
     var scoreStuff:FlxSprite;
@@ -53,7 +56,8 @@ class ResultsState extends FlxUIStateExt
     var clearPercentCounter:DigitDisplay;
 
     var scrollingRankName:FlxBackdrop;
-    var scrollingSongName:FlxBackdrop;
+
+    var bitmapSongName:FlxBitmapText;
 
     var scrollingTextGroup:FlxSpriteGroup = new FlxSpriteGroup();
 
@@ -75,7 +79,7 @@ class ResultsState extends FlxUIStateExt
 
     var prevHighscore:Int = 0;
 
-    public function new(_scoreStats:ScoreStats, ?_songNameText:String = "Base Game - Fabs Remix", ?_character:String = "bf", ?saveInfo:SaveInfo = null) {
+    public function new(_scoreStats:ScoreStats, ?_songNameText:String = "Fabs is on base game", ?_character:String = "bf", ?saveInfo:SaveInfo = null) {
         super();
 
         if(_scoreStats == null){
@@ -91,7 +95,7 @@ class ResultsState extends FlxUIStateExt
                 missCount: FlxG.random.int(0, 50),
                 comboBreakCount: FlxG.random.int(0, 999),
             };
-        }
+        } 
 
         characterString = _character;
         scoreStats = _scoreStats;
@@ -138,16 +142,21 @@ class ResultsState extends FlxUIStateExt
 		FlxG.cameras.setDefaultDrawTarget(camUi, true);
         this.camera = camUi;
 
-        //temp music i wanna hear somethin'
         FlxG.sound.playMusic(Paths.music("results/excellent-intro"), 1, false);
         FlxG.sound.music.onComplete = function() {
-            FlxG.sound.playMusic(Paths.music("results/excellent-loop"), 1, true); 
+            playSongBasedOnRank(rank);
             finishedCounting();
         }
 
         var bg:FlxSprite = FlxGradient.createGradientFlxSprite(FlxG.width, FlxG.height, [0xFFFECC5C, 0xFFFDC05C], 90);
         bg.scrollFactor.set();
         bg.cameras = [camBg];
+
+        extraGradient = new FlxSprite().loadGraphic(Paths.image("menu/results/gradientCover"));
+        extraGradient.color = 0xFFFDC05C;
+        extraGradient.x = 1280 - 460;
+        extraGradient.y = 720 - 128;
+        extraGradient.alpha = 0;
 
         var blackTopBar:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menu/results/topBarBlack"));
         blackTopBar.y = -blackTopBar.height;
@@ -326,21 +335,27 @@ class ResultsState extends FlxUIStateExt
 		scrollingRankName.visible = false;
 		scrollingRankName.spacing.y = 7;
 
-        //var fontLetters:String = "AaBbCcDdEeFfGgHhiIJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz:1234567890.-";
-		//var bitmapSongName = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), fontLetters, FlxPoint.get(49, 62)));
-		//bitmapSongName.text = songNameText + " ";
-		//bitmapSongName.letterSpacing = -15;
+		bitmapSongName = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
+		bitmapSongName.text = songNameText + " ";
+		bitmapSongName.letterSpacing = -15;
+		bitmapSongName.antialiasing = true;
+		bitmapSongName.setPosition(545, 120);
+		bitmapSongName.cameras = [camScroll];
+        bitmapSongName.y -= 300;
+        new FlxTimer().start(36/24, function(t){
+            FlxTween.tween(bitmapSongName, {y: bitmapSongName.y + 300}, 1.2, {ease: FlxEase.quintOut});
+        });
 
-        //var testPROPROP = ScrollingText.createScrollingText(0, 50 + (135 * (1) / 2) + 10, bitmapSongName, X);
-        //testPROPROP.cameras = [camScroll];
+        var songNameShader = new ColorGradientShader(0xFFF98862, 0xFFF9FEB1);
+        bitmapSongName.shader = songNameShader.shader;
 
         character = new ResultsCharacter(characterString, rank);
         character.cameras = [camCharacter];
 
         add(bg);
 
+        add(extraGradient);
         add(scrollingRankName);
-
         add(blackTopBar);
         add(soundSystem);
         add(resultsTitle);
@@ -362,7 +377,7 @@ class ResultsState extends FlxUIStateExt
         add(highscoreNew);
 
         add(scrollingTextGroup);
-        //add(bitmapSongName);
+        add(bitmapSongName);
         //add(testPROPROP);
 
         add(character);
@@ -376,9 +391,31 @@ class ResultsState extends FlxUIStateExt
             returnToMenu();
         }
 
-        if(FlxG.keys.anyJustPressed([TAB])){
+        /*if(FlxG.keys.anyJustPressed([TAB])){
             switchState(new ResultsState(scoreStats, songNameText, characterString, saveInfo));
         }
+
+        var moveAmount = 1;
+        if(FlxG.keys.anyPressed([SHIFT])){
+            moveAmount = 25;
+        }
+        
+        if(FlxG.keys.anyJustPressed([W])){
+            bitmapSongName.y -= moveAmount;
+            trace(bitmapSongName.getPosition());
+        }
+        if(FlxG.keys.anyJustPressed([S])){
+            bitmapSongName.y += moveAmount;
+            trace(bitmapSongName.getPosition());
+        }
+        if(FlxG.keys.anyJustPressed([A])){
+            bitmapSongName.x -= moveAmount;
+            trace(bitmapSongName.getPosition());
+        }
+        if(FlxG.keys.anyJustPressed([D])){
+            bitmapSongName.x += moveAmount;
+            trace(bitmapSongName.getPosition());
+        }*/
 
         super.update(elapsed);
     }
@@ -401,6 +438,7 @@ class ResultsState extends FlxUIStateExt
 
         FlxTween.tween(clearPercentCounter, {x: clearPercentCounter.x + 65 + gradeAdjust, y: clearPercentCounter.y + 265}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});
         FlxTween.tween(clearPercentGraphic, {x: clearPercentGraphic.x + 65 + gradeAdjust, y: clearPercentGraphic.y + 265}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});
+        FlxTween.tween(extraGradient, {alpha: 1}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});
 
         character.playAnim();
     }
@@ -427,6 +465,25 @@ class ResultsState extends FlxUIStateExt
                 });
 		}
 	}
+
+    function playSongBasedOnRank(_rank:Rank):Void{
+        switch(characterString){
+            default:
+                switch(_rank){
+                    case perfect | gold:
+                        FlxG.sound.playMusic(Paths.music("results/perfect"), 1, true); 
+                    case excellent:
+                        FlxG.sound.playMusic(Paths.music("results/excellent-loop"), 1, true); 
+                    case loss:
+                        FlxG.sound.playMusic(Paths.music("results/shit-intro"), 1, true);
+                        FlxG.sound.music.onComplete = function() {
+                            FlxG.sound.playMusic(Paths.music("results/shit-loop"), 1, true); 
+                        }
+                    default:
+                        FlxG.sound.playMusic(Paths.music("results/normal"), 1, true); 
+                }
+        }
+    }
 
     inline function rankToRankText(value:Rank) {
         return switch(value){

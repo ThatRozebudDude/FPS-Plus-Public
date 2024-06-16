@@ -24,6 +24,8 @@ using Lambda;
 class Utils
 {
 
+	public static final resultsTextCharacters = "AaBbCcDdEeFfGgHhiIJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz:1234567890.-";
+
 	public static function coolTextFile(path:String):Array<String>{
 		var daList:Array<String> = getText(path).trim().split('\n');
 
@@ -113,4 +115,42 @@ class Utils
 	public static inline function sign(v:Float):Int {
 		return (v > 0 ? 1 : (v < 0 ? -1 : 0));
 	}
+}
+
+class OrderedMap<K, V>{
+
+    public var keys:Array<K>;
+    public var values:Array<V>;
+
+    public function new() {
+        keys = [];
+        values = [];
+    }
+
+    public function set(key:K, value:V):Void{
+        if(keys.contains(key)){
+            var index = keys.indexOf(key);
+            values[index] = value;
+        }
+        else{
+            keys.push(key);
+            values.push(value);
+        }
+    }
+
+    public function get(key:K):V{
+        if(keys.contains(key)){
+            return values[keys.indexOf(key)];
+        }
+        return null;
+    }
+
+    public function remove(key:K):Void{
+        if(keys.contains(key)){
+            var index = keys.indexOf(key);
+            keys.remove(key);
+            values.remove(values[index]);
+        }
+    }
+
 }

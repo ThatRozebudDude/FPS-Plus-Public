@@ -4,6 +4,7 @@ import flixel.util.FlxTimer;
 import flixel.FlxSprite;
 import Highscore.Rank;
 import flixel.group.FlxSpriteGroup;
+import Utils.OrderedMap;
 
 class ResultsCharacter extends FlxSpriteGroup
 {
@@ -142,44 +143,6 @@ class ResultsCharacter extends FlxSpriteGroup
                             flxSprites.get("gf").visible = true;
                         });
                 }
-        }
-    }
-
-}
-
-class OrderedMap<K, V>{
-
-    public var keys:Array<K>;
-    public var values:Array<V>;
-
-    public function new() {
-        keys = [];
-        values = [];
-    }
-
-    public function set(key:K, value:V):Void{
-        if(keys.contains(key)){
-            var index = keys.indexOf(key);
-            values[index] = value;
-        }
-        else{
-            keys.push(key);
-            values.push(value);
-        }
-    }
-
-    public function get(key:K):V{
-        if(keys.contains(key)){
-            return values[keys.indexOf(key)];
-        }
-        return null;
-    }
-
-    public function remove(key:K):Void{
-        if(keys.contains(key)){
-            var index = keys.indexOf(key);
-            keys.remove(key);
-            values.remove(values[index]);
         }
     }
 

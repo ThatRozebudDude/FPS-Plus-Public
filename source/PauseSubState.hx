@@ -87,16 +87,15 @@ class PauseSubState extends MusicBeatSubstate
 			grpMenuShit.add(songText);
 		}
 
-		if(Utils.exists("assets/data/" + PlayState.SONG.song.toLowerCase() + "/meta.json")){
-			var meta = Json.parse(Utils.getText("assets/data/" + PlayState.SONG.song.toLowerCase() + "/meta.json"));
+		if(PlayState.instance.metadata != null){
 			var distance:Float = 32;
 
-			songName = new FlxTextExt(16, 16, 1280-32, meta.name, 40);
+			songName = new FlxTextExt(16, 16, 1280-32, PlayState.instance.metadata.name, 40);
 			songName.setFormat(Paths.font("vcr"), 40, FlxColor.WHITE, RIGHT, OUTLINE, FlxColor.BLACK);
 			songName.borderSize = 3;
 			songName.alpha = 0;
 
-			songArtist = new FlxTextExt(16, 32 + 40, 1280-32, meta.artist, 40);
+			songArtist = new FlxTextExt(16, 32 + 40, 1280-32, PlayState.instance.metadata.artist, 40);
 			songArtist.setFormat(Paths.font("vcr"), 40, FlxColor.WHITE, RIGHT, OUTLINE, FlxColor.BLACK);
 			songArtist.borderSize = 3;
 			songArtist.alpha = 0;

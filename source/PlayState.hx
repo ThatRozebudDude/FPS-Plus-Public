@@ -1,5 +1,6 @@
 package;
 
+import haxe.Json;
 import results.ResultsState;
 import freeplay.FreeplayState;
 import Highscore.SongStats;
@@ -235,6 +236,8 @@ class PlayState extends MusicBeatState
 	var endingSong:Bool = false;
 
 	private var meta:SongMetaTags;
+
+	public var metadata:Dynamic = null;
 	
 	override public function create(){
 
@@ -257,6 +260,10 @@ class PlayState extends MusicBeatState
 					events: []
 				};
 			}
+		}
+
+		if(Utils.exists("assets/data/" + SONG.song.toLowerCase() + "/meta.json")){
+			metadata = Json.parse(Utils.getText("assets/data/" + SONG.song.toLowerCase() + "/meta.json"));
 		}
 
 		for(i in EVENTS.events){
@@ -1918,7 +1925,7 @@ class PlayState extends MusicBeatState
 						diff: storyDifficulty
 					}
 				}
-				switchState(new ResultsState(weekStats, "", "bf", songSaveStuff));
+				switchState(new ResultsState(weekStats, StoryMenuState.weekNames[storyWeek], "bf", songSaveStuff));
 
 				FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
 				FlxG.save.flush();
@@ -1967,6 +1974,11 @@ class PlayState extends MusicBeatState
 			sectionStart = false;
 			//returnToMenu();
 
+			var songName = SONG.song.replace("-", " ");
+			if(metadata != null){
+				songName = metadata.name;
+			}
+
 			var songSaveStuff:SaveInfo = null;
 			if(!preventScoreSaving){
 				songSaveStuff = {
@@ -1975,7 +1987,7 @@ class PlayState extends MusicBeatState
 					diff: storyDifficulty
 				}
 			}
-			switchState(new ResultsState(songStats, "", "bf", songSaveStuff));
+			switchState(new ResultsState(songStats, songName, "bf", songSaveStuff));
 		}
 	}
 
