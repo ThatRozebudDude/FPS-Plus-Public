@@ -789,6 +789,7 @@ class FreeplayState extends MusicBeatState
 			updateCapsulePosition(i);
 			categoryMap[categoryNames[curCategory]][i].snapToTargetPos();
 			categoryMap[categoryNames[curCategory]][i].showRank(curDifficulty);
+			//categoryMap[categoryNames[curCategory]][i].deslect();
 			capsuleGroup.add(categoryMap[categoryNames[curCategory]][i]);
 		}
 	}
@@ -836,6 +837,7 @@ class FreeplayState extends MusicBeatState
 
 		for(capsule in capsuleGroup){
 			capsule.showRank(curDifficulty);
+			//capsule.deslect();
 		}
 
 		updateScore();

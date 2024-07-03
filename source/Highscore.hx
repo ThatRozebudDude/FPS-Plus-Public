@@ -77,9 +77,6 @@ class Highscore
 		return song;
 	}
 
-	/**
-	 * YOU SHOULD FORMAT SONG WITH formatSong() BEFORE TOSSING IN SONG VARIABLE
-	 */
 	public static function getScore(song:String, diff:Int):SongStats{
 		if (!songScores.exists(formatSong(song, diff))){
 			var emptyScore:SongStats = {

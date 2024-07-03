@@ -24,6 +24,9 @@ class Capsule extends FlxSpriteGroup
     final selectBorderColor:FlxColor = 0xFF6B9FBA;
     final deselectBorderColor:FlxColor = 0xFF3E508C;
 
+    final noRankWidth:Float = 317;
+    final rankWidth:Float = 275;
+
     var capsule:FlxSprite;
     var icon:FlxSprite;
     var text:FlxTextExt;
@@ -144,7 +147,7 @@ class Capsule extends FlxSpriteGroup
         text.x = x + 95 + scrollOffset;
 
         var rectPos = Utils.worldToLocal(text, x + 85, y + 24);
-        text.clipRect = new FlxRect(rectPos.x, rectPos.y, 317, 48);
+        text.clipRect = new FlxRect(rectPos.x, rectPos.y, (rank.visible ? rankWidth : noRankWidth), 48);
 
         super.update(elapsed);
     }
@@ -156,10 +159,17 @@ class Capsule extends FlxSpriteGroup
         text.borderColor = selectBorderColor;
         selected = true;
 
-        if(text.width > 297 && text.width <= 307){
-            scrollOffset = (text.width - 297)/-2;
+        var minThing = noRankWidth - 20;
+        var maxThing = noRankWidth - 10;
+        if(rank.visible){
+            minThing = rankWidth - 20;
+            maxThing = rankWidth - 10;
         }
-        else if(text.width > 307){
+
+        if(text.width > minThing && text.width <= maxThing){
+            scrollOffset = (text.width - minThing)/-2;
+        }
+        else if(text.width > maxThing){
             scrollEaseStart();
         }
     }
@@ -173,8 +183,16 @@ class Capsule extends FlxSpriteGroup
 
         scrollTween.cancel();
         scrollOffset = 0;
-        if(text.width > 297 && text.width <= 307){
-            scrollOffset = (text.width - 297)/-2;
+
+        var minThing = noRankWidth - 20;
+        var maxThing = noRankWidth - 10;
+        if(rank.visible){
+            minThing = rankWidth - 20;
+            maxThing = rankWidth - 10;
+        }
+
+        if(text.width > minThing && text.width <= maxThing){
+            scrollOffset = (text.width - minThing)/-2;
         }
     }
 
@@ -201,7 +219,10 @@ class Capsule extends FlxSpriteGroup
     }
 
     function scrollEaseStart():Void{
-        scrollTween = FlxTween.num(0, text.width - 297, 5, {ease: FlxEase.sineInOut, startDelay: 1, onComplete: function(t) {
+        var number = noRankWidth - 20;
+        if(rank.visible){ number = rankWidth - 20; }
+
+        scrollTween = FlxTween.num(0, text.width - number, 5, {ease: FlxEase.sineInOut, startDelay: 1, onComplete: function(t) {
             scrollEaseBack();
         }}, function(v) {
             scrollOffset = -v;
@@ -209,7 +230,10 @@ class Capsule extends FlxSpriteGroup
     }
     
     function scrollEaseBack():Void{
-        scrollTween = FlxTween.num(text.width - 297, 0, 5, {ease: FlxEase.sineInOut, startDelay: 1, onComplete: function(t) {
+        var number = noRankWidth - 20;
+        if(rank.visible){ number = rankWidth - 20; }
+
+        scrollTween = FlxTween.num(text.width - number, 0, 5, {ease: FlxEase.sineInOut, startDelay: 1, onComplete: function(t) {
             scrollEaseStart();
         }}, function(v) {
             scrollOffset = -v;
