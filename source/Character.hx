@@ -269,7 +269,7 @@ class Character extends FlxSpriteGroup
 			switch (curCharacter)
 			{
 				case "pico-speaker":
-					playAnim(animation.curAnim.name, true, false, getAnimLength(curAnim) - 1);
+					playAnim(curAnim, true, false, getAnimLength(curAnim) - 1);
 				default:
 					if(hasLeftAndRightIdle){
 						playAnim('danceRight', true, false, getAnimLength("danceRight") - 1);
@@ -286,7 +286,7 @@ class Character extends FlxSpriteGroup
 	{
 
 		if(animSet != ""){
-			if(animation.exists(AnimName + "-" + animSet)){
+			if(animOffsets.exists(AnimName + "-" + animSet)){
 				AnimName = AnimName + "-" + animSet;
 			}
 			//else { trace(AnimName + "-" + animSet + " not found. Reverting to " + AnimName); }
