@@ -13,17 +13,17 @@ FPS Plus was designed to increase the framerate of Friday Night Funkin' and is s
 
 ## Building
 
-You need to install the following haxelibs:
+To download and install all libraries required compiling, you must install Haxe's Module Manager (`hmm`).
 
-- `openfl`
-- `lime`
-- `flixel`
-- `flixel-addons`
-- `flixel-ui`
-- `compiletime`
-- `flxanimte`
+* To install and set up `hmm`, run the following commands:
+    ```
+        haxelib --global install hmm
+        haxelib --global run hmm setup
+    ```
 
-    - `flxanimate` should be installed from the FunkinCrew git by running `haxelib git flxanimate "https://github.com/FunkinCrew/flxanimate"`
+* After `hmm`'s install is complete, run `hmm install` in the root directory to install all haxelibs.
+
+* After installing all libraries, run `haxelib run lime setup` to set up `lime`.
 
 To set up build tools, refer to part 5 of [this document](https://github.com/FunkinCrew/Funkin/blob/main/docs/COMPILING.md).
 
