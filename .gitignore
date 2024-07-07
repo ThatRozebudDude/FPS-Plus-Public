@@ -2,3 +2,4 @@ export/
 .vscode/
 releases/
 promo/
+.haxelib/
