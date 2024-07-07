@@ -31,6 +31,11 @@
             "version": null
         },
         {
+            "name": "hxcpp",
+            "type": "haxelib",
+            "version": null
+        },
+        {
             "name": "flxanimate",
             "type": "git",
             "dir": null,
