@@ -190,6 +190,11 @@ class FreeplayState extends MusicBeatState
 		addSong("Guns", "tankman", 7, ["ALL", "Week 7"]);
 		addSong("Stress", "tankman", 7, ["ALL", "Week 7"]);
 
+		addSong("Darnell", "darnell", 101, ["ALL", "Weekend 1"]);
+		addSong("Lit-Up", "darnell", 101, ["ALL", "Weekend 1"]);
+		addSong("2hot", "darnell", 101, ["ALL", "Weekend 1"]);
+		addSong("Blazin", "darnell", 101, ["ALL", "Weekend 1"]);
+
 		//ERECT SONGS!!!!
 
 		addSong("Bopeebo-Erect", "dad", 1, ["ERECT", "Week 1"]);
@@ -203,7 +208,10 @@ class FreeplayState extends MusicBeatState
 		addSong("Philly-Erect", "pico", 3, ["ERECT", "Week 3"]);
 		addSong("Blammed-Erect", "pico", 3, ["ERECT", "Week 3"]);
 
+		addSong("Satin-Panties-Erect", "mom", 4, ["ERECT", "Week 4"]);
 		addSong("High-Erect", "mom", 4, ["ERECT", "Week 4"]);
+		
+		addSong("Eggnog-Erect", "parents-christmas", 5, ["ERECT", "Week 5"]);
 
 		addSong("Senpai-Erect", "senpai", 6, ["ERECT", "Week 6"]);
 		addSong("Roses-Erect", "senpai", 6, ["ERECT", "Week 6"]);
