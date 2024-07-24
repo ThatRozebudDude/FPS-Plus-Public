@@ -1,5 +1,6 @@
 package results;
 
+import openfl.filters.ShaderFilter;
 import shaders.ColorGradientShader;
 import flixel.graphics.frames.FlxBitmapFont;
 import flixel.text.FlxBitmapText;
@@ -25,6 +26,8 @@ import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxCamera;
 import extensions.flixel.FlxUIStateExt;
+
+using StringTools;
 
 class ResultsState extends FlxUIStateExt
 {
@@ -52,7 +55,8 @@ class ResultsState extends FlxUIStateExt
     var missCounter:DigitDisplay;
     var scoreCounter:DigitDisplay;
 
-    var clearPercentGraphic:FlxSprite;
+    var clearPercentText:FlxSprite;
+    var clearPercentSymbol:FlxSprite;
     var clearPercentCounter:DigitDisplay;
 
     var scrollingRankName:FlxBackdrop;
@@ -273,17 +277,24 @@ class ResultsState extends FlxUIStateExt
         clearPercentCounter.ease = FlxEase.quartOut;
         clearPercentCounter.setDigitOffset("1", -13);
         clearPercentCounter.visible = false;
+        clearPercentCounter.callback = percentCallback;
 
-        clearPercentGraphic = new FlxSprite(clearPercentCounter.x + 80, clearPercentCounter.y + clearPercentCounter.height).loadGraphic(Paths.image("menu/results/clearPercentText"));
-        clearPercentGraphic.y -= clearPercentGraphic.height;
-        clearPercentGraphic.antialiasing = true;
-        clearPercentGraphic.visible = false;
+        clearPercentSymbol = new FlxSprite(clearPercentCounter.x + 80, clearPercentCounter.y + clearPercentCounter.height).loadGraphic(Paths.image("menu/results/clearPercentSymbol"));
+        clearPercentSymbol.y -= clearPercentSymbol.height;
+        clearPercentSymbol.antialiasing = true;
+        clearPercentSymbol.visible = false;
+
+        clearPercentText = new FlxSprite(clearPercentCounter.x + 80, clearPercentCounter.y + clearPercentCounter.height).loadGraphic(Paths.image("menu/results/clearPercentText"));
+        clearPercentText.y -= clearPercentSymbol.height;
+        clearPercentText.antialiasing = true;
+        clearPercentText.visible = false;
 
         new FlxTimer().start((0.3 * 7) + 1.2, function(t){
             clearPercentCounter.visible = true;
             clearPercentCounter.tweenNumber(Math.floor(grade * 100), 1.7);
 
-            clearPercentGraphic.visible = true;
+            clearPercentText.visible = true;
+            clearPercentSymbol.visible = true;
         });
 
         scoreCounter = new DigitDisplay(71, 611, "menu/results/score-digital-numbers", 10, 1, -31, 0, false, true);
@@ -371,10 +382,11 @@ class ResultsState extends FlxUIStateExt
         add(missCounter);
         add(scoreCounter);
 
-        add(clearPercentCounter);
-        add(clearPercentGraphic);
-
         add(highscoreNew);
+
+        add(clearPercentCounter);
+        add(clearPercentSymbol);
+        add(clearPercentText);
 
         add(scrollingTextGroup);
         add(bitmapSongName);
@@ -392,9 +404,15 @@ class ResultsState extends FlxUIStateExt
         }
 
         /*if(FlxG.keys.anyJustPressed([TAB])){
-            switchState(new ResultsState(scoreStats, songNameText, characterString, saveInfo));
-        }
+            if(FlxG.keys.anyPressed([SHIFT])){
+                switchState(new ResultsState(null));
+            }
+            else{
+                switchState(new ResultsState(scoreStats, songNameText, characterString, saveInfo));
+            }
+        }*/
 
+        /*
         var moveAmount = 1;
         if(FlxG.keys.anyPressed([SHIFT])){
             moveAmount = 25;
@@ -437,8 +455,19 @@ class ResultsState extends FlxUIStateExt
         }
 
         FlxTween.tween(clearPercentCounter, {x: clearPercentCounter.x + 65 + gradeAdjust, y: clearPercentCounter.y + 265}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});
-        FlxTween.tween(clearPercentGraphic, {x: clearPercentGraphic.x + 65 + gradeAdjust, y: clearPercentGraphic.y + 265}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});
+        FlxTween.tween(clearPercentSymbol, {x: clearPercentSymbol.x + 65 + gradeAdjust, y: clearPercentSymbol.y + 265}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});
         FlxTween.tween(extraGradient, {alpha: 1}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});
+
+        FlxTween.tween(clearPercentText, {x: clearPercentText.x + 65 + gradeAdjust, y: clearPercentText.y + 265}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut, onComplete: function(t){
+            if(rank == loss){
+                var direction = (FlxG.random.bool(50)) ? 1 : -1;
+                clearPercentText.acceleration.y = FlxG.random.int(850, 900);
+                clearPercentText.velocity.y -= FlxG.random.int(310, 340);
+                clearPercentText.velocity.x = 100 * direction;
+                clearPercentText.angularVelocity = clearPercentText.velocity.x / 2;
+                FlxG.sound.play(Paths.sound("freeplay/pop"), 0.7);
+            }
+        }});
 
         character.playAnim();
     }
@@ -483,6 +512,12 @@ class ResultsState extends FlxUIStateExt
                         FlxG.sound.playMusic(Paths.music("results/normal"), 1, true); 
                 }
         }
+    }
+
+    function percentCallback(numString:String):Void{
+        var value = Std.parseFloat(numString.replace("-", "0"));
+        value = (value/100) + 1;
+        FlxG.sound.play(Paths.sound("scrollMenu"), 0.5).pitch = value;
     }
 
     inline function rankToRankText(value:Rank) {

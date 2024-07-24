@@ -328,7 +328,7 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 
-		if(FlxG.keys.justPressed.ONE){ difficultyStars.setNumber(FlxG.random.int(0, 20)); }
+		//if(FlxG.keys.justPressed.ONE){ difficultyStars.setNumber(FlxG.random.int(0, 20)); }
 		
 		camFollow.x = Utils.fpsAdjsutedLerp(camFollow.x, camTarget.x, MainMenuState.lerpSpeed);
 		camFollow.y = Utils.fpsAdjsutedLerp(camFollow.y, camTarget.y, MainMenuState.lerpSpeed);

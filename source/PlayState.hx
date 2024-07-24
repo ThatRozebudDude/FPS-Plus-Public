@@ -275,6 +275,10 @@ class PlayState extends MusicBeatState
 		inCutscene = false;
 
 		songPreload();
+
+		for(i in 1...4){
+			FlxG.sound.cache(Paths.sound("missnote" + i));
+		}
 		
 		Config.setFramerate(999);
 

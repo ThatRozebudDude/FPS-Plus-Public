@@ -280,6 +280,10 @@ class ConfigMenu extends FlxUIStateExt
                         textUpdate();
                     }
 
+                    if(updateTextOnce){
+                        updateTextOnce = false;
+                    }
+
                 case "subMenu":
                     if(USE_LAYERED_MUSIC && !USE_MENU_MUSIC){
                         songLayer.volume = 1;
