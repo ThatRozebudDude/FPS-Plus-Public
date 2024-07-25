@@ -1,9 +1,9 @@
 {
 	"song": {
 		"speed": 2.4,
-		"stage": "Stage",
+		"stage": "PhillyStreets",
 		"player1": "Pico",
-		"player2": "Dad",
+		"player2": "Darnell",
 		"notes": [
 			{
 				"lengthInSteps": 16,
