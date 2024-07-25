@@ -18,11 +18,14 @@ sections = [[]]
 curSection = 0
  
 for note in data["notes"][diff]:
-    if(note["t"] >= curSectionTime + sectionTime):
+    while(note["t"] >= curSectionTime + sectionTime):
         curSectionTime += sectionTime
         curSection += 1
         sections.append([])
-    sections[curSection].append([note["t"], note["d"], note["l"]])
+    k = ""
+    if "k" in note:
+        k = note["k"]
+    sections[curSection].append([note["t"], note["d"], note["l"], k])
 
 f.close()
 
@@ -34,7 +37,7 @@ for section in sections:
 
     for note in section:
 
-        output += "[" + str(note[0]) + "," + str(note[1]) + "," + str(note[2]) + ",\"\"],"
+        output += "[" + str(note[0]) + "," + str(note[1]) + "," + str(note[2]) + ",\"" + str(note[3]) + "\"],"
     
     output = output[:-1]
     output += "\n],\n\"bpm\": 0,\n\"changeBPM\": null,\n\"mustHitSection\": true\n},"
@@ -43,5 +46,5 @@ output = output[:-1]
 
 output += "\n],"
 
-print("notes copied to clipbaord!!")
 pyperclip.copy(output)
+print("notes copied to clipbaord!!")

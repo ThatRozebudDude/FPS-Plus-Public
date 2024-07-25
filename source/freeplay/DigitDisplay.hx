@@ -25,6 +25,8 @@ class DigitDisplay extends FlxSpriteGroup
     var digitPath:String;
     var hasEmptyDigit:Bool;
 
+    public var callback:(String)->Void;
+
     var totalDistance:Float = 0;
     var offsetMap:Map<String, Float> = new Map<String, Float>();
 
@@ -69,27 +71,27 @@ class DigitDisplay extends FlxSpriteGroup
         }
     }
 
-    public function setNumber(number:Int, ?forceAllDigitsToAnimate:Bool = false) {
-        numString = ""+number;
+    public function setNumber(number:Int, ?forceAllDigitsToAnimate:Bool = false, ?dontExitOnSameNumber:Bool = false) {
+        var newNumber = ""+number;
 
         if(digitCount >= 0){
-            if(numString.length < digitCount){
-                while(numString.length < digitCount){
-                    numString = "-" + numString;
+            if(newNumber.length < digitCount){
+                while(newNumber.length < digitCount){
+                    newNumber = "-" + newNumber;
                 }
             }
-            else if(numString.length > digitCount){
-                numString = numString.substr(numString.length - digitCount);
+            else if(newNumber.length > digitCount){
+                newNumber = newNumber.substr(newNumber.length - digitCount);
             }
         }
         else{
-            if(numString.length < digits.length){
-                while(numString.length < digits.length){
-                    numString = "-" + numString;
+            if(newNumber.length < digits.length){
+                while(newNumber.length < digits.length){
+                    newNumber = "-" + newNumber;
                 }
             }
             else{
-                while(numString.length > digits.length){
+                while(newNumber.length > digits.length){
                     addDigit();
                 }
                 for(key => value in offsetMap){
@@ -98,6 +100,11 @@ class DigitDisplay extends FlxSpriteGroup
                 repositionDigits();
             }
         }
+
+        if(newNumber == numString && !dontExitOnSameNumber){ return; }
+        else{ numString = newNumber; }
+
+        if(callback != null){ callback(numString); }
         
         for(i in 0...numString.length){
             digits[i].visible = true;

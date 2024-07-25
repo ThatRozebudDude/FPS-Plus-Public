@@ -1,5 +1,6 @@
 package;
 
+import stages.data.PhillyStreets;
 import haxe.Json;
 import results.ResultsState;
 import freeplay.FreeplayState;
@@ -275,6 +276,10 @@ class PlayState extends MusicBeatState
 		inCutscene = false;
 
 		songPreload();
+
+		for(i in 1...4){
+			FlxG.sound.cache(Paths.sound("missnote" + i));
+		}
 		
 		Config.setFramerate(999);
 
@@ -1211,6 +1216,73 @@ class PlayState extends MusicBeatState
 				var susLength:Float = swagNote.sustainLength;
 
 				susLength = susLength / Conductor.stepCrochet;
+
+				swagNote.mustPress = gottaHitNote;
+
+				//hit callback
+				switch(swagNote.type){
+					//Weekend 1 Note Types
+					case "weekend-1-lightcan":
+						swagNote.hitCallback = function(note:Note, character:Character){
+							if(character.canAutoAnim){
+								character.playAnim('lightCan', true);
+							}
+							FlxG.sound.play(Paths.sound("weekend1/Darnell_Lighter"));
+						}
+					case "weekend-1-kickcan":
+						swagNote.hitCallback = function(note:Note, character:Character){
+							if(character.canAutoAnim){
+								character.playAnim('kickUp', true);
+							}
+							FlxG.sound.play(Paths.sound("weekend1/Kick_Can_UP"));
+							executeEvent("phillyStreets-canKick");
+						}
+					case "weekend-1-kneecan":
+						swagNote.hitCallback = function(note:Note, character:Character){
+							if(character.canAutoAnim){
+								character.playAnim('kneeForward', true);
+							}
+							FlxG.sound.play(Paths.sound("weekend1/Kick_Can_FORWARD"));
+						}
+					case "weekend-1-cockgun":
+						swagNote.hitCallback = function(note:Note, character:Character){
+							if(character.canAutoAnim){
+								character.playAnim('reload', true);
+							}
+							getExtraCamMovement(note);
+							FlxG.sound.play(Paths.sound("weekend1/Gun_Prep"));
+							executeEvent("phillyStreets-playerGlow");
+						}
+					case "weekend-1-firegun":
+						swagNote.hitCallback = function(note:Note, character:Character){
+							if(character.canAutoAnim){
+								character.playAnim('shoot', true);
+							}
+							character.danceLockout = true;
+							getExtraCamMovement(note);
+							FlxG.sound.play(Paths.sound("weekend1/shot" + FlxG.random.int(1, 4)));
+							executeEvent("phillyStreets-stageDarken");
+							executeEvent("phillyStreets-canShot");
+						}
+					default:
+						swagNote.hitCallback = defaultNoteHit;
+				}
+
+				//miss callback
+				switch(swagNote.type){
+					//Weekend 1 Note Types
+					case "weekend-1-firegun":
+						swagNote.missCallback = function(direction:Int, character:Character){
+							if(character.canAutoAnim){
+								character.playAnim('hit', true);
+							}
+							FlxG.sound.play(Paths.sound("weekend1/Pico_Bonk"));
+							executeEvent("phillyStreets-canHit");
+						}
+					default:
+						swagNote.missCallback = defaultNoteMiss;
+				}
+				
 				unspawnNotes.push(swagNote);
 
 				if(Math.round(susLength) > 0){
@@ -1227,13 +1299,23 @@ class PlayState extends MusicBeatState
 						var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + timeAdd, daNoteData, daNoteType, false, oldNote, true);
 						sustainNote.isFake = makeFake;
 						sustainNote.scrollFactor.set();
-						unspawnNotes.push(sustainNote);
-	
 						sustainNote.mustPress = gottaHitNote;
+
+						//hit callback
+						switch(sustainNote.type){
+							default:
+								sustainNote.hitCallback = defaultNoteHit;
+						}
+
+						//miss callback
+						switch(sustainNote.type){
+							default:
+								sustainNote.missCallback = defaultNoteMiss;
+						}
+
+						unspawnNotes.push(sustainNote);
 					}
 				}
-
-				swagNote.mustPress = gottaHitNote;
 
 			}
 			daBeats++;
@@ -1759,7 +1841,7 @@ class PlayState extends MusicBeatState
 
 			if(daNote.tooLate){
 				if (!daNote.didTooLateAction && !daNote.isFake){
-					noteMiss(daNote.noteData, Scoring.MISS_DAMAGE_AMMOUNT, true, true);
+					noteMiss(daNote.noteData, daNote.missCallback, Scoring.MISS_DAMAGE_AMMOUNT, true, true);
 					vocals.volume = 0;
 					daNote.didTooLateAction = true;
 				}
@@ -1784,22 +1866,8 @@ class PlayState extends MusicBeatState
 			{
 				daNote.wasGoodHit = true;
 
-				if(dad.canAutoAnim && (Character.LOOP_ANIM_ON_HOLD ? (daNote.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!dad.curAnim.contains("sing") || (dad.curAnimFrame() >= 3 || dad.curAnimFinished())) : true) : true) : !daNote.isSustainNote)){
-					switch (Math.abs(daNote.noteData))
-					{
-						case 2:
-							dad.playAnim('singUP', true);
-							if(Config.extraCamMovement && !daNote.isSustainNote){ changeCamOffset(0, -1 * camOffsetAmount); }
-						case 3:
-							dad.playAnim('singRIGHT', true);
-							if(Config.extraCamMovement && !daNote.isSustainNote){ changeCamOffset(camOffsetAmount, 0); }
-						case 1:
-							dad.playAnim('singDOWN', true);
-							if(Config.extraCamMovement && !daNote.isSustainNote){ changeCamOffset(0, camOffsetAmount); }
-						case 0:
-							dad.playAnim('singLEFT', true);
-							if(Config.extraCamMovement && !daNote.isSustainNote){ changeCamOffset(-1 * camOffsetAmount, 0); }
-					}
+				if((Character.LOOP_ANIM_ON_HOLD ? (daNote.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!dad.curAnim.contains("sing") || (dad.curAnimFrame() >= 3 || dad.curAnimFinished())) : true) : true) : !daNote.isSustainNote)){
+					daNote.hitCallback(daNote, dad);
 				}
 
 				enemyStrums.forEach(function(spr:FlxSprite)
@@ -2172,7 +2240,7 @@ class PlayState extends MusicBeatState
 				if(daNote.prevNote.tooLate && !daNote.prevNote.wasGoodHit){
 					daNote.tooLate = true;
 					daNote.destroy();
-					noteMiss(daNote.noteData, Scoring.HOLD_DROP_DMAMGE_PER_NOTE * (daNote.isFake ? 0 : 1), false, true, false, false, 5, Scoring.HOLD_DROP_PENALTY);
+					noteMiss(daNote.noteData, daNote.missCallback, Scoring.HOLD_DROP_DMAMGE_PER_NOTE * (daNote.isFake ? 0 : 1), false, true, false, false, 5, Scoring.HOLD_DROP_PENALTY);
 					//updateAccuracyOld();
 				}
 
@@ -2180,7 +2248,7 @@ class PlayState extends MusicBeatState
 				if(daNote.prevNote.wasGoodHit && !daNote.wasGoodHit){
 
 					if(releaseTimes[daNote.noteData] >= releaseBufferTime){
-						noteMiss(daNote.noteData, Scoring.HOLD_DROP_INITAL_DAMAGE, true, true, false, true, Scoring.HOLD_DROP_INITIAL_PENALTY);
+						noteMiss(daNote.noteData, daNote.missCallback, Scoring.HOLD_DROP_INITAL_DAMAGE, true, true, false, true, Scoring.HOLD_DROP_INITIAL_PENALTY);
 						vocals.volume = 0;
 						daNote.tooLate = true;
 						daNote.destroy();
@@ -2321,7 +2389,7 @@ class PlayState extends MusicBeatState
 		
 	}
 
-	function noteMiss(direction:Int = 1, ?healthLoss:Float = 0.04, ?playAudio:Bool = true, ?skipInvCheck:Bool = false, ?countMiss:Bool = true, ?dropCombo:Bool = true, ?invulnTime:Int = 5, ?scoreAdjust:Null<Int>):Void{
+	function noteMiss(direction:Int = 1, callback:(Int, Character)->Void, ?healthLoss:Float, ?playAudio:Bool = true, ?skipInvCheck:Bool = false, ?countMiss:Bool = true, ?dropCombo:Bool = true, ?invulnTime:Int = 5, ?scoreAdjust:Null<Int>):Void{
 
 		if(scoreAdjust == null){
 			scoreAdjust = Scoring.MISS_PENALTY;
@@ -2348,19 +2416,7 @@ class PlayState extends MusicBeatState
 
 			setBoyfriendInvuln(invulnTime / 60);
 
-			if(boyfriend.canAutoAnim){
-				switch (direction)
-				{
-					case 2:
-						boyfriend.playAnim('singUPmiss', true);
-					case 3:
-						boyfriend.playAnim('singRIGHTmiss', true);
-					case 1:
-						boyfriend.playAnim('singDOWNmiss', true);
-					case 0:
-						boyfriend.playAnim('singLEFTmiss', true);
-				}
-			}
+			callback(direction, boyfriend);
 			
 		}
 
@@ -2369,7 +2425,7 @@ class PlayState extends MusicBeatState
 	}
 
 	inline function noteMissWrongPress(direction:Int = 1):Void{
-		noteMiss(direction, Scoring.WRONG_TAP_DAMAGE_AMMOUNT, true, false, false, false, 4, Scoring.WRONG_PRESS_PENALTY);
+		noteMiss(direction, defaultNoteMiss, Scoring.WRONG_TAP_DAMAGE_AMMOUNT, true, false, false, false, 4, Scoring.WRONG_PRESS_PENALTY);
 	}
 
 	function badNoteCheck(direction:Int = -1)
@@ -2441,22 +2497,8 @@ class PlayState extends MusicBeatState
 				songStats.susCount++;
 			}
 				
-			if(boyfriend.canAutoAnim && (Character.LOOP_ANIM_ON_HOLD ? (note.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!boyfriend.curAnim.contains("sing") || (boyfriend.curAnimFrame() >= 3 || boyfriend.curAnimFinished())) : true) : true) : !note.isSustainNote)){
-				switch (note.noteData)
-				{
-					case 2:
-						boyfriend.playAnim('singUP', true);
-						if(Config.extraCamMovement && !note.isSustainNote){ changeCamOffset(0, -1 * camOffsetAmount); }
-					case 3:
-						boyfriend.playAnim('singRIGHT', true);
-						if(Config.extraCamMovement && !note.isSustainNote){ changeCamOffset(camOffsetAmount, 0); }
-					case 1:
-						boyfriend.playAnim('singDOWN', true);
-						if(Config.extraCamMovement && !note.isSustainNote){ changeCamOffset(0, camOffsetAmount); }
-					case 0:
-						boyfriend.playAnim('singLEFT', true);
-						if(Config.extraCamMovement && !note.isSustainNote){ changeCamOffset(-1 * camOffsetAmount, 0); }
-				}
+			if((Character.LOOP_ANIM_ON_HOLD ? (note.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!boyfriend.curAnim.contains("sing") || (boyfriend.curAnimFrame() >= 3 || boyfriend.curAnimFinished())) : true) : true) : !note.isSustainNote)){
+				note.hitCallback(note, boyfriend);
 			}
 
 			playerStrums.forEach(function(spr:FlxSprite) {
@@ -2742,7 +2784,49 @@ class PlayState extends MusicBeatState
 		return;
 	}
 
-	var curLight:Int = 0;
+	function defaultNoteHit(note:Note, character:Character):Void{
+		if(character.canAutoAnim){
+			switch (note.noteData){
+				case 0:
+					character.playAnim('singLEFT', true);
+				case 1:
+					character.playAnim('singDOWN', true);
+				case 2:
+					character.playAnim('singUP', true);
+				case 3:
+					character.playAnim('singRIGHT', true);
+			}
+		}
+		getExtraCamMovement(note);
+	}
+
+	function defaultNoteMiss(direction:Int, character:Character):Void{
+		if(character.canAutoAnim){
+			switch (direction){
+				case 0:
+					character.playAnim('singLEFTmiss', true);
+				case 1:
+					character.playAnim('singDOWNmiss', true);
+				case 2:
+					character.playAnim('singUPmiss', true);
+				case 3:
+					character.playAnim('singRIGHTmiss', true);
+			}
+		}
+	}
+
+	function getExtraCamMovement(note:Note):Void{
+		switch (note.noteData){
+			case 0:
+				if(Config.extraCamMovement && !note.isSustainNote){ changeCamOffset(-1 * camOffsetAmount, 0); }
+			case 1:
+				if(Config.extraCamMovement && !note.isSustainNote){ changeCamOffset(0, camOffsetAmount); }
+			case 2:
+				if(Config.extraCamMovement && !note.isSustainNote){ changeCamOffset(0, -1 * camOffsetAmount); }
+			case 3:
+				if(Config.extraCamMovement && !note.isSustainNote){ changeCamOffset(camOffsetAmount, 0); }
+		}
+	}
 
 	function sectionContainsBfNotes(section:Int):Bool{
 		var notes = SONG.notes[section].sectionNotes;
@@ -2792,6 +2876,8 @@ class PlayState extends MusicBeatState
 			case 'spirit':
 				followX = dad.getMidpoint().x + 254;
 				followY = dad.getMidpoint().y + 44;
+			case 'darnell':
+				followX += 270;
 		}
 
 		if (SONG.song.toLowerCase() == 'tutorial'){
@@ -2821,6 +2907,8 @@ class PlayState extends MusicBeatState
 			case 'schoolEvil':
 				followX = boyfriend.getMidpoint().x - 68;
 				followY = boyfriend.getMidpoint().y - 117;
+			case 'phillyStreets':
+				followX -= 390;
 		}
 
 		if (SONG.song.toLowerCase() == 'tutorial'){

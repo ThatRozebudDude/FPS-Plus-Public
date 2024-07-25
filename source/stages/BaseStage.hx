@@ -123,5 +123,6 @@ class BaseStage
     inline function gf()            { return PlayState.instance.gf; }
     inline function dad()           { return PlayState.instance.dad; }
     inline function playstate()     { return PlayState.instance; }
+    inline function tween()         { return PlayState.instance.tweenManager; }
 
 }
