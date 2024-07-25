@@ -570,6 +570,10 @@ class Character extends FlxSpriteGroup
 			return atlasCharacter.scale;
 		}
 	}
+
+	public function getAntialising():Bool{
+		return characterInfo.info.antialiasing;
+	}
 	
 	override function getMidpoint(?point:FlxPoint):FlxPoint {
 		if (point == null)

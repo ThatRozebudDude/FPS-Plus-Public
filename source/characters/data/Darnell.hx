@@ -24,6 +24,8 @@ class Darnell extends CharacterInfoBase
 	    addByPrefix('kickUp', offset(15, 9), 'Kick Up', 24, loop(false));
 	    addByPrefix('kneeForward', offset(7, -1), 'Knee Forward', 24, loop(false));
 	    addByPrefix('pissed', offset(), 'Gets Pissed', 24, loop(false));
+
+        addExtraData("reposition", [40, 200]);
     }
 
 }

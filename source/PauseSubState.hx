@@ -62,6 +62,8 @@ class PauseSubState extends MusicBeatSubstate
 				pauseSongName = "pause/breakfast-pixel";
 			case "ugh" | "guns" | "stress":
 				pauseSongName = "week7/distorto";
+			case "darnell" | "lit-up" | "2hot" | "blazin":
+				pauseSongName = "pause/breakfast-pico";
 		}
 
 		pauseMusic = new FlxSound().loadEmbedded(Paths.music(pauseSongName), true, true);

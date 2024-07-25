@@ -37,6 +37,9 @@ class Note extends FlxSprite
 	public var xOffset:Float = 0;
 	public var yOffset:Float = 0;
 
+	public var hitCallback:(Note, Character)->Void = null;
+	public var missCallback:(Int, Character)->Void = null;
+
 	inline public static final swagWidth:Float = 112/*160 * 0.7*/;
 	inline public static final PURP_NOTE:Int = 0;
 	inline public static final GREEN_NOTE:Int = 2;
