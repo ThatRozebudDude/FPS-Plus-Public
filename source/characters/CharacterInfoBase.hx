@@ -50,6 +50,7 @@ typedef CharacterInfo = {
     var hasLeftAndRightIdle:Bool;
     var antialiasing:Bool;
     var anims:Array<AnimInfo>;
+    var animChains:Map<String, String>;
     var extraData:Map<String, Dynamic>;
 }
 
@@ -81,6 +82,7 @@ class CharacterInfoBase
             hasLeftAndRightIdle: false,
             antialiasing: true,
             anims: [],
+            animChains: null,
             extraData: null
         };
     }
@@ -279,6 +281,19 @@ class CharacterInfoBase
             data: animData
         }
         info.anims.push(animInfo);
+    }
+
+    /**
+	 * Adds an animation chain that will automatically play the chained animation followinf the first animation.
+	 *
+	 * @param   firstAnim       The name of the animation that the chained animation will follow.
+	 * @param   chainedAnim     The name of the chained animation.
+	 */
+     function addAnimChain(firstAnim:String, chainedAnim:String):Void{
+        if(info.animChains == null){
+            info.animChains = new Map<String, String>();
+        }
+        info.animChains.set(firstAnim, chainedAnim);
     }
 
     /**

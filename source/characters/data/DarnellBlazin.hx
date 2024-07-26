@@ -31,6 +31,8 @@ class DarnellBlazin extends CharacterInfoBase
         addByLabel('pissed', offset(), "Pissed", 24, loop(false));
         
         addExtraData("scale", 1.75);
+
+        addAnimChain("uppercutPunch", "uppercutPunchLoop");
     }
 
 }

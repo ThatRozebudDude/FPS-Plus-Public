@@ -21,7 +21,7 @@ class PicoBlazin extends CharacterInfoBase
         addByLabel('punchLow2', offset(), "Punch Low 2", 24, loop(false));
         addByLabel('uppercutPrep', offset(), "Uppercut Prep", 24, loop(false));
         addByLabel('uppercutPunch', offset(), "Uppercut Punch", 24, loop(false));
-        addByLabel('uppercutPunchLoop', offset(), "Uppercut Punch Loop", 24, loop(false));
+        addByLabel('uppercutPunchLoop', offset(), "Uppercut Punch Loop", 24, loop(true));
         addByLabel('block', offset(), "Block", 24, loop(false));
         addByLabel('dodge', offset(), "Dodge", 24, loop(false));
         addByLabel('hitHigh', offset(), "Hit High", 24, loop(false));
@@ -36,6 +36,8 @@ class PicoBlazin extends CharacterInfoBase
         addByLabel('lowDeathConfirm', offset(), "Low Death Confirm", 24, loop(false));
         
         addExtraData("scale", 1.75);
+
+        addAnimChain("uppercutPunch", "uppercutPunchLoop");
     }
 
 }

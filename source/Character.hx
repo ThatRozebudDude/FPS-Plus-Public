@@ -352,7 +352,6 @@ class Character extends FlxSpriteGroup
 
 	function animationEnd(name:String){
 		danceLockout = false;
-
 		
 		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
 			//custom method for looping animations since the anim end callback doesnt run on looped anmations normally
@@ -361,6 +360,11 @@ class Character extends FlxSpriteGroup
 			}
 		}
 		//Not needed for atlas since this is built in to the AtlasSprite functionality.
+
+		//Checks for and plays a chained animation.
+		if(characterInfo.info.animChains.exists(name)){
+			playAnim(characterInfo.info.animChains.get(name));
+		}
 		
 	}
 
@@ -380,6 +384,8 @@ class Character extends FlxSpriteGroup
 		characterColor = characterInfo.info.healthColor;
 		facesLeft = characterInfo.info.facesLeft;
 		hasLeftAndRightIdle = characterInfo.info.hasLeftAndRightIdle;
+
+		if(characterInfo.info.animChains == null){ characterInfo.info.animChains = new Map<String, String>(); }
 
 		switch(characterInfo.info.frameLoadType){
 			case load(fw, fh):
