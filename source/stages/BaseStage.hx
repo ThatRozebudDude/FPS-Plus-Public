@@ -26,6 +26,9 @@ class BaseStage
     public var foregroundElements:Array<Dynamic> = [];
 
     public var useStartPoints:Bool = true; //Auto positions characters if set to true
+    public var overrideBfStartPoints:Bool = false;  //Does the opposite of useStartPoints for this specific character.
+    public var overrideDadStartPoints:Bool = false; //Does the opposite of useStartPoints for this specific character.
+    public var overrideGfStartPoints:Bool = false;  //Does the opposite of useStartPoints for this specific character.
     public var dadStart:FlxPoint = new FlxPoint(314.5, 867);
     public var bfStart:FlxPoint = new FlxPoint(975.5, 862);
     public var gfStart:FlxPoint = new FlxPoint(751.5, 778);

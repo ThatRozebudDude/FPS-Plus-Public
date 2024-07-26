@@ -120,13 +120,13 @@ class PhillyStreets extends BaseStage
 		}
 		addToForeground(kickedCan);
 
-		abot = new ABot(1453 - 365, 900 - 165);
-		abot.lookLeft();
-		addToBackground(abot);
-		
 		bfStart.set(2151, 1228);
 		dadStart.set(900, 1110);
 		gfStart.set(1453, 900);
+
+		abot = new ABot(gfStart.x - 365, gfStart.y - 165);
+		abot.lookLeft();
+		addToBackground(abot);
 
 		gf().scrollFactor.set(1, 1);
 
@@ -194,8 +194,7 @@ class PhillyStreets extends BaseStage
 		characterGlow.scale.set(boyfriend().getScale().x, boyfriend().getScale().y);
 		characterGlow.antialiasing = boyfriend().getAntialising();
 		characterGlow.visible = true;
-		//characterGlow.blend = SCREEN;
-		characterGlow.alpha = 0.5;
+		characterGlow.alpha = 0.3;
 
 		tween().tween(characterGlow.scale, {x: characterGlow.scale.x * 1.4, y: characterGlow.scale.y * 1.4}, (Conductor.crochet / 1000), {ease: FlxEase.quadOut});
 		tween().tween(characterGlow, {alpha: 0}, ((Conductor.crochet / 1000) / 2), {startDelay: ((Conductor.crochet / 1000) / 2)});

@@ -1,9 +1,9 @@
 {
 	"song": {
 		"speed": 2.3,
-		"stage": "Stage",
-		"player1": "Bf",
-		"player2": "Dad",
+		"stage": "PhillyBlazin",
+		"player1": "PicoBlazin",
+		"player2": "DarnellBlazin",
 		"notes": [
 			{
 			"lengthInSteps": 16,
@@ -795,7 +795,7 @@
 			"mustHitSection": true
 			}
 			],
-		"gf": "Gf",
+		"gf": "Nene",
 		"bpm": 180,
 		"song": "Blazin"
 	}

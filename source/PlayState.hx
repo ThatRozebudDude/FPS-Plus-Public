@@ -102,10 +102,6 @@ class PlayState extends MusicBeatState
 
 	public var tweenManager:FlxTweenManager = new FlxTweenManager();
 
-	private var sectionHasOppNotes:Bool = false;
-	private var sectionHasBFNotes:Bool = false;
-	private var sectionHaveNotes:Array<Array<Bool>> = [];
-
 	private var vocals:FlxSound;
 	private var vocalsOther:FlxSound;
 	private var vocalType:VocalType = combinedVocalTrack;
@@ -291,17 +287,6 @@ class PlayState extends MusicBeatState
 		offsetTween = tweenManager.tween(this, {}, 0);
 		shakeTween = tweenManager.tween(this, {}, 0);
 		camZoomAdjustTween = tweenManager.tween(this, {}, 0);
-
-		for(i in 0 ... SONG.notes.length){
-
-			var array = [false, false];
-
-			array[0] = sectionContainsBfNotes(i);
-			array[1] = sectionContainsOppNotes(i);
-
-			sectionHaveNotes.push(array);
-
-		}
 		
 		canHit = !(Config.ghostTapType > 0);
 
@@ -366,11 +351,18 @@ class PlayState extends MusicBeatState
 		curStage = stage.name;
 		curUiType = stage.uiType;
 
-		
-		if(stage.useStartPoints){
-			dad.setPosition(stage.dadStart.x - ((dad.getFrameWidth() * dad.getScale().x)/2), stage.dadStart.y - (dad.getFrameHeight() * dad.getScale().y));
+		//Set the start point of the characters.
+		if((stage.useStartPoints && !stage.overrideBfStartPoints) || (!stage.useStartPoints && stage.overrideBfStartPoints)){
 			boyfriend.setPosition(stage.bfStart.x - ((boyfriend.getFrameWidth() * boyfriend.getScale().x)/2), stage.bfStart.y - (boyfriend.getFrameHeight() * boyfriend.getScale().y));
+			//trace("doing boyfriend start point");
+		}
+		if((stage.useStartPoints && !stage.overrideDadStartPoints) || (!stage.useStartPoints && stage.overrideDadStartPoints)){
+			dad.setPosition(stage.dadStart.x - ((dad.getFrameWidth() * dad.getScale().x)/2), stage.dadStart.y - (dad.getFrameHeight() * dad.getScale().y));
+			//trace("doing dad start point");
+		}
+		if((stage.useStartPoints && !stage.overrideGfStartPoints) || (!stage.useStartPoints && stage.overrideGfStartPoints)){
 			gf.setPosition(stage.gfStart.x - ((gf.getFrameWidth() * gf.getScale().x)/2), stage.gfStart.y - (gf.getFrameHeight() * gf.getScale().y));
+			//trace("doing gf start point");
 		}
 		
 		dad.x += dad.reposition.x;
@@ -406,6 +398,9 @@ class PlayState extends MusicBeatState
 				bfBeats = [0, 1, 2, 3];
 			case "thorns":
 				dadBeats = [0, 1, 2, 3];
+			case "blazin":
+				dadBeats = [];
+				bfBeats = [];
 		}
 
 		var camPos:FlxPoint = new FlxPoint(Utils.getGraphicMidpoint(dad).x, Utils.getGraphicMidpoint(dad).y);
@@ -2574,16 +2569,6 @@ class PlayState extends MusicBeatState
 		//wiggleShit.update(Conductor.crochet);
 		super.beatHit();
 
-		if(curBeat % 4 == 0){
-
-			var sec = Math.floor(curBeat / 4);
-			if(sec >= sectionHaveNotes.length) { sec = -1; }
-
-			sectionHasBFNotes = sec >= 0 ? sectionHaveNotes[sec][0] : false;
-			sectionHasOppNotes = sec >= 0 ? sectionHaveNotes[sec][1] : false;
-			
-		}
-
 		//sortNotes();
 
 		if (SONG.notes[Math.floor(curStep / 16)] != null)
@@ -2593,10 +2578,8 @@ class PlayState extends MusicBeatState
 			}
 
 			// Dad doesnt interupt his own notes
-			if (!sectionHasOppNotes){
-				if(dadBeats.contains(curBeat % 4) && dad.canAutoAnim && dad.holdTimer == 0){
-					dad.dance();
-				}
+			if(dadBeats.contains(curBeat % 4) && dad.canAutoAnim && dad.holdTimer == 0 && !dad.curAnim.startsWith('sing')){
+				dad.dance();
 			}
 			
 		}

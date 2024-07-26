@@ -471,7 +471,12 @@ class Character extends FlxSpriteGroup
 			}
 		}
 		else{ //Code for atlas characters
-			//DOES NOT FUNCTION
+			atlasCharacter.scale.set(_scaleX, _scaleY);
+			atlasCharacter.updateHitbox();
+			var offsetBase = new FlxPoint(offset.x, offset.y);
+			for(name => pos in animOffsets){
+				addOffset(name, offsetBase.x + (originalAnimOffsets.get(name)[0] * _scaleX), offsetBase.y + (originalAnimOffsets.get(name)[1] * _scaleY));
+			}
 		}
 		
 	}
