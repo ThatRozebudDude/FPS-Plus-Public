@@ -22,8 +22,12 @@ You need to install the following haxelibs:
 - `flixel-ui`
 - `compiletime`
 - `flxanimte`
+- `funkin.vis`
+- `grig.audio`
 
     - `flxanimate` should be installed from the FunkinCrew git by running `haxelib git flxanimate "https://github.com/FunkinCrew/flxanimate"`
+    - `funkin.vis` should be installed from the FunkinCrew git by running `haxelib git funkin.vis https://github.com/FunkinCrew/funkVis"`
+    - `grig.audio` should be installed from the Haxe Grig git by running `haxelib git grig.audio https://gitlab.com/haxe-grig/grig.audio.git"`
 
 To set up build tools, refer to part 5 of [this document](https://github.com/FunkinCrew/Funkin/blob/main/docs/COMPILING.md).
 

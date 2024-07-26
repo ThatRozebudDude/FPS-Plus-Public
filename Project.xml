@@ -97,6 +97,8 @@
 	<haxelib name="flixel-ui" />
 	<haxelib name="compiletime" />
 	<haxelib name="flxanimate" />
+	<haxelib name="funkin.vis" />
+	<haxelib name="grig.audio" />
 	
 	<!--haxelib name="newgrounds"/-->
 	<!--haxelib name="faxe" if='switch'/-->

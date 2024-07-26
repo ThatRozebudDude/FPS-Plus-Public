@@ -72,7 +72,9 @@ class PlayState extends MusicBeatState
 	private var releaseTimes:Array<Float> = [-1, -1, -1, -1];
 	private final releaseBufferTime = (2/60);
 
-	private var camFocus:String = "";
+	private var forceMissNextNote:Bool = false;
+
+	public var camFocus:String = "";
 	private var camTween:FlxTween;
 	private var camZoomTween:FlxTween;
 	private var camZoomAdjustTween:FlxTween;
@@ -1278,6 +1280,12 @@ class PlayState extends MusicBeatState
 							}
 							FlxG.sound.play(Paths.sound("weekend1/Pico_Bonk"));
 							executeEvent("phillyStreets-canHit");
+							health -= 0.5;
+						}
+					case "weekend-1-cockgun":
+						swagNote.missCallback = function(direction:Int, character:Character){
+							defaultNoteMiss(direction, character);
+							forceMissNextNote = true;
 						}
 					default:
 						swagNote.missCallback = defaultNoteMiss;
@@ -2189,7 +2197,7 @@ class PlayState extends MusicBeatState
 
 			var directionsAccounted = [false,false,false,false];
 
-			if (possibleNotes.length > 0){
+			if (possibleNotes.length > 0 && !forceMissNextNote){
 				for(note in possibleNotes){
 					if (controlArray[note.noteData] && !directionsAccounted[note.noteData]){
 						goodNoteHit(note);
@@ -2343,7 +2351,7 @@ class PlayState extends MusicBeatState
 
 		notes.forEachAlive(function(daNote:Note)
 		{
-			if (!daNote.wasGoodHit && daNote.mustPress && daNote.strumTime < Conductor.songPosition + Conductor.safeZoneOffset * (!daNote.isSustainNote ? 0.125 : (daNote.prevNote.wasGoodHit ? 1 : 0)))
+			if (!forceMissNextNote && !daNote.wasGoodHit && daNote.mustPress && daNote.strumTime < Conductor.songPosition + Conductor.safeZoneOffset * (!daNote.isSustainNote ? 0.125 : (daNote.prevNote.wasGoodHit ? 1 : 0)))
 			{
 				hitNotes.push(daNote);
 			}
@@ -2416,6 +2424,8 @@ class PlayState extends MusicBeatState
 
 			setBoyfriendInvuln(invulnTime / 60);
 
+			forceMissNextNote = false;
+
 			callback(direction, boyfriend);
 			
 		}
@@ -2425,7 +2435,9 @@ class PlayState extends MusicBeatState
 	}
 
 	inline function noteMissWrongPress(direction:Int = 1):Void{
+		var forceMissNextNoteState = forceMissNextNote;
 		noteMiss(direction, defaultNoteMiss, Scoring.WRONG_TAP_DAMAGE_AMMOUNT, true, false, false, false, 4, Scoring.WRONG_PRESS_PENALTY);
+		forceMissNextNote = forceMissNextNoteState;
 	}
 
 	function badNoteCheck(direction:Int = -1)

@@ -123,6 +123,7 @@ class AtlasSprite extends FlxAnimate
             frameOffset = animInfoMap.get(name).length - 1;
         }
 
+		anim.framerate = animInfoMap.get(name).framerate;
 		anim.play("", force, reverse, animInfoMap.get(name).startFrame + frameOffset);
     }
 

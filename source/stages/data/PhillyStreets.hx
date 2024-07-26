@@ -1,7 +1,8 @@
 package stages.data;
 
+import flixel.util.FlxTimer;
+import flixel.FlxG;
 import flixel.tweens.FlxEase;
-import sys.thread.Deque;
 import flixel.addons.display.FlxBackdrop;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
@@ -14,6 +15,11 @@ class PhillyStreets extends BaseStage
 	var dimSprite:FlxSprite;
 	var kickedCan:AtlasSprite;
 	var characterGlow:FlxSprite;
+
+	var abot:ABot;
+	var abotLookDir:Bool = false;
+	var allowAbotInit:Bool = false;
+	var abotInit:Bool = false;
 
     public override function init(){
         name = "phillyStreets";
@@ -97,7 +103,7 @@ class PhillyStreets extends BaseStage
 		characterGlow.visible = false;
 		addToMiddle(characterGlow);
 
-		var spraycanPile = new FlxSprite(920, 1045).loadGraphic(Paths.image("weekend1/SpraycanPile"));
+		var spraycanPile = new FlxSprite(920, 1045).loadGraphic(Paths.image("weekend1/phillyStreets/SpraycanPile"));
 		spraycanPile.antialiasing = true;
 		addToForeground(spraycanPile);
 
@@ -113,13 +119,16 @@ class PhillyStreets extends BaseStage
 			}
 		}
 		addToForeground(kickedCan);
+
+		abot = new ABot(1453 - 365, 900 - 165);
+		abot.lookLeft();
+		addToBackground(abot);
 		
 		bfStart.set(2151, 1228);
 		dadStart.set(900, 1110);
 		gfStart.set(1453, 900);
 
 		gf().scrollFactor.set(1, 1);
-		gf().visible = false;
 
 		addEvent("phillyStreets-stageDarken", stageDarken);
 		addEvent("phillyStreets-canKick", canKick);
@@ -127,6 +136,33 @@ class PhillyStreets extends BaseStage
 		addEvent("phillyStreets-canShot", canShot);
 		addEvent("phillyStreets-playerGlow", createCharacterGlow);
     }
+
+	override function update(elapsed:Float) {
+		if(playstate().camFocus == "dad" && abotLookDir){
+			abotLookDir = !abotLookDir;
+			abot.lookLeft();
+		}
+		else if(playstate().camFocus == "bf" && !abotLookDir){
+			abotLookDir = !abotLookDir;
+			abot.lookRight();
+		}
+
+		if(FlxG.sound.music != null && FlxG.sound.music.playing && allowAbotInit && !abotInit){
+			abot.setAudioSource(FlxG.sound.music);
+			abot.startVisualizer();
+			abotInit = true;
+		}
+	}
+
+	override function beat(curBeat:Int) {
+		if(curBeat == 0){
+			new FlxTimer().start(1/24, function(t) {
+				allowAbotInit = true;
+			});
+		}
+
+		abot.bop();
+	}
 
 	public function stageDarken():Void{
 		tween().cancelTweensOf(dimSprite);
@@ -159,7 +195,7 @@ class PhillyStreets extends BaseStage
 		characterGlow.antialiasing = boyfriend().getAntialising();
 		characterGlow.visible = true;
 		//characterGlow.blend = SCREEN;
-		characterGlow.alpha = 0.75;
+		characterGlow.alpha = 0.5;
 
 		tween().tween(characterGlow.scale, {x: characterGlow.scale.x * 1.4, y: characterGlow.scale.y * 1.4}, (Conductor.crochet / 1000), {ease: FlxEase.quadOut});
 		tween().tween(characterGlow, {alpha: 0}, ((Conductor.crochet / 1000) / 2), {startDelay: ((Conductor.crochet / 1000) / 2)});
