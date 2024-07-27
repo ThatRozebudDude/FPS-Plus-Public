@@ -132,18 +132,22 @@ class AtlasSprite extends FlxAnimate
 
         if(frameCallback != null){ frameCallback(curAnim, frame - animInfo.startFrame, frame); }
 
-		if(frame == (animInfo.startFrame + animInfo.length) - 1){
-            if(animInfo.looped){
+        if(animInfo.looped){
+            if(frame >= (animInfo.startFrame + animInfo.length)){
                 playAnim(curAnim, true, false, animInfo.loopFrame);
                 finishedAnim = true;
             }
-            else{
+        }
+        else{
+            if(frame >= (animInfo.startFrame + animInfo.length) - 1){
                 anim.pause();
                 finishedAnim = true;
             }
+        }
 
+        if(frame >= (animInfo.startFrame + animInfo.length) - 1){
             if(animationEndCallback != null){ animationEndCallback(curAnim); }
-		}
+        }
 	}
 
     override function set_flipX(Value:Bool):Bool {

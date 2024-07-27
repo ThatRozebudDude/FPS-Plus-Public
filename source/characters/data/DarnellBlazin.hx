@@ -26,7 +26,7 @@ class DarnellBlazin extends CharacterInfoBase
         addByLabel('hitHigh', offset(), "Hit High", 24, loop(false));
         addByLabel('hitLow', offset(), "Hit Low", 24, loop(false));
         addByLabel('uppercutHit', offset(), "Uppercut Hit", 24, loop(false));
-        addByLabel('hitSpin', offset(), "Hit Spin", 24, loop(false));
+        addByLabel('hitSpin', offset(), "Hit Spin", 24, loop(true));
         addByLabel('cringe', offset(), "Cringe", 24, loop(false));
         addByLabel('pissed', offset(), "Pissed", 24, loop(false));
         

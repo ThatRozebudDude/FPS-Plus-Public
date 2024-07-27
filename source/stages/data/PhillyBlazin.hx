@@ -78,6 +78,8 @@ class PhillyBlazin extends BaseStage
 		gf().color = 0xFF888888;
 		abot.scrollFactor.set(gfScroll, gfScroll);
 		abot.color = 0xFF888888;
+
+		addExtraData("forceCenteredNotes",  true);
     }
 
 	override function update(elapsed:Float) {

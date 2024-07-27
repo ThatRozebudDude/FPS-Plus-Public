@@ -30,7 +30,7 @@ class PicoBlazin extends CharacterInfoBase
         addByLabel('hitSpin', offset(), "Hit Spin", 24, loop(false));
         addByLabel('fakeHit', offset(), "Fake Hit", 24, loop(false));
         addByLabel('taunt', offset(), "Taunt", 24, loop(false));
-        addByLabel('tauntLaughLoop', offset(), "Taunt Laugh Loop", 24, loop(false));
+        addByLabel('tauntLaughLoop', offset(), "Taunt Laugh Loop", 24, loop(true));
         addByLabel('lowDeathIntro', offset(), "Low Death Intro", 24, loop(false));
         addByLabel('lowDeathLoop', offset(), "Low Death Loop", 24, loop(false));
         addByLabel('lowDeathConfirm', offset(), "Low Death Confirm", 24, loop(false));
@@ -38,6 +38,7 @@ class PicoBlazin extends CharacterInfoBase
         addExtraData("scale", 1.75);
 
         addAnimChain("uppercutPunch", "uppercutPunchLoop");
+        addAnimChain("taunt", "tauntLaughLoop");
     }
 
 }

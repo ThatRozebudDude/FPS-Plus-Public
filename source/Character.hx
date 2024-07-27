@@ -362,7 +362,7 @@ class Character extends FlxSpriteGroup
 		//Not needed for atlas since this is built in to the AtlasSprite functionality.
 
 		//Checks for and plays a chained animation.
-		if(characterInfo.info.animChains.exists(name)){
+		if(!debugMode && characterInfo.info.animChains.exists(name)){
 			playAnim(characterInfo.info.animChains.get(name));
 		}
 		
