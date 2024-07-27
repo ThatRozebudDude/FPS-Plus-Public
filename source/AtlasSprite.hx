@@ -24,6 +24,8 @@ class AtlasSprite extends FlxAnimate
     private var baseWidth:Float = 0;
     private var baseHeight:Float = 0;
 
+    var loopNextFrame:Bool = false;
+
     public function new(?_x:Float, ?_y:Float, _path:String) {
         super(_x, _y, _path);
         anim.callback = animCallback;
@@ -118,6 +120,7 @@ class AtlasSprite extends FlxAnimate
 
         curAnim = name;
         finishedAnim = false;
+        loopNextFrame = false;
 
         if(frameOffset >= animInfoMap.get(name).length){
             frameOffset = animInfoMap.get(name).length - 1;
@@ -132,20 +135,21 @@ class AtlasSprite extends FlxAnimate
 
         if(frameCallback != null){ frameCallback(curAnim, frame - animInfo.startFrame, frame); }
 
-        if(animInfo.looped){
-            if(frame >= (animInfo.startFrame + animInfo.length)){
-                playAnim(curAnim, true, false, animInfo.loopFrame);
-                finishedAnim = true;
-            }
-        }
-        else{
-            if(frame >= (animInfo.startFrame + animInfo.length) - 1){
-                anim.pause();
-                finishedAnim = true;
-            }
+        if(loopNextFrame){
+            playAnim(curAnim, true, false, animInfo.loopFrame);
         }
 
         if(frame >= (animInfo.startFrame + animInfo.length) - 1){
+
+            if(animInfo.looped){
+                loopNextFrame = true;
+                finishedAnim = true;
+            }
+            else{
+                anim.pause();
+                finishedAnim = true;
+            }
+
             if(animationEndCallback != null){ animationEndCallback(curAnim); }
         }
 	}

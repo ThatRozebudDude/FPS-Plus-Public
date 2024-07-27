@@ -181,9 +181,9 @@ class PlayState extends MusicBeatState
 
 	private var iconP1:HealthIcon;
 	private var iconP2:HealthIcon;
-	private var camHUD:FlxCamera;
-	private var camGame:FlxCamera;
-	private var camOverlay:FlxCamera;
+	public var camHUD:FlxCamera;
+	public var camGame:FlxCamera;
+	public var camOverlay:FlxCamera;
 	private var camGameZoomAdjust:Float = 0;
 
 	private var eventList:Array<Dynamic> = [];
@@ -1678,6 +1678,8 @@ class PlayState extends MusicBeatState
 			vocals.stop();
 			if(vocalType == splitVocalTrack){ vocalsOther.stop(); }
 			FlxG.sound.music.stop();
+
+			camGame.filters = [];
 
 			openSubState(new GameOverSubstate(boyfriend.getSprite().getScreenPosition().x, boyfriend.getSprite().getScreenPosition().y, camFollowFinal.getScreenPosition().x, camFollowFinal.getScreenPosition().y, boyfriend.deathCharacter));
 			sectionStart = false;

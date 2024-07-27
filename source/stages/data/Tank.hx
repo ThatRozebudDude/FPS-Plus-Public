@@ -135,6 +135,7 @@ class Tank extends BaseStage
     }
 
 	public override function update(elapsed:Float){
+		super.update(elapsed);
 		moveTank();
 	}
 

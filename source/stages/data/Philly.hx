@@ -85,6 +85,8 @@ class Philly extends BaseStage
     }
 
 	public override function update(elapsed:Float){
+		super.update(elapsed);
+
 		if (trainMoving){
 			trainFrameTiming += elapsed;
 

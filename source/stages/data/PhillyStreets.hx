@@ -1,5 +1,7 @@
 package stages.data;
 
+import openfl.filters.ShaderFilter;
+import shaders.RainShader;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
@@ -11,6 +13,8 @@ import stages.elements.*;
 
 class PhillyStreets extends BaseStage
 {
+	var rainShader:RainShader;
+	var rainInensityEnd:Float = 0;
 
 	var dimSprite:FlxSprite;
 	var kickedCan:AtlasSprite;
@@ -130,6 +134,22 @@ class PhillyStreets extends BaseStage
 
 		gf().scrollFactor.set(1, 1);
 
+		rainShader = new RainShader(0, FlxG.height / 200);
+		playstate().camGame.filters = [new ShaderFilter(rainShader.shader)];
+		addToUpdate(rainShader);
+
+		switch(PlayState.SONG.song.toLowerCase()){
+			case "darnell":
+				rainShader.uIntensity = 0;
+				rainInensityEnd = 0.1;
+			case "2hot":
+				rainShader.uIntensity = 0.2;
+				rainInensityEnd = 0.3;
+			default:
+				rainShader.uIntensity = 0.1;
+				rainInensityEnd = 0.2;
+		}
+
 		addEvent("phillyStreets-stageDarken", stageDarken);
 		addEvent("phillyStreets-canKick", canKick);
 		addEvent("phillyStreets-canHit", canHit);
@@ -138,6 +158,8 @@ class PhillyStreets extends BaseStage
     }
 
 	override function update(elapsed:Float) {
+		super.update(elapsed);
+		
 		if(playstate().camFocus == "dad" && abotLookDir){
 			abotLookDir = !abotLookDir;
 			abot.lookLeft();
@@ -158,6 +180,9 @@ class PhillyStreets extends BaseStage
 		if(curBeat == 0){
 			new FlxTimer().start(1/24, function(t) {
 				allowAbotInit = true;
+
+				//tween rain intensity
+				tween().tween(rainShader, {uIntensity: rainInensityEnd}, FlxG.sound.music.length/1000);
 			});
 		}
 

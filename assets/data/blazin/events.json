@@ -1,0 +1,54 @@
+{
+	"events": {
+		"events": [
+			[
+				28,
+				37333.3333333333,
+				0,
+				"phillyBlazin-lightning"
+			],
+			[
+				28,
+				37333.3333333333,
+				1,
+				"phillyBlazin-slowRain"
+			],
+			[
+				88,
+				117333.333333333,
+				0,
+				"phillyBlazin-lightning"
+			],
+			[
+				88,
+				117333.333333333,
+				1,
+				"phillyBlazin-slowRain"
+			],
+			[
+				31,
+				42500,
+				0,
+				"phillyBlazin-normalRain"
+			],
+			[
+				26,
+				35333.3333333333,
+				0,
+				"phillyBlazin-toggleLightning"
+			],
+			[
+				32,
+				42666.6666666667,
+				0,
+				"phillyBlazin-toggleLightning"
+			],
+			[
+				86,
+				115333.333333333,
+				0,
+				"phillyBlazin-toggleLightning"
+			]
+		]
+	}
+}

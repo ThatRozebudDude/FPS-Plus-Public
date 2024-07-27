@@ -1,5 +1,8 @@
 package stages.data;
 
+import flixel.tweens.FlxTween;
+import openfl.filters.ShaderFilter;
+import shaders.RainShader;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
@@ -11,13 +14,19 @@ import stages.elements.*;
 
 class PhillyBlazin extends BaseStage
 {
+	var rainShader:RainShader;
 
+	var scrollingSkyAdd:FlxSprite;
 	var streetBlurMultiply:FlxSprite;
 	var additionalLighten:FlxSprite;
+	var lightning:FlxSprite;
 
 	var abot:ABot;
 	var allowAbotInit:Bool = false;
 	var abotInit:Bool = false;
+
+	var lightningTimer:Float = 3;
+	var lightningActive:Bool = true;
 
 	final gfScroll:Float = 0.7;
 	final gfPosOffset:FlxPoint = new FlxPoint(-225, -110);
@@ -35,7 +44,26 @@ class PhillyBlazin extends BaseStage
 		scrollingSky.antialiasing = true;
 		addToBackground(scrollingSky);
 
-		//lightning here
+		scrollingSkyAdd = new FlxBackdrop(Paths.image("weekend1/phillyBlazin/skyBlur"), X);
+		scrollingSkyAdd.setPosition(-600, -175);
+		scrollingSkyAdd.scrollFactor.set();
+		scrollingSkyAdd.scale.set(1.75, 1.75);
+		scrollingSkyAdd.updateHitbox();
+		scrollingSkyAdd.velocity.x = -35;
+		scrollingSkyAdd.antialiasing = true;
+		scrollingSkyAdd.blend = ADD;
+		scrollingSkyAdd.visible = false;
+		addToBackground(scrollingSkyAdd);
+
+		lightning = new FlxSprite(50, -300);
+		lightning.frames = Paths.getSparrowAtlas("weekend1/phillyBlazin/lightning");
+		lightning.animation.addByPrefix("strike", "lightning", 24, false);
+		lightning.scrollFactor.set();
+		lightning.scale.set(1.75, 1.75);
+		lightning.visible = false;
+		lightning.updateHitbox();
+		lightning.antialiasing = true;
+		addToBackground(lightning);
 
 		var streetBlur = new FlxSprite(-600 + 152, -175 + 70).loadGraphic(Paths.image("weekend1/phillyBlazin/streetBlur"));
 		streetBlur.scrollFactor.set(0.2, 0.2);
@@ -55,8 +83,9 @@ class PhillyBlazin extends BaseStage
 
 		additionalLighten = new FlxSprite().makeGraphic(1, 1, 0xFFFFFFFF);
 		additionalLighten.scale.set(1280/startingZoom, 720/startingZoom);
-		streetBlurMultiply.scrollFactor.set();
+		additionalLighten.scrollFactor.set();
 		additionalLighten.updateHitbox();
+		additionalLighten.screenCenter(XY);
 		additionalLighten.visible = false;
 		addToBackground(additionalLighten);
 
@@ -74,18 +103,37 @@ class PhillyBlazin extends BaseStage
 		cameraStartPosition = new FlxPoint(1390, 620);
 		extraCameraMovementAmount = 20;
 
+		boyfriend().color = 0xFFDEDEDE;
+		dad().color = 0xFFDEDEDE;
+
 		gf().scrollFactor.set(gfScroll, gfScroll);
 		gf().color = 0xFF888888;
 		abot.scrollFactor.set(gfScroll, gfScroll);
 		abot.color = 0xFF888888;
+		
+		rainShader = new RainShader(0.5, FlxG.height / 200);
+		playstate().camGame.filters = [new ShaderFilter(rainShader.shader)];
+		addToUpdate(rainShader);
 
 		addExtraData("forceCenteredNotes",  true);
+
+		addEvent("phillyBlazin-lightning", lightningStrike);
+		addEvent("phillyBlazin-slowRain", slowRain);
+		addEvent("phillyBlazin-normalRain", normalRain);
+		addEvent("phillyBlazin-toggleLightning", toggleLightning);
     }
 
 	override function update(elapsed:Float) {
-		/*if(FlxG.keys.anyJustPressed([FOUR])){
-			trace(gf().getMidpoint());
-		}*/
+		super.update(elapsed);
+
+		if(lightningActive){
+			lightningTimer -= FlxG.elapsed;
+		}
+
+		if (lightningTimer <= 0){
+			lightningStrike();
+			lightningTimer = FlxG.random.float(7, 15);
+		}
 
 		if(FlxG.sound.music != null && FlxG.sound.music.playing && allowAbotInit && !abotInit){
 			abot.setAudioSource(FlxG.sound.music);
@@ -102,5 +150,62 @@ class PhillyBlazin extends BaseStage
 		}
 
 		abot.bop();
+	}
+
+	final LIGHTNING_FULL_DURATION = 1.5;
+	final LIGHTNING_FADE_DURATION = 0.3;
+	final LIGHTNING_HOLD_DURATION = 0.15;
+	final CHARACTER_DARKEN_COLOR = 0xFF404040;
+	function lightningStrike():Void{
+
+		scrollingSkyAdd.visible = true;
+		scrollingSkyAdd.alpha = 0.8;
+		tween().tween(scrollingSkyAdd, {alpha: 0.0}, LIGHTNING_FULL_DURATION, {startDelay: LIGHTNING_HOLD_DURATION, onComplete: cleanupLightning});
+
+		streetBlurMultiply.visible = true;
+		streetBlurMultiply.alpha = 0.8;
+		FlxTween.tween(streetBlurMultiply, {alpha: 0.0}, LIGHTNING_FULL_DURATION, {startDelay: LIGHTNING_HOLD_DURATION});
+
+		additionalLighten.visible = true;
+		additionalLighten.alpha = 0.5;
+		FlxTween.tween(additionalLighten, {alpha: 0.0}, LIGHTNING_FADE_DURATION, {startDelay: LIGHTNING_HOLD_DURATION});
+
+		lightning.visible = true;
+		lightning.animation.play('strike');
+
+		if(FlxG.random.bool(65)){
+			lightning.x = FlxG.random.int(-250, 280);
+		}else{
+			lightning.x = FlxG.random.int(780, 900);
+		}
+
+		//darken characters
+		boyfriend().color = CHARACTER_DARKEN_COLOR;
+		dad().color = CHARACTER_DARKEN_COLOR;
+		gf().color = CHARACTER_DARKEN_COLOR;
+		tween().color(boyfriend(), LIGHTNING_FADE_DURATION, CHARACTER_DARKEN_COLOR, 0xFFDEDEDE, {startDelay: LIGHTNING_HOLD_DURATION});
+		tween().color(dad(), LIGHTNING_FADE_DURATION, CHARACTER_DARKEN_COLOR, 0xFFDEDEDE, {startDelay: LIGHTNING_HOLD_DURATION});
+		tween().color(gf(), LIGHTNING_FADE_DURATION, CHARACTER_DARKEN_COLOR, 0xFF888888, {startDelay: LIGHTNING_HOLD_DURATION});
+
+		FlxG.sound.play(Paths.sound("weekend1/Lightning" + FlxG.random.int(1, 3)));
+	}
+
+	function cleanupLightning(t:FlxTween) {
+		scrollingSkyAdd.visible = false;
+		streetBlurMultiply.visible = false;
+		additionalLighten.visible = false;
+		lightning.visible = false;
+	}
+
+	function slowRain():Void{
+		tween().tween(rainShader, {timeScale: 0.07}, 2.5, {ease: FlxEase.quadOut});
+	}
+
+	function normalRain():Void{
+		tween().tween(rainShader, {timeScale: 1}, Conductor.crochet/1000, {ease: FlxEase.quadIn});
+	}
+
+	function toggleLightning():Void{
+		lightningActive = !lightningActive;
 	}
 }

@@ -1,6 +1,9 @@
 package stages;
 
 //import flixel.FlxBasic;
+import flixel.FlxBasic;
+import flixel.FlxObject;
+import flixel.group.FlxGroup;
 import flixel.math.FlxPoint;
 
 /**
@@ -24,6 +27,8 @@ class BaseStage
     public var backgroundElements:Array<Dynamic> = [];
     public var middleElements:Array<Dynamic> = [];
     public var foregroundElements:Array<Dynamic> = [];
+
+    var updateGroup:FlxGroup = new FlxGroup();
 
     public var useStartPoints:Bool = true; //Auto positions characters if set to true
     public var overrideBfStartPoints:Bool = false;  //Does the opposite of useStartPoints for this specific character.
@@ -93,6 +98,15 @@ class BaseStage
     }
 
     /**
+     * Add any object that will up updated in the stage's update loop.
+     *
+     * @param   obj     The object that will be added to the update loop.
+     */
+     public function addToUpdate(obj:FlxBasic){
+        updateGroup.add(obj);
+    }
+
+    /**
 	 * Destroys all objects added to the stage elements.
 	 */
     public function destroyAll(){
@@ -103,10 +117,15 @@ class BaseStage
 
     /**
 	 * Called every frame in PlayState update.
+	 * Don't forget to call `super.update(elasped)` or the update group won't be updated.
      *
      * @param   elpased  The elapsed time between previous frames passed in by PlayState.
 	 */
-    public function update(elapsed:Float){}
+    public function update(elapsed:Float){
+        for(obj in updateGroup){
+            obj.update(elapsed);
+        }
+    }
 
     /**
 	 * Called every beat hit in PlayState.

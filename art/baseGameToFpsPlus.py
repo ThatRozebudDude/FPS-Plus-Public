@@ -18,7 +18,7 @@ sections = [[]]
 curSection = 0
  
 for note in data["notes"][diff]:
-    while(note["t"] >= curSectionTime + sectionTime):
+    while(note["t"] >= curSectionTime + (sectionTime * 0.99)):
         curSectionTime += sectionTime
         curSection += 1
         sections.append([])
