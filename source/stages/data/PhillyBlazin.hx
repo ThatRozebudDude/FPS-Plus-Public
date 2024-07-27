@@ -101,7 +101,7 @@ class PhillyBlazin extends BaseStage
 
 		cameraMovementEnabled = false;
 		cameraStartPosition = new FlxPoint(1390, 620);
-		extraCameraMovementAmount = 20;
+		//extraCameraMovementAmount = 20;
 
 		boyfriend().color = 0xFFDEDEDE;
 		dad().color = 0xFFDEDEDE;

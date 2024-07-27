@@ -2811,7 +2811,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('hitLow', true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(-1 * camOffsetAmount, 0.5 * camOffsetAmount);
 						setBfOnTop();
 						camShake(0.0025, 1/30, 0.15);
 					}
@@ -2823,7 +2823,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('block', true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(-1 * camOffsetAmount, 0.5 * camOffsetAmount);
 						setBfOnTop();
 						camShake(0.002, 1/30, 0.1);
 					}
@@ -2835,7 +2835,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('dodge', true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(-1 * camOffsetAmount, 0.5 * camOffsetAmount);
 						setBfOnTop();
 					}
 				case "weekend-1-punchlowspin":
@@ -2846,7 +2846,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('hitSpin', true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(-1 * camOffsetAmount, 0.5 * camOffsetAmount);
 						setBfOnTop();
 						camShake(0.0025, 1/30, 0.15);
 					}
@@ -2859,7 +2859,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('hitHigh', true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(-1 * camOffsetAmount, 0);
 						setBfOnTop();
 						camShake(0.0025, 1/30, 0.15);
 					}
@@ -2871,7 +2871,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('block', true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(-1 * camOffsetAmount, 0);
 						setBfOnTop();
 						camShake(0.002, 1/30, 0.1);
 					}
@@ -2883,7 +2883,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('dodge', true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(-1 * camOffsetAmount, 0);
 						setBfOnTop();
 					}
 				case "weekend-1-punchhighspin":
@@ -2894,7 +2894,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('hitSpin', true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(-1 * camOffsetAmount, 0);
 						setBfOnTop();
 						camShake(0.0025, 1/30, 0.15);
 					}
@@ -2907,7 +2907,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('punchHigh' + alternating(), true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(1 * camOffsetAmount, 0);
 						setOppOnTop();
 						camShake(0.002, 1/30, 0.1);
 					}
@@ -2919,7 +2919,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('punchLow' + alternating(), true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
 						setOppOnTop();
 						camShake(0.002, 1/30, 0.1);
 					}
@@ -2931,7 +2931,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('punchHigh' + alternating(), true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(1 * camOffsetAmount, 0);
 						setOppOnTop();
 						camShake(0.002, 1/30, 0.1);
 					}
@@ -2944,7 +2944,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('punchHigh' + alternating(), true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(1 * camOffsetAmount, 0);
 						setOppOnTop();
 					}
 				case "weekend-1-dodgelow":
@@ -2955,7 +2955,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('punchLow' + alternating(), true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
 						setOppOnTop();
 					}
 				case "weekend-1-dodgespin":
@@ -2966,7 +2966,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('punchHigh' + alternating(), true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(1 * camOffsetAmount, 0);
 						setOppOnTop();
 					}
 
@@ -2979,7 +2979,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('punchHigh' + alternating(), true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(1 * camOffsetAmount, 0);
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
 					}
@@ -2991,7 +2991,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('punchLow' + alternating(), true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
 					}
@@ -3003,7 +3003,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('punchHigh' + alternating(), true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(1 * camOffsetAmount, 0);
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
 					}
@@ -3013,7 +3013,7 @@ class PlayState extends MusicBeatState
 						if(boyfriend.canAutoAnim){
 							boyfriend.playAnim('uppercutPrep', true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(1 * camOffsetAmount, 1 * camOffsetAmount);
 						setBfOnTop();
 					}
 				case "weekend-1-picouppercut":
@@ -3024,7 +3024,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('uppercutHit', true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(0, -1 * camOffsetAmount);
 						setBfOnTop();
 						camShake(0.005, 1/30, 0.25);
 					}
@@ -3034,7 +3034,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('uppercutPrep', true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(-1 * camOffsetAmount, 1 * camOffsetAmount);
 						setOppOnTop();
 					}
 				case "weekend-1-darnelluppercut":
@@ -3045,7 +3045,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('uppercutPunch', true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(0, -1 * camOffsetAmount);
 						setOppOnTop();
 						camShake(0.005, 1/30, 0.25);
 					}
@@ -3069,7 +3069,7 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('cringe', true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(-1 * camOffsetAmount, 0);
 						setBfOnTop();
 					}
 				case "weekend-1-taunt":
@@ -3080,10 +3080,10 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('pissed', true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(0, 0);
 						setBfOnTop();
 					}
-				case "weekend-1-tauntforce":
+				/*case "weekend-1-tauntforce":
 					note.hitCallback = function(note:Note, character:Character){
 						if(boyfriend.canAutoAnim){
 							boyfriend.playAnim('taunt', true);
@@ -3091,9 +3091,9 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('pissed', true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(0, 0);
 						setBfOnTop();
-					}
+					}*/
 				//case "weekend-1-reversefakeout":
 				//	playIdleAnim(); // TODO: Which anim?
 				default:
@@ -3129,6 +3129,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
 					}
 				case "weekend-1-punchlowblocked":
 					note.missCallback = function(direction:Int, character:Character){
@@ -3140,6 +3141,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
 					}
 				case "weekend-1-punchlowdodged":
 					note.missCallback = function(direction:Int, character:Character){
@@ -3151,6 +3153,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
 					}
 				case "weekend-1-punchlowspin":
 					note.missCallback = function(direction:Int, character:Character){
@@ -3162,6 +3165,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
 					}
 
 				case "weekend-1-punchhigh":
@@ -3174,6 +3178,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0);
 					}
 				case "weekend-1-punchhighblocked":
 					note.missCallback = function(direction:Int, character:Character){
@@ -3185,6 +3190,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0);
 					}
 				case "weekend-1-punchhighdodged":
 					note.missCallback = function(direction:Int, character:Character){
@@ -3196,6 +3202,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0);
 					}
 				case "weekend-1-punchhighspin":
 					note.missCallback = function(direction:Int, character:Character){
@@ -3207,6 +3214,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0);
 					}
 
 				case "weekend-1-blockhigh":
@@ -3219,6 +3227,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0);
 					}
 				case "weekend-1-blocklow":
 					note.missCallback = function(direction:Int, character:Character){
@@ -3230,6 +3239,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
 					}
 				case "weekend-1-blockspin":
 					note.missCallback = function(direction:Int, character:Character){
@@ -3241,6 +3251,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0);
 					}
 
 				case "weekend-1-dodgehigh":
@@ -3253,6 +3264,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0);
 					}
 				case "weekend-1-dodgelow":
 					note.missCallback = function(direction:Int, character:Character){
@@ -3264,6 +3276,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
 					}
 				case "weekend-1-dodgespin":
 					note.missCallback = function(direction:Int, character:Character){
@@ -3275,6 +3288,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0);
 					}
 
 				// Pico ALWAYS gets punched.
@@ -3288,6 +3302,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0);
 					}
 				case "weekend-1-hitlow":
 					note.missCallback = function(direction:Int, character:Character){
@@ -3299,6 +3314,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
 					}
 				case "weekend-1-hitspin":
 					note.missCallback = function(direction:Int, character:Character){
@@ -3310,6 +3326,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0);
 					}
 
 				case "weekend-1-picouppercutprep":
@@ -3322,6 +3339,7 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
 					}
 				case "weekend-1-picouppercut":
 					note.missCallback = function(direction:Int, character:Character){
@@ -3333,14 +3351,15 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0);
 					}
 
-				/*case "weekend-1-darnelluppercutprep":
+				case "weekend-1-darnelluppercutprep":
 					note.missCallback = function(direction:Int, character:Character){
 						if(dad.canAutoAnim){
 							dad.playAnim('uppercutPrep', true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(-1 * camOffsetAmount, 1 * camOffsetAmount);
 						setOppOnTop();
 					}
 				case "weekend-1-darnelluppercut":
@@ -3351,10 +3370,10 @@ class PlayState extends MusicBeatState
 						if(dad.canAutoAnim){
 							dad.playAnim('uppercutPunch', true);
 						}
-						getExtraCamMovement(note);
+						changeCamOffset(0, -1 * camOffsetAmount);
 						setOppOnTop();
 						camShake(0.005, 1/30, 0.25);
-					}*/
+					}
 
 				case "weekend-1-idle":
 					note.missCallback = function(direction:Int, character:Character){
@@ -3377,6 +3396,7 @@ class PlayState extends MusicBeatState
 							dad.playAnim('dodge', true);
 						}
 						setBfOnTop();
+						changeCamOffset(-1 * camOffsetAmount, 0);
 					}
 				case "weekend-1-taunt":
 					note.missCallback = function(direction:Int, character:Character){
@@ -3388,8 +3408,9 @@ class PlayState extends MusicBeatState
 						}
 						setOppOnTop();
 						camShake(0.0025, 1/30, 0.15);
+						changeCamOffset(1 * camOffsetAmount, 0);
 					}
-				case "weekend-1-tauntforce":
+				/*case "weekend-1-tauntforce":
 					note.missCallback = function(direction:Int, character:Character){
 						if(boyfriend.canAutoAnim){
 							boyfriend.playAnim('taunt', true);
@@ -3399,7 +3420,7 @@ class PlayState extends MusicBeatState
 						}
 						getExtraCamMovement(note);
 						setBfOnTop();
-					}
+					}*/
 				//case "weekend-1-reversefakeout":
 				//	playIdleAnim(); // TODO: Which anim?
 				default:
@@ -3448,13 +3469,13 @@ class PlayState extends MusicBeatState
 	function getExtraCamMovement(note:Note):Void{
 		switch (note.noteData){
 			case 0:
-				if(Config.extraCamMovement && !note.isSustainNote){ changeCamOffset(-1 * camOffsetAmount, 0); }
+				if(!note.isSustainNote){ changeCamOffset(-1 * camOffsetAmount, 0); }
 			case 1:
-				if(Config.extraCamMovement && !note.isSustainNote){ changeCamOffset(0, camOffsetAmount); }
+				if(!note.isSustainNote){ changeCamOffset(0, camOffsetAmount); }
 			case 2:
-				if(Config.extraCamMovement && !note.isSustainNote){ changeCamOffset(0, -1 * camOffsetAmount); }
+				if(!note.isSustainNote){ changeCamOffset(0, -1 * camOffsetAmount); }
 			case 3:
-				if(Config.extraCamMovement && !note.isSustainNote){ changeCamOffset(camOffsetAmount, 0); }
+				if(!note.isSustainNote){ changeCamOffset(camOffsetAmount, 0); }
 		}
 	}
 
@@ -3651,6 +3672,9 @@ class PlayState extends MusicBeatState
 	}
 
 	function changeCamOffset(_x:Float, _y:Float, ?_time:Float = 1.4, ?_ease:Null<flixel.tweens.EaseFunction>){
+
+		//Don't allow for extra camera offsets if it's disabled in the config.
+		if(!Config.extraCamMovement){ return; }
 
 		if(_ease == null){
 			_ease = FlxEase.expoOut;
