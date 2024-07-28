@@ -27,7 +27,7 @@ class PicoBlazin extends CharacterInfoBase
         addByLabel('hitHigh', offset(), "Hit High", 24, loop(false));
         addByLabel('hitLow', offset(), "Hit Low", 24, loop(false));
         addByLabel('uppercutHit', offset(), "Uppercut Hit", 24, loop(false));
-        addByLabel('hitSpin', offset(), "Hit Spin", 24, loop(false));
+        addByStartingAtLabel('hitSpin', offset(), "Hit Spin", 3, 24, loop(true));
         addByLabel('fakeHit', offset(), "Fake Hit", 24, loop(false));
         addByLabel('taunt', offset(), "Taunt", 24, loop(false));
         addByLabel('tauntLaughLoop', offset(), "Taunt Laugh Loop", 24, loop(true));

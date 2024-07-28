@@ -411,32 +411,30 @@ class PlayState extends MusicBeatState
 				dadBeats = [];
 				bfBeats = [];
 		}
-
-		var camPos:FlxPoint = new FlxPoint(Utils.getGraphicMidpoint(dad).x, Utils.getGraphicMidpoint(dad).y);
-
+		
 		switch (dad.curCharacter)
 		{
 			case 'gf':
 				dad.setPosition(gf.x, gf.y);
 				gf.visible = false;
-				camPos.x += 600;
+				//camPos.x += 600;
 				if (isStoryMode){
 					camChangeZoom(1.3, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
 				}
 
-			case "spooky":
+			/*case "spooky":
 				//dad.y += 200;
-				camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y - 100);
+				//camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y - 100);
 			case "monster":
 				//dad.y += 100;
-				camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y - 100);
+				//camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y - 100);
 			case 'monster-christmas':
 				//dad.y += 130;
-				camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y - 100);
+				//camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y - 100);
 			case 'dad':
-				camPos.x += 400;
+				//camPos.x += 400;
 			case 'pico':
-				camPos.x += 600;
+				//camPos.x += 600;
 				//dad.y += 300;
 				//dad.x -= 280;
 				//dad.x += 270;
@@ -447,22 +445,28 @@ class PlayState extends MusicBeatState
 			case 'senpai':
 				//dad.x += 150;
 				//dad.y += 360;
-				camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y);
+				//camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y);
 			case 'senpai-angry':
 				//dad.x += 150;
 				//dad.y += 360;
-				camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y);
+				//camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y);
 			case 'spirit':
 				//dad.x -= 150;
 				//dad.y += 100;
 				//dad.x += 36 * 6;
 				//dad.y += 46 * 6;
-				camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y);
+				//camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y);
 			case 'tankman':
 				//dad.y += 165;
 				//dad.x -= 40;
-				camPos.x += 400;
+				//camPos.x += 400;*/
 		}
+
+		//set camera start based on who the camera focuses on first
+		//var camPos:FlxPoint = (SONG.notes[0].mustHitSection) ? getBfFocusPostion() : getOpponentFocusPosition();
+
+		//set camera start in the middle of the two focus points
+		var camPos:FlxPoint = new FlxPoint(FlxMath.lerp(getOpponentFocusPosition().x, getBfFocusPostion().x, 0.5), FlxMath.lerp(getOpponentFocusPosition().y, getBfFocusPostion().y, 0.5));
 
 		autoCam = stage.cameraMovementEnabled;
 
@@ -3503,9 +3507,19 @@ class PlayState extends MusicBeatState
 		return false;
 	}
 
-	public function camFocusOpponent(){
+	public function camFocusOpponent(?_time:Float = 1.9){
+		
+		var pos = getOpponentFocusPosition();
+		camMove(pos.x, pos.y, _time, FlxEase.expoOut, "dad");
+		changeCamOffset(0, 0);
 
-		if(Config.extraCamMovement){ changeCamOffset(0, 0); }
+		if (SONG.song.toLowerCase() == 'tutorial'){
+			camChangeZoom(1.3, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
+		}
+
+	}
+
+	function getOpponentFocusPosition():FlxPoint{
 
 		var followX = dad.getMidpoint().x + 150;
 		var followY = dad.getMidpoint().y - 100;
@@ -3530,17 +3544,23 @@ class PlayState extends MusicBeatState
 			case 'darnell':
 				followX += 270;
 		}
-
-		if (SONG.song.toLowerCase() == 'tutorial'){
-			camChangeZoom(1.3, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
-		}
-
-		camMove(followX, followY, 1.9, FlxEase.expoOut, "dad");
+		
+		return new FlxPoint(followX, followY);
 	}
 
-	public function camFocusBF(){
+	public function camFocusBF(?_time:Float = 1.9){
 
-		if(Config.extraCamMovement){ changeCamOffset(0, 0); }
+		var pos = getBfFocusPostion();
+		camMove(pos.x, pos.y, _time, FlxEase.expoOut, "bf");
+		changeCamOffset(0, 0);
+
+		if (SONG.song.toLowerCase() == 'tutorial'){
+			camChangeZoom(1, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
+		}
+
+	}
+
+	function getBfFocusPostion():FlxPoint{
 
 		var followX = boyfriend.getMidpoint().x - 100;
 		var followY = boyfriend.getMidpoint().y - 100;
@@ -3562,21 +3582,21 @@ class PlayState extends MusicBeatState
 				followX -= 390;
 		}
 
-		if (SONG.song.toLowerCase() == 'tutorial'){
-			camChangeZoom(1, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
-		}
-
-		camMove(followX, followY, 1.9, FlxEase.expoOut, "bf");
+		return new FlxPoint(followX, followY);
 	}
 
-	public function camFocusGF(){
+	public function camFocusGF(?_time:Float = 1.9){
 
-		if(Config.extraCamMovement){ changeCamOffset(0, 0); }
+		var pos = getGfFocusPosition();
+		camMove(pos.x, pos.y, _time, FlxEase.expoOut, "gf");
+		changeCamOffset(0, 0);
 
+	}
+
+	function getGfFocusPosition():FlxPoint{
 		var followX = gf.getMidpoint().x;
 		var followY = gf.getMidpoint().y;
-
-		camMove(followX, followY, 1.9, FlxEase.expoOut, "gf");
+		return new FlxPoint(followX, followY);
 	}
 
 	public function camMove(_x:Float, _y:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_focus:String = "", ?_onComplete:Null<TweenCallback> = null):Void{

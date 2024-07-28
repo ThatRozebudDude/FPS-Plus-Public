@@ -94,6 +94,34 @@ class AtlasSprite extends FlxAnimate
 		});
     }
 
+    public function addAnimationStartingAtLabel(name:String, label:String, length:Null<Int>, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
+        var labels = anim.getFrameLabels();
+        if(!labels.contains(label)){
+            trace("LABEL " + label + " NOT FOUND, ABORTING ANIM ADD");
+            return;
+        }
+
+        var frame = anim.getFrameLabel(label);
+
+        if(length == null){
+            length = anim.length;
+        }
+        if(looped && loopFrame == null){
+            loopFrame = 0;
+        }
+        else if(looped && loopFrame < 0){
+            loopFrame = length + loopFrame;
+        }
+
+		animInfoMap.set(name, {
+		    startFrame: frame.index,
+			length: length,
+			framerate: framerate,
+            looped: looped,
+            loopFrame: loopFrame
+		});
+    }
+
     public function addFullAnimation(name:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null) {
         if(looped && loopFrame == null){
             loopFrame = 0;
