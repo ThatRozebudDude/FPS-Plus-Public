@@ -83,6 +83,9 @@ class ResultsState extends FlxUIStateExt
 
     var prevHighscore:Int = 0;
 
+    var exiting:Bool = false;
+    var shownRank:Bool = false;
+
     public function new(_scoreStats:ScoreStats, ?_songNameText:String = "Fabs is on base game", ?_character:String = "bf", ?saveInfo:SaveInfo = null) {
         super();
 
@@ -399,7 +402,7 @@ class ResultsState extends FlxUIStateExt
 
     override function update(elapsed:Float) {
 
-        if(Binds.justPressed("menuAccept")){
+        if((Binds.justPressed("menuAccept") || Binds.justPressed("menuBack")) && !exiting && shownRank){
             returnToMenu();
         }
 
@@ -439,6 +442,8 @@ class ResultsState extends FlxUIStateExt
     }
 
     function finishedCounting():Void{
+        shownRank = true;
+
         scrollingTextGroup.visible = true;
         camBg.flash(0xFFFEDA6C, 1);
 
@@ -465,7 +470,7 @@ class ResultsState extends FlxUIStateExt
                 clearPercentText.velocity.y -= FlxG.random.int(310, 340);
                 clearPercentText.velocity.x = 100 * direction;
                 clearPercentText.angularVelocity = clearPercentText.velocity.x / 2;
-                FlxG.sound.play(Paths.sound("freeplay/pop"), 0.7);
+                if(!exiting){ FlxG.sound.play(Paths.sound("freeplay/pop"), 0.7); }
             }
         }});
 
@@ -473,18 +478,27 @@ class ResultsState extends FlxUIStateExt
     }
 
     public function returnToMenu():Void{
+        
+        exiting = true;
+
 		switch(PlayState.returnLocation){
 			case "story":
                 customTransOut = new StickerOut();
 				switchState(new StoryMenuState(true));
-                FlxG.sound.music.fadeOut(1, 0, function(t) {
+                FlxTween.tween(FlxG.sound.music, {pitch: 3}, 0.1, {onComplete: function(t){
+                    FlxTween.tween(FlxG.sound.music, {pitch: 0.5}, 0.65);
+                }});
+                FlxG.sound.music.fadeOut(0.8, 0, function(t){
                     FlxG.sound.music.stop();
                 });
 			case "freeplay":
                 customTransOut = new StickerOut();
 			    FreeplayState.playStickerIntro = true;
 				switchState(new FreeplayState(false));
-                FlxG.sound.music.fadeOut(1, 0, function(t) {
+                FlxTween.tween(FlxG.sound.music, {pitch: 3}, 0.1, {onComplete: function(t){
+                    FlxTween.tween(FlxG.sound.music, {pitch: 0.5}, 0.65);
+                }});
+                FlxG.sound.music.fadeOut(0.8, 0, function(t) {
                     FlxG.sound.music.stop();
                 });
 			default:
@@ -517,7 +531,7 @@ class ResultsState extends FlxUIStateExt
     function percentCallback(numString:String):Void{
         var value = Std.parseFloat(numString.replace("-", "0"));
         value = (value/100) + 1;
-        FlxG.sound.play(Paths.sound("scrollMenu"), 0.5).pitch = value;
+        if(!exiting){ FlxG.sound.play(Paths.sound("scrollMenu"), 0.5).pitch = value; }
     }
 
     inline function rankToRankText(value:Rank) {
