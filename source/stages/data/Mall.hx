@@ -69,6 +69,8 @@ class Mall extends BaseStage
 		dadStart.set(42, 882);
 		bfStart.set(1175.5, 866);
 		gfStart.set(808.5, 845);
+
+		bfCameraOffset.set(0, -100);
     }
 
 	public override function beat(curBeat:Int){

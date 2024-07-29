@@ -98,6 +98,8 @@ class Startup extends FlxState
 		Config.reload();
 
         Binds.init();
+
+        SaveManager.global();
         
         debug.ChartingState.loadLists();
 
@@ -108,7 +110,7 @@ class Startup extends FlxState
         FlxUIStateExt.defaultTransOut = ScreenWipeOut;
         FlxUIStateExt.defaultTransOutArgs = [0.6];
 
-        if (FlxG.save.data.weekUnlocked != null)
+        /*if (FlxG.save.data.weekUnlocked != null)
 		{
 
 			if (StoryMenuState.weekUnlocked.length < 4)
@@ -117,7 +119,7 @@ class Startup extends FlxState
 			// QUICK PATCH OOPS!
 			if (!StoryMenuState.weekUnlocked[0])
 				StoryMenuState.weekUnlocked[0] = true;
-		}
+		}*/
 
         if(!CacheConfig.check()) {
             openPreloadSettings();

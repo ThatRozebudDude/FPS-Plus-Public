@@ -12,7 +12,9 @@ class PicoBlazin extends CharacterInfoBase
         info.frameLoadType = atlas;
         
         info.iconName = "pico";
+        info.deathCharacter = "PicoBlazin";
         info.facesLeft = true;
+        info.deathOffset.set(-160, 250);
 
         addByLabel('idle', offset(), "Idle", 24, loop(true));
         addByLabel('punchHigh1', offset(), "Punch High 1", 24, loop(false));
@@ -31,9 +33,10 @@ class PicoBlazin extends CharacterInfoBase
         addByLabel('fakeHit', offset(), "Fake Hit", 24, loop(false));
         addByLabel('taunt', offset(), "Taunt", 24, loop(false));
         addByLabel('tauntLaughLoop', offset(), "Taunt Laugh Loop", 24, loop(true));
-        addByLabel('lowDeathIntro', offset(), "Low Death Intro", 24, loop(false));
-        addByLabel('lowDeathLoop', offset(), "Low Death Loop", 24, loop(false));
-        addByLabel('lowDeathConfirm', offset(), "Low Death Confirm", 24, loop(false));
+
+        addByLabel('firstDeath', offset(), "Low Death Intro", 24, loop(false));
+        addByLabel('deathLoop', offset(), "Low Death Loop", 24, loop(true));
+        addByLabel('deathConfirm', offset(), "Low Death Confirm", 24, loop(false));
         
         addExtraData("scale", 1.75);
 

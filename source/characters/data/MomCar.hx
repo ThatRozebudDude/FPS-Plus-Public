@@ -12,6 +12,7 @@ class MomCar extends CharacterInfoBase
         info.frameLoadType = sparrow;
         
         info.iconName = "mom";
+        info.focusOffset.set(150, 0);
 
 		addByPrefix('idle', offset(), "Mom Idle", 24, loop(true, -4));
 	    addByPrefix('singUP', offset(-1, 81), "Mom Up Pose", 24, loop(true, -4));

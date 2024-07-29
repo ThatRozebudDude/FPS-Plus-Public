@@ -13,6 +13,7 @@ class BfCar extends CharacterInfoBase
         
         info.iconName = "bf";
         info.facesLeft = true;
+        info.focusOffset.set(100, -100);
 
 		addByPrefix('idle', offset(), 'BF idle dance', 24, loop(true, -4));
         addByPrefix('singUP', offset(-42, 31), 'BF NOTE UP0', 24, loop(true, -4));

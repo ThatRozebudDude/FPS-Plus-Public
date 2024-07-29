@@ -26,6 +26,8 @@ class Spooky extends BaseStage
 		addToBackground(halloweenBG);
 
 		dadStart.set(346, 849);
+
+		bfCameraOffset.set(0, -40);
     }
 
 	public override function beat(curBeat:Int){

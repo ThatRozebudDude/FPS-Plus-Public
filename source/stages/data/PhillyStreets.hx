@@ -128,6 +128,8 @@ class PhillyStreets extends BaseStage
 		dadStart.set(900, 1110);
 		gfStart.set(1453, 900);
 
+		bfCameraOffset.set(-390, 0);
+
 		abot = new ABot(gfStart.x - 365, gfStart.y - 165);
 		abot.lookLeft();
 		addToBackground(abot);

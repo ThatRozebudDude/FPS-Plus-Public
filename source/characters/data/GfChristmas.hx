@@ -13,7 +13,7 @@ class GfChristmas extends CharacterInfoBase
         info.frameLoadType = sparrow;
         
         info.iconName = "gf";
-        info.hasLeftAndRightIdle = true;
+		info.focusOffset.set();
 
         addByIndices("danceLeft", offset(0, -9), "GF Dancing Beat", [30,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], "", 24, loop(false), false, false);
 		addByIndices("danceRight", offset(0, -9), "GF Dancing Beat", [15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], "", 24, loop(false), false, false);
@@ -27,6 +27,7 @@ class GfChristmas extends CharacterInfoBase
 		addByIndices("hairFall", offset(0, -9), "GF Dancing Beat Hair Landing", [0,1,2,3,4,5,6,7,8,9,10,11], "", 24, loop(false), false, false);
 		addByPrefix("scared", offset(0, -17), "GF FEAR", 24, loop(true), false, false);
 
+		info.idleSequence = ["danceLeft", "danceRight"];
     }
 
 }

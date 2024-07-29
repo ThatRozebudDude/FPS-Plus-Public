@@ -13,6 +13,7 @@ class Senpai extends CharacterInfoBase
         
         info.iconName = "senpai";
         info.antialiasing = false;
+        info.focusOffset.set(212, -20);
 
         addByPrefix('idle', offset(), 'Senpai Idle', 24, loop(false));
 		addByPrefix('singUP', offset(2, 6), 'SENPAI UP NOTE', 24, loop(false));

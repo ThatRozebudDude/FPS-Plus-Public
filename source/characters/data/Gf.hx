@@ -1,5 +1,7 @@
 package characters.data;
 
+using StringTools;
+
 @gfList(true)
 class Gf extends CharacterInfoBase
 {
@@ -13,7 +15,7 @@ class Gf extends CharacterInfoBase
         info.frameLoadType = sparrow;
         
         info.iconName = "gf";
-        info.hasLeftAndRightIdle = true;
+		info.focusOffset.set();
 
         addByIndices('danceLeft', offset(0, -9), 'GF Dancing Beat', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, loop(false));
 		addByIndices('danceRight', offset(0, -9), 'GF Dancing Beat', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, loop(false));
@@ -27,6 +29,36 @@ class Gf extends CharacterInfoBase
 		addByIndices('hairFall', offset(0, -9), "GF Dancing Beat Hair Landing", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], "", 24, loop(false));
 		addByPrefix('scared', offset(-2, -17), 'GF FEAR', 24);
 
+		info.idleSequence = ["danceLeft", "danceRight"];
+
+		info.functions.create = create;
+		info.functions.update = update;
+		info.functions.danceOverride = danceOverride;
+		info.functions.playAnim = playAnim;
     }
+
+	function create(character:Character):Void{
+		if(!character.isGirlfriend){
+			character.focusOffset.set(150 * (character.isPlayer ? -1 : 1), -100);
+		}
+	}
+
+	function update(character:Character, elpased:Float):Void{
+		if (character.curAnim == 'hairFall' && character.curAnimFinished()){
+			character.playAnim('danceRight');
+		}
+	}
+
+	function danceOverride(character:Character):Void{
+		if (!character.curAnim.startsWith('hair')){
+			character.defaultDanceBehavior();
+		}
+	}
+
+	function playAnim(character:Character, anim:String):Void{
+		if (anim == 'singLEFT') { character.idleSequenceIndex = 1; }
+		else if (anim == 'singRIGHT') { character.idleSequenceIndex = 0; }
+		//if (anim == 'singUP' || anim == 'singDOWN') { character.idleSequenceIndex++; }
+	}
 
 }

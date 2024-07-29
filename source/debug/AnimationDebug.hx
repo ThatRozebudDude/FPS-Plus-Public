@@ -66,7 +66,7 @@ class AnimationDebug extends FlxState
 		gridBG.screenCenter(XY);
 		add(gridBG);
 
-		dad = new Character(0, 0, daAnim, false, true);
+		dad = new Character(0, 0, daAnim, false, false, true);
 		dad.screenCenter();
 
 		var characterClass = Type.resolveClass("characters.data." + dad.charClass);
@@ -80,7 +80,7 @@ class AnimationDebug extends FlxState
 			}
 		}
 
-		dadBG = new Character(0, 0, daAnim, false, true);
+		dadBG = new Character(0, 0, daAnim, false, false, true);
 		dadBG.screenCenter();
 		dadBG.alpha = 0.5;
 		dadBG.color = 0xFF000000;

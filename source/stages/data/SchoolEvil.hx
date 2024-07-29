@@ -32,5 +32,7 @@ class SchoolEvil extends BaseStage
 		dadStart.set(230, 924);
 		bfStart.set(1006.5, 925.5);
 		gfStart.set(640, 801);
+
+		bfCameraOffset.set(32, -17);
     }
 }

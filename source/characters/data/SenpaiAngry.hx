@@ -13,6 +13,7 @@ class SenpaiAngry extends CharacterInfoBase
         
         info.iconName = "senpai-angry";
         info.antialiasing = false;
+        info.focusOffset.set(212, -20);
 
         addByPrefix('idle', offset(), 'Angry Senpai Idle', 24, loop(false));
 		addByPrefix('singUP', offset(1, 6), 'Angry Senpai UP NOTE', 24, loop(false));

@@ -1,6 +1,7 @@
 package characters;
 
 import flixel.util.FlxColor;
+import flixel.math.FlxPoint;
 
 enum AnimType {
     prefix;
@@ -40,6 +41,20 @@ typedef LoopData = {
 	var loopPoint:Int;
 }
 
+typedef CharacterFunctions = {
+	var create:(Character)->Void;               //This function is run after the Character new() function is complete.
+	var update:(Character, Float)->Void;        //This function is run every frame. Float is elapsed.
+	var dance:(Character)->Void;                //This function is run after default dance behavior.
+	var danceOverride:(Character)->Void;        //This function replaces the default dance behavior.
+	var beat:(Character, Int)->Void;            //This function is run every beat. Int is curBeat. Called after dance().
+	var step:(Character, Int)->Void;            //This function is run every step. Int is curStep. Called before dance().
+	var playAnim:(Character, String)->Void;     //This function is run after the Character playAnim() function is complete. String is the name of the animation given to playAnim().
+	var idleEnd:(Character)->Void;              //This function is run after default idleEnd behavior.
+	var idleEndOverride:(Character)->Void;      //This function replaces the default idleEnd behavior.
+	var frame:(Character, String, Int)->Void;   //This function is run every animation frame. String is the current animation. Int is the current frame.
+	var animationEnd:(Character, String)->Void; //This function is run when an animation is finished. String is the finished animation.
+}
+
 typedef CharacterInfo = {
 	var name:String;
     var spritePath:String;
@@ -48,10 +63,13 @@ typedef CharacterInfo = {
     var deathCharacter:String;
     var healthColor:Null<FlxColor>;
     var facesLeft:Bool;
-    var hasLeftAndRightIdle:Bool;
     var antialiasing:Bool;
     var anims:Array<AnimInfo>;
+    var idleSequence:Array<String>;
+    var focusOffset:FlxPoint;
+    var deathOffset:FlxPoint;
     var animChains:Map<String, String>;
+    var functions:CharacterFunctions;
     var extraData:Map<String, Dynamic>;
 }
 
@@ -80,10 +98,25 @@ class CharacterInfoBase
             deathCharacter: "Bf",
             healthColor: null,
             facesLeft: false,
-            hasLeftAndRightIdle: false,
             antialiasing: true,
             anims: [],
+            idleSequence: ["idle"],
+            focusOffset: new FlxPoint(150, -100),
+            deathOffset: new FlxPoint(),
             animChains: null,
+            functions: {
+                create: null,
+                update: null,
+                dance: null,
+                danceOverride: null,
+                beat: null,
+                step: null,
+                playAnim: null,
+                idleEnd: null,
+                idleEndOverride: null,
+                frame: null,
+                animationEnd: null,
+            },
             extraData: null
         };
     }

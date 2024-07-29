@@ -70,6 +70,8 @@ class Limo extends BaseStage
 		dadStart.set(341, 914);
 		bfStart.set(1235.5, 604);
 		gfStart.set(787, 779);
+
+		bfCameraOffset.set(-200, 0);
     }
 
 	public override function beat(curBeat:Float){

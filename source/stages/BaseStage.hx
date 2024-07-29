@@ -21,6 +21,9 @@ class BaseStage
     public var extraCameraMovementAmount:Null<Float> = null; //Leave null for PlayState default.
     public var cameraStartPosition:FlxPoint; //Leave null for PlayState default.
     public var globalCameraOffset:FlxPoint = new FlxPoint();
+    public var bfCameraOffset:FlxPoint = new FlxPoint();
+    public var dadCameraOffset:FlxPoint = new FlxPoint();
+    public var gfCameraOffset:FlxPoint = new FlxPoint();
     public var extraData:Map<String, Dynamic> = new Map<String, Dynamic>();
     public var events:Map<String, Void->Void> = new Map<String, Void->Void>();
 

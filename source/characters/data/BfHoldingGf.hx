@@ -14,6 +14,7 @@ class BfHoldingGf extends CharacterInfoBase
         info.iconName = "bf";
         info.facesLeft = true;
         info.deathCharacter = "BfHoldingGfDead";
+        info.focusOffset.set(100, -100);
 
         addByPrefix('idle', offset(), 'BF idle dance', 24, loop(false));
 	    addByPrefix('singDOWN', offset(-10, -10), 'BF NOTE DOWN0', 24, loop(false));

@@ -15,6 +15,7 @@ class BfPixel extends CharacterInfoBase
         info.facesLeft = true;
 		info.deathCharacter = "BfPixelDead";
 		info.antialiasing = false;
+		info.focusOffset.set(100, -100);
 
 		addByPrefix('idle', offset(), 'BF IDLE', 24, loop(false));
 		addByPrefix('singUP', offset(-1), 'BF UP NOTE', 24, loop(false));

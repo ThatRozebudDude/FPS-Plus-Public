@@ -27,6 +27,7 @@ class Character extends FlxSpriteGroup
 	public var debugMode:Bool = false;
 
 	public var isPlayer:Bool = false;
+	public var isGirlfriend:Bool = false;
 	public var curCharacter:String = "bf";
 	public var charClass:String = "Bf";
 
@@ -44,7 +45,12 @@ class Character extends FlxSpriteGroup
 	public var curAnim:String = "";
 
 	var facesLeft:Bool = false;
-	var hasLeftAndRightIdle:Bool = false;
+
+	public var idleSequence:Array<String> = ["idle"];
+	public var idleSequenceIndex:Int = 0;
+
+	public var focusOffset:FlxPoint;
+	public var deathOffset:FlxPoint;
 
 	var character:FlxSprite;
 	var atlasCharacter:AtlasSprite;
@@ -52,7 +58,7 @@ class Character extends FlxSpriteGroup
 
 	var curOffset = new FlxPoint();
 
-	public function new(x:Float, y:Float, ?_character:String = "Bf", ?_isPlayer:Bool = false, ?_enableDebug:Bool = false){
+	public function new(x:Float, y:Float, ?_character:String = "Bf", ?_isPlayer:Bool = false, ?_isGirlfriend:Bool = false, ?_enableDebug:Bool = false){
 
 		debugMode = _enableDebug;
 		animOffsets = new Map<String, Array<Dynamic>>();
@@ -62,6 +68,7 @@ class Character extends FlxSpriteGroup
 		super(x, y);
 
 		isPlayer = _isPlayer;
+		isGirlfriend = _isGirlfriend;
 
 		antialiasing = true;
 
@@ -138,10 +145,12 @@ class Character extends FlxSpriteGroup
 			atlasCharacter.frameCallback = frameUpdate;
 		}
 
-		
-
 		if(characterColor == null){
 			characterColor = (isPlayer) ? 0xFF66FF33 : 0xFFFF0000;
+		}
+
+		if(characterInfo.info.functions.create != null){
+			characterInfo.info.functions.create(this);
 		}
 
 	}
@@ -150,6 +159,7 @@ class Character extends FlxSpriteGroup
 		
 		if (!debugMode){
 			if (!isPlayer){
+				//opponent stuff
 				if (curAnim.startsWith('sing')){
 					holdTimer += elapsed;
 				}
@@ -166,6 +176,7 @@ class Character extends FlxSpriteGroup
 				}
 			}
 			else{
+				//player stuff
 				if (curAnim.startsWith('sing')){
 					holdTimer += elapsed;
 				}
@@ -183,30 +194,9 @@ class Character extends FlxSpriteGroup
 					}
 				}
 			}
-	
-			switch (curCharacter)
-			{
-				case 'gf':
-					if (curAnim == 'hairFall' && curAnimFinished())
-						playAnim('danceRight');
-	
-				case "pico-speaker":
-					// for pico??
-					if (TankmenBG.animationNotes.length > 0){
-						if (Conductor.songPosition > TankmenBG.animationNotes[0][0]){
-							//trace('played shoot anim' + TankmenBG.animationNotes[0][1]);
-	
-							var shootAnim:Int = 1;
-	
-							if (TankmenBG.animationNotes[0][1] >= 2)
-								shootAnim = 3;
-	
-							shootAnim += FlxG.random.int(0, 1);
-	
-							playAnim('shoot' + shootAnim, true);
-							TankmenBG.animationNotes.shift();
-						}
-					}
+
+			if(characterInfo.info.functions.update != null){
+				characterInfo.info.functions.update(this, elapsed);
 			}
 		}
 
@@ -214,13 +204,7 @@ class Character extends FlxSpriteGroup
 
 	}
 
-	private var danced:Bool = false;
-
-	/**
-	 * FOR GF DANCING SHIT
-	 */
-	public function dance(?ignoreDebug:Bool = false)
-	{
+	public function dance(?ignoreDebug:Bool = false):Void{
 		if (!debugMode || ignoreDebug)
 		{
 
@@ -229,56 +213,58 @@ class Character extends FlxSpriteGroup
 				return;
 			}
 
-			switch (curCharacter)
-			{
-				case 'gf':
-					if (!curAnim.startsWith('hair'))
-					{
-						danced = !danced;
+			if(characterInfo.info.functions.danceOverride != null){
+				characterInfo.info.functions.danceOverride(this);
+			}
+			else{
+				defaultDanceBehavior();
+			}
 
-						if (danced)
-							playAnim('danceRight', true);
-						else
-							playAnim('danceLeft', true);
-					}
+			if(characterInfo.info.functions.dance != null){
+				characterInfo.info.functions.dance(this);
+			}
 
-				case "pico-speaker":
-					playAnim('shoot1');
+		}
+	}
 
-				default:
-					if(hasLeftAndRightIdle){
-						danced = !danced;
+	public function defaultDanceBehavior():Void{
+		if(idleSequence.length > 0){
+			idleSequenceIndex = idleSequenceIndex % idleSequence.length;
+			playAnim(idleSequence[idleSequenceIndex], true);
+			idleSequenceIndex++;
+		}
+	}
 
-						if (danced)
-							playAnim('danceRight', true);
-						else
-							playAnim('danceLeft', true);
-					}
-					else{
-						playAnim('idle', true);
-					}
-					
+	public function idleEnd(?ignoreDebug:Bool = false):Void{
+		if (!debugMode || ignoreDebug){
+			if(characterInfo.info.functions.idleEndOverride != null){
+				characterInfo.info.functions.idleEndOverride(this);
+			}
+			else{
+				defaultIdleEndBehavior();
+			}
+
+			if(characterInfo.info.functions.idleEnd != null){
+				characterInfo.info.functions.idleEnd(this);
 			}
 		}
 	}
 
-	public function idleEnd(?ignoreDebug:Bool = false)
-	{
-		if (!debugMode || ignoreDebug)
-		{
-			switch (curCharacter)
-			{
-				case "pico-speaker":
-					playAnim(curAnim, true, false, getAnimLength(curAnim) - 1);
-				default:
-					if(hasLeftAndRightIdle){
-						playAnim('danceRight', true, false, getAnimLength("danceRight") - 1);
-					}
-					else{
-						playAnim('idle', true, false, getAnimLength("idle") - 1);
-					}
-					
-			}
+	public function defaultIdleEndBehavior():Void{
+		if(idleSequence.length > 0){
+			playAnim(idleSequence[idleSequence.length-1], true, false, getAnimLength(idleSequence[idleSequence.length-1]) - 1);
+		}
+	}
+
+	public function beat(curBeat:Int):Void{
+		if(characterInfo.info.functions.beat != null){
+			characterInfo.info.functions.beat(this, curBeat);
+		}
+	}
+
+	public function step(curStep:Int):Void{
+		if(characterInfo.info.functions.step != null){
+			characterInfo.info.functions.step(this, curStep);
 		}
 	}
 
@@ -304,11 +290,8 @@ class Character extends FlxSpriteGroup
 		curAnim = AnimName;
 		changeOffsets();
 
-		if (curCharacter == 'gf') {
-			if (AnimName == 'singLEFT') { danced = true; }
-			else if (AnimName == 'singRIGHT') { danced = false; }
-
-			if (AnimName == 'singUP' || AnimName == 'singDOWN') { danced = !danced; }
+		if(characterInfo.info.functions.playAnim != null){
+			characterInfo.info.functions.playAnim(this, AnimName);
 		}
 
 	}
@@ -361,15 +344,27 @@ class Character extends FlxSpriteGroup
 		}
 		//Not needed for atlas since this is built in to the AtlasSprite functionality.
 
-		//Checks for and plays a chained animation.
-		if(!debugMode && characterInfo.info.animChains.exists(name)){
-			playAnim(characterInfo.info.animChains.get(name));
+		if(!debugMode){
+			//Checks for and plays a chained animation.
+			if(characterInfo.info.animChains.exists(name)){
+				playAnim(characterInfo.info.animChains.get(name));
+			}
+
+			if(characterInfo.info.functions.animationEnd != null){
+				characterInfo.info.functions.animationEnd(this, name);
+			}
 		}
 		
 	}
 
 	function frameUpdate(name:String, frameNumber:Int, frameIndex:Int){
 		changeOffsets();
+
+		if(!debugMode){
+			if(characterInfo.info.functions.frame != null){
+				characterInfo.info.functions.frame(this, name, frameNumber);
+			}
+		}
 	}
 
 	function createCharacterFromInfo(name:String):Void{
@@ -383,7 +378,11 @@ class Character extends FlxSpriteGroup
 		deathCharacter = characterInfo.info.deathCharacter;
 		characterColor = characterInfo.info.healthColor;
 		facesLeft = characterInfo.info.facesLeft;
-		hasLeftAndRightIdle = characterInfo.info.hasLeftAndRightIdle;
+		idleSequence = characterInfo.info.idleSequence;
+		focusOffset = characterInfo.info.focusOffset;
+		deathOffset = characterInfo.info.deathOffset;
+
+		if(isPlayer){ focusOffset.x *= -1; }
 
 		if(characterInfo.info.animChains == null){ characterInfo.info.animChains = new Map<String, String>(); }
 
@@ -434,7 +433,6 @@ class Character extends FlxSpriteGroup
 
 		if(characterInfo.info.anims.length > 0){
 			playAnim(characterInfo.info.anims[0].name);
-			danced = true;
 			dance();
 		}
 

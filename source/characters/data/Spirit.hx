@@ -13,6 +13,7 @@ class Spirit extends CharacterInfoBase
         
         info.iconName = "spirit";
         info.antialiasing = false;
+        info.focusOffset.set(254, 44);
 
         addByPrefix("idle", offset(0, 0), "idle spirit_", 24, loop(false, 0), false, false);
         addByPrefix("singUP", offset(0, 7), "up_", 24, loop(false, 0), false, false);

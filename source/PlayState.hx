@@ -167,11 +167,11 @@ class PlayState extends MusicBeatState
 
 	private var curSong:String = "";
 
-	private var health:Float = 1;
+	public var health:Float = 1;
 	private var healthLerp:Float = 1;
 
-	private var combo:Int = 0;
-	private var totalPlayed:Int = 0;
+	public var combo:Int = 0;
+	public var totalPlayed:Int = 0;
 
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
@@ -200,7 +200,7 @@ class PlayState extends MusicBeatState
 
 	var ccText:SongCaptions;
 
-	var songStats:ScoreStats = {
+	public var songStats:ScoreStats = {
 		score: 0,
 		highestCombo: 0,
 		accuracy: 0.0,
@@ -338,7 +338,7 @@ class PlayState extends MusicBeatState
 			gfCheck = SONG.gf;
 		}
 
-		gf = new Character(400, 130, gfCheck);
+		gf = new Character(400, 130, gfCheck, false, true);
 		gf.scrollFactor.set(0.95, 0.95);
 
 		var dadChar = SONG.player2;
@@ -2363,7 +2363,7 @@ class PlayState extends MusicBeatState
 			songStats.score -= scoreAdjust;
 			
 			if(playAudio){
-				FlxG.sound.play(Paths.sound('missnote' + FlxG.random.int(1, 3)), FlxG.random.float(0.1, 0.2));
+				FlxG.sound.play(Paths.sound('missnote' + FlxG.random.int(1, 3)), 0.175);
 			}
 
 			setBoyfriendInvuln(invulnTime / 60);
@@ -2508,6 +2508,9 @@ class PlayState extends MusicBeatState
 			curSection++;
 		}
 
+		boyfriend.step(curStep);
+		dad.step(curStep);
+		gf.step(curStep);
 		stage.step(curStep);
 
 		super.stepHit();
@@ -2557,6 +2560,9 @@ class PlayState extends MusicBeatState
 			boyfriend.dance();
 		}
 
+		boyfriend.beat(curBeat);
+		dad.beat(curBeat);
+		gf.beat(curBeat);
 		stage.beat(curBeat);
 		
 	}
@@ -3519,33 +3525,8 @@ class PlayState extends MusicBeatState
 
 	}
 
-	function getOpponentFocusPosition():FlxPoint{
-
-		var followX = dad.getMidpoint().x + 150;
-		var followY = dad.getMidpoint().y - 100;
-		// camFollow.setPosition(lucky.getMidpoint().x - 120, lucky.getMidpoint().y + 210);
-
-		switch (dad.curCharacter){
-			case "spooky":
-				followY = dad.getMidpoint().y - 45;
-			case "pico":
-				followX += 162;
-			case "mom" | "mom-car":
-				followY = dad.getMidpoint().y;
-			case 'senpai':
-				followY = dad.getMidpoint().y - 20;
-				followX = dad.getMidpoint().x + 212;
-			case 'senpai-angry':
-				followY = dad.getMidpoint().y - 20;
-				followX = dad.getMidpoint().x + 212;
-			case 'spirit':
-				followX = dad.getMidpoint().x + 254;
-				followY = dad.getMidpoint().y + 44;
-			case 'darnell':
-				followX += 270;
-		}
-		
-		return new FlxPoint(followX, followY);
+	inline function getOpponentFocusPosition():FlxPoint{
+		return new FlxPoint(dad.getMidpoint().x + dad.focusOffset.x + stage.dadCameraOffset.x, dad.getMidpoint().y + dad.focusOffset.y + stage.dadCameraOffset.y);
 	}
 
 	public function camFocusBF(?_time:Float = 1.9){
@@ -3560,29 +3541,8 @@ class PlayState extends MusicBeatState
 
 	}
 
-	function getBfFocusPostion():FlxPoint{
-
-		var followX = boyfriend.getMidpoint().x - 100;
-		var followY = boyfriend.getMidpoint().y - 100;
-
-		switch (stage.name){
-			case 'spooky':
-				followY = boyfriend.getMidpoint().y - 140;
-			case 'limo':
-				followX = boyfriend.getMidpoint().x - 300;
-			case 'mall':
-				followY = boyfriend.getMidpoint().y - 200;
-			case 'school':
-				followX = boyfriend.getMidpoint().x - 68;
-				followY = boyfriend.getMidpoint().y - 92;
-			case 'schoolEvil':
-				followX = boyfriend.getMidpoint().x - 68;
-				followY = boyfriend.getMidpoint().y - 117;
-			case 'phillyStreets':
-				followX -= 390;
-		}
-
-		return new FlxPoint(followX, followY);
+	inline function getBfFocusPostion():FlxPoint{
+		return new FlxPoint(boyfriend.getMidpoint().x + boyfriend.focusOffset.x + stage.bfCameraOffset.x, boyfriend.getMidpoint().y + boyfriend.focusOffset.y + stage.bfCameraOffset.y);
 	}
 
 	public function camFocusGF(?_time:Float = 1.9){
@@ -3593,10 +3553,8 @@ class PlayState extends MusicBeatState
 
 	}
 
-	function getGfFocusPosition():FlxPoint{
-		var followX = gf.getMidpoint().x;
-		var followY = gf.getMidpoint().y;
-		return new FlxPoint(followX, followY);
+	inline function getGfFocusPosition():FlxPoint{
+		return new FlxPoint(gf.getMidpoint().x + gf.focusOffset.x + stage.gfCameraOffset.x, gf.getMidpoint().y + gf.focusOffset.y + stage.gfCameraOffset.y);
 	}
 
 	public function camMove(_x:Float, _y:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_focus:String = "", ?_onComplete:Null<TweenCallback> = null):Void{

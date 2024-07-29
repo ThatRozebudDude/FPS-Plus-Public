@@ -12,6 +12,7 @@ class Darnell extends CharacterInfoBase
         info.frameLoadType = sparrow;
         
         info.iconName = "darnell";
+		info.focusOffset.set(420, -100);
 
         addByIndices('idle', offset(), 'Idle', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], "", 24, loop(false));
 	    addByPrefix('singUP', offset(8, 5), "Pose Up", 24, loop(true, -8));
