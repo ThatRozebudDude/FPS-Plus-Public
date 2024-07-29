@@ -116,11 +116,11 @@ class PlayState extends MusicBeatState
 
 	var gfCheck:String;
 
-	var backgroundLayer:FlxGroup = new FlxGroup();
-	var gfLayer:FlxGroup = new FlxGroup();
-	var middleLayer:FlxGroup = new FlxGroup();
-	var characterLayer:FlxGroup = new FlxGroup();
-	var foregroundLayer:FlxGroup = new FlxGroup();
+	public var backgroundLayer:FlxGroup = new FlxGroup();
+	public var gfLayer:FlxGroup = new FlxGroup();
+	public var middleLayer:FlxGroup = new FlxGroup();
+	public var characterLayer:FlxGroup = new FlxGroup();
+	public var foregroundLayer:FlxGroup = new FlxGroup();
 
 	//Wacky input stuff=========================
 
@@ -1162,6 +1162,8 @@ class PlayState extends MusicBeatState
 			if(vocalType == splitVocalTrack){ vocalsOther.time = sectionStartTime; }
 			curSection = sectionStartPoint;
 		}
+
+		stage.songStart();
 
 		/*
 		new FlxTimer().start(0.5, function(tmr:FlxTimer)

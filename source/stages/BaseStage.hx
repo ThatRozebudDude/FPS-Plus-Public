@@ -144,6 +144,11 @@ class BaseStage
 	 */
     public function step(curStep:Int){}
 
+    /**
+	 * Called once the song starts.
+	 */
+     public function songStart(){}
+
     inline function boyfriend()     { return PlayState.instance.boyfriend; }
     inline function gf()            { return PlayState.instance.gf; }
     inline function dad()           { return PlayState.instance.dad; }

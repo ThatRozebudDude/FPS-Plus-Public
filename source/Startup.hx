@@ -26,7 +26,7 @@ class Startup extends FlxState
 {
 
     var nextState:FlxState = new TitleVideo();
-    //var nextState:FlxState = new debug.ABotDebug();
+    //var nextState:FlxState = new debug.CutsceneDebug();
 
     var splash:FlxSprite;
     var loadingBar:FlxBar;
@@ -44,6 +44,7 @@ class Startup extends FlxState
                                 "Cocoa", "Eggnog", "Winter-Horrorland", 
                                 "Senpai", "Roses", "Thorns",
                                 "Ugh", "Guns", "Stress",
+                                "Darnell", "Lit-Up", "2hot", "Blazin",
                                 "Lil-Buddies",
                                 "klaskiiLoop", "freeplayRandom"]; //Start of the non-gameplay songs.
                                 

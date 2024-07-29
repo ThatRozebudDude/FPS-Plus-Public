@@ -22,8 +22,6 @@ class PhillyStreets extends BaseStage
 
 	var abot:ABot;
 	var abotLookDir:Bool = false;
-	var allowAbotInit:Bool = false;
-	var abotInit:Bool = false;
 
     public override function init(){
         name = "phillyStreets";
@@ -170,24 +168,15 @@ class PhillyStreets extends BaseStage
 			abotLookDir = !abotLookDir;
 			abot.lookRight();
 		}
+	}
 
-		if(FlxG.sound.music != null && FlxG.sound.music.playing && allowAbotInit && !abotInit){
-			abot.setAudioSource(FlxG.sound.music);
-			abot.startVisualizer();
-			abotInit = true;
-		}
+	override function songStart() {
+		abot.setAudioSource(FlxG.sound.music);
+		abot.startVisualizer();
+		tween().tween(rainShader, {uIntensity: rainInensityEnd}, FlxG.sound.music.length/1000);
 	}
 
 	override function beat(curBeat:Int) {
-		if(curBeat == 0){
-			new FlxTimer().start(1/24, function(t) {
-				allowAbotInit = true;
-
-				//tween rain intensity
-				tween().tween(rainShader, {uIntensity: rainInensityEnd}, FlxG.sound.music.length/1000);
-			});
-		}
-
 		abot.bop();
 	}
 

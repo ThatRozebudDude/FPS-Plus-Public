@@ -22,8 +22,6 @@ class PhillyBlazin extends BaseStage
 	var lightning:FlxSprite;
 
 	var abot:ABot;
-	var allowAbotInit:Bool = false;
-	var abotInit:Bool = false;
 
 	var lightningTimer:Float = 3;
 	var lightningActive:Bool = true;
@@ -134,21 +132,14 @@ class PhillyBlazin extends BaseStage
 			lightningStrike();
 			lightningTimer = FlxG.random.float(7, 15);
 		}
+	}
 
-		if(FlxG.sound.music != null && FlxG.sound.music.playing && allowAbotInit && !abotInit){
-			abot.setAudioSource(FlxG.sound.music);
-			abot.startVisualizer();
-			abotInit = true;
-		}
+	override function songStart() {
+		abot.setAudioSource(FlxG.sound.music);
+		abot.startVisualizer();
 	}
 
 	override function beat(curBeat:Int) {
-		if(curBeat == 0){
-			new FlxTimer().start(1/24, function(t) {
-				allowAbotInit = true;
-			});
-		}
-
 		abot.bop();
 	}
 
