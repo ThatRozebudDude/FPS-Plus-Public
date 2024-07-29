@@ -53,6 +53,7 @@ typedef CharacterFunctions = {
 	var idleEndOverride:(Character)->Void;      //This function replaces the default idleEnd behavior.
 	var frame:(Character, String, Int)->Void;   //This function is run every animation frame. String is the current animation. Int is the current frame.
 	var animationEnd:(Character, String)->Void; //This function is run when an animation is finished. String is the finished animation.
+	var add:(Character)->Void;                  //This function is run when the character is added to the state.
 }
 
 typedef CharacterInfo = {
@@ -116,6 +117,7 @@ class CharacterInfoBase
                 idleEndOverride: null,
                 frame: null,
                 animationEnd: null,
+                add: null,
             },
             extraData: null
         };

@@ -7,7 +7,7 @@ class PicoBlazin extends CharacterInfoBase
 
         super();
 
-        info.name = "picoBlazin";
+        info.name = "pico-blazin";
         info.spritePath = "weekend1/picoBlazin";
         info.frameLoadType = atlas;
         
@@ -42,6 +42,8 @@ class PicoBlazin extends CharacterInfoBase
 
         addAnimChain("uppercutPunch", "uppercutPunchLoop");
         addAnimChain("taunt", "tauntLaughLoop");
+
+        addExtraData("deathDelay", 0.125);
     }
 
 }

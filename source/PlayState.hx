@@ -1674,21 +1674,7 @@ class PlayState extends MusicBeatState
 			health = 0;
 		}
 
-		if (health <= 0) {
-
-			persistentDraw = false;
-			paused = true;
-
-			vocals.stop();
-			if(vocalType == splitVocalTrack){ vocalsOther.stop(); }
-			FlxG.sound.music.stop();
-
-			camGame.filters = [];
-
-			openSubState(new GameOverSubstate(boyfriend.getSprite().getScreenPosition().x, boyfriend.getSprite().getScreenPosition().y, camFollowFinal.getScreenPosition().x, camFollowFinal.getScreenPosition().y, boyfriend.deathCharacter));
-			sectionStart = false;
-
-		}
+		if (health <= 0){ openGameOver(); }
 
 		if (unspawnNotes[0] != null)
 		{
@@ -1728,7 +1714,24 @@ class PlayState extends MusicBeatState
 				releaseTimes[i] = -1;
 			}
 		}
+	}
 
+	function openGameOver(?character:String):Void{
+		if(character == null){
+			character = boyfriend.deathCharacter;
+		}
+
+		persistentDraw = false;
+		paused = true;
+
+		vocals.stop();
+		if(vocalType == splitVocalTrack){ vocalsOther.stop(); }
+		FlxG.sound.music.stop();
+
+		camGame.filters = [];
+
+		openSubState(new GameOverSubstate(boyfriend.getSprite().getScreenPosition().x, boyfriend.getSprite().getScreenPosition().y, camFollowFinal.getScreenPosition().x, camFollowFinal.getScreenPosition().y, character));
+		sectionStart = false;
 	}
 
 	function updateNote(){
@@ -2347,8 +2350,8 @@ class PlayState extends MusicBeatState
 			scoreAdjust = Scoring.MISS_PENALTY;
 		}
 
-		if (!startingSong && (!invuln || skipInvCheck) )
-		{
+		if (!startingSong && (!invuln || skipInvCheck) ){
+
 			health -= healthLoss * Config.healthDrainMultiplier;
 
 			if(dropCombo){
@@ -3121,6 +3124,9 @@ class PlayState extends MusicBeatState
 						FlxG.sound.play(Paths.sound("weekend1/Pico_Bonk"));
 						executeEvent("phillyStreets-canHit");
 						health -= 0.5;
+						if(health <= 0){
+							openGameOver("PicoDeadExplode");
+						}
 					}
 				case "weekend-1-cockgun":
 					note.missCallback = function(direction:Int, character:Character){

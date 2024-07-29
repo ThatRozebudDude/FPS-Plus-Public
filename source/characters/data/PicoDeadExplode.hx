@@ -1,0 +1,28 @@
+package characters.data;
+
+import flixel.FlxG;
+
+@charList(false)
+class PicoDeadExplode extends CharacterInfoBase
+{
+
+    override public function new(){
+
+        super();
+
+        info.name = "pico-dead-explode";
+        info.spritePath = "weekend1/picoExplosionDeath";
+        info.frameLoadType = atlas;
+        
+        info.iconName = "pico";
+        info.facesLeft = true;
+        info.deathOffset.set(-1114, -864);
+
+		addByLabel('firstDeath', offset(665, 350), "intro", 24, loop(false));
+		addByLabel('deathLoop', offset(665, 350), "Loop Start", 24, loop(true));
+		addByLabel('deathConfirm', offset(665, 350), "Confirm", 24, loop(false));
+
+        addExtraData("deathDelay", 0.125);
+    }
+
+}

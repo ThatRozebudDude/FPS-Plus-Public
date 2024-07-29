@@ -215,12 +215,15 @@ class ResultsState extends FlxUIStateExt
 
         //COUNTER STUFF AAAHHHHHHHH!!!!!
 
+        
+
         totalNoteCounter = new DigitDisplay(374, 152, "menu/results/tallieNumber", -1, 1, 10);
         totalNoteCounter.ease = FlxEase.quartOut;
         totalNoteCounter.visible = false;
         new FlxTimer().start((0.3 * 0) + 1.2, function(t){
             totalNoteCounter.visible = true;
             totalNoteCounter.tweenNumber(totalNotes, 0.5);
+            playCounterSoundTickUp();
         });
 
         maxComboCounter = new DigitDisplay(374, 202, "menu/results/tallieNumber", -1, 1, 10);
@@ -229,6 +232,7 @@ class ResultsState extends FlxUIStateExt
         new FlxTimer().start((0.3 * 1) + 1.2, function(t){
             maxComboCounter.visible = true;
             maxComboCounter.tweenNumber(scoreStats.highestCombo, 0.5);
+            playCounterSoundTickUp();
         });
 
         sickCounter = new DigitDisplay(229, 278, "menu/results/tallieNumber", -1, 1, 10);
@@ -238,6 +242,7 @@ class ResultsState extends FlxUIStateExt
         new FlxTimer().start((0.3 * 2) + 1.2, function(t){
             sickCounter.visible = true;
             sickCounter.tweenNumber(scoreStats.sickCount, 0.5);
+            playCounterSoundTickUp();
         });
 
         goodCounter = new DigitDisplay(208, 332, "menu/results/tallieNumber", -1, 1, 10);
@@ -247,6 +252,7 @@ class ResultsState extends FlxUIStateExt
         new FlxTimer().start((0.3 * 3) + 1.2, function(t){
             goodCounter.visible = true;
             goodCounter.tweenNumber(scoreStats.goodCount, 0.5);
+            playCounterSoundTickUp();
         });
 
         badCounter = new DigitDisplay(189, 383, "menu/results/tallieNumber", -1, 1, 10);
@@ -256,6 +262,7 @@ class ResultsState extends FlxUIStateExt
         new FlxTimer().start((0.3 * 4) + 1.2, function(t){
             badCounter.visible = true;
             badCounter.tweenNumber(scoreStats.badCount, 0.5);
+            playCounterSoundTickUp();
         });
 
         shitCounter = new DigitDisplay(219, 438, "menu/results/tallieNumber", -1, 1, 10);
@@ -265,6 +272,7 @@ class ResultsState extends FlxUIStateExt
         new FlxTimer().start((0.3 * 5) + 1.2, function(t){
             shitCounter.visible = true;
             shitCounter.tweenNumber(scoreStats.shitCount, 0.5);
+            playCounterSoundTickUp();
         });
 
         missCounter = new DigitDisplay(259, 492, "menu/results/tallieNumber", -1, 1, 10);
@@ -274,6 +282,7 @@ class ResultsState extends FlxUIStateExt
         new FlxTimer().start((0.3 * 6) + 1.2, function(t){
             missCounter.visible = true;
             missCounter.tweenNumber(scoreStats.missCount, 0.5);
+            playCounterSoundTickUp();
         });
 
         clearPercentCounter = new DigitDisplay(838 - 80, 349, "menu/results/clearPercentNumbers", 3, 1, 0, 0, true, false);
@@ -526,6 +535,12 @@ class ResultsState extends FlxUIStateExt
                         FlxG.sound.playMusic(Paths.music("results/normal"), 1, true); 
                 }
         }
+    }
+
+    var counterPitch:Float = 1;
+    function playCounterSoundTickUp():Void{
+        FlxG.sound.play(Paths.sound("scrollMenu"), 1).pitch = counterPitch;
+        counterPitch += 1/12;
     }
 
     function percentCallback(numString:String):Void{

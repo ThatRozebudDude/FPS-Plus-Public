@@ -51,12 +51,15 @@ class Character extends FlxSpriteGroup
 
 	public var focusOffset:FlxPoint;
 	public var deathOffset:FlxPoint;
+	public var deathDelay:Float = 0.5;
 
 	var character:FlxSprite;
 	var atlasCharacter:AtlasSprite;
 	var characterInfo:CharacterInfoBase;
 
 	var curOffset = new FlxPoint();
+
+	var added:Bool = false;
 
 	public function new(x:Float, y:Float, ?_character:String = "Bf", ?_isPlayer:Bool = false, ?_isGirlfriend:Bool = false, ?_enableDebug:Bool = false){
 
@@ -195,10 +198,16 @@ class Character extends FlxSpriteGroup
 				}
 			}
 
+			if(characterInfo.info.functions.add != null && !added){
+				characterInfo.info.functions.add(this);
+			}
+
 			if(characterInfo.info.functions.update != null){
 				characterInfo.info.functions.update(this, elapsed);
 			}
 		}
+
+		added = true;
 
 		super.update(elapsed);
 
@@ -446,6 +455,8 @@ class Character extends FlxSpriteGroup
 						changeCharacterScale(data);
 					case "reposition":
 						reposition.set(data[0], data[1]);
+					case "deathDelay":
+						deathDelay = data[0];
 					default:
 						//Do nothing by default.
 				}

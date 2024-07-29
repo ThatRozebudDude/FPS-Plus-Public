@@ -30,6 +30,8 @@ class AnimationDebug extends FlxState
 	var animList:Array<String> = [];
 	var curAnim:Int = 0;
 	var daAnim:String = 'spooky';
+	var bgChar:String;
+	var bgMirrorFront:Bool = false;
 	var camFollow:FlxObject;
 
 	private var camHUD:FlxCamera;
@@ -40,10 +42,18 @@ class AnimationDebug extends FlxState
 
 	//var flippedChars:Array<String> = ["pico", "tankman"];
 
-	public function new(daAnim:String = 'spooky')
+	public function new(_character:String = 'spooky', _bgChar:String = null)
 	{
 		super();
-		this.daAnim = daAnim;
+		this.daAnim = _character;
+
+		if(_bgChar == null){
+			bgMirrorFront = true;
+			bgChar = _character;
+		}
+		else{
+			bgChar = _bgChar;
+		}
 	}
 
 	override function create()
@@ -80,8 +90,7 @@ class AnimationDebug extends FlxState
 			}
 		}
 
-		dadBG = new Character(0, 0, daAnim, false, false, true);
-		dadBG.screenCenter();
+		dadBG = new Character(dad.x, dad.y, bgChar, false, false, true);
 		dadBG.alpha = 0.5;
 		dadBG.color = 0xFF000000;
 
@@ -192,10 +201,12 @@ class AnimationDebug extends FlxState
 		{
 			dad.playAnim(animList[curAnim], true);
 
-			if(animList[curAnim].endsWith("miss"))
-				dadBG.playAnim(animList[curAnim].substring(0, animList[curAnim].length - 4), true);
-			else
-				dadBG.idleEnd(true);
+			if(bgMirrorFront){
+				if(animList[curAnim].endsWith("miss"))
+					dadBG.playAnim(animList[curAnim].substring(0, animList[curAnim].length - 4), true);
+				else
+					dadBG.idleEnd(true);
+			}
 
 			updateTexts();
 			genBoyOffsets(false);
@@ -221,22 +232,26 @@ class AnimationDebug extends FlxState
 			//updateTexts();
 			if (upP){
 				dad.animOffsets.get(animList[curAnim])[1] += 1 * multiplier;
-				dadBG.animOffsets.get(animList[curAnim])[1] += 1 * multiplier;
+				if(bgMirrorFront)
+					dadBG.animOffsets.get(animList[curAnim])[1] += 1 * multiplier;
 			}
 				
 			if (downP){
 				dad.animOffsets.get(animList[curAnim])[1] -= 1 * multiplier;
-				dadBG.animOffsets.get(animList[curAnim])[1] -= 1 * multiplier;
+				if(bgMirrorFront)
+					dadBG.animOffsets.get(animList[curAnim])[1] -= 1 * multiplier;
 			}
 				
 			if (leftP){
 				dad.animOffsets.get(animList[curAnim])[0] += 1 * multiplier;
-				dadBG.animOffsets.get(animList[curAnim])[0] += 1 * multiplier;
+				if(bgMirrorFront)
+					dadBG.animOffsets.get(animList[curAnim])[0] += 1 * multiplier;
 			}
 				
 			if (rightP){
 				dad.animOffsets.get(animList[curAnim])[0] -= 1 * multiplier;
-				dadBG.animOffsets.get(animList[curAnim])[0] -= 1 * multiplier;
+				if(bgMirrorFront)
+					dadBG.animOffsets.get(animList[curAnim])[0] -= 1 * multiplier;
 			}
 
 			for(x in charInfo.info.anims){

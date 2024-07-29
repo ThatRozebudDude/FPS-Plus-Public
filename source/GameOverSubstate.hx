@@ -12,27 +12,31 @@ import flixel.tweens.FlxTween;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
-	var bf:Character;
-	var camFollow:FlxObject;
+	public var bf:Character;
+	public var camFollow:FlxObject;
+
+	var bfX:Float; 
+	var bfY:Float;
+	var bfChar:String;
 
 	var suffix:String = "";
 
-	public function new(x:Float, y:Float, camX:Float, camY:Float, character:String){
-
-		var daBf:String = character;
-		switch (daBf){
-			case 'BfPixelDead':
-				suffix = '-pixel';
-			case 'PicoBlazin':
-				suffix = '-pico';
-		}
+	public function new(_x:Float, _y:Float, camX:Float, camY:Float, character:String){
 
 		super();
 
-		Conductor.songPosition = 0;
+		bfChar = character;
+		switch (bfChar){
+			case "BfPixelDead":
+				suffix = '-pixel';
+			case "PicoDead" | "PicoDeadExplode" | "PicoBlazin":
+				suffix = '-pico';
+		}
 
-		bf = new Character(x, y, daBf, true);
-		add(bf);
+		bfX = _x;
+		bfY = _y;
+
+		Conductor.songPosition = 0;
 
 		camFollow = new FlxObject(camX, camY, 1, 1);
 		add(camFollow);
@@ -46,15 +50,16 @@ class GameOverSubstate extends MusicBeatSubstate
 		//FlxG.camera.scroll.set();
 		//FlxG.camera.target = null;
 
-		
 	}
 
 	override function create() {
 		super.create();
 
+		bf = new Character(bfX, bfY, bfChar, true);
+		add(bf);
 		bf.playAnim('firstDeath', true);
 
-		FlxTween.tween(camFollow, {x: Utils.getGraphicMidpoint(bf).x + bf.deathOffset.x, y: Utils.getGraphicMidpoint(bf).y + bf.deathOffset.y}, 3, {ease: FlxEase.expoOut, startDelay: 0.5});
+		FlxTween.tween(camFollow, {x: Utils.getGraphicMidpoint(bf).x + bf.deathOffset.x, y: Utils.getGraphicMidpoint(bf).y + bf.deathOffset.y}, 3, {ease: FlxEase.expoOut, startDelay: bf.deathDelay});
 		//FlxTween.tween(camFollow, {x: bf.getMidpoint().x + bf.deathOffset.x, y: bf.getMidpoint().y + bf.deathOffset.y}, 3, {ease: FlxEase.expoOut, startDelay: 0.5});
 
 		switch(suffix){
@@ -63,7 +68,8 @@ class GameOverSubstate extends MusicBeatSubstate
 					case "blazin":
 						FlxG.sound.play(Paths.sound("gameOver/fnf_loss_sfx-pico-gutpunch"));
 					default:
-						FlxG.sound.play(Paths.sound("gameOver/fnf_loss_sfx" + suffix));
+						if(bf.charClass == "PicoDeadExplode"){ FlxG.sound.play(Paths.sound("gameOver/fnf_loss_sfx-pico-explode")); }
+						else{ FlxG.sound.play(Paths.sound("gameOver/fnf_loss_sfx" + suffix)); }
 				}
 			default:
 				FlxG.sound.play(Paths.sound("gameOver/fnf_loss_sfx" + suffix));
@@ -88,7 +94,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			FlxG.camera.fade(FlxColor.BLACK, 0.1, false);	
 		}
 
-		if (bf.curAnim == 'firstDeath' && bf.curAnimFinished()){
+		if (bf.curAnim == 'firstDeath' && bf.curAnimFinished() && !isEnding){
 			switch(PlayState.SONG.player2){
 				case "Tankman":
 					bf.playAnim('deathLoop');

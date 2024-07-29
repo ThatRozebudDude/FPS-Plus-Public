@@ -13,6 +13,7 @@ class PicoAll extends CharacterInfoBase
         
         info.iconName = "pico";
         info.facesLeft = true;
+        info.deathCharacter = "PicoDead";
         info.focusOffset.set(100, -100);
 
         addByPrefix("idle", offset(0, 0), "Idle", 24, loop(false, 0), false, false);

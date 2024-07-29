@@ -7,7 +7,7 @@ class DarnellBlazin extends CharacterInfoBase
 
         super();
 
-        info.name = "darnellBlazin";
+        info.name = "darnell-blazin";
         info.spritePath = "weekend1/darnellBlazin";
         info.frameLoadType = atlas;
         
