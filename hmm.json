@@ -1,0 +1,60 @@
+{
+    "dependencies": [
+        {
+            "name": "openfl",
+            "type": "haxelib",
+            "version": null
+        },
+        {
+            "name": "lime",
+            "type": "haxelib",
+            "version": null
+        },
+        {
+            "name": "flixel",
+            "type": "haxelib",
+            "version": null
+        },
+        {
+            "name": "flixel-addons",
+            "type": "haxelib",
+            "version": null
+        },
+        {
+            "name": "flixel-ui",
+            "type": "haxelib",
+            "version": null
+        },
+        {
+            "name": "compiletime",
+            "type": "haxelib",
+            "version": null
+        },
+        {
+            "name": "hxcpp",
+            "type": "haxelib",
+            "version": null
+        },
+        {
+            "name": "flxanimate",
+            "type": "git",
+            "dir": null,
+            "ref": "17e0d59fdbc2b6283a5c0e4df41f1c7f27b71c49",
+            "url": "https://github.com/FunkinCrew/flxanimate"
+        },
+        {
+            "name": "funkin.vis",
+            "type": "git",
+            "dir": null,
+            "ref": "d5361037efa3a02c4ab20b5bd14ca11e7d00f519",
+            "url": "https://github.com/FunkinCrew/funkVis"
+        },
+        {
+            "name": "grig.audio",
+            "type": "git",
+            "dir": null,
+            "ref": "57f5d47f2533fd0c3dcd025a86cb86c0dfa0b6d2",
+            "url": "https://gitlab.com/haxe-grig/grig.audio.git"
+        }
+    ]
+}
