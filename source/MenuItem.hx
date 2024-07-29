@@ -13,17 +13,28 @@ class MenuItem extends FlxSpriteGroup
 	public var week:FlxSprite;
 	public var flashingInt:Int = 0;
 
-	public function new(x:Float, y:Float, weekNum:Int = 0)
-	{
+	public function new(x:Float, y:Float, weekNum:Int = 0){
 		super(x, y);
-		week = new FlxSprite().loadGraphic(Paths.image('menu/story/weeks/week' + weekNum));
+
+		var weekNumber:Int = weekNum % 100;
+		var weekPrefix:String = "week";
+
+		switch (weekNum - weekNumber){
+			case 100:
+				weekPrefix = "weekend";
+		}
+
+		trace(weekNum);
+		trace(weekNumber);
+		trace(weekPrefix);
+
+		week = new FlxSprite().loadGraphic(Paths.image('menu/story/weeks/' + weekPrefix + weekNumber));
 		add(week);
 	}
 
 	private var isFlashing:Bool = false;
 
-	public function startFlashing():Void
-	{
+	public function startFlashing():Void{
 		isFlashing = true;
 	}
 
@@ -33,8 +44,7 @@ class MenuItem extends FlxSpriteGroup
 	// I'm still learning how math works thanks whoever is reading this lol
 	var fakeFramerate:Int = Math.round((1 / FlxG.elapsed) / 10);
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float){
 		super.update(elapsed);
 		y = Utils.fpsAdjsutedLerp(y, (targetY * 120) + 480, 0.17);
 

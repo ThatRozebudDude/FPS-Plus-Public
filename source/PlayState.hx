@@ -149,7 +149,7 @@ class PlayState extends MusicBeatState
 	//End of wacky input stuff===================
 
 	private var autoplay:Bool = false;
-	private var preventScoreSaving:Bool = false;
+	public var preventScoreSaving:Bool = false;
 
 	private var notes:FlxTypedGroup<Note>;
 	private var unspawnNotes:Array<Note> = [];
@@ -838,8 +838,9 @@ class PlayState extends MusicBeatState
 		senpaiEvil.setGraphicSize(Std.int(senpaiEvil.width * 5.5));
 		senpaiEvil.updateHitbox();
 		senpaiEvil.screenCenter();
-		//senpaiEvil.x -= 120;
-		senpaiEvil.y -= 115;
+		senpaiEvil.scrollFactor.set();
+		senpaiEvil.x += 275;
+		//senpaiEvil.y -= 105;
 
 		if (SONG.song.toLowerCase() == 'roses' || SONG.song.toLowerCase() == 'thorns')
 		{
@@ -1905,30 +1906,7 @@ class PlayState extends MusicBeatState
 			//CODE FOR ENDING A WEEK
 			if (storyPlaylist.length <= 0)
 			{
-				FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
-
-				var stickerSets:Array<String> = null;
-
-				switch(storyWeek){
-					case 0:
-						stickerSets = ["bf", "gf"];
-					case 1:
-						stickerSets = ["bf", "gf", "dad"];
-					case 2:
-						stickerSets = ["bf", "gf", "skid", "pump", "monster"];
-					case 3:
-						stickerSets = ["bf", "gf", "pico"];
-					case 4:
-						stickerSets = ["bf", "gf", "mom"];
-					case 5:
-						stickerSets = ["bf", "gf", "dad", "mom", "monster"];
-					case 6:
-						stickerSets = ["bf", "gf", "spirit", "senpai"];
-					case 7:
-						stickerSets = ["bf", "gf", "pico", "tankman"];
-				}
-
-				customTransOut = new StickerOut(stickerSets);
+				//FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
 
 				StoryMenuState.fromPlayState = true;
 				//returnToMenu();
@@ -1948,7 +1926,7 @@ class PlayState extends MusicBeatState
 						diff: storyDifficulty
 					}
 				}
-				switchState(new ResultsState(weekStats, StoryMenuState.weekNames[storyWeek], "bf", songSaveStuff));
+				switchState(new ResultsState(weekStats, StoryMenuState.weekNamesShort[storyWeek], "bf", songSaveStuff));
 
 				FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
 				FlxG.save.flush();

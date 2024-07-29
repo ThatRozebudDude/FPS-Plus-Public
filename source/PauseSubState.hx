@@ -156,6 +156,7 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.switchState(new ChartingState());
 					
 				case "Skip Song":
+					PlayState.instance.preventScoreSaving = true;
 					PlayState.instance.tweenManager.clear();
 					PlayState.instance.endSong();
 					

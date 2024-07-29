@@ -110,7 +110,9 @@ class DialogueBox extends FlxSpriteGroup
 		add(box);
 
 		handSelect = new FlxSprite(FlxG.width * 0.9, FlxG.height * 0.9).loadGraphic(Paths.image('week6/weeb/pixelUI/hand_textbox'));
-		add(handSelect);
+		handSelect.scale.set(PlayState.daPixelZoom, PlayState.daPixelZoom);
+		handSelect.updateHitbox();
+		//add(handSelect);
 
 		box.screenCenter(X);
 		portraitLeft.screenCenter(X);

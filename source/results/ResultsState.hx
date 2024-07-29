@@ -492,6 +492,33 @@ class ResultsState extends FlxUIStateExt
 
 		switch(PlayState.returnLocation){
 			case "story":
+
+            var stickerSets:Array<String> = null;
+
+            switch(saveInfo.week){
+                case 0:
+                    stickerSets = ["bf", "gf"];
+                case 1:
+                    stickerSets = ["bf", "gf", "dad"];
+                case 2:
+                    stickerSets = ["bf", "gf", "skid", "pump", "monster"];
+                case 3:
+                    stickerSets = ["bf", "gf", "pico"];
+                case 4:
+                    stickerSets = ["bf", "gf", "mom"];
+                case 5:
+                    stickerSets = ["bf", "gf", "dad", "mom", "monster"];
+                case 6:
+                    stickerSets = ["bf", "gf", "spirit", "senpai"];
+                case 7:
+                    stickerSets = ["bf", "gf", "pico", "tankman"];
+
+                case 101:
+                    stickerSets = ["pico"];
+            }
+
+            customTransOut = new StickerOut(stickerSets);
+
                 customTransOut = new StickerOut();
 				switchState(new StoryMenuState(true));
                 FlxTween.tween(FlxG.sound.music, {pitch: 3}, 0.1, {onComplete: function(t){
