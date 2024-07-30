@@ -23,7 +23,9 @@ class WinterHorrorlandIntro extends ScriptedCutscene
     }
 
     function horrorland0() {
-        blackScreen = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), 0xFF000000);
+        blackScreen = new FlxSprite(0, 0).makeGraphic(1, 1, 0xFF000000);
+        blackScreen.scale.set(FlxG.width * 2, FlxG.height * 2);
+        blackScreen.updateHitbox();
 		addToForegroundLayer(blackScreen);
 		blackScreen.scrollFactor.set();
 		playstate().camHUD.visible = false;

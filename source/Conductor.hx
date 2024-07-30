@@ -66,5 +66,14 @@ class Conductor
 		stepCrochet = crochet / 4;
 	}
 
+	/**
+	 * Returns the time in seconds that a beat will last for at the specified BPM.
+	 *
+	 * @param `_bpm`	The BPM it will calculate the beat time for.
+	 */
+	public static inline function getBeatTimeFromBpm(_bpm:Float):Float{
+		return ((60 / _bpm));
+	}
+
 }
 

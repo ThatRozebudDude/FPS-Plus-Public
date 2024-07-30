@@ -15,6 +15,7 @@ class Darnell extends CharacterInfoBase
 		info.focusOffset.set(420, -100);
 
         addByIndices('idle', offset(), 'Idle', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], "", 24, loop(false));
+		addByPrefix("idleLoop", offset(0, 0), "Idle", 24, loop(true, 0), false, false);
 	    addByPrefix('singUP', offset(8, 5), "Pose Up", 24, loop(true, -8));
 	    addByPrefix('singDOWN', offset(0, -3), "Pose Down", 24, loop(true, -8));
 	    addByPrefix('singLEFT', offset(1, 0), 'Pose Left', 24, loop(true, -8));
@@ -25,6 +26,8 @@ class Darnell extends CharacterInfoBase
 	    addByPrefix('kickUp', offset(15, 9), 'Kick Up', 24, loop(false));
 	    addByPrefix('kneeForward', offset(7, -1), 'Knee Forward', 24, loop(false));
 	    addByPrefix('pissed', offset(), 'Gets Pissed', 24, loop(false));
+
+		addAnimChain("laughCutscene", "idleLoop");
 
         addExtraData("reposition", [40, 200]);
     }

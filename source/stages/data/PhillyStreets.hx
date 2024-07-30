@@ -94,7 +94,7 @@ class PhillyStreets extends BaseStage
 		addToBackground(phillyForeground);
 
 		dimSprite = new FlxSprite().makeGraphic(1, 1, 0xFF000000);
-		dimSprite.scale.set(1280/startingZoom, 720/startingZoom);
+		dimSprite.scale.set(1280/.5, 720/.5);
 		dimSprite.updateHitbox();
 		dimSprite.screenCenter(XY);
 		dimSprite.scrollFactor.set();
@@ -113,10 +113,12 @@ class PhillyStreets extends BaseStage
 		kickedCan.antialiasing = true;
 		kickedCan.visible = false;
 		kickedCan.addAnimationByLabel("start", "Can Start", 24, false);
+		kickedCan.addAnimationByFrame("kickUp", 0, 8, 24, false);
+		kickedCan.addAnimationByFrame("kickForward", 8, 11, 24, false);
 		kickedCan.addAnimationByLabel("hit", "Hit Pico", 24, false);
 		kickedCan.addAnimationByLabel("shot", "Can Shot", 24, false);
 		kickedCan.animationEndCallback = function(name) {
-			if(name != "start"){
+			if(name == "hit" || name == "shot"){
 				kickedCan.visible = false;
 			}
 		}
@@ -152,6 +154,7 @@ class PhillyStreets extends BaseStage
 
 		addEvent("phillyStreets-stageDarken", stageDarken);
 		addEvent("phillyStreets-canKick", canKick);
+		addEvent("phillyStreets-canKickForward", canKickForward);
 		addEvent("phillyStreets-canHit", canHit);
 		addEvent("phillyStreets-canShot", canShot);
 		addEvent("phillyStreets-playerGlow", createCharacterGlow);
@@ -188,7 +191,12 @@ class PhillyStreets extends BaseStage
 
 	public function canKick():Void{
 		kickedCan.visible = true;
-		kickedCan.playAnim("start");
+		kickedCan.playAnim("kickUp");
+	}
+
+	public function canKickForward():Void{
+		kickedCan.visible = true;
+		kickedCan.playAnim("kickForward");
 	}
 
 	public function canHit():Void{

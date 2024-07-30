@@ -31,6 +31,7 @@ class PicoDead extends CharacterInfoBase
 
     var retryButton:FlxSprite;
     var nene:FlxSprite;
+    var hitRetry:Bool = false;
 
     function create(character:Character):Void{
         retryButton = new FlxSprite(character.x - 70, character.y - 270);
@@ -62,10 +63,11 @@ class PicoDead extends CharacterInfoBase
         if(anim == "firstDeath" && frame == 35){
             retryButton.visible = true;
         }
-        if(anim == "deathConfirm" && frame == 0){
+        if(anim == "deathConfirm" && frame == 0 && !hitRetry){
             retryButton.visible = true;
             retryButton.animation.play("confirm", true);
             retryButton.centerOffsets();
+            hitRetry = true;
         }
     }
 

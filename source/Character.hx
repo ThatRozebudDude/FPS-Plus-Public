@@ -55,7 +55,7 @@ class Character extends FlxSpriteGroup
 
 	var character:FlxSprite;
 	var atlasCharacter:AtlasSprite;
-	var characterInfo:CharacterInfoBase;
+	public var characterInfo:CharacterInfoBase;
 
 	var curOffset = new FlxPoint();
 

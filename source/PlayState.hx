@@ -2783,6 +2783,7 @@ class PlayState extends MusicBeatState
 							character.playAnim('kneeForward', true);
 						}
 						FlxG.sound.play(Paths.sound("weekend1/Kick_Can_FORWARD"));
+						executeEvent("phillyStreets-canKickForward");
 					}
 				case "weekend-1-cockgun":
 					note.hitCallback = function(note:Note, character:Character){
@@ -3521,7 +3522,7 @@ class PlayState extends MusicBeatState
 
 	}
 
-	inline function getOpponentFocusPosition():FlxPoint{
+	public inline function getOpponentFocusPosition():FlxPoint{
 		return new FlxPoint(dad.getMidpoint().x + dad.focusOffset.x + stage.dadCameraOffset.x, dad.getMidpoint().y + dad.focusOffset.y + stage.dadCameraOffset.y);
 	}
 
@@ -3537,7 +3538,7 @@ class PlayState extends MusicBeatState
 
 	}
 
-	inline function getBfFocusPostion():FlxPoint{
+	public inline function getBfFocusPostion():FlxPoint{
 		return new FlxPoint(boyfriend.getMidpoint().x + boyfriend.focusOffset.x + stage.bfCameraOffset.x, boyfriend.getMidpoint().y + boyfriend.focusOffset.y + stage.bfCameraOffset.y);
 	}
 
@@ -3549,7 +3550,7 @@ class PlayState extends MusicBeatState
 
 	}
 
-	inline function getGfFocusPosition():FlxPoint{
+	public inline function getGfFocusPosition():FlxPoint{
 		return new FlxPoint(gf.getMidpoint().x + gf.focusOffset.x + stage.gfCameraOffset.x, gf.getMidpoint().y + gf.focusOffset.y + stage.gfCameraOffset.y);
 	}
 

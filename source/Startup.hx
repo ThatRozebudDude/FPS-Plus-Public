@@ -1,5 +1,6 @@
 package;
 
+import debug.AtlasScrub;
 import sys.FileSystem;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
@@ -26,7 +27,7 @@ class Startup extends FlxState
 {
 
     var nextState:FlxState = new TitleVideo();
-    //var nextState:FlxState = new debug.JsonTest();
+    //var nextState:FlxState = new AtlasScrub();
 
     var splash:FlxSprite;
     var loadingBar:FlxBar;
