@@ -30,6 +30,8 @@ class VideoHandler extends FlxSprite
 	public var muted(get, set):Bool;
 	public var volume:Float = 1;
 
+	//public var length(get, never):Float;
+
 	var __muted:Bool = false;
 	var paused:Bool = false;
 	var finishCallback:Void->Void;
@@ -426,4 +428,14 @@ class VideoHandler extends FlxSprite
 		return __muted = value;
 	}
 	
+
+	/*function get_length():Float {
+		#if desktop
+		return vlcBitmap.length;
+		#end
+		#if web
+		@:privateAccess
+		return netStream.__video.duration;
+		#end
+	}*/
 }

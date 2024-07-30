@@ -1,0 +1,8 @@
+{
+  "startCutscene": {
+    "name": "LilBuddiesIntro",
+    "args": [],
+    "storyOnly": false
+  },
+  "endCutscene": "null"
+}

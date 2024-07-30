@@ -1,0 +1,11 @@
+{
+  "startCutscene": {
+    "name": "VideoCutscene",
+    "storyOnly": true,
+    "args": [
+      "week7/gunsCutsceneFade",
+      true
+    ]
+  },
+  "endCutscene": "null"
+}

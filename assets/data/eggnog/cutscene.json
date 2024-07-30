@@ -1,0 +1,8 @@
+{
+  "startCutscene": "null",
+  "endCutscene": {
+    "name": "EggnogEnding",
+    "args": [],
+    "storyOnly": true
+  }
+}

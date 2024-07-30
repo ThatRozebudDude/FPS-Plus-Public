@@ -1,0 +1,8 @@
+{
+  "startCutscene": {
+    "name": "TestCutscene",
+    "args": [],
+    "storyOnly": false
+  },
+  "endCutscene": "null"
+}

@@ -11,8 +11,8 @@ import flixel.addons.ui.FlxUIState;
 
 class FlxUIStateExt extends FlxUIState
 {
-	private var useDefaultTransIn:Bool = true;
-	private var useDefaultTransOut:Bool = true;
+	public var useDefaultTransIn:Bool = true;
+	public var useDefaultTransOut:Bool = true;
 
 	public static var defaultTransIn:Class<Dynamic>;
 	public static var defaultTransInArgs:Array<Dynamic>;
@@ -21,8 +21,8 @@ class FlxUIStateExt extends FlxUIState
 
 	public static var inTransition:Bool = false;
 
-	private var customTransIn:BaseTransition = null;
-	private var customTransOut:BaseTransition = null;
+	public var customTransIn:BaseTransition = null;
+	public var customTransOut:BaseTransition = null;
 
 	override function create()
 	{

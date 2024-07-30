@@ -13,16 +13,13 @@ class ScriptedCutscene extends FlxBasic
 
     public var events:Array<Array<Dynamic>> = [];
 
-    /**
-	 * Do not override this function, override `init()` instead.
-	 */
     public function new(){
         super();
         init();
     }
 
     /**
-	 * Override this function to initialize all of your stage elements.
+	 * Override this function to initialize all of your cutscene stuff.
 	 */
     function init(){}
 

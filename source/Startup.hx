@@ -26,7 +26,7 @@ class Startup extends FlxState
 {
 
     var nextState:FlxState = new TitleVideo();
-    //var nextState:FlxState = new debug.CutsceneDebug();
+    //var nextState:FlxState = new debug.JsonTest();
 
     var splash:FlxSprite;
     var loadingBar:FlxBar;
