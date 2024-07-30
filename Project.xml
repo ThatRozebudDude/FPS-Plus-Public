@@ -18,6 +18,7 @@
 	<!--Makes sure that all of the stages are included in the compile even when they aren't directly called. -->
 	<compilerflag name="--macro" value="include('stages', true)" />
 	<compilerflag name="--macro" value="include('characters', true)" />
+	<compilerflag name="--macro" value="include('cutscenes', true)" />
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 

@@ -35,7 +35,9 @@ class ScriptedCutscene extends FlxBasic
             for(event in events){
                 if(event[0] > totalTime){ break; }
                 else{
-                    event[1]();
+                    if(event[1] != null){
+                        event[1]();
+                    }
                     events.remove(event);
                 }
             }

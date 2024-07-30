@@ -8,6 +8,7 @@ import haxe.Json;
 import results.ResultsState;
 import freeplay.FreeplayState;
 import Highscore.SongStats;
+
 #if sys
 import sys.FileSystem;
 #end
@@ -18,6 +19,8 @@ import title.*;
 import transition.data.*;
 import stages.*;
 import stages.elements.*;
+import cutscenes.*;
+import cutscenes.data.*;
 
 import flixel.FlxState;
 import openfl.utils.Assets;
@@ -234,6 +237,9 @@ class PlayState extends MusicBeatState
 	var video:VideoHandler;
 	var inCutscene:Bool = false;
 	var inVideoCutscene:Bool = false;
+
+	var startCutscene:ScriptedCutscene;
+	var endCutscene:ScriptedCutscene;
 
 	var dadBeats:Array<Int> = [0, 2];
 	var bfBeats:Array<Int> = [1, 3];
@@ -699,6 +705,8 @@ class PlayState extends MusicBeatState
 		// cameras = [FlxG.cameras.list[1]];
 		startingSong = true;
 
+		//startCutscene = new TestCutscene();
+
 		if (isStoryMode)
 		{
 			switch (curSong.toLowerCase())
@@ -783,7 +791,7 @@ class PlayState extends MusicBeatState
 					}
 
 				default:
-					startCountdown();
+					cutsceneCheck();
 			}
 		}
 
@@ -814,6 +822,17 @@ class PlayState extends MusicBeatState
 			songStats.accuracy = 100;
 		}
 	}*/
+
+	function cutsceneCheck():Void{
+		if(startCutscene == null){
+			startCountdown();
+		}
+		else{
+			add(startCutscene);
+			inCutscene = true;
+			startCutscene.start();
+		}
+	}
 
 	function updateAccuracy(){
 
@@ -1003,7 +1022,7 @@ class PlayState extends MusicBeatState
 
 	var startTimer:FlxTimer;
 
-	function startCountdown():Void {
+	public function startCountdown():Void {
 
 		inCutscene = false;
 
@@ -1666,7 +1685,7 @@ class PlayState extends MusicBeatState
 
 		camFollowFinal.setPosition(camFollow.x + camFollowOffset.x + camFollowShake.x + stage.globalCameraOffset.x, camFollow.y + camFollowOffset.y + camFollowShake.y + stage.globalCameraOffset.y);
 
-		if(!inCutscene){
+		if(!inVideoCutscene){
 			camGame.zoom = defaultCamZoom + camGameZoomAdjust;
 		}
 
@@ -2550,7 +2569,7 @@ class PlayState extends MusicBeatState
 		
 	}
 
-	private function executeEvent(tag:String):Void{
+	public function executeEvent(tag:String):Void{
 
 		if(tag.startsWith("playAnim;")){
 			var tagSplit = tag.split(";");
@@ -3635,7 +3654,7 @@ class PlayState extends MusicBeatState
 
 	}
 
-	function changeCamOffset(_x:Float, _y:Float, ?_time:Float = 1.4, ?_ease:Null<flixel.tweens.EaseFunction>){
+	public function changeCamOffset(_x:Float, _y:Float, ?_time:Float = 1.4, ?_ease:Null<flixel.tweens.EaseFunction>){
 
 		//Don't allow for extra camera offsets if it's disabled in the config.
 		if(!Config.extraCamMovement){ return; }
@@ -3654,7 +3673,7 @@ class PlayState extends MusicBeatState
 
 	}
 
-	function startCamShake(_distance:Float, ?_period:Float = 1/24, ?_ease:Null<flixel.tweens.EaseFunction>, ?_notFirstCall:Bool = false){
+	public function startCamShake(_intensity:Float, ?_period:Float = 1/24, ?_ease:Null<flixel.tweens.EaseFunction>, ?_notFirstCall:Bool = false){
 
 		if(_ease == null){
 			_ease = FlxEase.linear;
@@ -3665,13 +3684,13 @@ class PlayState extends MusicBeatState
 
 		shakeTween.cancel();
 		if(!_notFirstCall){ shakeReturnTween.cancel(); }
-		shakeTween = tweenManager.tween(camFollowShake, {x: FlxG.random.float(-1, 1) * _distance * 1280, y: FlxG.random.float(-1, 1) * _distance * 720}, _period, {ease: _ease, onComplete: function(t){
-			startCamShake(_distance, _period, _ease, true);
+		shakeTween = tweenManager.tween(camFollowShake, {x: FlxG.random.float(-1, 1) * _intensity * 1280, y: FlxG.random.float(-1, 1) * _intensity * 720}, _period, {ease: _ease, onComplete: function(t){
+			startCamShake(_intensity, _period, _ease, true);
 		}});
 
 	}
 
-	function endCamShake(?_time:Float = 1/24, ?_ease:Null<flixel.tweens.EaseFunction>, ?_startDelay:Float = 0){
+	public function endCamShake(?_time:Float = 1/24, ?_ease:Null<flixel.tweens.EaseFunction>, ?_startDelay:Float = 0){
 
 		if(_ease == null){
 			_ease = FlxEase.linear;
@@ -3686,9 +3705,9 @@ class PlayState extends MusicBeatState
 		}});
 	}
 
-	function camShake(_distance:Float, ?_period:Float = 1/24, ?_time:Float = 1, ?_returnTime:Null<Float>, ?_ease:Null<flixel.tweens.EaseFunction>):Void{
+	public function camShake(_intensity:Float, ?_period:Float = 1/24, ?_time:Float = 1, ?_returnTime:Null<Float>, ?_ease:Null<flixel.tweens.EaseFunction>):Void{
 		if(_returnTime == null){ _returnTime = _period; }
-		startCamShake(_distance, _period, _ease);
+		startCamShake(_intensity, _period, _ease);
 		endCamShake(_returnTime, _ease, _time);
 	}
 
