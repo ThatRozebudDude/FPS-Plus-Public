@@ -2,7 +2,8 @@
   "startCutscene": {
     "name": "WinterHorrorlandIntro",
     "args": [],
-    "storyOnly": true
+    "storyOnly": true,
+    "playOnce": true
   },
   "endCutscene": "null"
 }

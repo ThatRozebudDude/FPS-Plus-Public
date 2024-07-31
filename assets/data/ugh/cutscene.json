@@ -2,6 +2,7 @@
   "startCutscene": {
     "name": "VideoCutscene",
     "storyOnly": true,
+    "playOnce": true,
     "args": [
       "week7/ughCutsceneFade",
       true

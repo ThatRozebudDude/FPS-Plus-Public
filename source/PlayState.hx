@@ -237,15 +237,20 @@ class PlayState extends MusicBeatState
 
 	var video:VideoHandler;
 	var inCutscene:Bool = false;
-	var inVideoCutscene:Bool = false;
+	public var inVideoCutscene:Bool = false;
 	var inEndingCutscene:Bool = false;
 
 	var songEnded:Bool = false;
 
 	var startCutscene:Dynamic;
 	var startCutsceneStoryOnly:Bool;
+	var startCutscenePlayOnce:Bool = false;
 	var endCutscene:Dynamic;
 	var endCutsceneStoryOnly:Bool;
+	var endCutscenePlayOnce:Bool = false;
+
+	public static var replayStartCutscene:Bool = true;
+	public static var replayEndCutscene:Bool = true;
 
 	var dadBeats:Array<Int> = [0, 2];
 	var bfBeats:Array<Int> = [1, 3];
@@ -721,6 +726,7 @@ class PlayState extends MusicBeatState
 				startCutsceneStoryOnly = cutsceneJson.startCutscene.storyOnly;
 				var startCutsceneArgs = [];
 				if(cutsceneJson.startCutscene.args != null) {startCutsceneArgs = cutsceneJson.startCutscene.args;}
+				if(cutsceneJson.startCutscene.playOnce != null) {startCutscenePlayOnce = cutsceneJson.startCutscene.playOnce;}
 				startCutscene = Type.createInstance(startCutsceneClass, startCutsceneArgs);
 			}
 			//trace(startCutscene);
@@ -731,6 +737,7 @@ class PlayState extends MusicBeatState
 				endCutsceneStoryOnly = cutsceneJson.endCutscene.storyOnly;
 				var endCutsceneArgs = [];
 				if(cutsceneJson.endCutscene.args != null) {endCutsceneArgs = cutsceneJson.endCutscene.args;}
+				if(cutsceneJson.endCutscene.playOnce != null) {endCutscenePlayOnce = cutsceneJson.endCutscene.playOnce;}
 				endCutscene = Type.createInstance(endCutsceneClass, endCutsceneArgs);
 			}
 			//trace(endCutscene);
@@ -769,7 +776,7 @@ class PlayState extends MusicBeatState
 
 	function cutsceneCheck():Void{
 		//trace("in cutsceneCheck");
-		if(startCutscene != null && (!startCutsceneStoryOnly || (startCutsceneStoryOnly && isStoryMode))){
+		if(startCutscene != null && (!startCutsceneStoryOnly || (startCutsceneStoryOnly && isStoryMode)) && (startCutscenePlayOnce ? replayStartCutscene : true)){
 			add(startCutscene);
 			inCutscene = true;
 			startCutscene.start();
@@ -777,6 +784,7 @@ class PlayState extends MusicBeatState
 		else{
 			startCountdown();
 		}
+		replayStartCutscene = true;
 	}
 
 	function updateAccuracy(){
@@ -1476,7 +1484,7 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float) {
 
-		if(inCutscene && inVideoCutscene){
+		if(inCutscene && inVideoCutscene && video != null){
 			if(Binds.justPressed("menuAccept")){
 				tweenManager.tween(video, {alpha: 0, volume: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
 					video.skip();

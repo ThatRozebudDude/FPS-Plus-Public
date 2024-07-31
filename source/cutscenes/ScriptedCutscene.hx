@@ -27,7 +27,9 @@ class ScriptedCutscene extends FlxBasic
         super.update(elapsed);
 
         if(__started){
-            totalTime += elapsed;
+            if(events.length > 0){
+                totalTime += elapsed;
+            }
             
             for(event in events){
                 if(event[0] > totalTime){ break; }
@@ -37,10 +39,6 @@ class ScriptedCutscene extends FlxBasic
                     }
                     events.remove(event);
                 }
-            }
-
-            if(events.length == 0){
-                destroy();
             }
         } 
     }
