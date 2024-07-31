@@ -25,6 +25,7 @@ class Bf extends CharacterInfoBase
         addByPrefix('singRIGHTmiss', offset(-38, 21), 'BF NOTE RIGHT MISS', 24, loop(true, -4));
         addByPrefix('singDOWNmiss', offset(-25, -20), 'BF NOTE DOWN MISS', 24, loop(true, -4));
         addByPrefix('hey', offset(1, 5), 'BF HEY', 24, loop(false));
+        addByPrefix('cheer', offset(-20, 20), 'Cheer', 24, loop(false));
 
         addByPrefix('firstDeath', offset(27, 6), "BF dies", 24, loop(false));
         addByPrefix('deathLoop', offset(27, 0), "BF Dead Loop", 24, loop(true));
