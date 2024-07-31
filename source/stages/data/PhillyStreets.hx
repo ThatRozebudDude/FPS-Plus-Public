@@ -114,7 +114,7 @@ class PhillyStreets extends BaseStage
 		kickedCan.visible = false;
 		kickedCan.addAnimationByLabel("start", "Can Start", 24, false);
 		kickedCan.addAnimationByFrame("kickUp", 0, 8, 24, false);
-		kickedCan.addAnimationByFrame("kickUpSlow", 0, 8, 18, false);
+		kickedCan.addAnimationByFrame("kickUpSlow", 0, 8, 17, false);
 		kickedCan.addAnimationByFrame("kickForward", 8, 11, 24, false);
 		kickedCan.addAnimationByLabel("hit", "Hit Pico", 24, false);
 		kickedCan.addAnimationByLabel("shot", "Can Shot", 24, false);
