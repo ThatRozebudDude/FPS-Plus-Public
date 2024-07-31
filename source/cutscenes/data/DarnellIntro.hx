@@ -43,6 +43,7 @@ class DarnellIntro extends ScriptedCutscene
         addEvent(beatTime * 16, darnellKickUp);
         addEvent(beatTime * 17.5, darnellKickForward);
         addEvent(beatTime * 18, picoShoot);
+        addEvent(beatTime * 19, darnellIdle);
         addEvent(beatTime * 20, darnellLaugh);
         addEvent(beatTime * 20.5, neneLaugh);
         addEvent(9, startSong);
@@ -99,7 +100,7 @@ class DarnellIntro extends ScriptedCutscene
     function darnellKickUp() {
         dad().playAnim('kickUp', true);
         FlxG.sound.play(Paths.sound("weekend1/Kick_Can_UP"));
-        playstate().executeEvent("phillyStreets-canKick");
+        playstate().executeEvent("phillyStreets-canKickSlow");
     }
 
     function darnellKickForward() {
@@ -114,6 +115,10 @@ class DarnellIntro extends ScriptedCutscene
         playstate().executeEvent("phillyStreets-stageDarken");
 		playstate().executeEvent("phillyStreets-canShot");
         playstate().camMove(darnellPos.x + 100, darnellPos.y, 1, FlxEase.quadInOut, "dad");
+    }
+
+    function darnellIdle() {
+        dad().playAnim('idle', true);
     }
 
     function darnellLaugh() {
