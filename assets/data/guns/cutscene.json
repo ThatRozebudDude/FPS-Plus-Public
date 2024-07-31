@@ -5,6 +5,8 @@
     "playOnce": true,
     "args": [
       "week7/gunsCutsceneFade",
+      true,
+      true,
       true
     ]
   },

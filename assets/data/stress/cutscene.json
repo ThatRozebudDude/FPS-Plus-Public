@@ -5,6 +5,8 @@
     "playOnce": true,
     "args": [
       "week7/week7/stressCutsceneFade",
+      true,
+      true,
       true
     ]
   },

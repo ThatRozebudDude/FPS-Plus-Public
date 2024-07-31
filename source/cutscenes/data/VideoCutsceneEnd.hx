@@ -1,5 +1,6 @@
 package cutscenes.data;
 
+import flixel.util.FlxTimer;
 import flixel.math.FlxMath;
 import transition.data.InstantTransition;
 import flixel.math.FlxPoint;
@@ -8,7 +9,7 @@ import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
 
-class VideoCutscene extends ScriptedCutscene
+class VideoCutsceneEnd extends ScriptedCutscene
 {
 
     var video:VideoHandler;
@@ -18,16 +19,10 @@ class VideoCutscene extends ScriptedCutscene
 
     var path:String;
     var skipable:Bool;
-    var doZoomOut:Bool;
-    var instantlyMoveCamera:Bool;
 
-    var prevCamFilters:Array<Null<openfl.filters.BitmapFilter>>;
-
-    public function new(_path:String, ?_skipable:Bool = true, ?_doZoomOut:Bool = false, ?_instantlyMoveCamera:Bool = false) {
+    public function new(_path:String, ?_skipable:Bool = true) {
         path = _path;
         skipable = _skipable;
-        doZoomOut = _doZoomOut;
-        instantlyMoveCamera = _instantlyMoveCamera;
         super();
     }
 
@@ -37,12 +32,12 @@ class VideoCutscene extends ScriptedCutscene
 		black.scale.set(1280, 720);
 		black.updateHitbox();
 		black.scrollFactor.set();
-		black.visible = true;
+		black.visible = false;
 
         video = new VideoHandler();
 		video.scrollFactor.set();
 		video.antialiasing = true;
-		video.visible = true;
+		video.visible = false;
         video.cameras = [playstate().camOverlay];
 
         addEvent(0, setup);
@@ -62,29 +57,16 @@ class VideoCutscene extends ScriptedCutscene
         playstate().inVideoCutscene = true;
         playstate().camGame.zoom = 1;
 
-        prevCamFilters = playstate().camGame.filters;
+        video.visible = true;
+        black.visible = true;
+
         playstate().camGame.filters = [];
+        playstate().camHUD.visible = false;
 
 		video.playMP4(Paths.video(path), function(){
             videoOver = true;
-
-            playstate().startCountdown();
-            playstate().inVideoCutscene = false;
-            playstate().camGame.filters = prevCamFilters;
-
-            removeGeneric(video);
-            playstate().tweenManager.tween(black, {alpha: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
-				removeGeneric(black);
-			}});
-
-            if(doZoomOut){
-                playstate().camChangeZoom(playstate().defaultCamZoom * 1.2, 0, null);
-                playstate().camChangeZoom(playstate().defaultCamZoom/1.2, ((Conductor.crochet / 1000) * 5) - 0.1, FlxEase.quadOut);
-            }
-            if(instantlyMoveCamera){
-                if(PlayState.SONG.notes[0].mustHitSection){ playstate().camFocusBF(); }
-                else{ playstate().camFocusOpponent(); }
-            }
+			playstate().customTransOut = new InstantTransition();
+            playstate().endSong();
 		}, false);
 
 		addGeneric(black);

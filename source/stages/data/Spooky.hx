@@ -29,7 +29,7 @@ class Spooky extends BaseStage
 
 		bfCameraOffset.set(0, -40);
 
-		globalCameraOffset.set(0, -20);
+		//globalCameraOffset.set(0, -20);
     }
 
 	public override function beat(curBeat:Int){

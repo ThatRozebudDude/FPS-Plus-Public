@@ -166,6 +166,7 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.tweenManager.clear();
 					PlayState.instance.switchState(new ConfigMenu());
 					ConfigMenu.exitTo = PlayState;
+					PlayState.replayStartCutscene = false;
 					
 				case "Exit to menu":
 					PlayState.instance.tweenManager.clear();

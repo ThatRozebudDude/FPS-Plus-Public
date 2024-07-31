@@ -86,7 +86,7 @@ class ResultsState extends FlxUIStateExt
     var exiting:Bool = false;
     var shownRank:Bool = false;
 
-    public function new(_scoreStats:ScoreStats, ?_songNameText:String = "Fabs is on base game", ?_character:String = "bf", ?saveInfo:SaveInfo = null) {
+    public function new(_scoreStats:ScoreStats, ?_songNameText:String = "Fabs is on base game", ?_character:String = "bf", ?_saveInfo:SaveInfo = null) {
         super();
 
         if(_scoreStats == null){
@@ -109,8 +109,13 @@ class ResultsState extends FlxUIStateExt
         songNameText = _songNameText;
 
         totalNotes = scoreStats.sickCount + scoreStats.goodCount + scoreStats.badCount + scoreStats.shitCount;
-        grade = (scoreStats.sickCount + scoreStats.goodCount) / (totalNotes + scoreStats.missCount);
+        if(totalNotes + scoreStats.missCount > 0){
+            grade = (scoreStats.sickCount + scoreStats.goodCount) / (totalNotes + scoreStats.missCount);
+        }
+        
         rank = Highscore.calculateRank(scoreStats);
+
+        saveInfo = _saveInfo;
 
         if(saveInfo != null){
             if(saveInfo.song != null){
@@ -493,33 +498,33 @@ class ResultsState extends FlxUIStateExt
 		switch(PlayState.returnLocation){
 			case "story":
 
-            var stickerSets:Array<String> = null;
+                var stickerSets:Array<String> = null;
 
-            switch(saveInfo.week){
-                case 0:
-                    stickerSets = ["bf", "gf"];
-                case 1:
-                    stickerSets = ["bf", "gf", "dad"];
-                case 2:
-                    stickerSets = ["bf", "gf", "skid", "pump", "monster"];
-                case 3:
-                    stickerSets = ["bf", "gf", "pico"];
-                case 4:
-                    stickerSets = ["bf", "gf", "mom"];
-                case 5:
-                    stickerSets = ["bf", "gf", "dad", "mom", "monster"];
-                case 6:
-                    stickerSets = ["bf", "gf", "spirit", "senpai"];
-                case 7:
-                    stickerSets = ["bf", "gf", "pico", "tankman"];
+                trace(saveInfo.week);
 
-                case 101:
-                    stickerSets = ["pico"];
-            }
+                switch(saveInfo.week){
+                    case 0:
+                        stickerSets = ["bf", "gf"];
+                    case 1:
+                        stickerSets = ["bf", "gf", "dad"];
+                    case 2:
+                        stickerSets = ["bf", "gf", "skid", "pump", "monster"];
+                    case 3:
+                        stickerSets = ["bf", "gf", "pico"];
+                    case 4:
+                        stickerSets = ["bf", "gf", "mom"];
+                    case 5:
+                        stickerSets = ["bf", "gf", "dad", "mom", "monster"];
+                    case 6:
+                        stickerSets = ["bf", "gf", "spirit", "senpai"];
+                    case 7:
+                        stickerSets = ["bf", "gf", "pico", "tankman"];
+                    case 101:
+                        stickerSets = ["pico"];
+                }
 
-            customTransOut = new StickerOut(stickerSets);
+                customTransOut = new StickerOut(stickerSets);
 
-                customTransOut = new StickerOut();
 				switchState(new StoryMenuState(true));
                 FlxTween.tween(FlxG.sound.music, {pitch: 3}, 0.1, {onComplete: function(t){
                     FlxTween.tween(FlxG.sound.music, {pitch: 0.5}, 0.65);

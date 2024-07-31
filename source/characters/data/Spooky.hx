@@ -12,7 +12,7 @@ class Spooky extends CharacterInfoBase
         info.frameLoadType = sparrow;
         
         info.iconName = "spooky";
-        info.focusOffset.set(150, -45);
+        info.focusOffset.set(150, -65);
 
 		addByIndices('danceLeft', offset(), 'spooky dance idle', [0, 2, 6], "", 12, loop(false));
 		addByIndices('danceRight', offset(), 'spooky dance idle', [8, 10, 12, 14], "", 12, loop(false));

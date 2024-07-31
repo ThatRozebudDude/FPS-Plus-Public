@@ -98,10 +98,10 @@ class PlayState extends MusicBeatState
 	
 	private var camOffsetAmount:Float = 25;
 
-	private var autoCam:Bool = true;
-	private var autoZoom:Bool = true;
-	private var autoUi:Bool = true;
-	private var autoCamBop:Bool = true;
+	public var autoCam:Bool = true;
+	public var autoZoom:Bool = true;
+	public var autoUi:Bool = true;
+	public var autoCamBop:Bool = true;
 
 	private var gfBopFrequency:Int = 1;
 	private var iconBopFrequency:Int = 1;
@@ -236,9 +236,9 @@ class PlayState extends MusicBeatState
 	public static var daPixelZoom:Float = 6;
 
 	var video:VideoHandler;
-	var inCutscene:Bool = false;
+	public var inCutscene:Bool = false;
 	public var inVideoCutscene:Bool = false;
-	var inEndingCutscene:Bool = false;
+	public var inEndingCutscene:Bool = false;
 
 	var songEnded:Bool = false;
 
@@ -1526,7 +1526,6 @@ class PlayState extends MusicBeatState
 		 	}
 		}
 		
-		
 		if(FlxG.keys.pressed.SHIFT && FlxG.keys.justPressed.TAB && !isStoryMode){
 			autoplay = !autoplay;
 			preventScoreSaving = true;
@@ -1883,6 +1882,7 @@ class PlayState extends MusicBeatState
 		else{
 			endSong();
 		}
+		endingSong = true;
 	}
 
 	function stopMusic():Void{
@@ -1901,7 +1901,6 @@ class PlayState extends MusicBeatState
 	public function endSong():Void{
 		
 		inEndingCutscene = false;
-		endingSong = true;
 
 		if(!songEnded){ stopMusic(); }
 
@@ -1912,7 +1911,7 @@ class PlayState extends MusicBeatState
 			if (!preventScoreSaving){
 				Highscore.saveScore(SONG.song, songStats.score, songStats.accuracy, storyDifficulty, Highscore.calculateRank(songStats));
 				weekStats.score += songStats.score;
-				weekStats.highestCombo += songStats.highestCombo;
+				if(songStats.highestCombo > weekStats.highestCombo) {weekStats.highestCombo = songStats.highestCombo;}
 				weekStats.accuracy += songStats.accuracy;
 				weekStats.sickCount += songStats.sickCount;
 				weekStats.goodCount += songStats.goodCount;

@@ -13,7 +13,7 @@ class Bf extends CharacterInfoBase
         
         info.iconName = "bf";
         info.facesLeft = true;
-        info.focusOffset.set(100, -100);
+        info.focusOffset.set(100, -120);
 
         addByPrefix('idle', offset(), 'BF idle dance', 24, loop(false));
         addByPrefix('singUP', offset(-42, 31), 'BF NOTE UP0', 24, loop(false));
