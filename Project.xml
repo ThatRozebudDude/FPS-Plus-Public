@@ -15,10 +15,11 @@
 	<!--Minimum without FLX_NO_GAMEPAD: 11.8, without FLX_NO_NATIVE_CURSOR: 11.2-->
 	<set name="SWF_VERSION" value="11.8" />
 
-	<!--Makes sure that all of the stages are included in the compile even when they aren't directly called. -->
+	<!--Makes sure that all of these are included when complied even if they aren't directly called in the code.-->
 	<compilerflag name="--macro" value="include('stages', true)" />
 	<compilerflag name="--macro" value="include('characters', true)" />
 	<compilerflag name="--macro" value="include('cutscenes', true)" />
+	<compilerflag name="--macro" value="include('note', true)" />
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 

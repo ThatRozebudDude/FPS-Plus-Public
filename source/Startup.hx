@@ -1,5 +1,6 @@
 package;
 
+import note.NoteType;
 import debug.AtlasScrub;
 import sys.FileSystem;
 import flixel.tweens.FlxTween;
@@ -104,6 +105,10 @@ class Startup extends FlxState
         SaveManager.global();
         
         debug.ChartingState.loadLists();
+
+        NoteType.initTypes();
+        //trace(NoteType.types);
+        //trace(NoteType.sustainTypes);
 
         Main.fpsDisplay.visible = Config.showFPS;
 

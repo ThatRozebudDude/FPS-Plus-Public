@@ -1,5 +1,6 @@
 package debug;
 
+import note.Note;
 import transition.data.InstantTransition;
 import flixel.addons.ui.FlxUIText;
 import flixel.util.FlxTimer;

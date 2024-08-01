@@ -1,4 +1,4 @@
-package;
+package note;
 
 import openfl.display.BlendMode;
 import openfl.display.BitmapData;

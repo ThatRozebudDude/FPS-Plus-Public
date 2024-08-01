@@ -1,5 +1,6 @@
 package debug;
 
+import note.NoteHoldCover;
 import flixel.math.FlxPoint;
 import characters.CharacterInfoBase;
 import config.Config;
