@@ -28,6 +28,8 @@ class PicoSpeaker extends CharacterInfoBase
 
         info.functions.update = update;
         info.functions.idleEndOverride = idleEndOverride;
+
+        addExtraData("reposition", [254, 18]);
     }
 
     function update(character:Character, elpased:Float):Void{

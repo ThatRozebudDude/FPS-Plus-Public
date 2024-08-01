@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Funkin Packer v0.1.3 https://neeeoo.github.io/funkin-packer/
+-->
+<TextureAtlas imagePath="Week7GfSummonPico.png" width="6394" height="6201">
+	<SubTexture name="_GF ANIM0000" x="5469" y="4077" width="904" height="655" frameX="-228" frameY="-456" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0001" x="5489" y="3394" width="904" height="655" frameX="-228" frameY="-456" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0002" x="5462" y="4759" width="906" height="663" frameX="-227" frameY="-452" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0003" x="2722" y="5429" width="906" height="665" frameX="-227" frameY="-451" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0004" x="3648" y="5428" width="907" height="666" frameX="-227" frameY="-450" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0005" x="1815" y="5429" width="906" height="666" frameX="-227" frameY="-450" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0006" x="4556" y="5428" width="907" height="666" frameX="-227" frameY="-450" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0007" x="1" y="5533" width="906" height="667" frameX="-227" frameY="-450" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0008" x="1819" y="4760" width="906" height="668" frameX="-227" frameY="-449" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0009" x="3648" y="4759" width="906" height="668" frameX="-227" frameY="-449" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0010" x="4555" y="4759" width="906" height="668" frameX="-227" frameY="-449" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0011" x="908" y="5195" width="906" height="668" frameX="-227" frameY="-449" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0012" x="2740" y="4759" width="907" height="669" frameX="-227" frameY="-448" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0013" x="4604" y="2026" width="906" height="670" frameX="-227" frameY="-448" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0014" x="4606" y="676" width="907" height="670" frameX="-227" frameY="-448" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0015" x="912" y="4524" width="906" height="670" frameX="-227" frameY="-448" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0016" x="1" y="4862" width="906" height="670" frameX="-227" frameY="-448" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0017" x="4820" y="1" width="907" height="670" frameX="-226" frameY="-448" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0018" x="4604" y="1355" width="908" height="670" frameX="-226" frameY="-448" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0019" x="4580" y="3405" width="908" height="671" frameX="-226" frameY="-447" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0020" x="4594" y="2722" width="908" height="671" frameX="-226" frameY="-448" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0021" x="4560" y="4086" width="908" height="672" frameX="-226" frameY="-447" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0022" x="2740" y="4086" width="909" height="672" frameX="-226" frameY="-447" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0023" x="3650" y="4086" width="909" height="672" frameX="-226" frameY="-447" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0024" x="1" y="4188" width="910" height="673" frameX="-225" frameY="-447" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0025" x="1829" y="4086" width="910" height="673" frameX="-225" frameY="-447" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0026" x="3694" y="680" width="911" height="674" frameX="-225" frameY="-446" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0027" x="918" y="3849" width="910" height="674" frameX="-225" frameY="-446" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0028" x="3908" y="1" width="911" height="674" frameX="-225" frameY="-446" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0029" x="3692" y="1362" width="911" height="675" frameX="-225" frameY="-446" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0030" x="3690" y="2046" width="913" height="675" frameX="-224" frameY="-446" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0031" x="2754" y="3409" width="912" height="676" frameX="-224" frameY="-445" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0032" x="3667" y="3409" width="912" height="676" frameX="-224" frameY="-445" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0033" x="3681" y="2728" width="912" height="676" frameX="-224" frameY="-445" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0034" x="1839" y="3409" width="914" height="676" frameX="-223" frameY="-445" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0035" x="1" y="3511" width="916" height="676" frameX="-222" frameY="-445" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0036" x="2775" y="1367" width="916" height="678" frameX="-222" frameY="-444" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0037" x="2777" y="683" width="916" height="678" frameX="-222" frameY="-444" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0038" x="921" y="3171" width="917" height="677" frameX="-222" frameY="-444" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0039" x="2991" y="1" width="916" height="678" frameX="-222" frameY="-444" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0040" x="1843" y="2730" width="918" height="678" frameX="-221" frameY="-444" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0041" x="2762" y="2730" width="918" height="678" frameX="-221" frameY="-444" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0042" x="2771" y="2049" width="918" height="678" frameX="-221" frameY="-444" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0043" x="923" y="2491" width="919" height="679" frameX="-221" frameY="-444" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0044" x="1" y="2831" width="919" height="679" frameX="-221" frameY="-444" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0045" x="1850" y="2049" width="920" height="680" frameX="-220" frameY="-443" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0046" x="928" y="1810" width="921" height="680" frameX="-220" frameY="-443" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0047" x="1" y="2150" width="921" height="680" frameX="-220" frameY="-443" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0048" x="1853" y="1367" width="921" height="681" frameX="-220" frameY="-443" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0049" x="2068" y="1" width="922" height="681" frameX="-219" frameY="-443" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0050" x="1144" y="1" width="923" height="682" frameX="-219" frameY="-442" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0051" x="1853" y="684" width="923" height="682" frameX="-218" frameY="-442" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0052" x="928" y="1127" width="924" height="682" frameX="-218" frameY="-442" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0053" x="1" y="1" width="1142" height="1125" frameX="-0" frameY="-0" frameWidth="1147" frameHeight="1130"/>
+	<SubTexture name="_GF ANIM0054" x="1" y="1127" width="926" height="1022" frameX="-217" frameY="-103" frameWidth="1147" frameHeight="1130"/>
+</TextureAtlas>

@@ -27,7 +27,7 @@ class AtlasScrub extends FlxState
 		gridBG.screenCenter(XY);
 		add(gridBG);
 
-		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("weekend1/spraycanAtlas"));
+		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("week5/santa_speaks_assets"));
 		atlas.addFullAnimation("full", 0, false);
 		atlas.antialiasing = true;
 		atlas.screenCenter();
@@ -48,15 +48,21 @@ class AtlasScrub extends FlxState
 	
 	override function update(elapsed:Float) {
 
+		var amount:Int = 1;
+
+		if (FlxG.keys.pressed.SHIFT){
+			amount = 10;
+		}
+
 		if (FlxG.keys.justPressed.LEFT){
-			curFrame--;
+			curFrame -= amount;
 			if(curFrame < 0) {curFrame = 0;}
 			atlas.playAnim("full", true, false, curFrame);
 			trace(curFrame);
 		}
 
 		if (FlxG.keys.justPressed.RIGHT){
-			curFrame++;
+			curFrame += amount;
 			if(curFrame > atlas.anim.length - 1) {curFrame = atlas.anim.length - 1;}
 			atlas.playAnim("full", true, false, curFrame);
 			trace(curFrame);

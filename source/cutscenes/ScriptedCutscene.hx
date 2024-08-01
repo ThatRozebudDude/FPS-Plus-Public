@@ -175,5 +175,10 @@ class ScriptedCutscene extends FlxBasic
     public inline function playstate()     { return PlayState.instance; }
     public inline function tween()         { return PlayState.instance.tweenManager; }
 
+    public inline function next():Void{
+        if(playstate().inEndingCutscene){ playstate().endSong(); }
+        else{ playstate().startCountdown(); }  
+    }
+
     function get_started():Bool{ return __started; }
 }

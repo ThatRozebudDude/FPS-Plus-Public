@@ -102,15 +102,6 @@ class Tank extends BaseStage
 		bfStart.set(1015.5, 862);
 		gfStart.set(655.5, 713);
 
-		if (gf().curCharacter == 'pico-speaker'){
-			gfStart.set(909, 731);
-		}
-
-		if (boyfriend().curCharacter == 'pico-speaker'){
-			bfStart.set(1090.5, 882);
-		}
-
-
 		if(gf().curCharacter == "pico-speaker" && PlayState.SONG.song.toLowerCase() == "stress"){
 			TankmenBG.loadMappedAnims("picospeaker", "stress");
 
