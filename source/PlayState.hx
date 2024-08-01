@@ -2686,6 +2686,32 @@ class PlayState extends MusicBeatState
 			if(properties.length < 3){ properties.push("linear"); }
 			endCamShake(eventConvertTime(properties[1]), easeNameToEase(properties[2]));
 		}
+		
+		else if(tag.startsWith("camFocusBf")){
+			var properties = tag.split(";");
+			if(properties.length < 2){ properties.push("1.9"); }
+			if(properties.length < 3){ properties.push("expoOut"); }
+			camFocusBF(eventConvertTime(properties[1]), easeNameToEase(properties[2]));
+		}
+		else if(tag.startsWith("camFocusDad")){
+			var properties = tag.split(";");
+			if(properties.length < 2){ properties.push("1.9"); }
+			if(properties.length < 3){ properties.push("expoOut"); }
+			camFocusOpponent(eventConvertTime(properties[1]), easeNameToEase(properties[2]));
+		}
+		else if(tag.startsWith("camFocusGf")){
+			var properties = tag.split(";");
+			if(properties.length < 2){ properties.push("1.9"); }
+			if(properties.length < 3){ properties.push("expoOut"); }
+			camFocusGF(eventConvertTime(properties[1]), easeNameToEase(properties[2]));
+		}
+		else if(tag.startsWith("camFocusCenter")){
+			var properties = tag.split(";");
+			if(properties.length < 2){ properties.push("0"); }
+			if(properties.length < 3){ properties.push("0"); }
+			var pos:FlxPoint = new FlxPoint(FlxMath.lerp(getOpponentFocusPosition().x, getBfFocusPostion().x, 0.5), FlxMath.lerp(getOpponentFocusPosition().y, getBfFocusPostion().y, 0.5));
+			camMove(pos.x + Std.parseFloat(properties[1]), pos.y + Std.parseFloat(properties[2]), 1.9, FlxEase.expoOut, "center");
+		}
 
 		else{
 			switch(tag){
@@ -2712,15 +2738,6 @@ class PlayState extends MusicBeatState
 					
 				case "camBopBig":
 					uiBop(0.035, 0.06, 0.8);
-
-				case "camFocusBf":
-					camFocusBF();
-
-				case "camFocusDad":
-					camFocusOpponent();
-
-				case "camFocusGf":
-					camFocusGF();
 
 				default:
 					if(stage.events.exists(tag)){
@@ -2811,6 +2828,8 @@ class PlayState extends MusicBeatState
 						FlxG.sound.play(Paths.sound("weekend1/shot" + FlxG.random.int(1, 4)));
 						executeEvent("phillyStreets-stageDarken");
 						executeEvent("phillyStreets-canShot");
+						camFocusBF();
+						camChangeZoom(0.85, (Conductor.crochet/1000) * 2, FlxEase.expoOut);
 					}
 					
 				//Blazin' Stuff
@@ -3121,6 +3140,8 @@ class PlayState extends MusicBeatState
 						}
 						FlxG.sound.play(Paths.sound("weekend1/Pico_Bonk"));
 						executeEvent("phillyStreets-canHit");
+						camFocusBF();
+						camChangeZoom(0.85, (Conductor.crochet/1000) * 2, FlxEase.expoOut);
 						health -= 0.5;
 						if(health <= 0){
 							openGameOver("PicoDeadExplode");
@@ -3517,10 +3538,11 @@ class PlayState extends MusicBeatState
 		return false;
 	}
 
-	public function camFocusOpponent(?_time:Float = 1.9){
+	public function camFocusOpponent(?_time:Float = 1.9, ?_ease:Null<flixel.tweens.EaseFunction>){
+		if(_ease == null){_ease = FlxEase.expoOut;}
 		
 		var pos = getOpponentFocusPosition();
-		camMove(pos.x, pos.y, _time, FlxEase.expoOut, "dad");
+		camMove(pos.x, pos.y, _time, _ease, "dad");
 		changeCamOffset(0, 0);
 
 		if (SONG.song.toLowerCase() == 'tutorial'){
@@ -3533,10 +3555,11 @@ class PlayState extends MusicBeatState
 		return new FlxPoint(dad.getMidpoint().x + dad.focusOffset.x + stage.dadCameraOffset.x, dad.getMidpoint().y + dad.focusOffset.y + stage.dadCameraOffset.y);
 	}
 
-	public function camFocusBF(?_time:Float = 1.9){
+	public function camFocusBF(?_time:Float = 1.9, ?_ease:Null<flixel.tweens.EaseFunction>){
+		if(_ease == null){_ease = FlxEase.expoOut;}
 
 		var pos = getBfFocusPostion();
-		camMove(pos.x, pos.y, _time, FlxEase.expoOut, "bf");
+		camMove(pos.x, pos.y, _time, _ease, "bf");
 		changeCamOffset(0, 0);
 
 		if (SONG.song.toLowerCase() == 'tutorial'){
@@ -3549,10 +3572,11 @@ class PlayState extends MusicBeatState
 		return new FlxPoint(boyfriend.getMidpoint().x + boyfriend.focusOffset.x + stage.bfCameraOffset.x, boyfriend.getMidpoint().y + boyfriend.focusOffset.y + stage.bfCameraOffset.y);
 	}
 
-	public function camFocusGF(?_time:Float = 1.9){
+	public function camFocusGF(?_time:Float = 1.9, ?_ease:Null<flixel.tweens.EaseFunction>){
+		if(_ease == null){_ease = FlxEase.expoOut;}
 
 		var pos = getGfFocusPosition();
-		camMove(pos.x, pos.y, _time, FlxEase.expoOut, "gf");
+		camMove(pos.x, pos.y, _time, _ease, "gf");
 		changeCamOffset(0, 0);
 
 	}
