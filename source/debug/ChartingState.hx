@@ -1,5 +1,6 @@
 package debug;
 
+import note.Note;
 import transition.data.InstantTransition;
 import flixel.addons.ui.FlxUIText;
 import flixel.util.FlxTimer;
@@ -1673,44 +1674,60 @@ class ChartingState extends MusicBeatState
 					eventSymbol.loadGraphic(loadAndCacheEventGraphic("gfSetAnimSet"));
 					customIcon = true;
 				}
-				else if(tag.startsWith("cc;")){
+				else if(tag.startsWith("cc")){
 					eventSymbol.loadGraphic(loadAndCacheEventGraphic("cc"));
 					customIcon = true;
 				}
-				else if(tag.startsWith("camMove;")){
+				else if(tag.startsWith("camMove")){
 					eventSymbol.loadGraphic(loadAndCacheEventGraphic("camMove"));
 					customIcon = true;
 				}
-				else if(tag.startsWith("camZoom;")){
+				else if(tag.startsWith("camZoom")){
 					eventSymbol.loadGraphic(loadAndCacheEventGraphic("camZoom"));
 					customIcon = true;
 				}
-				else if(tag.startsWith("gfBopFreq;")){
+				else if(tag.startsWith("gfBopFreq")){
 					eventSymbol.loadGraphic(loadAndCacheEventGraphic("gfBopFreq"));
 					customIcon = true;
 				}
-				else if(tag.startsWith("iconBopFreq;")){
+				else if(tag.startsWith("iconBopFreq")){
 					eventSymbol.loadGraphic(loadAndCacheEventGraphic("iconBopFreq"));
 					customIcon = true;
 				}
-				else if(tag.startsWith("camBopFreq;")){
+				else if(tag.startsWith("camBopFreq")){
 					eventSymbol.loadGraphic(loadAndCacheEventGraphic("camBopFreq"));
 					customIcon = true;
 				}
-				else if(tag.startsWith("flash;")){
+				else if(tag.startsWith("flash")){
 					eventSymbol.loadGraphic(loadAndCacheEventGraphic("flash"));
 					customIcon = true;
 				}
-				else if(tag.startsWith("flashHud;")){
+				else if(tag.startsWith("flashHud")){
 					eventSymbol.loadGraphic(loadAndCacheEventGraphic("flashHud"));
 					customIcon = true;
 				}
-				else if(tag.startsWith("fadeOut;")){
+				else if(tag.startsWith("fadeOut")){
 					eventSymbol.loadGraphic(loadAndCacheEventGraphic("fadeOut"));
 					customIcon = true;
 				}
-				else if(tag.startsWith("fadeOutHud;")){
+				else if(tag.startsWith("fadeOutHud")){
 					eventSymbol.loadGraphic(loadAndCacheEventGraphic("fadeOutHud"));
+					customIcon = true;
+				}
+				else if(tag.startsWith("camFocusBf")){
+					eventSymbol.loadGraphic(loadAndCacheEventGraphic("camFocusBf"));
+					customIcon = true;
+				}
+				else if(tag.startsWith("camFocusDad")){
+					eventSymbol.loadGraphic(loadAndCacheEventGraphic("camFocusDad"));
+					customIcon = true;
+				}
+				else if(tag.startsWith("camFocusGf")){
+					eventSymbol.loadGraphic(loadAndCacheEventGraphic("camFocusGf"));
+					customIcon = true;
+				}
+				else if(tag.startsWith("camFocusCenter")){
+					eventSymbol.loadGraphic(loadAndCacheEventGraphic("camFocusCenter"));
 					customIcon = true;
 				}
 

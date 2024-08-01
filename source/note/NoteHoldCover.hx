@@ -1,4 +1,4 @@
-package;
+package note;
 
 import config.Config;
 import flixel.math.FlxPoint;

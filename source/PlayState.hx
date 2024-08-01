@@ -1,5 +1,6 @@
 package;
 
+import note.*;
 import flixel.math.FlxAngle;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
@@ -78,7 +79,7 @@ class PlayState extends MusicBeatState
 	private var releaseTimes:Array<Float> = [-1, -1, -1, -1];
 	private final releaseBufferTime = (2/60);
 
-	private var forceMissNextNote:Bool = false;
+	public var forceMissNextNote:Bool = false;
 
 	public var camFocus:String = "";
 	private var camTween:FlxTween;
@@ -96,7 +97,7 @@ class PlayState extends MusicBeatState
 	private var shakeTween:FlxTween;
 	private var shakeReturnTween:FlxTween;
 	
-	private var camOffsetAmount:Float = 25;
+	public var camOffsetAmount:Float = 25;
 
 	public var autoCam:Bool = true;
 	public var autoZoom:Bool = true;
@@ -1709,7 +1710,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function openGameOver(?character:String):Void{
+	public function openGameOver(?character:String):Void{
 		if(character == null){
 			character = boyfriend.deathCharacter;
 		}
@@ -2686,6 +2687,32 @@ class PlayState extends MusicBeatState
 			if(properties.length < 3){ properties.push("linear"); }
 			endCamShake(eventConvertTime(properties[1]), easeNameToEase(properties[2]));
 		}
+		
+		else if(tag.startsWith("camFocusBf")){
+			var properties = tag.split(";");
+			if(properties.length < 2){ properties.push("1.9"); }
+			if(properties.length < 3){ properties.push("expoOut"); }
+			camFocusBF(eventConvertTime(properties[1]), easeNameToEase(properties[2]));
+		}
+		else if(tag.startsWith("camFocusDad")){
+			var properties = tag.split(";");
+			if(properties.length < 2){ properties.push("1.9"); }
+			if(properties.length < 3){ properties.push("expoOut"); }
+			camFocusOpponent(eventConvertTime(properties[1]), easeNameToEase(properties[2]));
+		}
+		else if(tag.startsWith("camFocusGf")){
+			var properties = tag.split(";");
+			if(properties.length < 2){ properties.push("1.9"); }
+			if(properties.length < 3){ properties.push("expoOut"); }
+			camFocusGF(eventConvertTime(properties[1]), easeNameToEase(properties[2]));
+		}
+		else if(tag.startsWith("camFocusCenter")){
+			var properties = tag.split(";");
+			if(properties.length < 2){ properties.push("0"); }
+			if(properties.length < 3){ properties.push("0"); }
+			var pos:FlxPoint = new FlxPoint(FlxMath.lerp(getOpponentFocusPosition().x, getBfFocusPostion().x, 0.5), FlxMath.lerp(getOpponentFocusPosition().y, getBfFocusPostion().y, 0.5));
+			camMove(pos.x + Std.parseFloat(properties[1]), pos.y + Std.parseFloat(properties[2]), 1.9, FlxEase.expoOut, "center");
+		}
 
 		else{
 			switch(tag){
@@ -2713,15 +2740,6 @@ class PlayState extends MusicBeatState
 				case "camBopBig":
 					uiBop(0.035, 0.06, 0.8);
 
-				case "camFocusBf":
-					camFocusBF();
-
-				case "camFocusDad":
-					camFocusOpponent();
-
-				case "camFocusGf":
-					camFocusGF();
-
 				default:
 					if(stage.events.exists(tag)){
 						stage.events.get(tag)();
@@ -2734,7 +2752,7 @@ class PlayState extends MusicBeatState
 		return;
 	}
 
-	function defaultNoteHit(note:Note, character:Character):Void{
+	public function defaultNoteHit(note:Note, character:Character):Void{
 		if(character.canAutoAnim){
 			switch (note.noteData){
 				case 0:
@@ -2750,7 +2768,7 @@ class PlayState extends MusicBeatState
 		getExtraCamMovement(note);
 	}
 
-	function defaultNoteMiss(direction:Int, character:Character):Void{
+	public function defaultNoteMiss(direction:Int, character:Character):Void{
 		if(character.canAutoAnim){
 			switch (direction){
 				case 0:
@@ -2766,704 +2784,44 @@ class PlayState extends MusicBeatState
 	}
 
 	function setNoteHitCallback(note:Note):Void{
+
 		if(!note.isSustainNote){ //Normal notes
-			switch(note.type){
-				//Weekend 1 Note Types
-				case "weekend-1-lightcan":
-					note.hitCallback = function(note:Note, character:Character){
-						if(character.canAutoAnim){
-							character.playAnim('lightCan', true);
-						}
-						FlxG.sound.play(Paths.sound("weekend1/Darnell_Lighter"));
-					}
-				case "weekend-1-kickcan":
-					note.hitCallback = function(note:Note, character:Character){
-						if(character.canAutoAnim){
-							character.playAnim('kickUp', true);
-						}
-						FlxG.sound.play(Paths.sound("weekend1/Kick_Can_UP"));
-						executeEvent("phillyStreets-canKick");
-					}
-				case "weekend-1-kneecan":
-					note.hitCallback = function(note:Note, character:Character){
-						if(character.canAutoAnim){
-							character.playAnim('kneeForward', true);
-						}
-						FlxG.sound.play(Paths.sound("weekend1/Kick_Can_FORWARD"));
-						executeEvent("phillyStreets-canKickForward");
-					}
-				case "weekend-1-cockgun":
-					note.hitCallback = function(note:Note, character:Character){
-						if(character.canAutoAnim){
-							character.playAnim('reload', true);
-						}
-						getExtraCamMovement(note);
-						FlxG.sound.play(Paths.sound("weekend1/Gun_Prep"));
-						executeEvent("phillyStreets-playerGlow");
-					}
-				case "weekend-1-firegun":
-					note.hitCallback = function(note:Note, character:Character){
-						if(character.canAutoAnim){
-							character.playAnim('shoot', true);
-						}
-						character.danceLockout = true;
-						getExtraCamMovement(note);
-						FlxG.sound.play(Paths.sound("weekend1/shot" + FlxG.random.int(1, 4)));
-						executeEvent("phillyStreets-stageDarken");
-						executeEvent("phillyStreets-canShot");
-					}
-					
-				//Blazin' Stuff
-				case "weekend-1-punchlow":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('punchLow' + alternating(), true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('hitLow', true);
-						}
-						changeCamOffset(-1 * camOffsetAmount, 0.5 * camOffsetAmount);
-						setBfOnTop();
-						camShake(0.0025, 1/30, 0.15);
-					}
-				case "weekend-1-punchlowblocked":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('punchLow' + alternating(), true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('block', true);
-						}
-						changeCamOffset(-1 * camOffsetAmount, 0.5 * camOffsetAmount);
-						setBfOnTop();
-						camShake(0.002, 1/30, 0.1);
-					}
-				case "weekend-1-punchlowdodged":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('punchLow' + alternating(), true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('dodge', true);
-						}
-						changeCamOffset(-1 * camOffsetAmount, 0.5 * camOffsetAmount);
-						setBfOnTop();
-					}
-				case "weekend-1-punchlowspin":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('punchLow' + alternating(), true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('hitSpin', true);
-						}
-						changeCamOffset(-1 * camOffsetAmount, 0.5 * camOffsetAmount);
-						setBfOnTop();
-						camShake(0.0025, 1/30, 0.15);
-					}
-
-				case "weekend-1-punchhigh":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('punchHigh' + alternating(), true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('hitHigh', true);
-						}
-						changeCamOffset(-1 * camOffsetAmount, 0);
-						setBfOnTop();
-						camShake(0.0025, 1/30, 0.15);
-					}
-				case "weekend-1-punchhighblocked":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('punchHigh' + alternating(), true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('block', true);
-						}
-						changeCamOffset(-1 * camOffsetAmount, 0);
-						setBfOnTop();
-						camShake(0.002, 1/30, 0.1);
-					}
-				case "weekend-1-punchhighdodged":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('punchHigh' + alternating(), true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('dodge', true);
-						}
-						changeCamOffset(-1 * camOffsetAmount, 0);
-						setBfOnTop();
-					}
-				case "weekend-1-punchhighspin":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('punchHigh' + alternating(), true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('hitSpin', true);
-						}
-						changeCamOffset(-1 * camOffsetAmount, 0);
-						setBfOnTop();
-						camShake(0.0025, 1/30, 0.15);
-					}
-
-				case "weekend-1-blockhigh":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('block', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						changeCamOffset(1 * camOffsetAmount, 0);
-						setOppOnTop();
-						camShake(0.002, 1/30, 0.1);
-					}
-				case "weekend-1-blocklow":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('block', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchLow' + alternating(), true);
-						}
-						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
-						setOppOnTop();
-						camShake(0.002, 1/30, 0.1);
-					}
-				case "weekend-1-blockspin":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('block', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						changeCamOffset(1 * camOffsetAmount, 0);
-						setOppOnTop();
-						camShake(0.002, 1/30, 0.1);
-					}
-
-				case "weekend-1-dodgehigh":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('dodge', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						changeCamOffset(1 * camOffsetAmount, 0);
-						setOppOnTop();
-					}
-				case "weekend-1-dodgelow":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('dodge', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchLow' + alternating(), true);
-						}
-						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
-						setOppOnTop();
-					}
-				case "weekend-1-dodgespin":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('dodge', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						changeCamOffset(1 * camOffsetAmount, 0);
-						setOppOnTop();
-					}
-
-				// Pico ALWAYS gets punched.
-				case "weekend-1-hithigh":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitHigh', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						changeCamOffset(1 * camOffsetAmount, 0);
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-					}
-				case "weekend-1-hitlow":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitLow', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchLow' + alternating(), true);
-						}
-						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-					}
-				case "weekend-1-hitspin":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitSpin', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						changeCamOffset(1 * camOffsetAmount, 0);
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-					}
-
-				case "weekend-1-picouppercutprep":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('uppercutPrep', true);
-						}
-						changeCamOffset(1 * camOffsetAmount, 1 * camOffsetAmount);
-						setBfOnTop();
-					}
-				case "weekend-1-picouppercut":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('uppercutPunch', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('uppercutHit', true);
-						}
-						changeCamOffset(0, -1 * camOffsetAmount);
-						setBfOnTop();
-						camShake(0.005, 1/30, 0.25);
-					}
-
-				case "weekend-1-darnelluppercutprep":
-					note.hitCallback = function(note:Note, character:Character){
-						if(dad.canAutoAnim){
-							dad.playAnim('uppercutPrep', true);
-						}
-						changeCamOffset(-1 * camOffsetAmount, 1 * camOffsetAmount);
-						setOppOnTop();
-					}
-				case "weekend-1-darnelluppercut":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('uppercutHit', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('uppercutPunch', true);
-						}
-						changeCamOffset(0, -1 * camOffsetAmount);
-						setOppOnTop();
-						camShake(0.005, 1/30, 0.25);
-					}
-
-				case "weekend-1-idle":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('idle', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('idle', true);
-						}
-						changeCamOffset(0, 0);
-						setBfOnTop();
-					}
-				case "weekend-1-fakeout":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('fakeHit', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('cringe', true);
-						}
-						changeCamOffset(-1 * camOffsetAmount, 0);
-						setBfOnTop();
-					}
-				case "weekend-1-taunt":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('taunt', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('pissed', true);
-						}
-						changeCamOffset(0, 0);
-						setBfOnTop();
-					}
-				/*case "weekend-1-tauntforce":
-					note.hitCallback = function(note:Note, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('taunt', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('pissed', true);
-						}
-						changeCamOffset(0, 0);
-						setBfOnTop();
-					}*/
-				//case "weekend-1-reversefakeout":
-				//	playIdleAnim(); // TODO: Which anim?
-				default:
-					note.hitCallback = defaultNoteHit;
+			if(NoteType.types.exists(note.type)){
+				var callbacks = NoteType.types.get(note.type);
+				if(callbacks[0] != null){ note.hitCallback = callbacks[0]; }
+				else{ note.hitCallback = defaultNoteHit; }
+				if(callbacks[1] != null){ note.missCallback = callbacks[1]; }
+				else{ note.missCallback = defaultNoteMiss; }
 			}
-
-			//miss callback
-			switch(note.type){
-				//Weekend 1 Note Types
-				case "weekend-1-firegun":
-					note.missCallback = function(direction:Int, character:Character){
-						if(character.canAutoAnim){
-							character.playAnim('hit', true);
-						}
-						FlxG.sound.play(Paths.sound("weekend1/Pico_Bonk"));
-						executeEvent("phillyStreets-canHit");
-						health -= 0.5;
-						if(health <= 0){
-							openGameOver("PicoDeadExplode");
-						}
-					}
-				case "weekend-1-cockgun":
-					note.missCallback = function(direction:Int, character:Character){
-						defaultNoteMiss(direction, character);
-						forceMissNextNote = true;
-					}
-
-				//Blazin' Stuff
-				case "weekend-1-punchlow":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitLow', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchLow' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
-					}
-				case "weekend-1-punchlowblocked":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitLow', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchLow' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
-					}
-				case "weekend-1-punchlowdodged":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitLow', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchLow' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
-					}
-				case "weekend-1-punchlowspin":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitSpin', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchLow' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
-					}
-
-				case "weekend-1-punchhigh":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitHigh', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0);
-					}
-				case "weekend-1-punchhighblocked":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitHigh', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0);
-					}
-				case "weekend-1-punchhighdodged":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitHigh', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0);
-					}
-				case "weekend-1-punchhighspin":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitSpin', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0);
-					}
-
-				case "weekend-1-blockhigh":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitHigh', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0);
-					}
-				case "weekend-1-blocklow":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitLow', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchLow' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
-					}
-				case "weekend-1-blockspin":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitSpin', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0);
-					}
-
-				case "weekend-1-dodgehigh":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitHigh', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0);
-					}
-				case "weekend-1-dodgelow":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitLow', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchLow' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
-					}
-				case "weekend-1-dodgespin":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitSpin', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0);
-					}
-
-				// Pico ALWAYS gets punched.
-				case "weekend-1-hithigh":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitHigh', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0);
-					}
-				case "weekend-1-hitlow":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitLow', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchLow' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
-					}
-				case "weekend-1-hitspin":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitSpin', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0);
-					}
-
-				case "weekend-1-picouppercutprep":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitLow', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchLow' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0.5 * camOffsetAmount);
-					}
-				case "weekend-1-picouppercut":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitSpin', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0);
-					}
-
-				case "weekend-1-darnelluppercutprep":
-					note.missCallback = function(direction:Int, character:Character){
-						if(dad.canAutoAnim){
-							dad.playAnim('uppercutPrep', true);
-						}
-						changeCamOffset(-1 * camOffsetAmount, 1 * camOffsetAmount);
-						setOppOnTop();
-					}
-				case "weekend-1-darnelluppercut":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('uppercutHit', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('uppercutPunch', true);
-						}
-						changeCamOffset(0, -1 * camOffsetAmount);
-						setOppOnTop();
-						camShake(0.005, 1/30, 0.25);
-					}
-
-				case "weekend-1-idle":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('idle', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('idle', true);
-						}
-						changeCamOffset(0, 0);
-						setBfOnTop();
-					}
-					
-				case "weekend-1-fakeout":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('punchHigh' + alternating(), true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('dodge', true);
-						}
-						setBfOnTop();
-						changeCamOffset(-1 * camOffsetAmount, 0);
-					}
-				case "weekend-1-taunt":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('hitSpin', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('punchHigh' + alternating(), true);
-						}
-						setOppOnTop();
-						camShake(0.0025, 1/30, 0.15);
-						changeCamOffset(1 * camOffsetAmount, 0);
-					}
-				/*case "weekend-1-tauntforce":
-					note.missCallback = function(direction:Int, character:Character){
-						if(boyfriend.canAutoAnim){
-							boyfriend.playAnim('taunt', true);
-						}
-						if(dad.canAutoAnim){
-							dad.playAnim('pissed', true);
-						}
-						getExtraCamMovement(note);
-						setBfOnTop();
-					}*/
-				//case "weekend-1-reversefakeout":
-				//	playIdleAnim(); // TODO: Which anim?
-				default:
-					note.missCallback = defaultNoteMiss;
+			else{
+				note.hitCallback = defaultNoteHit;
+				note.missCallback = defaultNoteMiss;
 			}
 		}
 		else{ //sustain notes
-			//hit callback
-			switch(note.type){
-				default:
-					note.hitCallback = defaultNoteHit;
+			if(NoteType.sustainTypes.exists(note.type)){
+				var callbacks = NoteType.sustainTypes.get(note.type);
+				if(callbacks[0] != null){ note.hitCallback = callbacks[0]; }
+				else{ note.hitCallback = defaultNoteHit; }
+				if(callbacks[1] != null){ note.missCallback = callbacks[1]; }
+				else{ note.missCallback = defaultNoteMiss; }
 			}
-
-			//miss callback
-			switch(note.type){
-				default:
-					note.missCallback = defaultNoteMiss;
+			else{
+				note.hitCallback = defaultNoteHit;
+				note.missCallback = defaultNoteMiss;
 			}
 		}
+		
 	}
 
 	var alternate:Bool = true;
-	function alternating():Int{
+	public function alternating():Int{
 		alternate = !alternate;
 		return (alternate) ? 2 : 1;
 	}
 
 	var bfOnTop:Bool = true;
-	function setBfOnTop():Void{
+	public function setBfOnTop():Void{
 		if(bfOnTop){ return; }
 		bfOnTop = true;
 		characterLayer.remove(boyfriend);
@@ -3471,7 +2829,7 @@ class PlayState extends MusicBeatState
 		characterLayer.add(dad);
 		characterLayer.add(boyfriend);
 	}
-	function setOppOnTop():Void{
+	public function setOppOnTop():Void{
 		if(!bfOnTop){ return; }
 		bfOnTop = false;
 		characterLayer.remove(boyfriend);
@@ -3480,7 +2838,7 @@ class PlayState extends MusicBeatState
 		characterLayer.add(dad);
 	}
 
-	function getExtraCamMovement(note:Note):Void{
+	public function getExtraCamMovement(note:Note):Void{
 		switch (note.noteData){
 			case 0:
 				if(!note.isSustainNote){ changeCamOffset(-1 * camOffsetAmount, 0); }
@@ -3517,10 +2875,11 @@ class PlayState extends MusicBeatState
 		return false;
 	}
 
-	public function camFocusOpponent(?_time:Float = 1.9){
+	public function camFocusOpponent(?_time:Float = 1.9, ?_ease:Null<flixel.tweens.EaseFunction>){
+		if(_ease == null){_ease = FlxEase.expoOut;}
 		
 		var pos = getOpponentFocusPosition();
-		camMove(pos.x, pos.y, _time, FlxEase.expoOut, "dad");
+		camMove(pos.x, pos.y, _time, _ease, "dad");
 		changeCamOffset(0, 0);
 
 		if (SONG.song.toLowerCase() == 'tutorial'){
@@ -3533,10 +2892,11 @@ class PlayState extends MusicBeatState
 		return new FlxPoint(dad.getMidpoint().x + dad.focusOffset.x + stage.dadCameraOffset.x, dad.getMidpoint().y + dad.focusOffset.y + stage.dadCameraOffset.y);
 	}
 
-	public function camFocusBF(?_time:Float = 1.9){
+	public function camFocusBF(?_time:Float = 1.9, ?_ease:Null<flixel.tweens.EaseFunction>){
+		if(_ease == null){_ease = FlxEase.expoOut;}
 
 		var pos = getBfFocusPostion();
-		camMove(pos.x, pos.y, _time, FlxEase.expoOut, "bf");
+		camMove(pos.x, pos.y, _time, _ease, "bf");
 		changeCamOffset(0, 0);
 
 		if (SONG.song.toLowerCase() == 'tutorial'){
@@ -3549,10 +2909,11 @@ class PlayState extends MusicBeatState
 		return new FlxPoint(boyfriend.getMidpoint().x + boyfriend.focusOffset.x + stage.bfCameraOffset.x, boyfriend.getMidpoint().y + boyfriend.focusOffset.y + stage.bfCameraOffset.y);
 	}
 
-	public function camFocusGF(?_time:Float = 1.9){
+	public function camFocusGF(?_time:Float = 1.9, ?_ease:Null<flixel.tweens.EaseFunction>){
+		if(_ease == null){_ease = FlxEase.expoOut;}
 
 		var pos = getGfFocusPosition();
-		camMove(pos.x, pos.y, _time, FlxEase.expoOut, "gf");
+		camMove(pos.x, pos.y, _time, _ease, "gf");
 		changeCamOffset(0, 0);
 
 	}

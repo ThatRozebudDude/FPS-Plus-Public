@@ -1,5 +1,6 @@
 package debug;
 
+import note.NoteSplash;
 import flixel.math.FlxPoint;
 import characters.CharacterInfoBase;
 import config.Config;
