@@ -22,7 +22,7 @@ class Darnell extends CharacterInfoBase
 	    addByPrefix('singRIGHT', offset(4, 3), 'Pose Right', 24, loop(true, -8));
 	    addByPrefix('laugh', offset(), 'Laugh', 24, loop(false));
 	    addByIndices('laughCutscene', offset(), 'Laugh', [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5], "", 24, loop(false));
-	    addByPrefix('lightCan', offset(8, 1), 'Light Can', 24, loop(true, -8));
+	    addByPrefix('lightCan', offset(8, 1), 'Light Can', 24, loop(true, -6));
 	    addByPrefix('kickUp', offset(15, 9), 'Kick Up', 24, loop(false));
 	    addByPrefix('kneeForward', offset(7, -1), 'Knee Forward', 24, loop(false));
 	    addByPrefix('pissed', offset(), 'Gets Pissed', 24, loop(false));

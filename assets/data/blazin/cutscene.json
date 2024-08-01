@@ -1,0 +1,11 @@
+{
+  "startCutscene": "null",
+  "endCutscene": {
+    "name": "VideoCutsceneEnd",
+    "args": [
+      "weekend1/blazinCutscene",
+      true
+    ],
+    "storyOnly": true
+  }
+}

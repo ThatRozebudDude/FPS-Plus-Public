@@ -128,11 +128,10 @@ class GameOverSubstate extends MusicBeatSubstate
 		bf.playAnim('deathConfirm', true);
 		FlxG.sound.music.stop();
 		FlxG.sound.play(Paths.music('gameOver/gameOverEnd' + suffix));
-		new FlxTimer().start(0.4, function(tmr:FlxTimer)
-		{
-			FlxG.camera.fade(FlxColor.BLACK, 1.2, false, function()
-			{
+		new FlxTimer().start(0.4, function(tmr:FlxTimer){
+			FlxG.camera.fade(FlxColor.BLACK, 1.2, false, function(){
 				PlayState.instance.switchState(new PlayState());
+				PlayState.replayStartCutscene = false;
 			});
 		});
 	}

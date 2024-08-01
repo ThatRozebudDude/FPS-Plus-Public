@@ -146,10 +146,12 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.tweenManager.clear();
 					PlayState.instance.switchState(new PlayState());
 					PlayState.sectionStart = false;
+					PlayState.replayStartCutscene = false;
 
 				case "Restart Section":
 					PlayState.instance.tweenManager.clear();
 					PlayState.instance.switchState(new PlayState());
+					PlayState.replayStartCutscene = false;
 
 				case "Chart Editor":
 					PlayState.instance.tweenManager.clear();
@@ -164,6 +166,7 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.tweenManager.clear();
 					PlayState.instance.switchState(new ConfigMenu());
 					ConfigMenu.exitTo = PlayState;
+					PlayState.replayStartCutscene = false;
 					
 				case "Exit to menu":
 					PlayState.instance.tweenManager.clear();

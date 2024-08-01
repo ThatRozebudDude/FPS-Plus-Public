@@ -43,7 +43,7 @@ class PicoDead extends CharacterInfoBase
         retryButton.antialiasing = true;
         retryButton.visible = false;
 
-        nene = new FlxSprite(647, -92);
+        nene = new FlxSprite(character.x - 567, character.y - 327);
         nene.frames = Paths.getSparrowAtlas("weekend1/NeneKnifeToss");
         nene.antialiasing = true;
         nene.animation.addByPrefix("throw", "knife toss", 24, false);

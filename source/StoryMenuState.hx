@@ -24,16 +24,16 @@ class StoryMenuState extends MusicBeatState
 
 	public static var fromPlayState:Bool = false;
 
-	public static var weekData = [
-		['Tutorial'],
-		['Bopeebo', 'Fresh', 'Dadbattle'],
-		['Spookeez', 'South', 'Monster'],
-		['Pico', 'Philly', "Blammed"],
-		['Satin-Panties', "High", "Milf"],
-		['Cocoa', 'Eggnog', 'Winter-Horrorland'],
-		['Senpai', 'Roses', 'Thorns'],
-		['Ugh', 'Guns', 'Stress'],
-		['Darnell', 'Lit-Up', '2hot', 'Blazin']
+	public static var weekData:Map<Int, Array<String>> = [
+		0 => ['Tutorial'],
+		1 => ['Bopeebo', 'Fresh', 'Dadbattle'],
+		2 => ['Spookeez', 'South', 'Monster'],
+		3 => ['Pico', 'Philly', "Blammed"],
+		4 => ['Satin-Panties', "High", "Milf"],
+		5 => ['Cocoa', 'Eggnog', 'Winter-Horrorland'],
+		6 => ['Senpai', 'Roses', 'Thorns'],
+		7 => ['Ugh', 'Guns', 'Stress'],
+		101 => ['Darnell', 'Lit-Up', '2hot', 'Blazin']
 	];
 	var curDifficulty:Int = 1;
 
@@ -152,7 +152,7 @@ class StoryMenuState extends MusicBeatState
 
 		trace("Line 70");
 
-		for (i in 0...weekData.length)
+		for (i in 0...weekNumber.length)
 		{
 			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, weekNumber[i]);
 			weekThing.y += ((weekThing.height + 20) * i);
@@ -334,7 +334,7 @@ class StoryMenuState extends MusicBeatState
 				stopspamming = true;
 			}
 
-			PlayState.storyPlaylist = weekData[curWeek];
+			PlayState.storyPlaylist = weekData[weekNumber[curWeek]].copy();
 			PlayState.isStoryMode = true;
 			selectedWeek = true;
 
@@ -416,10 +416,10 @@ class StoryMenuState extends MusicBeatState
 	{
 		curWeek += change;
 
-		if (curWeek >= weekData.length)
+		if (curWeek >= weekNumber.length)
 			curWeek = 0;
 		if (curWeek < 0)
-			curWeek = weekData.length - 1;
+			curWeek = weekNumber.length - 1;
 
 		sprDifficulty.frames = ui_tex;
 		sprDifficulty.animation.addByPrefix('easy', 'EASY');
@@ -455,7 +455,7 @@ class StoryMenuState extends MusicBeatState
 
 		txtTracklist.text = "Tracks\n";
 
-		var stringThing:Array<String> = weekData[curWeek];
+		var stringThing:Array<String> = weekData[weekNumber[curWeek]];
 
 		for (song in stringThing){
 			var meta = Json.parse(Utils.getText("assets/data/" + song.toLowerCase() + "/meta.json"));

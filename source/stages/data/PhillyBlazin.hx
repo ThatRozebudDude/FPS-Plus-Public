@@ -124,7 +124,7 @@ class PhillyBlazin extends BaseStage
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 
-		if(lightningActive){
+		if(lightningActive && !playstate().inCutscene){
 			lightningTimer -= FlxG.elapsed;
 		}
 

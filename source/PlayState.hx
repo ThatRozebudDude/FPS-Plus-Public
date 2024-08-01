@@ -98,10 +98,10 @@ class PlayState extends MusicBeatState
 	
 	private var camOffsetAmount:Float = 25;
 
-	private var autoCam:Bool = true;
-	private var autoZoom:Bool = true;
-	private var autoUi:Bool = true;
-	private var autoCamBop:Bool = true;
+	public var autoCam:Bool = true;
+	public var autoZoom:Bool = true;
+	public var autoUi:Bool = true;
+	public var autoCamBop:Bool = true;
 
 	private var gfBopFrequency:Int = 1;
 	private var iconBopFrequency:Int = 1;
@@ -236,16 +236,21 @@ class PlayState extends MusicBeatState
 	public static var daPixelZoom:Float = 6;
 
 	var video:VideoHandler;
-	var inCutscene:Bool = false;
-	var inVideoCutscene:Bool = false;
-	var inEndingCutscene:Bool = false;
+	public var inCutscene:Bool = false;
+	public var inVideoCutscene:Bool = false;
+	public var inEndingCutscene:Bool = false;
 
 	var songEnded:Bool = false;
 
 	var startCutscene:Dynamic;
 	var startCutsceneStoryOnly:Bool;
+	var startCutscenePlayOnce:Bool = false;
 	var endCutscene:Dynamic;
 	var endCutsceneStoryOnly:Bool;
+	var endCutscenePlayOnce:Bool = false;
+
+	public static var replayStartCutscene:Bool = true;
+	public static var replayEndCutscene:Bool = true;
 
 	var dadBeats:Array<Int> = [0, 2];
 	var bfBeats:Array<Int> = [1, 3];
@@ -721,6 +726,7 @@ class PlayState extends MusicBeatState
 				startCutsceneStoryOnly = cutsceneJson.startCutscene.storyOnly;
 				var startCutsceneArgs = [];
 				if(cutsceneJson.startCutscene.args != null) {startCutsceneArgs = cutsceneJson.startCutscene.args;}
+				if(cutsceneJson.startCutscene.playOnce != null) {startCutscenePlayOnce = cutsceneJson.startCutscene.playOnce;}
 				startCutscene = Type.createInstance(startCutsceneClass, startCutsceneArgs);
 			}
 			//trace(startCutscene);
@@ -731,6 +737,7 @@ class PlayState extends MusicBeatState
 				endCutsceneStoryOnly = cutsceneJson.endCutscene.storyOnly;
 				var endCutsceneArgs = [];
 				if(cutsceneJson.endCutscene.args != null) {endCutsceneArgs = cutsceneJson.endCutscene.args;}
+				if(cutsceneJson.endCutscene.playOnce != null) {endCutscenePlayOnce = cutsceneJson.endCutscene.playOnce;}
 				endCutscene = Type.createInstance(endCutsceneClass, endCutsceneArgs);
 			}
 			//trace(endCutscene);
@@ -769,7 +776,7 @@ class PlayState extends MusicBeatState
 
 	function cutsceneCheck():Void{
 		//trace("in cutsceneCheck");
-		if(startCutscene != null && (!startCutsceneStoryOnly || (startCutsceneStoryOnly && isStoryMode))){
+		if(startCutscene != null && (!startCutsceneStoryOnly || (startCutsceneStoryOnly && isStoryMode)) && (startCutscenePlayOnce ? replayStartCutscene : true)){
 			add(startCutscene);
 			inCutscene = true;
 			startCutscene.start();
@@ -777,6 +784,7 @@ class PlayState extends MusicBeatState
 		else{
 			startCountdown();
 		}
+		replayStartCutscene = true;
 	}
 
 	function updateAccuracy(){
@@ -1476,7 +1484,7 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float) {
 
-		if(inCutscene && inVideoCutscene){
+		if(inCutscene && inVideoCutscene && video != null){
 			if(Binds.justPressed("menuAccept")){
 				tweenManager.tween(video, {alpha: 0, volume: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
 					video.skip();
@@ -1517,7 +1525,6 @@ class PlayState extends MusicBeatState
 				keyShitAuto();
 		 	}
 		}
-		
 		
 		if(FlxG.keys.pressed.SHIFT && FlxG.keys.justPressed.TAB && !isStoryMode){
 			autoplay = !autoplay;
@@ -1875,6 +1882,7 @@ class PlayState extends MusicBeatState
 		else{
 			endSong();
 		}
+		endingSong = true;
 	}
 
 	function stopMusic():Void{
@@ -1893,7 +1901,6 @@ class PlayState extends MusicBeatState
 	public function endSong():Void{
 		
 		inEndingCutscene = false;
-		endingSong = true;
 
 		if(!songEnded){ stopMusic(); }
 
@@ -1904,7 +1911,7 @@ class PlayState extends MusicBeatState
 			if (!preventScoreSaving){
 				Highscore.saveScore(SONG.song, songStats.score, songStats.accuracy, storyDifficulty, Highscore.calculateRank(songStats));
 				weekStats.score += songStats.score;
-				weekStats.highestCombo += songStats.highestCombo;
+				if(songStats.highestCombo > weekStats.highestCombo) {weekStats.highestCombo = songStats.highestCombo;}
 				weekStats.accuracy += songStats.accuracy;
 				weekStats.sickCount += songStats.sickCount;
 				weekStats.goodCount += songStats.goodCount;
