@@ -20,7 +20,7 @@ class Spooky extends CharacterInfoBase
 		addByPrefix('singDOWN', offset(-46, -144), 'spooky DOWN note', 24, loop(false));
 		addByPrefix('singLEFT', offset(124, -13), 'note sing left', 24, loop(false));
 		addByPrefix('singRIGHT', offset(-130, -14), 'spooky sing right', 24, loop(false));
-		addByPrefix("cheer", offset(50, 30), "Cheer", 24, loop(false, 0), false, false);
+		addByPrefix("singCHEER", offset(50, 30), "Cheer", 24, loop(false, 0), false, false);
 
         info.idleSequence = ["danceLeft", "danceRight"];
         

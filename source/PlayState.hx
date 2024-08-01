@@ -754,7 +754,7 @@ class PlayState extends MusicBeatState
 		bgDim.alpha = Config.bgDim/10;
 		add(bgDim);
 
-		if(fromChartEditor){
+		if(fromChartEditor && !fceForLilBuddies){
 			preventScoreSaving = true;
 		}
 		fromChartEditor = false;

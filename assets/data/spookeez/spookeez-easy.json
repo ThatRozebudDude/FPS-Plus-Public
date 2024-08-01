@@ -192,6 +192,12 @@
 				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
+						15600,
+						2,
+						0,
+						"week-2-cheer"
+					],
+					[
 						14399.999,
 						1,
 						0
@@ -204,11 +210,6 @@
 					[
 						15199.999,
 						1,
-						0
-					],
-					[
-						15599.999,
-						2,
 						0
 					]
 				],
@@ -253,6 +254,12 @@
 				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
+						18800,
+						2,
+						0,
+						"week-2-cheer"
+					],
+					[
 						17600,
 						1,
 						0
@@ -270,11 +277,6 @@
 					[
 						18800,
 						4,
-						0
-					],
-					[
-						18800,
-						2,
 						0
 					]
 				],
@@ -735,6 +737,12 @@
 				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
+						41200,
+						2,
+						0,
+						"week-2-cheer"
+					],
+					[
 						40000,
 						1,
 						0
@@ -747,11 +755,6 @@
 					[
 						40800,
 						1,
-						0
-					],
-					[
-						41200,
-						2,
 						0
 					]
 				],
@@ -796,6 +799,12 @@
 				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
+						44400,
+						2,
+						0,
+						"week-2-cheer"
+					],
+					[
 						43200,
 						1,
 						0
@@ -813,11 +822,6 @@
 					[
 						44400,
 						4,
-						0
-					],
-					[
-						44400,
-						2,
 						0
 					],
 					[
@@ -1968,6 +1972,13 @@
 				"sectionNotes": [],
 				"bpm": 0,
 				"changeBPM": null,
+				"mustHitSection": true
+			},
+			{
+				"lengthInSteps": 16,
+				"sectionNotes": [],
+				"bpm": 0,
+				"changeBPM": false,
 				"mustHitSection": true
 			},
 			{

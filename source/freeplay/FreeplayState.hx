@@ -225,8 +225,6 @@ class FreeplayState extends MusicBeatState
 			addSong("Lil-Buddies-Erect", "bf", 0, [/*"ERECT",*/ "Secret"]);
 		}
 
-		
-
 		super.create();
 	} 
 
