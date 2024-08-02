@@ -2922,7 +2922,7 @@ class PlayState extends MusicBeatState
 		return new FlxPoint(gf.getMidpoint().x + gf.focusOffset.x + stage.gfCameraOffset.x, gf.getMidpoint().y + gf.focusOffset.y + stage.gfCameraOffset.y);
 	}
 
-	public function camMove(_x:Float, _y:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_focus:String = "", ?_onComplete:Null<TweenCallback> = null):Void{
+	public function camMove(_x:Float, _y:Float, _time:Float, ?_ease:Null<flixel.tweens.EaseFunction>, ?_focus:String = "", ?_onComplete:Null<TweenCallback> = null):Void{
 
 		if(_onComplete == null){
 			_onComplete = function(tween:FlxTween){};
@@ -2940,7 +2940,7 @@ class PlayState extends MusicBeatState
 
 	}
 
-	public function camChangeZoom(_zoom:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
+	public function camChangeZoom(_zoom:Float, _time:Float, ?_ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
 
 		if(_onComplete == null){
 			_onComplete = function(tween:FlxTween){};
@@ -2956,7 +2956,7 @@ class PlayState extends MusicBeatState
 
 	}
 
-	public function camChangeZoomAdjust(_zoom:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
+	public function camChangeZoomAdjust(_zoom:Float, _time:Float, ?_ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
 
 		if(_onComplete == null){
 			_onComplete = function(tween:FlxTween){};
@@ -2972,7 +2972,7 @@ class PlayState extends MusicBeatState
 
 	}
 
-	public function uiChangeZoom(_zoom:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
+	public function uiChangeZoom(_zoom:Float, _time:Float, ?_ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
 
 		if(_onComplete == null){
 			_onComplete = function(tween:FlxTween){};

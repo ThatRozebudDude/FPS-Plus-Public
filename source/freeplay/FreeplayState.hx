@@ -578,7 +578,7 @@ class FreeplayState extends MusicBeatState
 			menuItem.cameras = [camMenu];
 		}
 
-		versionText = new FlxTextExt(5, FlxG.height - 21, 0, "FPS Plus: v4.1.0", 16);
+		versionText = new FlxTextExt(5, FlxG.height - 21, 0, "FPS Plus: " + MainMenuState.version, 16);
 		versionText.scrollFactor.set();
 		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		versionText.cameras = [camMenu];

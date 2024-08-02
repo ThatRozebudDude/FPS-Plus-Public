@@ -44,6 +44,8 @@ class MainMenuState extends MusicBeatState
 	public static final lerpSpeed:Float = 0.01;
 	final warningDelay:Float = 10;
 
+	public static final version:String = "v5.0.0";
+
 	override function create()
 	{
 
@@ -104,7 +106,7 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow);
 
-		versionText = new FlxTextExt(5, FlxG.height - 21, 0, "FPS Plus: v4.1.0", 16);
+		versionText = new FlxTextExt(5, FlxG.height - 21, 0, "FPS Plus: " + version, 16);
 		versionText.scrollFactor.set();
 		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionText);

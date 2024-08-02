@@ -1,14 +1,7 @@
 {
   "startCutscene": {
-    "name": "VideoCutscene",
-    "storyOnly": true,
-    "playOnce": true,
-    "args": [
-      "week7/week7/stressCutsceneFade",
-      true,
-      true,
-      true
-    ]
+    "name": "TankmanTemplate",
+    "storyOnly": false
   },
   "endCutscene": "null"
 }

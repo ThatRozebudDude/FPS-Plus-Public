@@ -75,6 +75,7 @@ class Tank extends BaseStage
 		tankGround.updateHitbox();
 		addToBackground(tankGround);
 
+		tankMoving = true;
 		moveTank();
 
 		// smokeLeft.screenCenter();
@@ -134,7 +135,6 @@ class Tank extends BaseStage
 		for(x in foregroundElements){
 			x.dance();
 		}
-		tankMoving = true;
 	}
 
 	function moveTank():Void
