@@ -1,14 +1,8 @@
 {
   "startCutscene": {
-    "name": "VideoCutscene",
+    "name": "StressIntro",
     "storyOnly": true,
-    "playOnce": true,
-    "args": [
-      "week7/week7/stressCutsceneFade",
-      true,
-      true,
-      true
-    ]
+    "playOnce": true
   },
   "endCutscene": "null"
 }

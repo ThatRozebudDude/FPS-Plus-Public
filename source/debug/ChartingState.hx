@@ -1,5 +1,7 @@
 package debug;
 
+import note.NoteType;
+import extensions.flixel.addons.ui.FlxUIDropDownMenuScrollable;
 import note.Note;
 import transition.data.InstantTransition;
 import flixel.addons.ui.FlxUIText;
@@ -77,10 +79,10 @@ class ChartingState extends MusicBeatState
 
 	var bpmTxt:FlxText;
 
-	var player1DropDown:FlxUIDropDownMenu;
-	var player2DropDown:FlxUIDropDownMenu;
-	var gfDropDown:FlxUIDropDownMenu;
-	var stageDropDown:FlxUIDropDownMenu;
+	var player1DropDown:FlxUIDropDownMenuScrollable;
+	var player2DropDown:FlxUIDropDownMenuScrollable;
+	var gfDropDown:FlxUIDropDownMenuScrollable;
+	var stageDropDown:FlxUIDropDownMenuScrollable;
 	var diffNameList:Array<String> = ["Easy", "Normal", "Hard"];
 	var diffList:Array<String> = ["-easy", "", "-hard"];
 	var diffDropFinal:String = "";
@@ -119,12 +121,14 @@ class ChartingState extends MusicBeatState
 
 	var typingShit:FlxUIInputText;
 	var noteType:FlxUIInputText;
+	var noteTypeDrop:FlxUIDropDownMenuScrollable;
+	var noteTypesArray:Array<String> = [""];
 
 	var textBoxArray:Array<FlxUIInputText> = [];
 	var anyTextHasFocus:Bool = false;
 
 	var eventTagName:FlxUIInputText;
-	var eventTagDrop:FlxUIDropDownMenu;
+	var eventTagDrop:FlxUIDropDownMenuScrollable;
 	var eventTagList:Array<String> = [""];
 
 	/*
@@ -439,14 +443,14 @@ class ChartingState extends MusicBeatState
 		//var gfs:Array<String> = Utils.coolTextFile(Paths.text("gfList"));
 		//var stages:Array<String> = Utils.coolTextFile(Paths.text("stageList"));
 
-		player1DropDown = new FlxUIDropDownMenu(10, 100, FlxUIDropDownMenu.makeStrIdLabelArray(charactersList, true), function(character:String)
+		player1DropDown = new FlxUIDropDownMenuScrollable(10, 100, FlxUIDropDownMenu.makeStrIdLabelArray(charactersList, true), function(character:String)
 		{
 			_song.player1 = charactersList[Std.parseInt(character)];
 			updateHeads(true);
 		});
 		player1DropDown.selectedLabel = _song.player1;
 
-		player2DropDown = new FlxUIDropDownMenu(140, 100, FlxUIDropDownMenu.makeStrIdLabelArray(charactersList, true), function(character:String)
+		player2DropDown = new FlxUIDropDownMenuScrollable(140, 100, FlxUIDropDownMenu.makeStrIdLabelArray(charactersList, true), function(character:String)
 		{
 			_song.player2 = charactersList[Std.parseInt(character)];
 			updateHeads(true);
@@ -463,13 +467,13 @@ class ChartingState extends MusicBeatState
 		diffDrop.selectedLabel = diffNameList[PlayState.storyDifficulty];
 		diffDropFinal = diffList[Std.parseInt(diffDrop.selectedId)];
 
-		gfDropDown = new FlxUIDropDownMenu(10, 130, FlxUIDropDownMenu.makeStrIdLabelArray(gfList, true), function(gf:String)
+		gfDropDown = new FlxUIDropDownMenuScrollable(10, 130, FlxUIDropDownMenu.makeStrIdLabelArray(gfList, true), function(gf:String)
 			{
 				_song.gf = gfList[Std.parseInt(gf)];
 			});
 		gfDropDown.selectedLabel = _song.gf;
 		
-		stageDropDown = new FlxUIDropDownMenu(140, 130, FlxUIDropDownMenu.makeStrIdLabelArray(stageList, true), function(selStage:String)
+		stageDropDown = new FlxUIDropDownMenuScrollable(140, 130, FlxUIDropDownMenu.makeStrIdLabelArray(stageList, true), function(selStage:String)
 			{
 				_song.stage = stageList[Std.parseInt(selStage)];
 			});
@@ -695,8 +699,15 @@ class ChartingState extends MusicBeatState
 
 		var noteTagText = new FlxUIText(10, noteType.y - 20, 0, "Note Tag");
 
+		for(k => v in NoteType.types){ noteTypesArray.push(k); }
+		noteTypeDrop = new FlxUIDropDownMenuScrollable(10, noteType.y + 20, FlxUIDropDownMenu.makeStrIdLabelArray(noteTypesArray, true), function(type:String){
+			noteType.text = noteTypesArray[Std.parseInt(type)];
+		});
+		noteTypeDrop.selectedLabel = "";
+
 		tab_group_note.add(noteTagText);
 		tab_group_note.add(noteType);
+		tab_group_note.add(noteTypeDrop);
 
 		UI_box.addGroup(tab_group_note);
 	}
@@ -706,7 +717,7 @@ class ChartingState extends MusicBeatState
 		eventTagName = new FlxUIInputText(10, 70, 160, "", 8);
 		textBoxArray.push(eventTagName);
 
-		eventTagDrop = new FlxUIDropDownMenu(10, 100, FlxUIDropDownMenu.makeStrIdLabelArray(eventTagList, true), function(tag:String)
+		eventTagDrop = new FlxUIDropDownMenuScrollable(10, 100, FlxUIDropDownMenu.makeStrIdLabelArray(eventTagList, true), function(tag:String)
 		{
 			eventTagName.text = eventTagList[Std.parseInt(tag)];
 		});
@@ -950,8 +961,7 @@ class ChartingState extends MusicBeatState
 				swapSections();
 			}
 
-			if (FlxG.mouse.wheel != 0)
-			{
+			if (FlxG.mouse.wheel != 0 && !isInScrollableDropdown()){
 				// && strumLine.y > gridBG.y)
 				var wheelSpin = FlxG.mouse.wheel;
 
@@ -984,13 +994,10 @@ class ChartingState extends MusicBeatState
 
 				vocals.time = FlxG.sound.music.time;
 				vocalsOther.time = FlxG.sound.music.time;
-				
 			}
 
-			if (!FlxG.keys.pressed.SHIFT)
-			{
-				if (FlxG.keys.pressed.W || FlxG.keys.pressed.S || FlxG.keys.pressed.UP || FlxG.keys.pressed.DOWN)
-				{
+			if (!FlxG.keys.pressed.SHIFT){
+				if (FlxG.keys.pressed.W || FlxG.keys.pressed.S || FlxG.keys.pressed.UP || FlxG.keys.pressed.DOWN){
 					FlxG.sound.music.pause();
 					vocals.pause();
 					vocalsOther.pause();
@@ -1000,8 +1007,7 @@ class ChartingState extends MusicBeatState
 
 					var daTime:Float = 1000 * FlxG.elapsed;
 
-					if ((FlxG.keys.pressed.W || FlxG.keys.pressed.UP) && strumLine.y > gridBG.y)
-					{
+					if ((FlxG.keys.pressed.W || FlxG.keys.pressed.UP) && strumLine.y > gridBG.y){
 						FlxG.sound.music.time -= daTime;
 					}
 					else if (strumLine.y < gridBG2.y + gridBG2.height)
@@ -1011,10 +1017,8 @@ class ChartingState extends MusicBeatState
 					vocalsOther.time = FlxG.sound.music.time;
 				}
 			}
-			else
-			{
-				if (FlxG.keys.pressed.W || FlxG.keys.pressed.S || FlxG.keys.pressed.UP || FlxG.keys.pressed.DOWN)
-				{
+			else{
+				if (FlxG.keys.pressed.W || FlxG.keys.pressed.S || FlxG.keys.pressed.UP || FlxG.keys.pressed.DOWN){
 					if(FlxG.sound.music.playing){
 						lilBf.animation.play("idle");
 						lilOpp.animation.play("idle");
@@ -1026,8 +1030,7 @@ class ChartingState extends MusicBeatState
 
 					var daTime:Float = 2500 * FlxG.elapsed;
 
-					if ((FlxG.keys.pressed.W || FlxG.keys.pressed.UP) && strumLine.y > gridBG.y)
-					{
+					if ((FlxG.keys.pressed.W || FlxG.keys.pressed.UP) && strumLine.y > gridBG.y){
 						FlxG.sound.music.time -= daTime;
 					}
 					else if (strumLine.y < gridBG2.y + gridBG2.height)
@@ -1038,190 +1041,186 @@ class ChartingState extends MusicBeatState
 				}
 			}
 
-			if (FlxG.mouse.justPressed)
-				{
+			if (FlxG.mouse.justPressed){
 		
-					if (FlxG.mouse.x > gridBG.x
-						&& FlxG.mouse.x < gridBG.x + ((gridBG.width / 3) * 2)
-						&& FlxG.mouse.y > gridBG.y
-						&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSection].lengthInSteps))
-					{
+				if (FlxG.mouse.x > gridBG.x
+					&& FlxG.mouse.x < gridBG.x + ((gridBG.width / 3) * 2)
+					&& FlxG.mouse.y > gridBG.y
+					&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSection].lengthInSteps)){
 						FlxG.log.add('added note');
 						addNote(getStrumTime(dummyArrow.y) + sectionStartTime(), Math.floor(FlxG.mouse.x / GRID_SIZE));
 						holding = true;
-		
 					}
 					
-					else if (FlxG.mouse.x > gridBG.x + ((gridBG.width / 3) * 2)
-						&& FlxG.mouse.x < gridBG.x + gridBG.width
-						&& FlxG.mouse.y > gridBG.y
-						&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSection].lengthInSteps))
-					{
+				else if (FlxG.mouse.x > gridBG.x + ((gridBG.width / 3) * 2)
+					&& FlxG.mouse.x < gridBG.x + gridBG.width
+					&& FlxG.mouse.y > gridBG.y
+					&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSection].lengthInSteps)){
 						FlxG.log.add('added event');
 						addEventNote(getStrumTime(dummyArrow.y) + sectionStartTime(), Math.floor(FlxG.mouse.x / GRID_SIZE) - 8);
 					}
 		
-				}
+			}
 		
-				if (FlxG.mouse.justPressedRight)
+			if (FlxG.mouse.justPressedRight)
+			{
+		
+				if (FlxG.mouse.overlaps(curRenderedNotes))
 				{
 		
-					if (FlxG.mouse.overlaps(curRenderedNotes))
+					trace("Overlapping Notes");
+		
+					curRenderedNotes.forEach(function(note:Note)
 					{
-		
-						trace("Overlapping Notes");
-		
-						curRenderedNotes.forEach(function(note:Note)
+						if (FlxG.mouse.overlaps(note))
 						{
-							if (FlxG.mouse.overlaps(note))
-							{
-								deleteNote(note);
-							}
-						});
-					}
-					else if (FlxG.mouse.overlaps(curRenderedEvents))
-					{
-		
-						trace("Overlapping Events");
-		
-						curRenderedEvents.forEach(function(event:EventSprite)
-						{
-							if (FlxG.mouse.overlaps(event))
-							{
-								deleteEvent(event);
-							}
-						});
-					}
+							deleteNote(note);
+						}
+					});
 				}
-		
-				if (FlxG.mouse.justPressedMiddle)
+				else if (FlxG.mouse.overlaps(curRenderedEvents))
 				{
 		
-					if (FlxG.mouse.overlaps(curRenderedNotes))
+					trace("Overlapping Events");
+		
+					curRenderedEvents.forEach(function(event:EventSprite)
 					{
-		
-						trace("Overlapping Notes");
-		
-						var selected:Bool = false;
-		
-						curRenderedNotes.forEach(function(note:Note)
+						if (FlxG.mouse.overlaps(event))
 						{
-							if (FlxG.mouse.overlaps(note) && !selected)
-							{
-								selectNote(note);
-								selected = true;
-		
-							}
-						});
-					}
-					else if (FlxG.mouse.overlaps(curRenderedEvents))
-					{
-		
-						trace("Overlapping Events");
-		
-						curRenderedEvents.forEach(function(event:EventSprite)
-						{
-							if (FlxG.mouse.overlaps(event))
-							{
-								eventTagName.text = event.tag;
-							}
-						});
-					}
+							deleteEvent(event);
+						}
+					});
 				}
+			}
 		
-				if(holding && FlxG.mouse.pressed){
+			if (FlxG.mouse.justPressedMiddle)
+			{
 		
-					setNoteSustain((getStrumTime(dummyArrow.y) + sectionStartTime()) - curSelectedNote[0]);
+				if (FlxG.mouse.overlaps(curRenderedNotes))
+				{
 		
+					trace("Overlapping Notes");
+		
+					var selected:Bool = false;
+		
+					curRenderedNotes.forEach(function(note:Note)
+					{
+						if (FlxG.mouse.overlaps(note) && !selected)
+						{
+							selectNote(note);
+							selected = true;
+		
+						}
+					});
+				}
+				else if (FlxG.mouse.overlaps(curRenderedEvents))
+				{
+		
+					trace("Overlapping Events");
+		
+					curRenderedEvents.forEach(function(event:EventSprite)
+					{
+						if (FlxG.mouse.overlaps(event))
+						{
+							eventTagName.text = event.tag;
+						}
+					});
+				}
+			}
+		
+			if(holding && FlxG.mouse.pressed){
+		
+				setNoteSustain((getStrumTime(dummyArrow.y) + sectionStartTime()) - curSelectedNote[0]);
+		
+			}
+			else{
+		
+				holding = false;
+		
+			}
+		
+			if(curSection * 16 != curStep && curStep % 16 == 0 && FlxG.sound.music.playing){
+		
+				if(curSection * 16 > curStep){
+					changeSection(curSection - 1, false);
+				}
+				else if(curSection * 16 < curStep){
+					changeSection(curSection + 1, false);
+				}
+			}
+		
+			if(FlxG.keys.pressed.CONTROL && FlxG.keys.justPressed.Z){
+
+			}
+		
+			if (FlxG.mouse.x > gridBG.x
+				&& FlxG.mouse.x < gridBG.x + gridBG.width
+				&& FlxG.mouse.y > gridBG.y
+				&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSection].lengthInSteps))
+			{
+				dummyArrow.x = Math.floor(FlxG.mouse.x / GRID_SIZE) * GRID_SIZE;
+	
+				if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT){
+					dummyArrow.y = Math.floor(FlxG.mouse.y / (GRID_SIZE / 4)) * (GRID_SIZE / 4);
+				}
+				else if (FlxG.keys.pressed.SHIFT && FlxG.keys.pressed.ALT){
+					dummyArrow.y = Math.floor(FlxG.mouse.y / (GRID_SIZE * 4/6)) * (GRID_SIZE * 4/6);
+				}
+				else if (FlxG.keys.pressed.ALT){
+					dummyArrow.y = Math.floor(FlxG.mouse.y / (GRID_SIZE * 4/3)) * (GRID_SIZE * 4/3);
+				}
+				else if (FlxG.keys.pressed.CONTROL){
+					dummyArrow.y = Math.floor(FlxG.mouse.y / (GRID_SIZE / 2)) * (GRID_SIZE / 2);
+				}
+				else if (FlxG.keys.pressed.SHIFT){
+					dummyArrow.y = FlxG.mouse.y;
 				}
 				else{
-		
-					holding = false;
-		
+					dummyArrow.y = Math.floor(FlxG.mouse.y / GRID_SIZE) * GRID_SIZE;
 				}
+			}
 		
-				if(curSection * 16 != curStep && curStep % 16 == 0 && FlxG.sound.music.playing){
+			if (FlxG.keys.justPressed.ENTER)
+			{
+				PlayState.SONG = _song;
+				PlayState.EVENTS = _events;
+				FlxG.sound.music.stop();
+				vocals.stop();
+				vocalsOther.stop();
+				autosaveSong();
 		
-					if(curSection * 16 > curStep){
-						changeSection(curSection - 1, false);
-					}
-					else if(curSection * 16 < curStep){
-						changeSection(curSection + 1, false);
-					}
+				//FlxG.save.bind("data", "Rozebud/FPSPlus");
+				SaveManager.global();
+		
+				PlayState.sectionStart = false;
+				if(FlxG.keys.pressed.CONTROL && curSection > 0){
+					PlayState.sectionStart = true;
+					changeSection(curSection, true);
+					PlayState.sectionStartPoint = curSection;
+					PlayState.sectionStartTime = FlxG.sound.music.time - (sectionHasBfNotes(curSection) ? Conductor.crochet : 0);
 				}
-		
-				if(FlxG.keys.pressed.CONTROL && FlxG.keys.justPressed.Z){
-		
-				}
-		
-				if (FlxG.mouse.x > gridBG.x
-					&& FlxG.mouse.x < gridBG.x + gridBG.width
-					&& FlxG.mouse.y > gridBG.y
-					&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * _song.notes[curSection].lengthInSteps))
-				{
-					dummyArrow.x = Math.floor(FlxG.mouse.x / GRID_SIZE) * GRID_SIZE;
-		
-					if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT){
-						dummyArrow.y = Math.floor(FlxG.mouse.y / (GRID_SIZE / 4)) * (GRID_SIZE / 4);
-					}
-					else if (FlxG.keys.pressed.SHIFT && FlxG.keys.pressed.ALT){
-						dummyArrow.y = Math.floor(FlxG.mouse.y / (GRID_SIZE * 4/6)) * (GRID_SIZE * 4/6);
-					}
-					else if (FlxG.keys.pressed.ALT){
-						dummyArrow.y = Math.floor(FlxG.mouse.y / (GRID_SIZE * 4/3)) * (GRID_SIZE * 4/3);
-					}
-					else if (FlxG.keys.pressed.CONTROL){
-						dummyArrow.y = Math.floor(FlxG.mouse.y / (GRID_SIZE / 2)) * (GRID_SIZE / 2);
-					}
-					else if (FlxG.keys.pressed.SHIFT){
-						dummyArrow.y = FlxG.mouse.y;
-					}
-					else{
-						dummyArrow.y = Math.floor(FlxG.mouse.y / GRID_SIZE) * GRID_SIZE;
-					}
-				}
-		
-				if (FlxG.keys.justPressed.ENTER)
-				{
-					PlayState.SONG = _song;
-					PlayState.EVENTS = _events;
-					FlxG.sound.music.stop();
-					vocals.stop();
-					vocalsOther.stop();
-					autosaveSong();
-		
-					//FlxG.save.bind("data", "Rozebud/FPSPlus");
-					SaveManager.global();
-		
-					PlayState.sectionStart = false;
-					if(FlxG.keys.pressed.CONTROL && curSection > 0){
-						PlayState.sectionStart = true;
-						changeSection(curSection, true);
-						PlayState.sectionStartPoint = curSection;
-						PlayState.sectionStartTime = FlxG.sound.music.time - (sectionHasBfNotes(curSection) ? Conductor.crochet : 0);
-					}
 					
-					PlayState.loadEvents = false;
+				PlayState.loadEvents = false;
 		
-					switchState(new PlayState());
-				}
+				switchState(new PlayState());
+			}
 		
-				if (FlxG.keys.justPressed.E)
-				{
-					changeNoteSustain(Conductor.stepCrochet);
-				}
-				if (FlxG.keys.justPressed.Q)
-				{
+			if (FlxG.keys.justPressed.E)
+			{
+				changeNoteSustain(Conductor.stepCrochet);
+			}
+			if (FlxG.keys.justPressed.Q)
+			{
 					changeNoteSustain(-Conductor.stepCrochet);
-				}
+			}
 
-				var shiftThing:Int = 1;
-				if (FlxG.keys.pressed.SHIFT)
-					shiftThing = 4;
-				if (FlxG.keys.justPressed.RIGHT || FlxG.keys.justPressed.D)
-					changeSection(curSection + shiftThing);
-				if (FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.A)
-					changeSection(curSection - shiftThing);
+			var shiftThing:Int = 1;
+			if (FlxG.keys.pressed.SHIFT)
+				shiftThing = 4;
+			if (FlxG.keys.justPressed.RIGHT || FlxG.keys.justPressed.D)
+				changeSection(curSection + shiftThing);
+			if (FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.A)
+				changeSection(curSection - shiftThing);
 		}
 
 		_song.bpm = tempBpm;
@@ -1981,7 +1980,7 @@ class ChartingState extends MusicBeatState
 		FlxG.save.data.autosaveEvents = Json.stringify({
 			"events": _events,
 		});
-		FlxG.save.flush();
+		SaveManager.flush();
 	}
 
 	private function saveLevel()
@@ -2309,6 +2308,16 @@ class ChartingState extends MusicBeatState
 			return true;
 		}
 		return false;
+	}
+
+	function isInScrollableDropdown():Bool{
+		return 
+			player1DropDown.dropPanel.visible == true || 
+			player2DropDown.dropPanel.visible == true || 
+			gfDropDown.dropPanel.visible == true || 
+			stageDropDown.dropPanel.visible == true || 
+			noteTypeDrop.dropPanel.visible == true || 
+			eventTagDrop.dropPanel.visible == true;
 	}
 	
 }

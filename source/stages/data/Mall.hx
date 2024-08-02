@@ -63,6 +63,8 @@ class Mall extends BaseStage
 		santa = new FlxSprite(-840, 150);
 		santa.frames = Paths.getSparrowAtlas("week5/christmas/santa");
 		santa.animation.addByPrefix('idle', 'santa idle in fear', 24, false);
+		santa.animation.addByPrefix('idleLoop', 'santa idle in fear', 24, true);
+		santa.animation.play("idleLoop", true);
 		santa.antialiasing = true;
 		addToForeground(santa);
 
@@ -71,11 +73,17 @@ class Mall extends BaseStage
 		gfStart.set(808.5, 845);
 
 		bfCameraOffset.set(0, -100);
+
+		addEvent("mall-toggleSantaVisible", toggleSantaVisible);
     }
 
 	public override function beat(curBeat:Int){
 		upperBoppers.animation.play('bop', true);
 		bottomBoppers.animation.play('bop', true);
 		santa.animation.play('idle', true);
+	}
+
+	function toggleSantaVisible() {
+		santa.visible = !santa.visible;
 	}
 }

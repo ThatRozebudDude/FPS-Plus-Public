@@ -14,7 +14,7 @@ class Chart extends BaseStage
     public override function init(){
         name = "chart";
 
-		if(PlayState.fromChartEditor){
+		if(PlayState.fceForLilBuddies){
 			startingZoom = 1;
 			var chartBg = new FlxSprite().loadGraphic(debug.ChartingState.screenshotBitmap.bitmapData);
 			chartBg.antialiasing = true;
@@ -61,7 +61,7 @@ class Chart extends BaseStage
 		cameraMovementEnabled = false;
 		extraCameraMovementAmount = 0;
 
-		if(PlayState.fromChartEditor){
+		if(PlayState.fceForLilBuddies){
 			cameraStartPosition = new FlxPoint(1280/2, 720/2);
 		}
 		else{
@@ -71,7 +71,7 @@ class Chart extends BaseStage
     }
 
 	public override function beat(curBeat){
-		if(PlayState.fromChartEditor && curBeat == 0){
+		if(PlayState.fceForLilBuddies && curBeat == 0){
 			FlxTween.tween(chartBlackBG, {alpha: 1}, Conductor.crochet / 1000 * 16);
 		}
 	}

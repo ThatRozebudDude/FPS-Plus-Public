@@ -1,14 +1,8 @@
 {
   "startCutscene": {
-    "name": "VideoCutscene",
+    "name": "UghIntro",
     "storyOnly": true,
-    "playOnce": true,
-    "args": [
-      "week7/ughCutsceneFade",
-      true,
-      true,
-      true
-    ]
+    "playOnce": true
   },
   "endCutscene": "null"
 }

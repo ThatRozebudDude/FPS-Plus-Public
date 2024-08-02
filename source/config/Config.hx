@@ -25,6 +25,7 @@ class Config
 	public static var showCaptions:Bool;
 	public static var showAccuracy:Bool;
 	public static var showMisses:Int;
+	public static var pauseMusicBehavior:Int;
 
 	public static function resetSettings():Void{
 
@@ -77,6 +78,7 @@ class Config
 		showCaptions = FlxG.save.data.showCaptions;
 		showAccuracy = FlxG.save.data.showAccuracy;
 		showMisses = FlxG.save.data.showMisses;
+		pauseMusicBehavior = FlxG.save.data.pauseMusicBehavior;
 	}
 	
 	public static function write(
@@ -98,7 +100,8 @@ class Config
 								camBopAmountW:Int,
 								showCaptionsW:Bool,
 								showAccuracyW:Bool,
-								showMissesW:Int
+								showMissesW:Int,
+								pauseMusicBehaviorW:Int
 								):Void
 	{
 
@@ -123,6 +126,7 @@ class Config
 		FlxG.save.data.showCaptions = showCaptionsW;
 		FlxG.save.data.showAccuracy = showAccuracyW;
 		FlxG.save.data.showMisses = showMissesW;
+		FlxG.save.data.pauseMusicBehavior = pauseMusicBehaviorW;
 
 		SaveManager.flush();
 		
@@ -173,6 +177,8 @@ class Config
 			FlxG.save.data.showAccuracy = true;
 		if(FlxG.save.data.showMisses == null)
 			FlxG.save.data.showMisses = 1;
+		if(FlxG.save.data.pauseMusicBehavior == null)
+			FlxG.save.data.pauseMusicBehavior = 0;
 		
 
 		if(FlxG.save.data.ee1 == null)

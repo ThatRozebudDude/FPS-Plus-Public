@@ -520,7 +520,7 @@ class ResultsState extends FlxUIStateExt
                     case 7:
                         stickerSets = ["bf", "gf", "pico", "tankman"];
                     case 101:
-                        stickerSets = ["pico"];
+                        stickerSets = ["pico", "nene", "darnell"];
                 }
 
                 customTransOut = new StickerOut(stickerSets);

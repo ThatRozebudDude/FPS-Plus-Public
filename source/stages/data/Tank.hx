@@ -75,6 +75,7 @@ class Tank extends BaseStage
 		tankGround.updateHitbox();
 		addToBackground(tankGround);
 
+		tankMoving = true;
 		moveTank();
 
 		// smokeLeft.screenCenter();
@@ -82,7 +83,7 @@ class Tank extends BaseStage
 		var fgTank0:BGSprite = new BGSprite('week7/stage/tank0', -500, 650, 1.7, 1.5, ['fg']);
 		addToForeground(fgTank0);
 
-		var fgTank1:BGSprite = new BGSprite('week7/stage/tank1', -300, 750, 2, 0.2, ['fg']);
+		var fgTank1:BGSprite = new BGSprite('week7/stage/tank1', -300, 970, 2, 1.7, ['fg']);
 		addToForeground(fgTank1);
 
 		// just called 'foreground' just cuz small inconsistency no bbiggei
@@ -101,15 +102,6 @@ class Tank extends BaseStage
 		dadStart.set(196, 898);
 		bfStart.set(1015.5, 862);
 		gfStart.set(655.5, 713);
-
-		if (gf().curCharacter == 'pico-speaker'){
-			gfStart.set(909, 731);
-		}
-
-		if (boyfriend().curCharacter == 'pico-speaker'){
-			bfStart.set(1090.5, 882);
-		}
-
 
 		if(gf().curCharacter == "pico-speaker" && PlayState.SONG.song.toLowerCase() == "stress"){
 			TankmenBG.loadMappedAnims("picospeaker", "stress");
@@ -143,7 +135,6 @@ class Tank extends BaseStage
 		for(x in foregroundElements){
 			x.dance();
 		}
-		tankMoving = true;
 	}
 
 	function moveTank():Void

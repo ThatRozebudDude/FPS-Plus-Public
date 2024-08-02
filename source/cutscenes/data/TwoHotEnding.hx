@@ -81,10 +81,10 @@ class TwoHotEnding extends ScriptedCutscene
         var finalFrame:Int = (frame + frameOffset) % 30;
         gf().canAutoAnim = false;
         gf().playAnim("idleLoop", true, false, finalFrame);
-        trace(frame);
-        trace(frameOffset);
-        trace(finalFrame);
-        trace(gf().curAnim);
+        //trace(frame);
+        //trace(frameOffset);
+        //trace(finalFrame);
+        //trace(gf().curAnim);
     }
 
     function picoGetPissed(){

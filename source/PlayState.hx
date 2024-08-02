@@ -198,7 +198,7 @@ class PlayState extends MusicBeatState
 	var dialogue:Array<String> = [':bf:strange code', ':dad:>:]'];
 	public var dialogueBox:DialogueBox;
 
-	var stage:BaseStage;
+	public var stage:BaseStage;
 
 	var talking:Bool = true;
 	var scoreTxt:FlxTextExt;
@@ -244,10 +244,10 @@ class PlayState extends MusicBeatState
 	var songEnded:Bool = false;
 
 	var startCutscene:Dynamic;
-	var startCutsceneStoryOnly:Bool;
+	var startCutsceneStoryOnly:Bool = false;
 	var startCutscenePlayOnce:Bool = false;
 	var endCutscene:Dynamic;
-	var endCutsceneStoryOnly:Bool;
+	var endCutsceneStoryOnly:Bool = false;
 	var endCutscenePlayOnce:Bool = false;
 
 	public static var replayStartCutscene:Bool = true;
@@ -267,6 +267,8 @@ class PlayState extends MusicBeatState
 	private var meta:SongMetaTags;
 
 	public var metadata:Dynamic = null;
+
+	public var arbitraryData:Map<String, Dynamic> = new Map<String, Dynamic>();
 	
 	override public function create(){
 
@@ -723,23 +725,27 @@ class PlayState extends MusicBeatState
 			var cutsceneJson = Json.parse(Utils.getText("assets/data/" + SONG.song.toLowerCase() + "/cutscene.json"));
 			//trace(cutsceneJson);
 			if(Type.typeof(cutsceneJson.startCutscene) == TObject){
-				var startCutsceneClass = Type.resolveClass("cutscenes.data." + cutsceneJson.startCutscene.name);
-				startCutsceneStoryOnly = cutsceneJson.startCutscene.storyOnly;
-				var startCutsceneArgs = [];
-				if(cutsceneJson.startCutscene.args != null) {startCutsceneArgs = cutsceneJson.startCutscene.args;}
-				if(cutsceneJson.startCutscene.playOnce != null) {startCutscenePlayOnce = cutsceneJson.startCutscene.playOnce;}
-				startCutscene = Type.createInstance(startCutsceneClass, startCutsceneArgs);
+				if(cutsceneJson.startCutscene.storyOnly != null) {startCutsceneStoryOnly = cutsceneJson.startCutscene.storyOnly;}
+				if((!startCutsceneStoryOnly || (startCutsceneStoryOnly && isStoryMode)) ){
+					var startCutsceneClass = Type.resolveClass("cutscenes.data." + cutsceneJson.startCutscene.name);
+					var startCutsceneArgs = [];
+					if(cutsceneJson.startCutscene.args != null) {startCutsceneArgs = cutsceneJson.startCutscene.args;}
+					if(cutsceneJson.startCutscene.playOnce != null) {startCutscenePlayOnce = cutsceneJson.startCutscene.playOnce;}
+					startCutscene = Type.createInstance(startCutsceneClass, startCutsceneArgs);
+				}
 			}
 			//trace(startCutscene);
 			//trace(startCutsceneStoryOnly);
 
 			if(Type.typeof(cutsceneJson.endCutscene) == TObject){
-				var endCutsceneClass = Type.resolveClass("cutscenes.data." + cutsceneJson.endCutscene.name);
-				endCutsceneStoryOnly = cutsceneJson.endCutscene.storyOnly;
-				var endCutsceneArgs = [];
-				if(cutsceneJson.endCutscene.args != null) {endCutsceneArgs = cutsceneJson.endCutscene.args;}
-				if(cutsceneJson.endCutscene.playOnce != null) {endCutscenePlayOnce = cutsceneJson.endCutscene.playOnce;}
-				endCutscene = Type.createInstance(endCutsceneClass, endCutsceneArgs);
+				if(cutsceneJson.endCutscene.storyOnly != null) {endCutsceneStoryOnly = cutsceneJson.endCutscene.storyOnly;}
+				if((!endCutsceneStoryOnly || (endCutsceneStoryOnly && isStoryMode)) ){
+					var endCutsceneClass = Type.resolveClass("cutscenes.data." + cutsceneJson.endCutscene.name);
+					var endCutsceneArgs = [];
+					if(cutsceneJson.endCutscene.args != null) {endCutsceneArgs = cutsceneJson.endCutscene.args;}
+					if(cutsceneJson.endCutscene.playOnce != null) {endCutscenePlayOnce = cutsceneJson.endCutscene.playOnce;}
+					endCutscene = Type.createInstance(endCutsceneClass, endCutsceneArgs);
+				}
 			}
 			//trace(endCutscene);
 			//trace(endCutsceneStoryOnly);
@@ -754,7 +760,7 @@ class PlayState extends MusicBeatState
 		bgDim.alpha = Config.bgDim/10;
 		add(bgDim);
 
-		if(fromChartEditor){
+		if(fromChartEditor && !fceForLilBuddies){
 			preventScoreSaving = true;
 		}
 		fromChartEditor = false;
@@ -777,7 +783,7 @@ class PlayState extends MusicBeatState
 
 	function cutsceneCheck():Void{
 		//trace("in cutsceneCheck");
-		if(startCutscene != null && (!startCutsceneStoryOnly || (startCutsceneStoryOnly && isStoryMode)) && (startCutscenePlayOnce ? replayStartCutscene : true)){
+		if(startCutscene != null && (startCutscenePlayOnce ? replayStartCutscene : true)){
 			add(startCutscene);
 			inCutscene = true;
 			startCutscene.start();
@@ -1874,7 +1880,7 @@ class PlayState extends MusicBeatState
 		//trace("in cutsceneCheck");
 		stopMusic();
 
-		if(endCutscene != null && (!endCutsceneStoryOnly || (endCutsceneStoryOnly && isStoryMode))){
+		if(endCutscene != null){
 			add(endCutscene);
 			inCutscene = true;
 			inEndingCutscene = true;
@@ -2225,7 +2231,7 @@ class PlayState extends MusicBeatState
 			}
 		});
 
-		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold)
+		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim)
 		{
 			if (boyfriend.curAnim.startsWith('sing')){
 				if(Character.USE_IDLE_END){ 
@@ -2302,7 +2308,7 @@ class PlayState extends MusicBeatState
 			}
 		});
 
-		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold)
+		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim)
 		{
 			if (boyfriend.curAnim.startsWith('sing')){
 				if(Character.USE_IDLE_END){ 
@@ -2814,12 +2820,6 @@ class PlayState extends MusicBeatState
 		
 	}
 
-	var alternate:Bool = true;
-	public function alternating():Int{
-		alternate = !alternate;
-		return (alternate) ? 2 : 1;
-	}
-
 	var bfOnTop:Bool = true;
 	public function setBfOnTop():Void{
 		if(bfOnTop){ return; }
@@ -2922,7 +2922,7 @@ class PlayState extends MusicBeatState
 		return new FlxPoint(gf.getMidpoint().x + gf.focusOffset.x + stage.gfCameraOffset.x, gf.getMidpoint().y + gf.focusOffset.y + stage.gfCameraOffset.y);
 	}
 
-	public function camMove(_x:Float, _y:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_focus:String = "", ?_onComplete:Null<TweenCallback> = null):Void{
+	public function camMove(_x:Float, _y:Float, _time:Float, ?_ease:Null<flixel.tweens.EaseFunction>, ?_focus:String = "", ?_onComplete:Null<TweenCallback> = null):Void{
 
 		if(_onComplete == null){
 			_onComplete = function(tween:FlxTween){};
@@ -2940,7 +2940,7 @@ class PlayState extends MusicBeatState
 
 	}
 
-	public function camChangeZoom(_zoom:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
+	public function camChangeZoom(_zoom:Float, _time:Float, ?_ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
 
 		if(_onComplete == null){
 			_onComplete = function(tween:FlxTween){};
@@ -2956,7 +2956,7 @@ class PlayState extends MusicBeatState
 
 	}
 
-	public function camChangeZoomAdjust(_zoom:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
+	public function camChangeZoomAdjust(_zoom:Float, _time:Float, ?_ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
 
 		if(_onComplete == null){
 			_onComplete = function(tween:FlxTween){};
@@ -2972,7 +2972,7 @@ class PlayState extends MusicBeatState
 
 	}
 
-	public function uiChangeZoom(_zoom:Float, _time:Float, _ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
+	public function uiChangeZoom(_zoom:Float, _time:Float, ?_ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
 
 		if(_onComplete == null){
 			_onComplete = function(tween:FlxTween){};

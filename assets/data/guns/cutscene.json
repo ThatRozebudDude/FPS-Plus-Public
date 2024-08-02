@@ -1,14 +1,8 @@
 {
   "startCutscene": {
-    "name": "VideoCutscene",
+    "name": "GunsIntro",
     "storyOnly": true,
-    "playOnce": true,
-    "args": [
-      "week7/gunsCutsceneFade",
-      true,
-      true,
-      true
-    ]
+    "playOnce": true
   },
   "endCutscene": "null"
 }

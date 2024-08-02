@@ -1,0 +1,24 @@
+{
+	"events": {
+		"events": [
+			[
+				4,
+				9411.76470588235,
+				0,
+				"playAnim;bf;hey"
+			],
+			[
+				3,
+				9389.70588235294,
+				3,
+				"bfAnimLockToggle"
+			],
+			[
+				4,
+				9970.58823529412,
+				3,
+				"bfAnimLockToggle"
+			]
+		]
+	}
+}
