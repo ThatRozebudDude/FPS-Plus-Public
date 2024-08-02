@@ -14,7 +14,7 @@ class BfHoldingGf extends CharacterInfoBase
         info.iconName = "bf";
         info.facesLeft = true;
         info.deathCharacter = "BfHoldingGfDead";
-        info.focusOffset.set(100, -100);
+        info.focusOffset.set(100, -80);
 
         addByPrefix("idle", offset(0, 0), "BF idle dance w gf", 24, loop(false, 0), false, false);
         addByPrefix("singDOWN", offset(-20, -9), "BF NOTE DOWN0", 24, loop(false, 0), false, false);
@@ -29,6 +29,8 @@ class BfHoldingGf extends CharacterInfoBase
 
         addByPrefix("bfCatch", offset(4, 90), "BF catches GF", 24, loop(false, 0), false, false);
         addByPrefix("idleNoGf", offset(0, -20), "BF idle dance0", 24, loop(false, 0), false, false);
+
+        addAnimChain("bfCatch", "idle");
 
         addExtraData("reposition", [75, -20]);
     }

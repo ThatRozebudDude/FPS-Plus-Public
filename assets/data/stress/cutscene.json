@@ -1,7 +1,8 @@
 {
   "startCutscene": {
-    "name": "TankmanTemplate",
-    "storyOnly": false
+    "name": "StressIntro",
+    "storyOnly": true,
+    "playOnce": true
   },
   "endCutscene": "null"
 }

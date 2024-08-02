@@ -83,7 +83,7 @@ class Tank extends BaseStage
 		var fgTank0:BGSprite = new BGSprite('week7/stage/tank0', -500, 650, 1.7, 1.5, ['fg']);
 		addToForeground(fgTank0);
 
-		var fgTank1:BGSprite = new BGSprite('week7/stage/tank1', -300, 750, 2, 0.2, ['fg']);
+		var fgTank1:BGSprite = new BGSprite('week7/stage/tank1', -300, 970, 2, 1.7, ['fg']);
 		addToForeground(fgTank1);
 
 		// just called 'foreground' just cuz small inconsistency no bbiggei

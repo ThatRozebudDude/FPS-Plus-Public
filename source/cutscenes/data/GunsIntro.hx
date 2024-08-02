@@ -58,6 +58,7 @@ class GunsIntro extends ScriptedCutscene
         playstate().camChangeZoom(originalZoom, (Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
         dad().visible = true;
         tankman.visible = false;
+        removeFromCharacterLayer(tankman);
         playstate().camHUD.visible = true;
         focusCameraBasedOnFirstSection();
         next();

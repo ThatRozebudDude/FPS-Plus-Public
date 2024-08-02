@@ -11,7 +11,8 @@ class TankmanTemplate extends ScriptedCutscene
 
     var tankman:AtlasSprite;
     var picoSpeaker:AtlasSprite;
-    var gfSpeaker:FlxSprite;
+    var gfSummon:FlxSprite;
+    var gfSpeaker:Character;
 
     override function init():Void{
         tankman = new AtlasSprite(74, 324, Paths.getTextureAtlas("week7/cutscene/tankmanCutscene"));
@@ -23,16 +24,21 @@ class TankmanTemplate extends ScriptedCutscene
         tankman.addAnimationByLabel("stress2", "Stress 2", 24, false);
         //tankman.addFullAnimation("full");
 
-        picoSpeaker = new AtlasSprite(324, 5, Paths.getTextureAtlas("week7/cutscene/picoSpeakerCutscene"));
+        picoSpeaker = new AtlasSprite(322, -3, Paths.getTextureAtlas("week7/cutscene/picoSpeakerCutscene"));
         picoSpeaker.antialiasing = true;
         picoSpeaker.addAnimationByLabel("fall", "Pico Fall", 24, false);
         picoSpeaker.addAnimationByLabel("idle", "Idle", 24, true);
+        picoSpeaker.scrollFactor.set(0.95, 0.95);
         //picoSpeaker.addFullAnimation("full");
 
-        gfSpeaker = new FlxSprite(-8, -372);
-        gfSpeaker.frames = Paths.getSparrowAtlas("week7/cutscene/gfCutscene");
-        gfSpeaker.antialiasing = true;
-        gfSpeaker.animation.addByPrefix("summon", "", 24, false);
+        gfSummon = new FlxSprite(-10, -380);
+        gfSummon.frames = Paths.getSparrowAtlas("week7/cutscene/gfCutscene");
+        gfSummon.antialiasing = true;
+        gfSummon.animation.addByPrefix("summon", "", 24, false);
+        gfSummon.scrollFactor.set(0.95, 0.95);
+
+        gfSpeaker = new Character(210, 74, "GfTankmen", false, true);
+        gfSpeaker.scrollFactor.set(0.95, 0.95);
 
         addEvent(0, setup);
     }
@@ -47,58 +53,77 @@ class TankmanTemplate extends ScriptedCutscene
 
         if(FlxG.keys.anyJustPressed([W])){
             tankman.y -= move;
-            tankman.playAnim("full", true);
+            //tankman.playAnim("full", true);
         }
         if(FlxG.keys.anyJustPressed([S])){
             tankman.y += move;
-            tankman.playAnim("full", true);
+            //tankman.playAnim("full", true);
         }
         if(FlxG.keys.anyJustPressed([A])){
             tankman.x -= move;
-            tankman.playAnim("full", true);
+            //tankman.playAnim("full", true);
         }
         if(FlxG.keys.anyJustPressed([D])){
             tankman.x += move;
-            tankman.playAnim("full", true);
+            //tankman.playAnim("full", true);
         }
 
 
 
         if(FlxG.keys.anyJustPressed([I])){
             picoSpeaker.y -= move;
-            picoSpeaker.playAnim("full", true);
+            //picoSpeaker.playAnim("full", true);
         }
         if(FlxG.keys.anyJustPressed([K])){
             picoSpeaker.y += move;
-            picoSpeaker.playAnim("full", true);
+            //picoSpeaker.playAnim("full", true);
         }
         if(FlxG.keys.anyJustPressed([J])){
             picoSpeaker.x -= move;
-            picoSpeaker.playAnim("full", true);
+            //picoSpeaker.playAnim("full", true);
         }
         if(FlxG.keys.anyJustPressed([L])){
             picoSpeaker.x += move;
-            picoSpeaker.playAnim("full", true);
+            //picoSpeaker.playAnim("full", true);
         }
 
 
 
 
         if(FlxG.keys.anyJustPressed([UP])){
-            gfSpeaker.y -= move;
-            gfSpeaker.animation.play("full", true);
+            gfSummon.y -= move;
+            //gfSummon.animation.play("full", true);
         }
         if(FlxG.keys.anyJustPressed([DOWN])){
-            gfSpeaker.y += move;
-            gfSpeaker.animation.play("full", true);
+            gfSummon.y += move;
+            //gfSummon.animation.play("full", true);
         }
         if(FlxG.keys.anyJustPressed([LEFT])){
-            gfSpeaker.x -= move;
-            gfSpeaker.animation.play("full", true);
+            gfSummon.x -= move;
+            //gfSummon.animation.play("full", true);
         }
         if(FlxG.keys.anyJustPressed([RIGHT])){
+            gfSummon.x += move;
+            //gfSummon.animation.play("full", true);
+        }
+
+
+
+        if(FlxG.keys.anyJustPressed([T])){
+            gfSpeaker.y -= move;
+            //gfSpeaker.animation.play("full", true);
+        }
+        if(FlxG.keys.anyJustPressed([G])){
+            gfSpeaker.y += move;
+            //gfSpeaker.animation.play("full", true);
+        }
+        if(FlxG.keys.anyJustPressed([F])){
+            gfSpeaker.x -= move;
+            //gfSpeaker.animation.play("full", true);
+        }
+        if(FlxG.keys.anyJustPressed([H])){
             gfSpeaker.x += move;
-            gfSpeaker.animation.play("full", true);
+            //gfSpeaker.animation.play("full", true);
         }
 
 
@@ -110,6 +135,9 @@ class TankmanTemplate extends ScriptedCutscene
             picoSpeaker.visible = !picoSpeaker.visible;
         }
         if(FlxG.keys.anyJustPressed([THREE])){
+            gfSummon.visible = !gfSummon.visible;
+        }
+        if(FlxG.keys.anyJustPressed([FOUR])){
             gfSpeaker.visible = !gfSpeaker.visible;
         }
 
@@ -118,12 +146,14 @@ class TankmanTemplate extends ScriptedCutscene
         if(FlxG.keys.anyJustPressed([SPACE])){
             trace("tankman: " + tankman.getPosition());
             trace("picoSpeaker: " + picoSpeaker.getPosition());
+            trace("gfSummon: " + gfSummon.getPosition());
             trace("gfSpeaker: " + gfSpeaker.getPosition());
         }
     }
 
     function setup() {
         addToGfLayer(picoSpeaker);
+        addToGfLayer(gfSummon);
         addToGfLayer(gfSpeaker);
         addToCharacterLayer(tankman);
 
