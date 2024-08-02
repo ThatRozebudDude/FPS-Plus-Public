@@ -180,5 +180,10 @@ class ScriptedCutscene extends FlxBasic
         else{ playstate().startCountdown(); }  
     }
 
+    public inline function focusCameraBasedOnFirstSection():Void{
+        if(PlayState.SONG.notes[0].mustHitSection){ playstate().camFocusBF(); }
+        else{ playstate().camFocusOpponent(); }
+    }
+
     function get_started():Bool{ return __started; }
 }

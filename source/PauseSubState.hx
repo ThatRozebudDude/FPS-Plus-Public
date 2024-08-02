@@ -58,19 +58,29 @@ class PauseSubState extends MusicBeatSubstate
 		var pauseSongName = "pause/breakfast";
 
 		switch(PlayState.SONG.song.toLowerCase()){
+			case "spookeez" | "south" | "monster" | "winter-horrorland" | "spookeez-erect" | "south-erect":
+				pauseSongName = "pause/911825_woah_Loop";
+			case "pico" | "philly" | "blammed" | "pico-erect" | "philly-erect" | "blammed-erect":
+				pauseSongName = "pause/947670_hacker.07_Loop";
+			case "satin-panties" | "high" | "milf" | "satin-panties-erect" | "high-erect":
+				pauseSongName = "pause/1317505_RUN1N_Loop";
+			case "cocoa" | "eggnog" | "eggnog-erect":
+				pauseSongName = "pause/918379_Love-Emoji_Loop";
 			case "senpai" | "roses" | "thorns" | "senpai-erect" | "roses-erect" | "thorns-erect":
 				pauseSongName = "pause/breakfast-pixel";
 			case "ugh" | "guns" | "stress":
 				pauseSongName = "week7/distorto";
 			case "darnell" | "lit-up" | "2hot" | "blazin":
 				pauseSongName = "pause/breakfast-pico";
+			case "lil-buddies" | "lil-buddies-erect":
+				pauseSongName = "pause/1100059_skippingrecord_Loop";
 		}
 
 		pauseMusic = new FlxSound().loadEmbedded(Paths.music(pauseSongName), true, true);
 		
 		pauseMusic.volume = 0;
 		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
-		pauseMusic.fadeIn(16, 0, 0.8);
+		pauseMusic.fadeIn(16, 0, 0.7);
 
 		FlxG.sound.list.add(pauseMusic);
 
@@ -122,9 +132,11 @@ class PauseSubState extends MusicBeatSubstate
 
 		if (Binds.justPressed("menuUp")){
 			changeSelection(-1);
+			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
 		if (Binds.justPressed("menuDown")){
 			changeSelection(1);
+			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
 
 		if (Binds.justPressed("menuBack")){
@@ -172,6 +184,8 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.tweenManager.clear();
 					PlayState.sectionStart = false;
 					PlayState.instance.returnToMenu();
+					pauseMusic.fadeOut(0.5, 0);
+					FlxG.sound.play(Paths.sound('cancelMenu'));
 			}
 		}
 

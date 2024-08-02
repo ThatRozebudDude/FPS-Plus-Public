@@ -37,7 +37,7 @@ class TankmanTemplate extends ScriptedCutscene
         addEvent(0, setup);
     }
 
-    /*override function update(elapsed:Float) {
+    override function update(elapsed:Float) {
         super.update(elapsed);
 
         var move:Float = 1;
@@ -120,7 +120,7 @@ class TankmanTemplate extends ScriptedCutscene
             trace("picoSpeaker: " + picoSpeaker.getPosition());
             trace("gfSpeaker: " + gfSpeaker.getPosition());
         }
-    }*/
+    }
 
     function setup() {
         addToGfLayer(picoSpeaker);

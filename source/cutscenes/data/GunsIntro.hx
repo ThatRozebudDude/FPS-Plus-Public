@@ -7,7 +7,7 @@ import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
 
-class UghIntro extends ScriptedCutscene
+class GunsIntro extends ScriptedCutscene
 {
 
     var tankman:AtlasSprite;
@@ -27,54 +27,40 @@ class UghIntro extends ScriptedCutscene
 
         originalZoom = playstate().defaultCamZoom;
 
-        addEvent(0, ugh1);
-        addEvent(3, ugh2);
-        addEvent(4.5, bfBeep);
-        addEvent(6, ugh3);
-        addEvent(12.1, ugh4);
-        addEvent(12.1 + (Conductor.crochet / 1000) * 5, swapBackToGameplayTankman);
+        addEvent(0, guns1);
+        addEvent(4.1, guns2);
+        addEvent(4.55, guns3);
+        addEvent(11, guns4);
     }
 
-    function ugh1() {
+    function guns1() {
         addToCharacterLayer(tankman);
-        tankman.playAnim("ugh1", true);
+        tankman.playAnim("guns", true);
         dad().visible = false;
-        FlxG.sound.play(Paths.sound("week7/wellWellWell"));
+        FlxG.sound.play(Paths.sound("week7/tankSong2"));
         bgm = FlxG.sound.play(Paths.music("week7/distorto")).fadeIn(5, 0, 0.2);
         playstate().camFocusOpponent();
-        playstate().camChangeZoom(originalZoom * 1.2, 0);
+        playstate().camChangeZoom(originalZoom * 1.3, 4, FlxEase.quadInOut);
         playstate().camHUD.visible = false;
     }
 
-    function ugh2() {
-        playstate().camFocusBF();
+    function guns2() {
+        playstate().camChangeZoom(originalZoom * 1.4, 0.4, FlxEase.quadOut);
+        gf().playAnim("sad");
     }
 
-    function bfBeep() {
-        boyfriend().playAnim('singUP');
-        FlxG.sound.play(Paths.sound("week7/bfBeep"), function(){
-            boyfriend().playAnim('idle');
-        });
+    function guns3() {
+        playstate().camChangeZoom(originalZoom * 1.3, 0.7, FlxEase.quadInOut);  
     }
 
-    function ugh3() {
-        tankman.playAnim("ugh2", true);
-        FlxG.sound.play(Paths.sound("week7/killYou"));
-        playstate().camFocusOpponent();
-    }
-
-    function ugh4() {
+    function guns4() {
         bgm.fadeOut((Conductor.crochet / 1000) * 5, 0);
         playstate().camChangeZoom(originalZoom, (Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
+        dad().visible = true;
+        tankman.visible = false;
         playstate().camHUD.visible = true;
         focusCameraBasedOnFirstSection();
         next();
-    }
-
-    function swapBackToGameplayTankman() {
-        dad().visible = true;
-        tankman.visible = false;
-        removeFromCharacterLayer(tankman);
     }
 
 }

@@ -468,6 +468,6 @@ class StoryMenuState extends MusicBeatState
 
 		txtTracklist.screenCenter(X);
 		txtTracklist.x -= FlxG.width * 0.35;
-		intendedScore = Highscore.getWeekScore(curWeek, curDifficulty).score;
+		intendedScore = Highscore.getWeekScore(weekNumber[curWeek], curDifficulty).score;
 	}
 }
