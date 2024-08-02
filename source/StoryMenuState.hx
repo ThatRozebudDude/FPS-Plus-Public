@@ -377,7 +377,7 @@ class StoryMenuState extends MusicBeatState
 		}
 	}
 
-	function changeDifficulty(change:Int = 0):Void
+	function changeDifficulty(change:Int = 0, ?playAnim:Bool = true):Void
 	{
 		curDifficulty += change;
 
@@ -406,7 +406,9 @@ class StoryMenuState extends MusicBeatState
 		// USING THESE WEIRD VALUES SO THAT IT DOESNT FLOAT UP
 		sprDifficulty.y = leftArrow.y - 15;
 		intendedScore = Highscore.getWeekScore(weekNumber[curWeek], curDifficulty).score;
-		FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07);
+		if(playAnim){
+			FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07);
+		}
 	}
 
 	var lerpScore:Int = 0;
@@ -425,7 +427,7 @@ class StoryMenuState extends MusicBeatState
 		sprDifficulty.animation.addByPrefix('easy', 'EASY');
 		sprDifficulty.animation.addByPrefix('normal', 'NORMAL');
 		sprDifficulty.animation.addByPrefix('hard', 'HARD');
-		changeDifficulty();
+		changeDifficulty(0, false);
 
 		var bullShit:Int = 0;
 

@@ -36,5 +36,6 @@ class NoteType
     public inline function dad()           { return PlayState.instance.dad; }
     public inline function playstate()     { return PlayState.instance; }
     public inline function tween()         { return PlayState.instance.tweenManager; }
+    public inline function data()          { return PlayState.instance.arbitraryData; }
 
 }

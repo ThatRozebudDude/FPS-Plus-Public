@@ -267,6 +267,8 @@ class PlayState extends MusicBeatState
 	private var meta:SongMetaTags;
 
 	public var metadata:Dynamic = null;
+
+	public var arbitraryData:Map<String, Dynamic> = new Map<String, Dynamic>();
 	
 	override public function create(){
 
@@ -2816,12 +2818,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 		
-	}
-
-	var alternate:Bool = true;
-	public function alternating():Int{
-		alternate = !alternate;
-		return (alternate) ? 2 : 1;
 	}
 
 	var bfOnTop:Bool = true;
