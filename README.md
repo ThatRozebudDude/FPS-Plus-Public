@@ -40,6 +40,7 @@ Run `lime test PLATFORM` or `lime build PLATFORM` to compile the game.
 ### FPS Plus
 - [Rozebud](https://twitter.com/helpme_thebigt) - *Basically everything that's been added.*
 - [Elikapika](https://twitter.com/elikapika) - *Additional Sticker Art*
+- [River Music](https://twitter.com/rivermusic_) - *Additional Sticker Art*
 
 ### Shoutouts
 - [Fabs](https://twitter.com/fabsthefabs) - Coding buddy.
