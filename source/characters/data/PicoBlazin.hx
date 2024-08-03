@@ -1,5 +1,8 @@
 package characters.data;
 
+import flixel.FlxG;
+import flixel.FlxSprite;
+
 class PicoBlazin extends CharacterInfoBase
 {
 
@@ -44,6 +47,40 @@ class PicoBlazin extends CharacterInfoBase
         addAnimChain("taunt", "tauntLaughLoop");
 
         addExtraData("deathDelay", 0.125);
+
+        info.functions.deathCreate = deathCreate;
+        info.functions.deathAdd = deathAdd;
+        info.functions.playAnim = playAnim;
+    }
+
+    var isOnDeathScreen:Bool = false;
+
+    var retrySprite:FlxSprite;
+
+    function deathCreate(character:Character) {
+        isOnDeathScreen = true;
+
+        retrySprite = new FlxSprite(character.x + 371, character.y + 644);
+        retrySprite.frames = Paths.getSparrowAtlas("weekend1/picoBlazinDeathConfirm");
+        retrySprite.animation.addByPrefix("retry", "", 24, false);
+        retrySprite.antialiasing = true;
+        retrySprite.scale.set(1.75, 1.75);
+        retrySprite.updateHitbox();
+        retrySprite.visible = false;
+    }
+
+    function deathAdd(character:Character) {
+        FlxG.state.subState.add(retrySprite);
+    }
+
+    function playAnim(character:Character, anim:String) {
+        if(!isOnDeathScreen) return;
+        
+        if(anim == "deathConfirm") {
+            retrySprite.animation.play("retry", true);
+            retrySprite.visible = true;
+            character.visible = false;
+        }
     }
 
 }

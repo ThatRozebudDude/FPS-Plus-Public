@@ -23,17 +23,16 @@ class PicoDead extends CharacterInfoBase
 		addByIndices('deathLoop', offset(225, 125), "Pico Death Stab", [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63], "", 24, loop(true));
 		addByIndices('deathConfirm', offset(225, 125), "Pico Death Stab", [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63], "", 24, loop(true));
 
-        info.functions.create = create;
-        info.functions.add = onAdd;
+        info.functions.create = deathCreate;
+        info.functions.add = deathAdd;
         info.functions.frame = frame;
         info.functions.playAnim = playAnim;
     }
 
     var retryButton:FlxSprite;
     var nene:FlxSprite;
-    var hitRetry:Bool = false;
 
-    function create(character:Character):Void{
+    function deathCreate(character:Character):Void{
         retryButton = new FlxSprite(character.x - 70, character.y - 270);
         retryButton.frames = Paths.getSparrowAtlas("weekend1/Pico_Death_Retry");
         retryButton.animation.addByPrefix("loop", "Retry Text Loop", 24);
@@ -55,19 +54,13 @@ class PicoDead extends CharacterInfoBase
         FlxG.state.subState.add(nene);
     }
 
-    function onAdd(character:Character):Void{
+    function deathAdd(character:Character):Void{
         FlxG.state.subState.add(retryButton);
     }
 
     function frame(character:Character, anim:String, frame:Int):Void{
         if(anim == "firstDeath" && frame == 35){
             retryButton.visible = true;
-        }
-        if(anim == "deathConfirm" && frame == 0 && !hitRetry){
-            retryButton.visible = true;
-            retryButton.animation.play("confirm", true);
-            retryButton.centerOffsets();
-            hitRetry = true;
         }
     }
 

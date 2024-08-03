@@ -58,7 +58,13 @@ class GameOverSubstate extends MusicBeatSubstate
 		super.create();
 
 		bf = new Character(bfX, bfY, bfChar, true);
+		if(bf.characterInfo.info.functions.deathCreate != null){
+			bf.characterInfo.info.functions.deathCreate(bf);
+		}
 		add(bf);
+		if(bf.characterInfo.info.functions.deathAdd != null){
+			bf.characterInfo.info.functions.deathAdd(bf);
+		}
 		bf.playAnim('firstDeath', true);
 
 		FlxTween.tween(camFollow, {x: Utils.getGraphicMidpoint(bf).x + bf.deathOffset.x, y: Utils.getGraphicMidpoint(bf).y + bf.deathOffset.y}, 3, {ease: FlxEase.expoOut, startDelay: bf.deathDelay});

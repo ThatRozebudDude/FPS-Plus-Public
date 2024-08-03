@@ -54,6 +54,8 @@ typedef CharacterFunctions = {
 	var frame:(Character, String, Int)->Void;   //This function is run every animation frame. String is the current animation. Int is the current frame.
 	var animationEnd:(Character, String)->Void; //This function is run when an animation is finished. String is the finished animation.
 	var add:(Character)->Void;                  //This function is run when the character is added to the state.
+	var deathCreate:(Character)->Void;          //This function is run after the character is created in the game over state.
+	var deathAdd:(Character)->Void;             //This function is run after the character is added to the game over state.
 }
 
 typedef CharacterInfo = {
@@ -118,6 +120,8 @@ class CharacterInfoBase
                 frame: null,
                 animationEnd: null,
                 add: null,
+                deathCreate: null,
+                deathAdd: null,
             },
             extraData: null
         };

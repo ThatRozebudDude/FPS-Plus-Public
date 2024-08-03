@@ -277,7 +277,7 @@ class Character extends FlxSpriteGroup
 		}
 	}
 
-	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void
+	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0, ?isPartOfLoopingAnim:Bool = false):Void
 	{
 
 		if(animSet != ""){
@@ -299,7 +299,7 @@ class Character extends FlxSpriteGroup
 		curAnim = AnimName;
 		changeOffsets();
 
-		if(characterInfo.info.functions.playAnim != null){
+		if(characterInfo.info.functions.playAnim != null && !isPartOfLoopingAnim){
 			characterInfo.info.functions.playAnim(this, AnimName);
 		}
 
@@ -348,7 +348,7 @@ class Character extends FlxSpriteGroup
 		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
 			//custom method for looping animations since the anim end callback doesnt run on looped anmations normally
 			if(animLoopPoints.exists(name)){
-				playAnim(name, true, false, animLoopPoints.get(name));
+				playAnim(name, true, false, animLoopPoints.get(name), true);
 			}
 		}
 		//Not needed for atlas since this is built in to the AtlasSprite functionality.
