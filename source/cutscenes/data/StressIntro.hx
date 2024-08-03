@@ -118,6 +118,7 @@ class StressIntro extends ScriptedCutscene
         playstate().camChangeZoom(originalZoom*1.4, 0);
         playstate().camChangeZoom((originalZoom*1.4) + 0.1, 0.5, FlxEase.elasticOut);
         boyfriend().playAnim("singUPmiss");
+        FlxG.sound.play(Paths.sound('missnote' + FlxG.random.int(1, 3)), 0.2);
     }
 
     function zoomOut() {

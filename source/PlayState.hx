@@ -2370,7 +2370,7 @@ class PlayState extends MusicBeatState
 			songStats.score -= scoreAdjust;
 			
 			if(playAudio){
-				FlxG.sound.play(Paths.sound('missnote' + FlxG.random.int(1, 3)), 0.175);
+				FlxG.sound.play(Paths.sound('missnote' + FlxG.random.int(1, 3)), 0.2);
 			}
 
 			setBoyfriendInvuln(invulnTime / 60);
