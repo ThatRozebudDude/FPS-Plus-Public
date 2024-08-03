@@ -243,10 +243,10 @@ class PlayState extends MusicBeatState
 
 	var songEnded:Bool = false;
 
-	var startCutscene:Dynamic;
+	var startCutscene:Dynamic = null;
 	var startCutsceneStoryOnly:Bool = false;
 	var startCutscenePlayOnce:Bool = false;
-	var endCutscene:Dynamic;
+	var endCutscene:Dynamic = null;
 	var endCutsceneStoryOnly:Bool = false;
 	var endCutscenePlayOnce:Bool = false;
 

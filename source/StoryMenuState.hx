@@ -35,7 +35,8 @@ class StoryMenuState extends MusicBeatState
 		7 => ['Ugh', 'Guns', 'Stress'],
 		101 => ['Darnell', 'Lit-Up', '2hot', 'Blazin']
 	];
-	var curDifficulty:Int = 1;
+	
+	static var curDifficulty:Int = 1;
 
 	public static var weekUnlocked:Array<Bool> = [true, true, true, true, true, true, true, true, true, true, true, true, true, true];
 
@@ -89,7 +90,7 @@ class StoryMenuState extends MusicBeatState
 
 	var txtWeekTitle:FlxText;
 
-	var curWeek:Int = 0;
+	public static var curWeek:Int = 0;
 
 	var txtTracklist:FlxText;
 
@@ -226,6 +227,8 @@ class StoryMenuState extends MusicBeatState
 		// add(rankText);
 		add(scoreText);
 		add(txtWeekTitle);
+
+		changeWeek(0);
 
 		updateText();
 
@@ -401,13 +404,16 @@ class StoryMenuState extends MusicBeatState
 				sprDifficulty.offset.x = 20;
 		}
 
+		FlxTween.cancelTweensOf(sprDifficulty);
+
 		sprDifficulty.alpha = 0;
 
 		// USING THESE WEIRD VALUES SO THAT IT DOESNT FLOAT UP
 		sprDifficulty.y = leftArrow.y - 15;
 		intendedScore = Highscore.getWeekScore(weekNumber[curWeek], curDifficulty).score;
-		if(playAnim){
-			FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07);
+		FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07);
+		if(!playAnim){
+			FlxTween.completeTweensOf(sprDifficulty);
 		}
 	}
 

@@ -1,7 +1,6 @@
 package;
 
 import note.NoteType;
-import debug.AtlasScrub;
 import sys.FileSystem;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
@@ -28,7 +27,7 @@ class Startup extends FlxState
 {
 
     var nextState:FlxState = new TitleVideo();
-    //var nextState:FlxState = new AtlasScrub();
+    //var nextState:FlxState = new debug.SparrowScrub();
 
     var splash:FlxSprite;
     var loadingBar:FlxBar;
@@ -59,11 +58,13 @@ class Startup extends FlxState
                                     "GF_assets", "week4/gfCar", "week5/gfChristmas", "week6/gfPixel", "week7/gfTankmen",
                                     "week1/DADDY_DEAREST", 
                                     "week2/spooky_kids_assets", "week2/Monster_Assets",
-                                    "week3/Pico_FNF_assetss", "week7/picoSpeaker",
+                                    "week3/Pico_FNF_assetss", "week7/picoSpeaker", "weekend1/pico_all",  "weekend1/pico_death",  "weekend1/Pico_Death_Retry",  "weekend1/Pico_Intro",  "weekend1/picoBlazinDeathConfirm", 
                                     "week4/Mom_Assets", "week4/momCar",
                                     "week5/mom_dad_christmas_assets", "week5/monsterChristmas",
                                     "week6/senpai", "week6/spirit",
-                                    "week7/tankmanCaptain"];
+                                    "week7/tankmanCaptain",
+                                    "weekend1/darnell",
+                                    "weekend1/Nene", "weekend1/aBotViz", "weekend1/stereoBG"];
 
     var graphicsCached:Bool;
     var startCachingGraphics:Bool = false;
@@ -78,7 +79,9 @@ class Startup extends FlxState
                                     "week6/weeb/weebSky", "week6/weeb/weebSchool", "week6/weeb/weebStreet", "week6/weeb/weebTreesBack", "week6/weeb/weebTrees", "week6/weeb/petals", "week6/weeb/bgFreaks",
                                     "week6/weeb/animatedEvilSchool", "week6/weeb/senpaiCrazy",
                                     "week7/stage/tank0", "week7/stage/tank1", "week7/stage/tank2", "week7/stage/tank3", "week7/stage/tank4", "week7/stage/tank5", "week7/stage/tankmanKilled1", 
-                                    "week7/stage/smokeLeft", "week7/stage/smokeRight", "week7/stage/tankBuildings", "week7/stage/tankClouds", "week7/stage/tankGround", "week7/stage/tankMountains", "week7/stage/tankRolling", "week7/stage/tankRuins", "week7/stage/tankSky", "week7/stage/tankWatchtower"];
+                                    "week7/stage/smokeLeft", "week7/stage/smokeRight", "week7/stage/tankBuildings", "week7/stage/tankClouds", "week7/stage/tankGround", "week7/stage/tankMountains", "week7/stage/tankRolling", "week7/stage/tankRuins", "week7/stage/tankSky", "week7/stage/tankWatchtower",
+                                    "weekend1/phillyStreets/phillyCars","weekend1/phillyStreets/phillyConstruction","weekend1/phillyStreets/phillyForeground","weekend1/phillyStreets/phillyForegroundCity","weekend1/phillyStreets/phillyHighway","weekend1/phillyStreets/phillyHighwayLights","weekend1/phillyStreets/phillyHighwayLights_lightmap","weekend1/phillyStreets/phillySkybox","weekend1/phillyStreets/phillySkyline","weekend1/phillyStreets/phillySmog","weekend1/phillyStreets/phillyTraffic","weekend1/phillyStreets/phillyTraffic_lightmap","weekend1/phillyStreets/SpraycanPile",  
+                                    "weekend1/phillyBlazin/lightning", "weekend1/phillyBlazin/skyBlur", "weekend1/phillyBlazin/streetBlur"];
 
     var cacheStart:Bool = false;
 

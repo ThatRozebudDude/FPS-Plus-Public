@@ -193,6 +193,7 @@ class PhillyStreets extends BaseStage
 		addEvent("phillyStreets-canHit", canHit);
 		addEvent("phillyStreets-canShot", canShot);
 		addEvent("phillyStreets-playerGlow", createCharacterGlow);
+		addEvent("phillyStreets-createBullet", createBullet);
     }
 
 	override function update(elapsed:Float) {
@@ -278,6 +279,11 @@ class PhillyStreets extends BaseStage
 
 		tween().tween(characterGlow.scale, {x: characterGlow.scale.x * 1.4, y: characterGlow.scale.y * 1.4}, (Conductor.crochet / 1000), {ease: FlxEase.quadOut});
 		tween().tween(characterGlow, {alpha: 0}, ((Conductor.crochet / 1000) / 2), {startDelay: ((Conductor.crochet / 1000) / 2)});
+	}
+
+	public function createBullet():Void{
+		var bullet = new PicoBullet(boyfriend().x + 159, boyfriend().y + 127);
+		addToForegroundLive(bullet);
 	}
 
 	//car code basically just taken from base game, ily fabs

@@ -95,6 +95,7 @@ class DarnellIntro extends ScriptedCutscene
     function picoReload() {
         picoIntro.playAnim('reload', true);
         FlxG.sound.play(Paths.sound("weekend1/Gun_Prep"));
+        playstate().executeEvent("phillyStreets-createBullet");
     }
 
     function darnellKickUp() {

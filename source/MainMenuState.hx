@@ -220,6 +220,7 @@ class MainMenuState extends MusicBeatState
 								switch (daChoice)
 								{
 									case 'storymode':
+										StoryMenuState.curWeek = 0;
 										switchState(new StoryMenuState());
 										trace("Story Menu Selected");
 									/*case 'freeplay':

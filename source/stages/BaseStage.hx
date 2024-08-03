@@ -147,12 +147,26 @@ class BaseStage
     /**
 	 * Called once the song starts.
 	 */
-     public function songStart(){}
+    public function songStart(){}
 
     inline function boyfriend()     { return PlayState.instance.boyfriend; }
     inline function gf()            { return PlayState.instance.gf; }
     inline function dad()           { return PlayState.instance.dad; }
     inline function playstate()     { return PlayState.instance; }
     inline function tween()         { return PlayState.instance.tweenManager; }
+
+    //It is only recommended that you only use this if you have to add dynamic objects.
+    //For normal stage elements you should just add them to the groups in the init() and toggle their visibility.
+    inline function addToBackgroundLive(x:Dynamic)      { PlayState.instance.backgroundLayer.add(x); }
+    inline function removeFromBackgroundLive(x:Dynamic) { PlayState.instance.backgroundLayer.remove(x); }
+    inline function addToGfLive(x:Dynamic)              { PlayState.instance.gfLayer.add(x); }
+    inline function removeFromGfLive(x:Dynamic)         { PlayState.instance.gfLayer.remove(x); }
+    inline function addToMiddleLive(x:Dynamic)          { PlayState.instance.middleLayer.add(x); }
+    inline function removeFromMiddleLive(x:Dynamic)     { PlayState.instance.middleLayer.remove(x); }
+    inline function addToCharacterLive(x:Dynamic)       { PlayState.instance.characterLayer.add(x); }
+    inline function removeFromCharacterLive(x:Dynamic)  { PlayState.instance.characterLayer.remove(x); }
+    inline function addToForegroundLive(x:Dynamic)      { PlayState.instance.foregroundLayer.add(x); }
+    inline function removeFromForegroundLive(x:Dynamic) { PlayState.instance.foregroundLayer.remove(x); }
+
 
 }

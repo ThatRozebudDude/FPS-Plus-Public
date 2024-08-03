@@ -44,6 +44,7 @@ class DarnellNotes extends NoteType
         playstate().getExtraCamMovement(note);
         FlxG.sound.play(Paths.sound("weekend1/Gun_Prep"));
         playstate().executeEvent("phillyStreets-playerGlow");
+        playstate().executeEvent("phillyStreets-createBullet");
     }
 
     function firegunHit (note:Note, character:Character){
