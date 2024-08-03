@@ -99,8 +99,11 @@ class StressIntro extends ScriptedCutscene
         gfSummon.visible = false;
         picoSpeaker.visible = true;
         picoSpeaker.playAnim("fall");
-
-        boyfriend().playAnim("bfCatch", true);
+        picoSpeaker.frameCallback = function(name, frame, index) {
+            if(name == "fall" && frame == 2){
+                boyfriend().playAnim("bfCatch", true);
+            }
+        }
 
         playstate().camChangeZoom(0.8, 0);
     }

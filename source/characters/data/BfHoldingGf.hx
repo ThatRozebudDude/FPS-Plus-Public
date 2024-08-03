@@ -32,7 +32,7 @@ class BfHoldingGf extends CharacterInfoBase
 
         addAnimChain("bfCatch", "idle");
 
-        addExtraData("reposition", [75, -20]);
+        addExtraData("reposition", [75, 0]);
     }
 
 }

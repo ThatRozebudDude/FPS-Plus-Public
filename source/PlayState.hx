@@ -1524,7 +1524,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (!inCutscene || !endingSong){
+		if (!inCutscene && !endingSong){
 		 	if(!autoplay){
 		 		keyShit();
 			}
@@ -1889,12 +1889,12 @@ class PlayState extends MusicBeatState
 		else{
 			endSong();
 		}
-		endingSong = true;
 	}
 
 	function stopMusic():Void{
 		songEnded = true;
 		canPause = false;
+		endingSong = true;
 		FlxG.sound.music.volume = 0;
 		FlxG.sound.music.pause();
 		vocals.volume = 0;
