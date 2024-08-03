@@ -15,6 +15,9 @@ class BfLil extends CharacterInfoBase
         info.facesLeft = true;
 		info.antialiasing = false;
 
+		info.deathCharacter = "BfLil";
+		info.deathOffset.set(53, 41);
+
 		add("idle",	offset(), [0, 1], 12, loop(true));
 
 		add("singLEFT", 	offset(),	[3, 4, 5], 		12, loop(true, 1));
@@ -26,6 +29,10 @@ class BfLil extends CharacterInfoBase
 		add("singDOWNmiss", 	offset(),	[6, 18, 18, 19, 19], 	24, loop(true, -4));
 		add("singUPmiss", 		offset(),	[9, 21, 21, 22, 22], 	24, loop(true, -4));
 		add("singRIGHTmiss", 	offset(),	[12, 24, 24, 25, 25], 	24, loop(true, -4));
+
+		add('firstDeath', offset(), [2, 26, 2, 26, 2, 26, 2, 26, 2, 26, 2, 26, 2, 26, 2, 26], 12, loop(false));
+        add('deathLoop', offset(), [2, 26], 12, loop(true));
+        add('deathConfirm', offset(), [17, 20, 23], 12, loop(true, 1));
 
 		add("hey", offset(), [17, 20, 23], 12, loop(true, 1));
 

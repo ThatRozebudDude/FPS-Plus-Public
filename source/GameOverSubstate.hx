@@ -31,6 +31,8 @@ class GameOverSubstate extends MusicBeatSubstate
 				suffix = '-pixel';
 			case "PicoDead" | "PicoDeadExplode" | "PicoBlazin":
 				suffix = '-pico';
+			case "BfLil" | "BfLilErect":
+				suffix = '-no-mic';
 		}
 
 		bfX = _x;
@@ -71,6 +73,10 @@ class GameOverSubstate extends MusicBeatSubstate
 						if(bf.charClass == "PicoDeadExplode"){ FlxG.sound.play(Paths.sound("gameOver/fnf_loss_sfx-pico-explode")); }
 						else{ FlxG.sound.play(Paths.sound("gameOver/fnf_loss_sfx" + suffix)); }
 				}
+
+			case "-no-mic":
+				FlxG.sound.play(Paths.sound("gameOver/fnf_loss_sfx-no-mic"));
+				suffix = "";
 			default:
 				FlxG.sound.play(Paths.sound("gameOver/fnf_loss_sfx" + suffix));
 		}
