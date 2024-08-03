@@ -82,7 +82,10 @@ class AutoOffsetState extends MusicBeatState
 		}
 
 		else{
+			SaveManager.global();
 			FlxG.save.data.ee1 = true;
+			SaveManager.flush();
+			Config.reload();
 
 			//Init BG
 			bg = new FlxSprite(0, 0).loadGraphic(Paths.image('fpsPlus/config/offset/offsetBG-pixel'));
@@ -261,8 +264,9 @@ class AutoOffsetState extends MusicBeatState
 		FlxG.sound.music.fadeOut(0.4);
 		ending = true;
 
+		SaveManager.global();
 		FlxG.save.data.offset = offsetCalc;
-		FlxG.save.flush();
+		SaveManager.flush();
 		Config.reload();
 
 		switchState(new ConfigMenu());

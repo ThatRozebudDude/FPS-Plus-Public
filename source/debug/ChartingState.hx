@@ -162,7 +162,7 @@ class ChartingState extends MusicBeatState
 
 		PlayState.fromChartEditor = true;
 		SaveManager.global();
-		ee2Check = FlxG.save.data.ee2;
+		ee2Check = Config.ee2;
 
 		var controlInfo = new FlxText(10, 30, 0, "LEFT CLICK - Place Notes\nRIGHT CLICK - Delete Notes\nMIDDLE CLICK - Reselect a note.\n\nSHIFT - Unlock cursor from grid\nALT - Triplets\nCONTROL - 1/32 Notes\nSHIFT + CONTROL - 1/64 Notes\n\nTAB - Place notes on both sides\nHJKL - Place notes during\n                       playback\n\nR - Top of section\nCTRL + R - Song start\n\nENTER - Test chart.\nCTRL + ENTER - Test chart from\n                         current section.", 12);
 		controlInfo.scrollFactor.set();
@@ -1289,6 +1289,8 @@ class ChartingState extends MusicBeatState
 			//FlxG.save.bind("data", "Rozebud/FPSPlus");
 			SaveManager.global();
 			FlxG.save.data.ee2 = false;
+			SaveManager.flush();
+			Config.reload();
 			//FlxG.save.flush();
 			//FlxG.save.bind(_song.song.replace(" ", "-"), "Rozebud/FPSPlus/Chart-Editor-Autosaves");
 			SaveManager.chartAutosave(_song.song.replace(" ", "-"));
@@ -1310,6 +1312,7 @@ class ChartingState extends MusicBeatState
 					FlxG.save.data.ee2 = true;
 					//FlxG.save.flush();
 					SaveManager.flush();
+					Config.reload();
 	
 					PlayState.fceForLilBuddies = true;
 					screenshotBitmap = FlxScreenGrab.grab(null, false, true);

@@ -55,7 +55,7 @@ class FreeplayStateOld extends MusicBeatState
 		addWeek(['Senpai', 'Roses', 'Thorns'], 6, ['senpai', 'senpai-angry', 'spirit']);
 		addWeek(['Ugh', 'Guns', 'Stress'], 7, ['tankman']);
 
-		if(FlxG.save.data.ee2 && Startup.hasEe2){
+		if(Config.ee2 && Startup.hasEe2){
 			addWeek(['Lil-Buddies'], 1, ['face-lil']);
 		}
 		

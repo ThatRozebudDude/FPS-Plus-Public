@@ -27,6 +27,9 @@ class Config
 	public static var showMisses:Int;
 	public static var pauseMusicBehavior:Int;
 
+	public static var ee1:Bool;
+	public static var ee2:Bool;
+
 	public static function resetSettings():Void{
 
 		SaveManager.global();
@@ -50,6 +53,8 @@ class Config
 		FlxG.save.data.showCaptions = true;
 		FlxG.save.data.showAccuracy = true;
 		FlxG.save.data.showMisses = 1;
+		FlxG.save.data.pauseMusicBehavior = 0;
+
 		reload();
 
 	}
@@ -79,6 +84,9 @@ class Config
 		showAccuracy = FlxG.save.data.showAccuracy;
 		showMisses = FlxG.save.data.showMisses;
 		pauseMusicBehavior = FlxG.save.data.pauseMusicBehavior;
+
+		ee1 = FlxG.save.data.ee1;
+		ee2 = FlxG.save.data.ee2;
 	}
 	
 	public static function write(

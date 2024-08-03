@@ -220,7 +220,7 @@ class FreeplayState extends MusicBeatState
 		//LIL BUDDIES :D
 
 		SaveManager.global();
-		if(FlxG.save.data.ee2 && Startup.hasEe2){
+		if(Config.ee2 && Startup.hasEe2){
 			addSong("Lil-Buddies", "bf", 0, ["Secret"]);
 			addSong("Lil-Buddies-Erect", "bf", 0, [/*"ERECT",*/ "Secret"]);
 		}
