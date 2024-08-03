@@ -23,6 +23,12 @@ class PicoDeadExplode extends CharacterInfoBase
 		addByLabel('deathConfirm', offset(665, 350), "Confirm", 24, loop(false));
 
         addExtraData("deathDelay", 0.125);
+
+        info.functions.deathCreate = deathCreate;
+    }
+
+    function deathCreate(character:Character) {
+        FlxG.camera.zoom = 0.75;
     }
 
 }
