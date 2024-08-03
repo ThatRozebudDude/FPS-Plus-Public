@@ -104,14 +104,28 @@ class Highscore
 		if(FlxG.save.data.scoreFormatVersion == null || cast (FlxG.save.data.scoreFormatVersion, String).split(".")[0] != scoreFormatVersion.split(".")[0] || forceResetScores){
 			FlxG.save.data.songScores = songScores;
 		}
+		//This is to fix broken score files if the save version is a non-breaking format change. (ex. Version 1.0 only saved score and accuracy, version 1.1 adds a rank to the score format)
 		else if(cast (FlxG.save.data.scoreFormatVersion, String).split(".")[1] != scoreFormatVersion.split(".")[1]){
 			var savedScores:Map<String, Dynamic> = FlxG.save.data.songScores;
+			var newSavedScores:Map<String, SongStats> = new Map<String, SongStats>();
 			for(key => value in savedScores){
-				if(value.rank == null){
-					value.rank = none;
+				var newValue:SongStats = {
+					score: 0,
+					accuracy: 0,
+					rank: none
 				}
+				if(Reflect.hasField(value, "score")){
+					newValue.score = value.score;
+				}
+				if(Reflect.hasField(value, "accuracy")){
+					newValue.accuracy = value.accuracy;
+				}
+				if(Reflect.hasField(value, "rank")){
+					newValue.rank = value.rank;
+				}
+				newSavedScores.set(key, newValue);
 			}
-			FlxG.save.data.songScores = savedScores; 
+			FlxG.save.data.songScores = newSavedScores;
 		}
 
 		if (FlxG.save.data.songScores != null){
