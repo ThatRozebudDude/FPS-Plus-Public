@@ -142,6 +142,7 @@ class PauseSubState extends MusicBeatSubstate
 		}
 
 		if (Binds.justPressed("menuBack")){
+			PlayState.instance.tweenManager.active = true;
 			unpause();
 		}
 
