@@ -21,7 +21,9 @@ class BfPixelDead extends CharacterInfoBase
 		addByPrefix('deathConfirm', offset(-6), "RETRY CONFIRM", 24, loop(false));
 
 		addExtraData("scale", PlayState.daPixelZoom);
-
+		addExtraData("deathSound", "gameOver/fnf_loss_sfx-pixel");
+		addExtraData("deathSong", "gameOver/gameOver-pixel");
+		addExtraData("deathSongEnd", "gameOver/gameOverEnd-pixel");
     }
 
 }

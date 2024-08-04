@@ -40,13 +40,15 @@ class PicoBlazin extends CharacterInfoBase
         addByLabel('firstDeath', offset(), "Low Death Intro", 24, loop(false));
         addByLabel('deathLoop', offset(), "Low Death Loop", 24, loop(true));
         addByLabel('deathConfirm', offset(), "Low Death Confirm", 24, loop(false));
-        
-        addExtraData("scale", 1.75);
 
         addAnimChain("uppercutPunch", "uppercutPunchLoop");
         addAnimChain("taunt", "tauntLaughLoop");
 
+        addExtraData("scale", 1.75);
         addExtraData("deathDelay", 0.125);
+        addExtraData("deathSound", "gameOver/fnf_loss_sfx-pico-gutpunch");
+		addExtraData("deathSong", "gameOver/gameOver-pico");
+		addExtraData("deathSongEnd", "gameOver/gameOverEnd-pico");
 
         info.functions.deathCreate = deathCreate;
         info.functions.deathAdd = deathAdd;

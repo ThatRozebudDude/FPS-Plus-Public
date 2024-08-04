@@ -44,14 +44,6 @@ class GameOverSubstate extends MusicBeatSubstate
 		add(camFollow);
 
 		FlxG.camera.follow(camFollow, LOCKON);
-
-		//Conductor.changeBPM(100);
-
-		// FlxG.camera.followLerp = 1;
-		// FlxG.camera.focusOn(FlxPoint.get(FlxG.width / 2, FlxG.height / 2));
-		//FlxG.camera.scroll.set();
-		//FlxG.camera.target = null;
-
 	}
 
 	override function create() {
@@ -68,24 +60,9 @@ class GameOverSubstate extends MusicBeatSubstate
 		bf.playAnim('firstDeath', true);
 
 		FlxTween.tween(camFollow, {x: Utils.getGraphicMidpoint(bf).x + bf.deathOffset.x, y: Utils.getGraphicMidpoint(bf).y + bf.deathOffset.y}, 3, {ease: FlxEase.expoOut, startDelay: bf.deathDelay});
-		//FlxTween.tween(camFollow, {x: bf.getMidpoint().x + bf.deathOffset.x, y: bf.getMidpoint().y + bf.deathOffset.y}, 3, {ease: FlxEase.expoOut, startDelay: 0.5});
 
-		switch(suffix){
-			case "-pico":
-				switch(PlayState.SONG.song.toLowerCase()){
-					case "blazin":
-						FlxG.sound.play(Paths.sound("gameOver/fnf_loss_sfx-pico-gutpunch"));
-					default:
-						if(bf.charClass == "PicoDeadExplode"){ FlxG.sound.play(Paths.sound("gameOver/fnf_loss_sfx-pico-explode")); }
-						else{ FlxG.sound.play(Paths.sound("gameOver/fnf_loss_sfx" + suffix)); }
-				}
-
-			case "-no-mic":
-				FlxG.sound.play(Paths.sound("gameOver/fnf_loss_sfx-no-mic"));
-				suffix = "";
-			default:
-				FlxG.sound.play(Paths.sound("gameOver/fnf_loss_sfx" + suffix));
-		}
+		FlxG.sound.play(Paths.sound(bf.deathSound));
+		PlayState.instance.stage.gameOverStart();
 	}
 
 	override function update(elapsed:Float){
@@ -107,21 +84,9 @@ class GameOverSubstate extends MusicBeatSubstate
 		}
 
 		if (bf.curAnim == 'firstDeath' && bf.curAnimFinished() && !isEnding){
-			switch(PlayState.SONG.player2){
-				case "Tankman":
-					bf.playAnim('deathLoop');
-					FlxG.sound.playMusic(Paths.music('gameOver/gameOver' + suffix), 0.2);
-					FlxG.sound.play(Paths.sound('week7/jeffGameover/jeffGameover-' + FlxG.random.int(1, 25)), 1, false, null, true, function()
-					{
-						if (!isEnding)
-							FlxG.sound.music.fadeIn(2.5, 0.2, 1);
-					});
-
-				default:
-					bf.playAnim('deathLoop');
-					FlxG.sound.playMusic(Paths.music('gameOver/gameOver' + suffix));
-			}
-			
+			bf.playAnim('deathLoop');
+			FlxG.sound.playMusic(Paths.music(bf.deathSong));
+			PlayState.instance.stage.gameOverLoop();
 		}
 
 		if (FlxG.sound.music.playing){
@@ -139,7 +104,8 @@ class GameOverSubstate extends MusicBeatSubstate
 		isEnding = true;
 		bf.playAnim('deathConfirm', true);
 		FlxG.sound.music.stop();
-		FlxG.sound.play(Paths.music('gameOver/gameOverEnd' + suffix));
+		FlxG.sound.play(Paths.music(bf.deathSongEnd));
+		PlayState.instance.stage.gameOverEnd();
 		new FlxTimer().start(0.4, function(tmr:FlxTimer){
 			FlxG.camera.fade(FlxColor.BLACK, 1.2, false, function(){
 				PlayState.instance.switchState(new PlayState());

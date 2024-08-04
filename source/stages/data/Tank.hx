@@ -150,4 +150,13 @@ class Tank extends BaseStage
 		}
 	}
 
+	override function gameOverLoop() {
+		FlxG.sound.music.volume = 0.2;
+		FlxG.sound.play(Paths.sound('week7/jeffGameover/jeffGameover-' + FlxG.random.int(1, 25)), 1, false, null, true, function(){
+			if(FlxG.sound.music.playing){
+				FlxG.sound.music.fadeIn(2.5, 0.2, 1);
+			}
+		});
+	}
+
 }

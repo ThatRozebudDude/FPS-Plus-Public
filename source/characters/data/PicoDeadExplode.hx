@@ -23,6 +23,9 @@ class PicoDeadExplode extends CharacterInfoBase
 		addByLabel('deathConfirm', offset(665, 350), "Confirm", 24, loop(false));
 
         addExtraData("deathDelay", 0.125);
+        addExtraData("deathSound", "gameOver/fnf_loss_sfx-pico-explode");
+		addExtraData("deathSong", "gameOver/gameOver-pico");
+		addExtraData("deathSongEnd", "gameOver/gameOverEnd-pico");
 
         info.functions.deathCreate = deathCreate;
     }

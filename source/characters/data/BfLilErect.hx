@@ -36,6 +36,7 @@ class BfLilErect extends CharacterInfoBase
 
 		add("hey",	offset(), [2, 17, 20], 12, loop(true, -1));
 
+		addExtraData("deathSound", "gameOver/fnf_loss_sfx-no-mic");
     }
 
 }

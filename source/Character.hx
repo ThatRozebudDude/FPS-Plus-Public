@@ -61,6 +61,10 @@ class Character extends FlxSpriteGroup
 
 	var added:Bool = false;
 
+	public var deathSound:String = "gameOver/fnf_loss_sfx";
+	public var deathSong:String = "gameOver/gameOver";
+	public var deathSongEnd:String = "gameOver/gameOverEnd";
+
 	public function new(x:Float, y:Float, ?_character:String = "Bf", ?_isPlayer:Bool = false, ?_isGirlfriend:Bool = false, ?_enableDebug:Bool = false){
 
 		debugMode = _enableDebug;
@@ -456,7 +460,13 @@ class Character extends FlxSpriteGroup
 					case "reposition":
 						reposition.set(data[0], data[1]);
 					case "deathDelay":
-						deathDelay = data[0];
+						deathDelay = data;
+					case "deathSound":
+						deathSound = data;
+					case "deathSong":
+						deathSong = data;
+					case "deathSongEnd":
+						deathSongEnd = data;
 					default:
 						//Do nothing by default.
 				}

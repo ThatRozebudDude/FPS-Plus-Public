@@ -159,6 +159,21 @@ class BaseStage
 	 */
     public function unpause(){}
 
+    /**
+	 * Called when the game over state is started.
+	 */
+    public function gameOverStart(){}
+
+    /**
+	 * Called when the starting the game over loop animation.
+	 */
+    public function gameOverLoop(){}
+
+    /**
+	 * Called when the game over retry is confirmed.
+	 */
+    public function gameOverEnd(){}
+
 
     inline function boyfriend()     { return PlayState.instance.boyfriend; }
     inline function gf()            { return PlayState.instance.gf; }

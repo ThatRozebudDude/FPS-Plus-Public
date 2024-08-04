@@ -36,6 +36,7 @@ class BfLil extends CharacterInfoBase
 
 		add("hey", offset(), [17, 20, 23], 12, loop(true, 1));
 
+		addExtraData("deathSound", "gameOver/fnf_loss_sfx-no-mic");
     }
 
 }

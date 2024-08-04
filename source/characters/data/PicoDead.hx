@@ -27,6 +27,10 @@ class PicoDead extends CharacterInfoBase
         info.functions.add = deathAdd;
         info.functions.frame = frame;
         info.functions.playAnim = playAnim;
+
+        addExtraData("deathSound", "gameOver/fnf_loss_sfx-pico");
+		addExtraData("deathSong", "gameOver/gameOver-pico");
+		addExtraData("deathSongEnd", "gameOver/gameOverEnd-pico");
     }
 
     var retryButton:FlxSprite;
