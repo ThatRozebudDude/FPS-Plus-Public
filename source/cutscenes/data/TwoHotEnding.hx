@@ -27,11 +27,13 @@ class TwoHotEnding extends ScriptedCutscene
 		black.updateHitbox();
 		black.scrollFactor.set();
 		black.visible = false;
+		black.cameras = [playstate().camOverlay];
 
         video = new VideoHandler();
 		video.scrollFactor.set();
 		video.antialiasing = true;
 		video.visible = false;
+        video.cameras = [playstate().camOverlay];
 
         addEvent(0, setup);
         addEvent(0, centerCamera);
@@ -99,7 +101,7 @@ class TwoHotEnding extends ScriptedCutscene
 
     function swapToVideo() {
         playstate().inVideoCutscene = true;
-        playstate().camGame.zoom = 1;
+        //playstate().camGame.zoom = 1;
         video.visible = true;
         black.visible = true;
         playstate().camGame.filters = [];

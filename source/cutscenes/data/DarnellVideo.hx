@@ -23,6 +23,7 @@ class DarnellVideo extends ScriptedCutscene
 		black.scale.set(1280, 720);
 		black.updateHitbox();
 		black.scrollFactor.set();
+		black.cameras = [playstate().camOverlay];
 
         addEvent(0, first);
     }
@@ -39,11 +40,12 @@ class DarnellVideo extends ScriptedCutscene
 
     function first() {
         playstate().inVideoCutscene = true;
-        playstate().camGame.zoom = 1;
+        //playstate().camGame.zoom = 1;
 
         video = new VideoHandler();
 		video.scrollFactor.set();
 		video.antialiasing = true;
+        video.cameras = [playstate().camOverlay];
 
 		video.playMP4(Paths.video("weekend1/darnellCutscene"), function(){
 			playstate().inVideoCutscene = false;

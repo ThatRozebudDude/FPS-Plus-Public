@@ -33,6 +33,7 @@ class VideoCutsceneEnd extends ScriptedCutscene
 		black.updateHitbox();
 		black.scrollFactor.set();
 		black.visible = false;
+		black.cameras = [playstate().camOverlay];
 
         video = new VideoHandler();
 		video.scrollFactor.set();
@@ -41,12 +42,14 @@ class VideoCutsceneEnd extends ScriptedCutscene
         video.cameras = [playstate().camOverlay];
 
         addEvent(0, setup);
+        addEvent(0.1, showBlack);
     }
 
     override function update(elapsed:Float) {
         super.update(elapsed);
         if(!videoOver && Binds.justPressed("menuAccept") && playstate().inVideoCutscene && skipable){
             videoOver = true;
+            black.visible = true;
 			playstate().tweenManager.tween(video, {alpha: 0, volume: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
 				video.skip();
 			}});
@@ -55,10 +58,10 @@ class VideoCutsceneEnd extends ScriptedCutscene
 
     function setup() {
         playstate().inVideoCutscene = true;
-        playstate().camGame.zoom = 1;
+        //playstate().camGame.zoom = 1;
 
         video.visible = true;
-        black.visible = true;
+        //black.visible = true;
 
         playstate().camGame.filters = [];
         playstate().camHUD.visible = false;
@@ -71,6 +74,10 @@ class VideoCutsceneEnd extends ScriptedCutscene
 
 		addGeneric(black);
 		addGeneric(video);
+    }
+
+    function showBlack() {
+        black.visible = true;
     }
 
 }

@@ -60,7 +60,7 @@ class VideoCutscene extends ScriptedCutscene
 
     function setup() {
         playstate().inVideoCutscene = true;
-        playstate().camGame.zoom = 1;
+        //playstate().camGame.zoom = 1;
 
         prevCamFilters = playstate().camGame.filters;
         playstate().camGame.filters = [];
