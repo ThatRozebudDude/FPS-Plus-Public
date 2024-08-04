@@ -19,21 +19,10 @@ class GameOverSubstate extends MusicBeatSubstate
 	var bfY:Float;
 	var bfChar:String;
 
-	var suffix:String = "";
-
 	public function new(_x:Float, _y:Float, camX:Float, camY:Float, character:String){
-
 		super();
 
 		bfChar = character;
-		switch (bfChar){
-			case "BfPixelDead":
-				suffix = '-pixel';
-			case "PicoDead" | "PicoDeadExplode" | "PicoBlazin":
-				suffix = '-pico';
-			case "BfLil" | "BfLilErect":
-				suffix = '-no-mic';
-		}
 
 		bfX = _x;
 		bfY = _y;
@@ -66,7 +55,6 @@ class GameOverSubstate extends MusicBeatSubstate
 	}
 
 	override function update(elapsed:Float){
-		
 		super.update(elapsed);
 
 		if (Binds.justPressed("menuAccept") && !isEnding){
