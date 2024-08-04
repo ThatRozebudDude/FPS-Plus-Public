@@ -1434,6 +1434,8 @@ class PlayState extends MusicBeatState
 
 			if (startTimer != null && !startTimer.finished)
 				startTimer.active = false;
+
+			stage.pause();
 		}
 
 		super.openSubState(SubState);
@@ -1452,6 +1454,8 @@ class PlayState extends MusicBeatState
 			}
 				
 			paused = false;
+
+			stage.unpause();
 		}
 
 		setBoyfriendInvuln(1/60);

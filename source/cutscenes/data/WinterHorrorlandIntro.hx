@@ -35,7 +35,7 @@ class WinterHorrorlandIntro extends ScriptedCutscene
         removeFromForegroundLayer(blackScreen);
 		FlxG.sound.play(Paths.sound('week5/Lights_Turn_On'));
 		playstate().camFollow.y = -2050;
-		playstate().camFollow.x += 85;
+		playstate().camFollow.x -= 200;
 		playstate().camChangeZoom(1.5, 0, null);
     }
 

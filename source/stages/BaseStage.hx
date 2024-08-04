@@ -149,6 +149,17 @@ class BaseStage
 	 */
     public function songStart(){}
 
+    /**
+	 * Called when the game is paused.
+	 */
+    public function pause(){}
+
+    /**
+	 * Called when the game is unpaused.
+	 */
+    public function unpause(){}
+
+
     inline function boyfriend()     { return PlayState.instance.boyfriend; }
     inline function gf()            { return PlayState.instance.gf; }
     inline function dad()           { return PlayState.instance.dad; }

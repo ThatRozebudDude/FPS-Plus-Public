@@ -1,5 +1,6 @@
 package stages.data;
 
+import flixel.sound.FlxSound;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
@@ -13,6 +14,9 @@ class Spooky extends BaseStage
 
 	var lightningStrikeBeat:Int = 0;
 	var lightningOffset:Int = 8;
+
+	var lightningSound:FlxSound = new FlxSound();
+	var unpauseSoundCheck:Bool = false;
 
     public override function init(){
         name = "spooky";
@@ -38,9 +42,22 @@ class Spooky extends BaseStage
 		}
 	}
 
-	function lightningStrikeShit(curBeat:Int):Void
-	{
-		FlxG.sound.play(Paths.sound('week2/thunder_' + FlxG.random.int(1, 2)));
+	public override function pause() {
+		if(lightningSound.playing){
+			unpauseSoundCheck = true;
+			lightningSound.pause();
+		}
+	}
+
+	public override function unpause() {
+		if(unpauseSoundCheck){
+			unpauseSoundCheck = false;
+			lightningSound.play(false);
+		}
+	}
+
+	function lightningStrikeShit(curBeat:Int):Void{
+		lightningSound = FlxG.sound.play(Paths.sound('week2/thunder_' + FlxG.random.int(1, 2)));
 		halloweenBG.animation.play('lightning');
 
 		lightningStrikeBeat = curBeat;

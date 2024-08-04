@@ -1,5 +1,6 @@
 package stages.data;
 
+import flixel.sound.FlxSound;
 import flixel.tweens.FlxTween;
 import openfl.filters.ShaderFilter;
 import shaders.RainShader;
@@ -20,6 +21,9 @@ class PhillyBlazin extends BaseStage
 	var streetBlurMultiply:FlxSprite;
 	var additionalLighten:FlxSprite;
 	var lightning:FlxSprite;
+
+	var lightningSound:FlxSound = new FlxSound();
+	var unpauseSoundCheck:Bool = false;
 
 	var abot:ABot;
 
@@ -143,6 +147,20 @@ class PhillyBlazin extends BaseStage
 		abot.bop();
 	}
 
+	public override function pause() {
+		if(lightningSound.playing){
+			unpauseSoundCheck = true;
+			lightningSound.pause();
+		}
+	}
+
+	public override function unpause() {
+		if(unpauseSoundCheck){
+			unpauseSoundCheck = false;
+			lightningSound.play(false);
+		}
+	}
+
 	final LIGHTNING_FULL_DURATION = 1.5;
 	final LIGHTNING_FADE_DURATION = 0.3;
 	final LIGHTNING_HOLD_DURATION = 0.15;
@@ -178,7 +196,7 @@ class PhillyBlazin extends BaseStage
 		tween().color(dad(), LIGHTNING_FADE_DURATION, CHARACTER_DARKEN_COLOR, 0xFFDEDEDE, {startDelay: LIGHTNING_HOLD_DURATION});
 		tween().color(gf(), LIGHTNING_FADE_DURATION, CHARACTER_DARKEN_COLOR, 0xFF888888, {startDelay: LIGHTNING_HOLD_DURATION});
 
-		FlxG.sound.play(Paths.sound("weekend1/Lightning" + FlxG.random.int(1, 3)));
+		lightningSound = FlxG.sound.play(Paths.sound("weekend1/Lightning" + FlxG.random.int(1, 3)));
 	}
 
 	function cleanupLightning(t:FlxTween) {

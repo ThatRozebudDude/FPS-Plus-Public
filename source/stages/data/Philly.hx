@@ -20,6 +20,7 @@ class Philly extends BaseStage
 	var phillyTrain:FlxSprite;
 
 	var trainSound:FlxSound;
+	var unpauseSoundCheck:Bool = false;
 
 	var trainMoving:Bool = false;
 	var trainFrameTiming:Float = 0;
@@ -112,6 +113,19 @@ class Philly extends BaseStage
 		}
 	}
 
+	public override function pause() {
+		if(trainSound.playing){
+			unpauseSoundCheck = true;
+			trainSound.pause();
+		}
+	}
+
+	public override function unpause() {
+		if(unpauseSoundCheck){
+			unpauseSoundCheck = false;
+			trainSound.play(false);
+		}
+	}
 
 	function changeLightColor(){
 		windowColorIndex = FlxG.random.int(0, 4, [windowColorIndex]);

@@ -1,5 +1,6 @@
 package stages.data;
 
+import flixel.sound.FlxSound;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -14,6 +15,9 @@ class Limo extends BaseStage
 	var limo:FlxSprite;
 	var grpLimoDancers:FlxTypedGroup<BackgroundDancer>;
 	var fastCar:FlxSprite;
+
+	var carSound:FlxSound = new FlxSound();
+	var unpauseSoundCheck:Bool = false;
 
 	var fastCarCanDrive:Bool = true;
 
@@ -79,26 +83,38 @@ class Limo extends BaseStage
 			dancer.dance();
 		});
 
-		if (FlxG.random.bool(10) && fastCarCanDrive)
+		if (FlxG.random.bool(10) && fastCarCanDrive){
 			fastCarDrive();
+		}
 	} 
 
-	function resetFastCar():Void
-	{
+	public override function pause() {
+		if(carSound.playing){
+			unpauseSoundCheck = true;
+			carSound.pause();
+		}
+	}
+
+	public override function unpause() {
+		if(unpauseSoundCheck){
+			unpauseSoundCheck = false;
+			carSound.play(false);
+		}
+	}
+
+	function resetFastCar():Void{
 		fastCar.x = -12600;
 		fastCar.y = FlxG.random.int(140, 250);
 		fastCar.velocity.x = 0;
 		fastCarCanDrive = true;
 	}
 
-	function fastCarDrive()
-	{
-		FlxG.sound.play(Paths.sound('week4/carPass' + FlxG.random.int(0, 1)), 0.7);
+	function fastCarDrive(){
+		carSound = FlxG.sound.play(Paths.sound('week4/carPass' + FlxG.random.int(0, 1)), 0.7);
 
 		fastCar.velocity.x = (FlxG.random.int(170, 220) / FlxG.elapsed) * 3;
 		fastCarCanDrive = false;
-		new FlxTimer().start(2, function(tmr:FlxTimer)
-		{
+		new FlxTimer().start(2, function(tmr:FlxTimer){
 			resetFastCar();
 		});
 	}
