@@ -1,5 +1,7 @@
 package;
 
+import flixel.util.FlxSignal;
+import openfl.events.Event;
 import openfl.media.SoundTransform;
 import flixel.FlxSprite;
 import flixel.FlxG;
@@ -109,6 +111,9 @@ class VideoHandler extends FlxSprite
 		vlcBitmap.play(checkFile(path));
 		vlcBitmap.visible = false;
 
+		FlxG.signals.focusLost.add(pause);
+		FlxG.signals.focusGained.add(resume);
+
 		waitingStart = true;
 	}
 
@@ -128,21 +133,6 @@ class VideoHandler extends FlxSprite
 	{
 		trace("video loaded!");
 	}
-
-	public function onFocus(){
-		if(vlcBitmap != null && !paused){ 
-			vlcBitmap.resume();
-			paused = true;
-		}
-	}
-
-	public function onFocusLost(){
-		if(vlcBitmap != null && paused){
-			vlcBitmap.pause();
-			paused = false;
-		}
-	}
-
 
 	function onVLCComplete()
 	{
@@ -185,8 +175,6 @@ class VideoHandler extends FlxSprite
 		netLoop = repeat;
 		netPath = videoPath;
 
-		FlxG.autoPause = false;
-
 		if (FlxG.sound.music != null)
 		{
 			FlxG.sound.music.stop();
@@ -207,6 +195,9 @@ class VideoHandler extends FlxSprite
 		netStream.client = {onMetaData: client_onMetaData};
 
 		nc.addEventListener("netStatus", netConnection_onNetStatus);
+
+		FlxG.signals.focusLost.add(pause);
+		FlxG.signals.focusGained.add(resume);
 
 		netStream.play(netPath);
 	}
@@ -352,6 +343,9 @@ class VideoHandler extends FlxSprite
 			
 		destroyed = true;
 
+		FlxG.signals.focusLost.remove(pause);
+		FlxG.signals.focusGained.remove(resume);
+
 		#if desktop
 		if(!completed){
 			vlcClean();
@@ -374,15 +368,18 @@ class VideoHandler extends FlxSprite
 	public function pause(){
 
 		#if desktop
-		vlcBitmap.pause();
+		if(vlcBitmap != null && !paused){
+			vlcBitmap.pause();
+		}
 		#end
 
 		#if web
-		netStream.pause();
+		if(netStream != null && !paused){
+			netStream.pause();
+		}
 		#end
 
 		paused = true;
-
 	}
 
 	/**
@@ -391,15 +388,18 @@ class VideoHandler extends FlxSprite
 	public function resume(){
 
 		#if desktop
-		vlcBitmap.resume();
+		if(vlcBitmap != null && paused){ 
+			vlcBitmap.resume();
+		}
 		#end
 
 		#if web
-		netStream.resume();
+		if(netStream != null && paused){ 
+			netStream.resume();
+		}
 		#end
 
 		paused = false;
-
 	}
 
 	public function skip(){
