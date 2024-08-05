@@ -25,7 +25,7 @@ class BaseStage
     public var dadCameraOffset:FlxPoint = new FlxPoint();
     public var gfCameraOffset:FlxPoint = new FlxPoint();
     public var extraData:Map<String, Dynamic> = new Map<String, Dynamic>();
-    public var events:Map<String, Void->Void> = new Map<String, Void->Void>();
+    public var events:Map<String, (String)->Void> = new Map<String, (String)->Void>();
 
     public var backgroundElements:Array<Dynamic> = [];
     public var middleElements:Array<Dynamic> = [];
@@ -96,7 +96,7 @@ class BaseStage
      * @param   name    The name of the event.
      * @param   func    The function that gets called when the event is triggered. Must have no arguments and no return type.
      */
-    public function addEvent(name:String, func:Void->Void){
+    public function addEvent(name:String, func:(String)->Void){
         events.set(name, func);
     }
 
@@ -180,6 +180,7 @@ class BaseStage
     inline function dad()           { return PlayState.instance.dad; }
     inline function playstate()     { return PlayState.instance; }
     inline function tween()         { return PlayState.instance.tweenManager; }
+    inline function data()          { return PlayState.instance.arbitraryData; }
 
     //It is only recommended that you only use this if you have to add dynamic objects.
     //For normal stage elements you should just add them to the groups in the init() and toggle their visibility.

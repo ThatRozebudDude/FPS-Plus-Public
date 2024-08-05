@@ -1,5 +1,6 @@
 package characters.data;
 
+import flixel.tweens.FlxEase;
 using StringTools;
 
 @gfList(true)
@@ -33,6 +34,7 @@ class Gf extends CharacterInfoBase
 		info.idleSequence = ["danceLeft", "danceRight"];
 
 		info.functions.create = create;
+		info.functions.add = onAdd;
 		info.functions.update = update;
 		info.functions.danceOverride = danceOverride;
 		info.functions.playAnim = playAnim;
@@ -41,6 +43,14 @@ class Gf extends CharacterInfoBase
 	function create(character:Character):Void{
 		if(!character.isGirlfriend){
 			character.focusOffset.set(150 * (character.isPlayer ? -1 : 1), -100);
+		}
+	}
+
+	function onAdd(character:Character):Void{
+		character.setPosition(PlayState.instance.gf.x, PlayState.instance.gf.y);
+		PlayState.instance.gf.visible = false;
+		if (PlayState.isStoryMode){
+			PlayState.instance.camChangeZoom(1.3, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
 		}
 	}
 

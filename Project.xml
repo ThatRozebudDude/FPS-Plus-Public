@@ -20,6 +20,7 @@
 	<compilerflag name="--macro" value="include('characters', true)" />
 	<compilerflag name="--macro" value="include('cutscenes', true)" />
 	<compilerflag name="--macro" value="include('note', true)" />
+	<compilerflag name="--macro" value="include('events', true)" />
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 

@@ -1,5 +1,6 @@
 package;
 
+import events.Events;
 import note.NoteType;
 import sys.FileSystem;
 import flixel.tweens.FlxTween;
@@ -110,6 +111,7 @@ class Startup extends FlxState
         debug.ChartingState.loadLists();
 
         NoteType.initTypes();
+        Events.initEvents();
         //trace(NoteType.types);
         //trace(NoteType.sustainTypes);
 

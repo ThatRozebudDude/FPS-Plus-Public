@@ -1,0 +1,122 @@
+package events.data;
+
+import flixel.math.FlxMath;
+import flixel.math.FlxPoint;
+
+class CameraEvents extends Events
+{
+
+    override function defineEvents() {
+        addEvent("camMove", camMove);
+        addEvent("camZoom", camZoom);
+
+        addEvent("camBopFreq", camBopFreq);
+
+        addEvent("flash", flash);
+        addEvent("flashHud", flashHud);
+        addEvent("fadeOut", fadeOut);
+        addEvent("fadeOutHud", fadeOutHud);
+
+        //addEvent("camShake", camShake);
+        addEvent("startCamShake", startCamShake);
+        addEvent("endCamShake", endCamShake);
+
+        addEvent("camFocusBf", camFocusBf);
+        addEvent("camFocusDad", camFocusDad);
+        addEvent("camFocusGf", camFocusGf);
+        addEvent("camFocusCenter", camFocusCenter);
+
+        addEvent("toggleCamBop", toggleCamBop);
+        addEvent("toggleCamMovement", toggleCamMovement);
+
+        addEvent("camBop", camBop);
+        addEvent("camBopBig", camBopBig);
+    }
+
+    function camMove(tag:String):Void{
+        var args = Events.getArgs(tag);
+		playstate().camMove(Std.parseFloat(args[0]), Std.parseFloat(args[1]), Events.eventConvertTime(args[2]), Events.easeNameToEase(args[3]), null);
+    }
+
+    function camZoom(tag:String):Void{
+        var args = Events.getArgs(tag);
+		playstate().camChangeZoom(Std.parseFloat(args[0]), Events.eventConvertTime(args[1]), Events.easeNameToEase(args[2]), null);
+    }
+
+    function camBopFreq(tag:String):Void{
+        var args = Events.getArgs(tag);
+        playstate().camBopFrequency = Std.parseInt(args[0]);
+    }
+
+    function toggleCamBop(tag:String):Void{
+        playstate().autoCamBop = !playstate().autoCamBop;
+    }
+
+    function toggleCamMovement(tag:String):Void{
+        playstate().autoCam = !playstate().autoCam;
+    }
+    
+    function camBop(tag:String):Void{
+        playstate().uiBop(0.0175, 0.03, 0.8);
+    }
+
+    function camBopBig(tag:String):Void{
+        playstate().uiBop(0.035, 0.06, 0.8);
+    }
+
+    function flash(tag:String):Void{
+        var args = Events.getArgs(tag, ["1b", "0xFFFFFF"]);
+		playstate().camGame.stopFX();
+		playstate().camGame.fade(Std.parseInt(args[1]), Events.eventConvertTime(args[0]), true);
+    }
+
+    function flashHud(tag:String):Void{
+        var args = Events.getArgs(tag, ["1b", "0xFFFFFF"]);
+		playstate().camHUD.stopFX();
+		playstate().camHUD.fade(Std.parseInt(args[1]), Events.eventConvertTime(args[0]), true);
+    }
+
+    function fadeOut(tag:String):Void{
+        var args = Events.getArgs(tag, ["1b", "0x000000"]);
+		playstate().camGame.stopFX();
+		playstate().camGame.fade(Std.parseInt(args[1]), Events.eventConvertTime(args[0]));
+    }
+
+    function fadeOutHud(tag:String):Void{
+        var args = Events.getArgs(tag, ["1b", "0x000000"]);
+		playstate().camHUD.stopFX();
+		playstate().camHUD.fade(Std.parseInt(args[1]), Events.eventConvertTime(args[0]));
+    }
+
+    function startCamShake(tag:String):Void{
+        var args = Events.getArgs(tag, ["0.008", "0.042", "linear"]);
+        playstate().startCamShake(Std.parseFloat(args[0]), Events.eventConvertTime(args[1]), Events.easeNameToEase(args[2]));
+    }
+
+    function endCamShake(tag:String):Void{
+        var args = Events.getArgs(tag, ["0.042", "linear"]);
+		playstate().endCamShake(Events.eventConvertTime(args[0]), Events.easeNameToEase(args[1]));
+    }
+    
+    function camFocusBf(tag:String):Void{
+        var args = Events.getArgs(tag, ["1.9", "expoOut"]);
+        playstate().camFocusBF(Events.eventConvertTime(args[0]), Events.easeNameToEase(args[1]));
+    }
+    
+    function camFocusDad(tag:String):Void{
+        var args = Events.getArgs(tag, ["1.9", "expoOut"]);
+        playstate().camFocusOpponent(Events.eventConvertTime(args[0]), Events.easeNameToEase(args[1]));
+    }
+    
+    function camFocusGf(tag:String):Void{
+        var args = Events.getArgs(tag, ["1.9", "expoOut"]);
+        playstate().camFocusGF(Events.eventConvertTime(args[0]), Events.easeNameToEase(args[1]));
+    }
+    
+    function camFocusCenter(tag:String):Void{
+        var args = Events.getArgs(tag, ["0", "0", "1.9", "expoOut"]);
+		var pos:FlxPoint = new FlxPoint(FlxMath.lerp(playstate().getOpponentFocusPosition().x, playstate().getBfFocusPostion().x, 0.5), FlxMath.lerp(playstate().getOpponentFocusPosition().y, playstate().getBfFocusPostion().y, 0.5));
+		playstate().camMove(pos.x + Std.parseFloat(args[0]), pos.y + Std.parseFloat(args[1]), Events.eventConvertTime(args[2]), Events.easeNameToEase(args[3]), "center");
+    }
+
+}

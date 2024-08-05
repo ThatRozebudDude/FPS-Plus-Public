@@ -1,5 +1,6 @@
 package;
 
+import events.*;
 import note.*;
 import flixel.math.FlxAngle;
 import flixel.group.FlxGroup;
@@ -104,9 +105,9 @@ class PlayState extends MusicBeatState
 	public var autoUi:Bool = true;
 	public var autoCamBop:Bool = true;
 
-	private var gfBopFrequency:Int = 1;
-	private var iconBopFrequency:Int = 1;
-	private var camBopFrequency:Int = 4;
+	public var gfBopFrequency:Int = 1;
+	public var iconBopFrequency:Int = 1;
+	public var camBopFrequency:Int = 4;
 
 	public var tweenManager:FlxTweenManager = new FlxTweenManager();
 
@@ -203,7 +204,7 @@ class PlayState extends MusicBeatState
 	var talking:Bool = true;
 	var scoreTxt:FlxTextExt;
 
-	var ccText:SongCaptions;
+	public var ccText:SongCaptions;
 
 	public var songStats:ScoreStats = {
 		score: 0,
@@ -253,8 +254,8 @@ class PlayState extends MusicBeatState
 	public static var replayStartCutscene:Bool = true;
 	public static var replayEndCutscene:Bool = true;
 
-	var dadBeats:Array<Int> = [0, 2];
-	var bfBeats:Array<Int> = [1, 3];
+	public var dadBeats:Array<Int> = [0, 2];
+	public var bfBeats:Array<Int> = [1, 3];
 
 	public static var sectionStart:Bool =  false;
 	public static var sectionStartPoint:Int =  0;
@@ -430,56 +431,6 @@ class PlayState extends MusicBeatState
 			case "blazin":
 				dadBeats = [];
 				bfBeats = [];
-		}
-		
-		switch (dad.curCharacter)
-		{
-			case 'gf':
-				dad.setPosition(gf.x, gf.y);
-				gf.visible = false;
-				//camPos.x += 600;
-				if (isStoryMode){
-					camChangeZoom(1.3, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
-				}
-
-			/*case "spooky":
-				//dad.y += 200;
-				//camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y - 100);
-			case "monster":
-				//dad.y += 100;
-				//camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y - 100);
-			case 'monster-christmas':
-				//dad.y += 130;
-				//camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y - 100);
-			case 'dad':
-				//camPos.x += 400;
-			case 'pico':
-				//camPos.x += 600;
-				//dad.y += 300;
-				//dad.x -= 280;
-				//dad.x += 270;
-				//dad.y -= 250;
-				//dad.x += 160;
-			case 'parents-christmas':
-				//dad.x -= 500;
-			case 'senpai':
-				//dad.x += 150;
-				//dad.y += 360;
-				//camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y);
-			case 'senpai-angry':
-				//dad.x += 150;
-				//dad.y += 360;
-				//camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y);
-			case 'spirit':
-				//dad.x -= 150;
-				//dad.y += 100;
-				//dad.x += 36 * 6;
-				//dad.y += 46 * 6;
-				//camPos.set(Utils.getGraphicMidpoint(dad).x + 300, Utils.getGraphicMidpoint(dad).y);
-			case 'tankman':
-				//dad.y += 165;
-				//dad.x -= 40;
-				//camPos.x += 400;*/
 		}
 
 		//set camera start based on who the camera focuses on first
@@ -2580,185 +2531,18 @@ class PlayState extends MusicBeatState
 
 	public function executeEvent(tag:String):Void{
 
-		if(tag.startsWith("playAnim;")){
-			var tagSplit = tag.split(";");
+		var prefix = tag.split(";")[0];
 
-			if(tagSplit.length < 4){ tagSplit.push("false"); }
-			if(tagSplit.length < 5){ tagSplit.push("false"); }
-			if(tagSplit.length < 6){ tagSplit.push("0"); }
-
-			switch(tagSplit[1]){
-				case "dad":
-					dad.playAnim(tagSplit[2], parseBool(tagSplit[3]), parseBool(tagSplit[4]), Std.parseInt(tagSplit[5]));
-
-				case "gf":
-					gf.playAnim(tagSplit[2], parseBool(tagSplit[3]), parseBool(tagSplit[4]), Std.parseInt(tagSplit[5]));
-
-				default:
-					boyfriend.playAnim(tagSplit[2], parseBool(tagSplit[3]), parseBool(tagSplit[4]), Std.parseInt(tagSplit[5]));
-			}
+		if(Events.events.exists(prefix)){
+			Events.events.get(prefix)(tag);
 		}
-
-		else if(tag.startsWith("setAnimSet;")){
-			var tagSplit = tag.split(";");
-
-			switch(tagSplit[1]){
-				case "dad":
-					dad.animSet = tagSplit[2];
-
-				case "gf":
-					gf.animSet = tagSplit[2];
-
-				default:
-					boyfriend.animSet = tagSplit[2];
-			}
+		else if(stage.events.exists(tag)){
+			stage.events.get(prefix)(tag);
 		}
-
-		else if(tag.startsWith("cc;")){ ccText.display(tag.split("cc;")[1]); }
-
-		else if(tag.startsWith("camMove;")){
-			var properties = tag.split(";");
-			camMove(Std.parseFloat(properties[1]), Std.parseFloat(properties[2]), eventConvertTime(properties[3]), easeNameToEase(properties[4]), null);
-		}
-		else if(tag.startsWith("camZoom;")){
-			var properties = tag.split(";");
-			camChangeZoom(Std.parseFloat(properties[1]), eventConvertTime(properties[2]), easeNameToEase(properties[3]), null);
-		}
-
-		else if(tag.startsWith("gfBopFreq;")){ gfBopFrequency = Std.parseInt(tag.split("gfBopFreq;")[1]); }
-		else if(tag.startsWith("iconBopFreq;")){ iconBopFrequency = Std.parseInt(tag.split("iconBopFreq;")[1]); }
-		else if(tag.startsWith("camBopFreq;")){ camBopFrequency = Std.parseInt(tag.split("camBopFreq;")[1]); }
-
-		else if(tag.startsWith("bfBop")){
-			switch(tag.split("bfBop")[1]){
-				case "EveryBeat":
-					bfBeats = [0, 1, 2, 3];
-				case "OddBeats": //Swapped due to event icon starting at 1 instead of 0
-					bfBeats = [0, 2];
-				case "EvenBeats": //Swapped due to event icon starting at 1 instead of 0
-					bfBeats = [1, 3];
-				case "Never":
-					bfBeats = [];
-			}
-		}
-		else if(tag.startsWith("dadBop")){
-			switch(tag.split("dadBop")[1]){
-				case "EveryBeat":
-					dadBeats = [0, 1, 2, 3];
-				case "OddBeats": //Swapped due to event icon starting at 1 instead of 0
-					dadBeats = [0, 2];
-				case "EvenBeats": //Swapped due to event icon starting at 1 instead of 0
-					dadBeats = [1, 3];
-				case "Never":
-					dadBeats = [];
-			}
-		}
-
-		else if(tag.startsWith("flash")){ 
-			var properties = tag.split(";");
-			if(properties.length < 2){ properties.push("1b"); }
-			if(properties.length < 3){ properties.push("0xFFFFFF"); }
-			camGame.stopFX();
-			camGame.fade(Std.parseInt(properties[2]), eventConvertTime(properties[1]), true);
-		}
-		else if(tag.startsWith("flashHud")){ 
-			var properties = tag.split(";");
-			if(properties.length < 2){ properties.push("1b"); }
-			if(properties.length < 3){ properties.push("0xFFFFFF"); }
-			camHUD.stopFX();
-			camHUD.fade(Std.parseInt(properties[2]), eventConvertTime(properties[1]), true);
-		}
-		else if(tag.startsWith("fadeOut")){ 
-			var properties = tag.split(";");
-			if(properties.length < 2){ properties.push("1b"); }
-			if(properties.length < 3){ properties.push("0x000000"); }
-			camGame.stopFX();
-			camGame.fade(Std.parseInt(properties[2]), eventConvertTime(properties[1]));
-		}
-		else if(tag.startsWith("fadeOutHud")){ 
-			var properties = tag.split(";");
-			if(properties.length < 2){ properties.push("1b"); }
-			if(properties.length < 3){ properties.push("0x000000"); }
-			camHUD.stopFX();
-			camHUD.fade(Std.parseInt(properties[2]), eventConvertTime(properties[1]));
-		}
-
-		else if(tag.startsWith("camShake")){
-			var properties = tag.split(";");
-			if(properties.length < 2){ properties.push("8.0"); }
-			if(properties.length < 3){ properties.push("0.042"); }
-			if(properties.length < 4){ properties.push("linear"); }
-			trace(properties);
-			startCamShake(Std.parseFloat(properties[1]), eventConvertTime(properties[2]), easeNameToEase(properties[3]));
-		}
-		else if(tag.startsWith("endCamShake")){
-			var properties = tag.split(";");
-			if(properties.length < 2){ properties.push("0.042"); }
-			if(properties.length < 3){ properties.push("linear"); }
-			endCamShake(eventConvertTime(properties[1]), easeNameToEase(properties[2]));
-		}
-		
-		else if(tag.startsWith("camFocusBf")){
-			var properties = tag.split(";");
-			if(properties.length < 2){ properties.push("1.9"); }
-			if(properties.length < 3){ properties.push("expoOut"); }
-			camFocusBF(eventConvertTime(properties[1]), easeNameToEase(properties[2]));
-		}
-		else if(tag.startsWith("camFocusDad")){
-			var properties = tag.split(";");
-			if(properties.length < 2){ properties.push("1.9"); }
-			if(properties.length < 3){ properties.push("expoOut"); }
-			camFocusOpponent(eventConvertTime(properties[1]), easeNameToEase(properties[2]));
-		}
-		else if(tag.startsWith("camFocusGf")){
-			var properties = tag.split(";");
-			if(properties.length < 2){ properties.push("1.9"); }
-			if(properties.length < 3){ properties.push("expoOut"); }
-			camFocusGF(eventConvertTime(properties[1]), easeNameToEase(properties[2]));
-		}
-		else if(tag.startsWith("camFocusCenter")){
-			var properties = tag.split(";");
-			if(properties.length < 2){ properties.push("0"); }
-			if(properties.length < 3){ properties.push("0"); }
-			var pos:FlxPoint = new FlxPoint(FlxMath.lerp(getOpponentFocusPosition().x, getBfFocusPostion().x, 0.5), FlxMath.lerp(getOpponentFocusPosition().y, getBfFocusPostion().y, 0.5));
-			camMove(pos.x + Std.parseFloat(properties[1]), pos.y + Std.parseFloat(properties[2]), 1.9, FlxEase.expoOut, "center");
-		}
-
 		else{
-			switch(tag){
-				case "dadAnimLockToggle":
-					dad.canAutoAnim = !dad.canAutoAnim;
-
-				case "bfAnimLockToggle":
-					boyfriend.canAutoAnim = !boyfriend.canAutoAnim;
-
-				case "gfAnimLockToggle":
-					gf.canAutoAnim = !gf.canAutoAnim;
-
-				case "ccHide":
-					ccText.hide();
-
-				case "toggleCamBop":
-					autoCamBop = !autoCamBop;
-
-				case "toggleCamMovement":
-					autoCam = !autoCam;
-
-				case "camBop":
-					uiBop(0.0175, 0.03, 0.8);
-					
-				case "camBopBig":
-					uiBop(0.035, 0.06, 0.8);
-
-				default:
-					if(stage.events.exists(tag)){
-						stage.events.get(tag)();
-					}
-					else{
-						trace("No event found for: " + tag);
-					}
-			}
+			trace("No event found for: " + tag);
 		}
+
 		return;
 	}
 

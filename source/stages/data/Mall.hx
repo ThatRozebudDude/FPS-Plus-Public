@@ -83,7 +83,7 @@ class Mall extends BaseStage
 		santa.animation.play('idle', true);
 	}
 
-	function toggleSantaVisible() {
+	function toggleSantaVisible(tag:String) {
 		santa.visible = !santa.visible;
 	}
 }

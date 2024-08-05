@@ -235,38 +235,38 @@ class PhillyStreets extends BaseStage
 		if (curBeat == (lastChange + changeInterval)) changeLights(curBeat);
 	}
 
-	public function stageDarken():Void{
+	public function stageDarken(tag:String):Void{
 		tween().cancelTweensOf(dimSprite);
 		dimSprite.alpha = 0.75;
 		tween().tween(dimSprite, {alpha: 0}, 1, {startDelay: 0.2});
 	}
 
-	public function canKick():Void{
+	public function canKick(tag:String):Void{
 		kickedCan.visible = true;
 		kickedCan.playAnim("kickUp");
 	}
 	
-	public function canKickSlow():Void{
+	public function canKickSlow(tag:String):Void{
 		kickedCan.visible = true;
 		kickedCan.playAnim("kickUpSlow");
 	}
 
-	public function canKickForward():Void{
+	public function canKickForward(tag:String):Void{
 		kickedCan.visible = true;
 		kickedCan.playAnim("kickForward");
 	}
 
-	public function canHit():Void{
+	public function canHit(tag:String):Void{
 		kickedCan.visible = true;
 		kickedCan.playAnim("hit");
 	}
 
-	public function canShot():Void{
+	public function canShot(tag:String):Void{
 		kickedCan.visible = true;
 		kickedCan.playAnim("shot");
 	}
 
-	public function createCharacterGlow():Void{
+	public function createCharacterGlow(tag:String):Void{
 		tween().cancelTweensOf(characterGlow);
 		tween().cancelTweensOf(characterGlow.scale);
 
@@ -281,7 +281,7 @@ class PhillyStreets extends BaseStage
 		tween().tween(characterGlow, {alpha: 0}, ((Conductor.crochet / 1000) / 2), {startDelay: ((Conductor.crochet / 1000) / 2)});
 	}
 
-	public function createBullet():Void{
+	public function createBullet(tag:String):Void{
 		var bullet = new PicoBullet(boyfriend().x + 159, boyfriend().y + 127);
 		addToForegroundLive(bullet);
 	}

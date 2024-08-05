@@ -165,7 +165,7 @@ class PhillyBlazin extends BaseStage
 	final LIGHTNING_FADE_DURATION = 0.3;
 	final LIGHTNING_HOLD_DURATION = 0.15;
 	final CHARACTER_DARKEN_COLOR = 0xFF404040;
-	function lightningStrike():Void{
+	function lightningStrike(?tag:String):Void{
 
 		scrollingSkyAdd.visible = true;
 		scrollingSkyAdd.alpha = 0.8;
@@ -206,15 +206,15 @@ class PhillyBlazin extends BaseStage
 		lightning.visible = false;
 	}
 
-	function slowRain():Void{
+	function slowRain(tag:String):Void{
 		tween().tween(rainShader, {timeScale: 0.07}, 2.5, {ease: FlxEase.quadOut});
 	}
 
-	function normalRain():Void{
+	function normalRain(tag:String):Void{
 		tween().tween(rainShader, {timeScale: 1}, Conductor.crochet/1000, {ease: FlxEase.quadIn});
 	}
 
-	function toggleLightning():Void{
+	function toggleLightning(tag:String):Void{
 		lightningActive = !lightningActive;
 	}
 }
