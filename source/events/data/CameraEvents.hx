@@ -17,7 +17,7 @@ class CameraEvents extends Events
         addEvent("fadeOut", fadeOut);
         addEvent("fadeOutHud", fadeOutHud);
 
-        //addEvent("camShake", camShake);
+        addEvent("camShake", camShake);
         addEvent("startCamShake", startCamShake);
         addEvent("endCamShake", endCamShake);
 
@@ -117,6 +117,11 @@ class CameraEvents extends Events
         var args = Events.getArgs(tag, ["0", "0", "1.9", "expoOut"]);
 		var pos:FlxPoint = new FlxPoint(FlxMath.lerp(playstate().getOpponentFocusPosition().x, playstate().getBfFocusPostion().x, 0.5), FlxMath.lerp(playstate().getOpponentFocusPosition().y, playstate().getBfFocusPostion().y, 0.5));
 		playstate().camMove(pos.x + Std.parseFloat(args[0]), pos.y + Std.parseFloat(args[1]), Events.eventConvertTime(args[2]), Events.easeNameToEase(args[3]), "center");
+    }
+    
+    function camShake(tag:String):Void{
+        var args = Events.getArgs(tag, ["0.008", "0.042", "1", "0.042", "linear"]);
+		playstate().camShake(Std.parseFloat(args[0]), Std.parseFloat(args[1]), Events.eventConvertTime(args[2]), Std.parseFloat(args[3]), Events.easeNameToEase(args[4]));
     }
 
 }
