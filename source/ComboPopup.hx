@@ -73,7 +73,6 @@ class ComboPopup extends FlxSpriteGroup
 		Causes the combo count to pop up with the given integer. Returns without effect if the integer is less than 0.
 	**/
 	public function comboPopup(_combo:Int):Void{
-
 		if(_combo < 0) { return; }
 
 		var combo:String = Std.string(_combo);
@@ -105,14 +104,12 @@ class ComboPopup extends FlxSpriteGroup
 		}
 
 		for(num in numbersToAdd){ add(num); }
-		return;
 	}
 
 	/**
 		Causes a note rating to pop up with the specified rating. Returns without effect if the rating isn't in `ratingList`.
 	**/
 	public function ratingPopup(_rating:String):Void{
-
 		var rating = ratingList.indexOf(_rating);
 		if(rating == -1){ return; }
 		
@@ -135,14 +132,12 @@ class ComboPopup extends FlxSpriteGroup
 		});
 		
 		add(ratingSprite);
-		return;
 	}
 
 	/**
 		Causes the combo broken text to pop up.
 	**/
 	public function breakPopup():Void{
-
 		var breakSprite = new FlxSprite(comboBreakInfo.position.x, comboBreakInfo.position.y).loadGraphic(Paths.image(comboBreakInfo.path), false);
 		breakSprite.setGraphicSize(Std.int(breakSprite.width * comboBreakInfo.scale));
 		breakSprite.updateHitbox();
@@ -162,7 +157,6 @@ class ComboPopup extends FlxSpriteGroup
 		});
 		
 		add(breakSprite);
-		return;
 	}
 }
 
