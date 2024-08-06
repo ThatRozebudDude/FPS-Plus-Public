@@ -497,7 +497,7 @@ class PlayState extends MusicBeatState
 		switch(curUiType){
 
 			default:
-				comboUI = new ComboPopup(boyfriend.x, boyfriend.y,
+				comboUI = new ComboPopup(boyfriend.x + boyfriend.worldPopupOffset.x, boyfriend.y + boyfriend.worldPopupOffset.y,
 				{
 					path: "ui/ratings",
 					position: new FlxPoint(0, -50),
@@ -519,7 +519,7 @@ class PlayState extends MusicBeatState
 				NoteSplash.splashPath = "ui/noteSplashes";
 
 			case "pixel":
-				comboUI = new ComboPopup(boyfriend.x, boyfriend.y,
+				comboUI = new ComboPopup(boyfriend.x + boyfriend.worldPopupOffset.x, boyfriend.y + boyfriend.worldPopupOffset.y,
 				{
 					path: "week6/weeb/pixelUI/ratings",
 					position: new FlxPoint(0, -50),
@@ -552,22 +552,27 @@ class PlayState extends MusicBeatState
 			comboUI.scrollFactor.set(0, 0);
 			comboUI.accelScale = 0.3;
 			comboUI.velocityScale = 0.3;
+			comboUI.limitSprites = true;
 
 			if(!Config.downscroll){
-				comboUI.ratingInfo.position.set(818, 580);
+				comboUI.ratingInfo.position.set(844, 580);
 				comboUI.numberInfo.position.set(340, 505);
-				comboUI.comboBreakInfo.position.set(818, 580);
+				comboUI.comboBreakInfo.position.set(844, 580);
 			}
 			else{
-				comboUI.ratingInfo.position.set(818, 150);
-				comboUI.numberInfo.position.set(340, 120);
-				comboUI.comboBreakInfo.position.set(818, 150);
+				comboUI.ratingInfo.position.set(844, 150);
+				comboUI.numberInfo.position.set(340, 125);
+				comboUI.comboBreakInfo.position.set(844, 150);
 			}
 
 			switch(curUiType){
 				case "pixel":
-					//comboUI.numberInfo.position.x -= 120;
-					//comboUI.setPosition(160, 60);
+					comboUI.ratingInfo.scale *= 0.9;
+					comboUI.comboBreakInfo.scale *= 0.9;
+					
+				default:
+					comboUI.ratingInfo.scale *= 0.8;
+					comboUI.comboBreakInfo.scale *= 0.8;
 			}
 
 		}

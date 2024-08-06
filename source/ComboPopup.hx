@@ -28,6 +28,8 @@ class ComboPopup extends FlxSpriteGroup
 	public var numberInfo:PopupInfo;
 	public var comboBreakInfo:PopupInfo;
 
+	public var limitSprites:Bool = false;
+
 	static final ratingList = ["sick", "good", "bad", "shit"];
 
 	/**
@@ -87,6 +89,7 @@ class ComboPopup extends FlxSpriteGroup
 			digit.setGraphicSize(Std.int(digit.width * numberInfo.scale));
 			digit.updateHitbox();
 			digit.antialiasing = numberInfo.aa;
+			digit.ID = 0;
 
 			digit.acceleration.y = FlxG.random.int(150, 250) * accelScale;
 			digit.velocity.y -= FlxG.random.int(100, 130) * velocityScale;
@@ -96,13 +99,21 @@ class ComboPopup extends FlxSpriteGroup
 				onComplete: function(tween:FlxTween){
 					digit.destroy();
 				},
-				startDelay: Conductor.crochet * 0.00075
+				startDelay: (Conductor.crochet/1000) //* 0.75
 			});
 
 			numbersToAdd.push(digit);
 
 		}
 
+		if(limitSprites){
+			for(obj in members){
+				if(obj.ID == 0){
+					PlayState.instance.tweenManager.cancelTweensOf(obj);
+					obj.destroy();
+				}
+			}
+		}
 		for(num in numbersToAdd){ add(num); }
 	}
 
@@ -119,6 +130,7 @@ class ComboPopup extends FlxSpriteGroup
 		ratingSprite.x -= ratingSprite.width/2;
 		ratingSprite.y -= ratingSprite.height/2;
 		ratingSprite.antialiasing = ratingInfo.aa;
+		ratingSprite.ID = 1;
 		
 		ratingSprite.acceleration.y = 250 * accelScale;
 		ratingSprite.velocity.y -= FlxG.random.int(100, 130) * velocityScale;
@@ -128,9 +140,17 @@ class ComboPopup extends FlxSpriteGroup
 			onComplete: function(tween:FlxTween){
 				ratingSprite.destroy();
 			},
-			startDelay: Conductor.crochet * 0.00075
+			startDelay: (Conductor.crochet/1000) //* 0.75
 		});
 		
+		if(limitSprites){
+			for(obj in members){
+				if(obj.ID == 1){
+					PlayState.instance.tweenManager.cancelTweensOf(obj);
+					obj.destroy();
+				}
+			}
+		}
 		add(ratingSprite);
 	}
 
@@ -144,6 +164,7 @@ class ComboPopup extends FlxSpriteGroup
 		breakSprite.x -= breakSprite.width/2;
 		breakSprite.y -= breakSprite.height/2;
 		breakSprite.antialiasing = comboBreakInfo.aa;
+		breakSprite.ID = 2;
 		
 		breakSprite.acceleration.y = 300 * accelScale;
 		breakSprite.velocity.y -= FlxG.random.int(80, 130) * velocityScale;
@@ -153,9 +174,17 @@ class ComboPopup extends FlxSpriteGroup
 			onComplete: function(tween:FlxTween){
 				breakSprite.destroy();
 			},
-			startDelay: Conductor.crochet * 0.0015
+			startDelay: (Conductor.crochet/1000) * 1.5
 		});
 		
+		if(limitSprites){
+			for(obj in members){
+				if(obj.ID == 2){
+					PlayState.instance.tweenManager.cancelTweensOf(obj);
+					obj.destroy();
+				}
+			}
+		}
 		add(breakSprite);
 	}
 }

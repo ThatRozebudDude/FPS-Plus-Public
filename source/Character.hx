@@ -53,6 +53,8 @@ class Character extends FlxSpriteGroup
 	public var deathOffset:FlxPoint;
 	public var deathDelay:Float = 0.5;
 
+	public var worldPopupOffset:FlxPoint = new FlxPoint();
+
 	var character:FlxSprite;
 	var atlasCharacter:AtlasSprite;
 	public var characterInfo:CharacterInfoBase;
@@ -467,6 +469,8 @@ class Character extends FlxSpriteGroup
 						deathSong = data;
 					case "deathSongEnd":
 						deathSongEnd = data;
+					case "worldPopupOffset":
+						worldPopupOffset.set(data[0], data[1]);
 					default:
 						//Do nothing by default.
 				}

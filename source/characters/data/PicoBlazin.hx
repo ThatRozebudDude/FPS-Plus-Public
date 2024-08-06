@@ -45,6 +45,7 @@ class PicoBlazin extends CharacterInfoBase
         addAnimChain("taunt", "tauntLaughLoop");
 
         addExtraData("scale", 1.75);
+        addExtraData("worldPopupOffset", [1657, 658]);
         addExtraData("deathDelay", 0.125);
         addExtraData("deathSound", "gameOver/fnf_loss_sfx-pico-gutpunch");
 		addExtraData("deathSong", "gameOver/gameOver-pico");
