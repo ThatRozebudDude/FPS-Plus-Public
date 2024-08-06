@@ -1,5 +1,6 @@
 package;
 
+import flixel.math.FlxPoint;
 import flixel.tweens.FlxTween;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -10,37 +11,30 @@ using StringTools;
 class ComboPopup extends FlxSpriteGroup
 {
 
-	public var ratingPosition:Array<Float> = [0.0, 0.0];
-	public var numberPosition:Array<Float> = [0.0, 0.0];
-	public var breakPosition:Array<Float> = [0.0, 0.0];
+	//public var ratingPosition:Array<Float> = [0.0, 0.0];
+	//public var numberPosition:Array<Float> = [0.0, 0.0];
+	//public var breakPosition:Array<Float> = [0.0, 0.0];
 
-	public var ratingScale:Float = 0.7;
-	public var numberScale:Float = 0.6;
-	public var breakScale:Float = 0.6;
+	//public var ratingScale:Float = 0.7;
+	//public var numberScale:Float = 0.6;
+	//public var breakScale:Float = 0.6;
+
+	public var numberKerning:Float = 5;
 
 	public var accelScale:Float = 1;
 	public var velocityScale:Float = 1;
 
-	@:noCompletion public var ratingInfo:Array<Dynamic>;
-	@:noCompletion public var numberInfo:Array<Dynamic>;
-	@:noCompletion public var comboBreakInfo:Array<Dynamic>;
+	public var ratingInfo:PopupInfo;
+	public var numberInfo:PopupInfo;
+	public var comboBreakInfo:PopupInfo;
 
-
-	@:noCompletion public static final GRAPHIC = 0;
-	@:noCompletion public static final WIDTH = 1;
-	@:noCompletion public static final HEIGHT = 2;
-	@:noCompletion public static final AA = 3;
-
-	@:noCompletion public static final X = 0;
-	@:noCompletion public static final Y = 1;
-
-	@:noCompletion public static final ratingList = ["sick", "good", "bad", "shit"];
+	static final ratingList = ["sick", "good", "bad", "shit"];
 
 	/**
 		The info arrays should be filled with [FlxGraphicAsset, Frame Width, Frame Height, Antialiasing]
 		Scales go in order of [Ratings, Numbers, Combo Break]
 	**/
-	public function new(_x:Float, _y:Float, _ratingInfo:Array<Dynamic>, _numberInfo:Array<Dynamic>, _comboBreakInfo:Array<Dynamic>, ?_scale:Array<Float>)
+	public function new(_x:Float, _y:Float, _ratingInfo:PopupInfo, _numberInfo:PopupInfo, _comboBreakInfo:PopupInfo)
 	{
 		super(_x, _y);
 
@@ -48,18 +42,18 @@ class ComboPopup extends FlxSpriteGroup
 		numberInfo = _numberInfo;
 		comboBreakInfo = _comboBreakInfo;
 
-		if(_scale == null){
+		/*if(_scale == null){
 			_scale = [0.7, 0.6, 0.6];
 		}
 
-		setScales(_scale, false);
+		setScales(_scale, false);*/
 
 	}
 
 	/**
 		Sets the scales for all the elements and re-aligns them.
 	**/
-	public function setScales(_scale:Array<Float>, ?positionReset:Bool = true):Void{
+	/*public function setScales(_scale:Array<Float>, ?positionReset:Bool = true):Void{
 
 		if(positionReset){
 			numberPosition[Y] -= (numberInfo[HEIGHT] * numberScale) * 1.6;
@@ -73,7 +67,7 @@ class ComboPopup extends FlxSpriteGroup
 		numberPosition[Y] += (numberInfo[HEIGHT] * numberScale) * 1.6;
 		breakPosition[Y] -= (comboBreakInfo[HEIGHT] * breakScale) / 2;
 
-	}
+	}*/
 
 	/**
 		Causes the combo count to pop up with the given integer. Returns without effect if the integer is less than 0.
@@ -84,32 +78,34 @@ class ComboPopup extends FlxSpriteGroup
 
 		var combo:String = Std.string(_combo);
 
+		var numbersToAdd:Array<FlxSprite> = [];
+
+		var totalWidth:Float = 0;
 		for(i in 0...combo.length){
 
-			var digit = new FlxSprite(numberPosition[X] + (numberInfo[WIDTH] * numberScale * i), numberPosition[Y]).loadGraphic(numberInfo[GRAPHIC], true, numberInfo[WIDTH], numberInfo[HEIGHT]);
-			digit.setGraphicSize(Std.int(digit.width * numberScale));
-			digit.antialiasing = numberInfo[AA];
-		
-			digit.animation.add("digit", [Std.parseInt(combo.charAt(i))], 0, false);
-			digit.animation.play("digit");
-
-			add(digit);
+			var digit = new FlxSprite((numberInfo.position.x + totalWidth + (numberKerning * i)), numberInfo.position.y).loadGraphic(Paths.image(numberInfo.path + "/" + combo.charAt(i)), false);
+			totalWidth += (digit.width * numberInfo.scale);
+			digit.setGraphicSize(Std.int(digit.width * numberInfo.scale));
+			digit.updateHitbox();
+			digit.antialiasing = numberInfo.aa;
 
 			digit.acceleration.y = FlxG.random.int(150, 250) * accelScale;
 			digit.velocity.y -= FlxG.random.int(100, 130) * velocityScale;
 			digit.velocity.x = FlxG.random.int(-5, 5) * velocityScale;
 
-			FlxTween.tween(digit, {alpha: 0}, 0.2, {
+			PlayState.instance.tweenManager.tween(digit, {alpha: 0}, 0.2, {
 				onComplete: function(tween:FlxTween){
 					digit.destroy();
 				},
 				startDelay: Conductor.crochet * 0.00075
 			});
 
+			numbersToAdd.push(digit);
+
 		}
 
+		for(num in numbersToAdd){ add(num); }
 		return;
-
 	}
 
 	/**
@@ -120,28 +116,26 @@ class ComboPopup extends FlxSpriteGroup
 		var rating = ratingList.indexOf(_rating);
 		if(rating == -1){ return; }
 		
-		var ratingSprite = new FlxSprite(ratingPosition[X], ratingPosition[Y]).loadGraphic(ratingInfo[GRAPHIC], true, ratingInfo[WIDTH], ratingInfo[HEIGHT]);
-		ratingSprite.setGraphicSize(Std.int(ratingSprite.width * ratingScale));
-		ratingSprite.antialiasing = ratingInfo[AA];
+		var ratingSprite = new FlxSprite(ratingInfo.position.x, ratingInfo.position.y).loadGraphic(Paths.image(ratingInfo.path + "/" + _rating), false);
+		ratingSprite.setGraphicSize(Std.int(ratingSprite.width * ratingInfo.scale));
+		ratingSprite.updateHitbox();
+		ratingSprite.x -= ratingSprite.width/2;
+		ratingSprite.y -= ratingSprite.height/2;
+		ratingSprite.antialiasing = ratingInfo.aa;
 		
-		ratingSprite.animation.add("rating", [rating], 0, false);
-		ratingSprite.animation.play("rating");
-
 		ratingSprite.acceleration.y = 250 * accelScale;
 		ratingSprite.velocity.y -= FlxG.random.int(100, 130) * velocityScale;
 		ratingSprite.velocity.x -= FlxG.random.int(-5, 5) * velocityScale;
-
-		add(ratingSprite);
-
-		FlxTween.tween(ratingSprite, {alpha: 0}, 0.2, {
+		
+		PlayState.instance.tweenManager.tween(ratingSprite, {alpha: 0}, 0.2, {
 			onComplete: function(tween:FlxTween){
 				ratingSprite.destroy();
 			},
 			startDelay: Conductor.crochet * 0.00075
 		});
-
+		
+		add(ratingSprite);
 		return;
-
 	}
 
 	/**
@@ -149,24 +143,32 @@ class ComboPopup extends FlxSpriteGroup
 	**/
 	public function breakPopup():Void{
 
-		var breakSprite = new FlxSprite(breakPosition[X], breakPosition[Y]).loadGraphic(comboBreakInfo[GRAPHIC]);
-		breakSprite.setGraphicSize(Std.int(breakSprite.width * breakScale));
-		breakSprite.antialiasing = ratingInfo[AA];
+		var breakSprite = new FlxSprite(comboBreakInfo.position.x, comboBreakInfo.position.y).loadGraphic(Paths.image(comboBreakInfo.path), false);
+		breakSprite.setGraphicSize(Std.int(breakSprite.width * comboBreakInfo.scale));
+		breakSprite.updateHitbox();
+		breakSprite.x -= breakSprite.width/2;
+		breakSprite.y -= breakSprite.height/2;
+		breakSprite.antialiasing = comboBreakInfo.aa;
 		
 		breakSprite.acceleration.y = 300 * accelScale;
 		breakSprite.velocity.y -= FlxG.random.int(80, 130) * velocityScale;
 		breakSprite.velocity.x -= FlxG.random.int(-5, 5) * velocityScale;
-
-		add(breakSprite);
-
-		FlxTween.tween(breakSprite, {alpha: 0}, 0.2, {
+		
+		PlayState.instance.tweenManager.tween(breakSprite, {alpha: 0}, 0.2, {
 			onComplete: function(tween:FlxTween){
 				breakSprite.destroy();
 			},
 			startDelay: Conductor.crochet * 0.0015
 		});
-
+		
+		add(breakSprite);
 		return;
-
 	}
+}
+
+typedef PopupInfo = {
+	path:String,
+	position:FlxPoint,
+	aa:Bool,
+	scale:Float
 }

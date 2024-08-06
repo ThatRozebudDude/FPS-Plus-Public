@@ -497,17 +497,47 @@ class PlayState extends MusicBeatState
 		switch(curUiType){
 
 			default:
-				comboUI = new ComboPopup(boyfriend.x - 250, boyfriend.y - 75,	[Paths.image("ui/ratings"), 403, 163, true], 
-				[Paths.image("ui/numbers"), 100, 120, true], 
-				[Paths.image("ui/comboBreak"), 348, 211, true]);
+				comboUI = new ComboPopup(boyfriend.x, boyfriend.y,
+				{
+					path: "ui/ratings",
+					position: new FlxPoint(0, -50),
+					aa: true,
+					scale: 0.7
+				}, 
+				{
+					path: "ui/numbers",
+					position: new FlxPoint(-175, 5),
+					aa: true,
+					scale: 0.6
+				}, 
+				{
+					path: "ui/comboBreak",
+					position: new FlxPoint(0, -50),
+					aa: true,
+					scale: 0.6
+				});
 				NoteSplash.splashPath = "ui/noteSplashes";
 
 			case "pixel":
-				comboUI = new ComboPopup(boyfriend.x - 250, boyfriend.y - 75, 	[Paths.image("week6/weeb/pixelUI/ratings-pixel"), 51, 20, false], 
-																				[Paths.image("week6/weeb/pixelUI/numbers-pixel"), 11, 12, false], 
-																				[Paths.image("week6/weeb/pixelUI/comboBreak-pixel"), 53, 32, false], 
-																				[daPixelZoom * 0.7, daPixelZoom * 0.8, daPixelZoom * 0.7]);
-				comboUI.numberPosition[0] -= 120;
+				comboUI = new ComboPopup(boyfriend.x, boyfriend.y,
+				{
+					path: "week6/weeb/pixelUI/ratings",
+					position: new FlxPoint(0, -50),
+					aa: false,
+					scale: daPixelZoom * 0.7
+				}, 
+				{
+					path: "week6/weeb/pixelUI/numbers",
+					position: new FlxPoint(-175, 5),
+					aa: false,
+					scale: daPixelZoom * 0.8
+				}, 
+				{
+					path: "week6/weeb/pixelUI/comboBreak-pixel",
+					position: new FlxPoint(0, -50),
+					aa: false,
+					scale: daPixelZoom * 0.7
+				});
 				NoteSplash.splashPath = "week6/weeb/pixelUI/noteSplashes-pixel";
 
 		}
@@ -520,25 +550,24 @@ class PlayState extends MusicBeatState
 			comboUI.cameras = [camHUD];
 			comboUI.setPosition(0, 0);
 			comboUI.scrollFactor.set(0, 0);
-			comboUI.setScales([comboUI.ratingScale * 0.8, comboUI.numberScale, comboUI.breakScale * 0.8]);
-			comboUI.accelScale = 0.2;
-			comboUI.velocityScale = 0.2;
+			comboUI.accelScale = 0.3;
+			comboUI.velocityScale = 0.3;
 
 			if(!Config.downscroll){
-				comboUI.ratingPosition = [700, 510];
-				comboUI.numberPosition = [320, 480];
-				comboUI.breakPosition = [690, 465];
+				comboUI.ratingInfo.position.set(818, 580);
+				comboUI.numberInfo.position.set(340, 505);
+				comboUI.comboBreakInfo.position.set(818, 580);
 			}
 			else{
-				comboUI.ratingPosition = [700, 80];
-				comboUI.numberPosition = [320, 100];
-				comboUI.breakPosition = [690, 85];
+				comboUI.ratingInfo.position.set(818, 150);
+				comboUI.numberInfo.position.set(340, 120);
+				comboUI.comboBreakInfo.position.set(818, 150);
 			}
 
 			switch(curUiType){
 				case "pixel":
-					comboUI.numberPosition[0] -= 120;
-					comboUI.setPosition(160, 60);
+					//comboUI.numberInfo.position.x -= 120;
+					//comboUI.setPosition(160, 60);
 			}
 
 		}

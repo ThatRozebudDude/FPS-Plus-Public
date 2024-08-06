@@ -47,10 +47,12 @@ class Gf extends CharacterInfoBase
 	}
 
 	function onAdd(character:Character):Void{
-		character.setPosition(PlayState.instance.gf.x, PlayState.instance.gf.y);
-		PlayState.instance.gf.visible = false;
-		if (PlayState.isStoryMode){
-			PlayState.instance.camChangeZoom(1.3, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
+		if(!character.isGirlfriend){
+			character.setPosition(PlayState.instance.gf.x, PlayState.instance.gf.y);
+			PlayState.instance.gf.visible = false;
+			if (PlayState.isStoryMode){
+				PlayState.instance.camChangeZoom(1.3, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
+			}
 		}
 	}
 
