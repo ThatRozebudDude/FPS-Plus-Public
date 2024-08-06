@@ -151,8 +151,6 @@ class StoryMenuState extends MusicBeatState
 		grpLocks = new FlxTypedGroup<FlxSprite>();
 		add(grpLocks);
 
-		trace("Line 70");
-
 		for (i in 0...weekNumber.length)
 		{
 			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, weekNumber[i]);
@@ -177,8 +175,6 @@ class StoryMenuState extends MusicBeatState
 			}
 		}
 
-		trace("Line 96");
-
 		for (char in 0...3){
 			var weekCharacterThing:MenuCharacter = new MenuCharacter(0, 0, weekCharacters[curWeek][char]);
 			grpWeekCharacters.add(weekCharacterThing);
@@ -187,8 +183,6 @@ class StoryMenuState extends MusicBeatState
 
 		difficultySelectors = new FlxGroup();
 		add(difficultySelectors);
-
-		trace("Line 124");
 
 		leftArrow = new FlxSprite(grpWeekText.members[0].x + grpWeekText.members[0].width + 10, grpWeekText.members[0].y + 10);
 		leftArrow.frames = ui_tex;
@@ -214,8 +208,6 @@ class StoryMenuState extends MusicBeatState
 		rightArrow.animation.play('idle');
 		difficultySelectors.add(rightArrow);
 
-		trace("Line 150");
-
 		add(yellowBG);
 		add(grpWeekCharacters);
 
@@ -231,8 +223,6 @@ class StoryMenuState extends MusicBeatState
 		changeWeek(0);
 
 		updateText();
-
-		trace("Line 165");
 
 		if(fromPlayState){
 			customTransIn = new StickerIn();

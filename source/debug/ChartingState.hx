@@ -1,5 +1,6 @@
 package debug;
 
+import flixel.util.FlxSort;
 import note.NoteType;
 import extensions.flixel.addons.ui.FlxUIDropDownMenuScrollable;
 import note.Note;
@@ -641,6 +642,8 @@ class ChartingState extends MusicBeatState
 						x[1] = flipTable[x[1]];
 				}
 			}
+
+			_song.notes[curSection].sectionNotes.sort(sortByNoteStuff);
 			
 			updateGrid();
 		});
@@ -661,6 +664,8 @@ class ChartingState extends MusicBeatState
 						x[1] = flipTable[x[1]];
 				}
 			}
+
+			_song.notes[curSection].sectionNotes.sort(sortByNoteStuff);
 			
 			updateGrid();
 		});
@@ -1816,6 +1821,8 @@ class ChartingState extends MusicBeatState
 
 		}
 
+		_song.notes[curSection].sectionNotes.sort(sortByNoteStuff);
+
 		updateGrid();
 	}
 
@@ -1846,6 +1853,7 @@ class ChartingState extends MusicBeatState
 
 
 		_song.notes[curSection].sectionNotes = newSectionNotes;
+		_song.notes[curSection].sectionNotes.sort(sortByNoteStuff);
 
 		updateGrid();
 	}
@@ -1870,6 +1878,7 @@ class ChartingState extends MusicBeatState
 	
 	
 			_song.notes[curSection].sectionNotes = newSectionNotes;
+			_song.notes[curSection].sectionNotes.sort(sortByNoteStuff);
 	
 			updateGrid();
 		}
@@ -1920,10 +1929,16 @@ class ChartingState extends MusicBeatState
 		trace("adding \"" + noteType.text + "\" note");
 		trace(_song.notes[curSection].sectionNotes);
 
+		_song.notes[curSection].sectionNotes.sort(sortByNoteStuff);
+
 		updateGrid();
 		updateNoteUI();
 
 		autosaveSong();
+	}
+
+	function sortByNoteStuff(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int {
+		return FlxSort.byValues(FlxSort.ASCENDING, Obj1[0], Obj2[0]);
 	}
 
 	function getStrumTime(yPos:Float):Float
@@ -2038,6 +2053,7 @@ class ChartingState extends MusicBeatState
 
 	private function saveEvents()
 	{
+		_events.events.sort(sortByEventStuff);
 		var json = {
 			"events": _events
 		};
@@ -2093,6 +2109,7 @@ class ChartingState extends MusicBeatState
 			_song.notes[curSection].sectionNotes[i][1] = (_song.notes[curSection].sectionNotes[i][1] + 4) % 8;
 			updateGrid();
 		}
+		_song.notes[curSection].sectionNotes.sort(sortByNoteStuff);
 	}
 
 	function sectionHasBfNotes(section:Int):Bool{
@@ -2136,6 +2153,7 @@ class ChartingState extends MusicBeatState
 		}
 
 		_song.notes[section].sectionNotes = newNotes;
+		_song.notes[section].sectionNotes.sort(sortByNoteStuff);
 
 	}
 
@@ -2156,6 +2174,7 @@ class ChartingState extends MusicBeatState
 		}
 
 		_events.events.push([section, noteStrum, noteData, eventTag]);
+		_events.events.sort(sortByEventStuff);
 		
 		//trace("Slot: " + noteData);
 		//trace("Time: " + noteStrum);
@@ -2178,6 +2197,8 @@ class ChartingState extends MusicBeatState
 
 		}
 
+		_events.events.sort(sortByEventStuff);
+
 		var remove = (tag != "");
 		if(remove){
 			for (i in _events.events){
@@ -2196,6 +2217,10 @@ class ChartingState extends MusicBeatState
 		updateGrid();
 	}
 
+	function sortByEventStuff(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int {
+		return FlxSort.byValues(FlxSort.ASCENDING, Obj1[1], Obj2[1]);
+	}
+
 	function copyEventSection(?sectionNum:Int = 1)
 	{
 		var daSec = FlxMath.maxInt(curSection, sectionNum);
@@ -2210,6 +2235,8 @@ class ChartingState extends MusicBeatState
 			}
 		}
 
+		_events.events.sort(sortByEventStuff);
+
 		updateGrid();
 	}
 
@@ -2223,6 +2250,8 @@ class ChartingState extends MusicBeatState
 				_events.events.remove(event);
 			}
 		}
+
+		_events.events.sort(sortByEventStuff);
 
 		updateGrid();
 	}
