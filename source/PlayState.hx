@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxBasic;
 import events.*;
 import note.*;
 import flixel.math.FlxAngle;
@@ -432,6 +433,27 @@ class PlayState extends MusicBeatState
 				dadBeats = [];
 				bfBeats = [];
 		}
+
+
+		/*
+			Moving the onAdd to PlayState since the old way I did it relied on update being called at least once which meant
+			it wasn't really an "on add" it was more of a "first update" and it was causing a few issues (namely the camera
+			position at the begining of Tutorial wasn't correct becuase the move happened after the camera position was set)
+		*/
+
+		characterLayer.memberAdded.add(function(obj:FlxBasic) {
+			var char = cast(obj, Character);
+			if(!char.debugMode && char.characterInfo.info.functions.add != null){
+				char.characterInfo.info.functions.add(char);
+			}
+		});
+
+		gfLayer.memberAdded.add(function(obj:FlxBasic) {
+			var char = cast(obj, Character);
+			if(!char.debugMode && char.characterInfo.info.functions.add != null){
+				char.characterInfo.info.functions.add(char);
+			}
+		});
 		
 		if(stage.extraCameraMovementAmount != null){
 			camOffsetAmount = stage.extraCameraMovementAmount;
@@ -459,6 +481,9 @@ class PlayState extends MusicBeatState
 		add(middleLayer);
 		add(characterLayer);
 		add(foregroundLayer);
+
+		characterLayer.memberAdded.removeAll();
+		gfLayer.memberAdded.removeAll();
 
 		var camPos:FlxPoint = new FlxPoint(FlxMath.lerp(getOpponentFocusPosition().x, getBfFocusPostion().x, 0.5), FlxMath.lerp(getOpponentFocusPosition().y, getBfFocusPostion().y, 0.5));
 
