@@ -99,18 +99,18 @@ class CameraEvents extends Events
     }
     
     function camFocusBf(tag:String):Void{
-        var args = Events.getArgs(tag, ["1.9", "expoOut"]);
-        playstate().camFocusBF(Events.eventConvertTime(args[0]), Events.easeNameToEase(args[1]));
+        var args = Events.getArgs(tag, ["0", "0", "1.9", "expoOut"]);
+        playstate().camFocusBF(Std.parseFloat(args[0]), Std.parseFloat(args[1]), Events.eventConvertTime(args[2]), Events.easeNameToEase(args[3]));
     }
     
     function camFocusDad(tag:String):Void{
-        var args = Events.getArgs(tag, ["1.9", "expoOut"]);
-        playstate().camFocusOpponent(Events.eventConvertTime(args[0]), Events.easeNameToEase(args[1]));
+        var args = Events.getArgs(tag, ["0", "0", "1.9", "expoOut"]);
+        playstate().camFocusOpponent(Std.parseFloat(args[0]), Std.parseFloat(args[1]), Events.eventConvertTime(args[2]), Events.easeNameToEase(args[3]));
     }
     
     function camFocusGf(tag:String):Void{
-        var args = Events.getArgs(tag, ["1.9", "expoOut"]);
-        playstate().camFocusGF(Events.eventConvertTime(args[0]), Events.easeNameToEase(args[1]));
+        var args = Events.getArgs(tag, ["0", "0", "1.9", "expoOut"]);
+        playstate().camFocusGF(Std.parseFloat(args[0]), Std.parseFloat(args[1]), Events.eventConvertTime(args[2]), Events.easeNameToEase(args[3]));
     }
     
     function camFocusCenter(tag:String):Void{

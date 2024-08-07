@@ -117,7 +117,7 @@ class StressIntro extends ScriptedCutscene
     }
 
     function zoomIn() {
-        playstate().camFocusBF(0);
+        playstate().camFocusBF(0, 0, 0);
         playstate().camChangeZoom(originalZoom*1.4, 0);
         playstate().camChangeZoom((originalZoom*1.4) + 0.1, 0.5, FlxEase.elasticOut);
         boyfriend().playAnim("singUPmiss");
@@ -125,7 +125,7 @@ class StressIntro extends ScriptedCutscene
     }
 
     function zoomOut() {
-        playstate().camFocusOpponent(0);
+        playstate().camFocusOpponent(0, 0, 0);
         playstate().camChangeZoom(originalZoom, 0);
         boyfriend().playAnim("idle");
     }

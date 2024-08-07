@@ -2637,11 +2637,11 @@ class PlayState extends MusicBeatState
 		return false;
 	}
 
-	public function camFocusOpponent(?_time:Float = 1.9, ?_ease:Null<flixel.tweens.EaseFunction>){
+	public function camFocusOpponent(?offsetX:Float = 0, ?offsetY:Float = 0, ?_time:Float = 1.9, ?_ease:Null<flixel.tweens.EaseFunction>){
 		if(_ease == null){_ease = FlxEase.expoOut;}
 		
 		var pos = getOpponentFocusPosition();
-		camMove(pos.x, pos.y, _time, _ease, "dad");
+		camMove(pos.x + offsetX, pos.y + offsetY, _time, _ease, "dad");
 		changeCamOffset(0, 0);
 	}
 
@@ -2649,11 +2649,11 @@ class PlayState extends MusicBeatState
 		return new FlxPoint(dad.getMidpoint().x + dad.focusOffset.x + stage.dadCameraOffset.x, dad.getMidpoint().y + dad.focusOffset.y + stage.dadCameraOffset.y);
 	}
 
-	public function camFocusBF(?_time:Float = 1.9, ?_ease:Null<flixel.tweens.EaseFunction>){
+	public function camFocusBF(?offsetX:Float = 0, ?offsetY:Float = 0, ?_time:Float = 1.9, ?_ease:Null<flixel.tweens.EaseFunction>){
 		if(_ease == null){_ease = FlxEase.expoOut;}
 
 		var pos = getBfFocusPostion();
-		camMove(pos.x, pos.y, _time, _ease, "bf");
+		camMove(pos.x + offsetX, pos.y + offsetY, _time, _ease, "bf");
 		changeCamOffset(0, 0);
 	}
 
@@ -2661,11 +2661,11 @@ class PlayState extends MusicBeatState
 		return new FlxPoint(boyfriend.getMidpoint().x + boyfriend.focusOffset.x + stage.bfCameraOffset.x, boyfriend.getMidpoint().y + boyfriend.focusOffset.y + stage.bfCameraOffset.y);
 	}
 
-	public function camFocusGF(?_time:Float = 1.9, ?_ease:Null<flixel.tweens.EaseFunction>){
+	public function camFocusGF(?offsetX:Float = 0, ?offsetY:Float = 0, ?_time:Float = 1.9, ?_ease:Null<flixel.tweens.EaseFunction>){
 		if(_ease == null){_ease = FlxEase.expoOut;}
 
 		var pos = getGfFocusPosition();
-		camMove(pos.x, pos.y, _time, _ease, "gf");
+		camMove(pos.x + offsetX, pos.y + offsetY, _time, _ease, "gf");
 		changeCamOffset(0, 0);
 	}
 
