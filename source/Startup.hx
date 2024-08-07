@@ -65,7 +65,7 @@ class Startup extends FlxState
                                     "week6/senpai", "week6/spirit",
                                     "week7/tankmanCaptain",
                                     "weekend1/darnell",
-                                    "weekend1/Nene", "weekend1/aBotViz", "weekend1/stereoBG"];
+                                    "weekend1/Nene", "weekend1/abot/aBotViz", "weekend1/abot/stereoBG"];
 
     var graphicsCached:Bool;
     var startCachingGraphics:Bool = false;

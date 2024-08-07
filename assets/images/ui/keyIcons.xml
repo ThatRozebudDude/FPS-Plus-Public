@@ -1,50 +1,51 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<TextureAtlas imagePath="controlsKeys.png">
-	<!-- Created with Adobe Animate version 22.0.0.93 -->
-	<!-- http://www.adobe.com/products/animate.html -->
-	<SubTexture name="alt0000" x="2" y="2" width="80" height="80"/>
-	<SubTexture name="backspace0000" x="84" y="2" width="100" height="80"/>
-	<SubTexture name="backspace_large0000" x="186" y="2" width="130" height="80"/>
-	<SubTexture name="break0000" x="318" y="2" width="80" height="81"/>
-	<SubTexture name="capslock0000" x="400" y="2" width="80" height="81"/>
-	<SubTexture name="control0000" x="482" y="2" width="130" height="80"/>
-	<SubTexture name="delete0000" x="614" y="2" width="80" height="81"/>
-	<SubTexture name="down0000" x="696" y="2" width="80" height="81"/>
-	<SubTexture name="end0000" x="778" y="2" width="80" height="81"/>
-	<SubTexture name="enter0000" x="860" y="2" width="130" height="80"/>
-	<SubTexture name="enter_small0000" x="2" y="85" width="80" height="81"/>
-	<SubTexture name="escape0000" x="84" y="85" width="80" height="81"/>
-	<SubTexture name="f10000" x="166" y="85" width="80" height="80"/>
-	<SubTexture name="f100000" x="248" y="85" width="80" height="80"/>
-	<SubTexture name="f110000" x="330" y="85" width="80" height="80"/>
-	<SubTexture name="f120000" x="412" y="85" width="80" height="80"/>
-	<SubTexture name="f20000" x="494" y="85" width="80" height="80"/>
-	<SubTexture name="f30000" x="576" y="85" width="80" height="80"/>
-	<SubTexture name="f40000" x="658" y="85" width="80" height="80"/>
-	<SubTexture name="f50000" x="740" y="85" width="80" height="80"/>
-	<SubTexture name="f60000" x="822" y="85" width="80" height="80"/>
-	<SubTexture name="f70000" x="904" y="85" width="80" height="80"/>
-	<SubTexture name="f80000" x="2" y="168" width="80" height="80"/>
-	<SubTexture name="f90000" x="84" y="168" width="80" height="80"/>
-	<SubTexture name="graveaccent0000" x="166" y="168" width="80" height="81"/>
-	<SubTexture name="home0000" x="248" y="168" width="80" height="81"/>
-	<SubTexture name="insert0000" x="330" y="168" width="80" height="81"/>
-	<SubTexture name="key0000" x="412" y="168" width="80" height="81"/>
-	<SubTexture name="key_kp0000" x="494" y="168" width="80" height="81"/>
-	<SubTexture name="key_large0000" x="576" y="168" width="130" height="80"/>
-	<SubTexture name="left0000" x="708" y="168" width="80" height="81"/>
-	<SubTexture name="menu0000" x="790" y="168" width="80" height="81"/>
-	<SubTexture name="numlock0000" x="872" y="168" width="80" height="81"/>
-	<SubTexture name="pagedown0000" x="2" y="251" width="80" height="81"/>
-	<SubTexture name="pageup0000" x="84" y="251" width="80" height="81"/>
-	<SubTexture name="printscreen0000" x="166" y="251" width="80" height="81"/>
-	<SubTexture name="right0000" x="248" y="251" width="80" height="81"/>
-	<SubTexture name="scroll_lock0000" x="330" y="251" width="80" height="81"/>
-	<SubTexture name="shift0000" x="412" y="251" width="130" height="80"/>
-	<SubTexture name="space0000" x="544" y="251" width="131" height="80"/>
-	<SubTexture name="space_small0000" x="677" y="251" width="80" height="81"/>
-	<SubTexture name="tab0000" x="759" y="251" width="130" height="80"/>
-	<SubTexture name="tab_small0000" x="891" y="251" width="80" height="81"/>
-	<SubTexture name="up0000" x="2" y="334" width="80" height="81"/>
-	<SubTexture name="windows0000" x="84" y="334" width="80" height="81"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Funkin Packer v0.1.3 https://neeeoo.github.io/funkin-packer/
+-->
+<TextureAtlas imagePath="keyIcons.png" width="4017" height="82">
+	<SubTexture name="alt0000" x="1020" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="backspace0000" x="919" y="1" width="100" height="80" frameX="-0" frameY="-0" frameWidth="100" frameHeight="80"/>
+	<SubTexture name="backspace_large0000" x="133" y="1" width="130" height="80" frameX="-0" frameY="-0" frameWidth="130" frameHeight="80"/>
+	<SubTexture name="break0000" x="1101" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="capslock0000" x="1182" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="control0000" x="264" y="1" width="130" height="80" frameX="-0" frameY="-0" frameWidth="130" frameHeight="80"/>
+	<SubTexture name="delete0000" x="1263" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="down0000" x="1344" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="end0000" x="1425" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="enter0000" x="395" y="1" width="130" height="80" frameX="-0" frameY="-0" frameWidth="130" frameHeight="80"/>
+	<SubTexture name="enter_small0000" x="1506" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="escape0000" x="1587" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="f10000" x="1668" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="f100000" x="1749" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="f110000" x="1830" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="f120000" x="1911" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="f20000" x="1992" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="f30000" x="2073" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="f40000" x="2154" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="f50000" x="2235" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="f60000" x="2316" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="f70000" x="2397" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="f80000" x="2478" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="f90000" x="2559" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="graveaccent0000" x="2640" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="home0000" x="2721" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="insert0000" x="2802" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="key0000" x="2883" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="key_kp0000" x="2964" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="key_large0000" x="526" y="1" width="130" height="80" frameX="-0" frameY="-0" frameWidth="130" frameHeight="80"/>
+	<SubTexture name="left0000" x="3045" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="menu0000" x="3126" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="numlock0000" x="3207" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="pagedown0000" x="3288" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="pageup0000" x="3369" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="printscreen0000" x="3450" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="right0000" x="3531" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="scroll_lock0000" x="3612" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="shift0000" x="657" y="1" width="130" height="80" frameX="-0" frameY="-0" frameWidth="130" frameHeight="80"/>
+	<SubTexture name="space0000" x="1" y="1" width="131" height="80" frameX="-0" frameY="-0" frameWidth="131" frameHeight="80"/>
+	<SubTexture name="space_small0000" x="3693" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="tab0000" x="788" y="1" width="130" height="80" frameX="-0" frameY="-0" frameWidth="130" frameHeight="80"/>
+	<SubTexture name="tab_small0000" x="3774" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="up0000" x="3855" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="windows0000" x="3936" y="1" width="80" height="80" frameX="-0" frameY="-1" frameWidth="80" frameHeight="81"/>
 </TextureAtlas>

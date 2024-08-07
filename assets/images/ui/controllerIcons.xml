@@ -1,67 +1,68 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<TextureAtlas imagePath="noRunningInTheHalls.png">
-	<!-- Created with Adobe Animate version 22.0.0.93 -->
-	<!-- http://www.adobe.com/products/animate.html -->
-	<SubTexture name="a0000" x="2" y="2" width="80" height="80"/>
-	<SubTexture name="a_nin0000" x="84" y="2" width="80" height="80"/>
-	<SubTexture name="a_ps0000" x="166" y="2" width="80" height="80"/>
-	<SubTexture name="b0000" x="248" y="2" width="80" height="80"/>
-	<SubTexture name="b_nin0000" x="330" y="2" width="80" height="80"/>
-	<SubTexture name="b_ps0000" x="412" y="2" width="80" height="80"/>
-	<SubTexture name="back0000" x="494" y="2" width="50" height="35"/>
-	<SubTexture name="back_nin0000" x="546" y="2" width="50" height="51"/>
-	<SubTexture name="back_ps0000" x="598" y="2" width="50" height="35"/>
-	<SubTexture name="back_x0000" x="650" y="2" width="50" height="51"/>
-	<SubTexture name="dpad_down0000" x="702" y="2" width="80" height="80"/>
-	<SubTexture name="dpad_down_ps0000" x="784" y="2" width="80" height="80"/>
-	<SubTexture name="dpad_left0000" x="866" y="2" width="80" height="80"/>
-	<SubTexture name="dpad_left_ps0000" x="2" y="84" width="80" height="80"/>
-	<SubTexture name="dpad_right0000" x="84" y="84" width="80" height="80"/>
-	<SubTexture name="dpad_right_ps0000" x="166" y="84" width="80" height="80"/>
-	<SubTexture name="dpad_up0000" x="248" y="84" width="80" height="80"/>
-	<SubTexture name="dpad_up_ps0000" x="330" y="84" width="80" height="80"/>
-	<SubTexture name="extra_00000" x="412" y="84" width="80" height="80"/>
-	<SubTexture name="extra_0_nin0000" x="494" y="84" width="50" height="51"/>
-	<SubTexture name="extra_10000" x="546" y="84" width="80" height="81"/>
-	<SubTexture name="extra_20000" x="628" y="84" width="80" height="80"/>
-	<SubTexture name="extra_30000" x="710" y="84" width="80" height="80"/>
-	<SubTexture name="guide0000" x="792" y="84" width="80" height="80"/>
-	<SubTexture name="guide_ps0000" x="874" y="84" width="80" height="80"/>
-	<SubTexture name="guide_x0000" x="2" y="167" width="80" height="80"/>
-	<SubTexture name="left_shoulder0000" x="84" y="167" width="80" height="50"/>
-	<SubTexture name="left_shoulder_nin0000" x="166" y="167" width="80" height="50"/>
-	<SubTexture name="left_shoulder_ps0000" x="248" y="167" width="80" height="51"/>
-	<SubTexture name="left_stick_click0000" x="330" y="167" width="80" height="80"/>
-	<SubTexture name="left_stick_click_nin0000" x="412" y="167" width="80" height="80"/>
-	<SubTexture name="left_stick_click_ps0000" x="494" y="167" width="80" height="80"/>
-	<SubTexture name="left_stick_digital_down0000" x="576" y="167" width="80" height="80"/>
-	<SubTexture name="left_stick_digital_left0000" x="658" y="167" width="80" height="80"/>
-	<SubTexture name="left_stick_digital_right0000" x="740" y="167" width="80" height="80"/>
-	<SubTexture name="left_stick_digital_up0000" x="822" y="167" width="80" height="80"/>
-	<SubTexture name="left_trigger0000" x="904" y="167" width="70" height="80"/>
-	<SubTexture name="left_trigger_nin0000" x="2" y="249" width="80" height="80"/>
-	<SubTexture name="left_trigger_ps0000" x="84" y="249" width="80" height="80"/>
-	<SubTexture name="right_shoulder0000" x="166" y="249" width="80" height="50"/>
-	<SubTexture name="right_shoulder_nin0000" x="248" y="249" width="80" height="50"/>
-	<SubTexture name="right_shoulder_ps0000" x="330" y="249" width="80" height="51"/>
-	<SubTexture name="right_stick_click0000" x="412" y="249" width="80" height="80"/>
-	<SubTexture name="right_stick_click_nin0000" x="494" y="249" width="80" height="80"/>
-	<SubTexture name="right_stick_click_ps0000" x="576" y="249" width="80" height="80"/>
-	<SubTexture name="right_stick_digital_down0000" x="658" y="249" width="80" height="80"/>
-	<SubTexture name="right_stick_digital_left0000" x="740" y="249" width="80" height="80"/>
-	<SubTexture name="right_stick_digital_right0000" x="822" y="249" width="80" height="80"/>
-	<SubTexture name="right_stick_digital_up0000" x="904" y="249" width="80" height="80"/>
-	<SubTexture name="right_trigger0000" x="2" y="331" width="70" height="80"/>
-	<SubTexture name="right_trigger_nin0000" x="74" y="331" width="80" height="80"/>
-	<SubTexture name="right_trigger_ps0000" x="156" y="331" width="80" height="80"/>
-	<SubTexture name="start0000" x="238" y="331" width="50" height="35"/>
-	<SubTexture name="start_nin0000" x="290" y="331" width="50" height="51"/>
-	<SubTexture name="start_ps0000" x="342" y="331" width="50" height="35"/>
-	<SubTexture name="start_x0000" x="394" y="331" width="50" height="51"/>
-	<SubTexture name="x0000" x="446" y="331" width="80" height="80"/>
-	<SubTexture name="x_nin0000" x="528" y="331" width="80" height="80"/>
-	<SubTexture name="x_ps0000" x="610" y="331" width="80" height="80"/>
-	<SubTexture name="y0000" x="692" y="331" width="80" height="80"/>
-	<SubTexture name="y_nin0000" x="774" y="331" width="80" height="80"/>
-	<SubTexture name="y_ps0000" x="856" y="331" width="80" height="80"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Funkin Packer v0.1.3 https://neeeoo.github.io/funkin-packer/
+-->
+<TextureAtlas imagePath="controllerIcons.png" width="619" height="604">
+	<SubTexture name="a0000" x="82" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="a_nin0000" x="82" y="82" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="a_ps0000" x="1" y="83" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="b0000" x="163" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="b_nin0000" x="163" y="82" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="b_ps0000" x="82" y="163" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="back0000" x="568" y="449" width="50" height="35" frameX="-0" frameY="-0" frameWidth="50" frameHeight="35"/>
+	<SubTexture name="back_nin0000" x="568" y="296" width="50" height="50" frameX="-0" frameY="-0" frameWidth="50" frameHeight="51"/>
+	<SubTexture name="back_ps0000" x="437" y="538" width="50" height="35" frameX="-0" frameY="-0" frameWidth="50" frameHeight="35"/>
+	<SubTexture name="back_x0000" x="568" y="347" width="50" height="50" frameX="-0" frameY="-0" frameWidth="50" frameHeight="51"/>
+	<SubTexture name="dpad_down0000" x="1" y="164" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="dpad_down_ps0000" x="163" y="163" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="dpad_left0000" x="244" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="dpad_left_ps0000" x="244" y="82" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="dpad_right0000" x="244" y="163" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="dpad_right_ps0000" x="82" y="244" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="dpad_up0000" x="1" y="245" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="dpad_up_ps0000" x="163" y="244" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="extra_00000" x="244" y="244" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="extra_0_nin0000" x="568" y="244" width="50" height="51" frameX="-0" frameY="-0" frameWidth="50" frameHeight="51"/>
+	<SubTexture name="extra_10000" x="1" y="1" width="80" height="81" frameX="-0" frameY="-0" frameWidth="80" frameHeight="81"/>
+	<SubTexture name="extra_20000" x="325" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="extra_30000" x="325" y="82" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="guide0000" x="325" y="163" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="guide_ps0000" x="325" y="244" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="guide_x0000" x="82" y="325" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="left_shoulder0000" x="386" y="487" width="80" height="50" frameX="-0" frameY="-0" frameWidth="80" frameHeight="50"/>
+	<SubTexture name="left_shoulder_nin0000" x="467" y="487" width="80" height="50" frameX="-0" frameY="-0" frameWidth="80" frameHeight="50"/>
+	<SubTexture name="left_shoulder_ps0000" x="548" y="487" width="50" height="80" rotated="true" frameX="-0" frameY="-1" frameWidth="80" frameHeight="51"/>
+	<SubTexture name="left_stick_click0000" x="1" y="326" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="left_stick_click_nin0000" x="163" y="325" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="left_stick_click_ps0000" x="244" y="325" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="left_stick_digital_down0000" x="325" y="325" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="left_stick_digital_left0000" x="406" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="left_stick_digital_right0000" x="406" y="82" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="left_stick_digital_up0000" x="406" y="163" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="left_trigger0000" x="244" y="487" width="70" height="80" frameX="-0" frameY="-0" frameWidth="70" frameHeight="80"/>
+	<SubTexture name="left_trigger_nin0000" x="406" y="244" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="left_trigger_ps0000" x="406" y="325" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="right_shoulder0000" x="568" y="1" width="50" height="80" rotated="true" frameX="-0" frameY="-0" frameWidth="80" frameHeight="50"/>
+	<SubTexture name="right_shoulder_nin0000" x="568" y="82" width="50" height="80" rotated="true" frameX="-0" frameY="-0" frameWidth="80" frameHeight="50"/>
+	<SubTexture name="right_shoulder_ps0000" x="568" y="163" width="50" height="80" rotated="true" frameX="-0" frameY="-1" frameWidth="80" frameHeight="51"/>
+	<SubTexture name="right_stick_click0000" x="82" y="406" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="right_stick_click_nin0000" x="1" y="407" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="right_stick_click_ps0000" x="163" y="406" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="right_stick_digital_down0000" x="244" y="406" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="right_stick_digital_left0000" x="325" y="406" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="right_stick_digital_right0000" x="406" y="406" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="right_stick_digital_up0000" x="487" y="1" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="right_trigger0000" x="315" y="487" width="70" height="80" frameX="-0" frameY="-0" frameWidth="70" frameHeight="80"/>
+	<SubTexture name="right_trigger_nin0000" x="487" y="82" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="right_trigger_ps0000" x="487" y="163" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="start0000" x="488" y="538" width="50" height="35" frameX="-0" frameY="-0" frameWidth="50" frameHeight="35"/>
+	<SubTexture name="start_nin0000" x="568" y="398" width="50" height="50" frameX="-0" frameY="-0" frameWidth="50" frameHeight="51"/>
+	<SubTexture name="start_ps0000" x="539" y="568" width="50" height="35" frameX="-0" frameY="-0" frameWidth="50" frameHeight="35"/>
+	<SubTexture name="start_x0000" x="386" y="538" width="50" height="50" frameX="-0" frameY="-0" frameWidth="50" frameHeight="51"/>
+	<SubTexture name="x0000" x="487" y="244" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="x_nin0000" x="487" y="325" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="x_ps0000" x="487" y="406" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="y0000" x="82" y="487" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="y_nin0000" x="1" y="488" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="y_ps0000" x="163" y="487" width="80" height="80" frameX="-0" frameY="-0" frameWidth="80" frameHeight="80"/>
 </TextureAtlas>

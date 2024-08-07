@@ -1,8 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<TextureAtlas imagePath="controlsUI.png">
-	<!-- Created with Adobe Animate version 22.0.0.93 -->
-	<!-- http://www.adobe.com/products/animate.html -->
-	<SubTexture name="Controls0000" x="2" y="2" width="579" height="154"/>
-	<SubTexture name="Controls0001" x="2" y="158" width="579" height="154"/>
-	<SubTexture name="Controls0002" x="2" y="314" width="579" height="154"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Funkin Packer v0.1.3 https://neeeoo.github.io/funkin-packer/
+-->
+<TextureAtlas imagePath="title.png" width="581" height="465">
+	<SubTexture name="Controls0000" x="1" y="311" width="579" height="153" frameX="-0" frameY="-0" frameWidth="579" frameHeight="154"/>
+	<SubTexture name="Controls0001" x="1" y="1" width="579" height="154" frameX="-0" frameY="-0" frameWidth="579" frameHeight="154"/>
+	<SubTexture name="Controls0002" x="1" y="156" width="579" height="154" frameX="-0" frameY="-0" frameWidth="579" frameHeight="154"/>
 </TextureAtlas>
