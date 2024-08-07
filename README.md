@@ -25,7 +25,7 @@ To download and install all libraries required compiling, you must install Haxe'
 
 * After installing all libraries, run `haxelib run lime setup` to set up `lime`.
 
-To set up build tools, refer to part 5 of [this document](https://github.com/FunkinCrew/Funkin/blob/main/docs/COMPILING.md).
+To set up build tools, refer to part 8 of [this document](https://github.com/FunkinCrew/Funkin/blob/main/docs/COMPILING.md).
 
 Run `lime test PLATFORM` or `lime build PLATFORM` to compile the game.
 
