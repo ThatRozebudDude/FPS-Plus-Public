@@ -2,10 +2,22 @@
 	"events": {
 		"events": [
 			[
-				7,
-				18000,
 				0,
-				"playAnim;dad;cheer"
+				0,
+				0,
+				"camZoom;1;1b;elasticInOut"
+			],
+			[
+				4,
+				9600,
+				0,
+				"camZoom;1.3;1b;elasticInOut"
+			],
+			[
+				6,
+				14400,
+				0,
+				"camZoom;1;1b;elasticInOut"
 			],
 			[
 				7,
@@ -15,7 +27,31 @@
 			],
 			[
 				7,
+				18000,
+				0,
+				"playAnim;dad;cheer"
+			],
+			[
+				7,
 				19050,
+				1,
+				"dadAnimLockToggle"
+			],
+			[
+				8,
+				19200,
+				0,
+				"camZoom;1.3;1b;elasticInOut"
+			],
+			[
+				10,
+				24000,
+				0,
+				"camZoom;1;1b;elasticInOut"
+			],
+			[
+				11,
+				27450,
 				1,
 				"dadAnimLockToggle"
 			],
@@ -27,15 +63,45 @@
 			],
 			[
 				11,
-				27450,
+				28650,
 				1,
 				"dadAnimLockToggle"
 			],
 			[
-				11,
-				28650,
-				1,
-				"dadAnimLockToggle"
+				12,
+				28800,
+				0,
+				"camZoom;1.3;1b;elasticInOut"
+			],
+			[
+				14,
+				33600,
+				0,
+				"camZoom;1;1b;elasticInOut"
+			],
+			[
+				16,
+				38400,
+				0,
+				"camZoom;1.3;1b;elasticInOut"
+			],
+			[
+				18,
+				43200,
+				0,
+				"camZoom;1;1b;elasticInOut"
+			],
+			[
+				20,
+				48000,
+				0,
+				"camZoom;1.3;1b;elasticInOut"
+			],
+			[
+				21,
+				50400,
+				0,
+				"camZoom;1;1b;elasticInOut"
 			]
 		]
 	}

@@ -1,0 +1,13 @@
+{
+  "startCutscene": {
+    "name": "ExecuteEvents",
+    "args": [
+      [
+        "camZoom;1;1b;elasticInOut"
+      ]
+    ],
+    "storyOnly": false,
+    "playOnce": false
+  },
+  "endCutscene": "null"
+}

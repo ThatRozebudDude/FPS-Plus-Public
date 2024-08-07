@@ -408,7 +408,7 @@ class PlayState extends MusicBeatState
 
 		switch(SONG.song.toLowerCase()){
 			case "tutorial":
-				autoZoom = false;
+				//autoZoom = false;
 				dadBeats = [0, 1, 2, 3];
 			case "bopeebo":
 				dadBeats = [0, 1, 2, 3];
@@ -431,18 +431,6 @@ class PlayState extends MusicBeatState
 			case "blazin":
 				dadBeats = [];
 				bfBeats = [];
-		}
-
-		//set camera start based on who the camera focuses on first
-		//var camPos:FlxPoint = (SONG.notes[0].mustHitSection) ? getBfFocusPostion() : getOpponentFocusPosition();
-
-		//set camera start in the middle of the two focus points
-		var camPos:FlxPoint = new FlxPoint(FlxMath.lerp(getOpponentFocusPosition().x, getBfFocusPostion().x, 0.5), FlxMath.lerp(getOpponentFocusPosition().y, getBfFocusPostion().y, 0.5));
-
-		autoCam = stage.cameraMovementEnabled;
-
-		if(stage.cameraStartPosition != null){
-			camPos.set(stage.cameraStartPosition.x, stage.cameraStartPosition.y);
 		}
 		
 		if(stage.extraCameraMovementAmount != null){
@@ -472,7 +460,15 @@ class PlayState extends MusicBeatState
 		add(characterLayer);
 		add(foregroundLayer);
 
-		/*Start pos debug shit. I'll leave it in for now incase everything breaks.
+		var camPos:FlxPoint = new FlxPoint(FlxMath.lerp(getOpponentFocusPosition().x, getBfFocusPostion().x, 0.5), FlxMath.lerp(getOpponentFocusPosition().y, getBfFocusPostion().y, 0.5));
+
+		autoCam = stage.cameraMovementEnabled;
+
+		if(stage.cameraStartPosition != null){
+			camPos.set(stage.cameraStartPosition.x, stage.cameraStartPosition.y);
+		}
+
+		/*//Start pos debug shit. I'll leave it in for now incase everything breaks.
 		var dadPos = new FlxSprite(Utils.getGraphicMidpoint(dad).x, dad.y + (dad.frameHeight * dad.scale.y)).makeGraphic(24, 24, 0xFFFF00FF);
 		var bfPos = new FlxSprite(Utils.getGraphicMidpoint(boyfriend).x, boyfriend.y + (boyfriend.frameHeight * boyfriend.scale.y)).makeGraphic(24, 24, 0xFF00FFFF);
 		var gfPos = new FlxSprite(Utils.getGraphicMidpoint(gf).x, gf.y + (gf.frameHeight * gf.scale.y)).makeGraphic(24, 24, 0xFFFF0000);
@@ -697,10 +693,6 @@ class PlayState extends MusicBeatState
 		iconP2.visible = false;
 		scoreTxt.visible = false;
 
-		// if (SONG.song == 'South')
-		// FlxG.camera.alpha = 0.7;
-		// UI_camera.zoom = 1;
-
 		// cameras = [FlxG.cameras.list[1]];
 		startingSong = true;
 
@@ -753,18 +745,6 @@ class PlayState extends MusicBeatState
 
 		super.create();
 	}
-
-	/*function updateAccuracyOld(){
-		totalPlayed += 1;
-
-		var totalNotesHit = (songStats.sickCount) + (songStats.goodCount) + (songStats.badCount) + (songStats.shitCount) + (songStats.susCount);
-
-		songStats.accuracy = totalNotesHit / totalPlayed * 100;
-		
-		if (songStats.accuracy >= 100){
-			songStats.accuracy = 100;
-		}
-	}*/
 
 	function cutsceneCheck():Void{
 		//trace("in cutsceneCheck");
@@ -1117,16 +1097,8 @@ class PlayState extends MusicBeatState
 		Conductor.songPosition = 0;
 	}
 
-	var previousFrameTime:Int = 0;
-	var lastReportedPlayheadPosition:Int = 0;
-	var songTime:Float = 0;
-
-	function startSong():Void
-	{
+	function startSong():Void{
 		startingSong = false;
-
-		previousFrameTime = FlxG.game.ticks;
-		lastReportedPlayheadPosition = 0;
 
 		if (!paused)
 			FlxG.sound.playMusic(Paths.inst(SONG.song), 1, false);
@@ -1144,15 +1116,6 @@ class PlayState extends MusicBeatState
 		}
 
 		stage.songStart();
-
-		/*
-		new FlxTimer().start(0.5, function(tmr:FlxTimer)
-		{
-			if(!paused)
-			resyncVocals();
-		});
-		*/
-
 	}
 
 	private function generateSong(dataPath:String):Void {
@@ -1464,18 +1427,19 @@ class PlayState extends MusicBeatState
 				vocalsOther.play();
 			}
 		}
+		trace("resyncing vocals");
 	}
 
 	private var paused:Bool = false;
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 
-	function truncateFloat( number : Float, precision : Int): Float {
+	function truncateFloat( number:Float, precision:Int):Float{
 		var num = number;
 		num = num * Math.pow(10, precision);
-		num = Math.round( num ) / Math.pow(10, precision);
+		num = Math.round(num)/Math.pow(10, precision);
 		return num;
-		}
+	}
 
 
 	override public function update(elapsed:Float) {
@@ -1619,24 +1583,8 @@ class PlayState extends MusicBeatState
 		/*else if(inEndingCutscene){
 
 		}*/
-		else
-		{
-			// Conductor.songPosition = FlxG.sound.music.time;
+		else{
 			Conductor.songPosition += FlxG.elapsed * 1000;
-
-			if (!paused)
-			{
-				songTime += FlxG.game.ticks - previousFrameTime;
-				previousFrameTime = FlxG.game.ticks;
-
-				// Interpolation type beat
-				if (Conductor.lastSongPos != Conductor.songPosition)
-				{
-					songTime = (songTime + Conductor.songPosition) / 2;
-					Conductor.lastSongPos = Conductor.songPosition;
-				}
-			}
-
 		}
 
 		if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null && !endingSong) {
@@ -1956,24 +1904,6 @@ class PlayState extends MusicBeatState
 
 				if (storyDifficulty == 2)
 					difficulty = '-hard';
-
-				/*if (SONG.song.toLowerCase() == 'eggnog')
-				{
-					var blackShit:FlxSprite = new FlxSprite(-FlxG.width * camGame.zoom,
-						-FlxG.height * camGame.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
-					blackShit.scrollFactor.set();
-					add(blackShit);
-					camHUD.visible = false;
-
-					FlxG.sound.play(Paths.sound('week5/Lights_Shut_off'));
-				}
-
-				if (SONG.song.toLowerCase() == 'senpai')
-				{
-					//transIn = null;
-					//transOut = null;
-					prevCamFollow = camFollowFinal;
-				}*/
 
 				PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
 				FlxG.sound.music.stop();
@@ -2410,20 +2340,7 @@ class PlayState extends MusicBeatState
 		
 	}
 
-	function goodNoteHit(note:Note):Void
-	{
-
-		//Guitar Hero Styled Hold Notes
-		//This is to make sure that if hold notes are hit out of order they are destroyed. Should not be possible though.
-		/*if(note.isSustainNote && !note.prevNote.wasGoodHit){
-			noteMiss(note.noteData, Scoring.HOLD_DROP_INITIAL_PENALTY, true, true, false,);
-			vocals.volume = 0;
-			note.prevNote.tooLate = true;
-			note.prevNote.destroy();
-			boyfriend.holdTimer = 0;
-			//updateAccuracyOld();
-		}*/
-
+	function goodNoteHit(note:Note):Void{
 		if (!note.wasGoodHit){
 
 			if(note.isFake){
@@ -2482,8 +2399,6 @@ class PlayState extends MusicBeatState
 					});
 				}
 			}
-			
-			//updateAccuracyOld();
 		}
 	}
 
@@ -2703,11 +2618,6 @@ class PlayState extends MusicBeatState
 		var pos = getOpponentFocusPosition();
 		camMove(pos.x, pos.y, _time, _ease, "dad");
 		changeCamOffset(0, 0);
-
-		if (SONG.song.toLowerCase() == 'tutorial'){
-			camChangeZoom(1.3, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
-		}
-
 	}
 
 	public inline function getOpponentFocusPosition():FlxPoint{
@@ -2720,11 +2630,6 @@ class PlayState extends MusicBeatState
 		var pos = getBfFocusPostion();
 		camMove(pos.x, pos.y, _time, _ease, "bf");
 		changeCamOffset(0, 0);
-
-		if (SONG.song.toLowerCase() == 'tutorial'){
-			camChangeZoom(1, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
-		}
-
 	}
 
 	public inline function getBfFocusPostion():FlxPoint{
@@ -2737,7 +2642,6 @@ class PlayState extends MusicBeatState
 		var pos = getGfFocusPosition();
 		camMove(pos.x, pos.y, _time, _ease, "gf");
 		changeCamOffset(0, 0);
-
 	}
 
 	public inline function getGfFocusPosition():FlxPoint{
@@ -2948,31 +2852,6 @@ class PlayState extends MusicBeatState
 			vocalType = noVocalTrack;
 		}
 	}
-
-	/*
-	public function changeState(_state:FlxState, clearImagesFromCache:Bool = true) {
-
-		if(Utils.exists(Paths.voices(SONG.song, "Player"))){
-			Assets.cache.removeSound(Paths.voices(SONG.song, "Player"));
-			Assets.cache.removeSound(Paths.voices(SONG.song, "Opponent"));
-		}
-		else if(Utils.exists(Paths.voices(SONG.song))){
-			Assets.cache.removeSound(Paths.voices(SONG.song));
-		}
-
-		if(!CacheConfig.music){
-			Assets.cache.removeSound(Paths.inst(SONG.song));
-		}
-
-		
-		//Turns out this doesn't do anything :[
-		//I WILL FIGURRE IT OUT THO MAYBE
-		if(clearImagesFromCache){
-			FlxG.bitmap.clearCache();
-		}
-
-		switchState(_state);
-	}*/
 
 	override function switchState(_state:FlxState) {
 		if(Utils.exists(Paths.voices(SONG.song, "Player"))){

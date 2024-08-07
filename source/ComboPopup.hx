@@ -11,14 +11,6 @@ using StringTools;
 class ComboPopup extends FlxSpriteGroup
 {
 
-	//public var ratingPosition:Array<Float> = [0.0, 0.0];
-	//public var numberPosition:Array<Float> = [0.0, 0.0];
-	//public var breakPosition:Array<Float> = [0.0, 0.0];
-
-	//public var ratingScale:Float = 0.7;
-	//public var numberScale:Float = 0.6;
-	//public var breakScale:Float = 0.6;
-
 	public var numberKerning:Float = 5;
 
 	public var accelScale:Float = 1;
@@ -32,10 +24,6 @@ class ComboPopup extends FlxSpriteGroup
 
 	static final ratingList = ["sick", "good", "bad", "shit"];
 
-	/**
-		The info arrays should be filled with [FlxGraphicAsset, Frame Width, Frame Height, Antialiasing]
-		Scales go in order of [Ratings, Numbers, Combo Break]
-	**/
 	public function new(_x:Float, _y:Float, _ratingInfo:PopupInfo, _numberInfo:PopupInfo, _comboBreakInfo:PopupInfo)
 	{
 		super(_x, _y);
@@ -44,32 +32,7 @@ class ComboPopup extends FlxSpriteGroup
 		numberInfo = _numberInfo;
 		comboBreakInfo = _comboBreakInfo;
 
-		/*if(_scale == null){
-			_scale = [0.7, 0.6, 0.6];
-		}
-
-		setScales(_scale, false);*/
-
 	}
-
-	/**
-		Sets the scales for all the elements and re-aligns them.
-	**/
-	/*public function setScales(_scale:Array<Float>, ?positionReset:Bool = true):Void{
-
-		if(positionReset){
-			numberPosition[Y] -= (numberInfo[HEIGHT] * numberScale) * 1.6;
-			breakPosition[Y] += (comboBreakInfo[HEIGHT] * breakScale) / 2;
-		}
-
-		ratingScale = _scale[0];
-		numberScale = _scale[1];
-		breakScale = _scale[2];
-
-		numberPosition[Y] += (numberInfo[HEIGHT] * numberScale) * 1.6;
-		breakPosition[Y] -= (comboBreakInfo[HEIGHT] * breakScale) / 2;
-
-	}*/
 
 	/**
 		Causes the combo count to pop up with the given integer. Returns without effect if the integer is less than 0.
