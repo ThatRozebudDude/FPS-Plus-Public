@@ -46,8 +46,12 @@ for event in data["events"]:
             print(event["e"] + "\t->\t" + tag)
 
         case "ZoomCamera":
-            #does not support multiplicative zoom
             tag += "camZoom;" + str(event["v"]["zoom"]) + ";" + str(event["v"]["duration"]) + "s;" + event["v"]["ease"]
+
+            if "mode" in event["v"]:
+                if event["v"]["mode"] == "stage":
+                    tag += ";true"
+
             print(event["e"] + "\t->\t" + tag)
 
         case "SetCameraBop":

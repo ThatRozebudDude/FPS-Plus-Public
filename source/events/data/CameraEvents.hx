@@ -39,8 +39,10 @@ class CameraEvents extends Events
     }
 
     function camZoom(tag:String):Void{
-        var args = Events.getArgs(tag);
-		playstate().camChangeZoom(Std.parseFloat(args[0]), Events.eventConvertTime(args[1]), Events.easeNameToEase(args[2]), null);
+        var args = Events.getArgs(tag, [""+playstate().stage.startingZoom, "4b", "quadInOut", "false"]);
+        var zoomLevel = Std.parseFloat(args[0]);
+        if(Events.parseBool(args[3])){ zoomLevel *= playstate().stage.startingZoom; }
+		playstate().camChangeZoom(zoomLevel, Events.eventConvertTime(args[1]), Events.easeNameToEase(args[2]), null);
     }
 
     function camBopFreq(tag:String):Void{
