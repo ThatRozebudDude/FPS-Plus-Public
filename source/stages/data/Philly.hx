@@ -67,7 +67,7 @@ class Philly extends BaseStage
 
 		changeLightColor();
 
-		var streetBehind:FlxSprite = new FlxSprite(-40, 50).loadGraphic(Paths.image('week3/philly/behindTrain'));
+		var streetBehind:FlxSprite = new FlxSprite(178, 50+97).loadGraphic(Paths.image('week3/philly/behindTrain'));
 		streetBehind.antialiasing = true;
 		addToBackground(streetBehind);
 
@@ -79,7 +79,7 @@ class Philly extends BaseStage
 		trainSound = new FlxSound().loadEmbedded(Paths.sound('week3/train_passes'));
 		FlxG.sound.list.add(trainSound);
 
-		var street:FlxSprite = new FlxSprite(-166, streetBehind.y).loadGraphic(Paths.image('week3/philly/street'));
+		var street:FlxSprite = new FlxSprite(streetBehind.x-341, streetBehind.y-93).loadGraphic(Paths.image('week3/philly/street'));
 		street.antialiasing = true;
 		addToBackground(street);
 

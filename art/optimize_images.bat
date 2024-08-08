@@ -4,5 +4,5 @@ rem This requires oxipng to run. If you don't have it you can get it here: https
 rem This will take a lil' bit to run so be prepared to wait while it does it's thing.
 cd..
 cd assets/images
-for /R %%f in (*.png) do oxipng -o 4 --strip safe --alpha "%%f"
+for /R %%f in (*.png) do oxipng -o 6 --strip all --alpha "%%f"
 pause
