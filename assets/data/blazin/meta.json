@@ -2,5 +2,7 @@
   "name": "Blazin'",
   "artist": "Kawai Sprite",
   "album": "vol3",
-  "difficulties": [3, 4, 5]
+  "difficulties": [3, 4, 5],
+  "bfBeats": [],
+  "dadBeats": []
 }

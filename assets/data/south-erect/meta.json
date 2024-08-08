@@ -2,5 +2,6 @@
   "name": "South Erect",
   "artist": "Kawai Sprite feat. Saruky",
   "album": "vol3",
-  "difficulties": [0, 8, 9]
+  "difficulties": [0, 8, 9],
+  "dadBeats": [0, 1, 2, 3]
 }

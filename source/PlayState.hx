@@ -295,8 +295,8 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if(Utils.exists("assets/data/" + SONG.song.toLowerCase() + "/meta.json")){
-			metadata = Json.parse(Utils.getText("assets/data/" + SONG.song.toLowerCase() + "/meta.json"));
+		if(Utils.exists(Paths.json(SONG.song.toLowerCase() + "/meta"))){
+			metadata = Json.parse(Utils.getText(Paths.json(SONG.song.toLowerCase() + "/meta")));
 		}
 
 		for(i in EVENTS.events){
@@ -407,31 +407,13 @@ class PlayState extends MusicBeatState
 		gf.x += gf.reposition.x;
 		gf.y += gf.reposition.y;
 
-		switch(SONG.song.toLowerCase()){
-			case "tutorial":
-				//autoZoom = false;
-				dadBeats = [0, 1, 2, 3];
-			case "bopeebo":
-				dadBeats = [0, 1, 2, 3];
-				bfBeats = [0, 1, 2, 3];
-			case "fresh":
-				dadBeats = [0, 1, 2, 3];
-				bfBeats = [0, 1, 2, 3];
-			case "spookeez" | "spookeez-erect":
-				dadBeats = [0, 1, 2, 3];
-			case "south" | "south-erect":
-				dadBeats = [0, 1, 2, 3];
-			case "monster":
-				dadBeats = [0, 1, 2, 3];
-				bfBeats = [0, 1, 2, 3];
-			case "cocoa":
-				dadBeats = [0, 1, 2, 3];
-				bfBeats = [0, 1, 2, 3];
-			case "thorns":
-				dadBeats = [0, 1, 2, 3];
-			case "blazin":
-				dadBeats = [];
-				bfBeats = [];
+		if(metadata != null){
+			if(metadata.bfBeats != null){
+				bfBeats = metadata.bfBeats;
+			}
+			if(metadata.dadBeats != null){
+				dadBeats = metadata.dadBeats;
+			}
 		}
 
 
