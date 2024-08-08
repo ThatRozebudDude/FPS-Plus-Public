@@ -33,13 +33,13 @@ class VideoCutsceneEnd extends ScriptedCutscene
 		black.updateHitbox();
 		black.scrollFactor.set();
 		black.visible = false;
-		black.cameras = [playstate().camOverlay];
+		black.cameras = [playstate.camOverlay];
 
         video = new VideoHandler();
 		video.scrollFactor.set();
 		video.antialiasing = true;
 		video.visible = false;
-        video.cameras = [playstate().camOverlay];
+        video.cameras = [playstate.camOverlay];
 
         addEvent(0, setup);
         addEvent(0.1, showBlack);
@@ -47,29 +47,27 @@ class VideoCutsceneEnd extends ScriptedCutscene
 
     override function update(elapsed:Float) {
         super.update(elapsed);
-        if(!videoOver && Binds.justPressed("menuAccept") && playstate().inVideoCutscene && skipable){
+        if(!videoOver && Binds.justPressed("menuAccept") && playstate.inVideoCutscene && skipable){
             videoOver = true;
             black.visible = true;
-			playstate().tweenManager.tween(video, {alpha: 0, volume: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
+			tween.tween(video, {alpha: 0, volume: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
 				video.skip();
 			}});
         }
     }
 
     function setup() {
-        playstate().inVideoCutscene = true;
-        //playstate().camGame.zoom = 1;
+        playstate.inVideoCutscene = true;
 
         video.visible = true;
-        //black.visible = true;
 
-        playstate().camGame.filters = [];
-        playstate().camHUD.visible = false;
+        playstate.camGame.filters = [];
+        playstate.camHUD.visible = false;
 
 		video.playMP4(Paths.video(path), function(){
             videoOver = true;
-			playstate().customTransOut = new InstantTransition();
-            playstate().endSong();
+			playstate.customTransOut = new InstantTransition();
+            playstate.endSong();
 		}, false);
 
 		addGeneric(black);

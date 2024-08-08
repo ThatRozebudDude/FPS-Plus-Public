@@ -23,7 +23,7 @@ class DarnellVideo extends ScriptedCutscene
 		black.scale.set(1280, 720);
 		black.updateHitbox();
 		black.scrollFactor.set();
-		black.cameras = [playstate().camOverlay];
+		black.cameras = [playstate.camOverlay];
 
         addEvent(0, first);
     }
@@ -32,23 +32,23 @@ class DarnellVideo extends ScriptedCutscene
         super.update(elapsed);
         if(!videoOver && Binds.justPressed("menuAccept")){
             videoOver = true;
-			playstate().tweenManager.tween(video, {alpha: 0, volume: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
+			tween.tween(video, {alpha: 0, volume: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
 				video.skip();
 			}});
         }
     }
 
     function first() {
-        playstate().inVideoCutscene = true;
+        playstate.inVideoCutscene = true;
         //playstate().camGame.zoom = 1;
 
         video = new VideoHandler();
 		video.scrollFactor.set();
 		video.antialiasing = true;
-        video.cameras = [playstate().camOverlay];
+        video.cameras = [playstate.camOverlay];
 
 		video.playMP4(Paths.video("weekend1/darnellCutscene"), function(){
-			playstate().inVideoCutscene = false;
+			playstate.inVideoCutscene = false;
 			removeGeneric(black);
 			removeGeneric(video);
 			ingameCutscene.start();

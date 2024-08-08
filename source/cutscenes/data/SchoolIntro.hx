@@ -13,7 +13,7 @@ class SchoolIntro extends ScriptedCutscene
     }
 
     function schoolIntro() {
-        playstate().schoolIntro(playstate().dialogueBox);
+        playstate.schoolIntro(playstate.dialogueBox);
         if(PlayState.SONG.song.toLowerCase() == "roses"){
             FlxG.sound.play(Paths.sound('week6/ANGRY'));
         }

@@ -22,7 +22,7 @@ class TestCutscene extends ScriptedCutscene
         blackScreen.visible = false;
         addToMiddleLayer(blackScreen);
 
-        picoDead = new Character(boyfriend().x, boyfriend().y, "PicoDeadExplode", true);
+        picoDead = new Character(boyfriend.x, boyfriend.y, "PicoDeadExplode", true);
         picoDead.visible = false;
         addToCharacterLayer(picoDead);
 
@@ -43,21 +43,21 @@ class TestCutscene extends ScriptedCutscene
     }
 
     function camSetPos() {
-        playstate().camMove(boyfriend().x + 45, boyfriend().getMidpoint().y - 60, 0, null, "bf");
-        playstate().camChangeZoom(1.2, 0, null);
+        playstate.camMove(boyfriend.x + 45, boyfriend.getMidpoint().y - 60, 0, null, "bf");
+        playstate.camChangeZoom(1.2, 0, null);
     }
 
     function zoomOutAndReload():Void{
-        playstate().camChangeZoom(0.92, 1, FlxEase.quartOut);
-        boyfriend().playAnim("reload");
+        playstate.camChangeZoom(0.92, 1, FlxEase.quartOut);
+        boyfriend.playAnim("reload");
         FlxG.sound.play(Paths.sound("weekend1/Gun_Prep"));
     }
 
     function shoot() {
         //boyfriend().danceLockout = true;
-        boyfriend().playAnim('shoot', true);
+        boyfriend.playAnim('shoot', true);
         FlxG.sound.play(Paths.sound("weekend1/shot" + FlxG.random.int(1, 4)));
-        playstate().camShake(0.01, 1/60, 0.05, 0.01);
+        playstate.camShake(0.01, 1/60, 0.05, 0.01);
         //executeEvent("phillyStreets-stageDarken");
         //executeEvent("phillyStreets-canShot");
     }
@@ -67,15 +67,15 @@ class TestCutscene extends ScriptedCutscene
         picoDead.visible = true;
         picoDead.playAnim("firstDeath", true);
         deathSound.play();
-        boyfriend().visible = false;
-        boyfriend().playAnim("idle", true);
+        boyfriend.visible = false;
+        boyfriend.playAnim("idle", true);
     }
 
     function end() {
-        playstate().startCountdown();
-        playstate().camFocusOpponent();
-        playstate().camChangeZoom(0.75, 1, FlxEase.quadInOut);
-        boyfriend().visible = true;
+        playstate.startCountdown();
+        playstate.camFocusOpponent();
+        playstate.camChangeZoom(0.75, 1, FlxEase.quadInOut);
+        boyfriend.visible = true;
         blackScreen.visible = false;
         picoDead.visible = false;
         deathSound.stop();

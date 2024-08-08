@@ -168,10 +168,10 @@ class PhillyStreets extends BaseStage
 		abot.lookLeft();
 		addToBackground(abot);
 
-		gf().scrollFactor.set(1, 1);
+		gf.scrollFactor.set(1, 1);
 
 		rainShader = new RainShader(0, FlxG.height / 200);
-		playstate().camGame.filters = [new ShaderFilter(rainShader.shader)];
+		playstate.camGame.filters = [new ShaderFilter(rainShader.shader)];
 		addToUpdate(rainShader);
 
 		switch(PlayState.SONG.song.toLowerCase()){
@@ -199,11 +199,11 @@ class PhillyStreets extends BaseStage
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 		
-		if(playstate().camFocus == "dad" && abotLookDir){
+		if(playstate.camFocus == "dad" && abotLookDir){
 			abotLookDir = !abotLookDir;
 			abot.lookLeft();
 		}
-		else if(playstate().camFocus == "bf" && !abotLookDir){
+		else if(playstate.camFocus == "bf" && !abotLookDir){
 			abotLookDir = !abotLookDir;
 			abot.lookRight();
 		}
@@ -212,7 +212,7 @@ class PhillyStreets extends BaseStage
 	override function songStart() {
 		abot.setAudioSource(FlxG.sound.music);
 		abot.startVisualizer();
-		tween().tween(rainShader, {uIntensity: rainInensityEnd}, FlxG.sound.music.length/1000);
+		tween.tween(rainShader, {uIntensity: rainInensityEnd}, FlxG.sound.music.length/1000);
 	}
 
 	override function beat(curBeat:Int) {
@@ -236,9 +236,9 @@ class PhillyStreets extends BaseStage
 	}
 
 	public function stageDarken(tag:String):Void{
-		tween().cancelTweensOf(dimSprite);
+		tween.cancelTweensOf(dimSprite);
 		dimSprite.alpha = 0.75;
-		tween().tween(dimSprite, {alpha: 0}, 1, {startDelay: 0.2});
+		tween.tween(dimSprite, {alpha: 0}, 1, {startDelay: 0.2});
 	}
 
 	public function canKick(tag:String):Void{
@@ -267,22 +267,22 @@ class PhillyStreets extends BaseStage
 	}
 
 	public function createCharacterGlow(tag:String):Void{
-		tween().cancelTweensOf(characterGlow);
-		tween().cancelTweensOf(characterGlow.scale);
+		tween.cancelTweensOf(characterGlow);
+		tween.cancelTweensOf(characterGlow.scale);
 
-		characterGlow.loadGraphicFromSprite(boyfriend().getSprite());
-		characterGlow.setPosition(boyfriend().getSprite().x, boyfriend().getSprite().y);
-		characterGlow.scale.set(boyfriend().getScale().x, boyfriend().getScale().y);
-		characterGlow.antialiasing = boyfriend().getAntialising();
+		characterGlow.loadGraphicFromSprite(boyfriend.getSprite());
+		characterGlow.setPosition(boyfriend.getSprite().x, boyfriend.getSprite().y);
+		characterGlow.scale.set(boyfriend.getScale().x, boyfriend.getScale().y);
+		characterGlow.antialiasing = boyfriend.getAntialising();
 		characterGlow.visible = true;
 		characterGlow.alpha = 0.3;
 
-		tween().tween(characterGlow.scale, {x: characterGlow.scale.x * 1.4, y: characterGlow.scale.y * 1.4}, (Conductor.crochet / 1000), {ease: FlxEase.quadOut});
-		tween().tween(characterGlow, {alpha: 0}, ((Conductor.crochet / 1000) / 2), {startDelay: ((Conductor.crochet / 1000) / 2)});
+		tween.tween(characterGlow.scale, {x: characterGlow.scale.x * 1.4, y: characterGlow.scale.y * 1.4}, (Conductor.crochet / 1000), {ease: FlxEase.quadOut});
+		tween.tween(characterGlow, {alpha: 0}, ((Conductor.crochet / 1000) / 2), {startDelay: ((Conductor.crochet / 1000) / 2)});
 	}
 
 	public function createBullet(tag:String):Void{
-		var bullet = new PicoBullet(boyfriend().x + 159, boyfriend().y + 127);
+		var bullet = new PicoBullet(boyfriend.x + 159, boyfriend.y + 127);
 		addToForegroundLive(bullet);
 	}
 
@@ -316,7 +316,7 @@ class PhillyStreets extends BaseStage
 			carWaiting = false;
 			carInterruptable = true;
 			if (phillyCars != null) {
-				tween().cancelTweensOf(phillyCars);
+				tween.cancelTweensOf(phillyCars);
 				phillyCars.x = 1200;
 				phillyCars.y = 818;
 				phillyCars.angle = 0;
@@ -326,7 +326,7 @@ class PhillyStreets extends BaseStage
 		if(right){
 			car2Interruptable = true;
 			if (phillyCarsBack != null) {
-				tween().cancelTweensOf(phillyCarsBack);
+				tween.cancelTweensOf(phillyCarsBack);
 				phillyCarsBack.x = 1200;
 				phillyCarsBack.y = 818;
 				phillyCarsBack.angle = 0;
@@ -351,8 +351,8 @@ class PhillyStreets extends BaseStage
 			FlxPoint.get(3102 - offset[0], 1127 - offset[1] + 40)
 		];
 
-		tween().angle(sprite, rotations[0], rotations[1], duration, {ease: FlxEase.sineIn, startDelay: startdelay} );
-		tween().quadPath(sprite, path, duration, true,
+		tween.angle(sprite, rotations[0], rotations[1], duration, {ease: FlxEase.sineIn, startDelay: startdelay} );
+		tween.quadPath(sprite, path, duration, true,
 		{
 			ease: FlxEase.sineIn,
 			startDelay: startdelay,
@@ -368,7 +368,7 @@ class PhillyStreets extends BaseStage
 	*/
 	function driveCarLights(sprite:FlxSprite):Void{
 		carInterruptable = false;
-		tween().cancelTweensOf(sprite);
+		tween.cancelTweensOf(sprite);
 		var variant:Int = FlxG.random.int(1,4);
 		sprite.animation.play('car' + variant);
 		var extraOffset = [0, 0];
@@ -402,8 +402,8 @@ class PhillyStreets extends BaseStage
 		// 	var debug:FlxSprite = new FlxSprite(point.x - 5, point.y - 5).makeGraphic(10, 10, 0xFFFF0000);
 		// 	add(debug);
 		// }
-		tween().angle(sprite, rotations[0], rotations[1], duration, {ease: FlxEase.cubeOut} );
-		tween().quadPath(sprite, path, duration, true,
+		tween.angle(sprite, rotations[0], rotations[1], duration, {ease: FlxEase.cubeOut} );
+		tween.quadPath(sprite, path, duration, true,
 		{
 			ease: FlxEase.cubeOut,
 			onComplete: function(_) {
@@ -419,7 +419,7 @@ class PhillyStreets extends BaseStage
 	*/
 	function driveCar(sprite:FlxSprite):Void{
 		carInterruptable = false;
-		tween().cancelTweensOf(sprite);
+		tween.cancelTweensOf(sprite);
 		var variant:Int = FlxG.random.int(1,4);
 		sprite.animation.play('car' + variant);
 		// setting an offset here because the current implementation of stage prop offsets was not working at all for me
@@ -453,8 +453,8 @@ class PhillyStreets extends BaseStage
 			FlxPoint.get(3102 - offset[0], 1127 - offset[1] + 40)
 		];
 
-		tween().angle(sprite, rotations[0], rotations[1], duration, null );
-		tween().quadPath(sprite, path, duration, true,
+		tween.angle(sprite, rotations[0], rotations[1], duration, null );
+		tween.quadPath(sprite, path, duration, true,
 		{
 			ease: null,
 			onComplete: function(_) {
@@ -465,7 +465,7 @@ class PhillyStreets extends BaseStage
 
 	function driveCarBack(sprite:FlxSprite):Void{
 		car2Interruptable = false;
-		tween().cancelTweensOf(sprite);
+		tween.cancelTweensOf(sprite);
 		var variant:Int = FlxG.random.int(1,4);
 		sprite.animation.play('car' + variant);
 		// setting an offset here because the current implementation of stage prop offsets was not working at all for me
@@ -500,8 +500,8 @@ class PhillyStreets extends BaseStage
 
 		];
 
-		tween().angle(sprite, rotations[0], rotations[1], duration, null );
-		tween().quadPath(sprite, path, duration, true,
+		tween.angle(sprite, rotations[0], rotations[1], duration, null );
+		tween.quadPath(sprite, path, duration, true,
 		{
 			ease: null,
 			onComplete: function(_) {

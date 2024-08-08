@@ -26,7 +26,7 @@ class DarnellNotes extends NoteType
             character.playAnim('kickUp', true);
         }
         FlxG.sound.play(Paths.sound("weekend1/Kick_Can_UP"));
-        playstate().executeEvent("phillyStreets-canKick");
+        playstate.executeEvent("phillyStreets-canKick");
     }
 
     function kneecanHit (note:Note, character:Character){
@@ -34,17 +34,17 @@ class DarnellNotes extends NoteType
             character.playAnim('kneeForward', true);
         }
         FlxG.sound.play(Paths.sound("weekend1/Kick_Can_FORWARD"));
-        playstate().executeEvent("phillyStreets-canKickForward");
+        playstate.executeEvent("phillyStreets-canKickForward");
     }
 
     function cockgunHit (note:Note, character:Character){
         if(character.canAutoAnim){
             character.playAnim('reload', true);
         }
-        playstate().getExtraCamMovement(note);
+        playstate.getExtraCamMovement(note);
         FlxG.sound.play(Paths.sound("weekend1/Gun_Prep"));
-        playstate().executeEvent("phillyStreets-playerGlow");
-        playstate().executeEvent("phillyStreets-createBullet");
+        playstate.executeEvent("phillyStreets-playerGlow");
+        playstate.executeEvent("phillyStreets-createBullet");
     }
 
     function firegunHit (note:Note, character:Character){
@@ -52,12 +52,12 @@ class DarnellNotes extends NoteType
             character.playAnim('shoot', true);
         }
         character.danceLockout = true;
-        playstate().getExtraCamMovement(note);
+        playstate.getExtraCamMovement(note);
         FlxG.sound.play(Paths.sound("weekend1/shot" + FlxG.random.int(1, 4)));
-        playstate().executeEvent("phillyStreets-stageDarken");
-        playstate().executeEvent("phillyStreets-canShot");
-        playstate().camFocusBF();
-        playstate().camChangeZoom(0.85, (Conductor.crochet/1000) * 2, FlxEase.expoOut);
+        playstate.executeEvent("phillyStreets-stageDarken");
+        playstate.executeEvent("phillyStreets-canShot");
+        playstate.camFocusBF();
+        playstate.camChangeZoom(0.85, (Conductor.crochet/1000) * 2, FlxEase.expoOut);
     }
 
     function firegunMiss (direction:Int, character:Character){
@@ -65,18 +65,18 @@ class DarnellNotes extends NoteType
             character.playAnim('hit', true);
         }
         FlxG.sound.play(Paths.sound("weekend1/Pico_Bonk"));
-        playstate().executeEvent("phillyStreets-canHit");
-        playstate().camFocusBF();
-        playstate().camChangeZoom(0.85, (Conductor.crochet/1000) * 2, FlxEase.expoOut);
-        playstate().health -= 0.5;
-        if(playstate().health <= 0){
-            playstate().openGameOver("PicoDeadExplode");
+        playstate.executeEvent("phillyStreets-canHit");
+        playstate.camFocusBF();
+        playstate.camChangeZoom(0.85, (Conductor.crochet/1000) * 2, FlxEase.expoOut);
+        playstate.health -= 0.5;
+        if(playstate.health <= 0){
+            playstate.openGameOver("PicoDeadExplode");
         }
     }
 
     function cockgunMiss (direction:Int, character:Character){
-        playstate().defaultNoteMiss(direction, character);
-        playstate().forceMissNextNote = true;
+        playstate.defaultNoteMiss(direction, character);
+        playstate.forceMissNextNote = true;
     }
 
 }

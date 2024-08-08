@@ -10,11 +10,11 @@ class CaptionEvents extends Events
 
     function cc(tag:String):Void{
         var args = Events.getArgs(tag);
-		playstate().ccText.display(args[0]);
+		playstate.ccText.display(args[0]);
     }
 
     function ccHide(tag:String):Void{
-        playstate().ccText.hide();
+        playstate.ccText.hide();
     }
 
 }

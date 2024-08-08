@@ -19,9 +19,9 @@ class BuddiesErect extends BaseStage
 		var lilStage = new FlxSprite(0, -34).loadGraphic(Paths.image("fpsPlus/lil/stageE"));
 		addToBackground(lilStage);
 
-		gf().visible = false;
-		boyfriend().setPosition(0, -34);
-		dad().setPosition(0, -34);
+		gf.visible = false;
+		boyfriend.setPosition(0, -34);
+		dad.setPosition(0, -34);
 
 		useStartPoints = false;
 

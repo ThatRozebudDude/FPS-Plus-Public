@@ -40,565 +40,565 @@ class BlazinNotes extends NoteType
     }
 
 	function alternating():Int{
-        if(!data().exists("blazin-alternating")){
-            data().set("blazin-alternating", true);
+        if(!data.exists("blazin-alternating")){
+            data.set("blazin-alternating", true);
         }
-		data()["blazin-alternating"] = !data()["blazin-alternating"];
-		return (data()["blazin-alternating"]) ? 2 : 1;
+		data["blazin-alternating"] = !data["blazin-alternating"];
+		return (data["blazin-alternating"]) ? 2 : 1;
 	}
 
     function punchlowHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('punchLow' + alternating(), true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('punchLow' + alternating(), true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('hitLow', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('hitLow', true);
         }
-        playstate().changeCamOffset(-1 * playstate().camOffsetAmount, 0.5 * playstate().camOffsetAmount);
-        playstate().setBfOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
+        playstate.setBfOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
     }
 
     function punchlowblockedHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('punchLow' + alternating(), true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('punchLow' + alternating(), true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('block', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('block', true);
         }
-        playstate().changeCamOffset(-1 * playstate().camOffsetAmount, 0.5 * playstate().camOffsetAmount);
-        playstate().setBfOnTop();
-        playstate().camShake(0.002, 1/30, 0.1);
+        playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
+        playstate.setBfOnTop();
+        playstate.camShake(0.002, 1/30, 0.1);
     }
 
     function punchlowdodgedHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('punchLow' + alternating(), true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('punchLow' + alternating(), true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('dodge', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('dodge', true);
         }
-        playstate().changeCamOffset(-1 * playstate().camOffsetAmount, 0.5 * playstate().camOffsetAmount);
-        playstate().setBfOnTop();
+        playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
+        playstate.setBfOnTop();
     }
 
     function punchlowspinHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('punchLow' + alternating(), true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('punchLow' + alternating(), true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('hitSpin', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('hitSpin', true);
         }
-        playstate().changeCamOffset(-1 * playstate().camOffsetAmount, 0.5 * playstate().camOffsetAmount);
-        playstate().setBfOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
+        playstate.setBfOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
     }
 
     function punchhighHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('punchHigh' + alternating(), true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('punchHigh' + alternating(), true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('hitHigh', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('hitHigh', true);
         }
-        playstate().changeCamOffset(-1 * playstate().camOffsetAmount, 0);
-        playstate().setBfOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0);
+        playstate.setBfOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
     }
 
     function punchhighblockedHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('punchHigh' + alternating(), true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('punchHigh' + alternating(), true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('block', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('block', true);
         }
-        playstate().changeCamOffset(-1 * playstate().camOffsetAmount, 0);
-        playstate().setBfOnTop();
-        playstate().camShake(0.002, 1/30, 0.1);
+        playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0);
+        playstate.setBfOnTop();
+        playstate.camShake(0.002, 1/30, 0.1);
     }
 
     function punchhighdodgedHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('punchHigh' + alternating(), true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('punchHigh' + alternating(), true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('dodge', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('dodge', true);
         }
-        playstate().changeCamOffset(-1 * playstate().camOffsetAmount, 0);
-        playstate().setBfOnTop();
+        playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0);
+        playstate.setBfOnTop();
     }
 
     function punchhighspinHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('punchHigh' + alternating(), true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('punchHigh' + alternating(), true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('hitSpin', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('hitSpin', true);
         }
-        playstate().changeCamOffset(-1 * playstate().camOffsetAmount, 0);
-        playstate().setBfOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0);
+        playstate.setBfOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
     }
 
     function blockhighHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('block', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('block', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
-        playstate().setOppOnTop();
-        playstate().camShake(0.002, 1/30, 0.1);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
+        playstate.setOppOnTop();
+        playstate.camShake(0.002, 1/30, 0.1);
     }
 
     function blocklowHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('block', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('block', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchLow' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchLow' + alternating(), true);
         }
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0.5 * playstate().camOffsetAmount);
-        playstate().setOppOnTop();
-        playstate().camShake(0.002, 1/30, 0.1);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
+        playstate.setOppOnTop();
+        playstate.camShake(0.002, 1/30, 0.1);
     }
 
     function blockspinHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('block', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('block', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
-        playstate().setOppOnTop();
-        playstate().camShake(0.002, 1/30, 0.1);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
+        playstate.setOppOnTop();
+        playstate.camShake(0.002, 1/30, 0.1);
     }
 
     function dodgehighHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('dodge', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('dodge', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
-        playstate().setOppOnTop();
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
+        playstate.setOppOnTop();
     }
 
     function dodgelowHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('dodge', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('dodge', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchLow' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchLow' + alternating(), true);
         }
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0.5 * playstate().camOffsetAmount);
-        playstate().setOppOnTop();
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
+        playstate.setOppOnTop();
     }
 
     function dodgespinHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('dodge', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('dodge', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
-        playstate().setOppOnTop();
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
+        playstate.setOppOnTop();
     }
 
     function hithighHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitHigh', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitHigh', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
     }
 
     function hitlowHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitLow', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitLow', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchLow' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchLow' + alternating(), true);
         }
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0.5 * playstate().camOffsetAmount);
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
     }
 
     function hitspinHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitSpin', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitSpin', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
     }
 
     function picouppercutprepHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('uppercutPrep', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('uppercutPrep', true);
         }
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 1 * playstate().camOffsetAmount);
-        playstate().setBfOnTop();
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 1 * playstate.camOffsetAmount);
+        playstate.setBfOnTop();
     }
 
     function picouppercutHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('uppercutPunch', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('uppercutPunch', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('uppercutHit', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('uppercutHit', true);
         }
-        playstate().changeCamOffset(0, -1 * playstate().camOffsetAmount);
-        playstate().setBfOnTop();
-        playstate().camShake(0.005, 1/30, 0.25);
+        playstate.changeCamOffset(0, -1 * playstate.camOffsetAmount);
+        playstate.setBfOnTop();
+        playstate.camShake(0.005, 1/30, 0.25);
     }
 
     function darnelluppercutprepHit(note:Note, character:Character){
-        if(dad().canAutoAnim){
-            dad().playAnim('uppercutPrep', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('uppercutPrep', true);
         }
-        playstate().changeCamOffset(-1 * playstate().camOffsetAmount, 1 * playstate().camOffsetAmount);
-        playstate().setOppOnTop();
+        playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 1 * playstate.camOffsetAmount);
+        playstate.setOppOnTop();
     }
 
     function darnelluppercutHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('uppercutHit', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('uppercutHit', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('uppercutPunch', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('uppercutPunch', true);
         }
-        playstate().changeCamOffset(0, -1 * playstate().camOffsetAmount);
-        playstate().setOppOnTop();
-        playstate().camShake(0.005, 1/30, 0.25);
+        playstate.changeCamOffset(0, -1 * playstate.camOffsetAmount);
+        playstate.setOppOnTop();
+        playstate.camShake(0.005, 1/30, 0.25);
     }
 
     function idleHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('idle', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('idle', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('idle', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('idle', true);
         }
-        playstate().changeCamOffset(0, 0);
-        playstate().setBfOnTop();
+        playstate.changeCamOffset(0, 0);
+        playstate.setBfOnTop();
     }
 
     function fakeoutHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('fakeHit', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('fakeHit', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('cringe', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('cringe', true);
         }
-        playstate().changeCamOffset(-1 * playstate().camOffsetAmount, 0);
-        playstate().setBfOnTop();
+        playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0);
+        playstate.setBfOnTop();
     }
 
     function tauntHit(note:Note, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('taunt', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('taunt', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('pissed', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('pissed', true);
         }
-        playstate().changeCamOffset(0, 0);
-        playstate().setBfOnTop();
+        playstate.changeCamOffset(0, 0);
+        playstate.setBfOnTop();
     }
 
     function punchlowMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitLow', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitLow', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchLow' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchLow' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0.5 * playstate().camOffsetAmount);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
     }
 
     function punchlowblockedMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitLow', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitLow', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchLow' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchLow' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0.5 * playstate().camOffsetAmount);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
     }
 
     function punchlowdodgedMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitLow', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitLow', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchLow' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchLow' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0.5 * playstate().camOffsetAmount);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
     }
 
     function punchlowspinMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitSpin', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitSpin', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchLow' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchLow' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0.5 * playstate().camOffsetAmount);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
     }
 
     function punchhighMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitHigh', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitHigh', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
     }
 
     function punchhighblockedMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitHigh', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitHigh', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
     }
 
     function punchhighdodgedMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitHigh', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitHigh', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
     }
 
     function punchhighspinMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitSpin', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitSpin', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
     }
 
     function blockhighMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitHigh', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitHigh', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
     }
 
     function blocklowMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitLow', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitLow', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchLow' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchLow' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0.5 * playstate().camOffsetAmount);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
     }
 
     function blockspinMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitSpin', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitSpin', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
     }
 
     function dodgehighMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitHigh', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitHigh', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
     }
 
     function dodgelowMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitLow', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitLow', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchLow' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchLow' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0.5 * playstate().camOffsetAmount);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
     }
 
     function dodgespinMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitSpin', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitSpin', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
     }
 
     function hithighMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitHigh', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitHigh', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
     }
 
     function hitlowMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitLow', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitLow', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchLow' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchLow' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0.5 * playstate().camOffsetAmount);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
     }
 
     function hitspinMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitSpin', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitSpin', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
     }
 
     function picouppercutprepMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitLow', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitLow', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchLow' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchLow' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0.5 * playstate().camOffsetAmount);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
     }
 
     function picouppercutMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitSpin', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitSpin', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
     }
 
     function darnelluppercutprepMiss(direction:Int, character:Character){
-        if(dad().canAutoAnim){
-            dad().playAnim('uppercutPrep', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('uppercutPrep', true);
         }
-        playstate().changeCamOffset(-1 * playstate().camOffsetAmount, 1 * playstate().camOffsetAmount);
-        playstate().setOppOnTop();
+        playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 1 * playstate.camOffsetAmount);
+        playstate.setOppOnTop();
     }
 
     function darnelluppercutMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('uppercutHit', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('uppercutHit', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('uppercutPunch', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('uppercutPunch', true);
         }
-        playstate().changeCamOffset(0, -1 * playstate().camOffsetAmount);
-        playstate().setOppOnTop();
-        playstate().camShake(0.005, 1/30, 0.25);
+        playstate.changeCamOffset(0, -1 * playstate.camOffsetAmount);
+        playstate.setOppOnTop();
+        playstate.camShake(0.005, 1/30, 0.25);
     }
 
     function idleMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('idle', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('idle', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('idle', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('idle', true);
         }
-        playstate().changeCamOffset(0, 0);
-        playstate().setBfOnTop();
+        playstate.changeCamOffset(0, 0);
+        playstate.setBfOnTop();
     }
 
     function fakeoutMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('punchHigh' + alternating(), true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('punchHigh' + alternating(), true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('dodge', true);
+        if(dad.canAutoAnim){
+            dad.playAnim('dodge', true);
         }
-        playstate().setBfOnTop();
-        playstate().changeCamOffset(-1 * playstate().camOffsetAmount, 0);
+        playstate.setBfOnTop();
+        playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0);
     }
 
     function tauntMiss(direction:Int, character:Character){
-        if(boyfriend().canAutoAnim){
-            boyfriend().playAnim('hitSpin', true);
+        if(boyfriend.canAutoAnim){
+            boyfriend.playAnim('hitSpin', true);
         }
-        if(dad().canAutoAnim){
-            dad().playAnim('punchHigh' + alternating(), true);
+        if(dad.canAutoAnim){
+            dad.playAnim('punchHigh' + alternating(), true);
         }
-        playstate().setOppOnTop();
-        playstate().camShake(0.0025, 1/30, 0.15);
-        playstate().changeCamOffset(1 * playstate().camOffsetAmount, 0);
+        playstate.setOppOnTop();
+        playstate.camShake(0.0025, 1/30, 0.15);
+        playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
     }
 
 }

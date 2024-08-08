@@ -14,10 +14,10 @@ class LilBuddiesIntro extends ScriptedCutscene
 
     function lilBuddiesIntro() {
         if(PlayState.fceForLilBuddies){
-            playstate().lilBuddiesStart();
+            playstate.lilBuddiesStart();
         }
         else{
-            playstate().startCountdown();
+            playstate.startCountdown();
         }
     }
 

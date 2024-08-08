@@ -157,7 +157,7 @@ class TankmanTemplate extends ScriptedCutscene
         addToGfLayer(gfSpeaker);
         addToCharacterLayer(tankman);
 
-        playstate().camChangeZoom(0.8, 2, FlxEase.quartOut);
+        playstate.camChangeZoom(0.8, 2, FlxEase.quartOut);
     }
 
 }

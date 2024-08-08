@@ -25,7 +25,7 @@ class UghIntro extends ScriptedCutscene
         tankman.addAnimationByLabel("stress1", "Stress 1", 24, false);
         tankman.addAnimationByLabel("stress2", "Stress 2", 24, false);
 
-        originalZoom = playstate().defaultCamZoom;
+        originalZoom = playstate.defaultCamZoom;
 
         addEvent(0, ugh1);
         addEvent(3, ugh2);
@@ -38,41 +38,41 @@ class UghIntro extends ScriptedCutscene
     function ugh1() {
         addToCharacterLayer(tankman);
         tankman.playAnim("ugh1", true);
-        dad().visible = false;
+        dad.visible = false;
         FlxG.sound.play(Paths.sound("week7/wellWellWell"));
         bgm = FlxG.sound.play(Paths.music("week7/distorto")).fadeIn(5, 0, 0.2);
-        playstate().camFocusOpponent();
-        playstate().camChangeZoom(originalZoom * 1.2, 0);
-        playstate().camHUD.visible = false;
+        playstate.camFocusOpponent();
+        playstate.camChangeZoom(originalZoom * 1.2, 0);
+        playstate.camHUD.visible = false;
     }
 
     function ugh2() {
-        playstate().camFocusBF();
+        playstate.camFocusBF();
     }
 
     function bfBeep() {
-        boyfriend().playAnim('singUP');
+        boyfriend.playAnim('singUP');
         FlxG.sound.play(Paths.sound("week7/bfBeep"), function(){
-            boyfriend().playAnim('idle');
+            boyfriend.playAnim('idle');
         });
     }
 
     function ugh3() {
         tankman.playAnim("ugh2", true);
         FlxG.sound.play(Paths.sound("week7/killYou"));
-        playstate().camFocusOpponent();
+        playstate.camFocusOpponent();
     }
 
     function ugh4() {
         bgm.fadeOut((Conductor.crochet / 1000) * 5, 0);
-        playstate().camChangeZoom(originalZoom, (Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
-        playstate().camHUD.visible = true;
+        playstate.camChangeZoom(originalZoom, (Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
+        playstate.camHUD.visible = true;
         focusCameraBasedOnFirstSection();
         next();
     }
 
     function swapBackToGameplayTankman() {
-        dad().visible = true;
+        dad.visible = true;
         tankman.visible = false;
         removeFromCharacterLayer(tankman);
     }

@@ -14,13 +14,13 @@ class EggnogEnding extends ScriptedCutscene
     }
 
     function end() {
-        var blackShit:FlxSprite = new FlxSprite(-FlxG.width * playstate().camGame.zoom,
-            -FlxG.height * playstate().camGame.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+        var blackShit:FlxSprite = new FlxSprite(-FlxG.width * playstate.camGame.zoom,
+            -FlxG.height * playstate.camGame.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
         blackShit.scrollFactor.set();
         addToForegroundLayer(blackShit);
-        playstate().camHUD.visible = false;
+        playstate.camHUD.visible = false;
         FlxG.sound.play(Paths.sound('week5/Lights_Shut_off'));
-        playstate().endSong();
+        playstate.endSong();
     }
 
 }

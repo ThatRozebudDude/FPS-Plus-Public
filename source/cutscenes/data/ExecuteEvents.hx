@@ -15,7 +15,7 @@ class ExecuteEvents extends ScriptedCutscene
     }
 
     function executeEvents() {
-        for(event in e){ playstate().executeEvent(event); }
+        for(event in e){ playstate.executeEvent(event); }
         next();
     }
 

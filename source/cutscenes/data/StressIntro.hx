@@ -50,7 +50,7 @@ class StressIntro extends ScriptedCutscene
         gfSpeaker = new Character(210, 74, "GfTankmen", false, true);
         gfSpeaker.scrollFactor.set(0.95, 0.95);
 
-        originalZoom = playstate().defaultCamZoom;
+        originalZoom = playstate.defaultCamZoom;
 
         addEvent(0, stress1);
         addEvent(15.1, stress2);
@@ -65,24 +65,24 @@ class StressIntro extends ScriptedCutscene
     function stress1() {
         addToCharacterLayer(tankman);
         tankman.playAnim("stress1", true);
-        dad().visible = false;
+        dad.visible = false;
         
         addToGfLayer(gfSpeaker);
         gfSpeaker.playAnim("idleLoop", true);
-        gf().visible = false;
+        gf.visible = false;
 
         addToGfLayer(picoSpeaker);
         addToGfLayer(gfSummon);
 
-        boyfriend().canAutoAnim = false;
-        boyfriend().playAnim("idleNoGf", true);
+        boyfriend.canAutoAnim = false;
+        boyfriend.playAnim("idleNoGf", true);
 
         ///FlxG.sound.play(Paths.sound("week7/stressCutscene"));
         bgm = FlxG.sound.play(Paths.sound("week7/stressCutscene"));
 
-        playstate().camFocusOpponent();
-        playstate().camChangeZoom(originalZoom * 1.15, 0);
-        playstate().camHUD.visible = false;
+        playstate.camFocusOpponent();
+        playstate.camChangeZoom(originalZoom * 1.15, 0);
+        playstate.camHUD.visible = false;
     }
 
     function stress2() {
@@ -90,9 +90,9 @@ class StressIntro extends ScriptedCutscene
         gfSummon.visible = true;
         gfSummon.animation.play("summon", true);
 
-        playstate().camChangeZoom(originalZoom * 1.6, 2, FlxEase.quadOut);
-        var pos:FlxPoint = new FlxPoint(FlxMath.lerp(playstate().getOpponentFocusPosition().x, playstate().getBfFocusPostion().x, 0.5), FlxMath.lerp(playstate().getOpponentFocusPosition().y, playstate().getBfFocusPostion().y, 0.5));
-		playstate().camMove(pos.x, pos.y - 200, 2, FlxEase.quadOut, "center");
+        playstate.camChangeZoom(originalZoom * 1.6, 2, FlxEase.quadOut);
+        var pos:FlxPoint = new FlxPoint(FlxMath.lerp(playstate.getOpponentFocusPosition().x, playstate.getBfFocusPostion().x, 0.5), FlxMath.lerp(playstate.getOpponentFocusPosition().y, playstate.getBfFocusPostion().y, 0.5));
+		playstate.camMove(pos.x, pos.y - 200, 2, FlxEase.quadOut, "center");
     }
 
     function stress3() {
@@ -101,11 +101,11 @@ class StressIntro extends ScriptedCutscene
         picoSpeaker.playAnim("fall");
         picoSpeaker.frameCallback = function(name, frame, index) {
             if(name == "fall" && frame == 2){
-                boyfriend().playAnim("bfCatch", true);
+                boyfriend.playAnim("bfCatch", true);
             }
         }
 
-        playstate().camChangeZoom(0.8, 0);
+        playstate.camChangeZoom(0.8, 0);
     }
     
     function stress4() {
@@ -113,21 +113,21 @@ class StressIntro extends ScriptedCutscene
     }
 
     function stress5() {
-        playstate().camMove(playstate().getOpponentFocusPosition().x + 230, playstate().getOpponentFocusPosition().y - 50, 1.9, FlxEase.expoOut, "dad");
+        playstate.camMove(playstate.getOpponentFocusPosition().x + 230, playstate.getOpponentFocusPosition().y - 50, 1.9, FlxEase.expoOut, "dad");
     }
 
     function zoomIn() {
-        playstate().camFocusBF(0, 0, 0);
-        playstate().camChangeZoom(originalZoom*1.4, 0);
-        playstate().camChangeZoom((originalZoom*1.4) + 0.1, 0.5, FlxEase.elasticOut);
-        boyfriend().playAnim("singUPmiss");
+        playstate.camFocusBF(0, 0, 0);
+        playstate.camChangeZoom(originalZoom*1.4, 0);
+        playstate.camChangeZoom((originalZoom*1.4) + 0.1, 0.5, FlxEase.elasticOut);
+        boyfriend.playAnim("singUPmiss");
         FlxG.sound.play(Paths.sound('missnote' + FlxG.random.int(1, 3)), 0.2);
     }
 
     function zoomOut() {
-        playstate().camFocusOpponent(0, 0, 0);
-        playstate().camChangeZoom(originalZoom, 0);
-        boyfriend().playAnim("idle");
+        playstate.camFocusOpponent(0, 0, 0);
+        playstate.camChangeZoom(originalZoom, 0);
+        boyfriend.playAnim("idle");
     }
 
     function stressEnd() {
@@ -137,12 +137,12 @@ class StressIntro extends ScriptedCutscene
         tankman.visible = false;
 
 
-        gf().visible = true;
-        dad().visible = true;
-        boyfriend().canAutoAnim = true;
-        gf().playAnim("shoot1", true);
+        gf.visible = true;
+        dad.visible = true;
+        boyfriend.canAutoAnim = true;
+        gf.playAnim("shoot1", true);
 
-        playstate().camHUD.visible = true;
+        playstate.camHUD.visible = true;
         focusCameraBasedOnFirstSection();
         next();
     }

@@ -19,7 +19,7 @@ class TwoHotEnding extends ScriptedCutscene
     var black:FlxSprite;
 
     override function init():Void{
-        picoSprite = new Character(boyfriend().x, boyfriend().y, "PicoCutscene", true);
+        picoSprite = new Character(boyfriend.x, boyfriend.y, "PicoCutscene", true);
         picoSprite.visible = false;
 
         black = new FlxSprite().makeGraphic(1, 1, 0xFF000000);
@@ -27,13 +27,13 @@ class TwoHotEnding extends ScriptedCutscene
 		black.updateHitbox();
 		black.scrollFactor.set();
 		black.visible = false;
-		black.cameras = [playstate().camOverlay];
+		black.cameras = [playstate.camOverlay];
 
         video = new VideoHandler();
 		video.scrollFactor.set();
 		video.antialiasing = true;
 		video.visible = false;
-        video.cameras = [playstate().camOverlay];
+        video.cameras = [playstate.camOverlay];
 
         addEvent(0, setup);
         addEvent(0, centerCamera);
@@ -45,9 +45,9 @@ class TwoHotEnding extends ScriptedCutscene
 
     override function update(elapsed:Float) {
         super.update(elapsed);
-        if(!videoOver && Binds.justPressed("menuAccept") && playstate().inVideoCutscene){
+        if(!videoOver && Binds.justPressed("menuAccept") && playstate.inVideoCutscene){
             videoOver = true;
-			playstate().tweenManager.tween(video, {alpha: 0, volume: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
+			tween.tween(video, {alpha: 0, volume: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
 				video.skip();
 			}});
         }
@@ -56,8 +56,8 @@ class TwoHotEnding extends ScriptedCutscene
     function setup() {
 		video.playMP4(Paths.video("weekend1/2hotCutscene"), function(){
             videoOver = true;
-			playstate().customTransOut = new InstantTransition();
-            playstate().endSong();
+			playstate.customTransOut = new InstantTransition();
+            playstate.endSong();
 		}, false);
 
 		addToCharacterLayer(picoSprite);
@@ -66,23 +66,23 @@ class TwoHotEnding extends ScriptedCutscene
     }
 
     function centerCamera() {
-        var centerPos:FlxPoint = new FlxPoint(FlxMath.lerp(playstate().getOpponentFocusPosition().x, playstate().getBfFocusPostion().x, 0.5), FlxMath.lerp(playstate().getOpponentFocusPosition().y, playstate().getBfFocusPostion().y, 0.5));
-        playstate().autoCam = false;
-        playstate().autoCamBop = false;
-        boyfriend().canAutoAnim = false;
-        dad().canAutoAnim = false;
-        playstate().camMove(centerPos.x, centerPos.y, 2, FlxEase.quadInOut);
-        playstate().camChangeZoom(0.7, 2, FlxEase.quadInOut);
-        playstate().camHUD.visible = false;
+        var centerPos:FlxPoint = new FlxPoint(FlxMath.lerp(playstate.getOpponentFocusPosition().x, playstate.getBfFocusPostion().x, 0.5), FlxMath.lerp(playstate.getOpponentFocusPosition().y, playstate.getBfFocusPostion().y, 0.5));
+        playstate.autoCam = false;
+        playstate.autoCamBop = false;
+        boyfriend.canAutoAnim = false;
+        dad.canAutoAnim = false;
+        playstate.camMove(centerPos.x, centerPos.y, 2, FlxEase.quadInOut);
+        playstate.camChangeZoom(0.7, 2, FlxEase.quadInOut);
+        playstate.camHUD.visible = false;
     }
 
     function neneIdleLoop() {
-        var frame:Int = gf().curAnimFrame();
+        var frame:Int = gf.curAnimFrame();
         var frameOffset:Int = 0;
-        if(gf().curAnim == "danceRight"){ frameOffset = 15; }
+        if(gf.curAnim == "danceRight"){ frameOffset = 15; }
         var finalFrame:Int = (frame + frameOffset) % 30;
-        gf().canAutoAnim = false;
-        gf().playAnim("idleLoop", true, false, finalFrame);
+        gf.canAutoAnim = false;
+        gf.playAnim("idleLoop", true, false, finalFrame);
         //trace(frame);
         //trace(frameOffset);
         //trace(finalFrame);
@@ -90,21 +90,21 @@ class TwoHotEnding extends ScriptedCutscene
     }
 
     function picoGetPissed(){
-        boyfriend().visible = false;
+        boyfriend.visible = false;
         picoSprite.playAnim("pissed", true);
         picoSprite.visible = true;
     }
 
     function darrnellGetPissed(){
-        dad().playAnim("pissed", true);
+        dad.playAnim("pissed", true);
     }
 
     function swapToVideo() {
-        playstate().inVideoCutscene = true;
+        playstate.inVideoCutscene = true;
         //playstate().camGame.zoom = 1;
         video.visible = true;
         black.visible = true;
-        playstate().camGame.filters = [];
+        playstate.camGame.filters = [];
     }
 
 }

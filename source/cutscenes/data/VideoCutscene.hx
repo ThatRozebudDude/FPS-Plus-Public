@@ -43,47 +43,47 @@ class VideoCutscene extends ScriptedCutscene
 		video.scrollFactor.set();
 		video.antialiasing = true;
 		video.visible = true;
-        video.cameras = [playstate().camOverlay];
+        video.cameras = [playstate.camOverlay];
 
         addEvent(0, setup);
     }
 
     override function update(elapsed:Float) {
         super.update(elapsed);
-        if(!videoOver && Binds.justPressed("menuAccept") && playstate().inVideoCutscene && skipable){
+        if(!videoOver && Binds.justPressed("menuAccept") && playstate.inVideoCutscene && skipable){
             videoOver = true;
-			playstate().tweenManager.tween(video, {alpha: 0, volume: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
+			tween.tween(video, {alpha: 0, volume: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
 				video.skip();
 			}});
         }
     }
 
     function setup() {
-        playstate().inVideoCutscene = true;
+        playstate.inVideoCutscene = true;
         //playstate().camGame.zoom = 1;
 
-        prevCamFilters = playstate().camGame.filters;
-        playstate().camGame.filters = [];
+        prevCamFilters = playstate.camGame.filters;
+        playstate.camGame.filters = [];
 
 		video.playMP4(Paths.video(path), function(){
             videoOver = true;
 
-            playstate().startCountdown();
-            playstate().inVideoCutscene = false;
-            playstate().camGame.filters = prevCamFilters;
+            playstate.startCountdown();
+            playstate.inVideoCutscene = false;
+            playstate.camGame.filters = prevCamFilters;
 
             removeGeneric(video);
-            playstate().tweenManager.tween(black, {alpha: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
+            playstate.tweenManager.tween(black, {alpha: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
 				removeGeneric(black);
 			}});
 
             if(doZoomOut){
-                playstate().camChangeZoom(playstate().defaultCamZoom * 1.2, 0, null);
-                playstate().camChangeZoom(playstate().defaultCamZoom/1.2, ((Conductor.crochet / 1000) * 5) - 0.1, FlxEase.quadOut);
+                playstate.camChangeZoom(playstate.defaultCamZoom * 1.2, 0, null);
+                playstate.camChangeZoom(playstate.defaultCamZoom/1.2, ((Conductor.crochet / 1000) * 5) - 0.1, FlxEase.quadOut);
             }
             if(instantlyMoveCamera){
-                if(PlayState.SONG.notes[0].mustHitSection){ playstate().camFocusBF(); }
-                else{ playstate().camFocusOpponent(); }
+                if(PlayState.SONG.notes[0].mustHitSection){ playstate.camFocusBF(); }
+                else{ playstate.camFocusOpponent(); }
             }
 		}, false);
 

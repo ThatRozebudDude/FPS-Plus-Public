@@ -93,8 +93,8 @@ class PhillyBlazin extends BaseStage
 
 		useStartPoints = false;
 		overrideGfStartPoints = true;
-		boyfriend().setPosition(-237, -200);
-		dad().setPosition(-237, -150);
+		boyfriend.setPosition(-237, -200);
+		dad.setPosition(-237, -150);
 		gfStart.set(1353 + gfPosOffset.x, 925 + gfPosOffset.y);
 
 		abot = new ABot(gfStart.x - 365, gfStart.y - 165);
@@ -105,16 +105,16 @@ class PhillyBlazin extends BaseStage
 		cameraStartPosition = new FlxPoint(1390, 620);
 		//extraCameraMovementAmount = 20;
 
-		boyfriend().color = 0xFFDEDEDE;
-		dad().color = 0xFFDEDEDE;
+		boyfriend.color = 0xFFDEDEDE;
+		dad.color = 0xFFDEDEDE;
 
-		gf().scrollFactor.set(gfScroll, gfScroll);
-		gf().color = 0xFF888888;
+		gf.scrollFactor.set(gfScroll, gfScroll);
+		gf.color = 0xFF888888;
 		abot.scrollFactor.set(gfScroll, gfScroll);
 		abot.color = 0xFF888888;
 		
 		rainShader = new RainShader(0.5, FlxG.height / 200);
-		playstate().camGame.filters = [new ShaderFilter(rainShader.shader)];
+		playstate.camGame.filters = [new ShaderFilter(rainShader.shader)];
 		addToUpdate(rainShader);
 
 		addExtraData("forceCenteredNotes",  true);
@@ -128,7 +128,7 @@ class PhillyBlazin extends BaseStage
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 
-		if(lightningActive && !playstate().inCutscene){
+		if(lightningActive && !playstate.inCutscene){
 			lightningTimer -= FlxG.elapsed;
 		}
 
@@ -169,7 +169,7 @@ class PhillyBlazin extends BaseStage
 
 		scrollingSkyAdd.visible = true;
 		scrollingSkyAdd.alpha = 0.8;
-		tween().tween(scrollingSkyAdd, {alpha: 0.0}, LIGHTNING_FULL_DURATION, {startDelay: LIGHTNING_HOLD_DURATION, onComplete: cleanupLightning});
+		tween.tween(scrollingSkyAdd, {alpha: 0.0}, LIGHTNING_FULL_DURATION, {startDelay: LIGHTNING_HOLD_DURATION, onComplete: cleanupLightning});
 
 		streetBlurMultiply.visible = true;
 		streetBlurMultiply.alpha = 0.8;
@@ -189,12 +189,12 @@ class PhillyBlazin extends BaseStage
 		}
 
 		//darken characters
-		boyfriend().color = CHARACTER_DARKEN_COLOR;
-		dad().color = CHARACTER_DARKEN_COLOR;
-		gf().color = CHARACTER_DARKEN_COLOR;
-		tween().color(boyfriend(), LIGHTNING_FADE_DURATION, CHARACTER_DARKEN_COLOR, 0xFFDEDEDE, {startDelay: LIGHTNING_HOLD_DURATION});
-		tween().color(dad(), LIGHTNING_FADE_DURATION, CHARACTER_DARKEN_COLOR, 0xFFDEDEDE, {startDelay: LIGHTNING_HOLD_DURATION});
-		tween().color(gf(), LIGHTNING_FADE_DURATION, CHARACTER_DARKEN_COLOR, 0xFF888888, {startDelay: LIGHTNING_HOLD_DURATION});
+		boyfriend.color = CHARACTER_DARKEN_COLOR;
+		dad.color = CHARACTER_DARKEN_COLOR;
+		gf.color = CHARACTER_DARKEN_COLOR;
+		tween.color(boyfriend, LIGHTNING_FADE_DURATION, CHARACTER_DARKEN_COLOR, 0xFFDEDEDE, {startDelay: LIGHTNING_HOLD_DURATION});
+		tween.color(dad, LIGHTNING_FADE_DURATION, CHARACTER_DARKEN_COLOR, 0xFFDEDEDE, {startDelay: LIGHTNING_HOLD_DURATION});
+		tween.color(gf, LIGHTNING_FADE_DURATION, CHARACTER_DARKEN_COLOR, 0xFF888888, {startDelay: LIGHTNING_HOLD_DURATION});
 
 		lightningSound = FlxG.sound.play(Paths.sound("weekend1/Lightning" + FlxG.random.int(1, 3)));
 	}
@@ -207,11 +207,11 @@ class PhillyBlazin extends BaseStage
 	}
 
 	function slowRain(tag:String):Void{
-		tween().tween(rainShader, {timeScale: 0.07}, 2.5, {ease: FlxEase.quadOut});
+		tween.tween(rainShader, {timeScale: 0.07}, 2.5, {ease: FlxEase.quadOut});
 	}
 
 	function normalRain(tag:String):Void{
-		tween().tween(rainShader, {timeScale: 1}, Conductor.crochet/1000, {ease: FlxEase.quadIn});
+		tween.tween(rainShader, {timeScale: 1}, Conductor.crochet/1000, {ease: FlxEase.quadIn});
 	}
 
 	function toggleLightning(tag:String):Void{

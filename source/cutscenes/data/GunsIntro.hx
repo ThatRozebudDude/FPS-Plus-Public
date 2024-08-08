@@ -25,7 +25,7 @@ class GunsIntro extends ScriptedCutscene
         tankman.addAnimationByLabel("stress1", "Stress 1", 24, false);
         tankman.addAnimationByLabel("stress2", "Stress 2", 24, false);
 
-        originalZoom = playstate().defaultCamZoom;
+        originalZoom = playstate.defaultCamZoom;
 
         addEvent(0, guns1);
         addEvent(4.1, guns2);
@@ -36,30 +36,30 @@ class GunsIntro extends ScriptedCutscene
     function guns1() {
         addToCharacterLayer(tankman);
         tankman.playAnim("guns", true);
-        dad().visible = false;
+        dad.visible = false;
         FlxG.sound.play(Paths.sound("week7/tankSong2"));
         bgm = FlxG.sound.play(Paths.music("week7/distorto")).fadeIn(5, 0, 0.2);
-        playstate().camFocusOpponent();
-        playstate().camChangeZoom(originalZoom * 1.3, 4, FlxEase.quadInOut);
-        playstate().camHUD.visible = false;
+        playstate.camFocusOpponent();
+        playstate.camChangeZoom(originalZoom * 1.3, 4, FlxEase.quadInOut);
+        playstate.camHUD.visible = false;
     }
 
     function guns2() {
-        playstate().camChangeZoom(originalZoom * 1.4, 0.4, FlxEase.quadOut);
-        gf().playAnim("sad");
+        playstate.camChangeZoom(originalZoom * 1.4, 0.4, FlxEase.quadOut);
+        gf.playAnim("sad");
     }
 
     function guns3() {
-        playstate().camChangeZoom(originalZoom * 1.3, 0.7, FlxEase.quadInOut);  
+        playstate.camChangeZoom(originalZoom * 1.3, 0.7, FlxEase.quadInOut);  
     }
 
     function guns4() {
         bgm.fadeOut((Conductor.crochet / 1000) * 5, 0);
-        playstate().camChangeZoom(originalZoom, (Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
-        dad().visible = true;
+        playstate.camChangeZoom(originalZoom, (Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
+        dad.visible = true;
         tankman.visible = false;
         removeFromCharacterLayer(tankman);
-        playstate().camHUD.visible = true;
+        playstate.camHUD.visible = true;
         focusCameraBasedOnFirstSection();
         next();
     }

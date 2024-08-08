@@ -19,17 +19,17 @@ class DarnellIntro extends ScriptedCutscene
     var originalZoom:Float;
 
     override function init():Void{
-        picoPos = playstate().getBfFocusPostion();
-	    nenePos = playstate().getGfFocusPosition();
-	    darnellPos = playstate().getOpponentFocusPosition();
+        picoPos = playstate.getBfFocusPostion();
+	    nenePos = playstate.getGfFocusPosition();
+	    darnellPos = playstate.getOpponentFocusPosition();
 
-        originalZoom = playstate().defaultCamZoom;
+        originalZoom = playstate.defaultCamZoom;
 
-        picoIntro = new Character(boyfriend().x, boyfriend().y, "PicoCutscene", true);
+        picoIntro = new Character(boyfriend.x, boyfriend.y, "PicoCutscene", true);
         picoIntro.characterInfo.info.functions.animationEnd = function(character:Character, anim:String) {
             if(anim == "shoot"){
-                boyfriend().visible = true;
-                boyfriend().dance();
+                boyfriend.visible = true;
+                boyfriend.dance();
                 picoIntro.visible = false;
                 removeFromCharacterLayer(picoIntro);
             }
@@ -59,76 +59,76 @@ class DarnellIntro extends ScriptedCutscene
     function first() {
         FlxG.sound.play(Paths.music("weekend1/darnellCanCutscene"));
 
-        playstate().camHUD.visible = false;
-        playstate().camGame.fade(0xFF000000, 2, true);
+        playstate.camHUD.visible = false;
+        playstate.camGame.fade(0xFF000000, 2, true);
 
         addToCharacterLayer(picoIntro);
 
         picoIntro.playAnim("pissed", true);
-        dad().playAnim("idleLoop", true);
-        gf().playAnim("idleLoop", true);
+        dad.playAnim("idleLoop", true);
+        gf.playAnim("idleLoop", true);
 
         picoIntro.playAnim("pissed", true, false, 24);
-        boyfriend().visible = false;
+        boyfriend.visible = false;
 
-        playstate().camMove(picoPos.x + 250, picoPos.y, 0, null);
-        playstate().camChangeZoom(1.3, 0, null);
+        playstate.camMove(picoPos.x + 250, picoPos.y, 0, null);
+        playstate.camChangeZoom(1.3, 0, null);
     }
 
     function startSong() {
-        playstate().startCountdown();
-        playstate().camHUD.visible = true;
-        playstate().camChangeZoom(originalZoom, 2, FlxEase.sineInOut);
-        playstate().camMove(darnellPos.x, darnellPos.y, 2, FlxEase.sineInOut, "dad");
+        playstate.startCountdown();
+        playstate.camHUD.visible = true;
+        playstate.camChangeZoom(originalZoom, 2, FlxEase.sineInOut);
+        playstate.camMove(darnellPos.x, darnellPos.y, 2, FlxEase.sineInOut, "dad");
     }
 
     function zoomOut() {
-        playstate().camMove(darnellPos.x + 180, darnellPos.y, 2.5, FlxEase.quadInOut);
-        playstate().camChangeZoom(0.68, 2.5, FlxEase.quadInOut);
+        playstate.camMove(darnellPos.x + 180, darnellPos.y, 2.5, FlxEase.quadInOut);
+        playstate.camChangeZoom(0.68, 2.5, FlxEase.quadInOut);
     }
 
     function darnellLight() {
-        dad().playAnim('lightCan', true);
+        dad.playAnim('lightCan', true);
         FlxG.sound.play(Paths.sound("weekend1/Darnell_Lighter"));
     }
 
     function picoReload() {
         picoIntro.playAnim('reload', true);
         FlxG.sound.play(Paths.sound("weekend1/Gun_Prep"));
-        playstate().executeEvent("phillyStreets-createBullet");
+        playstate.executeEvent("phillyStreets-createBullet");
     }
 
     function darnellKickUp() {
-        dad().playAnim('kickUp', true);
+        dad.playAnim('kickUp', true);
         FlxG.sound.play(Paths.sound("weekend1/Kick_Can_UP"));
-        playstate().executeEvent("phillyStreets-canKickSlow");
+        playstate.executeEvent("phillyStreets-canKickSlow");
     }
 
     function darnellKickForward() {
-        dad().playAnim('kneeForward', true);
+        dad.playAnim('kneeForward', true);
         FlxG.sound.play(Paths.sound("weekend1/Kick_Can_FORWARD"));
-        playstate().executeEvent("phillyStreets-canKickForward");
+        playstate.executeEvent("phillyStreets-canKickForward");
     }
 
     function picoShoot() {
         picoIntro.playAnim('shoot', true);
         FlxG.sound.play(Paths.sound("weekend1/shot" + FlxG.random.int(1, 4)));
-        playstate().executeEvent("phillyStreets-stageDarken");
-		playstate().executeEvent("phillyStreets-canShot");
-        playstate().camMove(darnellPos.x + 100, darnellPos.y, 1, FlxEase.quadInOut, "dad");
+        playstate.executeEvent("phillyStreets-stageDarken");
+		playstate.executeEvent("phillyStreets-canShot");
+        playstate.camMove(darnellPos.x + 100, darnellPos.y, 1, FlxEase.quadInOut, "dad");
     }
 
     function darnellIdle() {
-        dad().playAnim('idle', true);
+        dad.playAnim('idle', true);
     }
 
     function darnellLaugh() {
-        dad().playAnim('laughCutscene', true);
+        dad.playAnim('laughCutscene', true);
         FlxG.sound.play(Paths.sound("weekend1/cutscene/darnell_laugh"));
     }
 
     function neneLaugh() {
-        gf().playAnim('laughCutscene', true);
+        gf.playAnim('laughCutscene', true);
         FlxG.sound.play(Paths.sound("weekend1/cutscene/nene_laugh"));
     }
 

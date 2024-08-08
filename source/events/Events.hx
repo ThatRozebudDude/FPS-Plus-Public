@@ -1,5 +1,6 @@
 package events;
 
+import flixel.tweens.FlxTween.FlxTweenManager;
 import flixel.tweens.FlxEase;
 
 using StringTools;
@@ -167,10 +168,16 @@ class Events
 		return (v.toLowerCase() == "true");
 	}
 
-    inline function boyfriend()     { return PlayState.instance.boyfriend; }
-    inline function gf()            { return PlayState.instance.gf; }
-    inline function dad()           { return PlayState.instance.dad; }
-    inline function playstate()     { return PlayState.instance; }
-    inline function tween()         { return PlayState.instance.tweenManager; }
-    inline function data()          { return PlayState.instance.arbitraryData; }
+    var boyfriend(get, never):Character;
+    @:noCompletion inline function get_boyfriend()  { return PlayState.instance.boyfriend; }
+    var gf(get, never):Character;
+    @:noCompletion inline function get_gf()         { return PlayState.instance.gf; }
+    var dad(get, never):Character;
+    @:noCompletion inline function get_dad()        { return PlayState.instance.dad; }
+    var playstate(get, never):PlayState;
+    @:noCompletion inline function get_playstate()  { return PlayState.instance; }
+    var tween(get, never):FlxTweenManager;
+    @:noCompletion inline function get_tween()      { return PlayState.instance.tweenManager; }
+    var data(get, never):Map<String, Dynamic>;
+    @:noCompletion inline function get_data()       { return PlayState.instance.arbitraryData; }
 }

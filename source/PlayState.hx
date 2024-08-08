@@ -1434,7 +1434,7 @@ class PlayState extends MusicBeatState
 				vocalsOther.play();
 			}
 		}
-		trace("resyncing vocals");
+		//trace("resyncing vocals");
 	}
 
 	private var paused:Bool = false;

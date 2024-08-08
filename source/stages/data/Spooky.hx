@@ -63,7 +63,7 @@ class Spooky extends BaseStage
 		lightningStrikeBeat = curBeat;
 		lightningOffset = FlxG.random.int(8, 24);
 
-		boyfriend().playAnim('scared', true);
-		gf().playAnim('scared', true);
+		boyfriend.playAnim('scared', true);
+		gf.playAnim('scared', true);
 	}
 }

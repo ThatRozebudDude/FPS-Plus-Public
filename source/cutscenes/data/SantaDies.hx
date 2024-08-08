@@ -44,28 +44,29 @@ class SantaDies extends ScriptedCutscene
     function setup() {
         addToCharacterLayer(parents);
         parents.playAnim("full", true);
-        dad().visible = false;
+        dad.visible = false;
 
         addToForegroundLayer(santa);
         santa.playAnim("full", true);
-        playstate().executeEvent("mall-toggleSantaVisible");
+        playstate.executeEvent("mall-toggleSantaVisible");
 
-        playstate().autoCam = false;
-        var pos = playstate().getOpponentFocusPosition();
-        playstate().camMove(pos.x - 250, pos.y + 80, 1.9, FlxEase.expoOut, "santa :]");
-        playstate().changeCamOffset(0, 0);
-        playstate().camHUD.visible = false;
+        playstate.autoCam = false;
+        var pos = playstate.getOpponentFocusPosition();
+        playstate.camFocusOpponent(-300, 40, 2.5, FlxEase.cubeInOut);
+        playstate.camChangeZoom(1, 2.5, FlxEase.cubeInOut);
+        playstate.changeCamOffset(0, 0);
+        playstate.camHUD.visible = false;
 
         FlxG.sound.play(Paths.sound("week5/santa_emotion"));
     }
 
     function gfIdleLoop() {
-        var frame:Int = gf().curAnimFrame();
+        var frame:Int = gf.curAnimFrame();
         var frameOffset:Int = 0;
-        if(gf().curAnim == "danceRight"){ frameOffset = 16; }
+        if(gf.curAnim == "danceRight"){ frameOffset = 16; }
         var finalFrame:Int = (frame + frameOffset) % 31;
-        gf().canAutoAnim = false;
-        gf().playAnim("idleLoop", true, false, finalFrame);
+        gf.canAutoAnim = false;
+        gf.playAnim("idleLoop", true, false, finalFrame);
     }
 
 }

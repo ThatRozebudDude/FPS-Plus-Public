@@ -1,5 +1,6 @@
 package cutscenes;
 
+import flixel.tweens.FlxTween.FlxTweenManager;
 import flixel.FlxG;
 import flixel.FlxBasic;
 
@@ -75,70 +76,70 @@ class ScriptedCutscene extends FlxBasic
      * Adds an object to the background element layer in PlayState.
     **/
     public inline function addToBackgroundLayer(x:FlxBasic):Void{
-        playstate().backgroundLayer.add(x);
+        PlayState.instance.backgroundLayer.add(x);
     }
 
     /**
      * Removes an object from the background element layer in PlayState.
     **/
     public inline function removeFromBackgroundLayer(x:FlxBasic):Void{
-        playstate().backgroundLayer.remove(x);
+        PlayState.instance.backgroundLayer.remove(x);
     }
 
     /**
      * Adds an object to the girlfriend layer in PlayState.
     **/
     public inline function addToGfLayer(x:FlxBasic):Void{
-        playstate().gfLayer.add(x);
+        PlayState.instance.gfLayer.add(x);
     }
 
     /**
      * Removes an object from the girlfriend layer in PlayState.
     **/
     public inline function removeFromGfLayer(x:FlxBasic):Void{
-        playstate().gfLayer.remove(x);
+        PlayState.instance.gfLayer.remove(x);
     }
 
     /**
      * Adds an object to the middle element layer in PlayState.
     **/
     public inline function addToMiddleLayer(x:FlxBasic):Void{
-        playstate().middleLayer.add(x);
+        PlayState.instance.middleLayer.add(x);
     }
 
     /**
      * Removes an object from the middle element layer in PlayState.
     **/
     public inline function removeFromMiddleLayer(x:FlxBasic):Void{
-        playstate().middleLayer.remove(x);
+        PlayState.instance.middleLayer.remove(x);
     }
 
     /**
      * Adds an object to the character layer in PlayState.
     **/
     public inline function addToCharacterLayer(x:FlxBasic):Void{
-        playstate().characterLayer.add(x);
+        PlayState.instance.characterLayer.add(x);
     }
 
     /**
      * Removes an object from the character layer in PlayState.
     **/
     public inline function removeFromCharacterLayer(x:FlxBasic):Void{
-        playstate().characterLayer.remove(x);
+        PlayState.instance.characterLayer.remove(x);
     }
 
     /**
      * Adds an object to the foreground element layer in PlayState.
     **/
     public inline function addToForegroundLayer(x:FlxBasic):Void{
-        playstate().foregroundLayer.add(x);
+        PlayState.instance.foregroundLayer.add(x);
     }
 
     /**
      * Removes an object from the foreground element layer in PlayState.
     **/
     public inline function removeFromForegroundLayer(x:FlxBasic):Void{
-        playstate().foregroundLayer.remove(x);
+        PlayState.instance.foregroundLayer.remove(x);
     }
 
     /**
@@ -169,20 +170,27 @@ class ScriptedCutscene extends FlxBasic
         FlxG.state.subState.remove(x);
     }
 
-    public inline function boyfriend()     { return PlayState.instance.boyfriend; }
-    public inline function gf()            { return PlayState.instance.gf; }
-    public inline function dad()           { return PlayState.instance.dad; }
-    public inline function playstate()     { return PlayState.instance; }
-    public inline function tween()         { return PlayState.instance.tweenManager; }
+    var boyfriend(get, never):Character;
+    @:noCompletion inline function get_boyfriend()  { return PlayState.instance.boyfriend; }
+    var gf(get, never):Character;
+    @:noCompletion inline function get_gf()         { return PlayState.instance.gf; }
+    var dad(get, never):Character;
+    @:noCompletion inline function get_dad()        { return PlayState.instance.dad; }
+    var playstate(get, never):PlayState;
+    @:noCompletion inline function get_playstate()  { return PlayState.instance; }
+    var tween(get, never):FlxTweenManager;
+    @:noCompletion inline function get_tween()      { return PlayState.instance.tweenManager; }
+    var data(get, never):Map<String, Dynamic>;
+    @:noCompletion inline function get_data()       { return PlayState.instance.arbitraryData; }
 
     public inline function next():Void{
-        if(playstate().inEndingCutscene){ playstate().endSong(); }
-        else{ playstate().startCountdown(); }  
+        if(PlayState.instance.inEndingCutscene){ PlayState.instance.endSong(); }
+        else{ PlayState.instance.startCountdown(); }  
     }
 
     public inline function focusCameraBasedOnFirstSection():Void{
-        if(PlayState.SONG.notes[0].mustHitSection){ playstate().camFocusBF(); }
-        else{ playstate().camFocusOpponent(); }
+        if(PlayState.SONG.notes[0].mustHitSection){ PlayState.instance.camFocusBF(); }
+        else{ PlayState.instance.camFocusOpponent(); }
     }
 
     function get_started():Bool{ return __started; }

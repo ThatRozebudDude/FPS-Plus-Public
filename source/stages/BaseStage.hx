@@ -1,6 +1,7 @@
 package stages;
 
 //import flixel.FlxBasic;
+import flixel.tweens.FlxTween.FlxTweenManager;
 import flixel.FlxBasic;
 import flixel.FlxObject;
 import flixel.group.FlxGroup;
@@ -58,7 +59,7 @@ class BaseStage
 	 *
 	 * @param   x  The object to add. Should be any type that can be added to a state.
 	 */
-    public function addToBackground(x:Dynamic){
+    public function addToBackground(x:FlxBasic){
         backgroundElements.push(x);
     }
 
@@ -67,7 +68,7 @@ class BaseStage
 	 *
 	 * @param   x  The object to add. Should be any type that can be added to a state.
 	 */
-    public function addToMiddle(x:Dynamic){
+    public function addToMiddle(x:FlxBasic){
         middleElements.push(x);
     }
 
@@ -76,7 +77,7 @@ class BaseStage
 	 *
 	 * @param   x  The object to add. Should be any type that can be added to a state.
 	 */
-    public function addToForeground(x:Dynamic){
+    public function addToForeground(x:FlxBasic){
         foregroundElements.push(x);
     }
 
@@ -175,25 +176,31 @@ class BaseStage
     public function gameOverEnd(){}
 
 
-    inline function boyfriend()     { return PlayState.instance.boyfriend; }
-    inline function gf()            { return PlayState.instance.gf; }
-    inline function dad()           { return PlayState.instance.dad; }
-    inline function playstate()     { return PlayState.instance; }
-    inline function tween()         { return PlayState.instance.tweenManager; }
-    inline function data()          { return PlayState.instance.arbitraryData; }
+    var boyfriend(get, never):Character;
+    @:noCompletion inline function get_boyfriend()  { return PlayState.instance.boyfriend; }
+    var gf(get, never):Character;
+    @:noCompletion inline function get_gf()         { return PlayState.instance.gf; }
+    var dad(get, never):Character;
+    @:noCompletion inline function get_dad()        { return PlayState.instance.dad; }
+    var playstate(get, never):PlayState;
+    @:noCompletion inline function get_playstate()  { return PlayState.instance; }
+    var tween(get, never):FlxTweenManager;
+    @:noCompletion inline function get_tween()      { return PlayState.instance.tweenManager; }
+    var data(get, never):Map<String, Dynamic>;
+    @:noCompletion inline function get_data()       { return PlayState.instance.arbitraryData; }
+
 
     //It is only recommended that you only use this if you have to add dynamic objects.
     //For normal stage elements you should just add them to the groups in the init() and toggle their visibility.
-    inline function addToBackgroundLive(x:Dynamic)      { PlayState.instance.backgroundLayer.add(x); }
-    inline function removeFromBackgroundLive(x:Dynamic) { PlayState.instance.backgroundLayer.remove(x); }
-    inline function addToGfLive(x:Dynamic)              { PlayState.instance.gfLayer.add(x); }
-    inline function removeFromGfLive(x:Dynamic)         { PlayState.instance.gfLayer.remove(x); }
-    inline function addToMiddleLive(x:Dynamic)          { PlayState.instance.middleLayer.add(x); }
-    inline function removeFromMiddleLive(x:Dynamic)     { PlayState.instance.middleLayer.remove(x); }
-    inline function addToCharacterLive(x:Dynamic)       { PlayState.instance.characterLayer.add(x); }
-    inline function removeFromCharacterLive(x:Dynamic)  { PlayState.instance.characterLayer.remove(x); }
-    inline function addToForegroundLive(x:Dynamic)      { PlayState.instance.foregroundLayer.add(x); }
-    inline function removeFromForegroundLive(x:Dynamic) { PlayState.instance.foregroundLayer.remove(x); }
-
+    inline function addToBackgroundLive(x:FlxBasic)      { PlayState.instance.backgroundLayer.add(x); }
+    inline function removeFromBackgroundLive(x:FlxBasic) { PlayState.instance.backgroundLayer.remove(x); }
+    inline function addToGfLive(x:FlxBasic)              { PlayState.instance.gfLayer.add(x); }
+    inline function removeFromGfLive(x:FlxBasic)         { PlayState.instance.gfLayer.remove(x); }
+    inline function addToMiddleLive(x:FlxBasic)          { PlayState.instance.middleLayer.add(x); }
+    inline function removeFromMiddleLive(x:FlxBasic)     { PlayState.instance.middleLayer.remove(x); }
+    inline function addToCharacterLive(x:FlxBasic)       { PlayState.instance.characterLayer.add(x); }
+    inline function removeFromCharacterLive(x:FlxBasic)  { PlayState.instance.characterLayer.remove(x); }
+    inline function addToForegroundLive(x:FlxBasic)      { PlayState.instance.foregroundLayer.add(x); }
+    inline function removeFromForegroundLive(x:FlxBasic) { PlayState.instance.foregroundLayer.remove(x); }
 
 }
