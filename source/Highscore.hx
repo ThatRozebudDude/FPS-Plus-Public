@@ -84,7 +84,7 @@ class Highscore
 				accuracy: 0,
 				rank: none
 			}
-			setScore(formatSong(song, diff), emptyScore);
+			return emptyScore;
 		}
 
 		return songScores.get(formatSong(song, diff));
