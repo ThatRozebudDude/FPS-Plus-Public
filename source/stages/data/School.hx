@@ -16,7 +16,7 @@ class School extends BaseStage
 
 		// defaultCamZoom = 0.9;
 
-		var bgSky = new FlxSprite().loadGraphic(Paths.image('week6/weeb/weebSky'));
+		var bgSky = new FlxSprite(-100, -100).loadGraphic(Paths.image('week6/weeb/weebSky'));
 		bgSky.scrollFactor.set(0.1, 0.1);
 		addToBackground(bgSky);
 
@@ -53,7 +53,7 @@ class School extends BaseStage
 
 		bgSky.setGraphicSize(widShit);
 		bgSchool.setGraphicSize(widShit);
-			bgStreet.setGraphicSize(widShit);
+		bgStreet.setGraphicSize(widShit);
 		bgTrees.setGraphicSize(Std.int(widShit * 1.4));
 		fgTrees.setGraphicSize(Std.int(widShit * 0.8));
 		treeLeaves.setGraphicSize(widShit);
@@ -77,10 +77,11 @@ class School extends BaseStage
 		addToBackground(bgGirls);
 
 		dadStart.set(312.5, 932);
-		bfStart.set(1006.5, 925.5);
+		bfStart.set(960, 870);
 		gfStart.set(640, 801);
 
-		bfCameraOffset.set(32, 8);
+		bfCameraOffset.set(-48, 0);
+		dadCameraOffset.set(12, 0);
     }
 
 	public override function beat(curBeat:Int){

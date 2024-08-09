@@ -99,7 +99,7 @@ class PlayState extends MusicBeatState
 	private var shakeTween:FlxTween;
 	private var shakeReturnTween:FlxTween;
 	
-	public var camOffsetAmount:Float = 25;
+	public var camOffsetAmount:Float = 20;
 
 	public var autoCam:Bool = true;
 	public var autoZoom:Bool = true;

@@ -30,9 +30,10 @@ class SchoolEvil extends BaseStage
 		addToMiddle(evilTrail);
 
 		dadStart.set(230, 924);
-		bfStart.set(1006.5, 925.5);
+		bfStart.set(960, 870);
 		gfStart.set(640, 801);
 
-		bfCameraOffset.set(32, -17);
+		bfCameraOffset.set(-48, 0);
+		gfCameraOffset.set(0, -16);
     }
 }
