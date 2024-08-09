@@ -77,7 +77,7 @@ class Startup extends FlxState
                                     "week4/limo/bgLimo", "week4/limo/fastCarLol", "week4/limo/limoDancer", "week4/limo/limoDrive", "week4/limo/limoSunset",
                                     "week5/christmas/bgWalls", "week5/christmas/upperBop", "week5/christmas/bgEscalator", "week5/christmas/christmasTree", "week5/christmas/bottomBop", "week5/christmas/fgSnow", "week5/christmas/santa",
                                     "week5/christmas/evilBG", "week5/christmas/evilTree", "week5/christmas/evilSnow",
-                                    "week6/weeb/weebSky", "week6/weeb/weebSchool", "week6/weeb/weebStreet", "week6/weeb/weebTreesBack", "week6/weeb/weebTrees", "week6/weeb/petals", "week6/weeb/bgFreaks",
+                                    "week6/weeb/sky", "week6/weeb/farBackTrees", "week6/weeb/school", "week6/weeb/ground", "week6/weeb/backTrees", "week6/weeb/weebTrees", "week6/weeb/petals", "week6/weeb/bgFreaks",
                                     "week6/weeb/animatedEvilSchool", "week6/weeb/senpaiCrazy",
                                     "week7/stage/tank0", "week7/stage/tank1", "week7/stage/tank2", "week7/stage/tank3", "week7/stage/tank4", "week7/stage/tank5", "week7/stage/tankmanKilled1", 
                                     "week7/stage/smokeLeft", "week7/stage/smokeRight", "week7/stage/tankBuildings", "week7/stage/tankClouds", "week7/stage/tankGround", "week7/stage/tankMountains", "week7/stage/tankRolling", "week7/stage/tankRuins", "week7/stage/tankSky", "week7/stage/tankWatchtower",

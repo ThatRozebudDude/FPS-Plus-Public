@@ -5,8 +5,7 @@ import flixel.graphics.frames.FlxAtlasFrames;
 
 class BackgroundGirls extends FlxSprite
 {
-	public function new(x:Float, y:Float)
-	{
+	public function new(x:Float, y:Float){
 		super(x, y);
 
 		// BG fangirls dissuaded
@@ -20,8 +19,7 @@ class BackgroundGirls extends FlxSprite
 
 	var danceDir:Bool = false;
 
-	public function getScared():Void
-	{
+	public function getScared():Void{
 		animation.addByIndices('danceLeft', 'BG fangirls dissuaded', Utils.numberArray(14), "", 24, false);
 		animation.addByIndices('danceRight', 'BG fangirls dissuaded', Utils.numberArray(30, 15), "", 24, false);
 		dance();
