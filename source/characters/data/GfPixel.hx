@@ -22,7 +22,7 @@ class GfPixel extends CharacterInfoBase
 
         info.idleSequence = ["danceLeft", "danceRight"];
 
-        addExtraData("scale", PlayState.daPixelZoom);
+        addExtraData("scale", 6);
     }
 
 }

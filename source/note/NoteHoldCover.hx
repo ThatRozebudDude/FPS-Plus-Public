@@ -51,7 +51,7 @@ class NoteHoldCover extends FlxSprite{
 
         switch(coverPath){
             case "week6/weeb/pixelUI/noteHoldCovers-pixel":
-                setGraphicSize(Std.int(width * PlayState.daPixelZoom));
+                setGraphicSize(Std.int(width * 6));
                 antialiasing = false;
                 updateHitbox();
                 offset.set(36, -16);

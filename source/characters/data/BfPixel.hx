@@ -27,7 +27,7 @@ class BfPixel extends CharacterInfoBase
 		addByPrefix('singRIGHTmiss', offset(), 'BF RIGHT MISS', 24, loop(false));
 		addByPrefix('singDOWNmiss', offset(), 'BF DOWN MISS', 24, loop(false));
 
-		addExtraData("scale", PlayState.daPixelZoom);
+		addExtraData("scale", 6);
 
     }
 

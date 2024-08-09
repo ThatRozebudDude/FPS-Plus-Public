@@ -21,7 +21,7 @@ class Spirit extends CharacterInfoBase
         addByPrefix("singLEFT", offset(3, 0), "left_", 24, loop(false, 0), false, false);
         addByPrefix("singDOWN", offset(64, 64), "spirit down_", 24, loop(false, 0), false, false);
 
-		addExtraData("scale", PlayState.daPixelZoom);
+		addExtraData("scale", 6);
 
     }
 

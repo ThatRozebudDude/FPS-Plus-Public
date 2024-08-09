@@ -197,9 +197,6 @@ class PlayState extends MusicBeatState
 	private var comboUI:ComboPopup;
 	public static final minCombo:Int = 10;
 
-	var dialogue:Array<String> = [':bf:strange code', ':dad:>:]'];
-	public var dialogueBox:DialogueBox;
-
 	public var stage:BaseStage;
 
 	var talking:Bool = true;
@@ -234,9 +231,6 @@ class PlayState extends MusicBeatState
 	};
 
 	public var defaultCamZoom:Float = 1.05;
-
-	// how big to stretch the pixel art assets
-	public static var daPixelZoom:Float = 6;
 
 	var video:VideoHandler;
 	public var inCutscene:Bool = false;
@@ -346,13 +340,6 @@ class PlayState extends MusicBeatState
 
 		Conductor.changeBPM(SONG.bpm);
 		Conductor.mapBPMChanges(SONG);
-
-		if(Utils.exists(Paths.text(SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue"))){
-			try{
-				dialogue = Utils.coolTextFile(Paths.text(SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue"));
-			}
-			catch(e){}
-		}
 
 		gfCheck = "Gf";
 
@@ -527,19 +514,19 @@ class PlayState extends MusicBeatState
 					path: "week6/weeb/pixelUI/ratings",
 					position: new FlxPoint(0, -50),
 					aa: false,
-					scale: daPixelZoom * 0.7
+					scale: 6 * 0.7
 				}, 
 				{
 					path: "week6/weeb/pixelUI/numbers",
 					position: new FlxPoint(-175, 5),
 					aa: false,
-					scale: daPixelZoom * 0.8
+					scale: 6 * 0.8
 				}, 
 				{
 					path: "week6/weeb/pixelUI/comboBreak-pixel",
 					position: new FlxPoint(0, -50),
 					aa: false,
-					scale: daPixelZoom * 0.7
+					scale: 6 * 0.7
 				});
 				NoteSplash.splashPath = "week6/weeb/pixelUI/noteSplashes-pixel";
 
@@ -583,12 +570,6 @@ class PlayState extends MusicBeatState
 		if(Config.comboType < 2){
 			add(comboUI);
 		}
-
-		dialogueBox = new DialogueBox(false, dialogue);
-		// dialogueBox.x += 70;
-		// dialogueBox.y = FlxG.height * 0.5;
-		dialogueBox.scrollFactor.set();
-		dialogueBox.finishThing = startCountdown;
 
 		Conductor.songPosition = -5000;
 
@@ -691,7 +672,6 @@ class PlayState extends MusicBeatState
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
-		dialogueBox.cameras = [camHUD];
 		ccText.cameras = [camHUD];
 
 		healthBar.visible = false;
@@ -767,97 +747,9 @@ class PlayState extends MusicBeatState
 	}
 
 	function updateAccuracy(){
-
 		var total:Float = (songStats.sickCount) + (songStats.goodCount) + (songStats.badCount) + (songStats.shitCount) + (songStats.missCount);
 		songStats.accuracy = total == 0 ? 0 : (((songStats.sickCount + songStats.goodCount) / total) * 100);
 		songStats.accuracy = Utils.clamp(songStats.accuracy, 0, 100);
-
-	}
-
-	public function schoolIntro(?dialogueBox:DialogueBox):Void
-	{
-		var black:FlxSprite = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
-		black.scrollFactor.set();
-		add(black);
-
-		var red:FlxSprite = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFFff1b31);
-		red.scrollFactor.set();
-
-		var senpaiEvil:FlxSprite = new FlxSprite();
-		senpaiEvil.frames = Paths.getSparrowAtlas('week6/weeb/senpaiCrazy');
-		senpaiEvil.animation.addByPrefix('idle', 'Senpai Pre Explosion', 24, false);
-		senpaiEvil.setGraphicSize(Std.int(senpaiEvil.width * 5.5));
-		senpaiEvil.updateHitbox();
-		senpaiEvil.screenCenter();
-		senpaiEvil.scrollFactor.set();
-		senpaiEvil.x += 275;
-		//senpaiEvil.y -= 105;
-
-		if (SONG.song.toLowerCase() == 'roses' || SONG.song.toLowerCase() == 'thorns')
-		{
-			remove(black);
-
-			if (SONG.song.toLowerCase() == 'thorns')
-			{
-				add(red);
-			}
-		}
-
-		new FlxTimer().start(0.3, function(tmr:FlxTimer)
-		{
-			black.alpha -= 0.15;
-
-			if (black.alpha > 0)
-			{
-				tmr.reset(0.3);
-			}
-			else
-			{
-				if (dialogueBox != null)
-				{
-					inCutscene = true;
-
-					if (SONG.song.toLowerCase() == 'thorns')
-					{
-						add(senpaiEvil);
-						senpaiEvil.alpha = 0;
-						new FlxTimer().start(0.3, function(swagTimer:FlxTimer)
-						{
-							senpaiEvil.alpha += 0.15;
-							if (senpaiEvil.alpha < 1)
-							{
-								swagTimer.reset();
-							}
-							else
-							{
-								senpaiEvil.animation.play('idle');
-								FlxG.sound.play(Paths.sound('week6/Senpai_Dies'), 1, false, null, true, function()
-								{
-									remove(senpaiEvil);
-									remove(red);
-									FlxG.camera.fade(FlxColor.WHITE, 0.01, true, function()
-									{
-										add(dialogueBox);
-									}, true);
-								});
-								new FlxTimer().start(3.2, function(deadTime:FlxTimer)
-								{
-									FlxG.camera.fade(FlxColor.WHITE, 1.6, false);
-								});
-							}
-						});
-					}
-					else
-					{
-						add(dialogueBox);
-					}
-				}
-				else
-					startCountdown();
-
-				remove(black);
-			}
-		});
 	}
 
 	public function videoCutscene(path:String, ?endFunc:Void->Void, ?startFunc:Void->Void){
@@ -1012,7 +904,7 @@ class PlayState extends MusicBeatState
 					ready.antialiasing = !(curUiType == "pixel");
 
 					if (curUiType == "pixel")
-						ready.setGraphicSize(Std.int(ready.width * daPixelZoom * 0.8));
+						ready.setGraphicSize(Std.int(ready.width * 6 * 0.8));
 					else
 						ready.setGraphicSize(Std.int(ready.width * 0.5));
 
@@ -1036,7 +928,7 @@ class PlayState extends MusicBeatState
 					set.antialiasing = !(curUiType == "pixel");
 
 					if (curUiType == "pixel")
-						set.setGraphicSize(Std.int(set.width * daPixelZoom * 0.8));
+						set.setGraphicSize(Std.int(set.width * 6 * 0.8));
 					else
 						set.setGraphicSize(Std.int(set.width * 0.5));
 
@@ -1060,7 +952,7 @@ class PlayState extends MusicBeatState
 					go.antialiasing = !(curUiType == "pixel");
 
 					if (curUiType == "pixel")
-						go.setGraphicSize(Std.int(go.width * daPixelZoom * 0.8));
+						go.setGraphicSize(Std.int(go.width * 6 * 0.8));
 					else
 						go.setGraphicSize(Std.int(go.width * 0.8));
 
@@ -1256,7 +1148,7 @@ class PlayState extends MusicBeatState
 					babyArrow.animation.add('blue', [5]);
 					babyArrow.animation.add('purplel', [4]);
 
-					babyArrow.setGraphicSize(Std.int(babyArrow.width * daPixelZoom));
+					babyArrow.setGraphicSize(Std.int(babyArrow.width * 6));
 					babyArrow.updateHitbox();
 					babyArrow.antialiasing = false;
 

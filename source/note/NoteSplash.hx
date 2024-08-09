@@ -48,7 +48,7 @@ class NoteSplash extends FlxSprite{
             case "week6/weeb/pixelUI/noteSplashes-pixel":
                 alpha = 0.7;
 
-                setGraphicSize(Std.int(width * PlayState.daPixelZoom));
+                setGraphicSize(Std.int(width * 6));
                 antialiasing = false;
                 updateHitbox();
 
