@@ -165,8 +165,8 @@ class PlayState extends MusicBeatState
 
 	private static var prevCamFollow:FlxObject;
 
-	private var playerStrums:FlxTypedGroup<FlxSprite>;
-	private var enemyStrums:FlxTypedGroup<FlxSprite>;
+	public var playerStrums:FlxTypedGroup<FlxSprite>;
+	public var enemyStrums:FlxTypedGroup<FlxSprite>;
 
 	private var playerCovers:FlxTypedGroup<NoteHoldCover>;
 	private var enemyCovers:FlxTypedGroup<NoteHoldCover>;
@@ -174,19 +174,19 @@ class PlayState extends MusicBeatState
 	private var curSong:String = "";
 
 	public var health:Float = 1;
-	private var healthLerp:Float = 1;
+	public var healthLerp:Float = 1;
 
 	public var combo:Int = 0;
 	public var totalPlayed:Int = 0;
 
-	private var healthBarBG:FlxSprite;
-	private var healthBar:FlxBar;
+	public var healthBarBG:FlxSprite;
+	public var healthBar:FlxBar;
 
-	private var generatedMusic:Bool = false;
-	private var startingSong:Bool = false;
+	public var generatedMusic:Bool = false;
+	public var startingSong:Bool = false;
 
-	private var iconP1:HealthIcon;
-	private var iconP2:HealthIcon;
+	public var iconP1:HealthIcon;
+	public var iconP2:HealthIcon;
 	public var camHUD:FlxCamera;
 	public var camGame:FlxCamera;
 	public var camOverlay:FlxCamera;
@@ -199,8 +199,7 @@ class PlayState extends MusicBeatState
 
 	public var stage:BaseStage;
 
-	var talking:Bool = true;
-	var scoreTxt:FlxTextExt;
+	public var scoreTxt:FlxTextExt;
 
 	public var ccText:SongCaptions;
 
@@ -752,98 +751,6 @@ class PlayState extends MusicBeatState
 		songStats.accuracy = Utils.clamp(songStats.accuracy, 0, 100);
 	}
 
-	public function videoCutscene(path:String, ?endFunc:Void->Void, ?startFunc:Void->Void){
-		
-		inCutscene = true;
-		inVideoCutscene = true;
-	
-		var blackShit:FlxSprite = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
-		blackShit.screenCenter(XY);
-		blackShit.scrollFactor.set();
-		add(blackShit);
-
-		video = new VideoHandler();
-		video.scrollFactor.set();
-		video.antialiasing = true;
-
-		camGame.zoom = 1;
-
-		video.playMP4(path, function(){
-			
-			tweenManager.tween(blackShit, {alpha: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
-				remove(blackShit);
-			}});
-
-			inVideoCutscene = false;
-
-			remove(video);
-
-			if(endFunc != null){ endFunc(); }
-
-			startCountdown();
-
-		}, false);
-
-		add(video);
-		
-		if(startFunc != null){ startFunc(); }
-	}
-
-	public function lilBuddiesStart():Void
-	{
-		inCutscene = false;
-
-		healthBar.visible = true;
-		healthBarBG.visible = true;
-		iconP1.visible = true;
-		iconP2.visible = true;
-		scoreTxt.visible = true;
-
-		healthBar.alpha = 0;
-		healthBarBG.alpha = 0;
-		iconP1.alpha = 0;
-		iconP2.alpha = 0;
-		scoreTxt.alpha = 0;
-
-		generateStaticArrows(0, true);
-		generateStaticArrows(1, true);
-
-		for(x in playerStrums.members){
-			x.alpha = 0;
-		}
-		for(x in enemyStrums.members){
-			x.alpha = 0;
-		}
-
-		talking = false;
-		startedCountdown = true;
-		Conductor.songPosition = 0;
-		//Conductor.songPosition -= Conductor.crochet * 5;
-
-		customTransIn = new InstantTransition();
-
-		autoZoom = false;
-		var hudElementsFadeInTime = 0.2;
-		
-		camChangeZoom(2.8, Conductor.crochet / 1000 * 16, FlxEase.quadInOut, function(t){
-			autoZoom = true;
-			tweenManager.tween(healthBar, {alpha: 1}, hudElementsFadeInTime);
-			tweenManager.tween(healthBarBG, {alpha: 1}, hudElementsFadeInTime);
-			tweenManager.tween(iconP1, {alpha: 1}, hudElementsFadeInTime);
-			tweenManager.tween(iconP2, {alpha: 1}, hudElementsFadeInTime);
-			tweenManager.tween(scoreTxt, {alpha: 1}, hudElementsFadeInTime);
-			for(x in playerStrums.members){
-				tweenManager.tween(x, {alpha: 1}, hudElementsFadeInTime);
-			}
-			for(x in enemyStrums.members){
-				tweenManager.tween(x, {alpha: 1}, hudElementsFadeInTime);
-			}
-		});
-		camMove(155, 600, Conductor.crochet / 1000 * 16, FlxEase.quadOut, "center");
-
-		beatHit();
-	}
-
 	var startTimer:FlxTimer;
 
 	public function startCountdown():Void {
@@ -858,7 +765,6 @@ class PlayState extends MusicBeatState
 		generateStaticArrows(0);
 		generateStaticArrows(1);
 
-		talking = false;
 		startedCountdown = true;
 		Conductor.songPosition = 0;
 		Conductor.songPosition -= Conductor.crochet * 5;
@@ -991,9 +897,10 @@ class PlayState extends MusicBeatState
 		generateStaticArrows(0, true);
 		generateStaticArrows(1, true);
 
-		talking = false;
 		startedCountdown = true;
 		Conductor.songPosition = 0;
+
+		beatHit();
 	}
 
 	function startSong():Void{
