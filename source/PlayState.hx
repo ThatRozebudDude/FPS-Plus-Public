@@ -1402,10 +1402,8 @@ class PlayState extends MusicBeatState
 
 		if (health <= 0){ openGameOver(); }
 
-		if (unspawnNotes[0] != null)
-		{
-			if (unspawnNotes[0].strumTime - Conductor.songPosition < 3000)
-			{
+		if (unspawnNotes[0] != null){
+			if (unspawnNotes[0].strumTime - Conductor.songPosition < 3000){
 				var dunceNote:Note = unspawnNotes[0];
 				notes.add(dunceNote);
 
@@ -1491,8 +1489,7 @@ class PlayState extends MusicBeatState
 					daNote.y += 125;
 
 					if ((!daNote.mustPress || daNote.wasGoodHit || daNote.prevNote.wasGoodHit && !daNote.canBeHit)
-						&& daNote.y - daNote.offset.y * daNote.scale.y + daNote.height >= (strumLine.y + Note.swagWidth / 2))
-					{
+						&& daNote.y - daNote.offset.y * daNote.scale.y + daNote.height >= (strumLine.y + Note.swagWidth / 2)){
 						// Clip to strumline
 						var swagRect = new FlxRect(0, 0, daNote.frameWidth * 2, daNote.frameHeight * 2);
 						swagRect.height = (targetY + Note.swagWidth / 2 - daNote.y) / daNote.scale.y;
@@ -1506,8 +1503,7 @@ class PlayState extends MusicBeatState
 				daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * scrollSpeed)) + daNote.yOffset;
 				if(daNote.isSustainNote){
 					if ((!daNote.mustPress || daNote.wasGoodHit || daNote.prevNote.wasGoodHit && !daNote.canBeHit)
-						&& daNote.y + daNote.offset.y * daNote.scale.y <= (strumLine.y + Note.swagWidth / 2))
-					{
+						&& daNote.y + daNote.offset.y * daNote.scale.y <= (strumLine.y + Note.swagWidth / 2)){
 						// Clip to strumline
 						var swagRect = new FlxRect(0, 0, daNote.width / daNote.scale.x, daNote.height / daNote.scale.y);
 						swagRect.y = (targetY + Note.swagWidth / 2 - daNote.y) / daNote.scale.y;
@@ -1528,8 +1524,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-			if (Config.downscroll ? (daNote.y > strumLine.y + daNote.height + 50) : (daNote.y < strumLine.y - daNote.height - 50))
-			{
+			if (Config.downscroll ? (daNote.y > strumLine.y + daNote.height + 50) : (daNote.y < strumLine.y - daNote.height - 50)){
 				if (daNote.tooLate || daNote.wasGoodHit){
 								
 					daNote.active = false;

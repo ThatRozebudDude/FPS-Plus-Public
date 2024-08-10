@@ -65,6 +65,16 @@ class Utils
 		return point.set(sprite.x + sprite.frameWidth * 0.5, sprite.y + sprite.frameHeight * 0.5);
 	}
 
+	//Actually center offsets.
+	public static inline function centerOffsets(sprite:FlxSprite, AdjustPosition:Bool = false):Void{
+		sprite.offset.x = ((sprite.frameWidth * sprite.scale.x) - sprite.width) * 0.5;
+		sprite.offset.y = ((sprite.frameHeight * sprite.scale.y) - sprite.height) * 0.5;
+		if (AdjustPosition){
+			sprite.x += sprite.offset.x;
+			sprite.y += sprite.offset.y;
+		}
+	}
+
 	/*
 	*	Adjusts the value based on the reference FPS.
 	*/

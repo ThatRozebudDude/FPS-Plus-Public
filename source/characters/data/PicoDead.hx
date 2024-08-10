@@ -24,7 +24,7 @@ class PicoDead extends CharacterInfoBase
 		addByIndices('deathConfirm', offset(225, 125), "Pico Death Stab", [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63], "", 24, loop(true));
 
         info.functions.create = deathCreate;
-        info.functions.add = deathAdd;
+        info.functions.deathAdd = deathAdd;
         info.functions.frame = frame;
         info.functions.playAnim = playAnim;
 

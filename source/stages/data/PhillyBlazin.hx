@@ -173,11 +173,11 @@ class PhillyBlazin extends BaseStage
 
 		streetBlurMultiply.visible = true;
 		streetBlurMultiply.alpha = 0.8;
-		FlxTween.tween(streetBlurMultiply, {alpha: 0.0}, LIGHTNING_FULL_DURATION, {startDelay: LIGHTNING_HOLD_DURATION});
+		tween.tween(streetBlurMultiply, {alpha: 0.0}, LIGHTNING_FULL_DURATION, {startDelay: LIGHTNING_HOLD_DURATION});
 
 		additionalLighten.visible = true;
 		additionalLighten.alpha = 0.5;
-		FlxTween.tween(additionalLighten, {alpha: 0.0}, LIGHTNING_FADE_DURATION, {startDelay: LIGHTNING_HOLD_DURATION});
+		tween.tween(additionalLighten, {alpha: 0.0}, LIGHTNING_FADE_DURATION, {startDelay: LIGHTNING_HOLD_DURATION});
 
 		lightning.visible = true;
 		lightning.animation.play('strike');
