@@ -89,7 +89,7 @@ class PlayState extends MusicBeatState
 	private var camZoomAdjustTween:FlxTween;
 	private var uiZoomTween:FlxTween;
 
-	public var camFollow:FlxObject;
+	public var camFollow:FlxPoint;
 	public var camFollowFinal:FlxObject;
 
 	public var camFollowOffset:FlxPoint;
@@ -592,21 +592,14 @@ class PlayState extends MusicBeatState
 		add(playerCovers);
 		add(enemyCovers);
 
-		camFollow = new FlxObject(0, 0, 1, 1);
+		camFollow = new FlxPoint();
 		camFollowOffset = new FlxPoint();
 		camFollowShake = new FlxPoint();
 		camFollowFinal = new FlxObject(0, 0, 1, 1);
 
-		camFollow.setPosition(camPos.x, camPos.y);
+		camFollow.set(camPos.x, camPos.y);
 		camFollowFinal.setPosition(camPos.x, camPos.y);
 
-		if (prevCamFollow != null)
-		{
-			camFollow = prevCamFollow;
-			prevCamFollow = null;
-		}
-
-		add(camFollow);
 		add(camFollowFinal);
 
 		FlxG.camera.follow(camFollowFinal, LOCKON);
@@ -2052,19 +2045,17 @@ class PlayState extends MusicBeatState
 
 			goodNoteHit(x);
 			
-			playerStrums.forEach(function(spr:FlxSprite)
-			{
-				if (Math.abs(x.noteData) == spr.ID)
-				{
+			playerStrums.forEach(function(spr:FlxSprite){
+				if (Math.abs(x.noteData) == spr.ID){
 					spr.animation.play('confirm', true);
-					if (spr.animation.curAnim.name == 'confirm' && !(curUiType == "pixel"))
-					{
+					if (spr.animation.curAnim.name == 'confirm' && !(curUiType == "pixel")){
 						spr.centerOffsets();
 						spr.offset.x -= 14;
 						spr.offset.y -= 14;
 					}
-					else
+					else{
 						spr.centerOffsets();
+					}
 				}
 			});
 
@@ -2459,7 +2450,7 @@ class PlayState extends MusicBeatState
 			camTween = tweenManager.tween(camFollow, {x: _x, y: _y}, _time, {ease: _ease, onComplete: _onComplete});
 		}
 		else{
-			camFollow.setPosition(_x, _y);
+			camFollow.set(_x, _y);
 		}
 		
 		camFocus = _focus;
