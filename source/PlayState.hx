@@ -231,7 +231,6 @@ class PlayState extends MusicBeatState
 
 	public var defaultCamZoom:Float = 1.05;
 
-	var video:VideoHandler;
 	public var inCutscene:Bool = false;
 	public var inVideoCutscene:Bool = false;
 	public var inEndingCutscene:Bool = false;
@@ -1249,15 +1248,6 @@ class PlayState extends MusicBeatState
 
 
 	override public function update(elapsed:Float) {
-
-		if(inCutscene && inVideoCutscene && video != null){
-			if(Binds.justPressed("menuAccept")){
-				tweenManager.tween(video, {alpha: 0, volume: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
-					video.skip();
-				}});
-			}
-		}
-		
 		if(invulnTime > 0){
 			invulnTime -= elapsed;
 			//trace(invulnTime);
@@ -1924,7 +1914,7 @@ class PlayState extends MusicBeatState
 				if(daNote.prevNote.tooLate && !daNote.prevNote.wasGoodHit){
 					daNote.tooLate = true;
 					daNote.destroy();
-					noteMiss(daNote.noteData, daNote.missCallback, Scoring.HOLD_DROP_DMAMGE_PER_NOTE * (daNote.isFake ? 0 : 1), false, true, false, false, 5, Scoring.HOLD_DROP_PENALTY);
+					noteMiss(daNote.noteData, daNote.missCallback, Scoring.HOLD_DROP_DMAMGE_PER_NOTE * (daNote.isFake ? 0 : 1), false, true, false, Scoring.HOLD_DROP_PENALTY);
 					//updateAccuracyOld();
 				}
 
@@ -1932,7 +1922,7 @@ class PlayState extends MusicBeatState
 				if(daNote.prevNote.wasGoodHit && !daNote.wasGoodHit){
 
 					if(releaseTimes[daNote.noteData] >= releaseBufferTime){
-						noteMiss(daNote.noteData, daNote.missCallback, Scoring.HOLD_DROP_INITAL_DAMAGE, true, true, false, true, Scoring.HOLD_DROP_INITIAL_PENALTY);
+						noteMiss(daNote.noteData, daNote.missCallback, Scoring.HOLD_DROP_INITAL_DAMAGE, true, true, false, Scoring.HOLD_DROP_INITIAL_PENALTY);
 						vocals.volume = 0;
 						daNote.tooLate = true;
 						daNote.destroy();
@@ -1969,30 +1959,36 @@ class PlayState extends MusicBeatState
 			}	
 		}
 
-		playerStrums.forEach(function(spr:FlxSprite)
-		{
-			switch (spr.ID)
-			{
+		playerStrums.forEach(function(spr:FlxSprite){
+			switch (spr.ID){
 				case 2:
-					if (upPress && spr.animation.curAnim.name != 'confirm')
+					if (upPress && spr.animation.curAnim.name != 'confirm'){
 						spr.animation.play('pressed');
-					if (!upHold)
+					}
+					if (!upHold){
 						spr.animation.play('static');
+					}
 				case 3:
-					if (rightPress && spr.animation.curAnim.name != 'confirm')
+					if (rightPress && spr.animation.curAnim.name != 'confirm'){
 						spr.animation.play('pressed');
-					if (!rightHold)
+					}
+					if (!rightHold){
 						spr.animation.play('static');
+					}
 				case 1:
-					if (downPress && spr.animation.curAnim.name != 'confirm')
+					if (downPress && spr.animation.curAnim.name != 'confirm'){
 						spr.animation.play('pressed');
-					if (!downHold)
+					}
+					if (!downHold){
 						spr.animation.play('static');
+					}
 				case 0:
-					if (leftPress && spr.animation.curAnim.name != 'confirm')
+					if (leftPress && spr.animation.curAnim.name != 'confirm'){
 						spr.animation.play('pressed');
-					if (!leftHold)
+					}
+					if (!leftHold){
 						spr.animation.play('static');
+					}
 			}
 
 			switch(spr.animation.curAnim.name){
@@ -2007,6 +2003,14 @@ class PlayState extends MusicBeatState
 						spr.offset.y -= 14;
 					}
 
+					//i'm bored lol
+					/*if(spr.animation.curAnim.curFrame == 0){
+						tweenManager.cancelTweensOf(spr.scale);
+						spr.centerOrigin();
+						spr.scale.set(1.4, 1.4);
+						tweenManager.tween(spr.scale, {x: 0.7, y: 0.7}, 1, {ease: FlxEase.elasticOut});
+					}*/
+
 				/*case "static":
 					spr.alpha = 0.5; //Might mess around with strum transparency in the future or something.
 					spr.centerOffsets();*/
@@ -2020,21 +2024,17 @@ class PlayState extends MusicBeatState
 		});
 	}
 
-	private function keyShitAuto():Void
-	{
+	private function keyShitAuto():Void{
 
 		var hitNotes:Array<Note> = [];
 
-		notes.forEachAlive(function(daNote:Note)
-		{
-			if (!forceMissNextNote && !daNote.wasGoodHit && daNote.mustPress && daNote.strumTime < Conductor.songPosition + Conductor.safeZoneOffset * (!daNote.isSustainNote ? 0.125 : (daNote.prevNote.wasGoodHit ? 1 : 0)))
-			{
+		notes.forEachAlive(function(daNote:Note){
+			if (!forceMissNextNote && !daNote.wasGoodHit && daNote.mustPress && daNote.strumTime < Conductor.songPosition + Conductor.safeZoneOffset * (!daNote.isSustainNote ? 0.125 : (daNote.prevNote.wasGoodHit ? 1 : 0))){
 				hitNotes.push(daNote);
 			}
 		});
 
-		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim)
-		{
+		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim){
 			if (boyfriend.curAnim.startsWith('sing')){
 				if(Character.USE_IDLE_END){ 
 					boyfriend.idleEnd(); 
@@ -2070,16 +2070,15 @@ class PlayState extends MusicBeatState
 
 		}
 
-		
 	}
 
-	function noteMiss(direction:Int = 1, callback:(Int, Character)->Void, ?healthLoss:Float, ?playAudio:Bool = true, ?skipInvCheck:Bool = false, ?countMiss:Bool = true, ?dropCombo:Bool = true, ?invulnTime:Int = 5, ?scoreAdjust:Null<Int>):Void{
+	function noteMiss(direction:Int = 1, callback:(Int, Character)->Void, ?healthLoss:Float, ?playAudio:Bool = true, ?countMiss:Bool = true, ?dropCombo:Bool = true, ?scoreAdjust:Null<Int>):Void{
 
 		if(scoreAdjust == null){
 			scoreAdjust = Scoring.MISS_PENALTY;
 		}
 
-		if (!startingSong && (!invuln || skipInvCheck) ){
+		if (!startingSong){
 
 			health -= healthLoss * Config.healthDrainMultiplier;
 
@@ -2089,7 +2088,6 @@ class PlayState extends MusicBeatState
 
 			if(countMiss){
 				songStats.missCount++;
-				//updateAccuracyOld();
 			}
 
 			songStats.score -= scoreAdjust;
@@ -2097,8 +2095,6 @@ class PlayState extends MusicBeatState
 			if(playAudio){
 				FlxG.sound.play(Paths.sound('missnote' + FlxG.random.int(1, 3)), 0.2);
 			}
-
-			setBoyfriendInvuln(invulnTime / 60);
 
 			forceMissNextNote = false;
 
@@ -2112,33 +2108,32 @@ class PlayState extends MusicBeatState
 
 	inline function noteMissWrongPress(direction:Int = 1):Void{
 		var forceMissNextNoteState = forceMissNextNote;
-		noteMiss(direction, defaultNoteMiss, Scoring.WRONG_TAP_DAMAGE_AMMOUNT, true, false, false, false, 4, Scoring.WRONG_PRESS_PENALTY);
+		noteMiss(direction, defaultNoteMiss, Scoring.WRONG_TAP_DAMAGE_AMMOUNT, true, false, false, Scoring.WRONG_PRESS_PENALTY);
+		setBoyfriendInvuln(4/60);
 		forceMissNextNote = forceMissNextNoteState;
 	}
 
-	function badNoteCheck(direction:Int = -1)
-	{
-		if(Config.ghostTapType > 0 && !canHit){}
-		else{
+	function badNoteCheck(direction:Int = -1){
+		if((Config.ghostTapType == 0 || canHit) && !invuln){
 			if (leftPress && (direction == -1 || direction == 0))
 				noteMissWrongPress(0);
-			if (upPress && (direction == -1 || direction == 2))
+			else if (upPress && (direction == -1 || direction == 2))
 				noteMissWrongPress(2);
-			if (rightPress && (direction == -1 || direction == 3))
+			else if (rightPress && (direction == -1 || direction == 3))
 				noteMissWrongPress(3);
-			if (downPress && (direction == -1 || direction == 1))
+			else if (downPress && (direction == -1 || direction == 1))
 				noteMissWrongPress(1);
 		}
 	}
 
-	function setBoyfriendInvuln(time:Float = 5 / 60){
+	function setBoyfriendInvuln(time:Float = 5/60){
 		if(time > invulnTime){
 			invulnTime = time;
 			invuln = true;
 		}
 	}
 
-	function setCanMiss(time:Float = 10 / 60){
+	function setCanMiss(time:Float = 10/60){
 		if(time > missTime){
 			missTime = time;
 			canHit = true;
@@ -2186,7 +2181,6 @@ class PlayState extends MusicBeatState
 			vocals.volume = 1;
 
 			if(!note.isSustainNote){
-				setBoyfriendInvuln(2.5 / 60);
 				note.destroy();
 			}
 			else{
