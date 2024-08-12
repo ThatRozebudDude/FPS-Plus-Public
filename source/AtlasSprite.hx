@@ -25,7 +25,8 @@ class AtlasSprite extends FlxAnimate
     private var baseWidth:Float = 0;
     private var baseHeight:Float = 0;
 
-    var animToLoop:String;
+    var loopTimer:Float = -1;
+    var loopTime:Float = -1;
 
     public function new(?_x:Float, ?_y:Float, _path:String) {
         super(_x, _y, _path);
@@ -149,7 +150,8 @@ class AtlasSprite extends FlxAnimate
 
         curAnim = name;
         finishedAnim = false;
-        animToLoop = null;
+        loopTimer = -1;
+        loopTime = -1;
 
         if(frameOffset >= animInfoMap.get(name).length){
             frameOffset = animInfoMap.get(name).length - 1;
@@ -165,23 +167,14 @@ class AtlasSprite extends FlxAnimate
         if(frameCallback != null){ frameCallback(curAnim, frame - animInfo.startFrame, frame); }
 
         if(frame >= (animInfo.startFrame + animInfo.length) - 1){
+            anim.pause();
+            finishedAnim = true;
+            if(animationEndCallback != null){ animationEndCallback(curAnim); }
 
             if(animInfo.looped){
-                anim.pause();
-                animToLoop = curAnim;
-                finishedAnim = true;
-                new FlxTimer().start(1/(animInfo.framerate), function(t){
-                    if(animToLoop != null && animToLoop == curAnim){
-                        playAnim(curAnim, true, false, animInfo.loopFrame);
-                    }
-                });
+                loopTimer = 0;
+                loopTime = 1/(animInfo.framerate);
             }
-            else{
-                anim.pause();
-                finishedAnim = true;
-            }
-
-            if(animationEndCallback != null){ animationEndCallback(curAnim); }
         }
 	}
 
@@ -202,6 +195,13 @@ class AtlasSprite extends FlxAnimate
 
         if(flipY){ offset.y = -height; }
         else { offset.y = 0; }
+
+        if(loopTimer >= 0){
+            loopTimer += elapsed;
+            if(loopTimer >= loopTime){
+                playAnim(curAnim, true, false, animInfoMap.get(curAnim).loopFrame);
+            }
+        }
 
         super.update(elapsed);
     }
