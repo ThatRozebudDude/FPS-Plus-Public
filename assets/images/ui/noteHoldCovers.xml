@@ -16,7 +16,7 @@
   <SubTexture name="holdCoverStartBlue0001" x="1012" y="96" width="93" height="93" frameX="-111" frameY="-107" frameWidth="300" frameHeight="400" />
   <SubTexture name="holdCoverBlue0001" x="1006" y="243" width="108" height="139" rotated="true" frameX="-93" frameY="-94" frameWidth="300" frameHeight="400" />
   <SubTexture name="holdCoverBlue0002" x="1012" y="0" width="120" height="96" frameX="-100" frameY="-104" frameWidth="300" frameHeight="400" />
-  <SubTexture name="holdCoverBlue0003" x="2111" y="96" width="93" height="80" frameX="-115" frameY="-107" frameWidth="300" frameHeight="400" />
+  <SubTexture name="holdCoverBlue0003" x="1105" y="96" width="93" height="80" frameX="-115" frameY="-107" frameWidth="300" frameHeight="400" />
   <SubTexture name="holdCoverBlue0004" x="745" y="423" width="36" height="78" rotated="true" frameX="-122" frameY="-133" frameWidth="300" frameHeight="400" />
   <SubTexture name="holdCoverEndBlue0001" x="745" y="423" width="36" height="78" rotated="true" frameX="-122" frameY="-133" frameWidth="300" frameHeight="400" />
   <SubTexture name="holdCoverEndBlue0002" x="599" y="423" width="146" height="168" rotated="true" frameX="-72" frameY="-59" frameWidth="300" frameHeight="400" />
@@ -42,7 +42,7 @@
   <SubTexture name="holdCoverStartRed0001" x="1012" y="687" width="93" height="93" frameX="-111" frameY="-107" frameWidth="300" frameHeight="400" />
   <SubTexture name="holdCoverRed0001" x="1006" y="834" width="108" height="139" rotated="true" frameX="-93" frameY="-94" frameWidth="300" frameHeight="400" />
   <SubTexture name="holdCoverRed0002" x="1012" y="591" width="120" height="96" frameX="-100" frameY="-104" frameWidth="300" frameHeight="400" />
-  <SubTexture name="holdCoverRed0003" x="2111" y="687" width="93" height="80" frameX="-115" frameY="-107" frameWidth="300" frameHeight="400" />
+  <SubTexture name="holdCoverRed0003" x="1105" y="687" width="93" height="80" frameX="-115" frameY="-107" frameWidth="300" frameHeight="400" />
   <SubTexture name="holdCoverRed0004" x="745" y="1022" width="36" height="78" rotated="true" frameX="-122" frameY="-133" frameWidth="300" frameHeight="400" />
   <SubTexture name="holdCoverEndRed0001" x="745" y="1022" width="36" height="78" rotated="true" frameX="-122" frameY="-133" frameWidth="300" frameHeight="400" />
   <SubTexture name="holdCoverEndRed0002" x="599" y="1022" width="146" height="168" rotated="true" frameX="-72" frameY="-59" frameWidth="300" frameHeight="400" />
