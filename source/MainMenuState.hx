@@ -44,7 +44,7 @@ class MainMenuState extends MusicBeatState
 	public static final lerpSpeed:Float = 0.01;
 	final warningDelay:Float = 10;
 
-	public static final version:String = "v5.0.2";
+	public static final version:String = "v5.0.3 (Non-Release Build)";
 
 	override function create()
 	{

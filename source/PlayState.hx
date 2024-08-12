@@ -1,21 +1,5 @@
 package;
 
-import flixel.FlxBasic;
-import events.*;
-import note.*;
-import flixel.math.FlxAngle;
-import flixel.group.FlxGroup;
-import flixel.group.FlxSpriteGroup;
-import stages.data.PhillyStreets;
-import haxe.Json;
-import results.ResultsState;
-import freeplay.FreeplayState;
-import Highscore.SongStats;
-
-#if sys
-import sys.FileSystem;
-#end
-
 import config.*;
 import debug.*;
 import title.*;
@@ -24,7 +8,17 @@ import stages.*;
 import stages.elements.*;
 import cutscenes.*;
 import cutscenes.data.*;
+import events.*;
+import note.*;
 
+import flixel.FlxBasic;
+import flixel.math.FlxAngle;
+import flixel.group.FlxGroup;
+import flixel.group.FlxSpriteGroup;
+import haxe.Json;
+import results.ResultsState;
+import freeplay.FreeplayState;
+import Highscore.SongStats;
 import flixel.FlxState;
 import openfl.utils.Assets;
 import flixel.math.FlxRect;

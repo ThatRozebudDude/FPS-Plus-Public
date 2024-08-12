@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.FlxTimer;
 import flxanimate.FlxAnimate;
 
 typedef AtlasAnimInfo = {
@@ -24,7 +25,7 @@ class AtlasSprite extends FlxAnimate
     private var baseWidth:Float = 0;
     private var baseHeight:Float = 0;
 
-    var loopNextFrame:Bool = false;
+    var animToLoop:String;
 
     public function new(?_x:Float, ?_y:Float, _path:String) {
         super(_x, _y, _path);
@@ -148,7 +149,7 @@ class AtlasSprite extends FlxAnimate
 
         curAnim = name;
         finishedAnim = false;
-        loopNextFrame = false;
+        animToLoop = null;
 
         if(frameOffset >= animInfoMap.get(name).length){
             frameOffset = animInfoMap.get(name).length - 1;
@@ -159,19 +160,21 @@ class AtlasSprite extends FlxAnimate
     }
 
     function animCallback(name:String, frame:Int):Void{
-		var animInfo = animInfoMap.get(curAnim);
+		var animInfo:AtlasAnimInfo = animInfoMap.get(curAnim);
 
         if(frameCallback != null){ frameCallback(curAnim, frame - animInfo.startFrame, frame); }
-
-        if(loopNextFrame){
-            playAnim(curAnim, true, false, animInfo.loopFrame);
-        }
 
         if(frame >= (animInfo.startFrame + animInfo.length) - 1){
 
             if(animInfo.looped){
-                loopNextFrame = true;
+                anim.pause();
+                animToLoop = curAnim;
                 finishedAnim = true;
+                new FlxTimer().start(1/(animInfo.framerate), function(t){
+                    if(animToLoop != null && animToLoop == curAnim){
+                        playAnim(curAnim, true, false, animInfo.loopFrame);
+                    }
+                });
             }
             else{
                 anim.pause();
