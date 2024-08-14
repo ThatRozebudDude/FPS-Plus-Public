@@ -647,6 +647,15 @@ class Character extends FlxSpriteGroup
 		}
 	}
 
+	public function setCurAnimFrame(frameNumber:Int):Void{
+		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+			character.animation.curAnim.curFrame = frameNumber;
+		}
+		else{ //Code for atlas characters
+			atlasCharacter.anim.curFrame = atlasCharacter.animInfoMap.get(curAnim).startFrame + frameNumber;
+		}
+	}
+
 	public function curAnimFinished():Bool{
 		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
 			return character.animation.curAnim.finished;
