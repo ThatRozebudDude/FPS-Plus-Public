@@ -27,10 +27,13 @@ class BaseStage
     public var gfCameraOffset:FlxPoint = new FlxPoint();
     public var extraData:Map<String, Dynamic> = new Map<String, Dynamic>();
     public var events:Map<String, (String)->Void> = new Map<String, (String)->Void>();
+    public var instantStart:Bool = false;
 
     public var backgroundElements:Array<Dynamic> = [];
     public var middleElements:Array<Dynamic> = [];
     public var foregroundElements:Array<Dynamic> = [];
+    public var overlayElements:Array<Dynamic> = [];
+    public var hudElements:Array<Dynamic> = [];
 
     var updateGroup:FlxGroup = new FlxGroup();
 
@@ -79,6 +82,24 @@ class BaseStage
 	 */
     public function addToForeground(x:FlxBasic){
         foregroundElements.push(x);
+    }
+
+    /**
+	 * Adds an object to `overlayElements` to be added to PlayState.
+	 *
+	 * @param   x  The object to add. Should be any type that can be added to a state.
+	 */
+     public function addToOverlay(x:FlxBasic){
+        overlayElements.push(x);
+    }
+    
+    /**
+	 * Adds an object to `hudElements` to be added to PlayState.
+	 *
+	 * @param   x  The object to add. Should be any type that can be added to a state.
+	 */
+    public function addToHud(x:FlxBasic){
+        hudElements.push(x);
     }
 
     /**
@@ -139,6 +160,13 @@ class BaseStage
     public function beat(curBeat:Int){}
 
     /**
+	 * Called every beat during the countdown.
+     *
+     * @param   curBeat  The current song beat passed in by PlayState.
+	 */
+     public function countdownBeat(curBeat:Int){}
+
+    /**
 	 * Called every step hit in PlayState.
      *
      * @param   curStep  The current song step passed in by PlayState.
@@ -174,6 +202,11 @@ class BaseStage
 	 * Called when the game over retry is confirmed.
 	 */
     public function gameOverEnd(){}
+
+    /**
+	 * Called when the leaving PlayState.
+	 */
+    public function exit(){}
 
 
     var boyfriend(get, never):Character;

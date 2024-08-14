@@ -121,6 +121,8 @@ class PlayState extends MusicBeatState
 	public var middleLayer:FlxGroup = new FlxGroup();
 	public var characterLayer:FlxGroup = new FlxGroup();
 	public var foregroundLayer:FlxGroup = new FlxGroup();
+	public var hudLayer:FlxGroup = new FlxGroup();
+	public var overlayLayer:FlxGroup = new FlxGroup();
 
 	//Wacky input stuff=========================
 
@@ -188,7 +190,7 @@ class PlayState extends MusicBeatState
 
 	private var eventList:Array<Dynamic> = [];
 
-	private var comboUI:ComboPopup;
+	public var comboUI:ComboPopup;
 	public static final minCombo:Int = 10;
 
 	public var stage:BaseStage;
@@ -252,7 +254,7 @@ class PlayState extends MusicBeatState
 
 	var forceCenteredNotes:Bool = false;
 
-	private var meta:SongMetaTags;
+	public var meta:SongMetaTags;
 
 	public var metadata:Dynamic = null;
 
@@ -263,6 +265,8 @@ class PlayState extends MusicBeatState
 		instance = this;
 		FlxG.mouse.visible = false;
 		add(tweenManager);
+
+		FlxG.signals.preStateSwitch.addOnce(preStateChange);
 
 		customTransIn = new ScreenWipeIn(1.2);
 		customTransOut = new ScreenWipeOut(0.6);
@@ -436,12 +440,26 @@ class PlayState extends MusicBeatState
 		for(i in 0...stage.foregroundElements.length){
 			foregroundLayer.add(stage.foregroundElements[i]);
 		}
+		
+		for(i in 0...stage.hudElements.length){
+			hudLayer.add(stage.hudElements[i]);
+		}
+		
+		for(i in 0...stage.overlayElements.length){
+			overlayLayer.add(stage.overlayElements[i]);
+		}
 
 		add(backgroundLayer);
 		add(gfLayer);
 		add(middleLayer);
 		add(characterLayer);
 		add(foregroundLayer);
+
+		add(overlayLayer);
+		overlayLayer.cameras = [camOverlay];
+		
+		add(hudLayer);
+		hudLayer.cameras = [camHUD];
 
 		characterLayer.memberAdded.removeAll();
 		gfLayer.memberAdded.removeAll();
@@ -726,7 +744,12 @@ class PlayState extends MusicBeatState
 			startCutscene.start();
 		}
 		else{
-			startCountdown();
+			if(!stage.instantStart){
+				startCountdown();
+			}
+			else{
+				instantStart();
+			}
 		}
 		replayStartCutscene = true;
 	}
@@ -770,6 +793,8 @@ class PlayState extends MusicBeatState
 		var introAlts:Array<String> = introAssets.get(curUiType);
 		var altSuffix = introAlts[3];
 		var altPrefix = introAlts[4];
+
+		stage.countdownBeat(-1);
 
 		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 		{
@@ -866,7 +891,11 @@ class PlayState extends MusicBeatState
 					beatHit();
 			}
 
-			swagCounter += 1;
+			if(swagCounter < 4){
+				stage.countdownBeat(swagCounter);
+			}
+
+			swagCounter++;
 			// generateSong('fresh');
 		}, 5);
 	}
@@ -2633,7 +2662,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	override function switchState(_state:FlxState) {
+	override function switchState(_state:FlxState):Void{
 		if(Utils.exists(Paths.voices(SONG.song, "Player"))){
 			Assets.cache.removeSound(Paths.voices(SONG.song, "Player"));
 			Assets.cache.removeSound(Paths.voices(SONG.song, "Opponent"));
@@ -2647,6 +2676,10 @@ class PlayState extends MusicBeatState
 		}
 
 		super.switchState(_state);
+	}
+
+	function preStateChange():Void{
+		stage.exit();
 	}
 
 }
