@@ -10,7 +10,7 @@ class SchoolEvil extends BaseStage
 
     public override function init(){
         name = "schoolEvil";
-		uiType = "pixel";
+		uiType = "Pixel";
 
 		var posX = 400;
 		var posY = 200;

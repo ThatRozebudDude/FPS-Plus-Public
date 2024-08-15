@@ -171,6 +171,7 @@ class PlayState extends MusicBeatState
 
 	public var health:Float = 1;
 	public var healthLerp:Float = 1;
+	public var healthAdjustOverride:Null<Float> = null;
 
 	public var combo:Int = 0;
 	public var totalPlayed:Int = 0;
@@ -494,7 +495,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		switch(curUiType){
+		switch(curUiType.toLowerCase()){
 
 			default:
 				comboUI = new ComboPopup(boyfriend.x + boyfriend.worldPopupOffset.x, boyfriend.y + boyfriend.worldPopupOffset.y,
@@ -565,7 +566,7 @@ class PlayState extends MusicBeatState
 				comboUI.comboBreakInfo.position.set(844, 150);
 			}
 
-			switch(curUiType){
+			switch(curUiType.toLowerCase()){
 				case "pixel":
 					comboUI.ratingInfo.scale *= 0.9;
 					comboUI.comboBreakInfo.scale *= 0.9;
@@ -790,7 +791,7 @@ class PlayState extends MusicBeatState
 				"week6/"
 			]);
 
-		var introAlts:Array<String> = introAssets.get(curUiType);
+		var introAlts:Array<String> = introAssets.get(curUiType.toLowerCase());
 		var altSuffix = introAlts[3];
 		var altPrefix = introAlts[4];
 
@@ -818,9 +819,9 @@ class PlayState extends MusicBeatState
 				case 1:
 					var ready:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[0]));
 					ready.scrollFactor.set();
-					ready.antialiasing = !(curUiType == "pixel");
+					ready.antialiasing = !(curUiType.toLowerCase() == "pixel");
 
-					if (curUiType == "pixel")
+					if (curUiType.toLowerCase() == "pixel")
 						ready.setGraphicSize(Std.int(ready.width * 6 * 0.8));
 					else
 						ready.setGraphicSize(Std.int(ready.width * 0.5));
@@ -842,9 +843,9 @@ class PlayState extends MusicBeatState
 				case 2:
 					var set:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[1]));
 					set.scrollFactor.set();
-					set.antialiasing = !(curUiType == "pixel");
+					set.antialiasing = !(curUiType.toLowerCase() == "pixel");
 
-					if (curUiType == "pixel")
+					if (curUiType.toLowerCase() == "pixel")
 						set.setGraphicSize(Std.int(set.width * 6 * 0.8));
 					else
 						set.setGraphicSize(Std.int(set.width * 0.5));
@@ -866,9 +867,9 @@ class PlayState extends MusicBeatState
 				case 3:
 					var go:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[2]));
 					go.scrollFactor.set();
-					go.antialiasing = !(curUiType == "pixel");
+					go.antialiasing = !(curUiType.toLowerCase() == "pixel");
 
-					if (curUiType == "pixel")
+					if (curUiType.toLowerCase() == "pixel")
 						go.setGraphicSize(Std.int(go.width * 6 * 0.8));
 					else
 						go.setGraphicSize(Std.int(go.width * 0.8));
@@ -1060,7 +1061,7 @@ class PlayState extends MusicBeatState
 		{
 			var babyArrow:FlxSprite = new FlxSprite(50, strumLine.y);
 
-			switch (curUiType) {
+			switch (curUiType.toLowerCase()) {
 				case "pixel":
 					NoteHoldCover.coverPath = "week6/weeb/pixelUI/noteHoldCovers-pixel";
 
@@ -1567,6 +1568,7 @@ class PlayState extends MusicBeatState
 
 				if((Character.LOOP_ANIM_ON_HOLD ? (daNote.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!dad.curAnim.contains("sing") || (dad.curAnimFrame() >= 3 || dad.curAnimFinished())) : true) : true) : !daNote.isSustainNote)){
 					daNote.hitCallback(daNote, dad);
+					healthAdjustOverride = null;
 				}
 
 				enemyStrums.forEach(function(spr:FlxSprite)
@@ -1574,7 +1576,7 @@ class PlayState extends MusicBeatState
 					if (Math.abs(daNote.noteData) == spr.ID)
 					{
 						spr.animation.play('confirm', true);
-						if (spr.animation.curAnim.name == 'confirm' && !(curUiType == "pixel"))
+						if (spr.animation.curAnim.name == 'confirm' && !(curUiType.toLowerCase() == "pixel"))
 						{
 							spr.centerOffsets();
 							spr.offset.x -= 14;
@@ -1755,29 +1757,30 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	private function popUpScore(note:Note):Void{
+	private function popUpScore(note:Note, adjustHealth:Bool = true):Void{
 
 		var noteDiff:Float = note.strumTime - Conductor.songPosition;
+		var noHealMultiply:Float = adjustHealth ? 1 : 0;
 
 		songStats.score += Scoring.scoreNote(noteDiff);
 		var rating:String = Scoring.rateNote(noteDiff);
 
 		switch(rating){
 			case "sick":
-				health += Scoring.SICK_HEAL_AMMOUNT * Config.healthMultiplier;
+				health += Scoring.SICK_HEAL_AMMOUNT * Config.healthMultiplier * noHealMultiply;
 				songStats.sickCount++;
 				if(Config.noteSplashType >= 1 && Config.noteSplashType < 4){
 					createNoteSplash(note.noteData);
 				}
 			case "good":
-				health += Scoring.GOOD_HEAL_AMMOUNT * Config.healthMultiplier;
+				health += Scoring.GOOD_HEAL_AMMOUNT * Config.healthMultiplier * noHealMultiply;
 				songStats.goodCount++;
 			case "bad":
-				health += Scoring.BAD_HEAL_AMMOUNT * Config.healthMultiplier;
+				health += Scoring.BAD_HEAL_AMMOUNT * Config.healthMultiplier * noHealMultiply;
 				songStats.badCount++;
 				comboBreak();
 			case "shit":
-				health += Scoring.SHIT_HEAL_AMMOUNT * Config.healthMultiplier;
+				health += Scoring.SHIT_HEAL_AMMOUNT * Config.healthMultiplier * noHealMultiply;
 				songStats.shitCount++;
 				comboBreak();
 		}
@@ -2009,7 +2012,7 @@ class PlayState extends MusicBeatState
 					//spr.alpha = 1;
 					spr.centerOffsets();
 
-					if(!(curUiType == "pixel")){
+					if(!(curUiType.toLowerCase() == "pixel")){
 						spr.offset.x -= 14;
 						spr.offset.y -= 14;
 					}
@@ -2066,7 +2069,7 @@ class PlayState extends MusicBeatState
 			playerStrums.forEach(function(spr:FlxSprite){
 				if (Math.abs(x.noteData) == spr.ID){
 					spr.animation.play('confirm', true);
-					if (spr.animation.curAnim.name == 'confirm' && !(curUiType == "pixel")){
+					if (spr.animation.curAnim.name == 'confirm' && !(curUiType.toLowerCase() == "pixel")){
 						spr.centerOffsets();
 						spr.offset.x -= 14;
 						spr.offset.y -= 14;
@@ -2089,26 +2092,32 @@ class PlayState extends MusicBeatState
 
 		if (!startingSong){
 
-			health -= healthLoss * Config.healthDrainMultiplier;
-
 			if(dropCombo){
 				comboBreak();
 			}
-
+			
 			if(countMiss){
 				songStats.missCount++;
 			}
-
+			
 			songStats.score -= scoreAdjust;
 			
 			if(playAudio){
 				FlxG.sound.play(Paths.sound('missnote' + FlxG.random.int(1, 3)), 0.2);
 			}
-
+			
 			forceMissNextNote = false;
-
+			
 			callback(direction, boyfriend);
 			
+			if(healthAdjustOverride == null){
+				health -= healthLoss * Config.healthDrainMultiplier;
+			}
+			else{
+				health += healthAdjustOverride;
+				healthAdjustOverride = null;
+			}
+
 		}
 
 		if(Main.flippymode) { System.exit(0); }
@@ -2164,20 +2173,27 @@ class PlayState extends MusicBeatState
 				}
 				return;
 			}
+			
+			if((Character.LOOP_ANIM_ON_HOLD ? (note.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!boyfriend.curAnim.contains("sing") || (boyfriend.curAnimFrame() >= 3 || boyfriend.curAnimFinished())) : true) : true) : !note.isSustainNote)){
+				note.hitCallback(note, boyfriend);
+			}
 
 			if (!note.isSustainNote){
-				popUpScore(note);
+				popUpScore(note, healthAdjustOverride == null);
 				combo++;
 				if(combo > songStats.highestCombo) { songStats.highestCombo = combo; }
 			}
 			else{
-				health += Scoring.HOLD_HEAL_AMMOUNT * Config.healthMultiplier;
+				if(healthAdjustOverride != null){
+					health += Scoring.HOLD_HEAL_AMMOUNT * Config.healthMultiplier;
+				}
 				songStats.score += Std.int(Scoring.HOLD_SCORE_PER_SECOND * (Conductor.stepCrochet/1000));
 				songStats.susCount++;
 			}
-				
-			if((Character.LOOP_ANIM_ON_HOLD ? (note.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!boyfriend.curAnim.contains("sing") || (boyfriend.curAnimFrame() >= 3 || boyfriend.curAnimFinished())) : true) : true) : !note.isSustainNote)){
-				note.hitCallback(note, boyfriend);
+
+			if(healthAdjustOverride != null){
+				health += healthAdjustOverride;
+				healthAdjustOverride = null;
 			}
 
 			playerStrums.forEach(function(spr:FlxSprite) {

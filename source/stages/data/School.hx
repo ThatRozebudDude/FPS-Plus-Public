@@ -12,7 +12,7 @@ class School extends BaseStage
 
     public override function init(){
         name = "school";
-		uiType = "pixel";
+		uiType = "Pixel";
 
 		var sky = new FlxSprite(-200, -24).loadGraphic(Paths.image("week6/weeb/sky"));
 		sky.scale.set(6, 6);
