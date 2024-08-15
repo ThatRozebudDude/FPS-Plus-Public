@@ -41,7 +41,7 @@ class Note extends FlxSprite
 	public var hitCallback:(Note, Character)->Void = null;
 	public var missCallback:(Int, Character)->Void = null;
 
-	var noteSkin:NoteSkin;
+	var noteSkin:NoteSkinBase;
 	public var canGlow:Bool;
 
 	inline public static final swagWidth:Float = 112/*160 * 0.7*/;
@@ -106,6 +106,8 @@ class Note extends FlxSprite
 			switch(frameLoadType){
 				case sparrow:
 					frames = Paths.getSparrowAtlas(path);
+				case packer:
+					frames = Paths.getPackerAtlas(path);
 				case load(fw, fh):
 					loadGraphic(Paths.image(path), true, fw, fh);
 				default:
@@ -132,6 +134,8 @@ class Note extends FlxSprite
 			switch(frameLoadType){
 				case sparrow:
 					frames = Paths.getSparrowAtlas(path);
+				case packer:
+					frames = Paths.getPackerAtlas(path);
 				case load(fw, fh):
 					loadGraphic(Paths.image(path), true, fw, fh);
 				default:

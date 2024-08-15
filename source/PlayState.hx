@@ -1,5 +1,6 @@
 package;
 
+import ui.*;
 import config.*;
 import debug.*;
 import title.*;
@@ -781,19 +782,12 @@ class PlayState extends MusicBeatState
 
 		var swagCounter:Int = 0;
 
-		var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
-			introAssets.set('default', ['ui/ready', "ui/set", "ui/go", "", ""]);
-			introAssets.set('pixel', [
-				"week6/weeb/pixelUI/ready-pixel",
-				"week6/weeb/pixelUI/set-pixel",
-				"week6/weeb/pixelUI/date-pixel",
-				"-pixel",
-				"week6/"
-			]);
-
-		var introAlts:Array<String> = introAssets.get(curUiType.toLowerCase());
-		var altSuffix = introAlts[3];
-		var altPrefix = introAlts[4];
+		var countdownSkinName:String = PlayState.curUiType;
+		var countdownSkinClass = Type.resolveClass("ui.countdownSkins." + countdownSkinName);
+		if(countdownSkinClass == null){
+			countdownSkinClass = ui.countdownSkins.Default;
+		}
+		var countdownSkin = Type.createInstance(countdownSkinClass, []);
 
 		stage.countdownBeat(-1);
 
@@ -812,82 +806,99 @@ class PlayState extends MusicBeatState
 
 			{
 				case 0:
-					FlxG.sound.play(Paths.sound(altPrefix + 'intro3' + altSuffix), 0.6);
-					if(meta != null){
-						meta.start();
+					if(meta != null){ meta.start(); }
+
+					if(countdownSkin.info.first.audioPath != null){
+						FlxG.sound.play(Paths.sound(countdownSkin.info.first.audioPath), 0.6);
+					}
+					if(countdownSkin.info.first.graphicPath != null){
+						var countdownSprite:FlxSprite = new FlxSprite().loadGraphic(Paths.image(countdownSkin.info.first.graphicPath));
+						countdownSprite.scrollFactor.set();
+						countdownSprite.antialiasing = countdownSkin.info.first.antialiasing;
+			
+						countdownSprite.setGraphicSize(countdownSprite.width * countdownSkin.info.first.scale);
+						countdownSprite.updateHitbox();
+			
+						countdownSprite.screenCenter();
+						countdownSprite.x += countdownSkin.info.first.offset.x;
+						countdownSprite.y += countdownSkin.info.first.offset.y;
+						countdownSprite.cameras = [camHUD];
+						add(countdownSprite);
+			
+						tweenManager.tween(countdownSprite, {y: countdownSprite.y += 100, alpha: 0}, Conductor.crochet / 1000, {ease: FlxEase.cubeInOut, onComplete: function(twn:FlxTween){
+								countdownSprite.destroy();
+							}
+						});
 					}
 				case 1:
-					var ready:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[0]));
-					ready.scrollFactor.set();
-					ready.antialiasing = !(curUiType.toLowerCase() == "pixel");
-
-					if (curUiType.toLowerCase() == "pixel")
-						ready.setGraphicSize(Std.int(ready.width * 6 * 0.8));
-					else
-						ready.setGraphicSize(Std.int(ready.width * 0.5));
-
-					ready.updateHitbox();
-
-					ready.screenCenter();
-					ready.y -= 120;
-					ready.cameras = [camHUD];
-					add(ready);
-					tweenManager.tween(ready, {y: ready.y += 100, alpha: 0}, Conductor.crochet / 1000, {
-						ease: FlxEase.cubeInOut,
-						onComplete: function(twn:FlxTween)
-						{
-							ready.destroy();
-						}
-					});
-					FlxG.sound.play(Paths.sound(altPrefix + 'intro2' + altSuffix), 0.6);
+					if(countdownSkin.info.second.audioPath != null){
+						FlxG.sound.play(Paths.sound(countdownSkin.info.second.audioPath), 0.6);
+					}
+					if(countdownSkin.info.second.graphicPath != null){
+						var countdownSprite:FlxSprite = new FlxSprite().loadGraphic(Paths.image(countdownSkin.info.second.graphicPath));
+						countdownSprite.scrollFactor.set();
+						countdownSprite.antialiasing = countdownSkin.info.second.antialiasing;
+			
+						countdownSprite.setGraphicSize(countdownSprite.width * countdownSkin.info.second.scale);
+						countdownSprite.updateHitbox();
+			
+						countdownSprite.screenCenter();
+						countdownSprite.x += countdownSkin.info.second.offset.x;
+						countdownSprite.y += countdownSkin.info.second.offset.y;
+						countdownSprite.cameras = [camHUD];
+						add(countdownSprite);
+			
+						tweenManager.tween(countdownSprite, {y: countdownSprite.y += 100, alpha: 0}, Conductor.crochet / 1000, {ease: FlxEase.cubeInOut, onComplete: function(twn:FlxTween){
+								countdownSprite.destroy();
+							}
+						});
+					}
 				case 2:
-					var set:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[1]));
-					set.scrollFactor.set();
-					set.antialiasing = !(curUiType.toLowerCase() == "pixel");
-
-					if (curUiType.toLowerCase() == "pixel")
-						set.setGraphicSize(Std.int(set.width * 6 * 0.8));
-					else
-						set.setGraphicSize(Std.int(set.width * 0.5));
-
-					set.updateHitbox();
-
-					set.screenCenter();
-					set.y -= 120;
-					set.cameras = [camHUD];
-					add(set);
-					tweenManager.tween(set, {y: set.y += 100, alpha: 0}, Conductor.crochet / 1000, {
-						ease: FlxEase.cubeInOut,
-						onComplete: function(twn:FlxTween)
-						{
-							set.destroy();
-						}
-					});
-					FlxG.sound.play(Paths.sound(altPrefix + 'intro1' + altSuffix), 0.6);
+					if(countdownSkin.info.third.audioPath != null){
+						FlxG.sound.play(Paths.sound(countdownSkin.info.third.audioPath), 0.6);
+					}
+					if(countdownSkin.info.third.graphicPath != null){
+						var countdownSprite:FlxSprite = new FlxSprite().loadGraphic(Paths.image(countdownSkin.info.third.graphicPath));
+						countdownSprite.scrollFactor.set();
+						countdownSprite.antialiasing = countdownSkin.info.third.antialiasing;
+			
+						countdownSprite.setGraphicSize(countdownSprite.width * countdownSkin.info.third.scale);
+						countdownSprite.updateHitbox();
+			
+						countdownSprite.screenCenter();
+						countdownSprite.x += countdownSkin.info.third.offset.x;
+						countdownSprite.y += countdownSkin.info.third.offset.y;
+						countdownSprite.cameras = [camHUD];
+						add(countdownSprite);
+			
+						tweenManager.tween(countdownSprite, {y: countdownSprite.y += 100, alpha: 0}, Conductor.crochet / 1000, {ease: FlxEase.cubeInOut, onComplete: function(twn:FlxTween){
+								countdownSprite.destroy();
+							}
+						});
+					}
 				case 3:
-					var go:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[2]));
-					go.scrollFactor.set();
-					go.antialiasing = !(curUiType.toLowerCase() == "pixel");
-
-					if (curUiType.toLowerCase() == "pixel")
-						go.setGraphicSize(Std.int(go.width * 6 * 0.8));
-					else
-						go.setGraphicSize(Std.int(go.width * 0.8));
-
-					go.updateHitbox();
-
-					go.screenCenter();
-					go.y -= 120;
-					go.cameras = [camHUD];
-					add(go);
-					tweenManager.tween(go, {y: go.y += 100, alpha: 0}, Conductor.crochet / 1000, {
-						ease: FlxEase.cubeInOut,
-						onComplete: function(twn:FlxTween)
-						{
-							go.destroy();
-						}
-					});
-					FlxG.sound.play(Paths.sound(altPrefix + 'introGo' + altSuffix), 0.6);
+					if(countdownSkin.info.fourth.audioPath != null){
+						FlxG.sound.play(Paths.sound(countdownSkin.info.fourth.audioPath), 0.6);
+					}
+					if(countdownSkin.info.fourth.graphicPath != null){
+						var countdownSprite:FlxSprite = new FlxSprite().loadGraphic(Paths.image(countdownSkin.info.fourth.graphicPath));
+						countdownSprite.scrollFactor.set();
+						countdownSprite.antialiasing = countdownSkin.info.fourth.antialiasing;
+			
+						countdownSprite.setGraphicSize(countdownSprite.width * countdownSkin.info.fourth.scale);
+						countdownSprite.updateHitbox();
+			
+						countdownSprite.screenCenter();
+						countdownSprite.x += countdownSkin.info.fourth.offset.x;
+						countdownSprite.y += countdownSkin.info.fourth.offset.y;
+						countdownSprite.cameras = [camHUD];
+						add(countdownSprite);
+			
+						tweenManager.tween(countdownSprite, {y: countdownSprite.y += 100, alpha: 0}, Conductor.crochet / 1000, {ease: FlxEase.cubeInOut, onComplete: function(twn:FlxTween){
+								countdownSprite.destroy();
+							}
+						});
+					}
 				case 4:
 					beatHit();
 			}

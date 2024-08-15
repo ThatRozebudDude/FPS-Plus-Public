@@ -46,7 +46,7 @@ typedef NoteFuncions = {
 	var update:(Note, Float)->Void;        //This function is run every frame. Float is elapsed.
 }
 
-class NoteSkin
+class NoteSkinBase
 {
 
     public var info:NoteSkinInfo;

@@ -1,6 +1,6 @@
 package note.noteSkins;
 
-class Pixel extends NoteSkin
+class Pixel extends NoteSkinBase
 {
 
     public function new(){
