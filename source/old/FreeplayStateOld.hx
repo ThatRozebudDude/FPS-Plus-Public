@@ -1,5 +1,6 @@
 package old;
 
+import ui.HealthIcon;
 import transition.data.StickerIn;
 import extensions.flixel.FlxUIStateExt;
 import config.CacheConfig;

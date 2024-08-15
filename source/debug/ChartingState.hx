@@ -1,5 +1,6 @@
 package debug;
 
+import ui.HealthIcon;
 import flixel.util.FlxSort;
 import note.NoteType;
 import extensions.flixel.addons.ui.FlxUIDropDownMenuScrollable;

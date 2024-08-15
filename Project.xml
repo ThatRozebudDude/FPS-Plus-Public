@@ -24,6 +24,7 @@
 	<compilerflag name="--macro" value="include('note.noteSkins', true)" />
 	<compilerflag name="--macro" value="include('events.data', true)" />
 	<compilerflag name="--macro" value="include('ui.countdownSkins', true)" />
+	<compilerflag name="--macro" value="include('ui.comboPopupSkins', true)" />
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 

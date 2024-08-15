@@ -1,4 +1,4 @@
-package;
+package ui;
 
 import lime.utils.Assets;
 import flixel.tweens.FlxEase;

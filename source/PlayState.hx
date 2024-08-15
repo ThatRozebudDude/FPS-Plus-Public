@@ -496,88 +496,13 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		switch(curUiType.toLowerCase()){
-
-			default:
-				comboUI = new ComboPopup(boyfriend.x + boyfriend.worldPopupOffset.x, boyfriend.y + boyfriend.worldPopupOffset.y,
-				{
-					path: "ui/ratings",
-					position: new FlxPoint(0, -50),
-					aa: true,
-					scale: 0.7
-				}, 
-				{
-					path: "ui/numbers",
-					position: new FlxPoint(-175, 5),
-					aa: true,
-					scale: 0.6
-				}, 
-				{
-					path: "ui/comboBreak",
-					position: new FlxPoint(0, -50),
-					aa: true,
-					scale: 0.6
-				});
-				NoteSplash.splashPath = "ui/noteSplashes";
-
-			case "pixel":
-				comboUI = new ComboPopup(boyfriend.x + boyfriend.worldPopupOffset.x, boyfriend.y + boyfriend.worldPopupOffset.y,
-				{
-					path: "week6/weeb/pixelUI/ratings",
-					position: new FlxPoint(0, -50),
-					aa: false,
-					scale: 6 * 0.7
-				}, 
-				{
-					path: "week6/weeb/pixelUI/numbers",
-					position: new FlxPoint(-175, 5),
-					aa: false,
-					scale: 6 * 0.8
-				}, 
-				{
-					path: "week6/weeb/pixelUI/comboBreak-pixel",
-					position: new FlxPoint(0, -50),
-					aa: false,
-					scale: 6 * 0.7
-				});
-				NoteSplash.splashPath = "week6/weeb/pixelUI/noteSplashes-pixel";
-
-		}
-
+		//temp unti hud note skin
+		if(curUiType.toLowerCase() != "pixel") {NoteSplash.splashPath = "ui/noteSplashes";}
+		else{NoteSplash.splashPath = "week6/weeb/pixelUI/noteSplashes-pixel";}
 		//Prevents the game from lagging at first note splash.
 		var preloadSplash = new NoteSplash(-2000, -2000, 0);
 
-		if(Config.comboType == 1){
-
-			comboUI.cameras = [camHUD];
-			comboUI.setPosition(0, 0);
-			comboUI.scrollFactor.set(0, 0);
-			comboUI.accelScale = 0.3;
-			comboUI.velocityScale = 0.3;
-			comboUI.limitSprites = true;
-
-			if(!Config.downscroll){
-				comboUI.ratingInfo.position.set(844, 580);
-				comboUI.numberInfo.position.set(340, 505);
-				comboUI.comboBreakInfo.position.set(844, 580);
-			}
-			else{
-				comboUI.ratingInfo.position.set(844, 150);
-				comboUI.numberInfo.position.set(340, 125);
-				comboUI.comboBreakInfo.position.set(844, 150);
-			}
-
-			switch(curUiType.toLowerCase()){
-				case "pixel":
-					comboUI.ratingInfo.scale *= 0.9;
-					comboUI.comboBreakInfo.scale *= 0.9;
-					
-				default:
-					comboUI.ratingInfo.scale *= 0.8;
-					comboUI.comboBreakInfo.scale *= 0.8;
-			}
-
-		}
+		generateComboPopup();
 
 		if(Config.comboType < 2){
 			add(comboUI);
@@ -787,7 +712,7 @@ class PlayState extends MusicBeatState
 		if(countdownSkinClass == null){
 			countdownSkinClass = ui.countdownSkins.Default;
 		}
-		var countdownSkin = Type.createInstance(countdownSkinClass, []);
+		var countdownSkin:CountdownSkinBase = Type.createInstance(countdownSkinClass, []);
 
 		stage.countdownBeat(-1);
 
@@ -1058,15 +983,15 @@ class PlayState extends MusicBeatState
 		generatedMusic = true;
 	}
 
-	function sortByShit(Obj1:Note, Obj2:Note):Int {
+	function sortByShit(Obj1:Note, Obj2:Note):Int{
 		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.strumTime, Obj2.strumTime);
 	}
 
-	function sortByEventStuff(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int {
+	function sortByEventStuff(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int{
 		return FlxSort.byValues(FlxSort.ASCENDING, Obj1[0], Obj2[0]);
 	}
 
-	private function generateStaticArrows(player:Int, ?instant:Bool = false):Void {
+	public function generateStaticArrows(player:Int, ?instant:Bool = false):Void{
 
 		for (i in 0...4)
 		{
@@ -1200,6 +1125,50 @@ class PlayState extends MusicBeatState
 			}
 
 			babyArrow.animation.play('static');
+		}
+	}
+
+	public function generateComboPopup():Void{
+		if(comboUI != null){
+			comboUI.destroy();
+		}
+
+		var comboPopupSkinName:String = PlayState.curUiType;
+		var comboPopupSkinClass = Type.resolveClass("ui.comboPopupSkins." + comboPopupSkinName);
+		if(comboPopupSkinClass == null){
+			comboPopupSkinClass = ui.comboPopupSkins.Default;
+		}
+		var comboPopupSkin:ComboPopupSkinBase = Type.createInstance(comboPopupSkinClass, []);
+
+		comboUI = new ComboPopup(boyfriend.x + boyfriend.worldPopupOffset.x, boyfriend.y + boyfriend.worldPopupOffset.y,
+			comboPopupSkin.info.ratingsInfo,
+			comboPopupSkin.info.numbersInfo,
+			comboPopupSkin.info.breakInfo
+		);
+
+		if(Config.comboType == 1){
+
+			comboUI.cameras = [camHUD];
+			comboUI.setPosition(0, 0);
+			comboUI.scrollFactor.set(0, 0);
+			comboUI.accelScale = 0.3;
+			comboUI.velocityScale = 0.3;
+			comboUI.limitSprites = true;
+
+			if(!Config.downscroll){
+				comboUI.ratingInfo.position.set(844, 580);
+				comboUI.numberInfo.position.set(340, 505);
+				comboUI.comboBreakInfo.position.set(844, 580);
+			}
+			else{
+				comboUI.ratingInfo.position.set(844, 150);
+				comboUI.numberInfo.position.set(340, 125);
+				comboUI.comboBreakInfo.position.set(844, 150);
+			}
+
+			comboUI.ratingInfo.scale *= comboPopupSkin.info.ratingsHudScaleMultiply;
+			comboUI.numberInfo.scale *= comboPopupSkin.info.numbersHudScaleMultiply;
+			comboUI.comboBreakInfo.scale *= comboPopupSkin.info.breakHudScaleMultiply;
 		}
 	}
 
