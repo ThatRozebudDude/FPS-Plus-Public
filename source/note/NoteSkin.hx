@@ -1,5 +1,6 @@
 package note;
 
+import note.Note;
 import flixel.math.FlxPoint;
 import characters.CharacterInfoBase.FrameLoadType;
 import characters.CharacterInfoBase.AnimData;
@@ -31,11 +32,18 @@ typedef NoteSkinInfo = {
     var noteInfoList:Array<NoteInfo>;
     var sustainInfoList:Array<SustainInfo>;
 
+    var functions:NoteFuncions;
+
     var canGlow:Bool;
     var scale:Float;
     var holdScaleAdjust:Float;
     var antialiasing:Bool;
     var offset:FlxPoint;
+}
+
+typedef NoteFuncions = {
+	var create:(Note)->Void;               //This function is run after the Character new() function is complete.
+	var update:(Note, Float)->Void;        //This function is run every frame. Float is elapsed.
 }
 
 class NoteSkin
@@ -101,6 +109,11 @@ class NoteSkin
                     endAnim: null
                 }
             ],
+
+            functions: {
+                create: null,
+                update: null,
+            },
 
             canGlow: true,
             scale: 0.7,

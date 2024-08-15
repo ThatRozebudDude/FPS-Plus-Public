@@ -42,12 +42,7 @@ class Note extends FlxSprite
 	public var missCallback:(Int, Character)->Void = null;
 
 	var noteSkin:NoteSkin;
-	var canGlow:Bool;
-
-	static final noteScrollNames = 	["purpleScroll", "blueScroll", "greenScroll", "redScroll"];
-	static final noteGlowNames = 	["purple glow", "blue glow", "green glow", "red glow"];
-	static final noteHoldNames = 	["purplehold", "bluehold", "greenhold", "redhold"];
-	static final noteEndNames = 	["purpleholdend", "blueholdend", "greenholdend", "redholdend"];
+	public var canGlow:Bool;
 
 	inline public static final swagWidth:Float = 112/*160 * 0.7*/;
 	inline public static final PURP_NOTE:Int = 0;
@@ -118,16 +113,16 @@ class Note extends FlxSprite
 			}
 			switch(noteSkin.info.noteInfoList[noteData].scrollAnim.type){
 				case prefix:
-					animation.addByPrefix(noteScrollNames[noteData], noteSkin.info.noteInfoList[noteData].scrollAnim.data.prefix, noteSkin.info.noteInfoList[noteData].scrollAnim.data.framerate, true, noteSkin.info.noteInfoList[noteData].scrollAnim.data.flipX, noteSkin.info.noteInfoList[noteData].scrollAnim.data.flipY);
+					animation.addByPrefix("scroll", noteSkin.info.noteInfoList[noteData].scrollAnim.data.prefix, noteSkin.info.noteInfoList[noteData].scrollAnim.data.framerate, true, noteSkin.info.noteInfoList[noteData].scrollAnim.data.flipX, noteSkin.info.noteInfoList[noteData].scrollAnim.data.flipY);
 				case frame:
-					animation.add(noteScrollNames[noteData], noteSkin.info.noteInfoList[noteData].scrollAnim.data.frames, noteSkin.info.noteInfoList[noteData].scrollAnim.data.framerate, true, noteSkin.info.noteInfoList[noteData].scrollAnim.data.flipX, noteSkin.info.noteInfoList[noteData].scrollAnim.data.flipY);
+					animation.add("scroll", noteSkin.info.noteInfoList[noteData].scrollAnim.data.frames, noteSkin.info.noteInfoList[noteData].scrollAnim.data.framerate, true, noteSkin.info.noteInfoList[noteData].scrollAnim.data.flipX, noteSkin.info.noteInfoList[noteData].scrollAnim.data.flipY);
 			}
 			if(canGlow){
 				switch(noteSkin.info.noteInfoList[noteData].glowAnim.type){
 					case prefix:
-						animation.addByPrefix(noteGlowNames[noteData], noteSkin.info.noteInfoList[noteData].glowAnim.data.prefix, noteSkin.info.noteInfoList[noteData].glowAnim.data.framerate, true, noteSkin.info.noteInfoList[noteData].glowAnim.data.flipX, noteSkin.info.noteInfoList[noteData].glowAnim.data.flipY);
+						animation.addByPrefix("glow", noteSkin.info.noteInfoList[noteData].glowAnim.data.prefix, noteSkin.info.noteInfoList[noteData].glowAnim.data.framerate, true, noteSkin.info.noteInfoList[noteData].glowAnim.data.flipX, noteSkin.info.noteInfoList[noteData].glowAnim.data.flipY);
 					case frame:
-						animation.add(noteGlowNames[noteData], noteSkin.info.noteInfoList[noteData].glowAnim.data.frames, noteSkin.info.noteInfoList[noteData].glowAnim.data.framerate, true, noteSkin.info.noteInfoList[noteData].glowAnim.data.flipX, noteSkin.info.noteInfoList[noteData].glowAnim.data.flipY);
+						animation.add("glow", noteSkin.info.noteInfoList[noteData].glowAnim.data.frames, noteSkin.info.noteInfoList[noteData].glowAnim.data.framerate, true, noteSkin.info.noteInfoList[noteData].glowAnim.data.flipX, noteSkin.info.noteInfoList[noteData].glowAnim.data.flipY);
 				}
 			}
 		}
@@ -144,95 +139,22 @@ class Note extends FlxSprite
 			}
 			switch(noteSkin.info.sustainInfoList[noteData].holdAnim.type){
 				case prefix:
-					animation.addByPrefix(noteHoldNames[noteData], noteSkin.info.sustainInfoList[noteData].holdAnim.data.prefix, noteSkin.info.sustainInfoList[noteData].holdAnim.data.framerate, true, noteSkin.info.sustainInfoList[noteData].holdAnim.data.flipX, noteSkin.info.sustainInfoList[noteData].holdAnim.data.flipY);
+					animation.addByPrefix("hold", noteSkin.info.sustainInfoList[noteData].holdAnim.data.prefix, noteSkin.info.sustainInfoList[noteData].holdAnim.data.framerate, true, noteSkin.info.sustainInfoList[noteData].holdAnim.data.flipX, noteSkin.info.sustainInfoList[noteData].holdAnim.data.flipY);
 				case frame:
-					animation.add(noteHoldNames[noteData], noteSkin.info.sustainInfoList[noteData].holdAnim.data.frames, noteSkin.info.sustainInfoList[noteData].holdAnim.data.framerate, true, noteSkin.info.sustainInfoList[noteData].holdAnim.data.flipX, noteSkin.info.sustainInfoList[noteData].holdAnim.data.flipY);
+					animation.add("hold", noteSkin.info.sustainInfoList[noteData].holdAnim.data.frames, noteSkin.info.sustainInfoList[noteData].holdAnim.data.framerate, true, noteSkin.info.sustainInfoList[noteData].holdAnim.data.flipX, noteSkin.info.sustainInfoList[noteData].holdAnim.data.flipY);
 			}
 			switch(noteSkin.info.sustainInfoList[noteData].endAnim.type){
 				case prefix:
-					animation.addByPrefix(noteEndNames[noteData], noteSkin.info.sustainInfoList[noteData].endAnim.data.prefix, noteSkin.info.sustainInfoList[noteData].endAnim.data.framerate, true, noteSkin.info.sustainInfoList[noteData].endAnim.data.flipX, noteSkin.info.sustainInfoList[noteData].endAnim.data.flipY);
+					animation.addByPrefix("holdEnd", noteSkin.info.sustainInfoList[noteData].endAnim.data.prefix, noteSkin.info.sustainInfoList[noteData].endAnim.data.framerate, true, noteSkin.info.sustainInfoList[noteData].endAnim.data.flipX, noteSkin.info.sustainInfoList[noteData].endAnim.data.flipY);
 				case frame:
-					animation.add(noteEndNames[noteData], noteSkin.info.sustainInfoList[noteData].endAnim.data.frames, noteSkin.info.sustainInfoList[noteData].endAnim.data.framerate, true, noteSkin.info.sustainInfoList[noteData].endAnim.data.flipX, noteSkin.info.sustainInfoList[noteData].endAnim.data.flipY);
+					animation.add("holdEnd", noteSkin.info.sustainInfoList[noteData].endAnim.data.frames, noteSkin.info.sustainInfoList[noteData].endAnim.data.framerate, true, noteSkin.info.sustainInfoList[noteData].endAnim.data.flipX, noteSkin.info.sustainInfoList[noteData].endAnim.data.flipY);
 			}
 		}
 
 		setGraphicSize(Std.int(width * noteSkin.info.scale));
 		updateHitbox();
 
-		/*switch (uiType)
-		{
-			case 'pixel':
-				loadGraphic(Paths.image('week6/weeb/pixelUI/arrows-pixels'), true, 19, 19);
-
-				animation.add('greenScroll', [6]);
-				animation.add('redScroll', [7]);
-				animation.add('blueScroll', [5]);
-				animation.add('purpleScroll', [4]);
-
-				animation.add('green glow', [22]);
-				animation.add('red glow', [23]);
-				animation.add('blue glow', [21]);
-				animation.add('purple glow', [20]);
-
-				if (isSustainNote)
-				{
-					loadGraphic(Paths.image('week6/weeb/pixelUI/arrowEnds'), true, 7, 6);
-
-					animation.add('purpleholdend', [4]);
-					animation.add('greenholdend', [6]);
-					animation.add('redholdend', [7]);
-					animation.add('blueholdend', [5]);
-
-					animation.add('purplehold', [0]);
-					animation.add('greenhold', [2]);
-					animation.add('redhold', [3]);
-					animation.add('bluehold', [1]);
-				}
-
-				setGraphicSize(Std.int(width * 6));
-				updateHitbox();
-
-			default:
-				frames = Paths.getSparrowAtlas('ui/NOTE_assets');
-
-				animation.addByPrefix('greenScroll', 'green0');
-				animation.addByPrefix('redScroll', 'red0');
-				animation.addByPrefix('blueScroll', 'blue0');
-				animation.addByPrefix('purpleScroll', 'purple0');
-
-				animation.addByPrefix('purpleholdend', 'pruple end hold');
-				animation.addByPrefix('greenholdend', 'green hold end');
-				animation.addByPrefix('redholdend', 'red hold end');
-				animation.addByPrefix('blueholdend', 'blue hold end');
-
-				animation.addByPrefix('purplehold', 'purple hold piece');
-				animation.addByPrefix('greenhold', 'green hold piece');
-				animation.addByPrefix('redhold', 'red hold piece');
-				animation.addByPrefix('bluehold', 'blue hold piece');
-
-				animation.addByPrefix('purple glow', 'Purple Active');
-				animation.addByPrefix('green glow', 'Green Active');
-				animation.addByPrefix('red glow', 'Red Active');
-				animation.addByPrefix('blue glow', 'Blue Active');
-
-				setGraphicSize(Std.int(width * 0.7));
-				updateHitbox();
-				antialiasing = true;
-		}*/
-
-		/*switch (noteData)
-		{
-			case PURP_NOTE:
-				animation.play('purpleScroll');
-			case BLUE_NOTE:
-				animation.play('blueScroll');
-			case GREEN_NOTE:
-				animation.play('greenScroll');
-			case RED_NOTE:
-				animation.play('redScroll');
-		}*/
-
-		animation.play(noteScrollNames[noteData]);
+		animation.play("scroll");
 
 		// trace(prevNote);
 
@@ -244,48 +166,20 @@ class Note extends FlxSprite
 			
 			flipY = Config.downscroll;
 
-			/*switch (noteData)
-			{
-				case 2:
-					animation.play('greenholdend');
-				case 3:
-					animation.play('redholdend');
-				case 1:
-					animation.play('blueholdend');
-				case 0:
-					animation.play('purpleholdend');
-			}*/
-
-			animation.play(noteEndNames[noteData]);
-			
-			
+			animation.play("holdEnd");
 
 			updateHitbox();
 
 			xOffset -= width / 2;
-
-			//if (PlayState.curUiType == "pixel")
-			//	xOffset += 36;
 			xOffset += noteSkin.info.offset.x;
 
-			if (prevNote.isSustainNote)
-			{
+			yOffset = noteSkin.info.offset.y;
+
+			if (prevNote.isSustainNote){
 
 				prevNote.isSustainEnd = false;
-				
-				/*switch (prevNote.noteData)
-				{
-					case GREEN_NOTE:
-						prevNote.animation.play('greenhold');
-					case RED_NOTE:
-						prevNote.animation.play('redhold');
-					case BLUE_NOTE:
-						prevNote.animation.play('bluehold');
-					case PURP_NOTE:
-						prevNote.animation.play('purplehold');
-				}*/
 
-				prevNote.animation.play(noteHoldNames[noteData]);
+				prevNote.animation.play("hold");
 				
 				var speed = PlayState.SONG.speed;
 
@@ -294,25 +188,20 @@ class Note extends FlxSprite
 				}
 
 				var mult:Float = prevNote.isFake ? 0.5 : 1;
-				//if(prevNote.isFake){ mult = 0.5; }
 
 				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.485 * speed;
-				/*if(PlayState.curUiType == "pixel") {
-					prevNote.scale.y *= 0.833 * (1.5 / 1.485); // Kinda weird, just roll with it.
-				}*/
 				prevNote.scale.y *= noteSkin.info.holdScaleAdjust;
-				
 				prevNote.scale.y *= mult;
-
 				prevNote.updateHitbox();
 
-				if(prevNote.isFake){ prevNote.yOffset = prevNote.height; }
+				if(prevNote.isFake){ prevNote.yOffset += prevNote.height; }
 			}
 		}
 
-		/*if(type == "transparent"){
-			alpha = 0.35;
-		}*/
+		if(noteSkin.info.functions.create != null){
+			noteSkin.info.functions.create(this);
+		}
+
 	}
 
 	override function update(elapsed:Float){
@@ -347,51 +236,27 @@ class Note extends FlxSprite
 			//Glow note stuff.
 
 			if(Config.noteGlow){
-				if (canBeHit && !isSustainNote && animation.curAnim.name.contains("Scroll") && canGlow){
+				if (canBeHit && !isSustainNote && animation.curAnim.name == "scroll" && canGlow){
 					glow();
 				}
 
-				if (tooLate && !isSustainNote && !animation.curAnim.name.contains("Scroll")){
+				if (tooLate && !isSustainNote && animation.curAnim.name == "glow"){
 					idle();
 				}
+			}
+
+			if(noteSkin.info.functions.update != null){
+				noteSkin.info.functions.update(this, elapsed);
 			}
 		}
 
 	}
 
-	public function glow():Void{
-
-		/*switch (noteData)
-		{
-			case GREEN_NOTE:
-				animation.play('green glow');
-			case RED_NOTE:
-				animation.play('red glow');
-			case BLUE_NOTE:
-				animation.play('blue glow');
-			case PURP_NOTE:
-				animation.play('purple glow');
-		}*/
-
-		animation.play(noteGlowNames[noteData]);
-
+	inline public function glow():Void{
+		animation.play("glow");
 	}
 
-	public function idle():Void{
-
-		/*switch (noteData)
-		{
-			case GREEN_NOTE:
-				animation.play('greenScroll');
-			case RED_NOTE:
-				animation.play('redScroll');
-			case BLUE_NOTE:
-				animation.play('blueScroll');
-			case PURP_NOTE:
-				animation.play('purpleScroll');
-		}*/
-
-		animation.play(noteScrollNames[noteData]);
-
+	inline public function idle():Void{
+		animation.play("scroll");
 	}
 }
