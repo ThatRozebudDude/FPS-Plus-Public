@@ -12,7 +12,7 @@ class Pixel extends HudNoteSkinBase
         info.notes.anitaliasing = false;
 
         info.notes.splashClass = "Pixel";
-        info.notes.coverPath = "week6/weeb/pixelUI/noteHoldCovers-pixel";
+        info.notes.coverPath = "Pixel";
 
         setStaticAnimFrames(left, [0], 0);
         setPressedAnimFrames(left, [24, 8], 12);

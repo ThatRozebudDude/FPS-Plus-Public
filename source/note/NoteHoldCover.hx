@@ -13,7 +13,7 @@ using StringTools;
 
 class NoteHoldCover extends FlxSprite{
 
-    var coverPath:String = "ui/noteHoldCovers";
+    var coverSkin:String = "Default";
 
     public var noteDirection:Int = -1;
     var splashAlpha = 0.7;
@@ -21,49 +21,38 @@ class NoteHoldCover extends FlxSprite{
 
     var referenceSprite:FlxSprite;
 
-    public function new(_referenceSprite:FlxSprite, note:Int, _coverPath:String){
+    var skin:NoteHoldCoverSkinBase;
+
+    public function new(_referenceSprite:FlxSprite, direction:Int, _coverSkin:String){
 
         super(0, 0);
 
         referenceSprite = _referenceSprite;
-        coverPath = _coverPath;
-        noteDirection = note;
-        
-        var noteColor:String = "Purple";
-        switch(noteDirection){
-            case 1:
-                noteColor = "Blue";
-            case 2:
-                noteColor = "Green";
-            case 3:
-                noteColor = "Red";
-        }
+        coverSkin = _coverSkin;
+        noteDirection = direction;
 
-        frames = Paths.getSparrowAtlas(coverPath);
-        antialiasing = true;
-        animation.addByPrefix("start", "holdCoverStart" + noteColor, 24, false);
-        animation.addByPrefix("hold", "holdCover" + noteColor + "0", 24, true);
-        animation.addByPrefix("end", "holdCoverEnd" + noteColor, 24, false);
+        var skinClass = Type.resolveClass("note.noteHoldCoverSkins." + coverSkin);
+		if(skinClass == null){
+			skinClass = note.noteHoldCoverSkins.Default;
+		}
+		skin = Type.createInstance(skinClass, []);
+
+        frames = Paths.getSparrowAtlas(skin.info.path);
+        antialiasing = skin.info.antialiasing;
+        animation.addByPrefix("start", skin.info.anims[noteDirection].start.prefix, skin.info.anims[noteDirection].start.framerateRange[0], false);
+        animation.addByPrefix("hold", skin.info.anims[noteDirection].hold.prefix, skin.info.anims[noteDirection].hold.framerateRange[0], true);
+        animation.addByPrefix("end", skin.info.anims[noteDirection].splash.prefix, skin.info.anims[noteDirection].splash.framerateRange[0], false);
         animation.finishCallback = callback;
         animation.play("start");
+
+        setGraphicSize(width * skin.info.scale);
+        updateHitbox();
+        
+        offset.set(skin.info.offset[0], skin.info.offset[1]);
+        posOffset.set(skin.info.positionOffset[0], skin.info.positionOffset[1]);
+        splashAlpha = skin.info.alpha;
         
         visible = false;
-
-        switch(coverPath){
-            case "week6/weeb/pixelUI/noteHoldCovers-pixel":
-                setGraphicSize(Std.int(width * 6));
-                antialiasing = false;
-                updateHitbox();
-                offset.set(36, -16);
-                splashAlpha = 0.8;
-                posOffset.set(54, 60);
-
-            default:
-                offset.set(162, 155);
-                posOffset.set(55, 55);
-
-        }
-
     }
 
     override function update(elapsed:Float) {
@@ -82,12 +71,11 @@ class NoteHoldCover extends FlxSprite{
     public function end(playSplash:Bool) {
         visible = playSplash && (Config.noteSplashType == 1 || Config.noteSplashType == 4);
         alpha = splashAlpha;
-        animation.getByName("end").frameRate = 24 + FlxG.random.int(0, 6);
+        animation.getByName("end").frameRate = FlxG.random.int(skin.info.anims[noteDirection].splash.framerateRange[0], skin.info.anims[noteDirection].splash.framerateRange[1]);
         animation.play("end");
     }
 
     function callback(anim:String) {
-        
         switch(anim){
             case "start":
                 animation.play("hold");
@@ -95,7 +83,6 @@ class NoteHoldCover extends FlxSprite{
             case "end":
                 visible = false;
         }
-
     }
 
 }

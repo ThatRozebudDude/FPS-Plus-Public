@@ -11,7 +11,7 @@ class Default extends HudNoteSkinBase
         info.notes.scale = 0.7;
 
         info.notes.splashClass = "Default";
-        info.notes.coverPath = "ui/noteHoldCovers";
+        info.notes.coverPath = "Default";
 
         setStaticAnimPrefix(left, "arrowLEFT", 0);
         setPressedAnimPrefix(left, "left press", 24);

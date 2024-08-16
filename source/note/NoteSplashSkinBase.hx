@@ -44,6 +44,7 @@ class NoteSplashSkinBase
     function addAnim(_direction:Int, _name:String, ?_framerateRange:Array<Int>, ?_offset:Array<Float>) {
         if(_offset == null){ _offset = [0, 0]; }
         if(_framerateRange == null){ _framerateRange = [24, 24]; }
+        if(_framerateRange.length == 1){ _framerateRange.push(_framerateRange[0]); }
         info.anims[_direction].push({
             prefix: _name,
             framerateRange: _framerateRange,
