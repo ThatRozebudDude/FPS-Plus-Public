@@ -68,6 +68,7 @@ class DarnellNotes extends NoteType
         playstate.executeEvent("phillyStreets-canHit");
         playstate.camFocusBF();
         playstate.camChangeZoom(0.85, (Conductor.crochet/1000) * 2, FlxEase.expoOut);
+        healthAdjust = 0;
         playstate.health -= 0.5;
         if(playstate.health <= 0){
             playstate.openGameOver("PicoDeadExplode");
