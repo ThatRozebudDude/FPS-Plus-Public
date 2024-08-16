@@ -380,13 +380,14 @@ class FreeplayState extends MusicBeatState
 		topBar.scale.set(1280, 64);
 		topBar.updateHitbox();
 
-		freeplayText = new FlxText(16, 16, 0, "FREEPLAY", 32);
+		freeplayText = new FlxTextExt(16, 16, 0, "FREEPLAY", 32);
 		freeplayText.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE);
 
 		highscoreSprite = new FlxSprite(860, 70);
 		highscoreSprite.frames = Paths.getSparrowAtlas("menu/freeplay/highscore");
 		highscoreSprite.animation.addByPrefix("loop", "", 24, true);
 		highscoreSprite.animation.play("loop");
+		highscoreSprite.antialiasing = true;
 
 		clearPercentSprite = new FlxSprite(1165, 65).loadGraphic(Paths.image('menu/freeplay/clearBox'));
 		clearPercentSprite.antialiasing = true;
@@ -430,6 +431,7 @@ class FreeplayState extends MusicBeatState
 		categoryTitle.letterSpacing = -15;
 		categoryTitle.screenCenter(X);
 		categoryTitle.y = 85;
+		categoryTitle.antialiasing = true;
 
 		miniArrowLeft = new FlxSprite(categoryTitle.x, categoryTitle.y + categoryTitle.height/2).loadGraphic(Paths.image("menu/freeplay/miniArrow"));
 		miniArrowLeft.x -= miniArrowLeft.width;
@@ -437,11 +439,13 @@ class FreeplayState extends MusicBeatState
 		miniArrowLeft.y -= 7;
 		miniArrowLeft.x -= 20;
 		miniArrowLeft.flipX = true;
+		miniArrowLeft.antialiasing = true;
 
 		miniArrowRight = new FlxSprite(categoryTitle.x + categoryTitle.width, categoryTitle.y + categoryTitle.height/2).loadGraphic(Paths.image("menu/freeplay/miniArrow"));
 		miniArrowRight.y -= miniArrowRight.height/2;
 		miniArrowRight.x += 20;
 		miniArrowRight.y -= 7;
+		miniArrowRight.antialiasing = true;
 
 		difficultyStars = new DifficultyStars(953, 237);
 

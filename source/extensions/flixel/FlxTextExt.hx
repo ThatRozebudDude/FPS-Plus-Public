@@ -11,6 +11,11 @@ class FlxTextExt extends FlxText
 
     public var leading(get, set):Null<Int>;
 
+    public function new(X:Float = 0, Y:Float = 0, FieldWidth:Float = 0, ?Text:String, Size:Int = 8, EmbeddedFont:Bool = true) {
+        super(X, Y, FieldWidth, Text, Size, EmbeddedFont);
+        antialiasing = true;
+    }
+
     override function applyBorderStyle():Void
 	{
 		var iterations:Int = Std.int(borderSize * borderQuality);

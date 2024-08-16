@@ -186,6 +186,7 @@ class ResultsState extends FlxUIStateExt
         resultsTitle = new FlxSprite(-200, -10);
         resultsTitle.frames = Paths.getSparrowAtlas("menu/results/results");
         resultsTitle.animation.addByPrefix("", "", 24, false);
+        resultsTitle.antialiasing = true;
         resultsTitle.visible = false;
         new FlxTimer().start(6/24, function(t){
             resultsTitle.visible = true;
@@ -195,6 +196,7 @@ class ResultsState extends FlxUIStateExt
         ratingsStuff = new FlxSprite(-135, 135);
         ratingsStuff.frames = Paths.getSparrowAtlas("menu/results/ratingsPopin");
         ratingsStuff.animation.addByPrefix("", "", 24, false);
+        ratingsStuff.antialiasing = true;
         ratingsStuff.visible = false;
         new FlxTimer().start(21/24, function(t){
             ratingsStuff.visible = true;
@@ -204,6 +206,7 @@ class ResultsState extends FlxUIStateExt
         scoreStuff = new FlxSprite(-180, 515);
         scoreStuff.frames = Paths.getSparrowAtlas("menu/results/scorePopin");
         scoreStuff.animation.addByPrefix("", "", 24, false);
+        scoreStuff.antialiasing = true;
         scoreStuff.visible = false;
         new FlxTimer().start(36/24, function(t){
             scoreStuff.visible = true;
@@ -214,6 +217,7 @@ class ResultsState extends FlxUIStateExt
         highscoreNew.frames = Paths.getSparrowAtlas("menu/results/highscoreNew");
         highscoreNew.animation.addByPrefix("", "highscoreAnim", 24, false);
         highscoreNew.visible = false;
+        highscoreNew.antialiasing = true;
         highscoreNew.animation.finishCallback = function(name) {
             highscoreNew.animation.play("", true, false, highscoreNew.animation.curAnim.numFrames - 12);
         }
