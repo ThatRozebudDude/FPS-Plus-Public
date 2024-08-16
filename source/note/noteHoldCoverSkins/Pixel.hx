@@ -6,7 +6,7 @@ class Pixel extends NoteHoldCoverSkinBase
     public function new() {
         super();
 
-        info.path = "week6/weeb/pixelUI/noteHoldCovers-pixel";
+        info.path = "week6/weeb/pixelUI/notes/noteHoldCovers-pixel";
         info.offset = offset(36, -16);
         info.positionOffset = offset(54, 60);
         info.alpha = 0.8;

@@ -194,6 +194,7 @@ class PlayState extends MusicBeatState
 
 	public var comboUI:ComboPopup;
 	public static final minCombo:Int = 10;
+	private var comboUiGroup:FlxTypedGroup<ComboPopup>;
 
 	public var stage:BaseStage;
 
@@ -496,11 +497,11 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		comboUiGroup = new FlxTypedGroup<ComboPopup>();
+
 		generateComboPopup();
 
-		if(Config.comboType < 2){
-			add(comboUI);
-		}
+		add(comboUiGroup);
 
 		Conductor.songPosition = -5000;
 
@@ -986,9 +987,10 @@ class PlayState extends MusicBeatState
 	}
 
 	//player 1 is player, player 0 is opponent
-	public function generateStaticArrows(player:Int, ?instant:Bool = false):Void{
+	public function generateStaticArrows(player:Int, ?instant:Bool = false, ?skin:String):Void{
+		if(skin == null){ skin = PlayState.curUiType; }
 
-		var hudNoteSkinName:String = PlayState.curUiType;
+		var hudNoteSkinName:String = skin;
 		var hudNoteSkinClass = Type.resolveClass("ui.hudNoteSkins." + hudNoteSkinName);
 		if(hudNoteSkinClass == null){
 			hudNoteSkinClass = ui.hudNoteSkins.Default;
@@ -1044,81 +1046,6 @@ class PlayState extends MusicBeatState
 			babyArrow.setGraphicSize(Std.int(babyArrow.width * hudNoteSkinInfo.scale));
 			babyArrow.updateHitbox();
 			babyArrow.antialiasing = hudNoteSkinInfo.anitaliasing;
-
-			/*switch (curUiType.toLowerCase()) {
-				case "pixel":
-					NoteHoldCover.coverPath = "week6/weeb/pixelUI/noteHoldCovers-pixel";
-
-					babyArrow.loadGraphic(Paths.image('week6/weeb/pixelUI/arrows-pixels'), true, 19, 19);
-					babyArrow.animation.add('green', [6]);
-					babyArrow.animation.add('red', [7]);
-					babyArrow.animation.add('blue', [5]);
-					babyArrow.animation.add('purplel', [4]);
-
-					babyArrow.setGraphicSize(Std.int(babyArrow.width * 6));
-					babyArrow.updateHitbox();
-					babyArrow.antialiasing = false;
-
-					switch (Math.abs(i))
-					{
-						case 2:
-							babyArrow.x += Note.swagWidth * 2;
-							babyArrow.animation.add('static', [2]);
-							babyArrow.animation.add('pressed', [26, 10], 12, false);
-							babyArrow.animation.add('confirm', [30, 14, 18], 24, false);
-						case 3:
-							babyArrow.x += Note.swagWidth * 3;
-							babyArrow.animation.add('static', [3]);
-							babyArrow.animation.add('pressed', [27, 11], 12, false);
-							babyArrow.animation.add('confirm', [31, 15, 19], 24, false);
-						case 1:
-							babyArrow.x += Note.swagWidth * 1;
-							babyArrow.animation.add('static', [1]);
-							babyArrow.animation.add('pressed', [25, 9], 12, false);
-							babyArrow.animation.add('confirm', [29, 13, 17], 24, false);
-						case 0:
-							babyArrow.x += Note.swagWidth * 0;
-							babyArrow.animation.add('static', [0]);
-							babyArrow.animation.add('pressed', [24, 8], 12, false);
-							babyArrow.animation.add('confirm', [28, 12, 16], 24, false);
-					}
-
-				default:
-					NoteHoldCover.coverPath = "ui/noteHoldCovers";
-
-					babyArrow.frames = Paths.getSparrowAtlas('ui/NOTE_assets');
-					babyArrow.animation.addByPrefix('green', 'arrowUP');
-					babyArrow.animation.addByPrefix('blue', 'arrowDOWN');
-					babyArrow.animation.addByPrefix('purple', 'arrowLEFT');
-					babyArrow.animation.addByPrefix('red', 'arrowRIGHT');
-
-					babyArrow.antialiasing = true;
-					babyArrow.setGraphicSize(Std.int(babyArrow.width * 0.7));
-
-					switch (Math.abs(i))
-					{
-						case 2:
-							babyArrow.x += Note.swagWidth * 2;
-							babyArrow.animation.addByPrefix('static', 'arrowUP');
-							babyArrow.animation.addByPrefix('pressed', 'up press', 24, false);
-							babyArrow.animation.addByPrefix('confirm', 'up confirm', 24, false);
-						case 3:
-							babyArrow.x += Note.swagWidth * 3;
-							babyArrow.animation.addByPrefix('static', 'arrowRIGHT');
-							babyArrow.animation.addByPrefix('pressed', 'right press', 24, false);
-							babyArrow.animation.addByPrefix('confirm', 'right confirm', 24, false);
-						case 1:
-							babyArrow.x += Note.swagWidth * 1;
-							babyArrow.animation.addByPrefix('static', 'arrowDOWN');
-							babyArrow.animation.addByPrefix('pressed', 'down press', 24, false);
-							babyArrow.animation.addByPrefix('confirm', 'down confirm', 24, false);
-						case 0:
-							babyArrow.x += Note.swagWidth * 0;
-							babyArrow.animation.addByPrefix('static', 'arrowLEFT');
-							babyArrow.animation.addByPrefix('pressed', 'left press', 24, false);
-							babyArrow.animation.addByPrefix('confirm', 'left confirm', 24, false);
-					}
-			}*/
 
 			var noteCover:NoteHoldCover = new NoteHoldCover(babyArrow, i, hudNoteSkinInfo.coverPath);
 
@@ -1196,12 +1123,10 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	public function generateComboPopup():Void{
-		if(comboUI != null){
-			comboUI.destroy();
-		}
+	public function generateComboPopup(?skin:String):Void{
+		if(skin == null){ skin = PlayState.curUiType; }
 
-		var comboPopupSkinName:String = PlayState.curUiType;
+		var comboPopupSkinName:String = skin;
 		var comboPopupSkinClass = Type.resolveClass("ui.comboPopupSkins." + comboPopupSkinName);
 		if(comboPopupSkinClass == null){
 			comboPopupSkinClass = ui.comboPopupSkins.Default;
@@ -1238,6 +1163,41 @@ class PlayState extends MusicBeatState
 			comboUI.numberInfo.scale *= comboPopupSkin.info.numbersHudScaleMultiply;
 			comboUI.comboBreakInfo.scale *= comboPopupSkin.info.breakHudScaleMultiply;
 		}
+
+		if(Config.comboType < 2){
+			comboUiGroup.add(comboUI);
+		}
+	}
+
+	public function regenerateUiSkin(skin:String):Void{
+		comboUiGroup.forEachAlive(function(comboPopup){
+			comboUiGroup.remove(comboPopup);
+			comboPopup.destroy();
+		});
+		
+		playerStrums.forEachAlive(function(strum){
+			playerStrums.remove(strum);
+			strum.destroy();
+		});
+
+		playerCovers.forEachAlive(function(cover){
+			playerCovers.remove(cover);
+			cover.destroy();
+		});
+
+		enemyStrums.forEachAlive(function(strum){
+			enemyStrums.remove(strum);
+			strum.destroy();
+		});
+
+		enemyCovers.forEachAlive(function(cover){
+			enemyCovers.remove(cover);
+			cover.destroy();
+		});
+
+		generateStaticArrows(0, true, skin);
+		generateStaticArrows(1, true, skin);
+		generateComboPopup(skin);
 	}
 
 	override function openSubState(SubState:FlxSubState) {

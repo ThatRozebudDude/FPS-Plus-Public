@@ -6,7 +6,7 @@ class Pixel extends NoteSplashSkinBase
     public function new(){
         super();
 
-        info.path = "week6/weeb/pixelUI/noteSplashes-pixel";
+        info.path = "week6/weeb/pixelUI/notes/noteSplashes-pixel";
         info.alpha = 0.7;
         info.limitedRotationAngles = true;
         info.scale = 6;

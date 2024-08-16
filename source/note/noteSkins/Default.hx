@@ -6,7 +6,7 @@ class Default extends NoteSkinBase
     public function new(){
         super();
 
-        info.path = "ui/NOTE_assets";
+        info.path = "ui/notes/NOTE_assets";
         info.frameLoadType = sparrow;
 
         setScrollAnimPrefix(left, "purple0");

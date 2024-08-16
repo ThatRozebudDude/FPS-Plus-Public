@@ -6,7 +6,7 @@ class Default extends NoteSplashSkinBase
     public function new(){
         super();
 
-        info.path = "ui/noteSplashes";
+        info.path = "ui/notes/noteSplashes";
         info.alpha = 0.6;
 
         addAnim(left, "note impact 1 purple", [21, 28], offset(126, 150));

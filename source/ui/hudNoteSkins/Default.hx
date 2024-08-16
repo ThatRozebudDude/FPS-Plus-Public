@@ -6,7 +6,7 @@ class Default extends HudNoteSkinBase
     public function new(){
         super();
 
-        info.notes.notePath = "ui/NOTE_assets";
+        info.notes.notePath = "ui/notes/NOTE_assets";
         info.notes.noteFrameLoadType = sparrow;
         info.notes.scale = 0.7;
 

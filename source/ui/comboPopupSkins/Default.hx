@@ -21,7 +21,7 @@ class Default extends ComboPopupSkinBase
             scale: 0.6
         };
         info.breakInfo = {
-            path: "ui/comboBreak",
+            path: "ui/ratings/comboBreak",
             position: new FlxPoint(0, -50),
             aa: true,
             scale: 0.6

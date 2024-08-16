@@ -21,7 +21,7 @@ class Pixel extends ComboPopupSkinBase
             scale: 6 * 0.8
         };
         info.breakInfo = {
-            path: "week6/weeb/pixelUI/comboBreak-pixel",
+            path: "week6/weeb/pixelUI/ratings/comboBreak-pixel",
             position: new FlxPoint(0, -50),
             aa: false,
             scale: 6 * 0.7

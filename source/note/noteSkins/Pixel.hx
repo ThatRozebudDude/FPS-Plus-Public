@@ -6,13 +6,13 @@ class Pixel extends NoteSkinBase
     public function new(){
         super();
 
-        info.path = "week6/weeb/pixelUI/arrows-pixels";
+        info.path = "week6/weeb/pixelUI/notes/arrows-pixels";
         info.frameLoadType = load(19, 19);
 
         setScrollAnimFrames(left, [4]);
         setGlowAnimFrames(left, [20]);
 
-        sustainInfo(left).pathOverride = "week6/weeb/pixelUI/arrowEnds";
+        sustainInfo(left).pathOverride = "week6/weeb/pixelUI/notes/arrowEnds";
         sustainInfo(left).frameLoadTypeOverride = load(7, 6);
         setHoldAnimFrames(left, [0]);
         setEndAnimFrames(left, [4]);
@@ -20,7 +20,7 @@ class Pixel extends NoteSkinBase
         setScrollAnimFrames(down, [5]);
         setGlowAnimFrames(down, [21]);
         
-        sustainInfo(down).pathOverride = "week6/weeb/pixelUI/arrowEnds";
+        sustainInfo(down).pathOverride = "week6/weeb/pixelUI/notes/arrowEnds";
         sustainInfo(down).frameLoadTypeOverride = load(7, 6);
         setHoldAnimFrames(down, [1]);
         setEndAnimFrames(down, [5]);
@@ -28,7 +28,7 @@ class Pixel extends NoteSkinBase
         setScrollAnimFrames(up, [6]);
         setGlowAnimFrames(up, [22]);
         
-        sustainInfo(up).pathOverride = "week6/weeb/pixelUI/arrowEnds";
+        sustainInfo(up).pathOverride = "week6/weeb/pixelUI/notes/arrowEnds";
         sustainInfo(up).frameLoadTypeOverride = load(7, 6);
         setHoldAnimFrames(up, [2]);
         setEndAnimFrames(up, [6]);
@@ -36,7 +36,7 @@ class Pixel extends NoteSkinBase
         setScrollAnimFrames(right, [7]);
         setGlowAnimFrames(right, [23]);
         
-        sustainInfo(right).pathOverride = "week6/weeb/pixelUI/arrowEnds";
+        sustainInfo(right).pathOverride = "week6/weeb/pixelUI/notes/arrowEnds";
         sustainInfo(right).frameLoadTypeOverride = load(7, 6);
         setHoldAnimFrames(right, [3]);
         setEndAnimFrames(right, [7]);

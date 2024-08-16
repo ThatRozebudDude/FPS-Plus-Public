@@ -6,7 +6,7 @@ class Default extends NoteHoldCoverSkinBase
     public function new() {
         super();
 
-        info.path = "ui/noteHoldCovers";
+        info.path = "ui/notes/noteHoldCovers";
         info.offset = offset(162, 155);
         info.positionOffset = offset(55, 55);
         info.alpha = 0.7;
