@@ -1,5 +1,6 @@
 package note;
 
+import note.NoteSplashSkinBase.NoteSplashAnim;
 import openfl.display.BlendMode;
 import openfl.display.BitmapData;
 import flixel.FlxSprite;
@@ -11,13 +12,19 @@ using StringTools;
 
 class NoteSplash extends FlxSprite{
 
-    public static var splashPath:String = "ui/noteSplashes";
+    public static var splashSkinClassName:String = "Default";
 
-    public function new(x:Float, y:Float, note:Int, ?forceSplashNumber:Null<Int>){
+    public function new(x:Float, y:Float, direction:Int, ?forceSplashNumber:Null<Int>){
 
         super(x, y);
+
+		var splashSkinClass = Type.resolveClass("note.noteSplashSkins." + splashSkinClassName);
+		if(splashSkinClass == null){
+			splashSkinClass = note.noteSplashSkins.Default;
+		}
+		var splashSkin:NoteSplashSkinBase = Type.createInstance(splashSkinClass, []);
         
-        var noteColor:String = "purple";
+        /*var noteColor:String = "purple";
         switch(note){
             case 1:
                 noteColor = "blue";
@@ -25,58 +32,48 @@ class NoteSplash extends FlxSprite{
                 noteColor = "green";
             case 3:
                 noteColor = "red";
-        }
+        }*/
 
-        var splashAnimNumber:Int;
+        /*var splashAnimNumber:Int;
 
         switch(splashPath){
             default:
                 splashAnimNumber = FlxG.random.int(1, 2);
-        }
+        }*/
 
+        /*if(forceSplashNumber != null){
+            splashAnimNumber = forceSplashNumber;
+        }*/
+
+        var splashAnimNumber:Int = FlxG.random.int(0, splashSkin.info.anims[direction].length - 1);
         if(forceSplashNumber != null){
             splashAnimNumber = forceSplashNumber;
         }
 
-        frames = Paths.getSparrowAtlas(splashPath);
-        antialiasing = true;
-        animation.addByPrefix("splash", "note impact " + splashAnimNumber + " " + noteColor, 24 + FlxG.random.int(-3, 4), false);
+        var anim:NoteSplashAnim = splashSkin.info.anims[direction][splashAnimNumber];
+
+        frames = Paths.getSparrowAtlas(splashSkin.info.path);
+        antialiasing = splashSkin.info.antialiasing;
+        animation.addByPrefix("splash", anim.prefix, FlxG.random.int(anim.framerateRange[0], anim.framerateRange[1]), false);
         animation.finishCallback = function(n){ destroy(); }
         animation.play("splash");
 
-        switch(splashPath){
-            case "week6/weeb/pixelUI/noteSplashes-pixel":
-                alpha = 0.7;
+        alpha = splashSkin.info.alpha;
 
-                setGraphicSize(Std.int(width * 6));
-                antialiasing = false;
-                updateHitbox();
+        setGraphicSize(Std.int(width * splashSkin.info.scale));
+        updateHitbox();
 
-                if(splashAnimNumber == 1){
-                    offset.set(21, 25);
-                }
-                else{
-                    offset.set(23, 23);
-                }
-                origin = offset;
+        offset.set(anim.offset[0], anim.offset[1]);
+        origin = offset;
 
+        if(splashSkin.info.randomRotation){
+            if(!splashSkin.info.limitedRotationAngles){
+                angle = FlxG.random.int(0, 359);
+            }
+            else{
                 var angles = [0, 90, 180, 270];
                 angle = angles[FlxG.random.int(0, 3)];
-
-            default:
-                alpha = 0.6;
-                //center offsets and rotate around center
-                if(splashAnimNumber == 1){
-                    offset.set(126, 150);
-                }
-                else{
-                    offset.set(138, 138);
-                }
-                origin = offset;
-
-                angle = FlxG.random.int(0, 359);
-                
-
+            }
         }
 
     }

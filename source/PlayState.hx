@@ -1191,7 +1191,7 @@ class PlayState extends MusicBeatState
 
 		if(player == 1){
 			//Prevents the game from lagging at first note splash.
-			NoteSplash.splashPath = hudNoteSkinInfo.splashPath;
+			NoteSplash.splashSkinClassName = hudNoteSkinInfo.splashClass;
 			var preloadSplash = new NoteSplash(-2000, -2000, 0);
 		}
 	}

@@ -11,7 +11,7 @@ typedef AllArrowsInfo = {
     var scale:Float;
     var anitaliasing:Bool;
 
-    var splashPath:String;
+    var splashClass:String;
     var coverPath:String;
 }
 
@@ -38,7 +38,7 @@ class HudNoteSkinBase{
                 noteFrameLoadType: null,
                 scale: 1,
                 anitaliasing: true,
-                splashPath: null,
+                splashClass: null,
                 coverPath: null,
                 arrowInfo:[
                     {
@@ -285,7 +285,7 @@ class HudNoteSkinBase{
                 noteFrameLoadType: null,
                 scale: 1,
                 anitaliasing: true,
-                splashPath: null,
+                splashClass: null,
                 coverPath: null,
                 arrowInfo:[
                     {

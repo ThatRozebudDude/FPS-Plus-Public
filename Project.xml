@@ -22,6 +22,7 @@
 	<compilerflag name="--macro" value="include('cutscenes.data', true)" />
 	<compilerflag name="--macro" value="include('note.types', true)" />
 	<compilerflag name="--macro" value="include('note.noteSkins', true)" />
+	<compilerflag name="--macro" value="include('note.noteSplashSkins', true)" />
 	<compilerflag name="--macro" value="include('events.data', true)" />
 	<compilerflag name="--macro" value="include('ui.countdownSkins', true)" />
 	<compilerflag name="--macro" value="include('ui.comboPopupSkins', true)" />

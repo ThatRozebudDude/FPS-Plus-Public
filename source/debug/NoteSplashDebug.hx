@@ -35,7 +35,7 @@ class NoteSplashDebug extends FlxState
 		infoText = new FlxText(24, 24, 0, "", 16);
 		add(infoText);
 
-		NoteSplash.splashPath = "ui/noteSplashes";
+		NoteSplash.splashSkinClassName = "ui/noteSplashes";
 		currentSplashAnim = 1;
 		currentSplashOffsets.set(120, 150);
 
@@ -49,23 +49,23 @@ class NoteSplashDebug extends FlxState
 		super.update(elapsed);
 
 		if(FlxG.keys.anyJustPressed([ONE])){
-			NoteSplash.splashPath = "ui/noteSplashes";
-			currentSplashAnim = 1;
+			NoteSplash.splashSkinClassName = "ui/noteSplashes";
+			currentSplashAnim = 0;
 			currentSplashOffsets.set(126, 150);
 		}
 		if(FlxG.keys.anyJustPressed([TWO])){
-			NoteSplash.splashPath = "ui/noteSplashes";
-			currentSplashAnim = 2;
+			NoteSplash.splashSkinClassName = "ui/noteSplashes";
+			currentSplashAnim = 1;
 			currentSplashOffsets.set(138, 138);
 		}
 		if(FlxG.keys.anyJustPressed([THREE])){
-			NoteSplash.splashPath = "week6/weeb/pixelUI/noteSplashes-pixel";
-			currentSplashAnim = 1;
+			NoteSplash.splashSkinClassName = "week6/weeb/pixelUI/noteSplashes-pixel";
+			currentSplashAnim = 0;
 			currentSplashOffsets.set(21, 25);
 		}
 		if(FlxG.keys.anyJustPressed([FOUR])){
-			NoteSplash.splashPath = "week6/weeb/pixelUI/noteSplashes-pixel";
-			currentSplashAnim = 2;
+			NoteSplash.splashSkinClassName = "week6/weeb/pixelUI/noteSplashes-pixel";
+			currentSplashAnim = 1;
 			currentSplashOffsets.set(23, 23);
 		}
 
@@ -102,7 +102,7 @@ class NoteSplashDebug extends FlxState
 	}
 
 	function updateText() {
-		infoText.text = "path: " + NoteSplash.splashPath + "\nanim: " + currentSplashAnim + "\noffset: " + currentSplashOffsets;
+		infoText.text = "Skin: " + NoteSplash.splashSkinClassName + "\nanim: " + currentSplashAnim + "\noffset: " + currentSplashOffsets;
 	}
 
 }

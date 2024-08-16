@@ -10,7 +10,7 @@ class Default extends HudNoteSkinBase
         info.notes.noteFrameLoadType = sparrow;
         info.notes.scale = 0.7;
 
-        info.notes.splashPath = "ui/noteSplashes";
+        info.notes.splashClass = "Default";
         info.notes.coverPath = "ui/noteHoldCovers";
 
         setStaticAnimPrefix(left, "arrowLEFT", 0);
