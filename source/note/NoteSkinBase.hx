@@ -255,11 +255,11 @@ class NoteSkinBase
 
 
 
-    function noteInfo(direction:Int):NoteInfo{
+    inline function noteInfo(direction:Int):NoteInfo{
         return info.noteInfoList[direction];
     }
 
-    function sustainInfo(direction:Int):SustainInfo{
+    inline function sustainInfo(direction:Int):SustainInfo{
         return info.sustainInfoList[direction];
     }
 

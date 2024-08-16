@@ -496,12 +496,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		//temp unti hud note skin
-		if(curUiType.toLowerCase() != "pixel") {NoteSplash.splashPath = "ui/noteSplashes";}
-		else{NoteSplash.splashPath = "week6/weeb/pixelUI/noteSplashes-pixel";}
-		//Prevents the game from lagging at first note splash.
-		var preloadSplash = new NoteSplash(-2000, -2000, 0);
-
 		generateComboPopup();
 
 		if(Config.comboType < 2){
@@ -991,13 +985,67 @@ class PlayState extends MusicBeatState
 		return FlxSort.byValues(FlxSort.ASCENDING, Obj1[0], Obj2[0]);
 	}
 
+	//player 1 is player, player 0 is opponent
 	public function generateStaticArrows(player:Int, ?instant:Bool = false):Void{
 
-		for (i in 0...4)
-		{
+		var hudNoteSkinName:String = PlayState.curUiType;
+		var hudNoteSkinClass = Type.resolveClass("ui.hudNoteSkins." + hudNoteSkinName);
+		if(hudNoteSkinClass == null){
+			hudNoteSkinClass = ui.hudNoteSkins.Default;
+		}
+		var hudNoteSkin:HudNoteSkinBase = Type.createInstance(hudNoteSkinClass, []);
+
+		var hudNoteSkinInfo = hudNoteSkin.info.notes;
+
+		if(player == 0){
+			if(hudNoteSkin.info.opponentNotes != null){
+				hudNoteSkinInfo = hudNoteSkin.info.opponentNotes;
+			}
+		}
+
+		for (i in 0...4){
+			
 			var babyArrow:FlxSprite = new FlxSprite(50, strumLine.y);
 
-			switch (curUiType.toLowerCase()) {
+			switch(hudNoteSkinInfo.noteFrameLoadType){
+				case sparrow:
+					babyArrow.frames = Paths.getSparrowAtlas(hudNoteSkinInfo.notePath);
+				case packer:
+					babyArrow.frames = Paths.getPackerAtlas(hudNoteSkinInfo.notePath);
+				case load(fw, fh):
+					babyArrow.loadGraphic(Paths.image(hudNoteSkinInfo.notePath), true, fw, fh);
+				default:
+					trace("not supported, sorry :[");
+			}
+
+			babyArrow.x += Note.swagWidth * i;
+
+			switch(hudNoteSkinInfo.arrowInfo[i].staticInfo.type){
+				case prefix:
+					babyArrow.animation.addByPrefix("static", hudNoteSkinInfo.arrowInfo[i].staticInfo.data.prefix, hudNoteSkinInfo.arrowInfo[i].staticInfo.data.framerate, true, hudNoteSkinInfo.arrowInfo[i].staticInfo.data.flipX, hudNoteSkinInfo.arrowInfo[i].staticInfo.data.flipY);
+				case frame:
+					babyArrow.animation.add("static", hudNoteSkinInfo.arrowInfo[i].staticInfo.data.frames, hudNoteSkinInfo.arrowInfo[i].staticInfo.data.framerate, true, hudNoteSkinInfo.arrowInfo[i].staticInfo.data.flipX, hudNoteSkinInfo.arrowInfo[i].staticInfo.data.flipY);
+			}
+
+			switch(hudNoteSkinInfo.arrowInfo[i].pressedInfo.type){
+				case prefix:
+					babyArrow.animation.addByPrefix("pressed", hudNoteSkinInfo.arrowInfo[i].pressedInfo.data.prefix, hudNoteSkinInfo.arrowInfo[i].pressedInfo.data.framerate, false, hudNoteSkinInfo.arrowInfo[i].pressedInfo.data.flipX, hudNoteSkinInfo.arrowInfo[i].pressedInfo.data.flipY);
+				case frame:
+					babyArrow.animation.add("pressed", hudNoteSkinInfo.arrowInfo[i].pressedInfo.data.frames, hudNoteSkinInfo.arrowInfo[i].pressedInfo.data.framerate, false, hudNoteSkinInfo.arrowInfo[i].pressedInfo.data.flipX, hudNoteSkinInfo.arrowInfo[i].pressedInfo.data.flipY);
+			}
+
+			switch(hudNoteSkinInfo.arrowInfo[i].confrimedInfo.type){
+				case prefix:
+					babyArrow.animation.addByPrefix("confirm", hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.prefix, hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.framerate, false, hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.flipX, hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.flipY);
+				case frame:
+					babyArrow.animation.add("confirm", hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.frames, hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.framerate, false, hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.flipX, hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.flipY);
+			}
+
+			babyArrow.setGraphicSize(Std.int(babyArrow.width * hudNoteSkinInfo.scale));
+			babyArrow.updateHitbox();
+			babyArrow.antialiasing = hudNoteSkinInfo.anitaliasing;
+
+			/*switch (curUiType.toLowerCase()) {
 				case "pixel":
 					NoteHoldCover.coverPath = "week6/weeb/pixelUI/noteHoldCovers-pixel";
 
@@ -1070,11 +1118,10 @@ class PlayState extends MusicBeatState
 							babyArrow.animation.addByPrefix('pressed', 'left press', 24, false);
 							babyArrow.animation.addByPrefix('confirm', 'left confirm', 24, false);
 					}
-			}
+			}*/
 
-			var noteCover:NoteHoldCover = new NoteHoldCover(babyArrow, i);
+			var noteCover:NoteHoldCover = new NoteHoldCover(babyArrow, i, hudNoteSkinInfo.coverPath);
 
-			babyArrow.updateHitbox();
 			babyArrow.scrollFactor.set();
 
 			babyArrow.ID = i;
@@ -1087,7 +1134,6 @@ class PlayState extends MusicBeatState
 					if(autoplay){
 						if(name == "confirm"){
 							babyArrow.animation.play('static', true);
-							babyArrow.centerOffsets();
 						}
 					}
 				}
@@ -1107,7 +1153,6 @@ class PlayState extends MusicBeatState
 				babyArrow.animation.finishCallback = function(name:String){
 					if(name == "confirm"){
 						babyArrow.animation.play('static', true);
-						babyArrow.centerOffsets();
 					}
 				}
 
@@ -1124,7 +1169,30 @@ class PlayState extends MusicBeatState
 				tweenManager.tween(babyArrow, {y: babyArrow.y + 10, alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
 			}
 
+			babyArrow.animation.callback = function(name:String, frame:Int, index:Int) {
+				if(frame == 0){
+					babyArrow.centerOffsets();
+					switch(name){
+						case "static":
+							babyArrow.offset.x += hudNoteSkinInfo.arrowInfo[i].staticInfo.data.offset[0];
+							babyArrow.offset.y += hudNoteSkinInfo.arrowInfo[i].staticInfo.data.offset[1];
+						case "pressed":
+							babyArrow.offset.x += hudNoteSkinInfo.arrowInfo[i].pressedInfo.data.offset[0];
+							babyArrow.offset.y += hudNoteSkinInfo.arrowInfo[i].pressedInfo.data.offset[1];
+						case "confirm":
+							babyArrow.offset.x += hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.offset[0];
+							babyArrow.offset.y += hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.offset[1];
+					}
+				}
+			}
+
 			babyArrow.animation.play('static');
+		}
+
+		if(player == 1){
+			//Prevents the game from lagging at first note splash.
+			NoteSplash.splashPath = hudNoteSkinInfo.splashPath;
+			var preloadSplash = new NoteSplash(-2000, -2000, 0);
 		}
 	}
 
@@ -1556,14 +1624,14 @@ class PlayState extends MusicBeatState
 					if (Math.abs(daNote.noteData) == spr.ID)
 					{
 						spr.animation.play('confirm', true);
-						if (spr.animation.curAnim.name == 'confirm' && !(curUiType.toLowerCase() == "pixel"))
+						/*if (spr.animation.curAnim.name == 'confirm' && !(curUiType.toLowerCase() == "pixel"))
 						{
 							spr.centerOffsets();
 							spr.offset.x -= 14;
 							spr.offset.y -= 14;
 						}
 						else
-							spr.centerOffsets();
+							spr.centerOffsets();*/
 					}
 				});
 
@@ -1985,7 +2053,7 @@ class PlayState extends MusicBeatState
 					}
 			}
 
-			switch(spr.animation.curAnim.name){
+		/*	switch(spr.animation.curAnim.name){
 
 				case "confirm":
 
@@ -1998,22 +2066,22 @@ class PlayState extends MusicBeatState
 					}
 
 					//i'm bored lol
-					/*if(spr.animation.curAnim.curFrame == 0){
-						tweenManager.cancelTweensOf(spr.scale);
-						spr.centerOrigin();
-						spr.scale.set(1.4, 1.4);
-						tweenManager.tween(spr.scale, {x: 0.7, y: 0.7}, 1, {ease: FlxEase.elasticOut});
-					}*/
+				//	if(spr.animation.curAnim.curFrame == 0){
+				//		tweenManager.cancelTweensOf(spr.scale);
+				//		spr.centerOrigin();
+				//		spr.scale.set(1.4, 1.4);
+				//		tweenManager.tween(spr.scale, {x: 0.7, y: 0.7}, 1, {ease: FlxEase.elasticOut});
+				//	}
 
-				/*case "static":
-					spr.alpha = 0.5; //Might mess around with strum transparency in the future or something.
-					spr.centerOffsets();*/
+				//case "static":
+				//	spr.alpha = 0.5; //Might mess around with strum transparency in the future or something.
+				//	spr.centerOffsets();
 
 				default:
 					//spr.alpha = 1;
 					spr.centerOffsets();
 
-			}
+			}*/
 
 		});
 	}
@@ -2049,14 +2117,14 @@ class PlayState extends MusicBeatState
 			playerStrums.forEach(function(spr:FlxSprite){
 				if (Math.abs(x.noteData) == spr.ID){
 					spr.animation.play('confirm', true);
-					if (spr.animation.curAnim.name == 'confirm' && !(curUiType.toLowerCase() == "pixel")){
+					/*if (spr.animation.curAnim.name == 'confirm' && !(curUiType.toLowerCase() == "pixel")){
 						spr.centerOffsets();
 						spr.offset.x -= 14;
 						spr.offset.y -= 14;
 					}
 					else{
 						spr.centerOffsets();
-					}
+					}*/
 				}
 			});
 

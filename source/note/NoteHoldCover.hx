@@ -13,7 +13,7 @@ using StringTools;
 
 class NoteHoldCover extends FlxSprite{
 
-    public static var coverPath:String = "ui/noteHoldCovers";
+    var coverPath:String = "ui/noteHoldCovers";
 
     public var noteDirection:Int = -1;
     var splashAlpha = 0.7;
@@ -21,12 +21,12 @@ class NoteHoldCover extends FlxSprite{
 
     var referenceSprite:FlxSprite;
 
-    public function new(_referenceSprite:FlxSprite, note:Int){
+    public function new(_referenceSprite:FlxSprite, note:Int, _coverPath:String){
 
         super(0, 0);
 
         referenceSprite = _referenceSprite;
-
+        coverPath = _coverPath;
         noteDirection = note;
         
         var noteColor:String = "Purple";
