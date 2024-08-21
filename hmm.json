@@ -55,6 +55,13 @@
             "dir": null,
             "ref": "57f5d47f2533fd0c3dcd025a86cb86c0dfa0b6d2",
             "url": "https://gitlab.com/haxe-grig/grig.audio.git"
+        },
+        {
+            "name": "hxCodec",
+            "type": "git",
+            "dir": null,
+            "ref": "61b98a7a353b7f529a8fec84ed9afc919a2dffdd",
+            "url": "https://github.com/FunkinCrew/hxCodec"
         }
     ]
 }

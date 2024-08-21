@@ -107,6 +107,7 @@
 	<haxelib name="flixel-ui" />
 	<haxelib name="compiletime" />
 	<haxelib name="flxanimate" />
+	<haxelib name="hxCodec" if="desktop" />
 	<haxelib name="funkin.vis" />
 	<haxelib name="grig.audio" />
 	
@@ -157,10 +158,15 @@
 
 	<!-- _________________________________ Custom _______________________________ -->
 
-	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
-	<icon path="art/icon128.png" />
-	<icon path="art/icon16.png" size='16'/>
+	<!-- Disable trace() calls in release builds to bump up performance. -->
+	<haxeflag name="--no-traces" unless="debug" />
 
+	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
+	<icon path="art/icon16.png" size="16" />
+	<icon path="art/icon32.png" size="32" />
+	<icon path="art/icon64.png" size="64" />
+	<icon path="art/icon128.png" size="128" />
+	<icon path="art/iconOG.png" />
 
 	<!-- <haxedef name="SKIP_TO_PLAYSTATE" if="debug" /> -->
 	<!--haxedef name="NG_LOGIN" if="newgrounds" /-->

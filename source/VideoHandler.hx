@@ -9,7 +9,9 @@ import flixel.util.FlxColor;
 import openfl.media.Video;
 import openfl.net.NetConnection;
 import openfl.net.NetStream;
-import vlc.VlcBitmap;
+#if desktop
+import hxcodec.flixel.FlxVideo;
+#end
 
 /**
 	An adaptation of PolybiusProxy's OpenFL desktop MP4 code to not only make         
@@ -44,7 +46,7 @@ class VideoHandler extends FlxSprite
 	var destroyed:Bool = false;
 
 	#if desktop
-	var vlcBitmap:VlcBitmap;
+	var video:FlxVideo;
 	#end
 
 	#if web
@@ -83,7 +85,7 @@ class VideoHandler extends FlxSprite
 		Only works on desktop builds.
 		It is recommended that you use `playMP4()` instead since that works for desktop and web.
 	**/
-	@:noCompletion public function playDesktopMP4(path:String, callback:Void->Void, ?repeat:Bool = false, ?isWindow:Bool = false, ?isFullscreen:Bool = false):Void {
+	@:noCompletion public function playDesktopMP4(path:String, callback:Void->Void, ?repeat:Bool = false):Void {
 
 		//FlxG.autoPause = false;
 
@@ -94,22 +96,13 @@ class VideoHandler extends FlxSprite
 
 		finishCallback = callback;
 
-		vlcBitmap = new VlcBitmap();
-		vlcBitmap.onVideoReady = onVLCVideoReady;
-		vlcBitmap.onComplete = onVLCComplete;
-		vlcBitmap.volume = FlxG.sound.volume;
+		video = new FlxVideo();
+		video.onOpening.add(onVLCVideoReady);
+		video.onEndReached.add(onVLCComplete);
 
-		if (repeat)
-			vlcBitmap.repeat = -1;
-		else
-			vlcBitmap.repeat = 0;
-
-		vlcBitmap.inWindow = isWindow;
-		vlcBitmap.fullscreen = isFullscreen;
-
-		FlxG.addChildBelowMouse(vlcBitmap);
-		vlcBitmap.play(checkFile(path));
-		vlcBitmap.visible = false;
+		FlxG.addChildBelowMouse(video);
+		video.play(checkFile(path), repeat);
+		video.visible = true;
 
 		FlxG.signals.focusLost.add(pause);
 		FlxG.signals.focusGained.add(resume);
@@ -147,14 +140,14 @@ class VideoHandler extends FlxSprite
 	}
 
 	function vlcClean(){
-		vlcBitmap.stop();
+		video.stop();
 
 		// Clean player, just in case!
-		vlcBitmap.dispose();
+		video.dispose();
 
-		if (FlxG.game.contains(vlcBitmap))
+		if (FlxG.game.contains(video))
 		{
-			FlxG.game.removeChild(vlcBitmap);
+			FlxG.game.removeChild(video);
 		}
 
 		trace("Done!");
@@ -271,25 +264,25 @@ class VideoHandler extends FlxSprite
 		super.update(elapsed);
 
 		#if desktop
-		if(vlcBitmap != null){
+		if(video != null){
 
-			if(!__muted){
+			if(FlxG.sound.muted || __muted){
+				video.volume = 0;
+			}
+			else{
 				//I'm going to blow up a retirement home.
 				var vol:Float = FlxG.sound.volume;
 				vol = (vol) * 0.7;
 				vol += 0.3;
-				vlcBitmap.volume = vol * volume;
-			}
-			else{
-				vlcBitmap.volume = 0;
+				video.volume = Std.int(vol * volume * 100);
 			}
 
 		}
 
 		if(waitingStart){
 
-			if(vlcBitmap.initComplete){
-				makeGraphic(vlcBitmap.bitmapData.width, vlcBitmap.bitmapData.height, FlxColor.TRANSPARENT);
+			if(video.bitmapData != null){
+				makeGraphic(video.bitmapData.width, video.bitmapData.height, FlxColor.TRANSPARENT);
 
 				waitingStart = false;
 				startDrawing = true;
@@ -299,11 +292,11 @@ class VideoHandler extends FlxSprite
 
 		if(startDrawing && !paused){
 
-				if(frameCount >= 1/MAX_FPS){
-					pixels.draw(vlcBitmap.bitmapData);
-					frameCount = 0;
-				}
-				frameCount += elapsed;
+			if(frameCount >= 1/MAX_FPS){
+				pixels.draw(video.bitmapData);
+				frameCount = 0;
+			}
+			frameCount += elapsed;
 
 		}
 		#end
@@ -368,8 +361,8 @@ class VideoHandler extends FlxSprite
 	public function pause(){
 
 		#if desktop
-		if(vlcBitmap != null && !paused){
-			vlcBitmap.pause();
+		if(video != null && !paused){
+			video.pause();
 		}
 		#end
 
@@ -388,8 +381,8 @@ class VideoHandler extends FlxSprite
 	public function resume(){
 
 		#if desktop
-		if(vlcBitmap != null && paused){ 
-			vlcBitmap.resume();
+		if(video != null && paused){ 
+			video.resume();
 		}
 		#end
 
@@ -431,7 +424,7 @@ class VideoHandler extends FlxSprite
 
 	/*function get_length():Float {
 		#if desktop
-		return vlcBitmap.length;
+		return video.length;
 		#end
 		#if web
 		@:privateAccess
