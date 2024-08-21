@@ -1,16 +1,16 @@
 package;
 
-import flixel.util.FlxSignal;
-import openfl.events.Event;
-import openfl.media.SoundTransform;
 import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.util.FlxColor;
+
+#if desktop
+import hxcodec.openfl.Video;
+#elseif web
+import openfl.media.SoundTransform;
 import openfl.media.Video;
 import openfl.net.NetConnection;
 import openfl.net.NetStream;
-#if desktop
-import hxcodec.flixel.FlxVideo;
 #end
 
 /**
@@ -34,7 +34,7 @@ class VideoHandler extends FlxSprite
 	public var muted(get, set):Bool;
 	public var volume:Float = 1;
 
-	//public var length(get, never):Float;
+	public var length(get, never):Float;
 
 	var __muted:Bool = false;
 	var paused:Bool = false;
@@ -46,10 +46,8 @@ class VideoHandler extends FlxSprite
 	var destroyed:Bool = false;
 
 	#if desktop
-	var video:FlxVideo;
-	#end
-
-	#if web
+	var bitmap:Video;
+	#elseif web
 	var video:Video;
 	var netStream:NetStream;
 	var netPath:String;
@@ -96,14 +94,14 @@ class VideoHandler extends FlxSprite
 
 		finishCallback = callback;
 
-		video = new FlxVideo();
-		video.onOpening.add(onVLCVideoReady);
-		video.onEndReached.add(onVLCComplete);
-
-		FlxG.addChildBelowMouse(video);
-		video.play(checkFile(path), repeat);
-		video.visible = true;
-
+		bitmap = new Video();
+		bitmap.onOpening.add(onVLCVideoReady);
+		bitmap.onEndReached.add(onVLCComplete);
+		
+		FlxG.addChildBelowMouse(bitmap);
+		bitmap.play(checkFile(path), repeat);
+		bitmap.alpha = 0;
+		
 		FlxG.signals.focusLost.add(pause);
 		FlxG.signals.focusGained.add(resume);
 
@@ -140,14 +138,14 @@ class VideoHandler extends FlxSprite
 	}
 
 	function vlcClean(){
-		video.stop();
+		bitmap.stop();
 
 		// Clean player, just in case!
-		video.dispose();
+		bitmap.dispose();
 
-		if (FlxG.game.contains(video))
+		if (FlxG.game.contains(bitmap))
 		{
-			FlxG.game.removeChild(video);
+			FlxG.game.removeChild(bitmap);
 		}
 
 		trace("Done!");
@@ -264,25 +262,25 @@ class VideoHandler extends FlxSprite
 		super.update(elapsed);
 
 		#if desktop
-		if(video != null){
+		if(bitmap != null){
 
 			if(FlxG.sound.muted || __muted){
-				video.volume = 0;
+				bitmap.volume = 0;
 			}
 			else{
 				//I'm going to blow up a retirement home.
 				var vol:Float = FlxG.sound.volume;
 				vol = (vol) * 0.7;
 				vol += 0.3;
-				video.volume = Std.int(vol * volume * 100);
+				bitmap.volume = Std.int(vol * volume * 100);
 			}
 
 		}
 
 		if(waitingStart){
 
-			if(video.bitmapData != null){
-				makeGraphic(video.bitmapData.width, video.bitmapData.height, FlxColor.TRANSPARENT);
+			if(bitmap.bitmapData != null){
+				makeGraphic(bitmap.bitmapData.width, bitmap.bitmapData.height, FlxColor.TRANSPARENT);
 
 				waitingStart = false;
 				startDrawing = true;
@@ -293,7 +291,7 @@ class VideoHandler extends FlxSprite
 		if(startDrawing && !paused){
 
 			if(frameCount >= 1/MAX_FPS){
-				pixels.draw(video.bitmapData);
+				loadGraphic(bitmap.bitmapData);
 				frameCount = 0;
 			}
 			frameCount += elapsed;
@@ -361,8 +359,8 @@ class VideoHandler extends FlxSprite
 	public function pause(){
 
 		#if desktop
-		if(video != null && !paused){
-			video.pause();
+		if(bitmap != null && !paused){
+			bitmap.pause();
 		}
 		#end
 
@@ -381,8 +379,8 @@ class VideoHandler extends FlxSprite
 	public function resume(){
 
 		#if desktop
-		if(video != null && paused){ 
-			video.resume();
+		if(bitmap != null && paused){ 
+			bitmap.resume();
 		}
 		#end
 
@@ -422,13 +420,13 @@ class VideoHandler extends FlxSprite
 	}
 	
 
-	/*function get_length():Float {
+	function get_length():Float {
 		#if desktop
-		return video.length;
+		return bitmap.length / 1000;
 		#end
 		#if web
 		@:privateAccess
 		return netStream.__video.duration;
 		#end
-	}*/
+	}
 }
