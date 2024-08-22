@@ -280,8 +280,6 @@ class VideoHandler extends FlxSprite
 		if(waitingStart){
 
 			if(bitmap.bitmapData != null){
-				makeGraphic(bitmap.bitmapData.width, bitmap.bitmapData.height, FlxColor.TRANSPARENT);
-
 				waitingStart = false;
 				startDrawing = true;
 			}
