@@ -1,7 +1,5 @@
 ![](/art/readme/logo.png)
 
-*Finally, it's open source.*
-
 # Friday Night Funkin' FPS Plus
 Friday Night Funkin' FPS Plus is an engine mod of Friday Night Funkin' that aims to improve gameplay and add quality of life features.
 
@@ -9,7 +7,7 @@ Friday Night Funkin' FPS Plus is an engine mod of Friday Night Funkin' that aims
 
 ## 
 
-FPS Plus was designed to increase the framerate of Friday Night Funkin' and is still currently (as far as I know) the only engine that allows for an unlocked framerate. It also features a plethora of enhancements and quality of life features. A bunch of systems are also changed as well that alter the workflow of coding stuff into the engine.
+FPS Plus was originally designed to increase the framerate of Friday Night Funkin' and is still currently (as far as I know) the only engine that allows for an unlocked framerate. It also features a plethora of enhancements and quality of life features. A bunch of systems are also changed as well that alter the workflow of coding stuff into the engine.
 
 ## Building
 
@@ -41,11 +39,11 @@ Run `lime test PLATFORM` or `lime build PLATFORM` to compile the game.
 - [Rozebud](https://twitter.com/helpme_thebigt) - *Basically everything that's been added.*
 - [Elikapika](https://twitter.com/elikapika) - *Additional Sticker Art*
 - [River Music](https://twitter.com/rivermusic_) - *Additional Sticker Art*
+- [Everyone else who has contributed to the engine.](https://github.com/ThatRozebudDude/FPS-Plus-Public/graphs/contributors)
 
 ### Shoutouts
 - [Fabs](https://twitter.com/fabsthefabs) - Coding buddy.
 - [Smokey](https://twitter.com/Smokey_5_) - Helped with coding a few systems.
 - [KadeDev](https://twitter.com/kade0912) - *Rest in Peace* (Engine not the guy lol)
 - [ShadowMario](https://twitter.com/Shadow_Mario_) - Showing support for FPS Plus on Twitter. (Also sometimes I adapt Psych code, *shhhh...*)
-- [PolybiusProxy](https://twitter.com/polybiusproxy) - Haxeflixel Desktop MP4 stuff.
 - [Ethab Taxi](https://twitter.com/EthabTaxi) - He's just sorta chillin'.
