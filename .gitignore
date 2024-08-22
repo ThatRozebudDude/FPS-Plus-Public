@@ -6,6 +6,3 @@ promo/
 # Ignore IDE and library stuff
 .haxelib/
 .vscode/
-
-# Ignore un-used assets
-assets/exclude/images
