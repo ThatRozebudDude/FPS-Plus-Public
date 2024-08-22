@@ -21,6 +21,8 @@ To download and install all libraries required compiling, you must install Haxe'
 
 * After `hmm`'s install is complete, run `hmm install` in the root directory to install all haxelibs.
 
+* You also have to run `haxelib --global git hxCodec https://github.com/FunkinCrew/hxCodec 61b98a7a353b7f529a8fec84ed9afc919a2dffdd` because hxCodec doesn't like to work with hmm for some reason.
+
 * After installing all libraries, run `haxelib run lime setup` to set up `lime`.
 
 To set up build tools, refer to part 8 of [this document](https://github.com/FunkinCrew/Funkin/blob/main/docs/COMPILING.md).

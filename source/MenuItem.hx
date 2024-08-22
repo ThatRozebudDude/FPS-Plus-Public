@@ -24,9 +24,9 @@ class MenuItem extends FlxSpriteGroup
 				weekPrefix = "weekend";
 		}
 
-		trace(weekNum);
-		trace(weekNumber);
-		trace(weekPrefix);
+		//trace(weekNum);
+		//trace(weekNumber);
+		//trace(weekPrefix);
 
 		week = new FlxSprite().loadGraphic(Paths.image('menu/story/weeks/' + weekPrefix + weekNumber));
 		add(week);
