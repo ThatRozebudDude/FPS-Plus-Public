@@ -1,15 +1,18 @@
 package;
 
 import flixel.util.FlxSignal;
-import openfl.events.Event;
-import openfl.media.SoundTransform;
 import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.util.FlxColor;
+
+#if desktop
+import hxcodec.openfl.Video;
+#elseif web
+import openfl.media.SoundTransform;
 import openfl.media.Video;
 import openfl.net.NetConnection;
 import openfl.net.NetStream;
-import vlc.VlcBitmap;
+#end
 
 /**
 	An adaptation of PolybiusProxy's OpenFL desktop MP4 code to not only make         
@@ -32,22 +35,23 @@ class VideoHandler extends FlxSprite
 	public var muted(get, set):Bool;
 	public var volume:Float = 1;
 
-	//public var length(get, never):Float;
+	public var length(get, never):Float;
 
 	var __muted:Bool = false;
 	var paused:Bool = false;
 	var finishCallback:Void->Void;
 	var waitingStart:Bool = false;
 	var startDrawing:Bool = false;
-	var frameCount:Float = 0;
+	var frameTimer:Float = 0;
 	var completed:Bool = false;
 	var destroyed:Bool = false;
 
-	#if desktop
-	var vlcBitmap:VlcBitmap;
-	#end
+	public var onStart:FlxSignal = new FlxSignal();
+	public var onEnd:FlxSignal = new FlxSignal();
 
-	#if web
+	#if desktop
+	var bitmap:Video;
+	#elseif web
 	var video:Video;
 	var netStream:NetStream;
 	var netPath:String;
@@ -83,7 +87,7 @@ class VideoHandler extends FlxSprite
 		Only works on desktop builds.
 		It is recommended that you use `playMP4()` instead since that works for desktop and web.
 	**/
-	@:noCompletion public function playDesktopMP4(path:String, callback:Void->Void, ?repeat:Bool = false, ?isWindow:Bool = false, ?isFullscreen:Bool = false):Void {
+	@:noCompletion public function playDesktopMP4(path:String, callback:Void->Void, ?repeat:Bool = false):Void {
 
 		//FlxG.autoPause = false;
 
@@ -94,31 +98,21 @@ class VideoHandler extends FlxSprite
 
 		finishCallback = callback;
 
-		vlcBitmap = new VlcBitmap();
-		vlcBitmap.onVideoReady = onVLCVideoReady;
-		vlcBitmap.onComplete = onVLCComplete;
-		vlcBitmap.volume = FlxG.sound.volume;
-
-		if (repeat)
-			vlcBitmap.repeat = -1;
-		else
-			vlcBitmap.repeat = 0;
-
-		vlcBitmap.inWindow = isWindow;
-		vlcBitmap.fullscreen = isFullscreen;
-
-		FlxG.addChildBelowMouse(vlcBitmap);
-		vlcBitmap.play(checkFile(path));
-		vlcBitmap.visible = false;
-
+		bitmap = new Video();
+		bitmap.onOpening.add(onVLCVideoReady);
+		bitmap.onEndReached.add(onVLCComplete);
+		
+		FlxG.addChildBelowMouse(bitmap);
+		bitmap.play(checkFile(path), repeat);
+		bitmap.alpha = 0;
+		
 		FlxG.signals.focusLost.add(pause);
 		FlxG.signals.focusGained.add(resume);
 
 		waitingStart = true;
 	}
 
-	function checkFile(fileName:String):String
-	{
+	function checkFile(fileName:String):String{
 		var pDir = "";
 		var appDir = "file:///" + Sys.getCwd() + "/";
 		if (fileName.indexOf(":") == -1) // Not a path
@@ -129,32 +123,29 @@ class VideoHandler extends FlxSprite
 		return pDir + fileName;
 	}
 
-	function onVLCVideoReady()
-	{
+	function onVLCVideoReady(){
 		trace("video loaded!");
 	}
 
-	function onVLCComplete()
-	{
+	function onVLCComplete(){
+		onEnd.dispatch();
+
 		if (finishCallback != null){
 			finishCallback();
 		}
 
 		destroy();
-
-		//FlxG.autoPause = true;
-
 	}
 
 	function vlcClean(){
-		vlcBitmap.stop();
+		bitmap.stop();
 
 		// Clean player, just in case!
-		vlcBitmap.dispose();
+		bitmap.dispose();
 
-		if (FlxG.game.contains(vlcBitmap))
+		if (FlxG.game.contains(bitmap))
 		{
-			FlxG.game.removeChild(vlcBitmap);
+			FlxG.game.removeChild(bitmap);
 		}
 
 		trace("Done!");
@@ -229,6 +220,7 @@ class VideoHandler extends FlxSprite
 	}
 
 	function finishVideo(){
+		onEnd.dispatch();
 		
 		if (finishCallback != null){
 				finishCallback();
@@ -271,39 +263,37 @@ class VideoHandler extends FlxSprite
 		super.update(elapsed);
 
 		#if desktop
-		if(vlcBitmap != null){
+		if(bitmap != null){
 
-			if(!__muted){
-				//I'm going to blow up a retirement home.
+			if(FlxG.sound.muted || __muted){
+				bitmap.volume = 0;
+			}
+			else{
 				var vol:Float = FlxG.sound.volume;
 				vol = (vol) * 0.7;
 				vol += 0.3;
-				vlcBitmap.volume = vol * volume;
-			}
-			else{
-				vlcBitmap.volume = 0;
+				bitmap.volume = Std.int(vol * volume * 100);
 			}
 
 		}
 
 		if(waitingStart){
 
-			if(vlcBitmap.initComplete){
-				makeGraphic(vlcBitmap.bitmapData.width, vlcBitmap.bitmapData.height, FlxColor.TRANSPARENT);
-
+			if(bitmap.bitmapData != null){
 				waitingStart = false;
 				startDrawing = true;
+				onStart.dispatch();
 			}
 			
 		}
 
 		if(startDrawing && !paused){
 
-				if(frameCount >= 1/MAX_FPS){
-					pixels.draw(vlcBitmap.bitmapData);
-					frameCount = 0;
-				}
-				frameCount += elapsed;
+			if(frameTimer >= 1/MAX_FPS){
+				loadGraphic(bitmap.bitmapData);
+				frameTimer = 0;
+			}
+			frameTimer += elapsed;
 
 		}
 		#end
@@ -314,21 +304,19 @@ class VideoHandler extends FlxSprite
 		}
 
 		if(waitingStart){
-
 			makeGraphic(video.videoWidth, video.videoHeight, FlxColor.TRANSPARENT);
-
 			waitingStart = false;
 			startDrawing = true;
-			
+			onStart.dispatch();
 		}
 
 		if(startDrawing && !paused){
 
-			if(frameCount >= 1/MAX_FPS){
+			if(frameTimer >= 1/MAX_FPS){
 				pixels.draw(video);
-				frameCount = 0;
+				frameTimer = 0;
 			}
-			frameCount += elapsed;
+			frameTimer += elapsed;
 
 		}
 		#end
@@ -368,8 +356,8 @@ class VideoHandler extends FlxSprite
 	public function pause(){
 
 		#if desktop
-		if(vlcBitmap != null && !paused){
-			vlcBitmap.pause();
+		if(bitmap != null && !paused){
+			bitmap.pause();
 		}
 		#end
 
@@ -388,8 +376,8 @@ class VideoHandler extends FlxSprite
 	public function resume(){
 
 		#if desktop
-		if(vlcBitmap != null && paused){ 
-			vlcBitmap.resume();
+		if(bitmap != null && paused){ 
+			bitmap.resume();
 		}
 		#end
 
@@ -429,13 +417,13 @@ class VideoHandler extends FlxSprite
 	}
 	
 
-	/*function get_length():Float {
+	function get_length():Float {
 		#if desktop
-		return vlcBitmap.length;
+		return bitmap.length / 1000;
 		#end
 		#if web
 		@:privateAccess
 		return netStream.__video.duration;
 		#end
-	}*/
+	}
 }

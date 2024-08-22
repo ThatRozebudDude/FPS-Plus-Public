@@ -42,7 +42,6 @@ class VideoCutsceneEnd extends ScriptedCutscene
         video.cameras = [playstate.camOverlay];
 
         addEvent(0, setup);
-        addEvent(0.1, showBlack);
     }
 
     override function update(elapsed:Float) {
@@ -60,9 +59,7 @@ class VideoCutsceneEnd extends ScriptedCutscene
         playstate.inVideoCutscene = true;
 
         video.visible = true;
-
-        playstate.camGame.filters = [];
-        playstate.camHUD.visible = false;
+        video.onStart.addOnce(videoStarted);
 
 		video.playMP4(Paths.video(path), function(){
             videoOver = true;
@@ -74,8 +71,10 @@ class VideoCutsceneEnd extends ScriptedCutscene
 		addGeneric(video);
     }
 
-    function showBlack() {
+    function videoStarted() {
         black.visible = true;
+        playstate.camGame.filters = [];
+        playstate.camHUD.visible = false;
     }
 
 }
