@@ -38,7 +38,7 @@
 	<window if="html5" resizable="true" />
 
 	<!--Desktop-specific-->
-	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false" allow-high-dpi="true"/>
+	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false" allow-high-dpi="true" />
 
 	<!--Mobile-specific-->
 	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" />
@@ -58,43 +58,41 @@
 	<assets path="assets/data" />
 	<assets path="assets/videos" />
 	<!-- <template path='mods' /> -->
-	
+
 	<!-- <library name="noPreload" preload='false'/> -->
 	<!-- <library name="noPreload"/> -->
-	<assets path="assets/music" include="*.ogg"/>
-	<assets path="assets/sounds" include="*.ogg"/>
-	<assets path="assets/songs"/>
+	<assets path="assets/music" include="*.ogg" />
+	<assets path="assets/sounds" include="*.ogg" />
+	<assets path="assets/songs" />
 
 	<!--assets path="CHANGELOG.md"/-->
 	<!-- <define name="PRELOAD_ALL" /> -->
-	
-	<define name="PRELOAD_ALL" unless="web" />
-	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
-	
-	<section if="PRELOAD_ALL">
-		<library name="data"    preload="true" />
-		<library name="sounds"  preload="true" />
-		<library name="music" 	preload="true" />
-		<library name="images"  preload="true" />
-		<library name="videos"  preload="true" />
-	</section>
-	
-	<section if="NO_PRELOAD_ALL">
-		<library name="data"    preload="false" />
-		<library name="sounds"  preload="false" />
-		<library name="music" 	preload="false" />
-		<library name="images"  preload="false" />
-		<library name="videos"  preload="false" />
-	</section>
-	
 
+	<define name="PRELOAD_ALL" unless="web" />
+	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL" />
+
+	<section if="PRELOAD_ALL">
+		<library name="data" preload="true" />
+		<library name="sounds" preload="true" />
+		<library name="music" preload="true" />
+		<library name="images" preload="true" />
+		<library name="videos" preload="true" />
+	</section>
+
+	<section if="NO_PRELOAD_ALL">
+		<library name="data" preload="false" />
+		<library name="sounds" preload="false" />
+		<library name="music" preload="false" />
+		<library name="images" preload="false" />
+		<library name="videos" preload="false" />
+	</section>
 
 	<!-- NOTE FOR FUTURE SELF SINCE FONTS ARE ALWAYS FUCKY 
 		TO FIX ONE OF THEM, I CONVERTED IT TO OTF. DUNNO IF YOU NEED TO
 		THEN UHHH I USED THE NAME OF THE FONT WITH SETFORMAT() ON THE TEXT!!!
 		NOT USING A DIRECT THING TO THE ASSET!!!
 	-->
-	<assets path="assets/fonts" embed='true'/>
+	<assets path="assets/fonts" embed='true' />
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxedev set='webgl' />
@@ -107,7 +105,7 @@
 	<haxelib name="hxCodec" if="desktop" />
 	<haxelib name="funkin.vis" />
 	<haxelib name="grig.audio" />
-	
+
 	<!--haxelib name="newgrounds"/-->
 	<!--haxelib name="faxe" if='switch'/-->
 	<!--haxelib name="polymod"/-->
@@ -159,10 +157,10 @@
 	<!--haxeflag name="-D no-traces" unless="debug" /-->
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
-	<icon path="art/icon128.png" />
-	<icon path="art/icon16.png" size='16'/>
+	<icon path="art/icons/icon128.png" />
+	<icon path="art/icons/icon16.png" size='16' />
 
 	<!-- <haxedef name="SKIP_TO_PLAYSTATE" if="debug" /> -->
 	<!--haxedef name="NG_LOGIN" if="newgrounds" /-->
-	
+
 </project>
