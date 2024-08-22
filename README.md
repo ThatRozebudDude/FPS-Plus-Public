@@ -1,4 +1,4 @@
-![](/art/readme/logo.png)
+![](/art/logo.png)
 
 # Friday Night Funkin' FPS Plus
 Friday Night Funkin' FPS Plus is an engine mod of Friday Night Funkin' that aims to improve gameplay and add quality of life features.
