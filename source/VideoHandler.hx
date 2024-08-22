@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.FlxSignal;
 import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.util.FlxColor;
@@ -41,9 +42,12 @@ class VideoHandler extends FlxSprite
 	var finishCallback:Void->Void;
 	var waitingStart:Bool = false;
 	var startDrawing:Bool = false;
-	var frameCount:Float = 0;
+	var frameTimer:Float = 0;
 	var completed:Bool = false;
 	var destroyed:Bool = false;
+
+	public var onStart:FlxSignal = new FlxSignal();
+	public var onEnd:FlxSignal = new FlxSignal();
 
 	#if desktop
 	var bitmap:Video;
@@ -108,8 +112,7 @@ class VideoHandler extends FlxSprite
 		waitingStart = true;
 	}
 
-	function checkFile(fileName:String):String
-	{
+	function checkFile(fileName:String):String{
 		var pDir = "";
 		var appDir = "file:///" + Sys.getCwd() + "/";
 		if (fileName.indexOf(":") == -1) // Not a path
@@ -120,21 +123,18 @@ class VideoHandler extends FlxSprite
 		return pDir + fileName;
 	}
 
-	function onVLCVideoReady()
-	{
+	function onVLCVideoReady(){
 		trace("video loaded!");
 	}
 
-	function onVLCComplete()
-	{
+	function onVLCComplete(){
+		onEnd.dispatch();
+
 		if (finishCallback != null){
 			finishCallback();
 		}
 
 		destroy();
-
-		//FlxG.autoPause = true;
-
 	}
 
 	function vlcClean(){
@@ -220,6 +220,7 @@ class VideoHandler extends FlxSprite
 	}
 
 	function finishVideo(){
+		onEnd.dispatch();
 		
 		if (finishCallback != null){
 				finishCallback();
@@ -268,7 +269,6 @@ class VideoHandler extends FlxSprite
 				bitmap.volume = 0;
 			}
 			else{
-				//I'm going to blow up a retirement home.
 				var vol:Float = FlxG.sound.volume;
 				vol = (vol) * 0.7;
 				vol += 0.3;
@@ -282,17 +282,18 @@ class VideoHandler extends FlxSprite
 			if(bitmap.bitmapData != null){
 				waitingStart = false;
 				startDrawing = true;
+				onStart.dispatch();
 			}
 			
 		}
 
 		if(startDrawing && !paused){
 
-			if(frameCount >= 1/MAX_FPS){
+			if(frameTimer >= 1/MAX_FPS){
 				loadGraphic(bitmap.bitmapData);
-				frameCount = 0;
+				frameTimer = 0;
 			}
-			frameCount += elapsed;
+			frameTimer += elapsed;
 
 		}
 		#end
@@ -303,21 +304,19 @@ class VideoHandler extends FlxSprite
 		}
 
 		if(waitingStart){
-
 			makeGraphic(video.videoWidth, video.videoHeight, FlxColor.TRANSPARENT);
-
 			waitingStart = false;
 			startDrawing = true;
-			
+			onStart.dispatch();
 		}
 
 		if(startDrawing && !paused){
 
-			if(frameCount >= 1/MAX_FPS){
+			if(frameTimer >= 1/MAX_FPS){
 				pixels.draw(video);
-				frameCount = 0;
+				frameTimer = 0;
 			}
-			frameCount += elapsed;
+			frameTimer += elapsed;
 
 		}
 		#end
