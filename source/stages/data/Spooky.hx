@@ -21,6 +21,7 @@ class Spooky extends BaseStage
 
 	var dummyWall:FlxSprite = new FlxSprite();
 	var dummyShadows:FlxSprite = new FlxSprite();
+	var dummyLight:FlxSprite = new FlxSprite();
 
 	var lightningStrikeBeat:Int = 0;
 	var lightningOffset:Int = 8;
@@ -34,6 +35,9 @@ class Spooky extends BaseStage
 	final shadowColor:FlxColor = 0xFF242336;
 	final shadowFlashColors:Array<FlxColor> = [0xFF0C0B1E, 0xFF0A0925, 0xFF000000];
 
+	final windowLightColor:FlxColor = 0xFF4646AD;
+	final windowLightFlashColors:Array<FlxColor> = [0xFFFFFFFF, 0xFF12123D, 0xFFD5D5FF];
+
     public override function init(){
         name = "spooky";
 
@@ -46,10 +50,12 @@ class Spooky extends BaseStage
 		shadows = new FlxSprite(-191, -100);
 
 		light = new FlxSprite(shadows.x + 539, shadows.y + 748);
-		light.frames = Paths.getSparrowAtlas("week2/stage/windowLight");
+		light.frames = Paths.getSparrowAtlas("week2/stage/windowLightWhite");
 		light.antialiasing = true;
 		light.animation.addByPrefix("flash", "Window Light Flash", 24, false);
 		light.animation.play("flash", true, false, 29);
+		light.color = windowLightColor;
+		light.animation.callback = floorLightCallback;
 		addToBackground(light);
 
 		shadows.loadGraphic(Paths.image("week2/stage/shadowsWhite"));
@@ -62,7 +68,6 @@ class Spooky extends BaseStage
 		window.antialiasing = true;
 		window.animation.addByPrefix("flash", "Window Flash", 24, false);
 		window.animation.play("flash", true, false, 29);
-		window.animation.callback = lightningCallback;
 		addToBackground(window);
 
 		dadStart.set(346, 849);
@@ -102,28 +107,35 @@ class Spooky extends BaseStage
 		gf.playAnim("scared", true);
 	}
 
-	function lightningCallback(anim:String, frame:Int, index:Int):Void{
+	function floorLightCallback(anim:String, frame:Int, index:Int):Void{
 		switch(frame){
 			case 0 | 1:
 				wall.color = wallFlashColors[frame];
 				shadows.color = shadowFlashColors[frame];
+				light.color = windowLightFlashColors[frame];
 
 			case 2:
 				wall.color = wallFlashColors[2];
 				shadows.color = shadowFlashColors[2];
+				light.color = windowLightFlashColors[2];
 
 				tween.cancelTweensOf(dummyWall);
 				tween.cancelTweensOf(dummyShadows);
+				tween.cancelTweensOf(dummyLight);
+
 				tween.color(dummyWall, 27/24, wallFlashColors[2], wallColor, {ease: FlxEase.quadIn});
 				tween.color(dummyShadows, 27/24, shadowFlashColors[2], shadowColor, {ease: FlxEase.quadIn});
+				tween.color(dummyLight, 27/24, windowLightFlashColors[2], windowLightColor, {ease: FlxEase.quadIn});
 
 			case 29:
 				wall.color = wallColor;
 				shadows.color = shadowColor;
+				light.color = windowLightColor;
 
 			default:
 				wall.color = dummyWall.color;
 				shadows.color = dummyShadows.color;
+				light.color = dummyLight.color;
 
 		}
 	}
