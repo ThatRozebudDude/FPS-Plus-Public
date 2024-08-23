@@ -1,5 +1,8 @@
+# Ignore compiled builds, release builds and promo shit
 export/
-.vscode/
 releases/
 promo/
+
+# Ignore IDE and library stuff
 .haxelib/
+.vscode/
