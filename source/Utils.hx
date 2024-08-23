@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.FlxColor;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
 import flixel.FlxSprite;
@@ -124,6 +125,21 @@ class Utils
 
 	public static inline function sign(v:Float):Int {
 		return (v > 0 ? 1 : (v < 0 ? -1 : 0));
+	}
+
+	/**
+	* Creates a solid color sprite with the desired demensions by createing a 1x1 sprite and scaling it.
+	*
+	* @param	width		The desired width of the sprite.
+	* @param	height		The desired height of the sprite.
+	* @param	color		The desired color of the sprite.
+	* @param	zoomAdjust	An optional parameter that the width and height are divided by. Useful if you need specific dimensions but the camera is zoomed.
+	*/
+	public static function makeColoredSprite(width:Float, height:Float, color:FlxColor, ?zoomAdjustment:Float = 1):FlxSprite{
+		var r:FlxSprite = new FlxSprite().makeGraphic(1, 1, color);
+		r.scale.set(width/zoomAdjustment, height/zoomAdjustment);
+		r.updateHitbox();
+		return r;
 	}
 }
 

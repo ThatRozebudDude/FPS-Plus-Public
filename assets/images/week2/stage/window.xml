@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Funkin Packer v0.1.3 https://neeeoo.github.io/funkin-packer/
+-->
+<TextureAtlas imagePath="window.png" width="3037" height="2855">
+	<SubTexture name="Window0000" x="2431" y="2431" width="605" height="405" frameX="-1" frameY="-1" frameWidth="611" frameHeight="411"/>
+	<SubTexture name="Window Flash0000" x="1" y="1" width="607" height="407" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0001" x="1" y="409" width="607" height="407" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0002" x="609" y="1" width="407" height="607" rotated="true" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0003" x="609" y="609" width="407" height="607" rotated="true" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0004" x="1" y="817" width="607" height="407" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0005" x="1017" y="1" width="407" height="607" rotated="true" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0006" x="1017" y="609" width="407" height="607" rotated="true" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0007" x="609" y="1217" width="607" height="407" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0008" x="1" y="1225" width="607" height="407" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0009" x="1217" y="1217" width="607" height="407" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0010" x="1425" y="1" width="407" height="607" rotated="true" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0011" x="1425" y="609" width="407" height="607" rotated="true" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0012" x="609" y="1625" width="607" height="407" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0013" x="1" y="1633" width="607" height="407" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0014" x="1217" y="1625" width="607" height="407" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0015" x="1825" y="1217" width="407" height="607" rotated="true" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0016" x="1833" y="1" width="407" height="607" rotated="true" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0017" x="1833" y="609" width="407" height="607" rotated="true" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0018" x="1825" y="1825" width="407" height="607" rotated="true" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0019" x="609" y="2033" width="607" height="407" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0020" x="1" y="2041" width="607" height="407" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0021" x="1217" y="2033" width="607" height="407" frameX="-1" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0022" x="2233" y="1217" width="407" height="606" rotated="true" frameX="-2" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0023" x="2233" y="1824" width="407" height="606" rotated="true" frameX="-2" frameY="-1" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0024" x="2241" y="1" width="406" height="605" rotated="true" frameX="-2" frameY="-2" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0025" x="2241" y="607" width="406" height="605" rotated="true" frameX="-2" frameY="-2" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0026" x="1825" y="2433" width="605" height="405" frameX="-2" frameY="-2" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0027" x="609" y="2441" width="605" height="405" frameX="-2" frameY="-2" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0028" x="1" y="2449" width="605" height="405" frameX="-2" frameY="-2" frameWidth="613" frameHeight="413"/>
+	<SubTexture name="Window Flash0029" x="1215" y="2441" width="605" height="405" frameX="-2" frameY="-2" frameWidth="613" frameHeight="413"/>
+</TextureAtlas>

@@ -72,7 +72,7 @@ class Startup extends FlxState
     var gfxI:Int = 0;
     public static final graphics:Array<String> =    ["logoBumpin", "titleEnter", "fpsPlus/title/backgroundBf", "fpsPlus/title/barBottom", "fpsPlus/title/barTop", "fpsPlus/title/gf", "fpsPlus/title/glow", 
                                     "week1/stageback", "week1/stagefront", "week1/stagecurtains",
-                                    "week2/halloween_bg",
+                                    "week2/stage/shadowsWhite", "week2/stage/window", "week2/stage/windowLight",
                                     "week3/philly/sky", "week3/philly/city", "week3/philly/behindTrain", "week3/philly/train", "week3/philly/street", "week3/philly/windowWhite", "week3/philly/windowWhiteGlow",
                                     "week4/limo/bgLimo", "week4/limo/fastCarLol", "week4/limo/limoDancer", "week4/limo/limoDrive", "week4/limo/limoSunset",
                                     "week5/christmas/bgWalls", "week5/christmas/upperBop", "week5/christmas/bgEscalator", "week5/christmas/christmasTree", "week5/christmas/bottomBop", "week5/christmas/fgSnow", "week5/christmas/santa",
@@ -259,7 +259,7 @@ class Startup extends FlxState
                     ImageCache.add(Paths.file(graphics[gfxI], "images", "png"));
                 }
                 else{
-                    trace("Character: File at " + graphics[gfxI] + " not found, skipping cache.");
+                    trace("Graphic: File at " + graphics[gfxI] + " not found, skipping cache.");
                 }
                 gfxI++;
                 currentLoaded++;

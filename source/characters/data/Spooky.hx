@@ -14,7 +14,7 @@ class Spooky extends CharacterInfoBase
         info.iconName = "spooky";
         info.focusOffset.set(150, -65);
 
-		addByIndices('danceLeft', offset(), 'spooky dance idle', [0, 2, 6], "", 12, loop(false));
+		addByIndices('danceLeft', offset(), 'spooky dance idle', [0, 2, 4, 6], "", 12, loop(false));
 		addByIndices('danceRight', offset(), 'spooky dance idle', [8, 10, 12, 14], "", 12, loop(false));
 		addByPrefix('singUP', offset(-18, 25), 'spooky UP NOTE', 24, loop(false));
 		addByPrefix('singDOWN', offset(-46, -144), 'spooky DOWN note', 24, loop(false));

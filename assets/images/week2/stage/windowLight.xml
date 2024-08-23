@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Funkin Packer v0.1.3 https://neeeoo.github.io/funkin-packer/
+-->
+<TextureAtlas imagePath="windowLight.png" width="3704" height="3865">
+	<SubTexture name="Window Light0000" x="1242" y="3523" width="1237" height="341" frameX="-1" frameY="-1" frameWidth="1243" frameHeight="346"/>
+	<SubTexture name="Window Light Flash0000" x="2843" y="2486" width="341" height="1237" rotated="true" frameX="-7" frameY="-7" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0001" x="1" y="3525" width="1233" height="337" frameX="-9" frameY="-9" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0002" x="1" y="1" width="1246" height="353" frameX="-2" frameY="-1" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0003" x="1" y="355" width="1246" height="353" frameX="-2" frameY="-1" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0004" x="1" y="709" width="1246" height="353" frameX="-2" frameY="-1" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0005" x="1" y="1063" width="1246" height="353" frameX="-2" frameY="-1" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0006" x="1248" y="1" width="353" height="1246" rotated="true" frameX="-2" frameY="-1" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0007" x="1" y="1417" width="1246" height="353" frameX="-2" frameY="-1" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0008" x="1602" y="1" width="353" height="1246" rotated="true" frameX="-2" frameY="-1" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0009" x="1" y="1771" width="1246" height="353" frameX="-2" frameY="-1" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0010" x="1956" y="1" width="353" height="1246" rotated="true" frameX="-2" frameY="-1" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0011" x="1" y="2125" width="1245" height="352" frameX="-3" frameY="-1" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0012" x="1247" y="2125" width="1245" height="351" frameX="-3" frameY="-2" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0013" x="2310" y="1" width="351" height="1244" rotated="true" frameX="-3" frameY="-2" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0014" x="1248" y="1248" width="1244" height="351" frameX="-3" frameY="-2" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0015" x="1248" y="1600" width="1244" height="351" frameX="-3" frameY="-2" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0016" x="1247" y="2477" width="1244" height="351" frameX="-3" frameY="-2" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0017" x="1" y="2478" width="1243" height="350" frameX="-4" frameY="-2" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0018" x="2493" y="1246" width="349" height="1243" rotated="true" frameX="-4" frameY="-3" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0019" x="2662" y="1" width="349" height="1242" rotated="true" frameX="-4" frameY="-3" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0020" x="1" y="2829" width="1242" height="349" frameX="-4" frameY="-3" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0021" x="1244" y="2829" width="1242" height="347" frameX="-4" frameY="-4" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0022" x="2843" y="1244" width="347" height="1241" rotated="true" frameX="-5" frameY="-4" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0023" x="3012" y="1" width="347" height="1240" rotated="true" frameX="-5" frameY="-4" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0024" x="1244" y="3177" width="1240" height="345" frameX="-5" frameY="-5" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0025" x="1" y="3179" width="1240" height="345" frameX="-5" frameY="-5" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0026" x="3191" y="1242" width="345" height="1239" rotated="true" frameX="-6" frameY="-5" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0027" x="3360" y="1" width="343" height="1238" rotated="true" frameX="-6" frameY="-6" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0028" x="3191" y="2482" width="343" height="1238" rotated="true" frameX="-6" frameY="-6" frameWidth="1255" frameHeight="359"/>
+	<SubTexture name="Window Light Flash0029" x="2492" y="2490" width="341" height="1237" rotated="true" frameX="-7" frameY="-7" frameWidth="1255" frameHeight="359"/>
+</TextureAtlas>
