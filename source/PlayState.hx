@@ -2388,7 +2388,8 @@ class PlayState extends MusicBeatState
 
 	//Moved to a separate function and out of note check so the hit callback function will be run every note hit and not just when the animation is supposed to play.
 	public inline static function characterShouldPlayAnimation(note:Note, character:Character):Bool{
-		return (Character.LOOP_ANIM_ON_HOLD ? (note.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!character.isSinging || (character.timeInCurrentAnimation >= (3/24) || character.curAnimFinished())) : true) : true) : !note.isSustainNote);
+		return (Character.LOOP_ANIM_ON_HOLD ? (note.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!character.isSinging || (character.timeInCurrentAnimation >= (3/24) || character.curAnimFinished())) : true) : true) : !note.isSustainNote)
+			&& (Character.PREVENT_SHORT_SING ? !inRange(character.lastSingTime, Conductor.songPosition, Character.SHORT_SING_TOLERENCE) : true);
 	}
 
 	var bfOnTop:Bool = true;
@@ -2658,7 +2659,7 @@ class PlayState extends MusicBeatState
 		songStats.comboBreakCount++;
 	}
 
-	function inRange(a:Float, b:Float, tolerance:Float){
+	static function inRange(a:Float, b:Float, tolerance:Float):Bool{
 		return (a <= b + tolerance && a >= b - tolerance);
 	}
 

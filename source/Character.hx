@@ -20,6 +20,8 @@ class Character extends FlxSpriteGroup
 	public static final HOLD_LOOP_WAIT:Bool = true;			//Determines whether hold notes will only loop the sing animation if 4 frames of animation have passed. Default is true for FPS Plus, false for base game.
 	public static final USE_IDLE_END:Bool = false;			//Determines whether you will go back to the start of the idle or the end of the idle when letting go of a note. Default is false.
 	public static final PREVENT_SHORT_IDLE:Bool = true;		//Prevents characters from quickly playing a few frames of their idles inbetween hitting notes. Default is true for FPS Plus, false for base game.
+	public static final PREVENT_SHORT_SING:Bool = true;		//Prevents characters from quickly playing a few frames of their sing animation when hitting multiple notes. Default is true for FPS Plus, false for base game.
+	public static final SHORT_SING_TOLERENCE:Float = 20;	//Millisecond tolerence for PREVENT_SHORT_SING detection.
 
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	private var originalAnimOffsets:Map<String, Array<Dynamic>>;
@@ -36,6 +38,7 @@ class Character extends FlxSpriteGroup
 	public var stepsUntilRelease:Float = 4;
 	public var isSinging:Bool = false;
 	public var timeInCurrentAnimation:Float = 0;
+	public var lastSingTime:Float = -5000;
 
 	public var canAutoAnim:Bool = true;
 	public var danceLockout:Bool = false;
@@ -318,6 +321,7 @@ class Character extends FlxSpriteGroup
 	public function singAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0, ?isPartOfLoopingAnim:Bool = false) {
 		playAnim(AnimName, Force, Reversed, Frame, isPartOfLoopingAnim);
 		isSinging = true;
+		lastSingTime = Conductor.songPosition;
 	}
 
 	function changeOffsets() {
