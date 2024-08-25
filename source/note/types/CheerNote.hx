@@ -12,8 +12,8 @@ class CheerNote extends NoteType
     }
 
     function cheerHit (note:Note, character:Character){
-        if(character.canAutoAnim){
-            character.playAnim('singCHEER', true);
+        if(character.canAutoAnim && shouldPlayAnimation(note, character)){
+            character.singAnim('cheer', true);
         }
     }
 

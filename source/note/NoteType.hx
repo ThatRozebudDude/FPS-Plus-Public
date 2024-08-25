@@ -59,4 +59,8 @@ class NoteType
         return v;
     }
 
+    function shouldPlayAnimation(note:Note, character:Character):Bool{
+        return PlayState.characterShouldPlayAnimation(note, character);
+    }
+
 }

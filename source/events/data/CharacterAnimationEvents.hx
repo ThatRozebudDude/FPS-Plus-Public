@@ -5,6 +5,7 @@ class CharacterAnimationEvents extends Events
 
     override function defineEvents() {
         addEvent("playAnim", playAnim);
+        addEvent("singAnim", singAnim);
         addEvent("setAnimSet", setAnimSet);
 
         addEvent("gfBopFreq", gfBopFreq);
@@ -30,6 +31,21 @@ class CharacterAnimationEvents extends Events
 
 			default:
 				boyfriend.playAnim(args[1], Events.parseBool(args[2]), Events.parseBool(args[3]), Std.parseInt(args[4]));
+		}
+    }
+
+    function singAnim(tag:String):Void{
+        var args = Events.getArgs(tag, ["bf", "", "false", "false", "0"]);
+
+		switch(args[0]){
+			case "dad":
+				dad.singAnim(args[1], Events.parseBool(args[2]), Events.parseBool(args[3]), Std.parseInt(args[4]));
+
+            case "gf":
+				gf.singAnim(args[1], Events.parseBool(args[2]), Events.parseBool(args[3]), Std.parseInt(args[4]));
+
+			default:
+				boyfriend.singAnim(args[1], Events.parseBool(args[2]), Events.parseBool(args[3]), Std.parseInt(args[4]));
 		}
     }
 

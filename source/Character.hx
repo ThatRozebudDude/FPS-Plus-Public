@@ -16,9 +16,10 @@ class Character extends FlxSpriteGroup
 {
 
 	//Global character properties.
-	public static final LOOP_ANIM_ON_HOLD:Bool = true; 	//Determines whether hold notes will loop the sing animation. Default is true.
-	public static final HOLD_LOOP_WAIT:Bool = true; 	//Determines whether hold notes will only loop the sing animation if 4 frames of animation have passed. Default is true for FPS Plus, false for base game.
-	public static final USE_IDLE_END:Bool = false; 		//Determines whether you will go back to the start of the idle or the end of the idle when letting go of a note. Default is false.
+	public static final LOOP_ANIM_ON_HOLD:Bool = true;		//Determines whether hold notes will loop the sing animation. Default is true.
+	public static final HOLD_LOOP_WAIT:Bool = true;			//Determines whether hold notes will only loop the sing animation if 4 frames of animation have passed. Default is true for FPS Plus, false for base game.
+	public static final USE_IDLE_END:Bool = false;			//Determines whether you will go back to the start of the idle or the end of the idle when letting go of a note. Default is false.
+	public static final PREVENT_SHORT_IDLE:Bool = true;		//Prevents characters from quickly playing a few frames of their idles inbetween hitting notes. Default is true for FPS Plus, false for base game.
 
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	private var originalAnimOffsets:Map<String, Array<Dynamic>>;
@@ -33,6 +34,8 @@ class Character extends FlxSpriteGroup
 
 	public var holdTimer:Float = 0;
 	public var stepsUntilRelease:Float = 4;
+	public var isSinging:Bool = false;
+	public var timeInCurrentAnimation:Float = 0;
 
 	public var canAutoAnim:Bool = true;
 	public var danceLockout:Bool = false;
@@ -169,7 +172,7 @@ class Character extends FlxSpriteGroup
 		if (!debugMode){
 			if (!isPlayer){
 				//opponent stuff
-				if (curAnim.startsWith('sing')){
+				if (isSinging){
 					holdTimer += elapsed;
 				}
 				
@@ -186,7 +189,7 @@ class Character extends FlxSpriteGroup
 			}
 			else{
 				//player stuff
-				if (curAnim.startsWith('sing')){
+				if (isSinging){
 					holdTimer += elapsed;
 				}
 				else{
@@ -204,16 +207,12 @@ class Character extends FlxSpriteGroup
 				}
 			}
 
-			/*if(characterInfo.info.functions.add != null && !added){
-				characterInfo.info.functions.add(this);
-			}*/
-
 			if(characterInfo.info.functions.update != null){
 				characterInfo.info.functions.update(this, elapsed);
 			}
 		}
 
-		//added = true;
+		timeInCurrentAnimation += elapsed;
 
 		super.update(elapsed);
 
@@ -283,8 +282,7 @@ class Character extends FlxSpriteGroup
 		}
 	}
 
-	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0, ?isPartOfLoopingAnim:Bool = false):Void
-	{
+	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0, ?isPartOfLoopingAnim:Bool = false):Void{
 
 		if(animSet != ""){
 			if(animOffsets.exists(AnimName + "-" + animSet)){
@@ -302,13 +300,24 @@ class Character extends FlxSpriteGroup
 			atlasCharacter.playAnim(AnimName, Force, Reversed, Frame);
 		}
 
+		//Change/reset variables n stuff
 		curAnim = AnimName;
 		changeOffsets();
+		if(!isPartOfLoopingAnim){
+			isSinging = false;
+			timeInCurrentAnimation = 0;
+		}
 
 		if(characterInfo.info.functions.playAnim != null && !isPartOfLoopingAnim){
 			characterInfo.info.functions.playAnim(this, AnimName);
 		}
 
+	}
+
+	//You can treat any animation as a singing animation instead of requiring "sing" to be in the animation name.
+	public function singAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0, ?isPartOfLoopingAnim:Bool = false) {
+		playAnim(AnimName, Force, Reversed, Frame, isPartOfLoopingAnim);
+		isSinging = true;
 	}
 
 	function changeOffsets() {
@@ -653,6 +662,15 @@ class Character extends FlxSpriteGroup
 		}
 		else{ //Code for atlas characters
 			atlasCharacter.anim.curFrame = atlasCharacter.animInfoMap.get(curAnim).startFrame + frameNumber;
+		}
+	}
+
+	public function getCurAnimFramerate():Float{
+		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+			return character.animation.curAnim.frameRate;
+		}
+		else{ //Code for atlas characters
+			return atlasCharacter.anim.framerate;
 		}
 	}
 

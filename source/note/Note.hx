@@ -15,6 +15,7 @@ class Note extends FlxSprite
 	public var mustPress:Bool = false;
 	public var noteData:Int = 0;
 	public var canBeHit:Bool = false;
+	public var inRange:Bool = false;
 	public var tooLate:Bool = false;
 	public var wasGoodHit:Bool = false;
 	public var prevNote:Note;
@@ -236,6 +237,10 @@ class Note extends FlxSprite
 			else {
 				canBeHit = (strumTime <= Conductor.songPosition);
 			}
+
+			inRange = (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
+					&& strumTime < Conductor.songPosition + Conductor.safeZoneOffset)
+					&& !wasGoodHit;
 
 			//Glow note stuff.
 

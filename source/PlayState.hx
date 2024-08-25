@@ -157,6 +157,9 @@ class PlayState extends MusicBeatState
 	private var notes:FlxTypedGroup<Note>;
 	private var unspawnNotes:Array<Note> = [];
 
+	private var anyPlayerNoteInRange:Bool = false;
+	private var anyOpponentNoteInRange:Bool = false;
+
 	private var strumLine:FlxSprite;
 	private var curSection:Int = 0;
 
@@ -1568,30 +1571,21 @@ class PlayState extends MusicBeatState
 	}
 
 	function opponentNoteCheck(){
-		notes.forEachAlive(function(daNote:Note)
-		{
-			if (!daNote.mustPress && daNote.canBeHit && !daNote.wasGoodHit)
-			{
+		anyOpponentNoteInRange = false;
+		notes.forEachAlive(function(daNote:Note){
+
+			if(daNote.inRange && !daNote.mustPress) {anyOpponentNoteInRange = true;}
+
+			if (!daNote.mustPress && daNote.canBeHit && !daNote.wasGoodHit){
+
 				daNote.wasGoodHit = true;
 
-				if((Character.LOOP_ANIM_ON_HOLD ? (daNote.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!dad.curAnim.contains("sing") || (dad.curAnimFrame() >= 3 || dad.curAnimFinished())) : true) : true) : !daNote.isSustainNote)){
-					daNote.hitCallback(daNote, dad);
-					healthAdjustOverride = null;
-				}
+				daNote.hitCallback(daNote, dad);
+				healthAdjustOverride = null;
 
-				enemyStrums.forEach(function(spr:FlxSprite)
-				{
-					if (Math.abs(daNote.noteData) == spr.ID)
-					{
+				enemyStrums.forEach(function(spr:FlxSprite){
+					if (Math.abs(daNote.noteData) == spr.ID){
 						spr.animation.play('confirm', true);
-						/*if (spr.animation.curAnim.name == 'confirm' && !(curUiType.toLowerCase() == "pixel"))
-						{
-							spr.centerOffsets();
-							spr.offset.x -= 14;
-							spr.offset.y -= 14;
-						}
-						else
-							spr.centerOffsets();*/
 					}
 				});
 
@@ -1853,23 +1847,25 @@ class PlayState extends MusicBeatState
 
 	}
 
-	private function keyShit():Void
-	{
+	private function keyShit():Void{
 
 		var controlArray:Array<Bool> = [leftPress, downPress, upPress, rightPress];
 
-		if ((upPress || rightPress || downPress || leftPress) && generatedMusic)
-		{
+		anyPlayerNoteInRange = false;
+		notes.forEachAlive(function(daNote:Note){
+			if(!anyPlayerNoteInRange && daNote.inRange && daNote.mustPress){anyPlayerNoteInRange = true;}
+		});
+
+		if ((upPress || rightPress || downPress || leftPress) && generatedMusic){
+			
 			boyfriend.holdTimer = 0;
 
 			var possibleNotes:Array<Note> = [];
 
 			var ignoreList:Array<Int> = [];
 
-			notes.forEachAlive(function(daNote:Note)
-			{
-				if (daNote.canBeHit && daNote.mustPress && !daNote.tooLate)
-				{
+			notes.forEachAlive(function(daNote:Note) {
+				if (daNote.canBeHit && daNote.mustPress && !daNote.tooLate) {
 					// the sorting probably doesn't need to be in here? who cares lol
 					possibleNotes.push(daNote);
 					possibleNotes.sort((a, b) -> Std.int(a.strumTime - b.strumTime));
@@ -1880,7 +1876,6 @@ class PlayState extends MusicBeatState
 						setCanMiss();
 					}
 				}
-
 			});
 
 			var directionsAccounted = [false,false,false,false];
@@ -1968,9 +1963,8 @@ class PlayState extends MusicBeatState
 			}
 		});
 
-		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim)
-		{
-			if (boyfriend.curAnim.startsWith('sing')){
+		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim && (Character.PREVENT_SHORT_IDLE ? !anyPlayerNoteInRange : true)){
+			if (boyfriend.isSinging){
 				if(Character.USE_IDLE_END){ 
 					boyfriend.idleEnd(); 
 				}
@@ -2050,14 +2044,18 @@ class PlayState extends MusicBeatState
 
 		var hitNotes:Array<Note> = [];
 
+		anyPlayerNoteInRange = false;
+
 		notes.forEachAlive(function(daNote:Note){
+			if(daNote.inRange && daNote.mustPress){anyPlayerNoteInRange = true;}
+
 			if (!forceMissNextNote && !daNote.wasGoodHit && daNote.mustPress && daNote.strumTime < Conductor.songPosition + Conductor.safeZoneOffset * (!daNote.isSustainNote ? 0.125 : (daNote.prevNote.wasGoodHit ? 1 : 0))){
 				hitNotes.push(daNote);
 			}
 		});
 
-		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim){
-			if (boyfriend.curAnim.startsWith('sing')){
+		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim && (Character.PREVENT_SHORT_IDLE ? !anyPlayerNoteInRange : true)){
+			if (boyfriend.isSinging){
 				if(Character.USE_IDLE_END){ 
 					boyfriend.idleEnd(); 
 				}
@@ -2182,9 +2180,7 @@ class PlayState extends MusicBeatState
 				return;
 			}
 			
-			if((Character.LOOP_ANIM_ON_HOLD ? (note.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!boyfriend.curAnim.contains("sing") || (boyfriend.curAnimFrame() >= 3 || boyfriend.curAnimFinished())) : true) : true) : !note.isSustainNote)){
-				note.hitCallback(note, boyfriend);
-			}
+			note.hitCallback(note, boyfriend);
 
 			if (!note.isSustainNote){
 				popUpScore(note, healthAdjustOverride == null);
@@ -2274,7 +2270,7 @@ class PlayState extends MusicBeatState
 			}
 
 			// Dad doesnt interupt his own notes
-			if(dadBeats.contains(curBeat % 4) && dad.canAutoAnim && dad.holdTimer == 0 && !dad.curAnim.startsWith('sing')){
+			if(dadBeats.contains(curBeat % 4) && dad.canAutoAnim && dad.holdTimer == 0 && !dad.isSinging && (Character.PREVENT_SHORT_IDLE ? !anyOpponentNoteInRange : true)){
 				dad.dance();
 			}
 			
@@ -2300,7 +2296,7 @@ class PlayState extends MusicBeatState
 			gf.dance();
 		}
 
-		if(bfBeats.contains(curBeat % 4) && boyfriend.canAutoAnim && !boyfriend.curAnim.startsWith('sing')){
+		if(bfBeats.contains(curBeat % 4) && boyfriend.canAutoAnim && !boyfriend.isSinging && (Character.PREVENT_SHORT_IDLE ? !anyPlayerNoteInRange : true)){
 			boyfriend.dance();
 		}
 
@@ -2329,16 +2325,16 @@ class PlayState extends MusicBeatState
 	}
 
 	public function defaultNoteHit(note:Note, character:Character):Void{
-		if(character.canAutoAnim){
+		if(character.canAutoAnim && characterShouldPlayAnimation(note, character)){
 			switch (note.noteData){
 				case 0:
-					character.playAnim('singLEFT', true);
+					character.singAnim('singLEFT', true);
 				case 1:
-					character.playAnim('singDOWN', true);
+					character.singAnim('singDOWN', true);
 				case 2:
-					character.playAnim('singUP', true);
+					character.singAnim('singUP', true);
 				case 3:
-					character.playAnim('singRIGHT', true);
+					character.singAnim('singRIGHT', true);
 			}
 		}
 		getExtraCamMovement(note);
@@ -2348,13 +2344,13 @@ class PlayState extends MusicBeatState
 		if(character.canAutoAnim){
 			switch (direction){
 				case 0:
-					character.playAnim('singLEFTmiss', true);
+					character.singAnim('singLEFTmiss', true);
 				case 1:
-					character.playAnim('singDOWNmiss', true);
+					character.singAnim('singDOWNmiss', true);
 				case 2:
-					character.playAnim('singUPmiss', true);
+					character.singAnim('singUPmiss', true);
 				case 3:
-					character.playAnim('singRIGHTmiss', true);
+					character.singAnim('singRIGHTmiss', true);
 			}
 		}
 	}
@@ -2390,6 +2386,11 @@ class PlayState extends MusicBeatState
 		
 	}
 
+	//Moved to a separate function and out of note check so the hit callback function will be run every note hit and not just when the animation is supposed to play.
+	public inline static function characterShouldPlayAnimation(note:Note, character:Character):Bool{
+		return (Character.LOOP_ANIM_ON_HOLD ? (note.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!character.isSinging || (character.timeInCurrentAnimation >= (3/24) || character.curAnimFinished())) : true) : true) : !note.isSustainNote);
+	}
+
 	var bfOnTop:Bool = true;
 	public function setBfOnTop():Void{
 		if(bfOnTop){ return; }
@@ -2409,15 +2410,16 @@ class PlayState extends MusicBeatState
 	}
 
 	public function getExtraCamMovement(note:Note):Void{
+		if(note.isSustainNote){return;}
 		switch (note.noteData){
 			case 0:
-				if(!note.isSustainNote){ changeCamOffset(-1 * camOffsetAmount, 0); }
+				changeCamOffset(-1 * camOffsetAmount, 0);
 			case 1:
-				if(!note.isSustainNote){ changeCamOffset(0, camOffsetAmount); }
+				changeCamOffset(0, camOffsetAmount);
 			case 2:
-				if(!note.isSustainNote){ changeCamOffset(0, -1 * camOffsetAmount); }
+				changeCamOffset(0, -1 * camOffsetAmount);
 			case 3:
-				if(!note.isSustainNote){ changeCamOffset(camOffsetAmount, 0); }
+				changeCamOffset(camOffsetAmount, 0);
 		}
 	}
 
