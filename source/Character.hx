@@ -287,11 +287,10 @@ class Character extends FlxSpriteGroup
 
 	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0, ?isPartOfLoopingAnim:Bool = false):Void{
 
-		if(animSet != ""){
+		if(animSet != "" && !isPartOfLoopingAnim){
 			if(animOffsets.exists(AnimName + "-" + animSet)){
 				AnimName = AnimName + "-" + animSet;
 			}
-			//else { trace(AnimName + "-" + animSet + " not found. Reverting to " + AnimName); }
 		}
 
 		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
@@ -304,9 +303,9 @@ class Character extends FlxSpriteGroup
 		}
 
 		//Change/reset variables n stuff
-		curAnim = AnimName;
-		changeOffsets();
 		if(!isPartOfLoopingAnim){
+			curAnim = AnimName;
+			changeOffsets();
 			isSinging = false;
 			timeInCurrentAnimation = 0;
 		}
