@@ -160,7 +160,7 @@ class PlayState extends MusicBeatState
 	private var anyPlayerNoteInRange:Bool = false;
 	private var anyOpponentNoteInRange:Bool = false;
 
-	private var strumLine:FlxSprite;
+	private var strumLineVerticalPosition:Float;
 	private var curSection:Int = 0;
 
 	private static var prevCamFollow:FlxObject;
@@ -509,12 +509,11 @@ class PlayState extends MusicBeatState
 		Conductor.songPosition = -5000;
 
 		if(Config.downscroll){
-			strumLine = new FlxSprite(0, 570).makeGraphic(FlxG.width, 10);
+			strumLineVerticalPosition = 570;
 		}
 		else {
-			strumLine = new FlxSprite(0, 30).makeGraphic(FlxG.width, 10);
+			strumLineVerticalPosition = 30;
 		}
-		strumLine.scrollFactor.set();
 
 		playerStrums = new FlxTypedGroup<FlxSprite>();
 		enemyStrums = new FlxTypedGroup<FlxSprite>();
@@ -1010,7 +1009,7 @@ class PlayState extends MusicBeatState
 
 		for (i in 0...4){
 			
-			var babyArrow:FlxSprite = new FlxSprite(50, strumLine.y);
+			var babyArrow:FlxSprite = new FlxSprite(50, strumLineVerticalPosition);
 
 			switch(hudNoteSkinInfo.noteFrameLoadType){
 				case sparrow:
@@ -1518,13 +1517,13 @@ class PlayState extends MusicBeatState
 			}
 
 			if(Config.downscroll){
-				daNote.y = (strumLine.y + (Conductor.songPosition - daNote.strumTime) * (0.45 * scrollSpeed)) - daNote.yOffset;	
+				daNote.y = (targetY + (Conductor.songPosition - daNote.strumTime) * (0.45 * scrollSpeed)) - daNote.yOffset;	
 				if(daNote.isSustainNote){
 					daNote.y -= daNote.height;
 					daNote.y += 125;
 
 					if ((!daNote.mustPress || daNote.wasGoodHit || daNote.prevNote.wasGoodHit && !daNote.canBeHit)
-						&& daNote.y - daNote.offset.y * daNote.scale.y + daNote.height >= (strumLine.y + Note.swagWidth / 2)){
+						&& daNote.y - daNote.offset.y * daNote.scale.y + daNote.height >= (targetY + Note.swagWidth / 2)){
 						// Clip to strumline
 						var swagRect = new FlxRect(0, 0, daNote.frameWidth * 2, daNote.frameHeight * 2);
 						swagRect.height = (targetY + Note.swagWidth / 2 - daNote.y) / daNote.scale.y;
@@ -1535,10 +1534,10 @@ class PlayState extends MusicBeatState
 				}
 			}
 			else {
-				daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * scrollSpeed)) + daNote.yOffset;
+				daNote.y = (targetY - (Conductor.songPosition - daNote.strumTime) * (0.45 * scrollSpeed)) + daNote.yOffset;
 				if(daNote.isSustainNote){
 					if ((!daNote.mustPress || daNote.wasGoodHit || daNote.prevNote.wasGoodHit && !daNote.canBeHit)
-						&& daNote.y + daNote.offset.y * daNote.scale.y <= (strumLine.y + Note.swagWidth / 2)){
+						&& daNote.y + daNote.offset.y * daNote.scale.y <= (targetY + Note.swagWidth / 2)){
 						// Clip to strumline
 						var swagRect = new FlxRect(0, 0, daNote.width / daNote.scale.x, daNote.height / daNote.scale.y);
 						swagRect.y = (targetY + Note.swagWidth / 2 - daNote.y) / daNote.scale.y;
@@ -1559,7 +1558,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-			if (Config.downscroll ? (daNote.y > strumLine.y + daNote.height + 50) : (daNote.y < strumLine.y - daNote.height - 50)){
+			if (Config.downscroll ? (daNote.y > targetY + daNote.height + 50) : (daNote.y < targetY - daNote.height - 50)){
 				if (daNote.tooLate || daNote.wasGoodHit){
 								
 					daNote.active = false;
@@ -1931,7 +1930,7 @@ class PlayState extends MusicBeatState
 				if(daNote.prevNote.tooLate && !daNote.prevNote.wasGoodHit){
 					daNote.tooLate = true;
 					daNote.destroy();
-					noteMiss(daNote.noteData, daNote.missCallback, Scoring.HOLD_DROP_DMAMGE_PER_NOTE * (daNote.isFake ? 0 : 1), false, true, false, Scoring.HOLD_DROP_PENALTY);
+					noteMiss(daNote.noteData, daNote.missCallback, Scoring.HOLD_DROP_DMAMGE_PER_NOTE * (daNote.isFake ? 0 : 1), false, false, true, Scoring.HOLD_DROP_PENALTY);
 					//updateAccuracyOld();
 				}
 
@@ -1939,7 +1938,7 @@ class PlayState extends MusicBeatState
 				if(daNote.prevNote.wasGoodHit && !daNote.wasGoodHit){
 
 					if(releaseTimes[daNote.noteData] >= releaseBufferTime){
-						noteMiss(daNote.noteData, daNote.missCallback, Scoring.HOLD_DROP_INITAL_DAMAGE, true, true, false, Scoring.HOLD_DROP_INITIAL_PENALTY);
+						noteMiss(daNote.noteData, daNote.missCallback, Scoring.HOLD_DROP_INITAL_DAMAGE, true, false, true, Scoring.HOLD_DROP_INITIAL_PENALTY);
 						vocals.volume = 0;
 						daNote.tooLate = true;
 						daNote.destroy();
@@ -2655,8 +2654,8 @@ class PlayState extends MusicBeatState
 			gf.playAnim('sad');
 			comboUI.breakPopup();
 		}
+		if(combo > 0){ songStats.comboBreakCount++; }
 		combo = 0;
-		songStats.comboBreakCount++;
 	}
 
 	static function inRange(a:Float, b:Float, tolerance:Float):Bool{
