@@ -657,6 +657,8 @@ class PlayState extends MusicBeatState
 		fromChartEditor = false;
 		fceForLilBuddies = false;
 
+		stage.postCreate();
+
 		super.create();
 	}
 

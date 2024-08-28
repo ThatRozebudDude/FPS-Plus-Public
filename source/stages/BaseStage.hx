@@ -141,6 +141,11 @@ class BaseStage
     }
 
     /**
+	 * Called after PlayState.create() is done.
+	 */
+    public function postCreate(){}
+
+    /**
 	 * Called every frame in PlayState update.
 	 * Don't forget to call `super.update(elasped)` or the update group won't be updated.
      *
