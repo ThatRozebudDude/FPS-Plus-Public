@@ -1,5 +1,6 @@
 package ui;
 
+import haxe.Json;
 import lime.utils.Assets;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -10,6 +11,9 @@ class HealthIcon extends FlxSprite
 	public var sprTracker:FlxSprite;
 	public var id:Int;
 
+	public var xOffset:Float; //Positive values always move opposite of the side the icon starts on. Ex. 10 on player moves 10 pixels left, 10 on opponent moves 10 pixels right.
+	public var yOffset:Float; //This one is normal tho :]
+
 	public var defualtIconScale:Float = 1;
 	public var iconScale:Float = 1;
 	public var iconSize:Float;
@@ -18,7 +22,7 @@ class HealthIcon extends FlxSprite
 
 	private var tween:FlxTween;
 
-	private static final pixelIcons:Array<String> = ["bf-pixel", "senpai", "senpai-angry", "spirit", "bf-lil", "guy-lil"];
+	static final defaultOffsets:Array<Float> = [10, -10];
 
 	public function new(_character:String = 'face', _isPlayer:Bool = false, ?_id:Int = -1){
 		
@@ -47,7 +51,7 @@ class HealthIcon extends FlxSprite
 	override function update(elapsed:Float){
 
 		super.update(elapsed);
-		setGraphicSize(Std.int(iconSize * iconScale));
+		setGraphicSize(iconSize * iconScale);
 		updateHitbox();
 
 		if (sprTracker != null){
@@ -63,13 +67,46 @@ class HealthIcon extends FlxSprite
 	}
 
 	public function setIconCharacter(character:String){
+		//This loads the image, gets it's dimensions, and reloads the image with animation based on cutting up the dimensions.
+		//Basically you can have any size icon as long as it's evenly cut.
 
-		loadGraphic(Paths.image("ui/heathIcons/" + character), true, 150, 150);
+		loadGraphic(Paths.image("ui/heathIcons/" + character), false);
+
+		var graphicWidth = Std.int(pixels.width/3);
+		var graphicHeight = Std.int(pixels.height);
+
+		loadGraphic(pixels, true, graphicWidth, graphicHeight);
 		animation.add("icon", [0, 1, 2], 0, false, isPlayer);
 		animation.play("icon");
 
-		antialiasing = !pixelIcons.contains(character);
+		xOffset = defaultOffsets[0];
+		yOffset = defaultOffsets[1];
+		antialiasing = true;
 
+		//Optional json
+		if(Utils.exists("assets/images/ui/heathIcons/" + character + ".json")){
+			var iconJson = Json.parse(Utils.getText("assets/images/ui/heathIcons/" + character + ".json"));
+			
+			if(iconJson.offset != null){
+				xOffset = (iconJson.offset.x != null) ? iconJson.offset.x : defaultOffsets[0];
+				yOffset = (iconJson.offset.y != null) ? iconJson.offset.y : defaultOffsets[1];
+			}
+
+			antialiasing = (iconJson.antialiasing != null) ? iconJson.antialiasing : true;
+		}
 	}
 
 }
+
+/* DEFAULT VALUES AS JSON. This is how you format the json.
+   If you wanna still use the base game style 150 x 150 icon you should set the x offset to 26 and y offset to 0. 
+
+{
+  "offset": {
+    "x": 10,
+    "y": -10
+  },
+  "antialiasing": true
+}
+
+*/

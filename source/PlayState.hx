@@ -574,11 +574,11 @@ class PlayState extends MusicBeatState
 		scoreTxt.scrollFactor.set();
 
 		iconP1 = new HealthIcon(boyfriend.iconName, true);
-		iconP1.y = healthBar.y - (iconP1.height / 2);
+		iconP1.y = healthBar.y - (iconP1.height / 2) + iconP1.yOffset;
 		
 
 		iconP2 = new HealthIcon(dad.iconName, false);
-		iconP2.y = healthBar.y - (iconP2.height / 2);
+		iconP2.y = healthBar.y - (iconP2.height / 2) + iconP2.yOffset;
 
 		ccText = new SongCaptions(Config.downscroll);
 		ccText.scrollFactor.set();
@@ -1350,10 +1350,11 @@ class PlayState extends MusicBeatState
 			sectionStart = false;
 		}
 
-		var iconOffset:Int = 26;
-
-		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
-		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
+		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconP1.xOffset);
+		iconP1.y = healthBar.y - (iconP1.height / 2) + iconP1.yOffset;
+		
+		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconP2.xOffset);
+		iconP2.y = healthBar.y - (iconP2.height / 2) + iconP2.yOffset;
 
 		if (health > 2){
 			health = 2;
