@@ -10,7 +10,6 @@ class Stage extends BaseStage
 
     public override function init(){
         name = "stage";
-        startingZoom = 0.9;
 
 		var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image("week1/stageback"));
 		bg.antialiasing = true;
