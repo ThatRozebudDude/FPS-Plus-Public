@@ -14,7 +14,7 @@ class Mall extends BaseStage
 
     public override function init(){
         name = "mall";
-		startingZoom = 0.80;
+		startingZoom = 0.8;
 
 		var bg:FlxSprite = new FlxSprite(-1000, -500).loadGraphic(Paths.image('week5/christmas/bgWalls'));
 		bg.antialiasing = true;

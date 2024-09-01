@@ -36,6 +36,7 @@ class Philly extends BaseStage
 
     public override function init(){
         name = "philly";
+		startingZoom = 1.1;
 
 		var bg:FlxSprite = new FlxSprite(-100, -20).loadGraphic(Paths.image('week3/philly/sky'));
 		bg.antialiasing = true;

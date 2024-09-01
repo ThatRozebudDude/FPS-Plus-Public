@@ -23,7 +23,7 @@ class Limo extends BaseStage
 
     public override function init(){
         name = "limo";
-		startingZoom = 0.90;
+		startingZoom = 0.9;
 
 		var skyBG:FlxSprite = new FlxSprite(-120, -50).loadGraphic(Paths.image("week4/limo/limoSunset"));
 		skyBG.scrollFactor.set(0.1, 0.1);

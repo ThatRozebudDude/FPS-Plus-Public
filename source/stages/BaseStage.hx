@@ -16,7 +16,7 @@ class BaseStage
 {
 
     public var name:String;
-    public var startingZoom:Float = 1.05;
+    public var startingZoom:Float = 1;
     public var uiType:String = "default";
     public var cameraMovementEnabled:Bool = true;
     public var extraCameraMovementAmount:Null<Float> = null; //Leave null for PlayState default.
