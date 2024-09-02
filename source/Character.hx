@@ -285,7 +285,18 @@ class Character extends FlxSpriteGroup
 		}
 	}
 
-	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0, ?isPartOfLoopingAnim:Bool = false):Void{
+	/**
+	 * Plays an animation based on the parameters.
+	 *
+	 * @param	AnimName				The name of the animation you want to play. Will automatic be suffixed with "-" followed by whatever `animSet` is set to if it's not an empty string.
+	 * @param	Force					If `true` it will force the animation to play no matter what. If `false` the animation will only play if it isn't currently playing or is finished.
+	 * @param	Reversed				If `true` the animation will play backwards.
+	 * @param	Frame					The frame number that the animation should start on.
+	 * @param	isPartOfLoopingAnim		***DO NOT USE THIS.*** This is used by `Character.hx` to determine if the function is being used to loop an animation.
+	 * 
+	 * @return  						Returns `true` if the animation was played. Returns `false` if the animation wasn't found and could not be played.
+	 */
+	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0, ?isPartOfLoopingAnim:Bool = false):Bool{
 
 		if(animSet != "" && !isPartOfLoopingAnim){
 			if(animOffsets.exists(AnimName + "-" + animSet)){
@@ -294,11 +305,11 @@ class Character extends FlxSpriteGroup
 		}
 
 		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
-			if(character.animation.getByName(AnimName) == null) { return; }
+			if(character.animation.getByName(AnimName) == null) { return false; }
 			character.animation.play(AnimName, Force, Reversed, Frame);
 		}
 		else{ //Code for atlas characters
-			if(atlasCharacter.animInfoMap.get(AnimName) == null) { return; }
+			if(atlasCharacter.animInfoMap.get(AnimName) == null) { return false; }
 			atlasCharacter.playAnim(AnimName, Force, Reversed, Frame);
 		}
 
@@ -314,13 +325,17 @@ class Character extends FlxSpriteGroup
 			characterInfo.info.functions.playAnim(this, AnimName);
 		}
 
+		return true;
+
 	}
 
 	//You can treat any animation as a singing animation instead of requiring "sing" to be in the animation name.
 	public function singAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0, ?isPartOfLoopingAnim:Bool = false) {
-		playAnim(AnimName, Force, Reversed, Frame, isPartOfLoopingAnim);
-		isSinging = true;
-		lastSingTime = Conductor.songPosition;
+		var animPlayed:Bool = playAnim(AnimName, Force, Reversed, Frame, isPartOfLoopingAnim);
+		if(animPlayed){
+			isSinging = true;
+			lastSingTime = Conductor.songPosition;
+		}
 	}
 
 	function changeOffsets() {

@@ -2654,7 +2654,7 @@ class PlayState extends MusicBeatState
 
 	function comboBreak():Void{
 		if (combo > minCombo){
-			gf.playAnim('sad');
+			gf.danceLockout = gf.playAnim("sad");
 			comboUI.breakPopup();
 		}
 		if(combo > 0){ songStats.comboBreakCount++; }

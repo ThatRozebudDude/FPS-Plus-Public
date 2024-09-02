@@ -23,7 +23,7 @@ class GfChristmas extends CharacterInfoBase
 		addByPrefix("singRIGHT", offset(0, -20), "GF Right Note", 24, loop(false), false, false);
 		addByPrefix("singUP", offset(0, 4), "GF Up Note", 24, loop(false), false, false);
 		addByPrefix("singDOWN", offset(0, -20), "GF Down Note", 24, loop(false), false, false);
-		addByIndices("sad", offset(0, -21), "gf sad", [0,1,2,3,4,5,6,7,8,9,10,11,12], "", 24, loop(false), false, false);
+		addByIndices("sad", offset(0, -21), "gf sad", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "", 24, loop(true, -8));
 		addByIndices("hairBlow", offset(45, -8), "GF Dancing Beat Hair blowing", [0,1,2,3], "", 24, loop(true), false, false);
 		addByIndices("hairFall", offset(0, -9), "GF Dancing Beat Hair Landing", [0,1,2,3,4,5,6,7,8,9,10,11], "", 24, loop(false), false, false);
 		addByPrefix("scared", offset(0, -17), "GF FEAR", 24, loop(true), false, false);
