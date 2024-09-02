@@ -80,7 +80,7 @@ class Nene extends CharacterInfoBase
     }
 
     function danceOverride(character:Character):Void{
-        if(!knifeRaised || !character.curAnim.startsWith('sad')){
+        if(!knifeRaised || !(character.curAnim == "sad")){
             character.defaultDanceBehavior();
         }
     }

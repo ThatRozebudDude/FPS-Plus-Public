@@ -63,7 +63,7 @@ class Gf extends CharacterInfoBase
 	}
 
 	function danceOverride(character:Character):Void{
-		if (!character.curAnim.startsWith('hair') || !character.curAnim.startsWith('sad')){
+		if (!character.curAnim.startsWith('hair') || !(character.curAnim == "sad")){
 			character.defaultDanceBehavior();
 		}
 	}

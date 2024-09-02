@@ -179,6 +179,7 @@ class PlayState extends MusicBeatState
 
 	public var combo:Int = 0;
 	public var totalPlayed:Int = 0;
+	public var comboBroken:Bool = false;
 
 	public var healthBarBG:FlxSprite;
 	public var healthBar:FlxBar;
@@ -1322,6 +1323,10 @@ class PlayState extends MusicBeatState
 		super.update(elapsed);
 
 		stage.update(elapsed);
+		if (comboBroken == true) {
+			gf.playAnim('sad', true);
+		}
+		
 
 		if(!startingSong){
 			for(i in eventList){
@@ -2654,7 +2659,8 @@ class PlayState extends MusicBeatState
 
 	function comboBreak():Void{
 		if (combo > minCombo){
-			gf.playAnim('sad', true);
+			//gf.playAnim('sad', true);
+			comboBroken = true;
 			comboUI.breakPopup();
 		}
 		if(combo > 0){ songStats.comboBreakCount++; }
