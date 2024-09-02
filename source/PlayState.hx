@@ -1322,11 +1322,14 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		stage.update(elapsed);
 		if (comboBroken == true) {
-			gf.playAnim('sad', true);
+			comboBreakAnimation();
+			if (!(gf.curAnim != 'sad') && gf.curAnimFinished()) {
+					comboBroken = false;
+			}
 		}
-		
+
+		stage.update(elapsed);
 
 		if(!startingSong){
 			for(i in eventList){
@@ -2659,12 +2662,17 @@ class PlayState extends MusicBeatState
 
 	function comboBreak():Void{
 		if (combo > minCombo){
-			//gf.playAnim('sad', true);
 			comboBroken = true;
 			comboUI.breakPopup();
 		}
 		if(combo > 0){ songStats.comboBreakCount++; }
 		combo = 0;
+	}
+
+	function comboBreakAnimation():Void{
+		
+		gf.playAnim('sad');
+		
 	}
 
 	static function inRange(a:Float, b:Float, tolerance:Float):Bool{

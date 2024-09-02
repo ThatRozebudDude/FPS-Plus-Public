@@ -56,14 +56,14 @@ class Gf extends CharacterInfoBase
 		}
 	}
 
-	function update(character:Character, elpased:Float):Void{
+	function update(character:Character, elapsed:Float):Void{
 		if (character.curAnim == 'hairFall' && character.curAnimFinished()){
 			character.playAnim('danceRight');
 		}
 	}
 
 	function danceOverride(character:Character):Void{
-		if (!character.curAnim.startsWith('hair') || !(character.curAnim == "sad")){
+		if (!character.curAnim.startsWith('hair') || character.curAnim != 'sad'){
 			character.defaultDanceBehavior();
 		}
 	}
