@@ -2,6 +2,7 @@ package characters.data;
 
 import flixel.FlxG;
 import flixel.math.FlxPoint;
+using StringTools
 
 @charList(false)
 @gfList(true)
@@ -22,7 +23,7 @@ class Nene extends CharacterInfoBase
 		addByIndices("danceLeft", offset(0, 0), "Idle", [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], "", 24, loop(false, 0), false, false);
         addByIndices("danceRight", offset(0, 0), "Idle", [15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], "", 24, loop(false, 0), false, false);
         addByPrefix("idleLoop", offset(0, 0), "Idle", 24, loop(true, 0), false, false);
-        addByIndices("sad", offset(0, 0), "Laugh", [0,1,2,3,4,5,6], "", 24, loop(false, 0), false, false);
+        addByIndices("sad", offset(0, 0), "Laugh", [0,1,2,3,4,5,6,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11], "", 24, loop(false, 0), false, false);
         addByIndices("laughCutscene", offset(0, 0), "Laugh", [0,1,2,3,4,5,6,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11], "", 24, loop(false, 0), false, false);
         addByPrefix("comboCheer", offset(-120, 53), "ComboCheer", 24, loop(false, 0), false, false);
         addByIndices("comboCheerHigh", offset(-40, -20), "ComboFawn", [0,1,2,3,4,5,6,4,5,6,4,5,6,4,5,6], "", 24, loop(false, 0), false, false);
@@ -79,7 +80,7 @@ class Nene extends CharacterInfoBase
     }
 
     function danceOverride(character:Character):Void{
-        if(!knifeRaised){
+        if(!knifeRaised || !character.curAnim.startsWith('sad')){
             character.defaultDanceBehavior();
         }
     }
