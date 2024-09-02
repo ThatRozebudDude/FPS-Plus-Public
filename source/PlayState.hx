@@ -1324,9 +1324,7 @@ class PlayState extends MusicBeatState
 
 		if (comboBroken == true) {
 			comboBreakAnimation();
-			if (!(gf.curAnim != 'sad') && gf.curAnimFinished()) {
-					comboBroken = false;
-			}
+			comboBroken = false;
 		}
 
 		stage.update(elapsed);
