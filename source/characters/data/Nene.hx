@@ -2,7 +2,7 @@ package characters.data;
 
 import flixel.FlxG;
 import flixel.math.FlxPoint;
-using StringTools
+using StringTools;
 
 @charList(false)
 @gfList(true)
