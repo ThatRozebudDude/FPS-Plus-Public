@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.FlxSignal;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
 import characters.CharacterInfoBase;
@@ -72,6 +73,10 @@ class Character extends FlxSpriteGroup
 	public var deathSound:String = "gameOver/fnf_loss_sfx";
 	public var deathSong:String = "gameOver/gameOver";
 	public var deathSongEnd:String = "gameOver/gameOverEnd";
+
+	public var onPlayAnim:FlxTypedSignal<(String, Bool, Bool, Int) -> Void> = new FlxTypedSignal();
+	public var onSing:FlxTypedSignal<(String, Bool, Bool, Int) -> Void> = new FlxTypedSignal();
+	public var onDance:FlxTypedSignal<Void -> Void> = new FlxTypedSignal();
 
 	public function new(x:Float, y:Float, ?_character:String = "Bf", ?_isPlayer:Bool = false, ?_isGirlfriend:Bool = false, ?_enableDebug:Bool = false){
 
@@ -241,6 +246,8 @@ class Character extends FlxSpriteGroup
 				characterInfo.info.functions.dance(this);
 			}
 
+			onDance.dispatch();
+
 		}
 	}
 
@@ -313,6 +320,10 @@ class Character extends FlxSpriteGroup
 			atlasCharacter.playAnim(AnimName, Force, Reversed, Frame);
 		}
 
+		if(characterInfo.info.functions.playAnim != null && !isPartOfLoopingAnim){
+			characterInfo.info.functions.playAnim(this, AnimName);
+		}
+
 		//Change/reset variables n stuff
 		if(!isPartOfLoopingAnim){
 			curAnim = AnimName;
@@ -320,9 +331,8 @@ class Character extends FlxSpriteGroup
 			isSinging = false;
 			timeInCurrentAnimation = 0;
 		}
-
-		if(characterInfo.info.functions.playAnim != null && !isPartOfLoopingAnim){
-			characterInfo.info.functions.playAnim(this, AnimName);
+		else{
+			onPlayAnim.dispatch(AnimName, Force, Reversed, Frame);
 		}
 
 		return true;
@@ -335,6 +345,7 @@ class Character extends FlxSpriteGroup
 		if(animPlayed){
 			isSinging = true;
 			lastSingTime = Conductor.songPosition;
+			onSing.dispatch(AnimName, Force, Reversed, Frame);
 		}
 	}
 
@@ -725,6 +736,15 @@ class Character extends FlxSpriteGroup
 		else{ //Code for atlas characters
 			return atlasCharacter;
 		}
+	}
+
+	public function attachCharacter(child:Character){
+		onDance.add(function(){
+			child.dance();
+		});
+		onSing.add(function(anim:String, force:Bool, reverse:Bool, frame:Int){
+			child.singAnim(anim, force, reverse, frame);
+		});
 	}
 
 }

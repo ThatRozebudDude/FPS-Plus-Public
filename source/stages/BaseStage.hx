@@ -138,6 +138,8 @@ class BaseStage
         for(x in backgroundElements){ x.destroy(); }
         for(x in middleElements){ x.destroy(); }
         for(x in foregroundElements){ x.destroy(); }
+        for(x in overlayElements){ x.destroy(); }
+        for(x in hudElements){ x.destroy(); }
     }
 
     /**
