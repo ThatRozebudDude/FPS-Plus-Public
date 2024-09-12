@@ -20,9 +20,6 @@ class PhillyStreets extends BaseStage
 	var kickedCan:AtlasSprite;
 	var characterGlow:FlxSprite;
 
-	var abot:ABot;
-	var abotLookDir:Bool = false;
-
 	var phillyTraffic:FlxSprite;
 	var phillyCars:FlxSprite;
 	var phillyCarsBack:FlxSprite;
@@ -160,13 +157,9 @@ class PhillyStreets extends BaseStage
 
 		bfStart.set(2151, 1228);
 		dadStart.set(900, 1110);
-		gfStart.set(1453, 900);
+		gfStart.set(1453, 1065);
 
 		bfCameraOffset.set(-390, 0);
-
-		abot = new ABot(gfStart.x - 365, gfStart.y - 165);
-		abot.lookLeft();
-		addToBackground(abot);
 
 		gf.scrollFactor.set(1, 1);
 
@@ -196,28 +189,11 @@ class PhillyStreets extends BaseStage
 		addEvent("phillyStreets-createBullet", createBullet);
     }
 
-	override function update(elapsed:Float) {
-		super.update(elapsed);
-		
-		if(playstate.camFocus == "dad" && abotLookDir){
-			abotLookDir = !abotLookDir;
-			abot.lookLeft();
-		}
-		else if(playstate.camFocus == "bf" && !abotLookDir){
-			abotLookDir = !abotLookDir;
-			abot.lookRight();
-		}
-	}
-
 	override function songStart() {
-		abot.setAudioSource(FlxG.sound.music);
-		abot.startVisualizer();
 		tween.tween(rainShader, {uIntensity: rainInensityEnd}, FlxG.sound.music.length/1000);
 	}
 
 	override function beat(curBeat:Int) {
-		abot.bop();
-
 		// Try driving a car when its possible
 		if (FlxG.random.bool(10) && curBeat != (lastChange + changeInterval) && carInterruptable == true){
 			if(lightsStop == false){

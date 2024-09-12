@@ -77,7 +77,7 @@ class AnimationDebug extends FlxState
 		add(gridBG);
 
 		dad = new Character(0, 0, daAnim, false, false, true);
-		dad.screenCenter();
+		//dad.screenCenter();
 
 		var characterClass = Type.resolveClass("characters.data." + dad.charClass);
 		charInfo = Type.createInstance(characterClass, []);

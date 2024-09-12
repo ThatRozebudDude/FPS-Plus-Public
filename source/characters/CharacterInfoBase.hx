@@ -1,5 +1,9 @@
 package characters;
 
+import flixel.FlxSprite;
+import flixel.group.FlxGroup;
+import flixel.FlxG;
+import flixel.FlxBasic;
 import flixel.util.FlxColor;
 import flixel.math.FlxPoint;
 
@@ -56,6 +60,7 @@ typedef CharacterFunctions = {
 	var add:(Character)->Void;                  //This function is run when the character is added to the state.
 	var deathCreate:(Character)->Void;          //This function is run after the character is created in the game over state.
 	var deathAdd:(Character)->Void;             //This function is run after the character is added to the game over state.
+	var songStart:(Character)->Void;            //This function is run when the song starts.
 }
 
 typedef CharacterInfo = {
@@ -73,6 +78,7 @@ typedef CharacterInfo = {
     var deathOffset:FlxPoint;
     var animChains:Map<String, String>;
     var functions:CharacterFunctions;
+    var actions:Map<String, Void->Void>;
     var extraData:Map<String, Dynamic>;
 }
 
@@ -91,6 +97,8 @@ class CharacterInfoBase
 {
 
     public var info:CharacterInfo;
+
+    public var characterReference:Character;
 
     public function new() {
         info = {
@@ -122,7 +130,9 @@ class CharacterInfoBase
                 add: null,
                 deathCreate: null,
                 deathAdd: null,
+                songStart: null,
             },
+            actions: null,
             extraData: null
         };
     }
@@ -372,6 +382,19 @@ class CharacterInfoBase
     }
 
     /**
+	 * Adds a function that can be called via a string by the character.
+	 *
+	 * @param   key     The name that will be used to identify the action.
+	 * @param   data    The function.
+	 */
+     function addAction(key:String, data:Void->Void):Void{
+        if(info.actions == null){
+            info.actions = new Map<String, Void->Void>();
+        }
+        info.actions.set(key, data);
+    }
+
+    /**
 	 * Adds arbitrary data to the character that can be defined in `Character.hx`
 	 *
 	 * @param   key     The name that will be used to identify the data.
@@ -383,5 +406,16 @@ class CharacterInfoBase
         }
         info.extraData.set(key, data);
     }
+
+    inline function addToCharacter(x:FlxSprite)         { characterReference.add(x); }
+    inline function removeFromCharacter(x:FlxSprite)    { characterReference.remove(x); }
+
+    inline function addToState(x:FlxBasic)              { FlxG.state.add(x); }
+    inline function removeFromState(x:FlxBasic)         { FlxG.state.remove(x); }
+    inline function addToSubstate(x:FlxBasic)           { FlxG.state.subState.add(x); }
+    inline function removeFromSubstate(x:FlxBasic)      { FlxG.state.subState.remove(x); }
+
+    var playstate(get, never):PlayState;
+    @:noCompletion inline function get_playstate()  { return PlayState.instance; }
 
 }

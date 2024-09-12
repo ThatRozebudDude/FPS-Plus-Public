@@ -169,10 +169,6 @@ class Character extends FlxSpriteGroup
 			characterColor = (isPlayer) ? 0xFF66FF33 : 0xFFFF0000;
 		}
 
-		if(characterInfo.info.functions.create != null){
-			characterInfo.info.functions.create(this);
-		}
-
 	}
 
 	override function update(elapsed:Float){
@@ -425,6 +421,8 @@ class Character extends FlxSpriteGroup
 		var characterClass = Type.resolveClass("characters.data." + name);
 		if(characterClass == null){ characterClass = characters.data.Bf; }
 		characterInfo = Type.createInstance(characterClass, []);
+
+		characterInfo.characterReference = this;
 		
 		curCharacter = characterInfo.info.name;
 		iconName = characterInfo.info.iconName;
@@ -515,6 +513,10 @@ class Character extends FlxSpriteGroup
 			}
 		}
 
+		if(characterInfo.info.functions.create != null){
+			characterInfo.info.functions.create(this);
+		}
+
 		if(character != null){ 
 			character.antialiasing = characterInfo.info.antialiasing;
 			add(character);
@@ -559,6 +561,26 @@ class Character extends FlxSpriteGroup
 		}
 	}
 
+	public function attachCharacter(child:Character){
+		onDance.add(function(){
+			child.dance();
+		});
+		onSing.add(function(anim:String, force:Bool, reverse:Bool, frame:Int){
+			child.singAnim(anim, force, reverse, frame);
+		});
+	}
+
+	public function doAction(action:String){
+		if(characterInfo.info.actions == null) { return; }
+		else{
+			if(characterInfo.info.actions.get(action) != null){
+				characterInfo.info.actions.get(action)();
+			}
+			else{
+				trace("Action \"" + action + "\" not found.");
+			}
+		}
+	}
 
 
 
@@ -736,15 +758,6 @@ class Character extends FlxSpriteGroup
 		else{ //Code for atlas characters
 			return atlasCharacter;
 		}
-	}
-
-	public function attachCharacter(child:Character){
-		onDance.add(function(){
-			child.dance();
-		});
-		onSing.add(function(anim:String, force:Bool, reverse:Bool, frame:Int){
-			child.singAnim(anim, force, reverse, frame);
-		});
 	}
 
 }

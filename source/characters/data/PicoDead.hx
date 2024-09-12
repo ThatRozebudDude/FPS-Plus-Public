@@ -55,11 +55,11 @@ class PicoDead extends CharacterInfoBase
 			nene.visible = false;
 		}
 
-        FlxG.state.subState.add(nene);
+        addToSubstate(nene);
     }
 
     function deathAdd(character:Character):Void{
-        FlxG.state.subState.add(retryButton);
+        addToSubstate(retryButton);
     }
 
     function frame(character:Character, anim:String, frame:Int):Void{

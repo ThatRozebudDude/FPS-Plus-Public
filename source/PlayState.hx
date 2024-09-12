@@ -872,6 +872,15 @@ class PlayState extends MusicBeatState
 			curSection = sectionStartPoint;
 		}
 
+		if(boyfriend.characterInfo.info.functions.songStart != null){
+			boyfriend.characterInfo.info.functions.songStart(boyfriend);
+		}
+		if(dad.characterInfo.info.functions.songStart != null){
+			dad.characterInfo.info.functions.songStart(dad);
+		}
+		if(gf.characterInfo.info.functions.songStart != null){
+			gf.characterInfo.info.functions.songStart(gf);
+		}
 		stage.songStart();
 	}
 

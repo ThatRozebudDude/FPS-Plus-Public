@@ -25,8 +25,6 @@ class PhillyBlazin extends BaseStage
 	var lightningSound:FlxSound = new FlxSound();
 	var unpauseSoundCheck:Bool = false;
 
-	var abot:ABot;
-
 	var lightningTimer:Float = 3;
 	var lightningActive:Bool = true;
 
@@ -95,11 +93,7 @@ class PhillyBlazin extends BaseStage
 		overrideGfStartPoints = true;
 		boyfriend.setPosition(-237, -200);
 		dad.setPosition(-237, -150);
-		gfStart.set(1353 + gfPosOffset.x, 925 + gfPosOffset.y);
-
-		abot = new ABot(gfStart.x - 365, gfStart.y - 165);
-		abot.lookRight();
-		addToBackground(abot);
+		gfStart.set(1353 + gfPosOffset.x, 1090 + gfPosOffset.y);
 
 		cameraMovementEnabled = false;
 		cameraStartPosition = new FlxPoint(1390, 620);
@@ -110,8 +104,6 @@ class PhillyBlazin extends BaseStage
 
 		gf.scrollFactor.set(gfScroll, gfScroll);
 		gf.color = 0xFF888888;
-		abot.scrollFactor.set(gfScroll, gfScroll);
-		abot.color = 0xFF888888;
 		
 		rainShader = new RainShader(0.5, FlxG.height / 200);
 		playstate.camGame.filters = [new ShaderFilter(rainShader.shader)];
@@ -136,15 +128,6 @@ class PhillyBlazin extends BaseStage
 			lightningStrike();
 			lightningTimer = FlxG.random.float(7, 15);
 		}
-	}
-
-	override function songStart() {
-		abot.setAudioSource(FlxG.sound.music);
-		abot.startVisualizer();
-	}
-
-	override function beat(curBeat:Int) {
-		abot.bop();
 	}
 
 	public override function pause() {
