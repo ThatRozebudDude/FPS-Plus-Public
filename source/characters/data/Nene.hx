@@ -63,7 +63,9 @@ class Nene extends CharacterInfoBase
 
     //ABot doesn't move with the reposition for some reason. Maybe because he is a sprite group?
     function onAdd(character:Character):Void{
-        abot.setPosition(character.x - 134.5, character.y + 311);
+        //abot.setPosition(character.x - 134.5, character.y + 311);
+        abot.x += character.reposition.x;
+		abot.y += character.reposition.y;
     }
 
     function update(character:Character, elapsed:Float):Void{
