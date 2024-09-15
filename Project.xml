@@ -89,7 +89,7 @@
 	-->
 	<assets path="assets/fonts" embed='true' />
 	
-	<!-- alsoft.ini is OpenAL settings to make the game sound higher quality and more like the actual audio assets were intended. -->
+	<!-- alsoft.ini is OpenAL settings to make the game sound higher quality and more like how the actual audio assets were intended to sound. -->
 	<assets path="alsoft.ini"/>
 	<!-- _______________________________ Libraries ______________________________ -->
 
