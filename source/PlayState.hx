@@ -479,9 +479,9 @@ class PlayState extends MusicBeatState
 		}
 
 		/*//Start pos debug shit. I'll leave it in for now incase everything breaks.
-		var dadPos = new FlxSprite(Utils.getGraphicMidpoint(dad).x, dad.y + (dad.frameHeight * dad.scale.y)).makeGraphic(24, 24, 0xFFFF00FF);
-		var bfPos = new FlxSprite(Utils.getGraphicMidpoint(boyfriend).x, boyfriend.y + (boyfriend.frameHeight * boyfriend.scale.y)).makeGraphic(24, 24, 0xFF00FFFF);
-		var gfPos = new FlxSprite(Utils.getGraphicMidpoint(gf).x, gf.y + (gf.frameHeight * gf.scale.y)).makeGraphic(24, 24, 0xFFFF0000);
+		var dadPos = new FlxSprite(dad.getGraphicMidpoint().x, dad.y + (dad.getFrameHeight() * dad.scale.y)).makeGraphic(24, 24, 0xFFFF00FF);
+		var bfPos = new FlxSprite(boyfriend.getGraphicMidpoint().x, boyfriend.y + (boyfriend.getFrameHeight() * boyfriend.scale.y)).makeGraphic(24, 24, 0xFF00FFFF);
+		var gfPos = new FlxSprite(gf.getGraphicMidpoint().x, gf.y + (gf.getFrameHeight() * gf.scale.y)).makeGraphic(24, 24, 0xFFFF0000);
 
 		add(dadPos);
 		add(bfPos);

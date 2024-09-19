@@ -91,8 +91,8 @@ class PhillyBlazin extends BaseStage
 
 		useStartPoints = false;
 		overrideGfStartPoints = true;
-		boyfriend.setPosition(-280, -240);
-		dad.setPosition(-280, -190);
+		boyfriend.setPosition(1372, 411);
+		dad.setPosition(730, 377);
 		gfStart.set(1353 + gfPosOffset.x, 1090 + gfPosOffset.y);
 
 		cameraMovementEnabled = false;
@@ -128,6 +128,23 @@ class PhillyBlazin extends BaseStage
 			lightningStrike();
 			lightningTimer = FlxG.random.float(7, 15);
 		}
+
+		/*var mod = (FlxG.keys.anyPressed([SHIFT])) ? 20 : 1;
+		if(FlxG.keys.anyJustPressed([I, J, K, L])){
+            if(FlxG.keys.anyJustPressed([I])){ boyfriend.y -= mod; }
+            if(FlxG.keys.anyJustPressed([J])){ boyfriend.x -= mod; }
+            if(FlxG.keys.anyJustPressed([K])){ boyfriend.y += mod; }
+            if(FlxG.keys.anyJustPressed([L])){ boyfriend.x += mod; }
+            trace(boyfriend.getPosition());
+        }
+
+		if(FlxG.keys.anyJustPressed([W, A, S, D])){
+            if(FlxG.keys.anyJustPressed([W])){ dad.y -= mod; }
+            if(FlxG.keys.anyJustPressed([A])){ dad.x -= mod; }
+            if(FlxG.keys.anyJustPressed([S])){ dad.y += mod; }
+            if(FlxG.keys.anyJustPressed([D])){ dad.x += mod; }
+            trace(dad.getPosition());
+        }*/
 	}
 
 	public override function pause() {

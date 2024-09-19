@@ -17,7 +17,7 @@ class PicoBlazin extends CharacterInfoBase
         info.iconName = "pico";
         info.deathCharacter = "PicoBlazin";
         info.facesLeft = true;
-        info.deathOffset.set(1180, 720);
+        info.deathOffset.set(-400, 0);
 
         addByLabel('idle', offset(), "Idle", 24, loop(true));
         addByLabel('punchHigh1', offset(), "Punch High 1", 24, loop(false));
@@ -64,7 +64,7 @@ class PicoBlazin extends CharacterInfoBase
     function deathCreate(character:Character) {
         isOnDeathScreen = true;
 
-        retrySprite = new FlxSprite(character.x + 408, character.y + 681);
+        retrySprite = new FlxSprite(character.x - 1238, character.y + 31);
         retrySprite.frames = Paths.getSparrowAtlas("weekend1/picoBlazinDeathConfirm");
         retrySprite.animation.addByPrefix("retry", "", 24, false);
         retrySprite.antialiasing = true;
@@ -77,23 +77,21 @@ class PicoBlazin extends CharacterInfoBase
         addToSubstate(retrySprite);
     }
 
-    function updateDebug(character:Character, elasped:Float) {
+    /*function updateDebug(character:Character, elasped:Float) {
         if(!isOnDeathScreen) return;
 
         retrySprite.visible = true;
         retrySprite.alpha = 0.6;
 
+        var mod = (FlxG.keys.anyPressed([SHIFT])) ? 20 : 1;
         if(FlxG.keys.anyJustPressed([I, J, K, L])){
-            if(FlxG.keys.anyJustPressed([I])){ retrySprite.y--; }
-            if(FlxG.keys.anyJustPressed([J])){ retrySprite.x--; }
-            if(FlxG.keys.anyJustPressed([K])){ retrySprite.y++; }
-            if(FlxG.keys.anyJustPressed([L])){ retrySprite.x++; }
-            trace(retrySprite.getPosition());
-
-            //-672.804 | y: 144.25
-            //-636.804 | y: 180.25
+            if(FlxG.keys.anyJustPressed([I])){ retrySprite.y -= mod; }
+            if(FlxG.keys.anyJustPressed([J])){ retrySprite.x -= mod; }
+            if(FlxG.keys.anyJustPressed([K])){ retrySprite.y += mod; }
+            if(FlxG.keys.anyJustPressed([L])){ retrySprite.x += mod; }
+            trace(character.getPosition() - retrySprite.getPosition());
         }
-    }
+    }*/
 
     function playAnim(character:Character, anim:String) {
         if(!isOnDeathScreen) return;
