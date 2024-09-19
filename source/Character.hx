@@ -643,8 +643,7 @@ class Character extends FlxSpriteGroup
 			return character.frameWidth;
 		}
 		else{ //Code for atlas characters
-			//NOT DONE YET!!!!
-			return Std.int(atlasCharacter.width);
+			return atlasCharacter.frameWidth;
 		}
 	}
 
@@ -653,8 +652,7 @@ class Character extends FlxSpriteGroup
 			return character.frameHeight;
 		}
 		else{ //Code for atlas characters
-			//NOT DONE YET!!!!
-			return Std.int(atlasCharacter.height);
+			return atlasCharacter.frameHeight;
 		}
 	}
 
@@ -684,8 +682,9 @@ class Character extends FlxSpriteGroup
 			return point.set(x + character.frameWidth * 0.5 * getScale().x, y + character.frameHeight * 0.5 * getScale().y);
 		}
 		else{ //Code for atlas characters
-			//NOT DONE YET!!!!
-			return atlasCharacter.getMidpoint(point);
+			if (point == null)
+				point = FlxPoint.get();
+			return point.set(x + atlasCharacter.frameWidth * 0.5 * getScale().x, y + atlasCharacter.frameHeight * 0.5 * getScale().y);
 		}
 	}
 

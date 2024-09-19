@@ -1,5 +1,6 @@
 package;
 
+import flixel.math.FlxMatrix;
 import flixel.util.FlxTimer;
 import flxanimate.FlxAnimate;
 
@@ -22,27 +23,29 @@ class AtlasSprite extends FlxAnimate
     public var frameCallback:(String, Int, Int)->Void;
     public var animationEndCallback:String->Void;
 
-    private var baseWidth:Float = 0;
-    private var baseHeight:Float = 0;
+    private var largestRenderedWidth(default, set):Float = 0;
+    private var largestRenderedHeight(default, set):Float = 0;
 
     var loopTimer:Float = -1;
     var loopTime:Float = -1;
 
     public function new(?_x:Float, ?_y:Float, _path:String) {
         super(_x, _y, _path);
-        anim.callback = animCallback;
+        anim.onFrame.add(animCallback);
     }
 
     override function loadAtlas(Path:String) {
         super.loadAtlas(Path);
-        baseWidth = pixels.width/2;
-        baseHeight = pixels.height/2;
-        width = baseWidth;
-        height = baseHeight;
+        //baseWidth = pixels.width/2;
+        //baseHeight = pixels.height/2;
+        //width = baseWidth;
+        //height = baseHeight;
+        //draw();
     }
 
     public function addAnimationByLabel(name:String, label:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
-        var labels = anim.getFrameLabels();
+        var labels = [];
+        for(tempLabel in anim.getFrameLabels()){ labels.push(tempLabel.name); }
         if(!labels.contains(label)){
             trace("LABEL " + label + " NOT FOUND, ABORTING ANIM ADD");
             return;
@@ -97,7 +100,8 @@ class AtlasSprite extends FlxAnimate
     }
 
     public function addAnimationStartingAtLabel(name:String, label:String, length:Null<Int>, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
-        var labels = anim.getFrameLabels();
+        var labels = [];
+        for(tempLabel in anim.getFrameLabels()){ labels.push(tempLabel.name); }
         if(!labels.contains(label)){
             trace("LABEL " + label + " NOT FOUND, ABORTING ANIM ADD");
             return;
@@ -161,12 +165,13 @@ class AtlasSprite extends FlxAnimate
 		anim.play("", force, reverse, animInfoMap.get(name).startFrame + frameOffset);
     }
 
-    function animCallback(name:String, frame:Int):Void{
+    function animCallback(frame:Int):Void{
 		var animInfo:AtlasAnimInfo = animInfoMap.get(curAnim);
 
         if(frameCallback != null){ frameCallback(curAnim, frame - animInfo.startFrame, frame); }
 
-        if(frame >= (animInfo.startFrame + animInfo.length) - 1){
+        if(frame >= (animInfo.startFrame + animInfo.length) - 1 || frame < animInfo.startFrame){
+            anim.curFrame = (animInfo.startFrame + animInfo.length) - 1;
             anim.pause();
             finishedAnim = true;
             if(animationEndCallback != null){ animationEndCallback(curAnim); }
@@ -176,6 +181,8 @@ class AtlasSprite extends FlxAnimate
                 loopTime = 1/(animInfo.framerate);
             }
         }
+
+        //trace("w: " + width + "\th: " + height);
 	}
 
     override function set_flipX(Value:Bool):Bool {
@@ -206,9 +213,58 @@ class AtlasSprite extends FlxAnimate
         super.update(elapsed);
     }
 
-    override function updateHitbox():Void{
-        width = Math.abs(scale.x) * baseWidth;
-		height = Math.abs(scale.y) * baseHeight;
+    public override function draw():Void{
+        _matrix.identity();
+        if (flipX){
+            _matrix.a *= -1;
+    
+            _matrix.tx += width;
+    
+        }
+        if (flipY){
+            _matrix.d *= -1;
+            _matrix.ty += height;
+        }
+    
+        _flashRect.setEmpty();
+    
+        parseElement(anim.curInstance, _matrix, colorTransform, cameras, scrollFactor);
+    
+        frameWidth = Math.round(_flashRect.width);
+        frameHeight = Math.round(_flashRect.height);
+
+        largestRenderedWidth = Math.max(_flashRect.width, width);
+        largestRenderedHeight = Math.max(_flashRect.height, height);
+    
+        relativeX = _flashRect.x - x;
+        relativeY = _flashRect.y - y;
+    
+        if (showPivot){
+            drawLimb(_pivot, new FlxMatrix(1, 0, 0, 1, origin.x - _pivot.frame.width * 0.5, origin.y - _pivot.frame.height * 0.5), cameras);
+            drawLimb(_indicator, new FlxMatrix(1, 0, 0, 1, -_indicator.frame.width * 0.5, -_indicator.frame.height * 0.5), cameras);
+        }
     }
 
+    override function updateHitbox():Void{
+        width = Math.abs(scale.x) * largestRenderedWidth;
+		height = Math.abs(scale.y) * largestRenderedHeight;
+        //trace("Updating hitbox!");
+    }
+
+
+    function set_largestRenderedWidth(value:Float):Float {
+        if(value > largestRenderedWidth){ 
+            updateHitbox();
+            largestRenderedWidth = value;
+        }
+        return value;
+    }
+
+    function set_largestRenderedHeight(value:Float):Float {
+        if(value > largestRenderedHeight){ 
+            updateHitbox();
+            largestRenderedHeight = value;
+        }
+        return value;
+    }
 }

@@ -15,8 +15,8 @@ class PicoDeadExplode extends CharacterInfoBase
         info.frameLoadType = atlas;
         
         info.iconName = "pico";
-        info.facesLeft = true;
-        info.deathOffset.set(-1114, -864);
+        info.facesLeft = true;  
+        info.deathOffset.set(-541, -344);
 
 		addByLabel('firstDeath', offset(665, 350), "intro", 24, loop(false));
 		addByLabel('deathLoop', offset(665, 350), "Loop Start", 24, loop(true));

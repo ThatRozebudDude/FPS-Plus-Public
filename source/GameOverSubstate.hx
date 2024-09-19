@@ -48,7 +48,9 @@ class GameOverSubstate extends MusicBeatSubstate
 		}
 		bf.playAnim('firstDeath', true);
 
-		FlxTween.tween(camFollow, {x: Utils.getGraphicMidpoint(bf).x + bf.deathOffset.x, y: Utils.getGraphicMidpoint(bf).y + bf.deathOffset.y}, 3, {ease: FlxEase.expoOut, startDelay: bf.deathDelay});
+		new FlxTimer().start(bf.deathDelay, function(t) {
+			FlxTween.tween(camFollow, {x: bf.getGraphicMidpoint().x + bf.deathOffset.x, y: bf.getGraphicMidpoint().y + bf.deathOffset.y}, 3, {ease: FlxEase.expoOut});
+		});
 
 		if(bf.deathSound != null){
 			FlxG.sound.play(Paths.sound(bf.deathSound));
