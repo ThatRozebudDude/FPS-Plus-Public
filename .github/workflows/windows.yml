@@ -24,12 +24,13 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Install Haxe Libraries
         run: |
-          haxelib setup C:/haxelib
-          haxelib --global install hmm
-          haxelib --global run hmm setup
-          haxelib run lime setup
+         haxelib setup C:/haxelib
+         haxelib --global install hmm
+         haxelib --global run hmm setup
+         haxelib run lime setup
       - name: Compile FPS Plus Build
-        run: haxelib run lime build windows
+        run: |
+         haxelib run lime build windows
       - name: Upload Artifact
       - uses: actions/upload-artifact@main
         with:
