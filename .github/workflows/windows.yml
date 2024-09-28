@@ -38,6 +38,7 @@ jobs:
          haxelib git funkin.vis https://github.com/FunkinCrew/funkVis.git d5361037efa3a02c4ab20b5bd14ca11e7d00f519
          haxelib git grig.audio https://gitlab.com/haxe-grig/grig.audio.git 57f5d47f2533fd0c3dcd025a86cb86c0dfa0b6d2
          haxelib git hxCodec https://github.com/FunkinCrew/hxCodec.git 61b98a7a353b7f529a8fec84ed9afc919a2dffdd
+         haxelib --never list
       - name: Compile FPS Plus Build
         run: haxelib run lime build windows
       - name: Upload Artifact
