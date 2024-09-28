@@ -32,8 +32,10 @@
         },
         {
             "name": "hxcpp",
-            "type": "haxelib",
-            "version": null
+            "type": "git",
+            "dir": null,
+            "ref": "5ed582597a091d19e0edf535cb91d74202807f58"
+            "url": "https://github.com/HaxeFoundation/hxcpp"
         },
         {
             "name": "flxanimate",
