@@ -1,0 +1,96 @@
+package stages.data;
+
+import shaders.AdjustColorShader;
+import flixel.FlxSprite;
+import flixel.math.FlxPoint;
+import flixel.FlxObject;
+import stages.elements.*;
+
+class StageErect extends BaseStage
+{
+
+	var bfShader:AdjustColorShader = new AdjustColorShader(-23, 12, 7, 0);
+	var dadShader:AdjustColorShader = new AdjustColorShader(-33, -32, -23, 0);
+	var gfShader:AdjustColorShader = new AdjustColorShader(-30, -9, -4, 0);
+
+    public override function init(){
+        name = "stage-erect";
+		startingZoom = 0.87;
+
+		var backDark:FlxSprite = new FlxSprite(729, -170).loadGraphic(Paths.image("week1/erect/backDark"));
+		backDark.antialiasing = true;
+		backDark.active = false;
+		addToBackground(backDark);
+
+		var crowd:FlxSprite = new FlxSprite(560, 290);
+		crowd.frames = Paths.getSparrowAtlas("week1/erect/crowd");
+		crowd.antialiasing = true;
+		crowd.scrollFactor.set(0.8, 0.8);
+		crowd.animation.addByPrefix("idle", "", 12, true);
+		crowd.animation.play("idle");
+		crowd.shader = dadShader.shader;
+		addToBackground(crowd);
+
+		var brightLightSmall:FlxSprite = new FlxSprite(967, -103).loadGraphic(Paths.image("week1/erect/brightLightSmall"));
+		brightLightSmall.antialiasing = true;
+		brightLightSmall.blend = ADD;
+		brightLightSmall.scrollFactor.set(1.2, 1.2);
+		brightLightSmall.active = false;
+		addToBackground(brightLightSmall);
+
+		var bg:FlxSprite = new FlxSprite(-603, -187).loadGraphic(Paths.image("week1/erect/bg"));
+		bg.antialiasing = true;
+		bg.active = false;
+		addToBackground(bg);
+
+		var server:FlxSprite = new FlxSprite(-361, 205).loadGraphic(Paths.image("week1/erect/server"));
+		server.antialiasing = true;
+		server.active = false;
+		addToBackground(server);
+
+		var lightgreen:FlxSprite = new FlxSprite(-171, 242).loadGraphic(Paths.image("week1/erect/lightgreen"));
+		lightgreen.antialiasing = true;
+		lightgreen.blend = ADD;
+		lightgreen.active = false;
+		addToBackground(lightgreen);
+
+		var lightred:FlxSprite = new FlxSprite(-101, 560).loadGraphic(Paths.image("week1/erect/lightred"));
+		lightred.antialiasing = true;
+		lightred.blend = ADD;
+		lightred.active = false;
+		addToBackground(lightred);
+
+		var orangeLight:FlxSprite = new FlxSprite(189, -195).loadGraphic(Paths.image("week1/erect/orangeLight"));
+		orangeLight.antialiasing = true;
+		orangeLight.scale.set(1, 1.2);
+		orangeLight.blend = ADD;
+		orangeLight.active = false;
+		addToBackground(orangeLight);
+
+		var lights:FlxSprite = new FlxSprite(-601, -147).loadGraphic(Paths.image("week1/erect/lights"));
+		lights.antialiasing = true;
+		lights.scrollFactor.set(1.2, 1.2);
+		lights.active = false;
+		addToForeground(lights);
+		
+		var lightAbove:FlxSprite = new FlxSprite(804, -117).loadGraphic(Paths.image("week1/erect/lightAbove"));
+		lightAbove.antialiasing = true;
+		lightAbove.blend = ADD;
+		lightAbove.active = false;
+		addToForeground(lightAbove);
+
+		bfStart.set(1000, 865);
+		dadStart.set(40, 850);
+		gfStart.set(500, 810);
+
+		gf.scrollFactor.set(1, 1);
+
+		bfCameraOffset.set(-180, -80);
+		dadCameraOffset.set(180, 0);
+		gfCameraOffset.set(0, -80);
+
+		boyfriend.getSprite().shader = bfShader.shader;
+		dad.getSprite().shader = dadShader.shader;
+		gf.getSprite().shader = gfShader.shader;
+    }
+}

@@ -1,7 +1,7 @@
 {
 	"song": {
 		"speed": 2.6,
-		"stage": "Stage",
+		"stage": "StageErect",
 		"player1": "Bf",
 		"player2": "Dad",
 		"notes": [
