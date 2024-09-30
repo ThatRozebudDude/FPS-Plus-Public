@@ -1,5 +1,6 @@
 package stages.data;
 
+import shaders.AdjustColorShader;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
@@ -11,8 +12,10 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class Philly extends BaseStage
+class PhillyErect extends BaseStage
 {
+
+	var characterShader:AdjustColorShader = new AdjustColorShader(-5, -26, 0, -16);
 
 	var phillyCityLights:FlxSprite;
 	var phillyCityLightsGlow:FlxSprite;
@@ -32,34 +35,34 @@ class Philly extends BaseStage
 	var startedMoving:Bool = false;
 
 	var windowColorIndex:Int = -1;
-	final windowColors:Array<FlxColor> = [0x31A2FD, 0x31FD8C, 0xFB33F5, 0xFD4531, 0xFBA633];
+	final windowColors:Array<FlxColor> = [0xFFB66F43, 0xFF329A6D, 0xFF932C28, 0xFF2663AC, 0xFF502D64];
 
     public override function init(){
-        name = "philly";
+        name = "philly-erect";
 		startingZoom = 1.1;
 
-		var bg:FlxSprite = new FlxSprite(-100, -20).loadGraphic(Paths.image('week3/philly/sky'));
+		var bg:FlxSprite = new FlxSprite(-100, 0).loadGraphic(Paths.image('week3/philly/erect/sky'));
 		bg.antialiasing = true;
 		bg.scrollFactor.set(0.1, 0.1);
 		addToBackground(bg);
 
-		var city:FlxSprite = new FlxSprite(-81, 52).loadGraphic(Paths.image('week3/philly/city'));
+		var city:FlxSprite = new FlxSprite(-10, 0).loadGraphic(Paths.image('week3/philly/erect/city'));
 		city.scrollFactor.set(0.3, 0.3);
-		city.setGraphicSize(Std.int(city.width * 0.85));
+		city.scale.set(0.85, 0.85);
 		city.updateHitbox();
 		city.antialiasing = true;
 		addToBackground(city);
 
-		phillyCityLights = new FlxSprite(city.x + (71 * 0.85), city.y - (52 * 0.85)).loadGraphic(Paths.image("week3/philly/windowWhite"));
+		phillyCityLights = new FlxSprite(-10, 0).loadGraphic(Paths.image("week3/philly/windowWhite"));
 		phillyCityLights.scrollFactor.set(0.3, 0.3);
-		phillyCityLights.setGraphicSize(Std.int(phillyCityLights.width * 0.85));
+		phillyCityLights.scale.set(0.85, 0.85);
 		phillyCityLights.updateHitbox();
 		phillyCityLights.antialiasing = true;
 		addToBackground(phillyCityLights);
 
-		phillyCityLightsGlow = new FlxSprite(phillyCityLights.x, phillyCityLights.y).loadGraphic(Paths.image("week3/philly/windowWhiteGlow"));
+		phillyCityLightsGlow = new FlxSprite(-10, 0).loadGraphic(Paths.image("week3/philly/windowWhiteGlow"));
 		phillyCityLightsGlow.scrollFactor.set(0.3, 0.3);
-		phillyCityLightsGlow.setGraphicSize(Std.int(phillyCityLightsGlow.width * 0.85));
+		phillyCityLightsGlow.scale.set(0.85, 0.85);
 		phillyCityLightsGlow.updateHitbox();
 		phillyCityLightsGlow.antialiasing = true;
 		phillyCityLightsGlow.blend = ADD;
@@ -68,9 +71,9 @@ class Philly extends BaseStage
 
 		changeLightColor();
 
-		var streetBehind:FlxSprite = new FlxSprite(178, 50+97).loadGraphic(Paths.image('week3/philly/behindTrain'));
-		streetBehind.antialiasing = true;
-		addToBackground(streetBehind);
+		var behindTrain:FlxSprite = new FlxSprite(-40, 50).loadGraphic(Paths.image('week3/philly/erect/behindTrain'));
+		behindTrain.antialiasing = true;
+		addToBackground(behindTrain);
 
 		phillyTrain = new FlxSprite(2000, 360).loadGraphic(Paths.image('week3/philly/train'));
 		phillyTrain.antialiasing = true;
@@ -80,7 +83,7 @@ class Philly extends BaseStage
 		trainSound = new FlxSound().loadEmbedded(Paths.sound('week3/train_passes'));
 		FlxG.sound.list.add(trainSound);
 
-		var street:FlxSprite = new FlxSprite(streetBehind.x-341, streetBehind.y-93).loadGraphic(Paths.image('week3/philly/street'));
+		var street:FlxSprite = new FlxSprite(-40, 50).loadGraphic(Paths.image('week3/philly/erect/street'));
 		street.antialiasing = true;
 		addToBackground(street);
 
@@ -89,6 +92,10 @@ class Philly extends BaseStage
 
 		dadCameraOffset.set(-50, 0);
 		bfCameraOffset.set(-100, 0);
+
+		boyfriend.getSprite().shader = characterShader.shader;
+		dad.getSprite().shader = characterShader.shader;
+		gf.getSprite().shader = characterShader.shader;
     }
 
 	public override function update(elapsed:Float){
@@ -138,7 +145,7 @@ class Philly extends BaseStage
 		phillyCityLights.color = windowColors[windowColorIndex];
 		phillyCityLightsGlow.color = windowColors[windowColorIndex];
 		FlxTween.cancelTweensOf(phillyCityLightsGlow);
-		phillyCityLightsGlow.alpha = 0.9;
+		phillyCityLightsGlow.alpha = 1;
 		FlxTween.tween(phillyCityLightsGlow, {alpha: 0}, (Conductor.crochet/1000) * 3.5, {ease: FlxEase.quadOut});
 	}
 
