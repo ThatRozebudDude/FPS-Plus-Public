@@ -44,7 +44,7 @@ class PhillyStreetsErect extends BaseStage
 	var car2Interruptable:Bool = true;
 
     public override function init(){
-        name = "phillyStreets-erect";
+        name = "phillyStreetsErect";
         startingZoom = 0.75;
 
 		var scrollingSky = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/phillySkybox"), X);

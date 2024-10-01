@@ -770,4 +770,14 @@ class Character extends FlxSpriteGroup
 		}
 	}
 
+	public function getShader():FlxShader{
+		if(character != null){ //Code for sheet characters
+			return character.shader;
+		}
+		else if(atlasCharacter != null){ //Code for atlas characters
+			return atlasCharacter.shader;
+		}
+		return null;
+	}
+
 }

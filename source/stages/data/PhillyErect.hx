@@ -38,7 +38,7 @@ class PhillyErect extends BaseStage
 	final windowColors:Array<FlxColor> = [0xFFB66F43, 0xFF329A6D, 0xFF932C28, 0xFF2663AC, 0xFF502D64];
 
     public override function init(){
-        name = "philly-erect";
+        name = "phillyErect";
 		startingZoom = 1.1;
 
 		var bg:FlxSprite = new FlxSprite(-100, 0).loadGraphic(Paths.image('week3/philly/erect/sky'));

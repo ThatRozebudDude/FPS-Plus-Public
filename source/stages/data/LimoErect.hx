@@ -35,7 +35,7 @@ class LimoErect extends BaseStage
 	var fastCarCanDrive:Bool = true;
 
     public override function init(){
-        name = "limo-erect";
+        name = "limoErect";
 		startingZoom = 0.9;
 
 		var skyBG:FlxSprite = new FlxSprite(-220, -80).loadGraphic(Paths.image("week4/limo/erect/limoSunset"));

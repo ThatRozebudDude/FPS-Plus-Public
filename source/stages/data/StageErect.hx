@@ -14,7 +14,7 @@ class StageErect extends BaseStage
 	var gfShader:AdjustColorShader = new AdjustColorShader(-30, -9, -4, 0);
 
     public override function init(){
-        name = "stage-erect";
+        name = "stageErect";
 		startingZoom = 0.87;
 
 		var backDark:FlxSprite = new FlxSprite(729, -170).loadGraphic(Paths.image("week1/erect/backDark"));

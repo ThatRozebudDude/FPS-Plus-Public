@@ -1,5 +1,6 @@
 package cutscenes.data;
 
+import stages.data.MallErect;
 import shaders.AdjustColorShader;
 import transition.data.InstantTransition;
 import flixel.sound.FlxSound;
@@ -9,8 +10,6 @@ import flixel.tweens.FlxEase;
 
 class SantaDies extends ScriptedCutscene
 {
-    var	characterShader:AdjustColorShader = new AdjustColorShader(0, 10, 0, 20);
-
     var santa:AtlasSprite;
     var parents:AtlasSprite;
 
@@ -20,7 +19,9 @@ class SantaDies extends ScriptedCutscene
         santa = new AtlasSprite(-452, 501, Paths.getTextureAtlas("week5/santa_speaks_assets"));
         santa.antialiasing = true;
         santa.addFullAnimation("full", 24, false);
-        santa.shader = characterShader.shader;
+        if(playstate.stage.name == "mallErect"){
+            santa.shader = cast(playstate.stage, MallErect).santa.shader;
+        }
 
         parents = new AtlasSprite(-517, 503, Paths.getTextureAtlas("week5/parents_shoot_assets"));
         parents.antialiasing = true;
@@ -35,7 +36,7 @@ class SantaDies extends ScriptedCutscene
                 next();
             }
         }
-        parents.shader = characterShader.shader;
+        parents.shader = dad.getShader();
 
         addEvent(0, setup);
         addEvent(1/24, gfIdleLoop);

@@ -12,10 +12,10 @@ class MallErect extends BaseStage
 
 	var upperBoppers:FlxSprite;
 	var bottomBoppers:FlxSprite;
-	var santa:FlxSprite;
+	public var santa:FlxSprite;
 
     public override function init(){
-        name = "mall-erect";
+        name = "mallErect";
 		startingZoom = 0.8;
 
 		var bg:FlxSprite = new FlxSprite(-1000, -440).loadGraphic(Paths.image('week5/christmas/erect/bgWalls'));
