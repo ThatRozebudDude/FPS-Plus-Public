@@ -32,8 +32,8 @@ class SparrowScrub extends FlxState
 		//add(pico);
 
 		sparrow = new FlxSprite();
-		sparrow.frames = Paths.getSparrowAtlas("weekend1/PicoBullet");
-		sparrow.animation.addByPrefix("full", "", 0, false);
+		sparrow.frames = Paths.getSparrowAtlas("week2/spooky_kids_assets");
+		sparrow.animation.addByPrefix("full", "Idle", 0, false);
 		sparrow.antialiasing = true;
 		//sparrow.screenCenter();
 		sparrow.animation.play("full");

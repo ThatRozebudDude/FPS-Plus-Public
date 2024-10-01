@@ -24,6 +24,33 @@ class SpookyDark extends CharacterInfoBase
 
         info.idleSequence = ["danceLeft", "danceRight"];
         
+        info.functions.create = create;
+
+        addAction("flashOn", flashOn);
+        addAction("flashOff", flashOff);
+        addAction("flashFade", flashFade);
+    }
+
+    var flash:Character;
+
+    function create(character:Character):Void{
+        flash = new Character(0, 0, "Spooky", characterReference.isPlayer, characterReference.isGirlfriend);
+        flash.noLogic = true;
+        character.attachCharacter(flash, true);
+        addToCharacter(flash);
+    }
+
+    function flashOn(character:Character):Void{
+        character.getSprite().alpha = 0;
+    }
+
+    function flashOff(character:Character):Void{
+        character.getSprite().alpha = 1;
+    }
+
+    function flashFade(character:Character):Void{
+        character.getSprite().alpha = 0;
+        playstate.tweenManager.tween(character.getSprite(), {alpha: 1}, 1.5);
     }
 
 }

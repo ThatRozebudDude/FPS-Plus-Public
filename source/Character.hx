@@ -30,6 +30,7 @@ class Character extends FlxSpriteGroup
 	private var animLoopPoints:Map<String, Int>;
 	public var reposition:FlxPoint = new FlxPoint();
 	public var debugMode:Bool = false;
+	public var noLogic:Bool = false;
 
 	public var isPlayer:Bool = false;
 	public var isGirlfriend:Bool = false;
@@ -174,7 +175,7 @@ class Character extends FlxSpriteGroup
 
 	override function update(elapsed:Float){
 		
-		if (!debugMode){
+		if (!debugMode && !noLogic){
 			if (!isPlayer){
 				//opponent stuff
 				if (isSinging){
@@ -224,7 +225,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function dance(?ignoreDebug:Bool = false):Void{
-		if (!debugMode || ignoreDebug)
+		if ((!debugMode || ignoreDebug) && !noLogic)
 		{
 
 			if(danceLockout){
@@ -327,8 +328,6 @@ class Character extends FlxSpriteGroup
 			changeOffsets();
 			isSinging = false;
 			timeInCurrentAnimation = 0;
-		}
-		else{
 			onPlayAnim.dispatch(AnimName, Force, Reversed, Frame);
 		}
 

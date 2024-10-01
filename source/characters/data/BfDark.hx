@@ -34,12 +34,13 @@ class BfDark extends CharacterInfoBase
         addAction("flashFade", flashFade);
     }
 
-    var bfFlash:Character;
+    var flash:Character;
 
     function create(character:Character):Void{
-        bfFlash = new Character(0, 0, "Bf", true);
-        character.attachCharacter(bfFlash, true);
-        addToCharacter(bfFlash);
+        flash = new Character(0, 0, "Bf", characterReference.isPlayer, characterReference.isGirlfriend);
+        flash.noLogic = true;
+        character.attachCharacter(flash, true);
+        addToCharacter(flash);
     }
 
     function flashOn(character:Character):Void{
