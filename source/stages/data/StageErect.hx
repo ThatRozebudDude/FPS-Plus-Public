@@ -89,8 +89,8 @@ class StageErect extends BaseStage
 		dadCameraOffset.set(180, 0);
 		gfCameraOffset.set(0, -80);
 
-		boyfriend.getSprite().shader = bfShader.shader;
-		dad.getSprite().shader = dadShader.shader;
-		gf.getSprite().shader = gfShader.shader;
+		boyfriend.applyShader(bfShader.shader);
+		dad.applyShader(dadShader.shader);
+		gf.applyShader(gfShader.shader);
     }
 }

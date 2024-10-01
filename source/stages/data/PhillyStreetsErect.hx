@@ -250,9 +250,9 @@ class PhillyStreetsErect extends BaseStage
 
 		gf.scrollFactor.set(1, 1);
 
-		boyfriend.getSprite().shader = characterShader.shader;
-		dad.getSprite().shader = characterShader.shader;
-		gf.getSprite().shader = characterShader.shader;
+		boyfriend.applyShader(characterShader.shader);
+		dad.applyShader(characterShader.shader);
+		gf.applyShader(characterShader.shader);
 
 		rainShader = new RainShader(0, FlxG.height / 200);
 		playstate.camGame.filters = [new ShaderFilter(rainShader.shader)];

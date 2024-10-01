@@ -1,5 +1,6 @@
 package stages.elements;
 
+import flixel.system.FlxAssets.FlxShader;
 import flixel.FlxObject;
 import flixel.util.FlxAxes;
 import flixel.sound.FlxSound;
@@ -76,6 +77,13 @@ class ABot extends FlxTypedSpriteGroup<FlxSprite>
 			y = (FlxG.height - system.height) / 2;
 	
 		return this;
+	}
+
+	public function applyShader(shader:FlxShader):Void{
+		bg.shader = shader;	
+		eyeBack.shader = shader;	
+		eyes.shader = shader;	
+		system.shader = shader;	
 	}
 
 }

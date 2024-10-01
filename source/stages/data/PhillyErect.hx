@@ -93,9 +93,9 @@ class PhillyErect extends BaseStage
 		dadCameraOffset.set(-50, 0);
 		bfCameraOffset.set(-100, 0);
 
-		boyfriend.getSprite().shader = characterShader.shader;
-		dad.getSprite().shader = characterShader.shader;
-		gf.getSprite().shader = characterShader.shader;
+		boyfriend.applyShader(characterShader.shader);
+		dad.applyShader(characterShader.shader);
+		gf.applyShader(characterShader.shader);
     }
 
 	public override function update(elapsed:Float){

@@ -1,5 +1,6 @@
 package;
 
+import flixel.system.FlxAssets.FlxShader;
 import flixel.util.FlxSignal;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
@@ -579,6 +580,16 @@ class Character extends FlxSpriteGroup
 			else{
 				trace("Action \"" + action + "\" not found.");
 			}
+		}
+	}
+
+	//Checks if the object has a custom applyShader function and runs that if found. Basically just used for ABot as of right now.
+	public function applyShader(shader:FlxShader):Void{
+		for(member in members){
+			if(Type.getInstanceFields(Type.getClass(member)).contains("applyShader")){
+				Reflect.callMethod(member, Reflect.field(member, "applyShader"), [shader]);
+			}
+			else{ member.shader = shader; }
 		}
 	}
 
