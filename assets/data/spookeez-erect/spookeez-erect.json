@@ -1,9 +1,9 @@
 {
 	"song": {
 		"speed": 2.4,
-		"stage": "Spooky",
-		"player1": "Bf",
-		"player2": "Spooky",
+		"stage": "SpookyErect",
+		"player1": "BfDark",
+		"player2": "SpookyDark",
 		"notes": [
 			{
 				"lengthInSteps": 16,
@@ -8003,7 +8003,7 @@
 				"mustHitSection": true
 			}
 		],
-		"gf": "Gf",
+		"gf": "GfDark",
 		"bpm": 166,
 		"song": "Spookeez-Erect"
 	}

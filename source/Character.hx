@@ -562,20 +562,25 @@ class Character extends FlxSpriteGroup
 		}
 	}
 
-	public function attachCharacter(child:Character){
+	public function attachCharacter(child:Character, includePlayAnim:Bool = false){
 		onDance.add(function(){
 			child.dance();
 		});
 		onSing.add(function(anim:String, force:Bool, reverse:Bool, frame:Int){
 			child.singAnim(anim, force, reverse, frame);
 		});
+		if(includePlayAnim){
+			onPlayAnim.add(function(anim:String, force:Bool, reverse:Bool, frame:Int){
+				child.playAnim(anim, force, reverse, frame);
+			});	
+		}
 	}
 
 	public function doAction(action:String){
 		if(characterInfo.info.actions == null) { return; }
 		else{
 			if(characterInfo.info.actions.get(action) != null){
-				characterInfo.info.actions.get(action)();
+				characterInfo.info.actions.get(action)(this);
 			}
 			else{
 				trace("Action \"" + action + "\" not found.");

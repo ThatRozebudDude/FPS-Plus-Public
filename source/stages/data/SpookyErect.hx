@@ -1,0 +1,144 @@
+package stages.data;
+
+import flixel.util.FlxTimer;
+import flixel.sound.FlxSound;
+import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.math.FlxPoint;
+import flixel.FlxObject;
+import stages.elements.*;
+
+class SpookyErect extends BaseStage
+{
+
+	var bgFlash:FlxSprite;
+	var stairsFlash:FlxSprite;
+
+	var lightningStrikeBeat:Int = 0;
+	var lightningStrikeOffset:Int = 8;
+	var allowLightning:Bool = true;
+	var trackBeat:Int = 0;
+
+	var lightningSound:FlxSound = new FlxSound();
+	var unpauseSoundCheck:Bool = false;
+
+    public override function init(){
+        name = "spookyErect";
+		startingZoom = 1;
+
+		var color:FlxSprite = Utils.makeColoredSprite(2400, 2000, 0xFF03020B);
+		color.setPosition(-300, -500);
+		addToBackground(color);
+
+		var trees:FlxSprite = new FlxSprite(200, 50);
+		trees.frames = Paths.getSparrowAtlas("week2/stage/erect/bgtrees");
+		trees.antialiasing = true;
+		trees.scrollFactor.set(0.8, 0.8);
+		trees.animation.addByPrefix("idle", "bgtrees", 5, true);
+		trees.animation.play("idle");
+		addToBackground(trees);
+
+		var bgDark:FlxSprite = new FlxSprite(-360, -220).loadGraphic(Paths.image("week2/stage/erect/bgDark"));
+		bgDark.antialiasing = true;
+		addToBackground(bgDark);
+
+		bgFlash = new FlxSprite(-360, -220).loadGraphic(Paths.image("week2/stage/erect/bgLight"));
+		bgFlash.antialiasing = true;
+		bgFlash.alpha = 0;
+		addToBackground(bgFlash);
+
+		var stairsDark:FlxSprite = new FlxSprite(966, -225).loadGraphic(Paths.image("week2/stage/erect/stairsDark"));
+		stairsDark.antialiasing = true;
+		addToForeground(stairsDark);
+
+		stairsFlash = new FlxSprite(966, -225).loadGraphic(Paths.image("week2/stage/erect/stairsLight"));
+		stairsFlash.antialiasing = true;
+		stairsFlash.alpha = 0;
+		addToForeground(stairsFlash);
+
+		bfStart.set(1250, 835);
+		dadStart.set(382, 831);
+		gfStart.set(821.5, 780);
+
+		addEvent("spookyErect-toggleLightning", toggleLightning);
+		addEvent("spookyErect-forceLightning", lightningEvent);
+    }
+
+	public override function beat(curBeat:Int){
+		trackBeat = curBeat;
+
+		if (FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningStrikeOffset && allowLightning){
+			doLightningStrike(true, curBeat);
+		}
+	}
+
+	public override function pause() {
+		if(lightningSound.playing){
+			unpauseSoundCheck = true;
+			lightningSound.pause();
+		}
+	}
+
+	public override function unpause() {
+		if(unpauseSoundCheck){
+			unpauseSoundCheck = false;
+			lightningSound.play(false);
+		}
+	}
+
+	function toggleLightning(tag:String):Void{
+		allowLightning = !allowLightning;
+	}
+
+	function lightningEvent(tag:String):Void{
+		doLightningStrike(true, trackBeat);
+	}
+
+	function doLightningStrike(playSound:Bool, beat:Int):Void{
+
+		//if (getBoyfriend() == null || getGirlfriend() == null || getDad() == null)
+			//return;
+
+		if (playSound){
+			lightningSound = FlxG.sound.play(Paths.sound("week2/thunder_" + FlxG.random.int(1, 2)));
+		}
+
+		// getNamedProp('halloweenBG').animation.play('lightning');
+		bgFlash.alpha = 1;
+		stairsFlash.alpha = 1;
+
+		boyfriend.doAction("flashOn");
+		dad.doAction("flashOn");
+		gf.doAction("flashOn");
+
+		new FlxTimer().start(0.06, function(_){
+			bgFlash.alpha = 0;
+			stairsFlash.alpha = 0;
+
+			boyfriend.doAction("flashOff");
+			dad.doAction("flashOff");
+			gf.doAction("flashOff");
+		});
+
+		new FlxTimer().start(0.12, function(_){
+			bgFlash.alpha = 1;
+			stairsFlash.alpha = 1;
+
+			boyfriend.doAction("flashFade");
+			dad.doAction("flashFade");
+			gf.doAction("flashFade");
+			
+			tween.tween(bgFlash, {alpha: 0}, 1.5);
+			tween.tween(stairsFlash, {alpha: 0}, 1.5);
+		});
+
+		lightningStrikeBeat = beat;
+		lightningStrikeOffset = FlxG.random.int(8, 24);
+
+		boyfriend.playAnim("scared", true);
+		boyfriend.danceLockout = true;
+
+		gf.playAnim("scared", true);
+		gf.danceLockout = true;
+	}
+}

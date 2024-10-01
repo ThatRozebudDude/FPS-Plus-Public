@@ -38,17 +38,17 @@ class StressIntro extends ScriptedCutscene
             }
         }
         picoSpeaker.visible = false;
-        picoSpeaker.scrollFactor.set(0.95, 0.95);
+        //picoSpeaker.scrollFactor.set(0.95, 0.95);
 
         gfSummon = new FlxSprite(-10, -380);
         gfSummon.frames = Paths.getSparrowAtlas("week7/cutscene/gfCutscene");
         gfSummon.antialiasing = true;
         gfSummon.animation.addByPrefix("summon", "", 24, false);
         gfSummon.visible = false;
-        gfSummon.scrollFactor.set(0.95, 0.95);
+        //gfSummon.scrollFactor.set(0.95, 0.95);
 
         gfSpeaker = new Character(210, 74, "GfTankmen", false, true);
-        gfSpeaker.scrollFactor.set(0.95, 0.95);
+        //gfSpeaker.scrollFactor.set(0.95, 0.95);
 
         originalZoom = playstate.defaultCamZoom;
 

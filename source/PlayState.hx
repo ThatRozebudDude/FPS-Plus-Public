@@ -350,7 +350,7 @@ class PlayState extends MusicBeatState
 		}
 
 		gf = new Character(400, 130, gfCheck, false, true);
-		gf.scrollFactor.set(0.95, 0.95);
+		//gf.scrollFactor.set(0.95, 0.95);
 
 		var dadChar = SONG.player2;
 

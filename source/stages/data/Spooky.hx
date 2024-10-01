@@ -104,7 +104,9 @@ class Spooky extends BaseStage
 		lightningOffset = FlxG.random.int(8, 24);
 
 		boyfriend.playAnim("scared", true);
+		boyfriend.danceLockout = true;
 		gf.playAnim("scared", true);
+		gf.danceLockout = true;
 	}
 
 	function floorLightCallback(anim:String, frame:Int, index:Int):Void{

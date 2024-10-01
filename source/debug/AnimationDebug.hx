@@ -266,6 +266,13 @@ class AnimationDebug extends FlxState
 			dad.playAnim(animList[curAnim], true);
 		}
 
+		if (FlxG.keys.anyJustPressed([BACKSPACE])){
+			if(dad.getSprite().alpha == 0.5)
+				dad.getSprite().alpha = 1;
+			else
+				dad.getSprite().alpha = 0.5;
+		}
+
 		super.update(elapsed);
 	}
 

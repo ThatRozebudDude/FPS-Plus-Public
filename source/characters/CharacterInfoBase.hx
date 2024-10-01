@@ -78,7 +78,7 @@ typedef CharacterInfo = {
     var deathOffset:FlxPoint;
     var animChains:Map<String, String>;
     var functions:CharacterFunctions;
-    var actions:Map<String, Void->Void>;
+    var actions:Map<String, (Character)->Void>;
     var extraData:Map<String, Dynamic>;
 }
 
@@ -387,9 +387,9 @@ class CharacterInfoBase
 	 * @param   key     The name that will be used to identify the action.
 	 * @param   data    The function.
 	 */
-     function addAction(key:String, data:Void->Void):Void{
+     function addAction(key:String, data:(Character)->Void):Void{
         if(info.actions == null){
-            info.actions = new Map<String, Void->Void>();
+            info.actions = new Map<String, (Character)->Void>();
         }
         info.actions.set(key, data);
     }
