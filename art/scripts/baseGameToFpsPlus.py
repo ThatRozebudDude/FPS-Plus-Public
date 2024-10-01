@@ -23,9 +23,12 @@ for note in data["notes"][diff]:
         curSection += 1
         sections.append([])
     k = ""
+    l = 0
+    if "l" in note:
+        l = note["l"]
     if "k" in note:
         k = note["k"]
-    sections[curSection].append([note["t"], note["d"], note["l"], k])
+    sections[curSection].append([note["t"], note["d"], l, k])
 
 f.close()
 

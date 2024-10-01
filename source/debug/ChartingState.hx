@@ -2278,6 +2278,7 @@ class ChartingState extends MusicBeatState
 		//static var stageList:Array<String> = [];
 
 		var characterClasses = CompileTime.getAllClasses("characters.data", false, characters.CharacterInfoBase);
+		//trace(characterClasses);
 		for(x in characterClasses){
 			var meta = Meta.getType(x);
 			if(meta.charList == null || meta.charList[0]){
@@ -2289,6 +2290,7 @@ class ChartingState extends MusicBeatState
 		}
 
 		var stageClasses = CompileTime.getAllClasses("stages.data", false, stages.BaseStage);
+		//trace(stageClasses);
 		for(x in stageClasses){
 			stageList.push(Type.getClassName(x).split("stages.data.")[1]);
 		}

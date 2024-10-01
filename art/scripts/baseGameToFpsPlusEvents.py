@@ -36,8 +36,15 @@ for event in data["events"]:
                         tag += "camFocusDad;"
                     case 2 | "2":
                         tag += "camFocusGf;"
+
+            x = 0
+            y = 0
+            if "x" in event["v"]:
+                x = event["v"]["x"]
+            if "y" in event["v"]:
+                y = event["v"]["y"]
                         
-            tag += str(event["v"]["x"]) + ";" + str(event["v"]["y"])
+            tag += str(x) + ";" + str(y)
 
             if "ease" in event["v"]:
                 if not event["v"]["ease"] == "CLASSIC":

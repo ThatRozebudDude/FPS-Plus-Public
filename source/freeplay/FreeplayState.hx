@@ -194,6 +194,7 @@ class FreeplayState extends MusicBeatState
 		addSong("Lit-Up", "darnell", 101, ["ALL", "Weekend 1"]);
 		addSong("2hot", "darnell", 101, ["ALL", "Weekend 1"]);
 		addSong("Blazin", "darnell", 101, ["ALL", "Weekend 1"]);
+		addSong("Darnell-Bf", "darnell", 101, ["ALL", "Weekend 1"]);
 
 		//ERECT SONGS!!!!
 
