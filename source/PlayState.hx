@@ -389,12 +389,9 @@ class PlayState extends MusicBeatState
 			//trace("doing gf start point");
 		}
 		
-		dad.x += dad.reposition.x;
-		dad.y += dad.reposition.y;
-		boyfriend.x += boyfriend.reposition.x;
-		boyfriend.y += boyfriend.reposition.y;
-		gf.x += gf.reposition.x;
-		gf.y += gf.reposition.y;
+		boyfriend.reposition();
+		dad.reposition();
+		gf.reposition();
 
 		if(metadata != null){
 			if(metadata.bfBeats != null){

@@ -5,8 +5,8 @@ import flixel.FlxG;
 import flixel.math.FlxPoint;
 
 @charList(false)
-@gfList(true)
-class Nene extends CharacterInfoBase
+@gfList(false)
+class NeneNoSpeaker extends CharacterInfoBase
 {
 
     override public function new(){
@@ -36,8 +36,6 @@ class Nene extends CharacterInfoBase
 
         info.idleSequence = ["danceLeft", "danceRight"];
 
-        info.functions.create = create;
-        info.functions.songStart = songStart;
         info.functions.update = update;
         info.functions.beat = beat;
         info.functions.danceOverride = danceOverride;
@@ -48,17 +46,8 @@ class Nene extends CharacterInfoBase
     var knifeRaised:Bool = false;
     var blinkTime:Float = 0;
 
-    var abot:ABot;
-    var abotLookDir:Bool = false;
-
     final BLINK_MIN:Float = 1;
     final BLINK_MAX:Float = 3;
-
-    function create(character:Character):Void{
-        abot = new ABot(-134.5, 311);
-		abot.lookLeft();
-        addToCharacter(abot);
-    }
 
     function update(character:Character, elapsed:Float):Void{
         
@@ -71,21 +60,9 @@ class Nene extends CharacterInfoBase
             }
         }
 
-        if(!character.debugMode){
-            if(playstate.camFocus == "dad" && abotLookDir){
-                abotLookDir = !abotLookDir;
-                abot.lookLeft();
-            }
-            else if(playstate.camFocus == "bf" && !abotLookDir){
-                abotLookDir = !abotLookDir;
-                abot.lookRight();
-            }
-        }
-        
     }
 
     function beat(character:Character, beat:Int) {
-        abot.bop();
 
         //raise knife on low health
         if(PlayState.SONG.song.toLowerCase() != "blazin"){
@@ -108,11 +85,6 @@ class Nene extends CharacterInfoBase
         if(!knifeRaised){
             character.defaultDanceBehavior();
         }
-    }
-
-    function songStart(character:Character):Void{
-        abot.setAudioSource(FlxG.sound.music);
-		abot.startVisualizer();
     }
 
 }

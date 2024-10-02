@@ -28,7 +28,7 @@ class Character extends FlxSpriteGroup
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	private var originalAnimOffsets:Map<String, Array<Dynamic>>;
 	private var animLoopPoints:Map<String, Int>;
-	public var reposition:FlxPoint = new FlxPoint();
+	public var repositionPoint:FlxPoint = new FlxPoint();
 	public var debugMode:Bool = false;
 	public var noLogic:Bool = false;
 
@@ -279,13 +279,13 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function beat(curBeat:Int):Void{
-		if(characterInfo.info.functions.beat != null){
+		if(characterInfo.info.functions.beat != null && !noLogic){
 			characterInfo.info.functions.beat(this, curBeat);
 		}
 	}
 
 	public function step(curStep:Int):Void{
-		if(characterInfo.info.functions.step != null){
+		if(characterInfo.info.functions.step != null && !noLogic){
 			characterInfo.info.functions.step(this, curStep);
 		}
 	}
@@ -318,10 +318,6 @@ class Character extends FlxSpriteGroup
 			atlasCharacter.playAnim(AnimName, Force, Reversed, Frame);
 		}
 
-		if(characterInfo.info.functions.playAnim != null && !isPartOfLoopingAnim){
-			characterInfo.info.functions.playAnim(this, AnimName);
-		}
-
 		//Change/reset variables n stuff
 		if(!isPartOfLoopingAnim){
 			curAnim = AnimName;
@@ -329,6 +325,11 @@ class Character extends FlxSpriteGroup
 			isSinging = false;
 			timeInCurrentAnimation = 0;
 			onPlayAnim.dispatch(AnimName, Force, Reversed, Frame);
+		}
+		else{
+			if(characterInfo.info.functions.playAnim != null){
+				characterInfo.info.functions.playAnim(this, AnimName);
+			}
 		}
 
 		return true;
@@ -496,7 +497,7 @@ class Character extends FlxSpriteGroup
 					case "scale":
 						changeCharacterScale(data);
 					case "reposition":
-						reposition.set(data[0], data[1]);
+						repositionPoint.set(data[0], data[1]);
 					case "deathDelay":
 						deathDelay = data;
 					case "deathSound":
@@ -599,6 +600,18 @@ class Character extends FlxSpriteGroup
 			}
 			else{ member.shader = shader; }
 		}
+	}
+
+	public function reposition():Void{
+		x += repositionPoint.x;
+		y += repositionPoint.y;
+
+		for(member in members){
+			member.x += repositionPoint.x;
+			member.y += repositionPoint.y;
+		}
+
+		updateCharacterPostion();
 	}
 
 

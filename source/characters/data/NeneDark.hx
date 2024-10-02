@@ -30,7 +30,7 @@ class NeneDark extends CharacterInfoBase
         addByIndices("comboCheerHigh", offset(-40, -20), "fawn nene", [0,1,2,3,4,5,6,4,5,6,4,5,6,4,5,6], "", 24, loop(false, 0), false, false);
         addByPrefix("raiseKnife", offset(0, 51), "knife raise", 24, loop(false, 0), false, false);
         addByPrefix("idleKnife", offset(-98, 51), "knife high held", 24, loop(false, 0), false, false);
-        addByPrefix("lowerKnife", offset(135, 51), "knife lower", 24, loop(false, 0), false, false);
+        addByPrefix("lowerKnife", offset(-38, 51), "knife lower", 24, loop(false, 0), false, false);
 
         addAnimChain("raiseKnife", "idleKnife");
         addAnimChain("laughCutscene", "idleLoop");
@@ -38,17 +38,22 @@ class NeneDark extends CharacterInfoBase
         info.idleSequence = ["danceLeft", "danceRight"];
 
         info.functions.create = create;
-        info.functions.add = onAdd;
         info.functions.songStart = songStart;
         info.functions.update = update;
         info.functions.beat = beat;
         info.functions.danceOverride = danceOverride;
+
+        addAction("flashOn", flashOn);
+        addAction("flashOff", flashOff);
+        addAction("flashFade", flashFade);
 
         addExtraData("reposition", [0, -165]);
     }
 
     var knifeRaised:Bool = false;
     var blinkTime:Float = 0;
+
+    var flash:Character;
 
     var abot:ABot;
     var abotLookDir:Bool = false;
@@ -63,13 +68,11 @@ class NeneDark extends CharacterInfoBase
 		abot.lookLeft();
         abot.system.shader = abotShader.shader;
         addToCharacter(abot);
-    }
 
-    //ABot doesn't move with the reposition for some reason. Maybe because he is a sprite group?
-    function onAdd(character:Character):Void{
-        //abot.setPosition(character.x - 134.5, character.y + 311);
-        abot.x += character.reposition.x;
-		abot.y += character.reposition.y;
+        flash = new Character(0, 0, "NeneNoSpeaker", characterReference.isPlayer, characterReference.isGirlfriend);
+        flash.noLogic = true;
+        character.attachCharacter(flash, [withPlayAnim]);
+        addToCharacter(flash);
     }
 
     function update(character:Character, elapsed:Float):Void{
@@ -109,7 +112,7 @@ class NeneDark extends CharacterInfoBase
             else if(PlayState.instance.health >= 0.4 && knifeRaised && character.curAnim == "idleKnife"){
                 knifeRaised = false;
                 character.playAnim("lowerKnife", true);
-                character.idleSequenceIndex = 0;
+                character.idleSequenceIndex = 1;
                 character.danceLockout = true;
             }
         }
@@ -127,4 +130,21 @@ class NeneDark extends CharacterInfoBase
 		abot.startVisualizer();
     }
 
+    function flashOn(character:Character):Void{
+        character.getSprite().alpha = 0;
+        abotShader.mix = 0;
+    }
+
+    function flashOff(character:Character):Void{
+        character.getSprite().alpha = 1;
+        abotShader.mix = 1;
+    }
+
+    function flashFade(character:Character):Void{
+        character.getSprite().alpha = 0;
+        playstate.tweenManager.tween(character.getSprite(), {alpha: 1}, 1.5);
+
+        abotShader.mix = 0;
+        playstate.tweenManager.tween(abotShader, {mix: 1}, 1.5);
+    }
 }
