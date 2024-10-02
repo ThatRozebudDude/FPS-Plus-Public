@@ -66,6 +66,23 @@ for event in data["events"]:
             tag += "camBopFreq;" + str(event["v"]["rate"])
             print(event["e"] + "\t->\t" + tag)
 
+        case "PlayAnimation":
+            target = "bf"
+            match event["v"]["target"]:
+                case "dad":
+                    tag += "camFocusBf;"
+                case "girlfriend" | "gf": #idk which one it is
+                    tag += "camFocusDad;"
+
+            force = "false"
+            if "force" in event["v"]:
+                if event["v"]["force"] == "true":
+                    force = "true"
+
+            tag += "playAnim;" + target + ";" + event["v"]["anim"] + ";" + force
+
+            print(event["e"] + "\t->\t" + tag)
+
         case _:
             skipAdd = True
             print("Event not supported, skipping.")

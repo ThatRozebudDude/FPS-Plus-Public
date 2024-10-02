@@ -222,6 +222,10 @@ class FreeplayState extends MusicBeatState
 		addSong("Roses-Erect", "senpai", 6, ["ERECT", "Week 6"]);
 		addSong("Thorns-Erect", "spirit", 6, ["ERECT", "Week 6"]);
 
+		//ERECT SONGS!!!!
+
+		addSong("Pico-Pico", "pico", 3, ["PICO", "Week 3"]);
+
 		//LIL BUDDIES :D
 
 		SaveManager.global();
