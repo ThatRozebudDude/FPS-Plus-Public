@@ -94,6 +94,8 @@ class HealthIcon extends FlxSprite
 
 			antialiasing = (iconJson.antialiasing != null) ? iconJson.antialiasing : true;
 		}
+
+		iconSize = width;
 	}
 
 }
