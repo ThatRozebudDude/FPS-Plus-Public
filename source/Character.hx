@@ -561,14 +561,18 @@ class Character extends FlxSpriteGroup
 		}
 	}
 
-	public function attachCharacter(child:Character, includePlayAnim:Bool = false){
-		onDance.add(function(){
-			child.dance();
-		});
-		onSing.add(function(anim:String, force:Bool, reverse:Bool, frame:Int){
-			child.singAnim(anim, force, reverse, frame);
-		});
-		if(includePlayAnim){
+	public function attachCharacter(child:Character, attachedActions:Array<AttachedAction>){
+		if(attachedActions.contains(withDance)){
+			onDance.add(function(){
+				child.dance();
+			});
+		}
+		if(attachedActions.contains(withSing)){
+			onSing.add(function(anim:String, force:Bool, reverse:Bool, frame:Int){
+				child.singAnim(anim, force, reverse, frame);
+			});
+		}
+		if(attachedActions.contains(withPlayAnim)){
 			onPlayAnim.add(function(anim:String, force:Bool, reverse:Bool, frame:Int){
 				child.playAnim(anim, force, reverse, frame);
 			});	
@@ -784,4 +788,10 @@ class Character extends FlxSpriteGroup
 		return null;
 	}
 
+}
+
+enum AttachedAction {
+    withDance;
+	withSing;
+	withPlayAnim;
 }

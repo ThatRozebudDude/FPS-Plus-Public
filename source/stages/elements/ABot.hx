@@ -11,11 +11,11 @@ import flixel.FlxSprite;
 class ABot extends FlxTypedSpriteGroup<FlxSprite>
 {
 
-	var system:AtlasSprite;
-	var eyes:AtlasSprite;
-	var eyeBack:FlxSprite;
-	var bg:FlxSprite;
-	var visualizer:ABotVisualizer;
+	public var system:AtlasSprite;
+	public var eyes:AtlasSprite;
+	public var eyeBack:FlxSprite;
+	public var bg:FlxSprite;
+	public var visualizer:ABotVisualizer;
 
 	public function new(x:Float, y:Float) {
 		super(x, y);

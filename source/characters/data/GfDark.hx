@@ -39,7 +39,7 @@ class GfDark extends CharacterInfoBase
     function create(character:Character):Void{
         flash = new Character(0, 0, "Gf", characterReference.isPlayer, characterReference.isGirlfriend);
         flash.noLogic = true;
-        character.attachCharacter(flash, true);
+        character.attachCharacter(flash, [withPlayAnim]);
         addToCharacter(flash);
     }
 
