@@ -14,7 +14,7 @@ class Events
         events = new Map<String, (String)->Void>();
 
         var noteTypeClasses = CompileTime.getAllClasses("events.data", false, Events);
-        //trace(noteTypeClasses);
+        trace(noteTypeClasses);
 		for(x in noteTypeClasses){
 			var noteTypeClass = Type.createInstance(x, []);
             noteTypeClass.defineEvents();

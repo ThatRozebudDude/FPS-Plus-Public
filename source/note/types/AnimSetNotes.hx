@@ -7,7 +7,15 @@ class AnimSetNotes extends NoteType
 {
 
     override function defineTypes():Void{
+        addNoteType("alt", altHit, null);
         addNoteType("censor", censorHit, null);
+    }
+
+    function altHit(note:Note, character:Character){
+        var prevAnimSet = character.animSet;
+        character.animSet = "alt";
+        playstate.defaultNoteHit(note, character);
+        character.animSet = prevAnimSet;
     }
 
     function censorHit(note:Note, character:Character){

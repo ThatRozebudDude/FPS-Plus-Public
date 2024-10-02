@@ -15,7 +15,7 @@ class NoteType
         typeSkins = new Map<String, String>();
 
         var noteTypeClasses = CompileTime.getAllClasses("note.types", false, note.NoteType);
-        //trace(noteTypeClasses);
+        trace(noteTypeClasses);
 		for(x in noteTypeClasses){
 			var noteTypeClass = Type.createInstance(x, []);
             noteTypeClass.defineTypes();
