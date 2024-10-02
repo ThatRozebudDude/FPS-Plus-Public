@@ -25,7 +25,7 @@ using Lambda;
 class Utils
 {
 
-	public static final resultsTextCharacters = "AaBbCcDdEeFfGgHhiIJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz:1234567890.-'";
+	public static final resultsTextCharacters = "AaBbCcDdEeFfGgHhiIJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz:1234567890.-'[]()";
 
 	public static function coolTextFile(path:String):Array<String>{
 		var daList:Array<String> = getText(path).trim().split('\n');
