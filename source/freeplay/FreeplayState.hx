@@ -1,5 +1,6 @@
 package freeplay;
 
+import shaders.ColorGradientShader;
 import haxe.Json;
 import transition.data.InstantTransition;
 import sys.FileSystem;
@@ -43,6 +44,8 @@ class FreeplayState extends MusicBeatState
 	var scoreDisplay:DigitDisplay;
 	var percentDisplay:DigitDisplay;
 	var albumTitle:FlxSprite;
+	var albumTitleShader:ColorGradientShader = new ColorGradientShader();
+	var albumTitleColorDummy:FlxSprite = new FlxSprite();
 	var arrowLeft:FlxSprite;
 	var arrowRight:FlxSprite;
 	var difficulty:FlxSprite;
@@ -159,6 +162,7 @@ class FreeplayState extends MusicBeatState
 
 		createCategory("ALL");
 		createCategory("ERECT");
+		createCategory("PICO");
 
 		addSong("Tutorial", "gf", 0, ["ALL", "Week 1"]);
 
@@ -192,9 +196,9 @@ class FreeplayState extends MusicBeatState
 
 		addSong("Darnell", "darnell", 101, ["ALL", "Weekend 1"]);
 		addSong("Lit-Up", "darnell", 101, ["ALL", "Weekend 1"]);
-		addSong("2hot", "darnell", 101, ["ALL", "Weekend 1"]);
-		addSong("Blazin", "darnell", 101, ["ALL", "Weekend 1"]);
-		addSong("Darnell-Bf", "darnell", 101, ["ALL", "Weekend 1"]);
+		addSong("2hot", "darnell", 101, ["PICO", "Weekend 1"]);
+		addSong("Blazin", "darnell", 101, ["PICO", "Weekend 1"]);
+		addSong("Darnell-Bf", "darnell", 101, ["PICO", "Weekend 1"]);
 
 		//ERECT SONGS!!!!
 
@@ -409,6 +413,7 @@ class FreeplayState extends MusicBeatState
 		
 		albumTitle = new FlxSprite(album.x - 5, album.y + 205).loadGraphic(Paths.image("menu/freeplay/album/vol1/title"));
 		albumTitle.antialiasing = true;
+		albumTitle.shader = albumTitleShader.shader;
 
 		arrowLeft = new FlxSprite(20, 70);
 		arrowLeft.frames = Paths.getSparrowAtlas("menu/freeplay/freeplaySelector");
@@ -942,12 +947,18 @@ class FreeplayState extends MusicBeatState
 			if(doTween){
 				FlxTween.completeTweensOf(albumDummy);
 				FlxTween.completeTweensOf(albumTitle);
+				FlxTween.completeTweensOf(albumTitleColorDummy);
 				albumDummy.y -= 15;
 				albumTitle.y -= 20;
 				FlxTween.tween(albumTitle, {y: albumTitle.y + 20}, 0.2, {ease: FlxEase.cubeOut});
 				FlxTween.tween(albumDummy, {y: albumDummy.y + 15}, 0.1, {ease: FlxEase.cubeOut, onUpdate: function(t) {
 					albumTime = ablumPeriod;
 				}});
+				FlxTween.color(albumTitleColorDummy, 0.2, 0xFF4B97F3, 0xFF000000, {ease: FlxEase.quadIn, onUpdate: function(t){
+					albumTitleShader.blackColor = albumTitleColorDummy.color;
+				}});
+				
+				albumTitle.offset.x = (albumTitle.width - 234)/2;
 			}
 		}
 	}

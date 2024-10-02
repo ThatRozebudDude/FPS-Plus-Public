@@ -10,8 +10,8 @@ class ColorGradientShader extends FlxBasic
 
 	public var shader(default, null):ColorGradientShaderGLSL = new ColorGradientShaderGLSL();
 
-	var blackColor(default, set):FlxColor = 0xFF000000;
-	var whiteColor(default, set):FlxColor = 0xFFFFFFFF;
+	public var blackColor(default, set):FlxColor = 0xFF000000;
+	public var whiteColor(default, set):FlxColor = 0xFFFFFFFF;
 
 	public function new(_blackColor:FlxColor = 0xFF000000, _whiteColor:FlxColor = 0xFFFFFFFF):Void{
 		super();
