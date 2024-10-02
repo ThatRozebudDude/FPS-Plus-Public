@@ -194,11 +194,11 @@ class FreeplayState extends MusicBeatState
 		addSong("Guns", "tankman", 7, ["ALL", "Week 7"]);
 		addSong("Stress", "tankman", 7, ["ALL", "Week 7"]);
 
-		addSong("Darnell", "darnell", 101, ["ALL", "Weekend 1"]);
-		addSong("Lit-Up", "darnell", 101, ["ALL", "Weekend 1"]);
+		addSong("Darnell", "darnell", 101, ["PICO", "Weekend 1"]);
+		addSong("Lit-Up", "darnell", 101, ["PICO", "Weekend 1"]);
 		addSong("2hot", "darnell", 101, ["PICO", "Weekend 1"]);
 		addSong("Blazin", "darnell", 101, ["PICO", "Weekend 1"]);
-		addSong("Darnell-Bf", "darnell", 101, ["PICO", "Weekend 1"]);
+		addSong("Darnell-Bf", "darnell", 101, ["ALL", "Weekend 1"]);
 
 		//ERECT SONGS!!!!
 
