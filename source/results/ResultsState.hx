@@ -324,6 +324,7 @@ class ResultsState extends FlxUIStateExt
             }
             else{
                 clearPercentCounter.setNumber(0, true);
+                playCounterSoundTickUp();
             }
 
             clearPercentText.visible = true;
@@ -366,8 +367,7 @@ class ResultsState extends FlxUIStateExt
         scrollingTextGroup.cameras = [camScroll];
 
         var rankName:String = "";
-        for(char in textArray[0].split("")){ rankName += char + "\n"; }
-        rankName = rankName.substr(0, rankName.length-2);
+        for(char in (textArray[0]).split("")){ rankName += char + "\n"; }
 
         var tempRankText = new FlxTextExt(0, 0, 0, rankName);
 		tempRankText.setFormat(Paths.font("5by7"), 100, 0xFFFFFFFF);
@@ -378,7 +378,7 @@ class ResultsState extends FlxUIStateExt
 		scrollingRankName.velocity.y = 30;
 		scrollingRankName.antialiasing = true;
 		scrollingRankName.visible = false;
-		scrollingRankName.spacing.y = 7;
+		scrollingRankName.spacing.y = 57;
 
 		bitmapSongName = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
 		bitmapSongName.text = songNameText + " ";

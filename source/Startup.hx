@@ -27,8 +27,8 @@ using StringTools;
 class Startup extends FlxState
 {
 
-    //var nextState:FlxState = new TitleVideo();
-    var nextState:FlxState = new results.ResultsState(null, "Fabs is on base game", "Pico");
+    var nextState:FlxState = new TitleVideo();
+    //var nextState:FlxState = new results.ResultsState(null, "Fabs is on base game", "Pico");
 
     var splash:FlxSprite;
     var loadingBar:FlxBar;

@@ -21,7 +21,7 @@ class PicoDoppleganger extends ScriptedCutscene
         playerCigarette = FlxG.random.bool(50);
         fuckingDie = FlxG.random.bool(8); //8
 
-        playerCigarette = false;
+        //playerCigarette = true;
 
         originalZoom = playstate.defaultCamZoom;
 
@@ -38,9 +38,6 @@ class PicoDoppleganger extends ScriptedCutscene
         playerPico.addAnimationByLabel("shootPlayer", "shootPlayer", 24, false);
         playerPico.addAnimationByLabel("explodePlayer", "explodePlayer", 24, false);
         playerPico.shader = boyfriend.getShader();
-        playerPico.animationEndCallback = function(name){
-            end();
-        };
 
         cigarette = new FlxSprite(0, 0);
         cigarette.frames = Paths.getSparrowAtlas("week3/philly/erect/cigarette");
@@ -116,6 +113,9 @@ class PicoDoppleganger extends ScriptedCutscene
             addToCharacterLayer(playerPico);
             addToCharacterLayer(opPico);
             opPico.playAnim("shootOpponent");
+            opPico.animationEndCallback = function(name){
+                end();
+            };
 
             if(!fuckingDie){ playerPico.playAnim("cigarettePlayer"); }
             else{ playerPico.playAnim("explodePlayer"); }
@@ -126,6 +126,9 @@ class PicoDoppleganger extends ScriptedCutscene
             addToCharacterLayer(opPico);
             addToCharacterLayer(playerPico);
             playerPico.playAnim("shootPlayer");
+            playerPico.animationEndCallback = function(name){
+                end();
+            };
 
             if(!fuckingDie){ opPico.playAnim("cigaretteOpponent"); }
             else{ opPico.playAnim("explodeOpponent"); }
@@ -190,6 +193,7 @@ class PicoDoppleganger extends ScriptedCutscene
 
     function explodeSound(){
         FlxG.sound.play(Paths.sound("week3/cutscene/picoExplode"));
+        gf.playAnim("laugh");
     }
 
     function end(){
@@ -206,6 +210,9 @@ class PicoDoppleganger extends ScriptedCutscene
             removeFromCharacterLayer(playerPico);
             boyfriend.visible = true;
             next();
+        }
+        else if(playerCigarette && fuckingDie){
+            playstate.endSong();
         }
         else{
             removeFromCharacterLayer(opPico);

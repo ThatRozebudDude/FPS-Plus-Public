@@ -18,7 +18,7 @@ class Pico extends ResultsCharacter
         excellentText = ["EXCELLENT", "EXPERT", "AMAZING EXECUTION", "SUCCESSFUL", "TARGET ELIMINATED"];
         greatText =     ["GREAT", "MISSION COMPLETE", "NICE SHOT", "A JOB WELL DONE", "TARGET ELIMINATED"];
         goodText =      ["GOOD", "MISSION COMPLETE", "ACCEPTABLE PERFORMANCE", "A JOB WELL DONE", "TARGET ELIMINATED"];
-        lossText =      ["LOSS", "TARGET ESCAPED", "MISSION FAILED", "NO PAY", "COULDN'T KEEP UP", "BLAMMED"];
+        lossText =      ["BLAMMED", "TARGET ESCAPED", "MISSION FAILED", "NO PAY", "COULDN'T KEEP UP", "TOUGH SHIT"];
 
         switch(rank){
             case perfect | gold :
@@ -85,10 +85,15 @@ class Pico extends ResultsCharacter
 
                     ResultsState.instance.camBg.stopFlash();
                     ResultsState.instance.scrollingTextGroup.visible = false;
+                    ResultsState.instance.scrollingRankName.visible = false;
+                    ResultsState.instance.scrollingRankName.x += 60;
 
                     new FlxTimer().start(5.333, function(t){
                         ResultsState.instance.scrollingTextGroup.visible = true;
                         ResultsState.instance.camBg.flash(lossTextColor, 1);
+                        ResultsState.instance.scrollingRankName.visible = true;
+                        ResultsState.instance.scrollingRankName.y -= 210;
+                        FlxTween.tween(ResultsState.instance.scrollingRankName, {x: ResultsState.instance.scrollingRankName.x - 60}, 1.5, {ease: FlxEase.quintOut});
                     });
         }
     }
