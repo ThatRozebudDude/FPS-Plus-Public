@@ -1,0 +1,9 @@
+{
+  "startCutscene": {
+    "name": "PicoDoppleganger",
+    "args": [],
+    "storyOnly": false,
+    "playOnce": true
+  },
+  "endCutscene": "null"
+}

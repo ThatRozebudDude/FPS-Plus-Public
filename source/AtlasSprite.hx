@@ -185,6 +185,14 @@ class AtlasSprite extends FlxAnimate
         //trace("w: " + width + "\th: " + height);
 	}
 
+    public function pause():Void{
+        anim.pause();
+    }
+
+    public function resume():Void{
+        anim.resume();
+    }
+
     override function set_flipX(Value:Bool):Bool {
         flipX = Value;
         return super.set_flipX(Value);

@@ -129,7 +129,7 @@ class AdjustColorShaderGLSL extends FlxShader
 
 			vec3 outColor = applyHSBCEffect(textureColor.rgb);
 
-			gl_FragColor = vec4(outColor * textureColor.a, textureColor.a);
+			gl_FragColor = vec4(outColor, textureColor.a);
 		}")
 
 	public function new()
