@@ -16,6 +16,7 @@ class PicoDark extends CharacterInfoBase
         info.iconName = "pico";
         info.facesLeft = true;
         info.deathCharacter = "PicoDead";
+        info.resultsCharacter = "Pico";
         info.focusOffset.set(100, -100);
 
         addByPrefix("idle", offset(0, 0), "Idle", 24, loop(false, 0), false, false);

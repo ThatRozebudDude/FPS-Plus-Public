@@ -142,7 +142,9 @@ class Highscore
 
 		var totalNotes = scoreData.sickCount + scoreData.goodCount + scoreData.badCount + scoreData.shitCount + scoreData.missCount;
 
-		if (scoreData.sickCount == totalNotes) return gold;
+		if(totalNotes <= 0) return loss;
+		else if (scoreData.sickCount == totalNotes) return gold;
+
 		
 		var grade = (scoreData.sickCount + scoreData.goodCount) / totalNotes;
 	  

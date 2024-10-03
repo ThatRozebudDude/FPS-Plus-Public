@@ -16,6 +16,7 @@ class PicoBlazin extends CharacterInfoBase
         
         info.iconName = "pico";
         info.deathCharacter = "PicoBlazin";
+        info.resultsCharacter = "Pico";
         info.facesLeft = true;
         info.deathOffset.set(-400, 0);
 

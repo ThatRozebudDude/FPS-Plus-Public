@@ -31,46 +31,43 @@ using StringTools;
 
 class ResultsState extends FlxUIStateExt
 {
+    public static var instance:ResultsState;
 
-    var camBg:FlxCamera;
-    var camScroll:FlxCamera;
-    var camCharacter:FlxCamera;
-    var camUi:FlxCamera;
+    public var camBg:FlxCamera;
+    public var camScroll:FlxCamera;
+    public var camCharacter:FlxCamera;
+    public var camTitle:FlxCamera;
+    public var camUi:FlxCamera;
 
-    var character:ResultsCharacter;
+    public var character:ResultsCharacter;
 
-    var extraGradient:FlxSprite;
+    public var bg:FlxSprite;
+    public var bgShader:ColorGradientShader;
+    public var extraGradient:FlxSprite;
 
-    var resultsTitle:FlxSprite;
-    var ratingsStuff:FlxSprite;
-    var scoreStuff:FlxSprite;
-    var highscoreNew:FlxSprite;
+    public var resultsTitle:FlxSprite;
+    public var ratingsStuff:FlxSprite;
+    public var scoreStuff:FlxSprite;
+    public var highscoreNew:FlxSprite;
 
-    var totalNoteCounter:DigitDisplay;
-    var maxComboCounter:DigitDisplay;
-    var sickCounter:DigitDisplay;
-    var goodCounter:DigitDisplay;
-    var badCounter:DigitDisplay;
-    var shitCounter:DigitDisplay;
-    var missCounter:DigitDisplay;
-    var scoreCounter:DigitDisplay;
+    public var totalNoteCounter:DigitDisplay;
+    public var maxComboCounter:DigitDisplay;
+    public var sickCounter:DigitDisplay;
+    public var goodCounter:DigitDisplay;
+    public var badCounter:DigitDisplay;
+    public var shitCounter:DigitDisplay;
+    public var missCounter:DigitDisplay;
+    public var scoreCounter:DigitDisplay;
 
-    var clearPercentText:FlxSprite;
-    var clearPercentSymbol:FlxSprite;
-    var clearPercentCounter:DigitDisplay;
+    public var clearPercentText:FlxSprite;
+    public var clearPercentSymbol:FlxSprite;
+    public var clearPercentCounter:DigitDisplay;
 
-    var scrollingRankName:FlxBackdrop;
+    public var scrollingRankName:FlxBackdrop;
 
-    var bitmapSongName:FlxBitmapText;
+    public var bitmapSongName:FlxBitmapText;
 
-    var scrollingTextGroup:FlxSpriteGroup = new FlxSpriteGroup();
-
-    final goldText:Array<String> =      ["PERFECT ", "CAN'T GET MUCH BETTER ", "UNTOUCHABLE ", "NOTHING BUT THE BEST ", "FLAWLESS ", "AAA+++ TRIPLE ULTRA DELUXE "];
-    final perfectText:Array<String> =   ["PERFECT ", "TOP NOTCH ", "CAN'T MISS ", "YOU DID IT ", "SICK "];
-    final excellentText:Array<String> = ["EXCELLENT ", "YOU DID IT ", "AMAZING EXECUTION ", "HIT THOSE NOTES ", "AWESOME "];
-    final greatText:Array<String> =     ["GREAT ", "GREAT JOB ", "NICE JOB ", "WELL DONE ", "KEEP IT UP "];
-    final goodText:Array<String> =      ["GOOD ", "ACCEPTABLE ", "NOT BAD ", "WELL DONE ", "KEEP IT UP "];
-    final lossText:Array<String> =      ["LOSS ", "YOU'RE A FAILURE ", "BE ASHAMED ", "WHAT WAS THAT ", "HORRIBLE ", "TRY AGAIN "];
+    public var scrollingTextGroup:FlxSpriteGroup = new FlxSpriteGroup();
 
     var characterString:String;
     var scoreStats:ScoreStats;
@@ -86,8 +83,10 @@ class ResultsState extends FlxUIStateExt
     var exiting:Bool = false;
     var shownRank:Bool = false;
 
-    public function new(_scoreStats:ScoreStats, ?_songNameText:String = "Fabs is on base game", ?_character:String = "bf", ?_saveInfo:SaveInfo = null) {
+    public function new(_scoreStats:ScoreStats, ?_songNameText:String = "Fabs is on base game", ?_character:String = "Boyfriend", ?_saveInfo:SaveInfo = null) {
         super();
+
+        instance = this;
 
         if(_scoreStats == null){
             _scoreStats = {
@@ -144,28 +143,35 @@ class ResultsState extends FlxUIStateExt
         camCharacter = new FlxCamera();
         camCharacter.bgColor = FlxColor.TRANSPARENT;
 
+        camTitle = new FlxCamera();
+        camTitle.bgColor = FlxColor.TRANSPARENT;
+        camTitle.angle = -3.8;
+
         camUi = new FlxCamera();
         camUi.bgColor = FlxColor.TRANSPARENT;
 
         FlxG.cameras.add(camBg, false);
         FlxG.cameras.add(camScroll, false);
 		FlxG.cameras.add(camCharacter, false);
+		FlxG.cameras.add(camTitle, false);
 		FlxG.cameras.add(camUi, false);
 		FlxG.cameras.setDefaultDrawTarget(camUi, true);
         this.camera = camUi;
 
-        FlxG.sound.playMusic(Paths.music("results/excellent-intro"), 1, false);
-        FlxG.sound.music.onComplete = function() {
-            playSongBasedOnRank(rank);
-            finishedCounting();
-        }
+        var characterClass = Type.resolveClass("results.characters." + characterString);
+		if(characterClass == null){ characterClass = results.characters.Boyfriend; }
+		character = Type.createInstance(characterClass, [rank]);
+        character.cameras = [camCharacter];
 
-        var bg:FlxSprite = FlxGradient.createGradientFlxSprite(FlxG.width, FlxG.height, [0xFFFECC5C, 0xFFFDC05C], 90);
+        bgShader = new ColorGradientShader(character.gradientBottomColor, character.gradientTopColor);
+
+        bg = FlxGradient.createGradientFlxSprite(FlxG.width, FlxG.height, [0xFFFFFFFF, 0xFF000000]);
         bg.scrollFactor.set();
+        bg.shader = bgShader.shader;
         bg.cameras = [camBg];
 
         extraGradient = new FlxSprite().loadGraphic(Paths.image("menu/results/gradientCover"));
-        extraGradient.color = 0xFFFDC05C;
+        extraGradient.color = character.gradientBottomColor;
         extraGradient.x = 1280 - 460;
         extraGradient.y = 720 - 128;
         extraGradient.alpha = 0;
@@ -312,7 +318,13 @@ class ResultsState extends FlxUIStateExt
 
         new FlxTimer().start((0.3 * 7) + 1.2, function(t){
             clearPercentCounter.visible = true;
-            clearPercentCounter.tweenNumber(Math.floor(grade * 100), 1.7);
+
+            if(grade > 0){
+                clearPercentCounter.tweenNumber(Math.floor(grade * 100), 1.7);
+            }
+            else{
+                clearPercentCounter.setNumber(0, true);
+            }
 
             clearPercentText.visible = true;
             clearPercentSymbol.visible = true;
@@ -338,14 +350,15 @@ class ResultsState extends FlxUIStateExt
             prevRandomArray.remove(0);
             if(prevRandomArray.length == textArray.length - 1){ prevRandomArray = []; }
 
-            var tempText = new FlxText(0, 0, 0, textArray[textIndex]);
-			tempText.setFormat(Paths.font("5by7"), 50, 0xFFFEDA6C);
+            var tempText = new FlxText(0, 0, 0, textArray[textIndex] + " ");
+			tempText.setFormat(Paths.font("5by7"), 50, 0xFFFFFFFF);
 			tempText.antialiasing = true;
 
 			var scrolling:FlxBackdrop = ScrollingText.createScrollingText(0, 50 + (135 * (i+1) / 2) + 10, tempText);
 			//scrolling.velocity.x = FlxG.random.int(5, 9);
 			scrolling.velocity.x = (i % 2 == 0) ? -8 : 8;
 			scrolling.antialiasing = true;
+            scrolling.color = character.scrollingTextColor;
 			
 			scrollingTextGroup.add(scrolling);
         }
@@ -372,7 +385,7 @@ class ResultsState extends FlxUIStateExt
 		bitmapSongName.letterSpacing = -15;
 		bitmapSongName.antialiasing = true;
 		bitmapSongName.setPosition(545, 120);
-		bitmapSongName.cameras = [camScroll];
+		bitmapSongName.cameras = [camTitle];
         bitmapSongName.y -= 300;
         new FlxTimer().start(36/24, function(t){
             FlxTween.tween(bitmapSongName, {y: bitmapSongName.y + 300}, 1.2, {ease: FlxEase.quintOut});
@@ -380,9 +393,6 @@ class ResultsState extends FlxUIStateExt
 
         var songNameShader = new ColorGradientShader(0xFFF98862, 0xFFF9FEB1);
         bitmapSongName.shader = songNameShader.shader;
-
-        character = new ResultsCharacter(characterString, rank);
-        character.cameras = [camCharacter];
 
         add(bg);
 
@@ -415,6 +425,12 @@ class ResultsState extends FlxUIStateExt
 
         add(character);
 
+        character.playIntroSong();
+        FlxG.sound.music.onComplete = function() {
+            character.playSong();
+            finishedCounting();
+        }
+
         super.create();
     }
 
@@ -424,14 +440,112 @@ class ResultsState extends FlxUIStateExt
             returnToMenu();
         }
 
-        /*if(FlxG.keys.anyJustPressed([TAB])){
+        if(FlxG.keys.anyJustPressed([TAB])){
             if(FlxG.keys.anyPressed([SHIFT])){
-                switchState(new ResultsState(null));
+                switchState(new ResultsState(null, songNameText, characterString, saveInfo));
+            }
+            else if(FlxG.keys.anyPressed([ONE])){
+                switchState(new ResultsState({
+                    score: FlxG.random.int(123456, 12345678),
+                    highestCombo: 100,
+                    accuracy: 100,
+                    sickCount: 100,
+                    goodCount: 0,
+                    badCount: 0,
+                    shitCount: 0,
+                    susCount: 0,
+                    missCount: 0,
+                    comboBreakCount: 0,
+                }, songNameText, characterString, saveInfo));
+            }
+            else if(FlxG.keys.anyPressed([TWO])){
+                switchState(new ResultsState({
+                    score: FlxG.random.int(123456, 12345678),
+                    highestCombo: 100,
+                    accuracy: 100,
+                    sickCount: 99,
+                    goodCount: 1,
+                    badCount: 0,
+                    shitCount: 0,
+                    susCount: 0,
+                    missCount: 0,
+                    comboBreakCount: 0,
+                }, songNameText, characterString, saveInfo));
+            }
+            else if(FlxG.keys.anyPressed([THREE])){
+                switchState(new ResultsState({
+                    score: FlxG.random.int(123456, 12345678),
+                    highestCombo: 90,
+                    accuracy: 90,
+                    sickCount: 90,
+                    goodCount: 0,
+                    badCount: 10,
+                    shitCount: 0,
+                    susCount: 0,
+                    missCount: 0,
+                    comboBreakCount: 10,
+                }, songNameText, characterString, saveInfo));
+            }
+            else if(FlxG.keys.anyPressed([FOUR])){
+                switchState(new ResultsState({
+                    score: FlxG.random.int(123456, 12345678),
+                    highestCombo: 80,
+                    accuracy: 80,
+                    sickCount: 80,
+                    goodCount: 0,
+                    badCount: 20,
+                    shitCount: 0,
+                    susCount: 0,
+                    missCount: 0,
+                    comboBreakCount: 20,
+                }, songNameText, characterString, saveInfo));
+            }
+            else if(FlxG.keys.anyPressed([FIVE])){
+                switchState(new ResultsState({
+                    score: FlxG.random.int(123456, 12345678),
+                    highestCombo: 70,
+                    accuracy: 70,
+                    sickCount: 70,
+                    goodCount: 0,
+                    badCount: 30,
+                    shitCount: 0,
+                    susCount: 0,
+                    missCount: 0,
+                    comboBreakCount: 30,
+                }, songNameText, characterString, saveInfo));
+            }
+            else if(FlxG.keys.anyPressed([SIX])){
+                switchState(new ResultsState({
+                    score: FlxG.random.int(123456, 12345678),
+                    highestCombo: 50,
+                    accuracy: 50,
+                    sickCount: 50,
+                    goodCount: 0,
+                    badCount: 0,
+                    shitCount: 0,
+                    susCount: 0,
+                    missCount: 50,
+                    comboBreakCount: 0,
+                }, songNameText, characterString, saveInfo));
+            }
+            else if(FlxG.keys.anyPressed([SEVEN])){
+                switchState(new ResultsState({
+                    score: 0,
+                    highestCombo: 0,
+                    accuracy: 0,
+                    sickCount: 0,
+                    goodCount: 0,
+                    badCount: 0,
+                    shitCount: 0,
+                    susCount: 0,
+                    missCount: 0,
+                    comboBreakCount: 0,
+                }, songNameText, characterString, saveInfo));
             }
             else{
                 switchState(new ResultsState(scoreStats, songNameText, characterString, saveInfo));
             }
-        }*/
+        }
 
         /*
         var moveAmount = 1;
@@ -463,7 +577,7 @@ class ResultsState extends FlxUIStateExt
         shownRank = true;
 
         scrollingTextGroup.visible = true;
-        camBg.flash(0xFFFEDA6C, 1);
+        camBg.flash(character.scrollingTextColor, 1);
 
         if(prevHighscore < scoreStats.score){
             highscoreNew.animation.play("", true);
@@ -587,12 +701,12 @@ class ResultsState extends FlxUIStateExt
 
     inline function rankToRankText(value:Rank) {
         return switch(value){
-            case loss: lossText;
-            case good: goodText;
-            case great: greatText;
-            case excellent: excellentText;
-            case perfect: perfectText;
-            default: goldText;
+            case loss: character.lossText;
+            case good: character.goodText;
+            case great: character.greatText;
+            case excellent: character.excellentText;
+            case perfect: character.perfectText;
+            default: character.goldText;
         }
     }
 

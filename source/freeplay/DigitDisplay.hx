@@ -110,9 +110,11 @@ class DigitDisplay extends FlxSpriteGroup
             digits[i].visible = true;
             if(digits[i].animation.curAnim.name != numString.charAt(i) || forceAllDigitsToAnimate){
                 digits[i].animation.play(numString.charAt(i));
+                digits[i].alpha = 1;
             }
             if(hideTrailingZeroes && numString.charAt(i) == "-"){
-                digits[i].visible = false;
+                digits[i].animation.play(numString.charAt(i));
+                digits[i].alpha = 0;
             }
         }
     }

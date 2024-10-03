@@ -69,6 +69,7 @@ typedef CharacterInfo = {
     var frameLoadType:FrameLoadType;
     var iconName:String;
     var deathCharacter:String;
+    var resultsCharacter:String;
     var healthColor:Null<FlxColor>;
     var facesLeft:Bool;
     var antialiasing:Bool;
@@ -107,6 +108,7 @@ class CharacterInfoBase
             frameLoadType: sparrow,
             iconName: "face",
             deathCharacter: "Bf",
+            resultsCharacter: "Boyfriend",
             healthColor: null,
             facesLeft: false,
             antialiasing: true,

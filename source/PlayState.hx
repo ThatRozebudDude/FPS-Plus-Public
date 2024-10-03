@@ -107,9 +107,9 @@ class PlayState extends MusicBeatState
 
 	public var tweenManager:FlxTweenManager = new FlxTweenManager();
 
-	private var vocals:FlxSound;
-	private var vocalsOther:FlxSound;
-	private var vocalType:VocalType = combinedVocalTrack;
+	public var vocals:FlxSound;
+	public var vocalsOther:FlxSound;
+	public var vocalType:VocalType = combinedVocalTrack;
 
 	public var dad:Character;
 	public var gf:Character;
@@ -154,8 +154,8 @@ class PlayState extends MusicBeatState
 	private var autoplay:Bool = false;
 	public var preventScoreSaving:Bool = false;
 
-	private var notes:FlxTypedGroup<Note>;
-	private var unspawnNotes:Array<Note> = [];
+	public var notes:FlxTypedGroup<Note>;
+	public var unspawnNotes:Array<Note> = [];
 
 	private var anyPlayerNoteInRange:Bool = false;
 	private var anyOpponentNoteInRange:Bool = false;
@@ -1708,7 +1708,7 @@ class PlayState extends MusicBeatState
 						diff: storyDifficulty
 					}
 				}
-				switchState(new ResultsState(weekStats, StoryMenuState.weekNamesShort[storyWeek], "bf", songSaveStuff));
+				switchState(new ResultsState(weekStats, StoryMenuState.weekNamesShort[storyWeek], boyfriend.characterInfo.info.resultsCharacter, songSaveStuff));
 
 				FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
 				FlxG.save.flush();
@@ -1752,7 +1752,7 @@ class PlayState extends MusicBeatState
 					diff: storyDifficulty
 				}
 			}
-			switchState(new ResultsState(songStats, songName, "bf", songSaveStuff));
+			switchState(new ResultsState(songStats, songName, boyfriend.characterInfo.info.resultsCharacter, songSaveStuff));
 		}
 	}
 
