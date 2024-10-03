@@ -440,7 +440,7 @@ class ResultsState extends FlxUIStateExt
             returnToMenu();
         }
 
-        if(FlxG.keys.anyJustPressed([TAB])){
+        /*if(FlxG.keys.anyJustPressed([TAB])){
             if(FlxG.keys.anyPressed([SHIFT])){
                 switchState(new ResultsState(null, songNameText, characterString, saveInfo));
             }
@@ -545,7 +545,7 @@ class ResultsState extends FlxUIStateExt
             else{
                 switchState(new ResultsState(scoreStats, songNameText, characterString, saveInfo));
             }
-        }
+        }*/
 
         /*
         var moveAmount = 1;
