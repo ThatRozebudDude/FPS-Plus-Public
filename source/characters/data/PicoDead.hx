@@ -27,6 +27,7 @@ class PicoDead extends CharacterInfoBase
         info.functions.deathAdd = deathAdd;
         info.functions.frame = frame;
         info.functions.playAnim = playAnim;
+        //info.functions.update = debugUpdate;
 
         addExtraData("deathSound", "gameOver/fnf_loss_sfx-pico");
 		addExtraData("deathSong", "gameOver/gameOver-pico");
@@ -46,7 +47,7 @@ class PicoDead extends CharacterInfoBase
         retryButton.antialiasing = true;
         retryButton.visible = false;
 
-        nene = new FlxSprite(character.x - 567, character.y - 327);
+        nene = new FlxSprite(playstate.gf.getScreenPosition().x + 135, playstate.gf.getScreenPosition().y - 20);
         nene.frames = Paths.getSparrowAtlas("weekend1/NeneKnifeToss");
         nene.antialiasing = true;
         nene.animation.addByPrefix("throw", "knife toss", 24, false);
@@ -61,6 +62,18 @@ class PicoDead extends CharacterInfoBase
     function deathAdd(character:Character):Void{
         addToSubstate(retryButton);
     }
+
+    /*function debugUpdate(character:Character, elapsed:Float):Void{
+        if(FlxG.keys.anyJustPressed([W])){ nene.y -= 1 ;}
+        if(FlxG.keys.anyJustPressed([S])){ nene.y += 1 ;}
+        if(FlxG.keys.anyJustPressed([A])){ nene.x -= 1 ;}
+        if(FlxG.keys.anyJustPressed([D])){ nene.x += 1 ;}
+        if(FlxG.keys.anyJustPressed([W, A, S, D])){ 
+            nene.animation.play("throw", true);
+            nene.visible = true;
+            trace(nene.getPosition() - playstate.gf.getScreenPosition());
+        }
+    }*/
 
     function frame(character:Character, anim:String, frame:Int):Void{
         if(anim == "firstDeath" && frame == 35){

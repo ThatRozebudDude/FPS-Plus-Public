@@ -31,7 +31,7 @@ class PicoDeadExplode extends CharacterInfoBase
     }
 
     function deathCreate(character:Character) {
-        FlxG.camera.zoom = 0.75;
+        gameover.camGameOver.zoom = 0.75;
     }
 
 }

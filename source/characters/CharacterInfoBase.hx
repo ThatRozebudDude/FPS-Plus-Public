@@ -420,4 +420,7 @@ class CharacterInfoBase
     var playstate(get, never):PlayState;
     @:noCompletion inline function get_playstate()  { return PlayState.instance; }
 
+    var gameover(get, never):GameOverSubstate;
+    @:noCompletion inline function get_gameover()  { return GameOverSubstate.instance; }
+
 }

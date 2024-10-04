@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxCamera;
 import openfl.events.KeyboardEvent;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -15,12 +16,25 @@ class GameOverSubstate extends MusicBeatSubstate
 	public var bf:Character;
 	public var camFollow:FlxObject;
 
+	var cameraPanDelayTimer:FlxTimer;
+
 	var bfX:Float; 
 	var bfY:Float;
 	var bfChar:String;
 
-	public function new(_x:Float, _y:Float, camX:Float, camY:Float, character:String){
+	public var camGameOver:FlxCamera;
+
+	public static var instance:GameOverSubstate;
+
+	public function new(_x:Float, _y:Float, camX:Float, camY:Float, camZoom:Float, character:String){
 		super();
+
+		instance = this;
+
+		camGameOver = new FlxCamera();
+		camGameOver.zoom = camZoom;
+		FlxG.cameras.add(camGameOver, false);
+		cameras = [camGameOver];
 
 		bfChar = character;
 
@@ -32,7 +46,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		camFollow = new FlxObject(camX, camY, 1, 1);
 		add(camFollow);
 
-		FlxG.camera.follow(camFollow, LOCKON);
+		camGameOver.follow(camFollow, LOCKON);
 	}
 
 	override function create() {
@@ -48,7 +62,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		}
 		bf.playAnim('firstDeath', true);
 
-		new FlxTimer().start(bf.deathDelay, function(t) {
+		cameraPanDelayTimer = new FlxTimer().start(bf.deathDelay, function(t) {
 			FlxTween.tween(camFollow, {x: bf.getGraphicMidpoint().x + bf.deathOffset.x, y: bf.getGraphicMidpoint().y + bf.deathOffset.y}, 3, {ease: FlxEase.expoOut});
 		});
 
@@ -73,7 +87,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 			PlayState.instance.returnToMenu();
 
-			FlxG.camera.fade(FlxColor.BLACK, 0.1, false);	
+			camGameOver.fade(FlxColor.BLACK, 0.1, false);	
 		}
 
 		if (bf.curAnim == 'firstDeath' && bf.curAnimFinished() && !isEnding){
@@ -89,6 +103,11 @@ class GameOverSubstate extends MusicBeatSubstate
 		if (FlxG.sound.music.playing){
 			Conductor.songPosition = FlxG.sound.music.time;
 		}
+
+		/*if(FlxG.keys.anyJustPressed([BACKSLASH])){
+			camGameOver.bgColor.alpha = 127;
+			cameraPanDelayTimer.destroy();
+		}*/
 	}
 
 	override function beatHit(){
@@ -106,7 +125,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		}
 		PlayState.instance.stage.gameOverEnd();
 		new FlxTimer().start(0.4, function(tmr:FlxTimer){
-			FlxG.camera.fade(FlxColor.BLACK, 1.2, false, function(){
+			camGameOver.fade(FlxColor.BLACK, 1.2, false, function(){
 				PlayState.instance.switchState(new PlayState());
 				PlayState.replayStartCutscene = false;
 			});

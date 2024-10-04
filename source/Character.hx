@@ -325,8 +325,6 @@ class Character extends FlxSpriteGroup
 			isSinging = false;
 			timeInCurrentAnimation = 0;
 			onPlayAnim.dispatch(AnimName, Force, Reversed, Frame);
-		}
-		else{
 			if(characterInfo.info.functions.playAnim != null){
 				characterInfo.info.functions.playAnim(this, AnimName);
 			}
