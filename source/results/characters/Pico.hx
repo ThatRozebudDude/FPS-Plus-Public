@@ -28,12 +28,16 @@ class Pico extends ResultsCharacter
                 pico.antialiasing = true;
                 pico.scale.set(0.88, 0.88);
 
+                FlxG.sound.cache(Paths.music("results/pico/perfect-loop")); 
+
             case excellent:
                 pico = new AtlasSprite(350+160, 25+85, Paths.getTextureAtlas("menu/results/characters/pico/excellent"));
                 pico.visible = false;
                 pico.addAnimationByFrame("anim", 0, null, 24, true, 32);
                 pico.antialiasing = true;
                 pico.scale.set(1.25, 1.25);
+
+                FlxG.sound.cache(Paths.music("results/pico/excellent-loop")); 
 
             case loss:
                 pico = new AtlasSprite(-185, -125, Paths.getTextureAtlas("menu/results/characters/pico/loss"));
