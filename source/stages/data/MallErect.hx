@@ -83,7 +83,7 @@ class MallErect extends BaseStage
 
 		dadStart.set(42, 882);
 		bfStart.set(1175.5, 866);
-		gfStart.set(808.5, 845);
+		gfStart.set(808.5, 845-60);
 
 		bfCameraOffset.set(0, -70);
 

@@ -29,6 +29,8 @@ class GfChristmas extends CharacterInfoBase
 		addByPrefix("scared", offset(0, -17), "GF FEAR", 24, loop(true), false, false);
 
 		info.idleSequence = ["danceLeft", "danceRight"];
+
+		addExtraData("reposition", [0, 60]);
     }
 
 }

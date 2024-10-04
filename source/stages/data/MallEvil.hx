@@ -30,6 +30,6 @@ class MallEvil extends BaseStage
 
 		dadStart.set(342, 861);
 		bfStart.set(1295.5, 866);
-		gfStart.set(808.5, 845);
+		gfStart.set(808.5, 845-60);
     }
 }
