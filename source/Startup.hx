@@ -28,7 +28,7 @@ class Startup extends FlxState
 {
 
     var nextState:FlxState = new TitleVideo();
-    //var nextState:FlxState = new results.ResultsState(null, "Fabs is on base game", "Pico");
+    //var nextState:FlxState = new results.ResultsState(null, "Results Test", "Pico");
 
     var splash:FlxSprite;
     var loadingBar:FlxBar;
@@ -92,6 +92,8 @@ class Startup extends FlxState
 
 	override function create()
 	{
+
+        //cast(nextState, results.ResultsState).enableDebugControls = true;
 
         SaveManager.global();
 

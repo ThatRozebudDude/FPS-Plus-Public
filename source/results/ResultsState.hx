@@ -1,5 +1,6 @@
 package results;
 
+import shaders.TintShader;
 import openfl.filters.ShaderFilter;
 import shaders.ColorGradientShader;
 import flixel.graphics.frames.FlxBitmapFont;
@@ -59,6 +60,7 @@ class ResultsState extends FlxUIStateExt
     public var missCounter:DigitDisplay;
     public var scoreCounter:DigitDisplay;
 
+    public var clearShader:TintShader;
     public var clearPercentText:FlxSprite;
     public var clearPercentSymbol:FlxSprite;
     public var clearPercentCounter:DigitDisplay;
@@ -68,6 +70,8 @@ class ResultsState extends FlxUIStateExt
     public var bitmapSongName:FlxBitmapText;
 
     public var scrollingTextGroup:FlxSpriteGroup = new FlxSpriteGroup();
+
+    public var enableDebugControls:Bool = false;
 
     var characterString:String;
     var scoreStats:ScoreStats;
@@ -300,21 +304,26 @@ class ResultsState extends FlxUIStateExt
             playCounterSoundTickUp();
         });
 
+        clearShader = new TintShader(0xFFFFFFFF, 0);
+
         clearPercentCounter = new DigitDisplay(838 - 80, 349, "menu/results/clearPercentNumbers", 3, 1, 0, 0, true, false);
         clearPercentCounter.ease = FlxEase.quartOut;
         clearPercentCounter.setDigitOffset("1", -13);
         clearPercentCounter.visible = false;
         clearPercentCounter.callback = percentCallback;
+        clearPercentCounter.digitShader = clearShader.shader;
 
         clearPercentSymbol = new FlxSprite(clearPercentCounter.x + 80, clearPercentCounter.y + clearPercentCounter.height).loadGraphic(Paths.image("menu/results/clearPercentSymbol"));
         clearPercentSymbol.y -= clearPercentSymbol.height;
         clearPercentSymbol.antialiasing = true;
         clearPercentSymbol.visible = false;
+        clearPercentSymbol.shader = clearShader.shader;
 
         clearPercentText = new FlxSprite(clearPercentCounter.x + 80, clearPercentCounter.y + clearPercentCounter.height).loadGraphic(Paths.image("menu/results/clearPercentText"));
         clearPercentText.y -= clearPercentSymbol.height;
         clearPercentText.antialiasing = true;
         clearPercentText.visible = false;
+        clearPercentText.shader = clearShader.shader;
 
         new FlxTimer().start((0.3 * 7) + 1.2, function(t){
             clearPercentCounter.visible = true;
@@ -440,112 +449,114 @@ class ResultsState extends FlxUIStateExt
             returnToMenu();
         }
 
-        /*if(FlxG.keys.anyJustPressed([TAB])){
-            if(FlxG.keys.anyPressed([SHIFT])){
-                switchState(new ResultsState(null, songNameText, characterString, saveInfo));
+        if(enableDebugControls){
+            if(FlxG.keys.anyJustPressed([TAB])){
+                if(FlxG.keys.anyPressed([SHIFT])){
+                    switchState(new ResultsState(null, songNameText, characterString, saveInfo));
+                }
+                else if(FlxG.keys.anyPressed([ONE])){
+                    switchState(new ResultsState({
+                        score: FlxG.random.int(123456, 12345678),
+                        highestCombo: 100,
+                        accuracy: 100,
+                        sickCount: 100,
+                        goodCount: 0,
+                        badCount: 0,
+                        shitCount: 0,
+                        susCount: 0,
+                        missCount: 0,
+                        comboBreakCount: 0,
+                    }, songNameText, characterString, saveInfo));
+                }
+                else if(FlxG.keys.anyPressed([TWO])){
+                    switchState(new ResultsState({
+                        score: FlxG.random.int(123456, 12345678),
+                        highestCombo: 100,
+                        accuracy: 100,
+                        sickCount: 99,
+                        goodCount: 1,
+                        badCount: 0,
+                        shitCount: 0,
+                        susCount: 0,
+                        missCount: 0,
+                        comboBreakCount: 0,
+                    }, songNameText, characterString, saveInfo));
+                }
+                else if(FlxG.keys.anyPressed([THREE])){
+                    switchState(new ResultsState({
+                        score: FlxG.random.int(123456, 12345678),
+                        highestCombo: 90,
+                        accuracy: 90,
+                        sickCount: 90,
+                        goodCount: 0,
+                        badCount: 10,
+                        shitCount: 0,
+                        susCount: 0,
+                        missCount: 0,
+                        comboBreakCount: 10,
+                    }, songNameText, characterString, saveInfo));
+                }
+                else if(FlxG.keys.anyPressed([FOUR])){
+                    switchState(new ResultsState({
+                        score: FlxG.random.int(123456, 12345678),
+                        highestCombo: 80,
+                        accuracy: 80,
+                        sickCount: 80,
+                        goodCount: 0,
+                        badCount: 20,
+                        shitCount: 0,
+                        susCount: 0,
+                        missCount: 0,
+                        comboBreakCount: 20,
+                    }, songNameText, characterString, saveInfo));
+                }
+                else if(FlxG.keys.anyPressed([FIVE])){
+                    switchState(new ResultsState({
+                        score: FlxG.random.int(123456, 12345678),
+                        highestCombo: 70,
+                        accuracy: 70,
+                        sickCount: 70,
+                        goodCount: 0,
+                        badCount: 30,
+                        shitCount: 0,
+                        susCount: 0,
+                        missCount: 0,
+                        comboBreakCount: 30,
+                    }, songNameText, characterString, saveInfo));
+                }
+                else if(FlxG.keys.anyPressed([SIX])){
+                    switchState(new ResultsState({
+                        score: FlxG.random.int(123456, 12345678),
+                        highestCombo: 50,
+                        accuracy: 50,
+                        sickCount: 50,
+                        goodCount: 0,
+                        badCount: 0,
+                        shitCount: 0,
+                        susCount: 0,
+                        missCount: 50,
+                        comboBreakCount: 0,
+                    }, songNameText, characterString, saveInfo));
+                }
+                else if(FlxG.keys.anyPressed([SEVEN])){
+                    switchState(new ResultsState({
+                        score: 0,
+                        highestCombo: 0,
+                        accuracy: 0,
+                        sickCount: 0,
+                        goodCount: 0,
+                        badCount: 0,
+                        shitCount: 0,
+                        susCount: 0,
+                        missCount: 0,
+                        comboBreakCount: 0,
+                    }, songNameText, characterString, saveInfo));
+                }
+                else{
+                    switchState(new ResultsState(scoreStats, songNameText, characterString, saveInfo));
+                }
             }
-            else if(FlxG.keys.anyPressed([ONE])){
-                switchState(new ResultsState({
-                    score: FlxG.random.int(123456, 12345678),
-                    highestCombo: 100,
-                    accuracy: 100,
-                    sickCount: 100,
-                    goodCount: 0,
-                    badCount: 0,
-                    shitCount: 0,
-                    susCount: 0,
-                    missCount: 0,
-                    comboBreakCount: 0,
-                }, songNameText, characterString, saveInfo));
-            }
-            else if(FlxG.keys.anyPressed([TWO])){
-                switchState(new ResultsState({
-                    score: FlxG.random.int(123456, 12345678),
-                    highestCombo: 100,
-                    accuracy: 100,
-                    sickCount: 99,
-                    goodCount: 1,
-                    badCount: 0,
-                    shitCount: 0,
-                    susCount: 0,
-                    missCount: 0,
-                    comboBreakCount: 0,
-                }, songNameText, characterString, saveInfo));
-            }
-            else if(FlxG.keys.anyPressed([THREE])){
-                switchState(new ResultsState({
-                    score: FlxG.random.int(123456, 12345678),
-                    highestCombo: 90,
-                    accuracy: 90,
-                    sickCount: 90,
-                    goodCount: 0,
-                    badCount: 10,
-                    shitCount: 0,
-                    susCount: 0,
-                    missCount: 0,
-                    comboBreakCount: 10,
-                }, songNameText, characterString, saveInfo));
-            }
-            else if(FlxG.keys.anyPressed([FOUR])){
-                switchState(new ResultsState({
-                    score: FlxG.random.int(123456, 12345678),
-                    highestCombo: 80,
-                    accuracy: 80,
-                    sickCount: 80,
-                    goodCount: 0,
-                    badCount: 20,
-                    shitCount: 0,
-                    susCount: 0,
-                    missCount: 0,
-                    comboBreakCount: 20,
-                }, songNameText, characterString, saveInfo));
-            }
-            else if(FlxG.keys.anyPressed([FIVE])){
-                switchState(new ResultsState({
-                    score: FlxG.random.int(123456, 12345678),
-                    highestCombo: 70,
-                    accuracy: 70,
-                    sickCount: 70,
-                    goodCount: 0,
-                    badCount: 30,
-                    shitCount: 0,
-                    susCount: 0,
-                    missCount: 0,
-                    comboBreakCount: 30,
-                }, songNameText, characterString, saveInfo));
-            }
-            else if(FlxG.keys.anyPressed([SIX])){
-                switchState(new ResultsState({
-                    score: FlxG.random.int(123456, 12345678),
-                    highestCombo: 50,
-                    accuracy: 50,
-                    sickCount: 50,
-                    goodCount: 0,
-                    badCount: 0,
-                    shitCount: 0,
-                    susCount: 0,
-                    missCount: 50,
-                    comboBreakCount: 0,
-                }, songNameText, characterString, saveInfo));
-            }
-            else if(FlxG.keys.anyPressed([SEVEN])){
-                switchState(new ResultsState({
-                    score: 0,
-                    highestCombo: 0,
-                    accuracy: 0,
-                    sickCount: 0,
-                    goodCount: 0,
-                    badCount: 0,
-                    shitCount: 0,
-                    susCount: 0,
-                    missCount: 0,
-                    comboBreakCount: 0,
-                }, songNameText, characterString, saveInfo));
-            }
-            else{
-                switchState(new ResultsState(scoreStats, songNameText, characterString, saveInfo));
-            }
-        }*/
+        }
 
         /*
         var moveAmount = 1;
@@ -591,6 +602,8 @@ class ResultsState extends FlxUIStateExt
             gradeAdjust = 35;
         }
 
+        clearShader.amount = 1;
+        FlxTween.tween(clearShader, {amount: 0}, 0.75, {ease: FlxEase.quintOut});
         FlxTween.tween(clearPercentCounter, {x: clearPercentCounter.x + 65 + gradeAdjust, y: clearPercentCounter.y + 265}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});
         FlxTween.tween(clearPercentSymbol, {x: clearPercentSymbol.x + 65 + gradeAdjust, y: clearPercentSymbol.y + 265}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});
         FlxTween.tween(extraGradient, {alpha: 1}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});

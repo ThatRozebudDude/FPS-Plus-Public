@@ -1,5 +1,6 @@
 package freeplay;
 
+import flixel.system.FlxAssets.FlxShader;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
@@ -17,6 +18,7 @@ class DigitDisplay extends FlxSpriteGroup
     public var ease:Null<flixel.tweens.EaseFunction>;
 
     public var digitColor(default, set):FlxColor = 0xFFFFFFFF;
+    public var digitShader(default, set):FlxShader;
 
     var digitScale:Float = 1;
     var spacing:Float = 0;
@@ -55,6 +57,7 @@ class DigitDisplay extends FlxSpriteGroup
     function addDigit():Void{
         var digit:Digit = new Digit(0, 0, digitPath, hasEmptyDigit);
         digit.color = digitColor;
+        digit.shader = digitShader;
         digits.push(digit);
         add(digit);
     }
@@ -138,6 +141,12 @@ class DigitDisplay extends FlxSpriteGroup
     function set_digitColor(value:FlxColor):FlxColor {
         digitColor = value;
         for(digit in digits){ digit.color = value; }
+        return value;
+    }
+
+    function set_digitShader(value:FlxShader):FlxShader {
+        digitShader = value;
+        for(digit in digits){ digit.shader = value; }
         return value;
     }
 }

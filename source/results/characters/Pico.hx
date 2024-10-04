@@ -99,7 +99,9 @@ class Pico extends ResultsCharacter
                         ResultsState.instance.camBg.flash(lossTextColor, 1);
                         ResultsState.instance.scrollingRankName.visible = true;
                         ResultsState.instance.scrollingRankName.y -= 210;
+                        ResultsState.instance.scrollingRankName.velocity.y = 0;
                         FlxTween.tween(ResultsState.instance.scrollingRankName, {x: ResultsState.instance.scrollingRankName.x - 60}, 1.5, {ease: FlxEase.quintOut});
+                        FlxTween.tween(ResultsState.instance.scrollingRankName.velocity, {y: 30}, 1.5, {ease: FlxEase.quintOut});
                     });
         }
     }
