@@ -136,14 +136,14 @@ class ResultsState extends FlxUIStateExt
 
         camBg = new FlxCamera();
 
-        camScroll = new FlxCamera();
+        camScroll = new FlxCamera(-50, -50, 1280 + 100, 720 + 100);
         camScroll.bgColor = FlxColor.TRANSPARENT;
         camScroll.angle = -3.8;
 
         camCharacter = new FlxCamera();
         camCharacter.bgColor = FlxColor.TRANSPARENT;
 
-        camTitle = new FlxCamera();
+        camTitle = new FlxCamera(-50, -50, 1280 + 100, 720 + 100);
         camTitle.bgColor = FlxColor.TRANSPARENT;
         camTitle.angle = -3.8;
 
@@ -355,7 +355,7 @@ class ResultsState extends FlxUIStateExt
 			tempText.setFormat(Paths.font("5by7"), 50, 0xFFFFFFFF);
 			tempText.antialiasing = true;
 
-			var scrolling:FlxBackdrop = ScrollingText.createScrollingText(0, 50 + (135 * (i+1) / 2) + 10, tempText);
+			var scrolling:FlxBackdrop = ScrollingText.createScrollingText(50, 100 + (135 * (i+1) / 2) + 10, tempText);
 			//scrolling.velocity.x = FlxG.random.int(5, 9);
 			scrolling.velocity.x = (i % 2 == 0) ? -8 : 8;
 			scrolling.antialiasing = true;
@@ -384,7 +384,7 @@ class ResultsState extends FlxUIStateExt
 		bitmapSongName.text = songNameText + " ";
 		bitmapSongName.letterSpacing = -15;
 		bitmapSongName.antialiasing = true;
-		bitmapSongName.setPosition(545, 120);
+		bitmapSongName.setPosition(545 + 50, 120 + 50);
 		bitmapSongName.cameras = [camTitle];
         bitmapSongName.y -= 300;
         new FlxTimer().start(36/24, function(t){
