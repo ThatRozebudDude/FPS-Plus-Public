@@ -45,6 +45,8 @@ class Pico extends ResultsCharacter
                 pico.addAnimationByFrame("anim", 0, null, 24, true, 0);
                 pico.antialiasing = true;
 
+                FlxG.sound.cache(Paths.music("results/pico/shit-loop")); 
+
             default:
                 pico = new AtlasSprite(350+160, 25+85, Paths.getTextureAtlas("menu/results/characters/pico/good"));
                 pico.visible = false;
@@ -119,7 +121,10 @@ class Pico extends ResultsCharacter
                     FlxG.sound.playMusic(Paths.music("results/pico/excellent-loop"), 1, true); 
                 }
             case loss:
-                FlxG.sound.playMusic(Paths.music("results/pico/shit"), 1, true); 
+                FlxG.sound.playMusic(Paths.music("results/pico/shit-intro"), 1, true); 
+                FlxG.sound.music.onComplete = function() {
+                    FlxG.sound.playMusic(Paths.music("results/pico/shit-loop"), 1, true); 
+                }
             default:
                 FlxG.sound.playMusic(Paths.music("results/pico/normal"), 1, true); 
         }
