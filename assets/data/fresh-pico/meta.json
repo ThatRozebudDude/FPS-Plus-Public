@@ -1,0 +1,22 @@
+{
+    "name": "Fresh (Pico Mix)",
+    "artist": "Xploshi (ft. Saster)",
+    "album": "vol4",
+    "difficulties": [
+        1,
+        2,
+        6
+    ],
+    "bfBeats": [
+        0,
+        1,
+        2,
+        3
+    ],
+    "dadBeats": [
+        0,
+        1,
+        2,
+        3
+    ]
+}

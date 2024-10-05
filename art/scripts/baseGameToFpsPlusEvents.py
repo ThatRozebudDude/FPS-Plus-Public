@@ -1,97 +1,104 @@
 import json
 import sys
 import pyperclip
- 
-f = open(sys.argv[1])
- 
-data = json.load(f)
 
-print("BPM: ")
-bpm = float(input())
-sectionTime = ((60 / bpm) * 1000) * 4
-curSectionTime = 0
+def processEvents(data, bpm):
+    sectionTime = ((60 / bpm) * 1000) * 4
+    curSectionTime = 0
 
-curSection = 0
+    curSection = 0
 
-output = "{\"events\":{\"events\":[\n"
-output += "[0, 0, 3, \"toggleCamMovement\"]\n"
+    output = "{\"events\":{\"events\":[\n"
+    output += "[0, 0, 3, \"toggleCamMovement\"]\n"
 
-for event in data["events"]:
-    while(event["t"] >= curSectionTime + (sectionTime * 0.99)):
-        curSectionTime += sectionTime
-        curSection += 1
-    
-    skipAdd = False
+    for event in data["events"]:
+        while(event["t"] >= curSectionTime + (sectionTime * 0.99)):
+            curSectionTime += sectionTime
+            curSection += 1
+        
+        skipAdd = False
 
-    eventToAdd = ",[" + str(curSection) + ", " + str(event["t"]) + ", 0, "
+        eventToAdd = ",[" + str(curSection) + ", " + str(event["t"]) + ", 0, "
 
-    tag = ""
+        tag = ""
 
-    match event["e"]:
-        case "FocusCamera":
-            match event["v"]["char"]:
-                    case 0 | "0":
+        match event["e"]:
+            case "FocusCamera":
+                match event["v"]["char"]:
+                        case 0 | "0":
+                            tag += "camFocusBf;"
+                        case 1 | "1":
+                            tag += "camFocusDad;"
+                        case 2 | "2":
+                            tag += "camFocusGf;"
+
+                x = 0
+                y = 0
+                if "x" in event["v"]:
+                    x = event["v"]["x"]
+                if "y" in event["v"]:
+                    y = event["v"]["y"]
+                            
+                tag += str(x) + ";" + str(y)
+
+                if "ease" in event["v"]:
+                    if not event["v"]["ease"] == "CLASSIC":
+                        tag += ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"])
+
+                print(event["e"] + "\t->\t" + tag)
+
+            case "ZoomCamera":
+                tag += "camZoom;" + str(event["v"]["zoom"]) + ";" + str(event["v"]["duration"]) + "s;" + event["v"]["ease"]
+
+                if "mode" in event["v"]:
+                    if event["v"]["mode"] == "stage":
+                        tag += ";true"
+
+                print(event["e"] + "\t->\t" + tag)
+
+            case "SetCameraBop":
+                #does not support intensity
+                tag += "camBopFreq;" + str(event["v"]["rate"])
+                print(event["e"] + "\t->\t" + tag)
+
+            case "PlayAnimation":
+                target = "bf"
+                match event["v"]["target"]:
+                    case "dad":
                         tag += "camFocusBf;"
-                    case 1 | "1":
+                    case "girlfriend" | "gf": #idk which one it is
                         tag += "camFocusDad;"
-                    case 2 | "2":
-                        tag += "camFocusGf;"
 
-            x = 0
-            y = 0
-            if "x" in event["v"]:
-                x = event["v"]["x"]
-            if "y" in event["v"]:
-                y = event["v"]["y"]
-                        
-            tag += str(x) + ";" + str(y)
+                force = "false"
+                if "force" in event["v"]:
+                    if event["v"]["force"] == "true":
+                        force = "true"
 
-            if "ease" in event["v"]:
-                if not event["v"]["ease"] == "CLASSIC":
-                    tag += ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"])
+                tag += "playAnim;" + target + ";" + event["v"]["anim"] + ";" + force
 
-            print(event["e"] + "\t->\t" + tag)
+                print(event["e"] + "\t->\t" + tag)
 
-        case "ZoomCamera":
-            tag += "camZoom;" + str(event["v"]["zoom"]) + ";" + str(event["v"]["duration"]) + "s;" + event["v"]["ease"]
+            case _:
+                skipAdd = True
+                print("Event not supported, skipping.")
 
-            if "mode" in event["v"]:
-                if event["v"]["mode"] == "stage":
-                    tag += ";true"
+        if not skipAdd:
+            eventToAdd += "\"" + tag + "\"]"
+            output += eventToAdd + "\n"
 
-            print(event["e"] + "\t->\t" + tag)
+    output += "]}}"
 
-        case "SetCameraBop":
-            #does not support intensity
-            tag += "camBopFreq;" + str(event["v"]["rate"])
-            print(event["e"] + "\t->\t" + tag)
+    return output
 
-        case "PlayAnimation":
-            target = "bf"
-            match event["v"]["target"]:
-                case "dad":
-                    tag += "camFocusBf;"
-                case "girlfriend" | "gf": #idk which one it is
-                    tag += "camFocusDad;"
+if(__name__ == "__main__"):
+    print("BPM: ")
+    inputBPM = float(input())
 
-            force = "false"
-            if "force" in event["v"]:
-                if event["v"]["force"] == "true":
-                    force = "true"
+    f = open(sys.argv[1])
+    chartJson = json.load(f)
+    f.close()
 
-            tag += "playAnim;" + target + ";" + event["v"]["anim"] + ";" + force
+    result = processEvents(chartJson, inputBPM)
 
-            print(event["e"] + "\t->\t" + tag)
-
-        case _:
-            skipAdd = True
-            print("Event not supported, skipping.")
-
-    if not skipAdd:
-        eventToAdd += "\"" + tag + "\"]"
-        output += eventToAdd + "\n"
-
-output += "]}}"
- 
-pyperclip.copy(output)
-print("events copied to clipbaord!!")
+    pyperclip.copy(result)
+    print("events copied to clipbaord!!")

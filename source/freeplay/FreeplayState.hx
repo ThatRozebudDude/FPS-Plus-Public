@@ -218,7 +218,11 @@ class FreeplayState extends MusicBeatState
 		addSong("Roses-Erect", "senpai", 6, ["ERECT", "Week 6"]);
 		addSong("Thorns-Erect", "spirit", 6, ["ERECT", "Week 6"]);
 
-		//ERECT SONGS!!!!
+		//pico songs.
+
+		addSong("Bopeebo-Pico", "pico", 1, ["PICO", "Week 1"]);
+		addSong("Fresh-Pico", "pico", 1, ["PICO", "Week 1"]);
+		addSong("Dadbattle-Pico", "pico", 1, ["PICO", "Week 1"]);
 
 		addSong("Pico-Pico", "pico", 3, ["PICO", "Week 3"]);
 		addSong("Philly-Pico", "pico", 3, ["PICO", "Week 3"]);

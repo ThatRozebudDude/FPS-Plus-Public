@@ -1,0 +1,12 @@
+{
+    "name": "Dad Battle (Pico Mix)",
+    "artist": "TeraVex (ft. Saruky)",
+    "album": "vol4",
+    "difficulties": [
+        3,
+        4,
+        12
+    ],
+    "bfBeats": [1, 3],
+    "dadBeats": [0, 2]
+}

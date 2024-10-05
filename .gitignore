@@ -2,7 +2,9 @@
 export/
 releases/
 promo/
+art/scripts/convertedSong
 
 # Ignore IDE and library stuff
 .haxelib/
 .vscode/
+art/scripts/__pycache__

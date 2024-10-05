@@ -1,0 +1,22 @@
+{
+    "name": "Bopeebo (Pico Mix)",
+    "artist": "ThatAndyGuy (feat. Saruky)",
+    "album": "vol4",
+    "difficulties": [
+        1,
+        2,
+        5
+    ],
+    "bfBeats": [
+        0,
+        1,
+        2,
+        3
+    ],
+    "dadBeats": [
+        0,
+        1,
+        2,
+        3
+    ]
+}
