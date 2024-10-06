@@ -80,7 +80,7 @@ def processEvents(data, bpm):
 
             case _:
                 skipAdd = True
-                print("Event not supported, skipping.")
+                print(event["e"] + "\tXX\tEvent not supported, skipping.")
 
         if not skipAdd:
             eventToAdd += "\"" + tag + "\"]"
