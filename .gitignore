@@ -2,7 +2,7 @@
 export/
 releases/
 promo/
-art/scripts/convertedSong
+art/scripts/convertedSongs
 
 # Ignore IDE and library stuff
 .haxelib/

@@ -29,20 +29,6 @@ if(__name__ == "__main__"):
     metaJson = json.load(f)
     f.close()
 
-    # Makes the folder for the song export if it doesn't exist already.
-    dir = os.path.dirname(os.path.realpath(__file__))
-    outputFolder = dir + "\\convertedSong"
-    if not os.path.exists(outputFolder):
-        os.makedirs(outputFolder)
-    else:
-        try:
-            shutil.rmtree(outputFolder)
-        except OSError as e:
-            print("Error: %s - %s." % (e.filename, e.strerror))
-        os.makedirs(outputFolder)
-
-    output = ""
-
     print("Player Character: ")
     playerCharacter = input()
 
@@ -61,6 +47,19 @@ if(__name__ == "__main__"):
     # This is in the metadata but I use a different name for the albums and I don't feel like changing all the other songs.
     print("Album (For Freeplay): ")
     album = input()
+
+    # Makes the folder for the song export if it doesn't exist already or clear it if it does.
+    dir = os.path.dirname(os.path.realpath(__file__))
+    outputFolder = dir + "\\convertedSongs\\" + songName.lower()
+    if not os.path.exists(outputFolder):
+        os.makedirs(outputFolder)
+    else:
+        try:
+            shutil.rmtree(outputFolder)
+        except OSError as e:
+            print("Error: %s - %s." % (e.filename, e.strerror))
+            exit(1)
+        os.makedirs(outputFolder)
 
     listedDifficulties = metaJson["playData"]["difficulties"]
     diffNumberArray = []
