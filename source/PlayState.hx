@@ -110,6 +110,7 @@ class PlayState extends MusicBeatState
 	public var vocals:FlxSound;
 	public var vocalsOther:FlxSound;
 	public var vocalType:VocalType = combinedVocalTrack;
+	public var canChangeVocalVolume:Bool = true;
 
 	public var dad:Character;
 	public var gf:Character;
@@ -1562,7 +1563,7 @@ class PlayState extends MusicBeatState
 			if(daNote.tooLate){
 				if (!daNote.didTooLateAction && !daNote.isFake){
 					noteMiss(daNote.noteData, daNote.missCallback, Scoring.MISS_DAMAGE_AMMOUNT, true, true);
-					vocals.volume = 0;
+					if(canChangeVocalVolume){ vocals.volume = 0; }
 					daNote.didTooLateAction = true;
 				}
 			}
@@ -1601,9 +1602,9 @@ class PlayState extends MusicBeatState
 
 				switch(vocalType){
 					case splitVocalTrack:
-						vocalsOther.volume = 1;
+						if(canChangeVocalVolume){ vocalsOther.volume = 1; }
 					case combinedVocalTrack:
-						vocals.volume = 1;
+						if(canChangeVocalVolume){ vocals.volume = 1;}
 					default:
 				}
 					
@@ -1948,7 +1949,7 @@ class PlayState extends MusicBeatState
 
 					if(releaseTimes[daNote.noteData] >= releaseBufferTime){
 						noteMiss(daNote.noteData, daNote.missCallback, Scoring.HOLD_DROP_INITAL_DAMAGE, true, false, true, Scoring.HOLD_DROP_INITIAL_PENALTY);
-						vocals.volume = 0;
+						if(canChangeVocalVolume){ vocals.volume = 0; }
 						daNote.tooLate = true;
 						daNote.destroy();
 						boyfriend.holdTimer = 0;
@@ -2215,7 +2216,7 @@ class PlayState extends MusicBeatState
 			});
 
 			note.wasGoodHit = true;
-			vocals.volume = 1;
+			if(canChangeVocalVolume){ vocals.volume = 1; }
 
 			if(!note.isSustainNote){
 				note.destroy();

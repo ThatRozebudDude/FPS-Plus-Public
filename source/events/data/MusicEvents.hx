@@ -13,6 +13,8 @@ class MusicEvents extends Events
 
         addEvent("muteVocals", muteVocals);
         addEvent("playVocals", playVocals);
+
+        addEvent("toggleVocalVolumeLock", muteVocals);
     }
 
     function muteInst(tag:String):Void{
@@ -57,6 +59,10 @@ class MusicEvents extends Events
         else{
             playstate.vocals.volume = 1;
         }
+    }
+
+    function toggleVocalVolumeLock(tag:String):Void{
+        playstate.canChangeVocalVolume = !playstate.canChangeVocalVolume;
     }
 
 }

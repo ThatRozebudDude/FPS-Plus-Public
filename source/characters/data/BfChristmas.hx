@@ -16,14 +16,20 @@ class BfChristmas extends CharacterInfoBase
         info.focusOffset.set(100, -100);
 
 		addByPrefix('idle', offset(), 'BF idle dance', 24, loop(false));
+
         addByPrefix('singUP', offset(-42, 31), 'BF NOTE UP0', 24, loop(false));
         addByPrefix('singLEFT', offset(9, -7), 'BF NOTE LEFT0', 24, loop(false));
         addByPrefix('singRIGHT', offset(-44, -6), 'BF NOTE RIGHT0', 24, loop(false));
         addByPrefix('singDOWN', offset(-22, -50), 'BF NOTE DOWN0', 24, loop(false));
+
         addByPrefix('singUPmiss', offset(-37, 29), 'BF NOTE UP MISS', 24, loop(true, -4));
         addByPrefix('singLEFTmiss', offset(9, 19), 'BF NOTE LEFT MISS', 24, loop(true, -4));
         addByPrefix('singRIGHTmiss', offset(-38, 21), 'BF NOTE RIGHT MISS', 24, loop(true, -4));
         addByPrefix('singDOWNmiss', offset(-25, -20), 'BF NOTE DOWN MISS', 24, loop(true, -4));
+
+        addByPrefix('singRIGHT-censor', offset(-44, -6), 'bf swear right', 24, loop(true, -4));
+        addByPrefix('singDOWN-censor', offset(-22, -50), 'bf swear down', 24, loop(true, -4));
+
         addByPrefix('hey', offset(1, 5), 'BF HEY', 24, loop(false));
 
     }
