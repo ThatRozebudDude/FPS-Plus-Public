@@ -65,9 +65,9 @@ def processEvents(data, bpm):
                 target = "bf"
                 match event["v"]["target"]:
                     case "dad":
-                        tag += "camFocusBf;"
+                        target = "dad"
                     case "girlfriend" | "gf": #idk which one it is
-                        tag += "camFocusDad;"
+                        target = "gf"
 
                 force = "false"
                 if "force" in event["v"]:
