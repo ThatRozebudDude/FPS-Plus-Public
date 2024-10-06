@@ -620,6 +620,7 @@ class ResultsState extends FlxUIStateExt
         }});
 
         character.playAnim();
+        FlxG.sound.play(Paths.sound('confirmMenu'));
     }
 
     public function returnToMenu():Void{

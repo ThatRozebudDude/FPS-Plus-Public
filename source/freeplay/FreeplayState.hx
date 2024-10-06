@@ -212,21 +212,32 @@ class FreeplayState extends MusicBeatState
 		addSong("Satin-Panties-Erect", "mom", 4, ["ERECT", "Week 4"]);
 		addSong("High-Erect", "mom", 4, ["ERECT", "Week 4"]);
 		
+		addSong("Cocoa-Erect", "parents-christmas", 5, ["ERECT", "Week 5"]);
 		addSong("Eggnog-Erect", "parents-christmas", 5, ["ERECT", "Week 5"]);
 
 		addSong("Senpai-Erect", "senpai", 6, ["ERECT", "Week 6"]);
 		addSong("Roses-Erect", "senpai", 6, ["ERECT", "Week 6"]);
 		addSong("Thorns-Erect", "spirit", 6, ["ERECT", "Week 6"]);
 
+		addSong("Ugh-Erect", "tankman", 7, ["ERECT", "Week 7"]);
+
 		//pico songs.
 
-		addSong("Bopeebo-Pico", "pico", 1, ["PICO", "Week 1"]);
-		addSong("Fresh-Pico", "pico", 1, ["PICO", "Week 1"]);
-		addSong("Dadbattle-Pico", "pico", 1, ["PICO", "Week 1"]);
+		addSong("Bopeebo-Pico", "dad", 1, ["PICO", "Week 1"]);
+		addSong("Fresh-Pico", "dad", 1, ["PICO", "Week 1"]);
+		addSong("Dadbattle-Pico", "dad", 1, ["PICO", "Week 1"]);
+
+		addSong("Spookeez-Pico", "spooky", 2, ["PICO", "Week 2"]);
+		addSong("South-Pico", "spooky", 2, ["PICO", "Week 2"]);
 
 		addSong("Pico-Pico", "pico", 3, ["PICO", "Week 3"]);
 		addSong("Philly-Pico", "pico", 3, ["PICO", "Week 3"]);
 		addSong("Blammed-Pico", "pico", 3, ["PICO", "Week 3"]);
+
+		addSong("Eggnog-Pico", "parents-christmas", 5, ["PICO", "Week 5"]);
+
+		addSong("Ugh-Pico", "tankman", 7, ["PICO", "Week 7"]);
+		addSong("Guns-Pico", "tankman", 7, ["PICO", "Week 7"]);
 
 		addSong("Darnell", "darnell", 101, ["PICO", "Weekend 1"]);
 		addSong("Lit-Up", "darnell", 101, ["PICO", "Weekend 1"]);
@@ -238,7 +249,8 @@ class FreeplayState extends MusicBeatState
 		SaveManager.global();
 		if(Config.ee2 && Startup.hasEe2){
 			addSong("Lil-Buddies", "bf", 0, ["Secret"]);
-			addSong("Lil-Buddies-Erect", "bf", 0, [/*"ERECT",*/ "Secret"]);
+			addSong("Lil-Buddies-Erect", "bf", 0, ["Secret"]);
+			//maybe i'll make... lil buddies... pico mix! :O
 		}
 
 		super.create();

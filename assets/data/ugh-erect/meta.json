@@ -1,0 +1,18 @@
+{
+    "name": "Ugh Erect",
+    "artist": "Kawai Sprite",
+    "album": "vol4",
+    "difficulties": [
+        0,
+        9,
+        10
+    ],
+    "bfBeats": [
+        1,
+        3
+    ],
+    "dadBeats": [
+        0,
+        2
+    ]
+}
