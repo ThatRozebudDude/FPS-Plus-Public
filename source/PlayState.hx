@@ -66,6 +66,8 @@ class PlayState extends MusicBeatState
 	public static var fceForLilBuddies:Bool = false;
 	
 	public static var returnLocation:String = "main";
+
+	var previousReportedSongTime:Float = -1;
 	
 	private var canHit:Bool = false;
 	private var missTime:Float = 0;
@@ -89,6 +91,7 @@ class PlayState extends MusicBeatState
 
 	public var camFollowOffset:FlxPoint;
 	private var offsetTween:FlxTween;
+	private var returnedToCenter:Bool = true;
 
 	public var camFollowShake:FlxPoint;
 	private var shakeTween:FlxTween;
@@ -1417,7 +1420,21 @@ class PlayState extends MusicBeatState
 
 		}*/
 		else{
-			Conductor.songPosition += FlxG.elapsed * 1000;
+			if(previousReportedSongTime != FlxG.sound.music.time){
+				Conductor.songPosition = FlxG.sound.music.time;
+				previousReportedSongTime = FlxG.sound.music.time;
+			}
+			else{
+				Conductor.songPosition += FlxG.elapsed * 1000;
+			}
+		}
+
+		if(!dad.isSinging && !boyfriend.isSinging && !returnedToCenter){
+			returnedToCenter = true;
+			changeCamOffset(0, 0);
+		}
+		if(dad.isSinging || boyfriend.isSinging){
+			returnedToCenter = false;
 		}
 
 		if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null && !endingSong) {
