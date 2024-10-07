@@ -2,7 +2,7 @@
     "song": {
         "speed": "2.3",
         "stage": "Tank",
-        "player1": "Pico",
+        "player1": "PicoPlayer",
         "player2": "Tankman",
         "gf": "Nene",
         "song": "Ugh-Pico",

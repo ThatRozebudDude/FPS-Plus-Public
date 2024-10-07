@@ -3,7 +3,9 @@ import sys
 import pyperclip
 
 def processNotes(data, bpm, diff):
-    sectionTime = ((60 / bpm) * 1000) * 4
+    beatTime = ((60 / bpm) * 1000)
+    sectionTime = beatTime * 4
+    stepTime = beatTime / 4
     curSectionTime = 0
 
     sections = [[]]
@@ -14,10 +16,19 @@ def processNotes(data, bpm, diff):
             curSectionTime += sectionTime
             curSection += 1
             sections.append([])
-        k = ""
         l = 0
+        k = ""  
         if "l" in note:
-            l = note["l"]
+            if note["l"] > 0:
+                lengthCount = 0
+                while True:
+                    if note["l"] > (stepTime * lengthCount) + stepTime * 0.9:
+                        l += stepTime
+                        lengthCount += 1
+                    else:
+                        break
+                l = round(l)
+                print("Hold Duration " + str(round(note["l"])) + "\t>\t" + str(l))
         if "k" in note:
             k = note["k"]
         sections[curSection].append([note["t"], note["d"], l, k])

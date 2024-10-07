@@ -2,7 +2,7 @@
 	"song": {
 		"speed": "1.6",
 		"stage": "StageErect",
-		"player1": "Pico",
+		"player1": "PicoPlayer",
 		"player2": "Dad",
 		"notes": [
 			{
