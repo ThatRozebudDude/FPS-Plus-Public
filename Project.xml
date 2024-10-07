@@ -24,6 +24,7 @@
 	<compilerflag name="--macro" value="include('ui.comboPopupSkins', true)" />
 	<compilerflag name="--macro" value="include('ui.hudNoteSkins', true)" />
 	<compilerflag name="--macro" value="include('results.characters', true)" />
+	<compilerflag name="--macro" value="include('freeplay.characters', true)" />
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 

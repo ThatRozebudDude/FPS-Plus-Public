@@ -73,6 +73,8 @@ class FreeplayState extends MusicBeatState
 	public static var curDifficulty:Int = 1;
 	public static var curCategory:Int = 0;
 
+	public static var djCharacter:String = "Boyfriend";
+
 	var allowedDifficulties:Array<Int> = [0, 1, 2];
 
 	var prevScore:Int;
@@ -109,7 +111,7 @@ class FreeplayState extends MusicBeatState
 	static final  randomVariationExit:Float = 0.03;
 	static final  transitionEaseExit:flixel.tweens.EaseFunction = FlxEase.cubeIn;
 
-	public function new(?_introAnimType:IntroAnimType = false, ?camFollowPos:FlxPoint = null) {
+	public function new(?_introAnimType:IntroAnimType = fromSongExit, ?camFollowPos:FlxPoint = null) {
 		super();
 		introAnimType = _introAnimType;
 		if(camFollowPos == null){
@@ -149,101 +151,23 @@ class FreeplayState extends MusicBeatState
 			playStickerIntro = false;
 		}
 
+		//DJ STUFF
+		var djClass = Type.resolveClass("freeplay.characters." + djCharacter);
+		if(djClass == null){ djClass = freeplay.characters.Boyfriend; }
+		dj = Type.createInstance(djClass, []);
+		dj.introFinish = djIntroFinish;
+		dj.cameras = [camFreeplay];
+
 		fakeMainMenuSetup();
 
 		setUpScrollingText();
 
-		createCategory("ALL");
-		createCategory("ERECT");
-		createCategory("PICO");
+		for(cat in dj.freeplayCategories){
+			createCategory(cat);
+		}
 
-		addSong("Tutorial", "gf", 0, ["ALL", "Week 1"]);
-
-		addSong("Bopeebo", "dad", 1, ["ALL", "Week 1"]);
-		addSong("Fresh", "dad", 1, ["ALL", "Week 1"]);
-		addSong("Dadbattle", "dad", 1, ["ALL", "Week 1"]);
-
-		addSong("Spookeez", "spooky", 2, ["ALL", "Week 2"]);
-		addSong("South", "spooky", 2, ["ALL", "Week 2"]);
-		addSong("Monster", "monster", 2, ["ALL", "Week 2"]);
-
-		addSong("Pico", "pico", 3, ["ALL", "Week 3"]);
-		addSong("Philly", "pico", 3, ["ALL", "Week 3"]);
-		addSong("Blammed", "pico", 3, ["ALL", "Week 3"]);
-
-		addSong("Satin-Panties", "mom", 4, ["ALL", "Week 4"]);
-		addSong("High", "mom", 4, ["ALL", "Week 4"]);
-		addSong("Milf", "mom", 4, ["ALL", "Week 4"]);
-
-		addSong("Cocoa", "parents-christmas", 5, ["ALL", "Week 5"]);
-		addSong("Eggnog", "parents-christmas", 5, ["ALL", "Week 5"]);
-		addSong("Winter-Horrorland", "monster", 5, ["ALL", "Week 5"]);
-
-		addSong("Senpai", "senpai", 6, ["ALL", "Week 6"]);
-		addSong("Roses", "senpai", 6, ["ALL", "Week 6"]);
-		addSong("Thorns", "spirit", 6, ["ALL", "Week 6"]);
-
-		addSong("Ugh", "tankman", 7, ["ALL", "Week 7"]);
-		addSong("Guns", "tankman", 7, ["ALL", "Week 7"]);
-		addSong("Stress", "tankman", 7, ["ALL", "Week 7"]);
-
-		addSong("Darnell-Bf", "darnell", 101, ["ALL", "Weekend 1"]);
-
-		//ERECT SONGS!!!!
-
-		addSong("Bopeebo-Erect", "dad", 1, ["ERECT", "Week 1"]);
-		addSong("Fresh-Erect", "dad", 1, ["ERECT", "Week 1"]);
-		addSong("Dadbattle-Erect", "dad", 1, ["ERECT", "Week 1"]);
-
-		addSong("Spookeez-Erect", "spooky", 2, ["ERECT", "Week 2"]);
-		addSong("South-Erect", "spooky", 2, ["ERECT", "Week 2"]);
-
-		addSong("Pico-Erect", "pico", 3, ["ERECT", "Week 3"]);
-		addSong("Philly-Erect", "pico", 3, ["ERECT", "Week 3"]);
-		addSong("Blammed-Erect", "pico", 3, ["ERECT", "Week 3"]);
-
-		addSong("Satin-Panties-Erect", "mom", 4, ["ERECT", "Week 4"]);
-		addSong("High-Erect", "mom", 4, ["ERECT", "Week 4"]);
-		
-		addSong("Cocoa-Erect", "parents-christmas", 5, ["ERECT", "Week 5"]);
-		addSong("Eggnog-Erect", "parents-christmas", 5, ["ERECT", "Week 5"]);
-
-		addSong("Senpai-Erect", "senpai", 6, ["ERECT", "Week 6"]);
-		addSong("Roses-Erect", "senpai", 6, ["ERECT", "Week 6"]);
-		addSong("Thorns-Erect", "spirit", 6, ["ERECT", "Week 6"]);
-
-		addSong("Ugh-Erect", "tankman", 7, ["ERECT", "Week 7"]);
-
-		//pico songs.
-
-		addSong("Bopeebo-Pico", "dad", 1, ["PICO", "Week 1"]);
-		addSong("Fresh-Pico", "dad", 1, ["PICO", "Week 1"]);
-		addSong("Dadbattle-Pico", "dad", 1, ["PICO", "Week 1"]);
-
-		addSong("Spookeez-Pico", "spooky", 2, ["PICO", "Week 2"]);
-		addSong("South-Pico", "spooky", 2, ["PICO", "Week 2"]);
-
-		addSong("Pico-Pico", "pico", 3, ["PICO", "Week 3"]);
-		addSong("Philly-Pico", "pico", 3, ["PICO", "Week 3"]);
-		addSong("Blammed-Pico", "pico", 3, ["PICO", "Week 3"]);
-
-		addSong("Eggnog-Pico", "parents-christmas", 5, ["PICO", "Week 5"]);
-
-		addSong("Ugh-Pico", "tankman", 7, ["PICO", "Week 7"]);
-		addSong("Guns-Pico", "tankman", 7, ["PICO", "Week 7"]);
-
-		addSong("Darnell", "darnell", 101, ["PICO", "Weekend 1"]);
-		addSong("Lit-Up", "darnell", 101, ["PICO", "Weekend 1"]);
-		addSong("2hot", "darnell", 101, ["PICO", "Weekend 1"]);
-		addSong("Blazin", "darnell", 101, ["PICO", "Weekend 1"]);
-
-		//LIL BUDDIES :D
-
-		SaveManager.global();
-		if(Config.ee2 && Startup.hasEe2){
-			addSong("Lil-Buddies", "bf", 0, ["Secret"]);
-			addSong("Lil-Buddies-Erect", "bf", 0, ["Secret"]);
-			//maybe i'll make... lil buddies... pico mix! :O
+		for(song in dj.freeplaySongs){
+			addSong(song[0], song[1], song[2], song[3]);
 		}
 
 		super.create();
@@ -337,6 +261,23 @@ class FreeplayState extends MusicBeatState
 				MainMenuState.fromFreeplay = true;
 				new FlxTimer().start(transitionTimeExit + (staggerTimeExit*4), function(t) {
 					switchState(new MainMenuState());
+				});
+			}
+
+			if(FlxG.keys.anyJustPressed([TAB])){
+				transitionOver = false;
+				if(djCharacter == "Boyfriend"){
+					djCharacter = "Pico";
+				}
+				else{
+					djCharacter = "Boyfriend";
+				}
+				dj.toCharacterSelect();
+				new FlxTimer().start(0.7, function(t) {
+					switchState(new FreeplayState(fromCharacterSelect));
+					FlxG.sound.music.fadeOut(0.5);
+					curSelected = 0;
+					curCategory = 0;
 				});
 			}
 
@@ -457,11 +398,6 @@ class FreeplayState extends MusicBeatState
 		miniArrowRight.antialiasing = true;
 
 		difficultyStars = new DifficultyStars(953, 237);
-
-		//DJ STUFF
-		dj = new freeplay.characters.Pico();
-		dj.introFinish = djIntroFinish;
-		dj.cameras = [camFreeplay];
 
 		switch(introAnimType){
 			case fromMainMenu | fromCharacterSelect:

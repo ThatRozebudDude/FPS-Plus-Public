@@ -17,6 +17,8 @@ class Pico extends DJCharacter
 
     override function setup():Void{
         setPosition(-9, 290);
+        freeplaySkin = "pico";
+
         loadAtlas(Paths.getTextureAtlas("menu/freeplay/dj/pico"));
         antialiasing = true;
 
@@ -44,6 +46,31 @@ class Pico extends DJCharacter
         }
 
         nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
+    }
+
+    override function songList() {
+        createCategory("ALL");
+
+		addSong("Bopeebo-Pico", "dad", 1, ["ALL", "Week 1"]);
+		addSong("Fresh-Pico", "dad", 1, ["ALL", "Week 1"]);
+		addSong("Dadbattle-Pico", "dad", 1, ["ALL", "Week 1"]);
+
+		addSong("Spookeez-Pico", "spooky", 2, ["ALL", "Week 2"]);
+		addSong("South-Pico", "spooky", 2, ["ALL", "Week 2"]);
+
+		addSong("Pico-Pico", "pico", 3, ["ALL", "Week 3"]);
+		addSong("Philly-Pico", "pico", 3, ["ALL", "Week 3"]);
+		addSong("Blammed-Pico", "pico", 3, ["ALL", "Week 3"]);
+
+		addSong("Eggnog-Pico", "parents-christmas", 5, ["ALL", "Week 5"]);
+
+		addSong("Ugh-Pico", "tankman", 7, ["ALL", "Week 7"]);
+		addSong("Guns-Pico", "tankman", 7, ["ALL", "Week 7"]);
+
+		addSong("Darnell", "darnell", 101, ["ALL", "Weekend 1"]);
+		addSong("Lit-Up", "darnell", 101, ["ALL", "Weekend 1"]);
+		addSong("2hot", "darnell", 101, ["ALL", "Weekend 1"]);
+		addSong("Blazin", "darnell", 101, ["ALL", "Weekend 1"]);
     }
 
     override function update(elapsed:Float):Void{
