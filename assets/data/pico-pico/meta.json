@@ -1,6 +1,18 @@
 {
-  "name": "Pico (Pico Mix)",
-  "artist": "Metaroom (ft. Saster)",
-  "album": "vol4",
-  "difficulties": [2, 4, 6]
+    "name": "Pico (Pico Mix)",
+    "artist": "Metaroom (ft. Saster)",
+    "album": "vol4",
+    "difficulties": [
+        2,
+        4,
+        6
+    ],
+    "bfBeats": [
+        1,
+        3
+    ],
+    "dadBeats": [
+        0,
+        2
+    ]
 }

@@ -1,7 +1,6 @@
 import json
 import os
 import sys
-import pyperclip
 import shutil
 
 import baseGameToFpsPlus

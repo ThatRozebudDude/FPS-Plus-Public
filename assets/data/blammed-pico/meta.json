@@ -1,6 +1,18 @@
 {
-  "name": "Blammed (Pico Mix)",
-  "artist": "Metaroom feat. Saruky",
-  "album": "vol4",
-  "difficulties": [3, 4, 12]
+    "name": "Blammed (Pico Mix)",
+    "artist": "Metaroom (feat. Saruky)",
+    "album": "vol4",
+    "difficulties": [
+        3,
+        4,
+        12
+    ],
+    "bfBeats": [
+        1,
+        3
+    ],
+    "dadBeats": [
+        0,
+        2
+    ]
 }

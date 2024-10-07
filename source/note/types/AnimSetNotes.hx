@@ -9,6 +9,9 @@ class AnimSetNotes extends NoteType
     override function defineTypes():Void{
         addNoteType("alt", altHit, null);
         addNoteType("censor", censorHit, null);
+
+        addSustainType("alt", altHit, null);
+        addSustainType("censor", censorHit, null);
     }
 
     function altHit(note:Note, character:Character){
