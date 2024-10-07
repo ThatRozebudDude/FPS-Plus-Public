@@ -1779,7 +1779,7 @@ class PlayState extends MusicBeatState
 			case "story":
 				switchState(new StoryMenuState());
 			case "freeplay":
-				switchState(new FreeplayState(false));
+				switchState(new FreeplayState(fromSongExit));
 			default:
 				switchState(new MainMenuState());
 		}

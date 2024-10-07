@@ -179,7 +179,7 @@ class MainMenuState extends MusicBeatState
 					customTransOut = new InstantTransition();
 					FreeplayState.curSelected = 0;
 					FreeplayState.curCategory = 0;
-					switchState(new FreeplayState(true, camFollow.getPosition()));
+					switchState(new FreeplayState(fromMainMenu, camFollow.getPosition()));
 				}
 				
 				else{

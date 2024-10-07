@@ -88,17 +88,12 @@ class FreeplayState extends MusicBeatState
 	var camTarget:FlxPoint = new FlxPoint();
 	var versionText:FlxTextExt;
 
-	var transitionFromMenu:Bool;
+	var introAnimType:IntroAnimType;
 
 	private var camMenu:FlxCamera;
 	private var camFreeplay:FlxCamera;
 
 	var scrollingTextStuff:Array<ScrollingTextInfo> = [];
-
-	var afkTimer:Float = 0;
-	var nextAfkTime:Float = 5;
-	static final minAfkTime:Float = 9;
-	static final maxAfkTime:Float = 27;
 
 	static final freeplaySong:String = "freeplayRandom"; 
 	static final freeplaySongBpm:Float = 145; 
@@ -114,9 +109,9 @@ class FreeplayState extends MusicBeatState
 	static final  randomVariationExit:Float = 0.03;
 	static final  transitionEaseExit:flixel.tweens.EaseFunction = FlxEase.cubeIn;
 
-	public function new(?_transitionFromMenu:Bool = false, ?camFollowPos:FlxPoint = null) {
+	public function new(?_introAnimType:IntroAnimType = false, ?camFollowPos:FlxPoint = null) {
 		super();
-		transitionFromMenu = _transitionFromMenu;
+		introAnimType = _introAnimType;
 		if(camFollowPos == null){
 			camFollowPos = new FlxPoint();
 		}
@@ -129,9 +124,7 @@ class FreeplayState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
-
-		if(transitionFromMenu){
+		if(introAnimType == fromMainMenu){
 			if(FlxG.sound.music.playing){
 				FlxG.sound.music.volume = 0;
 			}
@@ -148,10 +141,10 @@ class FreeplayState extends MusicBeatState
 		FlxG.cameras.add(camFreeplay, true);
 		FlxG.cameras.setDefaultDrawTarget(camMenu, false);
 
-		if(transitionFromMenu){
+		if(introAnimType == fromMainMenu){
 			customTransIn = new transition.data.InstantTransition();
 		}
-		else if(playStickerIntro){
+		else if(introAnimType == fromSongWin || introAnimType == fromSongLose){
 			customTransIn = new transition.data.StickerIn();
 			playStickerIntro = false;
 		}
@@ -313,7 +306,7 @@ class FreeplayState extends MusicBeatState
 				flash.visible = true;
 				FlxTween.tween(flash, {alpha: 0}, 1, {startDelay: 0.1});
 				FlxG.sound.play(Paths.sound('confirmMenu'));
-				dj.playAnim("confirm", true);
+				dj.playConfirm();
 				startSong();
 			}
 	
@@ -347,16 +340,6 @@ class FreeplayState extends MusicBeatState
 				});
 			}
 
-			if(dj.curAnim == "idle"){
-				afkTimer += elapsed;
-				if(afkTimer >= nextAfkTime){
-					trace("random idle set");
-					afkTimer = 0;
-					nextAfkTime = nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
-					dj.doRandomIdle = true;
-				}
-			}
-
 			//big if
 			if(Binds.justPressed("menuUp")||Binds.justPressed("menuDown")||Binds.justPressed("menuLeft")||Binds.justPressed("menuRight")||Binds.justPressed("menuCycleLeft")||Binds.justPressed("menuCycleRight")){
 				pressedAnything();
@@ -378,9 +361,6 @@ class FreeplayState extends MusicBeatState
 	}
 
 	function pressedAnything():Void{
-		afkTimer = 0;
-		nextAfkTime = nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
-		dj.doRandomIdle = false;
 		dj.buttonPress();
 	}
 
@@ -479,14 +459,18 @@ class FreeplayState extends MusicBeatState
 		difficultyStars = new DifficultyStars(953, 237);
 
 		//DJ STUFF
-		dj = new DJCharacter(-9, 290, "bf", djIntroFinish);
+		dj = new freeplay.characters.Pico();
+		dj.introFinish = djIntroFinish;
 		dj.cameras = [camFreeplay];
 
-		if(transitionFromMenu){
-			dj.playAnim("intro", true);
-		}
-		else {
-			dj.playAnim("idle", true);
+		switch(introAnimType){
+			case fromMainMenu | fromCharacterSelect:
+				dj.playIntro();
+			case fromSongWin:
+				dj.playCheer(false);
+			case fromSongLose:
+				dj.playCheer(true);
+			default:
 		}
 
 		//ADDING STUFF
@@ -525,7 +509,7 @@ class FreeplayState extends MusicBeatState
 		updateAlbum(false);
 		updateSongDifficulty();
 
-		if(transitionFromMenu){
+		if(introAnimType == fromMainMenu){
 			bg.x -= 1280;
 			flash.visible = true;
 			cover.x += 1280;
@@ -623,7 +607,7 @@ class FreeplayState extends MusicBeatState
 			if (spr.ID == 1){
 				spr.animation.play('selected');
 				camTarget.set(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
-				if(!transitionFromMenu){
+				if(introAnimType != fromMainMenu){
 					camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
 				}
 			}
@@ -1083,4 +1067,12 @@ class FreeplayState extends MusicBeatState
 		var ELASTIC_PERIOD:Float = 0.6;
 		return (ELASTIC_AMPLITUDE * Math.pow(2, -10 * t) * Math.sin((t - (ELASTIC_PERIOD / (2 * Math.PI) * Math.asin(1 / ELASTIC_AMPLITUDE))) * (2 * Math.PI) / ELASTIC_PERIOD) + 1);
 	}
+}
+
+enum IntroAnimType {
+	fromMainMenu;
+	fromCharacterSelect;
+	fromSongExit;
+	fromSongWin;
+	fromSongLose;
 }
