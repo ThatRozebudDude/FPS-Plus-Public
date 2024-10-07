@@ -181,6 +181,9 @@ class Character extends FlxSpriteGroup
 				if (isSinging){
 					holdTimer += elapsed;
 				}
+				else{
+					holdTimer = 0;
+				}
 				
 				if (holdTimer >= Conductor.stepCrochet * stepsUntilRelease * 0.001 && canAutoAnim){
 					if(USE_IDLE_END){ 

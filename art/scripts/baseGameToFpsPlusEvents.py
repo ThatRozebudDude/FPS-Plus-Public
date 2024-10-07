@@ -18,7 +18,9 @@ def processEvents(data, bpm):
         
         skipAdd = False
 
-        eventToAdd = ",[" + str(curSection) + ", " + str(event["t"]) + ", 0, "
+        column = 0
+
+        eventToAdd = ",[" + str(curSection) + ", " + str(event["t"]) + ", "
 
         tag = ""
 
@@ -39,6 +41,7 @@ def processEvents(data, bpm):
                 if "y" in event["v"]:
                     y = event["v"]["y"]
                             
+                tag += str(column) + ", "
                 tag += str(x) + ";" + str(y)
 
                 if "ease" in event["v"]:
@@ -48,6 +51,7 @@ def processEvents(data, bpm):
                 print(event["e"] + "\t->\t" + tag)
 
             case "ZoomCamera":
+                tag += str(column) + ", "
                 tag += "camZoom;" + str(event["v"]["zoom"]) + ";" + str(event["v"]["duration"]) + "s;" + event["v"]["ease"]
 
                 if "mode" in event["v"]:
@@ -58,10 +62,12 @@ def processEvents(data, bpm):
 
             case "SetCameraBop":
                 #does not support intensity
+                tag += str(column) + ", "
                 tag += "camBopFreq;" + str(event["v"]["rate"])
                 print(event["e"] + "\t->\t" + tag)
 
             case "PlayAnimation":
+                column = 1
                 target = "bf"
                 match event["v"]["target"]:
                     case "dad":
@@ -74,6 +80,7 @@ def processEvents(data, bpm):
                     if event["v"]["force"] == "true":
                         force = "true"
 
+                tag += str(column) + ", "
                 tag += "playAnim;" + target + ";" + event["v"]["anim"] + ";" + force
 
                 print(event["e"] + "\t->\t" + tag)
