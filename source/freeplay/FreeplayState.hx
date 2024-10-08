@@ -93,6 +93,7 @@ class FreeplayState extends MusicBeatState
 	var introAnimType:IntroAnimType;
 
 	private var camMenu:FlxCamera;
+	private var camCard:FlxCamera;
 	private var camFreeplay:FlxCamera;
 
 	var scrollingTextStuff:Array<ScrollingTextInfo> = [];
@@ -136,10 +137,14 @@ class FreeplayState extends MusicBeatState
 
 		camMenu = new FlxCamera();
 
+		camCard = new FlxCamera();
+		camCard.bgColor.alpha = 0;
+
 		camFreeplay = new FlxCamera();
 		camFreeplay.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camMenu);
+		FlxG.cameras.add(camCard, false);
 		FlxG.cameras.add(camFreeplay, true);
 		FlxG.cameras.setDefaultDrawTarget(camMenu, false);
 
@@ -159,8 +164,6 @@ class FreeplayState extends MusicBeatState
 		dj.cameras = [camFreeplay];
 
 		fakeMainMenuSetup();
-
-		setUpScrollingText();
 
 		for(cat in dj.freeplayCategories){
 			createCategory(cat);
@@ -223,12 +226,9 @@ class FreeplayState extends MusicBeatState
 
 			if(Binds.justPressed("menuAccept")){
 				transitionOver = false;
-				setUpScrollingTextAccept();
-				addScrollingText();
-				FlxTween.completeTweensOf(flash);
-				flash.alpha = 1;
-				flash.visible = true;
-				FlxTween.tween(flash, {alpha: 0}, 1, {startDelay: 0.1});
+				//setUpScrollingTextAccept();
+				//addScrollingText();
+				dj.backingCardSelect(); //
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 				dj.playConfirm();
 				startSong();
@@ -309,11 +309,11 @@ class FreeplayState extends MusicBeatState
 
 	function createFreeplayStuff():Void{
 		
-		bg = new FlxSprite().loadGraphic(Paths.image('menu/freeplay/bgs/yellow'));
+		bg = new FlxSprite().loadGraphic(Paths.image('menu/freeplay/bgs/pink'));
 		bg.antialiasing = true;
 
-		addScrollingText();
-		scrollingText.visible = false;
+		//addScrollingText();
+		//scrollingText.visible = false;
 
 		flash = new FlxSprite().makeGraphic(1, 1, 0xFFFFFFFF);
 		flash.scale.set(1280, 720);
@@ -407,6 +407,7 @@ class FreeplayState extends MusicBeatState
 			case fromSongLose:
 				dj.playCheer(true);
 			default:
+				dj.playIdle();
 		}
 
 		//ADDING STUFF
@@ -559,9 +560,16 @@ class FreeplayState extends MusicBeatState
 		transitionOver = true;
 		startFreeplaySong();
 
-		flash.alpha = 1;
-		scrollingText.visible = true;
-		FlxTween.tween(flash, {alpha: 0}, 1, {startDelay: 0.1});
+		bg.visible = false;
+
+		dj.backingCard.cameras = [camCard];
+		add(dj.backingCard);
+
+		dj.backingCardStart();
+
+		//flash.alpha = 1;
+		//scrollingText.visible = true;
+		//FlxTween.tween(flash, {alpha: 0}, 1, {startDelay: 0.1});
 
 		camFollow.x = camTarget.x;
 		camFollow.y = camTarget.y;
@@ -579,141 +587,6 @@ class FreeplayState extends MusicBeatState
 		totalSteps = 0;
 		curStep = 0;
 		curBeat = 0;
-	}
-
-	//INITIAL TEXT
-	function setUpScrollingText():Void{
-		scrollingTextStuff = [];
-
-		scrollingTextStuff.push({
-			text: "HOT BLOODED IN MORE WAYS THAN ONE ",
-			font: Paths.font("5by7"),
-			size: 43,
-			color: 0xFFFFF383,
-			position: new FlxPoint(0, 168),
-			velocity: 6.8
-		});
-
-		scrollingTextStuff.push({
-			text: "BOYFRIEND ",
-			font: Paths.font("5by7"),
-			size: 60,
-			color: 0xFFFF9963,
-			position: new FlxPoint(0, 220),
-			velocity: -3.8
-		});
-
-		scrollingTextStuff.push({
-			text: "PROTECT YO NUTS ",
-			font: Paths.font("5by7"),
-			size: 43,
-			color: 0xFFFFFFFF,
-			position: new FlxPoint(0, 285),
-			velocity: 3.5
-		});
-
-		scrollingTextStuff.push({
-			text: "BOYFRIEND ",
-			font: Paths.font("5by7"),
-			size: 60,
-			color: 0xFFFF9963,
-			position: new FlxPoint(0, 335),
-			velocity: -3.8
-		});
-
-		scrollingTextStuff.push({
-			text: "HOT BLOODED IN MORE WAYS THAN ONE ",
-			font: Paths.font("5by7"),
-			size: 43,
-			color: 0xFFFFF383,
-			position: new FlxPoint(0, 397),
-			velocity: 6.8
-		});
-
-		scrollingTextStuff.push({
-			text: "BOYFRIEND ",
-			font: Paths.font("5by7"),
-			size: 60,
-			color: 0xFFFEA400,
-			position: new FlxPoint(0, 455),
-			velocity: -3.8
-		});
-	}
-
-	//CHANGED TEXT
-	function setUpScrollingTextAccept():Void{
-		scrollingTextStuff = [];
-
-		scrollingTextStuff.push({
-			text: "DON'T FUCK THIS ONE UP ",
-			font: Paths.font("5by7"),
-			size: 43,
-			color: 0xFFFFF383,
-			position: new FlxPoint(0, 168),
-			velocity: 6.8
-		});
-
-		scrollingTextStuff.push({
-			text: "LET'S GO ",
-			font: Paths.font("5by7"),
-			size: 60,
-			color: 0xFFFF9963,
-			position: new FlxPoint(0, 220),
-			velocity: -3.8
-		});
-
-		scrollingTextStuff.push({
-			text: "YOU GOT THIS ",
-			font: Paths.font("5by7"),
-			size: 43,
-			color: 0xFFFFFFFF,
-			position: new FlxPoint(0, 285),
-			velocity: 3.5
-		});
-
-		scrollingTextStuff.push({
-			text: "LET'S GO ",
-			font: Paths.font("5by7"),
-			size: 60,
-			color: 0xFFFF9963,
-			position: new FlxPoint(0, 335),
-			velocity: -3.8
-		});
-
-		scrollingTextStuff.push({
-			text: "DON'T FUCK THIS ONE UP ",
-			font: Paths.font("5by7"),
-			size: 43,
-			color: 0xFFFFF383,
-			position: new FlxPoint(0, 397),
-			velocity: 6.8
-		});
-
-		scrollingTextStuff.push({
-			text: "LET'S GO ",
-			font: Paths.font("5by7"),
-			size: 60,
-			color: 0xFFFEA400,
-			position: new FlxPoint(0, 455),
-			velocity: -3.8
-		});
-	}
-
-	function addScrollingText():Void{
-
-		scrollingText.forEachExists(function(text){ text.destroy(); });
-		scrollingText.clear();
-
-		for(x in scrollingTextStuff){
-			var tempText = new FlxText(0, 0, 0, x.text);
-			tempText.setFormat(x.font, x.size, x.color);
-
-			var scrolling:FlxBackdrop = ScrollingText.createScrollingText(x.position.x, x.position.y, tempText);
-			scrolling.velocity.x = x.velocity * 60;
-			
-			scrollingText.add(scrolling);
-		}
-		
 	}
 
 	function addSong(_song:String, _icon:String, _week:Int, ?categories:Array<String>):Void{
@@ -969,6 +842,9 @@ class FreeplayState extends MusicBeatState
 	}
 
 	function exitAnimation():Void{
+		bg.visible = true;
+		remove(dj.backingCard);
+
 		FlxTween.tween(bg, {x: bg.x-1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
 		FlxTween.tween(cover, {x: cover.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
 		FlxTween.tween(dj, {x: dj.x-1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});

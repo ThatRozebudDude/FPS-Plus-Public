@@ -1,5 +1,6 @@
 package freeplay;
 
+import flixel.group.FlxSpriteGroup;
 import sys.FileSystem;
 import flixel.sound.FlxSound;
 import flixel.FlxG;
@@ -13,6 +14,10 @@ class DJCharacter extends AtlasSprite
 
     public var freeplayCategories:Array<String> = [];
     public var freeplaySongs:Array<Array<Dynamic>> = [];
+
+    var skipNextIdle:Bool = false;
+
+    public var backingCard:FlxSpriteGroup = new FlxSpriteGroup();
 
     public function new() {
         super(0, 0, null);
@@ -28,10 +33,14 @@ class DJCharacter extends AtlasSprite
 
     public function buttonPress():Void{}
 
+    public function playIdle():Void{}
     public function playIntro():Void{}
     public function playConfirm():Void{}
     public function playCheer(lostSong:Bool):Void{}
     public function toCharacterSelect():Void{}
+
+    public function backingCardStart():Void{}
+    public function backingCardSelect():Void{}
 
     function createCategory(name:String):Void{
         if(!freeplayCategories.contains(name)){

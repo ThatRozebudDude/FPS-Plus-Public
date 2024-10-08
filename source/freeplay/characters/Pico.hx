@@ -22,22 +22,24 @@ class Pico extends DJCharacter
         loadAtlas(Paths.getTextureAtlas("menu/freeplay/dj/pico"));
         antialiasing = true;
 
-        addAnimationByLabel('idle', "Idle", 24, true, -2);
+        addAnimationByLabel('idle', "Idle", 24, true, -8);
         addAnimationByLabel('intro', "Intro", 24);
         addAnimationByLabel('confirm', "Confirm", 24, true, -8);
-        addAnimationByLabel('cheerHold', "RatingHold", 24, true, 0);
-        addAnimationByLabel('cheerWin', "Win", 24, true, -2);
-        addAnimationByLabel('cheerLose', "Lose", 24, true, -2);
-        addAnimationByLabel('jump', "Jump", 24, true, -4);
+        addAnimationByLabel('cheerHoldWin', "RatingHoldWin", 24, true, 0);
+        addAnimationByLabel('cheerHoldLose', "RatingHoldLose", 24, true, 0);
+        addAnimationByLabel('cheerWin', "Win", 24, false);
+        addAnimationByLabel('cheerLose', "Lose", 24, false);
+        addAnimationByLabel('jump', "Jump", 24, true, -8);
         addAnimationByLabel('idle1start', "Idle1", 24);
 
         animationEndCallback = function(name) {
             switch(name){
                 case "intro":
                     introFinish();
+                    skipNextIdle = true;
                     playAnim("idle", true);
-                case "idle2start":
-                    playAnim("idle2loop", true);
+                case "cheerWin" | "cheerLose":
+                    playAnim("idle", true);
             }
         }
 
@@ -90,7 +92,7 @@ class Pico extends DJCharacter
     final canPlayIdleAfter:Array<String> = ["idle1start", "cheerWin", "cheerLose"];
 
     override function beat(curBeat:Int):Void{
-        if(FlxG.sound.music.playing && curBeat % 2 == 0 && ((curAnim == "idle") || (canPlayIdleAfter.contains(curAnim) && finishedAnim))){
+        if(FlxG.sound.music.playing && curBeat % 2 == 0 && !skipNextIdle && ((curAnim == "idle") || (canPlayIdleAfter.contains(curAnim) && finishedAnim))){
             if(!doRandomIdle){
                 playAnim("idle", true);
             }
@@ -99,12 +101,19 @@ class Pico extends DJCharacter
                 doRandomIdle = false;
             }
         }
+        else if(skipNextIdle){
+            skipNextIdle = false;
+        }
     }
 
     override function buttonPress():Void{
         afkTimer = 0;
 		nextAfkTime = nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
 		doRandomIdle = false;
+    }
+
+    override function playIdle():Void{
+        playAnim("idle", true);
     }
 
     override function playIntro():Void{
@@ -117,13 +126,16 @@ class Pico extends DJCharacter
 
     override function playCheer(lostSong:Bool):Void{
         if(!lostSong){
-        playAnim("cheerHold", true);
-            new FlxTimer().start(1.3, function(t){
+            playAnim("cheerHoldWin", true);
+            new FlxTimer().start(1.35, function(t){
                 playAnim("cheerWin", true);
             });
         }
         else{
-            playAnim("cheerLose", true);
+            playAnim("cheerHoldLose", true);
+            new FlxTimer().start(1.35, function(t){
+                playAnim("cheerLose", true);
+            });
         }
     }
 
