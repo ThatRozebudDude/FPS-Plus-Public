@@ -307,7 +307,7 @@ class ResultsState extends FlxUIStateExt
         clearShader = new TintShader(0xFFFFFFFF, 0);
 
         clearPercentCounter = new DigitDisplay(838 - 80, 349, "menu/results/clearPercentNumbers", 3, 1, 0, 0, true, false);
-        clearPercentCounter.ease = FlxEase.quartOut;
+        clearPercentCounter.ease = FlxEase.cubeOut;
         clearPercentCounter.setDigitOffset("1", -13);
         clearPercentCounter.visible = false;
         clearPercentCounter.callback = percentCallback;
@@ -329,7 +329,7 @@ class ResultsState extends FlxUIStateExt
             clearPercentCounter.visible = true;
 
             if(Math.floor(grade * 100) > 1){
-                clearPercentCounter.tweenNumber(Math.floor(grade * 100) - 1, 1.7);
+                clearPercentCounter.tweenNumber(Math.floor(grade * 100) - 1, 1.4);
             }
             else{
                 clearPercentCounter.setNumber(0, true);
@@ -451,11 +451,12 @@ class ResultsState extends FlxUIStateExt
 
         if(enableDebugControls){
             if(FlxG.keys.anyJustPressed([TAB])){
+                var newResultsState:ResultsState;
                 if(FlxG.keys.anyPressed([SHIFT])){
-                    switchState(new ResultsState(null, songNameText, characterString, saveInfo));
+                    newResultsState = new ResultsState(null, songNameText, characterString, saveInfo);
                 }
                 else if(FlxG.keys.anyPressed([ONE])){
-                    switchState(new ResultsState({
+                    newResultsState = new ResultsState({
                         score: FlxG.random.int(123456, 12345678),
                         highestCombo: 100,
                         accuracy: 100,
@@ -466,10 +467,10 @@ class ResultsState extends FlxUIStateExt
                         susCount: 0,
                         missCount: 0,
                         comboBreakCount: 0,
-                    }, songNameText, characterString, saveInfo));
+                    }, songNameText, characterString, saveInfo);
                 }
                 else if(FlxG.keys.anyPressed([TWO])){
-                    switchState(new ResultsState({
+                    newResultsState = new ResultsState({
                         score: FlxG.random.int(123456, 12345678),
                         highestCombo: 100,
                         accuracy: 100,
@@ -480,10 +481,10 @@ class ResultsState extends FlxUIStateExt
                         susCount: 0,
                         missCount: 0,
                         comboBreakCount: 0,
-                    }, songNameText, characterString, saveInfo));
+                    }, songNameText, characterString, saveInfo);
                 }
                 else if(FlxG.keys.anyPressed([THREE])){
-                    switchState(new ResultsState({
+                    newResultsState = new ResultsState({
                         score: FlxG.random.int(123456, 12345678),
                         highestCombo: 90,
                         accuracy: 90,
@@ -494,10 +495,10 @@ class ResultsState extends FlxUIStateExt
                         susCount: 0,
                         missCount: 0,
                         comboBreakCount: 10,
-                    }, songNameText, characterString, saveInfo));
+                    }, songNameText, characterString, saveInfo);
                 }
                 else if(FlxG.keys.anyPressed([FOUR])){
-                    switchState(new ResultsState({
+                    newResultsState = new ResultsState({
                         score: FlxG.random.int(123456, 12345678),
                         highestCombo: 80,
                         accuracy: 80,
@@ -508,10 +509,10 @@ class ResultsState extends FlxUIStateExt
                         susCount: 0,
                         missCount: 0,
                         comboBreakCount: 20,
-                    }, songNameText, characterString, saveInfo));
+                    }, songNameText, characterString, saveInfo);
                 }
                 else if(FlxG.keys.anyPressed([FIVE])){
-                    switchState(new ResultsState({
+                    newResultsState = new ResultsState({
                         score: FlxG.random.int(123456, 12345678),
                         highestCombo: 70,
                         accuracy: 70,
@@ -522,10 +523,10 @@ class ResultsState extends FlxUIStateExt
                         susCount: 0,
                         missCount: 0,
                         comboBreakCount: 30,
-                    }, songNameText, characterString, saveInfo));
+                    }, songNameText, characterString, saveInfo);
                 }
                 else if(FlxG.keys.anyPressed([SIX])){
-                    switchState(new ResultsState({
+                    newResultsState = new ResultsState({
                         score: FlxG.random.int(123456, 12345678),
                         highestCombo: 50,
                         accuracy: 50,
@@ -536,10 +537,10 @@ class ResultsState extends FlxUIStateExt
                         susCount: 0,
                         missCount: 50,
                         comboBreakCount: 0,
-                    }, songNameText, characterString, saveInfo));
+                    }, songNameText, characterString, saveInfo);
                 }
                 else if(FlxG.keys.anyPressed([SEVEN])){
-                    switchState(new ResultsState({
+                    newResultsState = new ResultsState({
                         score: 0,
                         highestCombo: 0,
                         accuracy: 0,
@@ -550,11 +551,13 @@ class ResultsState extends FlxUIStateExt
                         susCount: 0,
                         missCount: 0,
                         comboBreakCount: 0,
-                    }, songNameText, characterString, saveInfo));
+                    }, songNameText, characterString, saveInfo);
                 }
                 else{
-                    switchState(new ResultsState(scoreStats, songNameText, characterString, saveInfo));
+                    newResultsState = new ResultsState(scoreStats, songNameText, characterString, saveInfo);
                 }
+                newResultsState.enableDebugControls = true;
+                switchState(newResultsState);
             }
         }
 

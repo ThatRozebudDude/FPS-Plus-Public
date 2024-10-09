@@ -190,10 +190,10 @@ class Pico extends DJCharacter
 
     override function toCharacterSelect() {
         playAnim("jump", true);
-        FlxTween.tween(scrollBack.velocity, {x: 0}, 1, {ease: FlxEase.sineIn});
-        FlxTween.tween(scrollLower.velocity, {x: 0}, 1, {ease: FlxEase.sineIn});
-        FlxTween.tween(scrollTop.velocity, {x: 0}, 1, {ease: FlxEase.sineIn});
-        FlxTween.tween(scrollMiddle.velocity, {x: 0}, 1, {ease: FlxEase.sineIn});
+        FlxTween.tween(scrollBack.velocity, {x: 0}, 1.2, {ease: FlxEase.sineIn});
+        FlxTween.tween(scrollLower.velocity, {x: 0}, 1.2, {ease: FlxEase.sineIn});
+        FlxTween.tween(scrollTop.velocity, {x: 0}, 1.2, {ease: FlxEase.sineIn});
+        FlxTween.tween(scrollMiddle.velocity, {x: 0}, 1.2, {ease: FlxEase.sineIn});
     }
 
     public function playRandomIdle():Void{

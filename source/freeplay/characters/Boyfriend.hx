@@ -229,7 +229,7 @@ class Boyfriend extends DJCharacter
     override function toCharacterSelect() {
         playAnim("jump", true);
         for(text in scrollingText){
-            FlxTween.tween(text.velocity, {x: 0}, 1, {ease: FlxEase.sineIn});
+            FlxTween.tween(text.velocity, {x: 0}, 1.4, {ease: FlxEase.sineIn});
         }
     }
 
