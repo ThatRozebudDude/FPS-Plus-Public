@@ -1,5 +1,7 @@
 package;
 
+import openfl.filters.ShaderFilter;
+import shaders.*;
 import ui.*;
 import config.*;
 import debug.*;
@@ -197,6 +199,8 @@ class PlayState extends MusicBeatState
 	public var camOverlay:FlxCamera;
 	private var camGameZoomAdjust:Float = 0;
 
+	public var hudShader:AlphaShader = new AlphaShader(1);
+
 	private var eventList:Array<Dynamic> = [];
 
 	public var comboUI:ComboPopup;
@@ -329,6 +333,7 @@ class PlayState extends MusicBeatState
 
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
+		camHUD.filters = [new ShaderFilter(hudShader.shader)];
 
 		camOverlay = new FlxCamera();
 		camOverlay.bgColor.alpha = 0;

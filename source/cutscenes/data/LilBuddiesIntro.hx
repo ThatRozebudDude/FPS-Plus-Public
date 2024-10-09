@@ -14,7 +14,7 @@ class LilBuddiesIntro extends ScriptedCutscene
             addEvent(0, lilBuddiesIntro);
         }
         else{
-            addEvent(0, next);
+            addEvent(0, noIntro);
         }
     }
 
@@ -55,5 +55,9 @@ class LilBuddiesIntro extends ScriptedCutscene
 		});
 		playstate.camMove(155, 600, Conductor.crochet / 1000 * 16, FlxEase.quadOut, "center");
     }
+
+	function noIntro():Void{
+		next(false);
+	}
 
 }

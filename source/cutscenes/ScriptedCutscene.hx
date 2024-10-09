@@ -183,9 +183,15 @@ class ScriptedCutscene extends FlxBasic
     var data(get, never):Map<String, Dynamic>;
     @:noCompletion inline function get_data()       { return PlayState.instance.arbitraryData; }
 
-    public inline function next():Void{
+    public inline function next(?doCamFadeIn:Bool = true):Void{
         if(PlayState.instance.inEndingCutscene){ PlayState.instance.endSong(); }
-        else{ PlayState.instance.startCountdown(); }  
+        else{ 
+            PlayState.instance.startCountdown();
+            if(doCamFadeIn){
+                playstate.hudShader.alpha = 0;
+                tween.tween(playstate.hudShader, {alpha: 1}, 0.3);
+            }
+        }  
     }
 
     public inline function focusCameraBasedOnFirstSection():Void{
