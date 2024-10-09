@@ -273,6 +273,18 @@
 			],
 			[
 				32,
+				48750,
+				0,
+				"camFocusCenter"
+			],
+			[
+				32,
+				48750,
+				1,
+				"camZoom;1.08;32s;expoOut;true"
+			],
+			[
+				32,
 				49031.25,
 				2,
 				"playVocals;bf"
@@ -280,14 +292,8 @@
 			[
 				32,
 				49031.25,
-				0,
-				"camZoom;1.08;32s;expoOut;true"
-			],
-			[
-				32,
-				49125,
-				0,
-				"camZoom;1.08;32s;expoOut;true"
+				1,
+				"bfAnimLockToggle"
 			],
 			[
 				32,
@@ -297,9 +303,15 @@
 			],
 			[
 				32,
-				49218.75,
-				1,
-				"bfAnimLockToggle"
+				49125,
+				2,
+				"camFocusBf"
+			],
+			[
+				32,
+				49125,
+				0,
+				"camZoom;1.16;8s;expoOut;true"
 			],
 			[
 				32,
@@ -310,20 +322,14 @@
 			[
 				33,
 				49500,
-				0,
-				"camFocusDad;0;0;16s;expoOut"
-			],
-			[
-				33,
-				49500,
 				1,
 				"playAnim;dad;argh;false"
 			],
 			[
 				33,
-				50250,
+				49500,
 				0,
-				"camZoom;1.1;32s;expoOut;true"
+				"camFocusCenter"
 			],
 			[
 				33,
@@ -333,15 +339,45 @@
 			],
 			[
 				33,
+				50250,
+				2,
+				"camFocusDad;0;0"
+			],
+			[
+				33,
+				50250,
+				0,
+				"camZoom;1.1;16s;expoOut;true"
+			],
+			[
+				33,
 				50531.25,
 				1,
 				"bfAnimLockToggle"
+			],
+			[
+				33,
+				50625,
+				0,
+				"camFocusCenter"
+			],
+			[
+				33,
+				50625,
+				1,
+				"camZoom;1.16;16s;expoOut;true"
 			],
 			[
 				34,
 				51000,
 				0,
 				"camZoom;1.05;32s;expoOut;true"
+			],
+			[
+				34,
+				51000,
+				2,
+				"camFocusDad;0;0"
 			],
 			[
 				35,

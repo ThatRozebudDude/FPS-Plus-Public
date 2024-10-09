@@ -168,7 +168,7 @@ class Binds
             name: "Change Character",
             category: "Menu",
             binds: [TAB],
-            controllerBinds: [BACK],
+            controllerBinds: [Y],
             local: false
         };
         r.set("menuChangeCharacter", k);

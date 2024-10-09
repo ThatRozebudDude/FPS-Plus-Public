@@ -38,6 +38,7 @@ class FreeplayState extends MusicBeatState
 	var cover:FlxSprite;
 	var topBar:FlxSprite;
 	var freeplayText:FlxText;
+	var changeCharacterText:FlxText;
 	var highscoreSprite:FlxSprite;
 	var clearPercentSprite:FlxSprite;
 	var scoreDisplay:DigitDisplay;
@@ -88,6 +89,8 @@ class FreeplayState extends MusicBeatState
 	var versionText:FlxTextExt;
 
 	var introAnimType:IntroAnimType;
+
+	static var controllerMode:Bool = false;
 
 	private var camMenu:FlxCamera;
 	private var camCard:FlxCamera;
@@ -280,7 +283,15 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 
-		//if(FlxG.keys.justPressed.ONE){ difficultyStars.setNumber(FlxG.random.int(0, 20)); }
+		//update change character text
+		if(FlxG.keys.anyPressed([ANY]) && controllerMode){
+			updateChangeCharacterText(false);
+			controllerMode = false;
+		}
+		else if(FlxG.gamepads.anyJustPressed(ANY) && !controllerMode){
+			updateChangeCharacterText(true);
+			controllerMode = true;
+		}
 		
 		camFollow.x = Utils.fpsAdjsutedLerp(camFollow.x, camTarget.x, MainMenuState.lerpSpeed);
 		camFollow.y = Utils.fpsAdjsutedLerp(camFollow.y, camTarget.y, MainMenuState.lerpSpeed);
@@ -321,6 +332,12 @@ class FreeplayState extends MusicBeatState
 
 		freeplayText = new FlxTextExt(16, 16, 0, "FREEPLAY", 32);
 		freeplayText.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE);
+
+		changeCharacterText = new FlxTextExt(16, 16, 0, "[BUTTON] to Change Character", 32);
+		changeCharacterText.setFormat(Paths.font("vcr"), 32, 0xFF7F7F7F);
+		changeCharacterText.screenCenter(X);
+		changeCharacterText.visible = false;
+		updateChangeCharacterText(controllerMode);
 
 		highscoreSprite = new FlxSprite(860, 70);
 		highscoreSprite.frames = getSparrowPathWithSkin("menu/freeplay/highscore");
@@ -427,6 +444,7 @@ class FreeplayState extends MusicBeatState
 		
 		add(topBar);
 		add(freeplayText);
+		add(changeCharacterText);
 
 		addCapsules();
 
@@ -550,6 +568,9 @@ class FreeplayState extends MusicBeatState
 		startFreeplaySong();
 
 		bg.visible = false;
+		changeCharacterText.visible = true;
+		changeCharacterText.alpha = 0;
+		FlxTween.tween(changeCharacterText, {alpha: 1}, 2, {ease: FlxEase.sineInOut, type: PINGPONG});
 
 		dj.backingCard.cameras = [camCard];
 		add(dj.backingCard);
@@ -768,6 +789,29 @@ class FreeplayState extends MusicBeatState
 		difficultyStars.setNumber(categoryMap[categoryNames[curCategory]][curSelected].difficulties[curDifficulty]);
 	}
 
+	function updateChangeCharacterText(controller:Bool = false):Void{
+		if(!controller){
+			if(Binds.binds.get("menuChangeCharacter").binds.length > 0){
+				var key = Binds.binds.get("menuChangeCharacter").binds[0];
+				changeCharacterText.text = "[" + Utils.keyToString(key) + "] to Change Character";
+			}
+			else{
+				changeCharacterText.text = "Change Character not bound!";
+			}
+			changeCharacterText.screenCenter(X);
+		}
+		else{
+			if(Binds.binds.get("menuChangeCharacter").controllerBinds.length > 0){
+				var key = Binds.binds.get("menuChangeCharacter").controllerBinds[0];
+				changeCharacterText.text = "[" + Utils.controllerButtonToString(key) + "] to Change Character";
+			}
+			else{
+				changeCharacterText.text = "Change Character not bound!";
+			}
+			changeCharacterText.screenCenter(X);
+		}
+	}
+
 	function calcAvailableDifficulties():Void{
 		allowedDifficulties = [];
 		var filesInDir = FileSystem.readDirectory("assets/data/" + categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + "/");
@@ -835,6 +879,7 @@ class FreeplayState extends MusicBeatState
 		FlxTween.tween(dj, {x: dj.x-1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
 		FlxTween.tween(topBar, {y: -720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
 		FlxTween.tween(freeplayText, {y: 16-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
+		FlxTween.tween(changeCharacterText, {y: 16-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
 		FlxTween.tween(highscoreSprite, {x: highscoreSprite.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*2});
 		FlxTween.tween(clearPercentSprite, {x: clearPercentSprite.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
 		FlxTween.tween(scoreDisplay, {x: scoreDisplay.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*0});

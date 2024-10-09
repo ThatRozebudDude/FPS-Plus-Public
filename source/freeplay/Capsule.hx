@@ -93,12 +93,49 @@ class Capsule extends FlxSpriteGroup
         //var debugDot:FlxSprite = new FlxSprite(text.x, text.y).makeGraphic(2, 2, 0xFFFFAAFF);
         //var debugDot2:FlxSprite = new FlxSprite(0, 0).makeGraphic(4, 4, 0xFFAAFFFF);
 
+        //temp before I add a json or something
+        //because I have to add the animations and they dont have padding
         var iconXOffset:Float = 0;
+        var iconYOffset:Float = 0;
         switch(_icon){
+            case "bf":
+                iconXOffset = 6;
+                iconYOffset = 24;
+            case "gf":
+                iconXOffset = 12;
+                iconYOffset = 16;
+            case "dad":
+                iconXOffset = 16;
+                iconYOffset = 6;
+            case "spooky":
+                iconXOffset = 6;
+                iconYOffset = 6;
+            case "monster":
+                iconXOffset = 2;
+                iconYOffset = 10;
+            case "pico":
+                iconXOffset = 16;
+                iconYOffset = 8;
+            case "mom":
+                iconXOffset = 0;
+                iconYOffset = 4;
             case "parents-christmas":
                 iconXOffset = -24;
+                iconYOffset = 6;
+            case "senpai":
+                iconXOffset = 6;
+                iconYOffset = 4;
+            case "spirit":
+                iconXOffset = 8;
+                iconYOffset = 2;
+            case "tankman":
+                iconXOffset = 6;
+                iconYOffset = 6;
+            case "darnell":
+                iconXOffset = 6;
+                iconYOffset = 0;
         }
-        icon = new FlxSprite(iconXOffset, 0).loadGraphic(Paths.image("menu/freeplay/icons/" + _icon));
+        icon = new FlxSprite(iconXOffset, iconYOffset).loadGraphic(Paths.image("menu/freeplay/icons/" + _icon));
         icon.origin.set(0, 0);
         icon.scale.set(2, 2);
 

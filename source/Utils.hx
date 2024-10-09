@@ -1,5 +1,7 @@
 package;
 
+import flixel.input.gamepad.FlxGamepadInputID;
+import flixel.input.keyboard.FlxKey;
 import flixel.util.FlxColor;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
@@ -140,6 +142,130 @@ class Utils
 		r.scale.set(width/zoomAdjustment, height/zoomAdjustment);
 		r.updateHitbox();
 		return r;
+	}
+
+	public static inline function keyToString(key:FlxKey):String{
+		switch(key){
+			case ZERO:
+				return "0";
+			case ONE:
+				return "1";
+			case TWO:
+				return "2";
+			case THREE:
+				return "3";
+			case FOUR:
+				return "4";
+			case FIVE:
+				return "5";
+			case SIX:
+				return "6";
+			case SEVEN:
+				return "7";
+			case EIGHT:
+				return "8";
+			case NINE:
+				return "9";
+			case MINUS:
+				return "-";
+			case PLUS:
+				return "=";
+			case LBRACKET:
+				return "[";
+			case RBRACKET:
+				return "]";
+			case BACKSLASH:
+				return "\\";
+			case SCROLL_LOCK:
+				return "SCROLL LOCK";
+			case SEMICOLON:
+				return ";";
+			case QUOTE:
+				return "\"";
+			case COMMA:
+				return ",";
+			case PERIOD:
+				return ".";
+			case SLASH:
+				return "/";
+			case GRAVEACCENT:
+				return "`";
+			case NUMPADZERO:
+				return "KP 0";
+			case NUMPADONE:
+				return "KP 1";
+			case NUMPADTWO:
+				return "KP 2";
+			case NUMPADTHREE:
+				return "KP 3";
+			case NUMPADFOUR:
+				return "KP 4";
+			case NUMPADFIVE:
+				return "KP 5";
+			case NUMPADSIX:
+				return "KP 6";
+			case NUMPADSEVEN:
+				return "KP 7";
+			case NUMPADEIGHT:
+				return "KP 8";
+			case NUMPADNINE:
+				return "KP 9";
+			case NUMPADMINUS:
+				return "KP -";
+			case NUMPADPLUS:
+				return "KP +";
+			case NUMPADPERIOD:
+				return "KP .";
+			case NUMPADMULTIPLY:
+				return "KP *";
+			case NUMPADSLASH:
+				return "KP /";
+			default:
+				return key.toString();
+		}
+	}
+	
+	public static inline function controllerButtonToString(button:FlxGamepadInputID):String{
+		switch(button){
+			case LEFT_SHOULDER:
+				return "LB";
+			case RIGHT_SHOULDER:
+				return "RB";
+			case LEFT_STICK_CLICK:
+				return "LS CLICK";
+			case RIGHT_STICK_CLICK:
+				return "RS CLICK";
+			case DPAD_UP:
+				return "DPAD UP";
+			case DPAD_DOWN:
+				return "DPAD DOWN";
+			case DPAD_LEFT:
+				return "DPAD LEFT";
+			case DPAD_RIGHT:
+				return "DPAD RIGHT";
+			case LEFT_TRIGGER_BUTTON:
+				return "LT";
+			case RIGHT_TRIGGER_BUTTON:
+				return "RT";
+			case LEFT_STICK_DIGITAL_UP:
+				return "LS UP";
+			case LEFT_STICK_DIGITAL_RIGHT:
+				return "LS RIGHT";
+			case LEFT_STICK_DIGITAL_DOWN:
+				return "LS DOWN";
+			case LEFT_STICK_DIGITAL_LEFT:
+				return "LS LEFT";
+			case RIGHT_STICK_DIGITAL_UP:
+				return "RS UP";
+			case RIGHT_STICK_DIGITAL_RIGHT:
+				return "RS RIGHT";
+			case RIGHT_STICK_DIGITAL_DOWN:
+				return "RS DOWN";
+			case RIGHT_STICK_DIGITAL_LEFT:
+				return "RS LEFT";
+			default:
+				return button.toString();
+		}
 	}
 }
 
