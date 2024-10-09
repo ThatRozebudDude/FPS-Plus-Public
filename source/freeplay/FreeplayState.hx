@@ -227,6 +227,7 @@ class FreeplayState extends MusicBeatState
 				dj.backingCardSelect();
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 				dj.playConfirm();
+				categoryMap[categoryNames[curCategory]][curSelected].confirm();
 				startSong();
 			}
 	

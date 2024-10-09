@@ -20,6 +20,7 @@ class PauseSubState extends MusicBeatSubstate
 
 	var menuItems:Array<String> = ['Resume', 'Restart Song', "Options", 'Exit to menu'];
 	var curSelected:Int = 0;
+	var becomeUseless:Bool = false;
 
 	var pauseMusic:FlxSound;
 
@@ -57,23 +58,24 @@ class PauseSubState extends MusicBeatSubstate
 
 		var pauseSongName = "pause/breakfast";
 
+		//one day ill add this to the song meta or something... one day.......
 		if(Config.pauseMusicBehavior < 2){ //Only if breakfast only is off
 			switch(PlayState.SONG.song.toLowerCase()){
-				case "spookeez" | "south" | "monster" | "winter-horrorland" | "spookeez-erect" | "south-erect":
+				case "spookeez" | "south" | "monster" | "winter-horrorland" | "spookeez-erect" | "south-erect" | "spookeez-pico" | "south-pico":
 					if(Config.pauseMusicBehavior == 0) { pauseSongName = "pause/911825_woah_Loop"; }
-				case "pico" | "philly" | "blammed" | "pico-erect" | "philly-erect" | "blammed-erect":
+				case "pico" | "philly" | "blammed" | "pico-erect" | "philly-erect" | "blammed-erect" | "pico-pico" | "philly-pico" | "blammed-pico":
 					if(Config.pauseMusicBehavior == 0) { pauseSongName = "pause/947670_hacker.07_Loop"; }
 				case "satin-panties" | "high" | "milf" | "satin-panties-erect" | "high-erect":
 					if(Config.pauseMusicBehavior == 0) { pauseSongName = "pause/1317505_RUN1N_Loop"; }
-				case "cocoa" | "eggnog" | "eggnog-erect":
+				case "cocoa" | "eggnog" | "cocoa-erect" | "eggnog-erect" | "eggnog-pico":
 					if(Config.pauseMusicBehavior == 0) { pauseSongName = "pause/918379_Love-Emoji_Loop"; }
 				case "senpai" | "roses" | "thorns" | "senpai-erect" | "roses-erect" | "thorns-erect":
 					pauseSongName = "pause/breakfast-pixel";
-				case "ugh" | "guns" | "stress":
+				case "ugh" | "guns" | "stress" | "ugh-erect" | "ugh-pico" | "guns-erect":
 					if(Config.pauseMusicBehavior == 0) { pauseSongName = "week7/distorto"; }
-				case "darnell" | "lit-up" | "2hot" | "blazin":
+				case "darnell" | "lit-up" | "2hot" | "blazin" | "darnell-bf":
 					pauseSongName = "pause/breakfast-pico";
-				case "lil-buddies" | "lil-buddies-erect":
+				case "lil-buddies" | "lil-buddies-erect" | "lil-buddies-pico": //hmm.......
 					if(Config.pauseMusicBehavior == 0) { pauseSongName = "pause/1100059_skippingrecord_Loop"; }
 			}
 		}
@@ -126,79 +128,85 @@ class PauseSubState extends MusicBeatSubstate
 
 		changeSelection();
 
+		FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
 	}
 
 	override function update(elapsed:Float){
 			
 		super.update(elapsed);
 
-		if (Binds.justPressed("menuUp")){
-			changeSelection(-1);
-			FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
-		}
-		if (Binds.justPressed("menuDown")){
-			changeSelection(1);
-			FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
-		}
+		if(!becomeUseless){
+			if (Binds.justPressed("menuUp")){
+				changeSelection(-1);
+				FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+			}
+			if (Binds.justPressed("menuDown")){
+				changeSelection(1);
+				FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+			}
+	
+			if (Binds.justPressed("menuBack")){
+				PlayState.instance.tweenManager.active = true;
+				unpause();
+			}
+	
+			if (!allowControllerPress ? Binds.justPressedKeyboardOnly("menuAccept") : Binds.justPressed("menuAccept")){
+	
+				PlayState.instance.tweenManager.active = true;
+	
+				var daSelected:String = menuItems[curSelected];
 
-		if (Binds.justPressed("menuBack")){
-			PlayState.instance.tweenManager.active = true;
-			unpause();
-		}
-
-		if (!allowControllerPress ? Binds.justPressedKeyboardOnly("menuAccept") : Binds.justPressed("menuAccept")){
-
-			PlayState.instance.tweenManager.active = true;
-
-			var daSelected:String = menuItems[curSelected];
-
-			switch (daSelected)
-			{
-				case "Resume":
-					unpause();
-					
-				case "Restart Song":
-					PlayState.instance.tweenManager.clear();
-					PlayState.instance.switchState(new PlayState());
-					PlayState.sectionStart = false;
-					PlayState.replayStartCutscene = false;
-					pauseMusic.fadeOut(0.5, 0);
-					FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
-
-				case "Restart Section":
-					PlayState.instance.tweenManager.clear();
-					PlayState.instance.switchState(new PlayState());
-					PlayState.replayStartCutscene = false;
-					pauseMusic.fadeOut(0.5, 0);
-					FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
-
-				case "Chart Editor":
-					PlayState.instance.tweenManager.clear();
-					PlayState.instance.switchState(new ChartingState());
-					pauseMusic.fadeOut(0.5, 0);
-					FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
-					
-				case "Skip Song":
-					PlayState.instance.preventScoreSaving = true;
-					PlayState.instance.tweenManager.clear();
-					PlayState.instance.endSong();
-					pauseMusic.fadeOut(0.5, 0);
-					FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
-					
-				case "Options":
-					PlayState.instance.tweenManager.clear();
-					PlayState.instance.switchState(new ConfigMenu());
-					ConfigMenu.exitTo = PlayState;
-					PlayState.replayStartCutscene = false;
-					pauseMusic.fadeOut(0.5, 0);
-					FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
-					
-				case "Exit to menu":
-					PlayState.instance.tweenManager.clear();
-					PlayState.sectionStart = false;
-					PlayState.instance.returnToMenu();
-					pauseMusic.fadeOut(0.5, 0);
-					FlxG.sound.play(Paths.sound('cancelMenu'), 0.8);
+				becomeUseless = true;
+	
+				switch (daSelected)
+				{
+					case "Resume":
+						unpause();
+						FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+						
+					case "Restart Song":
+						PlayState.instance.tweenManager.clear();
+						PlayState.instance.switchState(new PlayState());
+						PlayState.sectionStart = false;
+						PlayState.replayStartCutscene = false;
+						pauseMusic.fadeOut(0.5, 0);
+						FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+	
+					case "Restart Section":
+						PlayState.instance.tweenManager.clear();
+						PlayState.instance.switchState(new PlayState());
+						PlayState.replayStartCutscene = false;
+						pauseMusic.fadeOut(0.5, 0);
+						FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+	
+					case "Chart Editor":
+						PlayState.instance.tweenManager.clear();
+						PlayState.instance.switchState(new ChartingState());
+						pauseMusic.fadeOut(0.5, 0);
+						FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+						
+					case "Skip Song":
+						PlayState.instance.preventScoreSaving = true;
+						PlayState.instance.tweenManager.clear();
+						PlayState.instance.endSong();
+						pauseMusic.fadeOut(0.5, 0);
+						FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+						
+					case "Options":
+						PlayState.instance.tweenManager.clear();
+						PlayState.instance.switchState(new ConfigMenu());
+						ConfigMenu.exitTo = PlayState;
+						PlayState.replayStartCutscene = false;
+						pauseMusic.fadeOut(0.5, 0);
+						FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+						
+					case "Exit to menu":
+						PlayState.instance.tweenManager.clear();
+						PlayState.sectionStart = false;
+						PlayState.instance.returnToMenu();
+						pauseMusic.fadeOut(0.5, 0);
+						FlxG.sound.play(Paths.sound('cancelMenu'), 0.8);
+				}
 			}
 		}
 

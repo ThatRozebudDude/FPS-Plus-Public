@@ -98,44 +98,14 @@ class Capsule extends FlxSpriteGroup
         var iconXOffset:Float = 0;
         var iconYOffset:Float = 0;
         switch(_icon){
-            case "bf":
-                iconXOffset = 6;
-                iconYOffset = 24;
-            case "gf":
-                iconXOffset = 12;
-                iconYOffset = 16;
-            case "dad":
-                iconXOffset = 16;
-                iconYOffset = 6;
-            case "spooky":
-                iconXOffset = 6;
-                iconYOffset = 6;
-            case "monster":
-                iconXOffset = 2;
-                iconYOffset = 10;
-            case "pico":
-                iconXOffset = 16;
-                iconYOffset = 8;
-            case "mom":
-                iconXOffset = 0;
-                iconYOffset = 4;
             case "parents-christmas":
-                iconXOffset = -24;
-                iconYOffset = 6;
-            case "senpai":
-                iconXOffset = 6;
-                iconYOffset = 4;
-            case "spirit":
-                iconXOffset = 8;
-                iconYOffset = 2;
-            case "tankman":
-                iconXOffset = 6;
-                iconYOffset = 6;
-            case "darnell":
-                iconXOffset = 6;
-                iconYOffset = 0;
+                iconXOffset = -38;
         }
-        icon = new FlxSprite(iconXOffset, iconYOffset).loadGraphic(Paths.image("menu/freeplay/icons/" + _icon));
+        icon = new FlxSprite(iconXOffset, iconYOffset);
+        icon.frames = Paths.getSparrowAtlas("menu/freeplay/icons/" + _icon);
+        icon.animation.addByPrefix("idle", "idle", 0, false);
+        icon.animation.addByPrefix("confirm", "confirm0", 12, false);
+        icon.animation.play("idle", true);
         icon.origin.set(0, 0);
         icon.scale.set(2, 2);
 
@@ -240,6 +210,10 @@ class Capsule extends FlxSpriteGroup
         if(text.width > minThing && text.width <= maxThing){
             scrollOffset = (text.width - minThing)/-2;
         }
+    }
+
+    public function confirm():Void{
+        icon.animation.play("confirm", true);
     }
 
     public function showRank(difficulty:Int):Void{

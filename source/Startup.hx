@@ -100,13 +100,12 @@ class Startup extends FlxState
         FlxG.mouse.visible = false;
         FlxG.sound.muteKeys = null;
 
-        //FlxG.save.bind("data", "Rozebud/FunkinFPSPlus");
-		Highscore.load();
-
 		Config.configCheck();
 		Config.reload();
 
         Binds.init();
+
+		Highscore.load();
 
         SaveManager.global();
         

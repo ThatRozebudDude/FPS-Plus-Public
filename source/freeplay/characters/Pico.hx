@@ -33,7 +33,7 @@ class Pico extends DJCharacter
         setPosition(-9, 290);
         freeplaySkin = "pico";
         capsuleSelectColor = 0xFF795629;
-        capsuleDeselectColor = 0xFF622B17;
+        capsuleDeselectColor = 0xFF4E2612;
 
         loadAtlas(Paths.getTextureAtlas("menu/freeplay/dj/pico"));
         antialiasing = true;
@@ -263,7 +263,7 @@ class Pico extends DJCharacter
         cardGlow.color = 0xFFB7E5FF;
         backingCard.add(cardGlow);
 
-        cardFlash = Utils.makeColoredSprite(528, 720, 0xFFAFEDFF);
+        cardFlash = Utils.makeColoredSprite(528, 720, 0xFF87C9FF);
         cardFlash.antialiasing = true;
         cardFlash.blend = ADD;
         cardFlash.alpha = 0;

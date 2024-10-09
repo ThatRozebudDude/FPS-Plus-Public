@@ -12,7 +12,8 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-@:keep
+using StringTools;
+
 class PhillyStreetsErect extends BaseStage
 {
 	var	characterShader:AdjustColorShader = new AdjustColorShader(-20, -5, -25, -40);
@@ -255,19 +256,21 @@ class PhillyStreetsErect extends BaseStage
 		gf.applyShader(characterShader.shader);
 
 		rainShader = new RainShader(0, FlxG.height / 200);
+		rainShader.timeScale = 0.75;
 		playstate.camGame.filters = [new ShaderFilter(rainShader.shader)];
 		addToUpdate(rainShader);
 
-		switch(PlayState.SONG.song.toLowerCase()){
-			case "2hot":
-				rainShader.uIntensity = 0.2;
-				rainInensityEnd = 0.3;
-			case "lit-up":
-				rainShader.uIntensity = 0.1;
-				rainInensityEnd = 0.2;
-			default:
-				rainShader.uIntensity = 0;
-				rainInensityEnd = 0.1;
+		if(PlayState.SONG.song.toLowerCase().contains("darnell")){
+			rainShader.uIntensity = 0;
+			rainInensityEnd = 0.08;
+		}
+		else if(PlayState.SONG.song.toLowerCase().contains("2hot")){
+			rainShader.uIntensity = 0.16;
+			rainInensityEnd = 0.24;
+		}
+		else{
+			rainShader.uIntensity = 0.08;
+			rainInensityEnd = 0.16;
 		}
 
 		addEvent("phillyStreets-stageDarken", stageDarken);
