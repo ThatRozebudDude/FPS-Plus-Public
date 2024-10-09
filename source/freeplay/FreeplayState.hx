@@ -149,6 +149,9 @@ class FreeplayState extends MusicBeatState
 		if(introAnimType == fromMainMenu){
 			customTransIn = new transition.data.InstantTransition();
 		}
+		else if(introAnimType == fromCharacterSelect){
+			customTransIn = new transition.data.ScreenWipeInFlipped(0.6);
+		}
 		else if(introAnimType == fromSongWin || introAnimType == fromSongLose){
 			customTransIn = new transition.data.StickerIn();
 			playStickerIntro = false;
@@ -270,6 +273,7 @@ class FreeplayState extends MusicBeatState
 					djCharacter = "Boyfriend";
 				}
 				dj.toCharacterSelect();
+				customTransOut = new transition.data.ScreenWipeOutFlipped(0.6);
 				new FlxTimer().start(0.85, function(t) {
 					switchState(new FreeplayState(fromCharacterSelect));
 					FlxG.sound.music.fadeOut(0.5);

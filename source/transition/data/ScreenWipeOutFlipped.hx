@@ -7,9 +7,9 @@ import flixel.FlxSprite;
 import flixel.util.FlxGradient;
 
 /**
-    Recreation of the normal FNF transition in.
+    Recreation of the normal FNF transition out.
 **/
-class ScreenWipeIn extends BaseTransition{
+class ScreenWipeOutFlipped extends BaseTransition{
 
     var blockThing:FlxSprite;
     var time:Float;
@@ -20,14 +20,15 @@ class ScreenWipeIn extends BaseTransition{
 
         time = _time;
 
-        blockThing = FlxGradient.createGradientFlxSprite(FlxG.width, FlxG.height*2, [0x00000000, FlxColor.BLACK, FlxColor.BLACK]);
-        blockThing.y -= blockThing.height/2;
+        blockThing = FlxGradient.createGradientFlxSprite(FlxG.width, FlxG.height*2, [FlxColor.BLACK, FlxColor.BLACK, 0x00000000]);
+        blockThing.flipY = true;
+        blockThing.y = blockThing.height/2;
         add(blockThing);
 
     }
 
     override public function play(){
-        FlxTween.tween(blockThing, {y: blockThing.height/2}, time, {onComplete: function(tween){
+        FlxTween.tween(blockThing, {y: -blockThing.height/2}, time, {onComplete: function(tween){
             end();
         }});
     }
