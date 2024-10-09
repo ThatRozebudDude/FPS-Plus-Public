@@ -1,5 +1,10 @@
 package freeplay.characters;
 
+import flixel.math.FlxMath;
+import flixel.addons.display.FlxBackdrop;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import sys.FileSystem;
@@ -15,9 +20,20 @@ class Pico extends DJCharacter
 	static final minAfkTime:Float = 9;
 	static final maxAfkTime:Float = 27;
 
+    var cardFlash:FlxSprite;
+    var cardGlow:FlxSprite;
+    var confirmAtlas:AtlasSprite;
+
+    var scrollTop:FlxBackdrop;
+    var scrollMiddle:FlxBackdrop;
+    var scrollLower:FlxBackdrop;
+    var scrollBack:FlxBackdrop;
+
     override function setup():Void{
         setPosition(-9, 290);
         freeplaySkin = "pico";
+        capsuleSelectColor = 0xFF795629;
+        capsuleDeselectColor = 0xFF622B17;
 
         loadAtlas(Paths.getTextureAtlas("menu/freeplay/dj/pico"));
         antialiasing = true;
@@ -40,6 +56,9 @@ class Pico extends DJCharacter
                     playAnim("idle", true);
                 case "cheerWin" | "cheerLose":
                     playAnim("idle", true);
+                case "idle1start":
+                    playAnim("idle", true);
+                    skipNextIdle = true;
             }
         }
 
@@ -47,6 +66,7 @@ class Pico extends DJCharacter
             //switch(name){}
         }
 
+        setupCard();
         nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
     }
 
@@ -86,6 +106,26 @@ class Pico extends DJCharacter
             }
         }
 
+        var scrollProgress:Float = Math.abs(scrollTop.x % (scrollTop.frameWidth + 20));
+
+        if (scrollTop.animation.curAnim.finished == true){
+            if (FlxMath.inBounds(scrollProgress, 500, 700) && scrollTop.animation.curAnim.name != 'sniper'){
+                scrollTop.animation.play('sniper', true, false);
+            }
+        
+            if (FlxMath.inBounds(scrollProgress, 700, 1300) && scrollTop.animation.curAnim.name != 'rifle'){
+                scrollTop.animation.play('rifle', true, false);
+            }
+        
+            if (FlxMath.inBounds(scrollProgress, 1450, 2000) && scrollTop.animation.curAnim.name != 'rocket launcher'){
+                scrollTop.animation.play('rocket launcher', true, false);
+            }
+        
+            if (FlxMath.inBounds(scrollProgress, 0, 300) && scrollTop.animation.curAnim.name != 'uzi'){
+                scrollTop.animation.play('uzi', true, false);
+            }
+        }
+
         super.update(elapsed);
     }
 
@@ -103,6 +143,11 @@ class Pico extends DJCharacter
         }
         else if(skipNextIdle){
             skipNextIdle = false;
+        }
+
+        if(FlxG.sound.music.playing && curBeat % 2 == 0){
+            FlxTween.cancelTweensOf(cardGlow);
+            FlxTween.color(cardGlow, 8/24, 0xFFB7E5FF, 0xFF6C8DEB, {ease: FlxEase.quadOut});
         }
     }
 
@@ -128,25 +173,107 @@ class Pico extends DJCharacter
         if(!lostSong){
             playAnim("cheerHoldWin", true);
             new FlxTimer().start(1.35, function(t){
-                playAnim("cheerWin", true);
+                if(curAnim == "cheerHoldWin"){
+                    playAnim("cheerWin", true);
+                }
             });
         }
         else{
             playAnim("cheerHoldLose", true);
             new FlxTimer().start(1.35, function(t){
-                playAnim("cheerLose", true);
+                if(curAnim == "cheerHoldLose"){
+                    playAnim("cheerLose", true);
+                }
             });
         }
     }
 
     override function toCharacterSelect() {
         playAnim("jump", true);
+        FlxTween.tween(scrollBack.velocity, {x: 0}, 1, {ease: FlxEase.sineIn});
+        FlxTween.tween(scrollLower.velocity, {x: 0}, 1, {ease: FlxEase.sineIn});
+        FlxTween.tween(scrollTop.velocity, {x: 0}, 1, {ease: FlxEase.sineIn});
+        FlxTween.tween(scrollMiddle.velocity, {x: 0}, 1, {ease: FlxEase.sineIn});
     }
 
     public function playRandomIdle():Void{
         if(idleCount == 0){ return; }
         var rng = FlxG.random.int(1, idleCount);
         playAnim("idle" + rng + "start", true);
+    }
+
+    override function backingCardStart():Void{
+        FlxTween.cancelTweensOf(cardFlash);
+        cardFlash.alpha = 1;
+        FlxTween.tween(cardFlash, {alpha: 0}, 16/24, {ease: FlxEase.quartOut});
+    }
+
+    override function backingCardSelect():Void{
+        confirmAtlas.visible = true;
+        confirmAtlas.playAnim("confirm");
+    }
+
+    function setupCard():Void{
+        
+        var bg = Utils.makeColoredSprite(528, 720, 0xFF98A2F3);
+		bg.antialiasing = true;
+        backingCard.add(bg);
+
+        scrollBack = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/lowerLoop'), X, 20);
+        scrollBack.setPosition(0, 200);
+        scrollBack.flipX = true;
+        scrollBack.alpha = 0.39;
+        scrollBack.velocity.x = 110;
+        scrollBack.antialiasing = true;
+        backingCard.add(scrollBack);
+
+        scrollLower = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/lowerLoop'), X, 20);
+        scrollLower.setPosition(0, 406);
+        scrollLower.velocity.x = -110;
+        scrollLower.antialiasing = true;
+        backingCard.add(scrollLower);
+
+        var bar = new FlxSprite().loadGraphic(Paths.image("menu/freeplay/bgs/pico/blueBar"));
+		bar.antialiasing = true;
+        bar.blend = MULTIPLY;
+        bar.alpha = 0.4;
+        backingCard.add(bar);
+
+        scrollTop = new FlxBackdrop(null, X, 20);
+        scrollTop.setPosition(0, 80);
+        scrollTop.velocity.x = -220;
+        scrollTop.antialiasing = true;
+        scrollTop.frames = Paths.getSparrowAtlas('menu/freeplay/bgs/pico/topLoop');
+        scrollTop.animation.addByPrefix('uzi', 'uzi info', 24, false);
+        scrollTop.animation.addByPrefix('sniper', 'sniper info', 24, false);
+        scrollTop.animation.addByPrefix('rocket launcher', 'rocket launcher info', 24, false);
+        scrollTop.animation.addByPrefix('rifle', 'rifle info', 24, false);
+        scrollTop.animation.addByPrefix('base', 'base', 24, false);
+        scrollTop.animation.play('base');
+        backingCard.add(scrollTop);
+
+        scrollMiddle = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/middleLoop'), X, 15);
+        scrollMiddle.setPosition(0, 346);
+        scrollMiddle.velocity.x = 220;
+        scrollMiddle.antialiasing = true;
+        backingCard.add(scrollMiddle);
+
+        cardGlow = new FlxSprite().loadGraphic(Paths.image("menu/freeplay/bgs/pico/glow"));
+        cardGlow.antialiasing = true;
+        cardGlow.color = 0xFFB7E5FF;
+        backingCard.add(cardGlow);
+
+        cardFlash = Utils.makeColoredSprite(528, 720, 0xFFAFEDFF);
+        cardFlash.antialiasing = true;
+        cardFlash.blend = ADD;
+        cardFlash.alpha = 0;
+        backingCard.add(cardFlash);
+
+        confirmAtlas = new AtlasSprite(5, 55, Paths.getTextureAtlas("menu/freeplay/bgs/pico/pico-confirm"));
+        confirmAtlas.antialiasing = true;
+        confirmAtlas.addFullAnimation("confirm", 24, false);
+        confirmAtlas.visible = false;
+        backingCard.add(confirmAtlas);
     }
 
 }

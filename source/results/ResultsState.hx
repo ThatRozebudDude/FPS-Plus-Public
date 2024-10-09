@@ -328,8 +328,8 @@ class ResultsState extends FlxUIStateExt
         new FlxTimer().start((0.3 * 7) + 1.2, function(t){
             clearPercentCounter.visible = true;
 
-            if(grade > 0){
-                clearPercentCounter.tweenNumber(Math.floor(grade * 100), 1.7);
+            if(Math.floor(grade * 100) > 1){
+                clearPercentCounter.tweenNumber(Math.floor(grade * 100) - 1, 1.7);
             }
             else{
                 clearPercentCounter.setNumber(0, true);
@@ -602,8 +602,10 @@ class ResultsState extends FlxUIStateExt
             gradeAdjust = 35;
         }
 
+        clearPercentCounter.setNumber(Math.floor(grade * 100), true);
+
         clearShader.amount = 1;
-        FlxTween.tween(clearShader, {amount: 0}, 0.75, {ease: FlxEase.quintOut});
+        FlxTween.tween(clearShader, {amount: 0}, 0.75, {startDelay: 1/24, ease: FlxEase.quintOut});
         FlxTween.tween(clearPercentCounter, {x: clearPercentCounter.x + 65 + gradeAdjust, y: clearPercentCounter.y + 265}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});
         FlxTween.tween(clearPercentSymbol, {x: clearPercentSymbol.x + 65 + gradeAdjust, y: clearPercentSymbol.y + 265}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});
         FlxTween.tween(extraGradient, {alpha: 1}, 1, {startDelay: 0.25, ease: FlxEase.quintInOut});

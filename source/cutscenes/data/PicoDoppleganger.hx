@@ -19,9 +19,7 @@ class PicoDoppleganger extends ScriptedCutscene
     override function init():Void{
 
         playerCigarette = FlxG.random.bool(50);
-        fuckingDie = FlxG.random.bool(8); //8
-
-        //playerCigarette = true;
+        fuckingDie = FlxG.random.bool(8);
 
         originalZoom = playstate.defaultCamZoom;
 

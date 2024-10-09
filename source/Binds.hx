@@ -164,6 +164,15 @@ class Binds
         };
         r.set("menuCycleRight", k);
 
+        var k:Keybind = {
+            name: "Change Character",
+            category: "Menu",
+            binds: [TAB],
+            controllerBinds: [BACK],
+            local: false
+        };
+        r.set("menuChangeCharacter", k);
+
 
 
         return r;

@@ -145,7 +145,7 @@ class AtlasSprite extends FlxAnimate
 		});
     }
 
-    public function playAnim(name:String, ?force:Bool = true, ?reverse:Bool = false, ?frameOffset:Int = 0):Void{
+    public function playAnim(name:String, ?force:Bool = true, ?reverse:Bool = false, ?frameOffset:Int = 0, ?_partOfLoop:Bool = false):Void{
 
         if(!animInfoMap.exists(name)){
             trace("ANIMATION " + name + " DOES NOT EXIST");
@@ -153,9 +153,11 @@ class AtlasSprite extends FlxAnimate
         }
 
         curAnim = name;
-        finishedAnim = false;
         loopTimer = -1;
         loopTime = -1;
+        if(!_partOfLoop){
+            finishedAnim = false;
+        }
 
         if(frameOffset >= animInfoMap.get(name).length){
             frameOffset = animInfoMap.get(name).length - 1;
@@ -214,7 +216,7 @@ class AtlasSprite extends FlxAnimate
         if(loopTimer >= 0){
             loopTimer += elapsed;
             if(loopTimer >= loopTime){
-                playAnim(curAnim, true, false, animInfoMap.get(curAnim).loopFrame);
+                playAnim(curAnim, true, false, animInfoMap.get(curAnim).loopFrame, true);
             }
         }
 

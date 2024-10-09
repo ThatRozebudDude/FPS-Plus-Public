@@ -10,7 +10,6 @@ import flixel.math.FlxMath;
 import Highscore.SongStats;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.addons.display.FlxBackdrop;
-import freeplay.ScrollingText.ScrollingTextInfo;
 import flixel.util.FlxTimer;
 import flixel.FlxCamera;
 import flixel.math.FlxPoint;
@@ -65,8 +64,6 @@ class FreeplayState extends MusicBeatState
 	var categoryNames:Array<String> = [];
 	var categoryMap:Map<String, Array<Capsule>> = new Map<String, Array<Capsule>>();
 
-	var scrollingText:FlxTypedSpriteGroup<FlxBackdrop> = new FlxTypedSpriteGroup<FlxBackdrop>();
-
 	var dj:DJCharacter;
 
 	public static var curSelected:Int = 0;
@@ -95,8 +92,6 @@ class FreeplayState extends MusicBeatState
 	private var camMenu:FlxCamera;
 	private var camCard:FlxCamera;
 	private var camFreeplay:FlxCamera;
-
-	var scrollingTextStuff:Array<ScrollingTextInfo> = [];
 
 	static final freeplaySong:String = "freeplayRandom"; 
 	static final freeplaySongBpm:Float = 145; 
@@ -226,9 +221,7 @@ class FreeplayState extends MusicBeatState
 
 			if(Binds.justPressed("menuAccept")){
 				transitionOver = false;
-				//setUpScrollingTextAccept();
-				//addScrollingText();
-				dj.backingCardSelect(); //
+				dj.backingCardSelect();
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 				dj.playConfirm();
 				startSong();
@@ -264,7 +257,7 @@ class FreeplayState extends MusicBeatState
 				});
 			}
 
-			if(FlxG.keys.anyJustPressed([TAB])){
+			if(Binds.justPressed("menuChangeCharacter")){
 				transitionOver = false;
 				if(djCharacter == "Boyfriend"){
 					djCharacter = "Pico";
@@ -273,7 +266,7 @@ class FreeplayState extends MusicBeatState
 					djCharacter = "Boyfriend";
 				}
 				dj.toCharacterSelect();
-				new FlxTimer().start(0.7, function(t) {
+				new FlxTimer().start(0.85, function(t) {
 					switchState(new FreeplayState(fromCharacterSelect));
 					FlxG.sound.music.fadeOut(0.5);
 					curSelected = 0;
@@ -309,11 +302,8 @@ class FreeplayState extends MusicBeatState
 
 	function createFreeplayStuff():Void{
 		
-		bg = new FlxSprite().loadGraphic(Paths.image('menu/freeplay/bgs/pink'));
+		bg = new FlxSprite().loadGraphic(getImagePathWithSkin('menu/freeplay/pinkBg'));
 		bg.antialiasing = true;
-
-		//addScrollingText();
-		//scrollingText.visible = false;
 
 		flash = new FlxSprite().makeGraphic(1, 1, 0xFFFFFFFF);
 		flash.scale.set(1280, 720);
@@ -321,7 +311,7 @@ class FreeplayState extends MusicBeatState
 		flash.alpha = 0;
 		flash.visible = false;
 
-		cover = new FlxSprite(1280).loadGraphic(Paths.image('menu/freeplay/covers/dad'));
+		cover = new FlxSprite(1280).loadGraphic(getImagePathWithSkin('menu/freeplay/covers/dad'));
 		cover.x -= cover.width;
 		cover.antialiasing = true;
 
@@ -333,19 +323,19 @@ class FreeplayState extends MusicBeatState
 		freeplayText.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE);
 
 		highscoreSprite = new FlxSprite(860, 70);
-		highscoreSprite.frames = Paths.getSparrowAtlas("menu/freeplay/highscore");
+		highscoreSprite.frames = getSparrowPathWithSkin("menu/freeplay/highscore");
 		highscoreSprite.animation.addByPrefix("loop", "", 24, true);
 		highscoreSprite.animation.play("loop");
 		highscoreSprite.antialiasing = true;
 
-		clearPercentSprite = new FlxSprite(1165, 65).loadGraphic(Paths.image('menu/freeplay/clearBox'));
+		clearPercentSprite = new FlxSprite(1165, 65).loadGraphic(getImagePathWithSkin('menu/freeplay/clearBox'));
 		clearPercentSprite.antialiasing = true;
 
-		scoreDisplay = new DigitDisplay(915, 120, "menu/freeplay/digital_numbers", 7, 0.4, -25);
+		scoreDisplay = new DigitDisplay(915, 120, getImageStringWithSkin("menu/freeplay/digital_numbers"), 7, 0.4, -25);
 		scoreDisplay.setDigitOffset("1", 20);
 		scoreDisplay.ease = FlxEase.cubeOut;
 
-		percentDisplay = new DigitDisplay(1154, 87, "menu/freeplay/clearText", 3, 1, 3, 0, true);
+		percentDisplay = new DigitDisplay(1154, 87, getImageStringWithSkin("menu/freeplay/clearText"), 3, 1, 3, 0, true);
 		percentDisplay.setDigitOffset("1", -8);
 		percentDisplay.ease = FlxEase.quadOut;
 
@@ -360,19 +350,19 @@ class FreeplayState extends MusicBeatState
 		albumTitle.shader = albumTitleShader.shader;
 
 		arrowLeft = new FlxSprite(20, 70);
-		arrowLeft.frames = Paths.getSparrowAtlas("menu/freeplay/freeplaySelector");
+		arrowLeft.frames = getSparrowPathWithSkin("menu/freeplay/freeplaySelector");
 		arrowLeft.animation.addByPrefix("loop", "arrow pointer loop", 24, true);
 		arrowLeft.animation.play("loop");
 		arrowLeft.antialiasing = true;
 
 		arrowRight = new FlxSprite(325, 70);
-		arrowRight.frames = Paths.getSparrowAtlas("menu/freeplay/freeplaySelector");
+		arrowRight.frames = getSparrowPathWithSkin("menu/freeplay/freeplaySelector");
 		arrowRight.animation.addByPrefix("loop", "arrow pointer loop", 24, true);
 		arrowRight.animation.play("loop");
 		arrowRight.flipX = true;
 		arrowRight.antialiasing = true;
 
-		difficulty = new FlxSprite(197, 115).loadGraphic(Paths.image("menu/freeplay/diff/" + diffNumberToDiffName(curDifficulty)));
+		difficulty = new FlxSprite(197, 115).loadGraphic(getImagePathWithSkin("menu/freeplay/diff/" + diffNumberToDiffName(curDifficulty)));
 		difficulty.offset.set(difficulty.width/2, difficulty.height/2);
 		difficulty.antialiasing = true;
 
@@ -383,7 +373,7 @@ class FreeplayState extends MusicBeatState
 		categoryTitle.y = 85;
 		categoryTitle.antialiasing = true;
 
-		miniArrowLeft = new FlxSprite(categoryTitle.x, categoryTitle.y + categoryTitle.height/2).loadGraphic(Paths.image("menu/freeplay/miniArrow"));
+		miniArrowLeft = new FlxSprite(categoryTitle.x, categoryTitle.y + categoryTitle.height/2).loadGraphic(getImagePathWithSkin("menu/freeplay/miniArrow"));
 		miniArrowLeft.x -= miniArrowLeft.width;
 		miniArrowLeft.y -= miniArrowLeft.height/2;
 		miniArrowLeft.y -= 7;
@@ -391,7 +381,7 @@ class FreeplayState extends MusicBeatState
 		miniArrowLeft.flipX = true;
 		miniArrowLeft.antialiasing = true;
 
-		miniArrowRight = new FlxSprite(categoryTitle.x + categoryTitle.width, categoryTitle.y + categoryTitle.height/2).loadGraphic(Paths.image("menu/freeplay/miniArrow"));
+		miniArrowRight = new FlxSprite(categoryTitle.x + categoryTitle.width, categoryTitle.y + categoryTitle.height/2).loadGraphic(getImagePathWithSkin("menu/freeplay/miniArrow"));
 		miniArrowRight.y -= miniArrowRight.height/2;
 		miniArrowRight.x += 20;
 		miniArrowRight.y -= 7;
@@ -412,7 +402,6 @@ class FreeplayState extends MusicBeatState
 
 		//ADDING STUFF
 		add(bg);
-		add(scrollingText);
 		add(flash);
 		add(cover);
 
@@ -490,7 +479,7 @@ class FreeplayState extends MusicBeatState
 			difficultyStars.tweenIn(transitionTime, 0, transitionEase, staggerTime*2);
 			tweenCapsulesOnScreen(transitionTime, randomVariation, staggerTime);
 		}
-		else{
+		else if(introAnimType != fromCharacterSelect){
 			djIntroFinish();
 		}
 
@@ -567,10 +556,6 @@ class FreeplayState extends MusicBeatState
 
 		dj.backingCardStart();
 
-		//flash.alpha = 1;
-		//scrollingText.visible = true;
-		//FlxTween.tween(flash, {alpha: 0}, 1, {startDelay: 0.1});
-
 		camFollow.x = camTarget.x;
 		camFollow.y = camTarget.y;
 	}
@@ -602,7 +587,7 @@ class FreeplayState extends MusicBeatState
 		}
 
 		if(categories == null){ categories = ["All"]; }
-		var capsule:Capsule = new Capsule(_song, meta.name, _icon, _week, meta.album, meta.difficulties);
+		var capsule:Capsule = new Capsule(_song, meta.name, _icon, _week, meta.album, meta.difficulties, [dj.freeplaySkin, dj.capsuleSelectColor, dj.capsuleDeselectColor]);
 		for(cat in categories){
 			createCategory(cat);
 			categoryMap[cat].push(capsule);
@@ -866,8 +851,6 @@ class FreeplayState extends MusicBeatState
 		difficultyStars.tweenOut(transitionTimeExit, 0, transitionEaseExit, staggerTimeExit);
 		tweenCapsulesOffScreen(transitionTimeExit, randomVariationExit, staggerTimeExit);
 
-		scrollingText.forEachExists(function(text){ text.destroy(); });
-		scrollingText.clear();
 		FlxTween.completeTweensOf(flash);
 		flash.alpha = 1;
 		flash.visible = true;
@@ -878,6 +861,39 @@ class FreeplayState extends MusicBeatState
 		var ELASTIC_AMPLITUDE:Float = 1;
 		var ELASTIC_PERIOD:Float = 0.6;
 		return (ELASTIC_AMPLITUDE * Math.pow(2, -10 * t) * Math.sin((t - (ELASTIC_PERIOD / (2 * Math.PI) * Math.asin(1 / ELASTIC_AMPLITUDE))) * (2 * Math.PI) / ELASTIC_PERIOD) + 1);
+	}
+
+	inline function getImageStringWithSkin(path:String):Dynamic{
+		var image:String = path;
+		if(path.contains("menu/freeplay/")){
+			image = image.split("menu/freeplay/")[1];
+		}
+		if(Utils.exists(Paths.image("menu/freeplay/skins/" + dj.freeplaySkin + "/" + image, true))){
+			path = "menu/freeplay/skins/" + dj.freeplaySkin + "/" + image;
+		}
+		return path;
+	}
+
+	inline function getImagePathWithSkin(path:String):Dynamic{
+		var image:String = path;
+		if(path.contains("menu/freeplay/")){
+			image = image.split("menu/freeplay/")[1];
+		}
+		if(Utils.exists(Paths.image("menu/freeplay/skins/" + dj.freeplaySkin + "/" + image, true))){
+			path = "menu/freeplay/skins/" + dj.freeplaySkin + "/" + image;
+		}
+		return Paths.image(path);
+	}
+
+	inline function getSparrowPathWithSkin(path:String):flixel.graphics.frames.FlxAtlasFrames{
+		var image:String = path;
+		if(path.contains("menu/freeplay/")){
+			image = image.split("menu/freeplay/")[1];
+		}
+		if(Utils.exists(Paths.image("menu/freeplay/skins/" + dj.freeplaySkin + "/" + image, true))){
+			path = "menu/freeplay/skins/" + dj.freeplaySkin + "/" + image;
+		}
+		return Paths.getSparrowAtlas(path);
 	}
 }
 

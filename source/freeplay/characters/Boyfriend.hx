@@ -31,8 +31,12 @@ class Boyfriend extends DJCharacter
     var scrollingTextStuff:Array<ScrollingTextInfo> = [];
 
     var cardFlash:FlxSprite;
+    var cardPinkFlash:FlxSprite;
     var cardAcceptBg:FlxSprite;
     var cardAcceptText:AtlasSprite;
+    var cardAcceptTextGlow:FlxSprite;
+    var cardGlowBright:FlxSprite;
+    var cardGlowDark:FlxSprite;
 
     override function setup():Void{
         setPosition(-9, 290);
@@ -213,10 +217,10 @@ class Boyfriend extends DJCharacter
     override function playCheer(lostSong:Bool):Void{
         playAnim("cheerHold", true);
         new FlxTimer().start(1.3, function(t){
-            if(!lostSong){
+            if(!lostSong && curAnim == "cheerHold"){
                 playAnim("cheerWin", true);
             }
-            else{
+            else if(curAnim == "cheerHold"){
                 playAnim("cheerLose", true);
             }
         });
@@ -224,6 +228,9 @@ class Boyfriend extends DJCharacter
 
     override function toCharacterSelect() {
         playAnim("jump", true);
+        for(text in scrollingText){
+            FlxTween.tween(text.velocity, {x: 0}, 1, {ease: FlxEase.sineIn});
+        }
     }
 
     public function playRandomIdle():Void{
@@ -244,9 +251,16 @@ class Boyfriend extends DJCharacter
         cardAcceptText.visible = true;
         cardAcceptText.playAnim("text");
 
-        FlxTween.cancelTweensOf(cardFlash);
-        cardFlash.alpha = 1;
-        FlxTween.tween(cardFlash, {alpha: 0}, 16/24, {ease: FlxEase.quartOut});
+        cardPinkFlash.alpha = 1;
+        FlxTween.tween(cardPinkFlash, {alpha: 0}, 6/24, {ease: FlxEase.quadOut});
+
+        FlxTween.tween(cardGlowDark, {alpha: 0.5}, 0.33, {ease: FlxEase.quadOut, onComplete: function(t){
+            cardGlowDark.alpha = 0.6;
+            cardGlowBright.alpha = 1;
+            cardAcceptTextGlow.visible = true;
+            FlxTween.tween(cardAcceptTextGlow, {alpha: 0.4}, 0.5);
+            FlxTween.tween(cardGlowBright, {alpha: 0}, 0.5);
+        }});
     }
 
     function setupCard():Void{
@@ -259,10 +273,21 @@ class Boyfriend extends DJCharacter
 
         backingCard.add(scrollingText);
         
-        cardAcceptBg = new FlxSprite().loadGraphic(Paths.image("menu/freeplay/bgs/bf/dark"));
+        cardAcceptBg = Utils.makeColoredSprite(528, 720, 0xFF171831);
         cardAcceptBg.antialiasing = true;
         cardAcceptBg.visible = false;
         backingCard.add(cardAcceptBg);
+
+        cardGlowBright = new FlxSprite(-30, 240).loadGraphic(Paths.image('menu/freeplay/bgs/bf/confirmGlowBright'));
+        cardGlowBright.antialiasing = true;
+        cardGlowBright.alpha = 0;
+        cardGlowBright.blend = ADD;
+        backingCard.add(cardGlowBright);
+
+        cardGlowDark = new FlxSprite(cardGlowBright.x, cardGlowBright.y).loadGraphic(Paths.image('menu/freeplay/bgs/bf/confirmGlowDark'));
+        cardGlowDark.antialiasing = true;
+        cardGlowDark.alpha = 0;
+        backingCard.add(cardGlowDark);
 
         cardAcceptText = new AtlasSprite(640, 420, Paths.getTextureAtlas("menu/freeplay/bgs/bf/backing-text-yeah"));
         cardAcceptText.antialiasing = true;
@@ -270,7 +295,18 @@ class Boyfriend extends DJCharacter
         cardAcceptText.addFullAnimation("text", 24, false);
         backingCard.add(cardAcceptText);
 
-        cardFlash = new FlxSprite().loadGraphic(Paths.image("menu/freeplay/bgs/bf/flash"));
+        cardAcceptTextGlow = new FlxSprite(-8, 165).loadGraphic(Paths.image("menu/freeplay/bgs/bf/glowingText"));
+        cardAcceptTextGlow.antialiasing = true;
+        cardAcceptTextGlow.visible = false;
+        cardAcceptTextGlow.blend = ADD;
+        backingCard.add(cardAcceptTextGlow);
+
+        cardPinkFlash = Utils.makeColoredSprite(528, 720, 0xFFFFD0D5);
+        cardPinkFlash.antialiasing = true;
+        cardPinkFlash.alpha = 0;
+        backingCard.add(cardPinkFlash);
+
+        cardFlash = Utils.makeColoredSprite(528, 720, 0xFFFEF8A5);
         cardFlash.antialiasing = true;
         cardFlash.blend = ADD;
         cardFlash.alpha = 0;

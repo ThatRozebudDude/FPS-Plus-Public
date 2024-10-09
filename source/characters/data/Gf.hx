@@ -59,6 +59,7 @@ class Gf extends CharacterInfoBase
 	function update(character:Character, elpased:Float):Void{
 		if (character.curAnim == 'hairFall' && character.curAnimFinished()){
 			character.playAnim('danceRight');
+			character.idleSequenceIndex = 0;
 		}
 	}
 

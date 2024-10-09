@@ -1,16 +1,15 @@
 package freeplay;
 
+import flixel.util.FlxColor;
 import flixel.group.FlxSpriteGroup;
-import sys.FileSystem;
-import flixel.sound.FlxSound;
-import flixel.FlxG;
-import flixel.FlxSprite;
 
 class DJCharacter extends AtlasSprite
 {
 
     public var introFinish:Void->Void;
     public var freeplaySkin:String = "";
+    public var capsuleSelectColor:FlxColor = 0xFF6B9FBA;
+    public var capsuleDeselectColor:FlxColor = 0xFF3E508C;
 
     public var freeplayCategories:Array<String> = [];
     public var freeplaySongs:Array<Array<Dynamic>> = [];
