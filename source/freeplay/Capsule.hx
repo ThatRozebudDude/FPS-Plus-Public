@@ -21,8 +21,8 @@ class Capsule extends FlxSpriteGroup
 
     final capsuleScale:Float = 0.8;
 
-    final selectColor:FlxColor = 0xFFFFFFFF;
-    final deselectColor:FlxColor = 0xFF969A9D;
+    var selectColor:FlxColor = 0xFFFFFFFF;
+    var deselectColor:FlxColor = 0xFF969A9D;
     var selectBorderColor:FlxColor = 0xFF6B9FBA;
     var deselectBorderColor:FlxColor = 0xFF3E508C;
 
@@ -59,8 +59,10 @@ class Capsule extends FlxSpriteGroup
 
         if(_skinInfo != null){
             skin = _skinInfo[0];
-            selectBorderColor = _skinInfo[1];
-            deselectBorderColor = _skinInfo[2];
+            selectColor = _skinInfo[1];
+            deselectColor = _skinInfo[2];
+            selectBorderColor = _skinInfo[3];
+            deselectBorderColor = _skinInfo[4];
         }
 
         for(i in 0...3){

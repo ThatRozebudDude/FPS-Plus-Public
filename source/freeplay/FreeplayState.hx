@@ -283,6 +283,12 @@ class FreeplayState extends MusicBeatState
 				dj.toCharacterSelect();
 				customTransOut = new transition.data.ScreenWipeOutFlipped(0.6);
 
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				FlxG.sound.music.pitch = 1;
+				FlxTween.tween(FlxG.sound.music, {pitch: 0.5}, 0.4, {ease: FlxEase.quadOut, onComplete: function(t){
+					FlxG.sound.music.fadeOut(0.05);
+				}});
+
 				new FlxTimer().start(0.6, function(t) {
 					fadeShader.fadeVal = 1;
 					FlxTween.tween(fadeShader, {fadeVal: 0}, 0.8);
@@ -290,7 +296,7 @@ class FreeplayState extends MusicBeatState
 
 				new FlxTimer().start(1, function(t) {
 					switchState(new FreeplayState(fromCharacterSelect));
-					FlxG.sound.music.fadeOut(0.5);
+					//FlxG.sound.music.fadeOut(0.5);
 					curSelected = 0;
 					curCategory = 0;
 				});
@@ -627,7 +633,7 @@ class FreeplayState extends MusicBeatState
 		}
 
 		if(categories == null){ categories = ["All"]; }
-		var capsule:Capsule = new Capsule(_song, meta.name, _icon, _week, meta.album, meta.difficulties, [dj.freeplaySkin, dj.capsuleSelectColor, dj.capsuleDeselectColor]);
+		var capsule:Capsule = new Capsule(_song, meta.name, _icon, _week, meta.album, meta.difficulties, [dj.freeplaySkin, dj.capsuleSelectColor, dj.capsuleDeselectColor, dj.capsuleSelectOutlineColor, dj.capsuleDeselectOutlineColor]);
 		for(cat in categories){
 			createCategory(cat);
 			categoryMap[cat].push(capsule);

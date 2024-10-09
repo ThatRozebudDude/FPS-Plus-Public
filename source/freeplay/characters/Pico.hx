@@ -32,8 +32,9 @@ class Pico extends DJCharacter
     override function setup():Void{
         setPosition(-9, 290);
         freeplaySkin = "pico";
-        capsuleSelectColor = 0xFF795629;
-        capsuleDeselectColor = 0xFF4E2612;
+        capsuleDeselectColor = 0xFF9D9A96;
+        capsuleSelectOutlineColor = 0xFF795629;
+        capsuleDeselectOutlineColor = 0xFF4E2612;
 
         loadAtlas(Paths.getTextureAtlas("menu/freeplay/dj/pico"));
         antialiasing = true;
