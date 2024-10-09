@@ -1,5 +1,7 @@
 package freeplay;
 
+import openfl.filters.ShaderFilter;
+import shaders.BlueFadeShader;
 import shaders.ColorGradientShader;
 import haxe.Json;
 import transition.data.InstantTransition;
@@ -96,6 +98,8 @@ class FreeplayState extends MusicBeatState
 	private var camCard:FlxCamera;
 	private var camFreeplay:FlxCamera;
 
+	var fadeShader:BlueFadeShader = new BlueFadeShader(1);
+
 	static final freeplaySong:String = "freeplayRandom"; 
 	static final freeplaySongBpm:Float = 145; 
 	static final freeplaySongVolume:Float = 0.8; 
@@ -137,9 +141,11 @@ class FreeplayState extends MusicBeatState
 
 		camCard = new FlxCamera();
 		camCard.bgColor.alpha = 0;
+		camCard.filters = [new ShaderFilter(fadeShader.shader)];
 
 		camFreeplay = new FlxCamera();
 		camFreeplay.bgColor.alpha = 0;
+		camFreeplay.filters = [new ShaderFilter(fadeShader.shader)];
 
 		FlxG.cameras.reset(camMenu);
 		FlxG.cameras.add(camCard, false);
@@ -151,6 +157,8 @@ class FreeplayState extends MusicBeatState
 		}
 		else if(introAnimType == fromCharacterSelect){
 			customTransIn = new transition.data.ScreenWipeInFlipped(0.6);
+			fadeShader.fadeVal = 0;
+			FlxTween.tween(fadeShader, {fadeVal: 1}, 0.8);
 		}
 		else if(introAnimType == fromSongWin || introAnimType == fromSongLose){
 			customTransIn = new transition.data.StickerIn();
@@ -274,7 +282,13 @@ class FreeplayState extends MusicBeatState
 				}
 				dj.toCharacterSelect();
 				customTransOut = new transition.data.ScreenWipeOutFlipped(0.6);
-				new FlxTimer().start(0.85, function(t) {
+
+				new FlxTimer().start(0.6, function(t) {
+					fadeShader.fadeVal = 1;
+					FlxTween.tween(fadeShader, {fadeVal: 0}, 0.8);
+				});
+
+				new FlxTimer().start(1, function(t) {
 					switchState(new FreeplayState(fromCharacterSelect));
 					FlxG.sound.music.fadeOut(0.5);
 					curSelected = 0;
