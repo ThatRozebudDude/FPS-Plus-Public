@@ -1,5 +1,6 @@
 package characterSelect;
 
+import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxTimer;
 import openfl.filters.ShaderFilter;
 import shaders.BlueFadeShader;
@@ -28,10 +29,14 @@ class CharacterSelectState extends MusicBeatState
     var fadeShader:BlueFadeShader = new BlueFadeShader(1);
     var camFollow:FlxObject;
 
+    var characterGroup:FlxSpriteGroup= new FlxSpriteGroup();
     var playerCharacter:CharacterSelectCharacter;
     var playerPartner:CharacterSelectCharacter;
 
     var startLeaving:Bool = false;
+
+    var characters:Map<String, Array<Dynamic>> = new Map<String, Array<Dynamic>>();
+    var curCharacter:String = "";
 
     override function create():Void{
         customTransIn = new transition.data.ScreenWipeInFlipped(0.8, FlxEase.quadOut);
@@ -51,6 +56,10 @@ class CharacterSelectState extends MusicBeatState
         FlxG.camera.filters = [new ShaderFilter(fadeShader.shader)];
 
         startSong();
+
+        addCharacter("bf", "BfPlayer", "GfPartner", "Boyfriend", [1, 1]);
+        addCharacter("pico", "PicoPlayer", "NenePartner", "Pico", [0, 1]);
+        curCharacter = "bf";
 
         var bg:FlxSprite = new FlxSprite(-153, -140).loadGraphic(Paths.image("menu/characterSelect/charSelectBG"));
         bg.antialiasing = true;
@@ -95,7 +104,9 @@ class CharacterSelectState extends MusicBeatState
         charLightGF.antialiasing = true;
         add(charLightGF);
 
-        var partnerClass = Type.resolveClass("characterSelect.characters." + "NenePartner");
+        add(characterGroup);
+
+        var partnerClass = Type.resolveClass("characterSelect.characters." + "GfPartner");
 		if(partnerClass == null){ partnerClass = characterSelect.characters.GfPartner; }
         playerPartner = Type.createInstance(partnerClass, []);
         playerPartner.visible = false;
@@ -103,9 +114,9 @@ class CharacterSelectState extends MusicBeatState
             playerPartner.playEnter();
             playerPartner.visible = true;
         });
-        add(playerPartner);
+        characterGroup.add(playerPartner);
 
-        var playerClass = Type.resolveClass("characterSelect.characters." + "PicoPlayer");
+        var playerClass = Type.resolveClass("characterSelect.characters." + "BfPlayer");
 		if(playerClass == null){ playerClass = characterSelect.characters.BfPlayer; }
         playerCharacter = Type.createInstance(playerClass, []);
         playerCharacter.visible = false;
@@ -113,7 +124,7 @@ class CharacterSelectState extends MusicBeatState
             playerCharacter.playEnter();
             playerCharacter.visible = true;
         });
-        add(playerCharacter);
+        characterGroup.add(playerCharacter);
 
         speakers = new AtlasSprite(0, 0, Paths.getTextureAtlas("menu/characterSelect/charSelectSpeakers"));
         speakers.antialiasing = true;
@@ -164,6 +175,15 @@ class CharacterSelectState extends MusicBeatState
 
         Conductor.songPosition = FlxG.sound.music.time;
 
+        if(!startLeaving){
+            if(FlxG.keys.anyJustPressed([Q])){
+                changeCharacter("bf");
+            }
+            if(FlxG.keys.anyJustPressed([W])){
+                changeCharacter("pico");
+            }
+        }
+
         if(FlxG.keys.anyJustPressed([SPACE])){
             startLeaving = true;
             playerCharacter.playConfirm();
@@ -212,5 +232,36 @@ class CharacterSelectState extends MusicBeatState
 		curStep = 0;
 		curBeat = 0;
 	}
+
+    function addCharacter(name:String, playerClass:String, partnerClass:String, freeplayClass:String, position:Array<Int>):Void{
+        characters.set(name, [playerClass, partnerClass, freeplayClass, position]);
+    }
+
+    function changeCharacter(changeCharacter:String):Void{
+        if(changeCharacter == curCharacter){ return; }
+        curCharacter = changeCharacter;
+        FreeplayState.djCharacter = characters.get(curCharacter)[2];
+
+        playerPartner.playExit();
+        playerCharacter.playExit();
+
+        new FlxTimer().start(2/24, function(t){
+            characterGroup.remove(playerPartner);
+            playerPartner.destroy();
+            var partnerClass = Type.resolveClass("characterSelect.characters." + characters.get(curCharacter)[1]);
+            if(partnerClass == null){ partnerClass = characterSelect.characters.GfPartner; }
+            playerPartner = Type.createInstance(partnerClass, []);
+            playerPartner.playEnter();
+            characterGroup.add(playerPartner);
+
+            characterGroup.remove(playerCharacter);
+            playerCharacter.destroy();
+            var playerClass = Type.resolveClass("characterSelect.characters." + characters.get(curCharacter)[0]);
+            if(playerClass == null){ playerClass = characterSelect.characters.BfPlayer; }
+            playerCharacter = Type.createInstance(playerClass, []);
+            playerCharacter.playEnter();
+            characterGroup.add(playerCharacter);
+        });
+    }
 
 }

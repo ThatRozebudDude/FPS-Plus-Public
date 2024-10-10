@@ -9,7 +9,7 @@ class BfPlayer extends CharacterSelectCharacter
         addAnimationByLabel("enter", "Enter", 24, false);
         addAnimationByLabel("idle", "Idle", 24, false);
         addAnimationByLabel("confirm", "Confirm", 24, false);
-        addAnimationByLabel("cancel", "Cancel", 24, false);
+        addAnimationByLabel("cancel", "Cancel", 24, true, -8);
         addAnimationByLabel("exit", "Exit", 24, false);
     }
 
@@ -25,6 +25,14 @@ class BfPlayer extends CharacterSelectCharacter
 
     override function playConfirm():Void{
         playAnim("confirm", true);
+    }
+
+    override function playCancel():Void{
+        playAnim("cancel", true);
+    }
+
+    override function playExit():Void{
+        playAnim("exit", true);
     }
 
 }

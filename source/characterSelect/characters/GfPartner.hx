@@ -31,4 +31,12 @@ class GfPartner extends CharacterSelectCharacter
         playAnim("confirm", true);
     }
 
+    override function playCancel():Void{
+        playAnim("cancel", true);
+    }
+
+    override function playExit():Void{
+        playAnim("exit", true);
+    }
+
 }
