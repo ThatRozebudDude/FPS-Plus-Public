@@ -27,7 +27,7 @@ class AtlasScrub extends FlxState
 		gridBG.screenCenter(XY);
 		add(gridBG);
 
-		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("week5/santa_speaks_assets"));
+		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("menu/characterSelect/characters/locked/CharacterSelect_Locked"));
 		atlas.addFullAnimation("full", 0, false);
 		atlas.antialiasing = true;
 		atlas.screenCenter();
