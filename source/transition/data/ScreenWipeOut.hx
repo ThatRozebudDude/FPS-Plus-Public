@@ -1,5 +1,7 @@
 package transition.data;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxEase.EaseFunction;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.FlxG;
@@ -13,12 +15,20 @@ class ScreenWipeOut extends BaseTransition{
 
     var blockThing:FlxSprite;
     var time:Float;
+    var ease:Null<EaseFunction>;
 
-    override public function new(_time:Float){
+    override public function new(_time:Float, ?_ease:Null<EaseFunction>){
         
         super();
 
         time = _time;
+
+        if(_ease == null){
+            ease = FlxEase.linear;
+        }
+        else{
+            ease = _ease;
+        }
 
         blockThing = FlxGradient.createGradientFlxSprite(FlxG.width, FlxG.height*2, [FlxColor.BLACK, FlxColor.BLACK, 0x00000000]);
         blockThing.y -= blockThing.height;
@@ -27,7 +37,7 @@ class ScreenWipeOut extends BaseTransition{
     }
 
     override public function play(){
-        FlxTween.tween(blockThing, {y: 0}, time, {onComplete: function(tween){
+        FlxTween.tween(blockThing, {y: 0}, time, {ease: ease, onComplete: function(tween){
             end();
         }});
     }

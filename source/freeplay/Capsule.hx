@@ -46,6 +46,8 @@ class Capsule extends FlxSpriteGroup
     public var xPositionOffset:Float = 0;
     public var selected:Bool = true;
 
+    public var doLerp:Bool = true;
+
     var scrollOffset:Float = 0;
     var scrollTween:FlxTween;
 
@@ -158,11 +160,13 @@ class Capsule extends FlxSpriteGroup
 
     }
 
-    override function update(elapsed:Float) {
-        x = Utils.fpsAdjsutedLerp(x, targetPos.x, 0.3) + xPositionOffset;
-        y = Utils.fpsAdjsutedLerp(y, targetPos.y, 0.4);
-
-        text.x = x + 95 + scrollOffset;
+    override function update(elapsed:Float):Void{
+        if(doLerp){
+            x = Utils.fpsAdjsutedLerp(x, targetPos.x, 0.3) + xPositionOffset;
+            y = Utils.fpsAdjsutedLerp(y, targetPos.y, 0.4);
+    
+            text.x = x + 95 + scrollOffset;
+        }
 
         var rectPos = Utils.worldToLocal(text, x + 85, y + 24);
         text.clipRect = new FlxRect(rectPos.x, rectPos.y, (rank.visible ? rankWidth : noRankWidth), 48);

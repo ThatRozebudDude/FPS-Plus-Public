@@ -61,6 +61,7 @@ class FreeplayState extends MusicBeatState
 	var albumTime:Float = 0;
 	var curAlbum:String = "vol1";
 	final ablumPeriod:Float = 1/24;
+	var smoothAlbum:Bool = false;
 
 	var capsuleGroup:FlxTypedSpriteGroup<Capsule> = new FlxTypedSpriteGroup<Capsule>();
 
@@ -156,9 +157,9 @@ class FreeplayState extends MusicBeatState
 			customTransIn = new transition.data.InstantTransition();
 		}
 		else if(introAnimType == fromCharacterSelect){
-			customTransIn = new transition.data.ScreenWipeInFlipped(0.6);
+			customTransIn = new transition.data.ScreenWipeInFlipped(riseTime, riseEase);
 			fadeShader.fadeVal = 0;
-			FlxTween.tween(fadeShader, {fadeVal: 1}, 0.8);
+			FlxTween.tween(fadeShader, {fadeVal: 1}, riseTime);
 		}
 		else if(introAnimType == fromSongWin || introAnimType == fromSongLose){
 			customTransIn = new transition.data.StickerIn();
@@ -199,7 +200,7 @@ class FreeplayState extends MusicBeatState
 		}
 
 		albumTime += elapsed;
-		if(albumTime >= ablumPeriod){
+		if(albumTime >= ablumPeriod || smoothAlbum){
 			albumTime = 0;
 			album.setPosition(albumDummy.x, albumDummy.y);
 			album.angle = albumDummy.angle;
@@ -281,7 +282,7 @@ class FreeplayState extends MusicBeatState
 					djCharacter = "Boyfriend";
 				}
 				dj.toCharacterSelect();
-				customTransOut = new transition.data.ScreenWipeOutFlipped(0.6);
+				customTransOut = new transition.data.ScreenWipeOutFlipped(dropTime, dropEase);
 
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 				FlxG.sound.music.pitch = 1;
@@ -289,16 +290,16 @@ class FreeplayState extends MusicBeatState
 					FlxG.sound.music.fadeOut(0.05);
 				}});
 
-				new FlxTimer().start(0.6, function(t) {
-					fadeShader.fadeVal = 1;
-					FlxTween.tween(fadeShader, {fadeVal: 0}, 0.8);
-				});
-
-				new FlxTimer().start(1, function(t) {
-					switchState(new FreeplayState(fromCharacterSelect));
-					//FlxG.sound.music.fadeOut(0.5);
+				new FlxTimer().start(0.25, function(t) {
+					toCharSelectAnimation();
 					curSelected = 0;
 					curCategory = 0;
+
+					new FlxTimer().start(0.1, function(t) {
+						fadeShader.fadeVal = 1;
+						FlxTween.tween(fadeShader, {fadeVal: 0}, dropTime);
+						switchState(new FreeplayState(fromCharacterSelect));
+					});
 				});
 			}
 
@@ -351,8 +352,8 @@ class FreeplayState extends MusicBeatState
 		cover.x -= cover.width;
 		cover.antialiasing = true;
 
-		topBar = new FlxSprite().makeGraphic(1, 1, 0xFF000000);
-		topBar.scale.set(1280, 64);
+		topBar = new FlxSprite(0, -120).makeGraphic(1, 1, 0xFF000000);
+		topBar.scale.set(1280, (topBar.y * Utils.sign(topBar.y)) + 64);
 		topBar.updateHitbox();
 
 		freeplayText = new FlxTextExt(16, 16, 0, "FREEPLAY", 32);
@@ -479,50 +480,12 @@ class FreeplayState extends MusicBeatState
 		updateSongDifficulty();
 
 		if(introAnimType == fromMainMenu){
-			bg.x -= 1280;
-			flash.visible = true;
-			cover.x += 1280;
-			topBar.y -= 720;
-			freeplayText.y -= 720;
-			highscoreSprite.x += 1280;
-			clearPercentSprite.x += 1280;
-			scoreDisplay.x += 1280;
-			percentDisplay.x += 1280;
-			albumTitle.x += 1280;
-			arrowLeft.y -= 720;
-			arrowRight.y -= 720;
-			difficulty.y -= 720;
-			categoryTitle.y -= 720;
-			miniArrowRight.y -= 720;
-			miniArrowLeft.y -= 720;
-
-			var albumPos = albumDummy.x;
-			albumDummy.x = 1280;
-			albumDummy.angle = 70;
-			album.x = albumDummy.x;
-			album.angle = albumDummy.angle;
-
-			FlxTween.tween(bg, {x: 0}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase});
-			FlxTween.tween(cover, {x: cover.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase});
-			FlxTween.tween(topBar, {y: 0}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase});
-			FlxTween.tween(freeplayText, {y: 16}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase});
-			FlxTween.tween(highscoreSprite, {x: highscoreSprite.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
-			FlxTween.tween(clearPercentSprite, {x: clearPercentSprite.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
-			FlxTween.tween(scoreDisplay, {x: scoreDisplay.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*3});
-			FlxTween.tween(percentDisplay, {x: percentDisplay.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
-			FlxTween.tween(albumDummy, {x: albumPos, angle: 10}, transitionTime/1.1 + FlxG.random.float(-randomVariation, randomVariation), {ease: albumElasticOut});
-			FlxTween.tween(albumTitle, {x: albumTitle.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
-			FlxTween.tween(arrowLeft, {y: arrowLeft.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
-			FlxTween.tween(arrowRight, {y: arrowRight.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
-			FlxTween.tween(difficulty, {y: difficulty.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
-			FlxTween.tween(categoryTitle, {y: categoryTitle.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
-			FlxTween.tween(miniArrowLeft, {y: miniArrowLeft.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
-			FlxTween.tween(miniArrowRight, {y: miniArrowRight.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
-
-			difficultyStars.tweenIn(transitionTime, 0, transitionEase, staggerTime*2);
-			tweenCapsulesOnScreen(transitionTime, randomVariation, staggerTime);
+			enterAnimation();
 		}
-		else if(introAnimType != fromCharacterSelect){
+		else if(introAnimType == fromCharacterSelect){
+			fromCharSelectAnimation();
+		}
+		else{
 			djIntroFinish();
 		}
 
@@ -653,7 +616,6 @@ class FreeplayState extends MusicBeatState
 			updateCapsulePosition(i);
 			categoryMap[categoryNames[curCategory]][i].snapToTargetPos();
 			categoryMap[categoryNames[curCategory]][i].showRank(curDifficulty);
-			//categoryMap[categoryNames[curCategory]][i].deslect();
 			capsuleGroup.add(categoryMap[categoryNames[curCategory]][i]);
 		}
 	}
@@ -895,6 +857,51 @@ class FreeplayState extends MusicBeatState
 		}
 	}
 
+	function enterAnimation():Void{
+		bg.x -= 1280;
+		flash.visible = true;
+		cover.x += 1280;
+		topBar.y -= 720;
+		freeplayText.y -= 720;
+		highscoreSprite.x += 1280;
+		clearPercentSprite.x += 1280;
+		scoreDisplay.x += 1280;
+		percentDisplay.x += 1280;
+		albumTitle.x += 1280;
+		arrowLeft.y -= 720;
+		arrowRight.y -= 720;
+		difficulty.y -= 720;
+		categoryTitle.y -= 720;
+		miniArrowRight.y -= 720;
+		miniArrowLeft.y -= 720;
+
+		var albumPos = albumDummy.x;
+		albumDummy.x = 1280;
+		albumDummy.angle = 70;
+		album.x = albumDummy.x;
+		album.angle = albumDummy.angle;
+
+		FlxTween.tween(bg, {x: bg.x+1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase});
+		FlxTween.tween(cover, {x: cover.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase});
+		FlxTween.tween(topBar, {y: topBar.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase});
+		FlxTween.tween(freeplayText, {y: freeplayText.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase});
+		FlxTween.tween(highscoreSprite, {x: highscoreSprite.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
+		FlxTween.tween(clearPercentSprite, {x: clearPercentSprite.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
+		FlxTween.tween(scoreDisplay, {x: scoreDisplay.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*3});
+		FlxTween.tween(percentDisplay, {x: percentDisplay.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
+		FlxTween.tween(albumDummy, {x: albumPos, angle: 10}, transitionTime/1.1 + FlxG.random.float(-randomVariation, randomVariation), {ease: albumElasticOut});
+		FlxTween.tween(albumTitle, {x: albumTitle.x-1280}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
+		FlxTween.tween(arrowLeft, {y: arrowLeft.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
+		FlxTween.tween(arrowRight, {y: arrowRight.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
+		FlxTween.tween(difficulty, {y: difficulty.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
+		FlxTween.tween(categoryTitle, {y: categoryTitle.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
+		FlxTween.tween(miniArrowLeft, {y: miniArrowLeft.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
+		FlxTween.tween(miniArrowRight, {y: miniArrowRight.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
+
+		difficultyStars.tweenIn(transitionTime, 0, transitionEase, staggerTime*2);
+		tweenCapsulesOnScreen(transitionTime, randomVariation, staggerTime);
+	}
+
 	function exitAnimation():Void{
 		bg.visible = true;
 		remove(dj.backingCard);
@@ -902,9 +909,9 @@ class FreeplayState extends MusicBeatState
 		FlxTween.tween(bg, {x: bg.x-1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
 		FlxTween.tween(cover, {x: cover.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
 		FlxTween.tween(dj, {x: dj.x-1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
-		FlxTween.tween(topBar, {y: -720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
-		FlxTween.tween(freeplayText, {y: 16-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
-		FlxTween.tween(changeCharacterText, {y: 16-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
+		FlxTween.tween(topBar, {y: topBar.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
+		FlxTween.tween(freeplayText, {y: freeplayText.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
+		FlxTween.tween(changeCharacterText, {y: changeCharacterText.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
 		FlxTween.tween(highscoreSprite, {x: highscoreSprite.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*2});
 		FlxTween.tween(clearPercentSprite, {x: clearPercentSprite.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
 		FlxTween.tween(scoreDisplay, {x: scoreDisplay.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*0});
@@ -925,6 +932,88 @@ class FreeplayState extends MusicBeatState
 		flash.alpha = 1;
 		flash.visible = true;
 		FlxTween.tween(flash, {alpha: 0}, 0.5, {startDelay: 0.1});
+	}
+
+	final dropTime:Float = 0.8;
+	final dropEase:Null<EaseFunction> = FlxEase.backIn;
+	function toCharSelectAnimation():Void{
+		smoothAlbum = true;
+
+		for(cap in capsuleGroup){ cap.doLerp = false; }
+		
+		FlxTween.tween(dj, {y: dj.y-175}, dropTime, {ease: dropEase, startDelay: 0.1});
+		//FlxTween.tween(dj.backingCard, {y: dj.backingCard.y-100}, dropTime, {ease: dropEase, startDelay: 0.1});
+		//FlxTween.tween(cover, {y: cover.y-100}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(difficulty, {y: difficulty.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(arrowLeft, {y: arrowLeft.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(arrowRight, {y: arrowRight.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(topBar, {y: topBar.y-300}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(freeplayText, {y: freeplayText.y-300}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(changeCharacterText, {y: changeCharacterText.y-300}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(categoryTitle, {y: categoryTitle.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(miniArrowLeft, {y: miniArrowLeft.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(miniArrowRight, {y: miniArrowRight.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(highscoreSprite, {y: highscoreSprite.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(clearPercentSprite, {y: clearPercentSprite.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(scoreDisplay, {y: scoreDisplay.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(percentDisplay, {y: percentDisplay.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(albumDummy, {y: albumDummy.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(albumTitle, {y: albumTitle.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(difficultyStars, {y: difficultyStars.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(capsuleGroup, {y: capsuleGroup.y-250}, dropTime, {ease: dropEase, startDelay: 0.1});
+	}
+
+	final riseTime:Float = 0.8;
+	final riseEase:Null<EaseFunction> = FlxEase.expoOut;
+	function fromCharSelectAnimation():Void{
+		smoothAlbum = true;
+
+		for(cap in capsuleGroup){ cap.doLerp = false; }
+
+		dj.y -= 175;
+		//dj.backingCard.y -= 100;
+		//cover.y -= 100;
+		difficulty.y -= 270;
+		arrowLeft.y -= 270;
+		arrowRight.y -= 270;
+		topBar.y -= 300;
+		freeplayText.y -= 300;
+		changeCharacterText.y -= 300;
+		categoryTitle.y -= 270;
+		miniArrowLeft.y -= 270;
+		miniArrowRight.y -= 270;
+		highscoreSprite.y -= 270;
+		clearPercentSprite.y -= 270;
+		scoreDisplay.y -= 270;
+		percentDisplay.y -= 270;
+		albumDummy.y -= 270;
+		albumTitle.y -= 270;
+		difficultyStars.y -= 270;
+		capsuleGroup.y -= 250;
+		
+		FlxTween.tween(dj, {y: dj.y+175}, riseTime, {ease: riseEase, startDelay: 0.1});
+		//FlxTween.tween(dj.backingCard, {y: dj.backingCard.y+100}, riseTime, {ease: riseEase, startDelay: 0.1});
+		//FlxTween.tween(cover, {y: cover.y+100}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(difficulty, {y: difficulty.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(arrowLeft, {y: arrowLeft.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(arrowRight, {y: arrowRight.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(topBar, {y: topBar.y+300}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(freeplayText, {y: freeplayText.y+300}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(changeCharacterText, {y: changeCharacterText.y+300}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(categoryTitle, {y: categoryTitle.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(miniArrowLeft, {y: miniArrowLeft.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(miniArrowRight, {y: miniArrowRight.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(highscoreSprite, {y: highscoreSprite.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(clearPercentSprite, {y: clearPercentSprite.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(scoreDisplay, {y: scoreDisplay.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(percentDisplay, {y: percentDisplay.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(albumDummy, {y: albumDummy.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(albumTitle, {y: albumTitle.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(difficultyStars, {y: difficultyStars.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(capsuleGroup, {y: capsuleGroup.y+250}, riseTime, {ease: riseEase, startDelay: 0.1, onComplete: function(t){
+			for(cap in capsuleGroup){ cap.doLerp = true; }
+			smoothAlbum = false;
+		}});
 	}
 
 	inline function albumElasticOut(t:Float):Float{
