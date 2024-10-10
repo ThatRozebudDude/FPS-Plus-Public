@@ -25,6 +25,7 @@
 	<compilerflag name="--macro" value="include('ui.hudNoteSkins', true)" />
 	<compilerflag name="--macro" value="include('results.characters', true)" />
 	<compilerflag name="--macro" value="include('freeplay.characters', true)" />
+	<compilerflag name="--macro" value="include('characterSelect.characters', true)" />
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 

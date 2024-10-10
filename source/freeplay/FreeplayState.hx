@@ -16,6 +16,7 @@ import flixel.util.FlxTimer;
 import flixel.FlxCamera;
 import flixel.math.FlxPoint;
 import config.*;
+import characterSelect.CharacterSelectState;
 
 import title.TitleScreen;
 import flixel.FlxG;
@@ -157,7 +158,7 @@ class FreeplayState extends MusicBeatState
 			customTransIn = new transition.data.InstantTransition();
 		}
 		else if(introAnimType == fromCharacterSelect){
-			customTransIn = new transition.data.ScreenWipeInFlipped(riseTime, riseEase);
+			customTransIn = new transition.data.ScreenWipeIn(riseTime, riseEase);
 			fadeShader.fadeVal = 0;
 			FlxTween.tween(fadeShader, {fadeVal: 1}, riseTime);
 		}
@@ -298,7 +299,7 @@ class FreeplayState extends MusicBeatState
 					new FlxTimer().start(0.1, function(t) {
 						fadeShader.fadeVal = 1;
 						FlxTween.tween(fadeShader, {fadeVal: 0}, dropTime);
-						switchState(new FreeplayState(fromCharacterSelect));
+						switchState(new CharacterSelectState());
 					});
 				});
 			}
