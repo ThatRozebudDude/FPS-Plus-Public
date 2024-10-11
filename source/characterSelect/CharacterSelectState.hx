@@ -22,6 +22,7 @@ class CharacterSelectState extends MusicBeatState
 
     var speakers:AtlasSprite;
 
+    var dipshitDarkBack:FlxSprite;
     var dipshitBacking:FlxSprite;
     var chooseDipshit:FlxSprite;
     var dipshitBlur:FlxSprite;
@@ -30,13 +31,28 @@ class CharacterSelectState extends MusicBeatState
     var camFollow:FlxObject;
 
     var characterGroup:FlxSpriteGroup= new FlxSpriteGroup();
-    var playerCharacter:CharacterSelectCharacter;
-    var playerPartner:CharacterSelectCharacter;
 
     var startLeaving:Bool = false;
+    var canChangeCharacters:Bool = false;
 
-    var characters:Map<String, Array<Dynamic>> = new Map<String, Array<Dynamic>>();
+    var characters:Map<String, CharacterSelectGroup> = new Map<String, CharacterSelectGroup>();
+    var characterPositions:Map<String, String> = new Map<String, String>();
     var curCharacter:String = "";
+    var characterTitle:FlxSprite;
+
+    var characterGrid:CharacterGrid;
+
+    final gridSize = 3;
+    var curGridPosition:Array<Int> = [1, 1];
+
+    static var persistentCharacter:String = "bf";
+
+    public function new() {
+        super();
+        addCharacter("bf", "BfPlayer", "GfPartner", "Boyfriend", [1, 1]);
+        addCharacter("pico", "PicoPlayer", "NenePartner", "Pico", [0, 1]);
+        trace(characters);
+    }
 
     override function create():Void{
         customTransIn = new transition.data.ScreenWipeInFlipped(0.8, FlxEase.quadOut);
@@ -56,10 +72,6 @@ class CharacterSelectState extends MusicBeatState
         FlxG.camera.filters = [new ShaderFilter(fadeShader.shader)];
 
         startSong();
-
-        addCharacter("bf", "BfPlayer", "GfPartner", "Boyfriend", [1, 1]);
-        addCharacter("pico", "PicoPlayer", "NenePartner", "Pico", [0, 1]);
-        curCharacter = "bf";
 
         var bg:FlxSprite = new FlxSprite(-153, -140).loadGraphic(Paths.image("menu/characterSelect/charSelectBG"));
         bg.antialiasing = true;
@@ -105,26 +117,9 @@ class CharacterSelectState extends MusicBeatState
         add(charLightGF);
 
         add(characterGroup);
-
-        var partnerClass = Type.resolveClass("characterSelect.characters." + "GfPartner");
-		if(partnerClass == null){ partnerClass = characterSelect.characters.GfPartner; }
-        playerPartner = Type.createInstance(partnerClass, []);
-        playerPartner.visible = false;
         new FlxTimer().start(0.2, function(t){
-            playerPartner.playEnter();
-            playerPartner.visible = true;
+            changeCharacter(persistentCharacter);
         });
-        characterGroup.add(playerPartner);
-
-        var playerClass = Type.resolveClass("characterSelect.characters." + "BfPlayer");
-		if(playerClass == null){ playerClass = characterSelect.characters.BfPlayer; }
-        playerCharacter = Type.createInstance(playerClass, []);
-        playerCharacter.visible = false;
-        new FlxTimer().start(0.2, function(t){
-            playerCharacter.playEnter();
-            playerCharacter.visible = true;
-        });
-        characterGroup.add(playerCharacter);
 
         speakers = new AtlasSprite(0, 0, Paths.getTextureAtlas("menu/characterSelect/charSelectSpeakers"));
         speakers.antialiasing = true;
@@ -138,11 +133,20 @@ class CharacterSelectState extends MusicBeatState
         fgBlur.blend = MULTIPLY;
         add(fgBlur);
 
+        dipshitDarkBack = new FlxSprite(426, -13).loadGraphic(Paths.image('menu/characterSelect/dipshitDarkBack'));
+        dipshitDarkBack.antialiasing = true;
+        dipshitDarkBack.scrollFactor.set();
+        dipshitDarkBack.y += 200;
+        dipshitDarkBack.alpha = 0.6;
+        FlxTween.tween(dipshitDarkBack, {y: dipshitDarkBack.y - 200}, 1, {ease: FlxEase.expoOut});
+        add(dipshitDarkBack);
+
         dipshitBlur = new FlxSprite(419, -65);
         dipshitBlur.frames = Paths.getSparrowAtlas("menu/characterSelect/dipshitBlur");
         dipshitBlur.animation.addByPrefix('idle', "CHOOSE vertical offset instance 1", 24, true);
         dipshitBlur.blend = ADD;
         dipshitBlur.antialiasing = true;
+        dipshitBlur.scrollFactor.set();
         dipshitBlur.animation.play("idle");
         dipshitBlur.y += 220;
         FlxTween.tween(dipshitBlur, {y: dipshitBlur.y - 220}, 1.2, {ease: FlxEase.expoOut});
@@ -153,6 +157,7 @@ class CharacterSelectState extends MusicBeatState
         dipshitBacking.animation.addByPrefix('idle', "CHOOSE horizontal offset instance 1", 24, true);
         dipshitBacking.blend = ADD;
         dipshitBacking.antialiasing = true;
+        dipshitBacking.scrollFactor.set();
         dipshitBacking.animation.play("idle");
         dipshitBacking.y += 210;
         FlxTween.tween(dipshitBacking, {y: dipshitBacking.y - 210}, 1.1, {ease: FlxEase.expoOut});
@@ -160,13 +165,32 @@ class CharacterSelectState extends MusicBeatState
 
         chooseDipshit = new FlxSprite(426, -13).loadGraphic(Paths.image('menu/characterSelect/chooseDipshit'));
         chooseDipshit.antialiasing = true;
+        chooseDipshit.scrollFactor.set();
         chooseDipshit.y += 200;
         FlxTween.tween(chooseDipshit, {y: chooseDipshit.y - 200}, 1, {ease: FlxEase.expoOut});
         add(chooseDipshit);
 
-        chooseDipshit.scrollFactor.set();
-        dipshitBacking.scrollFactor.set();
-        dipshitBlur.scrollFactor.set();
+        characterTitle = new FlxSprite();
+        characterTitle.scrollFactor.set();
+        updateCharacterTitle();
+        characterTitle.y += 80;
+        FlxTween.tween(characterTitle, {y: characterTitle.y - 80}, 1.3, {ease: FlxEase.expoOut});
+        add(characterTitle);
+
+        characterGrid = new CharacterGrid(480, 200, gridSize, characters);
+        characterGrid.scrollFactor.set();
+        characterGrid.y += 180;
+        characterGrid.select(characters.get(persistentCharacter).position);
+        characterGrid.forceTrackPosition = characters.get(persistentCharacter).position.copy();
+        FlxTween.tween(characterGrid, {y: characterGrid.y - 180}, 0.8, {ease: FlxEase.expoOut});
+        add(characterGrid);
+
+        curGridPosition = characters.get(persistentCharacter).position;
+
+        new FlxTimer().start(0.8, function(t){
+            characterGrid.forceTrackPosition = null;
+            canChangeCharacters = true;
+        });
 
         super.create();
     }
@@ -175,20 +199,44 @@ class CharacterSelectState extends MusicBeatState
 
         Conductor.songPosition = FlxG.sound.music.time;
 
-        if(!startLeaving){
-            if(FlxG.keys.anyJustPressed([Q])){
-                changeCharacter("bf");
+        if(!startLeaving && canChangeCharacters){
+            if(Binds.justPressed("menuUp")){
+                changeGridPos([0, -1]);
+                changeCharacter(getCharacterFromPosition());
+                characterGrid.select(curGridPosition);
+                FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
             }
-            if(FlxG.keys.anyJustPressed([W])){
-                changeCharacter("pico");
+            else if(Binds.justPressed("menuDown")){
+                changeGridPos([0, 1]);
+                changeCharacter(getCharacterFromPosition());
+                characterGrid.select(curGridPosition);
+                FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
+            }
+            if(Binds.justPressed("menuLeft")){
+                changeGridPos([-1, 0]);
+                changeCharacter(getCharacterFromPosition());
+                characterGrid.select(curGridPosition);
+                FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
+            }
+            else if(Binds.justPressed("menuRight")){
+                changeGridPos([1, 0]);
+                changeCharacter(getCharacterFromPosition());
+                characterGrid.select(curGridPosition);
+                FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
             }
         }
 
-        if(FlxG.keys.anyJustPressed([SPACE])){
+        if(Binds.justPressed("menuAccept")){
             startLeaving = true;
-            playerCharacter.playConfirm();
-            playerPartner.playConfirm();
-            FlxG.sound.play(Paths.sound('confirmMenu'));
+            persistentCharacter = curCharacter;
+            FreeplayState.djCharacter = characters.get(curCharacter).freeplayClass;
+
+            characters.get(curCharacter).player.playConfirm();
+            characters.get(curCharacter).partner.playConfirm();
+            characterGrid.confirm(characters.get(curCharacter).position);
+
+            FlxG.sound.play(Paths.sound("characterSelect/confirm"));
+
 			FlxG.sound.music.pitch = 1;
 			FlxTween.tween(FlxG.sound.music, {pitch: 0.5}, 0.4, {ease: FlxEase.quadOut, onComplete: function(t){
 				FlxG.sound.music.fadeOut(0.05);
@@ -196,9 +244,12 @@ class CharacterSelectState extends MusicBeatState
 					switchState(new FreeplayState(fromCharacterSelect));
                     FlxTween.tween(camFollow, {y: camFollow.y - 150}, 0.8, {ease: FlxEase.backIn});
                     FlxTween.tween(titleBar, {y: titleBar.y + 80}, 0.8, {ease: FlxEase.backIn});
+                    FlxTween.tween(characterTitle, {y: characterTitle.y + 80}, 0.8, {ease: FlxEase.backIn});
                     FlxTween.tween(dipshitBlur, {y: dipshitBlur.y + 220}, 0.8, {ease: FlxEase.backIn});
                     FlxTween.tween(dipshitBacking, {y: dipshitBacking.y + 210}, 0.8, {ease: FlxEase.backIn});
                     FlxTween.tween(chooseDipshit, {y: chooseDipshit.y + 200}, 0.8, {ease: FlxEase.backIn});
+                    FlxTween.tween(dipshitDarkBack, {y: dipshitDarkBack.y + 200}, 0.8, {ease: FlxEase.backIn});
+                    FlxTween.tween(characterGrid, {y: characterGrid.y + 180}, 0.8, {ease: FlxEase.backIn});
                     fadeShader.fadeVal = 1;
 		            FlxTween.tween(fadeShader, {fadeVal: 0}, 0.8, {ease: FlxEase.quadIn});
 				});
@@ -212,8 +263,8 @@ class CharacterSelectState extends MusicBeatState
         super.beatHit();
 
         if(!startLeaving){
-            playerCharacter.playIdle();
-            playerPartner.playIdle();
+            characters.get(curCharacter).player.playIdle();
+            characters.get(curCharacter).partner.playIdle();
         }
 
         speakers.playAnim("bop");
@@ -234,34 +285,112 @@ class CharacterSelectState extends MusicBeatState
 	}
 
     function addCharacter(name:String, playerClass:String, partnerClass:String, freeplayClass:String, position:Array<Int>):Void{
-        characters.set(name, [playerClass, partnerClass, freeplayClass, position]);
+        var partnerClass = Type.resolveClass("characterSelect.characters." + partnerClass);
+        if(partnerClass == null){ partnerClass = characterSelect.characters.GfPartner; }
+        var partner:CharacterSelectCharacter = Type.createInstance(partnerClass, []);
+
+        var playerClass = Type.resolveClass("characterSelect.characters." + playerClass);
+        if(playerClass == null){ playerClass = characterSelect.characters.BfPlayer; }
+        var player:CharacterSelectCharacter = Type.createInstance(playerClass, []);
+
+        characters.set(name, {
+            player: player,
+            partner: partner,
+            freeplayClass: freeplayClass,
+            position: position,
+        });
+
+        characterPositions.set((""+position[0]) + (""+position[1]), name);
     }
 
     function changeCharacter(changeCharacter:String):Void{
         if(changeCharacter == curCharacter){ return; }
+        else if(changeCharacter == null){ return; }
+        else if(!characters.exists(changeCharacter)){ return; }
+
+        var leavingCharacter = curCharacter;
         curCharacter = changeCharacter;
-        FreeplayState.djCharacter = characters.get(curCharacter)[2];
 
-        playerPartner.playExit();
-        playerCharacter.playExit();
+        characters.get(curCharacter).player.playEnter();
+        characters.get(curCharacter).partner.playEnter();
 
-        new FlxTimer().start(2/24, function(t){
-            characterGroup.remove(playerPartner);
-            playerPartner.destroy();
-            var partnerClass = Type.resolveClass("characterSelect.characters." + characters.get(curCharacter)[1]);
-            if(partnerClass == null){ partnerClass = characterSelect.characters.GfPartner; }
-            playerPartner = Type.createInstance(partnerClass, []);
-            playerPartner.playEnter();
-            characterGroup.add(playerPartner);
+        characterGroup.add(characters.get(curCharacter).player);
+        characterGroup.add(characters.get(curCharacter).partner);
 
-            characterGroup.remove(playerCharacter);
-            playerCharacter.destroy();
-            var playerClass = Type.resolveClass("characterSelect.characters." + characters.get(curCharacter)[0]);
-            if(playerClass == null){ playerClass = characterSelect.characters.BfPlayer; }
-            playerCharacter = Type.createInstance(playerClass, []);
-            playerCharacter.playEnter();
-            characterGroup.add(playerCharacter);
-        });
+        updateCharacterTitle();
+
+        if(characters.exists(leavingCharacter)){
+            characters.get(leavingCharacter).player.playExit();
+            characters.get(leavingCharacter).partner.playExit();
+            canChangeCharacters = false;
+
+            new FlxTimer().start(2/24, function(t){
+                characterGroup.remove(characters.get(leavingCharacter).player, true);
+                characterGroup.remove(characters.get(leavingCharacter).partner, true);
+                canChangeCharacters = true;
+            });
+        }
     }
 
+    function updateCharacterTitle():Void{
+        FlxTween.cancelTweensOf(characterTitle);
+        FlxTween.globalManager.update(0);
+        
+        if(Utils.exists(Paths.image("menu/characterSelect/characters/" + curCharacter + "/title", true))){
+            characterTitle.loadGraphic(Paths.image("menu/characterSelect/characters/" + curCharacter + "/title"));
+        }
+        else{
+            characterTitle.loadGraphic(Paths.image("menu/characterSelect/characters/locked/title"));
+        }
+
+        characterTitle.antialiasing = true;
+        characterTitle.scale.set(0.75, 0.75);
+        characterTitle.updateHitbox();
+
+        characterTitle.setPosition(1280 * 4/5, 100);
+        characterTitle.x -= characterTitle.width/2;
+        characterTitle.y -= characterTitle.height/2;
+
+        /*if(doTween){
+            FlxTween.completeTweensOf(characterTitle);
+            FlxTween.globalManager.update(0);
+            characterTitle.y -= 10;
+            FlxTween.tween(characterTitle, {y: characterTitle.y + 10}, 0.4, {ease: FlxEase.quintOut});
+        }*/
+    }
+
+    function getCharacterFromPosition():String{
+        //idk why this shit dont work
+        /*for(key => val in characters){
+            if(val.position[0] == curGridPosition[0] && val.position[1] == curGridPosition[1]){
+                trace(key);
+                trace(val.position);
+                trace(curGridPosition);
+                return key;
+            }
+        }
+        return null;*/
+        return characterPositions.get((""+curGridPosition[0]) + (""+curGridPosition[1]));
+    }
+
+    function changeGridPos(?change:Array<Int>):Void{
+        if(change == null){ change = [0, 0]; }
+
+        curGridPosition[0] += change[0];
+        curGridPosition[1] += change[1];
+
+        if(curGridPosition[0] >= gridSize){ curGridPosition[0] = 0; }
+        else if(curGridPosition[0] < 0){ curGridPosition[0] = gridSize-1; }
+
+        if(curGridPosition[1] >= gridSize){ curGridPosition[1] = 0; }
+        else if(curGridPosition[1] < 0){ curGridPosition[1] = gridSize-1; }
+    }
+
+}
+
+typedef CharacterSelectGroup = {
+    player:CharacterSelectCharacter,
+    partner:CharacterSelectCharacter,
+    freeplayClass:String,
+    position:Array<Int>
 }

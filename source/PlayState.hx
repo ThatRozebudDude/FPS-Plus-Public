@@ -2427,16 +2427,16 @@ class PlayState extends MusicBeatState
 	public function setBfOnTop():Void{
 		if(bfOnTop){ return; }
 		bfOnTop = true;
-		characterLayer.remove(boyfriend);
-		characterLayer.remove(dad);
+		characterLayer.remove(boyfriend, true);
+		characterLayer.remove(dad, true);
 		characterLayer.add(dad);
 		characterLayer.add(boyfriend);
 	}
 	public function setOppOnTop():Void{
 		if(!bfOnTop){ return; }
 		bfOnTop = false;
-		characterLayer.remove(boyfriend);
-		characterLayer.remove(dad);
+		characterLayer.remove(boyfriend, true);
+		characterLayer.remove(dad, true);
 		characterLayer.add(boyfriend);
 		characterLayer.add(dad);
 	}
