@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="charSelBFIcon.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="BF ICON0000" x="98" y="2" width="104" height="72" frameX="0" frameY="-7" frameWidth="104" frameHeight="88"/>
+	<SubTexture name="BF ICON0001" x="98" y="2" width="104" height="72" frameX="0" frameY="-7" frameWidth="104" frameHeight="88"/>
+	<SubTexture name="BF ICON0002" x="99" y="76" width="101" height="69" frameX="0" frameY="-12" frameWidth="104" frameHeight="88"/>
+	<SubTexture name="BF ICON0003" x="99" y="76" width="101" height="69" frameX="0" frameY="-12" frameWidth="104" frameHeight="88"/>
+	<SubTexture name="BF ICON0004" x="2" y="2" width="94" height="88" frameX="-2" frameY="0" frameWidth="104" frameHeight="88"/>
+	<SubTexture name="BF ICON0005" x="2" y="2" width="94" height="88" frameX="-2" frameY="0" frameWidth="104" frameHeight="88"/>
+	<SubTexture name="BF ICON0006" x="2" y="92" width="95" height="82" frameX="-2" frameY="-1" frameWidth="104" frameHeight="88"/>
+	<SubTexture name="BF ICON0007" x="2" y="92" width="95" height="82" frameX="-2" frameY="-1" frameWidth="104" frameHeight="88"/>
+</TextureAtlas>

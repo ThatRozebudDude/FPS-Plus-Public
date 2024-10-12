@@ -137,7 +137,7 @@ class CharacterSelectState extends MusicBeatState
         dipshitDarkBack.antialiasing = true;
         dipshitDarkBack.scrollFactor.set();
         dipshitDarkBack.y += 200;
-        dipshitDarkBack.alpha = 0.6;
+        dipshitDarkBack.alpha = 0.5;
         FlxTween.tween(dipshitDarkBack, {y: dipshitDarkBack.y - 200}, 1, {ease: FlxEase.expoOut});
         add(dipshitDarkBack);
 

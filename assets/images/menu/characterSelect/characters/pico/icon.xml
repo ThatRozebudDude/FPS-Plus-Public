@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="CharSelPicoIcon.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="PICO ICON0000" x="2" y="79" width="98" height="74" frameX="0" frameY="-2" frameWidth="98" frameHeight="76"/>
+	<SubTexture name="PICO ICON0001" x="2" y="79" width="98" height="74" frameX="0" frameY="-2" frameWidth="98" frameHeight="76"/>
+	<SubTexture name="PICO ICON0002" x="102" y="79" width="94" height="72" frameX="-2" frameY="-4" frameWidth="98" frameHeight="76"/>
+	<SubTexture name="PICO ICON0003" x="102" y="79" width="94" height="72" frameX="-2" frameY="-4" frameWidth="98" frameHeight="76"/>
+	<SubTexture name="PICO ICON0004" x="2" y="2" width="97" height="75" frameX="0" frameY="-1" frameWidth="98" frameHeight="76"/>
+	<SubTexture name="PICO ICON0005" x="2" y="2" width="97" height="75" frameX="0" frameY="-1" frameWidth="98" frameHeight="76"/>
+	<SubTexture name="PICO ICON0006" x="101" y="2" width="97" height="75" frameX="-1" frameY="0" frameWidth="98" frameHeight="76"/>
+	<SubTexture name="PICO ICON0007" x="101" y="2" width="97" height="75" frameX="-1" frameY="0" frameWidth="98" frameHeight="76"/>
+</TextureAtlas>

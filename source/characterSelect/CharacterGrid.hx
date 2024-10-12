@@ -11,6 +11,7 @@ class CharacterGrid extends FlxSpriteGroup
 {
 
     var grid:Array<Array<FlxSprite>> = [[]];
+    var gridArea:Int;
 
     var cursor:FlxSprite;
     var cursorMoveTween:FlxTween;
@@ -25,6 +26,8 @@ class CharacterGrid extends FlxSpriteGroup
 
     public function new(_x:Float = 0, _y:Float = 0, _size:Int, _characterMap:Map<String, CharacterSelectGroup>){
         super(_x,_y);
+
+        gridArea = _size * _size;
 
         var iconGrid = [];
         for(i in 0..._size){
@@ -72,16 +75,21 @@ class CharacterGrid extends FlxSpriteGroup
         cursorConfrim.visible = false;
         add(cursorConfrim);
 
+        var idCount = 0;
+
         for(gx in 0...iconGrid.length){
             for(gy in 0...iconGrid[gx].length){
                 var testGraphic:FlxSprite;
                 if(iconGrid[gx][gy] != ""){
-                    testGraphic = new FlxSprite(40, 40).loadGraphic(Paths.image("menu/characterSelect/characters/" + iconGrid[gx][gy] + "/icon"));
+                    testGraphic = new FlxSprite(40, 40);
+                    testGraphic.frames = Paths.getSparrowAtlas("menu/characterSelect/characters/" + iconGrid[gx][gy] + "/icon");
                     testGraphic.antialiasing = true;
-                    //testGraphic.scale.set(2, 2);
-                    //testGraphic.updateHitbox();
+                    testGraphic.animation.addByPrefix("hold", "", 0, false);
+                    testGraphic.animation.addByPrefix("play", "", 24, false);
+                    testGraphic.animation.play("hold");
                     testGraphic.x -= testGraphic.width/2;
                     testGraphic.y -= testGraphic.height/2;
+                    testGraphic.ID = idCount;
                 }
                 else{
                     testGraphic = new FlxSprite(40, 40).loadGraphic(Paths.image("menu/characterSelect/lock"));
@@ -90,12 +98,14 @@ class CharacterGrid extends FlxSpriteGroup
                     testGraphic.y -= testGraphic.height/2;
                     var lockShader = new HueShader((15 * gx) + (30 * gy));
                     testGraphic.shader = lockShader.shader;
+                    testGraphic.ID = idCount + gridArea;
                 }
                 testGraphic.x += 100 * gx;
                 testGraphic.y += 100 * gy;
 
                 grid[gx].push(testGraphic);
                 add(testGraphic);
+                idCount++;
             }
             grid.push([]);
         }
@@ -116,7 +126,7 @@ class CharacterGrid extends FlxSpriteGroup
             for(gy in 0...grid[gx].length){
                 if(gx == pos[0] && gy == pos[1]){
                     FlxTween.cancelTweensOf(grid[gx][gy].scale);
-                    FlxTween.tween(grid[gx][gy].scale, {x: 1.2, y: 1.2}, 0.4, {ease: FlxEase.expoOut});
+                    FlxTween.tween(grid[gx][gy].scale, {x: 1, y: 1}, 0.4, {ease: FlxEase.expoOut});
 
                     cursorMoveTween.cancel();
                     cursorBackMoveTween.cancel();
@@ -135,7 +145,7 @@ class CharacterGrid extends FlxSpriteGroup
                 }
                 else{
                     FlxTween.cancelTweensOf(grid[gx][gy].scale);
-                    FlxTween.tween(grid[gx][gy].scale, {x: 1, y: 1}, 0.4, {ease: FlxEase.expoOut});
+                    FlxTween.tween(grid[gx][gy].scale, {x: 0.83, y: 0.83}, 0.4, {ease: FlxEase.expoOut});
                 }
             }
         }
@@ -149,6 +159,9 @@ class CharacterGrid extends FlxSpriteGroup
         cursorBack.visible = false;
         cursorFarBack.visible = false;
         select(pos, true);
+        if(grid[pos[0]][pos[1]].ID < gridArea){
+            grid[pos[0]][pos[1]].animation.play("play", true);
+        }
     }
 
 }
