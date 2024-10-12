@@ -45,13 +45,12 @@ class CharacterSelectState extends MusicBeatState
     final gridSize = 3;
     var curGridPosition:Array<Int> = [1, 1];
 
+    var denyCount:Int = 0;
+
     static var persistentCharacter:String = "bf";
 
     public function new() {
         super();
-        addCharacter("bf", "BfPlayer", "GfPartner", "Boyfriend", [1, 1]);
-        addCharacter("pico", "PicoPlayer", "NenePartner", "Pico", [0, 1]);
-        trace(characters);
     }
 
     override function create():Void{
@@ -70,6 +69,10 @@ class CharacterSelectState extends MusicBeatState
         // FlxG.camera.follow(camFollow, LOCKON, 0.01);
         FlxG.camera.follow(camFollow, LOCKON);
         FlxG.camera.filters = [new ShaderFilter(fadeShader.shader)];
+
+        addCharacter("locked", "LockedPlayer", null, null, [-1, -1]);
+        addCharacter("bf", "BfPlayer", "GfPartner", "Boyfriend", [1, 1]);
+        addCharacter("pico", "PicoPlayer", "NenePartner", "Pico", [0, 1]);
 
         startSong();
 
@@ -179,15 +182,15 @@ class CharacterSelectState extends MusicBeatState
 
         characterGrid = new CharacterGrid(480, 200, gridSize, characters);
         characterGrid.scrollFactor.set();
-        characterGrid.y += 180;
+        characterGrid.y += 200;
         characterGrid.select(characters.get(persistentCharacter).position);
         characterGrid.forceTrackPosition = characters.get(persistentCharacter).position.copy();
-        FlxTween.tween(characterGrid, {y: characterGrid.y - 180}, 0.8, {ease: FlxEase.expoOut});
+        FlxTween.tween(characterGrid, {y: characterGrid.y - 200}, 1, {ease: FlxEase.expoOut});
         add(characterGrid);
 
         curGridPosition = characters.get(persistentCharacter).position;
 
-        new FlxTimer().start(0.8, function(t){
+        new FlxTimer().start(1, function(t){
             characterGrid.forceTrackPosition = null;
             canChangeCharacters = true;
         });
@@ -203,30 +206,34 @@ class CharacterSelectState extends MusicBeatState
             if(Binds.justPressed("menuUp")){
                 changeGridPos([0, -1]);
                 changeCharacter(getCharacterFromPosition());
+                characterGrid.showNormalCursor();
                 characterGrid.select(curGridPosition);
                 FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
             }
             else if(Binds.justPressed("menuDown")){
                 changeGridPos([0, 1]);
                 changeCharacter(getCharacterFromPosition());
+                characterGrid.showNormalCursor();
                 characterGrid.select(curGridPosition);
                 FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
             }
             if(Binds.justPressed("menuLeft")){
                 changeGridPos([-1, 0]);
                 changeCharacter(getCharacterFromPosition());
+                characterGrid.showNormalCursor();
                 characterGrid.select(curGridPosition);
                 FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
             }
             else if(Binds.justPressed("menuRight")){
                 changeGridPos([1, 0]);
                 changeCharacter(getCharacterFromPosition());
+                characterGrid.showNormalCursor();
                 characterGrid.select(curGridPosition);
                 FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
             }
         }
 
-        if(Binds.justPressed("menuAccept")){
+        if(Binds.justPressed("menuAccept") && characters.get(curCharacter).freeplayClass != null && !startLeaving){
             startLeaving = true;
             persistentCharacter = curCharacter;
             FreeplayState.djCharacter = characters.get(curCharacter).freeplayClass;
@@ -237,11 +244,11 @@ class CharacterSelectState extends MusicBeatState
 
             FlxG.sound.play(Paths.sound("characterSelect/confirm"));
 
-			FlxG.sound.music.pitch = 1;
-			FlxTween.tween(FlxG.sound.music, {pitch: 0.5}, 0.4, {ease: FlxEase.quadOut, onComplete: function(t){
-				FlxG.sound.music.fadeOut(0.05);
+            FlxG.sound.music.pitch = 1;
+            FlxTween.tween(FlxG.sound.music, {pitch: 0.5}, 0.4, {ease: FlxEase.quadOut, onComplete: function(t){
+                FlxG.sound.music.fadeOut(0.05);
                 new FlxTimer().start(0.3, function(t) {
-					switchState(new FreeplayState(fromCharacterSelect));
+                    switchState(new FreeplayState(fromCharacterSelect));
                     FlxTween.tween(camFollow, {y: camFollow.y - 150}, 0.8, {ease: FlxEase.backIn});
                     FlxTween.tween(titleBar, {y: titleBar.y + 80}, 0.8, {ease: FlxEase.backIn});
                     FlxTween.tween(characterTitle, {y: characterTitle.y + 80}, 0.8, {ease: FlxEase.backIn});
@@ -249,11 +256,22 @@ class CharacterSelectState extends MusicBeatState
                     FlxTween.tween(dipshitBacking, {y: dipshitBacking.y + 210}, 0.8, {ease: FlxEase.backIn});
                     FlxTween.tween(chooseDipshit, {y: chooseDipshit.y + 200}, 0.8, {ease: FlxEase.backIn});
                     FlxTween.tween(dipshitDarkBack, {y: dipshitDarkBack.y + 200}, 0.8, {ease: FlxEase.backIn});
-                    FlxTween.tween(characterGrid, {y: characterGrid.y + 180}, 0.8, {ease: FlxEase.backIn});
+                    FlxTween.tween(characterGrid, {y: characterGrid.y + 200}, 0.8, {ease: FlxEase.backIn});
                     fadeShader.fadeVal = 1;
-		            FlxTween.tween(fadeShader, {fadeVal: 0}, 0.8, {ease: FlxEase.quadIn});
-				});
-			}});
+                    FlxTween.tween(fadeShader, {fadeVal: 0}, 0.8, {ease: FlxEase.quadIn});
+                });
+            }});
+        }
+        else if(Binds.justPressed("menuAccept") && characters.get(curCharacter).freeplayClass == null && !startLeaving){
+            characterGrid.deny(curGridPosition);
+            FlxG.sound.play(Paths.sound("characterSelect/deny"));
+            denyCount++;
+            var denyCheck = denyCount;
+            new FlxTimer().start(6/24, function(t) {
+                if(denyCheck ==  denyCount){
+                    characterGrid.showNormalCursor();
+                }
+            });
         }
 
         super.update(elapsed);
@@ -264,7 +282,9 @@ class CharacterSelectState extends MusicBeatState
 
         if(!startLeaving){
             characters.get(curCharacter).player.playIdle();
-            characters.get(curCharacter).partner.playIdle();
+            if(characters.get(curCharacter).partner != null){
+                characters.get(curCharacter).partner.playIdle();
+            }
         }
 
         speakers.playAnim("bop");
@@ -285,10 +305,14 @@ class CharacterSelectState extends MusicBeatState
 	}
 
     function addCharacter(name:String, playerClass:String, partnerClass:String, freeplayClass:String, position:Array<Int>):Void{
-        var partnerClass = Type.resolveClass("characterSelect.characters." + partnerClass);
-        if(partnerClass == null){ partnerClass = characterSelect.characters.GfPartner; }
-        var partner:CharacterSelectCharacter = Type.createInstance(partnerClass, []);
+        var partner:CharacterSelectCharacter = null;
+        if(partnerClass != null){
+            var partnerClass = Type.resolveClass("characterSelect.characters." + partnerClass);
+            if(partnerClass == null){ partnerClass = characterSelect.characters.GfPartner; }
+            partner = Type.createInstance(partnerClass, []);
+        }
 
+        //player cant be null because what would be the fucking point
         var playerClass = Type.resolveClass("characterSelect.characters." + playerClass);
         if(playerClass == null){ playerClass = characterSelect.characters.BfPlayer; }
         var player:CharacterSelectCharacter = Type.createInstance(playerClass, []);
@@ -304,29 +328,38 @@ class CharacterSelectState extends MusicBeatState
     }
 
     function changeCharacter(changeCharacter:String):Void{
+        if(changeCharacter == null){ changeCharacter = "locked"; }
+
         if(changeCharacter == curCharacter){ return; }
-        else if(changeCharacter == null){ return; }
         else if(!characters.exists(changeCharacter)){ return; }
 
         var leavingCharacter = curCharacter;
         curCharacter = changeCharacter;
 
         characters.get(curCharacter).player.playEnter();
-        characters.get(curCharacter).partner.playEnter();
+        if(characters.get(curCharacter).partner != null){
+            characters.get(curCharacter).partner.playEnter();
+        }
 
         characterGroup.add(characters.get(curCharacter).player);
-        characterGroup.add(characters.get(curCharacter).partner);
+        if(characters.get(curCharacter).partner != null){
+            characterGroup.add(characters.get(curCharacter).partner);
+        }
 
         updateCharacterTitle();
 
         if(characters.exists(leavingCharacter)){
             characters.get(leavingCharacter).player.playExit();
-            characters.get(leavingCharacter).partner.playExit();
+            if(characters.get(leavingCharacter).partner != null){
+                characters.get(leavingCharacter).partner.playExit();
+            }
             canChangeCharacters = false;
 
             new FlxTimer().start(2/24, function(t){
                 characterGroup.remove(characters.get(leavingCharacter).player, true);
-                characterGroup.remove(characters.get(leavingCharacter).partner, true);
+                if(characters.get(leavingCharacter).partner != null){
+                    characterGroup.remove(characters.get(leavingCharacter).partner, true);
+                }
                 canChangeCharacters = true;
             });
         }

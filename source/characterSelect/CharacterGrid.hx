@@ -21,6 +21,7 @@ class CharacterGrid extends FlxSpriteGroup
     var cursorFarBackMoveTween:FlxTween;
 
     var cursorConfrim:FlxSprite;
+    var cursorDeny:FlxSprite;
 
     public var forceTrackPosition:Array<Int> = null;
 
@@ -65,7 +66,7 @@ class CharacterGrid extends FlxSpriteGroup
         cursor = new FlxSprite().loadGraphic(Paths.image("menu/characterSelect/charSelector"));
         cursor.antialiasing = true;
         add(cursor);
-        FlxTween.color(cursor, 0.2, 0xFFFFEC00, 0xFFFFB600, {type: PINGPONG});
+        FlxTween.color(cursor, 0.2, 0xFFFFFF00, 0xFFFFCF00, {type: PINGPONG});
         cursorMoveTween = FlxTween.tween(this, {}, 0);
 
         cursorConfrim = new FlxSprite();
@@ -74,6 +75,13 @@ class CharacterGrid extends FlxSpriteGroup
         cursorConfrim.antialiasing = true;
         cursorConfrim.visible = false;
         add(cursorConfrim);
+
+        cursorDeny = new FlxSprite();
+        cursorDeny.frames = Paths.getSparrowAtlas("menu/characterSelect/charSelectorDenied");
+        cursorDeny.animation.addByPrefix("shake", "", 24, false);
+        cursorDeny.antialiasing = true;
+        cursorDeny.visible = false;
+        add(cursorDeny);
 
         var idCount = 0;
 
@@ -162,6 +170,24 @@ class CharacterGrid extends FlxSpriteGroup
         if(grid[pos[0]][pos[1]].ID < gridArea){
             grid[pos[0]][pos[1]].animation.play("play", true);
         }
+    }
+
+    public function deny(pos:Array<Int>){
+        cursorDeny.animation.play("shake", true);
+        cursorDeny.visible = true;
+        cursorDeny.setPosition(grid[pos[0]][pos[1]].getMidpoint().x - cursorDeny.width/2, grid[pos[0]][pos[1]].getMidpoint().y - cursorDeny.height/2);
+        cursor.visible = false;
+        cursorBack.visible = false;
+        cursorFarBack.visible = false;
+        select(pos, true);
+    }
+
+    public function showNormalCursor(){
+        cursorConfrim.visible = false;
+        cursorDeny.visible = false;
+        cursor.visible = true;
+        cursorBack.visible = true;
+        cursorFarBack.visible = true;
     }
 
 }

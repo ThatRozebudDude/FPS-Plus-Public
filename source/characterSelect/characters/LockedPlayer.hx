@@ -1,0 +1,29 @@
+package characterSelect.characters;
+
+class LockedPlayer extends CharacterSelectCharacter
+{
+
+    override function setup():Void{
+        loadAtlas(Paths.getTextureAtlas("menu/characterSelect/characters/locked/CharacterSelect_Locked"));
+
+        addAnimationByLabel("enter", "Enter", 24, false);
+        addAnimationByLabel("idle", "Idle", 24, true);
+        addAnimationByLabel("exit", "Exit", 24, false);
+
+        animationEndCallback = function(anim){
+            switch(anim){
+                case "enter":
+                    playAnim("idle", true);
+            }
+        }
+    }
+
+    override function playEnter():Void{
+        playAnim("enter", true);
+    }
+
+    override function playExit():Void{
+        playAnim("exit", true);
+    }
+
+}
