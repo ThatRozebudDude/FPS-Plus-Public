@@ -34,6 +34,8 @@ class CharacterSelectState extends MusicBeatState
 
     var startLeaving:Bool = false;
     var canChangeCharacters:Bool = false;
+    var canReverse:Bool = false;
+    var reverseTime:Float = 0;
 
     var characters:Map<String, CharacterSelectGroup> = new Map<String, CharacterSelectGroup>();
     var characterPositions:Map<String, String> = new Map<String, String>();
@@ -46,6 +48,11 @@ class CharacterSelectState extends MusicBeatState
     var curGridPosition:Array<Int> = [1, 1];
 
     var denyCount:Int = 0;
+
+    var removeList:Array<String> = [];
+
+    var repeatDelayX:Int = 0;
+    var repeatDelayY:Int = 0;
 
     static var persistentCharacter:String = "bf";
 
@@ -208,6 +215,7 @@ class CharacterSelectState extends MusicBeatState
                 changeCharacter(getCharacterFromPosition());
                 characterGrid.showNormalCursor();
                 characterGrid.select(curGridPosition);
+                repeatDelayY = 2;
                 FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
             }
             else if(Binds.justPressed("menuDown")){
@@ -215,6 +223,7 @@ class CharacterSelectState extends MusicBeatState
                 changeCharacter(getCharacterFromPosition());
                 characterGrid.showNormalCursor();
                 characterGrid.select(curGridPosition);
+                repeatDelayY = 2;
                 FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
             }
             if(Binds.justPressed("menuLeft")){
@@ -222,6 +231,7 @@ class CharacterSelectState extends MusicBeatState
                 changeCharacter(getCharacterFromPosition());
                 characterGrid.showNormalCursor();
                 characterGrid.select(curGridPosition);
+                repeatDelayX = 2;
                 FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
             }
             else if(Binds.justPressed("menuRight")){
@@ -229,12 +239,14 @@ class CharacterSelectState extends MusicBeatState
                 changeCharacter(getCharacterFromPosition());
                 characterGrid.showNormalCursor();
                 characterGrid.select(curGridPosition);
+                repeatDelayX = 2;
                 FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
             }
         }
 
         if(Binds.justPressed("menuAccept") && characters.get(curCharacter).freeplayClass != null && !startLeaving){
             startLeaving = true;
+            canReverse = true;
             persistentCharacter = curCharacter;
             FreeplayState.djCharacter = characters.get(curCharacter).freeplayClass;
 
@@ -248,6 +260,7 @@ class CharacterSelectState extends MusicBeatState
             FlxTween.tween(FlxG.sound.music, {pitch: 0.5}, 0.4, {ease: FlxEase.quadOut, onComplete: function(t){
                 FlxG.sound.music.fadeOut(0.05);
                 new FlxTimer().start(0.3, function(t) {
+                    canReverse = false;
                     switchState(new FreeplayState(fromCharacterSelect));
                     FlxTween.tween(camFollow, {y: camFollow.y - 150}, 0.8, {ease: FlxEase.backIn});
                     FlxTween.tween(titleBar, {y: titleBar.y + 80}, 0.8, {ease: FlxEase.backIn});
@@ -288,6 +301,48 @@ class CharacterSelectState extends MusicBeatState
         }
 
         speakers.playAnim("bop");
+    }
+
+    override function stepHit():Void{
+        if(!startLeaving && canChangeCharacters){
+            var changeAmount = [0, 0];
+
+            if(repeatDelayY > 0){
+                repeatDelayY--;
+            }
+            else{
+                if(Binds.pressed("menuUp")){
+                    changeAmount[1]--;
+                }
+                if(Binds.pressed("menuDown")){
+                    changeAmount[1]++;
+                }
+            }
+
+            if(repeatDelayX > 0){
+                repeatDelayX--;
+            }
+            else{
+                if(Binds.pressed("menuLeft")){
+                    changeAmount[0]--;
+                }
+                if(Binds.pressed("menuRight")){
+                    changeAmount[0]++;
+                }
+            }
+
+            if(changeAmount[0] != 0 || changeAmount[1] != 0){
+                if(Binds.pressed("menuUp") || Binds.pressed("menuDown") || Binds.pressed("menuLeft") || Binds.pressed("menuRight")){
+                    changeGridPos(changeAmount);
+                    changeCharacter(getCharacterFromPosition());
+                    characterGrid.showNormalCursor();
+                    characterGrid.select(curGridPosition);
+                    FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
+                }
+            }
+        }
+
+        super.stepHit();
     }
 
     function startSong():Void{
@@ -347,20 +402,26 @@ class CharacterSelectState extends MusicBeatState
         }
 
         updateCharacterTitle();
+        removeList.remove(curCharacter);
 
         if(characters.exists(leavingCharacter)){
             characters.get(leavingCharacter).player.playExit();
             if(characters.get(leavingCharacter).partner != null){
                 characters.get(leavingCharacter).partner.playExit();
             }
-            canChangeCharacters = false;
+            //canChangeCharacters = false;
+
+            removeList.push(leavingCharacter);
 
             new FlxTimer().start(2/24, function(t){
-                characterGroup.remove(characters.get(leavingCharacter).player, true);
-                if(characters.get(leavingCharacter).partner != null){
-                    characterGroup.remove(characters.get(leavingCharacter).partner, true);
+                if(removeList.contains(leavingCharacter)){
+                    characterGroup.remove(characters.get(leavingCharacter).player, true);
+                    if(characters.get(leavingCharacter).partner != null){
+                        characterGroup.remove(characters.get(leavingCharacter).partner, true);
+                    }
+                    removeList.remove(leavingCharacter);
                 }
-                canChangeCharacters = true;
+                //canChangeCharacters = true;
             });
         }
     }
