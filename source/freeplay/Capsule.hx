@@ -41,6 +41,7 @@ class Capsule extends FlxSpriteGroup
     public var highscoreData:Array<SongStats> = [];
     public var difficulties:Array<Int> = [];
     public var skin:String;
+    public var variations:Array<String> = [];
 
     public var targetPos:FlxPoint = new FlxPoint();
     public var xPositionOffset:Float = 0;
@@ -51,13 +52,20 @@ class Capsule extends FlxSpriteGroup
     var scrollOffset:Float = 0;
     var scrollTween:FlxTween;
 
-    public function new(_song:String, _displayName:String, _icon:String, _week:Int, _album:String = "vol1", _difficulties:Array<Int>, _skinInfo:Array<Dynamic>) {
+    public function new(_song:String, _displayName:String, _icon:String, _week:Int, _album:String = "vol1", _difficulties:Array<Int>, _variations:Array<String>, _skinInfo:Array<Dynamic>) {
         super();
 
         song = _song;
         week = _week;
         album = _album;
         difficulties = _difficulties;
+        
+        variations.push(song);
+        if(_variations != null){
+            for(v in _variations){
+                variations.push(v);
+            }
+        }
 
         if(_skinInfo != null){
             skin = _skinInfo[0];

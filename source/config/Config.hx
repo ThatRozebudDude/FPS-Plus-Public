@@ -25,7 +25,7 @@ class Config
 	public static var showCaptions:Bool;
 	public static var showAccuracy:Bool;
 	public static var showMisses:Int;
-	public static var pauseMusicBehavior:Int;
+	public static var enableVariations:Bool;
 
 	public static var ee1:Bool;
 	public static var ee2:Bool;
@@ -53,7 +53,7 @@ class Config
 		FlxG.save.data.showCaptions = true;
 		FlxG.save.data.showAccuracy = true;
 		FlxG.save.data.showMisses = 1;
-		FlxG.save.data.pauseMusicBehavior = 0;
+		FlxG.save.data.enableVariations = true;
 
 		reload();
 
@@ -83,7 +83,7 @@ class Config
 		showCaptions = FlxG.save.data.showCaptions;
 		showAccuracy = FlxG.save.data.showAccuracy;
 		showMisses = FlxG.save.data.showMisses;
-		pauseMusicBehavior = FlxG.save.data.pauseMusicBehavior;
+		enableVariations = FlxG.save.data.enableVariations;
 
 		ee1 = FlxG.save.data.ee1;
 		ee2 = FlxG.save.data.ee2;
@@ -109,7 +109,7 @@ class Config
 								showCaptionsW:Bool,
 								showAccuracyW:Bool,
 								showMissesW:Int,
-								pauseMusicBehaviorW:Int
+								enableVariationsW:Bool
 								):Void
 	{
 
@@ -134,7 +134,7 @@ class Config
 		FlxG.save.data.showCaptions = showCaptionsW;
 		FlxG.save.data.showAccuracy = showAccuracyW;
 		FlxG.save.data.showMisses = showMissesW;
-		FlxG.save.data.pauseMusicBehavior = pauseMusicBehaviorW;
+		FlxG.save.data.enableVariations = enableVariationsW;
 
 		SaveManager.flush();
 		
@@ -185,8 +185,8 @@ class Config
 			FlxG.save.data.showAccuracy = true;
 		if(FlxG.save.data.showMisses == null)
 			FlxG.save.data.showMisses = 1;
-		if(FlxG.save.data.pauseMusicBehavior == null)
-			FlxG.save.data.pauseMusicBehavior = 0;
+		if(FlxG.save.data.enableVariations == null)
+			FlxG.save.data.enableVariations = true;
 		
 
 		if(FlxG.save.data.ee1 == null)

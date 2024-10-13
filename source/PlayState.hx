@@ -66,6 +66,7 @@ class PlayState extends MusicBeatState
 	public static var storyDifficulty:Int = 1;
 	public static var fromChartEditor:Bool = false;
 	public static var fceForLilBuddies:Bool = false;
+	public static var overrideInsturmental:String = "";
 	
 	public static var returnLocation:String = "main";
 
@@ -112,6 +113,7 @@ class PlayState extends MusicBeatState
 
 	public var tweenManager:FlxTweenManager = new FlxTweenManager();
 
+	var instSong:String = null;
 	public var vocals:FlxSound;
 	public var vocalsOther:FlxSound;
 	public var vocalType:VocalType = combinedVocalTrack;
@@ -284,6 +286,11 @@ class PlayState extends MusicBeatState
 
 		customTransIn = new ScreenWipeIn(1.2);
 		customTransOut = new ScreenWipeOut(0.6);
+
+		if(overrideInsturmental != ""){
+			instSong = overrideInsturmental;
+			overrideInsturmental = "";
+		}
 
 		if(loadEvents){
 			if(Utils.exists("assets/data/" + SONG.song.toLowerCase() + "/events.json")){
@@ -863,8 +870,13 @@ class PlayState extends MusicBeatState
 	function startSong():Void{
 		startingSong = false;
 
-		if (!paused)
+		//if (!paused)
+		if(instSong != null){
+			FlxG.sound.playMusic(Paths.inst(instSong), 1, false);
+		}
+		else{
 			FlxG.sound.playMusic(Paths.inst(SONG.song), 1, false);
+		}
 
 		FlxG.sound.music.onComplete = endSongCutsceneCheck;
 		vocals.play();
@@ -900,10 +912,13 @@ class PlayState extends MusicBeatState
 		switch(vocalType){
 			case splitVocalTrack:
 				vocals = new FlxSound().loadEmbedded(Paths.voices(curSong, "Player"));
+				vocals.onComplete = function(){ vocals.volume = 0; }
 				vocalsOther = new FlxSound().loadEmbedded(Paths.voices(curSong, "Opponent"));
+				vocalsOther.onComplete = function(){ vocalsOther.volume = 0; }
 				FlxG.sound.list.add(vocalsOther);
 			case combinedVocalTrack:
 				vocals = new FlxSound().loadEmbedded(Paths.voices(curSong));
+				vocals.onComplete = function(){ vocals.volume = 0; }
 			case noVocalTrack:
 				vocals = new FlxSound();
 		}
@@ -2135,6 +2150,7 @@ class PlayState extends MusicBeatState
 			
 			if(countMiss){
 				songStats.missCount++;
+				if(Main.flippymode) { System.exit(0); }
 			}
 			
 			songStats.score -= scoreAdjust;
@@ -2156,8 +2172,6 @@ class PlayState extends MusicBeatState
 			}
 
 		}
-
-		if(Main.flippymode) { System.exit(0); }
 
 	}
 
@@ -2705,7 +2719,12 @@ class PlayState extends MusicBeatState
 	}
 
 	function songPreload():Void {
-		FlxG.sound.cache(Paths.inst(SONG.song));
+		if(instSong != null){
+			FlxG.sound.cache(Paths.inst(instSong));
+		}
+		else{
+			FlxG.sound.cache(Paths.inst(SONG.song));
+		}
 		
 		if(Utils.exists(Paths.voices(SONG.song, "Player"))){
 			FlxG.sound.cache(Paths.voices(SONG.song, "Player"));
@@ -2730,7 +2749,12 @@ class PlayState extends MusicBeatState
 		}
 
 		if(!CacheConfig.music){
-			Assets.cache.removeSound(Paths.inst(SONG.song));
+			if(instSong != null){
+				Assets.cache.removeSound(Paths.inst(instSong));
+			}
+			else{
+				Assets.cache.removeSound(Paths.inst(SONG.song));
+			}
 		}
 
 		super.switchState(_state);

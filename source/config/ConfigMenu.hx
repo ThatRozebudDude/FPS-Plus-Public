@@ -94,8 +94,8 @@ class ConfigMenu extends FlxUIStateExt
     var showAccuracyValue:Bool;
     var showMissesValue:Int;
     final showMissesTypes:Array<String> = ["off", "on", "combo breaks"];
-    var pauseMusicBehaviorValue:Int;
-    final pauseMusicBehaviorTypes:Array<String> = ["unique", "base game", "breakfast only"];
+    var enableVariationsValue:Bool;
+    //final pauseMusicBehaviorTypes:Array<String> = ["unique", "base game", "breakfast only"];
 
     var pressUp:Bool = false;
     var pressDown:Bool = false;
@@ -483,7 +483,7 @@ class ConfigMenu extends FlxUIStateExt
 		showCaptionsValue = Config.showCaptions;
 		showAccuracyValue = Config.showAccuracy;
 		showMissesValue = Config.showMisses;
-		pauseMusicBehaviorValue = Config.pauseMusicBehavior;
+		enableVariationsValue = Config.enableVariations;
 
         framerateValue = allowedFramerates.indexOf(Config.framerate);
         if(framerateValue == -1){
@@ -1041,28 +1041,14 @@ class ConfigMenu extends FlxUIStateExt
 
 
 
-        var pauseMusicSetting = new ConfigOption("PAUSE MUSIC", ": " + pauseMusicBehaviorTypes[pauseMusicBehaviorValue], "TEMP");
-        pauseMusicSetting.extraData[0] = "Each week has a unique pause song.";
-        pauseMusicSetting.extraData[1] = "Only play pause songs that are in base game.";
-        pauseMusicSetting.extraData[2] = "Only play Breakfast on the pause menu.";
-        pauseMusicSetting.optionUpdate = function(){
-            if (pressRight){
+        var variationsSettings = new ConfigOption("SHOW SONG VARIATIONS", ": " + genericOnOff[enableVariationsValue?0:1], "Enable or disable playing song variations in Freeplay.");
+        variationsSettings.optionUpdate = function(){
+            if (pressRight || pressLeft){
                 FlxG.sound.play(Paths.sound('scrollMenu'));
-                pauseMusicBehaviorValue += 1;
+                enableVariationsValue = !enableVariationsValue;
             }
-                
-            if (pressLeft){
-                FlxG.sound.play(Paths.sound('scrollMenu'));
-                pauseMusicBehaviorValue -= 1;
-            }
-                
-            if (pauseMusicBehaviorValue >= pauseMusicBehaviorTypes.length)
-                pauseMusicBehaviorValue = 0;
-            if (pauseMusicBehaviorValue < 0)
-                pauseMusicBehaviorValue = pauseMusicBehaviorTypes.length - 1;
-            
-            pauseMusicSetting.setting = ": " + pauseMusicBehaviorTypes[pauseMusicBehaviorValue];
-            pauseMusicSetting.description = pauseMusicSetting.extraData[pauseMusicBehaviorValue];
+
+            variationsSettings.setting = ": " + genericOnOff[enableVariationsValue?0:1];
         };
 
 
@@ -1070,13 +1056,13 @@ class ConfigMenu extends FlxUIStateExt
         configOptions = [
                             [fpsCap, noteSplash, noteGlow, extraCamStuff, camBopStuff, captionsStuff, bgDim, showFPS],
                             [noteOffset, downscroll, centeredNotes, ghostTap, keyBinds],
-                            [showMissesSetting, showAccuracyDisplay, comboDisplay, pauseMusicSetting, scrollSpeed, hpGain, hpDrain, cacheSettings]
+                            [showMissesSetting, showAccuracyDisplay, comboDisplay, variationsSettings, scrollSpeed, hpGain, hpDrain, cacheSettings]
                         ];
 
     }
 
     function writeToConfig(){
-		Config.write(offsetValue, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, allowedFramerates[framerateValue], dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue, showAccuracyValue, showMissesValue, pauseMusicBehaviorValue);
+		Config.write(offsetValue, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, allowedFramerates[framerateValue], dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue, showAccuracyValue, showMissesValue, enableVariationsValue);
 	}
 
     function resyncLayers():Void {

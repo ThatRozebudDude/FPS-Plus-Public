@@ -2,5 +2,7 @@
   "name": "Guns",
   "artist": "Kawai Sprite",
   "album": "vol2",
-  "difficulties": [2, 4, 5]
+  "difficulties": [2, 4, 5],
+  "compatableInsts": ["Guns-Pico"],
+  "mixName": "Original"
 }

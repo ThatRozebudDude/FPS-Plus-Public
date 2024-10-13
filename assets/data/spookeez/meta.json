@@ -3,5 +3,7 @@
   "artist": "Kawai Sprite",
   "album": "vol1",
   "difficulties": [0, 1, 2],
-  "dadBeats": [0, 1, 2, 3]
+  "dadBeats": [0, 1, 2, 3],
+  "compatableInsts": ["Spookeez-Pico"],
+  "mixName": "Original"
 }

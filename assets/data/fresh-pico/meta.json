@@ -18,5 +18,7 @@
         1,
         2,
         3
-    ]
+    ],
+    "compatableInsts": ["Fresh"],
+    "mixName": "Pico Mix"
 }

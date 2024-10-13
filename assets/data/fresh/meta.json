@@ -4,5 +4,7 @@
   "album": "vol1",
   "difficulties": [1, 1, 1],
   "bfBeats": [0, 1, 2, 3],
-  "dadBeats": [0, 1, 2, 3]
+  "dadBeats": [0, 1, 2, 3],
+  "compatableInsts": ["Fresh-Pico"],
+  "mixName": "Original"
 }

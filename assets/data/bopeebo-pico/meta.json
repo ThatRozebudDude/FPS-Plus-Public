@@ -18,5 +18,7 @@
         1,
         2,
         3
-    ]
+    ],
+    "compatableInsts": ["Bopeebo"],
+    "mixName": "Pico Mix"
 }

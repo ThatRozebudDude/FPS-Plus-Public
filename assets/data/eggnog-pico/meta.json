@@ -14,5 +14,7 @@
     "dadBeats": [
         0,
         2
-    ]
+    ],
+    "compatableInsts": ["Eggnog"],
+    "mixName": "Pico Mix"
 }

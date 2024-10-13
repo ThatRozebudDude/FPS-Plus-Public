@@ -2,5 +2,7 @@
   "name": "Pico",
   "artist": "Kawai Sprite",
   "album": "vol1",
-  "difficulties": [1, 2, 2]
+  "difficulties": [1, 2, 2],
+  "compatableInsts": ["Pico-Pico"],
+  "mixName": "Original"
 }

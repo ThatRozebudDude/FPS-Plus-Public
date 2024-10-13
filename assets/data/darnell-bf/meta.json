@@ -2,5 +2,7 @@
   "name": "Darnell (BF Mix)",
   "artist": "Saruky",
   "album": "vol4",
-  "difficulties": [2, 3, 4]
+  "difficulties": [2, 3, 4],
+  "compatableInsts": ["Darnell"],
+  "mixName": "BF Mix"
 }

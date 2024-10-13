@@ -2,5 +2,7 @@
   "name": "Blammed",
   "artist": "Kawai Sprite",
   "album": "vol1",
-  "difficulties": [1, 2, 3]
+  "difficulties": [1, 2, 3],
+  "compatableInsts": ["Blammed-Pico"],
+  "mixName": "Original"
 }

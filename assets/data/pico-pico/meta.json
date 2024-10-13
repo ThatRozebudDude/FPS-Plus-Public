@@ -14,5 +14,7 @@
     "dadBeats": [
         0,
         2
-    ]
+    ],
+    "compatableInsts": ["Pico"],
+    "mixName": "Pico Mix"
 }

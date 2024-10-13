@@ -64,6 +64,11 @@ class FreeplayState extends MusicBeatState
 	final ablumPeriod:Float = 1/24;
 	var smoothAlbum:Bool = false;
 
+	var variationBox:FlxSprite;
+	var variationArrowLeft:FlxSprite;
+	var variationArrowRight:FlxSprite;
+	var variationName:FlxBitmapText;
+
 	var capsuleGroup:FlxTypedSpriteGroup<Capsule> = new FlxTypedSpriteGroup<Capsule>();
 
 	var categoryNames:Array<String> = [];
@@ -74,6 +79,7 @@ class FreeplayState extends MusicBeatState
 	public static var curSelected:Int = 0;
 	public static var curDifficulty:Int = 1;
 	public static var curCategory:Int = 0;
+	public static var curVariation:Int = 0;
 
 	public static var djCharacter:String = "Boyfriend";
 
@@ -86,6 +92,7 @@ class FreeplayState extends MusicBeatState
 
 	var transitionOver:Bool = false;
 	var waitForFirstUpdateToStart:Bool = true;
+	var selectingMode:String = "song";
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	var camFollow:FlxObject;
@@ -208,106 +215,136 @@ class FreeplayState extends MusicBeatState
 		}
 
 		if(transitionOver){
-			if(Binds.justPressed("menuUp")){
-				changeSelected(-1);
-				FlxG.sound.play(Paths.sound('scrollMenu'));
-			}
-			else if(Binds.justPressed("menuDown")){
-				changeSelected(1);
-				FlxG.sound.play(Paths.sound('scrollMenu'));
-			}
+			switch(selectingMode){
+				case "song":
+					if(Binds.justPressed("menuUp")){
+						changeSelected(-1);
+						FlxG.sound.play(Paths.sound('scrollMenu'));
+					}
+					else if(Binds.justPressed("menuDown")){
+						changeSelected(1);
+						FlxG.sound.play(Paths.sound('scrollMenu'));
+					}
+		
+					if(Binds.justPressed("menuLeft")){
+						changeDifficulty(-1);
+						FlxG.sound.play(Paths.sound('scrollMenu'));
+					}
+					else if(Binds.justPressed("menuRight")){
+						changeDifficulty(1);
+						FlxG.sound.play(Paths.sound('scrollMenu'));
+					}
+		
+					if(Binds.justPressed("menuCycleLeft")){
+						changeCategory(-1);
+						FlxG.sound.play(Paths.sound('scrollMenu'));
+					}
+					else if(Binds.justPressed("menuCycleRight")){
+						changeCategory(1);
+						FlxG.sound.play(Paths.sound('scrollMenu'));
+					}
+		
+					if(Binds.justPressed("menuAccept")){
+						if(categoryMap[categoryNames[curCategory]][curSelected].variations.length > 1 && Config.enableVariations){
+							openVariationPopup();
+						}
+						else{
+							songAccept();
+						}
+					}
+			
+					for(i in 0...categoryMap[categoryNames[curCategory]].length){
+						updateCapsulePosition(i);
+					}
+			
+					if(Binds.pressed("menuLeft")){ arrowLeft.scale.set(0.8, 0.8); }
+					else{ arrowLeft.scale.set(1, 1); }
+			
+					if(Binds.pressed("menuRight")){ arrowRight.scale.set(0.8, 0.8); }
+					else{ arrowRight.scale.set(1, 1); }
+		
+					if(Binds.pressed("menuCycleLeft")){ miniArrowLeft.scale.set(0.6, 0.6); }
+					else{ miniArrowLeft.scale.set(1, 1); }
+			
+					if(Binds.pressed("menuCycleRight")){ miniArrowRight.scale.set(0.6, 0.6); }
+					else{ miniArrowRight.scale.set(1, 1); }
+			
+					if(Binds.justPressed("menuBack")){
+						transitionOver = false;
+						FlxG.sound.play(Paths.sound('cancelMenu'));
+						FlxG.sound.music.fadeOut(0.5, 0, function(t) {
+							FlxG.sound.music.stop();
+						});
+						exitAnimation();
+						customTransOut = new InstantTransition();
+						MainMenuState.fromFreeplay = true;
+						new FlxTimer().start(transitionTimeExit + (staggerTimeExit*4), function(t) {
+							switchState(new MainMenuState());
+						});
+					}
+		
+					if(Binds.justPressed("menuChangeCharacter")){
+						transitionOver = false;
+						if(djCharacter == "Boyfriend"){
+							djCharacter = "Pico";
+						}
+						else{
+							djCharacter = "Boyfriend";
+						}
+						dj.toCharacterSelect();
+						customTransOut = new transition.data.ScreenWipeOutFlipped(dropTime, dropEase);
+		
+						FlxG.sound.play(Paths.sound('confirmMenu'));
+						FlxG.sound.music.pitch = 1;
+						FlxTween.tween(FlxG.sound.music, {pitch: 0.5}, 0.4, {ease: FlxEase.quadOut, onComplete: function(t){
+							FlxG.sound.music.fadeOut(0.05);
+						}});
+		
+						new FlxTimer().start(0.25, function(t) {
+							toCharSelectAnimation();
+							curSelected = 0;
+							curCategory = 0;
+		
+							new FlxTimer().start(0.1, function(t) {
+								fadeShader.fadeVal = 1;
+								FlxTween.tween(fadeShader, {fadeVal: 0}, dropTime);
+								switchState(new CharacterSelectState());
+							});
+						});
+					}
+		
+					
+				case "variation":
+					if(Binds.justPressed("menuLeft")){
+						changeVariation(-1);
+						FlxG.sound.play(Paths.sound('scrollMenu'));
+					}
+					else if(Binds.justPressed("menuRight")){
+						changeVariation(1);
+						FlxG.sound.play(Paths.sound('scrollMenu'));
+					}
 
-			if(Binds.justPressed("menuLeft")){
-				changeDifficulty(-1);
-				FlxG.sound.play(Paths.sound('scrollMenu'));
-			}
-			else if(Binds.justPressed("menuRight")){
-				changeDifficulty(1);
-				FlxG.sound.play(Paths.sound('scrollMenu'));
-			}
+					if(Binds.justPressed("menuAccept")){
+						PlayState.overrideInsturmental = categoryMap[categoryNames[curCategory]][curSelected].variations[curVariation];
+						closeVariationPopup();
+						songAccept();
+					}
+					else if(Binds.justPressed("menuBack")){
+						closeVariationPopup();
+						FlxG.sound.play(Paths.sound('cancelMenu'));
+					}
 
-			if(Binds.justPressed("menuCycleLeft")){
-				changeCategory(-1);
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+					if(Binds.pressed("menuLeft")){ variationArrowLeft.scale.set(1.6, 1.6); }
+					else{ variationArrowLeft.scale.set(2, 2); }
+			
+					if(Binds.pressed("menuRight")){ variationArrowRight.scale.set(1.6, 1.6); }
+					else{ variationArrowRight.scale.set(2, 2); }
 			}
-			else if(Binds.justPressed("menuCycleRight")){
-				changeCategory(1);
-				FlxG.sound.play(Paths.sound('scrollMenu'));
-			}
+		}
 
-			if(Binds.justPressed("menuAccept")){
-				transitionOver = false;
-				dj.backingCardSelect();
-				FlxG.sound.play(Paths.sound('confirmMenu'));
-				dj.playConfirm();
-				categoryMap[categoryNames[curCategory]][curSelected].confirm();
-				startSong();
-			}
-	
-			for(i in 0...categoryMap[categoryNames[curCategory]].length){
-				updateCapsulePosition(i);
-			}
-	
-			if(Binds.pressed("menuLeft")){ arrowLeft.scale.set(0.8, 0.8); }
-			else{ arrowLeft.scale.set(1, 1); }
-	
-			if(Binds.pressed("menuRight")){ arrowRight.scale.set(0.8, 0.8); }
-			else{ arrowRight.scale.set(1, 1); }
-
-			if(Binds.pressed("menuCycleLeft")){ miniArrowLeft.scale.set(0.6, 0.6); }
-			else{ miniArrowLeft.scale.set(1, 1); }
-	
-			if(Binds.pressed("menuCycleRight")){ miniArrowRight.scale.set(0.6, 0.6); }
-			else{ miniArrowRight.scale.set(1, 1); }
-	
-			if(Binds.justPressed("menuBack")){
-				transitionOver = false;
-				FlxG.sound.play(Paths.sound('cancelMenu'));
-				FlxG.sound.music.fadeOut(0.5, 0, function(t) {
-					FlxG.sound.music.stop();
-				});
-				exitAnimation();
-				customTransOut = new InstantTransition();
-				MainMenuState.fromFreeplay = true;
-				new FlxTimer().start(transitionTimeExit + (staggerTimeExit*4), function(t) {
-					switchState(new MainMenuState());
-				});
-			}
-
-			if(Binds.justPressed("menuChangeCharacter")){
-				transitionOver = false;
-				if(djCharacter == "Boyfriend"){
-					djCharacter = "Pico";
-				}
-				else{
-					djCharacter = "Boyfriend";
-				}
-				dj.toCharacterSelect();
-				customTransOut = new transition.data.ScreenWipeOutFlipped(dropTime, dropEase);
-
-				FlxG.sound.play(Paths.sound('confirmMenu'));
-				FlxG.sound.music.pitch = 1;
-				FlxTween.tween(FlxG.sound.music, {pitch: 0.5}, 0.4, {ease: FlxEase.quadOut, onComplete: function(t){
-					FlxG.sound.music.fadeOut(0.05);
-				}});
-
-				new FlxTimer().start(0.25, function(t) {
-					toCharSelectAnimation();
-					curSelected = 0;
-					curCategory = 0;
-
-					new FlxTimer().start(0.1, function(t) {
-						fadeShader.fadeVal = 1;
-						FlxTween.tween(fadeShader, {fadeVal: 0}, dropTime);
-						switchState(new CharacterSelectState());
-					});
-				});
-			}
-
-			//big if
-			if(Binds.justPressed("menuUp")||Binds.justPressed("menuDown")||Binds.justPressed("menuLeft")||Binds.justPressed("menuRight")||Binds.justPressed("menuCycleLeft")||Binds.justPressed("menuCycleRight")){
-				pressedAnything();
-			}
+		//big if
+		if(Binds.justPressed("menuUp")||Binds.justPressed("menuDown")||Binds.justPressed("menuLeft")||Binds.justPressed("menuRight")||Binds.justPressed("menuCycleLeft")||Binds.justPressed("menuCycleRight")){
+			pressedAnything();
 		}
 
 		//update change character text
@@ -433,6 +470,37 @@ class FreeplayState extends MusicBeatState
 
 		difficultyStars = new DifficultyStars(953, 237);
 
+		variationBox = new FlxSprite().makeGraphic(480, 150, 0xFF000000);
+		variationBox.antialiasing = true;
+		variationBox.screenCenter();
+		variationBox.visible = false;
+
+		variationArrowLeft = new FlxSprite(variationBox.x, variationBox.y + variationBox.height/2).loadGraphic(getImagePathWithSkin("menu/freeplay/miniArrow"));
+		variationArrowLeft.scale.set(2, 2);
+		variationArrowLeft.updateHitbox();
+		variationArrowLeft.y -= variationArrowLeft.height/2;
+		variationArrowLeft.x += 15;
+		variationArrowLeft.flipX = true;
+		variationArrowLeft.antialiasing = true;
+		variationArrowLeft.visible = false;
+
+		variationArrowRight = new FlxSprite(variationBox.x + variationBox.width, variationBox.y + variationBox.height/2).loadGraphic(getImagePathWithSkin("menu/freeplay/miniArrow"));
+		variationArrowRight.scale.set(2, 2);
+		variationArrowRight.updateHitbox();
+		variationArrowRight.y -= variationArrowRight.height/2;
+		variationArrowRight.x -= variationArrowRight.width;
+		variationArrowRight.x -= 15;
+		variationArrowRight.antialiasing = true;
+		variationArrowRight.visible = false;
+
+		variationName = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
+		variationName.text = "Original";
+		variationName.letterSpacing = -15;
+		variationName.antialiasing = true;
+		variationName.setPosition(variationBox.getMidpoint().x, variationBox.getMidpoint().y - 23);
+		variationName.x -= variationName.width/2;
+		variationName.visible = false;
+
 		switch(introAnimType){
 			case fromMainMenu | fromCharacterSelect:
 				dj.playIntro();
@@ -474,6 +542,11 @@ class FreeplayState extends MusicBeatState
 		add(changeCharacterText);
 
 		addCapsules();
+
+		add(variationBox);
+		add(variationName);
+		add(variationArrowLeft);
+		add(variationArrowRight);
 
 		calcAvailableDifficulties();
 		updateScore();
@@ -590,14 +663,18 @@ class FreeplayState extends MusicBeatState
 			name: _song.replace("-", ""),
 			artist: "",
 			album: "vol1",
-			difficulties: [0, 0, 0]
+			difficulties: [0, 0, 0],
+    		dadBeats: [0, 2],
+			bfBeats: [1, 3],
+			compatableInsts: null,
+			mixName: "Original"
 		}
 		if(Utils.exists("assets/data/" + _song.toLowerCase() + "/meta.json")){
 			meta = Json.parse(Utils.getText("assets/data/" + _song.toLowerCase() + "/meta.json"));
 		}
 
 		if(categories == null){ categories = ["All"]; }
-		var capsule:Capsule = new Capsule(_song, meta.name, _icon, _week, meta.album, meta.difficulties, [dj.freeplaySkin, dj.capsuleSelectColor, dj.capsuleDeselectColor, dj.capsuleSelectOutlineColor, dj.capsuleDeselectOutlineColor]);
+		var capsule:Capsule = new Capsule(_song, meta.name, _icon, _week, meta.album, meta.difficulties, meta.compatableInsts, [dj.freeplaySkin, dj.capsuleSelectColor, dj.capsuleDeselectColor, dj.capsuleSelectOutlineColor, dj.capsuleDeselectOutlineColor]);
 		for(cat in categories){
 			createCategory(cat);
 			categoryMap[cat].push(capsule);
@@ -668,6 +745,27 @@ class FreeplayState extends MusicBeatState
 		}
 
 		updateScore();
+	}
+
+	function changeVariation(change:Int):Void{
+		curVariation += change;
+		if(curVariation < 0){
+			curVariation = categoryMap[categoryNames[curCategory]][curSelected].variations.length - 1;
+		}
+		else if(curVariation >= categoryMap[categoryNames[curCategory]][curSelected].variations.length){
+			curVariation = 0;
+		}
+
+		var varMeta = Json.parse(Utils.getText("assets/data/" + categoryMap[categoryNames[curCategory]][curSelected].variations[curVariation].toLowerCase() + "/meta.json"));
+		if(varMeta.mixName != null){
+			variationName.text = varMeta.mixName;
+		}
+		else{
+			variationName.text = "Unnamed Mix";
+		}
+
+		variationName.setPosition(variationBox.getMidpoint().x, variationBox.getMidpoint().y - 23);
+		variationName.x -= variationName.width/2;
 	}
 
 	function updateDifficultyGraphic():Void{
@@ -840,6 +938,67 @@ class FreeplayState extends MusicBeatState
 			switchState(new PlayState());
 			FlxG.sound.music.fadeOut(0.5);
 		});
+	}
+
+	function songAccept():Void{
+		transitionOver = false;
+		dj.backingCardSelect();
+		FlxG.sound.play(Paths.sound('confirmMenu'));
+		dj.playConfirm();
+		categoryMap[categoryNames[curCategory]][curSelected].confirm();
+		startSong();
+	}
+
+	function openVariationPopup():Void{
+		selectingMode = "variation";
+		variationBox.visible = true;
+		variationArrowLeft.visible = true;
+		variationArrowRight.visible = true;
+		variationName.visible = true;
+
+		FlxTween.cancelTweensOf(variationBox);
+		FlxTween.cancelTweensOf(variationBox.scale);
+		FlxTween.cancelTweensOf(variationArrowLeft);
+		FlxTween.cancelTweensOf(variationArrowRight);
+		FlxTween.cancelTweensOf(variationName);
+
+		variationBox.alpha = 0.6;
+		variationBox.scale.set(1.05, 0.9);
+		variationArrowLeft.alpha = 0.6;
+		variationArrowRight.alpha = 0.6;
+		variationName.alpha = 0.6;
+		
+		FlxTween.tween(variationBox, {alpha: 1}, 0.4, {ease: FlxEase.expoOut});
+		FlxTween.tween(variationBox.scale, {x: 1, y: 1}, 0.6, {ease: FlxEase.elasticOut});
+		FlxTween.tween(variationArrowLeft, {alpha: 1}, 0.4, {ease: FlxEase.expoOut});
+		FlxTween.tween(variationArrowRight, {alpha: 1}, 0.4, {ease: FlxEase.expoOut});
+		FlxTween.tween(variationName, {alpha: 1}, 0.4, {ease: FlxEase.expoOut});
+
+		curVariation = 0;
+		changeVariation(0);
+		
+		FlxG.sound.play(Paths.sound('scrollMenu'));
+	}
+
+	function closeVariationPopup():Void{
+		selectingMode = "song";
+
+		FlxTween.cancelTweensOf(variationBox);
+		//FlxTween.cancelTweensOf(variationBox.scale);
+		FlxTween.cancelTweensOf(variationArrowLeft);
+		FlxTween.cancelTweensOf(variationArrowRight);
+		FlxTween.cancelTweensOf(variationName);
+		
+		FlxTween.tween(variationBox, {alpha: 0.4}, 2/24, {ease: FlxEase.quadOut});
+		//FlxTween.tween(variationBox.scale, {x: 1, y: 1}, 0.6, {ease: FlxEase.elasticOut});
+		FlxTween.tween(variationArrowLeft, {alpha: 0.4}, 2/24, {ease: FlxEase.expoOut});
+		FlxTween.tween(variationArrowRight, {alpha: 0.4}, 2/24, {ease: FlxEase.expoOut});
+		FlxTween.tween(variationName, {alpha: 0.4}, 2/24, {ease: FlxEase.expoOut, onComplete: function(t){
+			variationBox.visible = false;
+			variationArrowLeft.visible = false;
+			variationArrowRight.visible = false;
+			variationName.visible = false;
+		}});
 	}
 
 	function tweenCapsulesOnScreen(_transitionTime:Float, _randomVariation:Float, _staggerTime:Float, ?_distance:Float = 1000):Void{
