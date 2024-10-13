@@ -1,5 +1,6 @@
 package characterSelect;
 
+import flixel.math.FlxPoint;
 import shaders.HueShader;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -14,11 +15,12 @@ class CharacterGrid extends FlxSpriteGroup
     var gridArea:Int;
 
     var cursor:FlxSprite;
-    var cursorMoveTween:FlxTween;
     var cursorBack:FlxSprite;
-    var cursorBackMoveTween:FlxTween;
     var cursorFarBack:FlxSprite;
-    var cursorFarBackMoveTween:FlxTween;
+
+    var cursorPos:FlxPoint = new FlxPoint();
+    var cursorBackPos:FlxPoint = new FlxPoint();
+    var cursorFarBackPos:FlxPoint = new FlxPoint();
 
     var cursorConfrim:FlxSprite;
     var cursorDeny:FlxSprite;
@@ -54,20 +56,17 @@ class CharacterGrid extends FlxSpriteGroup
         cursorFarBack.color = 0xFF3C74F7;
         cursorFarBack.blend = ADD;
         add(cursorFarBack);
-        cursorFarBackMoveTween = FlxTween.tween(this, {}, 0);
 
         cursorBack = new FlxSprite().loadGraphic(Paths.image("menu/characterSelect/charSelector"));
         cursorBack.antialiasing = true;
         cursorBack.color = 0xFF3EBBFF;
         cursorBack.blend = ADD;
         add(cursorBack);
-        cursorBackMoveTween = FlxTween.tween(this, {}, 0);
 
         cursor = new FlxSprite().loadGraphic(Paths.image("menu/characterSelect/charSelector"));
         cursor.antialiasing = true;
         add(cursor);
         FlxTween.color(cursor, 0.2, 0xFFFFFF00, 0xFFFFCF00, {type: PINGPONG});
-        cursorMoveTween = FlxTween.tween(this, {}, 0);
 
         cursorConfrim = new FlxSprite();
         cursorConfrim.frames = Paths.getSparrowAtlas("menu/characterSelect/charSelectorConfirm");
@@ -126,6 +125,10 @@ class CharacterGrid extends FlxSpriteGroup
             select(forceTrackPosition, true);
         }
 
+        cursor.setPosition(cursorPos.x + x, cursorPos.y + y);
+        cursorBack.setPosition(cursorBackPos.x + x, cursorBackPos.y + y);
+        cursorFarBack.setPosition(cursorFarBackPos.x + x, cursorFarBackPos.y + y);
+
         super.update(elapsed);
     }
 
@@ -136,19 +139,19 @@ class CharacterGrid extends FlxSpriteGroup
                     FlxTween.cancelTweensOf(grid[gx][gy].scale);
                     FlxTween.tween(grid[gx][gy].scale, {x: 1, y: 1}, 0.4, {ease: FlxEase.expoOut});
 
-                    cursorMoveTween.cancel();
-                    cursorBackMoveTween.cancel();
-                    cursorFarBackMoveTween.cancel();
+                    FlxTween.cancelTweensOf(cursorPos);
+                    FlxTween.cancelTweensOf(cursorBackPos);
+                    FlxTween.cancelTweensOf(cursorFarBackPos);
                     
                     if(!instant){
-                        cursorMoveTween = FlxTween.tween(cursor, {x: grid[gx][gy].getMidpoint().x - cursor.width/2, y: grid[gx][gy].getMidpoint().y - cursor.height/2}, 0.25, {ease: FlxEase.expoOut});
-                        cursorBackMoveTween = FlxTween.tween(cursorBack, {x: grid[gx][gy].getMidpoint().x - cursorBack.width/2, y: grid[gx][gy].getMidpoint().y - cursorBack.height/2}, 0.5, {ease: FlxEase.expoOut});
-                        cursorFarBackMoveTween = FlxTween.tween(cursorFarBack, {x: grid[gx][gy].getMidpoint().x - cursor.width/2, y: grid[gx][gy].getMidpoint().y - cursor.height/2}, 0.75, {ease: FlxEase.expoOut});
+                        FlxTween.tween(cursorPos, {x: (40 + (100 * gx)) - cursor.width/2, y: (40 + (100 * gy)) - cursor.height/2}, 0.25, {ease: FlxEase.expoOut});
+                        FlxTween.tween(cursorBackPos, {x: (40 + (100 * gx)) - cursorBack.width/2, y: (40 + (100 * gy)) - cursorBack.height/2}, 0.5, {ease: FlxEase.expoOut});
+                        FlxTween.tween(cursorFarBackPos, {x: (40 + (100 * gx)) - cursor.width/2, y: (40 + (100 * gy)) - cursor.height/2}, 0.75, {ease: FlxEase.expoOut});
                     }
                     else{
-                        cursor.setPosition(grid[gx][gy].getMidpoint().x - cursor.width/2, grid[gx][gy].getMidpoint().y - cursor.height/2);
-                        cursorBack.setPosition(grid[gx][gy].getMidpoint().x - cursorBack.width/2, grid[gx][gy].getMidpoint().y - cursorBack.height/2);
-                        cursorFarBack.setPosition(grid[gx][gy].getMidpoint().x - cursorFarBack.width/2, grid[gx][gy].getMidpoint().y - cursorFarBack.height/2);
+                        cursorPos.set((40 + (100 * gx)) - cursor.width/2, (40 + (100 * gy)) - cursor.height/2);
+                        cursorBackPos.set((40 + (100 * gx)) - cursorBack.width/2, (40 + (100 * gy)) - cursorBack.height/2);
+                        cursorFarBackPos.set((40 + (100 * gx)) - cursorFarBack.width/2, (40 + (100 * gy)) - cursorFarBack.height/2);
                     }
                 }
                 else{

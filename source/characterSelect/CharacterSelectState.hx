@@ -33,7 +33,7 @@ class CharacterSelectState extends MusicBeatState
     var characterGroup:FlxSpriteGroup= new FlxSpriteGroup();
 
     var startLeaving:Bool = false;
-    var canChangeCharacters:Bool = false;
+    var canAccept:Bool = false;
     var canReverse:Bool = false;
     var reverseTime:Float = 0;
 
@@ -191,17 +191,16 @@ class CharacterSelectState extends MusicBeatState
 
         characterGrid = new CharacterGrid(480, 200, gridSize, characters);
         characterGrid.scrollFactor.set();
-        characterGrid.y += 200;
+        characterGrid.y += 230;
         characterGrid.select(characters.get(persistentCharacter).position);
-        characterGrid.forceTrackPosition = characters.get(persistentCharacter).position.copy();
-        FlxTween.tween(characterGrid, {y: characterGrid.y - 200}, 1, {ease: FlxEase.expoOut});
+        //characterGrid.forceTrackPosition = characters.get(persistentCharacter).position.copy();
+        FlxTween.tween(characterGrid, {y: characterGrid.y - 230}, 1, {ease: FlxEase.expoOut});
         add(characterGrid);
 
         curGridPosition = characters.get(persistentCharacter).position;
 
-        new FlxTimer().start(1, function(t){
-            characterGrid.forceTrackPosition = null;
-            canChangeCharacters = true;
+        new FlxTimer().start(0.5, function(t){
+            canAccept = true;
         });
 
         super.create();
@@ -211,7 +210,7 @@ class CharacterSelectState extends MusicBeatState
 
         Conductor.songPosition = FlxG.sound.music.time;
 
-        if(!startLeaving && canChangeCharacters){
+        if(!startLeaving){
             if(Binds.justPressed("menuUp")){
                 changeGridPos([0, -1]);
                 changeCharacter(getCharacterFromPosition());
@@ -250,7 +249,7 @@ class CharacterSelectState extends MusicBeatState
             }
         }
 
-        if(Binds.justPressed("menuAccept") && characters.get(curCharacter).freeplayClass != null && !startLeaving){
+        if(Binds.justPressed("menuAccept") && characters.get(curCharacter).freeplayClass != null && !startLeaving && canAccept){
             startLeaving = true;
             canReverse = true;
             persistentCharacter = curCharacter;
@@ -279,7 +278,7 @@ class CharacterSelectState extends MusicBeatState
                         FlxTween.tween(dipshitBacking, {y: dipshitBacking.y + 210}, 0.8, {ease: FlxEase.backIn});
                         FlxTween.tween(chooseDipshit, {y: chooseDipshit.y + 200}, 0.8, {ease: FlxEase.backIn});
                         FlxTween.tween(dipshitDarkBack, {y: dipshitDarkBack.y + 200}, 0.8, {ease: FlxEase.backIn});
-                        FlxTween.tween(characterGrid, {y: characterGrid.y + 200}, 0.8, {ease: FlxEase.backIn});
+                        FlxTween.tween(characterGrid, {y: characterGrid.y + 230}, 0.8, {ease: FlxEase.backIn});
                         fadeShader.fadeVal = 1;
                         FlxTween.tween(fadeShader, {fadeVal: 0}, 0.8, {ease: FlxEase.quadIn});
                     });
@@ -340,7 +339,7 @@ class CharacterSelectState extends MusicBeatState
     }
 
     override function stepHit():Void{
-        if(!startLeaving && canChangeCharacters){
+        if(!startLeaving){
             var changeAmount = [0, 0];
 
             if(repeatDelayY > 0){
