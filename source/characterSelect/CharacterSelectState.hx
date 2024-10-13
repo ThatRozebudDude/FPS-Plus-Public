@@ -48,6 +48,8 @@ class CharacterSelectState extends MusicBeatState
     var curGridPosition:Array<Int> = [1, 1];
 
     var denyCount:Int = 0;
+    var skipIdleCount:Int = 0;
+    var reverseCount:Int = 0;
 
     var removeList:Array<String> = [];
 
@@ -216,6 +218,7 @@ class CharacterSelectState extends MusicBeatState
                 characterGrid.showNormalCursor();
                 characterGrid.select(curGridPosition);
                 repeatDelayY = 2;
+                skipIdleCount = 0;
                 FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
             }
             else if(Binds.justPressed("menuDown")){
@@ -224,6 +227,7 @@ class CharacterSelectState extends MusicBeatState
                 characterGrid.showNormalCursor();
                 characterGrid.select(curGridPosition);
                 repeatDelayY = 2;
+                skipIdleCount = 0;
                 FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
             }
             if(Binds.justPressed("menuLeft")){
@@ -232,6 +236,7 @@ class CharacterSelectState extends MusicBeatState
                 characterGrid.showNormalCursor();
                 characterGrid.select(curGridPosition);
                 repeatDelayX = 2;
+                skipIdleCount = 0;
                 FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
             }
             else if(Binds.justPressed("menuRight")){
@@ -240,6 +245,7 @@ class CharacterSelectState extends MusicBeatState
                 characterGrid.showNormalCursor();
                 characterGrid.select(curGridPosition);
                 repeatDelayX = 2;
+                skipIdleCount = 0;
                 FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
             }
         }
@@ -256,23 +262,28 @@ class CharacterSelectState extends MusicBeatState
 
             FlxG.sound.play(Paths.sound("characterSelect/confirm"));
 
+            reverseCount++;
+            var reverseCheck = reverseCount;
+
             FlxG.sound.music.pitch = 1;
-            FlxTween.tween(FlxG.sound.music, {pitch: 0.5}, 0.4, {ease: FlxEase.quadOut, onComplete: function(t){
-                FlxG.sound.music.fadeOut(0.05);
-                new FlxTimer().start(0.3, function(t) {
+            FlxTween.tween(FlxG.sound.music, {pitch: 0.5}, 0.8, {ease: FlxEase.quadOut, onComplete: function(t){
+                if(reverseCheck == reverseCount){
+                    FlxG.sound.music.fadeOut(0.05);
                     canReverse = false;
-                    switchState(new FreeplayState(fromCharacterSelect));
-                    FlxTween.tween(camFollow, {y: camFollow.y - 150}, 0.8, {ease: FlxEase.backIn});
-                    FlxTween.tween(titleBar, {y: titleBar.y + 80}, 0.8, {ease: FlxEase.backIn});
-                    FlxTween.tween(characterTitle, {y: characterTitle.y + 80}, 0.8, {ease: FlxEase.backIn});
-                    FlxTween.tween(dipshitBlur, {y: dipshitBlur.y + 220}, 0.8, {ease: FlxEase.backIn});
-                    FlxTween.tween(dipshitBacking, {y: dipshitBacking.y + 210}, 0.8, {ease: FlxEase.backIn});
-                    FlxTween.tween(chooseDipshit, {y: chooseDipshit.y + 200}, 0.8, {ease: FlxEase.backIn});
-                    FlxTween.tween(dipshitDarkBack, {y: dipshitDarkBack.y + 200}, 0.8, {ease: FlxEase.backIn});
-                    FlxTween.tween(characterGrid, {y: characterGrid.y + 200}, 0.8, {ease: FlxEase.backIn});
-                    fadeShader.fadeVal = 1;
-                    FlxTween.tween(fadeShader, {fadeVal: 0}, 0.8, {ease: FlxEase.quadIn});
-                });
+                    new FlxTimer().start(0.3, function(t) {
+                        switchState(new FreeplayState(fromCharacterSelect));
+                        FlxTween.tween(camFollow, {y: camFollow.y - 150}, 0.8, {ease: FlxEase.backIn});
+                        FlxTween.tween(titleBar, {y: titleBar.y + 80}, 0.8, {ease: FlxEase.backIn});
+                        FlxTween.tween(characterTitle, {y: characterTitle.y + 80}, 0.8, {ease: FlxEase.backIn});
+                        FlxTween.tween(dipshitBlur, {y: dipshitBlur.y + 220}, 0.8, {ease: FlxEase.backIn});
+                        FlxTween.tween(dipshitBacking, {y: dipshitBacking.y + 210}, 0.8, {ease: FlxEase.backIn});
+                        FlxTween.tween(chooseDipshit, {y: chooseDipshit.y + 200}, 0.8, {ease: FlxEase.backIn});
+                        FlxTween.tween(dipshitDarkBack, {y: dipshitDarkBack.y + 200}, 0.8, {ease: FlxEase.backIn});
+                        FlxTween.tween(characterGrid, {y: characterGrid.y + 200}, 0.8, {ease: FlxEase.backIn});
+                        fadeShader.fadeVal = 1;
+                        FlxTween.tween(fadeShader, {fadeVal: 0}, 0.8, {ease: FlxEase.quadIn});
+                    });
+                }
             }});
         }
         else if(Binds.justPressed("menuAccept") && characters.get(curCharacter).freeplayClass == null && !startLeaving){
@@ -287,16 +298,41 @@ class CharacterSelectState extends MusicBeatState
             });
         }
 
+        if(Binds.justPressed("menuBack") && canReverse){
+            startLeaving = false;
+            canReverse = false;
+            skipIdleCount = 1;
+            reverseCount++;
+            FlxTween.cancelTweensOf(FlxG.sound.music);
+            FlxTween.tween(FlxG.sound.music, {pitch: 1}, reverseTime, {ease: FlxEase.quadIn});
+            reverseTime = 0;
+            characterGrid.showNormalCursor();
+            characterGrid.reverseIcon(curGridPosition);
+            characters.get(curCharacter).player.playCancel();
+            if(characters.get(curCharacter).partner != null){
+                characters.get(curCharacter).partner.playCancel();
+            }
+        }
+
+        if(canReverse){
+            reverseTime += elapsed;
+        }
+
         super.update(elapsed);
     }
 
     override function beatHit():Void{
         super.beatHit();
 
-        if(!startLeaving){
-            characters.get(curCharacter).player.playIdle();
-            if(characters.get(curCharacter).partner != null){
-                characters.get(curCharacter).partner.playIdle();
+        if(skipIdleCount > 0){
+            skipIdleCount--;
+        }
+        else{
+            if(!startLeaving){
+                characters.get(curCharacter).player.playIdle();
+                if(characters.get(curCharacter).partner != null){
+                    characters.get(curCharacter).partner.playIdle();
+                }
             }
         }
 

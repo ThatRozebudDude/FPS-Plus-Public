@@ -190,4 +190,10 @@ class CharacterGrid extends FlxSpriteGroup
         cursorFarBack.visible = true;
     }
 
+    public function reverseIcon(pos:Array<Int>){
+        if(grid[pos[0]][pos[1]].ID < gridArea){
+            grid[pos[0]][pos[1]].animation.play("play", true, true);
+        }
+    }
+
 }
