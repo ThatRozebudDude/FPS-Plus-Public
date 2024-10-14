@@ -1,5 +1,6 @@
 package freeplay;
 
+import flixel.group.FlxSpriteGroup;
 import openfl.filters.ShaderFilter;
 import shaders.BlueFadeShader;
 import shaders.ColorGradientShader;
@@ -75,6 +76,7 @@ class FreeplayState extends MusicBeatState
 	var categoryMap:Map<String, Array<Capsule>> = new Map<String, Array<Capsule>>();
 
 	var dj:DJCharacter;
+	var backCardGroup:FlxSpriteGroup = new FlxSpriteGroup();
 
 	public static var curSelected:Int = 0;
 	public static var curDifficulty:Int = 1;
@@ -104,7 +106,6 @@ class FreeplayState extends MusicBeatState
 	static var controllerMode:Bool = false;
 
 	private var camMenu:FlxCamera;
-	private var camCard:FlxCamera;
 	private var camFreeplay:FlxCamera;
 
 	var fadeShader:BlueFadeShader = new BlueFadeShader(1);
@@ -142,22 +143,16 @@ class FreeplayState extends MusicBeatState
 			if(FlxG.sound.music.playing){
 				FlxG.sound.music.volume = 0;
 			}
-			//FlxG.sound.play(Paths.sound("freeplay/recordStop"));
 			FlxG.sound.play(Paths.sound('confirmMenu'));
 		}
 
 		camMenu = new FlxCamera();
-
-		camCard = new FlxCamera();
-		camCard.bgColor.alpha = 0;
-		camCard.filters = [new ShaderFilter(fadeShader.shader)];
 
 		camFreeplay = new FlxCamera();
 		camFreeplay.bgColor.alpha = 0;
 		camFreeplay.filters = [new ShaderFilter(fadeShader.shader)];
 
 		FlxG.cameras.reset(camMenu);
-		FlxG.cameras.add(camCard, false);
 		FlxG.cameras.add(camFreeplay, true);
 		FlxG.cameras.setDefaultDrawTarget(camMenu, false);
 
@@ -285,12 +280,6 @@ class FreeplayState extends MusicBeatState
 		
 					if(Binds.justPressed("menuChangeCharacter")){
 						transitionOver = false;
-						if(djCharacter == "Boyfriend"){
-							djCharacter = "Pico";
-						}
-						else{
-							djCharacter = "Boyfriend";
-						}
 						dj.toCharacterSelect();
 						customTransOut = new transition.data.ScreenWipeOutFlipped(dropTime, dropEase);
 		
@@ -482,6 +471,7 @@ class FreeplayState extends MusicBeatState
 		variationArrowLeft.x += 15;
 		variationArrowLeft.flipX = true;
 		variationArrowLeft.antialiasing = true;
+		variationArrowLeft.blend = ADD;
 		variationArrowLeft.visible = false;
 
 		variationArrowRight = new FlxSprite(variationBox.x + variationBox.width, variationBox.y + variationBox.height/2).loadGraphic(getImagePathWithSkin("menu/freeplay/miniArrow"));
@@ -491,12 +481,14 @@ class FreeplayState extends MusicBeatState
 		variationArrowRight.x -= variationArrowRight.width;
 		variationArrowRight.x -= 15;
 		variationArrowRight.antialiasing = true;
+		variationArrowRight.blend = ADD;
 		variationArrowRight.visible = false;
 
 		variationName = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
 		variationName.text = "Original";
 		variationName.letterSpacing = -15;
 		variationName.antialiasing = true;
+		variationName.blend = ADD;
 		variationName.setPosition(variationBox.getMidpoint().x, variationBox.getMidpoint().y - 23);
 		variationName.x -= variationName.width/2;
 		variationName.visible = false;
@@ -513,6 +505,8 @@ class FreeplayState extends MusicBeatState
 		}
 
 		//ADDING STUFF
+		add(backCardGroup);
+
 		add(bg);
 		add(flash);
 		add(cover);
@@ -634,8 +628,7 @@ class FreeplayState extends MusicBeatState
 		changeCharacterText.alpha = 0;
 		FlxTween.tween(changeCharacterText, {alpha: 1}, 2, {ease: FlxEase.sineInOut, type: PINGPONG});
 
-		dj.backingCard.cameras = [camCard];
-		add(dj.backingCard);
+		backCardGroup.add(dj.backingCard);
 
 		dj.backingCardStart();
 
@@ -1064,7 +1057,7 @@ class FreeplayState extends MusicBeatState
 
 	function exitAnimation():Void{
 		bg.visible = true;
-		remove(dj.backingCard);
+		backCardGroup.remove(dj.backingCard);
 
 		FlxTween.tween(bg, {x: bg.x-1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
 		FlxTween.tween(cover, {x: cover.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
