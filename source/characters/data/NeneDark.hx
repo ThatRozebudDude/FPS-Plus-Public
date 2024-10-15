@@ -69,7 +69,7 @@ class NeneDark extends CharacterInfoBase
         abot.system.shader = abotShader.shader;
         addToCharacter(abot);
 
-        flash = new Character(0, 0, "NeneNoSpeaker", characterReference.isPlayer, characterReference.isGirlfriend);
+        flash = new Character(0, 0, "NeneNoSpeaker", characterReference.isPlayer, characterReference.isGirlfriend, characterReference.debugMode);
         flash.noLogic = true;
         character.attachCharacter(flash, [withPlayAnim]);
         addToCharacter(flash);

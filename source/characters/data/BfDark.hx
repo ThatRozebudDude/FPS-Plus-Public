@@ -15,7 +15,7 @@ class BfDark extends CharacterInfoBase
         info.facesLeft = true;
         info.focusOffset.set(100, -100);
 
-        addByPrefix('idle', offset(1, 0), 'BF idle dance', 24, loop(false));
+        addByPrefix('idle', offset(0, 0), 'BF idle dance', 24, loop(false));
         addByPrefix('singUP', offset(-42, 31), 'BF NOTE UP0', 24, loop(false));
         addByPrefix('singLEFT', offset(9, -7), 'BF NOTE LEFT0', 24, loop(false));
         addByPrefix('singRIGHT', offset(-44, -6), 'BF NOTE RIGHT0', 24, loop(false));
@@ -37,7 +37,7 @@ class BfDark extends CharacterInfoBase
     var flash:Character;
 
     function create(character:Character):Void{
-        flash = new Character(0, 0, "Bf", characterReference.isPlayer, characterReference.isGirlfriend);
+        flash = new Character(0, 0, "Bf", characterReference.isPlayer, characterReference.isGirlfriend, characterReference.debugMode);
         flash.noLogic = true;
         character.attachCharacter(flash, [withPlayAnim]);
         addToCharacter(flash);

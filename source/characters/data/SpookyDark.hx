@@ -34,7 +34,7 @@ class SpookyDark extends CharacterInfoBase
     var flash:Character;
 
     function create(character:Character):Void{
-        flash = new Character(0, 0, "Spooky", characterReference.isPlayer, characterReference.isGirlfriend);
+        flash = new Character(0, 0, "Spooky", characterReference.isPlayer, characterReference.isGirlfriend, characterReference.debugMode);
         flash.noLogic = true;
         character.attachCharacter(flash, [withPlayAnim]);
         addToCharacter(flash);

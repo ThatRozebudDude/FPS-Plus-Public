@@ -56,6 +56,8 @@ class CharacterSelectState extends MusicBeatState
     var repeatDelayX:Int = 0;
     var repeatDelayY:Int = 0;
 
+    var cursorMoveSoundLockout:Float = 0;
+
     static var persistentCharacter:String = "bf";
 
     public function new() {
@@ -218,7 +220,7 @@ class CharacterSelectState extends MusicBeatState
                 characterGrid.select(curGridPosition);
                 repeatDelayY = 2;
                 skipIdleCount = 0;
-                FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
+                playCursorMoveSound();
             }
             else if(Binds.justPressed("menuDown")){
                 changeGridPos([0, 1]);
@@ -227,7 +229,7 @@ class CharacterSelectState extends MusicBeatState
                 characterGrid.select(curGridPosition);
                 repeatDelayY = 2;
                 skipIdleCount = 0;
-                FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
+                playCursorMoveSound();
             }
             if(Binds.justPressed("menuLeft")){
                 changeGridPos([-1, 0]);
@@ -236,7 +238,7 @@ class CharacterSelectState extends MusicBeatState
                 characterGrid.select(curGridPosition);
                 repeatDelayX = 2;
                 skipIdleCount = 0;
-                FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
+                playCursorMoveSound();
             }
             else if(Binds.justPressed("menuRight")){
                 changeGridPos([1, 0]);
@@ -245,7 +247,7 @@ class CharacterSelectState extends MusicBeatState
                 characterGrid.select(curGridPosition);
                 repeatDelayX = 2;
                 skipIdleCount = 0;
-                FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
+                playCursorMoveSound();
             }
         }
 
@@ -317,6 +319,10 @@ class CharacterSelectState extends MusicBeatState
             reverseTime += elapsed;
         }
 
+        if(cursorMoveSoundLockout > 0){
+            cursorMoveSoundLockout -= elapsed;
+        }
+
         super.update(elapsed);
     }
 
@@ -372,7 +378,7 @@ class CharacterSelectState extends MusicBeatState
                     changeCharacter(getCharacterFromPosition());
                     characterGrid.showNormalCursor();
                     characterGrid.select(curGridPosition);
-                    FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
+                    playCursorMoveSound();
                 }
             }
         }
@@ -513,6 +519,12 @@ class CharacterSelectState extends MusicBeatState
 
         if(curGridPosition[1] >= gridSize){ curGridPosition[1] = 0; }
         else if(curGridPosition[1] < 0){ curGridPosition[1] = gridSize-1; }
+    }
+
+    function playCursorMoveSound():Void{
+        if(cursorMoveSoundLockout > 0){ return; }
+        FlxG.sound.play(Paths.sound("characterSelect/select"), 0.7);
+        cursorMoveSoundLockout = 0.05;
     }
 
 }

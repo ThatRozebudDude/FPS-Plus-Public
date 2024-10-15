@@ -86,6 +86,7 @@ class PicoChristmasDead extends CharacterInfoBase
             retryButton.visible = true;
             retryButton.animation.play("confirm", true);
             retryButton.centerOffsets();
+            retryButton.x += 15;
         }
     }
 
