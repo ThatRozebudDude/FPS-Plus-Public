@@ -26,7 +26,14 @@ def processEvents(data, bpm):
 
         match event["e"]:
             case "FocusCamera":
-                match event["v"]["char"]:
+
+                focusedCharacter = -1
+                if type(event["v"]) is int:
+                    focusedCharacter = event["v"]
+                else:
+                    focusedCharacter = event["v"]["char"]
+
+                match focusedCharacter:
                         case 0 | "0":
                             tag += "camFocusBf;"
                         case 1 | "1":
@@ -36,17 +43,19 @@ def processEvents(data, bpm):
 
                 x = 0
                 y = 0
-                if "x" in event["v"]:
-                    x = event["v"]["x"]
-                if "y" in event["v"]:
-                    y = event["v"]["y"]
+                if type(event["v"]) is not int:
+                    if "x" in event["v"]:
+                        x = event["v"]["x"]
+                    if "y" in event["v"]:
+                        y = event["v"]["y"]
                             
                 tag += str(column) + ", "
                 tag += str(x) + ";" + str(y)
 
-                if "ease" in event["v"]:
-                    if not event["v"]["ease"] == "CLASSIC":
-                        tag += ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"])
+                if type(event["v"]) is not int:
+                    if "ease" in event["v"]:
+                        if not event["v"]["ease"] == "CLASSIC":
+                            tag += ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"])
 
                 print(event["e"] + "\t->\t" + tag)
 

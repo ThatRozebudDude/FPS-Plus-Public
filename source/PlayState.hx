@@ -165,8 +165,8 @@ class PlayState extends MusicBeatState
 	public var notes:FlxTypedGroup<Note>;
 	public var unspawnNotes:Array<Note> = [];
 
-	private var anyPlayerNoteInRange:Bool = false;
-	private var anyOpponentNoteInRange:Bool = false;
+	public var anyPlayerNoteInRange:Bool = false;
+	public var anyOpponentNoteInRange:Bool = false;
 
 	private var strumLineVerticalPosition:Float;
 	private var curSection:Int = 0;
