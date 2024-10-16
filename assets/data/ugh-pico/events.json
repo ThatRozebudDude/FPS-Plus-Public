@@ -26,6 +26,12 @@
 				"camBopFreq;1"
 			],
 			[
+				0,
+				1453.125,
+				1,
+				"dadAnimLockToggle"
+			],
+			[
 				1,
 				1500,
 				1,
@@ -36,6 +42,12 @@
 				1546,
 				0,
 				"camFocusBf;0;0"
+			],
+			[
+				1,
+				2156.25,
+				1,
+				"dadAnimLockToggle"
 			],
 			[
 				2,
@@ -224,6 +236,12 @@
 				"camFocusDad;0;0"
 			],
 			[
+				24,
+				37453.125,
+				1,
+				"dadAnimLockToggle"
+			],
+			[
 				25,
 				37500,
 				1,
@@ -234,6 +252,12 @@
 				37687,
 				0,
 				"camFocusDad;0;0"
+			],
+			[
+				25,
+				38062.5,
+				1,
+				"dadAnimLockToggle"
 			],
 			[
 				26,

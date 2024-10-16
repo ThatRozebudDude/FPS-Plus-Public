@@ -22,41 +22,33 @@ enum Rank {
 class Highscore
 {
 
-	
 	//Major versions will be incompatible and will wipe scores. Minor versions should always convert / repair scores.
-	static var scoreFormatVersion:String = "1.1";
+	static var scoreFormatVersion:String = "1.2";
 
 	public static var songScores:Map<String, SongStats> = new Map<String, SongStats>();
 
 	static final forceResetScores:Bool = false;
 
 	public static function saveScore(_song:String, _score:Int = 0, _accurracy:Float = 0, _diff:Int = 1, _rank:Rank = none):Void{
-		var song:String = formatSong(_song, _diff);
-
 		var proposedStats:SongStats = {
 			score: _score,
 			accuracy: _accurracy,
 			rank: _rank
 		};
 
-		if (songScores.exists(song)){
-			var currentStats = songScores.get(song);
+		var currentStats = getScore(_song, _diff);
 
-			if (proposedStats.score < currentStats.score){
-				proposedStats.score = currentStats.score;
-			}
-			if (proposedStats.accuracy < currentStats.accuracy){
-				proposedStats.accuracy = currentStats.accuracy;
-			}
-			if (rankToInt(proposedStats.rank) < rankToInt(currentStats.rank)){
-				proposedStats.rank = currentStats.rank;
-			}
+		if (proposedStats.score < currentStats.score){
+			proposedStats.score = currentStats.score;
+		}
+		if (proposedStats.accuracy < currentStats.accuracy){
+			proposedStats.accuracy = currentStats.accuracy;
+		}
+		if (rankToInt(proposedStats.rank) < rankToInt(currentStats.rank)){
+			proposedStats.rank = currentStats.rank;
+		}
 			
-			setScore(song, proposedStats);
-		}
-		else{
-			setScore(song, proposedStats);
-		}
+		setScore(formatSong(_song, _diff), proposedStats);
 	}
 
 	public static function saveWeekScore(_week:Int = 1, _score:Int = 0, _accurracy:Float = 0, _diff:Int = 1, _rank:Rank = none):Void{
@@ -64,6 +56,8 @@ class Highscore
 	}
 
 	static function setScore(_song:String, _stats:SongStats):Void{
+		if(_stats.score == 0 && _stats.accuracy == 0 && _stats.rank == none){ return; }
+
 		// Reminder that I don't need to format this song, it should come formatted!
 		SaveManager.scores();
 		songScores.set(_song, _stats);
@@ -106,26 +100,8 @@ class Highscore
 		}
 		//This is to fix broken score files if the save version is a non-breaking format change. (ex. Version 1.0 only saved score and accuracy, version 1.1 adds a rank to the score format)
 		else if(cast (FlxG.save.data.scoreFormatVersion, String).split(".")[1] != scoreFormatVersion.split(".")[1]){
-			var savedScores:Map<String, Dynamic> = FlxG.save.data.songScores;
-			var newSavedScores:Map<String, SongStats> = new Map<String, SongStats>();
-			for(key => value in savedScores){
-				var newValue:SongStats = {
-					score: 0,
-					accuracy: 0,
-					rank: none
-				}
-				if(Reflect.hasField(value, "score")){
-					newValue.score = value.score;
-				}
-				if(Reflect.hasField(value, "accuracy")){
-					newValue.accuracy = value.accuracy;
-				}
-				if(Reflect.hasField(value, "rank")){
-					newValue.rank = value.rank;
-				}
-				newSavedScores.set(key, newValue);
-			}
-			FlxG.save.data.songScores = newSavedScores;
+			trace("Score version mismatch!");
+			repairScores();
 		}
 
 		if (FlxG.save.data.songScores != null){
@@ -136,6 +112,33 @@ class Highscore
 
 		SaveManager.flush();
 		SaveManager.global();
+	}
+
+	public static function repairScores():Void{
+		trace("Repairing scores...");
+		var savedScores:Map<String, Dynamic> = FlxG.save.data.songScores;
+		var newSavedScores:Map<String, SongStats> = new Map<String, SongStats>();
+		for(key => value in savedScores){
+			var newValue:SongStats = {
+				score: 0,
+				accuracy: 0,
+				rank: none
+			}
+			if(Reflect.hasField(value, "score")){
+				newValue.score = value.score;
+			}
+			if(Reflect.hasField(value, "accuracy")){
+				newValue.accuracy = value.accuracy;
+			}
+			if(Reflect.hasField(value, "rank")){
+				newValue.rank = value.rank;
+			}
+
+			if(newValue.score != 0 || newValue.accuracy != 0 || newValue.rank != none){
+				newSavedScores.set(key, newValue);
+			}
+		}
+		FlxG.save.data.songScores = newSavedScores;
 	}
 
 	public static function calculateRank(scoreData:ScoreStats):Rank{
@@ -178,3 +181,21 @@ class Highscore
 		}
 	}
 }
+
+/**
+SCORE FORMAT VERSION INFO
+
+	1.2:
+		Blank scores are removed and are not saved.
+	
+	1.1:
+		Ranks are now saved.
+		Trying to find a score that doesn't exist won't save a blank score, it will just return a blank score.
+
+	1.0:
+		Accuracy is now saved.
+
+	Legacy:
+		Old base-game system, just saves score.
+
+**/
