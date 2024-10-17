@@ -101,7 +101,7 @@ if(__name__ == "__main__"):
     bpm = 100
 
     for timeChange in metaJson["timeChanges"]:
-        if timeChange["t"] == 0:
+        if timeChange["t"] <= 0:
             bpm = timeChange["bpm"]
 
     eventsOutput = baseGameToFpsPlusEvents.processEvents(chartJson, bpm)

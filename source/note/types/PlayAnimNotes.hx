@@ -7,65 +7,74 @@ class PlayAnimNotes extends NoteType
 {
 
     override function defineTypes():Void{
+
+        //Boyfriend Anims
+        addNoteType("hey", heyHit, null);
+
+        //Tankman Anims
+        addNoteType("ugh", ughHit, null);
+        addNoteType("argh", arghHit, null);
+
+        //Playable Pico Anims
         addNoteType("shit", shitHit, null);
-        addNoteType("shit-play", shitPlayHit, null);
-
         addNoteType("shit-censor", shitCensorHit, null);
-        addNoteType("shit-censor-play", shitCensorPlayHit, null);
-
         addNoteType("burp", burpHit, null);
-        addNoteType("burp-play", burpPlayHit, null);
-
         addNoteType("burpBig", burpBigHit, null);
-        addNoteType("burpBig-play", burpBigPlayHit, null);
     }
 
-    function shitHit (note:Note, character:Character){
+
+
+    function heyHit(note:Note, character:Character){
+        if(character.canAutoAnim && shouldPlayAnimation(note, character)){
+            character.singAnim("hey", true);
+        }
+        playstate.getExtraCamMovement(note);
+    }
+
+
+
+    function ughHit(note:Note, character:Character){
+        if(character.canAutoAnim && shouldPlayAnimation(note, character)){
+            character.singAnim("ugh", true);
+        }
+        playstate.getExtraCamMovement(note);
+    }
+    
+    function arghHit(note:Note, character:Character){
+        if(character.canAutoAnim && shouldPlayAnimation(note, character)){
+            character.singAnim("argh", true);
+        }
+        playstate.getExtraCamMovement(note);
+    }
+
+
+
+    function shitHit(note:Note, character:Character){
         if(character.canAutoAnim && shouldPlayAnimation(note, character)){
             character.singAnim("shit", true);
         }
+        playstate.getExtraCamMovement(note);
     }
 
-    function shitPlayHit (note:Note, character:Character){
-        if(character.canAutoAnim && shouldPlayAnimation(note, character)){
-            character.playAnim("shit", true);
-        }
-    }
-
-    function shitCensorHit (note:Note, character:Character){
+    function shitCensorHit(note:Note, character:Character){
         if(character.canAutoAnim && shouldPlayAnimation(note, character)){
             character.singAnim("shit-censor", true);
         }
+        playstate.getExtraCamMovement(note);
     }
 
-    function shitCensorPlayHit (note:Note, character:Character){
-        if(character.canAutoAnim && shouldPlayAnimation(note, character)){
-            character.playAnim("shit-censor", true);
-        }
-    }
-
-    function burpHit (note:Note, character:Character){
+    function burpHit(note:Note, character:Character){
         if(character.canAutoAnim && shouldPlayAnimation(note, character)){
             character.singAnim("burp", true);
         }
+        playstate.getExtraCamMovement(note);
     }
 
-    function burpPlayHit (note:Note, character:Character){
-        if(character.canAutoAnim && shouldPlayAnimation(note, character)){
-            character.playAnim("burp", true);
-        }
-    }
-
-    function burpBigHit (note:Note, character:Character){
+    function burpBigHit(note:Note, character:Character){
         if(character.canAutoAnim && shouldPlayAnimation(note, character)){
             character.singAnim("burpBig", true);
         }
-    }
-
-    function burpBigPlayHit (note:Note, character:Character){
-        if(character.canAutoAnim && shouldPlayAnimation(note, character)){
-            character.playAnim("burpBig", true);
-        }
+        playstate.getExtraCamMovement(note);
     }
 
 }
