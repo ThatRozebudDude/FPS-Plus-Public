@@ -59,7 +59,7 @@ class Chart extends BaseStage
 		useStartPoints = false;
 
 		cameraMovementEnabled = false;
-		extraCameraMovementAmount = 0;
+		extraCameraMovementAmount = 4;
 
 		if(PlayState.fceForLilBuddies){
 			cameraStartPosition = new FlxPoint(1280/2, 720/2);

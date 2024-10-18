@@ -1,5 +1,6 @@
 package freeplay.characters;
 
+import config.Config;
 import flixel.math.FlxMath;
 import flixel.addons.display.FlxBackdrop;
 import flixel.tweens.FlxEase;
@@ -94,6 +95,11 @@ class Pico extends DJCharacter
 		addSong("Lit-Up", "darnell", 101, ["ALL", "Weekend 1"]);
 		addSong("2hot", "darnell", 101, ["ALL", "Weekend 1"]);
 		addSong("Blazin", "darnell", 101, ["ALL", "Weekend 1"]);
+
+        SaveManager.global();
+		if(Config.ee2 && Startup.hasEe2){
+			addSong("Lil-Buddies-Pico", "pico", 0, ["Secret"]);
+		}
     }
 
     override function update(elapsed:Float):Void{

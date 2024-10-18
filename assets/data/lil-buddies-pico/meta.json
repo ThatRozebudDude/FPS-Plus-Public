@@ -1,0 +1,8 @@
+{
+  "name": "Lil' Buddies (Pico Mix)",
+  "artist": "Rozebud",
+  "album": "lil",
+  "difficulties": [0, 0, 6],
+  "compatableInsts": ["Lil-Buddies"],
+  "mixName": "Pico Mix"
+}

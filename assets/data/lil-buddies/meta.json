@@ -2,5 +2,7 @@
   "name": "Lil' Buddies",
   "artist": "Rozebud",
   "album": "lil",
-  "difficulties": [0, 0, 4]
+  "difficulties": [0, 0, 4],
+  "compatableInsts": ["Lil-Buddies-Pico"],
+  "mixName": "Original"
 }

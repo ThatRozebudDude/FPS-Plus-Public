@@ -6,22 +6,22 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class BuddiesErect extends BaseStage
+class BuddiesPico extends BaseStage
 {
 
 	var chartBlackBG:FlxSprite;
 
     public override function init(){
 
-        name = "buddiesErect";
+        name = "buddiesPico";
 		startingZoom = 2.8;
 
-		var lilStage = new FlxSprite(0, -34).loadGraphic(Paths.image("fpsPlus/lil/stageE"));
+		var lilStage = new FlxSprite(0, -34).loadGraphic(Paths.image("fpsPlus/lil/stageP"));
 		addToBackground(lilStage);
 
 		gf.visible = false;
 		boyfriend.setPosition(0, -34);
-		dad.setPosition(0, -34);
+		dad.setPosition(0 + 20, -34 + 6);
 
 		useStartPoints = false;
 
