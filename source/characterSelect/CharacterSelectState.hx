@@ -1,5 +1,7 @@
 package characterSelect;
 
+import flixel.math.FlxPoint;
+import config.Config;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxTimer;
 import openfl.filters.ShaderFilter;
@@ -28,7 +30,10 @@ class CharacterSelectState extends MusicBeatState
     var dipshitBlur:FlxSprite;
     
     var fadeShader:BlueFadeShader = new BlueFadeShader(1);
-    var camFollow:FlxObject;
+    var camFollowFinal:FlxObject;
+    var camFollow:FlxPoint = new FlxPoint(1280/2, 720/2);
+    var camShift:FlxPoint = new FlxPoint();
+    final camMoveDistance:Float = 8;
 
     var characterGroup:FlxSpriteGroup= new FlxSpriteGroup();
 
@@ -65,12 +70,15 @@ class CharacterSelectState extends MusicBeatState
     }
 
     override function create():Void{
+
+        Config.setFramerate(144);
+
         customTransIn = new transition.data.ScreenWipeInFlipped(0.8, FlxEase.quadOut);
         customTransOut = new transition.data.ScreenWipeOut(0.8, FlxEase.quadIn);
 
-        camFollow = new FlxObject(0, 0, 1, 1);
-        add(camFollow);
-        camFollow.screenCenter();
+        camFollowFinal = new FlxObject(0, 0, 1, 1);
+        add(camFollowFinal);
+        camFollowFinal.screenCenter();
 
         camFollow.y -= 150;
         fadeShader.fadeVal = 0;
@@ -78,7 +86,7 @@ class CharacterSelectState extends MusicBeatState
         FlxTween.tween(camFollow, {y: camFollow.y + 150}, 1.5, {ease: FlxEase.expoOut});
 
         // FlxG.camera.follow(camFollow, LOCKON, 0.01);
-        FlxG.camera.follow(camFollow, LOCKON);
+        FlxG.camera.follow(camFollowFinal, LOCKON);
         FlxG.camera.filters = [new ShaderFilter(fadeShader.shader)];
 
         addCharacter("locked", "LockedPlayer", null, null, [-1, -1]);
@@ -200,6 +208,7 @@ class CharacterSelectState extends MusicBeatState
         add(characterGrid);
 
         curGridPosition = characters.get(persistentCharacter).position;
+        changeGridPos([0, 0], true);
 
         new FlxTimer().start(0.5, function(t){
             canAccept = true;
@@ -322,6 +331,8 @@ class CharacterSelectState extends MusicBeatState
         if(cursorMoveSoundLockout > 0){
             cursorMoveSoundLockout -= elapsed;
         }
+
+        camFollowFinal.setPosition(camFollow.x + camShift.x, camFollow.y + camShift.y);
 
         super.update(elapsed);
     }
@@ -508,7 +519,7 @@ class CharacterSelectState extends MusicBeatState
         return characterPositions.get((""+curGridPosition[0]) + (""+curGridPosition[1]));
     }
 
-    function changeGridPos(?change:Array<Int>):Void{
+    function changeGridPos(?change:Array<Int>, ?_instant:Bool = false):Void{
         if(change == null){ change = [0, 0]; }
 
         curGridPosition[0] += change[0];
@@ -519,6 +530,15 @@ class CharacterSelectState extends MusicBeatState
 
         if(curGridPosition[1] >= gridSize){ curGridPosition[1] = 0; }
         else if(curGridPosition[1] < 0){ curGridPosition[1] = gridSize-1; }
+
+        if(!_instant){
+            FlxTween.cancelTweensOf(camShift);
+            FlxTween.tween(camShift, {x: (curGridPosition[0] - 1) * camMoveDistance, y: (curGridPosition[1] - 1) * camMoveDistance}, 3, {ease: FlxEase.quartOut});
+        }
+        else{
+            camShift.set((curGridPosition[0] - 1) * camMoveDistance, (curGridPosition[1] - 1) * camMoveDistance);
+        }
+        
     }
 
     function playCursorMoveSound():Void{
