@@ -390,12 +390,18 @@ class ResultsState extends FlxUIStateExt
 		scrollingRankName.spacing.y = 57;
 
 		bitmapSongName = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
-		bitmapSongName.text = songNameText + " ";
+		bitmapSongName.text = songNameText;
 		bitmapSongName.letterSpacing = -15;
 		bitmapSongName.antialiasing = true;
-		bitmapSongName.setPosition(545 + 50, 120 + 50);
+		bitmapSongName.setPosition(550 + 50, 120 + 50);
 		bitmapSongName.cameras = [camTitle];
         bitmapSongName.y -= 300;
+        if(bitmapSongName.width > 680){
+            var scaleAmount:Float = 680/bitmapSongName.width;
+            bitmapSongName.scale.set(scaleAmount, scaleAmount);
+            bitmapSongName.updateHitbox();
+            bitmapSongName.y += (62-(scaleAmount*62))/2;
+        }
         new FlxTimer().start(36/24, function(t){
             FlxTween.tween(bitmapSongName, {y: bitmapSongName.y + 300}, 1.2, {ease: FlxEase.quintOut});
         });
