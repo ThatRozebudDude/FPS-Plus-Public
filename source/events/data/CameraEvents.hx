@@ -9,29 +9,29 @@ class CameraEvents extends Events
     override function defineEvents() {
         addEvent("camMove", camMove);
         addEvent("camZoom", camZoom);
-
-        addEvent("camBopFreq", camBopFreq);
-
+        
         addEvent("flash", flash);
         addEvent("flashHud", flashHud);
         addEvent("fadeOut", fadeOut);
         addEvent("fadeOutHud", fadeOutHud);
-
+        
         addEvent("camShake", camShake);
         addEvent("startCamShake", startCamShake);
         addEvent("endCamShake", endCamShake);
-
+        
         addEvent("camFocusBf", camFocusBf);
         addEvent("camFocusDad", camFocusDad);
         addEvent("camFocusGf", camFocusGf);
         addEvent("camFocusCenter", camFocusCenter);
-
+        
         addEvent("toggleCamBop", toggleCamBop);
         addEvent("toggleCamMovement", toggleCamMovement);
-
+        
         addEvent("camBop", camBop);
         addEvent("camBopBig", camBopBig);
-
+        addEvent("camBopFreq", camBopFreq);
+        addEvent("camBopIntensity", camBopIntensity);
+        
         addEvent("setDynamicCamAmount", setDynamicCamAmount);
     }
 
@@ -51,6 +51,11 @@ class CameraEvents extends Events
         var args = Events.getArgs(tag);
         playstate.camBopFrequency = Std.parseInt(args[0]);
     }
+    
+    function camBopIntensity(tag:String):Void{
+        var args = Events.getArgs(tag);
+        playstate.camBopIntensity = Std.parseFloat(args[0]);
+    }
 
     function toggleCamBop(tag:String):Void{
         playstate.autoCamBop = !playstate.autoCamBop;
@@ -61,11 +66,11 @@ class CameraEvents extends Events
     }
     
     function camBop(tag:String):Void{
-        playstate.uiBop(0.0175, 0.03, 0.8);
+        playstate.uiBop(0.0175 * playstate.camBopIntensity, 0.03 * playstate.camBopIntensity, 0.8);
     }
 
     function camBopBig(tag:String):Void{
-        playstate.uiBop(0.035, 0.06, 0.8);
+        playstate.uiBop(0.035 * playstate.camBopIntensity, 0.06 * playstate.camBopIntensity, 0.8);
     }
 
     function flash(tag:String):Void{

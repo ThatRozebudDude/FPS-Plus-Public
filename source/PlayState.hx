@@ -110,6 +110,7 @@ class PlayState extends MusicBeatState
 	public var gfBopFrequency:Int = 1;
 	public var iconBopFrequency:Int = 1;
 	public var camBopFrequency:Int = 4;
+	public var camBopIntensity:Float = 1;
 
 	public var tweenManager:FlxTweenManager = new FlxTweenManager();
 
@@ -2326,7 +2327,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if(curBeat % camBopFrequency == 0 && autoCamBop){
-			uiBop(0.0175, 0.03, 0.8);
+			uiBop(0.0175 * camBopIntensity, 0.03 * camBopIntensity, 0.8);
 		}
 
 		if (curBeat % iconBopFrequency == 0){

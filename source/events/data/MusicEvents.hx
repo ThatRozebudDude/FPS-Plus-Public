@@ -14,7 +14,7 @@ class MusicEvents extends Events
         addEvent("muteVocals", muteVocals);
         addEvent("playVocals", playVocals);
 
-        addEvent("toggleVocalVolumeLock", muteVocals);
+        addEvent("toggleVocalVolumeLock", toggleVocalVolumeLock);
     }
 
     function muteInst(tag:String):Void{
@@ -29,7 +29,7 @@ class MusicEvents extends Events
         var args = Events.getArgs(tag, ["all"]);
         if(playstate.vocalType == splitVocalTrack){
             switch(args[0]){
-                case "bf" | "boyfreind" |"player":
+                case "bf" | "boyfriend" |"player":
                     playstate.vocals.volume = 0;
                 case "dad" | "opponent":
                     playstate.vocalsOther.volume = 0;

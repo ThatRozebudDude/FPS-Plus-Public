@@ -1,5 +1,6 @@
 package debug;
 
+import sys.FileSystem;
 import ui.HealthIcon;
 import flixel.util.FlxSort;
 import note.NoteType;
@@ -66,6 +67,9 @@ class ChartingState extends MusicBeatState
 	static var charactersList:Array<String> = [];
 	static var gfList:Array<String> = [];
 	static var stageList:Array<String> = [];
+
+	static var eventIconList:Array<String> = [];
+	static var eventIconOverrides:Map<String, String> = new Map<String, String>();
 
 	/**
 	 * Array of notes showing when each section STARTS in STEPS
@@ -1658,99 +1662,42 @@ class ChartingState extends MusicBeatState
 				var customIcon:Bool = false;
 
 				#if sys
-				if(tag.startsWith("playAnim;dad;")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("dadPlayAnim"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("playAnim;bf;")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("bfPlayAnim"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("playAnim;gf;")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("gfPlayAnim"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("setAnimSet;dad;")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("dadSetAnimSet"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("setAnimSet;bf;")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("bfSetAnimSet"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("setAnimSet;gf;")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("gfSetAnimSet"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("cc")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("cc"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("camMove")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("camMove"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("camZoom")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("camZoom"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("gfBopFreq")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("gfBopFreq"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("iconBopFreq")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("iconBopFreq"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("camBopFreq")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("camBopFreq"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("flash")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("flash"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("flashHud")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("flashHud"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("fadeOut")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("fadeOut"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("fadeOutHud")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("fadeOutHud"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("camFocusBf")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("camFocusBf"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("camFocusDad")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("camFocusDad"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("camFocusGf")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("camFocusGf"));
-					customIcon = true;
-				}
-				else if(tag.startsWith("camFocusCenter")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic("camFocusCenter"));
-					customIcon = true;
+				var foundIcon:Bool = false;
+
+				for(key => value in eventIconOverrides){
+					if(tag.startsWith(key)){
+						eventSymbol.loadGraphic(loadAndCacheEventGraphic(value));
+						customIcon = true;
+						foundIcon = true;
+						break;
+					}
 				}
 
-				else if(sys.FileSystem.exists("assets/images/chartEditor/event/" + tag + ".png")){
-					eventSymbol.loadGraphic(loadAndCacheEventGraphic(tag));
-					customIcon = true;
+				if(!foundIcon){
+					for(icon in eventIconList){
+						if(tag == icon){
+							eventSymbol.loadGraphic(loadAndCacheEventGraphic(icon));
+							customIcon = true;
+							foundIcon = true;
+							break;
+						}
+						else if(tag.startsWith(icon)){
+							eventSymbol.loadGraphic(loadAndCacheEventGraphic(icon));
+							customIcon = true;
+							foundIcon = true;
+							break;
+						}
+					}
 				}
-				else{
+
+				if(!foundIcon){
 					eventSymbol.loadGraphic(Paths.image("chartEditor/event/genericEvent"));
 				}
 				#else
 					eventSymbol.loadGraphic(Paths.image("chartEditor/event/genericEvent"));
 				#end
 
-				eventSymbol.antialiasing = true;
+				//eventSymbol.antialiasing = true;
 
 				eventSymbol.setGraphicSize(40, 40);
 				eventSymbol.updateHitbox();
@@ -2299,6 +2246,19 @@ class ChartingState extends MusicBeatState
 		charactersList.reverse();
 		gfList.reverse();
 		stageList.reverse();
+
+		var iconsRaw = FileSystem.readDirectory("assets/images/chartEditor/event/");
+		for(icon in iconsRaw){
+			if(icon.split(".")[1] == "png"){
+				eventIconList.push(icon.split(".")[0]);
+			}
+			else if(icon.split(".")[1] == "json"){
+				var json = Json.parse(Utils.getText("assets/images/chartEditor/event/" + icon));
+				for(key in cast(json.overrides, Array<Dynamic>)){
+					eventIconOverrides.set(key, icon.split(".")[0]);
+				}
+			}
+		}
 
 	}
 
