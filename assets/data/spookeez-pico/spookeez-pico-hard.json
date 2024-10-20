@@ -1534,6 +1534,12 @@
 					],
 					[
 						48300,
+						2,
+						0,
+						""
+					],
+					[
+						48300,
 						5,
 						0,
 						""
@@ -1614,12 +1620,18 @@
 					],
 					[
 						49800,
-						4,
+						0,
 						0,
 						""
 					],
 					[
 						49800,
+						4,
+						0,
+						""
+					],
+					[
+						49900,
 						2,
 						0,
 						""
@@ -3435,6 +3447,20 @@
 				],
 				"bpm": 0,
 				"changeBPM": null,
+				"mustHitSection": true
+			},
+			{
+				"lengthInSteps": 16,
+				"sectionNotes": [],
+				"bpm": 0,
+				"changeBPM": false,
+				"mustHitSection": true
+			},
+			{
+				"lengthInSteps": 16,
+				"sectionNotes": [],
+				"bpm": 0,
+				"changeBPM": false,
 				"mustHitSection": true
 			},
 			{

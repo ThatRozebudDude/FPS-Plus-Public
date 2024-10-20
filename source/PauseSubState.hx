@@ -74,7 +74,7 @@ class PauseSubState extends MusicBeatSubstate
 				pauseSongName = "week7/distorto";
 			case "darnell" | "lit-up" | "2hot" | "blazin" | "darnell-bf":
 				pauseSongName = "pause/breakfast-pico";
-			case "lil-buddies" | "lil-buddies-erect" | "lil-buddies-pico": //hmm.......
+			case "lil-buddies" | "lil-buddies-erect" | "lil-buddies-pico":
 				pauseSongName = "pause/1100059_skippingrecord_Loop";
 		}
 
