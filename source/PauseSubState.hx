@@ -167,6 +167,9 @@ class PauseSubState extends MusicBeatSubstate
 						PlayState.instance.switchState(new PlayState());
 						PlayState.sectionStart = false;
 						PlayState.replayStartCutscene = false;
+						if(PlayState.instance.instSong != null){
+							PlayState.overrideInsturmental = PlayState.instance.instSong;
+						}
 						pauseMusic.fadeOut(0.5, 0);
 						FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
 	
@@ -174,12 +177,18 @@ class PauseSubState extends MusicBeatSubstate
 						PlayState.instance.tweenManager.clear();
 						PlayState.instance.switchState(new PlayState());
 						PlayState.replayStartCutscene = false;
+						if(PlayState.instance.instSong != null){
+							PlayState.overrideInsturmental = PlayState.instance.instSong;
+						}
 						pauseMusic.fadeOut(0.5, 0);
 						FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
 	
 					case "Chart Editor":
 						PlayState.instance.tweenManager.clear();
 						PlayState.instance.switchState(new ChartingState());
+						if(PlayState.instance.instSong != null){
+							PlayState.overrideInsturmental = PlayState.instance.instSong;
+						}
 						pauseMusic.fadeOut(0.5, 0);
 						FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
 						
