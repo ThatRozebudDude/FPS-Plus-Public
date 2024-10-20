@@ -9,9 +9,11 @@ class Events
 {
 
     public static var events:Map<String, (String)->Void>;
+    public static var eventsMeta:Map<String, String>;
 
     public static function initEvents():Void{
         events = new Map<String, (String)->Void>();
+        eventsMeta = new Map<String, String>();
 
         var noteTypeClasses = CompileTime.getAllClasses("events.data", false, Events);
         trace(noteTypeClasses);
@@ -26,8 +28,11 @@ class Events
     */
     public function defineEvents():Void{}
 
-    function addEvent(prefix:String, processFunction:(String)->Void):Void{
+    function addEvent(prefix:String, processFunction:(String)->Void, metaDescription:String = null):Void{
         events.set(prefix, processFunction);
+		if(metaDescription != null){
+			eventsMeta.set(prefix, metaDescription);
+		}
     }
 
     /**

@@ -7,37 +7,42 @@ class CameraEvents extends Events
 {
 
     override function defineEvents() {
-        addEvent("camMove", camMove);
-        addEvent("camZoom", camZoom);
+        addEvent("camMove", camMove, CAM_MOVE_DESC);
+        addEvent("camZoom", camZoom, CAM_ZOOM_DESC);
         
-        addEvent("flash", flash);
-        addEvent("flashHud", flashHud);
-        addEvent("fadeOut", fadeOut);
-        addEvent("fadeOutHud", fadeOutHud);
+        addEvent("flash", flash, FLASH_DESC);
+        addEvent("flashHud", flashHud, FLASH_HUD_DESC);
+        addEvent("fadeOut", fadeOut, FADE_OUT_DESC);
+        addEvent("fadeOutHud", fadeOutHud, FADE_OUT_HUD_DESC);
         
-        addEvent("camShake", camShake);
-        addEvent("startCamShake", startCamShake);
-        addEvent("endCamShake", endCamShake);
+        addEvent("camShake", camShake, CAM_SHAKE_DESC);
+        addEvent("startCamShake", startCamShake, CAM_SHAKE_START_DESC);
+        addEvent("endCamShake", endCamShake, CAM_SHAKE_END_DESC);
         
-        addEvent("camFocusBf", camFocusBf);
-        addEvent("camFocusDad", camFocusDad);
-        addEvent("camFocusGf", camFocusGf);
-        addEvent("camFocusCenter", camFocusCenter);
+        addEvent("camFocusBf", camFocusBf, CAM_FOCUS_BF_DESC);
+        addEvent("camFocusDad", camFocusDad, CAM_FOCUS_DAD_DESC);
+        addEvent("camFocusGf", camFocusGf, CAM_FOCUS_GF_DESC);
+        addEvent("camFocusCenter", camFocusCenter, CAM_FOCUS_CENTER_DESC);
         
-        addEvent("toggleCamBop", toggleCamBop);
-        addEvent("toggleCamMovement", toggleCamMovement);
+        addEvent("toggleCamBop", toggleCamBop, TOGGLE_CAM_BOP_DESC);
+        addEvent("toggleCamMovement", toggleCamMovement, TOGGLE_CAM_MOVEMENT_DESC);
         
-        addEvent("camBop", camBop);
-        addEvent("camBopBig", camBopBig);
-        addEvent("camBopFreq", camBopFreq);
-        addEvent("camBopIntensity", camBopIntensity);
+        addEvent("camBop", camBop, CAM_BOP_DESC);
+        addEvent("camBopBig", camBopBig, CAM_BOP_BIG_DESC);
+        addEvent("camBopFreq", camBopFreq, CAM_BOP_FREQ_DESC);
+        addEvent("camBopIntensity", camBopIntensity, CAM_BOP_INTENSITY_DESC);
         
-        addEvent("setDynamicCamAmount", setDynamicCamAmount);
+        addEvent("setDynamicCamAmount", setDynamicCamAmount, SET_DYNAMIC_CAM_AMOUNT_DESC);
     }
 
     function camMove(tag:String):Void{
-        var args = Events.getArgs(tag);
-		playstate.camMove(Std.parseFloat(args[0]), Std.parseFloat(args[1]), Events.eventConvertTime(args[2]), Events.easeNameToEase(args[3]), null);
+        var args = Events.getArgs(tag, [""+playstate.camFollow.x, ""+playstate.camFollow.y, "1.9", "expoOut", "false"]);
+        if(!Events.parseBool(args[4])){
+            playstate.camMove(Std.parseFloat(args[0]), Std.parseFloat(args[1]), Events.eventConvertTime(args[2]), Events.easeNameToEase(args[3]), null);
+        }
+        else{
+            playstate.camMove(playstate.camFollow.x + Std.parseFloat(args[0]), playstate.camFollow.y + Std.parseFloat(args[1]), Events.eventConvertTime(args[2]), Events.easeNameToEase(args[3]), null);
+        }
     }
 
     function camZoom(tag:String):Void{
@@ -130,12 +135,41 @@ class CameraEvents extends Events
     
     function camShake(tag:String):Void{
         var args = Events.getArgs(tag, ["0.008", "0.042", "1", "0.042", "linear"]);
-		playstate.camShake(Std.parseFloat(args[0]), Std.parseFloat(args[1]), Events.eventConvertTime(args[2]), Std.parseFloat(args[3]), Events.easeNameToEase(args[4]));
+		playstate.camShake(Std.parseFloat(args[0]), Events.eventConvertTime(args[1]), Events.eventConvertTime(args[2]), Events.eventConvertTime(args[3]), Events.easeNameToEase(args[4]));
     }
     
     function setDynamicCamAmount(tag:String):Void{
-        var args = Events.getArgs(tag, ["25"]);
+        var args = Events.getArgs(tag, ["20"]);
 		playstate.camOffsetAmount = Std.parseFloat(args[0]);
     }
 
+
+
+    //Event descriptions. Not required but it helps with charting.
+    static inline final CAM_MOVE_DESC:String = "Moves the camera over time.\n\nArgs:\n    Float: X position\n    Float: Y position\n    Time: Tween time\n    Ease: Tween ease\n    Bool: Relative to current camera position";
+    static inline final CAM_ZOOM_DESC:String = "Change the camera zoom over time.\n\nArgs:\n    Float: Zoom level\n    Time: Tween time\n    Ease: Tween ease\n    Bool: Multiplies by default camera zoom";
+
+    static inline final FLASH_DESC:String = "Flashes the game camera with a color.\n\nArgs:\n    Time: Flash fade time\n    Hex: RGB Color (ex. \"0xFFFFFF\")";
+    static inline final FLASH_HUD_DESC:String = "Flashes the HUD camera with a color.\n\nArgs:\n    Time: Flash fade time\n    Hex: RGB Color (ex. \"0xFFFFFF\")";
+    static inline final FADE_OUT_DESC:String = "Fades the game camera to a color.\n\nArgs:\n    Time: Fade time\n    Hex: RGB Color (ex. \"0xFFFFFF\")";
+    static inline final FADE_OUT_HUD_DESC:String = "Fades the HUD camera to a color.\n\nArgs:\n    Time: Fade time\n    Hex: RGB Color (ex. \"0xFFFFFF\")";
+    
+    static inline final CAM_SHAKE_DESC:String = "Temporarily shakes the game camera.\n\nArgs:\n    Float: Instensity\n    Time: Period (time between shakes)\n    Time: Total shake time\n    Time: Return time (time from final shake to 0)\n    Ease: Ease between shakes";
+    static inline final CAM_SHAKE_START_DESC:String = "Starts to shakes the game camera.\n\nArgs:\n    Float: Instensity\n    Time: Period (time between shakes)\n    Ease: Ease between shakes";
+    static inline final CAM_SHAKE_END_DESC:String = "Stops shaking the game camera.\n\nArgs:\n    Time: Return time (time to return to 0)\n    Ease: Ease to return to 0";
+
+    static inline final CAM_FOCUS_BF_DESC:String = "Focuses the camera on BF.\n\nArgs:\n    Float: X position offset\n    Float: Y position offset\n    Time: Tween time\n    Ease: Tween ease";
+    static inline final CAM_FOCUS_DAD_DESC:String = "Focuses the camera on Dad.\n\nArgs:\n    Float: X position offset\n    Float: Y position offset\n    Time: Tween time\n    Ease: Tween ease";
+    static inline final CAM_FOCUS_GF_DESC:String = "Focuses the camera on GF.\n\nArgs:\n    Float: X position offset\n    Float: Y position offset\n    Time: Tween time\n    Ease: Tween ease";
+    static inline final CAM_FOCUS_CENTER_DESC:String = "Focuses the camera between BF and Dad.\n\nArgs:\n    Float: X position offset\n    Float: Y position offset\n    Time: Tween time\n    Ease: Tween ease";
+
+    static inline final TOGGLE_CAM_BOP_DESC:String = "Toggles whether the camera automatically bops on beat.";
+    static inline final TOGGLE_CAM_MOVEMENT_DESC:String = "Toggles whether the camera automatically focuses on BF or Dad based on hit sections.";
+    
+    static inline final CAM_BOP_DESC:String = "Manually does a camera bop.";
+    static inline final CAM_BOP_BIG_DESC:String = "Manually does a large camera bop.";
+    static inline final CAM_BOP_FREQ_DESC:String = "Sets the interval that the camera bops.\n\nArgs:\n    Int: Interval (every \"x\" beats)";
+    static inline final CAM_BOP_INTENSITY_DESC:String = "Sets a multiplier to the intensity of camera bops.\n\nArgs:\n    Float: Multiplier";
+
+    static inline final SET_DYNAMIC_CAM_AMOUNT_DESC:String = "Sets the distance the camera moves when hitting a note with dynamic camera turned on.\n\nArgs:\n    Float: Distance";
 }

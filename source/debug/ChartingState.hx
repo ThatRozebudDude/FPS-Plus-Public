@@ -1,5 +1,6 @@
 package debug;
 
+import events.Events;
 import sys.FileSystem;
 import ui.HealthIcon;
 import flixel.util.FlxSort;
@@ -135,7 +136,10 @@ class ChartingState extends MusicBeatState
 
 	var eventTagName:FlxUIInputText;
 	var eventTagDrop:FlxUIDropDownMenuScrollable;
+	var eventTagPrefixDrop:FlxUIDropDownMenuScrollable;
+	var eventDescription:FlxUIText;
 	var eventTagList:Array<String> = [""];
+	var allEventPrefixes:Array<String> = [];
 
 	/*
 	 * WILL BE THE CURRENT / LAST PLACED NOTE
@@ -727,10 +731,12 @@ class ChartingState extends MusicBeatState
 		eventTagName = new FlxUIInputText(10, 70, 160, "", 8);
 		textBoxArray.push(eventTagName);
 
-		eventTagDrop = new FlxUIDropDownMenuScrollable(10, 100, FlxUIDropDownMenu.makeStrIdLabelArray(eventTagList, true), function(tag:String)
-		{
+		eventTagDrop = new FlxUIDropDownMenuScrollable(10, 110, FlxUIDropDownMenu.makeStrIdLabelArray(eventTagList, true), function(tag:String){
 			eventTagName.text = eventTagList[Std.parseInt(tag)];
+			updateEventDescription();
 		});
+
+		var eventDropText = new FlxUIText(eventTagDrop.x, eventTagDrop.y - 13, 0, "Used Events");
 
 		var stepperCopy:FlxUINumericStepper = new FlxUINumericStepper(110, 40, 1, 1, -999, 999, 0);
 
@@ -744,14 +750,43 @@ class ChartingState extends MusicBeatState
 			clearEventSection(curSection);
 		});
 
+		for(prefix in Events.events.keys()){
+			allEventPrefixes.push(prefix);
+		}
+
+		allEventPrefixes.sort(function(a:String, b:String):Int{
+			a = a.toUpperCase();
+			b = b.toUpperCase();
+			if(a < b){ return -1; }
+			else if(a > b){ return 1; }
+			else{ return 0; }
+		});
+
+		eventTagPrefixDrop = new FlxUIDropDownMenuScrollable(160, 110, FlxUIDropDownMenu.makeStrIdLabelArray(allEventPrefixes, true), function(tag:String){
+			eventTagName.text = allEventPrefixes[Std.parseInt(tag)];
+			updateEventDescription();
+		});
+
+		var eventPrefixDropText = new FlxUIText(eventTagPrefixDrop.x, eventTagPrefixDrop.y - 13, 0, "Event Tag Prefixes");
+
+		eventDescription = new FlxUIText(10, 150, 280, "");
+		eventDescription.setFormat(eventDescription.font, 8, 0xFFFFFFFF, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, 0xFF000000);
+
 		var tab_group_event = new FlxUI(null, UI_box);
 		tab_group_event.name = 'Event';
 
+		var eventInfo = new FlxText(10, 400, 400, "EVENT INFORMATION\n\nArguments are separated by a semicolon ( ; )\n\nArgument Types:\n   Int: A non decimal number\n   Float: A decimal number\n   Bool: true or false\n   String: text\n   Hex: A hexadecimal number prefixed with \"0x\"\n   Time: A float that can be suffixed with a \"b\" or an \"s\"\n          \"b\" makes it a length in beats\n          \"s\" makes it a length in steps\n          Otherwise it's in seconds\n   Ease: An FlxEase type", 11);
+
+		tab_group_event.add(eventInfo);
+		tab_group_event.add(eventDescription);
 		tab_group_event.add(eventTagName);
 		tab_group_event.add(eventTagDrop);
+		tab_group_event.add(eventTagPrefixDrop);
 		tab_group_event.add(stepperCopy);
 		tab_group_event.add(copyButton);
 		tab_group_event.add(clearButton);
+		tab_group_event.add(eventDropText);
+		tab_group_event.add(eventPrefixDropText);
 
 		UI_box.addGroup(tab_group_event);
 		
@@ -930,6 +965,10 @@ class ChartingState extends MusicBeatState
 			if(x.hasFocus){
 				anyTextHasFocus = true;
 			}
+		}
+
+		if(eventTagName.hasFocus){
+			updateEventDescription();
 		}
 
 		if (!anyTextHasFocus)
@@ -1373,6 +1412,13 @@ class ChartingState extends MusicBeatState
 
 		
 
+	}
+
+	function updateEventDescription():Void{
+		eventDescription.text = "";
+		if(Events.eventsMeta.exists(eventTagName.text.split(";")[0])){
+			eventDescription.text = Events.eventsMeta.get(eventTagName.text.split(";")[0]);
+		}
 	}
 
 	function changeNoteSustain(value:Float):Void
@@ -2307,12 +2353,13 @@ class ChartingState extends MusicBeatState
 
 	function isInScrollableDropdown():Bool{
 		return 
-			player1DropDown.dropPanel.visible == true || 
-			player2DropDown.dropPanel.visible == true || 
-			gfDropDown.dropPanel.visible == true || 
-			stageDropDown.dropPanel.visible == true || 
-			noteTypeDrop.dropPanel.visible == true || 
-			eventTagDrop.dropPanel.visible == true;
+			player1DropDown.dropPanel.visible || 
+			player2DropDown.dropPanel.visible || 
+			gfDropDown.dropPanel.visible || 
+			stageDropDown.dropPanel.visible || 
+			noteTypeDrop.dropPanel.visible || 
+			eventTagDrop.dropPanel.visible ||
+			eventTagPrefixDrop.dropPanel.visible;
 	}
 	
 }

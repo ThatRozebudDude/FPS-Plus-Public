@@ -4,19 +4,19 @@ class CharacterAnimationEvents extends Events
 {
 
     override function defineEvents() {
-        addEvent("playAnim", playAnim);
-        addEvent("singAnim", singAnim);
-        addEvent("setAnimSet", setAnimSet);
+        addEvent("playAnim", playAnim, PLAY_ANIM_DESC);
+        addEvent("singAnim", singAnim, SING_ANIM_DESC);
+        addEvent("setAnimSet", setAnimSet, SET_ANIM_SET_DESC);
 
-        addEvent("gfBopFreq", gfBopFreq);
-        addEvent("iconBopFreq", iconBopFreq);
+        addEvent("gfBopFreq", gfBopFreq, GF_BOP_FREQ_DESC);
+        addEvent("iconBopFreq", iconBopFreq, ICON_BOP_FREQ_DESC);
 
-        addEvent("bfBop", bfBop);
-        addEvent("dadBop", dadBop);
+        addEvent("bfBop", bfBop, BF_BOP_DESC);
+        addEvent("dadBop", dadBop, DAD_BOP_DESC);
 
-        addEvent("bfAnimLockToggle", bfAnimLockToggle);
-        addEvent("dadAnimLockToggle", dadAnimLockToggle);
-        addEvent("gfAnimLockToggle", gfAnimLockToggle);
+        addEvent("bfAnimLockToggle", bfAnimLockToggle, BF_ANIM_LOCK_TOGGLE_DESC);
+        addEvent("dadAnimLockToggle", dadAnimLockToggle, DAD_ANIM_LOCK_TOGGLE_DESC);
+        addEvent("gfAnimLockToggle", gfAnimLockToggle, GF_ANIM_LOCK_TOGGLE_DESC);
     }
 
     function playAnim(tag:String):Void{
@@ -114,4 +114,17 @@ class CharacterAnimationEvents extends Events
         gf.canAutoAnim = !gf.canAutoAnim;
     }
 
+
+
+    //Event descriptions. Not required but it helps with charting.
+    static inline final PLAY_ANIM_DESC:String = "Plays an animation on a character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation name\n    Bool: Force play animation\n    Bool: Reverse animation\n    Int: Frame to start on";
+    static inline final SING_ANIM_DESC:String = "Plays an animation treated as a note sing direction.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation name\n    Bool: Force play animation\n    Bool: Reverse animation\n    Int: Frame to start on";
+    static inline final SET_ANIM_SET_DESC:String = "Sets the animation set on a character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation set suffix";
+    static inline final GF_BOP_FREQ_DESC:String = "Sets the interval that GF does their idle dance.\n\nArgs:\n    Int: Interval (every \"x\" beats)";
+    static inline final ICON_BOP_FREQ_DESC:String = "Sets the interval that the health icons bop.\n\nArgs:\n    Int: Interval (every \"x\" beats)";
+    static inline final BF_BOP_DESC:String = "Sets the beats that BF does their idle dance.\n\nArgs:\n    String: \"EveryBeat\", \"OddBeats\", \"EvenBeats\", \"Never\"";
+    static inline final DAD_BOP_DESC:String = "Sets the beats that Dad does their idle dance.\n\nArgs:\n    String: \"EveryBeat\", \"OddBeats\", \"EvenBeats\", \"Never\"";
+    static inline final BF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether BF will automatically play animations.";
+    static inline final DAD_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether Dad will automatically play animations.";
+    static inline final GF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether GF will automatically play animations.";
 }
