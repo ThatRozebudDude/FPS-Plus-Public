@@ -98,7 +98,7 @@ class ChartingState extends MusicBeatState
 	var opClick:FlxUICheckBox;
 	var gotoSectionStepper:FlxUINumericStepper;
 	var lilBuddiesBox:FlxUICheckBox;
-	//var halfSpeedCheck:FlxUICheckBox;
+	var halfSpeedCheck:FlxUICheckBox;
 
 	var strumLine:FlxSprite;
 	var bullshitUI:FlxGroup;
@@ -526,7 +526,7 @@ class ChartingState extends MusicBeatState
 	
 			var check_mute_inst = new FlxUICheckBox(10, 10, null, null, "Mute Instrumental", 100);
 			check_mute_inst.checked = false;
-			check_mute_inst.callback = function() {
+			check_mute_inst.callback = function(){
 				if(check_mute_inst.checked){
 					FlxG.sound.music.volume = 0;
 				}
@@ -537,7 +537,7 @@ class ChartingState extends MusicBeatState
 
 			var check_mute_vox = new FlxUICheckBox(10, 40, null, null, "Mute Vocals", 100);
 			check_mute_vox.checked = false;
-			check_mute_vox.callback = function() {
+			check_mute_vox.callback = function(){
 				if(check_mute_vox.checked){
 					vocals.volume = 0;
 				}
@@ -548,7 +548,7 @@ class ChartingState extends MusicBeatState
 
 			var check_mute_vox_other = new FlxUICheckBox(10, 70, null, null, "Mute Opponent Vocals (if available)", 200);
 			check_mute_vox_other.checked = false;
-			check_mute_vox_other.callback = function() {
+			check_mute_vox_other.callback = function(){
 				if(check_mute_vox_other.checked){
 					vocalsOther.volume = 0;
 				}
@@ -565,15 +565,26 @@ class ChartingState extends MusicBeatState
 
 			lilBuddiesBox = new FlxUICheckBox(10, 160, null, null, "Lil' Buddies", 100);
 			lilBuddiesBox.checked = true;
-			lilBuddiesBox.callback = function()
-			{
+			lilBuddiesBox.callback = function(){
 				lilBf.visible = lilBuddiesBox.checked;
 				lilOpp.visible = lilBuddiesBox.checked;
 				lilStage.visible = lilBuddiesBox.checked;
 			};
 	
-			//halfSpeedCheck = new FlxUICheckBox(10, 170, null, null, "Half Speed", 100);
-			//halfSpeedCheck.checked = false;
+			halfSpeedCheck = new FlxUICheckBox(10, 180, null, null, "Half Speed", 100);
+			halfSpeedCheck.checked = false;
+			halfSpeedCheck.callback = function(){
+				if(halfSpeedCheck.checked){
+					FlxG.sound.music.pitch = 0.5;
+					vocals.pitch = 0.5;
+					vocalsOther.pitch = 0.5;
+				}
+				else{
+					FlxG.sound.music.pitch = 1;
+					vocals.pitch = 1;
+					vocalsOther.pitch = 1;
+				}
+			}
 	
 			var tab_group_tools = new FlxUI(null, UI_box);
 			tab_group_tools.name = "Tools";
@@ -586,6 +597,7 @@ class ChartingState extends MusicBeatState
 			tab_group_tools.add(bfClick);
 			tab_group_tools.add(opClick);
 			tab_group_tools.add(lilBuddiesBox);
+			tab_group_tools.add(halfSpeedCheck);
 			
 	
 			UI_box.addGroup(tab_group_tools);
@@ -1401,24 +1413,16 @@ class ChartingState extends MusicBeatState
 		}
 
 		super.update(elapsed);
-
-		/*if(halfSpeedCheck.checked){
-			if(FlxG.sound.music.playing){
-				FlxG.sound.music.time -= (FlxG.sound.music.time - timeOld) / 2;
-				vocals.time = FlxG.sound.music.time;
-			}
-		timeOld = FlxG.sound.music.time;
-		}*/
-
-		
-
 	}
 
 	function updateEventDescription():Void{
-		eventDescription.text = "";
 		if(Events.eventsMeta.exists(eventTagName.text.split(";")[0])){
-			eventDescription.text = Events.eventsMeta.get(eventTagName.text.split(";")[0]);
+			var descText = Events.eventsMeta.get(eventTagName.text.split(";")[0]);
+			if(eventDescription.text == descText){ return; }
+			eventDescription.text = descText;
 		}
+		else{ eventDescription.text = ""; }
+		eventDescription.y = 410 - eventDescription.height;
 	}
 
 	function changeNoteSustain(value:Float):Void
