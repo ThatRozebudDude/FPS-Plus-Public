@@ -41,7 +41,7 @@ class Paths
         return file(key, location, "txt");
     }
 
-    inline static public function json(key:String, ?location:String = "data"){
+    inline static public function json(key:String, ?location:String = "data/songs"){
         return file(key, location, "json");
     }
 

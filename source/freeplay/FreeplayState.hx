@@ -662,8 +662,8 @@ class FreeplayState extends MusicBeatState
 			compatableInsts: null,
 			mixName: "Original"
 		}
-		if(Utils.exists("assets/data/" + _song.toLowerCase() + "/meta.json")){
-			meta = Json.parse(Utils.getText("assets/data/" + _song.toLowerCase() + "/meta.json"));
+		if(Utils.exists("assets/data/songs/" + _song.toLowerCase() + "/meta.json")){
+			meta = Json.parse(Utils.getText("assets/data/songs/" + _song.toLowerCase() + "/meta.json"));
 		}
 
 		if(categories == null){ categories = ["All"]; }
@@ -749,7 +749,7 @@ class FreeplayState extends MusicBeatState
 			curVariation = 0;
 		}
 
-		var varMeta = Json.parse(Utils.getText("assets/data/" + categoryMap[categoryNames[curCategory]][curSelected].variations[curVariation].toLowerCase() + "/meta.json"));
+		var varMeta = Json.parse(Utils.getText("assets/data/songs/" + categoryMap[categoryNames[curCategory]][curSelected].variations[curVariation].toLowerCase() + "/meta.json"));
 		if(varMeta.mixName != null){
 			variationName.text = varMeta.mixName;
 		}
@@ -893,7 +893,7 @@ class FreeplayState extends MusicBeatState
 
 	function calcAvailableDifficulties():Void{
 		allowedDifficulties = [];
-		var filesInDir = FileSystem.readDirectory("assets/data/" + categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + "/");
+		var filesInDir = FileSystem.readDirectory("assets/data/songs/" + categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + "/");
 
 		if(filesInDir.contains(categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + "-easy.json")){ allowedDifficulties.push(0); }
 		if(filesInDir.contains(categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + ".json")){ allowedDifficulties.push(1); }

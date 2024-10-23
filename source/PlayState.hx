@@ -294,7 +294,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if(loadEvents){
-			if(Utils.exists("assets/data/" + SONG.song.toLowerCase() + "/events.json")){
+			if(Utils.exists("assets/data/songs/" + SONG.song.toLowerCase() + "/events.json")){
 				trace("loaded events");
 				trace(Paths.json(SONG.song.toLowerCase() + "/events"));
 				EVENTS = Song.parseEventJSON(Utils.getText(Paths.json(SONG.song.toLowerCase() + "/events")));
@@ -625,9 +625,9 @@ class PlayState extends MusicBeatState
 		startingSong = true;
 
 		//Get and run cutscene stuff
-		if(Utils.exists("assets/data/" + SONG.song.toLowerCase() + "/cutscene.json")){
+		if(Utils.exists("assets/data/songs/" + SONG.song.toLowerCase() + "/cutscene.json")){
 			trace("song has cutscene info");
-			var cutsceneJson = Json.parse(Utils.getText("assets/data/" + SONG.song.toLowerCase() + "/cutscene.json"));
+			var cutsceneJson = Json.parse(Utils.getText("assets/data/songs/" + SONG.song.toLowerCase() + "/cutscene.json"));
 			//trace(cutsceneJson);
 			if(Type.typeof(cutsceneJson.startCutscene) == TObject){
 				if(cutsceneJson.startCutscene.storyOnly != null) {startCutsceneStoryOnly = cutsceneJson.startCutscene.storyOnly;}
