@@ -46,8 +46,9 @@ class PolymodHandler
 
     public static function reload():Void{
         Polymod.clearScripts();
-		Polymod.registerAllScriptClasses();
-		FlxG.resetState();
+        Polymod.registerAllScriptClasses();
+        FlxG.resetState();
+        scriptableClassCheck();
     }
 
     static function scriptableClassCheck():Void{
@@ -58,64 +59,69 @@ class PolymodHandler
         Polymod.addDefaultImport(Assets);
         Polymod.addDefaultImport(Paths);
 
-        Polymod.addImportAlias('lime.utils.Assets', Assets);
-        Polymod.addImportAlias('openfl.utils.Assets', Assets);
+        Polymod.addDefaultImport(PlayState);
+        Polymod.addDefaultImport(Character);
+        Polymod.addDefaultImport(modding.ModdingUtil);
+        Polymod.addDefaultImport(Utils);
 
-        Polymod.addImportAlias('flixel.math.FlxPoint', flixel.math.FlxPoint.FlxBasePoint);
+        Polymod.addImportAlias("lime.utils.Assets", Assets);
+        Polymod.addImportAlias("openfl.utils.Assets", Assets);
+
+        Polymod.addImportAlias("flixel.math.FlxPoint", flixel.math.FlxPoint.FlxBasePoint);
 
         // `Sys`
         // Sys.command() can run malicious processes
-        Polymod.blacklistImport('Sys');
+        Polymod.blacklistImport("Sys");
 
         // `Reflect`
         // Reflect.callMethod() can access blacklisted packages
-        Polymod.blacklistImport('Reflect');
+        Polymod.blacklistImport("Reflect");
 
         // `Type`
         // Type.createInstance(Type.resolveClass()) can access blacklisted packages
-        Polymod.blacklistImport('Type');
+        Polymod.blacklistImport("Type");
 
         // `cpp.Lib`
         // Lib.load() can load malicious DLLs
-        Polymod.blacklistImport('cpp.Lib');
+        Polymod.blacklistImport("cpp.Lib");
 
         // `Unserializer`
         // Unserializer.DEFAULT_RESOLVER.resolveClass() can access blacklisted packages
-        Polymod.blacklistImport('Unserializer');
+        Polymod.blacklistImport("Unserializer");
 
         // `lime.system.CFFI`
         // Can load and execute compiled binaries.
-        Polymod.blacklistImport('lime.system.CFFI');
+        Polymod.blacklistImport("lime.system.CFFI");
 
         // `lime.system.JNI`
         // Can load and execute compiled binaries.
-        Polymod.blacklistImport('lime.system.JNI');
+        Polymod.blacklistImport("lime.system.JNI");
 
         // `lime.system.System`
         // System.load() can load malicious DLLs
-        Polymod.blacklistImport('lime.system.System');
+        Polymod.blacklistImport("lime.system.System");
 
         // `lime.utils.Assets`
         // Literally just has a private `resolveClass` function for some reason?
-        Polymod.blacklistImport('lime.utils.Assets');
-        Polymod.blacklistImport('openfl.utils.Assets');
-        Polymod.blacklistImport('openfl.Lib');
-        Polymod.blacklistImport('openfl.system.ApplicationDomain');
+        Polymod.blacklistImport("lime.utils.Assets");
+        Polymod.blacklistImport("openfl.utils.Assets");
+        Polymod.blacklistImport("openfl.Lib");
+        Polymod.blacklistImport("openfl.system.ApplicationDomain");
 
         // `openfl.desktop.NativeProcess`
         // Can load native processes on the host operating system.
-        Polymod.blacklistImport('openfl.desktop.NativeProcess');
+        Polymod.blacklistImport("openfl.desktop.NativeProcess");
     }
 
     static function buildFrameworkParams():polymod.Polymod.FrameworkParams{
         return {
             assetLibraryPaths: [
-                'data' => 'data',
-                'images' => 'images',
-                'music' => 'music',
-                'songs' => 'songs',
-                'sounds' => 'sounds',
-                'videos' => 'videos'
+                "data" => "data",
+                "images" => "images",
+                "music" => "music",
+                "songs" => "songs",
+                "sounds" => "sounds",
+                "videos" => "videos"
             ]
         }
     }

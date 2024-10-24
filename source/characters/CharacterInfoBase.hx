@@ -97,6 +97,9 @@ typedef CharacterInfo = {
 class CharacterInfoBase
 {
 
+    public var includeInCharacterList:Bool = true;
+    public var includeInGfList:Bool = false;
+
     public var info:CharacterInfo = {
         name: "",
         spritePath: "",
