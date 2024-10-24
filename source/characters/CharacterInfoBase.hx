@@ -424,4 +424,9 @@ class CharacterInfoBase
     @:noCompletion inline function get_gameover()  { return GameOverSubstate.instance; }
 
     public function toString():String{ return "CharacterInfoBase"; }
+
+    function setSparrow():FrameLoadType{ return FrameLoadType.sparrow; }
+    function setPacker():FrameLoadType{ return FrameLoadType.packer; }
+    function setLoad(frameWidth:Int, frameHeight:Int):FrameLoadType{ return FrameLoadType.load(frameWidth, frameHeight); }
+    function setAtlas():FrameLoadType{ return FrameLoadType.atlas; }
 }

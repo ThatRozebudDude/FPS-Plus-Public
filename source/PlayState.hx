@@ -1,5 +1,6 @@
 package;
 
+import modding.PolymodHandler;
 import openfl.filters.ShaderFilter;
 import shaders.*;
 import ui.*;
@@ -1377,6 +1378,8 @@ class PlayState extends MusicBeatState
 				ChartingState.startSection = curSection;
 			}
 
+			FlxG.sound.music.pause();
+
 			switchState(new ChartingState());
 			sectionStart = false;
 
@@ -1389,6 +1392,11 @@ class PlayState extends MusicBeatState
 			FlxG.sound.music.pause();
 			vocals.pause();
 			vocalsOther.pause();
+		}
+
+		if (FlxG.keys.justPressed.F5 && !isStoryMode){
+			FlxG.sound.music.pause();
+			PolymodHandler.reload();
 		}
 
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconP1.xOffset);

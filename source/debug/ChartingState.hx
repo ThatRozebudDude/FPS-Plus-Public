@@ -1,5 +1,6 @@
 package debug;
 
+import characters.ScriptableCharacter;
 import events.Events;
 import sys.FileSystem;
 import ui.HealthIcon;
@@ -1582,8 +1583,24 @@ class ChartingState extends MusicBeatState
 	function updateHeads(?changedCharacters:Bool = false):Void{
 
 		if(changedCharacters){
-			var leftChar:characters.CharacterInfoBase = Type.createInstance(Type.resolveClass("characters.data." + player2DropDown.selectedLabel), []);
-			var rightChar:characters.CharacterInfoBase = Type.createInstance(Type.resolveClass("characters.data." + player1DropDown.selectedLabel), []);
+			var leftChar:characters.CharacterInfoBase;
+			var rightChar:characters.CharacterInfoBase;
+
+			//load scripted class if available
+			if(Type.resolveClass("characters.data." + player2DropDown.selectedLabel) == null){
+				leftChar = ScriptableCharacter.init(player2DropDown.selectedLabel);
+			}
+			else{
+				leftChar = Type.createInstance(Type.resolveClass("characters.data." + player2DropDown.selectedLabel), []);
+			}
+
+			//load scripted class if available
+			if(Type.resolveClass("characters.data." + player1DropDown.selectedLabel) == null){
+				rightChar = ScriptableCharacter.init(player1DropDown.selectedLabel);
+			}
+			else{
+				rightChar = Type.createInstance(Type.resolveClass("characters.data." + player1DropDown.selectedLabel), []);
+			}
 
 			leftIcon.setIconCharacter(leftChar.info.iconName);
 			rightIcon.setIconCharacter(rightChar.info.iconName);
@@ -2284,6 +2301,11 @@ class ChartingState extends MusicBeatState
 			if(meta.gfList != null && meta.gfList[0]){
 				gfList.push(Type.getClassName(x).split("characters.data.")[1]);
 			}
+		}
+
+		for(x in ScriptableCharacter.listScriptClasses()){
+			charactersList.push(x);
+			gfList.push(x);
 		}
 
 		var stageClasses = CompileTime.getAllClasses("stages.data", false, stages.BaseStage);

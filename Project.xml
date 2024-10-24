@@ -169,5 +169,6 @@
 
 	<!-- _________________________________ Polymod Stuff _______________________________ -->
 	<haxedef name="POLYMOD_MOD_METADATA_FILE" value="meta.json" />
+	<haxedef name="POLYMOD_SCRIPT_LIBRARY" value="data" />
 
 </project>

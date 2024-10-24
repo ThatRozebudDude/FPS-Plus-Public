@@ -1,5 +1,6 @@
 package;
 
+import characters.ScriptableCharacter;
 import flixel.system.FlxAssets.FlxShader;
 import flixel.util.FlxSignal;
 import flixel.group.FlxSpriteGroup;
@@ -421,10 +422,16 @@ class Character extends FlxSpriteGroup
 	function createCharacterFromInfo(name:String):Void{
 
 		var characterClass = Type.resolveClass("characters.data." + name);
-		if(characterClass == null){ characterClass = characters.data.Bf; }
-		characterInfo = Type.createInstance(characterClass, []);
+		if(characterClass == null){
+			characterInfo = ScriptableCharacter.init(name);
+		}
+		else{
+			characterInfo = Type.createInstance(characterClass, []);
+		}
 
 		characterInfo.characterReference = this;
+
+		//trace(characterInfo.info);
 		
 		curCharacter = characterInfo.info.name;
 		iconName = characterInfo.info.iconName;
