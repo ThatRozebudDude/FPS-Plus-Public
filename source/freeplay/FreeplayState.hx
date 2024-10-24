@@ -662,8 +662,8 @@ class FreeplayState extends MusicBeatState
 			compatableInsts: null,
 			mixName: "Original"
 		}
-		if(Utils.exists("assets/data/songs/" + _song.toLowerCase() + "/meta.json")){
-			meta = Json.parse(Utils.getText("assets/data/songs/" + _song.toLowerCase() + "/meta.json"));
+		if(Utils.exists(Paths.json(_song.toLowerCase() + "/meta", "data/songs"))){
+			meta = Json.parse(Utils.getText(Paths.json(_song.toLowerCase() + "/meta", "data/songs")));
 		}
 
 		if(categories == null){ categories = ["All"]; }
@@ -749,7 +749,8 @@ class FreeplayState extends MusicBeatState
 			curVariation = 0;
 		}
 
-		var varMeta = Json.parse(Utils.getText("assets/data/songs/" + categoryMap[categoryNames[curCategory]][curSelected].variations[curVariation].toLowerCase() + "/meta.json"));
+		var pathMeta = Paths.json(categoryMap[categoryNames[curCategory]][curSelected].variations[curVariation].toLowerCase() + "/meta", "data/songs");
+		var varMeta = Json.parse(Utils.getText(pathMeta));
 		if(varMeta.mixName != null){
 			variationName.text = varMeta.mixName;
 		}

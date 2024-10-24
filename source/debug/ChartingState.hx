@@ -2261,10 +2261,10 @@ class ChartingState extends MusicBeatState
 	}
 
 	function loadAndCacheEventGraphic(tag:String):FlxGraphic{
-		if(!eventCache.exists("assets/images/chartEditor/event/" + tag + ".png")){
-			eventCache.set("assets/images/chartEditor/event/" + tag + ".png", BitmapData.fromFile("assets/images/chartEditor/event/" + tag + ".png"));
+		if(!eventCache.exists(Paths.image('chartEditor/event/$tag'))){
+			eventCache.set(Paths.image('chartEditor/event/$tag'), BitmapData.fromFile(Paths.image('chartEditor/event/$tag')));
 		}
-		return FlxGraphic.fromBitmapData(eventCache.get("assets/images/chartEditor/event/" + tag + ".png"));
+		return FlxGraphic.fromBitmapData(eventCache.get(Paths.image('chartEditor/event/$tag.png')));
 	}
 
 	public static function loadLists():Void{
@@ -2303,7 +2303,7 @@ class ChartingState extends MusicBeatState
 				eventIconList.push(icon.split(".")[0]);
 			}
 			else if(icon.split(".")[1] == "json"){
-				var json = Json.parse(Utils.getText("assets/images/chartEditor/event/" + icon));
+				var json = Json.parse(Utils.getText(Paths.json(icon.split(".")[0], "images/chartEditor/event")));
 				for(key in cast(json.overrides, Array<Dynamic>)){
 					eventIconOverrides.set(key, icon.split(".")[0]);
 				}

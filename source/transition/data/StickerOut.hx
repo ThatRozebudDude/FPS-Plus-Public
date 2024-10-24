@@ -34,7 +34,7 @@ class StickerOut extends BaseTransition{
 
         for(set in _sets){
             for(path in FileSystem.readDirectory("assets/images/ui/stickers/" + set + "/")){
-                stickerList.push("assets/images/ui/stickers/" + set + "/" + path);
+                stickerList.push(Paths.image('ui/stickers/$set/$path'));
             }
         }
 

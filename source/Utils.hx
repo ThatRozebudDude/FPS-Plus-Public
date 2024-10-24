@@ -24,6 +24,8 @@ import yaml.util.ObjectMap;
 using StringTools;
 using Lambda;
 
+import openfl.utils.Assets as OpenFlAssets;
+
 class Utils
 {
 
@@ -109,7 +111,7 @@ class Utils
 	//Same as above but for getting text from a file.
 	public static function getText(path:String):String{
 		#if desktop
-		return File.getContent(path);
+		return OpenFlAssets.getText(path);
         #else
         return Assets.getText(path);
 		#end
@@ -266,6 +268,29 @@ class Utils
 			default:
 				return button.toString();
 		}
+	}
+
+	public static function readDirectory(path:String):Array<String>
+	{
+		var lib = LimeAssets.getLibrary(library);
+		var list:Array<String> = lib.list(type);
+		var stringList = [];
+		for (hmm in list)
+		{
+			if (hmm.startsWith(path))
+			{
+				var bruh = null;
+				if (removePath)
+					bruh = hmm.replace('$path/', '');
+				else
+					bruh = hmm;
+				stringList.push(bruh);
+			}
+		}
+
+		stringList.sort(Reflect.compare);
+
+		return stringList;
 	}
 }
 

@@ -294,10 +294,10 @@ class PlayState extends MusicBeatState
 		}
 
 		if(loadEvents){
-			if(Utils.exists("assets/data/songs/" + SONG.song.toLowerCase() + "/events.json")){
+			
+			if(Utils.exists(Paths.json(SONG.song.toLowerCase() + "/events", 'data/songs'))){
 				trace("loaded events");
-				trace(Paths.json(SONG.song.toLowerCase() + "/events"));
-				EVENTS = Song.parseEventJSON(Utils.getText(Paths.json(SONG.song.toLowerCase() + "/events")));
+				EVENTS = Song.parseEventJSON(Utils.getText(Paths.json(SONG.song.toLowerCase() + "/events", 'data/songs')));
 			}
 			else{
 				trace("No events found");
@@ -307,8 +307,8 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if(Utils.exists(Paths.json(SONG.song.toLowerCase() + "/meta"))){
-			metadata = Json.parse(Utils.getText(Paths.json(SONG.song.toLowerCase() + "/meta")));
+		if(Utils.exists(Paths.json(SONG.song.toLowerCase() + "/meta", 'data/songs'))){
+			metadata = Json.parse(Utils.getText(Paths.json(SONG.song.toLowerCase() + "/meta", 'data/songs')));
 		}
 
 		for(i in EVENTS.events){
@@ -565,7 +565,7 @@ class PlayState extends MusicBeatState
 
 		FlxG.fixedTimestep = false;
 
-		if(Utils.exists(Paths.text(SONG.song.toLowerCase() + "/meta"))){
+		if(Utils.exists(Paths.text(SONG.song.toLowerCase() + "/meta", 'data/songs'))){
 			meta = new SongMetaTags(0, 144, SONG.song.toLowerCase());
 			meta.cameras = [camHUD];
 			add(meta);
@@ -625,9 +625,9 @@ class PlayState extends MusicBeatState
 		startingSong = true;
 
 		//Get and run cutscene stuff
-		if(Utils.exists("assets/data/songs/" + SONG.song.toLowerCase() + "/cutscene.json")){
+		if(Utils.exists(Paths.json(SONG.song.toLowerCase() + "/cutscene", "data/songs"))){
 			trace("song has cutscene info");
-			var cutsceneJson = Json.parse(Utils.getText("assets/data/songs/" + SONG.song.toLowerCase() + "/cutscene.json"));
+			var cutsceneJson = Json.parse(Utils.getText(Paths.json(SONG.song.toLowerCase() + "/cutscene", "data/songs")));
 			//trace(cutsceneJson);
 			if(Type.typeof(cutsceneJson.startCutscene) == TObject){
 				if(cutsceneJson.startCutscene.storyOnly != null) {startCutsceneStoryOnly = cutsceneJson.startCutscene.storyOnly;}

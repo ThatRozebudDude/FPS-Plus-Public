@@ -76,6 +76,7 @@ class ModHandler
 	{
 		return {
 			assetLibraryPaths: [
+				"data" => "./data",
 				"songs" => "./songs",
 				"sounds" => "./sounds",
 				"music" => "./music",
