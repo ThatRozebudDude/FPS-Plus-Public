@@ -1,48 +1,69 @@
 package modding ;
 
-import polymod.PolymodConfig;
 import flixel.FlxG;
+import polymod.backends.PolymodAssets.PolymodAssetType;
 import polymod.Polymod;
 import sys.FileSystem;
 
 class PolymodHandler
 {
 
-    inline static final API_VERSION:String = "0.0.0";
+	static final API_VERSION = "0.1.0";
+    public static var modList = []; // Mods current enabled
 
-    static var loadedModMetadata:Array<ModMetadata>;
+	private static final extensions:Map<String, PolymodAssetType> = [
+		'mp3' => AUDIO_GENERIC,
+		'ogg' => AUDIO_GENERIC,
+		'png' => IMAGE,
+		'xml' => TEXT,
+		'txt' => TEXT,
+		'hx' => TEXT,
+		'json' => TEXT,
+		'ttf' => FONT,
+		'otf' => FONT,
+		'mp4' => VIDEO
+	];
 
-    public static function init():Void{
+	public static function init():Void
+	{
         buildImports();
 
-        var modDirs:Array<String> = FileSystem.readDirectory("mods/");
-        if(modDirs == null){ modDirs = []; }
+		if (!Utils.exists("mods"))
+            return;
 
-        trace(PolymodConfig.modMetadataFile);
-
-        trace("BEFORE CULLING: " + modDirs);
-
-        //Remove all non-folder entries from loadedMods.
+        //Make Better Mod System Later
+        var modDirs:Array<String> = FileSystem.readDirectory("mods");
         for(path in modDirs){
-            if(!FileSystem.isDirectory("mods/" + path)){
-                modDirs.remove(path);
+            if(FileSystem.isDirectory("mods/" + path)){
+                modList.push(path);
             }
         }
+        trace('MOD LIST: ' + modList);
 
-        trace("AFTER CULLING: " + modDirs);
-		
-		loadedModMetadata = Polymod.init({
-			modRoot: "./mods/",
-			dirs: modDirs,
-			useScriptedClasses: true,
-            frameworkParams: buildFrameworkParams(),
-			apiVersionRule: API_VERSION
+        Polymod.init({
+			modRoot: "mods",
+			dirs: [],
+            useScriptedClasses: true,
+			framework: Framework.OPENFL,
+			errorCallback: onPolymodError,
+			frameworkParams: {
+                assetLibraryPaths: [
+                    "data" => "./data",
+                    "songs" => "./songs",
+                    "sounds" => "./sounds",
+                    "music" => "./music",
+                    "images" => "./images",
+                    "videos" => "./videos"
+                ]
+            },
+			ignoredFiles: Polymod.getDefaultIgnoreList()
 		});
 
-        trace("LOADED METADATA: " + loadedModMetadata);
+		Polymod.loadOnlyMods(modList);
 
-        scriptableClassCheck();
-    }
+        //Check scriptable class
+        trace("ScriptableCharacter: " + characters.ScriptableCharacter.listScriptClasses());
+	}
 
     public static function reload():Void{
         Polymod.clearScripts();
@@ -50,9 +71,25 @@ class PolymodHandler
 		FlxG.resetState();
     }
 
-    static function scriptableClassCheck():Void{
-        trace("ScriptableCharacter: " + characters.ScriptableCharacter.listScriptClasses());
-    }
+	static function onPolymodError(error:PolymodError):Void
+	{
+		// Perform an action based on the error code.
+		switch (error.code)
+		{
+			case MISSING_ICON:
+			default:
+				// Log the message based on its severity.
+				switch (error.severity)
+				{
+					case NOTICE:
+                        //does nothing
+					case WARNING:
+						trace(error.message, null);
+					case ERROR:
+						trace(error.message, null);
+				}
+		}
+	}
 
     static function buildImports():Void{
         Polymod.addDefaultImport(Assets);
@@ -107,17 +144,18 @@ class PolymodHandler
         Polymod.blacklistImport('openfl.desktop.NativeProcess');
     }
 
-    static function buildFrameworkParams():polymod.Polymod.FrameworkParams{
-        return {
-            assetLibraryPaths: [
-                'data' => 'data',
-                'images' => 'images',
-                'music' => 'music',
-                'songs' => 'songs',
-                'sounds' => 'sounds',
-                'videos' => 'videos'
-            ]
-        }
-    }
-
+	//FileSystem readDirectory but with mods folder
+	public static inline function readDirectory(path:String) {
+		var files = FileSystem.readDirectory(path);
+		for (mod in modList) {
+			if (FileSystem.exists('mods/$mod/' + path.split("assets/")[1])) {
+				var modfile = FileSystem.readDirectory('mods/$mod/' + path.split("assets/")[1]);
+				for (file in modfile) {
+					if (!files.contains(file))
+						files.push(file);
+				}
+			}
+		}
+		return files;
+	}
 }

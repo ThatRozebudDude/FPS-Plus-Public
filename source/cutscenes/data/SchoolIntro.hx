@@ -35,7 +35,7 @@ class SchoolIntro extends ScriptedCutscene
 
         var dialogue:Array<String> = [];
 
-        if(Utils.exists(Paths.text(PlayState.SONG.song.toLowerCase() + "/" + PlayState.SONG.song.toLowerCase() + "Dialogue"))){
+        if(Utils.exists(Paths.text("data" + PlayState.SONG.song.toLowerCase() + "/" + PlayState.SONG.song.toLowerCase() + "Dialogue"))){
 			dialogue = Utils.coolTextFile(Paths.text(PlayState.SONG.song.toLowerCase() + "/" + PlayState.SONG.song.toLowerCase() + "Dialogue"));
 		}
 
