@@ -1,7 +1,7 @@
 package;
 
 import flixel.input.gamepad.FlxGamepadInputID;
-import haxe.ds.StringMap;
+import openfl.events.Event;
 import flixel.FlxG;
 import flixel.input.keyboard.FlxKey;
 
@@ -28,6 +28,12 @@ class Binds
                 saveControls();
             }
         }
+
+        FlxG.stage.addEventListener(Event.EXIT_FRAME, (event:Event) -> {
+            if (justPressed("fullscreen")) {
+                FlxG.fullscreen = !FlxG.fullscreen;
+            }
+        });
 
     }
 
@@ -172,6 +178,15 @@ class Binds
             local: false
         };
         r.set("menuChangeCharacter", k);
+
+        var k:Keybind = {
+            name: "Fullscreen",
+            category: "Menu",
+            binds: [F11],
+            controllerBinds: [RIGHT_STICK_CLICK],
+            local: false
+        };
+        r.set("fullscreen", k);
 
 
 
