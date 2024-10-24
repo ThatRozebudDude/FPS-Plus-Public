@@ -181,7 +181,7 @@ class PlayState extends MusicBeatState
 	private var playerCovers:FlxTypedGroup<NoteHoldCover>;
 	private var enemyCovers:FlxTypedGroup<NoteHoldCover>;
 
-	private var curSong:String = "";
+	public var curSong:String = "";
 
 	public var health:Float = 1;
 	public var healthLerp:Float = 1;

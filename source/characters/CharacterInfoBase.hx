@@ -97,47 +97,45 @@ typedef CharacterInfo = {
 class CharacterInfoBase
 {
 
-    public var info:CharacterInfo;
+    public var info:CharacterInfo = {
+        name: "",
+        spritePath: "",
+        frameLoadType: sparrow,
+        iconName: "face",
+        deathCharacter: "Bf",
+        resultsCharacter: "Boyfriend",
+        healthColor: null,
+        facesLeft: false,
+        antialiasing: true,
+        anims: [],
+        idleSequence: ["idle"],
+        focusOffset: new FlxPoint(150, -100),
+        deathOffset: new FlxPoint(),
+        animChains: null,
+        functions: {
+            create: null,
+            update: null,
+            dance: null,
+            danceOverride: null,
+            beat: null,
+            step: null,
+            playAnim: null,
+            idleEnd: null,
+            idleEndOverride: null,
+            frame: null,
+            animationEnd: null,
+            add: null,
+            deathCreate: null,
+            deathAdd: null,
+            songStart: null,
+        },
+        actions: null,
+        extraData: null
+    };
 
     public var characterReference:Character;
 
-    public function new() {
-        info = {
-            name: "",
-            spritePath: "",
-            frameLoadType: sparrow,
-            iconName: "face",
-            deathCharacter: "Bf",
-            resultsCharacter: "Boyfriend",
-            healthColor: null,
-            facesLeft: false,
-            antialiasing: true,
-            anims: [],
-            idleSequence: ["idle"],
-            focusOffset: new FlxPoint(150, -100),
-            deathOffset: new FlxPoint(),
-            animChains: null,
-            functions: {
-                create: null,
-                update: null,
-                dance: null,
-                danceOverride: null,
-                beat: null,
-                step: null,
-                playAnim: null,
-                idleEnd: null,
-                idleEndOverride: null,
-                frame: null,
-                animationEnd: null,
-                add: null,
-                deathCreate: null,
-                deathAdd: null,
-                songStart: null,
-            },
-            actions: null,
-            extraData: null
-        };
-    }
+    public function new() {}
 
     /**
 	 * Generates the x and y offsets for an animation.
