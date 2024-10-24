@@ -25,6 +25,7 @@ class Main extends Sprite
 		#end
 
 		SaveManager.global();
+		ModHandler.initialize();
 
 		fpsDisplay = new FPS(10, 3, 0xFFFFFF);
 		fpsDisplay.visible = true;

@@ -107,6 +107,12 @@
 	<haxelib name="funkin.vis" />
 	<haxelib name="grig.audio" />
 
+	<haxelib name="polymod" />
+	<haxedef name="POLYMOD_DEBUG" value="true"/>
+	<haxedef name="POLYMOD_SCRIPT_EXT" value=".hx" />
+	<haxedef name="POLYMOD_ROOT_PATH" value="scripts/" />
+	<haxedef name="POLYMOD_MOD_METADATA_FILE" value="meta.json" />
+
 	<!--haxelib name="newgrounds"/-->
 	<!--haxelib name="faxe" if='switch'/-->
 	<!--haxelib name="polymod"/-->
