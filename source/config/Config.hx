@@ -26,6 +26,7 @@ class Config
 	public static var showAccuracy:Bool;
 	public static var showMisses:Int;
 	public static var enableVariations:Bool;
+	public static var autoPause:Bool;
 
 	public static var ee1:Bool;
 	public static var ee2:Bool;
@@ -54,6 +55,7 @@ class Config
 		FlxG.save.data.showAccuracy = true;
 		FlxG.save.data.showMisses = 1;
 		FlxG.save.data.enableVariations = true;
+		FlxG.save.data.autoPause = true;
 
 		reload();
 
@@ -84,6 +86,7 @@ class Config
 		showAccuracy = FlxG.save.data.showAccuracy;
 		showMisses = FlxG.save.data.showMisses;
 		enableVariations = FlxG.save.data.enableVariations;
+		autoPause = FlxG.save.data.autoPause;
 
 		ee1 = FlxG.save.data.ee1;
 		ee2 = FlxG.save.data.ee2;
@@ -109,7 +112,8 @@ class Config
 								showCaptionsW:Bool,
 								showAccuracyW:Bool,
 								showMissesW:Int,
-								enableVariationsW:Bool
+								enableVariationsW:Bool,
+								autoPauseW:Bool
 								):Void
 	{
 
@@ -135,6 +139,7 @@ class Config
 		FlxG.save.data.showAccuracy = showAccuracyW;
 		FlxG.save.data.showMisses = showMissesW;
 		FlxG.save.data.enableVariations = enableVariationsW;
+		FlxG.save.data.autoPause = autoPauseW;
 
 		SaveManager.flush();
 		
@@ -187,7 +192,8 @@ class Config
 			FlxG.save.data.showMisses = 1;
 		if(FlxG.save.data.enableVariations == null)
 			FlxG.save.data.enableVariations = true;
-		
+		if(FlxG.save.data.autoPause == null)
+			FlxG.save.data.autoPause = true;
 
 		if(FlxG.save.data.ee1 == null)
 			FlxG.save.data.ee1 = false;
