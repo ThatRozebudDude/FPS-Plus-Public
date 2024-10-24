@@ -8,7 +8,6 @@ import flixel.math.FlxPoint;
 import flixel.FlxSprite;
 import sys.io.File;
 import sys.FileSystem;
-import openfl.utils.Assets as OpenFlAssets;
 import flixel.math.FlxMath;
 import flixel.FlxG;
 import lime.utils.Assets;
@@ -24,7 +23,6 @@ import yaml.util.ObjectMap;
 #end
 using StringTools;
 using Lambda;
-
 
 class Utils
 {
@@ -111,7 +109,7 @@ class Utils
 	//Same as above but for getting text from a file.
 	public static function getText(path:String):String{
 		#if desktop
-		return OpenFlAssets.getText(path);
+		return File.getContent(path);
         #else
         return Assets.getText(path);
 		#end

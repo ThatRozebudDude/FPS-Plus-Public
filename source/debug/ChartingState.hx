@@ -2323,10 +2323,6 @@ class ChartingState extends MusicBeatState
 			stageList.push(Type.getClassName(x).split("stages.data.")[1]);
 		}
 
-		for(x in ScriptableStage.listScriptClasses()){
-			stageList.push(x);
-		}
-
 		//makes them be in alphabetical order instead of reverse alphabetical order
 		charactersList.reverse();
 		gfList.reverse();
