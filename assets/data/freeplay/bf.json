@@ -1,0 +1,41 @@
+{
+	"atlas":"menu/freeplay/dj/bf",
+	"skin": "",
+	"selectColor": "0xFFFFFFFF",
+	"deselectColor": "0xFF969A9D",
+	"selectOutlineColor": "0xFF6B9FBA",
+	"deselectOutlineColor": "0xFF3E508C",
+	"songs": [
+		{
+			"name": "Bopeebo",
+			"icon": "dad",
+			"category": ["Week 1"],
+			"week": 1
+		},
+		{
+			"name": "Fresh",
+			"icon": "dad",
+			"category": ["Week 1"]
+		},
+		{
+			"name": "Dadbattle",
+			"icon": "dad",
+			"category": ["Week 1"]
+		},
+		{
+			"name": "Senpai",
+			"icon": "senpai",
+			"category": ["Week 6"]
+		},
+		{
+			"name": "Roses",
+			"icon": "senpai",
+			"category": ["Week 6"]
+		},
+		{
+			"name": "Thorns",
+			"icon": "spirit",
+			"category": ["Week 6"]
+		}
+	]
+}

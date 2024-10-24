@@ -83,7 +83,7 @@ class FreeplayState extends MusicBeatState
 	public static var curCategory:Int = 0;
 	public static var curVariation:Int = 0;
 
-	public static var djCharacter:String = "Boyfriend";
+	public static var djCharacter:String = "bf";
 
 	var allowedDifficulties:Array<Int> = [0, 1, 2];
 
@@ -170,9 +170,7 @@ class FreeplayState extends MusicBeatState
 		}
 
 		//DJ STUFF
-		var djClass = Type.resolveClass("freeplay.characters." + djCharacter);
-		if(djClass == null){ djClass = freeplay.characters.Boyfriend; }
-		dj = Type.createInstance(djClass, []);
+		dj = new DJCharacter(djCharacter);
 		dj.introFinish = djIntroFinish;
 		dj.cameras = [camFreeplay];
 

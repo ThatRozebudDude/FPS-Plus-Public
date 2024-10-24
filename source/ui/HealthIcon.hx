@@ -84,8 +84,8 @@ class HealthIcon extends FlxSprite
 		antialiasing = true;
 
 		//Optional json
-		if(Utils.exists(Paths.json(character, "images/ui/heathIcons/"))){
-			var iconJson = Json.parse(Utils.getText(Paths.json(character, "images/ui/heathIcons/")));
+		if(Utils.exists(Paths.json(character, "images/ui/heathIcons"))){
+			var iconJson = Json.parse(Utils.getText(Paths.json(character, "images/ui/heathIcons")));
 			
 			if(iconJson.offset != null){
 				xOffset = (iconJson.offset.x != null) ? iconJson.offset.x : defaultOffsets[0];

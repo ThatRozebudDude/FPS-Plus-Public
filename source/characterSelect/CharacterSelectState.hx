@@ -90,7 +90,7 @@ class CharacterSelectState extends MusicBeatState
         FlxG.camera.filters = [new ShaderFilter(fadeShader.shader)];
 
         addCharacter("locked", "LockedPlayer", null, null, [-1, -1]);
-        addCharacter("bf", "BfPlayer", "GfPartner", "Boyfriend", [1, 1]);
+        addCharacter("bf", "BfPlayer", "GfPartner", "bf", [1, 1]);
         addCharacter("pico", "PicoPlayer", "NenePartner", "Pico", [0, 1]);
 
         startSong();

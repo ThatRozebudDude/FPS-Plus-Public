@@ -3,24 +3,6 @@ package freeplay;
 import flixel.util.FlxColor;
 import flixel.group.FlxSpriteGroup;
 
-using StringTools;
-
-typedef CharacterData = {
-    var skin:String;
-    var selectColor:String;
-    var deselectColor:String;
-    var selectOutlineColor:String;
-    var deselectOutlineColor:String;
-
-    var songs:Array<>;
-}
-
-typedef SongData = {
-	var name:String;
-	var icon:String;
-	var category:Array<String>;
-}
-
 class DJCharacter extends AtlasSprite
 {
 

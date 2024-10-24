@@ -269,29 +269,6 @@ class Utils
 				return button.toString();
 		}
 	}
-
-	public static function readDirectory(path:String):Array<String>
-	{
-		var lib = LimeAssets.getLibrary(library);
-		var list:Array<String> = lib.list(type);
-		var stringList = [];
-		for (hmm in list)
-		{
-			if (hmm.startsWith(path))
-			{
-				var bruh = null;
-				if (removePath)
-					bruh = hmm.replace('$path/', '');
-				else
-					bruh = hmm;
-				stringList.push(bruh);
-			}
-		}
-
-		stringList.sort(Reflect.compare);
-
-		return stringList;
-	}
 }
 
 class OrderedMap<K, V>{

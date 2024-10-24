@@ -8,11 +8,9 @@ import polymod.format.ParseRules;
 import polymod.Polymod;
 import sys.FileSystem;
 
-import flixel.FlxG;
-
 class ModHandler
 {
-	private static final MOD_DIR:String = 'mods';
+	private static final modRootDir:String = 'mods';
 
 	static final API_VERSION = "0.1.0";
 
@@ -33,13 +31,12 @@ class ModHandler
 
 	public static function initialize():Void
 	{
-		if (!Utils.exists(MOD_DIR))
+		if (!Utils.exists(modRootDir))
 		{
-			trace('Mods Folder Missing. Creating $MOD_DIR folder...');
-			FileSystem.createDirectory(MOD_DIR);
+			trace('creating mods folder');
+			FileSystem.createDirectory(modRootDir);
 			return;
 		}
-		trace("Initializing ModHandler...");
 		initPolymod();
 		Polymod.loadOnlyMods(modList);
 	}
@@ -47,16 +44,14 @@ class ModHandler
 	public static function initPolymod()
 	{
 		Polymod.init({
-			modRoot: MOD_DIR,
+			modRoot: modRootDir,
 			dirs: [],
 			
-			framework: Framework.CUSTOM,
+			framework: Framework.OPENFL,
 			
 			errorCallback: onPolymodError,
 
 			frameworkParams: buildFrameworkParams(),
-
-			customBackend: ModBackend,
 
 			ignoredFiles: Polymod.getDefaultIgnoreList(),
 
@@ -105,26 +100,4 @@ class ModHandler
 				}
 		}
 	}
-}
-
-class ModBackend extends OpenFLBackend
-{
-	//idk but it here uh what
-	public function new()
-		super();
-
-	public override function clearCache()
-		super.clearCache();
-
-	public override function exists(id:String):Bool
-		return super.exists(id);
-
-	public override function getBytes(id:String):lime.utils.Bytes
-		return super.getBytes(id);
-
-	public override function getText(id:String):String
-		return super.getText(id);
-
-	public override function list(type:PolymodAssetType = null):Array<String>
-		return super.list(type);
 }
