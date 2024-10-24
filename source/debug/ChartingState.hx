@@ -1,5 +1,6 @@
 package debug;
 
+import characters.CharacterInfoBase;
 import modding.PolymodHandler;
 import characters.ScriptableCharacter;
 import events.Events;
@@ -2313,8 +2314,9 @@ class ChartingState extends MusicBeatState
 		}
 
 		for(x in ScriptableCharacter.listScriptClasses()){
-			charactersList.push(x);
-			gfList.push(x);
+			var getScriptInfo:CharacterInfoBase = ScriptableCharacter.init(x);
+			if(getScriptInfo.includeInCharacterList){ charactersList.push(x); }
+			if(getScriptInfo.includeInGfList){ gfList.push(x); }
 		}
 
 		var stageClasses = CompileTime.getAllClasses("stages.data", false, stages.BaseStage);

@@ -10,7 +10,7 @@ import sys.io.File;
 import sys.FileSystem;
 import flixel.math.FlxMath;
 import flixel.FlxG;
-import lime.utils.Assets;
+import openfl.utils.Assets;
 
 import haxe.macro.Context;
 import haxe.macro.Expr;
@@ -93,26 +93,14 @@ class Utils
 	}
 
 	/*
-	* Uses FileSystem.exists for desktop and Assets.exists for non-desktop builds.
-	* This is because Assets.exists just checks the manifest and can't find files that weren't compiled with the game.
-	* This also means that if you delete a file, it will return true because it's still in the manifest.
-	* FileSystem only works on certain build types though (namely, not web).
+	*	Left over functions. Hopefully polymod should be able to do this now.
 	*/
 	public static function exists(path:String):Bool{
-		#if desktop
-		return FileSystem.exists(path);
-        #else
-        return Assets.exists(path);
-		#end
+		return Assets.exists(path);
 	}
 
-	//Same as above but for getting text from a file.
 	public static function getText(path:String):String{
-		#if desktop
-		return File.getContent(path);
-        #else
-        return Assets.getText(path);
-		#end
+		return Assets.getText(path);
 	}
 
 	public static function clamp(v:Float, min:Float, max:Float):Float {
