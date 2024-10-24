@@ -97,6 +97,13 @@
             "dir": null,
             "ref": "bdb191fe7cf745c02a980749906dbf22719e200b",
             "url": "https://github.com/fponticelli/thx.semver"
+        },
+        {
+            "name": "hscript",
+            "type": "git",
+            "dir": null,
+            "ref": "12785398e2f07082f05034cb580682e5671442a2",
+            "url": "https://github.com/FunkinCrew/hscript"
         }
     ]
 }

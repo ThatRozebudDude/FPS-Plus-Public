@@ -423,4 +423,5 @@ class CharacterInfoBase
     var gameover(get, never):GameOverSubstate;
     @:noCompletion inline function get_gameover()  { return GameOverSubstate.instance; }
 
+    public function toString():String{ return "CharacterInfoBase"; }
 }

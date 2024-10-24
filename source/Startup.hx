@@ -181,8 +181,9 @@ class Startup extends FlxState
 
     }
 
-    override function update(elapsed) 
-    {
+    override function update(elapsed):Void{
+
+        FlxG.mouse.visible = false;
         
         if(splash.animation.curAnim.finished && splash.animation.curAnim.name == "start" && !cacheStart){
             

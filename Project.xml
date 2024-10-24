@@ -168,6 +168,6 @@
 	<!--haxedef name="NG_LOGIN" if="newgrounds" /-->
 
 	<!-- _________________________________ Polymod Stuff _______________________________ -->
-	<haxedef name="POLYMOD_API_VERSION_MATCH" value="MATCH_MAJOR" />
+	<haxedef name="POLYMOD_MOD_METADATA_FILE" value="meta.json" />
 
 </project>

@@ -163,8 +163,9 @@ class TitleScreen extends MusicBeatState
 
 	var transitioning:Bool = false;
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float):Void{
+		FlxG.mouse.visible = false;
+
 		Conductor.songPosition = FlxG.sound.music.time;
 			// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
 
