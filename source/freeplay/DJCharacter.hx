@@ -3,6 +3,7 @@ package freeplay;
 import flixel.util.FlxColor;
 import flixel.group.FlxSpriteGroup;
 import haxe.Json;
+import flixel.util.FlxTimer;
 
 using StringTools;
 
@@ -89,6 +90,7 @@ class DJCharacter extends AtlasSprite
         
         songsList = characterData.songs;
         
+        createCategory("ALL");
         for (song in songsList) {
             addSong(song.name, song.icon, song.week, song.category);
         }
@@ -132,7 +134,11 @@ class DJCharacter extends AtlasSprite
     }
 
     function addSong(name:String, character:String, week:Int = 0, categories:Array<String>):Void{
-        freeplaySongs.push([name, character, week, categories]);
+        var categ = categories;
+        if (!categories.contains("ALL")) {
+            categ = categories.concat(["ALL"]);
+        }
+        freeplaySongs.push([name, character, week, categ]);
 		for(cat in categories){
 			createCategory(cat);
 		}

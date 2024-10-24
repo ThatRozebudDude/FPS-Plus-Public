@@ -51,8 +51,6 @@ class TitleScreen extends MusicBeatState
 
 	override public function create():Void
 	{
-		//Polymod.init({modRoot: "mods", dirs: ['introMod']});
-
 		// DEBUG BULLSHIT
 
 		Config.setFramerate(144);

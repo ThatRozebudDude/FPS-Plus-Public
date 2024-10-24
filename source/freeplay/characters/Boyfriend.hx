@@ -66,7 +66,7 @@ class Boyfriend extends DJCharacter
             }
         }
 
-        var data = FileSystem.readDirectory("assets/sounds/freeplay/cartoons/");
+        var data = ModHandler.readDirectory("assets/sounds/freeplay/cartoons/");
         for(i in 0...data.length){ data[i] = data[i].split(".ogg")[0]; }
         //trace(data);
 

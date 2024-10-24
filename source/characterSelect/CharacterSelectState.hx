@@ -89,9 +89,9 @@ class CharacterSelectState extends MusicBeatState
         FlxG.camera.follow(camFollowFinal, LOCKON);
         FlxG.camera.filters = [new ShaderFilter(fadeShader.shader)];
 
-        addCharacter("locked", "LockedPlayer", null, null, [-1, -1]);
-        addCharacter("bf", "BfPlayer", "GfPartner", "bf", [1, 1]);
-        addCharacter("pico", "PicoPlayer", "NenePartner", "Pico", [0, 1]);
+        addCharacter("locked", "LockedPlayer", null, [-1, -1]);
+        addCharacter("bf", "BfPlayer", "GfPartner", [1, 1]);
+        addCharacter("pico", "PicoPlayer", "NenePartner", [0, 1]);
 
         startSong();
 
@@ -411,7 +411,7 @@ class CharacterSelectState extends MusicBeatState
 		curBeat = 0;
 	}
 
-    function addCharacter(name:String, playerClass:String, partnerClass:String, freeplayClass:String, position:Array<Int>):Void{
+    function addCharacter(name:String, playerClass:String, partnerClass:String, position:Array<Int>):Void{
         var partner:CharacterSelectCharacter = null;
         if(partnerClass != null){
             var partnerClass = Type.resolveClass("characterSelect.characters." + partnerClass);
@@ -427,7 +427,7 @@ class CharacterSelectState extends MusicBeatState
         characters.set(name, {
             player: player,
             partner: partner,
-            freeplayClass: freeplayClass,
+            freeplayClass: name,
             position: position,
         });
 

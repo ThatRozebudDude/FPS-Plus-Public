@@ -29,11 +29,11 @@ class StickerOut extends BaseTransition{
         super();
 
         if(_sets == null){ 
-            _sets = FileSystem.readDirectory("assets/images/ui/stickers/"); 
+            _sets = ModHandler.readDirectory("assets/images/ui/stickers/"); 
         }
 
         for(set in _sets){
-            for(path in FileSystem.readDirectory("assets/images/ui/stickers/" + set + "/")){
+            for(path in ModHandler.readDirectory("assets/images/ui/stickers/" + set + "/")){
                 stickerList.push(Paths.image('ui/stickers/$set/$path'));
             }
         }
