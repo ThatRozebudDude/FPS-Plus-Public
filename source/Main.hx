@@ -1,5 +1,6 @@
 package;
 
+import modding.PolymodHandler;
 import flixel.system.scaleModes.RatioScaleMode;
 import flixel.FlxG;
 import flixel.FlxGame;
@@ -18,6 +19,8 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
+
+		PolymodHandler.init();
 
 		#if sys
 		novid = Sys.args().contains("-novid");

@@ -63,6 +63,8 @@
 	<assets path="assets/sounds" include="*.ogg" />
 	<assets path="assets/songs" />
 
+	<assets path="mods" />
+
 	<!--assets path="CHANGELOG.md"/-->
 	<!-- <define name="PRELOAD_ALL" /> -->
 
@@ -106,6 +108,7 @@
 	<haxelib name="hxCodec" if="desktop" />
 	<haxelib name="funkin.vis" />
 	<haxelib name="grig.audio" />
+	<haxelib name="polymod" />
 
 	<!--haxelib name="newgrounds"/-->
 	<!--haxelib name="faxe" if='switch'/-->
@@ -163,5 +166,8 @@
 
 	<!-- <haxedef name="SKIP_TO_PLAYSTATE" if="debug" /> -->
 	<!--haxedef name="NG_LOGIN" if="newgrounds" /-->
+
+	<!-- _________________________________ Polymod Stuff _______________________________ -->
+	<haxedef name="POLYMOD_API_VERSION_MATCH" value="MATCH_MAJOR" />
 
 </project>

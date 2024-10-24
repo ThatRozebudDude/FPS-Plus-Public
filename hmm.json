@@ -62,6 +62,41 @@
             "dir": null,
             "ref": "61b98a7a353b7f529a8fec84ed9afc919a2dffdd",
             "url": "https://github.com/FunkinCrew/hxCodec"
+        },
+        {
+            "name": "polymod",
+            "type": "git",
+            "dir": null,
+            "ref": "0fbdf27fe124549730accd540cec8a183f8652c0",
+            "url": "https://github.com/larsiusprime/polymod"
+        },
+        {
+            "name": "jsonpatch",
+            "type": "git",
+            "dir": null,
+            "ref": "f9b83215acd586dc28754b4ae7f69d4c06c3b4d3",
+            "url": "https://github.com/EliteMasterEric/jsonpatch"
+        },
+        {
+            "name": "jsonpath",
+            "type": "git",
+            "dir": null,
+            "ref": "7a24193717b36393458c15c0435bb7c4470ecdda",
+            "url": "https://github.com/EliteMasterEric/jsonpath"
+        },
+        {
+            "name": "thx.core",
+            "type": "git",
+            "dir": null,
+            "ref": "76d87418fadd92eb8e1b61f004cff27d656e53dd",
+            "url": "https://github.com/fponticelli/thx.core"
+        },
+        {
+            "name": "thx.semver",
+            "type": "git",
+            "dir": null,
+            "ref": "bdb191fe7cf745c02a980749906dbf22719e200b",
+            "url": "https://github.com/fponticelli/thx.semver"
         }
     ]
 }

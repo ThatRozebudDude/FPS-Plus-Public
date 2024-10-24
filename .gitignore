@@ -8,3 +8,6 @@ art/scripts/convertedSongs
 .haxelib/
 .vscode/
 art/scripts/__pycache__
+
+# Modding test stuff
+mods/test*
