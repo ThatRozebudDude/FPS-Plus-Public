@@ -87,12 +87,7 @@ class Note extends FlxSprite
 			noteSkinClassName = NoteType.typeSkins.get(type);
 		}
 
-		var noteSkinClass = Type.resolveClass("note.noteSkins." + noteSkinClassName);
-		if(noteSkinClass == null){
-			noteSkinClass = note.noteSkins.Default;
-		}
-
-		noteSkin = Type.createInstance(noteSkinClass, []);
+		noteSkin = ScriptableNoteSkin.init(noteSkinClassName + "NoteSkin");
 
 		var defaultPath = noteSkin.info.path;
 		var defaultLoadType = noteSkin.info.frameLoadType;

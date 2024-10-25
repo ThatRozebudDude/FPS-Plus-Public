@@ -52,4 +52,5 @@ class CountdownSkinBase{
 
     public function new(){}
 
+    public function toString():String{ return "CountdownSkinBase"; }
 }

@@ -1,8 +1,6 @@
-package ui.comboPopupSkins;
-
 import flixel.math.FlxPoint;
 
-class Default extends ComboPopupSkinBase
+class DefaultPopup extends ComboPopupSkinBase
 {
     
     public function new(){

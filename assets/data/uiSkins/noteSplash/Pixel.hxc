@@ -1,6 +1,4 @@
-package note.noteSplashSkins;
-
-class Pixel extends NoteSplashSkinBase
+class PixelSplashSkin extends NoteSplashSkinBase
 {
 
     public function new(){

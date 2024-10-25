@@ -13,19 +13,19 @@
 	<!--Makes sure that all of these are included when complied even if they aren't directly called in the code.-->
 	<compilerflag name="--macro" value="include('stages.data', true)" />
 	
-	<compilerflag name="--macro" value="include('cutscenes', true)" />
 	<compilerflag name="--macro" value="include('cutscenes.data', true)" />
-	<compilerflag name="--macro" value="include('note.noteSkins', true)" />
-	<compilerflag name="--macro" value="include('note.noteSplashSkins', true)" />
-	<compilerflag name="--macro" value="include('note.noteHoldCoverSkins', true)" />
 
-	<compilerflag name="--macro" value="include('ui.countdownSkins', true)" />
-	<compilerflag name="--macro" value="include('ui.comboPopupSkins', true)" />
-	<compilerflag name="--macro" value="include('ui.hudNoteSkins', true)" />
+
+
+
+
+
+
 	<compilerflag name="--macro" value="include('results.characters', true)" />
 	<compilerflag name="--macro" value="include('freeplay.characters', true)" />
 	<compilerflag name="--macro" value="include('characterSelect.characters', true)" />
 
+	<compilerflag name="--macro" value="include('cutscenes', true)" />
 	<compilerflag name="--macro" value="include('shaders', true)" />
 	<compilerflag name="--macro" value="include('stages.elements', true)" />
 

@@ -722,11 +722,8 @@ class PlayState extends MusicBeatState
 		var swagCounter:Int = 0;
 
 		var countdownSkinName:String = PlayState.curUiType;
-		var countdownSkinClass = Type.resolveClass("ui.countdownSkins." + countdownSkinName);
-		if(countdownSkinClass == null){
-			countdownSkinClass = ui.countdownSkins.Default;
-		}
-		var countdownSkin:CountdownSkinBase = Type.createInstance(countdownSkinClass, []);
+		if(countdownSkinName == ""){ countdownSkinName = "Default"; }
+		var countdownSkin:CountdownSkinBase = ScriptableCountdownSkin.init(countdownSkinName + "Countdown");
 
 		stage.countdownBeat(-1);
 
@@ -1027,11 +1024,7 @@ class PlayState extends MusicBeatState
 		if(skin == null){ skin = PlayState.curUiType; }
 
 		var hudNoteSkinName:String = skin;
-		var hudNoteSkinClass = Type.resolveClass("ui.hudNoteSkins." + hudNoteSkinName);
-		if(hudNoteSkinClass == null){
-			hudNoteSkinClass = ui.hudNoteSkins.Default;
-		}
-		var hudNoteSkin:HudNoteSkinBase = Type.createInstance(hudNoteSkinClass, []);
+		var hudNoteSkin:HudNoteSkinBase = ScriptableHudNoteSkin.init(hudNoteSkinName + "HudNote");
 
 		var hudNoteSkinInfo = hudNoteSkin.info.notes;
 
@@ -1163,11 +1156,7 @@ class PlayState extends MusicBeatState
 		if(skin == null){ skin = PlayState.curUiType; }
 
 		var comboPopupSkinName:String = skin;
-		var comboPopupSkinClass = Type.resolveClass("ui.comboPopupSkins." + comboPopupSkinName);
-		if(comboPopupSkinClass == null){
-			comboPopupSkinClass = ui.comboPopupSkins.Default;
-		}
-		var comboPopupSkin:ComboPopupSkinBase = Type.createInstance(comboPopupSkinClass, []);
+		var comboPopupSkin:ComboPopupSkinBase = ScriptableComboPopupSkin.init(comboPopupSkinName + "Popup");
 
 		comboUI = new ComboPopup(boyfriend.x + boyfriend.worldPopupOffset.x, boyfriend.y + boyfriend.worldPopupOffset.y,
 			comboPopupSkin.info.ratingsInfo,

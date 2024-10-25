@@ -1,13 +1,11 @@
-package note.noteSkins;
-
-class Default extends NoteSkinBase
+class DefaultNoteSkin extends NoteSkinBase
 {
 
     public function new(){
         super();
 
         info.path = "ui/notes/NOTE_assets";
-        info.frameLoadType = sparrow;
+        info.frameLoadType = setSparrow();
 
         setScrollAnimPrefix(left, "purple0");
         setGlowAnimPrefix(left, "Purple Active");

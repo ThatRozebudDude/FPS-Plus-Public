@@ -18,11 +18,7 @@ class NoteSplash extends FlxSprite{
 
         super(x, y);
 
-		var splashSkinClass = Type.resolveClass("note.noteSplashSkins." + splashSkinClassName);
-		if(splashSkinClass == null){
-			splashSkinClass = note.noteSplashSkins.Default;
-		}
-		var splashSkin:NoteSplashSkinBase = Type.createInstance(splashSkinClass, []);
+		var splashSkin:NoteSplashSkinBase = ScriptableNoteSplashSkin.init(splashSkinClassName + "SplashSkin");
         
         /*var noteColor:String = "purple";
         switch(note){

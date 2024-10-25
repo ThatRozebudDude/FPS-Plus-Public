@@ -1,13 +1,11 @@
-package ui.hudNoteSkins;
-
-class Pixel extends HudNoteSkinBase
+class PixelHudNote extends HudNoteSkinBase
 {
     
     public function new(){
         super();
 
         info.notes.notePath = "week6/weeb/pixelUI/notes/arrows-pixels";
-        info.notes.noteFrameLoadType = load(19, 19);
+        info.notes.noteFrameLoadType = setLoad(19, 19);
         info.notes.scale = 6;
         info.notes.anitaliasing = false;
 

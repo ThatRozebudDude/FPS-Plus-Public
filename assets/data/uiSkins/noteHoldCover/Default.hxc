@@ -1,6 +1,4 @@
-package note.noteHoldCoverSkins;
-
-class Default extends NoteHoldCoverSkinBase
+class DefaultHoldCoverSkin extends NoteHoldCoverSkinBase
 {
 
     public function new() {

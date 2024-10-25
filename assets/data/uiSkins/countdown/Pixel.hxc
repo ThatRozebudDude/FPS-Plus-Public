@@ -1,6 +1,4 @@
-package ui.countdownSkins;
-
-class Pixel extends CountdownSkinBase{
+class PixelCountdown extends CountdownSkinBase{
 
     public function new() {
         super();

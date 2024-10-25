@@ -51,6 +51,7 @@ class PolymodHandler
         Polymod.registerAllScriptClasses();
         note.NoteType.initTypes();
         events.Events.initEvents();
+        scriptableClassCheck();
         FlxG.resetState();
     }
 
@@ -58,6 +59,12 @@ class PolymodHandler
         trace("ScriptableCharacter: " + characters.ScriptableCharacter.listScriptClasses());
         trace("ScriptableEvents: " + events.ScriptableEvents.listScriptClasses());
         trace("ScriptableNoteTypes: " + note.ScriptableNoteType.listScriptClasses());
+        trace("ScriptableNoteSkin: " + note.ScriptableNoteSkin.listScriptClasses());
+        trace("ScriptableNoteSplashSkin: " + note.ScriptableNoteSplashSkin.listScriptClasses());
+        trace("ScriptableNoteHoldCoverSkin: " + note.ScriptableNoteHoldCoverSkin.listScriptClasses());
+        trace("ScriptableComboPopupSkin: " + ui.ScriptableComboPopupSkin.listScriptClasses());
+        trace("ScriptableCountdownSkin: " + ui.ScriptableCountdownSkin.listScriptClasses());
+        trace("ScriptableHudNoteSkin: " + ui.ScriptableHudNoteSkin.listScriptClasses());
     }
 
 	static function onPolymodError(error:PolymodError):Void{

@@ -268,4 +268,10 @@ class NoteSkinBase
     var right(get, never):Int;
     @:noCompletion inline function get_right()  { return 3; }
 
+    function setSparrow():FrameLoadType{ return FrameLoadType.sparrow; }
+    //function setPacker():FrameLoadType{ return FrameLoadType.packer; }
+    function setLoad(frameWidth:Int, frameHeight:Int):FrameLoadType{ return FrameLoadType.load(frameWidth, frameHeight); }
+    //function setAtlas():FrameLoadType{ return FrameLoadType.atlas; }
+
+    public function toString():String{ return "NoteSkinBase"; }
 }

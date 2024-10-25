@@ -1,6 +1,4 @@
-package ui.countdownSkins;
-
-class Default extends CountdownSkinBase{
+class DefaultCountdown extends CountdownSkinBase{
 
     public function new() {
         super();

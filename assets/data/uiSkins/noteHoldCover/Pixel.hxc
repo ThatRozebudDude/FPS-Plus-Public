@@ -1,6 +1,4 @@
-package note.noteHoldCoverSkins;
-
-class Pixel extends NoteHoldCoverSkinBase
+class PixelHoldCoverSkin extends NoteHoldCoverSkinBase
 {
 
     public function new() {

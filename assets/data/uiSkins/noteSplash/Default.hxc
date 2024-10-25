@@ -1,6 +1,4 @@
-package note.noteSplashSkins;
-
-class Default extends NoteSplashSkinBase
+class DefaultSplashSkin extends NoteSplashSkinBase
 {
 
     public function new(){

@@ -103,4 +103,5 @@ class NoteHoldCoverSkinBase
     var right(get, never):Int;
     @:noCompletion inline function get_right()  { return 3; }
 
+    public function toString():String{ return "NoteHoldCoverSkinBase"; }
 }
