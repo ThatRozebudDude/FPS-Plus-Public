@@ -49,81 +49,77 @@ typedef NoteFuncions = {
 class NoteSkinBase
 {
 
-    public var info:NoteSkinInfo;
+    public var info:NoteSkinInfo = {
+        path: null,
+        frameLoadType: null,
 
-    public function new(){
-        info = {
-            path: null,
-            frameLoadType: null,
-
-            noteInfoList: [
-                {
-                    pathOverride: null,
-                    frameLoadTypeOverride: null,
-                    scrollAnim: null,
-                    glowAnim: null
-                },
-                {
-                    pathOverride: null,
-                    frameLoadTypeOverride: null,
-                    scrollAnim: null,
-                    glowAnim: null
-                },
-                {
-                    pathOverride: null,
-                    frameLoadTypeOverride: null,
-                    scrollAnim: null,
-                    glowAnim: null
-                },
-                {
-                    pathOverride: null,
-                    frameLoadTypeOverride: null,
-                    scrollAnim: null,
-                    glowAnim: null
-                }
-            ],
-
-            sustainInfoList: [
-                {
-                    pathOverride: null,
-                    frameLoadTypeOverride: null,
-                    holdAnim: null,
-                    endAnim: null
-                },
-                {
-                    pathOverride: null,
-                    frameLoadTypeOverride: null,
-                    holdAnim: null,
-                    endAnim: null
-                },
-                {
-                    pathOverride: null,
-                    frameLoadTypeOverride: null,
-                    holdAnim: null,
-                    endAnim: null
-                },
-                {
-                    pathOverride: null,
-                    frameLoadTypeOverride: null,
-                    holdAnim: null,
-                    endAnim: null
-                }
-            ],
-
-            functions: {
-                create: null,
-                update: null,
+        noteInfoList: [
+            {
+                pathOverride: null,
+                frameLoadTypeOverride: null,
+                scrollAnim: null,
+                glowAnim: null
             },
+            {
+                pathOverride: null,
+                frameLoadTypeOverride: null,
+                scrollAnim: null,
+                glowAnim: null
+            },
+            {
+                pathOverride: null,
+                frameLoadTypeOverride: null,
+                scrollAnim: null,
+                glowAnim: null
+            },
+            {
+                pathOverride: null,
+                frameLoadTypeOverride: null,
+                scrollAnim: null,
+                glowAnim: null
+            }
+        ],
 
-            canGlow: true,
-            scale: 0.7,
-            holdScaleAdjust: 1,
-            antialiasing: true,
-            offset: new FlxPoint()
-        };
-    }
+        sustainInfoList: [
+            {
+                pathOverride: null,
+                frameLoadTypeOverride: null,
+                holdAnim: null,
+                endAnim: null
+            },
+            {
+                pathOverride: null,
+                frameLoadTypeOverride: null,
+                holdAnim: null,
+                endAnim: null
+            },
+            {
+                pathOverride: null,
+                frameLoadTypeOverride: null,
+                holdAnim: null,
+                endAnim: null
+            },
+            {
+                pathOverride: null,
+                frameLoadTypeOverride: null,
+                holdAnim: null,
+                endAnim: null
+            }
+        ],
 
+        functions: {
+            create: null,
+            update: null,
+        },
 
+        canGlow: true,
+        scale: 0.7,
+        holdScaleAdjust: 1,
+        antialiasing: true,
+        offset: new FlxPoint()
+    };
+
+    public function new(){}
 
     function setScrollAnimPrefix(_direction:Int, _prefix:String, _framerate:Float = 0, _flipX:Bool = false, _flipY:Bool = false):Void{
         info.noteInfoList[_direction].scrollAnim = {

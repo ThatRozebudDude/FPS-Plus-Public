@@ -109,7 +109,7 @@ class Startup extends FlxState
 
         SaveManager.global();
         
-        debug.ChartingState.loadLists();
+        //debug.ChartingState.loadLists();
 
         NoteType.initTypes();
         Events.initEvents();

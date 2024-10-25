@@ -1,11 +1,13 @@
 package characters;
 
+import flixel.tweens.FlxTween.FlxTweenManager;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.FlxG;
 import flixel.FlxBasic;
 import flixel.util.FlxColor;
 import flixel.math.FlxPoint;
+import Character.AttachedAction;
 
 enum AnimType {
     prefix;
@@ -418,16 +420,30 @@ class CharacterInfoBase
     inline function addToSubstate(x:FlxBasic)           { FlxG.state.subState.add(x); }
     inline function removeFromSubstate(x:FlxBasic)      { FlxG.state.subState.remove(x); }
 
+    var boyfriend(get, never):Character;
+    @:noCompletion inline function get_boyfriend()  { return PlayState.instance.boyfriend; }
+    var gf(get, never):Character;
+    @:noCompletion inline function get_gf()         { return PlayState.instance.gf; }
+    var dad(get, never):Character;
+    @:noCompletion inline function get_dad()        { return PlayState.instance.dad; }
+    
     var playstate(get, never):PlayState;
     @:noCompletion inline function get_playstate()  { return PlayState.instance; }
 
     var gameover(get, never):GameOverSubstate;
-    @:noCompletion inline function get_gameover()  { return GameOverSubstate.instance; }
+    @:noCompletion inline function get_gameover()   { return GameOverSubstate.instance; }
 
-    public function toString():String{ return "CharacterInfoBase"; }
+    var tween(get, never):FlxTweenManager;
+    @:noCompletion inline function get_tween()      { return PlayState.instance.tweenManager; }
 
     function setSparrow():FrameLoadType{ return FrameLoadType.sparrow; }
     function setPacker():FrameLoadType{ return FrameLoadType.packer; }
     function setLoad(frameWidth:Int, frameHeight:Int):FrameLoadType{ return FrameLoadType.load(frameWidth, frameHeight); }
     function setAtlas():FrameLoadType{ return FrameLoadType.atlas; }
+    
+    function withDance():AttachedAction{ return AttachedAction.withDance; }
+    function withSing():AttachedAction{ return AttachedAction.withSing; }
+    function withPlayAnim():AttachedAction{ return AttachedAction.withPlayAnim; }
+
+    public function toString():String{ return ""+info; }
 }
