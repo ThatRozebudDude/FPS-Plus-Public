@@ -25,7 +25,6 @@ class PolymodHandler
 
         Polymod.init({
 			modRoot: "mods",
-			dirs: [],
             useScriptedClasses: true,
 			framework: Framework.OPENFL,
 			errorCallback: onPolymodError,
@@ -38,11 +37,13 @@ class PolymodHandler
                     "images" => "./images",
                     "videos" => "./videos"
                 ],
-                apiVersionRule: API_VERSION
-            }
+            },
+            apiVersionRule: API_VERSION
 		});
 
 		Polymod.loadOnlyMods(modList);
+
+        trace("Character: " + characters.ScriptableCharacter.listScriptClasses());
 	}
 
     public static function reload():Void{
@@ -86,7 +87,12 @@ class PolymodHandler
         //Import customizable class so now we can make custom class without importing
         Polymod.addDefaultImport(characters.CharacterInfoBase);
         Polymod.addDefaultImport(notetypes.NoteType);
+
+        Polymod.addDefaultImport(ui.ComboPopupSkin);
+        Polymod.addDefaultImport(ui.CountdownSkin);
+        Polymod.addDefaultImport(ui.HudNoteSkin);
         
+        //Alias
         Polymod.addImportAlias("lime.utils.Assets", Assets);
         Polymod.addImportAlias("openfl.utils.Assets", Assets);
 
