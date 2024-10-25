@@ -14,10 +14,6 @@ class PolymodHandler
 	{
         buildImports();
 
-		if (!FileSystem.exists("mods"))
-            return;
-        trace("hi");
-
         //Make Better Mod System Later
         var modDirs:Array<String> = FileSystem.readDirectory("mods");
         for(path in modDirs){
@@ -56,6 +52,8 @@ class PolymodHandler
     public static function reload():Void{
         Polymod.clearScripts();
         Polymod.registerAllScriptClasses();
+        notetypes.NoteType.initTypes();
+        events.Events.initEvents();
         FlxG.resetState();
     }
 

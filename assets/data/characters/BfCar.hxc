@@ -1,5 +1,3 @@
-import characters.CharacterInfoBase;
-
 class BfCar extends CharacterInfoBase
 {
 

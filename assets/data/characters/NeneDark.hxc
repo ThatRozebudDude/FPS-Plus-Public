@@ -1,5 +1,3 @@
-import characters.CharacterInfoBase;
-
 import shaders.TextureMixShader;
 import shaders.TheShaderThatTurnsEverythingOrange;
 import stages.elements.ABot;

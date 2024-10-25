@@ -1,5 +1,3 @@
-import characters.CharacterInfoBase;
-
 class BfHoldingGfDead extends CharacterInfoBase
 {
 

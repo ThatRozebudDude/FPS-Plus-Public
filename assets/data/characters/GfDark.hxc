@@ -1,5 +1,3 @@
-import characters.CharacterInfoBase;
-
 import flixel.tweens.FlxEase;
 
 class GfDark extends CharacterInfoBase
