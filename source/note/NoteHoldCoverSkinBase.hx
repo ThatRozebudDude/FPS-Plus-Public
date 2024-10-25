@@ -24,40 +24,38 @@ typedef NoteHoldCoverSkinInfo = {
 class NoteHoldCoverSkinBase
 {
 
-    public var info:NoteHoldCoverSkinInfo;
+    public var info:NoteHoldCoverSkinInfo = {
+        path: null,
+        offset: [0, 0],
+        positionOffset: [0, 0],
+        alpha: 1,
+        antialiasing: true,
+        scale: 1,
+        anims: [
+            {
+                start: null,
+                hold: null,
+                splash: null
+            },
+            {
+                start: null,
+                hold: null,
+                splash: null
+            },
+            {
+                start: null,
+                hold: null,
+                splash: null
+            },
+            {
+                start: null,
+                hold: null,
+                splash: null
+            }
+        ]
+    };
 
-    public function new() {
-        info = {
-            path: null,
-            offset: [0, 0],
-            positionOffset: [0, 0],
-            alpha: 1,
-            antialiasing: true,
-            scale: 1,
-            anims: [
-                {
-                    start: null,
-                    hold: null,
-                    splash: null
-                },
-                {
-                    start: null,
-                    hold: null,
-                    splash: null
-                },
-                {
-                    start: null,
-                    hold: null,
-                    splash: null
-                },
-                {
-                    start: null,
-                    hold: null,
-                    splash: null
-                }
-            ]
-        }
-    }
+    public function new() {}
 
     function addStartAnim(_direction:Int, _prefix:String, _framerateRange:Array<Int>){
         if(_framerateRange == null){ _framerateRange = [24, 24]; }

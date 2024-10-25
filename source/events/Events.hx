@@ -15,11 +15,9 @@ class Events
         events = new Map<String, (String)->Void>();
         eventsMeta = new Map<String, String>();
 
-        var noteTypeClasses = CompileTime.getAllClasses("events.data", false, Events);
-        trace(noteTypeClasses);
-		for(x in noteTypeClasses){
-			var noteTypeClass = Type.createInstance(x, []);
-            noteTypeClass.defineEvents();
+		for(x in ScriptableEvents.listScriptClasses()){
+			var eventClass:Events = ScriptableEvents.init(x);
+            eventClass.defineEvents();
 		}
     }
 
@@ -185,4 +183,6 @@ class Events
     @:noCompletion inline function get_tween()      { return PlayState.instance.tweenManager; }
     var data(get, never):Map<String, Dynamic>;
     @:noCompletion inline function get_data()       { return PlayState.instance.arbitraryData; }
+
+	public function toString():String{ return "Events"; }
 }

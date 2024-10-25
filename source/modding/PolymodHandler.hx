@@ -1,5 +1,8 @@
 package modding ;
 
+import events.Events;
+import characters.ScriptableCharacter;
+import events.ScriptableEvents;
 import polymod.PolymodConfig;
 import flixel.FlxG;
 import polymod.Polymod;
@@ -47,12 +50,14 @@ class PolymodHandler
     public static function reload():Void{
         Polymod.clearScripts();
         Polymod.registerAllScriptClasses();
+        Events.initEvents();
         FlxG.resetState();
         scriptableClassCheck();
     }
 
     static function scriptableClassCheck():Void{
-        trace("ScriptableCharacter: " + characters.ScriptableCharacter.listScriptClasses());
+        trace("ScriptableCharacter: " + ScriptableCharacter.listScriptClasses());
+        trace("ScriptableEvents: " + ScriptableEvents.listScriptClasses());
     }
 
     static function buildImports():Void{

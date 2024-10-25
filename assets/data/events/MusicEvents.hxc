@@ -1,8 +1,6 @@
-package events.data;
+import events.Events;
 
 import flixel.FlxG;
-import flixel.math.FlxMath;
-import flixel.math.FlxPoint;
 
 class MusicEvents extends Events
 {
@@ -68,9 +66,9 @@ class MusicEvents extends Events
 
 
     //Event descriptions. Not required but it helps with charting.
-    static inline final MUTE_INST_DESC:String = "Mutes the instrumental.";
-    static inline final PLAY_INST_DESC:String = "Plays the instrumental.";
-    static inline final PLAY_VOCALS_DESC:String = "Plays the instrumental.\n\nArgs:\n    String: Voice track (\"bf\", \"dad\", or \"all\")";
-    static inline final MUTE_VOCALS_DESC:String = "Plays the instrumental.\n\nArgs:\n    String: Voice track (\"bf\", \"dad\", or \"all\")";
-    static inline final TOGGLE_VOCAL_VOLUME_LOCK_DESC:String = "Toggles whether hitting/missing notes will toggle the volume on the vocal tracks.";
+    var MUTE_INST_DESC:String = "Mutes the instrumental.";
+    var PLAY_INST_DESC:String = "Plays the instrumental.";
+    var PLAY_VOCALS_DESC:String = "Plays the instrumental.\n\nArgs:\n    String: Voice track (\"bf\", \"dad\", or \"all\")";
+    var MUTE_VOCALS_DESC:String = "Plays the instrumental.\n\nArgs:\n    String: Voice track (\"bf\", \"dad\", or \"all\")";
+    var TOGGLE_VOCAL_VOLUME_LOCK_DESC:String = "Toggles whether hitting/missing notes will toggle the volume on the vocal tracks.";
 }

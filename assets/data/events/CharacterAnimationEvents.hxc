@@ -1,4 +1,4 @@
-package events.data;
+import events.Events;
 
 class CharacterAnimationEvents extends Events
 {
@@ -117,14 +117,14 @@ class CharacterAnimationEvents extends Events
 
 
     //Event descriptions. Not required but it helps with charting.
-    static inline final PLAY_ANIM_DESC:String = "Plays an animation on a character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation name\n    Bool: Force play animation\n    Bool: Reverse animation\n    Int: Frame to start on";
-    static inline final SING_ANIM_DESC:String = "Plays an animation treated as a note sing direction.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation name\n    Bool: Force play animation\n    Bool: Reverse animation\n    Int: Frame to start on";
-    static inline final SET_ANIM_SET_DESC:String = "Sets the animation set on a character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation set suffix";
-    static inline final GF_BOP_FREQ_DESC:String = "Sets the interval that GF does their idle dance.\n\nArgs:\n    Int: Interval (every \"x\" beats)";
-    static inline final ICON_BOP_FREQ_DESC:String = "Sets the interval that the health icons bop.\n\nArgs:\n    Int: Interval (every \"x\" beats)";
-    static inline final BF_BOP_DESC:String = "Sets the beats that BF does their idle dance.\n\nArgs:\n    String: \"EveryBeat\", \"OddBeats\", \"EvenBeats\", \"Never\"";
-    static inline final DAD_BOP_DESC:String = "Sets the beats that Dad does their idle dance.\n\nArgs:\n    String: \"EveryBeat\", \"OddBeats\", \"EvenBeats\", \"Never\"";
-    static inline final BF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether BF will automatically play animations.";
-    static inline final DAD_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether Dad will automatically play animations.";
-    static inline final GF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether GF will automatically play animations.";
+    var PLAY_ANIM_DESC:String = "Plays an animation on a character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation name\n    Bool: Force play animation\n    Bool: Reverse animation\n    Int: Frame to start on";
+    var SING_ANIM_DESC:String = "Plays an animation treated as a note sing direction.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation name\n    Bool: Force play animation\n    Bool: Reverse animation\n    Int: Frame to start on";
+    var SET_ANIM_SET_DESC:String = "Sets the animation set on a character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation set suffix";
+    var GF_BOP_FREQ_DESC:String = "Sets the interval that GF does their idle dance.\n\nArgs:\n    Int: Interval (every \"x\" beats)";
+    var ICON_BOP_FREQ_DESC:String = "Sets the interval that the health icons bop.\n\nArgs:\n    Int: Interval (every \"x\" beats)";
+    var BF_BOP_DESC:String = "Sets the beats that BF does their idle dance.\n\nArgs:\n    String: \"EveryBeat\", \"OddBeats\", \"EvenBeats\", \"Never\"";
+    var DAD_BOP_DESC:String = "Sets the beats that Dad does their idle dance.\n\nArgs:\n    String: \"EveryBeat\", \"OddBeats\", \"EvenBeats\", \"Never\"";
+    var BF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether BF will automatically play animations.";
+    var DAD_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether Dad will automatically play animations.";
+    var GF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether GF will automatically play animations.";
 }

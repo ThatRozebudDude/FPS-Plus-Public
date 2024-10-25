@@ -23,23 +23,19 @@ typedef NoteSplashSkinInfo = {
 class NoteSplashSkinBase
 {
  
-    public var info:NoteSplashSkinInfo;
+    public var info:NoteSplashSkinInfo = {
+        path: null,
+        anims: [
+            [], [], [], []
+        ],
+        randomRotation: true,
+        limitedRotationAngles: false,
+        alpha: 1,
+        antialiasing: true,
+        scale: 1
+    };
 
-    public function new(){
-        
-        info = {
-            path: null,
-            anims: [
-                [], [], [], []
-            ],
-            randomRotation: true,
-            limitedRotationAngles: false,
-            alpha: 1,
-            antialiasing: true,
-            scale: 1
-        }
-
-    }
+    public function new(){}
 
     function addAnim(_direction:Int, _name:String, ?_framerateRange:Array<Int>, ?_offset:Array<Float>) {
         if(_offset == null){ _offset = [0, 0]; }

@@ -14,19 +14,15 @@ typedef ComboPopupSkinInfo = {
 
 class ComboPopupSkinBase{
 
-    public var info:ComboPopupSkinInfo;
+    public var info:ComboPopupSkinInfo = {
+        ratingsInfo: null,
+        numbersInfo: null,
+        breakInfo: null,
+        ratingsHudScaleMultiply: 1,
+        numbersHudScaleMultiply: 1,
+        breakHudScaleMultiply: 1,
+    };
 
-    public function new(){
-        
-        info = {
-            ratingsInfo: null,
-            numbersInfo: null,
-            breakInfo: null,
-            ratingsHudScaleMultiply: 1,
-            numbersHudScaleMultiply: 1,
-            breakHudScaleMultiply: 1,
-        };
-
-    }
+    public function new(){}
 
 }

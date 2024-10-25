@@ -1,4 +1,4 @@
-package events.data;
+import events.Events;
 
 class CaptionEvents extends Events
 {
@@ -20,6 +20,6 @@ class CaptionEvents extends Events
 
     
     //Event descriptions. Not required but it helps with charting.
-    static inline final CC_DESC:String = "Shows captions.\n\nArgs:\n    String: Text in the caption";
-    static inline final CC_HIDE_DESC:String = "Hides the currently displayed captions.";
+    var CC_DESC:String = "Shows captions.\n\nArgs:\n    String: Text in the caption";
+    var CC_HIDE_DESC:String = "Hides the currently displayed captions.";
 }

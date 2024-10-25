@@ -1,4 +1,4 @@
-package events.data;
+import events.Events;
 
 class HudEvents extends Events
 {
@@ -21,6 +21,6 @@ class HudEvents extends Events
 
 
     //Event descriptions. Not required but it helps with charting.
-    static inline final SET_HUD_SKIN_DESC:String = "Changes the HUD note skin.\n\nArgs:\n    String: Skin name";
-    static inline final HUD_VISIBLE_DESC:String = "Sets the visibility of the HUD.\n\nArgs:\n    Bool: HUD visibility";
+    var SET_HUD_SKIN_DESC:String = "Changes the HUD note skin.\n\nArgs:\n    String: Skin name";
+    var HUD_VISIBLE_DESC:String = "Sets the visibility of the HUD.\n\nArgs:\n    Bool: HUD visibility";
 }

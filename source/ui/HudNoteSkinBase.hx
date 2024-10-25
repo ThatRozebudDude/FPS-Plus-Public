@@ -28,45 +28,41 @@ typedef HudNoteSkinInfo = {
 
 class HudNoteSkinBase{
 
-    public var info:HudNoteSkinInfo;
+    public var info:HudNoteSkinInfo = {
+        notes: {
+            notePath: null,
+            noteFrameLoadType: null,
+            scale: 1,
+            anitaliasing: true,
+            splashClass: null,
+            coverPath: null,
+            arrowInfo:[
+                {
+                staticInfo: null,
+                pressedInfo: null,
+                confrimedInfo: null
+                },
+                {
+                staticInfo: null,
+                pressedInfo: null,
+                confrimedInfo: null
+                },
+                {
+                staticInfo: null,
+                pressedInfo: null,
+                confrimedInfo: null
+                },
+                {
+                staticInfo: null,
+                pressedInfo: null,
+                confrimedInfo: null
+                }
+            ]
+        },
+        opponentNotes: null
+    };
 
-    public function new(){
-        
-        info = {
-            notes: {
-                notePath: null,
-                noteFrameLoadType: null,
-                scale: 1,
-                anitaliasing: true,
-                splashClass: null,
-                coverPath: null,
-                arrowInfo:[
-                    {
-                    staticInfo: null,
-                    pressedInfo: null,
-                    confrimedInfo: null
-                    },
-                    {
-                    staticInfo: null,
-                    pressedInfo: null,
-                    confrimedInfo: null
-                    },
-                    {
-                    staticInfo: null,
-                    pressedInfo: null,
-                    confrimedInfo: null
-                    },
-                    {
-                    staticInfo: null,
-                    pressedInfo: null,
-                    confrimedInfo: null
-                    }
-                ]
-            },
-            opponentNotes: null
-        }
-
-    }
+    public function new(){}
 
     function setStaticAnimPrefix(_direction:Int, _prefix:String, _framerate:Float = 24, ?_offset:Array<Float>, _enemy:Bool = false, _flipX:Bool = false, _flipY:Bool = false):Void{
         if (_offset == null) { _offset = [0, 0]; }
