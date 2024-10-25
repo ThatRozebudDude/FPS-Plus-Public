@@ -183,7 +183,7 @@ class Binds
             name: "Fullscreen",
             category: "Menu",
             binds: [F11],
-            controllerBinds: [RIGHT_STICK_CLICK],
+            controllerBinds: [],
             local: false
         };
         r.set("fullscreen", k);
