@@ -1,4 +1,4 @@
-package modding ;
+package modding;
 
 import flixel.FlxG;
 import polymod.Polymod;
@@ -7,7 +7,7 @@ import sys.FileSystem;
 class PolymodHandler
 {
 
-	static final API_VERSION = "0.1.0";
+	static final API_VERSION = "0.0.0";
     public static var modList = []; // Mods currently enabled
 
 	public static function init():Void
@@ -37,16 +37,12 @@ class PolymodHandler
                     "music" => "./music",
                     "images" => "./images",
                     "videos" => "./videos"
-                ]
-            },
-			ignoredFiles: Polymod.getDefaultIgnoreList()
+                ],
+                apiVersionRule: API_VERSION
+            }
 		});
 
 		Polymod.loadOnlyMods(modList);
-
-        //Check scriptable class
-        trace("ScriptableCharacter: " + characters.ScriptableCharacter.listScriptClasses());
-        trace("ScriptableNotetype: " + notetypes.ScriptableNoteType.listScriptClasses());
 	}
 
     public static function reload():Void{
@@ -68,7 +64,7 @@ class PolymodHandler
 				switch (error.severity)
 				{
 					case NOTICE:
-                        //does nothing
+                        //does nothing lol
 					case WARNING:
 						trace(error.message, null);
 					case ERROR:
