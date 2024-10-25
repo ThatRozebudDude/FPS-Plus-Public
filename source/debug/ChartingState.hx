@@ -1596,21 +1596,8 @@ class ChartingState extends MusicBeatState
 			var leftChar:characters.CharacterInfoBase;
 			var rightChar:characters.CharacterInfoBase;
 
-			//load scripted class if available
-			if(Type.resolveClass("characters.data." + player2DropDown.selectedLabel) == null){
-				leftChar = ScriptableCharacter.init(player2DropDown.selectedLabel);
-			}
-			else{
-				leftChar = Type.createInstance(Type.resolveClass("characters.data." + player2DropDown.selectedLabel), []);
-			}
-
-			//load scripted class if available
-			if(Type.resolveClass("characters.data." + player1DropDown.selectedLabel) == null){
-				rightChar = ScriptableCharacter.init(player1DropDown.selectedLabel);
-			}
-			else{
-				rightChar = Type.createInstance(Type.resolveClass("characters.data." + player1DropDown.selectedLabel), []);
-			}
+			leftChar = ScriptableCharacter.init(player2DropDown.selectedLabel);
+			rightChar = ScriptableCharacter.init(player1DropDown.selectedLabel);
 
 			leftIcon.setIconCharacter(leftChar.info.iconName);
 			rightIcon.setIconCharacter(rightChar.info.iconName);
@@ -2301,18 +2288,6 @@ class ChartingState extends MusicBeatState
 		gfList = [];
 		stageList = [];
 
-		var characterClasses = CompileTime.getAllClasses("characters.data", false, characters.CharacterInfoBase);
-		//trace(characterClasses);
-		for(x in characterClasses){
-			var meta = Meta.getType(x);
-			if(meta.charList == null || meta.charList[0]){
-				charactersList.push(Type.getClassName(x).split("characters.data.")[1]);
-			}
-			if(meta.gfList != null && meta.gfList[0]){
-				gfList.push(Type.getClassName(x).split("characters.data.")[1]);
-			}
-		}
-
 		for(x in ScriptableCharacter.listScriptClasses()){
 			var getScriptInfo:CharacterInfoBase = ScriptableCharacter.init(x);
 			if(getScriptInfo.includeInCharacterList){ charactersList.push(x); }
@@ -2325,9 +2300,22 @@ class ChartingState extends MusicBeatState
 			stageList.push(Type.getClassName(x).split("stages.data.")[1]);
 		}
 
-		//makes them be in alphabetical order instead of reverse alphabetical order
-		charactersList.reverse();
-		gfList.reverse();
+		//makes them be in alphabetical order
+		charactersList.sort(function(a:String, b:String):Int{
+			a = a.toUpperCase();
+			b = b.toUpperCase();
+			if(a < b){ return -1; }
+			else if(a > b){ return 1; }
+			else{ return 0; }
+		});
+		gfList.sort(function(a:String, b:String):Int{
+			a = a.toUpperCase();
+			b = b.toUpperCase();
+			if(a < b){ return -1; }
+			else if(a > b){ return 1; }
+			else{ return 0; }
+		});
+		
 		stageList.reverse();
 
 		var iconsRaw = FileSystem.readDirectory("assets/images/chartEditor/event/");

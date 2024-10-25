@@ -6,6 +6,7 @@ import flixel.FlxG;
 import flixel.FlxBasic;
 import flixel.util.FlxColor;
 import flixel.math.FlxPoint;
+import Character.AttachedAction;
 
 enum AnimType {
     prefix;
@@ -430,4 +431,8 @@ class CharacterInfoBase
     function setPacker():FrameLoadType{ return FrameLoadType.packer; }
     function setLoad(frameWidth:Int, frameHeight:Int):FrameLoadType{ return FrameLoadType.load(frameWidth, frameHeight); }
     function setAtlas():FrameLoadType{ return FrameLoadType.atlas; }
+    
+    function withDance():AttachedAction{ return AttachedAction.withDance; }
+    function withSing():AttachedAction{ return AttachedAction.withSing; }
+    function withPlayAnim():AttachedAction{ return AttachedAction.withPlayAnim; }
 }

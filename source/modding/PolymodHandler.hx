@@ -63,6 +63,7 @@ class PolymodHandler
         Polymod.addDefaultImport(Character);
         Polymod.addDefaultImport(modding.ModdingUtil);
         Polymod.addDefaultImport(Utils);
+        Polymod.addDefaultImport(Conductor);
 
         Polymod.addImportAlias("lime.utils.Assets", Assets);
         Polymod.addImportAlias("openfl.utils.Assets", Assets);

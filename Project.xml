@@ -12,7 +12,7 @@
 
 	<!--Makes sure that all of these are included when complied even if they aren't directly called in the code.-->
 	<compilerflag name="--macro" value="include('stages.data', true)" />
-	<compilerflag name="--macro" value="include('characters.data', true)" />
+	
 	<compilerflag name="--macro" value="include('cutscenes', true)" />
 	<compilerflag name="--macro" value="include('cutscenes.data', true)" />
 	<compilerflag name="--macro" value="include('note.types', true)" />
@@ -26,6 +26,9 @@
 	<compilerflag name="--macro" value="include('results.characters', true)" />
 	<compilerflag name="--macro" value="include('freeplay.characters', true)" />
 	<compilerflag name="--macro" value="include('characterSelect.characters', true)" />
+
+	<compilerflag name="--macro" value="include('shaders', true)" />
+	<compilerflag name="--macro" value="include('stages.elements', true)" />
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 
