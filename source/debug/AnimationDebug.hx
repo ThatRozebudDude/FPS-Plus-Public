@@ -1,5 +1,7 @@
 package debug;
 
+import modding.PolymodHandler;
+import characters.ScriptableCharacter;
 import characters.CharacterInfoBase;
 import config.Config;
 import openfl.desktop.ClipboardFormats;
@@ -77,10 +79,8 @@ class AnimationDebug extends FlxState
 		add(gridBG);
 
 		dad = new Character(0, 0, daAnim, false, false, true);
-		//dad.screenCenter();
 
-		var characterClass = Type.resolveClass("characters.data." + dad.charClass);
-		charInfo = Type.createInstance(characterClass, []);
+		charInfo = ScriptableCharacter.init(dad.charClass);
 		if(charInfo.info.extraData != null){
 			for(type => data in charInfo.info.extraData){
 				switch(type){
@@ -271,6 +271,10 @@ class AnimationDebug extends FlxState
 				dad.getSprite().alpha = 1;
 			else
 				dad.getSprite().alpha = 0.5;
+		}
+
+		if(FlxG.keys.anyJustPressed([F5])){
+			PolymodHandler.reload();
 		}
 
 		super.update(elapsed);
