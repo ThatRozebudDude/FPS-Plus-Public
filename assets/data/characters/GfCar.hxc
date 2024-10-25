@@ -1,5 +1,3 @@
-import characters.CharacterInfoBase;
-
 class GfCar extends CharacterInfoBase
 {
 

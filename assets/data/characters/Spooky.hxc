@@ -1,5 +1,3 @@
-import characters.CharacterInfoBase;
-
 class Spooky extends CharacterInfoBase
 {
 

@@ -1,5 +1,3 @@
-import events.Events;
-
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 

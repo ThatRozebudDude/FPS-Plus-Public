@@ -1,7 +1,7 @@
 package;
 
-import events.Events;
 import note.NoteType;
+import events.Events;
 import sys.FileSystem;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;

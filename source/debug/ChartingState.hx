@@ -1,5 +1,6 @@
 package debug;
 
+import note.NoteType;
 import characters.CharacterInfoBase;
 import modding.PolymodHandler;
 import characters.ScriptableCharacter;
@@ -7,7 +8,6 @@ import events.Events;
 import sys.FileSystem;
 import ui.HealthIcon;
 import flixel.util.FlxSort;
-import note.NoteType;
 import extensions.flixel.addons.ui.FlxUIDropDownMenuScrollable;
 import note.Note;
 import transition.data.InstantTransition;

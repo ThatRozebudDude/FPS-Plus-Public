@@ -11,3 +11,4 @@ art/scripts/__pycache__
 
 # Modding test stuff
 mods/test*
+.DS_Store

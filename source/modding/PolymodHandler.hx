@@ -1,8 +1,5 @@
-package modding ;
+package modding;
 
-import events.Events;
-import characters.ScriptableCharacter;
-import events.ScriptableEvents;
 import polymod.PolymodConfig;
 import flixel.FlxG;
 import polymod.Polymod;
@@ -13,12 +10,13 @@ class PolymodHandler
 
     inline static final API_VERSION:String = "0.0.0";
 
-    static var loadedModMetadata:Array<ModMetadata>;
+    public static var modDirs:Array<String>;
+    public static var loadedModMetadata:Array<ModMetadata>;
 
-    public static function init():Void{
+	public static function init():Void{
         buildImports();
 
-        var modDirs:Array<String> = FileSystem.readDirectory("mods/");
+        modDirs = FileSystem.readDirectory("mods/");
         if(modDirs == null){ modDirs = []; }
 
         trace(PolymodConfig.modMetadataFile);
@@ -38,6 +36,7 @@ class PolymodHandler
 			modRoot: "./mods/",
 			dirs: modDirs,
 			useScriptedClasses: true,
+            errorCallback: onPolymodError,
             frameworkParams: buildFrameworkParams(),
 			apiVersionRule: API_VERSION
 		});
@@ -50,15 +49,34 @@ class PolymodHandler
     public static function reload():Void{
         Polymod.clearScripts();
         Polymod.registerAllScriptClasses();
-        Events.initEvents();
+        note.NoteType.initTypes();
+        events.Events.initEvents();
         FlxG.resetState();
-        scriptableClassCheck();
     }
 
     static function scriptableClassCheck():Void{
-        trace("ScriptableCharacter: " + ScriptableCharacter.listScriptClasses());
-        trace("ScriptableEvents: " + ScriptableEvents.listScriptClasses());
+        trace("ScriptableCharacter: " + characters.ScriptableCharacter.listScriptClasses());
+        trace("ScriptableEvents: " + events.ScriptableEvents.listScriptClasses());
+        trace("ScriptableNoteTypes: " + note.ScriptableNoteType.listScriptClasses());
     }
+
+	static function onPolymodError(error:PolymodError):Void{
+		// Perform an action based on the error code.
+		switch (error.code){
+			case MISSING_ICON:
+                
+			default:
+				// Log the message based on its severity.
+				switch (error.severity){
+					case NOTICE:
+                        //does nothing lol
+					case WARNING:
+						trace(error.message, null);
+					case ERROR:
+						trace(error.message, null);
+				}
+		}
+	}
 
     static function buildImports():Void{
         Polymod.addDefaultImport(Assets);
@@ -70,6 +88,19 @@ class PolymodHandler
         Polymod.addDefaultImport(Utils);
         Polymod.addDefaultImport(Conductor);
 
+        //Import customizable class so now we can make custom class without importing
+        Polymod.addDefaultImport(characters.CharacterInfoBase);
+        Polymod.addDefaultImport(note.NoteType);
+        Polymod.addDefaultImport(events.Events);
+
+        Polymod.addDefaultImport(note.NoteSkinBase);
+        Polymod.addDefaultImport(note.NoteSplashSkinBase);
+        Polymod.addDefaultImport(note.NoteHoldCoverSkinBase);
+        Polymod.addDefaultImport(ui.ComboPopupSkinBase);
+        Polymod.addDefaultImport(ui.CountdownSkinBase);
+        Polymod.addDefaultImport(ui.HudNoteSkinBase);
+        
+        //Alias
         Polymod.addImportAlias("lime.utils.Assets", Assets);
         Polymod.addImportAlias("openfl.utils.Assets", Assets);
 
@@ -131,5 +162,4 @@ class PolymodHandler
             ]
         }
     }
-
 }
