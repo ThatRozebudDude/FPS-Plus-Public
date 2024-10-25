@@ -1,15 +1,17 @@
+package stages.data;
+
 import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class Chart extends Stages
+class Chart extends BaseStage
 {
 
 	var chartBlackBG:FlxSprite;
 
-    public override function initStage(){
+    public override function init(){
         name = "chart";
 
 		if(PlayState.fceForLilBuddies){

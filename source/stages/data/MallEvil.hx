@@ -1,12 +1,14 @@
+package stages.data;
+
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class MallEvil extends Stages
+class MallEvil extends BaseStage
 {
 
-    public override function initStage(){
+    public override function init(){
         name = "mallEvil";
 
 		var bg:FlxSprite = new FlxSprite(-400, -500).loadGraphic(Paths.image("week5/christmas/evilBG"));

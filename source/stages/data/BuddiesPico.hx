@@ -1,15 +1,17 @@
+package stages.data;
+
 import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class BuddiesPico extends Stages
+class BuddiesPico extends BaseStage
 {
 
 	var chartBlackBG:FlxSprite;
 
-    public override function initStage(){
+    public override function init(){
 
         name = "buddiesPico";
 		startingZoom = 2.8;

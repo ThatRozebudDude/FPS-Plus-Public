@@ -1,12 +1,14 @@
+package stages.data;
+
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class Stage extends Stages
+class Stage extends BaseStage
 {
 
-    public override function initStage(){
+    public override function init(){
         name = "stage";
 		startingZoom = 1.1;
 

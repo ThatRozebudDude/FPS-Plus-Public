@@ -12,10 +12,10 @@ import flixel.math.FlxPoint;
 	@author Rozebud
 **/
 
-class Stages
+class BaseStage
 {
 
-    public var name:String = "stage";
+    public var name:String;
     public var startingZoom:Float = 1;
     public var uiType:String = "default";
     public var cameraMovementEnabled:Bool = true;
@@ -48,11 +48,14 @@ class Stages
     /**
 	 * Do not override this function, override `init()` instead.
 	 */
-    public function new() {
-        initStage();
+    public function new(){
+        init();
     }
 
-    public function initStage() {}
+    /**
+	 * Override this function to initialize all of your stage elements.
+	 */
+    function init(){}
 
     /**
 	 * Adds an object to `backgroundElements` to be added to PlayState.
@@ -240,5 +243,4 @@ class Stages
     inline function addToForegroundLive(x:FlxBasic)      { PlayState.instance.foregroundLayer.add(x); }
     inline function removeFromForegroundLive(x:FlxBasic) { PlayState.instance.foregroundLayer.remove(x); }
 
-    public function toString():String{ return ""+name; }
 }

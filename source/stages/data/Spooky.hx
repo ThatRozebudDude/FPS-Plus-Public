@@ -1,3 +1,5 @@
+package stages.data;
+
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import flixel.sound.FlxSound;
@@ -7,7 +9,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class Spooky extends Stages
+class Spooky extends BaseStage
 {
 
 	var halloweenBG:FlxSprite;
@@ -36,7 +38,7 @@ class Spooky extends Stages
 	final windowLightColor:FlxColor = 0xFF4646AD;
 	final windowLightFlashColors:Array<FlxColor> = [0xFFFFFFFF, 0xFF12123D, 0xFFD5D5FF];
 
-    public override function initStage(){
+    public override function init(){
         name = "spooky";
 
 		wall = Utils.makeColoredSprite(1280*2, 720*2, 0xFFFFFFFF);

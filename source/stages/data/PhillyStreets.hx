@@ -1,3 +1,5 @@
+package stages.data;
+
 import openfl.filters.ShaderFilter;
 import shaders.RainShader;
 import flixel.util.FlxTimer;
@@ -11,7 +13,7 @@ import stages.elements.*;
 
 using StringTools;
 
-class PhillyStreets extends Stages
+class PhillyStreets extends BaseStage
 {
 	var rainShader:RainShader;
 	var rainInensityEnd:Float = 0;
@@ -32,7 +34,7 @@ class PhillyStreets extends Stages
 	var carInterruptable:Bool = true; // if the car can be reset
 	var car2Interruptable:Bool = true;
 
-    public override function initStage(){
+    public override function init(){
         name = "phillyStreets";
         startingZoom = 0.75;
 

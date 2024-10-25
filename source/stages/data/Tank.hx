@@ -1,3 +1,5 @@
+package stages.data;
+
 import flixel.math.FlxAngle;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
@@ -7,7 +9,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class Tank extends Stages
+class Tank extends BaseStage
 {
 
 	//var gfCutsceneLayer:FlxGroup;
@@ -23,7 +25,7 @@ class Tank extends Stages
 	var tankSpeed:Float = FlxG.random.float(5, 7);
 	var tankX:Float = 400;
 
-    public override function initStage(){
+    public override function init(){
         name = "tank";
 		startingZoom = 0.9;
 

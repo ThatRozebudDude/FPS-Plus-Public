@@ -1,3 +1,5 @@
+package stages.data;
+
 import shaders.AdjustColorShader;
 import openfl.filters.ShaderFilter;
 import shaders.RainShader;
@@ -12,7 +14,7 @@ import stages.elements.*;
 
 using StringTools;
 
-class PhillyStreetsErect extends Stages
+class PhillyStreetsErect extends BaseStage
 {
 	var	characterShader:AdjustColorShader = new AdjustColorShader(-20, -5, -25, -40);
 	
@@ -42,7 +44,7 @@ class PhillyStreetsErect extends Stages
 	var carInterruptable:Bool = true; // if the car can be reset
 	var car2Interruptable:Bool = true;
 
-    public override function create(){
+    public override function init(){
         name = "phillyStreetsErect";
         startingZoom = 0.75;
 

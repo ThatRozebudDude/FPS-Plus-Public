@@ -1,3 +1,5 @@
+package stages.data;
+
 import flixel.util.FlxTimer;
 import flixel.sound.FlxSound;
 import flixel.FlxG;
@@ -6,7 +8,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class SpookyErect extends Stages
+class SpookyErect extends BaseStage
 {
 
 	var bgFlash:FlxSprite;
@@ -20,7 +22,7 @@ class SpookyErect extends Stages
 	var lightningSound:FlxSound = new FlxSound();
 	var unpauseSoundCheck:Bool = false;
 
-    public override function initStage(){
+    public override function init(){
         name = "spookyErect";
 		startingZoom = 1;
 

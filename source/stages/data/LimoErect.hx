@@ -1,3 +1,5 @@
+package stages.data;
+
 import flixel.addons.display.FlxBackdrop;
 import shaders.AdjustColorShader;
 import flixel.sound.FlxSound;
@@ -9,7 +11,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class LimoErect extends Stages
+class LimoErect extends BaseStage
 {
 	var	characterShader:AdjustColorShader = new AdjustColorShader(-30, -30, 0, -20);
 
@@ -32,7 +34,7 @@ class LimoErect extends Stages
 
 	var fastCarCanDrive:Bool = true;
 
-    public override function initStage(){
+    public override function init(){
         name = "limoErect";
 		startingZoom = 0.9;
 

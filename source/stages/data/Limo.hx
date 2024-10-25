@@ -1,3 +1,5 @@
+package stages.data;
+
 import flixel.sound.FlxSound;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
@@ -7,7 +9,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class Limo extends Stages
+class Limo extends BaseStage
 {
 
 	var limo:FlxSprite;
@@ -19,7 +21,7 @@ class Limo extends Stages
 
 	var fastCarCanDrive:Bool = true;
 
-    public override function initStage(){
+    public override function init(){
         name = "limo";
 		startingZoom = 0.9;
 

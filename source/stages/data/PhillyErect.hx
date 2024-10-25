@@ -1,3 +1,5 @@
+package stages.data;
+
 import shaders.AdjustColorShader;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -10,7 +12,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class PhillyErect extends Stages
+class PhillyErect extends BaseStage
 {
 
 	var characterShader:AdjustColorShader = new AdjustColorShader(-5, -26, 0, -16);
@@ -35,7 +37,7 @@ class PhillyErect extends Stages
 	var windowColorIndex:Int = -1;
 	final windowColors:Array<FlxColor> = [0xFFB66F43, 0xFF329A6D, 0xFF932C28, 0xFF2663AC, 0xFF502D64];
 
-    public override function initStage(){
+    public override function init(){
         name = "phillyErect";
 		startingZoom = 1.1;
 
