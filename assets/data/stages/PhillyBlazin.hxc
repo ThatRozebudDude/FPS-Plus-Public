@@ -1,5 +1,3 @@
-package stages.data;
-
 import flixel.sound.FlxSound;
 import flixel.tweens.FlxTween;
 import openfl.filters.ShaderFilter;
@@ -13,7 +11,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class PhillyBlazin extends BaseStage
+class PhillyBlazin extends Stages
 {
 	var rainShader:RainShader;
 
@@ -31,7 +29,7 @@ class PhillyBlazin extends BaseStage
 	final gfScroll:Float = 0.7;
 	final gfPosOffset:FlxPoint = new FlxPoint(-225, -110);
 
-    public override function init(){
+    public override function initStage(){
         name = "phillyBlazin";
         startingZoom = 0.75;
 

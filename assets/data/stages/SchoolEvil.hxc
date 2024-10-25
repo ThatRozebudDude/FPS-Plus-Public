@@ -1,14 +1,12 @@
-package stages.data;
-
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class SchoolEvil extends BaseStage
+class SchoolEvil extends Stages
 {
 
-    public override function init(){
+    public override function initStage(){
         name = "schoolEvil";
 		startingZoom = 1.05;
 		uiType = "Pixel";

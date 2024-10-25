@@ -1,5 +1,3 @@
-package stages.data;
-
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
@@ -11,7 +9,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class Philly extends BaseStage
+class Philly extends Stages
 {
 
 	var phillyCityLights:FlxSprite;
@@ -34,7 +32,7 @@ class Philly extends BaseStage
 	var windowColorIndex:Int = -1;
 	final windowColors:Array<FlxColor> = [0x31A2FD, 0x31FD8C, 0xFB33F5, 0xFD4531, 0xFBA633];
 
-    public override function init(){
+    public override function initStage(){
         name = "philly";
 		startingZoom = 1.1;
 

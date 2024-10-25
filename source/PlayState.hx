@@ -212,7 +212,7 @@ class PlayState extends MusicBeatState
 	public static final minCombo:Int = 10;
 	private var comboUiGroup:FlxTypedGroup<ComboPopup>;
 
-	public var stage:BaseStage;
+	public var stage:Stages;
 
 	public var scoreTxt:FlxTextExt;
 
@@ -384,12 +384,7 @@ class PlayState extends MusicBeatState
 			stageCheck = SONG.stage;
 		}
 
-		var stageClass = Type.resolveClass("stages.data." + stageCheck);
-		if(stageClass == null){
-			stageClass = BaseStage;
-		}
-
-		stage = Type.createInstance(stageClass, []);
+		stage = ScriptableStages.init(stageCheck);
 
 		curStage = stage.name;
 		curUiType = stage.uiType;

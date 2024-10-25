@@ -56,6 +56,8 @@ import openfl.media.Sound;
 import openfl.net.FileReference;
 import openfl.utils.ByteArray;
 
+import stages.*;
+
 using StringTools;
 
 class ChartingState extends MusicBeatState
@@ -2294,10 +2296,8 @@ class ChartingState extends MusicBeatState
 			if(getScriptInfo.includeInGfList){ gfList.push(x); }
 		}
 
-		var stageClasses = CompileTime.getAllClasses("stages.data", false, stages.BaseStage);
-		//trace(stageClasses);
-		for(x in stageClasses){
-			stageList.push(Type.getClassName(x).split("stages.data.")[1]);
+		for(x in ScriptableStages.listScriptClasses()){
+			stageList.push(x);
 		}
 
 		//makes them be in alphabetical order

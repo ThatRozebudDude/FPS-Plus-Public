@@ -1,17 +1,15 @@
-package stages.data;
-
 import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class BuddiesErect extends BaseStage
+class BuddiesErect extends Stages
 {
 
 	var chartBlackBG:FlxSprite;
 
-    public override function init(){
+    public override function initStage(){
 
         name = "buddiesErect";
 		startingZoom = 2.8;

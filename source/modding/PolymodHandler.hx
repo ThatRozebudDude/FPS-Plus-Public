@@ -37,12 +37,13 @@ class PolymodHandler
                     "music" => "./music",
                     "images" => "./images",
                     "videos" => "./videos"
-                ],
-                apiVersionRule: API_VERSION
+                ]
             }
 		});
 
 		Polymod.loadOnlyMods(modList);
+        //Check scriptable class
+        trace("Scriptable Stage: " + stages.ScriptableStages.listScriptClasses());
 	}
 
     public static function reload():Void{
@@ -86,6 +87,8 @@ class PolymodHandler
         //Import customizable class so now we can make custom class without importing
         Polymod.addDefaultImport(characters.CharacterInfoBase);
         Polymod.addDefaultImport(notetypes.NoteType);
+        Polymod.addDefaultImport(events.Events);
+        Polymod.addDefaultImport(stages.Stages);
         
         Polymod.addImportAlias("lime.utils.Assets", Assets);
         Polymod.addImportAlias("openfl.utils.Assets", Assets);

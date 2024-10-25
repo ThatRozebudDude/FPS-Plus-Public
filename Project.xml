@@ -11,7 +11,6 @@
 	<set name="SWF_VERSION" value="11.8" />
 
 	<!--Makes sure that all of these are included when complied even if they aren't directly called in the code.-->
-	<compilerflag name="--macro" value="include('stages.data', true)" />
 	
 	<compilerflag name="--macro" value="include('cutscenes', true)" />
 	<compilerflag name="--macro" value="include('cutscenes.data', true)" />

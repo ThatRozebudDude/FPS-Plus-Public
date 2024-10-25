@@ -1,19 +1,17 @@
-package stages.data;
-
 import shaders.AdjustColorShader;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import stages.elements.*;
 
-class StageErect extends BaseStage
+class StageErect extends Stages
 {
 
 	var bfShader:AdjustColorShader = new AdjustColorShader(-23, 12, 7, 0);
 	var dadShader:AdjustColorShader = new AdjustColorShader(-33, -32, -23, 0);
 	var gfShader:AdjustColorShader = new AdjustColorShader(-30, -9, -4, 0);
 
-    public override function init(){
+    public override function initStage(){
         name = "stageErect";
 		startingZoom = 0.87;
 
