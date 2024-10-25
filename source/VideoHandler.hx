@@ -106,8 +106,10 @@ class VideoHandler extends FlxSprite
 		bitmap.play(checkFile(path), repeat);
 		bitmap.alpha = 0;
 		
-		FlxG.signals.focusLost.add(pause);
-		FlxG.signals.focusGained.add(resume);
+		if (FlxG.autoPause) {
+			FlxG.signals.focusLost.add(pause);
+			FlxG.signals.focusGained.add(resume);
+		}
 
 		waitingStart = true;
 	}
@@ -187,8 +189,10 @@ class VideoHandler extends FlxSprite
 
 		nc.addEventListener("netStatus", netConnection_onNetStatus);
 
-		FlxG.signals.focusLost.add(pause);
-		FlxG.signals.focusGained.add(resume);
+		if (FlxG.autoPause) {
+			FlxG.signals.focusLost.add(pause);
+			FlxG.signals.focusGained.add(resume);
+		}
 
 		netStream.play(netPath);
 	}
@@ -331,8 +335,10 @@ class VideoHandler extends FlxSprite
 			
 		destroyed = true;
 
-		FlxG.signals.focusLost.remove(pause);
-		FlxG.signals.focusGained.remove(resume);
+		if (FlxG.autoPause) {
+			FlxG.signals.focusLost.remove(pause);
+			FlxG.signals.focusGained.remove(resume);
+		}
 
 		#if desktop
 		if(!completed){

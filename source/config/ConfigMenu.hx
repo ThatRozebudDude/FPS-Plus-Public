@@ -95,6 +95,7 @@ class ConfigMenu extends FlxUIStateExt
     var showMissesValue:Int;
     final showMissesTypes:Array<String> = ["off", "on", "combo breaks"];
     var enableVariationsValue:Bool;
+    var autoPauseValue:Bool;
     //final pauseMusicBehaviorTypes:Array<String> = ["unique", "base game", "breakfast only"];
 
     var pressUp:Bool = false;
@@ -484,6 +485,7 @@ class ConfigMenu extends FlxUIStateExt
 		showAccuracyValue = Config.showAccuracy;
 		showMissesValue = Config.showMisses;
 		enableVariationsValue = Config.enableVariations;
+        autoPauseValue = Config.autoPause;
 
         framerateValue = allowedFramerates.indexOf(Config.framerate);
         if(framerateValue == -1){
@@ -1051,18 +1053,28 @@ class ConfigMenu extends FlxUIStateExt
             variationsSettings.setting = ": " + genericOnOff[enableVariationsValue?0:1];
         };
 
+        var autoPauseSettings = new ConfigOption("AUTO PAUSE", ": " + genericOnOff[autoPauseValue?0:1], "Pauses the game when it's unfocused.");
+        autoPauseSettings.optionUpdate = function(){
+            if (pressRight || pressLeft){
+                FlxG.sound.play(Paths.sound('scrollMenu'));
+                autoPauseValue = !autoPauseValue;
+                FlxG.autoPause = autoPauseValue;
+            }
+
+            autoPauseSettings.setting = ": " + genericOnOff[autoPauseValue?0:1];
+        };
 
 
         configOptions = [
                             [fpsCap, noteSplash, noteGlow, extraCamStuff, camBopStuff, captionsStuff, bgDim, showFPS],
                             [noteOffset, downscroll, centeredNotes, ghostTap, keyBinds],
-                            [showMissesSetting, showAccuracyDisplay, comboDisplay, variationsSettings, scrollSpeed, hpGain, hpDrain, cacheSettings]
+                            [showMissesSetting, showAccuracyDisplay, comboDisplay, autoPauseSettings, variationsSettings, scrollSpeed, hpGain, hpDrain, cacheSettings]
                         ];
 
     }
 
     function writeToConfig(){
-		Config.write(offsetValue, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, allowedFramerates[framerateValue], dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue, showAccuracyValue, showMissesValue, enableVariationsValue);
+		Config.write(offsetValue, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, allowedFramerates[framerateValue], dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue, showAccuracyValue, showMissesValue, enableVariationsValue, autoPauseValue);
 	}
 
     function resyncLayers():Void {
