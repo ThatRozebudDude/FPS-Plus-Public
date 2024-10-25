@@ -1,5 +1,3 @@
-package note.types;
-
 import flixel.tweens.FlxEase;
 import flixel.FlxG;
 

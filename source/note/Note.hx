@@ -2,6 +2,7 @@ package note;
 
 import note.noteSkins.*;
 import config.*;
+import notetypes.NoteType;
 
 import flixel.FlxSprite;
 //import polymod.format.ParseRules.TargetSignatureElement;

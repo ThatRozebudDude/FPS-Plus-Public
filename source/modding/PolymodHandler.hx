@@ -1,9 +1,5 @@
 package modding ;
 
-import events.Events;
-import characters.ScriptableCharacter;
-import events.ScriptableEvents;
-import polymod.PolymodConfig;
 import flixel.FlxG;
 import polymod.Polymod;
 import sys.FileSystem;
@@ -11,54 +7,77 @@ import sys.FileSystem;
 class PolymodHandler
 {
 
-    inline static final API_VERSION:String = "0.0.0";
+	static final API_VERSION = "0.1.0";
+    public static var modList = []; // Mods currently enabled
 
-    static var loadedModMetadata:Array<ModMetadata>;
-
-    public static function init():Void{
+	public static function init():Void
+	{
         buildImports();
 
-        var modDirs:Array<String> = FileSystem.readDirectory("mods/");
-        if(modDirs == null){ modDirs = []; }
+		if (!FileSystem.exists("mods"))
+            return;
+        trace("hi");
 
-        trace(PolymodConfig.modMetadataFile);
-
-        trace("BEFORE CULLING: " + modDirs);
-
-        //Remove all non-folder entries from loadedMods.
+        //Make Better Mod System Later
+        var modDirs:Array<String> = FileSystem.readDirectory("mods");
         for(path in modDirs){
-            if(!FileSystem.isDirectory("mods/" + path)){
-                modDirs.remove(path);
+            if(FileSystem.isDirectory("mods/" + path)){
+                modList.push(path);
             }
         }
+        trace('MOD LIST: ' + modList);
 
-        trace("AFTER CULLING: " + modDirs);
-		
-		loadedModMetadata = Polymod.init({
-			modRoot: "./mods/",
-			dirs: modDirs,
-			useScriptedClasses: true,
-            frameworkParams: buildFrameworkParams(),
-			apiVersionRule: API_VERSION
+        Polymod.init({
+			modRoot: "mods",
+			dirs: [],
+            useScriptedClasses: true,
+			framework: Framework.OPENFL,
+			errorCallback: onPolymodError,
+			frameworkParams: {
+                assetLibraryPaths: [
+                    "data" => "./data",
+                    "songs" => "./songs",
+                    "sounds" => "./sounds",
+                    "music" => "./music",
+                    "images" => "./images",
+                    "videos" => "./videos"
+                ]
+            },
+			ignoredFiles: Polymod.getDefaultIgnoreList()
 		});
 
-        trace("LOADED METADATA: " + loadedModMetadata);
+		Polymod.loadOnlyMods(modList);
 
-        scriptableClassCheck();
-    }
+        //Check scriptable class
+        trace("ScriptableCharacter: " + characters.ScriptableCharacter.listScriptClasses());
+        trace("ScriptableNotetype: " + notetypes.ScriptableNoteType.listScriptClasses());
+	}
 
     public static function reload():Void{
         Polymod.clearScripts();
         Polymod.registerAllScriptClasses();
-        Events.initEvents();
         FlxG.resetState();
-        scriptableClassCheck();
     }
 
-    static function scriptableClassCheck():Void{
-        trace("ScriptableCharacter: " + ScriptableCharacter.listScriptClasses());
-        trace("ScriptableEvents: " + ScriptableEvents.listScriptClasses());
-    }
+	static function onPolymodError(error:PolymodError):Void
+	{
+		// Perform an action based on the error code.
+		switch (error.code)
+		{
+			case MISSING_ICON:
+			default:
+				// Log the message based on its severity.
+				switch (error.severity)
+				{
+					case NOTICE:
+                        //does nothing
+					case WARNING:
+						trace(error.message, null);
+					case ERROR:
+						trace(error.message, null);
+				}
+		}
+	}
 
     static function buildImports():Void{
         Polymod.addDefaultImport(Assets);
@@ -70,6 +89,10 @@ class PolymodHandler
         Polymod.addDefaultImport(Utils);
         Polymod.addDefaultImport(Conductor);
 
+        //Import customizable class so now we can make custom class without importing
+        Polymod.addDefaultImport(characters.CharacterInfoBase);
+        Polymod.addDefaultImport(notetypes.NoteType);
+        
         Polymod.addImportAlias("lime.utils.Assets", Assets);
         Polymod.addImportAlias("openfl.utils.Assets", Assets);
 
@@ -118,18 +141,4 @@ class PolymodHandler
         // Can load native processes on the host operating system.
         Polymod.blacklistImport("openfl.desktop.NativeProcess");
     }
-
-    static function buildFrameworkParams():polymod.Polymod.FrameworkParams{
-        return {
-            assetLibraryPaths: [
-                "data" => "data",
-                "images" => "images",
-                "music" => "music",
-                "songs" => "songs",
-                "sounds" => "sounds",
-                "videos" => "videos"
-            ]
-        }
-    }
-
 }

@@ -7,7 +7,7 @@ import events.Events;
 import sys.FileSystem;
 import ui.HealthIcon;
 import flixel.util.FlxSort;
-import note.NoteType;
+import notetypes.NoteType;
 import extensions.flixel.addons.ui.FlxUIDropDownMenuScrollable;
 import note.Note;
 import transition.data.InstantTransition;

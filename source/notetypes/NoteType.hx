@@ -1,6 +1,7 @@
-package note;
+package notetypes;
 
 import flixel.tweens.FlxTween.FlxTweenManager;
+import note.*;
 
 class NoteType
 {
@@ -14,10 +15,8 @@ class NoteType
         sustainTypes = new Map<String, Array<Dynamic>>();
         typeSkins = new Map<String, String>();
 
-        var noteTypeClasses = CompileTime.getAllClasses("note.types", false, note.NoteType);
-        trace(noteTypeClasses);
-		for(x in noteTypeClasses){
-			var noteTypeClass = Type.createInstance(x, []);
+		for(x in ScriptableNoteType.listScriptClasses()){
+			var noteTypeClass:NoteType = ScriptableNoteType.init(x);
             noteTypeClass.defineTypes();
 		}
     }
@@ -62,5 +61,5 @@ class NoteType
     function shouldPlayAnimation(note:Note, character:Character):Bool{
         return PlayState.characterShouldPlayAnimation(note, character);
     }
-
+    public function toString():String{ return "NoteType"; }
 }

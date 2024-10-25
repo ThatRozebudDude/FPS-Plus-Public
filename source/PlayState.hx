@@ -14,6 +14,7 @@ import cutscenes.*;
 import cutscenes.data.*;
 import events.*;
 import note.*;
+import notetypes.*;
 
 import flixel.FlxBasic;
 import flixel.math.FlxAngle;
