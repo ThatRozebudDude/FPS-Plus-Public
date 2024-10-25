@@ -1,5 +1,6 @@
 package modding;
 
+import polymod.PolymodConfig;
 import flixel.FlxG;
 import polymod.Polymod;
 import sys.FileSystem;
@@ -7,63 +8,66 @@ import sys.FileSystem;
 class PolymodHandler
 {
 
-	static final API_VERSION = "0.0.0";
-    public static var modList = []; // Mods currently enabled
+    inline static final API_VERSION:String = "0.0.0";
 
-	public static function init():Void
-	{
+    public static var modDirs:Array<String>;
+    public static var loadedModMetadata:Array<ModMetadata>;
+
+	public static function init():Void{
         buildImports();
 
-        //Make Better Mod System Later
-        var modDirs:Array<String> = FileSystem.readDirectory("mods");
+        modDirs = FileSystem.readDirectory("mods/");
+        if(modDirs == null){ modDirs = []; }
+
+        trace(PolymodConfig.modMetadataFile);
+
+        trace("BEFORE CULLING: " + modDirs);
+
+        //Remove all non-folder entries from loadedMods.
         for(path in modDirs){
-            if(FileSystem.isDirectory("mods/" + path)){
-                modList.push(path);
+            if(!FileSystem.isDirectory("mods/" + path)){
+                modDirs.remove(path);
             }
         }
-        trace('MOD LIST: ' + modList);
 
-        Polymod.init({
-			modRoot: "mods",
-            useScriptedClasses: true,
-			framework: Framework.OPENFL,
-			errorCallback: onPolymodError,
-			frameworkParams: {
-                assetLibraryPaths: [
-                    "data" => "./data",
-                    "songs" => "./songs",
-                    "sounds" => "./sounds",
-                    "music" => "./music",
-                    "images" => "./images",
-                    "videos" => "./videos"
-                ],
-            },
-            apiVersionRule: API_VERSION
+        trace("AFTER CULLING: " + modDirs);
+		
+		loadedModMetadata = Polymod.init({
+			modRoot: "./mods/",
+			dirs: modDirs,
+			useScriptedClasses: true,
+            errorCallback: onPolymodError,
+            frameworkParams: buildFrameworkParams(),
+			apiVersionRule: API_VERSION
 		});
 
-		Polymod.loadOnlyMods(modList);
+        trace("LOADED METADATA: " + loadedModMetadata);
 
-        trace("Character: " + characters.ScriptableCharacter.listScriptClasses());
-	}
+        scriptableClassCheck();
+    }
 
     public static function reload():Void{
         Polymod.clearScripts();
         Polymod.registerAllScriptClasses();
-        notetypes.NoteType.initTypes();
+        note.NoteType.initTypes();
         events.Events.initEvents();
         FlxG.resetState();
     }
 
-	static function onPolymodError(error:PolymodError):Void
-	{
+    static function scriptableClassCheck():Void{
+        trace("ScriptableCharacter: " + characters.ScriptableCharacter.listScriptClasses());
+        trace("ScriptableEvents: " + events.ScriptableEvents.listScriptClasses());
+        trace("ScriptableNoteTypes: " + note.ScriptableNoteType.listScriptClasses());
+    }
+
+	static function onPolymodError(error:PolymodError):Void{
 		// Perform an action based on the error code.
-		switch (error.code)
-		{
+		switch (error.code){
 			case MISSING_ICON:
+                
 			default:
 				// Log the message based on its severity.
-				switch (error.severity)
-				{
+				switch (error.severity){
 					case NOTICE:
                         //does nothing lol
 					case WARNING:
@@ -86,11 +90,15 @@ class PolymodHandler
 
         //Import customizable class so now we can make custom class without importing
         Polymod.addDefaultImport(characters.CharacterInfoBase);
-        Polymod.addDefaultImport(notetypes.NoteType);
+        Polymod.addDefaultImport(note.NoteType);
+        Polymod.addDefaultImport(events.Events);
 
-        Polymod.addDefaultImport(ui.ComboPopupSkin);
-        Polymod.addDefaultImport(ui.CountdownSkin);
-        Polymod.addDefaultImport(ui.HudNoteSkin);
+        Polymod.addDefaultImport(note.NoteSkinBase);
+        Polymod.addDefaultImport(note.NoteSplashSkinBase);
+        Polymod.addDefaultImport(note.NoteHoldCoverSkinBase);
+        Polymod.addDefaultImport(ui.ComboPopupSkinBase);
+        Polymod.addDefaultImport(ui.CountdownSkinBase);
+        Polymod.addDefaultImport(ui.HudNoteSkinBase);
         
         //Alias
         Polymod.addImportAlias("lime.utils.Assets", Assets);
@@ -140,5 +148,18 @@ class PolymodHandler
         // `openfl.desktop.NativeProcess`
         // Can load native processes on the host operating system.
         Polymod.blacklistImport("openfl.desktop.NativeProcess");
+    }
+
+    static function buildFrameworkParams():polymod.Polymod.FrameworkParams{
+        return {
+            assetLibraryPaths: [
+                "data" => "data",
+                "images" => "images",
+                "music" => "music",
+                "songs" => "songs",
+                "sounds" => "sounds",
+                "videos" => "videos"
+            ]
+        }
     }
 }

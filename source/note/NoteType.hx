@@ -1,4 +1,4 @@
-package notetypes;
+package note;
 
 import flixel.tweens.FlxTween.FlxTweenManager;
 import note.*;

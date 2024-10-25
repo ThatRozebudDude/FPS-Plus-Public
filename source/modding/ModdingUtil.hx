@@ -52,12 +52,13 @@ class ModdingUtil
     //FileSystem readDirectory but with mods folder
 	public static inline function readDirectory(path:String) {
 		var files = FileSystem.readDirectory(path);
-		for (mod in PolymodHandler.modList) {
-			if (FileSystem.exists('mods/$mod/' + path.split("assets/")[1])) {
+		for (mod in PolymodHandler.modDirs){
+			if (FileSystem.exists('mods/$mod/' + path.split("assets/")[1])){
 				var modfile = FileSystem.readDirectory('mods/$mod/' + path.split("assets/")[1]);
-				for (file in modfile) {
-					if (!files.contains(file))
-						files.push(file);
+				for (file in modfile){
+					if (!files.contains(file)){
+                        files.push(file);
+                    }
 				}
 			}
 		}
