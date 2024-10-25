@@ -94,7 +94,7 @@ class NeneChristmas extends CharacterInfoBase
                 blinkTime = FlxG.random.float(BLINK_MIN, BLINK_MAX);
                 character.playAnim("raiseKnife", true);
             } 
-            else if(PlayState.instance.health >= 0.4 && knifeRaised && character.curAnim == "idleKnife"){
+            else if(PlayState.instance.health >= 0.4 && knifeRaised && (character.curAnim == "idleKnife" || character.curAnim == "sad")){
                 knifeRaised = false;
                 character.playAnim("lowerKnife", true);
                 character.idleSequenceIndex = 1;
