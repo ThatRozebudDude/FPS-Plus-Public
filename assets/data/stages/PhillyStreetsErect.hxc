@@ -1,5 +1,3 @@
-package stages.data;
-
 import shaders.AdjustColorShader;
 import openfl.filters.ShaderFilter;
 import shaders.RainShader;
@@ -10,9 +8,8 @@ import flixel.addons.display.FlxBackdrop;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import stages.elements.*;
-
-using StringTools;
+import stages.elements.PicoBullet;
+import StringTools;
 
 class PhillyStreetsErect extends BaseStage
 {
@@ -44,11 +41,13 @@ class PhillyStreetsErect extends BaseStage
 	var carInterruptable:Bool = true; // if the car can be reset
 	var car2Interruptable:Bool = true;
 
-    public override function init(){
+    public function new(){
+		super();
+
         name = "phillyStreetsErect";
         startingZoom = 0.75;
 
-		var scrollingSky = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/phillySkybox"), X);
+		var scrollingSky = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/phillySkybox"), ScriptingUtil.axisX);
 		scrollingSky.setPosition(-650, -375);
 		scrollingSky.scrollFactor.set(0.1, 0.1);
 		scrollingSky.scale.set(0.65, 0.65);
@@ -66,10 +65,10 @@ class PhillyStreetsErect extends BaseStage
 		phillyForegroundCity.antialiasing = true;
 		addToBackground(phillyForegroundCity);
 
-		mist5 = new FlxBackdrop(Paths.image('weekend1/phillyStreets/erect/mistMid'), X);
+		mist5 = new FlxBackdrop(Paths.image('weekend1/phillyStreets/erect/mistMid'), ScriptingUtil.axisX);
 		mist5.setPosition(-650, -100);
 		mist5.scrollFactor.set(0.5, 0.5);
-   		mist5.blend = ADD;
+   		mist5.blend = ScriptingUtil.add;
 		mist5.color = 0xFF5c5c5c;
 		mist5.alpha = 1;
 		mist5.velocity.x = 20;
@@ -84,7 +83,7 @@ class PhillyStreetsErect extends BaseStage
 		var phillyHighwayLights_lightmap = new FlxSprite(284-400, 305).loadGraphic(Paths.image("weekend1/phillyStreets/phillyHighwayLights_lightmap"));
 		phillyHighwayLights_lightmap.scrollFactor.set(0.7, 1);
 		phillyHighwayLights_lightmap.antialiasing = true;
-		phillyHighwayLights_lightmap.blend = ADD;
+		phillyHighwayLights_lightmap.blend = ScriptingUtil.add;
 		phillyHighwayLights_lightmap.alpha = 0.6;
 		addToBackground(phillyHighwayLights_lightmap);
 
@@ -124,10 +123,10 @@ class PhillyStreetsErect extends BaseStage
 		phillyCars.animation.addByPrefix("car4", "car4", 0, false);
 		addToBackground(phillyCars);
 
-		mist4 = new FlxBackdrop(Paths.image('weekend1/phillyStreets/erect/mistBack'), X);
+		mist4 = new FlxBackdrop(Paths.image('weekend1/phillyStreets/erect/mistBack'), ScriptingUtil.axisX);
 		mist4.setPosition(-650, -100);
 		mist4.scrollFactor.set(0.8, 0.8);
-   		mist4.blend = ADD;
+   		mist4.blend = ScriptingUtil.add;
 		mist4.color = 0xFF5c5c5c;
 		mist4.alpha = 1;
 		mist4.velocity.x = 40;
@@ -147,26 +146,26 @@ class PhillyStreetsErect extends BaseStage
 		var phillyTraffic_lightmap = new FlxSprite(1840, 608).loadGraphic(Paths.image("weekend1/phillyStreets/phillyTraffic_lightmap"));
 		phillyTraffic_lightmap.scrollFactor.set(0.9, 1);
 		phillyTraffic_lightmap.antialiasing = true;
-		phillyTraffic_lightmap.blend = ADD;
+		phillyTraffic_lightmap.blend = ScriptingUtil.add;
 		phillyTraffic_lightmap.alpha = 0.6;
 		addToBackground(phillyTraffic_lightmap);
 
 		var grey1 = new FlxSprite(88, 317).loadGraphic(Paths.image("weekend1/phillyStreets/erect/greyGradient"));
 		grey1.antialiasing = true;
-		grey1.blend = ADD;
+		grey1.blend = ScriptingUtil.add;
 		grey1.alpha = 0.3;
 		addToBackground(grey1);
 
 		var grey2 = new FlxSprite(88, 317).loadGraphic(Paths.image("weekend1/phillyStreets/erect/greyGradient"));
 		grey2.antialiasing = true;
-		grey2.blend = MULTIPLY;
+		grey2.blend = ScriptingUtil.multiply;
 		grey2.alpha = 0.8;
 		addToBackground(grey2);
 
-		mist3 = new FlxBackdrop(Paths.image('weekend1/phillyStreets/erect/mistMid'), X);
+		mist3 = new FlxBackdrop(Paths.image('weekend1/phillyStreets/erect/mistMid'), ScriptingUtil.axisX);
 		mist3.setPosition(-650, -100);
 		mist3.scrollFactor.set(0.95, 0.95);
-   		mist3.blend = ADD;
+   		mist3.blend = ScriptingUtil.add;
 		mist3.color = 0xFF5c5c5c;
 		mist3.alpha = 0.5;
 		mist3.velocity.x = -50;
@@ -180,7 +179,9 @@ class PhillyStreetsErect extends BaseStage
 		dimSprite = new FlxSprite().makeGraphic(1, 1, 0xFF000000);
 		dimSprite.scale.set(1280/.5, 720/.5);
 		dimSprite.updateHitbox();
-		dimSprite.screenCenter(XY);
+		//dimSprite.setPosition(-1280/2, -720/2);
+		//dimSprite.screenCenter(ScriptingUtil.axisXY);
+		ScriptingUtil.screenCenter(dimSprite);
 		dimSprite.scrollFactor.set();
 		dimSprite.alpha = 0;
 		addToBackground(dimSprite);
@@ -211,28 +212,28 @@ class PhillyStreetsErect extends BaseStage
 		}
 		addToForeground(kickedCan);
 
-		mist1 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistMid"), X);
+		mist1 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistMid"), ScriptingUtil.axisX);
 		mist1.setPosition(-650, -100);
 		mist1.scrollFactor.set(1.1, 1.1);
-    	mist1.blend = ADD;
+    	mist1.blend = ScriptingUtil.add;
 		mist1.color = 0xFF5c5c5c;
 		mist1.alpha = 0.6;
 		mist1.velocity.x = 150;
 		addToForeground(mist1);
 
-		mist0 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistMid"), X);
+		mist0 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistMid"), ScriptingUtil.axisX);
 		mist0.setPosition(-650, -100);
 		mist0.scrollFactor.set(1.2, 1.2);
-    	mist0.blend = ADD;
+    	mist0.blend = ScriptingUtil.add;
 		mist0.color = 0xFF5c5c5c;
 		mist0.alpha = 0.6;
 		mist0.velocity.x = 172;
 		addToForeground(mist0);
 
-		mist2 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistBack"), X);
+		mist2 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistBack"), ScriptingUtil.axisX);
 		mist2.setPosition(-650, -100);
 		mist2.scrollFactor.set(1.2, 1.2);
-    	mist2.blend = ADD;
+    	mist2.blend = ScriptingUtil.add;
 		mist2.color = 0xFF5c5c5c;
 		mist2.alpha = 0.8;
 		mist2.velocity.x = -80;
@@ -260,11 +261,11 @@ class PhillyStreetsErect extends BaseStage
 		playstate.camGame.filters = [new ShaderFilter(rainShader.shader)];
 		addToUpdate(rainShader);
 
-		if(PlayState.SONG.song.toLowerCase().contains("darnell")){
+		if(ScriptingUtil.contains(PlayState.SONG.song.toLowerCase(), "darnell")){
 			rainShader.uIntensity = 0;
 			rainInensityEnd = 0.08;
 		}
-		else if(PlayState.SONG.song.toLowerCase().contains("2hot")){
+		else if(ScriptingUtil.contains(PlayState.SONG.song.toLowerCase(), "2hot")){
 			rainShader.uIntensity = 0.16;
 			rainInensityEnd = 0.24;
 		}

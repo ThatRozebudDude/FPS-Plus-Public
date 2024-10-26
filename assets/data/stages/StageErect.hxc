@@ -1,10 +1,7 @@
-package stages.data;
-
 import shaders.AdjustColorShader;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import stages.elements.*;
 
 class StageErect extends BaseStage
 {
@@ -13,7 +10,9 @@ class StageErect extends BaseStage
 	var dadShader:AdjustColorShader = new AdjustColorShader(-33, -32, -23, 0);
 	var gfShader:AdjustColorShader = new AdjustColorShader(-30, -9, -4, 0);
 
-    public override function init(){
+    public function new(){
+		super();
+
         name = "stageErect";
 		startingZoom = 0.87;
 
@@ -33,7 +32,7 @@ class StageErect extends BaseStage
 
 		var brightLightSmall:FlxSprite = new FlxSprite(967, -103).loadGraphic(Paths.image("week1/erect/brightLightSmall"));
 		brightLightSmall.antialiasing = true;
-		brightLightSmall.blend = ADD;
+		brightLightSmall.blend = ScriptingUtil.add;
 		brightLightSmall.scrollFactor.set(1.2, 1.2);
 		brightLightSmall.active = false;
 		addToBackground(brightLightSmall);
@@ -50,20 +49,20 @@ class StageErect extends BaseStage
 
 		var lightgreen:FlxSprite = new FlxSprite(-171, 242).loadGraphic(Paths.image("week1/erect/lightgreen"));
 		lightgreen.antialiasing = true;
-		lightgreen.blend = ADD;
+		lightgreen.blend = ScriptingUtil.add;
 		lightgreen.active = false;
 		addToBackground(lightgreen);
 
 		var lightred:FlxSprite = new FlxSprite(-101, 560).loadGraphic(Paths.image("week1/erect/lightred"));
 		lightred.antialiasing = true;
-		lightred.blend = ADD;
+		lightred.blend = ScriptingUtil.add;
 		lightred.active = false;
 		addToBackground(lightred);
 
 		var orangeLight:FlxSprite = new FlxSprite(189, -195).loadGraphic(Paths.image("week1/erect/orangeLight"));
 		orangeLight.antialiasing = true;
 		orangeLight.scale.set(1, 1.2);
-		orangeLight.blend = ADD;
+		orangeLight.blend = ScriptingUtil.add;
 		orangeLight.active = false;
 		addToBackground(orangeLight);
 
@@ -75,7 +74,7 @@ class StageErect extends BaseStage
 		
 		var lightAbove:FlxSprite = new FlxSprite(804, -117).loadGraphic(Paths.image("week1/erect/lightAbove"));
 		lightAbove.antialiasing = true;
-		lightAbove.blend = ADD;
+		lightAbove.blend = ScriptingUtil.add;
 		lightAbove.active = false;
 		addToForeground(lightAbove);
 

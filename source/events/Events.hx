@@ -1,5 +1,6 @@
 package events;
 
+import PlayState.VocalType;
 import flixel.tweens.FlxTween.FlxTweenManager;
 import flixel.tweens.FlxEase;
 
@@ -183,6 +184,13 @@ class Events
     @:noCompletion inline function get_tween()      { return PlayState.instance.tweenManager; }
     var data(get, never):Map<String, Dynamic>;
     @:noCompletion inline function get_data()       { return PlayState.instance.arbitraryData; }
+
+	var splitVocalTrack(get, never):VocalType;
+    @:noCompletion inline function get_splitVocalTrack()    { return VocalType.splitVocalTrack; }
+    var noVocalTrack(get, never):VocalType;
+    @:noCompletion inline function get_noVocalTrack()       { return VocalType.noVocalTrack; }
+    var combinedVocalTrack(get, never):VocalType;
+    @:noCompletion inline function get_combinedVocalTrack() { return VocalType.combinedVocalTrack; }
 
 	public function toString():String{ return "Events"; }
 }

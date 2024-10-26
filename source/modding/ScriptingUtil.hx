@@ -1,8 +1,17 @@
 package modding;
 
+import flixel.FlxG;
+import flixel.util.FlxAxes;
+import flixel.FlxObject;
+import flixel.FlxSprite;
+import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+import flixel.FlxBasic;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import sys.FileSystem;
 
-class ModdingUtil
+using StringTools;
+
+class ScriptingUtil
 {
 
     //Blend mode aliases so you don't have to use an integer in scripts.
@@ -48,6 +57,19 @@ class ModdingUtil
     public static inline function get_axisY()       { return 0x11; }
     public static var axisXY(get, never):Int;
     public static inline function get_axisXY()      { return 0x10; }
+
+    public static inline function makeFlxGroup():FlxTypedGroup<FlxBasic>                { return new FlxTypedGroup<FlxBasic>(); }
+    public static inline function makeFlxSpriteGroup():FlxTypedSpriteGroup<FlxSprite>   { return new FlxTypedSpriteGroup<FlxSprite>(); }
+
+    //Things that should work but don't... kinda...
+    public static inline function contains(a:String, b:String):Bool                     { return a.contains(b); }
+    public static inline function startsWith(a:String, b:String):Bool                   { return a.startsWith(b); }
+    public static inline function endsWith(a:String, b:String):Bool                     { return a.endsWith(b); }
+
+    public static inline function screenCenter(obj:FlxObject, ?x:Bool = true, ?y:Bool = true):Void{ 
+        if (x){ obj.x = (FlxG.width - obj.width)    / 2; }
+		if (y){ obj.y = (FlxG.height - obj.height)  / 2; }	
+    }
     
     //FileSystem readDirectory but with mods folder
 	public static inline function readDirectory(path:String) {

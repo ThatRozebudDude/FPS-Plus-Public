@@ -1,5 +1,3 @@
-package stages.data;
-
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import flixel.sound.FlxSound;
@@ -7,9 +5,8 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import stages.elements.*;
 
-class Spooky extends BaseStage
+class SpookyMansion extends BaseStage
 {
 
 	var halloweenBG:FlxSprite;
@@ -29,20 +26,24 @@ class Spooky extends BaseStage
 	var lightningSound:FlxSound = new FlxSound();
 	var unpauseSoundCheck:Bool = false;
 
-	final wallColor:FlxColor = 0xFF32325A;
-	final wallFlashColors:Array<FlxColor> = [0xFF4D4D75, 0xFF12123D, 0xFF090937];
+	var wallColor:FlxColor = 0xFF32325A;
+	var wallFlashColors:Array<FlxColor> = [0xFF4D4D75, 0xFF12123D, 0xFF090937];
 
-	final shadowColor:FlxColor = 0xFF242336;
-	final shadowFlashColors:Array<FlxColor> = [0xFF0C0B1E, 0xFF0A0925, 0xFF000000];
+	var shadowColor:FlxColor = 0xFF242336;
+	var shadowFlashColors:Array<FlxColor> = [0xFF0C0B1E, 0xFF0A0925, 0xFF000000];
 
-	final windowLightColor:FlxColor = 0xFF4646AD;
-	final windowLightFlashColors:Array<FlxColor> = [0xFFFFFFFF, 0xFF12123D, 0xFFD5D5FF];
+	var windowLightColor:FlxColor = 0xFF4646AD;
+	var windowLightFlashColors:Array<FlxColor> = [0xFFFFFFFF, 0xFF12123D, 0xFFD5D5FF];
 
-    public override function init(){
+    public function new(){
+		super();
+
         name = "spooky";
 
+		trace("hi");
+
 		wall = Utils.makeColoredSprite(1280*2, 720*2, 0xFFFFFFFF);
-		wall.screenCenter(XY);
+		wall.screenCenter(ScriptingUtil.axisXY);
 		wall.scrollFactor.set();
 		wall.color = wallColor;
 		addToBackground(wall);
