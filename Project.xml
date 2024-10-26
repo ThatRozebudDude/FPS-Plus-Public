@@ -13,7 +13,7 @@
 	<!--Makes sure that all of these are included when complied even if they aren't directly called in the code.-->
 	<compilerflag name="--macro" value="include('stages.data', true)" />
 	
-	<compilerflag name="--macro" value="include('cutscenes.data', true)" />
+
 
 
 
