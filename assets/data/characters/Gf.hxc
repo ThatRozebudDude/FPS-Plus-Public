@@ -1,5 +1,4 @@
 import flixel.tweens.FlxEase;
-import StringTools;
 
 class Gf extends CharacterInfoBase
 {
@@ -63,7 +62,7 @@ class Gf extends CharacterInfoBase
 	}
 
 	function danceOverride(character:Character):Void{
-		if (!StringTools.startsWith(character.curAnim, "hair")){
+		if (!ScriptingUtil.startsWith(character.curAnim, "hair")){
 			character.defaultDanceBehavior();
 		}
 	}

@@ -1,22 +1,19 @@
-package stages.data;
-
 import flixel.addons.display.FlxBackdrop;
 import shaders.AdjustColorShader;
 import flixel.sound.FlxSound;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import stages.elements.*;
+import stages.elements.BackgroundDancer;
 
 class LimoErect extends BaseStage
 {
 	var	characterShader:AdjustColorShader = new AdjustColorShader(-30, -30, 0, -20);
 
 	var limo:FlxSprite;
-	var grpLimoDancers:FlxTypedGroup<BackgroundDancer>;
+	var grpLimoDancers:Array<BackgroundDancer> = [];
 	var fastCar:FlxSprite;
 
 	var shootingStarBeat:Int = 0;
@@ -34,7 +31,9 @@ class LimoErect extends BaseStage
 
 	var fastCarCanDrive:Bool = true;
 
-    public override function init(){
+    public function new(){
+		super();
+
         name = "limoErect";
 		startingZoom = 0.9;
 
@@ -54,10 +53,10 @@ class LimoErect extends BaseStage
 		shootingStar.visible = false;
 		addToBackground(shootingStar);
 
-		mist5 = new FlxBackdrop(Paths.image('week4/limo/erect/mistMid'), X);
+		mist5 = new FlxBackdrop(Paths.image('week4/limo/erect/mistMid'), ScriptingUtil.axisX);
 		mist5.setPosition(-650, -400);
 		mist5.scrollFactor.set(0.2, 0.2);
-   		mist5.blend = ADD;
+   		mist5.blend = ScriptingUtil.add;
 		mist5.color = 0xFFE7A480;
 		mist5.alpha = 1;
 		mist5.velocity.x = 100;
@@ -72,31 +71,29 @@ class LimoErect extends BaseStage
 		bgLimo.antialiasing = true;
 		addToBackground(bgLimo);
 
-		grpLimoDancers = new FlxTypedGroup<BackgroundDancer>();
-		addToBackground(grpLimoDancers);
-
 		for (i in 0...5)
 		{
 			var dancer:BackgroundDancer = new BackgroundDancer((370 * i) + 130, bgLimo.y - 400);
 			dancer.scrollFactor.set(0.4, 0.4);
 			dancer.shader = characterShader.shader;
-			grpLimoDancers.add(dancer);
+			grpLimoDancers.push(dancer);
+			addToBackground(dancer);
 		}
 
-		mist4 = new FlxBackdrop(Paths.image('week4/limo/erect/mistBack'), X);
+		mist4 = new FlxBackdrop(Paths.image('week4/limo/erect/mistBack'), ScriptingUtil.axisX);
 		mist4.setPosition(-650, -380);
 		mist4.scrollFactor.set(0.6, 0.6);
-    	mist4.blend = ADD;
+    	mist4.blend = ScriptingUtil.add;
 		mist4.color = 0xFF9c77c7;
 		mist4.alpha = 1;
 		mist4.velocity.x = 700;
 		mist4.scale.set(1.5, 1.5);
 		addToBackground(mist4);
 
-		mist3 = new FlxBackdrop(Paths.image('week4/limo/erect/mistMid'), X);
+		mist3 = new FlxBackdrop(Paths.image('week4/limo/erect/mistMid'), ScriptingUtil.axisX);
 		mist3.setPosition(-650, -100);
 		mist3.scrollFactor.set(0.8, 0.8);
-   		mist3.blend = ADD;
+   		mist3.blend = ScriptingUtil.add;
 		mist3.color = 0xFFa7d9be;
 		mist3.alpha = 0.5;
 		mist3.velocity.x = 900;
@@ -115,19 +112,19 @@ class LimoErect extends BaseStage
 		limo.antialiasing = true;
 		addToMiddle(limo);
 
-		mist1 = new FlxBackdrop(Paths.image('week4/limo/erect/mistMid'), X);
+		mist1 = new FlxBackdrop(Paths.image('week4/limo/erect/mistMid'), ScriptingUtil.axisX);
 		mist1.setPosition(-650, -100);
 		mist1.scrollFactor.set(1.1, 1.1);
-    	mist1.blend = ADD;
+    	mist1.blend = ScriptingUtil.add;
 		mist1.color = 0xFFc6bfde;
 		mist1.alpha = 0.4;
 		mist1.velocity.x = 1700;
 		addToForeground(mist1);
 
-		mist2 = new FlxBackdrop(Paths.image('week4/limo/erect/mistBack'), X);
+		mist2 = new FlxBackdrop(Paths.image('week4/limo/erect/mistBack'), ScriptingUtil.axisX);
 		mist2.setPosition(-650, -100);
 		mist2.scrollFactor.set(1.2, 1.2);
-    	mist2.blend = ADD;
+    	mist2.blend = ScriptingUtil.add;
 		mist2.color = 0xFF6a4da1;
 		mist2.alpha = 1;
 		mist2.velocity.x = 2100;
@@ -161,9 +158,9 @@ class LimoErect extends BaseStage
 	}
 
 	public override function beat(curBeat:Int){
-		grpLimoDancers.forEach(function(dancer:BackgroundDancer){
+		for(dancer in grpLimoDancers){
 			dancer.dance();
-		});
+		}
 
 		if (FlxG.random.bool(10) && fastCarCanDrive){
 			fastCarDrive();

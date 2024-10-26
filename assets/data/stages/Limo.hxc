@@ -1,19 +1,16 @@
-package stages.data;
-
 import flixel.sound.FlxSound;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import stages.elements.*;
+import stages.elements.BackgroundDancer;
 
 class Limo extends BaseStage
 {
 
 	var limo:FlxSprite;
-	var grpLimoDancers:FlxTypedGroup<BackgroundDancer>;
+	var grpLimoDancers:Array<BackgroundDancer> = [];
 	var fastCar:FlxSprite;
 
 	var carSound:FlxSound = new FlxSound();
@@ -21,7 +18,9 @@ class Limo extends BaseStage
 
 	var fastCarCanDrive:Bool = true;
 
-    public override function init(){
+    public function new(){
+		super();
+
         name = "limo";
 		startingZoom = 0.9;
 
@@ -38,14 +37,11 @@ class Limo extends BaseStage
 		bgLimo.antialiasing = true;
 		addToBackground(bgLimo);
 
-		grpLimoDancers = new FlxTypedGroup<BackgroundDancer>();
-		addToBackground(grpLimoDancers);
-
-		for (i in 0...5)
-		{
+		for (i in 0...5){
 			var dancer:BackgroundDancer = new BackgroundDancer((370 * i) + 130, bgLimo.y - 400);
 			dancer.scrollFactor.set(0.4, 0.4);
-			grpLimoDancers.add(dancer);
+			grpLimoDancers.push(dancer);
+			addToBackground(dancer);
 		}
 
 		//overlayShit:FlxSprite = new FlxSprite(-500, -600).loadGraphic(Paths.images("limo/limoOverlay"));
@@ -79,9 +75,9 @@ class Limo extends BaseStage
     }
 
 	public override function beat(curBeat:Float){
-		grpLimoDancers.forEach(function(dancer:BackgroundDancer){
+		for(dancer in grpLimoDancers){
 			dancer.dance();
-		});
+		}
 
 		if (FlxG.random.bool(10) && fastCarCanDrive){
 			fastCarDrive();

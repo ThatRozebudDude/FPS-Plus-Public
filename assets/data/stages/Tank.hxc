@@ -1,13 +1,12 @@
-package stages.data;
-
 import flixel.math.FlxAngle;
 import flixel.FlxG;
-import flixel.group.FlxGroup;
-import flixel.group.FlxGroup.FlxTypedGroup;
+//import flixel.group.FlxGroup;
+//import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import stages.elements.*;
+import stages.elements.BGSprite;
+import stages.elements.TankmenBG;
 
 class Tank extends BaseStage
 {
@@ -15,7 +14,7 @@ class Tank extends BaseStage
 	//var gfCutsceneLayer:FlxGroup;
 	//var bfTankCutsceneLayer:FlxGroup;
 
-	var tankmanRun:FlxTypedGroup<TankmenBG>;
+	var tankmanRun:FlxGroup;
 	var tankWatchtower:BGSprite;
 	var tankGround:BGSprite;
 
@@ -25,7 +24,9 @@ class Tank extends BaseStage
 	var tankSpeed:Float = FlxG.random.float(5, 7);
 	var tankX:Float = 400;
 
-    public override function init(){
+    public function new(){
+		super();
+		
         name = "tank";
 		startingZoom = 0.9;
 
@@ -67,7 +68,7 @@ class Tank extends BaseStage
 		addToBackground(tankGround);
 		// tankGround.active = false;
 
-		tankmanRun = new FlxTypedGroup<TankmenBG>();
+		tankmanRun = ScriptingUtil.makeFlxSpriteGroup();
 		addToBackground(tankmanRun);
 
 		var tankGround:BGSprite = new BGSprite('week7/stage/tankGround', -420, -150);
@@ -111,10 +112,8 @@ class Tank extends BaseStage
 			tempTankman.resetShit(20, 900, true);
 			tankmanRun.add(tempTankman);
 
-			for (i in 0...TankmenBG.animationNotes.length)
-			{
-				if (FlxG.random.bool(16))
-				{
+			for (i in 0...TankmenBG.animationNotes.length){
+				if (FlxG.random.bool(16)){
 					var tankman:TankmenBG = tankmanRun.recycle(TankmenBG);
 					// new TankmenBG(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
 					tankman.strumTime = TankmenBG.animationNotes[i][0];
@@ -137,10 +136,8 @@ class Tank extends BaseStage
 		}
 	}
 
-	function moveTank():Void
-	{
-		if (tankMoving)
-		{
+	function moveTank():Void{
+		if (tankMoving){
 			var daAngleOffset:Float = 1;
 			tankAngle += FlxG.elapsed * tankSpeed;
 			tankGround.angle = tankAngle - 90 + 15;

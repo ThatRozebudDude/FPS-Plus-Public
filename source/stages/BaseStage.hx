@@ -45,17 +45,7 @@ class BaseStage
     public var bfStart:FlxPoint = new FlxPoint(975.5, 862);
     public var gfStart:FlxPoint = new FlxPoint(751.5, 778);
 
-    /**
-	 * Do not override this function, override `init()` instead.
-	 */
-    public function new(){
-        init();
-    }
-
-    /**
-	 * Override this function to initialize all of your stage elements.
-	 */
-    function init(){}
+    public function new(){}
 
     /**
 	 * Adds an object to `backgroundElements` to be added to PlayState.

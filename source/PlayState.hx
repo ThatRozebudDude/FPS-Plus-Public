@@ -378,17 +378,15 @@ class PlayState extends MusicBeatState
 
 		boyfriend = new Character(770, 450, bfChar, true);
 
-		var stageCheck:String = 'Stage';
-		if (SONG.stage != null) {
-			stageCheck = SONG.stage;
-		}
+		var stageCheck:String = "EmptyStage";
+		if (SONG.stage != null) { stageCheck = SONG.stage; }
 
-		var stageClass = Type.resolveClass("stages.data." + stageCheck);
-		if(stageClass == null){
-			stageClass = BaseStage;
+		if(ScriptableStage.listScriptClasses().contains(stageCheck)){
+			stage = ScriptableStage.init(stageCheck);
 		}
-
-		stage = Type.createInstance(stageClass, []);
+		else{
+			stage = new BaseStage();
+		}
 
 		curStage = stage.name;
 		curUiType = stage.uiType;
