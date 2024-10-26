@@ -803,7 +803,6 @@ class Character extends FlxSpriteGroup
 		}
 		return null;
 	}
-
 }
 
 enum AttachedAction {

@@ -894,7 +894,7 @@ class FreeplayState extends MusicBeatState
 	function calcAvailableDifficulties():Void{
 		try { //temp fix cuz filesystem doesnt like polymod
 			allowedDifficulties = [];
-			var filesInDir = FileSystem.readDirectory("assets/data/songs/" + categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + "/");
+			var filesInDir = modding.ModdingUtil.readDirectory("assets/data/songs/" + categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + "/");
 
 			if(filesInDir.contains(categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + "-easy.json")){ allowedDifficulties.push(0); }
 			if(filesInDir.contains(categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + ".json")){ allowedDifficulties.push(1); }

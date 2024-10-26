@@ -142,6 +142,21 @@ class CharacterInfoBase
 
     public function new() {}
 
+    function loadJsonChar(charName:String) { //this crashes for some reason i cant find out why it says Called from Character::createCharacterFromInfo Character.hx line 425
+        var charJson = haxe.Json.parse(openfl.Assets.getText(Paths.json(charName, "data/characters")));
+        var animationData:Array<Dynamic> = charJson.animations;
+
+        info.name = charJson.name;
+        info.spritePath = charJson.spritePath;
+        info.frameLoadType = setSparrow();
+        info.iconName = charJson.iconName;
+        info.focusOffset.x = charJson.focusOffsets.x;
+        info.focusOffset.y = charJson.focusOffsets.y;
+
+        for (anim in animationData)
+            addByPrefix(anim.postFix, offset(anim.offset.x, anim.offset.y), anim.preFix, anim.fps, loop(anim.loop, 0));
+    }
+
     /**
 	 * Generates the x and y offsets for an animation.
 	 *
