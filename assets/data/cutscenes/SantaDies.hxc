@@ -1,10 +1,5 @@
-package cutscenes.data;
-
 import stages.data.MallErect;
-import shaders.AdjustColorShader;
-import transition.data.InstantTransition;
 import flixel.sound.FlxSound;
-import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
 
@@ -15,12 +10,14 @@ class SantaDies extends ScriptedCutscene
 
     var santaVoiceline:FlxSound;
 
-    override function init():Void{
+    public function new(args:Array<Dynamic>){
+        super(args);
+        
         santa = new AtlasSprite(-452, 501, Paths.getTextureAtlas("week5/santa_speaks_assets"));
         santa.antialiasing = true;
         santa.addFullAnimation("full", 24, false);
         if(playstate.stage.name == "mallErect"){
-            santa.shader = cast(playstate.stage, MallErect).santa.shader;
+            santa.shader = playstate.stage.santa.shader;
         }
 
         parents = new AtlasSprite(-517, 503, Paths.getTextureAtlas("week5/parents_shoot_assets"));

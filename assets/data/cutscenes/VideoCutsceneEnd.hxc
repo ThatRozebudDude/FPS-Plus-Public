@@ -1,12 +1,5 @@
-package cutscenes.data;
-
-import flixel.util.FlxTimer;
-import flixel.math.FlxMath;
 import transition.data.InstantTransition;
-import flixel.math.FlxPoint;
-import flixel.sound.FlxSound;
 import flixel.FlxSprite;
-import flixel.FlxG;
 import flixel.tweens.FlxEase;
 
 class VideoCutsceneEnd extends ScriptedCutscene
@@ -20,13 +13,11 @@ class VideoCutsceneEnd extends ScriptedCutscene
     var path:String;
     var skipable:Bool;
 
-    public function new(_path:String, ?_skipable:Bool = true) {
-        path = _path;
-        skipable = _skipable;
-        super();
-    }
+    public function new(args:Array<Dynamic>){
+        super(args);
 
-    override function init():Void{
+        path = args[0];
+        skipable = args[1];
 
         black = new FlxSprite().makeGraphic(1, 1, 0xFF000000);
 		black.scale.set(1280, 720);

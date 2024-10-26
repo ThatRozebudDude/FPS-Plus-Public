@@ -1,24 +1,20 @@
-package cutscenes.data;
-
 import flixel.util.FlxColor;
-import flixel.sound.FlxSound;
 import flixel.FlxSprite;
 import flixel.FlxG;
-import flixel.tweens.FlxEase;
 
 class SchoolIntro extends ScriptedCutscene
 {
     
-    final BLACK_ALPHA_SUBTRACT:Float = 0.15;
+    var BLACK_ALPHA_SUBTRACT:Float = 0.15;
     var black:FlxSprite;
     var red:FlxSprite;
     var senpaiEvil:FlxSprite;
     var dialogueBox:DialogueBox;
 
+    public function new(args:Array<Dynamic>){
+        super(args);
 
-    override function init():Void{
-
-        black = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
+        black = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFF000000);
 		black.scrollFactor.set();
 
         red = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFFff1b31);
@@ -35,14 +31,15 @@ class SchoolIntro extends ScriptedCutscene
 
         var dialogue:Array<String> = [];
 
-        if(Utils.exists(Paths.text(PlayState.SONG.song.toLowerCase() + "/" + PlayState.SONG.song.toLowerCase() + "Dialogue"))){
-			dialogue = Utils.coolTextFile(Paths.text(PlayState.SONG.song.toLowerCase() + "/" + PlayState.SONG.song.toLowerCase() + "Dialogue"));
+        if(Utils.exists(Paths.text("songs/" + PlayState.SONG.song.toLowerCase() + "/" + PlayState.SONG.song.toLowerCase() + "Dialogue"))){
+			dialogue = Utils.coolTextFile(Paths.text("songs/" + PlayState.SONG.song.toLowerCase() + "/" + PlayState.SONG.song.toLowerCase() + "Dialogue"));
 		}
 
         dialogueBox = new DialogueBox(false, dialogue);
 		dialogueBox.scrollFactor.set();
 		dialogueBox.finishThing = playstate.startCountdown;
 		dialogueBox.cameras = [playstate.camHUD];
+
 
         addEvent(0, setup);
         var blackTime:Float = 0;
@@ -106,14 +103,14 @@ class SchoolIntro extends ScriptedCutscene
 		FlxG.sound.play(Paths.sound('week6/Senpai_Dies'), 1, false, null, true, function(){
 			removeGeneric(senpaiEvil);
 			removeGeneric(red);
-			FlxG.camera.fade(FlxColor.WHITE, 0.01, true, function(){
+			FlxG.camera.fade(0xFFFFFFFF, 0.01, true, function(){
 				addGeneric(dialogueBox);
 			}, true);
 		});
     }
 
     function cameraFade() {
-        FlxG.camera.fade(FlxColor.WHITE, 1.6, false);
+        FlxG.camera.fade(0xFFFFFFFF, 1.6, false);
     }
 
 }

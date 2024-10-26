@@ -1,15 +1,12 @@
-package cutscenes.data;
-
 import transition.data.InstantTransition;
-import flixel.sound.FlxSound;
-import flixel.FlxSprite;
-import flixel.FlxG;
 import flixel.tweens.FlxEase;
 
 class LilBuddiesIntro extends ScriptedCutscene
 {
     
-    override function init():Void{
+    public function new(args:Array<Dynamic>){
+        super(args);
+		
         if(PlayState.fceForLilBuddies){
             addEvent(0, lilBuddiesIntro);
         }

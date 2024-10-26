@@ -1,7 +1,4 @@
-package cutscenes.data;
-
 import transition.data.InstantTransition;
-import flixel.sound.FlxSound;
 import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
@@ -12,7 +9,9 @@ class WinterHorrorlandIntro extends ScriptedCutscene
     var blackScreen:FlxSprite;
     var originalZoom:Float;
 
-    override function init():Void{
+    public function new(args:Array<Dynamic>){
+        super(args);
+
         originalZoom = playstate.defaultCamZoom;
         playstate.customTransIn = new InstantTransition();
 
@@ -44,8 +43,8 @@ class WinterHorrorlandIntro extends ScriptedCutscene
     }
 
     function startSong() {
-		playstate.startCountdown();
         playstate.camHUD.visible = true;
+		next(true);
     }
 
 }

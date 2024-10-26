@@ -421,6 +421,7 @@ class Character extends FlxSpriteGroup
 
 	function createCharacterFromInfo(name:String):Void{
 
+		if(!ScriptableCharacter.listScriptClasses().contains(name)){ name = "Bf"; }
 		characterInfo = ScriptableCharacter.init(name);
 
 		characterInfo.characterReference = this;

@@ -1,16 +1,12 @@
-package cutscenes.data;
-
 class ExecuteEvents extends ScriptedCutscene
 {
 
     var e:Array<String>;
 
-    public function new(_e:Array<String>) {
-        e = _e;
-        super();
-    }
+    public function new(args:Array<Dyanmic>) {
+        super(args);
 
-    override function init():Void{
+        e = args[0];
         addEvent(0, executeEvents);
     }
 

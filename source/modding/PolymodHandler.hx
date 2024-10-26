@@ -56,9 +56,15 @@ class PolymodHandler
     }
 
     static function scriptableClassCheck():Void{
+        trace("<===== CLASSES =====>");
+        
         trace("ScriptableCharacter: " + characters.ScriptableCharacter.listScriptClasses());
         trace("ScriptableEvents: " + events.ScriptableEvents.listScriptClasses());
         trace("ScriptableNoteTypes: " + note.ScriptableNoteType.listScriptClasses());
+        trace("ScriptableCutscene: " + cutscenes.ScriptableCutscene.listScriptClasses());
+
+        trace("<===== UI SKIN STUFF =====>");
+
         trace("ScriptableNoteSkin: " + note.ScriptableNoteSkin.listScriptClasses());
         trace("ScriptableNoteSplashSkin: " + note.ScriptableNoteSplashSkin.listScriptClasses());
         trace("ScriptableNoteHoldCoverSkin: " + note.ScriptableNoteHoldCoverSkin.listScriptClasses());
@@ -94,11 +100,17 @@ class PolymodHandler
         Polymod.addDefaultImport(modding.ModdingUtil);
         Polymod.addDefaultImport(Utils);
         Polymod.addDefaultImport(Conductor);
+        Polymod.addDefaultImport(AtlasSprite);
+        Polymod.addDefaultImport(Binds);
+        Polymod.addDefaultImport(VideoHandler);
+        Polymod.addDefaultImport(DialogueBox);
 
         //Import customizable class so now we can make custom class without importing
         Polymod.addDefaultImport(characters.CharacterInfoBase);
         Polymod.addDefaultImport(note.NoteType);
         Polymod.addDefaultImport(events.Events);
+
+        Polymod.addDefaultImport(cutscenes.ScriptedCutscene);
 
         Polymod.addDefaultImport(note.NoteSkinBase);
         Polymod.addDefaultImport(note.NoteSplashSkinBase);

@@ -1,5 +1,6 @@
 package cutscenes;
 
+import PlayState.VocalType;
 import flixel.tweens.FlxTween.FlxTweenManager;
 import flixel.FlxG;
 import flixel.FlxBasic;
@@ -14,15 +15,7 @@ class ScriptedCutscene extends FlxBasic
 
     public var events:Array<Array<Dynamic>> = [];
 
-    public function new(){
-        super();
-        init();
-    }
-
-    /**
-	 * Override this function to initialize all of your cutscene stuff.
-	 */
-    function init():Void{}
+    public function new(args:Array<Dynamic>){ super(); }
 
     override function update(elapsed:Float) {
         super.update(elapsed);
@@ -75,98 +68,98 @@ class ScriptedCutscene extends FlxBasic
     /**
      * Adds an object to the background element layer in PlayState.
     **/
-    public inline function addToBackgroundLayer(x:FlxBasic):Void{
+    public function addToBackgroundLayer(x:FlxBasic):Void{
         PlayState.instance.backgroundLayer.add(x);
     }
 
     /**
      * Removes an object from the background element layer in PlayState.
     **/
-    public inline function removeFromBackgroundLayer(x:FlxBasic):Void{
+    public function removeFromBackgroundLayer(x:FlxBasic):Void{
         PlayState.instance.backgroundLayer.remove(x);
     }
 
     /**
      * Adds an object to the girlfriend layer in PlayState.
     **/
-    public inline function addToGfLayer(x:FlxBasic):Void{
+    public function addToGfLayer(x:FlxBasic):Void{
         PlayState.instance.gfLayer.add(x);
     }
 
     /**
      * Removes an object from the girlfriend layer in PlayState.
     **/
-    public inline function removeFromGfLayer(x:FlxBasic):Void{
+    public function removeFromGfLayer(x:FlxBasic):Void{
         PlayState.instance.gfLayer.remove(x);
     }
 
     /**
      * Adds an object to the middle element layer in PlayState.
     **/
-    public inline function addToMiddleLayer(x:FlxBasic):Void{
+    public function addToMiddleLayer(x:FlxBasic):Void{
         PlayState.instance.middleLayer.add(x);
     }
 
     /**
      * Removes an object from the middle element layer in PlayState.
     **/
-    public inline function removeFromMiddleLayer(x:FlxBasic):Void{
+    public function removeFromMiddleLayer(x:FlxBasic):Void{
         PlayState.instance.middleLayer.remove(x);
     }
 
     /**
      * Adds an object to the character layer in PlayState.
     **/
-    public inline function addToCharacterLayer(x:FlxBasic):Void{
+    public function addToCharacterLayer(x:FlxBasic):Void{
         PlayState.instance.characterLayer.add(x);
     }
 
     /**
      * Removes an object from the character layer in PlayState.
     **/
-    public inline function removeFromCharacterLayer(x:FlxBasic):Void{
+    public function removeFromCharacterLayer(x:FlxBasic):Void{
         PlayState.instance.characterLayer.remove(x);
     }
 
     /**
      * Adds an object to the foreground element layer in PlayState.
     **/
-    public inline function addToForegroundLayer(x:FlxBasic):Void{
+    public function addToForegroundLayer(x:FlxBasic):Void{
         PlayState.instance.foregroundLayer.add(x);
     }
 
     /**
      * Removes an object from the foreground element layer in PlayState.
     **/
-    public inline function removeFromForegroundLayer(x:FlxBasic):Void{
+    public function removeFromForegroundLayer(x:FlxBasic):Void{
         PlayState.instance.foregroundLayer.remove(x);
     }
 
     /**
      * Adds an object to the current state.
     **/
-    public inline function addGeneric(x:FlxBasic):Void{
+    public function addGeneric(x:FlxBasic):Void{
         FlxG.state.add(x);
     }
 
     /**
      * Removes an object from the current state.
     **/
-    public inline function removeGeneric(x:FlxBasic):Void{
+    public function removeGeneric(x:FlxBasic):Void{
         FlxG.state.remove(x);
     }
 
     /**
      * Adds an object to the current substate.
     **/
-    public inline function addGenericSubstate(x:FlxBasic):Void{
+    public function addGenericSubstate(x:FlxBasic):Void{
         FlxG.state.subState.add(x);
     }
 
     /**
      * Removes an object from the current substate.
     **/
-    public inline function removeGenericSubstate(x:FlxBasic):Void{
+    public function removeGenericSubstate(x:FlxBasic):Void{
         FlxG.state.subState.remove(x);
     }
 
@@ -182,8 +175,15 @@ class ScriptedCutscene extends FlxBasic
     @:noCompletion inline function get_tween()      { return PlayState.instance.tweenManager; }
     var data(get, never):Map<String, Dynamic>;
     @:noCompletion inline function get_data()       { return PlayState.instance.arbitraryData; }
+    
+    var splitVocalTrack(get, never):VocalType;
+    @:noCompletion inline function get_splitVocalTrack()    { return VocalType.splitVocalTrack; }
+    var noVocalTrack(get, never):VocalType;
+    @:noCompletion inline function get_noVocalTrack()       { return VocalType.noVocalTrack; }
+    var combinedVocalTrack(get, never):VocalType;
+    @:noCompletion inline function get_combinedVocalTrack() { return VocalType.combinedVocalTrack; }
 
-    public inline function next(?doCamFadeIn:Bool = true):Void{
+    public function next(?doCamFadeIn:Bool = true):Void{
         if(PlayState.instance.inEndingCutscene){ PlayState.instance.endSong(); }
         else{ 
             PlayState.instance.startCountdown();
@@ -194,7 +194,7 @@ class ScriptedCutscene extends FlxBasic
         }  
     }
 
-    public inline function focusCameraBasedOnFirstSection():Void{
+    public function focusCameraBasedOnFirstSection():Void{
         if(PlayState.SONG.notes[0].mustHitSection){ PlayState.instance.camFocusBF(); }
         else{ PlayState.instance.camFocusOpponent(); }
     }

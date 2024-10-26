@@ -230,7 +230,7 @@ class BaseStage
     @:noCompletion inline function get_data()       { return PlayState.instance.arbitraryData; }
 
 
-    //It is only recommended that you only use this if you have to add dynamic objects.
+    //It is only recommended that you only use this if you have to add objects dynamically.
     //For normal stage elements you should just add them to the groups in the init() and toggle their visibility.
     inline function addToBackgroundLive(x:FlxBasic)      { PlayState.instance.backgroundLayer.add(x); }
     inline function removeFromBackgroundLive(x:FlxBasic) { PlayState.instance.backgroundLayer.remove(x); }
@@ -243,4 +243,5 @@ class BaseStage
     inline function addToForegroundLive(x:FlxBasic)      { PlayState.instance.foregroundLayer.add(x); }
     inline function removeFromForegroundLive(x:FlxBasic) { PlayState.instance.foregroundLayer.remove(x); }
 
+    public function toString():String{ return "Stage: " + name; }
 }

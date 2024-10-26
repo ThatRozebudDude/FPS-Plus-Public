@@ -1,8 +1,4 @@
-package cutscenes.data;
-
 import flixel.math.FlxPoint;
-import flixel.sound.FlxSound;
-import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
 
@@ -10,20 +6,23 @@ class DarnellIntro extends ScriptedCutscene
 {
 
     var picoIntro:Character;
-    final beatTime = Conductor.getBeatTimeFromBpm(168);
+    var beatTime:Float;
 
     var picoPos:FlxPoint;
 	var nenePos:FlxPoint;
 	var darnellPos:FlxPoint;
 
     var originalZoom:Float;
+    
+    public function new(args:Array<Dynamic>){
+        super(args);
 
-    override function init():Void{
         picoPos = playstate.getBfFocusPostion();
 	    nenePos = playstate.getGfFocusPosition();
 	    darnellPos = playstate.getOpponentFocusPosition();
 
         originalZoom = playstate.defaultCamZoom;
+        beatTime = Conductor.getBeatTimeFromBpm(168);
 
         picoIntro = new Character(boyfriend.x, boyfriend.y, "PicoCutscene", true);
         picoIntro.characterInfo.info.functions.animationEnd = function(character:Character, anim:String) {

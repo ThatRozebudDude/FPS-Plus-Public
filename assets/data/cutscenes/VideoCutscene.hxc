@@ -1,11 +1,4 @@
-package cutscenes.data;
-
-import flixel.math.FlxMath;
-import transition.data.InstantTransition;
-import flixel.math.FlxPoint;
-import flixel.sound.FlxSound;
 import flixel.FlxSprite;
-import flixel.FlxG;
 import flixel.tweens.FlxEase;
 
 class VideoCutscene extends ScriptedCutscene
@@ -23,15 +16,13 @@ class VideoCutscene extends ScriptedCutscene
 
     var prevCamFilters:Array<Null<openfl.filters.BitmapFilter>>;
 
-    public function new(_path:String, ?_skipable:Bool = true, ?_doZoomOut:Bool = false, ?_instantlyMoveCamera:Bool = false) {
-        path = _path;
-        skipable = _skipable;
-        doZoomOut = _doZoomOut;
-        instantlyMoveCamera = _instantlyMoveCamera;
-        super();
-    }
-
-    override function init():Void{
+    public function new(args:Array<Dynamic>){
+        super(args);
+        
+        path = args[0];
+        skipable = args[1];
+        doZoomOut = args[2];
+        instantlyMoveCamera = args[3];
 
         black = new FlxSprite().makeGraphic(1, 1, 0xFF000000);
 		black.scale.set(1280, 720);

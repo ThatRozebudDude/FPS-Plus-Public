@@ -1,11 +1,7 @@
-package cutscenes.data;
-
 import flixel.math.FlxMath;
 import transition.data.InstantTransition;
 import flixel.math.FlxPoint;
-import flixel.sound.FlxSound;
 import flixel.FlxSprite;
-import flixel.FlxG;
 import flixel.tweens.FlxEase;
 
 class TwoHotEnding extends ScriptedCutscene
@@ -18,7 +14,9 @@ class TwoHotEnding extends ScriptedCutscene
 
     var black:FlxSprite;
 
-    override function init():Void{
+    public function new(args:Array<Dynamic>){
+        super(args);
+        
         picoSprite = new Character(boyfriend.x, boyfriend.y, "PicoCutscene", true);
         picoSprite.visible = false;
 

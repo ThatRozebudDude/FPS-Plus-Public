@@ -633,11 +633,12 @@ class PlayState extends MusicBeatState
 			if(Type.typeof(cutsceneJson.startCutscene) == TObject){
 				if(cutsceneJson.startCutscene.storyOnly != null) {startCutsceneStoryOnly = cutsceneJson.startCutscene.storyOnly;}
 				if((!startCutsceneStoryOnly || (startCutsceneStoryOnly && isStoryMode)) ){
-					var startCutsceneClass = Type.resolveClass("cutscenes.data." + cutsceneJson.startCutscene.name);
+					//var startCutsceneClass = Type.resolveClass("cutscenes.data." + cutsceneJson.startCutscene.name);
 					var startCutsceneArgs = [];
 					if(cutsceneJson.startCutscene.args != null) {startCutsceneArgs = cutsceneJson.startCutscene.args;}
 					if(cutsceneJson.startCutscene.playOnce != null) {startCutscenePlayOnce = cutsceneJson.startCutscene.playOnce;}
-					startCutscene = Type.createInstance(startCutsceneClass, startCutsceneArgs);
+					//startCutscene = Type.createInstance(startCutsceneClass, startCutsceneArgs);
+					startCutscene = ScriptableCutscene.init(cutsceneJson.startCutscene.name, startCutsceneArgs);
 				}
 			}
 			//trace(startCutscene);
@@ -646,11 +647,12 @@ class PlayState extends MusicBeatState
 			if(Type.typeof(cutsceneJson.endCutscene) == TObject){
 				if(cutsceneJson.endCutscene.storyOnly != null) {endCutsceneStoryOnly = cutsceneJson.endCutscene.storyOnly;}
 				if((!endCutsceneStoryOnly || (endCutsceneStoryOnly && isStoryMode)) ){
-					var endCutsceneClass = Type.resolveClass("cutscenes.data." + cutsceneJson.endCutscene.name);
+					//var endCutsceneClass = Type.resolveClass("cutscenes.data." + cutsceneJson.endCutscene.name);
 					var endCutsceneArgs = [];
 					if(cutsceneJson.endCutscene.args != null) {endCutsceneArgs = cutsceneJson.endCutscene.args;}
 					if(cutsceneJson.endCutscene.playOnce != null) {endCutscenePlayOnce = cutsceneJson.endCutscene.playOnce;}
-					endCutscene = Type.createInstance(endCutsceneClass, endCutsceneArgs);
+					//endCutscene = Type.createInstance(endCutsceneClass, endCutsceneArgs);
+					endCutscene = ScriptableCutscene.init(cutsceneJson.endCutscene.name, endCutsceneArgs);
 				}
 			}
 			//trace(endCutscene);
@@ -722,7 +724,7 @@ class PlayState extends MusicBeatState
 		var swagCounter:Int = 0;
 
 		var countdownSkinName:String = PlayState.curUiType;
-		if(countdownSkinName == ""){ countdownSkinName = "Default"; }
+		if(!ScriptableCountdownSkin.listScriptClasses().contains(countdownSkinName + "Countdown")){ countdownSkinName = "Default"; }
 		var countdownSkin:CountdownSkinBase = ScriptableCountdownSkin.init(countdownSkinName + "Countdown");
 
 		stage.countdownBeat(-1);
@@ -1024,6 +1026,7 @@ class PlayState extends MusicBeatState
 		if(skin == null){ skin = PlayState.curUiType; }
 
 		var hudNoteSkinName:String = skin;
+		if(!ScriptableHudNoteSkin.listScriptClasses().contains(hudNoteSkinName + "HudNote")){ hudNoteSkinName = "Default"; }
 		var hudNoteSkin:HudNoteSkinBase = ScriptableHudNoteSkin.init(hudNoteSkinName + "HudNote");
 
 		var hudNoteSkinInfo = hudNoteSkin.info.notes;
@@ -1156,6 +1159,7 @@ class PlayState extends MusicBeatState
 		if(skin == null){ skin = PlayState.curUiType; }
 
 		var comboPopupSkinName:String = skin;
+		if(!ScriptableComboPopupSkin.listScriptClasses().contains(comboPopupSkinName + "Popup")){ comboPopupSkinName = "Default"; }
 		var comboPopupSkin:ComboPopupSkinBase = ScriptableComboPopupSkin.init(comboPopupSkinName + "Popup");
 
 		comboUI = new ComboPopup(boyfriend.x + boyfriend.worldPopupOffset.x, boyfriend.y + boyfriend.worldPopupOffset.y,

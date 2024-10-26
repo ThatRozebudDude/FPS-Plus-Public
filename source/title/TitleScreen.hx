@@ -49,10 +49,7 @@ class TitleScreen extends MusicBeatState
 	var inputSequence:Array<String> = ["menuUp", "menuUp", "menuDown", "menuDown", "menuLeft", "menuRight", "menuLeft", "menuRight"];
 	var inputTime:Float = 0;
 
-	override public function create():Void
-	{
-		//Polymod.init({modRoot: "mods", dirs: ['introMod']});
-
+	override public function create():Void{
 		// DEBUG BULLSHIT
 
 		Config.setFramerate(144);

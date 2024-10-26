@@ -1,10 +1,6 @@
-package cutscenes.data;
-
-import flixel.math.FlxPoint;
-import flixel.sound.FlxSound;
 import flixel.FlxSprite;
-import flixel.FlxG;
 import flixel.tweens.FlxEase;
+import cutscenes.ScriptableCutscene;
 
 class DarnellVideo extends ScriptedCutscene
 {
@@ -15,8 +11,10 @@ class DarnellVideo extends ScriptedCutscene
     var ingameCutscene:DarnellIntro;
     var videoOver:Bool = false;
 
-    override function init():Void{
-        ingameCutscene = new DarnellIntro();
+    public function new(args:Array<Dynamic>){
+        super(args);
+
+        ingameCutscene = ScriptableCutscene.init("DarnellIntro", []);
         addGeneric(ingameCutscene);
 
         black = new FlxSprite().makeGraphic(1, 1, 0xFF000000);

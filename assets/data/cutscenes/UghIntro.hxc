@@ -1,13 +1,8 @@
-package cutscenes.data;
-
-import flixel.math.FlxMath;
-import flixel.math.FlxPoint;
 import flixel.sound.FlxSound;
-import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
 
-class GunsIntro extends ScriptedCutscene
+class UghIntro extends ScriptedCutscene
 {
 
     var tankman:AtlasSprite;
@@ -16,7 +11,9 @@ class GunsIntro extends ScriptedCutscene
 
     var originalZoom:Float;
 
-    override function init():Void{
+    public function new(args:Array<Dynamic>){
+        super(args);
+        
         tankman = new AtlasSprite(74, 324, Paths.getTextureAtlas("week7/cutscene/tankmanCutscene"));
         tankman.antialiasing = true;
         tankman.addAnimationByLabel("ugh1", "Ugh 1", 24, false);
@@ -27,41 +24,54 @@ class GunsIntro extends ScriptedCutscene
 
         originalZoom = playstate.defaultCamZoom;
 
-        addEvent(0, guns1);
-        addEvent(4.1, guns2);
-        addEvent(4.55, guns3);
-        addEvent(11, guns4);
+        addEvent(0, ugh1);
+        addEvent(3, ugh2);
+        addEvent(4.5, bfBeep);
+        addEvent(6, ugh3);
+        addEvent(12.1, ugh4);
+        addEvent(12.1 + (Conductor.crochet / 1000) * 5, swapBackToGameplayTankman);
     }
 
-    function guns1() {
+    function ugh1() {
         addToCharacterLayer(tankman);
-        tankman.playAnim("guns", true);
+        tankman.playAnim("ugh1", true);
         dad.visible = false;
-        FlxG.sound.play(Paths.sound("week7/tankSong2"));
+        FlxG.sound.play(Paths.sound("week7/wellWellWell"));
         bgm = FlxG.sound.play(Paths.music("week7/distorto")).fadeIn(5, 0, 0.2);
         playstate.camFocusOpponent();
-        playstate.camChangeZoom(originalZoom * 1.3, 4, FlxEase.quadInOut);
+        playstate.camChangeZoom(originalZoom * 1.2, 0);
         playstate.camHUD.visible = false;
     }
 
-    function guns2() {
-        playstate.camChangeZoom(originalZoom * 1.4, 0.4, FlxEase.quadOut);
-        gf.playAnim("sad");
+    function ugh2() {
+        playstate.camFocusBF();
     }
 
-    function guns3() {
-        playstate.camChangeZoom(originalZoom * 1.3, 0.7, FlxEase.quadInOut);  
+    function bfBeep() {
+        boyfriend.playAnim('singUP');
+        FlxG.sound.play(Paths.sound("week7/bfBeep"), 1.0, false, null, true, function(){
+            boyfriend.playAnim('idle');
+        });
     }
 
-    function guns4() {
+    function ugh3() {
+        tankman.playAnim("ugh2", true);
+        FlxG.sound.play(Paths.sound("week7/killYou"));
+        playstate.camFocusOpponent();
+    }
+
+    function ugh4() {
         bgm.fadeOut((Conductor.crochet / 1000) * 5, 0);
         playstate.camChangeZoom(originalZoom, (Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
-        dad.visible = true;
-        tankman.visible = false;
-        removeFromCharacterLayer(tankman);
         playstate.camHUD.visible = true;
         focusCameraBasedOnFirstSection();
         next();
+    }
+
+    function swapBackToGameplayTankman() {
+        dad.visible = true;
+        tankman.visible = false;
+        removeFromCharacterLayer(tankman);
     }
 
 }
