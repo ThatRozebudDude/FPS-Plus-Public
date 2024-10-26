@@ -157,6 +157,20 @@ class Boyfriend extends DJCharacter
 			addSong("Lil-Buddies-Erect", "bf", 0, ["Secret"]);
 			//maybe i'll make... lil buddies... pico mix! :O
 		}
+
+        if (openfl.Assets.exists(Paths.json("Boyfriend", "data/freeplay"))) {
+            var fuck = haxe.Json.parse(openfl.Assets.getText(Paths.json("Boyfriend", "data/freeplay")));
+            var jsonSongList:Array<Dynamic> = fuck.songList;
+
+            for (song in jsonSongList) {
+                var jsonCategorys = song.categorys;
+
+                if (!jsonCategorys.contains("ALL"))
+                    jsonCategorys.push("ALL");
+
+                addSong(song.name, song.char, song.week, jsonCategorys);
+            }
+        }
     }
 
     override function update(elapsed:Float):Void{

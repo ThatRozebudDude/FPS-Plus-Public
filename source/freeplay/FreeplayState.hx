@@ -892,12 +892,17 @@ class FreeplayState extends MusicBeatState
 	}
 
 	function calcAvailableDifficulties():Void{
-		allowedDifficulties = [];
-		var filesInDir = FileSystem.readDirectory("assets/data/songs/" + categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + "/");
+		try { //temp fix cuz filesystem doesnt like polymod
+			allowedDifficulties = [];
+			var filesInDir = FileSystem.readDirectory("assets/data/songs/" + categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + "/");
 
-		if(filesInDir.contains(categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + "-easy.json")){ allowedDifficulties.push(0); }
-		if(filesInDir.contains(categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + ".json")){ allowedDifficulties.push(1); }
-		if(filesInDir.contains(categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + "-hard.json")){ allowedDifficulties.push(2); }
+			if(filesInDir.contains(categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + "-easy.json")){ allowedDifficulties.push(0); }
+			if(filesInDir.contains(categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + ".json")){ allowedDifficulties.push(1); }
+			if(filesInDir.contains(categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + "-hard.json")){ allowedDifficulties.push(2); }
+		} catch(e) {
+			trace(e);
+			allowedDifficulties.push(1);
+		}
 
 		if(!allowedDifficulties.contains(curDifficulty)){
 			curDifficulty = 0;
