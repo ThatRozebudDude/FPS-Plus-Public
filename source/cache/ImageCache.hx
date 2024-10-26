@@ -1,4 +1,4 @@
-package;
+package cache;
 
 import flixel.graphics.FlxGraphic;
 import openfl.display.BitmapData;

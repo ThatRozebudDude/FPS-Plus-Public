@@ -4,6 +4,7 @@ import openfl.media.Sound;
 import title.*;
 import config.*;
 import transition.data.*;
+import cache.*;
 
 import flixel.FlxState;
 import openfl.Assets;

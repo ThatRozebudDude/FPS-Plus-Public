@@ -1,4 +1,4 @@
-package;
+package cache;
 
 import openfl.display3D.textures.RectangleTexture;
 import openfl.display3D.textures.Texture;

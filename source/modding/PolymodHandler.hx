@@ -60,15 +60,15 @@ class PolymodHandler
         
         trace("ScriptableCharacter: " + data.CharacterInfo.ScriptableCharacter.listScriptClasses());
         trace("ScriptableEvents: " + events.ScriptableEvents.listScriptClasses());
-        trace("ScriptableNoteTypes: " + note.ScriptableNoteType.listScriptClasses());
+        trace("ScriptableNoteTypes: " + note.ScriptableNotes.ScriptableNoteType.listScriptClasses());
         trace("ScriptableCutscene: " + cutscenes.ScriptableCutscene.listScriptClasses());
         trace("ScriptableStage: " + stages.ScriptableStage.listScriptClasses());
 
         trace("<===== UI SKIN STUFF =====>");
 
-        trace("ScriptableNoteSkin: " + note.ScriptableNoteSkin.listScriptClasses());
-        trace("ScriptableNoteSplashSkin: " + note.ScriptableNoteSplashSkin.listScriptClasses());
-        trace("ScriptableNoteHoldCoverSkin: " + note.ScriptableNoteHoldCoverSkin.listScriptClasses());
+        trace("ScriptableNoteSkin: " + note.ScriptableNotes.ScriptableNoteSkin.listScriptClasses());
+        trace("ScriptableNoteSplashSkin: " + note.ScriptableNotes.ScriptableNoteSplashSkin.listScriptClasses());
+        trace("ScriptableNoteHoldCoverSkin: " + note.ScriptableNotes.ScriptableNoteHoldCoverSkin.listScriptClasses());
         trace("ScriptableComboPopupSkin: " + ui.ScriptableComboPopupSkin.listScriptClasses());
         trace("ScriptableCountdownSkin: " + ui.ScriptableCountdownSkin.listScriptClasses());
         trace("ScriptableHudNoteSkin: " + ui.ScriptableHudNoteSkin.listScriptClasses());

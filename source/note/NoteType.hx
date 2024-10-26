@@ -2,6 +2,7 @@ package note;
 
 import flixel.tweens.FlxTween.FlxTweenManager;
 import note.*;
+import note.ScriptableNotes.ScriptableNoteType;
 
 class NoteType
 {

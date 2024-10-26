@@ -7,6 +7,7 @@ import flixel.FlxSprite;
 import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.FlxG;
+import note.ScriptableNotes.ScriptableNoteSplashSkin;
 
 using StringTools;
 

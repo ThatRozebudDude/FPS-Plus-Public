@@ -5,6 +5,7 @@ import sys.FileSystem;
 #end
 
 import flixel.graphics.frames.FlxAtlasFrames;
+import cache.*;
 
 class Paths
 {
