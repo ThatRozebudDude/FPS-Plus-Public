@@ -1,4 +1,4 @@
-class Pico extends CharacterInfoBase
+class Pico extends CharacterInfo
 {
 
     override public function new(){

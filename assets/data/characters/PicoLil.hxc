@@ -1,4 +1,4 @@
-class PicoLil extends CharacterInfoBase
+class PicoLil extends CharacterInfo
 {
 
     override public function new(){

@@ -1,7 +1,7 @@
 import flixel.FlxG;
 import stages.elements.TankmenBG;
 
-class PicoSpeaker extends CharacterInfoBase
+class PicoSpeaker extends CharacterInfo
 {
 
     override public function new(){

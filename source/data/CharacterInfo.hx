@@ -1,4 +1,4 @@
-package characters;
+package data;
 
 import flixel.tweens.FlxTween.FlxTweenManager;
 import flixel.FlxSprite;
@@ -65,7 +65,7 @@ typedef CharacterFunctions = {
 	var songStart:(Character)->Void;            //This function is run when the song starts.
 }
 
-typedef CharacterInfo = {
+typedef CharacterInfoData = {
 	var name:String;
     var spritePath:String;
     var frameLoadType:FrameLoadType;
@@ -96,13 +96,13 @@ typedef CharacterInfo = {
 	This is the base class for character info. When making your own character make a new class extending this one.    
 	@author Rozebud
 **/
-class CharacterInfoBase
+class CharacterInfo
 {
 
     public var includeInCharacterList:Bool = true;
     public var includeInGfList:Bool = false;
 
-    public var info:CharacterInfo = {
+    public var info:CharacterInfoData = {
         name: "",
         spritePath: "",
         frameLoadType: sparrow,
@@ -447,3 +447,6 @@ class CharacterInfoBase
 
     public function toString():String{ return ""+info; }
 }
+
+@:hscriptClass
+class ScriptableCharacter extends CharacterInfo implements polymod.hscript.HScriptedClass{}

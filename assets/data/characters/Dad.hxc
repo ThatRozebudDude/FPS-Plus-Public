@@ -1,4 +1,4 @@
-class Dad extends CharacterInfoBase
+class Dad extends CharacterInfo
 {
 
     override public function new(){

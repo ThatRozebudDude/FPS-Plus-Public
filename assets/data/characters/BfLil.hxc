@@ -1,4 +1,4 @@
-class BfLil extends CharacterInfoBase
+class BfLil extends CharacterInfo
 {
 
     override public function new(){

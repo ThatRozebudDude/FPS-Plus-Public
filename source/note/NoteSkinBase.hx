@@ -2,9 +2,9 @@ package note;
 
 import note.Note;
 import flixel.math.FlxPoint;
-import characters.CharacterInfoBase.FrameLoadType;
-import characters.CharacterInfoBase.AnimData;
-import characters.CharacterInfoBase.AnimType;
+import data.CharacterInfo.FrameLoadType;
+import data.CharacterInfo.AnimData;
+import data.CharacterInfo.AnimType;
 
 typedef NoteInfo = {
     var pathOverride:String;

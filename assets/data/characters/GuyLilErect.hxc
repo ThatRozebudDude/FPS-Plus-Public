@@ -1,4 +1,4 @@
-class GuyLilErect extends CharacterInfoBase
+class GuyLilErect extends CharacterInfo
 {
 
     override public function new(){

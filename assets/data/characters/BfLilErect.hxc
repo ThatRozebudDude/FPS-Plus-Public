@@ -1,4 +1,4 @@
-class BfLilErect extends CharacterInfoBase
+class BfLilErect extends CharacterInfo
 {
 
     override public function new(){

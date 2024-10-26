@@ -1,6 +1,6 @@
 import shaders.TextureMixShader;
 
-class PicoDark extends CharacterInfoBase
+class PicoDark extends CharacterInfo
 {
 
     override public function new(){

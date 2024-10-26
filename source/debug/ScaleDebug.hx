@@ -1,7 +1,7 @@
 package debug;
 
 import flixel.math.FlxPoint;
-import characters.CharacterInfoBase;
+import data.CharacterInfo;
 import config.Config;
 import openfl.desktop.ClipboardFormats;
 import openfl.desktop.Clipboard;

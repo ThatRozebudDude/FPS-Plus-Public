@@ -1,4 +1,4 @@
-class BfHoldingGfDead extends CharacterInfoBase
+class BfHoldingGfDead extends CharacterInfo
 {
 
     override public function new(){

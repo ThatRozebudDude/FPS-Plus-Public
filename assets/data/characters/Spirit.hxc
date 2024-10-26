@@ -1,4 +1,4 @@
-class Spirit extends CharacterInfoBase
+class Spirit extends CharacterInfo
 {
 
     override public function new(){

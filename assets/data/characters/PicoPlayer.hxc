@@ -1,4 +1,4 @@
-class PicoPlayer extends CharacterInfoBase
+class PicoPlayer extends CharacterInfo
 {
 
     override public function new(){

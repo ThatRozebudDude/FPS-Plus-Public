@@ -1,4 +1,4 @@
-class GfCar extends CharacterInfoBase
+class GfCar extends CharacterInfo
 {
 
     override public function new(){

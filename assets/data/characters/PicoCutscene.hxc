@@ -1,4 +1,4 @@
-class PicoCutscene extends CharacterInfoBase
+class PicoCutscene extends CharacterInfo
 {
 
     override public function new(){

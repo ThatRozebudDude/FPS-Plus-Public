@@ -1,7 +1,7 @@
 import flixel.FlxSprite;
 import flixel.FlxG;
 
-class PicoDead extends CharacterInfoBase
+class PicoDead extends CharacterInfo
 {
 
     override public function new(){

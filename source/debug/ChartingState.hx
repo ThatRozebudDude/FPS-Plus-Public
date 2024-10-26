@@ -2,9 +2,9 @@ package debug;
 
 import stages.ScriptableStage;
 import note.NoteType;
-import characters.CharacterInfoBase;
+import data.CharacterInfo;
 import modding.PolymodHandler;
-import characters.ScriptableCharacter;
+import data.CharacterInfo.ScriptableCharacter;
 import events.Events;
 import sys.FileSystem;
 import ui.HealthIcon;
@@ -1594,8 +1594,8 @@ class ChartingState extends MusicBeatState
 	function updateHeads(?changedCharacters:Bool = false):Void{
 
 		if(changedCharacters){
-			var leftChar:characters.CharacterInfoBase;
-			var rightChar:characters.CharacterInfoBase;
+			var leftChar:CharacterInfo;
+			var rightChar:CharacterInfo;
 
 			leftChar = ScriptableCharacter.init(player2DropDown.selectedLabel);
 			rightChar = ScriptableCharacter.init(player1DropDown.selectedLabel);
@@ -2290,7 +2290,7 @@ class ChartingState extends MusicBeatState
 		stageList = [];
 
 		for(x in ScriptableCharacter.listScriptClasses()){
-			var getScriptInfo:CharacterInfoBase = ScriptableCharacter.init(x);
+			var getScriptInfo:CharacterInfo = ScriptableCharacter.init(x);
 			if(getScriptInfo.includeInCharacterList){ charactersList.push(x); }
 			if(getScriptInfo.includeInGfList){ gfList.push(x); }
 		}

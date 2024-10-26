@@ -1,4 +1,4 @@
-class GfPixel extends CharacterInfoBase
+class GfPixel extends CharacterInfo
 {
 
     override public function new(){

@@ -58,7 +58,7 @@ class PolymodHandler
     static function scriptableClassCheck():Void{
         trace("<===== CLASSES =====>");
         
-        trace("ScriptableCharacter: " + characters.ScriptableCharacter.listScriptClasses());
+        trace("ScriptableCharacter: " + data.CharacterInfo.ScriptableCharacter.listScriptClasses());
         trace("ScriptableEvents: " + events.ScriptableEvents.listScriptClasses());
         trace("ScriptableNoteTypes: " + note.ScriptableNoteType.listScriptClasses());
         trace("ScriptableCutscene: " + cutscenes.ScriptableCutscene.listScriptClasses());
@@ -110,7 +110,7 @@ class PolymodHandler
         Polymod.addDefaultImport(debug.ChartingState);
 
         //Import customizable class so now we can make custom class without importing
-        Polymod.addDefaultImport(characters.CharacterInfoBase);
+        Polymod.addDefaultImport(data.CharacterInfo);
         Polymod.addDefaultImport(note.NoteType);
         Polymod.addDefaultImport(events.Events);
         Polymod.addDefaultImport(stages.BaseStage);

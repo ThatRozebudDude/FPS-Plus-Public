@@ -2,7 +2,7 @@ import stages.elements.ABot;
 import flixel.FlxG;
 import flixel.math.FlxPoint;
 
-class NeneNoSpeaker extends CharacterInfoBase
+class NeneNoSpeaker extends CharacterInfo
 {
 
     override public function new(){

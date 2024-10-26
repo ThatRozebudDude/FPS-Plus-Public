@@ -1,4 +1,4 @@
-class Tankman extends CharacterInfoBase
+class Tankman extends CharacterInfo
 {
 
     override public function new(){

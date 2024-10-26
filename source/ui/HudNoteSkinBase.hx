@@ -1,6 +1,6 @@
 package ui;
 
-import characters.CharacterInfoBase.FrameLoadType;
+import data.CharacterInfo.FrameLoadType;
 import note.NoteSkinBase.NoteAnimInfo;
 import flixel.math.FlxPoint;
 

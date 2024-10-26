@@ -1,4 +1,4 @@
-class Bf extends CharacterInfoBase
+class Bf extends CharacterInfo
 {
 
     override public function new(){

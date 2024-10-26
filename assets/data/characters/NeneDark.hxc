@@ -4,7 +4,7 @@ import stages.elements.ABot;
 import flixel.FlxG;
 import flixel.math.FlxPoint;
 
-class NeneDark extends CharacterInfoBase
+class NeneDark extends CharacterInfo
 {
 
     override public function new(){

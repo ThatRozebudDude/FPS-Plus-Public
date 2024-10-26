@@ -1,4 +1,4 @@
-class PicoChristmas extends CharacterInfoBase
+class PicoChristmas extends CharacterInfo
 {
 
     override public function new(){
