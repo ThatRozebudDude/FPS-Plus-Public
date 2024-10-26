@@ -1,7 +1,5 @@
 package note;
 
-import note.Note;
-import flixel.math.FlxPoint;
 import data.CharacterInfo.FrameLoadType;
 import data.CharacterInfo.AnimData;
 import data.CharacterInfo.AnimType;

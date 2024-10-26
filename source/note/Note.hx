@@ -1,9 +1,5 @@
 package note;
 
-import note.noteSkins.*;
-import config.*;
-
-import flixel.FlxSprite;
 import note.ScriptableNotes.ScriptableNoteSkin;
 //import polymod.format.ParseRules.TargetSignatureElement;
 
