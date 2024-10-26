@@ -12,6 +12,7 @@ import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import extensions.flixel.FlxTextExt;
+import haxe.Json;
 
 using StringTools;
 using flixel.util.FlxSpriteUtil;
@@ -19,7 +20,7 @@ using flixel.util.FlxSpriteUtil;
 class SongMetaTags extends FlxSpriteGroup
 {
 
-    var meta:Array<Array<String>> = [];
+    var metadata:Dynamic;
     var size:Float = 0;
     var fontSize:Int = 24;
 
@@ -30,7 +31,10 @@ class SongMetaTags extends FlxSpriteGroup
         var text = new FlxTextExt(0, 0, 0, "", fontSize);
         text.setFormat(Paths.font("vcr"), fontSize, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 
-        text.text = Utils.getText(Paths.text(_song.toLowerCase() + "/meta"));
+        metadata = Json.parse(Utils.getText(Paths.json(_song + "/meta")));
+        trace(metadata);
+
+        text.text = metadata.name + "\n\nArtist: " + metadata.artist;
 
         size = text.fieldWidth;
         

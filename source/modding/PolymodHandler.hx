@@ -33,7 +33,7 @@ class PolymodHandler
         trace("AFTER CULLING: " + modDirs);
 		
 		loadedModMetadata = Polymod.init({
-			modRoot: "./mods/",
+			modRoot: "mods",
 			dirs: modDirs,
 			useScriptedClasses: true,
             errorCallback: onPolymodError,
