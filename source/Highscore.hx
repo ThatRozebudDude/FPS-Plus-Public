@@ -1,6 +1,6 @@
 package;
 
-import state.PlayState.ScoreStats;
+import PlayState.ScoreStats;
 import flixel.FlxG;
 
 typedef SongStats = {

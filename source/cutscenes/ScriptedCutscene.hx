@@ -1,6 +1,6 @@
 package cutscenes;
 
-import state.PlayState.VocalType;
+import PlayState.VocalType;
 import flixel.tweens.FlxTween.FlxTweenManager;
 import flixel.FlxG;
 import flixel.FlxBasic;

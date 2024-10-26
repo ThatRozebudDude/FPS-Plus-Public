@@ -1,7 +1,6 @@
 package events;
 
-import state.PlayState;
-import state.PlayState.VocalType;
+import PlayState.VocalType;
 import flixel.tweens.FlxTween.FlxTweenManager;
 import flixel.tweens.FlxEase;
 
