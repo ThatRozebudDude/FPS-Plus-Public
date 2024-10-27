@@ -1,4 +1,4 @@
-package;
+package story;
 
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;

@@ -1,0 +1,8 @@
+{
+    "name": "Red Snow",
+    "id": "week5",
+    "sortOrder": 5,
+    "songs": ["Cocoa", "Eggnog", "Winter-Horrorland"],
+    "characters": ["parents-xmas", "bf", "gf"],
+    "stickerSet": ["bf", "gf", "dad", "mom", "monster"]
+}

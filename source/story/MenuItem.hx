@@ -1,4 +1,4 @@
-package;
+package story;
 
 import flixel.FlxG;
 import flixel.FlxSprite;

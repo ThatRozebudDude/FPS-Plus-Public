@@ -1,5 +1,6 @@
 package story;
 
+import modding.PolymodHandler;
 import flixel.tweens.FlxEase;
 import haxe.Json;
 import transition.data.StickerIn;
@@ -15,7 +16,6 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import story.Week.ScriptableWeek;
 
 using StringTools;
 
@@ -37,7 +37,7 @@ class StoryMenuState extends MusicBeatState
 	//public static var weekNamesShort:Array<String> = [];
 
 	//public static var weekList:Array<String> = [];
-	public static var weekList:Array<Week> = [];
+	public static var weekList:Array<StoryWeek> = [];
 
 	var txtWeekTitle:FlxText;
 
@@ -106,13 +106,39 @@ class StoryMenuState extends MusicBeatState
 
 		weekList = [];
 
-		for(week in ScriptableWeek.listScriptClasses()){
+		var weekData:Array<String> = Utils.readDirectory("assets/data/weeks/");
+
+		for(week in weekData){
+			if(week.endsWith(".json")){
+				var weekToAdd:StoryWeek = {
+					name: null,
+					id: null,
+					sortOrder: 1000,
+					songs: null,
+					characters: ["dad", "bf", "gf"],
+					stickerSet: null,
+					color: 0xFFF9CF51,
+				}
+				var weekJson = Json.parse(Utils.getText(Paths.json(week.split(".json")[0], "data/weeks")));
+				weekToAdd.name = weekJson.name;
+				weekToAdd.id = weekJson.id;
+				if(weekJson.sortOrder != null){ weekToAdd.sortOrder = weekJson.sortOrder; }
+				weekToAdd.songs = weekJson.songs;
+				if(weekJson.characters != null){ weekToAdd.characters = weekJson.characters; }
+				if(weekJson.stickerSet != null){ weekToAdd.stickerSet = weekJson.stickerSet; }
+				if(weekJson.color != null){ weekToAdd.color = FlxColor.fromString(weekJson.color); }
+				
+				weekList.push(weekToAdd);
+			}
+		}
+
+		/*for(week in ScriptableWeek.listScriptClasses()){
 			var weekToAdd = ScriptableWeek.init(week);
 			weekToAdd.create();
 			weekList.push(weekToAdd);
-		}
+		}*/
 
-		weekList.sort(function(a:Week, b:Week):Int{
+		weekList.sort(function(a:StoryWeek, b:StoryWeek):Int{
 			if(a.sortOrder < b.sortOrder){ return -1; }
 			else if(a.sortOrder > b.sortOrder){ return 1; }
 			else{ return 0; }
@@ -454,4 +480,14 @@ class StoryMenuState extends MusicBeatState
 		txtTracklist.x -= FlxG.width * 0.35;
 		intendedScore = Highscore.getWeekScore(weekList[curWeek].id, curDifficulty).score;
 	}
+}
+
+typedef StoryWeek = {
+	var name:String;				//Name that will appear in the story menu and results screen.
+    var id:String;					//Internal name that will be used by the save file and week name image.
+    var sortOrder:Float;			//Determines where in the story mode list the week appears.
+    var songs:Array<String>;		//Name of the songs used in the week.
+    var characters:Array<String>;	//Characters that show up in the story menu.
+    var stickerSet:Array<String>;	//The set of stickers to use when returning to the story menu.
+    var color:FlxColor;				//The color that the story menu is set to when selecting the week.
 }

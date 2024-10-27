@@ -1,0 +1,8 @@
+{
+    "name": "Daddy Dearest",
+    "id": "week1",
+    "sortOrder": 1,
+    "songs": ["Bopeebo", "Fresh", "Dadbattle"],
+    "characters": ["dad", "bf", "gf"],
+    "stickerSet": ["bf", "gf", "dad"]
+}

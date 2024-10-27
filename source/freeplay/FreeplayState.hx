@@ -183,7 +183,7 @@ class FreeplayState extends MusicBeatState
 		}
 
 		for(song in dj.freeplaySongs){
-			addSong(song[0], song[1], song[2], song[3]);
+			addSong(song[0], song[1], song[2]);
 		}
 
 		super.create();
@@ -650,7 +650,7 @@ class FreeplayState extends MusicBeatState
 		curBeat = 0;
 	}
 
-	function addSong(_song:String, _icon:String, _week:Int, ?categories:Array<String>):Void{
+	function addSong(_song:String, _icon:String, ?categories:Array<String>):Void{
 
 		var meta = {
 			name: _song.replace("-", ""),
@@ -667,7 +667,7 @@ class FreeplayState extends MusicBeatState
 		}
 
 		if(categories == null){ categories = ["All"]; }
-		var capsule:Capsule = new Capsule(_song, meta.name, _icon, _week, meta.album, meta.difficulties, meta.compatableInsts, [dj.freeplaySkin, dj.capsuleSelectColor, dj.capsuleDeselectColor, dj.capsuleSelectOutlineColor, dj.capsuleDeselectOutlineColor]);
+		var capsule:Capsule = new Capsule(_song, meta.name, _icon, meta.album, meta.difficulties, meta.compatableInsts, [dj.freeplaySkin, dj.capsuleSelectColor, dj.capsuleDeselectColor, dj.capsuleSelectOutlineColor, dj.capsuleDeselectOutlineColor]);
 		for(cat in categories){
 			createCategory(cat);
 			categoryMap[cat].push(capsule);
@@ -926,7 +926,6 @@ class FreeplayState extends MusicBeatState
 		PlayState.storyDifficulty = curDifficulty;
 		PlayState.loadEvents = true;
 		PlayState.returnLocation = "freeplay";
-		PlayState.storyWeek = categoryMap[categoryNames[curCategory]][curSelected].week;
 		new FlxTimer().start(1.5, function(t){
 			switchState(new PlayState());
 			FlxG.sound.music.fadeOut(0.5);

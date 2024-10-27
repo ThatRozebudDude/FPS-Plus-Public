@@ -49,8 +49,8 @@ class DJCharacter extends AtlasSprite
 		}
     }
 
-    inline function addSong(name:String, character:String, week:Int, categories:Array<String>):Void{
-        freeplaySongs.push([name, character, week, categories]);
+    inline function addSong(name:String, character:String, categories:Array<String>):Void{
+        freeplaySongs.push([name, character, categories]);
 		for(cat in categories){
 			createCategory(cat);
 		}

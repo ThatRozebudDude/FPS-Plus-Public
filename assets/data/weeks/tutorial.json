@@ -1,0 +1,8 @@
+{
+    "name": "Tutorial",
+    "id": "week0",
+    "sortOrder": 0,
+    "songs": ["Tutorial"],
+    "characters": ["dad", "bf", "gf"],
+    "stickerSet": ["bf", "gf"]
+}

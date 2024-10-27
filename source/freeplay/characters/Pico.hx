@@ -75,30 +75,30 @@ class Pico extends DJCharacter
     override function songList() {
         createCategory("ALL");
 
-		addSong("Bopeebo-Pico", "dad", 1, ["ALL", "Week 1"]);
-		addSong("Fresh-Pico", "dad", 1, ["ALL", "Week 1"]);
-		addSong("Dadbattle-Pico", "dad", 1, ["ALL", "Week 1"]);
+		addSong("Bopeebo-Pico", "dad", ["ALL", "Week 1"]);
+		addSong("Fresh-Pico", "dad", ["ALL", "Week 1"]);
+		addSong("Dadbattle-Pico", "dad", ["ALL", "Week 1"]);
 
-		addSong("Spookeez-Pico", "spooky", 2, ["ALL", "Week 2"]);
-		addSong("South-Pico", "spooky", 2, ["ALL", "Week 2"]);
+		addSong("Spookeez-Pico", "spooky", ["ALL", "Week 2"]);
+		addSong("South-Pico", "spooky", ["ALL", "Week 2"]);
 
-		addSong("Pico-Pico", "pico", 3, ["ALL", "Week 3"]);
-		addSong("Philly-Pico", "pico", 3, ["ALL", "Week 3"]);
-		addSong("Blammed-Pico", "pico", 3, ["ALL", "Week 3"]);
+		addSong("Pico-Pico", "pico", ["ALL", "Week 3"]);
+		addSong("Philly-Pico", "pico", ["ALL", "Week 3"]);
+		addSong("Blammed-Pico", "pico", ["ALL", "Week 3"]);
 
-		addSong("Eggnog-Pico", "parents-christmas", 5, ["ALL", "Week 5"]);
+		addSong("Eggnog-Pico", "parents-christmas", ["ALL", "Week 5"]);
 
-		addSong("Ugh-Pico", "tankman", 7, ["ALL", "Week 7"]);
-		addSong("Guns-Pico", "tankman", 7, ["ALL", "Week 7"]);
+		addSong("Ugh-Pico", "tankman", ["ALL", "Week 7"]);
+		addSong("Guns-Pico", "tankman", ["ALL", "Week 7"]);
 
-		addSong("Darnell", "darnell", 101, ["ALL", "Weekend 1"]);
-		addSong("Lit-Up", "darnell", 101, ["ALL", "Weekend 1"]);
-		addSong("2hot", "darnell", 101, ["ALL", "Weekend 1"]);
-		addSong("Blazin", "darnell", 101, ["ALL", "Weekend 1"]);
+		addSong("Darnell", "darnell", ["ALL", "Weekend 1"]);
+		addSong("Lit-Up", "darnell", ["ALL", "Weekend 1"]);
+		addSong("2hot", "darnell", ["ALL", "Weekend 1"]);
+		addSong("Blazin", "darnell", ["ALL", "Weekend 1"]);
 
         SaveManager.global();
 		if(Config.ee2 && Startup.hasEe2){
-			addSong("Lil-Buddies-Pico", "pico", 0, ["Secret"]);
+			addSong("Lil-Buddies-Pico", "pico", ["Secret"]);
 		}
     }
 
