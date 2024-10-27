@@ -1,5 +1,6 @@
 package results;
 
+import story.StoryMenuState;
 import shaders.TintShader;
 import openfl.filters.ShaderFilter;
 import shaders.ColorGradientShader;
@@ -87,7 +88,9 @@ class ResultsState extends FlxUIStateExt
     var exiting:Bool = false;
     var shownRank:Bool = false;
 
-    public function new(_scoreStats:ScoreStats, ?_songNameText:String = "Fabs is on base game", ?_character:String = "Boyfriend", ?_saveInfo:SaveInfo = null) {
+    var useCustomStickerSet:Array<String>;
+
+    public function new(_scoreStats:ScoreStats, ?_songNameText:String = "Fabs is on base game", ?_character:String = "Boyfriend", ?_saveInfo:SaveInfo = null, ?_useCustomStickerSet:Array<String> = null) {
         super();
 
         instance = this;
@@ -110,6 +113,7 @@ class ResultsState extends FlxUIStateExt
         characterString = _character;
         scoreStats = _scoreStats;
         songNameText = _songNameText;
+        useCustomStickerSet = _useCustomStickerSet;
 
         totalNotes = scoreStats.sickCount + scoreStats.goodCount + scoreStats.badCount + scoreStats.shitCount;
         if(totalNotes + scoreStats.missCount > 0){
@@ -640,33 +644,7 @@ class ResultsState extends FlxUIStateExt
 
 		switch(PlayState.returnLocation){
 			case "story":
-
-                var stickerSets:Array<String> = null;
-
-                trace(saveInfo.week);
-                //Maybe Hardcode this shit
-                switch(StoryMenuState.weekList.indexOf(saveInfo.week)){
-                    case 0:
-                        stickerSets = ["bf", "gf"];
-                    case 1:
-                        stickerSets = ["bf", "gf", "dad"];
-                    case 2:
-                        stickerSets = ["bf", "gf", "skid", "pump", "monster"];
-                    case 3:
-                        stickerSets = ["bf", "gf", "pico"];
-                    case 4:
-                        stickerSets = ["bf", "gf", "mom"];
-                    case 5:
-                        stickerSets = ["bf", "gf", "dad", "mom", "monster"];
-                    case 6:
-                        stickerSets = ["bf", "gf", "spirit", "senpai"];
-                    case 7:
-                        stickerSets = ["bf", "gf", "pico", "tankman"];
-                    case 101:
-                        stickerSets = ["pico", "nene", "darnell"];
-                }
-
-                customTransOut = new StickerOut(stickerSets);
+                customTransOut = new StickerOut(useCustomStickerSet);
 
 				switchState(new StoryMenuState(true));
                 FlxTween.tween(FlxG.sound.music, {pitch: 3}, 0.1, {onComplete: function(t){

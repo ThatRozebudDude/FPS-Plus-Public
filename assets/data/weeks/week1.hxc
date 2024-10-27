@@ -2,7 +2,10 @@ class Week1 extends Week
 {
     override function create() {
         name = "Daddy Dearest";
-        songs = ['Bopeebo', 'Fresh', 'Dadbattle'];
-        characters = ['dad', 'bf', 'gf'];
+        id = "week1";
+        sortOrder = 1;
+        songs = ["Bopeebo", "Fresh", "Dadbattle"];
+        characters = ["dad", "bf", "gf"];
+        stickerSet = ["bf", "gf", "dad"];
     }
 }

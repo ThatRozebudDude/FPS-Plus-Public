@@ -1,5 +1,6 @@
 package;
 
+import story.StoryMenuState;
 import flixel.util.FlxTimer;
 import flixel.system.debug.console.ConsoleUtil;
 import flixel.math.FlxPoint;

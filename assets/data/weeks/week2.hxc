@@ -2,7 +2,10 @@ class Week2 extends Week
 {
     override function create() {
         name = "Spooky Month";
-        songs = ['Spookeez', 'South', 'Monster'];
-        characters = ['spooky', 'bf', 'gf'];
+        id = "week2";
+        sortOrder = 2;
+        songs = ["Spookeez", "South", "Monster"];
+        characters = ["spooky", "bf", "gf"];
+        stickerSet = ["bf", "gf", "skid", "pump", "monster"];
     }
 }

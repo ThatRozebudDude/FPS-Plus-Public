@@ -14,6 +14,7 @@ import cutscenes.*;
 import cutscenes.data.*;
 import events.*;
 import note.*;
+import story.StoryMenuState;
 
 import flixel.FlxBasic;
 import flixel.math.FlxAngle;
@@ -1741,27 +1742,25 @@ class PlayState extends MusicBeatState
 				sectionStart = false;
 
 				// if ()
-				StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
+				//StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
 
-				weekStats.accuracy / StoryMenuState.weekData[storyWeek].length;
+				weekStats.accuracy / StoryMenuState.weekList[storyWeek].songs.length;
 
 				//Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
 				var songSaveStuff:SaveInfo = null;
 				if(!preventScoreSaving){
 					songSaveStuff = {
 						song: null,
-						week: StoryMenuState.weekList[storyWeek],
+						week: StoryMenuState.weekList[storyWeek].id,
 						diff: storyDifficulty
 					}
 				}
-				var weekName:String = StoryMenuState.weekNames[storyWeek];
-				if (StoryMenuState.weekNamesShort[storyWeek] != "")
-					weekName = StoryMenuState.weekNamesShort[storyWeek];
+				var weekName:String = StoryMenuState.weekList[storyWeek].name;
 
-				switchState(new ResultsState(weekStats, weekName, boyfriend.characterInfo.info.resultsCharacter, songSaveStuff));
+				switchState(new ResultsState(weekStats, weekName, boyfriend.characterInfo.info.resultsCharacter, songSaveStuff, StoryMenuState.weekList[storyWeek].stickerSet));
 
-				FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
-				FlxG.save.flush();
+				//FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
+				//FlxG.save.flush();
 			}
 			//CODE FOR CONTINUING A WEEK
 			else{
