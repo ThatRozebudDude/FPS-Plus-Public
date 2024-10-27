@@ -564,7 +564,7 @@ class PlayState extends MusicBeatState
 
 		FlxG.fixedTimestep = false;
 
-		if(Utils.exists(Paths.text(SONG.song.toLowerCase() + "/meta"))){
+		if(Utils.exists(Paths.json(SONG.song.toLowerCase() + "/meta"))){
 			meta = new SongMetaTags(0, 144, SONG.song.toLowerCase());
 			meta.cameras = [camHUD];
 			add(meta);
