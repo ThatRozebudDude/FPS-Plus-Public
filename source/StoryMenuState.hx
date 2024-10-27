@@ -105,7 +105,7 @@ class StoryMenuState extends MusicBeatState
 		scriptList.sort(function(a:String, b:String):Int{
 			a = a.toUpperCase();
 			b = b.toUpperCase();
-			else if(a < b){ return -1; }
+			if(a < b){ return -1; }
 			else if(a > b){ return 1; }
 			else{ return 0; }
 		});
