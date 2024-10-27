@@ -1,0 +1,8 @@
+class Weekend1 extends Week
+{
+    override function create() {
+        name = "Due Debts";
+        songs = ['Darnell', 'Lit-Up', '2hot', 'Blazin'];
+        characters = ['darnell', 'pico-player', 'nene'];
+    }
+}

@@ -14,7 +14,7 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import lime.net.curl.CURLCode;
+import Week.ScriptableWeek;
 
 using StringTools;
 
@@ -24,69 +24,18 @@ class StoryMenuState extends MusicBeatState
 
 	public static var fromPlayState:Bool = false;
 
-	public static var weekData:Map<Int, Array<String>> = [
-		0 => ['Tutorial'],
-		1 => ['Bopeebo', 'Fresh', 'Dadbattle'],
-		2 => ['Spookeez', 'South', 'Monster'],
-		3 => ['Pico', 'Philly', "Blammed"],
-		4 => ['Satin-Panties', "High", "Milf"],
-		5 => ['Cocoa', 'Eggnog', 'Winter-Horrorland'],
-		6 => ['Senpai', 'Roses', 'Thorns'],
-		7 => ['Ugh', 'Guns', 'Stress'],
-		101 => ['Darnell', 'Lit-Up', '2hot', 'Blazin']
-	];
+	public static var weekData:Array<Array<String>> = [];
 	
 	static var curDifficulty:Int = 1;
 
-	public static var weekUnlocked:Array<Bool> = [true, true, true, true, true, true, true, true, true, true, true, true, true, true];
+	public static var weekUnlocked:Array<Bool> = [];
 
-	public static var weekCharacters = [
-		['dad', 'bf', 'gf'],
-		['dad', 'bf', 'gf'],
-		['spooky', 'bf', 'gf'],
-		['pico', 'bf', 'gf'],
-		['mom', 'bf', 'gf'],
-		['parents-xmas', 'bf', 'gf'],
-		['senpai', 'bf', 'gf'],
-		['tankman', 'bf', 'gf'],
-		['darnell', 'pico-player', 'nene']
-	];
+	public static var weekCharacters = [];
 
-	public static var weekNames:Map<Int, String> = [
-		0 => "Tutorial",
-		1 => "Daddy Dearest",
-		2 => "Spooky Month",
-		3 => "Pico",
-		4 => "Mommy Must Murder",
-		5 => "Red Snow",
-		6 => "Hating Simulator ft. Moawling",
-		7 => "Tankman",
-		101 => "Due Debts"
-	];
+	public static var weekNames:Array<String> = [];
+	public static var weekNamesShort:Array<String> = [];
 
-	public static var weekNamesShort:Map<Int, String> = [
-		0 => "Tutorial",
-		1 => "Daddy Dearest",
-		2 => "Spooky Month",
-		3 => "Pico",
-		4 => "Mommy Must Murder",
-		5 => "Red Snow",
-		6 => "Hating Simulator",
-		7 => "Tankman",
-		101 => "Due Debts"
-	];
-
-	public static var weekNumber:Array<Int> = [
-		0,
-		1,
-		2,
-		3,
-		4,
-		5,
-		6,
-		7,
-		101
-	];
+	public static var weekList:Array<String> = [];
 
 	var txtWeekTitle:FlxText;
 
@@ -151,9 +100,32 @@ class StoryMenuState extends MusicBeatState
 		grpLocks = new FlxTypedGroup<FlxSprite>();
 		add(grpLocks);
 
-		for (i in 0...weekNumber.length)
+		//Idk how i use sort'n shit
+		var scriptList = ScriptableWeek.listScriptClasses();
+		scriptList.sort(function(a:String, b:String):Int{
+			a = a.toUpperCase();
+			b = b.toUpperCase();
+			else if(a < b){ return -1; }
+			else if(a > b){ return 1; }
+			else{ return 0; }
+		});
+
+		for (week in scriptList) {
+			if (!weekList.contains(week.toLowerCase())) {
+				var weekScript:Week = ScriptableWeek.init(week);
+				weekScript.create();
+				weekList.push(week.toLowerCase());
+				weekNames.push(weekScript.name);
+				weekNamesShort.push(weekScript.short);
+				weekData.push(weekScript.songs);
+				weekCharacters.push(weekScript.characters);
+				weekUnlocked.push(weekScript.unlocked);
+			}
+		}
+
+		for (i in 0...weekList.length)
 		{
-			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, weekNumber[i]);
+			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, weekList[i]);
 			weekThing.y += ((weekThing.height + 20) * i);
 			weekThing.targetY = i;
 			grpWeekText.add(weekThing);
@@ -251,7 +223,7 @@ class StoryMenuState extends MusicBeatState
 
 		scoreText.text = "WEEK SCORE:" + lerpScore;
 
-		txtWeekTitle.text = weekNames[weekNumber[curWeek]].toUpperCase();
+		txtWeekTitle.text = weekNames[curWeek].toUpperCase();
 		txtWeekTitle.x = FlxG.width - (txtWeekTitle.width + 10);
 
 		// FlxG.watch.addQuick('font', scoreText.font);
@@ -327,7 +299,7 @@ class StoryMenuState extends MusicBeatState
 				stopspamming = true;
 			}
 
-			PlayState.storyPlaylist = weekData[weekNumber[curWeek]].copy();
+			PlayState.storyPlaylist = weekData[curWeek].copy();
 			PlayState.isStoryMode = true;
 			selectedWeek = true;
 
@@ -344,7 +316,7 @@ class StoryMenuState extends MusicBeatState
 			PlayState.storyDifficulty = curDifficulty;
 
 			PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
-			PlayState.storyWeek = weekNumber[curWeek];
+			PlayState.storyWeek = curWeek;
 			PlayState.returnLocation = "story";
 
 			PlayState.weekStats = {
@@ -400,7 +372,7 @@ class StoryMenuState extends MusicBeatState
 
 		// USING THESE WEIRD VALUES SO THAT IT DOESNT FLOAT UP
 		sprDifficulty.y = leftArrow.y - 15;
-		intendedScore = Highscore.getWeekScore(weekNumber[curWeek], curDifficulty).score;
+		intendedScore = Highscore.getWeekScore(weekList[curWeek], curDifficulty).score;
 		FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07);
 		if(!playAnim){
 			FlxTween.completeTweensOf(sprDifficulty);
@@ -414,10 +386,10 @@ class StoryMenuState extends MusicBeatState
 	{
 		curWeek += change;
 
-		if (curWeek >= weekNumber.length)
+		if (curWeek >= weekList.length)
 			curWeek = 0;
 		if (curWeek < 0)
-			curWeek = weekNumber.length - 1;
+			curWeek = weekList.length - 1;
 
 		sprDifficulty.frames = ui_tex;
 		sprDifficulty.animation.addByPrefix('easy', 'EASY');
@@ -453,7 +425,7 @@ class StoryMenuState extends MusicBeatState
 
 		txtTracklist.text = "Tracks\n";
 
-		var stringThing:Array<String> = weekData[weekNumber[curWeek]];
+		var stringThing:Array<String> = weekData[curWeek];
 
 		for (song in stringThing){
 			var meta = Json.parse(Utils.getText("assets/data/songs/" + song.toLowerCase() + "/meta.json"));
@@ -466,6 +438,6 @@ class StoryMenuState extends MusicBeatState
 
 		txtTracklist.screenCenter(X);
 		txtTracklist.x -= FlxG.width * 0.35;
-		intendedScore = Highscore.getWeekScore(weekNumber[curWeek], curDifficulty).score;
+		intendedScore = Highscore.getWeekScore(weekList[curWeek], curDifficulty).score;
 	}
 }

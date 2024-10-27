@@ -1,0 +1,8 @@
+class Week2 extends Week
+{
+    override function create() {
+        name = "Spooky Month";
+        songs = ['Spookeez', 'South', 'Monster'];
+        characters = ['spooky', 'bf', 'gf'];
+    }
+}

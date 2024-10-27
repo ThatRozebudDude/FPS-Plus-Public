@@ -1752,11 +1752,15 @@ class PlayState extends MusicBeatState
 				if(!preventScoreSaving){
 					songSaveStuff = {
 						song: null,
-						week: storyWeek,
+						week: StoryMenuState.weekList[storyWeek],
 						diff: storyDifficulty
 					}
 				}
-				switchState(new ResultsState(weekStats, StoryMenuState.weekNamesShort[storyWeek], boyfriend.characterInfo.info.resultsCharacter, songSaveStuff));
+				var weekName:String = StoryMenuState.weekNames[storyWeek];
+				if (StoryMenuState.weekNamesShort[storyWeek] != "")
+					weekName = StoryMenuState.weekNamesShort[storyWeek];
+
+				switchState(new ResultsState(weekStats, weekName, boyfriend.characterInfo.info.resultsCharacter, songSaveStuff));
 
 				FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
 				FlxG.save.flush();

@@ -1,0 +1,9 @@
+class Week6 extends Week
+{
+    override function create() {
+        name = "Hating Simulator ft. Moawling";
+        short = "Hating Simulator";
+        songs = ['Senpai', 'Roses', 'Thorns'];
+        characters = ['senpai', 'bf', 'gf'];
+    }
+}

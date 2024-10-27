@@ -23,7 +23,7 @@ class Highscore
 {
 
 	//Major versions will be incompatible and will wipe scores. Minor versions should always convert / repair scores.
-	static var scoreFormatVersion:String = "1.2";
+	static var scoreFormatVersion:String = "1.3";
 
 	public static var songScores:Map<String, SongStats> = new Map<String, SongStats>();
 
@@ -51,8 +51,8 @@ class Highscore
 		setScore(formatSong(_song, _diff), proposedStats);
 	}
 
-	public static function saveWeekScore(_week:Int = 1, _score:Int = 0, _accurracy:Float = 0, _diff:Int = 1, _rank:Rank = none):Void{
-		saveScore("week" + _week, _score, _accurracy, _diff, _rank);
+	public static function saveWeekScore(_week:String = "week1", _score:Int = 0, _accurracy:Float = 0, _diff:Int = 1, _rank:Rank = none):Void{
+		saveScore(_week, _score, _accurracy, _diff, _rank);
 	}
 
 	static function setScore(_song:String, _stats:SongStats):Void{
@@ -88,8 +88,8 @@ class Highscore
 		return songScores.exists(formatSong(song, diff));
 	}
 
-	public static function getWeekScore(week:Int, diff:Int):SongStats{
-		return getScore("week" + week, diff);
+	public static function getWeekScore(week:String, diff:Int):SongStats{
+		return getScore(week, diff);
 	}
 
 	public static function load():Void{

@@ -1,0 +1,8 @@
+class Week3 extends Week
+{
+    override function create() {
+        name = "Pico";
+        songs = ['Pico', 'Philly', "Blammed"];
+        characters = ['pico', 'bf', 'gf'];
+    }
+}

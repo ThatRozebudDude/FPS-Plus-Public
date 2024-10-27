@@ -1,0 +1,8 @@
+class Week4 extends Week
+{
+    override function create() {
+        name = "Mommy Must Murder";
+        songs = ['Satin-Panties', "High", "Milf"];
+        characters = ['mom', 'bf', 'gf'];
+    }
+}

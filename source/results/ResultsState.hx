@@ -644,8 +644,8 @@ class ResultsState extends FlxUIStateExt
                 var stickerSets:Array<String> = null;
 
                 trace(saveInfo.week);
-
-                switch(saveInfo.week){
+                //Maybe Hardcode this shit
+                switch(StoryMenuState.weekList.indexOf(saveInfo.week)){
                     case 0:
                         stickerSets = ["bf", "gf"];
                     case 1:
@@ -744,6 +744,6 @@ class ResultsState extends FlxUIStateExt
 
 typedef SaveInfo = {
     song:String,
-    week:Null<Int>,
+    week:Null<String>,
     diff:Int
 }
