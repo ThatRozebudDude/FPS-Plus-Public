@@ -79,25 +79,25 @@ class CameraEvents extends Events
     function flash(tag:String):Void{
         var args = Events.getArgs(tag, ["1b", "0xFFFFFF"]);
 		playstate.camGame.stopFX();
-		playstate.camGame.fade(Std.parseInt(args[1]), Events.eventConvertTime(args[0]), true);
+		playstate.camGame.fade(ScriptingUtil.colorFromString(args[1]), Events.eventConvertTime(args[0]), true);
     }
 
     function flashHud(tag:String):Void{
         var args = Events.getArgs(tag, ["1b", "0xFFFFFF"]);
 		playstate.camHUD.stopFX();
-		playstate.camHUD.fade(Std.parseInt(args[1]), Events.eventConvertTime(args[0]), true);
+		playstate.camHUD.fade(ScriptingUtil.colorFromString(args[1]), Events.eventConvertTime(args[0]), true);
     }
 
     function fadeOut(tag:String):Void{
         var args = Events.getArgs(tag, ["1b", "0x000000"]);
 		playstate.camGame.stopFX();
-		playstate.camGame.fade(Std.parseInt(args[1]), Events.eventConvertTime(args[0]));
+		playstate.camGame.fade(ScriptingUtil.colorFromString(args[1]), Events.eventConvertTime(args[0]));
     }
 
     function fadeOutHud(tag:String):Void{
         var args = Events.getArgs(tag, ["1b", "0x000000"]);
 		playstate.camHUD.stopFX();
-		playstate.camHUD.fade(Std.parseInt(args[1]), Events.eventConvertTime(args[0]));
+		playstate.camHUD.fade(ScriptingUtil.colorFromString(args[1]), Events.eventConvertTime(args[0]));
     }
 
     function startCamShake(tag:String):Void{

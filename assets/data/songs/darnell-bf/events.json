@@ -20,6 +20,12 @@
 				"camFocusCenter"
 			],
 			[
+				27,
+				42774.1935483871,
+				1,
+				"phillyStreetsErect-setRainSpeed;0.07;1.4b;quadOut"
+			],
+			[
 				28,
 				43354.8387096774,
 				0,
@@ -32,6 +38,12 @@
 				"camFocusBf;220;50;1"
 			],
 			[
+				28,
+				43354.8387096774,
+				1,
+				"phillyStreetsErect-setRainSpeed;1.25;1b;quadOut"
+			],
+			[
 				32,
 				49548.3870967742,
 				0,
@@ -42,6 +54,12 @@
 				49548.3870967742,
 				3,
 				"toggleCamMovement"
+			],
+			[
+				32,
+				49548.3870967742,
+				1,
+				"phillyStreetsErect-setRainSpeed;0.75;1b;quadOut"
 			],
 			[
 				39,
@@ -62,6 +80,12 @@
 				"camZoom;0.7;1.5b;quadOut"
 			],
 			[
+				39,
+				61161.2903225807,
+				1,
+				"phillyStreetsErect-setRainSpeed;0.07;1.9b;quadOut"
+			],
+			[
 				40,
 				61935.4838709678,
 				3,
@@ -72,6 +96,18 @@
 				61935.4838709678,
 				0,
 				"camZoom;0.85;1b;quintOut"
+			],
+			[
+				40,
+				61935.4838709678,
+				1,
+				"phillyStreetsErect-setRainSpeed;1.25;1b;quadOut"
+			],
+			[
+				48,
+				74322.5806451614,
+				1,
+				"phillyStreetsErect-setRainSpeed;0.75;1b;quadOut"
 			],
 			[
 				48,
@@ -88,6 +124,12 @@
 			[
 				51,
 				78967.741935484,
+				1,
+				"phillyStreetsErect-setRainSpeed;0.5;1b;quadOut"
+			],
+			[
+				51,
+				78967.741935484,
 				3,
 				"camFocusCenter"
 			],
@@ -100,8 +142,20 @@
 			[
 				51,
 				79741.9354838711,
+				1,
+				"phillyStreetsErect-setRainSpeed;0.25;1b;quadOut"
+			],
+			[
+				51,
+				79741.9354838711,
 				0,
 				"camZoom;0.69;1.5b;quadOut"
+			],
+			[
+				52,
+				80516.1290322582,
+				1,
+				"phillyStreetsErect-setRainSpeed;0.75;1b;quadOut"
 			],
 			[
 				52,
@@ -114,6 +168,12 @@
 				80516.1290322582,
 				3,
 				"toggleCamMovement"
+			],
+			[
+				55,
+				85161.2903225808,
+				1,
+				"phillyStreetsErect-setRainSpeed;0.6;0.6b;quadOut"
 			],
 			[
 				55,
@@ -141,6 +201,12 @@
 			],
 			[
 				55,
+				85548.3870967743,
+				1,
+				"phillyStreetsErect-setRainSpeed;0.4;0.6b;quadOut"
+			],
+			[
+				55,
 				85935.4838709678,
 				0,
 				"camZoom;0.9;1b;quintOut"
@@ -153,6 +219,12 @@
 			],
 			[
 				55,
+				85935.4838709678,
+				1,
+				"phillyStreetsErect-setRainSpeed;0.2;0.6b;quadOut"
+			],
+			[
+				55,
 				86322.5806451614,
 				0,
 				"camZoom;1;1b;circIn"
@@ -162,6 +234,12 @@
 				86709.6774193549,
 				0,
 				"camZoom;0.75;2b;quadOut"
+			],
+			[
+				56,
+				86709.6774193549,
+				1,
+				"phillyStreetsErect-setRainSpeed;0.75;1b;quadOut"
 			],
 			[
 				71,
@@ -182,6 +260,12 @@
 				"camZoom;0.7;1.5b;quadOut"
 			],
 			[
+				71,
+				110709.677419355,
+				1,
+				"phillyStreetsErect-setRainSpeed;0.07;1.9b;quadOut"
+			],
+			[
 				72,
 				111483.870967742,
 				0,
@@ -194,10 +278,22 @@
 				"toggleCamMovement"
 			],
 			[
+				72,
+				111483.870967742,
+				1,
+				"phillyStreetsErect-setRainSpeed;1.25;1b;quadOut"
+			],
+			[
 				79,
 				123774.193548387,
 				3,
 				"toggleCamMovement"
+			],
+			[
+				80,
+				123870.967741936,
+				1,
+				"phillyStreetsErect-setRainSpeed;0.07;4b;quadOut"
 			],
 			[
 				80,

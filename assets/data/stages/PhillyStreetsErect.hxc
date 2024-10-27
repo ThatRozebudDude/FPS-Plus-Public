@@ -282,6 +282,8 @@ class PhillyStreetsErect extends BaseStage
 		addEvent("phillyStreets-canShot", canShot);
 		addEvent("phillyStreets-playerGlow", createCharacterGlow);
 		addEvent("phillyStreets-createBullet", createBullet);
+
+		addEvent("phillyStreetsErect-setRainSpeed", setRainSpeed);
     }
 
 	override function songStart() {
@@ -350,6 +352,11 @@ class PhillyStreetsErect extends BaseStage
 	public function canShot(tag:String):Void{
 		kickedCan.visible = true;
 		kickedCan.playAnim("shot");
+	}
+
+	function setRainSpeed(tag:String):Void{
+		var args = Events.getArgs(tag, ["0.75", "4b", "quadInOut"]);
+		tween.tween(rainShader, {timeScale: Std.parseFloat(args[0])}, Events.eventConvertTime(args[1]), {ease: Events.easeNameToEase(args[2])});
 	}
 
 	public function createCharacterGlow(tag:String):Void{

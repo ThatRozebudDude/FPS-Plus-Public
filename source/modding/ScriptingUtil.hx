@@ -8,6 +8,7 @@ import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.FlxBasic;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import sys.FileSystem;
+import flixel.util.FlxColor;
 
 using StringTools;
 
@@ -65,6 +66,7 @@ class ScriptingUtil
     public static inline function contains(a:String, b:String):Bool                     { return a.contains(b); }
     public static inline function startsWith(a:String, b:String):Bool                   { return a.startsWith(b); }
     public static inline function endsWith(a:String, b:String):Bool                     { return a.endsWith(b); }
+    public static inline function colorFromString(c:String):FlxColor                    { return FlxColor.fromString(c); }
 
     public static inline function screenCenter(obj:FlxObject, ?x:Bool = true, ?y:Bool = true):Void{ 
         if (x){ obj.x = (FlxG.width - obj.width)    / 2; }

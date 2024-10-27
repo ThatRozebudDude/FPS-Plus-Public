@@ -162,7 +162,7 @@ class BaseStage
      *
      * @param   curBeat  The current song beat passed in by PlayState.
 	 */
-     public function countdownBeat(curBeat:Int){}
+    public function countdownBeat(curBeat:Int){}
 
     /**
 	 * Called every step hit in PlayState.

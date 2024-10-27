@@ -2323,7 +2323,7 @@ class ChartingState extends MusicBeatState
 			else{ return 0; }
 		});
 
-		var iconsRaw = FileSystem.readDirectory("assets/images/chartEditor/event/");
+		var iconsRaw = Utils.readDirectory("assets/images/chartEditor/event/");
 		for(icon in iconsRaw){
 			if(icon.split(".")[1] == "png"){
 				eventIconList.push(icon.split(".")[0]);

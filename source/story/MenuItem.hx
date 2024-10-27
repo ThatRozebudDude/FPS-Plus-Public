@@ -1,5 +1,7 @@
 package story;
 
+import haxe.Json;
+import flixel.math.FlxPoint;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -9,14 +11,20 @@ import flixel.util.FlxColor;
 
 class MenuItem extends FlxSpriteGroup
 {
-	public var targetY:Float = 0;
+	public var targetY:Int = 0;
 	public var week:FlxSprite;
 	public var flashingInt:Int = 0;
+	public var positionOffset:FlxPoint = new FlxPoint();
 
-	public function new(x:Float, y:Float, weekNum:Int = 0, name:String){
+	public function new(x:Float, y:Float, name:String){
 		super(x, y);
-
 		week = new FlxSprite().loadGraphic(Paths.image('menu/story/weeks/' + name));
+
+		if(Utils.exists(Paths.json(name, "images/menu/story/weeks"))){
+			var jsonInfo = Json.parse(Utils.getText(Paths.json(name, "images/menu/story/weeks")));
+			positionOffset.set(jsonInfo.offset[0], jsonInfo.offset[1]);
+		}
+
 		add(week);
 	}
 
@@ -34,7 +42,7 @@ class MenuItem extends FlxSpriteGroup
 
 	override function update(elapsed:Float){
 		super.update(elapsed);
-		y = Utils.fpsAdjsutedLerp(y, (targetY * 120) + 480, 0.17);
+		y = Utils.fpsAdjsutedLerp(y, ((targetY * 120) + 480) + positionOffset.y, 0.17);
 
 		if (isFlashing)
 			flashingInt += 1;

@@ -164,6 +164,7 @@ class StoryMenuState extends MusicBeatState
 			grpWeekText.add(weekThing);
 
 			weekThing.screenCenter(X);
+			weekThing.x += weekThing.positionOffset.x;
 			weekThing.antialiasing = true;
 			// weekThing.updateHitbox();
 
@@ -439,7 +440,7 @@ class StoryMenuState extends MusicBeatState
 		for (item in grpWeekText.members)
 		{
 			item.targetY = bullShit - curWeek;
-			if (item.targetY == Std.int(0) && true) //weekUnlocked[curWeek]
+			if (item.targetY == 0 && true) //weekUnlocked[curWeek]
 				item.alpha = 1;
 			else
 				item.alpha = 0.6;

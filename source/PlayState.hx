@@ -2370,7 +2370,7 @@ class PlayState extends MusicBeatState
 		if(Events.events.exists(prefix)){
 			Events.events.get(prefix)(tag);
 		}
-		else if(stage.events.exists(tag)){
+		else if(stage.events.exists(prefix)){
 			stage.events.get(prefix)(tag);
 		}
 		else{
