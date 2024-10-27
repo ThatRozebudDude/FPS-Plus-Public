@@ -742,8 +742,6 @@ class PlayState extends MusicBeatState
 
 			{
 				case 0:
-					if(meta != null){ meta.start(); }
-
 					if(countdownSkin.info.first.audioPath != null){
 						FlxG.sound.play(Paths.sound(countdownSkin.info.first.audioPath), 0.6);
 					}
