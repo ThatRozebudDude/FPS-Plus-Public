@@ -6,6 +6,7 @@ import flixel.tweens.FlxEase;
 
 using StringTools;
 
+@:build(modding.GlobalScriptingTypesMacro.build())
 class Events
 {
 
@@ -171,26 +172,6 @@ class Events
 	public static inline function parseBool(v:String):Bool{
 		return (v.toLowerCase() == "true");
 	}
-
-    var boyfriend(get, never):Character;
-    @:noCompletion inline function get_boyfriend()  { return PlayState.instance.boyfriend; }
-    var gf(get, never):Character;
-    @:noCompletion inline function get_gf()         { return PlayState.instance.gf; }
-    var dad(get, never):Character;
-    @:noCompletion inline function get_dad()        { return PlayState.instance.dad; }
-    var playstate(get, never):PlayState;
-    @:noCompletion inline function get_playstate()  { return PlayState.instance; }
-    var tween(get, never):FlxTweenManager;
-    @:noCompletion inline function get_tween()      { return PlayState.instance.tweenManager; }
-    var data(get, never):Map<String, Dynamic>;
-    @:noCompletion inline function get_data()       { return PlayState.instance.arbitraryData; }
-
-	var splitVocalTrack(get, never):VocalType;
-    @:noCompletion inline function get_splitVocalTrack()    { return VocalType.splitVocalTrack; }
-    var noVocalTrack(get, never):VocalType;
-    @:noCompletion inline function get_noVocalTrack()       { return VocalType.noVocalTrack; }
-    var combinedVocalTrack(get, never):VocalType;
-    @:noCompletion inline function get_combinedVocalTrack() { return VocalType.combinedVocalTrack; }
 
 	public function toString():String{ return "Events"; }
 }

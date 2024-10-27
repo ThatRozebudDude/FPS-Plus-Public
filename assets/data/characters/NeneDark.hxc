@@ -70,7 +70,7 @@ class NeneDark extends CharacterInfoBase
 
         flash = new Character(0, 0, "NeneNoSpeaker", characterReference.isPlayer, characterReference.isGirlfriend, characterReference.debugMode);
         flash.noLogic = true;
-        character.attachCharacter(flash, [withPlayAnim()]);
+        character.attachCharacter(flash, [withPlayAnim]);
         addToCharacter(flash);
     }
 

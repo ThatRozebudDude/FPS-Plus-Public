@@ -3,6 +3,7 @@ package note;
 import flixel.tweens.FlxTween.FlxTweenManager;
 import note.*;
 
+@:build(modding.GlobalScriptingTypesMacro.build())
 class NoteType
 {
 
@@ -37,19 +38,6 @@ class NoteType
     function addTypeSkin(name:String, noteSkinName:String):Void{
         typeSkins.set(name, noteSkinName);
     }
-
-    var boyfriend(get,never):Character;
-    @:noCompletion inline function get_boyfriend()  { return PlayState.instance.boyfriend; }
-    var gf(get,never):Character;
-    @:noCompletion inline function get_gf()         { return PlayState.instance.gf; }
-    var dad(get,never):Character;
-    @:noCompletion inline function get_dad()        { return PlayState.instance.dad; }
-    var playstate(get,never):PlayState;
-    @:noCompletion inline function get_playstate()  { return PlayState.instance; }
-    var tween(get,never):FlxTweenManager;
-    @:noCompletion inline function get_tween()      { return PlayState.instance.tweenManager; }
-    var data(get,never):Map<String, Dynamic>;
-    @:noCompletion inline function get_data()       { return PlayState.instance.arbitraryData; }
 
     @:isVar var healthAdjust(never,set):Float;
     @:noCompletion inline function set_healthAdjust(v:Float):Float{ 

@@ -17,6 +17,7 @@ typedef CountdownSkinInfo = {
     var fourth:CountdownSegment;
 }
 
+@:build(modding.GlobalScriptingTypesMacro.build())
 class CountdownSkinBase{
 
     public var info:CountdownSkinInfo = {
