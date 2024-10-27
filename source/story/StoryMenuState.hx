@@ -224,8 +224,7 @@ class StoryMenuState extends MusicBeatState
 		}
 	}
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float){
 		// scoreText.setFormat('VCR OSD Mono', 32);
 		lerpScore = Math.floor(Utils.fpsAdjsutedLerp(lerpScore, intendedScore, 0.5));
 
@@ -284,6 +283,10 @@ class StoryMenuState extends MusicBeatState
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			movedBack = true;
 			switchState(new MainMenuState());
+		}
+
+		if (FlxG.keys.justPressed.F5 && !movedBack){
+			PolymodHandler.reload();
 		}
 
 		super.update(elapsed);
