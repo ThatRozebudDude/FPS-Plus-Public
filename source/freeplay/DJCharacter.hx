@@ -43,13 +43,13 @@ class DJCharacter extends AtlasSprite
     public function backingCardStart():Void{}
     public function backingCardSelect():Void{}
 
-    function createCategory(name:String):Void{
+    inline function createCategory(name:String):Void{
         if(!freeplayCategories.contains(name)){
 			freeplayCategories.push(name);
 		}
     }
 
-    function addSong(name:String, character:String, week:Int, categories:Array<String>):Void{
+    inline function addSong(name:String, character:String, week:Int, categories:Array<String>):Void{
         freeplaySongs.push([name, character, week, categories]);
 		for(cat in categories){
 			createCategory(cat);

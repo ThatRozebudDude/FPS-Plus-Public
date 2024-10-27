@@ -2776,10 +2776,10 @@ class PlayState extends MusicBeatState
 
 }
 
-enum VocalType {
-	noVocalTrack;
-	combinedVocalTrack;
-	splitVocalTrack;
+enum abstract VocalType(Int) {
+	var noVocalTrack = 0;
+	var combinedVocalTrack = 1;
+	var splitVocalTrack = 2;
 }
 
 typedef ScoreStats = {

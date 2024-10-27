@@ -12,6 +12,7 @@ typedef ComboPopupSkinInfo = {
     var breakHudScaleMultiply:Float;
 }
 
+@:build(modding.GlobalScriptingTypesMacro.build())
 class ComboPopupSkinBase{
 
     public var info:ComboPopupSkinInfo = {

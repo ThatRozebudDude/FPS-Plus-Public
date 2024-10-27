@@ -26,6 +26,7 @@ typedef HudNoteSkinInfo = {
     var opponentNotes:AllArrowsInfo;
 }
 
+@:build(modding.GlobalScriptingTypesMacro.build())
 class HudNoteSkinBase{
 
     public var info:HudNoteSkinInfo = {
@@ -326,15 +327,6 @@ class HudNoteSkinBase{
      inline function offset(_x:Float = 0, _y:Float = 0):Array<Float>{
         return [_x, _y];
     }
-
-    var left(get, never):Int;
-    @:noCompletion inline function get_left()   { return 0; }
-    var down(get, never):Int;
-    @:noCompletion inline function get_down()   { return 1; }
-    var up(get, never):Int;
-    @:noCompletion inline function get_up()     { return 2; }
-    var right(get, never):Int;
-    @:noCompletion inline function get_right()  { return 3; }
 
     var player(get, never):Bool;
     @:noCompletion inline function get_player()     { return false; }

@@ -46,6 +46,7 @@ typedef NoteFuncions = {
 	var update:(Note, Float)->Void;        //This function is run every frame. Float is elapsed.
 }
 
+@:build(modding.GlobalScriptingTypesMacro.build())
 class NoteSkinBase
 {
 
@@ -258,15 +259,6 @@ class NoteSkinBase
     inline function sustainInfo(direction:Int):SustainInfo{
         return info.sustainInfoList[direction];
     }
-
-    var left(get, never):Int;
-    @:noCompletion inline function get_left()   { return 0; }
-    var down(get, never):Int;
-    @:noCompletion inline function get_down()   { return 1; }
-    var up(get, never):Int;
-    @:noCompletion inline function get_up()     { return 2; }
-    var right(get, never):Int;
-    @:noCompletion inline function get_right()  { return 3; }
 
     function setSparrow():FrameLoadType{ return FrameLoadType.sparrow; }
     //function setPacker():FrameLoadType{ return FrameLoadType.packer; }
