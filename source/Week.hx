@@ -1,7 +1,7 @@
 package;
 /**
 	This is the base class for making story week. When making your own week make a new class extending this one.    
-	@author Rozebud
+	@author Soushimiya
 **/
 class Week
 {
