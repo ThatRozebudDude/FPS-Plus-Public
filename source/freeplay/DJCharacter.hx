@@ -3,6 +3,7 @@ package freeplay;
 import flixel.util.FlxColor;
 import flixel.group.FlxSpriteGroup;
 
+@:build(modding.GlobalScriptingTypesMacro.build())
 class DJCharacter extends AtlasSprite
 {
 
@@ -22,13 +23,11 @@ class DJCharacter extends AtlasSprite
 
     public function new() {
         super(0, 0, null);
-        setup();
-        songList();
     }
 
-    function setup():Void{}
+    public function setup():Void{}
 
-    function songList():Void{}
+    public function songList():Void{}
 
     public function beat(curBeat:Int):Void{}
 

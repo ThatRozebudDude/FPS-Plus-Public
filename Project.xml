@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin' FPS Plus" file="FunkinFPSPlus" main="Main" version="FNF: v0.2.7 | FPS Plus: v5.0" company="Rozebud" />
+	<app title="Friday Night Funkin' FPS Plus" file="FunkinFPSPlus" main="Main" version="FNF: v0.2.7 | FPS Plus: v6.0" company="Rozebud" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -22,8 +22,8 @@
 
 
 	<compilerflag name="--macro" value="include('results.characters', true)" />
-	<compilerflag name="--macro" value="include('freeplay.characters', true)" />
-	<compilerflag name="--macro" value="include('characterSelect.characters', true)" />
+
+
 
 	<compilerflag name="--macro" value="include('cutscenes', true)" />
 	<compilerflag name="--macro" value="include('shaders', true)" />

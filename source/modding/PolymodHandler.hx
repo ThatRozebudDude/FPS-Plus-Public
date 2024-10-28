@@ -65,6 +65,7 @@ class PolymodHandler
         trace("ScriptableStage: " + stages.ScriptableStage.listScriptClasses());
         trace("ScriptableScript: " + scripts.ScriptableScript.listScriptClasses());
         trace("ScriptableCharacterSelectCharacter: " + characterSelect.ScriptableCharacterSelectCharacter.listScriptClasses());
+        trace("ScriptableDJCharacter: " + freeplay.ScriptableDJCharacter.listScriptClasses());
 
         trace("<===== UI SKIN STUFF =====>");
 
@@ -119,6 +120,7 @@ class PolymodHandler
 
         Polymod.addDefaultImport(cutscenes.ScriptedCutscene);
         Polymod.addDefaultImport(scripts.Script);
+        Polymod.addDefaultImport(freeplay.DJCharacter);
 
         Polymod.addDefaultImport(characterSelect.CharacterSelectCharacter);
 
