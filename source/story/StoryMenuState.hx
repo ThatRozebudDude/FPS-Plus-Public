@@ -121,7 +121,10 @@ class StoryMenuState extends MusicBeatState
 				}
 				var weekJson = Json.parse(Utils.getText(Paths.json(week.split(".json")[0], "data/weeks")));
 				weekToAdd.name = weekJson.name;
-				weekToAdd.id = weekJson.id;
+				if (weekJson.id != null)
+					weekToAdd.id = weekJson.id;
+				else
+					weekToAdd.id = week.split(".json")[0].toLowerCase();
 				if(weekJson.sortOrder != null){ weekToAdd.sortOrder = weekJson.sortOrder; }
 				weekToAdd.songs = weekJson.songs;
 				if(weekJson.characters != null){ weekToAdd.characters = weekJson.characters; }

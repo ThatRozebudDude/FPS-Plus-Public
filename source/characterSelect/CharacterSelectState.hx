@@ -100,6 +100,8 @@ class CharacterSelectState extends MusicBeatState
         for(file in Utils.readDirectory("assets/data/characterSelect/")){
             if(file.endsWith(".json")){
                 var charJson = Json.parse(Utils.getText(Paths.json(file.split(".json")[0], "data/characterSelect")));
+                if (charJson.id == null)
+                    charJson.id = file.split(".json")[0].toLowerCase();
                 addCharacter(charJson.id, charJson.playerCharacter, charJson.partnerCharacter, charJson.freeplayCharacter, charJson.position);
             }
         }
