@@ -1,15 +1,14 @@
 package characterSelect;
 
+@:build(modding.GlobalScriptingTypesMacro.build())
 class CharacterSelectCharacter extends AtlasSprite
 {
 
     public function new() {
 		super(0, 0, null);
-        setup();
-        antialiasing = true;
 	}
 
-    function setup():Void{}
+    public function setup():Void{}
 
     public function playEnter():Void{}
     public function playIdle():Void{}

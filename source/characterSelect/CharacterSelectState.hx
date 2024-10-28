@@ -12,6 +12,9 @@ import flixel.tweens.FlxTween;
 import freeplay.FreeplayState;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import haxe.Json;
+
+using StringTools;
 
 class CharacterSelectState extends MusicBeatState
 {
@@ -89,9 +92,17 @@ class CharacterSelectState extends MusicBeatState
         FlxG.camera.follow(camFollowFinal, LOCKON);
         FlxG.camera.filters = [new ShaderFilter(fadeShader.shader)];
 
-        addCharacter("locked", "LockedPlayer", null, null, [-1, -1]);
-        addCharacter("bf", "BfPlayer", "GfPartner", "Boyfriend", [1, 1]);
-        addCharacter("pico", "PicoPlayer", "NenePartner", "Pico", [0, 1]);
+        addCharacter("locked", "LockedPlayerCharacterSelect", null, null, [-1, -1]);
+        
+        //addCharacter("bf", "BfPlayer", "GfPartner", "Boyfriend", [1, 1]);
+        //addCharacter("pico", "PicoPlayer", "NenePartner", "Pico", [0, 1]);
+
+        for(file in Utils.readDirectory("assets/data/characterSelect/")){
+            if(file.endsWith(".json")){
+                var charJson = Json.parse(Utils.getText(Paths.json(file.split(".json")[0], "data/characterSelect")));
+                addCharacter(charJson.id, charJson.playerCharacter, charJson.partnerCharacter, charJson.freeplayCharacter, charJson.position);
+            }
+        }
 
         startSong();
 
@@ -414,15 +425,15 @@ class CharacterSelectState extends MusicBeatState
     function addCharacter(name:String, playerClass:String, partnerClass:String, freeplayClass:String, position:Array<Int>):Void{
         var partner:CharacterSelectCharacter = null;
         if(partnerClass != null){
-            var partnerClass = Type.resolveClass("characterSelect.characters." + partnerClass);
-            if(partnerClass == null){ partnerClass = characterSelect.characters.GfPartner; }
-            partner = Type.createInstance(partnerClass, []);
+            partner = ScriptableCharacterSelectCharacter.init(partnerClass);
+            partner.setup();
+            partner.antialiasing = true;
         }
 
         //player cant be null because what would be the fucking point
-        var playerClass = Type.resolveClass("characterSelect.characters." + playerClass);
-        if(playerClass == null){ playerClass = characterSelect.characters.BfPlayer; }
-        var player:CharacterSelectCharacter = Type.createInstance(playerClass, []);
+        var player:CharacterSelectCharacter = ScriptableCharacterSelectCharacter.init(playerClass);
+        player.setup();
+        player.antialiasing = true;
 
         characters.set(name, {
             player: player,

@@ -1,6 +1,4 @@
-package characterSelect.characters;
-
-class LockedPlayer extends CharacterSelectCharacter
+class LockedPlayerCharacterSelect extends CharacterSelectCharacter
 {
 
     override function setup():Void{

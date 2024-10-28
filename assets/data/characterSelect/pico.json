@@ -1,0 +1,7 @@
+{
+    "id": "pico",
+    "playerCharacter": "PicoPlayerCharacterSelect",
+    "partnerCharacter": "NenePartnerCharacterSelect",
+    "freeplayCharacter": "Pico",
+    "position": [0, 1]
+}

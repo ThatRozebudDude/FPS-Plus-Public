@@ -1,10 +1,8 @@
-package characterSelect.characters;
-
-class PicoPlayer extends CharacterSelectCharacter
+class BfPlayerCharacterSelect extends CharacterSelectCharacter
 {
 
     override function setup():Void{
-        loadAtlas(Paths.getTextureAtlas("menu/characterSelect/characters/pico/CharacterSelect_Pico"));
+        loadAtlas(Paths.getTextureAtlas("menu/characterSelect/characters/bf/CharacterSelect_Bf"));
 
         addAnimationByLabel("enter", "Enter", 24, false);
         addAnimationByLabel("idle", "Idle", 24, false);

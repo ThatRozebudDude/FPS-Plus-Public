@@ -1,15 +1,16 @@
-package characterSelect.characters;
-
-class BfPlayer extends CharacterSelectCharacter
+class NenePartnerCharacterSelect extends CharacterSelectCharacter
 {
 
+    var idleIndex:Int = 0;
+
     override function setup():Void{
-        loadAtlas(Paths.getTextureAtlas("menu/characterSelect/characters/bf/CharacterSelect_Bf"));
+        loadAtlas(Paths.getTextureAtlas("menu/characterSelect/characters/pico/CharacterSelect_Nene"));
 
         addAnimationByLabel("enter", "Enter", 24, false);
-        addAnimationByLabel("idle", "Idle", 24, false);
-        addAnimationByLabel("confirm", "Confirm", 24, false);
-        addAnimationByLabel("cancel", "Cancel", 24, true, -8);
+        addAnimationByLabel("idle0", "IdleLeft", 24, false);
+        addAnimationByLabel("idle1", "IdleRight", 24, false);
+        addAnimationByLabel("confirm", "Confirm", 24, true);
+        addAnimationByLabel("cancel", "Cancel", 24, false);
         addAnimationByLabel("exit", "Exit", 24, false);
     }
 
@@ -19,7 +20,8 @@ class BfPlayer extends CharacterSelectCharacter
 
     override function playIdle():Void{
         if(curAnim != "enter" || finishedAnim){
-            playAnim("idle", true);
+            playAnim("idle" + idleIndex, true);
+            idleIndex = idleIndex == 1 ? 0 : 1;
         }
     }
 
