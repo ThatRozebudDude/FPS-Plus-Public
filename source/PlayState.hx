@@ -1,5 +1,7 @@
 package;
 
+import scripts.ScriptableScript;
+import scripts.Script;
 import modding.PolymodHandler;
 import openfl.filters.ShaderFilter;
 import shaders.*;
@@ -258,6 +260,8 @@ class PlayState extends MusicBeatState
 	var endCutscene:Dynamic = null;
 	var endCutsceneStoryOnly:Bool = false;
 	var endCutscenePlayOnce:Bool = false;
+
+	public var loadedScripts:Array<Script> = [];
 
 	public static var replayStartCutscene:Bool = true;
 	public static var replayEndCutscene:Bool = true;
@@ -658,6 +662,18 @@ class PlayState extends MusicBeatState
 			//trace(endCutsceneStoryOnly);
 		}
 
+		if(Utils.exists(Paths.json("scripts", "data/songs/" + SONG.song.toLowerCase()))){
+			trace("song has scripts");
+			var scriptJson = Json.parse(Utils.getText(Paths.json("scripts", "data/songs/" + SONG.song.toLowerCase())));
+			var scriptList:Array<String> = scriptJson.scripts;
+			for(script in scriptList){
+				if(ScriptableScript.listScriptClasses().contains(script)){
+					var scriptToAdd:Script = ScriptableScript.init(script);
+					loadedScripts.push(scriptToAdd);
+				}
+			}
+		}
+
 		var bgDim = new FlxSprite(1280 / -2, 720 / -2).makeGraphic(1, 1, FlxColor.BLACK);
 		bgDim.scale.set(1280*2, 720*2);
 		bgDim.updateHitbox();
@@ -665,15 +681,16 @@ class PlayState extends MusicBeatState
 		bgDim.alpha = Config.bgDim/10;
 		add(bgDim);
 
-		cutsceneCheck();
-
 		if(fromChartEditor && !fceForLilBuddies){
 			preventScoreSaving = true;
 		}
 		fromChartEditor = false;
 		fceForLilBuddies = false;
-
+		
 		stage.postCreate();
+		for(script in loadedScripts){ script.create(); }
+		
+		cutsceneCheck();
 
 		super.create();
 	}
@@ -727,6 +744,7 @@ class PlayState extends MusicBeatState
 		var countdownSkin:CountdownSkinBase = ScriptableCountdownSkin.init(countdownSkinName + "Countdown");
 
 		stage.countdownBeat(-1);
+		for(script in loadedScripts){ script.countdownBeat(-1); }
 
 		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 		{
@@ -835,11 +853,13 @@ class PlayState extends MusicBeatState
 						});
 					}
 				case 4:
-					beatHit();
+					//stepHit();
+					
 			}
 
 			if(swagCounter < 4){
 				stage.countdownBeat(swagCounter);
+				for(script in loadedScripts){ script.countdownBeat(swagCounter); }
 			}
 
 			swagCounter++;
@@ -898,6 +918,15 @@ class PlayState extends MusicBeatState
 			gf.characterInfo.info.functions.songStart(gf);
 		}
 		stage.songStart();
+		for(script in loadedScripts){ script.songStart(); }
+
+		boyfriend.step(0);
+		dad.step(0);
+		gf.step(0);
+		stage.step(0);
+		for(script in loadedScripts){ script.step(0); }
+
+		beatHit();
 	}
 
 	private function generateSong(dataPath:String):Void {
@@ -1239,7 +1268,10 @@ class PlayState extends MusicBeatState
 			if (startTimer != null && !startTimer.finished)
 				startTimer.active = false;
 
-			stage.pause();
+			if(goingToPause){
+				stage.pause();
+				for(script in loadedScripts){ script.pause(); }
+			}
 		}
 
 		super.openSubState(SubState);
@@ -1259,7 +1291,11 @@ class PlayState extends MusicBeatState
 				
 			paused = false;
 
-			stage.unpause();
+			if(goingToPause){
+				stage.unpause();
+				for(script in loadedScripts){ script.unpause(); }
+				goingToPause = false;
+			}
 		}
 
 		setBoyfriendInvuln(1/60);
@@ -1287,6 +1323,7 @@ class PlayState extends MusicBeatState
 	}
 
 	private var paused:Bool = false;
+	private var goingToPause:Bool = false;
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 
@@ -1344,6 +1381,7 @@ class PlayState extends MusicBeatState
 		super.update(elapsed);
 
 		stage.update(elapsed);
+		for(script in loadedScripts){ script.update(elapsed); }
 
 		if(!startingSong){
 			for(i in eventList){
@@ -1359,6 +1397,7 @@ class PlayState extends MusicBeatState
 
 		if (Binds.justPressed("pause") && startedCountdown && canPause){
 			paused = true;
+			goingToPause = true;
 			openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
 
@@ -2304,10 +2343,12 @@ class PlayState extends MusicBeatState
 			curSection++;
 		}
 
-		boyfriend.step(curStep);
-		dad.step(curStep);
-		gf.step(curStep);
-		stage.step(curStep);
+		//curStep is kinda weird, maybe I'll fix it at some point
+		boyfriend.step(curStep+1);
+		dad.step(curStep+1);
+		gf.step(curStep+1);
+		stage.step(curStep+1);
+		for(script in loadedScripts){ script.step(curStep+1); }
 
 		super.stepHit();
 	}
@@ -2360,6 +2401,7 @@ class PlayState extends MusicBeatState
 		dad.beat(curBeat);
 		gf.beat(curBeat);
 		stage.beat(curBeat);
+		for(script in loadedScripts){ script.beat(curBeat); }
 		
 	}
 
@@ -2773,6 +2815,7 @@ class PlayState extends MusicBeatState
 
 	function preStateChange():Void{
 		stage.exit();
+		for(script in loadedScripts){ script.exit(); }
 	}
 
 }

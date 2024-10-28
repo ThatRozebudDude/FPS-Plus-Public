@@ -63,6 +63,7 @@ class PolymodHandler
         trace("ScriptableNoteTypes: " + note.ScriptableNoteType.listScriptClasses());
         trace("ScriptableCutscene: " + cutscenes.ScriptableCutscene.listScriptClasses());
         trace("ScriptableStage: " + stages.ScriptableStage.listScriptClasses());
+        trace("ScriptableScript: " + scripts.ScriptableScript.listScriptClasses());
 
         trace("<===== UI SKIN STUFF =====>");
 
@@ -116,6 +117,7 @@ class PolymodHandler
         Polymod.addDefaultImport(stages.BaseStage);
 
         Polymod.addDefaultImport(cutscenes.ScriptedCutscene);
+        Polymod.addDefaultImport(scripts.Script);
 
         Polymod.addDefaultImport(note.NoteSkinBase);
         Polymod.addDefaultImport(note.NoteSplashSkinBase);
