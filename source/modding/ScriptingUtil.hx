@@ -1,5 +1,6 @@
 package modding;
 
+import Highscore.Rank;
 import flixel.FlxG;
 import flixel.util.FlxAxes;
 import flixel.FlxObject;
@@ -58,6 +59,21 @@ class ScriptingUtil
     public static inline function get_axisY()       { return 0x11; }
     public static var axisXY(get, never):Int;
     public static inline function get_axisXY()      { return 0x10; }
+
+    public static var rankNone(get, never):Rank;
+    public static inline function get_rankNone()        { return none; }
+    public static var rankLoss(get, never):Rank;
+    public static inline function get_rankLoss()        { return loss; }
+    public static var rankGood(get, never):Rank;
+    public static inline function get_rankGood()        { return good; }
+    public static var rankGreat(get, never):Rank;
+    public static inline function get_rankGreat()       { return great; }
+    public static var rankExcellent(get, never):Rank;
+    public static inline function get_rankExcellent()   { return excellent; }
+    public static var rankPerfect(get, never):Rank;
+    public static inline function get_rankPerfect()     { return perfect; }
+    public static var rankGold(get, never):Rank;
+    public static inline function get_rankGold()        { return gold; }
 
     public static inline function makeFlxGroup():FlxTypedGroup<FlxBasic>                { return new FlxTypedGroup<FlxBasic>(); }
     public static inline function makeFlxSpriteGroup():FlxTypedSpriteGroup<FlxSprite>   { return new FlxTypedSpriteGroup<FlxSprite>(); }

@@ -1,5 +1,3 @@
-package freeplay.characters;
-
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
@@ -7,27 +5,28 @@ import flixel.text.FlxText;
 import flixel.math.FlxPoint;
 import freeplay.ScrollingText.ScrollingTextInfo;
 import flixel.addons.display.FlxBackdrop;
-import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+import flixel.group.FlxSpriteGroup;
 import config.Config;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import sys.FileSystem;
 import flixel.sound.FlxSound;
+import freeplay.ScrollingText;
 
-class Boyfriend extends DJCharacter
+class BoyfriendFreeplay extends DJCharacter
 {
 
-    final idleCount:Int = 2;
+    var idleCount:Int = 2;
     var doRandomIdle:Bool = false;
     var afkTimer:Float = 0;
 	var nextAfkTime:Float = 5;
-	static final minAfkTime:Float = 9;
-	static final maxAfkTime:Float = 27;
+	var minAfkTime:Float = 9;
+	var maxAfkTime:Float = 27;
 
     var sound:FlxSound = new FlxSound();
-    var data:Array<Dynamic> = [];
+    var soundData:Array<Dynamic> = [];
 
-    var scrollingText:FlxTypedSpriteGroup<FlxBackdrop> = new FlxTypedSpriteGroup<FlxBackdrop>();
+    var scrollingText:FlxSpriteGroup;
     var scrollingTextStuff:Array<ScrollingTextInfo> = [];
 
     var cardFlash:FlxSprite;
@@ -66,9 +65,8 @@ class Boyfriend extends DJCharacter
             }
         }
 
-        var data = Utils.readDirectory("assets/sounds/freeplay/cartoons/");
-        for(i in 0...data.length){ data[i] = data[i].split(".ogg")[0]; }
-        //trace(data);
+        var soundData = Utils.readDirectory("assets/sounds/freeplay/cartoons/");
+        for(i in 0...soundData.length){ soundData[i] = soundData[i].split(".ogg")[0]; }
 
         FlxG.sound.list.add(sound);
 
@@ -76,7 +74,7 @@ class Boyfriend extends DJCharacter
             switch(name){
                 case "idle2start":
                     if(frame == 81){
-                        var soundPath = Paths.sound("freeplay/cartoons/" + data[FlxG.random.int(0, data.length-1)]);
+                        var soundPath = Paths.sound("freeplay/cartoons/" + soundData[FlxG.random.int(0, soundData.length-1)]);
                         //trace(soundPath);
                         sound.loadEmbedded(soundPath, true);
                         sound.play(true);
@@ -151,11 +149,11 @@ class Boyfriend extends DJCharacter
 
 		addSong("Ugh-Erect", "tankman", ["ERECT", "Week 7"]);
 
-		SaveManager.global();
-		if(Config.ee2 && Startup.hasEe2){
+		//SaveManager.global();
+		//if(Config.ee2 && Startup.hasEe2){
 			addSong("Lil-Buddies", "bf", ["Secret"]);
 			addSong("Lil-Buddies-Erect", "bf", ["Secret"]);
-		}
+		//}
     }
 
     override function update(elapsed:Float):Void{
@@ -172,7 +170,7 @@ class Boyfriend extends DJCharacter
         super.update(elapsed);
     }
 
-    final canPlayIdleAfter:Array<String> = ["idle1start", "idle2end", "cheerWin", "cheerLose"];
+    var canPlayIdleAfter:Array<String> = ["idle1start", "idle2end", "cheerWin", "cheerLose"];
 
     override function beat(curBeat:Int):Void{
         if(FlxG.sound.music.playing && curBeat % 2 == 0 && !skipNextIdle &&  ((curAnim == "idle") || (canPlayIdleAfter.contains(curAnim) && finishedAnim))){
@@ -213,9 +211,10 @@ class Boyfriend extends DJCharacter
         playAnim("confirm", true);
     }
 
-    override function playCheer(lostSong:Bool):Void{
+    override function playCheer(_lostSong:Bool):Void{
         playAnim("cheerHold", true);
-        new FlxTimer().start(1.3, function(t){
+        var lostSong:Bool = _lostSong; //IDK why I have to do this but I do.
+        new FlxTimer().start(1.3, function(t:FlxTween):Void{
             if(!lostSong && curAnim == "cheerHold"){
                 playAnim("cheerWin", true);
             }
@@ -280,7 +279,7 @@ class Boyfriend extends DJCharacter
         cardGlowBright = new FlxSprite(-30, 240).loadGraphic(Paths.image('menu/freeplay/bgs/bf/confirmGlowBright'));
         cardGlowBright.antialiasing = true;
         cardGlowBright.alpha = 0;
-        cardGlowBright.blend = ADD;
+        cardGlowBright.blend = ScriptingUtil.add;
         backingCard.add(cardGlowBright);
 
         cardGlowDark = new FlxSprite(cardGlowBright.x, cardGlowBright.y).loadGraphic(Paths.image('menu/freeplay/bgs/bf/confirmGlowDark'));
@@ -297,7 +296,7 @@ class Boyfriend extends DJCharacter
         cardAcceptTextGlow = new FlxSprite(-8, 165).loadGraphic(Paths.image("menu/freeplay/bgs/bf/glowingText"));
         cardAcceptTextGlow.antialiasing = true;
         cardAcceptTextGlow.visible = false;
-        cardAcceptTextGlow.blend = ADD;
+        cardAcceptTextGlow.blend = ScriptingUtil.add;
         backingCard.add(cardAcceptTextGlow);
 
         cardPinkFlash = Utils.makeColoredSprite(528, 720, 0xFFFFD0D5);
@@ -307,13 +306,14 @@ class Boyfriend extends DJCharacter
 
         cardFlash = Utils.makeColoredSprite(528, 720, 0xFFFEF8A5);
         cardFlash.antialiasing = true;
-        cardFlash.blend = ADD;
+        cardFlash.blend = ScriptingUtil.add;
         cardFlash.alpha = 0;
         backingCard.add(cardFlash);
     }
 
     //INITIAL TEXT
 	function setUpScrollingText():Void{
+        scrollingText = ScriptingUtil.makeFlxSpriteGroup();
 		scrollingTextStuff = [];
 
 		scrollingTextStuff.push({

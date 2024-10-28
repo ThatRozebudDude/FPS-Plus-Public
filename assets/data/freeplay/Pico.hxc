@@ -1,5 +1,3 @@
-package freeplay.characters;
-
 import config.Config;
 import flixel.math.FlxMath;
 import flixel.addons.display.FlxBackdrop;
@@ -11,15 +9,15 @@ import flixel.FlxG;
 import sys.FileSystem;
 import flixel.sound.FlxSound;
 
-class Pico extends DJCharacter
+class PicoFreeplay extends DJCharacter
 {
 
-    final idleCount:Int = 1;
+    var idleCount:Int = 1;
     var doRandomIdle:Bool = false;
     var afkTimer:Float = 0;
 	var nextAfkTime:Float = 5;
-	static final minAfkTime:Float = 9;
-	static final maxAfkTime:Float = 27;
+	var minAfkTime:Float = 9;
+	var maxAfkTime:Float = 27;
 
     var cardFlash:FlxSprite;
     var cardGlow:FlxSprite;
@@ -64,9 +62,9 @@ class Pico extends DJCharacter
             }
         }
 
-        frameCallback = function(name, frame, index) {
+        //frameCallback = function(name, frame, index) {
             //switch(name){}
-        }
+        //}
 
         setupCard();
         nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
@@ -96,10 +94,10 @@ class Pico extends DJCharacter
 		addSong("2hot", "darnell", ["ALL", "Weekend 1"]);
 		addSong("Blazin", "darnell", ["ALL", "Weekend 1"]);
 
-        SaveManager.global();
-		if(Config.ee2 && Startup.hasEe2){
+        //SaveManager.global();
+		//if(Config.ee2 && Startup.hasEe2){
 			addSong("Lil-Buddies-Pico", "pico", ["Secret"]);
-		}
+		//}
     }
 
     override function update(elapsed:Float):Void{
@@ -136,7 +134,7 @@ class Pico extends DJCharacter
         super.update(elapsed);
     }
 
-    final canPlayIdleAfter:Array<String> = ["idle1start", "cheerWin", "cheerLose"];
+    var canPlayIdleAfter:Array<String> = ["idle1start", "cheerWin", "cheerLose"];
 
     override function beat(curBeat:Int):Void{
         if(FlxG.sound.music.playing && curBeat % 2 == 0 && !skipNextIdle && ((curAnim == "idle") || (canPlayIdleAfter.contains(curAnim) && finishedAnim))){
@@ -176,10 +174,11 @@ class Pico extends DJCharacter
         playAnim("confirm", true);
     }
 
-    override function playCheer(lostSong:Bool):Void{
+    override function playCheer(_lostSong:Bool):Void{
+        var lostSong:Bool = _lostSong; //IDK why I have to do this but I do.
         if(!lostSong){
             playAnim("cheerHoldWin", true);
-            new FlxTimer().start(1.35, function(t){
+            new FlxTimer().start(1.35, function(t):Void{
                 if(curAnim == "cheerHoldWin"){
                     playAnim("cheerWin", true);
                 }
@@ -187,7 +186,7 @@ class Pico extends DJCharacter
         }
         else{
             playAnim("cheerHoldLose", true);
-            new FlxTimer().start(1.35, function(t){
+            new FlxTimer().start(1.35, function(t):Void{
                 if(curAnim == "cheerHoldLose"){
                     playAnim("cheerLose", true);
                 }
@@ -226,7 +225,7 @@ class Pico extends DJCharacter
 		bg.antialiasing = true;
         backingCard.add(bg);
 
-        scrollBack = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/lowerLoop'), X, 20);
+        scrollBack = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/lowerLoop'), ScriptingUtil.axisX, 20);
         scrollBack.setPosition(0, 200);
         scrollBack.flipX = true;
         scrollBack.alpha = 0.39;
@@ -234,7 +233,7 @@ class Pico extends DJCharacter
         scrollBack.antialiasing = true;
         backingCard.add(scrollBack);
 
-        scrollLower = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/lowerLoop'), X, 20);
+        scrollLower = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/lowerLoop'), ScriptingUtil.axisX, 20);
         scrollLower.setPosition(0, 406);
         scrollLower.velocity.x = -110;
         scrollLower.antialiasing = true;
@@ -242,11 +241,11 @@ class Pico extends DJCharacter
 
         var bar = new FlxSprite().loadGraphic(Paths.image("menu/freeplay/bgs/pico/blueBar"));
 		bar.antialiasing = true;
-        bar.blend = MULTIPLY;
+        bar.blend = ScriptingUtil.multiply;
         bar.alpha = 0.4;
         backingCard.add(bar);
 
-        scrollTop = new FlxBackdrop(null, X, 20);
+        scrollTop = new FlxBackdrop(null, ScriptingUtil.axisX, 20);
         scrollTop.setPosition(0, 80);
         scrollTop.velocity.x = -220;
         scrollTop.antialiasing = true;
@@ -259,7 +258,7 @@ class Pico extends DJCharacter
         scrollTop.animation.play('base');
         backingCard.add(scrollTop);
 
-        scrollMiddle = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/middleLoop'), X, 15);
+        scrollMiddle = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/middleLoop'), ScriptingUtil.axisX, 15);
         scrollMiddle.setPosition(0, 346);
         scrollMiddle.velocity.x = 220;
         scrollMiddle.antialiasing = true;
@@ -272,7 +271,7 @@ class Pico extends DJCharacter
 
         cardFlash = Utils.makeColoredSprite(528, 720, 0xFF87C9FF);
         cardFlash.antialiasing = true;
-        cardFlash.blend = ADD;
+        cardFlash.blend = ScriptingUtil.add;
         cardFlash.alpha = 0;
         backingCard.add(cardFlash);
 

@@ -1,5 +1,6 @@
 package freeplay;
 
+import modding.PolymodHandler;
 import flixel.group.FlxSpriteGroup;
 import openfl.filters.ShaderFilter;
 import shaders.BlueFadeShader;
@@ -83,7 +84,7 @@ class FreeplayState extends MusicBeatState
 	public static var curCategory:Int = 0;
 	public static var curVariation:Int = 0;
 
-	public static var djCharacter:String = "Boyfriend";
+	public static var djCharacter:String = "BoyfriendFreeplay";
 
 	var allowedDifficulties:Array<Int> = [0, 1, 2];
 
@@ -170,9 +171,12 @@ class FreeplayState extends MusicBeatState
 		}
 
 		//DJ STUFF
-		var djClass = Type.resolveClass("freeplay.characters." + djCharacter);
-		if(djClass == null){ djClass = freeplay.characters.Boyfriend; }
-		dj = Type.createInstance(djClass, []);
+		//var djClass = Type.resolveClass("freeplay.characters." + djCharacter);
+		//if(djClass == null){ djClass = freeplay.characters.Boyfriend; }
+		//dj = Type.createInstance(djClass, []);
+		dj = ScriptableDJCharacter.init(djCharacter);
+		dj.setup();
+		dj.songList();
 		dj.introFinish = djIntroFinish;
 		dj.cameras = [camFreeplay];
 
@@ -348,6 +352,10 @@ class FreeplayState extends MusicBeatState
 		
 		camFollow.x = Utils.fpsAdjsutedLerp(camFollow.x, camTarget.x, MainMenuState.lerpSpeed);
 		camFollow.y = Utils.fpsAdjsutedLerp(camFollow.y, camTarget.y, MainMenuState.lerpSpeed);
+
+		if (FlxG.keys.justPressed.F5){
+			PolymodHandler.reload();
+		}
 
 		super.update(elapsed);
 

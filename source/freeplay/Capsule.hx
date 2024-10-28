@@ -1,5 +1,6 @@
 package freeplay;
 
+import haxe.Json;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import openfl.display.BlendMode;
@@ -103,14 +104,15 @@ class Capsule extends FlxSpriteGroup
         //var debugDot:FlxSprite = new FlxSprite(text.x, text.y).makeGraphic(2, 2, 0xFFFFAAFF);
         //var debugDot2:FlxSprite = new FlxSprite(0, 0).makeGraphic(4, 4, 0xFFAAFFFF);
 
-        //temp before I add a json or something
-        //because I have to add the animations and they dont have padding
         var iconXOffset:Float = 0;
         var iconYOffset:Float = 0;
-        switch(_icon){
-            case "parents-christmas":
-                iconXOffset = -38;
+
+        if(Utils.exists(Paths.json(_icon, "images/menu/freeplay/icons"))){
+            var iconJson = Json.parse(Utils.getText(Paths.json(_icon, "images/menu/freeplay/icons")));
+            iconXOffset = iconJson.offset[0];
+            iconYOffset = iconJson.offset[1];
         }
+
         icon = new FlxSprite(iconXOffset, iconYOffset);
         icon.frames = Paths.getSparrowAtlas("menu/freeplay/icons/" + _icon);
         icon.animation.addByPrefix("idle", "idle", 0, false);
