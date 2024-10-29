@@ -427,10 +427,9 @@ class Character extends FlxSpriteGroup
 		characterInfo.characterReference = this;
 
 		//trace(characterInfo.info);
-		if (characterInfo.info.name != "")
-			curCharacter = characterInfo.info.name;
-		else
-			curCharacter = name.toLowerCase();
+		if(characterInfo.info.name != ""){ curCharacter = characterInfo.info.name; }
+		else{ curCharacter = name.toLowerCase(); }
+			
 		iconName = characterInfo.info.iconName;
 		deathCharacter = characterInfo.info.deathCharacter;
 		characterColor = characterInfo.info.healthColor;
