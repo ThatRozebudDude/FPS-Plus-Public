@@ -12,7 +12,7 @@ class PicoChristmas extends CharacterInfoBase
         info.iconName = "pico";
         info.facesLeft = true;
         info.deathCharacter = "PicoChristmasDead";
-        info.resultsCharacter = "Pico";
+        info.resultsCharacter = "PicoResults";
         info.focusOffset.set(100, -100);
 
         addByPrefix("idle", offset(0, 0), "Pico Idle Dance xmas", 24, loop(false, 0), false, false);

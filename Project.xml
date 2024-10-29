@@ -172,5 +172,7 @@
 	<!-- _________________________________ Polymod Stuff _______________________________ -->
 	<haxedef name="POLYMOD_MOD_METADATA_FILE" value="meta.json" />
 	<haxedef name="POLYMOD_SCRIPT_LIBRARY" value="data" />
+	<haxedef name="POLYMOD_APPEND_FOLDER" value="append" />
+	<haxedef name="POLYMOD_MERGE_FOLDER" value="merge" />
 
 </project>

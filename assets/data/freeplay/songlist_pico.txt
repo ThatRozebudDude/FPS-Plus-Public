@@ -1,0 +1,28 @@
+category | ALL
+
+
+
+song | Bopeebo-Pico | dad | [ALL, Week 1]
+song | Fresh-Pico | dad | [ALL, Week 1]
+song | Dadbattle-Pico | dad | [ALL, Week 1]
+
+song | Spookeez-Pico | spooky | [ALL, Week 2]
+song | South-Pico | spooky | [ALL, Week 2]
+
+song | Pico-Pico | pico | [ALL, Week 3]
+song | Philly-Pico | pico | [ALL, Week 3]
+song | Blammed-Pico | pico | [ALL, Week 3]
+
+song | Eggnog-Pico | parents-christmas | [ALL, Week 5]
+
+song | Ugh-Pico | tankman | [ALL, Week 7]
+song | Guns-Pico | tankman | [ALL, Week 7]
+
+song | Darnell | darnell | [ALL, Weekend 1]
+song | Lit-Up | darnell | [ALL, Weekend 1]
+song | 2hot | darnell | [ALL, Weekend 1]
+song | Blazin | darnell | [ALL, Weekend 1]
+
+
+
+song | Lil-Buddies-Pico | pico | [Secret]
