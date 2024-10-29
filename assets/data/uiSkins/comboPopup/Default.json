@@ -1,0 +1,23 @@
+{
+    "ratings": {
+        "path": "ui/ratings",
+        "position": [0, -50],
+        "antialiasing": true,
+        "scale": 0.7,
+        "hudScaleMutltiplier": 0.8
+    },
+    "numbers": {
+        "path": "ui/numbers",
+        "position": [-175, 5],
+        "antialiasing": true,
+        "scale": 0.6,
+        "hudScaleMutltiplier": 1
+    },
+    "comboBreak": {
+        "path": "ui/ratings/comboBreak",
+        "position": [0, -50],
+        "antialiasing": true,
+        "scale": 0.6,
+        "hudScaleMutltiplier": 0.8
+    }
+}

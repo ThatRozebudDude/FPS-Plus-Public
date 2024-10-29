@@ -31,8 +31,7 @@ class NoteHoldCover extends FlxSprite{
         coverSkin = _coverSkin;
         noteDirection = direction;
 
-        if(!ScriptableNoteHoldCoverSkin.listScriptClasses().contains(coverSkin + "HoldCoverSkin")){ coverSkin = "Default"; }
-		skin = ScriptableNoteHoldCoverSkin.init(coverSkin + "HoldCoverSkin");
+        skin = new NoteHoldCoverSkinBase(coverSkin);
 
         frames = Paths.getSparrowAtlas(skin.info.path);
         antialiasing = skin.info.antialiasing;

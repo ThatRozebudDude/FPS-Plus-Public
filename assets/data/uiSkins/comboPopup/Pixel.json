@@ -1,0 +1,23 @@
+{
+    "ratings": {
+        "path": "week6/weeb/pixelUI/ratings",
+        "position": [0, -50],
+        "antialiasing": false,
+        "scale": 4.2,
+        "hudScaleMutltiplier": 0.9
+    },
+    "numbers": {
+        "path": "week6/weeb/pixelUI/numbers",
+        "position": [-175, 5],
+        "antialiasing": false,
+        "scale": 4.8,
+        "hudScaleMutltiplier": 1
+    },
+    "comboBreak": {
+        "path": "week6/weeb/pixelUI/ratings/comboBreak-pixel",
+        "position": [0, -50],
+        "antialiasing": false,
+        "scale": 4.2,
+        "hudScaleMutltiplier": 0.9
+    }
+}

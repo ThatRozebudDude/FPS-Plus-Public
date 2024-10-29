@@ -1,0 +1,26 @@
+{
+    "first": {
+        "audioPath": "week6/intro3-pixel"
+    },
+    "second": {
+        "audioPath": "week6/intro2-pixel",
+        "graphicPath": "week6/weeb/pixelUI/countDown/ready-pixel",
+        "scale": 4.8,
+        "antialiasing": false,
+        "offset": [0, -120]
+    },
+    "third": {
+        "audioPath": "week6/intro1-pixel",
+        "graphicPath": "week6/weeb/pixelUI/countDown/set-pixel",
+        "scale": 4.8,
+        "antialiasing": false,
+        "offset": [0, -120]
+    },
+    "fourth": {
+        "audioPath": "week6/introGo-pixel",
+        "graphicPath": "week6/weeb/pixelUI/countDown/date-pixel",
+        "scale": 4.8,
+        "antialiasing": false,
+        "offset": [0, -120]
+    }
+}

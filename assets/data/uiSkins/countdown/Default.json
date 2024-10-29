@@ -1,0 +1,26 @@
+{
+    "first": {
+        "audioPath": "intro3"
+    },
+    "second": {
+        "audioPath": "intro2",
+        "graphicPath": "ui/countDown/ready",
+        "scale": 0.5,
+        "antialiasing": true,
+        "offset": [0, -120]
+    },
+    "third": {
+        "audioPath": "intro1",
+        "graphicPath": "ui/countDown/set",
+        "scale": 0.5,
+        "antialiasing": true,
+        "offset": [0, -120]
+    },
+    "fourth": {
+        "audioPath": "introGo",
+        "graphicPath": "ui/countDown/go",
+        "scale": 0.8,
+        "antialiasing": true,
+        "offset": [0, -120]
+    }
+}

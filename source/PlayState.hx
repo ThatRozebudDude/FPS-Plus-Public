@@ -740,8 +740,7 @@ class PlayState extends MusicBeatState
 		var swagCounter:Int = 0;
 
 		var countdownSkinName:String = PlayState.curUiType;
-		if(!ScriptableCountdownSkin.listScriptClasses().contains(countdownSkinName + "Countdown")){ countdownSkinName = "Default"; }
-		var countdownSkin:CountdownSkinBase = ScriptableCountdownSkin.init(countdownSkinName + "Countdown");
+		var countdownSkin:CountdownSkinBase = new CountdownSkinBase(countdownSkinName);
 
 		stage.countdownBeat(-1);
 		for(script in loadedScripts){ script.countdownBeat(-1); }
@@ -1052,8 +1051,7 @@ class PlayState extends MusicBeatState
 		if(skin == null){ skin = PlayState.curUiType; }
 
 		var hudNoteSkinName:String = skin;
-		if(!ScriptableHudNoteSkin.listScriptClasses().contains(hudNoteSkinName + "HudNote")){ hudNoteSkinName = "Default"; }
-		var hudNoteSkin:HudNoteSkinBase = ScriptableHudNoteSkin.init(hudNoteSkinName + "HudNote");
+		var hudNoteSkin:HudNoteSkinBase = new HudNoteSkinBase(hudNoteSkinName);
 
 		var hudNoteSkinInfo = hudNoteSkin.info.notes;
 
@@ -1103,7 +1101,7 @@ class PlayState extends MusicBeatState
 
 			babyArrow.setGraphicSize(Std.int(babyArrow.width * hudNoteSkinInfo.scale));
 			babyArrow.updateHitbox();
-			babyArrow.antialiasing = hudNoteSkinInfo.anitaliasing;
+			babyArrow.antialiasing = hudNoteSkinInfo.antialiasing;
 
 			var noteCover:NoteHoldCover = new NoteHoldCover(babyArrow, i, hudNoteSkinInfo.coverPath);
 
@@ -1176,7 +1174,7 @@ class PlayState extends MusicBeatState
 
 		if(player == 1){
 			//Prevents the game from lagging at first note splash.
-			NoteSplash.splashSkinClassName = hudNoteSkinInfo.splashClass;
+			NoteSplash.skinName = hudNoteSkinInfo.splashClass;
 			var preloadSplash = new NoteSplash(-2000, -2000, 0);
 		}
 	}
@@ -1184,9 +1182,7 @@ class PlayState extends MusicBeatState
 	public function generateComboPopup(?skin:String):Void{
 		if(skin == null){ skin = PlayState.curUiType; }
 
-		var comboPopupSkinName:String = skin;
-		if(!ScriptableComboPopupSkin.listScriptClasses().contains(comboPopupSkinName + "Popup")){ comboPopupSkinName = "Default"; }
-		var comboPopupSkin:ComboPopupSkinBase = ScriptableComboPopupSkin.init(comboPopupSkinName + "Popup");
+		var comboPopupSkin:ComboPopupSkinBase = new ComboPopupSkinBase(skin);
 
 		comboUI = new ComboPopup(boyfriend.x + boyfriend.worldPopupOffset.x, boyfriend.y + boyfriend.worldPopupOffset.y,
 			comboPopupSkin.info.ratingsInfo,

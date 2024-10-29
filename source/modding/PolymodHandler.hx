@@ -8,7 +8,7 @@ import sys.FileSystem;
 class PolymodHandler
 {
 
-    inline static final API_VERSION:String = "0.0.0";
+    inline public static final API_VERSION:String = "0.0.0";
 
     public static var modDirs:Array<String>;
     public static var loadedModMetadata:Array<ModMetadata>;
@@ -56,25 +56,15 @@ class PolymodHandler
     }
 
     static function scriptableClassCheck():Void{
-        trace("<===== CLASSES =====>");
-        
         trace("ScriptableCharacter: " + characters.ScriptableCharacter.listScriptClasses());
         trace("ScriptableEvents: " + events.ScriptableEvents.listScriptClasses());
         trace("ScriptableNoteTypes: " + note.ScriptableNoteType.listScriptClasses());
+        trace("ScriptableNoteSkin: " + note.ScriptableNoteSkin.listScriptClasses());
         trace("ScriptableCutscene: " + cutscenes.ScriptableCutscene.listScriptClasses());
         trace("ScriptableStage: " + stages.ScriptableStage.listScriptClasses());
         trace("ScriptableScript: " + scripts.ScriptableScript.listScriptClasses());
         trace("ScriptableCharacterSelectCharacter: " + characterSelect.ScriptableCharacterSelectCharacter.listScriptClasses());
         trace("ScriptableDJCharacter: " + freeplay.ScriptableDJCharacter.listScriptClasses());
-
-        trace("<===== UI SKIN STUFF =====>");
-
-        trace("ScriptableNoteSkin: " + note.ScriptableNoteSkin.listScriptClasses());
-        trace("ScriptableNoteSplashSkin: " + note.ScriptableNoteSplashSkin.listScriptClasses());
-        trace("ScriptableNoteHoldCoverSkin: " + note.ScriptableNoteHoldCoverSkin.listScriptClasses());
-        trace("ScriptableComboPopupSkin: " + ui.ScriptableComboPopupSkin.listScriptClasses());
-        trace("ScriptableCountdownSkin: " + ui.ScriptableCountdownSkin.listScriptClasses());
-        trace("ScriptableHudNoteSkin: " + ui.ScriptableHudNoteSkin.listScriptClasses());
     }
 
 	static function onPolymodError(error:PolymodError):Void{
@@ -125,11 +115,6 @@ class PolymodHandler
         Polymod.addDefaultImport(characterSelect.CharacterSelectCharacter);
 
         Polymod.addDefaultImport(note.NoteSkinBase);
-        Polymod.addDefaultImport(note.NoteSplashSkinBase);
-        Polymod.addDefaultImport(note.NoteHoldCoverSkinBase);
-        Polymod.addDefaultImport(ui.ComboPopupSkinBase);
-        Polymod.addDefaultImport(ui.CountdownSkinBase);
-        Polymod.addDefaultImport(ui.HudNoteSkinBase);
         
         //Alias
         Polymod.addImportAlias("lime.utils.Assets", Assets);
