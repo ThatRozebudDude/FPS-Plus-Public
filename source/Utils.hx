@@ -30,7 +30,7 @@ class Utils
 
 	public static final resultsTextCharacters = "AaBbCcDdEeFfGgHhiIJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz:1234567890.-'[]()";
 
-	public static function coolTextFile(path:String):Array<String>{
+	public static function getTextInLines(path:String):Array<String>{
 		var daList:Array<String> = getText(path).trim().split('\n');
 
 		for (i in 0...daList.length){

@@ -28,7 +28,7 @@ class Startup extends FlxState
 {
 
     var nextState:FlxState = new TitleVideo();
-    //var nextState:FlxState = new debug.ScriptingTypesDebug();
+    //var nextState:FlxState = new debug.SongListDebug();
     //var nextState:FlxState = new results.ResultsState(null, "Results Test", "PicoResults");
 
     var splash:FlxSprite;

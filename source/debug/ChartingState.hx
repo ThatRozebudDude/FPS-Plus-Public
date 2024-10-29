@@ -455,10 +455,6 @@ class ChartingState extends MusicBeatState
 		stepperBPM.value = Conductor.bpm;
 		stepperBPM.name = 'song_bpm';
 
-		//var characters:Array<String> = Utils.coolTextFile(Paths.text("characterList"));
-		//var gfs:Array<String> = Utils.coolTextFile(Paths.text("gfList"));
-		//var stages:Array<String> = Utils.coolTextFile(Paths.text("stageList"));
-
 		player1DropDown = new FlxUIDropDownMenuScrollable(10, 100, FlxUIDropDownMenu.makeStrIdLabelArray(charactersList, true), function(character:String)
 		{
 			_song.player1 = charactersList[Std.parseInt(character)];

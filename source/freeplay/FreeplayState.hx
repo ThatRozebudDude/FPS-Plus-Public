@@ -176,7 +176,7 @@ class FreeplayState extends MusicBeatState
 		//dj = Type.createInstance(djClass, []);
 		dj = ScriptableDJCharacter.init(djCharacter);
 		dj.setup();
-		dj.songList();
+		dj.setupSongList();
 		dj.introFinish = djIntroFinish;
 		dj.cameras = [camFreeplay];
 

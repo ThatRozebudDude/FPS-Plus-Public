@@ -38,6 +38,8 @@ class BoyfriendFreeplay extends DJCharacter
     var cardGlowDark:FlxSprite;
 
     override function setup():Void{
+        songList = "songlist_bf";
+
         setPosition(-9, 290);
         loadAtlas(Paths.getTextureAtlas("menu/freeplay/dj/bf"));
         antialiasing = true;
@@ -86,74 +88,6 @@ class BoyfriendFreeplay extends DJCharacter
 
         nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
         setupCard();
-    }
-
-    override function songList() {
-        createCategory("ALL");
-		createCategory("ERECT");
-
-		addSong("Tutorial", "gf", ["ALL", "Week 1"]);
-
-		addSong("Bopeebo", "dad", ["ALL", "Week 1"]);
-		addSong("Fresh", "dad", ["ALL", "Week 1"]);
-		addSong("Dadbattle", "dad", ["ALL", "Week 1"]);
-
-		addSong("Spookeez", "spooky", ["ALL", "Week 2"]);
-		addSong("South", "spooky", ["ALL", "Week 2"]);
-		addSong("Monster", "monster", ["ALL", "Week 2"]);
-
-		addSong("Pico", "pico", ["ALL", "Week 3"]);
-		addSong("Philly", "pico", ["ALL", "Week 3"]);
-		addSong("Blammed", "pico", ["ALL", "Week 3"]);
-
-		addSong("Satin-Panties", "mom", ["ALL", "Week 4"]);
-		addSong("High", "mom", ["ALL", "Week 4"]);
-		addSong("Milf", "mom", ["ALL", "Week 4"]);
-
-		addSong("Cocoa", "parents-christmas", ["ALL", "Week 5"]);
-		addSong("Eggnog", "parents-christmas", ["ALL", "Week 5"]);
-		addSong("Winter-Horrorland", "monster", ["ALL", "Week 5"]);
-
-		addSong("Senpai", "senpai", ["ALL", "Week 6"]);
-		addSong("Roses", "senpai", ["ALL", "Week 6"]);
-		addSong("Thorns", "spirit", ["ALL", "Week 6"]);
-
-		addSong("Ugh", "tankman", ["ALL", "Week 7"]);
-		addSong("Guns", "tankman", ["ALL", "Week 7"]);
-		addSong("Stress", "tankman", ["ALL", "Week 7"]);
-
-		addSong("Darnell-Bf", "darnell", ["ALL", "Weekend 1"]);
-
-		//ERECT SONGS!!!!
-
-		addSong("Bopeebo-Erect", "dad", ["ERECT", "Week 1"]);
-		addSong("Fresh-Erect", "dad", ["ERECT", "Week 1"]);
-		addSong("Dadbattle-Erect", "dad", ["ERECT", "Week 1"]);
-
-		addSong("Spookeez-Erect", "spooky", ["ERECT", "Week 2"]);
-		addSong("South-Erect", "spooky", ["ERECT", "Week 2"]);
-
-		addSong("Pico-Erect", "pico", ["ERECT", "Week 3"]);
-		addSong("Philly-Erect", "pico", ["ERECT", "Week 3"]);
-		addSong("Blammed-Erect", "pico", ["ERECT", "Week 3"]);
-
-		addSong("Satin-Panties-Erect", "mom", ["ERECT", "Week 4"]);
-		addSong("High-Erect", "mom", ["ERECT", "Week 4"]);
-		
-		addSong("Cocoa-Erect", "parents-christmas", ["ERECT", "Week 5"]);
-		addSong("Eggnog-Erect", "parents-christmas", ["ERECT", "Week 5"]);
-
-		addSong("Senpai-Erect", "senpai", ["ERECT", "Week 6"]);
-		addSong("Roses-Erect", "senpai", ["ERECT", "Week 6"]);
-		addSong("Thorns-Erect", "spirit", ["ERECT", "Week 6"]);
-
-		addSong("Ugh-Erect", "tankman", ["ERECT", "Week 7"]);
-
-		//SaveManager.global();
-		//if(Config.ee2 && Startup.hasEe2){
-			addSong("Lil-Buddies", "bf", ["Secret"]);
-			addSong("Lil-Buddies-Erect", "bf", ["Secret"]);
-		//}
     }
 
     override function update(elapsed:Float):Void{
