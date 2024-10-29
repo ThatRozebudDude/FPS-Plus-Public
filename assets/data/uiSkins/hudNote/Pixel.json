@@ -11,7 +11,7 @@
         "holdCover": "Pixel",
         "arrows": {
             "left": {
-                "static": {
+                "idle": {
                     "frames": [0],
                     "framerate": 0,
                     "offset": [0, 0]
@@ -28,7 +28,7 @@
                 }
             },
             "down": {
-                "static": {
+                "idle": {
                     "frames": [1],
                     "framerate": 0,
                     "offset": [0, 0]
@@ -45,7 +45,7 @@
                 }
             },
             "up": {
-                "static": {
+                "idle": {
                     "frames": [2],
                     "framerate": 0,
                     "offset": [0, 0]
@@ -62,7 +62,7 @@
                 }
             },
             "right": {
-                "static": {
+                "idle": {
                     "frames": [3],
                     "framerate": 0,
                     "offset": [0, 0]

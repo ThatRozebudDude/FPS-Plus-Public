@@ -10,7 +10,7 @@
         "holdCover": "Default",
         "arrows": {
             "left": {
-                "static": {
+                "idle": {
                     "prefix": "arrowLEFT",
                     "framerate": 0,
                     "offset": [0, 0]
@@ -27,7 +27,7 @@
                 }
             },
             "down": {
-                "static": {
+                "idle": {
                     "prefix": "arrowDOWN",
                     "framerate": 0,
                     "offset": [0, 0]
@@ -44,7 +44,7 @@
                 }
             },
             "up": {
-                "static": {
+                "idle": {
                     "prefix": "arrowUP",
                     "framerate": 0,
                     "offset": [0, 0]
@@ -61,7 +61,7 @@
                 }
             },
             "right": {
-                "static": {
+                "idle": {
                     "prefix": "arrowRIGHT",
                     "framerate": 0,
                     "offset": [0, 0]

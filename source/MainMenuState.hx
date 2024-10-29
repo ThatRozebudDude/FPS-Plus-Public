@@ -1,5 +1,6 @@
 package;
 
+import modding.PolymodHandler;
 import story.StoryMenuState;
 import flixel.util.FlxTimer;
 import flixel.system.debug.console.ConsoleUtil;
@@ -45,7 +46,7 @@ class MainMenuState extends MusicBeatState
 	public static final lerpSpeed:Float = 0.01;
 	final warningDelay:Float = 10;
 
-	public static final version:String = "v6.0.2 (Non-Release Build)";
+	inline public static final VERSION:String = "6.1.0 (Polymod Developement Build)";
 
 	override function create()
 	{
@@ -107,7 +108,7 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow);
 
-		versionText = new FlxTextExt(5, FlxG.height - 21, 0, "FPS Plus: " + version, 16);
+		versionText = new FlxTextExt(5, FlxG.height - 21, 0, "FPS Plus: v" + VERSION + " | Mod API: v" + PolymodHandler.API_VERSION, 16);
 		versionText.scrollFactor.set();
 		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionText);

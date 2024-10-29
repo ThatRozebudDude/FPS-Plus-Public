@@ -19,7 +19,7 @@
     "fourth": {
         "audioPath": "introGo",
         "graphicPath": "ui/countDown/go",
-        "scale": 0.5,
+        "scale": 0.8,
         "antialiasing": true,
         "offset": [0, -120]
     }
