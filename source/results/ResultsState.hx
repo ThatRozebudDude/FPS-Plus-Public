@@ -28,12 +28,14 @@ import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxCamera;
 import extensions.flixel.FlxUIStateExt;
+import modding.PolymodHandler;
 
 using StringTools;
 
 class ResultsState extends FlxUIStateExt
 {
     public static var instance:ResultsState;
+    public static var enableDebugControls:Bool = false;
 
     public var camBg:FlxCamera;
     public var camScroll:FlxCamera;
@@ -71,8 +73,6 @@ class ResultsState extends FlxUIStateExt
     public var bitmapSongName:FlxBitmapText;
 
     public var scrollingTextGroup:FlxSpriteGroup = new FlxSpriteGroup();
-
-    public var enableDebugControls:Bool = false;
 
     var characterString:String;
     var scoreStats:ScoreStats;
@@ -166,9 +166,12 @@ class ResultsState extends FlxUIStateExt
 		FlxG.cameras.setDefaultDrawTarget(camUi, true);
         this.camera = camUi;
 
-        var characterClass = Type.resolveClass("results.characters." + characterString);
-		if(characterClass == null){ characterClass = results.characters.Boyfriend; }
-		character = Type.createInstance(characterClass, [rank]);
+        //var characterClass = Type.resolveClass("results.characters." + characterString);
+		//if(characterClass == null){ characterClass = results.characters.Boyfriend; }
+		//character = Type.createInstance(characterClass, [rank]);
+        if(!ScriptableResultsCharacter.listScriptClasses().contains(characterString)){ characterString = "BoyfriendResults"; }
+        character = ScriptableResultsCharacter.init(characterString, rank);
+        character.setup();
         character.cameras = [camCharacter];
 
         bgShader = new ColorGradientShader(character.gradientBottomColor, character.gradientTopColor);
@@ -566,9 +569,12 @@ class ResultsState extends FlxUIStateExt
                 else{
                     newResultsState = new ResultsState(scoreStats, songNameText, characterString, saveInfo);
                 }
-                newResultsState.enableDebugControls = true;
                 switchState(newResultsState);
             }
+        }
+
+        if(FlxG.keys.anyJustPressed([F5])){
+            PolymodHandler.reload();
         }
 
         /*

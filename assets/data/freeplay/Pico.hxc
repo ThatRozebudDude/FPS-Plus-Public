@@ -54,7 +54,9 @@ class PicoFreeplay extends DJCharacter
                     introFinish();
                     skipNextIdle = true;
                     playAnim("idle", true);
-                case "cheerWin" | "cheerLose":
+                case "cheerWin":
+                    playAnim("idle", true);
+                case "cheerLose":
                     playAnim("idle", true);
                 case "idle1start":
                     playAnim("idle", true);

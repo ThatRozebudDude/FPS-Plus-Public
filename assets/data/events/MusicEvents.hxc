@@ -25,9 +25,9 @@ class MusicEvents extends Events
         var args = Events.getArgs(tag, ["all"]);
         if(playstate.vocalType == splitVocalTrack){
             switch(args[0]){
-                case "bf" | "boyfriend" |"player":
+                case "bf":
                     playstate.vocals.volume = 0;
-                case "dad" | "opponent":
+                case "dad":
                     playstate.vocalsOther.volume = 0;
                 default:
                     playstate.vocals.volume = 0;
@@ -43,9 +43,9 @@ class MusicEvents extends Events
         var args = Events.getArgs(tag, ["all"]);
         if(playstate.vocalType == splitVocalTrack){
             switch(args[0]){
-                case "bf" | "boyfreind" |"player":
+                case "bf":
                     playstate.vocals.volume = 1;
-                case "dad" | "opponent":
+                case "dad":
                     playstate.vocalsOther.volume = 1;
                 default:
                     playstate.vocals.volume = 1;

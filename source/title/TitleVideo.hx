@@ -44,6 +44,8 @@ class TitleVideo extends FlxState
 
 		super.update(elapsed);
 
+		FlxG.mouse.visible = false;
+
 		if(Binds.justPressed("menuAccept")){
 			video.skip();
 		}

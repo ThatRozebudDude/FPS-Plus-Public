@@ -29,7 +29,7 @@ class Startup extends FlxState
 
     var nextState:FlxState = new TitleVideo();
     //var nextState:FlxState = new debug.ScriptingTypesDebug();
-    //var nextState:FlxState = new results.ResultsState(null, "Results Test", "Pico");
+    //var nextState:FlxState = new results.ResultsState(null, "Results Test", "PicoResults");
 
     var splash:FlxSprite;
     var loadingBar:FlxBar;
@@ -94,7 +94,7 @@ class Startup extends FlxState
 	override function create()
 	{
 
-        //cast(nextState, results.ResultsState).enableDebugControls = true;
+        //results.ResultsState.enableDebugControls = true;
 
         SaveManager.global();
 

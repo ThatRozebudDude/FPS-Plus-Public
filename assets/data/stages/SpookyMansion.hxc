@@ -112,7 +112,12 @@ class SpookyMansion extends BaseStage
 
 	function floorLightCallback(anim:String, frame:Int, index:Int):Void{
 		switch(frame){
-			case 0 | 1:
+			case 0:
+				wall.color = wallFlashColors[frame];
+				shadows.color = shadowFlashColors[frame];
+				light.color = windowLightFlashColors[frame];
+
+			case 1:
 				wall.color = wallFlashColors[frame];
 				shadows.color = shadowFlashColors[frame];
 				light.color = windowLightFlashColors[frame];

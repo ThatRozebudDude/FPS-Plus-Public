@@ -23,7 +23,6 @@ class ResultsCharacter extends FlxSpriteGroup
     public function new(_rank:Rank) {
         super();
         rank = _rank;
-        setup();
     }
 
     public function setup():Void{}

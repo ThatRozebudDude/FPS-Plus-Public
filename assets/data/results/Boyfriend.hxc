@@ -27,7 +27,21 @@ class BoyfriendResults extends ResultsCharacter
         lossText =      ["LOSS", "YOU'RE A FAILURE", "BE ASHAMED", "WHAT WAS THAT", "HORRIBLE", "TRY AGAIN"];
 
         switch(rank){
-            case ScriptingUtil.rankPerfect | ScriptingUtil.rankGold:
+            case ScriptingUtil.rankGold:
+                bfPerfect = new AtlasSprite(1342, 370, Paths.getTextureAtlas("menu/results/characters/bf/perfect"));
+                bfPerfect.visible = false;
+                bfPerfect.addAnimationByFrame("anim", 0, null, 24, true, 137);
+                bfPerfect.antialiasing = true;
+
+                hearts = new AtlasSprite(1342, 370, Paths.getTextureAtlas("menu/results/characters/bf/perfect/hearts"));
+                hearts.visible = false;
+                hearts.addAnimationByFrame("anim", 0, null, 24, true, 43);
+                hearts.antialiasing = true;
+
+                add(bfPerfect);
+                add(hearts);
+
+            case ScriptingUtil.rankPerfect:
                 bfPerfect = new AtlasSprite(1342, 370, Paths.getTextureAtlas("menu/results/characters/bf/perfect"));
                 bfPerfect.visible = false;
                 bfPerfect.addAnimationByFrame("anim", 0, null, 24, true, 137);
@@ -106,16 +120,27 @@ class BoyfriendResults extends ResultsCharacter
 
     override function playAnim():Void{
         switch(rank){
-            case ScriptingUtil.rankPerfect | ScriptingUtil.rankGold:
+            //Can't use "|" in hscript swicth statements...
+            case ScriptingUtil.rankGold:
                 bfPerfect.playAnim("anim", true);
                 bfPerfect.visible = true;
                 new FlxTimer().start((106/24), function(t):Void{
                     hearts.playAnim("anim", true);
                     hearts.visible = true;
                 });
+
+            case ScriptingUtil.rankPerfect:
+                bfPerfect.playAnim("anim", true);
+                bfPerfect.visible = true;
+                new FlxTimer().start((106/24), function(t):Void{
+                    hearts.playAnim("anim", true);
+                    hearts.visible = true;
+                });
+
             case ScriptingUtil.rankExcellent:
                 bfExcellent.playAnim("anim", true);
                 bfExcellent.visible = true;
+
             case ScriptingUtil.rankGreat:
                 bfGreat.playAnim("anim", true);
                 bfGreat.visible = true;
@@ -123,9 +148,11 @@ class BoyfriendResults extends ResultsCharacter
                     gfGreat.playAnim("anim", true);
                     gfGreat.visible = true;
                 });
+
             case ScriptingUtil.rankLoss:
                 bfLoss.playAnim("intro", true);
                 bfLoss.visible = true;
+
             default:
                 bfGood.animation.play('fall', true);
                 bfGood.visible = true;
@@ -142,15 +169,21 @@ class BoyfriendResults extends ResultsCharacter
 
     override function playSong():Void{
         switch(rank){
-            case ScriptingUtil.rankPerfect | ScriptingUtil.rankGold:
+            case ScriptingUtil.rankGold:
                 FlxG.sound.playMusic(Paths.music("results/bf/perfect"), 1, true); 
+
+            case ScriptingUtil.rankPerfect:
+                FlxG.sound.playMusic(Paths.music("results/bf/perfect"), 1, true); 
+
             case ScriptingUtil.rankExcellent:
                 FlxG.sound.playMusic(Paths.music("results/bf/excellent-loop"), 1, true); 
+
             case ScriptingUtil.rankLoss:
                 FlxG.sound.playMusic(Paths.music("results/bf/shit-intro"), 1, true);
                 FlxG.sound.music.onComplete = function() {
                     FlxG.sound.playMusic(Paths.music("results/bf/shit-loop"), 1, true); 
                 }
+                
             default:
                 FlxG.sound.playMusic(Paths.music("results/bf/normal"), 1, true); 
         }

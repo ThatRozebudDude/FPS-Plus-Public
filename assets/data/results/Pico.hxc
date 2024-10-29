@@ -19,7 +19,16 @@ class PicoResults extends ResultsCharacter
         lossText =      ["BLAMMED", "TARGET ESCAPED", "MISSION FAILED", "NO PAY", "COULDN'T KEEP UP", "TOUGH SHIT"];
 
         switch(rank){
-            case ScriptingUtil.rankPerfect | ScriptingUtil.rankGold :
+            case ScriptingUtil.rankGold:
+                pico = new AtlasSprite(385-100, 82-40, Paths.getTextureAtlas("menu/results/characters/pico/perfect"));
+                pico.visible = false;
+                pico.addAnimationByFrame("anim", 0, null, 24, true, 91);
+                pico.antialiasing = true;
+                pico.scale.set(0.88, 0.88);
+
+                FlxG.sound.cache(Paths.music("results/pico/perfect-loop"));
+                
+            case ScriptingUtil.rankPerfect:
                 pico = new AtlasSprite(385-100, 82-40, Paths.getTextureAtlas("menu/results/characters/pico/perfect"));
                 pico.visible = false;
                 pico.addAnimationByFrame("anim", 0, null, 24, true, 91);
@@ -110,21 +119,30 @@ class PicoResults extends ResultsCharacter
 
     override function playSong():Void{
         switch(rank){
-            case ScriptingUtil.rankPerfect | ScriptingUtil.rankGold:
+            case ScriptingUtil.rankGold:
                 FlxG.sound.playMusic(Paths.music("results/pico/perfect-intro"), 1, true);
                 FlxG.sound.music.onComplete = function() {
                     FlxG.sound.playMusic(Paths.music("results/pico/perfect-loop"), 1, true); 
                 }
+
+            case ScriptingUtil.rankPerfect:
+                FlxG.sound.playMusic(Paths.music("results/pico/perfect-intro"), 1, true);
+                FlxG.sound.music.onComplete = function() {
+                    FlxG.sound.playMusic(Paths.music("results/pico/perfect-loop"), 1, true); 
+                }
+
             case ScriptingUtil.rankExcellent:
                 FlxG.sound.playMusic(Paths.music("results/pico/excellent-intro"), 1, true);
                 FlxG.sound.music.onComplete = function() {
                     FlxG.sound.playMusic(Paths.music("results/pico/excellent-loop"), 1, true); 
                 }
+
             case ScriptingUtil.rankLoss:
                 FlxG.sound.playMusic(Paths.music("results/pico/shit-intro"), 1, true); 
                 FlxG.sound.music.onComplete = function() {
                     FlxG.sound.playMusic(Paths.music("results/pico/shit-loop"), 1, true); 
                 }
+                
             default:
                 FlxG.sound.playMusic(Paths.music("results/pico/normal"), 1, true); 
         }
