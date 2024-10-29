@@ -1,0 +1,50 @@
+{
+    "path": "week6/weeb/pixelUI/notes/noteSplashes-pixel",
+    "randomRotation": true,
+    "limitedRotationAngles": true,
+    "alpha": 0.7,
+    "antialiasing": false,
+    "scale": 6,
+    "animations": {
+        "left": [{
+            "prefix": "note impact 1 purple",
+            "framerateRange": [21, 28],
+            "offset": [21, 25]
+        },
+        {
+            "prefix": "note impact 2 purple",
+            "framerateRange": [21, 28],
+            "offset": [23, 23]
+        }],
+        "down": [{
+            "prefix": "note impact 1 blue",
+            "framerateRange": [21, 28],
+            "offset": [21, 25]
+        },
+        {
+            "prefix": "note impact 2 blue",
+            "framerateRange": [21, 28],
+            "offset": [23, 23]
+        }],
+        "up": [{
+            "prefix": "note impact 1 green",
+            "framerateRange": [21, 28],
+            "offset": [21, 25]
+        },
+        {
+            "prefix": "note impact 2 green",
+            "framerateRange": [21, 28],
+            "offset": [23, 23]
+        }],
+        "right": [{
+            "prefix": "note impact 1 red",
+            "framerateRange": [21, 28],
+            "offset": [21, 25]
+        },
+        {
+            "prefix": "note impact 2 red",
+            "framerateRange": [21, 28],
+            "offset": [23, 23]
+        }]
+    }
+}

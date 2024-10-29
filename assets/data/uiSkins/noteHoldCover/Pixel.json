@@ -1,0 +1,66 @@
+{
+    "path": "week6/weeb/pixelUI/notes/noteHoldCovers-pixel",
+    "offset": [36, -16],
+    "positionOffset": [54, 60],
+    "alpha": 0.8,
+    "antialiasing": false,
+    "scale": 6,
+    "animations": {
+        "left": {
+            "start": {
+                "prefix": "holdCoverStartPurple",
+                "framerateRange": [24]
+            },
+            "hold": {
+                "prefix": "holdCoverPurple0",
+                "framerateRange": [24]
+            },
+            "splash": {
+                "prefix": "holdCoverEndPurple",
+                "framerateRange": [24, 30]
+            }
+        },
+        "down": {
+            "start": {
+                "prefix": "holdCoverStartBlue",
+                "framerateRange": [24]
+            },
+            "hold": {
+                "prefix": "holdCoverBlue0",
+                "framerateRange": [24]
+            },
+            "splash": {
+                "prefix": "holdCoverEndBlue",
+                "framerateRange": [24, 30]
+            }
+        },
+        "up": {
+            "start": {
+                "prefix": "holdCoverStartGreen",
+                "framerateRange": [24]
+            },
+            "hold": {
+                "prefix": "holdCoverGreen0",
+                "framerateRange": [24]
+            },
+            "splash": {
+                "prefix": "holdCoverEndGreen",
+                "framerateRange": [24, 30]
+            }
+        },
+        "right": {
+            "start": {
+                "prefix": "holdCoverStartRed",
+                "framerateRange": [24]
+            },
+            "hold": {
+                "prefix": "holdCoverRed0",
+                "framerateRange": [24]
+            },
+            "splash": {
+                "prefix": "holdCoverEndRed",
+                "framerateRange": [24, 30]
+            }
+        }
+    }
+}

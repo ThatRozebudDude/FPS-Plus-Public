@@ -1,0 +1,83 @@
+{
+    "player": {
+        "path": "ui/notes/NOTE_assets",
+        "frameLoadType": {
+            "type": "sparrow"
+        },
+        "scale": 0.7,
+        "antialiasing": true,
+        "splash": "Default",
+        "holdCover": "Default",
+        "arrows": {
+            "left": {
+                "static": {
+                    "prefix": "arrowLEFT",
+                    "framerate": 0,
+                    "offset": [0, 0]
+                },
+                "pressed": {
+                    "prefix": "left press",
+                    "framerate": 24,
+                    "offset": [0, 0]
+                },
+                "confirm": {
+                    "prefix": "left confirm",
+                    "framerate": 24,
+                    "offset": [-14, -14]
+                }
+            },
+            "down": {
+                "static": {
+                    "prefix": "arrowDOWN",
+                    "framerate": 0,
+                    "offset": [0, 0]
+                },
+                "pressed": {
+                    "prefix": "down press",
+                    "framerate": 24,
+                    "offset": [0, 0]
+                },
+                "confirm": {
+                    "prefix": "down confirm",
+                    "framerate": 24,
+                    "offset": [-14, -14]
+                }
+            },
+            "up": {
+                "static": {
+                    "prefix": "arrowUP",
+                    "framerate": 0,
+                    "offset": [0, 0]
+                },
+                "pressed": {
+                    "prefix": "up press",
+                    "framerate": 24,
+                    "offset": [0, 0]
+                },
+                "confirm": {
+                    "prefix": "up confirm",
+                    "framerate": 24,
+                    "offset": [-14, -14]
+                }
+            },
+            "right": {
+                "static": {
+                    "prefix": "arrowRIGHT",
+                    "framerate": 0,
+                    "offset": [0, 0]
+                },
+                "pressed": {
+                    "prefix": "right press",
+                    "framerate": 24,
+                    "offset": [0, 0]
+                },
+                "confirm": {
+                    "prefix": "right confirm",
+                    "framerate": 24,
+                    "offset": [-14, -14]
+                }
+            }
+        }
+    },
+    "opponent": null
+}

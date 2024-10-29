@@ -70,8 +70,6 @@ class PolymodHandler
         trace("<===== UI SKIN STUFF =====>");
 
         trace("ScriptableNoteSkin: " + note.ScriptableNoteSkin.listScriptClasses());
-        trace("ScriptableNoteSplashSkin: " + note.ScriptableNoteSplashSkin.listScriptClasses());
-        trace("ScriptableNoteHoldCoverSkin: " + note.ScriptableNoteHoldCoverSkin.listScriptClasses());
         trace("ScriptableComboPopupSkin: " + ui.ScriptableComboPopupSkin.listScriptClasses());
         trace("ScriptableCountdownSkin: " + ui.ScriptableCountdownSkin.listScriptClasses());
         trace("ScriptableHudNoteSkin: " + ui.ScriptableHudNoteSkin.listScriptClasses());
@@ -125,8 +123,6 @@ class PolymodHandler
         Polymod.addDefaultImport(characterSelect.CharacterSelectCharacter);
 
         Polymod.addDefaultImport(note.NoteSkinBase);
-        Polymod.addDefaultImport(note.NoteSplashSkinBase);
-        Polymod.addDefaultImport(note.NoteHoldCoverSkinBase);
         Polymod.addDefaultImport(ui.ComboPopupSkinBase);
         Polymod.addDefaultImport(ui.CountdownSkinBase);
         Polymod.addDefaultImport(ui.HudNoteSkinBase);

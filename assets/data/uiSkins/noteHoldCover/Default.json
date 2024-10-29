@@ -1,0 +1,66 @@
+{
+    "path": "ui/notes/noteHoldCovers",
+    "offset": [162, 155],
+    "positionOffset": [55, 55],
+    "alpha": 0.7,
+    "antialiasing": true,
+    "scale": 1,
+    "animations": {
+        "left": {
+            "start": {
+                "prefix": "holdCoverStartPurple",
+                "framerateRange": [24]
+            },
+            "hold": {
+                "prefix": "holdCoverPurple0",
+                "framerateRange": [24]
+            },
+            "splash": {
+                "prefix": "holdCoverEndPurple",
+                "framerateRange": [24, 30]
+            }
+        },
+        "down": {
+            "start": {
+                "prefix": "holdCoverStartBlue",
+                "framerateRange": [24]
+            },
+            "hold": {
+                "prefix": "holdCoverBlue0",
+                "framerateRange": [24]
+            },
+            "splash": {
+                "prefix": "holdCoverEndBlue",
+                "framerateRange": [24, 30]
+            }
+        },
+        "up": {
+            "start": {
+                "prefix": "holdCoverStartGreen",
+                "framerateRange": [24]
+            },
+            "hold": {
+                "prefix": "holdCoverGreen0",
+                "framerateRange": [24]
+            },
+            "splash": {
+                "prefix": "holdCoverEndGreen",
+                "framerateRange": [24, 30]
+            }
+        },
+        "right": {
+            "start": {
+                "prefix": "holdCoverStartRed",
+                "framerateRange": [24]
+            },
+            "hold": {
+                "prefix": "holdCoverRed0",
+                "framerateRange": [24]
+            },
+            "splash": {
+                "prefix": "holdCoverEndRed",
+                "framerateRange": [24, 30]
+            }
+        }
+    }
+}

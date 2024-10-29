@@ -12,14 +12,22 @@ using StringTools;
 
 class NoteSplash extends FlxSprite{
 
-    public static var splashSkinClassName:String = "Default";
+    public static var skinName:String = "Default";
+
+    static var persistentSkinName:String;
+    static var persistentSkinInfo:NoteSplashSkinBase;
 
     public function new(x:Float, y:Float, direction:Int, ?forceSplashNumber:Null<Int>){
 
         super(x, y);
 
-        if(!ScriptableNoteSplashSkin.listScriptClasses().contains(splashSkinClassName + "SplashSkin")){ splashSkinClassName = "Default"; }
-		var splashSkin:NoteSplashSkinBase = ScriptableNoteSplashSkin.init(splashSkinClassName + "SplashSkin");
+        if(persistentSkinName == null || persistentSkinName != skinName){
+            persistentSkinName = skinName;
+            persistentSkinInfo = new NoteSplashSkinBase(skinName);
+        }
+
+        //if(!ScriptableNoteSplashSkin.listScriptClasses().contains(splashSkinClassName + "SplashSkin")){ splashSkinClassName = "Default"; }
+		//var splashSkin:NoteSplashSkinBase = ScriptableNoteSplashSkin.init(splashSkinClassName + "SplashSkin");
         
         /*var noteColor:String = "purple";
         switch(note){
@@ -42,29 +50,29 @@ class NoteSplash extends FlxSprite{
             splashAnimNumber = forceSplashNumber;
         }*/
 
-        var splashAnimNumber:Int = FlxG.random.int(0, splashSkin.info.anims[direction].length - 1);
+        var splashAnimNumber:Int = FlxG.random.int(0, persistentSkinInfo.info.anims[direction].length - 1);
         if(forceSplashNumber != null){
             splashAnimNumber = forceSplashNumber;
         }
 
-        var anim:NoteSplashAnim = splashSkin.info.anims[direction][splashAnimNumber];
+        var anim:NoteSplashAnim = persistentSkinInfo.info.anims[direction][splashAnimNumber];
 
-        frames = Paths.getSparrowAtlas(splashSkin.info.path);
-        antialiasing = splashSkin.info.antialiasing;
+        frames = Paths.getSparrowAtlas(persistentSkinInfo.info.path);
+        antialiasing = persistentSkinInfo.info.antialiasing;
         animation.addByPrefix("splash", anim.prefix, FlxG.random.int(anim.framerateRange[0], anim.framerateRange[1]), false);
         animation.finishCallback = function(n){ destroy(); }
         animation.play("splash");
 
-        alpha = splashSkin.info.alpha;
+        alpha = persistentSkinInfo.info.alpha;
 
-        setGraphicSize(Std.int(width * splashSkin.info.scale));
+        setGraphicSize(Std.int(width * persistentSkinInfo.info.scale));
         updateHitbox();
 
         offset.set(anim.offset[0], anim.offset[1]);
         origin = offset;
 
-        if(splashSkin.info.randomRotation){
-            if(!splashSkin.info.limitedRotationAngles){
+        if(persistentSkinInfo.info.randomRotation){
+            if(!persistentSkinInfo.info.limitedRotationAngles){
                 angle = FlxG.random.int(0, 359);
             }
             else{
