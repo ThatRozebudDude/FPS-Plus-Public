@@ -148,6 +148,24 @@ class GlobalScriptingTypesMacro
         });
 
         fieldsToAdd.push({
+            name: "resultsScreen",
+            access: [Access.APublic],
+            kind: FieldType.FProp("get", "null", (macro:results.ResultsState)), 
+            pos: pos,
+        });
+
+        fieldsToAdd.push({
+            name: "get_resultsScreen",
+            access: [Access.APrivate, Access.AInline],
+            kind: FieldType.FFun({ 
+                expr: macro return results.ResultsState.instance,
+                ret: (macro:results.ResultsState),
+                args:[]
+            }),
+            pos: pos,
+        });
+
+        fieldsToAdd.push({
             name: "withDance",
             access: [Access.APublic],
             kind: FieldType.FProp("get", "null", (macro:Int)), 

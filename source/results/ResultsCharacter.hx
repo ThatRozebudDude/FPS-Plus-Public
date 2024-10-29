@@ -1,12 +1,10 @@
 package results;
 
 import flixel.util.FlxColor;
-import flixel.util.FlxTimer;
-import flixel.FlxSprite;
 import Highscore.Rank;
 import flixel.group.FlxSpriteGroup;
-import Utils.OrderedMap;
 
+@:build(modding.GlobalScriptingTypesMacro.build())
 class ResultsCharacter extends FlxSpriteGroup
 {
     var rank:Rank;

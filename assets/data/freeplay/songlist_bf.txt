@@ -1,0 +1,66 @@
+category | ALL
+category | ERECT
+
+
+
+song | Tutorial | gf | [ALL, Week 1]
+
+song | Bopeebo | dad | [ALL, Week 1]
+song | Fresh | dad | [ALL, Week 1]
+song | Dadbattle | dad | [ALL, Week 1]
+
+song | Spookeez | spooky | [ALL, Week 2]
+song | South | spooky | [ALL, Week 2]
+song | Monster | monster | [ALL, Week 2]
+
+song | Pico | pico | [ALL, Week 3]
+song | Philly | pico | [ALL, Week 3]
+song | Blammed | pico | [ALL, Week 3]
+
+song | Satin-Panties | mom | [ALL, Week 4]
+song | High | mom | [ALL, Week 4]
+song | Milf | mom | [ALL, Week 4]
+
+song | Cocoa | parents-christmas | [ALL, Week 5]
+song | Eggnog | parents-christmas | [ALL, Week 5]
+song | Winter-Horrorland | monster | [ALL, Week 5]
+
+song | Senpai | senpai | [ALL, Week 6]
+song | Roses | senpai | [ALL, Week 6]
+song | Thorns | spirit | [ALL, Week 6]
+
+song | Ugh | tankman | [ALL, Week 7]
+song | Guns | tankman | [ALL, Week 7]
+song | Stress | tankman | [ALL, Week 7]
+
+song | Darnell-Bf | darnell | [ALL, Weekend 1]
+
+
+
+song | Bopeebo-Erect | dad | [ERECT, Week 1]
+song | Fresh-Erect | dad | [ERECT, Week 1]
+song | Dadbattle-Erect | dad | [ERECT, Week 1]
+
+song | Spookeez-Erect | spooky | [ERECT, Week 2]
+song | South-Erect | spooky | [ERECT, Week 2]
+
+song | Pico-Erect | pico | [ERECT, Week 3]
+song | Philly-Erect | pico | [ERECT, Week 3]
+song | Blammed-Erect | pico | [ERECT, Week 3]
+
+song | Satin-Panties-Erect | mom | [ERECT, Week 4]
+song | High-Erect | mom | [ERECT, Week 4]
+
+song | Cocoa-Erect | parents-christmas | [ERECT, Week 5]
+song | Eggnog-Erect | parents-christmas | [ERECT, Week 5]
+
+song | Senpai-Erect | senpai | [ERECT, Week 6]
+song | Roses-Erect | senpai | [ERECT, Week 6]
+song | Thorns-Erect | spirit | [ERECT, Week 6]
+
+song | Ugh-Erect | tankman | [ERECT, Week 7]
+
+
+
+song | Lil-Buddies | bf | [Secret]
+song | Lil-Buddies-Erect | bf | [Secret]

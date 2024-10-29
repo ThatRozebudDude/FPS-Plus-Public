@@ -214,7 +214,7 @@ class BoyfriendFreeplay extends DJCharacter
     override function playCheer(_lostSong:Bool):Void{
         playAnim("cheerHold", true);
         var lostSong:Bool = _lostSong; //IDK why I have to do this but I do.
-        new FlxTimer().start(1.3, function(t:FlxTween):Void{
+        new FlxTimer().start(1.3, function(t):Void{
             if(!lostSong && curAnim == "cheerHold"){
                 playAnim("cheerWin", true);
             }
