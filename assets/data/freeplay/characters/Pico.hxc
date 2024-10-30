@@ -11,11 +11,6 @@ import flixel.sound.FlxSound;
 
 class PicoFreeplay extends DJCharacter
 {
-    var afkTimer:Float = 0;
-	var nextAfkTime:Float = 5;
-	var minAfkTime:Float = 9;
-	var maxAfkTime:Float = 27;
-
     var cardFlash:FlxSprite;
     var cardGlow:FlxSprite;
     var confirmAtlas:AtlasSprite;
@@ -28,7 +23,6 @@ class PicoFreeplay extends DJCharacter
     override function setup():Void{
         listSuffix = "-pico";
         idleCount = 1;
-        doRandomIdle = false;
 
         setPosition(-9, 290);
         freeplaySkin = "pico";
@@ -38,15 +32,15 @@ class PicoFreeplay extends DJCharacter
 
         loadAtlas(Paths.getTextureAtlas("menu/freeplay/dj/pico"));
 
-        addAnimationByLabel('idle', "Idle", 24, true, -8);
-        addAnimationByLabel('intro', "Intro", 24);
-        addAnimationByLabel('confirm', "Confirm", 24, true, -8);
-        addAnimationByLabel('cheerHoldWin', "RatingHoldWin", 24, true, 0);
-        addAnimationByLabel('cheerHoldLose', "RatingHoldLose", 24, true, 0);
-        addAnimationByLabel('cheerWin', "Win", 24, false);
-        addAnimationByLabel('cheerLose', "Lose", 24, false);
-        addAnimationByLabel('jump', "Jump", 24, true, -8);
-        addAnimationByLabel('idle1start', "Idle1", 24);
+        addAnimationByLabel('idle', "Idle", 12, true, -8);
+        addAnimationByLabel('intro', "Intro", 12);
+        addAnimationByLabel('confirm', "Confirm", 12, true, -8);
+        addAnimationByLabel('cheerHoldWin', "RatingHoldWin", 12, true, 0);
+        addAnimationByLabel('cheerHoldLose', "RatingHoldLose", 12, true, 0);
+        addAnimationByLabel('cheerWin', "Win", 12, false);
+        addAnimationByLabel('cheerLose', "Lose", 12, false);
+        addAnimationByLabel('jump', "Jump", 12, true, -8);
+        addAnimationByLabel('idle1start', "Idle1", 12);
 
         animationEndCallback = function(name) {
             switch(name){
@@ -69,20 +63,11 @@ class PicoFreeplay extends DJCharacter
         //}
 
         setupCard();
-        nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
+        super.setup();
     }
 
     override function update(elapsed:Float):Void{
-        if(curAnim == "idle"){
-            afkTimer += elapsed;
-            if(afkTimer >= nextAfkTime){
-                trace("random idle set");
-                afkTimer = 0;
-                nextAfkTime = nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
-                doRandomIdle = true;
-            }
-        }
-
+        super.update(elapsed);
         var scrollProgress:Float = Math.abs(scrollTop.x % (scrollTop.frameWidth + 20));
 
         if (scrollTop.animation.curAnim.finished == true){
@@ -112,24 +97,6 @@ class PicoFreeplay extends DJCharacter
             FlxTween.cancelTweensOf(cardGlow);
             FlxTween.color(cardGlow, 8/24, 0xFFB7E5FF, 0xFF6C8DEB, {ease: FlxEase.quadOut});
         }
-    }
-
-    override function buttonPress():Void{
-        afkTimer = 0;
-		nextAfkTime = nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
-		doRandomIdle = false;
-    }
-
-    override function playIdle():Void{
-        playAnim("idle", true);
-    }
-
-    override function playIntro():Void{
-        playAnim("intro", true);
-    }
-
-    override function playConfirm():Void{
-        playAnim("confirm", true);
     }
 
     override function playCheer(_lostSong:Bool):Void{

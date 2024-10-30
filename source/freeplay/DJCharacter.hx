@@ -12,8 +12,15 @@ class DJCharacter extends AtlasSprite
     var idleCount:Int = 1;
     var doRandomIdle:Bool = false;
     public var introFinish:Void->Void;
+    
+    var afkTimer:Float = 0;
+    var nextAfkTime:Float = 5;
+    var minAfkTime:Float = 9;
+	var maxAfkTime:Float = 27;
+
     public var freeplaySkin:String = "";
-    public var listSuffix:String;
+    public var listSuffix:String = "-bf";
+
     public var capsuleSelectColor:FlxColor = 0xFFFFFFFF;
     public var capsuleDeselectColor:FlxColor = 0xFF969A9D;
     public var capsuleSelectOutlineColor:FlxColor = 0xFF6B9FBA;
@@ -30,9 +37,32 @@ class DJCharacter extends AtlasSprite
     public function new() {
         super(0, 0, null);
         antialiasing = true;
+
+        animationEndCallback = function(name) {
+            switch(name){
+                case "intro":
+                    introFinish();
+                    skipNextIdle = true;
+                    playAnim("idle", true);
+            }
+        }
     }
 
-    public function setup():Void{}
+    public function setup():Void{
+        nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
+    }
+
+    override public function update(elapsed:Float):Void{
+        super.update(elapsed);
+        if(curAnim == "idle"){
+            afkTimer += elapsed;
+            if(afkTimer >= nextAfkTime){
+                afkTimer = 0;
+                nextAfkTime = nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
+                doRandomIdle = true;
+            }
+        }
+    }
 
     public inline function setupSongList():Void{
         var songFile:Array<String> = Utils.getTextInLines(Paths.text("songList" + listSuffix, "data/freeplay"));
@@ -72,7 +102,11 @@ class DJCharacter extends AtlasSprite
         }
     }
 
-    public function buttonPress():Void{}
+    public function buttonPress():Void{
+        afkTimer = 0;
+		nextAfkTime = nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
+		doRandomIdle = false;
+    }
 
     public function playIdle():Void{
         playAnim("idle", true);

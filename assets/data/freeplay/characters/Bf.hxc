@@ -15,11 +15,6 @@ import freeplay.ScrollingText;
 
 class BoyfriendFreeplay extends DJCharacter
 {
-    var afkTimer:Float = 0;
-	var nextAfkTime:Float = 5;
-	var minAfkTime:Float = 9;
-	var maxAfkTime:Float = 27;
-
     var sound:FlxSound = new FlxSound();
     var soundData:Array<Dynamic> = [];
 
@@ -37,7 +32,6 @@ class BoyfriendFreeplay extends DJCharacter
     override function setup():Void{
         listSuffix = "-bf";
         idleCount = 2;
-        doRandomIdle = false;
         canPlayIdleAfter = ["idle1start", "idle2end", "cheerWin", "cheerLose"];
 
         setPosition(-9, 290);
@@ -85,29 +79,12 @@ class BoyfriendFreeplay extends DJCharacter
             }
         }
 
-        nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
+        super.setup();
         setupCard();
     }
 
-    override function update(elapsed:Float):Void{
-        if(curAnim == "idle"){
-            afkTimer += elapsed;
-            if(afkTimer >= nextAfkTime){
-                trace("random idle set");
-                afkTimer = 0;
-                nextAfkTime = nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
-                doRandomIdle = true;
-            }
-        }
-
-        super.update(elapsed);
-    }
-
     override function buttonPress():Void{
-        afkTimer = 0;
-		nextAfkTime = nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
-		doRandomIdle = false;
-
+        super.buttonPress();
         if(curAnim == "idle2loop"){
             playAnim("idle2end", true);
             if(sound.playing){ sound.fadeOut(1, 0, function(t){ sound.stop(); }); }
