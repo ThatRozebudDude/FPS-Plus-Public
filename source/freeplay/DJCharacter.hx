@@ -2,16 +2,18 @@ package freeplay;
 
 import flixel.util.FlxColor;
 import flixel.group.FlxSpriteGroup;
+import flixel.FlxG;
 
 using StringTools;
 
 @:build(modding.GlobalScriptingTypesMacro.build())
 class DJCharacter extends AtlasSprite
 {
-
+    var idleCount:Int = 1;
+    var doRandomIdle:Bool = false;
     public var introFinish:Void->Void;
     public var freeplaySkin:String = "";
-    public var songList:String;
+    public var listSuffix:String;
     public var capsuleSelectColor:FlxColor = 0xFFFFFFFF;
     public var capsuleDeselectColor:FlxColor = 0xFF969A9D;
     public var capsuleSelectOutlineColor:FlxColor = 0xFF6B9FBA;
@@ -21,26 +23,19 @@ class DJCharacter extends AtlasSprite
     public var freeplaySongs:Array<Array<Dynamic>> = [];
 
     var skipNextIdle:Bool = false;
+    var canPlayIdleAfter:Array<String> = ["idle1start", "cheerWin", "cheerLose"];
 
     public var backingCard:FlxSpriteGroup = new FlxSpriteGroup();
 
     public function new() {
         super(0, 0, null);
+        antialiasing = true;
     }
 
     public function setup():Void{}
 
     public inline function setupSongList():Void{
-        var songFile:Array<String> = Utils.getTextInLines(Paths.text(songList, "data/freeplay"));
-
-        //Create categories first
-		for(line in songFile){
-			line = line.trim();
-			if(line.startsWith("category")){
-				var categoryName = line.split("|")[1].trim();
-				createCategory(categoryName);
-			}
-		}
+        var songFile:Array<String> = Utils.getTextInLines(Paths.text("songList" + listSuffix, "data/freeplay"));
 
         //Then add songs
         for(line in songFile){
@@ -62,15 +57,45 @@ class DJCharacter extends AtlasSprite
         }
     }
 
-    public function beat(curBeat:Int):Void{}
+    public function beat(curBeat:Int):Void{
+        if(FlxG.sound.music.playing && curBeat % 2 == 0 && !skipNextIdle &&  ((curAnim == "idle") || (canPlayIdleAfter.contains(curAnim) && finishedAnim))){
+            if(!doRandomIdle){
+                playAnim("idle", true);
+            }
+            else{
+                playRandomIdle();
+                doRandomIdle = false;
+            }
+        }
+        else if(skipNextIdle){
+            skipNextIdle = false;
+        }
+    }
 
     public function buttonPress():Void{}
 
-    public function playIdle():Void{}
-    public function playIntro():Void{}
-    public function playConfirm():Void{}
-    public function playCheer(lostSong:Bool):Void{}
-    public function toCharacterSelect():Void{}
+    public function playIdle():Void{
+        playAnim("idle", true);
+    }
+    public function playIntro():Void{
+        playAnim("intro", true);
+    }
+    public function playConfirm():Void{
+        playAnim("confirm", true);
+    }
+
+    public function playCheer(lostSong:Bool):Void{
+        playAnim("cheerHold", true);
+    }
+    public function toCharacterSelect():Void{
+        playAnim("jump", true);
+    }
+
+    public function playRandomIdle():Void{
+        if(idleCount == 0){ return; }
+        var rng = FlxG.random.int(1, idleCount);
+        playAnim("idle" + rng + "start", true);
+    }
 
     public function backingCardStart():Void{}
     public function backingCardSelect():Void{}

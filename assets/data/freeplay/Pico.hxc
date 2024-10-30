@@ -11,9 +11,6 @@ import flixel.sound.FlxSound;
 
 class PicoFreeplay extends DJCharacter
 {
-
-    var idleCount:Int = 1;
-    var doRandomIdle:Bool = false;
     var afkTimer:Float = 0;
 	var nextAfkTime:Float = 5;
 	var minAfkTime:Float = 9;
@@ -29,7 +26,9 @@ class PicoFreeplay extends DJCharacter
     var scrollBack:FlxBackdrop;
 
     override function setup():Void{
-        songList = "songlist_pico";
+        listSuffix = "-pico";
+        idleCount = 1;
+        doRandomIdle = false;
 
         setPosition(-9, 290);
         freeplaySkin = "pico";
@@ -38,7 +37,6 @@ class PicoFreeplay extends DJCharacter
         capsuleDeselectOutlineColor = 0xFF4E2612;
 
         loadAtlas(Paths.getTextureAtlas("menu/freeplay/dj/pico"));
-        antialiasing = true;
 
         addAnimationByLabel('idle', "Idle", 24, true, -8);
         addAnimationByLabel('intro', "Intro", 24);
@@ -108,22 +106,8 @@ class PicoFreeplay extends DJCharacter
         super.update(elapsed);
     }
 
-    var canPlayIdleAfter:Array<String> = ["idle1start", "cheerWin", "cheerLose"];
-
     override function beat(curBeat:Int):Void{
-        if(FlxG.sound.music.playing && curBeat % 2 == 0 && !skipNextIdle && ((curAnim == "idle") || (canPlayIdleAfter.contains(curAnim) && finishedAnim))){
-            if(!doRandomIdle){
-                playAnim("idle", true);
-            }
-            else{
-                playRandomIdle();
-                doRandomIdle = false;
-            }
-        }
-        else if(skipNextIdle){
-            skipNextIdle = false;
-        }
-
+        super.beat(curBeat);
         if(FlxG.sound.music.playing && curBeat % 2 == 0){
             FlxTween.cancelTweensOf(cardGlow);
             FlxTween.color(cardGlow, 8/24, 0xFFB7E5FF, 0xFF6C8DEB, {ease: FlxEase.quadOut});
@@ -169,17 +153,11 @@ class PicoFreeplay extends DJCharacter
     }
 
     override function toCharacterSelect() {
-        playAnim("jump", true);
+        super.toCharacterSelect();
         FlxTween.tween(scrollBack.velocity, {x: 0}, 1.2, {ease: FlxEase.sineIn});
         FlxTween.tween(scrollLower.velocity, {x: 0}, 1.2, {ease: FlxEase.sineIn});
         FlxTween.tween(scrollTop.velocity, {x: 0}, 1.2, {ease: FlxEase.sineIn});
         FlxTween.tween(scrollMiddle.velocity, {x: 0}, 1.2, {ease: FlxEase.sineIn});
-    }
-
-    public function playRandomIdle():Void{
-        if(idleCount == 0){ return; }
-        var rng = FlxG.random.int(1, idleCount);
-        playAnim("idle" + rng + "start", true);
     }
 
     override function backingCardStart():Void{
