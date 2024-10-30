@@ -1,5 +1,6 @@
 {
     "name": "Pico",
+    "id": "week3",
     "sortOrder": 3,
     "songs": ["Pico", "Philly", "Blammed"],
     "characters": ["pico", "bf", "gf"],
