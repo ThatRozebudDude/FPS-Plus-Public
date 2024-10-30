@@ -883,7 +883,7 @@ class FreeplayState extends MusicBeatState
 				changeCharacterText.text = "[" + Utils.keyToString(key) + "] to Change Character";
 			}
 			else{
-				changeCharacterText.text = "Change Character is not binding!";
+				changeCharacterText.text = "Change Character not bound!";
 			}
 			changeCharacterText.screenCenter(X);
 		}
@@ -893,7 +893,7 @@ class FreeplayState extends MusicBeatState
 				changeCharacterText.text = "[" + Utils.controllerButtonToString(key) + "] to Change Character";
 			}
 			else{
-				changeCharacterText.text = "Change Character is not binding!";
+				changeCharacterText.text = "Change Character not bound!";
 			}
 			changeCharacterText.screenCenter(X);
 		}

@@ -9,9 +9,11 @@ using StringTools;
 @:build(modding.GlobalScriptingTypesMacro.build())
 class DJCharacter extends AtlasSprite
 {
-    var idleCount:Int = 1;
-    var doRandomIdle:Bool = false;
     public var introFinish:Void->Void;
+
+    var idleCount:Int = 0;
+    var doRandomIdle:Bool = false;
+    var bopEvery:Int = 2;
     
     var afkTimer:Float = 0;
     var nextAfkTime:Float = 5;
@@ -30,7 +32,7 @@ class DJCharacter extends AtlasSprite
     public var freeplaySongs:Array<Array<Dynamic>> = [];
 
     var skipNextIdle:Bool = false;
-    var canPlayIdleAfter:Array<String> = ["idle1start", "cheerWin", "cheerLose"];
+    var canPlayIdleAfter:Array<String> = [];
 
     public var backingCard:FlxSpriteGroup = new FlxSpriteGroup();
 
@@ -49,32 +51,35 @@ class DJCharacter extends AtlasSprite
     }
 
     public function setup():Void{
-        nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
+        if(idleCount > 0){ nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime); }
     }
 
     override public function update(elapsed:Float):Void{
         super.update(elapsed);
-        if(curAnim == "idle"){
-            afkTimer += elapsed;
-            if(afkTimer >= nextAfkTime){
-                afkTimer = 0;
-                nextAfkTime = nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
-                doRandomIdle = true;
+
+        if(idleCount > 0){
+            if(curAnim == "idle"){
+                afkTimer += elapsed;
+                if(afkTimer >= nextAfkTime){
+                    afkTimer = 0;
+                    nextAfkTime = nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
+                    doRandomIdle = true;
+                }
             }
         }
     }
 
     public inline function setupSongList():Void{
-        var songFile:Array<String> = Utils.getTextInLines(Paths.text("songList" + listSuffix, "data/freeplay"));
+        var songFile:Array<String> = Utils.getTextInLines(Paths.text("songList-" + listSuffix, "data/freeplay"));
         
         //Create categories first
-		for(line in songFile){
-			line = line.trim();
-			if(line.startsWith("category")){
-				var categoryName = line.split("|")[1].trim();
-				createCategory(categoryName);
-			}
-		}
+        for(line in songFile){
+            line = line.trim();
+            if(line.startsWith("category")){
+                var categoryName = line.split("|")[1].trim();
+                createCategory(categoryName);
+            }
+        }
 
         //Then add songs
         for(line in songFile){
@@ -97,8 +102,8 @@ class DJCharacter extends AtlasSprite
     }
 
     public function beat(curBeat:Int):Void{
-        if(FlxG.sound.music.playing && curBeat % 2 == 0 && !skipNextIdle &&  ((curAnim == "idle") || (canPlayIdleAfter.contains(curAnim) && finishedAnim))){
-            if(!doRandomIdle){
+        if(FlxG.sound.music.playing && curBeat % bopEvery == 0 && !skipNextIdle &&  ((curAnim == "idle") || (canPlayIdleAfter.contains(curAnim) && finishedAnim))){
+            if(!doRandomIdle || idleCount <= 0){
                 playAnim("idle", true);
             }
             else{
@@ -112,9 +117,11 @@ class DJCharacter extends AtlasSprite
     }
 
     public function buttonPress():Void{
-        afkTimer = 0;
-		nextAfkTime = nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
-		doRandomIdle = false;
+        if(idleCount > 0){
+            afkTimer = 0;
+            nextAfkTime = nextAfkTime = FlxG.random.float(minAfkTime, maxAfkTime);
+            doRandomIdle = false;
+        }
     }
 
     public function playIdle():Void{
@@ -127,15 +134,14 @@ class DJCharacter extends AtlasSprite
         playAnim("confirm", true);
     }
 
-    public function playCheer(lostSong:Bool):Void{
-        playAnim("cheerHold", true);
-    }
+    public function playCheer(lostSong:Bool):Void{}
+
     public function toCharacterSelect():Void{
         playAnim("jump", true);
     }
 
-    public function playRandomIdle():Void{
-        if(idleCount == 0){ return; }
+    function playRandomIdle():Void{
+        if(idleCount <= 0){ return; }
         var rng = FlxG.random.int(1, idleCount);
         playAnim("idle" + rng + "start", true);
     }

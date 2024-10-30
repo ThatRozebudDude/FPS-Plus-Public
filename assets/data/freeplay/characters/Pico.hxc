@@ -21,8 +21,9 @@ class PicoFreeplay extends DJCharacter
     var scrollBack:FlxBackdrop;
 
     override function setup():Void{
-        listSuffix = "-pico";
+        listSuffix = "pico";
         idleCount = 1;
+        canPlayIdleAfter = ["idle1start"];
 
         setPosition(-9, 290);
         freeplaySkin = "pico";
@@ -32,15 +33,15 @@ class PicoFreeplay extends DJCharacter
 
         loadAtlas(Paths.getTextureAtlas("menu/freeplay/dj/pico"));
 
-        addAnimationByLabel('idle', "Idle", 12, true, -8);
-        addAnimationByLabel('intro', "Intro", 12);
-        addAnimationByLabel('confirm', "Confirm", 12, true, -8);
-        addAnimationByLabel('cheerHoldWin', "RatingHoldWin", 12, true, 0);
-        addAnimationByLabel('cheerHoldLose', "RatingHoldLose", 12, true, 0);
-        addAnimationByLabel('cheerWin', "Win", 12, false);
-        addAnimationByLabel('cheerLose', "Lose", 12, false);
-        addAnimationByLabel('jump', "Jump", 12, true, -8);
-        addAnimationByLabel('idle1start', "Idle1", 12);
+        addAnimationByLabel('idle', "Idle", 24, true, -8);
+        addAnimationByLabel('intro', "Intro", 24);
+        addAnimationByLabel('confirm', "Confirm", 24, true, -8);
+        addAnimationByLabel('cheerHoldWin', "RatingHoldWin", 24, true, 0);
+        addAnimationByLabel('cheerHoldLose', "RatingHoldLose", 24, true, 0);
+        addAnimationByLabel('cheerWin', "Win", 24, false);
+        addAnimationByLabel('cheerLose', "Lose", 24, false);
+        addAnimationByLabel('jump', "Jump", 24, true, -8);
+        addAnimationByLabel('idle1start', "Idle1", 24);
 
         animationEndCallback = function(name) {
             switch(name){
@@ -57,10 +58,6 @@ class PicoFreeplay extends DJCharacter
                     skipNextIdle = true;
             }
         }
-
-        //frameCallback = function(name, frame, index) {
-            //switch(name){}
-        //}
 
         setupCard();
         super.setup();
@@ -87,8 +84,6 @@ class PicoFreeplay extends DJCharacter
                 scrollTop.animation.play('uzi', true, false);
             }
         }
-
-        super.update(elapsed);
     }
 
     override function beat(curBeat:Int):Void{
