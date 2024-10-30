@@ -66,6 +66,15 @@ class DJCharacter extends AtlasSprite
 
     public inline function setupSongList():Void{
         var songFile:Array<String> = Utils.getTextInLines(Paths.text("songList" + listSuffix, "data/freeplay"));
+        
+        //Create categories first
+		for(line in songFile){
+			line = line.trim();
+			if(line.startsWith("category")){
+				var categoryName = line.split("|")[1].trim();
+				createCategory(categoryName);
+			}
+		}
 
         //Then add songs
         for(line in songFile){
