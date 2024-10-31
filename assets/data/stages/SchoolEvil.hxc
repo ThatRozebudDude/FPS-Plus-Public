@@ -1,7 +1,7 @@
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import stages.elements.DeltaTrail;
+import objects.DeltaTrail;
 
 class SchoolEvil extends BaseStage
 {

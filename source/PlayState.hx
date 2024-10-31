@@ -11,7 +11,7 @@ import debug.*;
 import title.*;
 import transition.data.*;
 import stages.*;
-import stages.elements.*;
+import objects.*;
 import cutscenes.*;
 import cutscenes.data.*;
 import events.*;

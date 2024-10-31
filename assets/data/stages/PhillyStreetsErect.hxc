@@ -8,7 +8,7 @@ import flixel.addons.display.FlxBackdrop;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import stages.elements.PicoBullet;
+import objects.PicoBullet;
 import StringTools;
 
 class PhillyStreetsErect extends BaseStage

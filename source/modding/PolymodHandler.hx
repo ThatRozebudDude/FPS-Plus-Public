@@ -56,6 +56,7 @@ class PolymodHandler
     }
 
     static function scriptableClassCheck():Void{
+        trace("<== CLASSES ==>");
         trace("ScriptableCharacter: " + characters.ScriptableCharacter.listScriptClasses());
         trace("ScriptableEvents: " + events.ScriptableEvents.listScriptClasses());
         trace("ScriptableNoteTypes: " + note.ScriptableNoteType.listScriptClasses());
@@ -66,6 +67,12 @@ class PolymodHandler
         trace("ScriptableCharacterSelectCharacter: " + characterSelect.ScriptableCharacterSelectCharacter.listScriptClasses());
         trace("ScriptableDJCharacter: " + freeplay.ScriptableDJCharacter.listScriptClasses());
         trace("ScriptableResultsCharacter: " + results.ScriptableResultsCharacter.listScriptClasses());
+
+        trace("<== CUSTOM OBJECTS ==>");
+        trace("ScriptableObject: " + objects.ScriptableObject.listScriptClasses());
+        trace("ScriptableSprite: " + objects.ScriptableSprite.listScriptClasses());
+        trace("ScriptableAtlasSprite: " + objects.ScriptableAtlasSprite.listScriptClasses());
+        trace("ScriptableSpriteGroup: " + objects.ScriptableSpriteGroup.listScriptClasses());
     }
 
 	static function onPolymodError(error:PolymodError):Void{
@@ -115,6 +122,11 @@ class PolymodHandler
         Polymod.addDefaultImport(characterSelect.CharacterSelectCharacter);
         Polymod.addDefaultImport(note.NoteSkinBase);
         Polymod.addDefaultImport(results.ResultsCharacter);
+
+        Polymod.addDefaultImport(objects.ScriptableObject.ScriptedObject);
+        Polymod.addDefaultImport(objects.ScriptableSprite.ScriptedSprite);
+        Polymod.addDefaultImport(objects.ScriptableAtlasSprite.ScriptedAtlasSprite);
+        Polymod.addDefaultImport(objects.ScriptableSpriteGroup.ScriptedSpriteGroup);
         
         //Alias
         Polymod.addImportAlias("lime.utils.Assets", Assets);

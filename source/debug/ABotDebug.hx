@@ -1,6 +1,6 @@
 package debug;
 
-import stages.elements.ABot;
+import objects.ABot;
 import flixel.math.FlxPoint;
 import characters.CharacterInfoBase;
 import config.Config;

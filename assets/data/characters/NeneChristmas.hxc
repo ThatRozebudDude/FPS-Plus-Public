@@ -1,4 +1,4 @@
-import stages.elements.ABot;
+import objects.ABot;
 import flixel.FlxG;
 import flixel.math.FlxPoint;
 
