@@ -5,54 +5,100 @@ import flixel.FlxG;
 import polymod.Polymod;
 import sys.FileSystem;
 
+using StringTools;
+
 class PolymodHandler
 {
 
-    inline public static final API_VERSION:String = "0.0.0";
+    public static final API_VERSION:Array<Int> = [1, 0, 0];
+    public static final API_VERSION_STRING:String = API_VERSION[0]+"."+API_VERSION[1]+"."+API_VERSION[2];
 
-    public static var modDirs:Array<String>;
+    //public static final API_VERSION_RULE:String = ">=1.0.0 <1.1.0";
+    
+    public static var allModDirs:Array<String>;
+    public static var disabledModDirs:Array<String>;
+    
+    public static var loadedModDirs:Array<String>;
     public static var loadedModMetadata:Array<ModMetadata>;
 
 	public static function init():Void{
         buildImports();
 
-        modDirs = FileSystem.readDirectory("mods/");
-        if(modDirs == null){ modDirs = []; }
-
-        trace(PolymodConfig.modMetadataFile);
-
-        trace("BEFORE CULLING: " + modDirs);
-
-        //Remove all non-folder entries from loadedMods.
-        for(path in modDirs){
-            if(!FileSystem.isDirectory("mods/" + path)){
-                modDirs.remove(path);
-            }
-        }
-
-        trace("AFTER CULLING: " + modDirs);
-		
-		loadedModMetadata = Polymod.init({
-			modRoot: "./mods/",
-			dirs: modDirs,
-			useScriptedClasses: true,
-            errorCallback: onPolymodError,
-            frameworkParams: buildFrameworkParams(),
-			apiVersionRule: API_VERSION
-		});
-
-        trace("LOADED METADATA: " + loadedModMetadata);
+        reInit();
 
         scriptableClassCheck();
     }
 
     public static function reload():Void{
+        reloadScripts();
+        scriptableClassCheck();
+        FlxG.resetState();
+    }
+
+    public static function reInit():Void{
+
+        //Get disabled list. Create file if not already created.
+        var disabled:String;
+        if(sys.FileSystem.exists("mods/disabled")){
+            disabled = sys.io.File.getContent("mods/disabled");
+        }
+        else{
+            disabled = "";
+            sys.io.File.saveContent("mods/disabled", "");
+            trace("\"disable\" not found, creating");
+        }
+
+        disabledModDirs = disabled.split("\n");
+        for(dir in disabledModDirs){ dir = dir.trim(); }
+
+        trace("Disabled Mod List: " + disabledModDirs);
+        
+        //Get all directories in the mods folder.
+        allModDirs = FileSystem.readDirectory("mods/");
+        if(allModDirs == null){ allModDirs = []; }
+
+        trace("Mod Directories: " + allModDirs);
+
+        //Remove all non-folder entries.
+        allModDirs = allModDirs.filter(function(path){ return FileSystem.isDirectory("mods/" + path); });
+
+        trace("Culled Mod Directories: " + allModDirs);
+
+        loadedModDirs = [];
+
+        //Remove disabled mods from this list.
+        for(path in allModDirs){
+            if(!disabledModDirs.contains(path)){
+                loadedModDirs.push(path);
+            }
+        }
+
+        trace("Final Mod Directories: " + loadedModDirs);
+
+        //Do version handling
+        //For some reason, the version rule doesn't actually seem to be preventing mods from loading so I'll manually check to cull the mods from the list.
+        //Will write later.
+
+        loadedModMetadata = Polymod.init({
+			modRoot: "./mods/",
+			dirs: loadedModDirs,
+			useScriptedClasses: true,
+            errorCallback: onPolymodError,
+            frameworkParams: buildFrameworkParams()//,
+			//apiVersionRule: API_VERSION_RULE
+		});
+
+        trace("Mod Meta List: " + loadedModMetadata);
+
+        reloadScripts();
+
+    }
+
+    static function reloadScripts():Void{
         Polymod.clearScripts();
         Polymod.registerAllScriptClasses();
         note.NoteType.initTypes();
         events.Events.initEvents();
-        scriptableClassCheck();
-        FlxG.resetState();
     }
 
     static function scriptableClassCheck():Void{
