@@ -7,7 +7,6 @@ import shaders.BlueFadeShader;
 import shaders.ColorGradientShader;
 import haxe.Json;
 import transition.data.InstantTransition;
-import sys.FileSystem;
 import flixel.graphics.frames.FlxBitmapFont;
 import flixel.text.FlxBitmapText;
 import flixel.math.FlxMath;
@@ -30,7 +29,6 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import lime.utils.Assets;
 import flixel.text.FlxText;
 import extensions.flixel.FlxTextExt;
 
@@ -838,6 +836,9 @@ class FreeplayState extends MusicBeatState
 
 	function updateAlbum(?doTween:Bool = true):Void{
 		var newAlbum:String = categoryMap[categoryNames[curCategory]][curSelected].album;
+		if (!Utils.exists(Paths.image("menu/freeplay/album/" + newAlbum))) {
+			curAlbum = "vol1";
+		}
 		if(newAlbum != curAlbum){
 			curAlbum = newAlbum;
 			album.loadGraphic(Paths.image("menu/freeplay/album/" + curAlbum + "/album"));
