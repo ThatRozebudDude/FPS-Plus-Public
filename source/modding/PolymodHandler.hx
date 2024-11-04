@@ -200,7 +200,6 @@ class PolymodHandler
         trace("ScriptableNoteSkin: " + note.ScriptableNoteSkin.listScriptClasses());
         trace("ScriptableCutscene: " + cutscenes.ScriptableCutscene.listScriptClasses());
         trace("ScriptableStage: " + stages.ScriptableStage.listScriptClasses());
-        trace("ScriptableScript: " + scripts.ScriptableScript.listScriptClasses());
         trace("ScriptableCharacterSelectCharacter: " + characterSelect.ScriptableCharacterSelectCharacter.listScriptClasses());
         trace("ScriptableDJCharacter: " + freeplay.ScriptableDJCharacter.listScriptClasses());
         trace("ScriptableResultsCharacter: " + results.ScriptableResultsCharacter.listScriptClasses());

@@ -1,6 +1,5 @@
 package;
 
-import scripts.ScriptableScript;
 import scripts.Script;
 import modding.PolymodHandler;
 import openfl.filters.ShaderFilter;
@@ -662,15 +661,21 @@ class PlayState extends MusicBeatState
 			//trace(endCutsceneStoryOnly);
 		}
 
-		if(Utils.exists(Paths.json("scripts", "data/songs/" + SONG.song.toLowerCase()))){
-			trace("song has scripts");
-			var scriptJson = Json.parse(Utils.getText(Paths.json("scripts", "data/songs/" + SONG.song.toLowerCase())));
-			var scriptList:Array<String> = scriptJson.scripts;
-			for(script in scriptList){
-				if(ScriptableScript.listScriptClasses().contains(script)){
-					var scriptToAdd:Script = ScriptableScript.init(script);
-					loadedScripts.push(scriptToAdd);
-				}
+		//"Global" Scripts
+		for(script in Utils.readDirectory("assets/data/global")){
+			if(script.endsWith(".hxc")){
+				var scriptToAdd:Script = new Script("assets/data/global/" + script);
+				scriptToAdd.parent = PlayState.instance;
+				loadedScripts.push(scriptToAdd);
+			}
+		}
+
+		//Song Scripts
+		for(script in Utils.readDirectory("assets/data/"+SONG.song.toLowerCase())){
+			if(script.endsWith(".hxc")){
+				var scriptToAdd:Script = new Script("assets/data/" + SONG.song.toLowerCase() + "/" + script);
+				scriptToAdd.parent = PlayState.instance;
+				loadedScripts.push(scriptToAdd);
 			}
 		}
 
@@ -688,7 +693,7 @@ class PlayState extends MusicBeatState
 		fceForLilBuddies = false;
 		
 		stage.postCreate();
-		for(script in loadedScripts){ script.create(); }
+		for(script in loadedScripts){ script.callFunc("create"); }
 		
 		cutsceneCheck();
 
@@ -743,7 +748,7 @@ class PlayState extends MusicBeatState
 		var countdownSkin:CountdownSkinBase = new CountdownSkinBase(countdownSkinName);
 
 		stage.countdownBeat(-1);
-		for(script in loadedScripts){ script.countdownBeat(-1); }
+		for(script in loadedScripts){ script.callFunc("countdownBeat", [-1]); }
 
 		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 		{
@@ -858,7 +863,7 @@ class PlayState extends MusicBeatState
 
 			if(swagCounter < 4){
 				stage.countdownBeat(swagCounter);
-				for(script in loadedScripts){ script.countdownBeat(swagCounter); }
+				for(script in loadedScripts){ script.callFunc("countdownBeat", [swagCounter]); }
 			}
 
 			swagCounter++;
@@ -917,13 +922,13 @@ class PlayState extends MusicBeatState
 			gf.characterInfo.info.functions.songStart(gf);
 		}
 		stage.songStart();
-		for(script in loadedScripts){ script.songStart(); }
+		for(script in loadedScripts){ script.callFunc("songStart"); }
 
 		boyfriend.step(0);
 		dad.step(0);
 		gf.step(0);
 		stage.step(0);
-		for(script in loadedScripts){ script.step(0); }
+		for(script in loadedScripts){ script.callFunc("stepHit", [0]); }
 
 		beatHit();
 	}
@@ -1266,7 +1271,7 @@ class PlayState extends MusicBeatState
 
 			if(goingToPause){
 				stage.pause();
-				for(script in loadedScripts){ script.pause(); }
+				for(script in loadedScripts){ script.callFunc("pause"); }
 			}
 		}
 
@@ -1289,7 +1294,7 @@ class PlayState extends MusicBeatState
 
 			if(goingToPause){
 				stage.unpause();
-				for(script in loadedScripts){ script.unpause(); }
+				for(script in loadedScripts){ script.callFunc("unpause"); }
 				goingToPause = false;
 			}
 		}
@@ -1377,7 +1382,7 @@ class PlayState extends MusicBeatState
 		super.update(elapsed);
 
 		stage.update(elapsed);
-		for(script in loadedScripts){ script.update(elapsed); }
+		for(script in loadedScripts){ script.callFunc("update", [elapsed]); }
 
 		if(!startingSong){
 			for(i in eventList){
@@ -1657,6 +1662,7 @@ class PlayState extends MusicBeatState
 					daNote.destroy();
 				}
 			}
+			for(script in loadedScripts){ script.callFunc("updateNote", [daNote]); }
 		});
 	}
 
@@ -2344,7 +2350,7 @@ class PlayState extends MusicBeatState
 		dad.step(curStep+1);
 		gf.step(curStep+1);
 		stage.step(curStep+1);
-		for(script in loadedScripts){ script.step(curStep+1); }
+		for(script in loadedScripts){ script.callFunc("stepHit",[curStep+1]); }
 
 		super.stepHit();
 	}
@@ -2397,7 +2403,7 @@ class PlayState extends MusicBeatState
 		dad.beat(curBeat);
 		gf.beat(curBeat);
 		stage.beat(curBeat);
-		for(script in loadedScripts){ script.beat(curBeat); }
+		for(script in loadedScripts){ script.callFunc("beatHit", [curBeat]); }
 		
 	}
 
@@ -2811,7 +2817,7 @@ class PlayState extends MusicBeatState
 
 	function preStateChange():Void{
 		stage.exit();
-		for(script in loadedScripts){ script.exit(); }
+		for(script in loadedScripts){ script.callFunc("exit"); }
 	}
 
 }
