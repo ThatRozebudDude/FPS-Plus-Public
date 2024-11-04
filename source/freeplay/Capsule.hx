@@ -14,6 +14,7 @@ import extensions.flixel.FlxTextExt;
 import flixel.tweens.FlxTween;
 import flixel.group.FlxSpriteGroup;
 import flixel.FlxSprite;
+import metadata.ImageMetadata;
 
 using StringTools;
 
@@ -107,11 +108,9 @@ class Capsule extends FlxSpriteGroup
         var iconXOffset:Float = 0;
         var iconYOffset:Float = 0;
 
-        if(Utils.exists(Paths.json(_icon, "images/menu/freeplay/icons"))){
-            var iconJson = Json.parse(Utils.getText(Paths.json(_icon, "images/menu/freeplay/icons")));
-            iconXOffset = iconJson.offset[0];
-            iconYOffset = iconJson.offset[1];
-        }
+        var iconJson:ImageMetadata = new ImageMetadata("menu/freeplay/icons/" + _icon);
+        iconXOffset = iconJson.offset[0];
+        iconYOffset = iconJson.offset[1];
 
         icon = new FlxSprite(iconXOffset, iconYOffset);
         icon.frames = Paths.getSparrowAtlas("menu/freeplay/icons/" + _icon);

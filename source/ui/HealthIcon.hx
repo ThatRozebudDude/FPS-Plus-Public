@@ -5,6 +5,7 @@ import lime.utils.Assets;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
+import metadata.ImageMetadata;
 
 class HealthIcon extends FlxSprite
 {
@@ -84,16 +85,11 @@ class HealthIcon extends FlxSprite
 		antialiasing = true;
 
 		//Optional json
-		if(Utils.exists("assets/images/ui/heathIcons/" + character + ".json")){
-			var iconJson = Json.parse(Utils.getText("assets/images/ui/heathIcons/" + character + ".json"));
-			
-			if(iconJson.offset != null){
-				xOffset = (iconJson.offset.x != null) ? iconJson.offset.x : defaultOffsets[0];
-				yOffset = (iconJson.offset.y != null) ? iconJson.offset.y : defaultOffsets[1];
-			}
+		var iconJson:ImageMetadata = new ImageMetadata("ui/heathIcons/" + character);
+		xOffset = iconJson.offset[0];
+		yOffset = iconJson.offset[0];
 
-			antialiasing = (iconJson.antialiasing != null) ? iconJson.antialiasing : true;
-		}
+		antialiasing = iconJson.antialiasing;
 
 		iconSize = width;
 	}

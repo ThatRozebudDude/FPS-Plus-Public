@@ -21,13 +21,18 @@ class PolymodHandler
     public static var malformedMods:Map<String, ModError>;
     
     public static var loadedModDirs:Array<String>;
-    public static var loadedModMetadata:Array<ModMetadata>;
 
 	public static function init():Void{
         buildImports();
 
+        Polymod.init({
+			modRoot: "mods",
+			useScriptedClasses: true,
+            errorCallback: onPolymodError,
+            frameworkParams: buildFrameworkParams()
+		});
+        
         reInit();
-
         scriptableClassCheck();
     }
 
@@ -38,21 +43,17 @@ class PolymodHandler
     }
 
     public static function reInit():Void{
-        buildModDirectories();
-
-        loadedModMetadata = Polymod.init({
-			modRoot: "./mods/",
-			dirs: loadedModDirs,
-			useScriptedClasses: true,
-            errorCallback: onPolymodError,
-            frameworkParams: buildFrameworkParams()
-		});
-
-        trace("Mod Meta List: " + loadedModMetadata);
-
+        Polymod.unloadAllMods();
         Polymod.clearCache();
 
+        buildModDirectories();
+
+        //Shold prevents exceptional errors....maybe
+        Polymod.loadMods(loadedModDirs);
+
         reloadScripts();
+
+        trace("Loaded Mods: " + Polymod.getLoadedModIds());
     }
 
     public static function buildModDirectories():Void{

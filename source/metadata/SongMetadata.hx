@@ -4,6 +4,8 @@ import haxe.Json;
 
 class SongMetadata
 {
+	private var jsonData:Dynamic;
+
 	public var name:String = "";
 	public var artist:String = "Unknown";
 	public var album:String = "vol1";
@@ -15,20 +17,21 @@ class SongMetadata
 
 	public function new(song:String)
 	{
-		var jsonData = Json.parse(Utils.getText(Paths.json(song + "/meta")));
-		trace(jsonData);
-		
-		if (jsonData.name != null){ name = jsonData.name; }
-		else{ name = song; }
+		if (Utils.exists(Paths.json(song + "/meta"))){
+			jsonData = Json.parse(Utils.getText(Paths.json(song + "/meta")));
 
-		if(jsonData.artist != null){ artist = jsonData.artist; }
-		if(jsonData.album != null){ album = jsonData.album; }
-		if(jsonData.difficulties != null){ difficulties = jsonData.difficulties; }
-
-		if(jsonData.dadBeats != null){ dadBeats = jsonData.dadBeats; }
-		if(jsonData.bfBeats != null){ bfBeats = jsonData.bfBeats; }
-
-		if(jsonData.compatableInsts != null){ compatableInsts = jsonData.compatableInsts; }
-		if(jsonData.mixName != null){ mixName = jsonData.mixName; }
+			if (jsonData.name != null){ name = jsonData.name; }
+			else{ name = song; }
+	
+			if(jsonData.artist != null){ artist = jsonData.artist; }
+			if(jsonData.album != null){ album = jsonData.album; }
+			if(jsonData.difficulties != null){ difficulties = jsonData.difficulties; }
+	
+			if(jsonData.dadBeats != null){ dadBeats = jsonData.dadBeats; }
+			if(jsonData.bfBeats != null){ bfBeats = jsonData.bfBeats; }
+	
+			if(jsonData.compatableInsts != null){ compatableInsts = jsonData.compatableInsts; }
+			if(jsonData.mixName != null){ mixName = jsonData.mixName; }
+		}
 	}
 }

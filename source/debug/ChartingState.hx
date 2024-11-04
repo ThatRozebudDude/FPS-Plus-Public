@@ -56,6 +56,7 @@ import openfl.events.IOErrorEvent;
 import openfl.media.Sound;
 import openfl.net.FileReference;
 import openfl.utils.ByteArray;
+import metadata.ImageMetadata;
 
 using StringTools;
 
@@ -2325,7 +2326,7 @@ class ChartingState extends MusicBeatState
 				eventIconList.push(icon.split(".")[0]);
 			}
 			else if(icon.split(".")[1] == "json"){
-				var json = Json.parse(Utils.getText("assets/images/chartEditor/event/" + icon));
+				var json:ImageMetadata = new ImageMetadata("chartEditor/event/" + icon.split(".")[0]);
 				for(key in cast(json.overrides, Array<Dynamic>)){
 					eventIconOverrides.set(key, icon.split(".")[0]);
 				}
