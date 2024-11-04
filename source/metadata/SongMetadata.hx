@@ -2,40 +2,33 @@ package metadata;
 
 import haxe.Json;
 
-using StringTools;
-
-typedef BaseSongMetadata =
-{
-	var name:String;
-	var icon:String;
-	var artist:String;
-	var album:String;
-	var difficulties:Array<Int>;
-	var dadBeats:Array<Int>;
-	var bfBeats:Array<Int>;
-}
-
 class SongMetadata
 {
 	public var name:String = "";
-	public var icon:String = "";
-	public var artist:String = "";
-	public var album:String = "";
+	public var artist:String = "Unknown";
+	public var album:String = "vol1";
 	public var difficulties:Array<Int> = [0, 0, 0];
-	var dadBeats:Array<Int> = [0, 2];
-	var bfBeats:Array<Int> = [1, 3];
+	public var dadBeats:Array<Int> = [0, 2];
+	public var bfBeats:Array<Int> = [1, 3];
+	public var compatableInsts:Null<Array<String>> = null;
+	public var mixName:String = "Original";
 
 	public function new(song:String)
 	{
-		var jsonData:BaseSongMetadata = cast Json.parse(Paths.json()).song;
+		var jsonData = Json.parse(Utils.getText(Paths.json(song + "/meta")));
+		trace(jsonData);
+		
 		if (jsonData.name != null){ name = jsonData.name; }
-		else{ name = Utils.capitalizeString(song); }
+		else{ name = song; }
 
-		if(jsonData.icon != null){ icon = jsonData.icon; }
 		if(jsonData.artist != null){ artist = jsonData.artist; }
 		if(jsonData.album != null){ album = jsonData.album; }
 		if(jsonData.difficulties != null){ difficulties = jsonData.difficulties; }
-		if(jsonData.dadBeats != null){ bfBeats = jsonData.dadBeats; }
+
+		if(jsonData.dadBeats != null){ dadBeats = jsonData.dadBeats; }
 		if(jsonData.bfBeats != null){ bfBeats = jsonData.bfBeats; }
+
+		if(jsonData.compatableInsts != null){ compatableInsts = jsonData.compatableInsts; }
+		if(jsonData.mixName != null){ mixName = jsonData.mixName; }
 	}
 }

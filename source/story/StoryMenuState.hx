@@ -470,7 +470,7 @@ class StoryMenuState extends MusicBeatState
 		var stringThing:Array<String> = weekList[curWeek].songs;
 
 		for (song in stringThing){
-			var meta = Json.parse(Utils.getText("assets/data/songs/" + song.toLowerCase() + "/meta.json"));
+			var meta = new SongMetadata(song.toLowerCase());
 			txtTracklist.text += "\n" + meta.name;
 		}
 

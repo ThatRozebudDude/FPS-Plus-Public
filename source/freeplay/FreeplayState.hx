@@ -19,6 +19,7 @@ import flixel.FlxCamera;
 import flixel.math.FlxPoint;
 import config.*;
 import characterSelect.CharacterSelectState;
+import metadata.SongMetadata;
 
 import title.TitleScreen;
 import flixel.FlxG;
@@ -660,19 +661,7 @@ class FreeplayState extends MusicBeatState
 
 	function addSong(_song:String, _icon:String, ?categories:Array<String>):Void{
 
-		var meta = {
-			name: _song.replace("-", ""),
-			artist: "",
-			album: "vol1",
-			difficulties: [0, 0, 0],
-    		dadBeats: [0, 2],
-			bfBeats: [1, 3],
-			compatableInsts: null,
-			mixName: "Original"
-		}
-		if(Utils.exists("assets/data/songs/" + _song.toLowerCase() + "/meta.json")){
-			meta = Json.parse(Utils.getText("assets/data/songs/" + _song.toLowerCase() + "/meta.json"));
-		}
+		var meta:SongMetadata = new SongMetadata(_song.toLowerCase());
 
 		if(categories == null){ categories = ["All"]; }
 		var capsule:Capsule = new Capsule(_song, meta.name, _icon, meta.album, meta.difficulties, meta.compatableInsts, [dj.freeplaySkin, dj.capsuleSelectColor, dj.capsuleDeselectColor, dj.capsuleSelectOutlineColor, dj.capsuleDeselectOutlineColor]);
@@ -757,7 +746,8 @@ class FreeplayState extends MusicBeatState
 			curVariation = 0;
 		}
 
-		var varMeta = Json.parse(Utils.getText("assets/data/songs/" + categoryMap[categoryNames[curCategory]][curSelected].variations[curVariation].toLowerCase() + "/meta.json"));
+
+		var varMeta = new SongMetadata(categoryMap[categoryNames[curCategory]][curSelected].variations[curVariation].toLowerCase());
 		if(varMeta.mixName != null){
 			variationName.text = varMeta.mixName;
 		}

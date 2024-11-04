@@ -279,7 +279,7 @@ class PlayState extends MusicBeatState
 
 	public var meta:SongMetaTags;
 
-	public var metadata:Dynamic = null;
+	public var metadata:SongMetadata = null;
 
 	public var arbitraryData:Map<String, Dynamic> = new Map<String, Dynamic>();
 	
@@ -313,9 +313,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if(Utils.exists(Paths.json(SONG.song.toLowerCase() + "/meta"))){
-			metadata = Json.parse(Utils.getText(Paths.json(SONG.song.toLowerCase() + "/meta")));
-		}
+		metadata = new SongMetadata(SONG.song.toLowerCase());
 
 		for(i in EVENTS.events){
 			eventList.push([i[1], i[3]]);
@@ -414,14 +412,8 @@ class PlayState extends MusicBeatState
 		dad.reposition();
 		gf.reposition();
 
-		if(metadata != null){
-			if(metadata.bfBeats != null){
-				bfBeats = metadata.bfBeats;
-			}
-			if(metadata.dadBeats != null){
-				dadBeats = metadata.dadBeats;
-			}
-		}
+		bfBeats = metadata.bfBeats;
+		dadBeats = metadata.dadBeats;
 
 
 		/*
@@ -1824,9 +1816,7 @@ class PlayState extends MusicBeatState
 			//returnToMenu();
 
 			var songName = SONG.song.replace("-", " ");
-			if(metadata != null){
-				songName = metadata.name;
-			}
+			songName = metadata.name;
 
 			var songSaveStuff:SaveInfo = null;
 			if(!preventScoreSaving){

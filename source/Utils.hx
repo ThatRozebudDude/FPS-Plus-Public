@@ -150,24 +150,6 @@ class Utils
 		return files;
 	}
 
-	//Just copyed from Stack Overflow lmao
-	static inline function capitalizeString(input)
-	{
-		var splited = input.split(" ");
-		var output:Array<String> = [];
-		for (i in splited)
-		{
-			//convert each letter into lower case
-			var temp = splited[i].toLowerCase();
-			//Convert the first char upper case and join with the rest letters of word.
-			temp = temp.charAt(0).toUpperCase() + temp.substring(1);
-			//store the word in the array
-			output.push(temp);
-		}
-		//join the words
-		return output.join(" ");
-	}
-
 	public static inline function keyToString(key:FlxKey):String{
 		switch(key){
 			case ZERO:
