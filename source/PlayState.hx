@@ -17,6 +17,7 @@ import cutscenes.data.*;
 import events.*;
 import note.*;
 import story.StoryMenuState;
+import metadata.*;
 
 import flixel.FlxBasic;
 import flixel.math.FlxAngle;
