@@ -357,7 +357,9 @@ class CharacterSelectState extends MusicBeatState
         }
         else{
             if(!startLeaving){
-                characters.get(curCharacter).player.playIdle();
+                if(characters.get(curCharacter).player != null){
+                    characters.get(curCharacter).player.playIdle();
+                }
                 if(characters.get(curCharacter).partner != null){
                     characters.get(curCharacter).partner.playIdle();
                 }

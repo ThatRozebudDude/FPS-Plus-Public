@@ -1,5 +1,6 @@
 package title;
 
+import modding.PolymodHandler;
 import transition.data.InstantTransition;
 import config.Config;
 import flixel.addons.display.FlxBackdrop;
@@ -195,6 +196,11 @@ class TitleScreen extends MusicBeatState
 				switchState(new MainMenuState());
 			});
 		}
+
+		/*if(!transitioning && FlxG.keys.anyJustPressed([F5])){
+			PolymodHandler.reInit();
+			PolymodHandler.reload();
+		}*/
 
 		//Titlescreen Easter Egg
 		if(inputTime > 0){

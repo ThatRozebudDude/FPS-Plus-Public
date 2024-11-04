@@ -1,5 +1,5 @@
 import flixel.FlxG;
-import stages.elements.TankmenBG;
+import objects.TankmenBG;
 
 class PicoSpeaker extends CharacterInfoBase
 {

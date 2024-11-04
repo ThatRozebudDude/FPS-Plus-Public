@@ -24,7 +24,7 @@ class CacheReload extends FlxState
     public static var doMusic = true;
     public static var doGraphics = true;
 
-    var nextState:FlxState = new ConfigMenu();
+    var nextState:FlxState;
 
     //var splash:FlxSprite;
     //var dummy:FlxSprite;
@@ -41,6 +41,12 @@ class CacheReload extends FlxState
     var gfxI:Int = 0;
 
     var cacheStart:Bool = false;
+
+    public function new(?_nextState:FlxState = null) {
+        super();
+        if(_nextState != null){ nextState = _nextState; }
+        else{ nextState = new ConfigMenu(); }
+    }
 
 	override function create()
 	{

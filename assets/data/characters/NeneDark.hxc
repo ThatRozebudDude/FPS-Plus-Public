@@ -1,6 +1,6 @@
 import shaders.TextureMixShader;
 import shaders.TheShaderThatTurnsEverythingOrange;
-import stages.elements.ABot;
+import objects.ABot;
 import flixel.FlxG;
 import flixel.math.FlxPoint;
 

@@ -13,7 +13,7 @@
 	<!--Makes sure that all of these are included when complied even if they aren't directly called in the code.-->
 	<compilerflag name="--macro" value="include('cutscenes', true)" />
 	<compilerflag name="--macro" value="include('shaders', true)" />
-	<compilerflag name="--macro" value="include('stages.elements', true)" />
+	<compilerflag name="--macro" value="include('objects', true)" />
 
 	<!--Allows all of Flixel to be used by scripts at runtime instead of only what was imported in the code.-->
 	<compilerflag name="--macro" value="include('flixel', true, [ 'flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.system.macros.*' ])" />
@@ -160,6 +160,7 @@
 
 	<!-- _________________________________ Polymod Stuff _______________________________ -->
 	<haxedef name="POLYMOD_MOD_METADATA_FILE" value="meta.json" />
+	<haxedef name="POLYMOD_MOD_ICON_FILE" value="icon.png" />
 	<haxedef name="POLYMOD_SCRIPT_LIBRARY" value="data" />
 	<haxedef name="POLYMOD_APPEND_FOLDER" value="append" />
 	<haxedef name="POLYMOD_MERGE_FOLDER" value="merge" />

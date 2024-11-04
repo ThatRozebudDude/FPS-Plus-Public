@@ -6,7 +6,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import stages.elements.BackgroundDancer;
+import objects.BackgroundDancer;
 
 class LimoErect extends BaseStage
 {

@@ -5,8 +5,8 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import stages.elements.BGSprite;
-import stages.elements.TankmenBG;
+import objects.BGSprite;
+import objects.TankmenBG;
 
 class Tank extends BaseStage
 {

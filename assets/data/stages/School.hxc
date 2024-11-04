@@ -1,7 +1,7 @@
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import stages.elements.BackgroundGirls;
+import objects.BackgroundGirls;
 
 class School extends BaseStage
 {
