@@ -8,7 +8,6 @@ import haxe.Json;
 import sys.FileSystem;
 import openfl.display.BitmapData;
 import flixel.FlxG;
-import flixel.FlxG;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;

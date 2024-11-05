@@ -661,16 +661,57 @@ class PlayState extends MusicBeatState
 			//trace(endCutscene);
 			//trace(endCutsceneStoryOnly);
 		}
+		var globalScripts:Array<String> = [];
+		if(Utils.exists(Paths.text("globalScripts", "data/scripts"))){
+			var globalScriptsText:String = Utils.getText(Paths.text("globalScripts", "data/scripts"));
+			globalScripts = globalScriptsText.split("\n");
+			for(script in globalScripts){
+				script = script.trim();
+			}
+		}
 
+		//trace(globalScripts);
+
+		var scriptList:Array<String> = [];
 		if(Utils.exists(Paths.json("scripts", "data/songs/" + SONG.song.toLowerCase()))){
 			trace("song has scripts");
 			var scriptJson = Json.parse(Utils.getText(Paths.json("scripts", "data/songs/" + SONG.song.toLowerCase())));
-			var scriptList:Array<String> = scriptJson.scripts;
-			for(script in scriptList){
-				if(ScriptableScript.listScriptClasses().contains(script)){
-					var scriptToAdd:Script = ScriptableScript.init(script);
-					loadedScripts.push(scriptToAdd);
+			scriptList = scriptJson.scripts;
+
+			//Remove duplicates from song script list.
+			var dupeList:Array<String> = [];
+			scriptList = scriptList.filter(function(script){ 
+				if(!dupeList.contains(script)){
+					dupeList.push(script);
+					return true;
 				}
+				return false;
+			});
+		}
+
+		//Remove duplicates from global script list.
+		var dupeList:Array<String> = [];
+		globalScripts = globalScripts.filter(function(script){ 
+			if(!dupeList.contains(script) && !scriptList.contains(script)){
+				dupeList.push(script);
+				return true;
+			}
+			return false;
+		});
+		
+		//Combine song and global script list.
+		scriptList = scriptList.concat(globalScripts);
+
+		while(scriptList.contains("")){
+			scriptList.remove("");
+		}
+
+		//trace(scriptList);
+
+		for(script in scriptList){
+			if(ScriptableScript.listScriptClasses().contains(script)){
+				var scriptToAdd:Script = ScriptableScript.init(script);
+				loadedScripts.push(scriptToAdd);
 			}
 		}
 
