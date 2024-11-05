@@ -679,25 +679,11 @@ class PlayState extends MusicBeatState
 			scriptList = scriptJson.scripts;
 
 			//Remove duplicates from song script list.
-			var dupeList:Array<String> = [];
-			scriptList = scriptList.filter(function(script){ 
-				if(!dupeList.contains(script)){
-					dupeList.push(script);
-					return true;
-				}
-				return false;
-			});
+			scriptList = removeDuplicates(scriptList);
 		}
 
 		//Remove duplicates from global script list.
-		var dupeList:Array<String> = [];
-		globalScripts = globalScripts.filter(function(script){ 
-			if(!dupeList.contains(script) && !scriptList.contains(script)){
-				dupeList.push(script);
-				return true;
-			}
-			return false;
-		});
+		globalScripts = removeDuplicates(globalScripts, [scriptList]);
 		
 		//Combine song and global script list.
 		scriptList = scriptList.concat(globalScripts);

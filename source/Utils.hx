@@ -151,6 +151,20 @@ class Utils
 		return files;
 	}
 
+	public static function removeDuplicates(arr:Array<Dynamic>, ?extraArrayComparisons:Array<Array<Dynamic>>):Array<Dynamic>{
+		if(extraArrayComparisons == null){ extraArrayComparisons = []; }
+		var duplicates:Array<Dynamic> = [];
+		return arr.filter(function(element){
+			if(!duplicates.contains(element)){
+				var r:Bool = true;
+				for(array in extraArrayComparisons){ if(array.contains(element)){ r = false; } }
+				duplicates.push(element);
+				return r;
+			}
+			return false;
+		});
+	}
+
 	public static inline function keyToString(key:FlxKey):String{
 		switch(key){
 			case ZERO:

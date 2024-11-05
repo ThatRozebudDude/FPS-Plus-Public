@@ -6,13 +6,15 @@ import sys.FileSystem;
 
 import flixel.graphics.frames.FlxAtlasFrames;
 
+using StringTools;
+
 class Paths
 {
 
     static final audioExtension:String = "ogg";
 
     inline static public function file(key:String, location:String, extension:String):String{
-
+        if(location.endsWith("/")){ location = location.substring(0, location.length-1); } //Prevent people from accidentally using 2 slashes.
         var data:String = 'assets/$location/$key.$extension';
         return data;
 
@@ -55,11 +57,11 @@ class Paths
 
     inline static public function voices(key:String, type:String = ""){
         if(type.length > 0){ type = "-" + type; }
-        return 'assets/songs/$key/Voices$type.ogg';
+        return 'assets/songs/$key/Voices$type.$audioExtension';
     }
 
     inline static public function inst(key:String){
-        return 'assets/songs/$key/Inst.ogg';
+        return 'assets/songs/$key/Inst.$audioExtension';
     }
 
     inline static public function getSparrowAtlas(key:String){
@@ -80,6 +82,10 @@ class Paths
     
     inline static public function font(key:String, ?extension:String = "ttf"){
         return file(key, "fonts", extension);
+    }
+
+    inline static public function shader(key:String, ?extension:String = "frag"){
+        return file(key, "data/shaders", extension);
     }
 
 }
