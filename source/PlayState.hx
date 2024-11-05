@@ -679,11 +679,11 @@ class PlayState extends MusicBeatState
 			scriptList = scriptJson.scripts;
 
 			//Remove duplicates from song script list.
-			scriptList = removeDuplicates(scriptList);
+			scriptList = Utils.removeDuplicates(scriptList);
 		}
 
 		//Remove duplicates from global script list.
-		globalScripts = removeDuplicates(globalScripts, [scriptList]);
+		globalScripts = Utils.removeDuplicates(globalScripts, [scriptList]);
 		
 		//Combine song and global script list.
 		scriptList = scriptList.concat(globalScripts);

@@ -246,6 +246,7 @@ class PolymodHandler
         Polymod.addDefaultImport(VideoHandler);
         Polymod.addDefaultImport(DialogueBox);
         Polymod.addDefaultImport(debug.ChartingState);
+        Polymod.addDefaultImport(shaders.RuntimeShader);
 
         //Import customizable class so now we can make custom class without importing
         Polymod.addDefaultImport(characters.CharacterInfoBase);

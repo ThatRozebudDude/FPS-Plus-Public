@@ -151,7 +151,8 @@ class Utils
 		return files;
 	}
 
-	public static function removeDuplicates(arr:Array<Dynamic>, ?extraArrayComparisons:Array<Array<Dynamic>>):Array<Dynamic>{
+	//Removes duplicate items from an array. Can additionally supply extra arrays to check from.
+	public static function removeDuplicates(arr:Dynamic, ?extraArrayComparisons:Array<Dynamic>):Dynamic{
 		if(extraArrayComparisons == null){ extraArrayComparisons = []; }
 		var duplicates:Array<Dynamic> = [];
 		return arr.filter(function(element){
