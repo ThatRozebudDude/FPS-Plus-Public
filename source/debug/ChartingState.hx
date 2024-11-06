@@ -1414,7 +1414,7 @@ class ChartingState extends MusicBeatState
 			}
 		}
 
-		if(FlxG.keys.justPressed.F5){
+		if(Binds.justPressed("polymodReload")){
 			PlayState.SONG = _song;
 			PlayState.EVENTS = _events;
 			PolymodHandler.reload();

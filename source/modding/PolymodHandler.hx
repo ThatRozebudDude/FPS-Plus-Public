@@ -231,24 +231,29 @@ class PolymodHandler
 	}
 
     static function buildImports():Void{
+
+        //Default imports
         Polymod.addDefaultImport(Assets);
         Polymod.addDefaultImport(Paths);
         Polymod.addDefaultImport(flixel.group.FlxGroup);
         Polymod.addDefaultImport(flixel.group.FlxSpriteGroup);
 
         Polymod.addDefaultImport(PlayState);
+        Polymod.addDefaultImport(GameOverSubstate);
+        Polymod.addDefaultImport(PauseSubState);
+
         Polymod.addDefaultImport(Character);
-        Polymod.addDefaultImport(modding.ScriptingUtil);
-        Polymod.addDefaultImport(Utils);
         Polymod.addDefaultImport(Conductor);
         Polymod.addDefaultImport(AtlasSprite);
         Polymod.addDefaultImport(Binds);
         Polymod.addDefaultImport(VideoHandler);
-        Polymod.addDefaultImport(DialogueBox);
-        Polymod.addDefaultImport(debug.ChartingState);
         Polymod.addDefaultImport(shaders.RuntimeShader);
+        Polymod.addDefaultImport(debug.ChartingState);
 
-        //Import customizable class so now we can make custom class without importing
+        Polymod.addDefaultImport(Utils);
+        Polymod.addDefaultImport(modding.ScriptingUtil);
+
+        //Import scriptable classes so they can be made without importing
         Polymod.addDefaultImport(characters.CharacterInfoBase);
         Polymod.addDefaultImport(note.NoteType);
         Polymod.addDefaultImport(events.Events);

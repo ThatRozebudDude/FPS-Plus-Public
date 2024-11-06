@@ -1,9 +1,5 @@
 package;
 
-import scripts.ScriptableScript;
-import scripts.Script;
-import modding.PolymodHandler;
-import openfl.filters.ShaderFilter;
 import shaders.*;
 import ui.*;
 import config.*;
@@ -16,7 +12,6 @@ import cutscenes.*;
 import cutscenes.data.*;
 import events.*;
 import note.*;
-import story.StoryMenuState;
 
 import flixel.FlxBasic;
 import flixel.math.FlxAngle;
@@ -51,6 +46,11 @@ import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxTimer;
 import extensions.flixel.FlxTextExt;
+import scripts.ScriptableScript;
+import scripts.Script;
+import modding.PolymodHandler;
+import openfl.filters.ShaderFilter;
+import story.StoryMenuState;
 
 using StringTools;
 
@@ -1424,7 +1424,7 @@ class PlayState extends MusicBeatState
 			openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
 
-		if (FlxG.keys.justPressed.SEVEN && !isStoryMode){
+		if (Binds.justPressed("chartEditor") && !isStoryMode){
 
 			if(!FlxG.keys.pressed.SHIFT){
 				ChartingState.startSection = curSection;
@@ -1446,7 +1446,7 @@ class PlayState extends MusicBeatState
 			vocalsOther.pause();
 		}
 
-		if (FlxG.keys.justPressed.F5 && !isStoryMode){
+		if (Binds.justPressed("polymodReload") && !isStoryMode){
 			FlxG.sound.music.pause();
 			PolymodHandler.reload();
 		}
@@ -1482,7 +1482,7 @@ class PlayState extends MusicBeatState
 			iconP2.animation.curAnim.curFrame = 0;
 		}
 
-		if (FlxG.keys.justPressed.EIGHT && !isStoryMode){
+		if (Binds.justPressed("offsetEditor") && !isStoryMode){
 
 			sectionStart = false;
 

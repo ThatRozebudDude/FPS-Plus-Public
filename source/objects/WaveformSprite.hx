@@ -1,4 +1,4 @@
-package;
+package objects;
 
 import flixel.util.FlxColor;
 import lime.media.AudioBuffer;

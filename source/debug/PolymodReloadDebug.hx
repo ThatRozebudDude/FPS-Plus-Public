@@ -18,7 +18,7 @@ class PolymodReloadDebug extends FlxState
 	}
 
 	override function update(elapsed:Float) {
-		if(FlxG.keys.anyJustPressed([F5])){
+		if(Binds.justPressed("polymodReload")){
 			PolymodHandler.reload();
 		}
 

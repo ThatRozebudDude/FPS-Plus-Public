@@ -273,7 +273,7 @@ class AnimationDebug extends FlxState
 				dad.getSprite().alpha = 0.5;
 		}
 
-		if(FlxG.keys.anyJustPressed([F5])){
+		if(Binds.justPressed("polymodReload")){
 			PolymodHandler.reload();
 		}
 

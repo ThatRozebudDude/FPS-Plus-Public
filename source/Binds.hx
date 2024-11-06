@@ -190,6 +190,36 @@ class Binds
 
 
 
+        //Dev buttons
+        var k:Keybind = {
+            name: "Chart Editor",
+            category: "Developement",
+            binds: [SEVEN],
+            controllerBinds: [],
+            local: true
+        };
+        r.set("chartEditor", k);
+
+        var k:Keybind = {
+            name: "Offset Editor",
+            category: "Developement",
+            binds: [EIGHT],
+            controllerBinds: [],
+            local: true
+        };
+        r.set("offsetEditor", k);
+
+        var k:Keybind = {
+            name: "Reload Mods",
+            category: "Developement",
+            binds: [F5],
+            controllerBinds: [],
+            local: true
+        };
+        r.set("polymodReload", k);
+
+
+
         return r;
     }
 

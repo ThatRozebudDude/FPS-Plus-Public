@@ -250,6 +250,10 @@ class KeyBindMenu extends FlxUIStateExt
                     FlxTween.color(bg, 1.75, 0xFFA784BA, 0xFF9766BE, {ease: FlxEase.quintOut});
                 }
         }
+
+        if(!ConfigMenu.USE_MENU_MUSIC && ConfigMenu.USE_LAYERED_MUSIC && Math.abs(FlxG.sound.music.time - songLayer.time) > 20){
+			resyncMusic();
+		}
 		
 	}
 
@@ -486,6 +490,13 @@ class KeyBindMenu extends FlxUIStateExt
         }
 
         return 'Press $removeKey to remove a bind. Hold $resetKey to reset all binds.';
+    }
+
+    function resyncMusic():Void {
+        songLayer.pause();
+        FlxG.sound.music.play();
+        songLayer.time = FlxG.sound.music.time;
+        songLayer.play();
     }
 
 }

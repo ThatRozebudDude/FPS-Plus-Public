@@ -1,4 +1,4 @@
-package;
+package objects;
 
 #if sys
 import sys.io.File;

@@ -119,8 +119,7 @@ class CacheSettings extends FlxUIStateExt
 		super.create();
 	}
 
-	override function update(elapsed:Float)
-	{
+	override function update(elapsed:Float){
 
         switch(state){
 
@@ -157,6 +156,10 @@ class CacheSettings extends FlxUIStateExt
                 state = "select";
 
         }
+
+        if(!noFunMode && !ConfigMenu.USE_MENU_MUSIC && ConfigMenu.USE_LAYERED_MUSIC && Math.abs(FlxG.sound.music.time - songLayer.time) > 20){
+			resyncMusic();
+		}
 
     }
 
@@ -230,8 +233,7 @@ class CacheSettings extends FlxUIStateExt
 
     }
 
-    function changeItem(_amount:Int = 0)
-    {
+    function changeItem(_amount:Int = 0){
         curSelected += _amount;
                 
         if (curSelected > 2)
@@ -242,5 +244,12 @@ class CacheSettings extends FlxUIStateExt
         switch(curSelected){}
 
         warning.text = warningText[curSelected];
+    }
+
+    function resyncMusic():Void {
+        songLayer.pause();
+        FlxG.sound.music.play();
+        songLayer.time = FlxG.sound.music.time;
+        songLayer.play();
     }
 }

@@ -313,7 +313,7 @@ class StoryMenuState extends MusicBeatState
 			switchState(new MainMenuState());
 		}
 
-		if (FlxG.keys.justPressed.F5 && !movedBack){
+		if (Binds.justPressed("polymodReload") && !movedBack){
 			PolymodHandler.reload();
 		}
 

@@ -353,7 +353,7 @@ class FreeplayState extends MusicBeatState
 		camFollow.x = Utils.fpsAdjsutedLerp(camFollow.x, camTarget.x, MainMenuState.lerpSpeed);
 		camFollow.y = Utils.fpsAdjsutedLerp(camFollow.y, camTarget.y, MainMenuState.lerpSpeed);
 
-		if (FlxG.keys.justPressed.F5){
+		if(Binds.justPressed("polymodReload")){
 			PolymodHandler.reload();
 		}
 

@@ -573,7 +573,7 @@ class ResultsState extends FlxUIStateExt
             }
         }
 
-        if(FlxG.keys.anyJustPressed([F5])){
+        if(Binds.justPressed("polymodReload")){
             PolymodHandler.reload();
         }
 

@@ -197,7 +197,7 @@ class TitleScreen extends MusicBeatState
 			});
 		}
 
-		/*if(!transitioning && FlxG.keys.anyJustPressed([F5])){
+		/*if(!transitioning && Binds.justPressed("polymodReload")){
 			PolymodHandler.reInit();
 			PolymodHandler.reload();
 		}*/
