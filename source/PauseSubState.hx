@@ -104,8 +104,6 @@ class PauseSubState extends MusicBeatSubstate
 		if(PlayState.instance.metadata != null){
 			var distance:Float = 32;
 
-			trace("WHERE ARE YOU?");
-
 			songName = new FlxTextExt(16, 16, 1280-32, PlayState.instance.metadata.name, 40);
 			songName.setFormat(Paths.font("vcr"), 40, FlxColor.WHITE, RIGHT, OUTLINE, FlxColor.BLACK);
 			songName.borderSize = 3;
