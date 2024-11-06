@@ -313,10 +313,20 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if(Utils.exists(Paths.json(SONG.song.toLowerCase() + "/meta"))){
-			metadata = Json.parse(Utils.getText(Paths.json(SONG.song.toLowerCase() + "/meta")));
-		}
+		metadata = Utils.defaultSongMetadata(SONG.song.replace("-", " "));
 
+		if(Utils.exists("assets/data/songs/" + SONG.song.toLowerCase() + "/meta.json")){
+			var jsonMeta = Json.parse(Utils.getText("assets/data/songs/" + SONG.song.toLowerCase() + "/meta.json"));
+			if(jsonMeta.name != null)				{ metadata.name = jsonMeta.name; }
+			if(jsonMeta.artist != null)				{ metadata.artist = jsonMeta.artist; }
+			if(jsonMeta.album != null)				{ metadata.album = jsonMeta.album; }
+			if(jsonMeta.difficulties != null)		{ metadata.difficulties = jsonMeta.difficulties; }
+			if(jsonMeta.dadBeats != null)			{ metadata.dadBeats = jsonMeta.dadBeats; }
+			if(jsonMeta.bfBeats != null)			{ metadata.bfBeats = jsonMeta.bfBeats; }
+			if(jsonMeta.compatableInsts != null)	{ metadata.compatableInsts = jsonMeta.compatableInsts; }
+			if(jsonMeta.mixName != null)			{ metadata.mixName = jsonMeta.mixName; }
+		}
+		
 		for(i in EVENTS.events){
 			eventList.push([i[1], i[3]]);
 		}

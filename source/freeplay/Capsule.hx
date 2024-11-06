@@ -107,6 +107,12 @@ class Capsule extends FlxSpriteGroup
         var iconXOffset:Float = 0;
         var iconYOffset:Float = 0;
 
+        var noIcon:Bool = false;
+        if(_icon == "none"){
+            noIcon = true;
+            _icon = "bf";
+        }
+
         if(Utils.exists(Paths.json(_icon, "images/menu/freeplay/icons"))){
             var iconJson = Json.parse(Utils.getText(Paths.json(_icon, "images/menu/freeplay/icons")));
             iconXOffset = iconJson.offset[0];
@@ -120,6 +126,7 @@ class Capsule extends FlxSpriteGroup
         icon.animation.play("idle", true);
         icon.origin.set(0, 0);
         icon.scale.set(2, 2);
+        icon.visible = !noIcon;
 
         rank = new FlxSprite(358, 27);
         rank.frames = Paths.getSparrowAtlas("menu/freeplay/rankbadges");

@@ -470,7 +470,14 @@ class StoryMenuState extends MusicBeatState
 		var stringThing:Array<String> = weekList[curWeek].songs;
 
 		for (song in stringThing){
-			var meta = Json.parse(Utils.getText("assets/data/songs/" + song.toLowerCase() + "/meta.json"));
+
+			var meta = Utils.defaultSongMetadata(song.replace("-", " "));
+
+			if(Utils.exists("assets/data/songs/" + song.toLowerCase() + "/meta.json")){
+				var jsonMeta = Json.parse(Utils.getText("assets/data/songs/" + song.toLowerCase() + "/meta.json"));
+				if(jsonMeta.name != null) { meta.name = jsonMeta.name; }
+			}
+
 			txtTracklist.text += "\n" + meta.name;
 		}
 

@@ -429,7 +429,7 @@ class ChartingState extends MusicBeatState
 
 		var loadAutosaveBtn:FlxButton = new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'load autosave', loadAutosave);
 
-		var fullreset:FlxButton = new FlxButton(10, 150, "Full Blank", function()
+		var fullreset:FlxButton = new FlxButton(10, 300, "Full Blank", function()
 		{
 			var song_name = _song.song;
 
@@ -437,11 +437,15 @@ class ChartingState extends MusicBeatState
 				song: song_name,
 				notes: [],
 				bpm: 120.0,
-				player1: 'bf',
-				player2: 'dad',
-				stage: 'stage',
-				gf: 'gf',
+				player1: 'Bf',
+				player2: 'Dad',
+				stage: 'Stage',
+				gf: 'Gf',
 				speed: 1
+			};
+
+			PlayState.EVENTS = {
+				events: []
 			};
 
 			FlxG.resetState();
@@ -507,6 +511,7 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(stageDropDown);
 		tab_group_song.add(player1DropDown);
 		tab_group_song.add(player2DropDown);
+		tab_group_song.add(fullreset);
 		
 
 		UI_box.addGroup(tab_group_song);

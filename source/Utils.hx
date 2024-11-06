@@ -166,6 +166,19 @@ class Utils
 		});
 	}
 
+	public static inline function defaultSongMetadata(_name:String):Dynamic{
+		return {
+			name: _name,
+			artist: "",
+			album: "none",
+			difficulties: [0, 0, 0],
+    		dadBeats: [0, 2],
+			bfBeats: [1, 3],
+			compatableInsts: null,
+			mixName: "Original"
+		}
+	}
+
 	public static inline function keyToString(key:FlxKey):String{
 		switch(key){
 			case ZERO:

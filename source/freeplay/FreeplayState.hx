@@ -660,18 +660,18 @@ class FreeplayState extends MusicBeatState
 
 	function addSong(_song:String, _icon:String, ?categories:Array<String>):Void{
 
-		var meta = {
-			name: _song.replace("-", ""),
-			artist: "",
-			album: "vol1",
-			difficulties: [0, 0, 0],
-    		dadBeats: [0, 2],
-			bfBeats: [1, 3],
-			compatableInsts: null,
-			mixName: "Original"
-		}
+		var meta = Utils.defaultSongMetadata(_song.replace("-", " "));
+
 		if(Utils.exists("assets/data/songs/" + _song.toLowerCase() + "/meta.json")){
-			meta = Json.parse(Utils.getText("assets/data/songs/" + _song.toLowerCase() + "/meta.json"));
+			var jsonMeta = Json.parse(Utils.getText("assets/data/songs/" + _song.toLowerCase() + "/meta.json"));
+			if(jsonMeta.name != null)				{ meta.name = jsonMeta.name; }
+			if(jsonMeta.artist != null)				{ meta.artist = jsonMeta.artist; }
+			if(jsonMeta.album != null)				{ meta.album = jsonMeta.album; }
+			if(jsonMeta.difficulties != null)		{ meta.difficulties = jsonMeta.difficulties; }
+			if(jsonMeta.dadBeats != null)			{ meta.dadBeats = jsonMeta.dadBeats; }
+			if(jsonMeta.bfBeats != null)			{ meta.bfBeats = jsonMeta.bfBeats; }
+			if(jsonMeta.compatableInsts != null)	{ meta.compatableInsts = jsonMeta.compatableInsts; }
+			if(jsonMeta.mixName != null)			{ meta.mixName = jsonMeta.mixName; }
 		}
 
 		if(categories == null){ categories = ["All"]; }
@@ -850,8 +850,15 @@ class FreeplayState extends MusicBeatState
 		var newAlbum:String = categoryMap[categoryNames[curCategory]][curSelected].album;
 		if(newAlbum != curAlbum){
 			curAlbum = newAlbum;
-			album.loadGraphic(Paths.image("menu/freeplay/album/" + curAlbum + "/album"));
-			albumTitle.loadGraphic(Paths.image("menu/freeplay/album/" + curAlbum + "/title"));
+
+			if(newAlbum == "none"){
+				albumTitle.visible = false;
+				newAlbum = "vol1";
+			}
+			else{ albumTitle.visible = true; }
+
+			album.loadGraphic(Paths.image("menu/freeplay/album/" + newAlbum + "/album"));
+			albumTitle.loadGraphic(Paths.image("menu/freeplay/album/" + newAlbum + "/title"));
 
 			if(doTween){
 				FlxTween.completeTweensOf(albumDummy);
@@ -866,9 +873,9 @@ class FreeplayState extends MusicBeatState
 				FlxTween.color(albumTitleColorDummy, 0.2, 0xFF4B97F3, 0xFF000000, {ease: FlxEase.quadIn, onUpdate: function(t){
 					albumTitleShader.blackColor = albumTitleColorDummy.color;
 				}});
-				
-				albumTitle.offset.x = (albumTitle.width - 234)/2;
 			}
+
+			albumTitle.offset.x = (albumTitle.width - 234)/2;
 		}
 	}
 
