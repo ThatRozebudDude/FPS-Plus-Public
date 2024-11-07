@@ -1,12 +1,10 @@
 import objects.ABot;
 import flixel.FlxG;
-import flixel.math.FlxPoint;
 
 class NeneChristmas extends CharacterInfoBase
 {
 
-    override public function new(){
-
+    public function new(){
         super();
 
         includeInCharacterList = false;
@@ -17,7 +15,7 @@ class NeneChristmas extends CharacterInfoBase
         info.frameLoadType = setSparrow();
         
         info.iconName = "face";
-        info.focusOffset = new FlxPoint();
+        info.focusOffset.set();
 
 		addByIndices("danceLeft", offset(0, 0), "Nene Abot Idle xmas", [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], "", 24, loop(false, 0), false, false);
         addByIndices("danceRight", offset(0, 0), "Nene Abot Idle xmas", [15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], "", 24, loop(false, 0), false, false);

@@ -3,8 +3,7 @@ import flixel.tweens.FlxEase;
 class Gf extends CharacterInfoBase
 {
 
-    override public function new(){
-
+    public function new(){
         super();
 
         includeInGfList = true;

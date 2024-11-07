@@ -1,8 +1,7 @@
 class PicoLil extends CharacterInfoBase
 {
 
-    override public function new(){
-
+    public function new(){
         super();
 
         info.name = "pico-lil";

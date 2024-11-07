@@ -1,8 +1,7 @@
 class Monster extends CharacterInfoBase
 {
 
-    override public function new(){
-
+    public function new(){
         super();
 
         info.name = "monster";

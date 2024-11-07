@@ -1,8 +1,7 @@
 class GfTankmen extends CharacterInfoBase
 {
 
-    override public function new(){
-
+    public function new(){
         super();
 
         includeInCharacterList = false;

@@ -4,8 +4,7 @@ import flixel.FlxG;
 class PicoDead extends CharacterInfoBase
 {
 
-    override public function new(){
-
+    public function new(){
         super();
 
         includeInCharacterList = false;

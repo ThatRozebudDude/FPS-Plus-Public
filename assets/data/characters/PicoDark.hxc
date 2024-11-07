@@ -3,8 +3,7 @@ import shaders.TextureMixShader;
 class PicoDark extends CharacterInfoBase
 {
 
-    override public function new(){
-
+    public function new(){
         super();
 
         info.name = "pico";

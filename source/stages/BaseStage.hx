@@ -218,6 +218,10 @@ class BaseStage
     inline function removeFromCharacterLive(x:FlxBasic)  { PlayState.instance.characterLayer.remove(x); }
     inline function addToForegroundLive(x:FlxBasic)      { PlayState.instance.foregroundLayer.add(x); }
     inline function removeFromForegroundLive(x:FlxBasic) { PlayState.instance.foregroundLayer.remove(x); }
+    inline function addToOverlayLive(x:FlxBasic)         { PlayState.instance.overlayLayer.add(x); }
+    inline function removeFromOverlayLive(x:FlxBasic)    { PlayState.instance.overlayLayer.remove(x); }
+    inline function addToHudLive(x:FlxBasic)             { PlayState.instance.hudLayer.add(x); }
+    inline function removeHudLive(x:FlxBasic)            { PlayState.instance.hudLayer.remove(x); }
 
     public function toString():String{ return "Stage: " + name; }
 }

@@ -1,8 +1,7 @@
 class BfHoldingGf extends CharacterInfoBase
 {
 
-    override public function new(){
-
+    public function new(){
         super();
 
         info.name = "bf-holding-gf";

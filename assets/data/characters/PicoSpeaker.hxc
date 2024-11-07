@@ -4,8 +4,7 @@ import objects.TankmenBG;
 class PicoSpeaker extends CharacterInfoBase
 {
 
-    override public function new(){
-
+    public function new(){
         super();
 
         includeInCharacterList = false;

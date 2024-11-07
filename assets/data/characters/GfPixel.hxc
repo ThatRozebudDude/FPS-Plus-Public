@@ -1,8 +1,7 @@
 class GfPixel extends CharacterInfoBase
 {
 
-    override public function new(){
-
+    public function new(){
         super();
 
         includeInCharacterList = false;

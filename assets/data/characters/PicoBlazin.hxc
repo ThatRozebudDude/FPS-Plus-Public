@@ -4,8 +4,7 @@ import flixel.FlxSprite;
 class PicoBlazin extends CharacterInfoBase
 {
 
-    override public function new(){
-
+    public function new(){
         super();
 
         info.name = "pico-blazin";
