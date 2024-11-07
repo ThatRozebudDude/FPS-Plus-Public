@@ -181,8 +181,8 @@ class PlayState extends MusicBeatState
 	public var playerStrums:FlxTypedGroup<FlxSprite>;
 	public var enemyStrums:FlxTypedGroup<FlxSprite>;
 
-	private var playerCovers:FlxTypedGroup<NoteHoldCover>;
-	private var enemyCovers:FlxTypedGroup<NoteHoldCover>;
+	public var playerCovers:FlxTypedGroup<NoteHoldCover>;
+	public var enemyCovers:FlxTypedGroup<NoteHoldCover>;
 
 	public var curSong:String = "";
 
@@ -212,7 +212,7 @@ class PlayState extends MusicBeatState
 
 	public var comboUI:ComboPopup;
 	public static final minCombo:Int = 10;
-	private var comboUiGroup:FlxTypedGroup<ComboPopup>;
+	public var comboUiGroup:FlxTypedGroup<ComboPopup>;
 
 	public var stage:BaseStage;
 

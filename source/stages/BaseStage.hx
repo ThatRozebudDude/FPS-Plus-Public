@@ -118,8 +118,17 @@ class BaseStage
      *
      * @param   obj     The object that will be added to the update loop.
      */
-     public function addToUpdate(obj:FlxBasic){
+    public function addToUpdate(obj:FlxBasic){
         updateGroup.add(obj);
+    }
+
+    /**
+     * Remove an object from the stage's update loop.
+     *
+     * @param   obj     The object that will be added to the update loop.
+     */
+    public function removeFromUpdate(obj:FlxBasic){
+        updateGroup.remove(obj);
     }
 
     /**
