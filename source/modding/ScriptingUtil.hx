@@ -1,5 +1,6 @@
 package modding;
 
+import flixel.input.keyboard.FlxKey;
 import Highscore.Rank;
 import flixel.FlxG;
 import flixel.util.FlxAxes;
@@ -77,6 +78,8 @@ class ScriptingUtil
 
     public static inline function makeFlxGroup():FlxTypedGroup<FlxBasic>                { return new FlxTypedGroup<FlxBasic>(); }
     public static inline function makeFlxSpriteGroup():FlxTypedSpriteGroup<FlxSprite>   { return new FlxTypedSpriteGroup<FlxSprite>(); }
+
+    public static inline function keyFromString(key:String):FlxKey                      { return FlxKey.fromString(key); }
 
     //Things that should work but don't... kinda...
     public static inline function contains(a:String, b:String):Bool                     { return a.contains(b); }

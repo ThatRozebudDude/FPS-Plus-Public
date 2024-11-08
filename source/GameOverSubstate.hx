@@ -71,7 +71,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		}
 		
 		PlayState.instance.stage.gameOverStart();
-		for(script in PlayState.instance.loadedScripts){ script.gameOverStart(); }
+		for(script in PlayState.instance.scripts){ script.gameOverStart(); }
 	}
 
 	override function update(elapsed:Float){
@@ -99,7 +99,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			}
 
 			PlayState.instance.stage.gameOverLoop();
-			for(script in PlayState.instance.loadedScripts){ script.gameOverLoop(); }
+			for(script in PlayState.instance.scripts){ script.gameOverLoop(); }
 		}
 
 		if (FlxG.sound.music.playing){
@@ -126,7 +126,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			FlxG.sound.play(Paths.music(bf.deathSongEnd));
 		}
 		PlayState.instance.stage.gameOverEnd();
-		for(script in PlayState.instance.loadedScripts){ script.gameOverEnd(); }
+		for(script in PlayState.instance.scripts){ script.gameOverEnd(); }
 		new FlxTimer().start(0.4, function(tmr:FlxTimer){
 			camGameOver.fade(FlxColor.BLACK, 1.2, false, function(){
 				PlayState.instance.switchState(new PlayState());

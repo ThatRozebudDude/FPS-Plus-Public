@@ -84,6 +84,10 @@ class Script
     inline function removeFromCharacter(x:FlxBasic)     { PlayState.instance.characterLayer.remove(x); }
     inline function addToForeground(x:FlxBasic)         { PlayState.instance.foregroundLayer.add(x); }
     inline function removeFromForeground(x:FlxBasic)    { PlayState.instance.foregroundLayer.remove(x); }
+    inline function addToOverlay(x:FlxBasic)            { PlayState.instance.overlayLayer.add(x); }
+    inline function removeFromOverlay(x:FlxBasic)       { PlayState.instance.overlayLayer.remove(x); }
+    inline function addToHud(x:FlxBasic)                { PlayState.instance.hudLayer.add(x); }
+    inline function removeHud(x:FlxBasic)               { PlayState.instance.hudLayer.remove(x); }
 
     inline function addGeneric(x:FlxBasic)              { FlxG.state.add(x); }
     inline function removeGeneric(x:FlxBasic)           { FlxG.state.remove(x); }

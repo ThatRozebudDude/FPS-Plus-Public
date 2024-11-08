@@ -261,7 +261,7 @@ class PlayState extends MusicBeatState
 	var endCutsceneStoryOnly:Bool = false;
 	var endCutscenePlayOnce:Bool = false;
 
-	public var loadedScripts:Array<Script> = [];
+	public var scripts:Map<String, Script> = new Map<String, Script>();
 
 	public static var replayStartCutscene:Bool = true;
 	public static var replayEndCutscene:Bool = true;
@@ -707,7 +707,7 @@ class PlayState extends MusicBeatState
 		for(script in scriptList){
 			if(ScriptableScript.listScriptClasses().contains(script)){
 				var scriptToAdd:Script = ScriptableScript.init(script);
-				loadedScripts.push(scriptToAdd);
+				scripts.set(script, scriptToAdd);
 			}
 		}
 
@@ -725,7 +725,7 @@ class PlayState extends MusicBeatState
 		fceForLilBuddies = false;
 		
 		stage.postCreate();
-		for(script in loadedScripts){ script.create(); }
+		for(script in scripts){ script.create(); }
 		
 		cutsceneCheck();
 
@@ -780,7 +780,7 @@ class PlayState extends MusicBeatState
 		var countdownSkin:CountdownSkinBase = new CountdownSkinBase(countdownSkinName);
 
 		stage.countdownBeat(-1);
-		for(script in loadedScripts){ script.countdownBeat(-1); }
+		for(script in scripts){ script.countdownBeat(-1); }
 
 		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 		{
@@ -895,7 +895,7 @@ class PlayState extends MusicBeatState
 
 			if(swagCounter < 4){
 				stage.countdownBeat(swagCounter);
-				for(script in loadedScripts){ script.countdownBeat(swagCounter); }
+				for(script in scripts){ script.countdownBeat(swagCounter); }
 			}
 
 			swagCounter++;
@@ -917,8 +917,6 @@ class PlayState extends MusicBeatState
 
 		startedCountdown = true;
 		Conductor.songPosition = 0;
-
-		beatHit();
 	}
 
 	function startSong():Void{
@@ -954,13 +952,13 @@ class PlayState extends MusicBeatState
 			gf.characterInfo.info.functions.songStart(gf);
 		}
 		stage.songStart();
-		for(script in loadedScripts){ script.songStart(); }
+		for(script in scripts){ script.songStart(); }
 
 		boyfriend.step(0);
 		dad.step(0);
 		gf.step(0);
 		stage.step(0);
-		for(script in loadedScripts){ script.step(0); }
+		for(script in scripts){ script.step(0); }
 
 		beatHit();
 	}
@@ -1300,11 +1298,6 @@ class PlayState extends MusicBeatState
 
 			if (startTimer != null && !startTimer.finished)
 				startTimer.active = false;
-
-			if(goingToPause){
-				stage.pause();
-				for(script in loadedScripts){ script.pause(); }
-			}
 		}
 
 		super.openSubState(SubState);
@@ -1323,12 +1316,6 @@ class PlayState extends MusicBeatState
 			}
 				
 			paused = false;
-
-			if(goingToPause){
-				stage.unpause();
-				for(script in loadedScripts){ script.unpause(); }
-				goingToPause = false;
-			}
 		}
 
 		setBoyfriendInvuln(1/60);
@@ -1356,7 +1343,6 @@ class PlayState extends MusicBeatState
 	}
 
 	private var paused:Bool = false;
-	private var goingToPause:Bool = false;
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 
@@ -1414,7 +1400,7 @@ class PlayState extends MusicBeatState
 		super.update(elapsed);
 
 		stage.update(elapsed);
-		for(script in loadedScripts){ script.update(elapsed); }
+		for(script in scripts){ script.update(elapsed); }
 
 		if(!startingSong){
 			for(i in eventList){
@@ -1430,7 +1416,6 @@ class PlayState extends MusicBeatState
 
 		if (Binds.justPressed("pause") && startedCountdown && canPause){
 			paused = true;
-			goingToPause = true;
 			openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
 
@@ -2381,7 +2366,7 @@ class PlayState extends MusicBeatState
 		dad.step(curStep+1);
 		gf.step(curStep+1);
 		stage.step(curStep+1);
-		for(script in loadedScripts){ script.step(curStep+1); }
+		for(script in scripts){ script.step(curStep+1); }
 
 		super.stepHit();
 	}
@@ -2434,7 +2419,7 @@ class PlayState extends MusicBeatState
 		dad.beat(curBeat);
 		gf.beat(curBeat);
 		stage.beat(curBeat);
-		for(script in loadedScripts){ script.beat(curBeat); }
+		for(script in scripts){ script.beat(curBeat); }
 		
 	}
 
@@ -2848,7 +2833,7 @@ class PlayState extends MusicBeatState
 
 	function preStateChange():Void{
 		stage.exit();
-		for(script in loadedScripts){ script.exit(); }
+		for(script in scripts){ script.exit(); }
 	}
 
 }

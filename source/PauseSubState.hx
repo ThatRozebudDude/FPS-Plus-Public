@@ -127,6 +127,9 @@ class PauseSubState extends MusicBeatSubstate
 		changeSelection();
 
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+
+		PlayState.instance.stage.pause();
+		for(script in PlayState.instance.scripts){ script.pause(); }
 	}
 
 	override function update(elapsed:Float){
@@ -226,6 +229,8 @@ class PauseSubState extends MusicBeatSubstate
 	function unpause(){
 		Config.setFramerate(999);
 		FlxG.cameras.remove(camPause, true);
+		PlayState.instance.stage.unpause();
+		for(script in PlayState.instance.scripts){ script.unpause(); }
 		close();
 	}
 
