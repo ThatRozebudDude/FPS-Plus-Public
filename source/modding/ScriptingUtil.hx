@@ -1,5 +1,6 @@
 package modding;
 
+import flixel.text.FlxText.FlxTextBorderStyle;
 import flixel.input.keyboard.FlxKey;
 import Highscore.Rank;
 import flixel.FlxG;
@@ -75,6 +76,15 @@ class ScriptingUtil
     public static inline function get_rankPerfect()     { return perfect; }
     public static var rankGold(get, never):Rank;
     public static inline function get_rankGold()        { return gold; }
+    
+    public static var borderStyleNone(get, never):FlxTextBorderStyle;
+    public static inline function get_borderStyleNone()         { return FlxTextBorderStyle.NONE; }
+    public static var borderStyleShadow(get, never):FlxTextBorderStyle;
+    public static inline function get_borderStyleShadow()       { return FlxTextBorderStyle.SHADOW; }
+    public static var borderStyleOutline(get, never):FlxTextBorderStyle;
+    public static inline function get_borderStyleOutline()      { return FlxTextBorderStyle.OUTLINE; }
+    public static var borderStyleOutlineFast(get, never):FlxTextBorderStyle;
+    public static inline function get_borderStyleOutlineFast()  { return FlxTextBorderStyle.OUTLINE_FAST; }
 
     public static inline function makeFlxGroup():FlxTypedGroup<FlxBasic>                { return new FlxTypedGroup<FlxBasic>(); }
     public static inline function makeFlxSpriteGroup():FlxTypedSpriteGroup<FlxSprite>   { return new FlxTypedSpriteGroup<FlxSprite>(); }

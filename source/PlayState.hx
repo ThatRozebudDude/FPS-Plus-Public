@@ -1438,7 +1438,7 @@ class PlayState extends MusicBeatState
 
 			FlxG.sound.music.pause();
 			vocals.pause();
-			vocalsOther.pause();
+			if(vocalType == splitVocalTrack){ vocalsOther.pause(); }
 		}
 
 		if (Binds.justPressed("polymodReload") && !isStoryMode){
