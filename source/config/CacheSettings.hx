@@ -39,6 +39,7 @@ class CacheSettings extends FlxUIStateExt
     var state:String = "select";
 
     var songLayer:FlxSound;
+	var quitting:Bool = false;
 
 	override function create()
 	{
@@ -157,7 +158,7 @@ class CacheSettings extends FlxUIStateExt
 
         }
 
-        if(!noFunMode && !ConfigMenu.USE_MENU_MUSIC && ConfigMenu.USE_LAYERED_MUSIC && Math.abs(FlxG.sound.music.time - songLayer.time) > 20){
+        if(!noFunMode && !quitting && !ConfigMenu.USE_MENU_MUSIC && ConfigMenu.USE_LAYERED_MUSIC && Math.abs(FlxG.sound.music.time - songLayer.time) > 20){
 			resyncMusic();
 		}
 
@@ -227,6 +228,7 @@ class CacheSettings extends FlxUIStateExt
             });
         }
 
+        quitting = true;
         noFunMode = false;
 
         switchState(returnLoc);
