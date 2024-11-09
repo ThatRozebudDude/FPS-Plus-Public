@@ -181,5 +181,5 @@ class CharacterAnimationEvents extends Events
     var DAD_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether Dad will automatically play animations.";
     var GF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether GF will automatically play animations.";
 
-    var CHANGE_CHARACTER_DESC:String = "Change Character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation set suffix";
+    var CHANGE_CHARACTER_DESC:String = "Change Character.\n\nArgs:\n    String: Target Character to change (\"bf\", \"dad\", or \"gf\")\n    String: New Character Class Name";
 }
