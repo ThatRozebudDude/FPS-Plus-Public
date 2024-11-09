@@ -15,6 +15,8 @@ class CharacterAnimationEvents extends Events
         addEvent("bfAnimLockToggle", bfAnimLockToggle, BF_ANIM_LOCK_TOGGLE_DESC);
         addEvent("dadAnimLockToggle", dadAnimLockToggle, DAD_ANIM_LOCK_TOGGLE_DESC);
         addEvent("gfAnimLockToggle", gfAnimLockToggle, GF_ANIM_LOCK_TOGGLE_DESC);
+
+        addEvent("changeCharacter", changeCharacter, CHANGE_CHARACTER_DESC);
     }
 
     function playAnim(tag:String):Void{
@@ -112,6 +114,59 @@ class CharacterAnimationEvents extends Events
         gf.canAutoAnim = !gf.canAutoAnim;
     }
 
+    function changeCharacter(tag:String):Void{
+        var args = Events.getArgs(tag, ["bf", "bf"]);
+        switch(args[0].toLowerCase()){
+            case "bf":
+                if (boyfriend.charClass == args[1]){
+                    return;
+                }
+                var boyfriend = new Character(0, 0, args[1], true);
+                playstate.iconP1.setIconCharacter(boyfriend.iconName);
+
+                if((playstate.stage.useStartPoints && !playstate.stage.overrideBfStartPoints) || (!playstate.stage.useStartPoints && playstate.stage.overrideBfStartPoints)){
+                    boyfriend.setPosition(playstate.stage.bfStart.x - ((boyfriend.getFrameWidth() * boyfriend.getScale().x)/2), playstate.stage.bfStart.y - (boyfriend.getFrameHeight() * boyfriend.getScale().y));
+                }
+                boyfriend.reposition();
+
+                playstate.characterLayer.add(boyfriend);
+
+                playstate.boyfriend.destroy();
+                playstate.boyfriend = boyfriend;
+            case "dad":
+                if (dad.charClass == args[1]){
+                    return;
+                }
+                var dad = new Character(0, 0, args[1]);
+                playstate.iconP2.setIconCharacter(dad.iconName);
+
+                if((playstate.stage.useStartPoints && !playstate.stage.overrideDadStartPoints) || (!playstate.stage.useStartPoints && playstate.stage.overrideDadStartPoints)){
+                    dad.setPosition(playstate.stage.dadStart.x - ((dad.getFrameWidth() * dad.getScale().x)/2), playstate.stage.dadStart.y - (dad.getFrameHeight() * dad.getScale().y));
+                }
+                dad.reposition();
+
+                playstate.characterLayer.add(dad);
+
+                playstate.dad.destroy();
+                playstate.dad = dad;
+            case "gf":
+                if (gf.charClass == args[1]){
+                    return;
+                }
+                var gf = new Character(400, 130, args[1], false, true);
+
+                if((playstate.stage.useStartPoints && !playstate.stage.overrideGfStartPoints) || (!playstate.stage.useStartPoints && playstate.stage.overrideGfStartPoints)){
+                    gf.setPosition(playstate.stage.gfStart.x - ((gf.getFrameWidth() * gf.getScale().x)/2), playstate.stage.gfStart.y - (gf.getFrameHeight() * gf.getScale().y));
+                }
+                gf.reposition();
+
+                playstate.characterLayer.add(gf);
+
+                playstate.gf.destroy();
+                playstate.gf = gf;
+        }
+    }
+
 
 
     //Event descriptions. Not required but it helps with charting.
@@ -125,4 +180,6 @@ class CharacterAnimationEvents extends Events
     var BF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether BF will automatically play animations.";
     var DAD_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether Dad will automatically play animations.";
     var GF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether GF will automatically play animations.";
+
+    var CHANGE_CHARACTER_DESC:String = "Change Character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation set suffix";
 }

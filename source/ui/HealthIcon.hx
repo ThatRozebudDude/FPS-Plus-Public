@@ -30,14 +30,7 @@ class HealthIcon extends FlxSprite
 
 		isPlayer = _isPlayer;
 
-		if(Utils.exists(Paths.file("ui/heathIcons/" + _character, "images", "png"))){
-			character = _character;
-		}
-		else{
-			trace("No icon exists at ui/heathIcons/" + _character + ".png, defaulting to face.");
-		}
-
-		setIconCharacter(character);
+		setIconCharacter(_character);
 
 		iconSize = width;
 
@@ -66,7 +59,14 @@ class HealthIcon extends FlxSprite
 
 	}
 
-	public function setIconCharacter(character:String){
+	public function setIconCharacter(_character:String){
+		if(Utils.exists(Paths.file("ui/heathIcons/" + _character, "images", "png"))){
+			character = _character;
+		}
+		else{
+			trace("No icon exists at ui/heathIcons/" + _character + ".png, defaulting to face.");
+		}
+
 		//This loads the image, gets it's dimensions, and reloads the image with animation based on cutting up the dimensions.
 		//Basically you can have any size icon as long as it's evenly cut.
 
