@@ -115,55 +115,67 @@ class CharacterAnimationEvents extends Events
     }
 
     function changeCharacter(tag:String):Void{
-        var args = Events.getArgs(tag, ["bf", "bf"]);
+        var args = Events.getArgs(tag, ["bf", "Bf"]);
         switch(args[0].toLowerCase()){
             case "bf":
-                if (boyfriend.charClass == args[1]){
-                    return;
-                }
-                var boyfriend = new Character(0, 0, args[1], true);
-                playstate.iconP1.setIconCharacter(boyfriend.iconName);
+                if (boyfriend.charClass == args[1]){ return; }
+
+                var newCharacter = new Character(boyfriend.x - boyfriend.repositionPoint.x, boyfriend.y - boyfriend.repositionPoint.y, args[1], true);
+                playstate.iconP1.setIconCharacter(newCharacter.iconName);
 
                 if((playstate.stage.useStartPoints && !playstate.stage.overrideBfStartPoints) || (!playstate.stage.useStartPoints && playstate.stage.overrideBfStartPoints)){
-                    boyfriend.setPosition(playstate.stage.bfStart.x - ((boyfriend.getFrameWidth() * boyfriend.getScale().x)/2), playstate.stage.bfStart.y - (boyfriend.getFrameHeight() * boyfriend.getScale().y));
+                    newCharacter.setPosition(playstate.stage.bfStart.x - ((newCharacter.getFrameWidth() * newCharacter.getScale().x)/2), playstate.stage.bfStart.y - (newCharacter.getFrameHeight() * newCharacter.getScale().y));
                 }
-                boyfriend.reposition();
+                newCharacter.reposition();
 
-                playstate.characterLayer.add(boyfriend);
+                playstate.characterLayer.remove(playstate.boyfriend);
+                playstate.boyfriend = newCharacter;
+                playstate.characterLayer.add(playstate.boyfriend);
 
-                playstate.boyfriend.destroy();
-                playstate.boyfriend = boyfriend;
+                if(!boyfriend.debugMode && boyfriend.characterInfo.info.functions.add != null){
+                    boyfriend.characterInfo.info.functions.add(boyfriend);
+                }
+
             case "dad":
-                if (dad.charClass == args[1]){
-                    return;
-                }
-                var dad = new Character(0, 0, args[1]);
-                playstate.iconP2.setIconCharacter(dad.iconName);
+                if (dad.charClass == args[1]){ return; }
+
+                playstate.characterLayer.remove(dad);
+
+                var newCharacter = new Character(dad.x - dad.repositionPoint.x, dad.y - dad.repositionPoint.y, args[1]);
+                playstate.iconP2.setIconCharacter(newCharacter.iconName);
 
                 if((playstate.stage.useStartPoints && !playstate.stage.overrideDadStartPoints) || (!playstate.stage.useStartPoints && playstate.stage.overrideDadStartPoints)){
-                    dad.setPosition(playstate.stage.dadStart.x - ((dad.getFrameWidth() * dad.getScale().x)/2), playstate.stage.dadStart.y - (dad.getFrameHeight() * dad.getScale().y));
+                    newCharacter.setPosition(playstate.stage.dadStart.x - ((newCharacter.getFrameWidth() * newCharacter.getScale().x)/2), playstate.stage.dadStart.y - (newCharacter.getFrameHeight() * newCharacter.getScale().y));
                 }
-                dad.reposition();
+                newCharacter.reposition();
 
-                playstate.characterLayer.add(dad);
+                playstate.characterLayer.remove(playstate.dad);
+                playstate.dad = newCharacter;
+                playstate.characterLayer.add(playstate.dad);
 
-                playstate.dad.destroy();
-                playstate.dad = dad;
+                if(!dad.debugMode && dad.characterInfo.info.functions.add != null){
+                    dad.characterInfo.info.functions.add(dad);
+                }
+
             case "gf":
-                if (gf.charClass == args[1]){
-                    return;
-                }
-                var gf = new Character(400, 130, args[1], false, true);
+                if (gf.charClass == args[1]){ return; }
+
+                playstate.gfLayer.remove(gf);
+
+                var newCharacter = new Character(gf.x - gf.repositionPoint.x, gf.y - gf.repositionPoint.y, args[1], false, true);
 
                 if((playstate.stage.useStartPoints && !playstate.stage.overrideGfStartPoints) || (!playstate.stage.useStartPoints && playstate.stage.overrideGfStartPoints)){
-                    gf.setPosition(playstate.stage.gfStart.x - ((gf.getFrameWidth() * gf.getScale().x)/2), playstate.stage.gfStart.y - (gf.getFrameHeight() * gf.getScale().y));
+                    newCharacter.setPosition(playstate.stage.gfStart.x - ((newCharacter.getFrameWidth() * newCharacter.getScale().x)/2), playstate.stage.gfStart.y - (newCharacter.getFrameHeight() * newCharacter.getScale().y));
                 }
-                gf.reposition();
+                newCharacter.reposition();
 
-                playstate.characterLayer.add(gf);
+                playstate.characterLayer.remove(playstate.gf);
+                playstate.gf = newCharacter;
+                playstate.characterLayer.add(playstate.gf);
 
-                playstate.gf.destroy();
-                playstate.gf = gf;
+                if(!gf.debugMode && gf.characterInfo.info.functions.add != null){
+                    gf.characterInfo.info.functions.add(gf);
+                }
         }
     }
 
@@ -180,6 +192,5 @@ class CharacterAnimationEvents extends Events
     var BF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether BF will automatically play animations.";
     var DAD_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether Dad will automatically play animations.";
     var GF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether GF will automatically play animations.";
-
-    var CHANGE_CHARACTER_DESC:String = "Change Character.\n\nArgs:\n    String: Target Character to change (\"bf\", \"dad\", or \"gf\")\n    String: New Character Class Name";
+    var CHANGE_CHARACTER_DESC:String = "Change a character to a different one.\n\nArgs:\n    String: Target character to change (\"bf\", \"dad\", or \"gf\")\n    String: New character's class name";
 }
