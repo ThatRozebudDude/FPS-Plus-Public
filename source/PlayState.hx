@@ -233,6 +233,19 @@ class PlayState extends MusicBeatState
 		comboBreakCount: 0,
 	};
 
+	private var previouslyTrackedSongStats:ScoreStats = {
+		score: -1,
+		highestCombo: 0,
+		accuracy: 0.0,
+		sickCount: 0,
+		goodCount: 0,
+		badCount: 0,
+		shitCount: 0,
+		susCount: 0,
+		missCount: 0,
+		comboBreakCount: 0,
+	};
+
 	public static var weekStats:ScoreStats = {
 		score: 0,
 		highestCombo: 0,
@@ -1395,7 +1408,13 @@ class PlayState extends MusicBeatState
 		}
 
 		updateAccuracy();
-		updateScoreText();
+
+		if(songStats.score != previouslyTrackedSongStats.score || 
+		   songStats.accuracy != previouslyTrackedSongStats.accuracy || 
+		   songStats.missCount != previouslyTrackedSongStats.missCount || 
+		   songStats.comboBreakCount != previouslyTrackedSongStats.comboBreakCount){
+			updateScoreText();
+		}
 
 		super.update(elapsed);
 
@@ -1416,7 +1435,7 @@ class PlayState extends MusicBeatState
 
 		if (Binds.justPressed("pause") && startedCountdown && canPause){
 			paused = true;
-			openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+			openSubState(new PauseSubState());
 		}
 
 		if (Binds.justPressed("chartEditor") && !isStoryMode){
@@ -2763,6 +2782,8 @@ class PlayState extends MusicBeatState
 		if(Config.showAccuracy){
 			scoreTxt.text += " | Accuracy:" + truncateFloat(songStats.accuracy, 2) + "%";
 		}
+
+		previouslyTrackedSongStats = Reflect.copy(songStats);
 
 	}
 
