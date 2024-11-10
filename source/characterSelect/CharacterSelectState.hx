@@ -151,9 +151,6 @@ class CharacterSelectState extends MusicBeatState
         add(charLightGF);
 
         add(characterGroup);
-        new FlxTimer().start(0.2, function(t){
-            changeCharacter(persistentCharacter);
-        });
 
         speakers = new AtlasSprite(0, 0, Paths.getTextureAtlas("menu/characterSelect/charSelectSpeakers"));
         speakers.antialiasing = true;
@@ -221,6 +218,8 @@ class CharacterSelectState extends MusicBeatState
 
         curGridPosition = characters.get(persistentCharacter).position;
         changeGridPos([0, 0], true);
+
+        changeCharacter(persistentCharacter, true);
 
         new FlxTimer().start(0.5, function(t){
             canAccept = true;
@@ -448,7 +447,7 @@ class CharacterSelectState extends MusicBeatState
         characterPositions.set((""+position[0]) + (""+position[1]), name);
     }
 
-    function changeCharacter(changeCharacter:String):Void{
+    function changeCharacter(changeCharacter:String, ?initial:Bool = false):Void{
         if(changeCharacter == null){ changeCharacter = "locked"; }
 
         if(changeCharacter == curCharacter){ return; }
@@ -457,14 +456,29 @@ class CharacterSelectState extends MusicBeatState
         var leavingCharacter = curCharacter;
         curCharacter = changeCharacter;
 
-        characters.get(curCharacter).player.playEnter();
-        if(characters.get(curCharacter).partner != null){
-            characters.get(curCharacter).partner.playEnter();
+        if(characters.get(curCharacter).player != null){
+            if(initial){
+                new FlxTimer().start(0.2, function(t){
+                    characters.get(curCharacter).player.playEnter();
+                    characterGroup.add(characters.get(curCharacter).player);
+                });
+            }
+            else{
+                characters.get(curCharacter).player.playEnter();
+                characterGroup.add(characters.get(curCharacter).player);
+            }
         }
-
-        characterGroup.add(characters.get(curCharacter).player);
         if(characters.get(curCharacter).partner != null){
-            characterGroup.add(characters.get(curCharacter).partner);
+            if(initial){
+                new FlxTimer().start(0.2, function(t){
+                    characters.get(curCharacter).partner.playEnter();
+                    characterGroup.add(characters.get(curCharacter).partner);
+                });
+            }
+            else{
+                characters.get(curCharacter).partner.playEnter();
+                characterGroup.add(characters.get(curCharacter).partner);
+            }
         }
 
         updateCharacterTitle();
