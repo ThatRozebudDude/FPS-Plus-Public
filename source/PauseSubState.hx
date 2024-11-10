@@ -31,9 +31,7 @@ class PauseSubState extends MusicBeatSubstate
 	var songName:FlxTextExt;
 	var songArtist:FlxTextExt;
 
-	public function new(x:Float, y:Float){
-
-		super();
+	override function create():Void{
 
 		Config.setFramerate(144);
 
@@ -130,6 +128,8 @@ class PauseSubState extends MusicBeatSubstate
 
 		PlayState.instance.stage.pause();
 		for(script in PlayState.instance.scripts){ script.pause(); }
+
+		super.create();
 	}
 
 	override function update(elapsed:Float){
