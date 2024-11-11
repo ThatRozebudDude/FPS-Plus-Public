@@ -1736,6 +1736,12 @@ class PlayState extends MusicBeatState
 				daNote.hitCallback(daNote, dad);
 				healthAdjustOverride = null;
 
+				if(dad.characterInfo.info.functions.noteHit != null){
+					dad.characterInfo.info.functions.noteHit(dad, daNote);
+				}
+				stage.noteHit(dad, daNote);
+				for(script in scripts){ script.noteHit(dad, daNote); }
+
 				enemyStrums.forEach(function(spr:FlxSprite){
 					if (Math.abs(daNote.noteData) == spr.ID){
 						spr.animation.play('confirm', true);
@@ -2242,6 +2248,12 @@ class PlayState extends MusicBeatState
 				healthAdjustOverride = null;
 			}
 
+			if(boyfriend.characterInfo.info.functions.noteMiss != null){
+				boyfriend.characterInfo.info.functions.noteMiss(boyfriend, direction, countMiss);
+			}
+			stage.noteMiss(direction, countMiss);
+			for(script in scripts){ script.noteMiss(direction, countMiss); }
+
 		}
 
 	}
@@ -2344,6 +2356,13 @@ class PlayState extends MusicBeatState
 					});
 				}
 			}
+
+			if(boyfriend.characterInfo.info.functions.noteHit != null){
+				boyfriend.characterInfo.info.functions.noteHit(boyfriend, note);
+			}
+			stage.noteHit(boyfriend, note);
+			for(script in scripts){ script.noteHit(boyfriend, note); }
+
 		}
 	}
 

@@ -1,6 +1,7 @@
 package stages;
 
 //import flixel.FlxBasic;
+import note.Note;
 import flixel.tweens.FlxTween.FlxTweenManager;
 import flixel.FlxBasic;
 import flixel.FlxObject;
@@ -214,6 +215,16 @@ class BaseStage
 	 * Called when the leaving PlayState.
 	 */
     public function exit(){}
+
+    /**
+	 * Called when a character hits a note.
+	 */
+    public function noteHit(character:Character, note:Note){}
+
+    /**
+	 * Called when you miss a note. `countedMiss` will be `true` when the miss adds to your miss count and `false` when it just plays the miss animation while not adding to your miss count.
+	 */
+    public function noteMiss(direction:Int, countedMiss:Bool){}
 
     //It is only recommended that you only use this if you have to add objects dynamically.
     //For normal stage elements you should just add them to the groups in the init() and toggle their visibility.

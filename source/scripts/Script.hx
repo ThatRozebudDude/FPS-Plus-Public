@@ -2,6 +2,7 @@ package scripts;
 
 import flixel.FlxG;
 import flixel.FlxBasic;
+import note.Note;
 
 @:build(modding.GlobalScriptingTypesMacro.build())
 class Script
@@ -73,6 +74,16 @@ class Script
      * Called when the leaving PlayState.
      */
     public function exit(){}
+
+    /**
+	 * Called when a character hits a note.
+	 */
+    public function noteHit(character:Character, note:Note){}
+
+     /**
+      * Called when you miss a note. `countedMiss` will be `true` when the miss adds to your miss count and `false` when it just plays the miss animation while not adding to your miss count.
+      */
+    public function noteMiss(direction:Int, countedMiss:Bool){}
 
     inline function addToBackground(x:FlxBasic)         { PlayState.instance.backgroundLayer.add(x); }
     inline function removeFromBackground(x:FlxBasic)    { PlayState.instance.backgroundLayer.remove(x); }

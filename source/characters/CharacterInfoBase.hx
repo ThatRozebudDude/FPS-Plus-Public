@@ -1,5 +1,6 @@
 package characters;
 
+import note.Note;
 import flixel.tweens.FlxTween.FlxTweenManager;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
@@ -63,6 +64,8 @@ typedef CharacterFunctions = {
 	var deathCreate:(Character)->Void;          //This function is run after the character is created in the game over state.
 	var deathAdd:(Character)->Void;             //This function is run after the character is added to the game over state.
 	var songStart:(Character)->Void;            //This function is run when the song starts.
+	var noteHit:(Character, Note)->Void;        //This function is run when the character hits a note.
+	var noteMiss:(Character, Int, Bool)->Void;  //This function is run when the character misses a note.
 }
 
 typedef CharacterInfo = {
@@ -134,6 +137,8 @@ class CharacterInfoBase
             deathCreate: null,
             deathAdd: null,
             songStart: null,
+            noteHit: null,
+            noteMiss: null,
         },
         actions: null,
         extraData: null
