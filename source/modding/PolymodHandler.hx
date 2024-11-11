@@ -247,6 +247,7 @@ class PolymodHandler
         Polymod.addDefaultImport(AtlasSprite);
         Polymod.addDefaultImport(Binds);
         Polymod.addDefaultImport(VideoHandler);
+        Polymod.addDefaultImport(Scoring);
         Polymod.addDefaultImport(shaders.RuntimeShader);
         Polymod.addDefaultImport(debug.ChartingState);
 
