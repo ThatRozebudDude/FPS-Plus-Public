@@ -115,7 +115,7 @@ class CharacterAnimationEvents extends Events
     }
 
     function changeCharacter(tag:String):Void{
-        var args = Events.getArgs(tag, ["bf", "Bf"]);
+        var args = Events.getArgs(tag, ["bf", "Bf", "true"]);
         switch(args[0].toLowerCase()){
             case "bf":
                 if (boyfriend.charClass == args[1]){ return; }
@@ -127,6 +127,11 @@ class CharacterAnimationEvents extends Events
                     newCharacter.setPosition(playstate.stage.bfStart.x - ((newCharacter.getFrameWidth() * newCharacter.getScale().x)/2), playstate.stage.bfStart.y - (newCharacter.getFrameHeight() * newCharacter.getScale().y));
                 }
                 newCharacter.reposition();
+
+                if(newCharacter.getShader() == null && boyfriend.getShader() != null && Events.parseBool(args[2])){
+                    var copyShader = boyfriend.getShader();
+                    newCharacter.applyShader(copyShader);
+                }
 
                 playstate.characterLayer.remove(playstate.boyfriend);
                 playstate.boyfriend = newCharacter;
@@ -149,6 +154,11 @@ class CharacterAnimationEvents extends Events
                 }
                 newCharacter.reposition();
 
+                if(newCharacter.getShader() == null && dad.getShader() != null && Events.parseBool(args[2])){
+                    var copyShader = dad.getShader();
+                    newCharacter.applyShader(copyShader);
+                }
+
                 playstate.characterLayer.remove(playstate.dad);
                 playstate.dad = newCharacter;
                 playstate.characterLayer.add(playstate.dad);
@@ -168,6 +178,11 @@ class CharacterAnimationEvents extends Events
                     newCharacter.setPosition(playstate.stage.gfStart.x - ((newCharacter.getFrameWidth() * newCharacter.getScale().x)/2), playstate.stage.gfStart.y - (newCharacter.getFrameHeight() * newCharacter.getScale().y));
                 }
                 newCharacter.reposition();
+
+                if(newCharacter.getShader() == null && gf.getShader() != null && Events.parseBool(args[2])){
+                    var copyShader = gf.getShader();
+                    newCharacter.applyShader(copyShader);
+                }
 
                 playstate.characterLayer.remove(playstate.gf);
                 playstate.gf = newCharacter;
@@ -192,5 +207,5 @@ class CharacterAnimationEvents extends Events
     var BF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether BF will automatically play animations.";
     var DAD_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether Dad will automatically play animations.";
     var GF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether GF will automatically play animations.";
-    var CHANGE_CHARACTER_DESC:String = "Change a character to a different one.\n\nArgs:\n    String: Target character to change (\"bf\", \"dad\", or \"gf\")\n    String: New character's class name";
+    var CHANGE_CHARACTER_DESC:String = "Change a character to a different one.\n\nArgs:\n    String: Target character to change (\"bf\", \"dad\", or \"gf\")\n    String: New character's class name\n    Bool: Whether to copy the shader";
 }
