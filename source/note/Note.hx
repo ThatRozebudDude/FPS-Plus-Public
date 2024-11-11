@@ -81,14 +81,14 @@ class Note extends FlxSprite
 
 		noteData = _noteData;
 
-		var noteSkinClassName:String = PlayState.curUiType;
+		var noteSkinClassName:String = PlayState.uiSkinNames.note;
 
 		if(NoteType.typeSkins.exists(type)){
 			noteSkinClassName = NoteType.typeSkins.get(type);
 		}
 
-		if(!ScriptableNoteSkin.listScriptClasses().contains(noteSkinClassName + "NoteSkin")){ noteSkinClassName = "Default"; }
-		noteSkin = ScriptableNoteSkin.init(noteSkinClassName + "NoteSkin");
+		if(!ScriptableNoteSkin.listScriptClasses().contains(noteSkinClassName)){ noteSkinClassName = "DefaultNoteSkin"; }
+		noteSkin = ScriptableNoteSkin.init(noteSkinClassName);
 
 		var defaultPath = noteSkin.info.path;
 		var defaultLoadType = noteSkin.info.frameLoadType;

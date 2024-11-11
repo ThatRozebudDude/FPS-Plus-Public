@@ -1,84 +1,81 @@
 {
-    "player": {
-        "path": "week6/weeb/pixelUI/notes/arrows-pixels",
-        "frameLoadType": {
-            "type": "load",
-            "dimensions": [19, 19]
+    "path": "week6/weeb/pixelUI/notes/arrows-pixels",
+    "frameLoadType": {
+        "type": "load",
+        "dimensions": [19, 19]
+    },
+    "scale": 6,
+    "antialiasing": false,
+    "splash": "Pixel",
+    "holdCover": "Pixel",
+    "arrows": {
+        "left": {
+            "idle": {
+                "frames": [0],
+                "framerate": 0,
+                "offset": [0, 0]
+            },
+            "pressed": {
+                "frames": [24, 8],
+                "framerate": 12,
+                "offset": [0, 0]
+            },
+            "confirm": {
+                "frames": [28, 12, 16],
+                "framerate": 24,
+                "offset": [0, 0]
+            }
         },
-        "scale": 6,
-        "antialiasing": false,
-        "splash": "Pixel",
-        "holdCover": "Pixel",
-        "arrows": {
-            "left": {
-                "idle": {
-                    "frames": [0],
-                    "framerate": 0,
-                    "offset": [0, 0]
-                },
-                "pressed": {
-                    "frames": [24, 8],
-                    "framerate": 12,
-                    "offset": [0, 0]
-                },
-                "confirm": {
-                    "frames": [28, 12, 16],
-                    "framerate": 24,
-                    "offset": [0, 0]
-                }
+        "down": {
+            "idle": {
+                "frames": [1],
+                "framerate": 0,
+                "offset": [0, 0]
             },
-            "down": {
-                "idle": {
-                    "frames": [1],
-                    "framerate": 0,
-                    "offset": [0, 0]
-                },
-                "pressed": {
-                    "frames": [25, 9],
-                    "framerate": 12,
-                    "offset": [0, 0]
-                },
-                "confirm": {
-                    "frames": [29, 13, 17],
-                    "framerate": 24,
-                    "offset": [0, 0]
-                }
+            "pressed": {
+                "frames": [25, 9],
+                "framerate": 12,
+                "offset": [0, 0]
             },
-            "up": {
-                "idle": {
-                    "frames": [2],
-                    "framerate": 0,
-                    "offset": [0, 0]
-                },
-                "pressed": {
-                    "frames": [26, 10],
-                    "framerate": 12,
-                    "offset": [0, 0]
-                },
-                "confirm": {
-                    "frames": [30, 14, 18],
-                    "framerate": 24,
-                    "offset": [0, 0]
-                }
+            "confirm": {
+                "frames": [29, 13, 17],
+                "framerate": 24,
+                "offset": [0, 0]
+            }
+        },
+        "up": {
+            "idle": {
+                "frames": [2],
+                "framerate": 0,
+                "offset": [0, 0]
             },
-            "right": {
-                "idle": {
-                    "frames": [3],
-                    "framerate": 0,
-                    "offset": [0, 0]
-                },
-                "pressed": {
-                    "frames": [27, 11],
-                    "framerate": 12,
-                    "offset": [0, 0]
-                },
-                "confirm": {
-                    "frames": [31, 15, 19],
-                    "framerate": 24,
-                    "offset": [0, 0]
-                }
+            "pressed": {
+                "frames": [26, 10],
+                "framerate": 12,
+                "offset": [0, 0]
+            },
+            "confirm": {
+                "frames": [30, 14, 18],
+                "framerate": 24,
+                "offset": [0, 0]
+            }
+        },
+        "right": {
+            "idle": {
+                "frames": [3],
+                "framerate": 0,
+                "offset": [0, 0]
+            },
+            "pressed": {
+                "frames": [27, 11],
+                "framerate": 12,
+                "offset": [0, 0]
+            },
+            "confirm": {
+                "frames": [31, 15, 19],
+                "framerate": 24,
+                "offset": [0, 0]
             }
         }
-    },
-    "opponent": null
+    }
 }

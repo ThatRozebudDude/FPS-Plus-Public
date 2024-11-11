@@ -1,83 +1,80 @@
 {
-    "player": {
-        "path": "ui/notes/NOTE_assets",
-        "frameLoadType": {
-            "type": "sparrow"
+    "path": "ui/notes/NOTE_assets",
+    "frameLoadType": {
+        "type": "sparrow"
+    },
+    "scale": 0.7,
+    "antialiasing": true,
+    "splash": "Default",
+    "holdCover": "Default",
+    "arrows": {
+        "left": {
+            "idle": {
+                "prefix": "arrowLEFT",
+                "framerate": 0,
+                "offset": [0, 0]
+            },
+            "pressed": {
+                "prefix": "left press",
+                "framerate": 24,
+                "offset": [0, 0]
+            },
+            "confirm": {
+                "prefix": "left confirm",
+                "framerate": 24,
+                "offset": [-14, -14]
+            }
         },
-        "scale": 0.7,
-        "antialiasing": true,
-        "splash": "Default",
-        "holdCover": "Default",
-        "arrows": {
-            "left": {
-                "idle": {
-                    "prefix": "arrowLEFT",
-                    "framerate": 0,
-                    "offset": [0, 0]
-                },
-                "pressed": {
-                    "prefix": "left press",
-                    "framerate": 24,
-                    "offset": [0, 0]
-                },
-                "confirm": {
-                    "prefix": "left confirm",
-                    "framerate": 24,
-                    "offset": [-14, -14]
-                }
+        "down": {
+            "idle": {
+                "prefix": "arrowDOWN",
+                "framerate": 0,
+                "offset": [0, 0]
             },
-            "down": {
-                "idle": {
-                    "prefix": "arrowDOWN",
-                    "framerate": 0,
-                    "offset": [0, 0]
-                },
-                "pressed": {
-                    "prefix": "down press",
-                    "framerate": 24,
-                    "offset": [0, 0]
-                },
-                "confirm": {
-                    "prefix": "down confirm",
-                    "framerate": 24,
-                    "offset": [-14, -14]
-                }
+            "pressed": {
+                "prefix": "down press",
+                "framerate": 24,
+                "offset": [0, 0]
             },
-            "up": {
-                "idle": {
-                    "prefix": "arrowUP",
-                    "framerate": 0,
-                    "offset": [0, 0]
-                },
-                "pressed": {
-                    "prefix": "up press",
-                    "framerate": 24,
-                    "offset": [0, 0]
-                },
-                "confirm": {
-                    "prefix": "up confirm",
-                    "framerate": 24,
-                    "offset": [-14, -14]
-                }
+            "confirm": {
+                "prefix": "down confirm",
+                "framerate": 24,
+                "offset": [-14, -14]
+            }
+        },
+        "up": {
+            "idle": {
+                "prefix": "arrowUP",
+                "framerate": 0,
+                "offset": [0, 0]
             },
-            "right": {
-                "idle": {
-                    "prefix": "arrowRIGHT",
-                    "framerate": 0,
-                    "offset": [0, 0]
-                },
-                "pressed": {
-                    "prefix": "right press",
-                    "framerate": 24,
-                    "offset": [0, 0]
-                },
-                "confirm": {
-                    "prefix": "right confirm",
-                    "framerate": 24,
-                    "offset": [-14, -14]
-                }
+            "pressed": {
+                "prefix": "up press",
+                "framerate": 24,
+                "offset": [0, 0]
+            },
+            "confirm": {
+                "prefix": "up confirm",
+                "framerate": 24,
+                "offset": [-14, -14]
+            }
+        },
+        "right": {
+            "idle": {
+                "prefix": "arrowRIGHT",
+                "framerate": 0,
+                "offset": [0, 0]
+            },
+            "pressed": {
+                "prefix": "right press",
+                "framerate": 24,
+                "offset": [0, 0]
+            },
+            "confirm": {
+                "prefix": "right confirm",
+                "framerate": 24,
+                "offset": [-14, -14]
             }
         }
-    },
-    "opponent": null
+    }
 }
