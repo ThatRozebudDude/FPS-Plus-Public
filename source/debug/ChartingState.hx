@@ -1394,6 +1394,7 @@ class ChartingState extends MusicBeatState
 					PlayState.loadEvents = true;
 					PlayState.returnLocation = "freeplay";
 					PlayState.storyWeek = 0;
+					PlayState.overrideInsturmental = "";
 					trace('CUR WEEK' + PlayState.storyWeek);
 					switchState(new PlayState());
 	
