@@ -1706,7 +1706,7 @@ class PlayState extends MusicBeatState
 
 			if(daNote.tooLate){
 				if (!daNote.didTooLateAction && !daNote.isFake){
-					noteMiss(daNote.noteData, daNote.missCallback, Scoring.MISS_DAMAGE_AMMOUNT, true, true);
+					noteMiss(daNote.noteData, daNote.missCallback, Scoring.MISS_DAMAGE_AMOUNT, true, true);
 					if(canChangeVocalVolume){ vocals.volume = 0; }
 					daNote.didTooLateAction = true;
 				}
@@ -1930,20 +1930,20 @@ class PlayState extends MusicBeatState
 
 		switch(rating){
 			case "sick":
-				health += Scoring.SICK_HEAL_AMMOUNT * Config.healthMultiplier * noHealMultiply;
+				health += Scoring.SICK_HEAL_AMOUNT * Config.healthMultiplier * noHealMultiply;
 				songStats.sickCount++;
 				if(Config.noteSplashType >= 1 && Config.noteSplashType < 4){
 					createNoteSplash(note.noteData);
 				}
 			case "good":
-				health += Scoring.GOOD_HEAL_AMMOUNT * Config.healthMultiplier * noHealMultiply;
+				health += Scoring.GOOD_HEAL_AMOUNT * Config.healthMultiplier * noHealMultiply;
 				songStats.goodCount++;
 			case "bad":
-				health += Scoring.BAD_HEAL_AMMOUNT * Config.healthMultiplier * noHealMultiply;
+				health += Scoring.BAD_HEAL_AMOUNT * Config.healthMultiplier * noHealMultiply;
 				songStats.badCount++;
 				comboBreak();
 			case "shit":
-				health += Scoring.SHIT_HEAL_AMMOUNT * Config.healthMultiplier * noHealMultiply;
+				health += Scoring.SHIT_HEAL_AMOUNT * Config.healthMultiplier * noHealMultiply;
 				songStats.shitCount++;
 				comboBreak();
 		}
@@ -2260,7 +2260,7 @@ class PlayState extends MusicBeatState
 
 	inline function noteMissWrongPress(direction:Int = 1):Void{
 		var forceMissNextNoteState = forceMissNextNote;
-		noteMiss(direction, defaultNoteMiss, Scoring.WRONG_TAP_DAMAGE_AMMOUNT, true, false, false, Scoring.WRONG_PRESS_PENALTY);
+		noteMiss(direction, defaultNoteMiss, Scoring.WRONG_TAP_DAMAGE_AMOUNT, true, false, false, Scoring.WRONG_PRESS_PENALTY);
 		setBoyfriendInvuln(4/60);
 		forceMissNextNote = forceMissNextNoteState;
 	}
@@ -2317,7 +2317,7 @@ class PlayState extends MusicBeatState
 			}
 			else{
 				if(healthAdjustOverride != null){
-					health += Scoring.HOLD_HEAL_AMMOUNT * Config.healthMultiplier;
+					health += Scoring.HOLD_HEAL_AMOUNT * Config.healthMultiplier;
 				}
 				songStats.score += Std.int(Scoring.HOLD_SCORE_PER_SECOND * (Conductor.stepCrochet/1000));
 				songStats.susCount++;
