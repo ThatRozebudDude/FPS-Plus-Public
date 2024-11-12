@@ -374,7 +374,8 @@ class FreeplayState extends MusicBeatState
 
 	function createFreeplayStuff():Void{
 		
-		bg = new FlxSprite().loadGraphic(getImagePathWithSkin('menu/freeplay/pinkBg'));
+		bg = new FlxSprite().loadGraphic(Paths.image('menu/freeplay/leftSlide'));
+		bg.color = 0xFFFFCCCC;
 		bg.antialiasing = true;
 
 		flash = new FlxSprite().makeGraphic(1, 1, 0xFFFFFFFF);
@@ -513,9 +514,10 @@ class FreeplayState extends MusicBeatState
 		}
 
 		//ADDING STUFF
+		add(bg);
+		
 		add(backCardGroup);
 
-		add(bg);
 		add(flash);
 		add(cover);
 
@@ -525,6 +527,7 @@ class FreeplayState extends MusicBeatState
 		add(clearPercentSprite);
 		add(scoreDisplay);
 		add(percentDisplay);
+
 		add(album);
 		add(albumTitle);
 		add(difficultyStars);
@@ -631,7 +634,7 @@ class FreeplayState extends MusicBeatState
 		transitionOver = true;
 		startFreeplaySong();
 
-		bg.visible = false;
+		//bg.visible = false;
 		changeCharacterText.visible = true;
 		changeCharacterText.alpha = 0;
 		FlxTween.tween(changeCharacterText, {alpha: 1}, 2, {ease: FlxEase.sineInOut, type: PINGPONG});
@@ -708,6 +711,10 @@ class FreeplayState extends MusicBeatState
 		curSelected += change;
 		if(curSelected < 0){
 			curSelected = categoryMap[categoryNames[curCategory]].length-1;
+			for(i in 0...categoryMap[categoryNames[curCategory]].length){
+				FlxTween.cancelTweensOf(categoryMap[categoryNames[curCategory]][i]);
+				categoryMap[categoryNames[curCategory]][i].xPositionOffset = 0;
+			}
 		}
 		else if(curSelected >= categoryMap[categoryNames[curCategory]].length){
 			curSelected = 0;
@@ -822,7 +829,7 @@ class FreeplayState extends MusicBeatState
 		updateAlbum();
 		addCapsules();
 		updateSongDifficulty();
-		tweenCapsulesOnScreen(transitionTime/2, randomVariation/2, staggerTime, 400);
+		tweenCapsulesOnScreen(transitionTime/2, randomVariation/2, staggerTime);
 	}
 
 	function updateScore():Void{
@@ -1008,25 +1015,24 @@ class FreeplayState extends MusicBeatState
 		}});
 	}
 
-	function tweenCapsulesOnScreen(_transitionTime:Float, _randomVariation:Float, _staggerTime:Float, ?_distance:Float = 1000):Void{
+	function tweenCapsulesOnScreen(_transitionTime:Float, _randomVariation:Float, _staggerTime:Float, ?_distance:Float = 1800):Void{
 		for(i in 0...categoryMap[categoryNames[curCategory]].length){
 			FlxTween.cancelTweensOf(categoryMap[categoryNames[curCategory]][i]);
 			categoryMap[categoryNames[curCategory]][i].xPositionOffset = _distance;
 			categoryMap[categoryNames[curCategory]][i].snapToTargetPos();
-			FlxTween.tween(categoryMap[categoryNames[curCategory]][i], {xPositionOffset: 0}, _transitionTime + FlxG.random.float(-_randomVariation, _randomVariation), {ease: transitionEase, startDelay: Utils.clamp((_staggerTime/4) * (i+1-curSelected), 0, 100) });
+			FlxTween.tween(categoryMap[categoryNames[curCategory]][i], {xPositionOffset: 0}, _transitionTime + FlxG.random.float(-_randomVariation, _randomVariation), {ease: transitionEase, startDelay: Math.max((_staggerTime/4) * (i+1-curSelected), 0) });
 		}
 	}
 
-	function tweenCapsulesOffScreen(_transitionTime:Float, _randomVariation:Float, _staggerTime:Float, ?_distance:Float = 1000):Void{
+	function tweenCapsulesOffScreen(_transitionTime:Float, _randomVariation:Float, _staggerTime:Float, ?_distance:Float = 1800):Void{
 		for(i in 0...categoryMap[categoryNames[curCategory]].length){
 			FlxTween.cancelTweensOf(categoryMap[categoryNames[curCategory]][i]);
-			FlxTween.tween(categoryMap[categoryNames[curCategory]][i], {xPositionOffset: _distance}, _transitionTime + FlxG.random.float(-_randomVariation, _randomVariation), {ease: transitionEaseExit, startDelay: Utils.clamp((_staggerTime/4) * (i+1-curSelected), 0, 100) });
+			FlxTween.tween(categoryMap[categoryNames[curCategory]][i], {xPositionOffset: _distance}, _transitionTime + FlxG.random.float(-_randomVariation, _randomVariation), {ease: transitionEaseExit, startDelay: Math.max((_staggerTime/4) * (i+1-curSelected), 0) });
 		}
 	}
 
 	function enterAnimation():Void{
 		bg.x -= 1280;
-		flash.visible = true;
 		cover.x += 1280;
 		topBar.y -= 720;
 		freeplayText.y -= 720;
@@ -1070,7 +1076,7 @@ class FreeplayState extends MusicBeatState
 	}
 
 	function exitAnimation():Void{
-		bg.visible = true;
+		//bg.visible = true;
 		backCardGroup.remove(dj.backingCard);
 
 		FlxTween.tween(bg, {x: bg.x-1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
