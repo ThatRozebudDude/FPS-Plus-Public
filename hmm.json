@@ -57,11 +57,9 @@
             "url": "https://gitlab.com/haxe-grig/grig.audio.git"
         },
         {
-            "name": "hxCodec",
-            "type": "git",
-            "dir": null,
-            "ref": "61b98a7a353b7f529a8fec84ed9afc919a2dffdd",
-            "url": "https://github.com/FunkinCrew/hxCodec"
+            "name": "hxvlc",
+            "type": "haxelib",
+            "version": null
         },
         {
             "name": "polymod",
