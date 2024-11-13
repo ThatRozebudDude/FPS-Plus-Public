@@ -2,5 +2,6 @@
   "name": "Eggnog Erect",
   "artist": "Saruky",
   "album": "ext1",
-  "difficulties": [0, 6, 7]
+  "difficulties": [0, 6, 7],
+  "pauseMusic": "pause/918379_Love-Emoji_Loop"
 }

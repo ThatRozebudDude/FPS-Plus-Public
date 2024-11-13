@@ -4,5 +4,6 @@
   "album": "vol2",
   "difficulties": [2, 4, 5],
   "compatableInsts": ["Guns-Pico"],
-  "mixName": "Original"
+  "mixName": "Original",
+  "pauseMusic": "week7/distorto"
 }

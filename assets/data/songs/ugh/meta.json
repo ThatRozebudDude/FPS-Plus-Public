@@ -4,5 +4,6 @@
   "album": "vol2",
   "difficulties": [2, 3, 4],
   "compatableInsts": ["Ugh-Pico"],
-  "mixName": "Original"
+  "mixName": "Original",
+  "pauseMusic": "week7/distorto"
 }

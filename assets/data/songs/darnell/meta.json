@@ -4,5 +4,6 @@
   "album": "vol3",
   "difficulties": [2, 3, 4],
   "compatableInsts": ["Darnell-Bf"],
-  "mixName": "Original"
+  "mixName": "Original",
+  "pauseMusic": "pause/breakfast-pico"
 }

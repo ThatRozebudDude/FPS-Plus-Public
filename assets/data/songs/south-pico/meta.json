@@ -13,5 +13,6 @@
     ],
     "dadBeats": [0, 1, 2, 3],
     "compatableInsts": ["South"],
-    "mixName": "Pico Mix"
+    "mixName": "Pico Mix",
+    "pauseMusic": "pause/911825_woah_Loop"
 }

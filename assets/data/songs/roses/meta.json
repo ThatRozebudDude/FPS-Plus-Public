@@ -2,5 +2,6 @@
   "name": "Roses",
   "artist": "Kawai Sprite",
   "album": "vol2",
-  "difficulties": [2, 3, 4]
+  "difficulties": [2, 3, 4],
+  "pauseMusic": "pause/breakfast-pixel"
 }

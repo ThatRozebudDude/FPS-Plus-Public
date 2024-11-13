@@ -2,5 +2,6 @@
   "name": "Pico Erect",
   "artist": "Kawai Sprite (ft. Saruky)",
   "album": "vol3",
-  "difficulties": [0, 8, 9]
+  "difficulties": [0, 8, 9],
+  "pauseMusic": "pause/947670_hacker.07_Loop"
 }

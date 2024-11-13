@@ -5,5 +5,6 @@
   "difficulties": [0, 1, 2],
   "dadBeats": [0, 1, 2, 3],
   "compatableInsts": ["Spookeez-Pico"],
-  "mixName": "Original"
+  "mixName": "Original",
+  "pauseMusic": "pause/911825_woah_Loop"
 }

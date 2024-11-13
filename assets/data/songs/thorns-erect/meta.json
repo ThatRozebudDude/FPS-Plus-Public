@@ -3,5 +3,6 @@
   "artist": "Kawai Sprite (ft. Saster)",
   "album": "vol3",
   "difficulties": [0, 6, 8],
-  "dadBeats": [0, 1, 2, 3]
+  "dadBeats": [0, 1, 2, 3],
+  "pauseMusic": "pause/breakfast-pixel"
 }

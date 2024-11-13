@@ -16,5 +16,6 @@
         2
     ],
     "compatableInsts": ["Eggnog"],
-    "mixName": "Pico Mix"
+    "mixName": "Pico Mix",
+    "pauseMusic": "pause/918379_Love-Emoji_Loop"
 }

@@ -2,5 +2,6 @@
   "name": "Lit Up",
   "artist": "Kawai Sprite",
   "album": "vol3",
-  "difficulties": [2, 3, 4]
+  "difficulties": [2, 3, 4],
+  "pauseMusic": "pause/breakfast-pico"
 }

@@ -56,24 +56,8 @@ class PauseSubState extends MusicBeatSubstate
 
 		var pauseSongName = "pause/breakfast";
 
-		//one day ill add this to the song meta or something... one day.......
-		switch(PlayState.SONG.song.toLowerCase()){
-			case "spookeez" | "south" | "monster" | "winter-horrorland" | "spookeez-erect" | "south-erect" | "spookeez-pico" | "south-pico":
-				pauseSongName = "pause/911825_woah_Loop";
-			case "pico" | "philly" | "blammed" | "pico-erect" | "philly-erect" | "blammed-erect" | "pico-pico" | "philly-pico" | "blammed-pico":
-				pauseSongName = "pause/947670_hacker.07_Loop";
-			case "satin-panties" | "high" | "milf" | "satin-panties-erect" | "high-erect":
-				pauseSongName = "pause/1317505_RUN1N_Loop";
-			case "cocoa" | "eggnog" | "cocoa-erect" | "eggnog-erect" | "eggnog-pico":
-				pauseSongName = "pause/918379_Love-Emoji_Loop";
-			case "senpai" | "roses" | "thorns" | "senpai-erect" | "roses-erect" | "thorns-erect":
-				pauseSongName = "pause/breakfast-pixel";
-			case "ugh" | "guns" | "stress" | "ugh-erect" | "ugh-pico" | "guns-erect":
-				pauseSongName = "week7/distorto";
-			case "darnell" | "lit-up" | "2hot" | "blazin" | "darnell-bf":
-				pauseSongName = "pause/breakfast-pico";
-			case "lil-buddies" | "lil-buddies-erect" | "lil-buddies-pico":
-				pauseSongName = "pause/1100059_skippingrecord_Loop";
+		if(PlayState.instance.metadata != null){
+			pauseSongName = PlayState.instance.metadata.pauseMusic;
 		}
 
 		pauseMusic = new FlxSound().loadEmbedded(Paths.music(pauseSongName), true, true);

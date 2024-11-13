@@ -2,5 +2,6 @@
   "name": "Senpai Erect",
   "artist": "Kawai Sprite",
   "album": "vol3",
-  "difficulties": [0, 7, 8]
+  "difficulties": [0, 7, 8],
+  "pauseMusic": "pause/breakfast-pixel"
 }

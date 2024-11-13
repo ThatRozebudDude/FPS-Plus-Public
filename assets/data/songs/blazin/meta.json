@@ -4,5 +4,6 @@
   "album": "vol3",
   "difficulties": [3, 4, 5],
   "bfBeats": [],
-  "dadBeats": []
+  "dadBeats": [],
+  "pauseMusic": "pause/breakfast-pico"
 }

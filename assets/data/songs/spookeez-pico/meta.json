@@ -16,5 +16,6 @@
         2
     ],
     "compatableInsts": ["Spookeez"],
-    "mixName": "Pico Mix"
+    "mixName": "Pico Mix",
+    "pauseMusic": "pause/911825_woah_Loop"
 }

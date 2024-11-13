@@ -175,7 +175,8 @@ class Utils
     		dadBeats: [0, 2],
 			bfBeats: [1, 3],
 			compatableInsts: null,
-			mixName: "Original"
+			mixName: "Original",
+			pauseMusic: "pause/breakfast"
 		}
 	}
 

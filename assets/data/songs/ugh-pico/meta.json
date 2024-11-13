@@ -16,5 +16,6 @@
         2
     ],
     "compatableInsts": ["Ugh"],
-    "mixName": "Pico Mix"
+    "mixName": "Pico Mix",
+    "pauseMusic": "week7/distorto"
 }

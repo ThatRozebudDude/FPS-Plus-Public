@@ -2,5 +2,6 @@
   "name": "Roses Erect",
   "artist": "Kawai Sprite",
   "album": "vol3",
-  "difficulties": [0, 8, 9]
+  "difficulties": [0, 8, 9],
+  "pauseMusic": "pause/breakfast-pixel"
 }

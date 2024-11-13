@@ -2,5 +2,6 @@
   "name": "Senpai",
   "artist": "Kawai Sprite",
   "album": "vol2",
-  "difficulties": [1, 2, 3]
+  "difficulties": [1, 2, 3],
+  "pauseMusic": "pause/breakfast-pixel"
 }

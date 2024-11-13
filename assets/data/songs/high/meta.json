@@ -2,5 +2,6 @@
   "name": "High",
   "artist": "Kawai Sprite",
   "album": "vol1",
-  "difficulties": [2, 2, 3]
+  "difficulties": [2, 2, 3],
+  "pauseMusic": "pause/1317505_RUN1N_Loop"
 }

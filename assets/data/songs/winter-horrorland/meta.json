@@ -2,5 +2,6 @@
   "name": "Winter Horrorland",
   "artist": "Basset (ft. Kawai Sprite)",
   "album": "monster",
-  "difficulties": [1, 1, 2]
+  "difficulties": [1, 1, 2],
+  "pauseMusic": "pause/911825_woah_Loop"
 }

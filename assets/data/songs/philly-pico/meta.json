@@ -16,5 +16,6 @@
         2
     ],
     "compatableInsts": ["Philly"],
-    "mixName": "Pico Mix"
+    "mixName": "Pico Mix",
+    "pauseMusic": "pause/947670_hacker.07_Loop"
 }

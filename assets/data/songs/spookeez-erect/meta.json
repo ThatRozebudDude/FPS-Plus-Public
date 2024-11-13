@@ -3,5 +3,6 @@
   "artist": "Kawai Sprite (ft. Saruky)",
   "album": "vol3",
   "difficulties": [0, 12, 13],
-  "dadBeats": [0, 1, 2, 3]
+  "dadBeats": [0, 1, 2, 3],
+  "pauseMusic": "pause/911825_woah_Loop"
 }
