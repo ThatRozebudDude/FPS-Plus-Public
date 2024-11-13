@@ -5,8 +5,8 @@ import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.util.FlxColor;
 
-#if desktop
-import hxcodec.openfl.Video;
+#if hxvlc
+import hxvlc.openfl.Video;
 #elseif web
 import openfl.media.SoundTransform;
 import openfl.media.Video;
@@ -15,7 +15,7 @@ import openfl.net.NetStream;
 #end
 
 /**
-	An adaptation of PolybiusProxy's OpenFL desktop MP4 code to not only make         
+	An adaptation of MAJigsaw77's OpenFL desktop MP4 code to not only make         
 	work as a Flixel Sprite, but also allow it to work with standard OpenFL               
 	on Web builds as well.              
 	@author Rozebud
@@ -49,7 +49,7 @@ class VideoHandler extends FlxSprite
 	public var onStart:FlxSignal = new FlxSignal();
 	public var onEnd:FlxSignal = new FlxSignal();
 
-	#if desktop
+	#if hxvlc
 	var bitmap:Video;
 	#elseif web
 	var video:Video;
@@ -69,7 +69,7 @@ class VideoHandler extends FlxSprite
 	**/
 	public function playMP4(videoPath:String, callback:Void->Void, ?repeat:Bool = false){
 
-		#if desktop
+		#if hxvlc
 		playDesktopMP4(videoPath, callback, repeat);
 		#end
 
@@ -81,7 +81,7 @@ class VideoHandler extends FlxSprite
 
 	//===========================================================================================================//
 
-	#if desktop
+	#if hxvlc
 	/**
 		Plays MP4s using VLC Bitmaps as the source.
 		Only works on desktop builds.
@@ -103,7 +103,8 @@ class VideoHandler extends FlxSprite
 		bitmap.onEndReached.add(onVLCComplete);
 		
 		FlxG.addChildBelowMouse(bitmap);
-		bitmap.play(checkFile(path), repeat);
+		bitmap.load(path, (repeat) ? ['input-repeat=65545'] : null);
+		bitmap.play();
 		bitmap.alpha = 0;
 		
 		if (FlxG.autoPause) {
@@ -112,17 +113,6 @@ class VideoHandler extends FlxSprite
 		}
 
 		waitingStart = true;
-	}
-
-	function checkFile(fileName:String):String{
-		var pDir = "";
-		var appDir = "file:///" + Sys.getCwd() + "/";
-		if (fileName.indexOf(":") == -1) // Not a path
-			pDir = appDir;
-		else if (fileName.indexOf("file://") == -1 || fileName.indexOf("http") == -1) // C:, D: etc? ..missing "file:///" ?
-			pDir = "file:///";
-
-		return pDir + fileName;
 	}
 
 	function onVLCVideoReady(){
@@ -266,21 +256,7 @@ class VideoHandler extends FlxSprite
 
 		super.update(elapsed);
 
-		#if desktop
-		if(bitmap != null){
-
-			if(FlxG.sound.muted || __muted){
-				bitmap.volume = 0;
-			}
-			else{
-				var vol:Float = FlxG.sound.volume;
-				vol = (vol) * 0.7;
-				vol += 0.3;
-				bitmap.volume = Std.int(vol * volume * 100);
-			}
-
-		}
-
+		#if hxvlc
 		if(waitingStart){
 
 			if(bitmap.bitmapData != null){
@@ -340,7 +316,7 @@ class VideoHandler extends FlxSprite
 			FlxG.signals.focusGained.remove(resume);
 		}
 
-		#if desktop
+		#if hxvlc
 		if(!completed){
 			vlcClean();
 		}
@@ -361,7 +337,7 @@ class VideoHandler extends FlxSprite
 	**/
 	public function pause(){
 
-		#if desktop
+		#if hxvlc
 		if(bitmap != null && !paused){
 			bitmap.pause();
 		}
@@ -381,7 +357,7 @@ class VideoHandler extends FlxSprite
 	**/
 	public function resume(){
 
-		#if desktop
+		#if hxvlc
 		if(bitmap != null && paused){ 
 			bitmap.resume();
 		}
@@ -398,7 +374,7 @@ class VideoHandler extends FlxSprite
 
 	public function skip(){
 
-		#if desktop
+		#if hxvlc
 		onVLCComplete();
 		#end
 		#if web
@@ -424,8 +400,11 @@ class VideoHandler extends FlxSprite
 	
 
 	function get_length():Float {
-		#if desktop
-		return bitmap.length / 1000;
+		#if hxvlc
+		@:privateAccess
+			var smthSilly:String = bitmap.length.toString();
+
+		return Std.parseFloat(smthSilly) / 1000;
 		#end
 		#if web
 		@:privateAccess
