@@ -9,6 +9,7 @@ art/scripts/convertedSongs
 .vscode/
 art/scripts/__pycache__
 art/moddingDocs
+dump/
 
 # Modding test stuff
 mods/test*
