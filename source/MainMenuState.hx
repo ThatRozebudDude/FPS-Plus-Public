@@ -47,7 +47,9 @@ class MainMenuState extends MusicBeatState
 	public static final lerpSpeed:Float = 0.01;
 	final warningDelay:Float = 10;
 
-	inline public static final VERSION:String = "6.1.0 (Pre-release)";
+	inline public static final VERSION:String = "6.1.0";
+	inline public static final NONFINAL_TAG:String = "(Pre-release)";
+	inline public static final SHOW_BUILD_INFO:Bool = true; //Set this to false when making a release build.
 
 	override function create()
 	{
@@ -112,6 +114,17 @@ class MainMenuState extends MusicBeatState
 		versionText = new FlxTextExt(5, FlxG.height - 21, 0, "FPS Plus: v" + VERSION + " | Mod API: v" + PolymodHandler.API_VERSION_STRING, 16);
 		versionText.scrollFactor.set();
 		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+
+		if(SHOW_BUILD_INFO){
+			versionText.text = "FPS Plus: v" + VERSION + " " + NONFINAL_TAG + " | Mod API: v" + PolymodHandler.API_VERSION_STRING;
+
+			var buildInfoText = new FlxTextExt(1280 - 5, FlxG.height - 37, 0, "Build Date: " + CompileTime.buildDateString() + "\n" + GitCommit.getGitBranch() +  " (" + GitCommit.getGitCommitHash() + ")", 16);
+			buildInfoText.scrollFactor.set();
+			buildInfoText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			buildInfoText.x -= buildInfoText.width;
+			add(buildInfoText);
+		}
+
 		add(versionText);
 
 		keyWarning = new FlxTextExt(5, FlxG.height - 21 + 16, 0, "If your controls aren't working, try pressing CTRL + BACKSPACE to reset them.", 16);
