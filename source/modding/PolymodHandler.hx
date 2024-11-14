@@ -5,6 +5,7 @@ import haxe.Json;
 import polymod.PolymodConfig;
 import flixel.FlxG;
 import polymod.Polymod;
+import openfl.display.BlendMode;
 
 using StringTools;
 
@@ -237,6 +238,7 @@ class PolymodHandler
         Polymod.addDefaultImport(Paths);
         Polymod.addDefaultImport(flixel.group.FlxGroup);
         Polymod.addDefaultImport(flixel.group.FlxSpriteGroup);
+        Polymod.addDefaultImport(FlxTextBorderStyle);
 
         Polymod.addDefaultImport(PlayState);
         Polymod.addDefaultImport(GameOverSubstate);
@@ -276,6 +278,9 @@ class PolymodHandler
         //Alias
         Polymod.addImportAlias("lime.utils.Assets", Assets);
         Polymod.addImportAlias("openfl.utils.Assets", Assets);
+
+        Polymod.addImportAlias("flash.display.BlendMode", PolyBlendMode);
+        Polymod.addImportAlias("openfl.display.BlendMode", PolyBlendMode);
 
         Polymod.addImportAlias("flixel.math.FlxPoint", flixel.math.FlxPoint.FlxBasePoint);
 
@@ -342,4 +347,31 @@ enum ModError{
     MISSING_META_FIELDS;
     API_VERSION_TOO_OLD;
     API_VERSION_TOO_NEW;
+}
+
+private class PolyBlendMode
+{
+    public static var ADD = BlendMode.ADD;
+    public static var ALPHA = BlendMode.ALPHA;
+    public static var DARKEN = BlendMode.DARKEN;
+    public static var DIFFERENCE = BlendMode.DIFFERENCE;
+    public static var ERASE = BlendMode.ERASE;
+    public static var HARDLIGHT = BlendMode.HARDLIGHT;
+    public static var INVERT = BlendMode.INVERT;
+    public static var LAYER = BlendMode.LAYER;
+    public static var LIGHTEN = BlendMode.LIGHTEN;
+    public static var MULTIPLY = BlendMode.MULTIPLY;
+    public static var NORMAL = BlendMode.NORMAL;
+    public static var OVERLAY = BlendMode.OVERLAY;
+    public static var SCREEN = BlendMode.SCREEN;
+    public static var SHADER = BlendMode.SHADER;
+    public static var SUBTRACT = BlendMode.SUBTRACT;
+}
+
+class FlxTextBorderStyle
+{
+    public static var NONE = flixel.text.FlxText.FlxTextBorderStyle.NONE;
+    public static var SHADOW = flixel.text.FlxText.FlxTextBorderStyle.SHADOW;
+    public static var OUTLINE = flixel.text.FlxText.FlxTextBorderStyle.OUTLINE;
+    public static var OUTLINE_FAST = flixel.text.FlxText.FlxTextBorderStyle.OUTLINE_FAST;
 }

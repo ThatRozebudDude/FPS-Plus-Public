@@ -10,6 +10,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import objects.PicoBullet;
 import StringTools;
+import openfl.display.BlendMode;
 
 class PhillyStreetsErect extends BaseStage
 {
@@ -68,7 +69,7 @@ class PhillyStreetsErect extends BaseStage
 		mist5 = new FlxBackdrop(Paths.image('weekend1/phillyStreets/erect/mistMid'), ScriptingUtil.axisX);
 		mist5.setPosition(-650, -100);
 		mist5.scrollFactor.set(0.5, 0.5);
-   		mist5.blend = ScriptingUtil.add;
+   		mist5.blend = BlendMode.ADD;
 		mist5.color = 0xFF5c5c5c;
 		mist5.alpha = 1;
 		mist5.velocity.x = 20;
@@ -83,7 +84,7 @@ class PhillyStreetsErect extends BaseStage
 		var phillyHighwayLights_lightmap = new FlxSprite(284-400, 305).loadGraphic(Paths.image("weekend1/phillyStreets/phillyHighwayLights_lightmap"));
 		phillyHighwayLights_lightmap.scrollFactor.set(0.7, 1);
 		phillyHighwayLights_lightmap.antialiasing = true;
-		phillyHighwayLights_lightmap.blend = ScriptingUtil.add;
+		phillyHighwayLights_lightmap.blend = BlendMode.ADD;
 		phillyHighwayLights_lightmap.alpha = 0.6;
 		addToBackground(phillyHighwayLights_lightmap);
 
@@ -126,7 +127,7 @@ class PhillyStreetsErect extends BaseStage
 		mist4 = new FlxBackdrop(Paths.image('weekend1/phillyStreets/erect/mistBack'), ScriptingUtil.axisX);
 		mist4.setPosition(-650, -100);
 		mist4.scrollFactor.set(0.8, 0.8);
-   		mist4.blend = ScriptingUtil.add;
+   		mist4.blend = BlendMode.ADD;
 		mist4.color = 0xFF5c5c5c;
 		mist4.alpha = 1;
 		mist4.velocity.x = 40;
@@ -146,26 +147,26 @@ class PhillyStreetsErect extends BaseStage
 		var phillyTraffic_lightmap = new FlxSprite(1840, 608).loadGraphic(Paths.image("weekend1/phillyStreets/phillyTraffic_lightmap"));
 		phillyTraffic_lightmap.scrollFactor.set(0.9, 1);
 		phillyTraffic_lightmap.antialiasing = true;
-		phillyTraffic_lightmap.blend = ScriptingUtil.add;
+		phillyTraffic_lightmap.blend = BlendMode.ADD;
 		phillyTraffic_lightmap.alpha = 0.6;
 		addToBackground(phillyTraffic_lightmap);
 
 		var grey1 = new FlxSprite(88, 317).loadGraphic(Paths.image("weekend1/phillyStreets/erect/greyGradient"));
 		grey1.antialiasing = true;
-		grey1.blend = ScriptingUtil.add;
+		grey1.blend = BlendMode.ADD;
 		grey1.alpha = 0.3;
 		addToBackground(grey1);
 
 		var grey2 = new FlxSprite(88, 317).loadGraphic(Paths.image("weekend1/phillyStreets/erect/greyGradient"));
 		grey2.antialiasing = true;
-		grey2.blend = ScriptingUtil.multiply;
+		grey2.blend = BlendMode.MULTIPLY;
 		grey2.alpha = 0.8;
 		addToBackground(grey2);
 
 		mist3 = new FlxBackdrop(Paths.image('weekend1/phillyStreets/erect/mistMid'), ScriptingUtil.axisX);
 		mist3.setPosition(-650, -100);
 		mist3.scrollFactor.set(0.95, 0.95);
-   		mist3.blend = ScriptingUtil.add;
+   		mist3.blend = BlendMode.ADD;
 		mist3.color = 0xFF5c5c5c;
 		mist3.alpha = 0.5;
 		mist3.velocity.x = -50;
@@ -215,7 +216,7 @@ class PhillyStreetsErect extends BaseStage
 		mist1 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistMid"), ScriptingUtil.axisX);
 		mist1.setPosition(-650, -100);
 		mist1.scrollFactor.set(1.1, 1.1);
-    	mist1.blend = ScriptingUtil.add;
+    	mist1.blend = BlendMode.ADD;
 		mist1.color = 0xFF5c5c5c;
 		mist1.alpha = 0.6;
 		mist1.velocity.x = 150;
@@ -224,7 +225,7 @@ class PhillyStreetsErect extends BaseStage
 		mist0 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistMid"), ScriptingUtil.axisX);
 		mist0.setPosition(-650, -100);
 		mist0.scrollFactor.set(1.2, 1.2);
-    	mist0.blend = ScriptingUtil.add;
+    	mist0.blend = BlendMode.ADD;
 		mist0.color = 0xFF5c5c5c;
 		mist0.alpha = 0.6;
 		mist0.velocity.x = 172;
@@ -233,7 +234,7 @@ class PhillyStreetsErect extends BaseStage
 		mist2 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistBack"), ScriptingUtil.axisX);
 		mist2.setPosition(-650, -100);
 		mist2.scrollFactor.set(1.2, 1.2);
-    	mist2.blend = ScriptingUtil.add;
+    	mist2.blend = BlendMode.ADD;
 		mist2.color = 0xFF5c5c5c;
 		mist2.alpha = 0.8;
 		mist2.velocity.x = -80;

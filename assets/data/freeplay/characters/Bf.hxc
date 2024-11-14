@@ -12,6 +12,7 @@ import flixel.FlxG;
 import sys.FileSystem;
 import flixel.sound.FlxSound;
 import freeplay.ScrollingText;
+import openfl.display.BlendMode;
 
 class BoyfriendFreeplay extends DJCharacter
 {
@@ -154,7 +155,7 @@ class BoyfriendFreeplay extends DJCharacter
         cardGlowBright = new FlxSprite(-30, 240).loadGraphic(Paths.image('menu/freeplay/bgs/bf/confirmGlowBright'));
         cardGlowBright.antialiasing = true;
         cardGlowBright.alpha = 0;
-        cardGlowBright.blend = ScriptingUtil.add;
+        cardGlowBright.blend = BlendMode.ADD;
         backingCard.add(cardGlowBright);
 
         cardGlowDark = new FlxSprite(cardGlowBright.x, cardGlowBright.y).loadGraphic(Paths.image('menu/freeplay/bgs/bf/confirmGlowDark'));
@@ -171,7 +172,7 @@ class BoyfriendFreeplay extends DJCharacter
         cardAcceptTextGlow = new FlxSprite(-8, 165).loadGraphic(Paths.image("menu/freeplay/bgs/bf/glowingText"));
         cardAcceptTextGlow.antialiasing = true;
         cardAcceptTextGlow.visible = false;
-        cardAcceptTextGlow.blend = ScriptingUtil.add;
+        cardAcceptTextGlow.blend = BlendMode.ADD;
         backingCard.add(cardAcceptTextGlow);
 
         cardPinkFlash = Utils.makeColoredSprite(528, 720, 0xFFFFD0D5);
@@ -181,7 +182,7 @@ class BoyfriendFreeplay extends DJCharacter
 
         cardFlash = Utils.makeColoredSprite(528, 720, 0xFFFEF8A5);
         cardFlash.antialiasing = true;
-        cardFlash.blend = ScriptingUtil.add;
+        cardFlash.blend = BlendMode.ADD;
         cardFlash.alpha = 0;
         backingCard.add(cardFlash);
     }

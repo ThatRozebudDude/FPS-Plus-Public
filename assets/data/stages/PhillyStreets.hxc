@@ -8,6 +8,7 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import objects.PicoBullet;
+import openfl.display.BlendMode;
 import StringTools;
 
 class PhillyStreets extends BaseStage
@@ -63,7 +64,7 @@ class PhillyStreets extends BaseStage
 		var phillyHighwayLights_lightmap = new FlxSprite(284-400, 305).loadGraphic(Paths.image("weekend1/phillyStreets/phillyHighwayLights_lightmap"));
 		phillyHighwayLights_lightmap.scrollFactor.set(0.7, 1);
 		phillyHighwayLights_lightmap.antialiasing = true;
-		phillyHighwayLights_lightmap.blend = ScriptingUtil.add;
+		phillyHighwayLights_lightmap.blend = BlendMode.ADD;
 		phillyHighwayLights_lightmap.alpha = 0.6;
 		addToBackground(phillyHighwayLights_lightmap);
 
@@ -116,7 +117,7 @@ class PhillyStreets extends BaseStage
 		var phillyTraffic_lightmap = new FlxSprite(1840, 608).loadGraphic(Paths.image("weekend1/phillyStreets/phillyTraffic_lightmap"));
 		phillyTraffic_lightmap.scrollFactor.set(0.9, 1);
 		phillyTraffic_lightmap.antialiasing = true;
-		phillyTraffic_lightmap.blend = ScriptingUtil.add;
+		phillyTraffic_lightmap.blend = BlendMode.ADD;
 		phillyTraffic_lightmap.alpha = 0.6;
 		addToBackground(phillyTraffic_lightmap);
 

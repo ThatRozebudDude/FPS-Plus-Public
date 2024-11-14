@@ -5,7 +5,7 @@ import flixel.util.FlxTimer;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
-import flixel.FlxObject;
+import openfl.display.BlendMode;
 import objects.BackgroundDancer;
 
 class LimoErect extends BaseStage
@@ -56,7 +56,7 @@ class LimoErect extends BaseStage
 		mist5 = new FlxBackdrop(Paths.image('week4/limo/erect/mistMid'), ScriptingUtil.axisX);
 		mist5.setPosition(-650, -400);
 		mist5.scrollFactor.set(0.2, 0.2);
-   		mist5.blend = ScriptingUtil.add;
+   		mist5.blend = BlendMode.ADD;
 		mist5.color = 0xFFE7A480;
 		mist5.alpha = 1;
 		mist5.velocity.x = 100;
@@ -83,7 +83,7 @@ class LimoErect extends BaseStage
 		mist4 = new FlxBackdrop(Paths.image('week4/limo/erect/mistBack'), ScriptingUtil.axisX);
 		mist4.setPosition(-650, -380);
 		mist4.scrollFactor.set(0.6, 0.6);
-    	mist4.blend = ScriptingUtil.add;
+    	mist4.blend = BlendMode.ADD;
 		mist4.color = 0xFF9c77c7;
 		mist4.alpha = 1;
 		mist4.velocity.x = 700;
@@ -93,7 +93,7 @@ class LimoErect extends BaseStage
 		mist3 = new FlxBackdrop(Paths.image('week4/limo/erect/mistMid'), ScriptingUtil.axisX);
 		mist3.setPosition(-650, -100);
 		mist3.scrollFactor.set(0.8, 0.8);
-   		mist3.blend = ScriptingUtil.add;
+   		mist3.blend = BlendMode.ADD;
 		mist3.color = 0xFFa7d9be;
 		mist3.alpha = 0.5;
 		mist3.velocity.x = 900;
@@ -115,7 +115,7 @@ class LimoErect extends BaseStage
 		mist1 = new FlxBackdrop(Paths.image('week4/limo/erect/mistMid'), ScriptingUtil.axisX);
 		mist1.setPosition(-650, -100);
 		mist1.scrollFactor.set(1.1, 1.1);
-    	mist1.blend = ScriptingUtil.add;
+    	mist1.blend = BlendMode.ADD;
 		mist1.color = 0xFFc6bfde;
 		mist1.alpha = 0.4;
 		mist1.velocity.x = 1700;
@@ -124,7 +124,7 @@ class LimoErect extends BaseStage
 		mist2 = new FlxBackdrop(Paths.image('week4/limo/erect/mistBack'), ScriptingUtil.axisX);
 		mist2.setPosition(-650, -100);
 		mist2.scrollFactor.set(1.2, 1.2);
-    	mist2.blend = ScriptingUtil.add;
+    	mist2.blend = BlendMode.ADD;
 		mist2.color = 0xFF6a4da1;
 		mist2.alpha = 1;
 		mist2.velocity.x = 2100;

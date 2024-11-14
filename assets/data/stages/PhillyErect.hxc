@@ -8,6 +8,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
+import openfl.display.BlendMode;
 
 class PhillyErect extends BaseStage
 {
@@ -64,7 +65,7 @@ class PhillyErect extends BaseStage
 		phillyCityLightsGlow.scale.set(0.85, 0.85);
 		phillyCityLightsGlow.updateHitbox();
 		phillyCityLightsGlow.antialiasing = true;
-		phillyCityLightsGlow.blend = ScriptingUtil.add;
+		phillyCityLightsGlow.blend = BlendMode.ADD;
 		phillyCityLightsGlow.alpha = 0;
 		addToBackground(phillyCityLightsGlow);
 

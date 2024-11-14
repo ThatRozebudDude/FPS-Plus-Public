@@ -8,7 +8,7 @@ import flixel.tweens.FlxEase;
 import flixel.addons.display.FlxBackdrop;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
-import flixel.FlxObject;
+import openfl.display.BlendMode;
 
 class PhillyBlazin extends BaseStage
 {
@@ -50,7 +50,7 @@ class PhillyBlazin extends BaseStage
 		scrollingSkyAdd.updateHitbox();
 		scrollingSkyAdd.velocity.x = -35;
 		scrollingSkyAdd.antialiasing = true;
-		scrollingSkyAdd.blend = ScriptingUtil.add;
+		scrollingSkyAdd.blend = BlendMode.ADD;
 		scrollingSkyAdd.visible = false;
 		addToBackground(scrollingSkyAdd);
 
@@ -76,7 +76,7 @@ class PhillyBlazin extends BaseStage
 		streetBlurMultiply.scale.set(1.75, 1.75);
 		streetBlurMultiply.updateHitbox();
 		streetBlurMultiply.antialiasing = true;
-		streetBlurMultiply.blend = ScriptingUtil.multiply;
+		streetBlurMultiply.blend = BlendMode.MULTIPLY;
 		streetBlurMultiply.visible = false;
 		addToBackground(streetBlurMultiply);
 

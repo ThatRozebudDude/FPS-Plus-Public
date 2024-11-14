@@ -5,8 +5,7 @@ import flixel.sound.FlxSound;
 import flixel.FlxG;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxSprite;
-import flixel.math.FlxPoint;
-import flixel.FlxObject;
+import openfl.display.BlendMode;
 
 class Philly extends BaseStage
 {
@@ -61,7 +60,7 @@ class Philly extends BaseStage
 		phillyCityLightsGlow.setGraphicSize(Std.int(phillyCityLightsGlow.width * 0.85));
 		phillyCityLightsGlow.updateHitbox();
 		phillyCityLightsGlow.antialiasing = true;
-		phillyCityLightsGlow.blend = ScriptingUtil.add;
+		phillyCityLightsGlow.blend = BlendMode.ADD;
 		phillyCityLightsGlow.alpha = 0;
 		addToBackground(phillyCityLightsGlow);
 
