@@ -56,6 +56,8 @@ class MainMenuState extends MusicBeatState
 
 		Config.setFramerate(144);
 
+		DiscordClient.instance.setPresence({state: "In the Menus", details: null});
+
 		if (!FlxG.sound.music.playing)
 		{	
 			FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);

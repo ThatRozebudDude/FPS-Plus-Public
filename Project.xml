@@ -100,13 +100,12 @@
 	<haxelib name="funkin.vis" />
 	<haxelib name="grig.audio" />
 	<haxelib name="polymod" />
+	<haxelib name="hxdiscord_rpc" />
 
 	<!--haxelib name="newgrounds"/-->
 	<!--haxelib name="faxe" if='switch'/-->
-	<!--haxelib name="polymod"/-->
 	<!--haxelib name="actuate" /-->
 	<!--haxelib name="extension-webm" if="desktop"/-->
-	<!--haxelib name="hscript" /-->
 
 	<!-- <haxelib name="markdown" /> -->
 	<!-- <haxelib name="HtmlParser" /> -->

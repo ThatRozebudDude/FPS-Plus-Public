@@ -140,6 +140,8 @@ class FreeplayState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
+		DiscordClient.instance.setPresence({state: 'In the Menus', details: null});
+
 		if(introAnimType == fromMainMenu){
 			if(FlxG.sound.music.playing){
 				FlxG.sound.music.volume = 0;

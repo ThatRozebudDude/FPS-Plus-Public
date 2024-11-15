@@ -146,6 +146,9 @@ class PlayState extends MusicBeatState
 	public var hudLayer:FlxGroup = new FlxGroup();
 	public var overlayLayer:FlxGroup = new FlxGroup();
 
+	var discordRPCAlbum:String = '';
+	var discordRPCIcon:String = '';
+
 	//Wacky input stuff=========================
 
 	//private var skipListener:Bool = false;
@@ -674,6 +677,26 @@ class PlayState extends MusicBeatState
 		iconP2.visible = false;
 		scoreTxt.visible = false;
 
+		var albumName:String = "volume1";
+		//redirect album
+		switch(metadata.album){
+			case "vol1" | "monster":
+				albumName = "volume1";
+			case "vol2":
+				albumName = "volume2";
+			case "vol3":
+				albumName = "volume3";
+			case "vol4":
+				albumName = "volume4";
+			case "ext1":
+				albumName = "expansion1";
+			default:
+				albumName = metadata.album;
+
+		}
+		discordRPCAlbum = 'album-${albumName}';
+		discordRPCIcon = 'icon-${dad.iconName}';
+		
 		// cameras = [FlxG.cameras.list[1]];
 		startingSong = true;
 
@@ -1001,6 +1024,42 @@ class PlayState extends MusicBeatState
 
 		beatHit();
 	}
+
+	/**
+    * Initializes the Discord Rich Presence.
+    */
+	 function initDiscord():Void{
+		DiscordClient.instance.setPresence(
+		{
+			state: buildDiscordRPCState(),
+			details: buildDiscordRPCDetails(),
+	  
+			largeImageKey: discordRPCAlbum,
+			smallImageKey: discordRPCIcon
+		});
+	}
+
+	function buildDiscordRPCDetails():String
+	{
+		if (isStoryMode){
+			return 'Story Mode: ${StoryMenuState.weekList[storyWeek].name}';
+		}else{
+			if(autoplay)
+			{
+			  return 'Freeplay [AutoPlay]';
+			}
+			else
+			{
+			  return 'Freeplay';
+			}
+		}
+	}
+
+	function buildDiscordRPCState():String
+  	{
+		//There was a difficulty-to-string hagdler
+    	return '${metadata.name}';
+  	}	  
 
 	private function generateSong(dataPath:String):Void {
 
@@ -1459,6 +1518,16 @@ class PlayState extends MusicBeatState
 		if (Binds.justPressed("pause") && startedCountdown && canPause){
 			paused = true;
 			openSubState(new PauseSubState());
+
+			DiscordClient.instance.setPresence(
+			{
+				details: 'Paused - ${buildDiscordRPCDetails()}',
+
+				state: buildDiscordRPCState(),
+
+				largeImageKey: discordRPCAlbum,
+				smallImageKey: discordRPCIcon
+			});
 		}
 
 		if (Binds.justPressed("chartEditor") && !isStoryMode){
@@ -1645,6 +1714,15 @@ class PlayState extends MusicBeatState
 
 		openSubState(new GameOverSubstate(boyfriend.getSprite().getScreenPosition().x, boyfriend.getSprite().getScreenPosition().y, camFollowFinal.getScreenPosition().x, camFollowFinal.getScreenPosition().y, defaultCamZoom, character));
 		sectionStart = false;
+
+		DiscordClient.instance.setPresence(
+		{
+			details: 'Game Over - ${buildDiscordRPCDetails()}',
+			state: buildDiscordRPCState(),
+  
+			largeImageKey: discordRPCAlbum,
+			smallImageKey: discordRPCIcon
+		});
 	}
 
 	function updateNote(){
@@ -2378,6 +2456,29 @@ class PlayState extends MusicBeatState
 			if((Math.abs(vocalsOther.time - (Conductor.songPosition)) > 20) && FlxG.sound.music.playing){
 				resyncVocals();
 			}
+		}
+
+		if (Conductor.songPosition > 0)
+		{
+			DiscordClient.instance.setPresence(
+			{
+				state: buildDiscordRPCState(),
+				details: buildDiscordRPCDetails(),
+	  
+				largeImageKey: discordRPCAlbum,
+				smallImageKey: discordRPCIcon
+			});
+		}
+		else
+		{
+			DiscordClient.instance.setPresence(
+			{
+				state: buildDiscordRPCState(),
+				details: buildDiscordRPCDetails(),
+	  
+				largeImageKey: discordRPCAlbum,
+				smallImageKey: discordRPCIcon
+			});
 		}
 
 		if(curStep > 0 && curStep % 16 == 0){

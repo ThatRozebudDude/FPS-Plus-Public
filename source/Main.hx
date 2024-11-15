@@ -29,6 +29,11 @@ class Main extends Sprite
 
 		SaveManager.global();
 
+		DiscordClient.instance.init();
+		lime.app.Application.current.onExit.add(function(exitCode) {
+			DiscordClient.instance.shutdown();
+		});
+
 		fpsDisplay = new FPS(10, 3, 0xFFFFFF);
 		fpsDisplay.visible = true;
 

@@ -55,6 +55,8 @@ class TitleScreen extends MusicBeatState
 
 		Config.setFramerate(144);
 
+		DiscordClient.instance.setPresence({state: "In the Menus", details: null});
+
 		useDefaultTransIn = false;
 
 		camBackground = new FlxCamera();
