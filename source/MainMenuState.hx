@@ -48,7 +48,7 @@ class MainMenuState extends MusicBeatState
 	final warningDelay:Float = 10;
 
 	inline public static final VERSION:String = "6.1.0";
-	inline public static final NONFINAL_TAG:String = "(Pre-release)";
+	inline public static final NONFINAL_TAG:String = "(Release)";
 	inline public static final SHOW_BUILD_INFO:Bool = true; //Set this to false when making a release build.
 
 	override function create()

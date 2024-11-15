@@ -13,8 +13,6 @@ class PolymodHandler
 
     public static final API_VERSION:Array<Int> = [1, 0, 0];
     public static final API_VERSION_STRING:String = API_VERSION[0]+"."+API_VERSION[1]+"."+API_VERSION[2];
-
-    //public static final API_VERSION_RULE:String = ">=1.0.0 <1.1.0";
     
     public static var allModDirs:Array<String>;
     public static var disabledModDirs:Array<String>;
@@ -28,12 +26,12 @@ class PolymodHandler
 
         reInit();
 
-        scriptableClassCheck();
+        //scriptableClassCheck();
     }
 
     public static function reload(?restartState:Bool = true):Void{
         reloadScripts();
-        scriptableClassCheck();
+        //scriptableClassCheck();
         if(restartState){ FlxG.resetState(); }
     }
 
@@ -48,7 +46,7 @@ class PolymodHandler
             frameworkParams: buildFrameworkParams()
 		});
 
-        trace("Mod Meta List: " + loadedModMetadata);
+        //trace("Mod Meta List: " + loadedModMetadata);
 
         Polymod.clearCache();
 
@@ -73,18 +71,18 @@ class PolymodHandler
             disabledModDirs.remove("");
         }
 
-        trace("Disabled Mod List: " + disabledModDirs);
+        //trace("Disabled Mod List: " + disabledModDirs);
         
         //Get all directories in the mods folder.
         allModDirs = sys.FileSystem.readDirectory("mods/");
         if(allModDirs == null){ allModDirs = []; }
 
-        trace("Mod Directories: " + allModDirs);
+        //trace("Mod Directories: " + allModDirs);
 
         //Remove all non-folder entries.
         allModDirs = allModDirs.filter(function(path){ return sys.FileSystem.isDirectory("mods/" + path); });
 
-        trace("Culled Mod Directories: " + allModDirs);
+        //trace("Culled Mod Directories: " + allModDirs);
 
         var order:String;
         if(sys.FileSystem.exists("mods/order")){
@@ -141,7 +139,7 @@ class PolymodHandler
             }
         }
 
-        trace("Checking Mod Directories: " + loadedModDirs);
+        //trace("Checking Mod Directories: " + loadedModDirs);
 
         //Do version handling
         //For some reason, the version rule didnt't actually seem to be preventing mods from loading(?) so I'll manually check to cull the mods from the list.
@@ -182,7 +180,7 @@ class PolymodHandler
 
         loadedModDirs = loadedModDirs.filter(function(mod){ return !malformedMods.exists(mod); });
 
-        trace("Final Mod Directories: " + loadedModDirs);
+        //trace("Final Mod Directories: " + loadedModDirs);
     }
 
     static function reloadScripts():Void{
