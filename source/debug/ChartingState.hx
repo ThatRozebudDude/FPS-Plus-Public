@@ -429,7 +429,7 @@ class ChartingState extends MusicBeatState
 
 		var loadAutosaveBtn:FlxButton = new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'load autosave', loadAutosave);
 
-		var fullreset:FlxButton = new FlxButton(10, 300, "Full Blank", function()
+		var fullreset:FlxButton = new FlxButton(310, 350, "Full Blank", function()
 		{
 			var song_name = _song.song;
 
