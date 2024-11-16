@@ -22,9 +22,24 @@ class GitCommit
     }
 
     // read the output of the process
-    var commitHash:String = process.stdout.readLine();
-
-    process.close();
+    var commitHash:String = "";
+    try {
+      commitHash = process.stdout.readLine();
+      process.close();
+    }
+    catch (e)
+    {
+      if (e.message == 'Eof')
+      {
+        // Do nothing.
+        // Eof = No output.
+      }
+      else
+      {
+        // Rethrow other exceptions.
+        throw e;
+      }
+    }
 
     trace('Git Commit ID: ${commitHash}');
 
@@ -54,8 +69,26 @@ class GitCommit
       haxe.macro.Context.info('[WARN] Could not determine current git commit; is this a proper Git repository?', pos);
     }
 
-    var branchName:String = branchProcess.stdout.readLine();
-    branchProcess.close();
+    // read the output of the process
+    var branchName:String = "";
+    try {
+      branchName = branchProcess.stdout.readLine();
+      branchProcess.close();
+    }
+    catch (e)
+    {
+      if (e.message == 'Eof')
+      {
+        // Do nothing.
+        // Eof = No output.
+      }
+      else
+      {
+        // Rethrow other exceptions.
+        throw e;
+      }
+    }
+
     trace('Git Branch Name: ${branchName}');
 
     // Generates a string expression
