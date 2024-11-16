@@ -61,15 +61,15 @@ class HealthIcon extends FlxSprite
 
 	public function setIconCharacter(character:String){
 		var icon = character;
-		if(!Utils.exists(Paths.file("ui/heathIcons/" + icon, "images", "png"))){
-			trace("No icon exists at ui/heathIcons/" + character + ".png, defaulting to face.");
+		if(!Utils.exists(Paths.file("ui/healthIcons/" + icon, "images", "png"))){
+			trace("No icon exists at ui/healthIcons/" + character + ".png, defaulting to face.");
 			icon = "face";
 		}
 
 		//This loads the image, gets it's dimensions, and reloads the image with animation based on cutting up the dimensions.
 		//Basically you can have any size icon as long as it's evenly cut.
 
-		loadGraphic(Paths.image("ui/heathIcons/" + icon), false);
+		loadGraphic(Paths.image("ui/healthIcons/" + icon), false);
 
 		var graphicWidth = Std.int(pixels.width/3);
 		var graphicHeight = Std.int(pixels.height);
@@ -83,8 +83,8 @@ class HealthIcon extends FlxSprite
 		antialiasing = true;
 
 		//Optional json
-		if(Utils.exists("assets/images/ui/heathIcons/" + icon + ".json")){
-			var iconJson = Json.parse(Utils.getText("assets/images/ui/heathIcons/" + icon + ".json"));
+		if(Utils.exists("assets/images/ui/healthIcons/" + icon + ".json")){
+			var iconJson = Json.parse(Utils.getText("assets/images/ui/healthIcons/" + icon + ".json"));
 			
 			if(iconJson.offset != null){
 				xOffset = (iconJson.offset.x != null) ? iconJson.offset.x : defaultOffsets[0];
