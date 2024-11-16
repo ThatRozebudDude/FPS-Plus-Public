@@ -99,11 +99,53 @@ class CharacterSelectState extends MusicBeatState
         //addCharacter("bf", "BfPlayer", "GfPartner", "Boyfriend", [1, 1]);
         //addCharacter("pico", "PicoPlayer", "NenePartner", "Pico", [0, 1]);
 
+        var usedPositions:Array<Array<Int>> = [];
+
+        final MAX_GRID_WIDTH:Int = 3;
+
+        var curGridPosX:Int = 0;
+        var curGridPosY:Int = 0;
+
         for(file in Utils.readDirectory("assets/data/characterSelect/")){
             if(file.endsWith(".json")){
                 var charJson = Json.parse(Utils.getText(Paths.json(file.split(".json")[0], "data/characterSelect")));
                 if (charJson.id == null){ charJson.id = file.split(".json")[0].toLowerCase(); }
-                addCharacter(charJson.id, charJson.playerCharacter, charJson.partnerCharacter, charJson.freeplayCharacter, charJson.position);
+                var charPos = charJson.position;
+
+                var repositionCharacter:Bool = false;
+
+                for(usedPos in usedPositions){
+                    if(usedPos[0] == charPos[0] && usedPos[1] == charPos[1]){
+                        repositionCharacter = true;
+                        break;
+                    }
+                }
+
+                if(repositionCharacter){
+                    var repositioned:Bool = false;
+                    while(!repositioned){
+                        repositioned = true;
+                        for(usedPos in usedPositions){
+                            if(usedPos[0] == curGridPosX && usedPos[1] == curGridPosY){
+                                curGridPosX++;
+                                if(curGridPosX >= MAX_GRID_WIDTH){
+                                    curGridPosX = 0;
+                                    curGridPosY++;
+                                    if(curGridPosY >= gridHeight){
+                                        gridHeight++;
+                                    }
+                                }
+                                repositioned = false;
+                                break;
+                            }
+                        }
+                    }
+                    charPos = [curGridPosX, curGridPosY];
+                }
+
+                usedPositions.push([charPos[0], charPos[1]]);
+
+                addCharacter(charJson.id, charJson.playerCharacter, charJson.partnerCharacter, charJson.freeplayCharacter, charPos);
             }
         }
 
@@ -212,9 +254,21 @@ class CharacterSelectState extends MusicBeatState
 
         characterGrid = new CharacterGrid(480, 200, gridWidth, gridHeight, characters);
         characterGrid.scrollFactor.set();
+
+        switch(gridHeight){
+            case 1 | 2 | 3:
+            case 4:
+                characterGrid.y -= 80;
+            default:
+                //Do other shit to make the menu look better. Will do later.
+        }
+
+        if(!characters.exists(persistentCharacter)){
+            persistentCharacter = "bf";
+        }
+
         characterGrid.y += 230;
         characterGrid.select(characters.get(persistentCharacter).position);
-        //characterGrid.forceTrackPosition = characters.get(persistentCharacter).position.copy();
         FlxTween.tween(characterGrid, {y: characterGrid.y - 230}, 1, {ease: FlxEase.expoOut});
         add(characterGrid);
 
@@ -237,7 +291,7 @@ class CharacterSelectState extends MusicBeatState
         if(!startLeaving){
             if(Binds.justPressed("menuUp")){
                 changeGridPos([0, -1]);
-                changeCharacter(getCharacterFromPosition());
+                changeCharacter(getCharacterFromPosition(curGridPosition));
                 characterGrid.showNormalCursor();
                 characterGrid.select(curGridPosition);
                 repeatDelayY = 2;
@@ -246,7 +300,7 @@ class CharacterSelectState extends MusicBeatState
             }
             else if(Binds.justPressed("menuDown")){
                 changeGridPos([0, 1]);
-                changeCharacter(getCharacterFromPosition());
+                changeCharacter(getCharacterFromPosition(curGridPosition));
                 characterGrid.showNormalCursor();
                 characterGrid.select(curGridPosition);
                 repeatDelayY = 2;
@@ -255,7 +309,7 @@ class CharacterSelectState extends MusicBeatState
             }
             if(Binds.justPressed("menuLeft")){
                 changeGridPos([-1, 0]);
-                changeCharacter(getCharacterFromPosition());
+                changeCharacter(getCharacterFromPosition(curGridPosition));
                 characterGrid.showNormalCursor();
                 characterGrid.select(curGridPosition);
                 repeatDelayX = 2;
@@ -264,7 +318,7 @@ class CharacterSelectState extends MusicBeatState
             }
             else if(Binds.justPressed("menuRight")){
                 changeGridPos([1, 0]);
-                changeCharacter(getCharacterFromPosition());
+                changeCharacter(getCharacterFromPosition(curGridPosition));
                 characterGrid.showNormalCursor();
                 characterGrid.select(curGridPosition);
                 repeatDelayX = 2;
@@ -401,7 +455,7 @@ class CharacterSelectState extends MusicBeatState
             if(changeAmount[0] != 0 || changeAmount[1] != 0){
                 if(Binds.pressed("menuUp") || Binds.pressed("menuDown") || Binds.pressed("menuLeft") || Binds.pressed("menuRight")){
                     changeGridPos(changeAmount);
-                    changeCharacter(getCharacterFromPosition());
+                    changeCharacter(getCharacterFromPosition(curGridPosition));
                     characterGrid.showNormalCursor();
                     characterGrid.select(curGridPosition);
                     playCursorMoveSound();
@@ -446,7 +500,15 @@ class CharacterSelectState extends MusicBeatState
             position: position,
         });
 
-        characterPositions.set((""+position[0]) + (""+position[1]), name);
+        characterPositions.set((""+position[0]) + ("|"+position[1]), name);
+    }
+
+    function getCharacterFromPosition(position:Array<Int>):String{
+        return characterPositions.get((""+position[0]) + ("|"+position[1]));
+    }
+
+    function characterExistsAtPosition(position:Array<Int>):Bool{
+        return characterPositions.exists((""+position[0]) + ("|"+position[1]));
     }
 
     function changeCharacter(changeCharacter:String, ?initial:Bool = false):Void{
@@ -533,20 +595,6 @@ class CharacterSelectState extends MusicBeatState
             characterTitle.y -= 10;
             FlxTween.tween(characterTitle, {y: characterTitle.y + 10}, 0.4, {ease: FlxEase.quintOut});
         }*/
-    }
-
-    function getCharacterFromPosition():String{
-        //idk why this shit dont work
-        /*for(key => val in characters){
-            if(val.position[0] == curGridPosition[0] && val.position[1] == curGridPosition[1]){
-                trace(key);
-                trace(val.position);
-                trace(curGridPosition);
-                return key;
-            }
-        }
-        return null;*/
-        return characterPositions.get((""+curGridPosition[0]) + (""+curGridPosition[1]));
     }
 
     function changeGridPos(?change:Array<Int>, ?_instant:Bool = false):Void{

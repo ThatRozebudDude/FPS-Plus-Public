@@ -171,9 +171,9 @@ class FreeplayState extends MusicBeatState
 		}
 
 		//DJ STUFF
-		//var djClass = Type.resolveClass("freeplay.characters." + djCharacter);
-		//if(djClass == null){ djClass = freeplay.characters.Boyfriend; }
-		//dj = Type.createInstance(djClass, []);
+		if(!ScriptableDJCharacter.listScriptClasses().contains(djCharacter)){
+			djCharacter = "BoyfriendFreeplay";
+		}
 		dj = ScriptableDJCharacter.init(djCharacter);
 		dj.setup();
 		dj.setupSongList();
