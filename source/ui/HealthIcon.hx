@@ -61,15 +61,22 @@ class HealthIcon extends FlxSprite
 
 	public function setIconCharacter(character:String){
 		var icon = character;
+		var subDir = "healthIcons"; //Doing this to make it backwards compatible because I am stupid.
+
+		//Accidentally called the healthIcon folder "heathIcon" and released the modding API with that so I'm making it backwards compatible with the typo (and also the Foolhardy example mod). 
+		//Please do not use heathIcon.
 		if(!Utils.exists(Paths.file("ui/healthIcons/" + icon, "images", "png"))){
-			trace("No icon exists at ui/healthIcons/" + character + ".png, defaulting to face.");
-			icon = "face";
+			if(!Utils.exists(Paths.file("ui/heathIcons/" + icon, "images", "png"))){
+				trace("No icon exists at ui/healthIcons/" + character + ".png, defaulting to face.");
+				icon = "face";
+			}
+			else{ subDir = "heathIcons"; }
 		}
 
 		//This loads the image, gets it's dimensions, and reloads the image with animation based on cutting up the dimensions.
 		//Basically you can have any size icon as long as it's evenly cut.
 
-		loadGraphic(Paths.image("ui/healthIcons/" + icon), false);
+		loadGraphic(Paths.image("ui/" + subDir + "/" + icon), false);
 
 		var graphicWidth = Std.int(pixels.width/3);
 		var graphicHeight = Std.int(pixels.height);
@@ -83,8 +90,8 @@ class HealthIcon extends FlxSprite
 		antialiasing = true;
 
 		//Optional json
-		if(Utils.exists("assets/images/ui/healthIcons/" + icon + ".json")){
-			var iconJson = Json.parse(Utils.getText("assets/images/ui/healthIcons/" + icon + ".json"));
+		if(Utils.exists("assets/images/ui/" + subDir + "/" + icon + ".json")){
+			var iconJson = Json.parse(Utils.getText("assets/images/ui/" + subDir + "/" + icon + ".json"));
 			
 			if(iconJson.offset != null){
 				xOffset = (iconJson.offset.x != null) ? iconJson.offset.x : defaultOffsets[0];
