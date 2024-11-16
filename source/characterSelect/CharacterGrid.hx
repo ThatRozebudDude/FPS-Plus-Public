@@ -27,15 +27,15 @@ class CharacterGrid extends FlxSpriteGroup
 
     public var forceTrackPosition:Array<Int> = null;
 
-    public function new(_x:Float = 0, _y:Float = 0, _size:Int, _characterMap:Map<String, CharacterSelectGroup>){
+    public function new(_x:Float = 0, _y:Float = 0, _width:Int, _height:Int, _characterMap:Map<String, CharacterSelectGroup>){
         super(_x,_y);
 
-        gridArea = _size * _size;
+        gridArea = _width * _height;
 
         var iconGrid = [];
-        for(i in 0..._size){
+        for(i in 0..._width){
             var column = [];
-            for(j in 0..._size){
+            for(j in 0..._height){
                 var found:Bool = false;
                 for(key => val in _characterMap){
                     if(val.position[0] == i && val.position[1] == j){

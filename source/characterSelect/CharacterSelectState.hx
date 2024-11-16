@@ -52,8 +52,10 @@ class CharacterSelectState extends MusicBeatState
 
     var characterGrid:CharacterGrid;
 
-    final gridSize = 3;
     var curGridPosition:Array<Int> = [1, 1];
+
+    var gridWidth:Int = 3;
+    var gridHeight:Int = 3;
 
     var denyCount:Int = 0;
     var skipIdleCount:Int = 0;
@@ -208,7 +210,7 @@ class CharacterSelectState extends MusicBeatState
         FlxTween.tween(characterTitle, {y: characterTitle.y - 80}, 1.3, {ease: FlxEase.expoOut});
         add(characterTitle);
 
-        characterGrid = new CharacterGrid(480, 200, gridSize, characters);
+        characterGrid = new CharacterGrid(480, 200, gridWidth, gridHeight, characters);
         characterGrid.scrollFactor.set();
         characterGrid.y += 230;
         characterGrid.select(characters.get(persistentCharacter).position);
@@ -553,11 +555,11 @@ class CharacterSelectState extends MusicBeatState
         curGridPosition[0] += change[0];
         curGridPosition[1] += change[1];
 
-        if(curGridPosition[0] >= gridSize){ curGridPosition[0] = 0; }
-        else if(curGridPosition[0] < 0){ curGridPosition[0] = gridSize-1; }
+        if(curGridPosition[0] >= gridWidth){ curGridPosition[0] = 0; }
+        else if(curGridPosition[0] < 0){ curGridPosition[0] = gridWidth-1; }
 
-        if(curGridPosition[1] >= gridSize){ curGridPosition[1] = 0; }
-        else if(curGridPosition[1] < 0){ curGridPosition[1] = gridSize-1; }
+        if(curGridPosition[1] >= gridHeight){ curGridPosition[1] = 0; }
+        else if(curGridPosition[1] < 0){ curGridPosition[1] = gridHeight-1; }
 
         if(!_instant){
             FlxTween.cancelTweensOf(camShift);
