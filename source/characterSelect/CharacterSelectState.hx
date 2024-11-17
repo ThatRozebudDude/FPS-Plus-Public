@@ -257,10 +257,20 @@ class CharacterSelectState extends MusicBeatState
 
         switch(gridHeight){
             case 1 | 2 | 3:
-            case 4:
-                characterGrid.y -= 80;
             default:
-                //Do other shit to make the menu look better. Will do later.
+                characterGrid.y -= 80;
+
+                chooseDipshit.setGraphicSize(chooseDipshit.frameWidth, chooseDipshit.frameHeight + (110 * (gridHeight-4)));
+                chooseDipshit.updateHitbox();
+
+                dipshitBacking.scale.set(chooseDipshit.scale.x, chooseDipshit.scale.y);
+                dipshitBacking.updateHitbox();
+
+                dipshitBlur.scale.set(chooseDipshit.scale.x, chooseDipshit.scale.y);
+                dipshitBlur.updateHitbox();
+
+                dipshitDarkBack.scale.set(chooseDipshit.scale.x, chooseDipshit.scale.y);
+                dipshitDarkBack.updateHitbox();
         }
 
         if(!characters.exists(persistentCharacter)){

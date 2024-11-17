@@ -64,12 +64,14 @@ class Paths
         return 'assets/songs/$key/Inst.$audioExtension';
     }
 
-    inline static public function getSparrowAtlas(key:String){
-        return FlxAtlasFrames.fromSparrow(image(key), xml(key));
+    inline static public function getSparrowAtlas(key:String, ?xmlFile:String){
+        if(xmlFile == null){ xmlFile = key; }
+        return FlxAtlasFrames.fromSparrow(image(key), xml(xmlFile));
     }
 
-    inline static public function getPackerAtlas(key:String){
-        return FlxAtlasFrames.fromSpriteSheetPacker(image(key), text(key, "images"));
+    inline static public function getPackerAtlas(key:String, ?textFile:String){
+        if(textFile == null){ textFile = key; }
+        return FlxAtlasFrames.fromSpriteSheetPacker(image(key), text(textFile, "images"));
     }
 
     inline static public function getTextureAtlas(key:String){
