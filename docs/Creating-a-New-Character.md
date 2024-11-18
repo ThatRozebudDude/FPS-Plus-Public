@@ -57,6 +57,26 @@ The following functions can only be used by texture atlases:
     - `label`: The name of the frame label that the animation starts at.
     - `length`: How long the animation is in frames. The animation will end after this many frames have been played.
 
+## Custom Health Icon
+
+To add a new health icon to a character, you have to create an image with the same name as `info.iconName` in the `images/ui/healthIcons/` folder. A health icon has to include 3 parts: a neutral icon, a losing icon, and a winning icon, in that order. They must be layed out next to each other horizontally. The icon can be any resolution as long as each part is the same resolution since the game automatically divides the icon image up into 3 equal width parts. You can also include a JSON file with the same name as the icon to adjust a few properites about it. It can contain the following fields: 
+
+- `antialiasing`: A boolean that determines whether to apply antialiasing to the icon. Week 6 icons set this to false.
+- `offset`: An object with an `x` and `y` field that are used to reposition the icon.
+    - `x`: Amount in pixel to reposition the icon horizontally.
+    - `y`: Amount in pixel to reposition the icon vertically.
+
+If you are making a 150 x 150 icon like what base game uses, make a JSON file with the following properties to have it be aligned the same way it would normally be aligned in base game.
+
+```json
+{
+    "offset": {
+        "x": 10,
+        "y": -10
+    }
+}
+```
+
 ## Extra Character Info
 
 That is all you really need to know to set up a basic character, however there are more options you can use to create more advanced characters. None of these fields need to manually be set but they can help make a character more interesting.
