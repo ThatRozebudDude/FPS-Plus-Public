@@ -50,6 +50,8 @@ if(__name__ == "__main__"):
     # Makes the folder for the song export if it doesn't exist already or clear it if it does.
     dir = os.path.dirname(os.path.realpath(__file__))
     outputFolder = dir + "\\convertedSongs\\" + songName.lower()
+    if sys.platform == "darwin" or sys.platform == "linux":
+        outputFolder = outputFolder.replace("\\", "/")
     if not os.path.exists(outputFolder):
         os.makedirs(outputFolder)
     else:
@@ -94,7 +96,10 @@ if(__name__ == "__main__"):
     metaOutputJson = json.loads(metaOutput)
     metaOutput = json.dumps(metaOutputJson, indent=4)
 
-    f = open(outputFolder + "\\meta.json", "w")
+    if sys.platform == "darwin" or sys.platform == "linux":
+        f = open(outputFolder + "/meta.json", "w")
+    else:
+        f = open(outputFolder + "\\meta.json", "w")
     f.write(metaOutput)
     f.close()
 
@@ -109,7 +114,10 @@ if(__name__ == "__main__"):
     eventsOutputJson = json.loads(eventsOutput)
     eventsOutput = json.dumps(eventsOutputJson, indent=4)
 
-    f = open(outputFolder + "\\events.json", "w")
+    if sys.platform == "darwin" or sys.platform == "linux":
+        f = open(outputFolder + "/events.json", "w")
+    else:
+        f = open(outputFolder + "\\events.json", "w")
     f.write(eventsOutput)
     f.close()
 
@@ -131,7 +139,9 @@ if(__name__ == "__main__"):
 
         outputJson = json.loads(output)
         output = json.dumps(outputJson, indent=4)
-
-        f = open(outputFolder + "\\" + songName.lower() + convertDiffNameToSuffix(diff) + ".json", "w")
+        if sys.platform == "darwin" or sys.platform == "linux":
+            f = open(outputFolder + "/" + songName.lower() + convertDiffNameToSuffix(diff) + ".json", "w")
+        else:
+            f = open(outputFolder + "\\" + songName.lower() + convertDiffNameToSuffix(diff) + ".json", "w")
         f.write(output)
         f.close()

@@ -1,6 +1,5 @@
 {
     "name": "Spooky Month",
-    "id": "week2",
     "sortOrder": 2,
     "songs": ["Spookeez", "South", "Monster"],
     "characters": ["spooky", "bf", "gf"],
