@@ -47,7 +47,7 @@ class MainMenuState extends MusicBeatState
 	public static final lerpSpeed:Float = 0.01;
 	final warningDelay:Float = 10;
 
-	inline public static final VERSION:String = "6.1.1";
+	inline public static final VERSION:String = "6.1.2";
 	inline public static final NONFINAL_TAG:String = "(Non-Release Build)";
 	inline public static final SHOW_BUILD_INFO:Bool = true; //Set this to false when making a release build.
 

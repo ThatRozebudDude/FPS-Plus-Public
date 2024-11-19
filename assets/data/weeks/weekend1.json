@@ -1,5 +1,6 @@
 {
     "name": "Due Debts",
+    "id": "weekend1",
     "sortOrder": 101,
     "songs": ["Darnell", "Lit-Up", "2hot", "Blazin"],
     "characters": ["darnell", "pico-player", "nene"],
