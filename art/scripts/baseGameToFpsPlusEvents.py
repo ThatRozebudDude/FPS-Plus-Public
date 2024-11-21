@@ -8,6 +8,7 @@ def processEvents(data, bpm):
 
     curSection = 0
 
+    #Set up json structure and disable automatic camera movements since base game uses events for cameras.
     output = "{\"events\":{\"events\":[\n"
     output += "[0, 0, 3, \"toggleCamMovement\"]\n"
 
@@ -18,11 +19,9 @@ def processEvents(data, bpm):
         
         skipAdd = False
 
-        column = 0
-
-        eventToAdd = ",[" + str(curSection) + ", " + str(event["t"]) + ", "
-
-        tag = ""
+        tag = [""]
+        column = [0]
+        timeOffset = [0]
 
         match event["e"]:
             case "FocusCamera":
@@ -35,11 +34,11 @@ def processEvents(data, bpm):
 
                 match focusedCharacter:
                         case 0 | "0":
-                            tag += "camFocusBf;"
+                            tag[0] += "camFocusBf;"
                         case 1 | "1":
-                            tag += "camFocusDad;"
+                            tag[0] += "camFocusDad;"
                         case 2 | "2":
-                            tag += "camFocusGf;"
+                            tag[0] += "camFocusGf;"
 
                 x = 0
                 y = 0
@@ -49,34 +48,40 @@ def processEvents(data, bpm):
                     if "y" in event["v"]:
                         y = event["v"]["y"]
                             
-                tag += str(column) + ", "
-                tag += str(x) + ";" + str(y)
+                tag[0] += str(x) + ";" + str(y)
 
                 if type(event["v"]) is not int:
                     if "ease" in event["v"]:
                         if not event["v"]["ease"] == "CLASSIC":
-                            tag += ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"])
+                            tag[0] += ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"])
 
-                print(event["e"] + "\t->\t" + tag)
+                print(event["e"] + "\t->\t" + tag[0])
 
             case "ZoomCamera":
-                tag += str(column) + ", "
-                tag += "camZoom;" + str(event["v"]["zoom"]) + ";" + str(event["v"]["duration"]) + "s;" + event["v"]["ease"]
+                tag[0] += "camZoom;" + str(event["v"]["zoom"]) + ";" + str(event["v"]["duration"]) + "s;" + event["v"]["ease"]
 
                 if "mode" in event["v"]:
                     if event["v"]["mode"] == "stage":
-                        tag += ";true"
+                        tag[0] += ";true"
 
-                print(event["e"] + "\t->\t" + tag)
+                print(event["e"] + "\t->\t" + tag[0])
 
             case "SetCameraBop":
-                #does not support intensity
-                tag += str(column) + ", "
-                tag += "camBopFreq;" + str(event["v"]["rate"])
-                print(event["e"] + "\t->\t" + tag)
+                tag[0] += "camBopFreq;" + str(event["v"]["rate"])
+
+                instensity = 1
+                if "intensity" in event["v"]:
+                    instensity = event["v"]["intensity"]
+
+                tag.append("")
+                tag[1] += "camBopIntensity;" + str(instensity)
+                timeOffset.append(-20)
+                column.append(2)
+
+                print(event["e"] + "\t->\t" + tag[0] + "\t&\t" + tag[1])
 
             case "PlayAnimation":
-                column = 1
+                column[0] = 1
                 target = "bf"
                 match event["v"]["target"]:
                     case "dad":
@@ -89,18 +94,23 @@ def processEvents(data, bpm):
                     if event["v"]["force"] == "true":
                         force = "true"
 
-                tag += str(column) + ", "
-                tag += "playAnim;" + target + ";" + event["v"]["anim"] + ";" + force
+                tag[0] += "playAnim;" + target + ";" + event["v"]["anim"] + ";" + force
 
-                print(event["e"] + "\t->\t" + tag)
+                print(event["e"] + "\t->\t" + tag[0])
 
             case _:
                 skipAdd = True
                 print(event["e"] + "\tXX\tEvent not supported, skipping.")
 
         if not skipAdd:
-            eventToAdd += "\"" + tag + "\"]"
-            output += eventToAdd + "\n"
+            for i in range(len(tag)):
+                eventTime = event["t"] + timeOffset[i]
+                if(eventTime < 0):
+                    eventTime = 0
+
+                eventToAdd = ",[" + str(curSection) + ", " + str(eventTime) + ", " + str(column[i]) + ", "
+                eventToAdd += "\"" + tag[i] + "\"]"
+                output += eventToAdd + "\n"
 
     output += "]}}"
 
