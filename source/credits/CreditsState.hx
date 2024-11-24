@@ -114,12 +114,12 @@ class CreditsState extends MusicBeatState
 		descBox.alpha = 0.8;
 		add(descBox);
 
-		titleTxt = new FlxText(40, 660, 1240, "FPS PLUS", 25);
+		titleTxt = new FlxText(40, 660, 1240, "???", 25);
 		titleTxt.setFormat(Paths.font("vcr"), 25, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE_FAST, FlxColor.BLACK);
 		titleTxt.scrollFactor.set();
 		add(titleTxt);
 
-		descTxt = new FlxText(40, 685, 1240, "NO ROLES DEFINED", 25);
+		descTxt = new FlxText(40, 685, 1240, "???", 25);
 		descTxt.setFormat(Paths.font("vcr"), 25, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE_FAST, FlxColor.BLACK);
 		descTxt.scrollFactor.set();
 		add(descTxt);
