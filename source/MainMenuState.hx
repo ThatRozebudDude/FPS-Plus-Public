@@ -31,7 +31,7 @@ class MainMenuState extends MusicBeatState
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	
-	public static var optionShit:Array<String> = ['storymode', 'freeplay', 'mods', "options"];
+	public static var optionShit:Array<String> = ['storymode', 'freeplay', 'mods', "options", "credits"];
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
@@ -96,13 +96,14 @@ class MainMenuState extends MusicBeatState
 
 		for (i in 0...optionShit.length)
 		{
-			var menuItem:FlxSprite = new FlxSprite(0, 60 + (i * 160));
+			var menuItem:FlxSprite = new FlxSprite(0, 40 + (i * 140));
 			menuItem.frames = Paths.getSparrowAtlas("menu/main/" + optionShit[i]);
 			
 			menuItem.animation.addByPrefix('idle', "idle", 24);
 			menuItem.animation.addByPrefix('selected', "selected", 24);
 			menuItem.animation.play('idle');
 			menuItem.ID = i;
+			menuItem.scale.set(0.98, 0.98);
 			menuItem.screenCenter(X);
 			menuItems.add(menuItem);
 			menuItem.scrollFactor.set();
@@ -250,7 +251,8 @@ class MainMenuState extends MusicBeatState
 										trace("options time");
 									case 'mods':
 										switchState(new ModManagerState());
-										trace("options time");
+									case 'credits':
+										switchState(new credits.CreditsState());
 								}
 							});
 						}
