@@ -11,7 +11,7 @@ using StringTools;
 class PolymodHandler
 {
 
-    public static final API_VERSION:Array<Int> = [1, 0, 1];
+    public static final API_VERSION:Array<Int> = [1, 1, 0];
     public static final API_VERSION_STRING:String = API_VERSION[0]+"."+API_VERSION[1]+"."+API_VERSION[2];
     
     public static var allModDirs:Array<String>;

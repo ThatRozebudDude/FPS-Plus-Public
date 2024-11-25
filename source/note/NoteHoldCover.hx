@@ -62,6 +62,20 @@ class NoteHoldCover extends FlxSprite{
         visible = (Config.noteSplashType == 1 || Config.noteSplashType == 2 || Config.noteSplashType == 4);
         alpha = 1;
         animation.play("start");
+
+        if(skin.info.anims[noteDirection].start.offsetOverride != null){
+            offset.set(skin.info.anims[noteDirection].start.offsetOverride[0], skin.info.anims[noteDirection].start.offsetOverride[1]);
+        }
+        else{
+            offset.set(skin.info.offset[0], skin.info.offset[1]);
+        }
+
+        if(skin.info.anims[noteDirection].start.positionOffsetOverride != null){
+            posOffset.set(skin.info.anims[noteDirection].start.positionOffsetOverride[0], skin.info.anims[noteDirection].start.positionOffsetOverride[1]);
+        }
+        else{
+            posOffset.set(skin.info.positionOffset[0], skin.info.positionOffset[1]);
+        }
     }
 
     public function end(playSplash:Bool) {
@@ -69,12 +83,40 @@ class NoteHoldCover extends FlxSprite{
         alpha = splashAlpha;
         animation.getByName("end").frameRate = FlxG.random.int(skin.info.anims[noteDirection].splash.framerateRange[0], skin.info.anims[noteDirection].splash.framerateRange[1]);
         animation.play("end");
+
+        if(skin.info.anims[noteDirection].splash.offsetOverride != null){
+            offset.set(skin.info.anims[noteDirection].splash.offsetOverride[0], skin.info.anims[noteDirection].splash.offsetOverride[1]);
+        }
+        else{
+            offset.set(skin.info.offset[0], skin.info.offset[1]);
+        }
+
+        if(skin.info.anims[noteDirection].splash.positionOffsetOverride != null){
+            posOffset.set(skin.info.anims[noteDirection].splash.positionOffsetOverride[0], skin.info.anims[noteDirection].splash.positionOffsetOverride[1]);
+        }
+        else{
+            posOffset.set(skin.info.positionOffset[0], skin.info.positionOffset[1]);
+        }
     }
 
     function callback(anim:String) {
         switch(anim){
             case "start":
                 animation.play("hold");
+
+                if(skin.info.anims[noteDirection].hold.offsetOverride != null){
+                    offset.set(skin.info.anims[noteDirection].hold.offsetOverride[0], skin.info.anims[noteDirection].hold.offsetOverride[1]);
+                }
+                else{
+                    offset.set(skin.info.offset[0], skin.info.offset[1]);
+                }
+
+                if(skin.info.anims[noteDirection].hold.positionOffsetOverride != null){
+                    posOffset.set(skin.info.anims[noteDirection].hold.positionOffsetOverride[0], skin.info.anims[noteDirection].hold.positionOffsetOverride[1]);
+                }
+                else{
+                    posOffset.set(skin.info.positionOffset[0], skin.info.positionOffset[1]);
+                }
 
             case "end":
                 visible = false;
