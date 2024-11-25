@@ -1562,23 +1562,28 @@ class ChartingState extends MusicBeatState
 		lilOpp.animation.play("idle");
 	}
 
-	function copySection(?sectionNum:Int = 1)
-	{
+	function copySection(?sectionNum:Int = 1){
+
 		var daSec = FlxMath.maxInt(curSection, sectionNum);
 
-		for (note in _song.notes[daSec - sectionNum].sectionNotes)
-		{
-			var strum = note[0] + Conductor.stepCrochet * (_song.notes[daSec].lengthInSteps * sectionNum);
-			var type = note[3];
-			if(type == null){ type = ""; }
-
-			var copiedNote:Array<Dynamic> = [strum, note[1], note[2], type];
-			_song.notes[daSec].sectionNotes.push(copiedNote);
+		if(daSec - sectionNum < _song.notes.length && daSec - sectionNum >= 0){
+			for (note in _song.notes[daSec - sectionNum].sectionNotes){
+				var strum = note[0] + Conductor.stepCrochet * (_song.notes[daSec].lengthInSteps * sectionNum);
+				var type = note[3];
+				if(type == null){ type = ""; }
+	
+				var copiedNote:Array<Dynamic> = [strum, note[1], note[2], type];
+				_song.notes[daSec].sectionNotes.push(copiedNote);
+			}
+	
+			removeDuplicates(curSection);
+	
+			updateGrid();
 		}
-
-		removeDuplicates(curSection);
-
-		updateGrid();
+		else{
+			trace("Section does not exist.");
+		}
+		
 	}
 
 	function updateSectionUI():Void

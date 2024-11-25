@@ -95,7 +95,7 @@ class NoteSplashDebug extends FlxState
 	}
 
 	function createNoteSplash(){
-		var bigSplashy = new NoteSplash(1280/2, 720/2, FlxG.random.int(0, 3), currentSplashAnim);
+		var bigSplashy = new NoteSplash(1280/2, 720/2, FlxG.random.int(0, 3), true, currentSplashAnim);
 		bigSplashy.offset.set(currentSplashOffsets.x, currentSplashOffsets.y);
 		bigSplashy.origin.set(currentSplashOffsets.x, currentSplashOffsets.y);
 		add(bigSplashy);

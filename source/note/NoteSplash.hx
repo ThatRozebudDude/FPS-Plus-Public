@@ -17,11 +17,11 @@ class NoteSplash extends FlxSprite{
     static var persistentSkinName:String;
     static var persistentSkinInfo:NoteSplashSkinBase;
 
-    public function new(x:Float, y:Float, direction:Int, ?forceSplashNumber:Null<Int>){
+    public function new(x:Float, y:Float, direction:Int, ?forceLoadSkin:Bool = false, ?forceSplashNumber:Null<Int>){
 
         super(x, y);
 
-        if(persistentSkinName == null || persistentSkinName != skinName){
+        if(persistentSkinName == null || persistentSkinName != skinName || forceLoadSkin){
             persistentSkinName = skinName;
             persistentSkinInfo = new NoteSplashSkinBase(skinName);
         }
