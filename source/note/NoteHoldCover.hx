@@ -63,15 +63,15 @@ class NoteHoldCover extends FlxSprite{
         alpha = 1;
         animation.play("start");
 
-        if(skin.info.anims[noteDirection].start.offsetOverride != null){
-            offset.set(skin.info.anims[noteDirection].start.offsetOverride[0], skin.info.anims[noteDirection].start.offsetOverride[1]);
+        if(skin.info.anims[noteDirection].start.offset != null){
+            offset.set(skin.info.anims[noteDirection].start.offset[0], skin.info.anims[noteDirection].start.offset[1]);
         }
         else{
             offset.set(skin.info.offset[0], skin.info.offset[1]);
         }
 
-        if(skin.info.anims[noteDirection].start.positionOffsetOverride != null){
-            posOffset.set(skin.info.anims[noteDirection].start.positionOffsetOverride[0], skin.info.anims[noteDirection].start.positionOffsetOverride[1]);
+        if(skin.info.anims[noteDirection].start.positionOffset != null){
+            posOffset.set(skin.info.anims[noteDirection].start.positionOffset[0], skin.info.anims[noteDirection].start.positionOffset[1]);
         }
         else{
             posOffset.set(skin.info.positionOffset[0], skin.info.positionOffset[1]);
@@ -84,15 +84,15 @@ class NoteHoldCover extends FlxSprite{
         animation.getByName("end").frameRate = FlxG.random.int(skin.info.anims[noteDirection].splash.framerateRange[0], skin.info.anims[noteDirection].splash.framerateRange[1]);
         animation.play("end");
 
-        if(skin.info.anims[noteDirection].splash.offsetOverride != null){
-            offset.set(skin.info.anims[noteDirection].splash.offsetOverride[0], skin.info.anims[noteDirection].splash.offsetOverride[1]);
+        if(skin.info.anims[noteDirection].splash.offset != null){
+            offset.set(skin.info.anims[noteDirection].splash.offset[0], skin.info.anims[noteDirection].splash.offset[1]);
         }
         else{
             offset.set(skin.info.offset[0], skin.info.offset[1]);
         }
 
-        if(skin.info.anims[noteDirection].splash.positionOffsetOverride != null){
-            posOffset.set(skin.info.anims[noteDirection].splash.positionOffsetOverride[0], skin.info.anims[noteDirection].splash.positionOffsetOverride[1]);
+        if(skin.info.anims[noteDirection].splash.positionOffset != null){
+            posOffset.set(skin.info.anims[noteDirection].splash.positionOffset[0], skin.info.anims[noteDirection].splash.positionOffset[1]);
         }
         else{
             posOffset.set(skin.info.positionOffset[0], skin.info.positionOffset[1]);
@@ -104,15 +104,15 @@ class NoteHoldCover extends FlxSprite{
             case "start":
                 animation.play("hold");
 
-                if(skin.info.anims[noteDirection].hold.offsetOverride != null){
-                    offset.set(skin.info.anims[noteDirection].hold.offsetOverride[0], skin.info.anims[noteDirection].hold.offsetOverride[1]);
+                if(skin.info.anims[noteDirection].hold.offset != null){
+                    offset.set(skin.info.anims[noteDirection].hold.offset[0], skin.info.anims[noteDirection].hold.offset[1]);
                 }
                 else{
                     offset.set(skin.info.offset[0], skin.info.offset[1]);
                 }
 
-                if(skin.info.anims[noteDirection].hold.positionOffsetOverride != null){
-                    posOffset.set(skin.info.anims[noteDirection].hold.positionOffsetOverride[0], skin.info.anims[noteDirection].hold.positionOffsetOverride[1]);
+                if(skin.info.anims[noteDirection].hold.positionOffset != null){
+                    posOffset.set(skin.info.anims[noteDirection].hold.positionOffset[0], skin.info.anims[noteDirection].hold.positionOffset[1]);
                 }
                 else{
                     posOffset.set(skin.info.positionOffset[0], skin.info.positionOffset[1]);
