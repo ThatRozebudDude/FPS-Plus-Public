@@ -136,6 +136,7 @@ class FreeplayState extends MusicBeatState
 
 	override function create(){
 
+		ImageCache.clear();
 		Config.setFramerate(144);
 
 		persistentUpdate = persistentDraw = true;

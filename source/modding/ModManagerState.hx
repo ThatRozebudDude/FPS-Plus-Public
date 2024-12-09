@@ -61,6 +61,7 @@ class ModManagerState extends FlxUIStateExt
 
     override function create() {
 
+        ImageCache.clear();
         Config.setFramerate(144);
 
         oldDisabled = PolymodHandler.disabledModDirs;
