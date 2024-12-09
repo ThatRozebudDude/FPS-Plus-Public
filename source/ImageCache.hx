@@ -2,7 +2,10 @@ package;
 
 import flixel.graphics.FlxGraphic;
 import openfl.display.BitmapData;
+import flixel.FlxG;
 
+@:access(openfl.display.BitmapData)
+@:access(flixel.system.frontEnds.BitmapFrontEnd._cache)
 class ImageCache{
 
     public static var cache:Map<String, FlxGraphic> = new Map<String, FlxGraphic>();
@@ -23,5 +26,33 @@ class ImageCache{
     public static function exists(path:String){
         return cache.exists(path);
     }
+
+    public static function clear(){
+        for (key in FlxG.bitmap._cache.keys())
+		{
+            if (!cache.exists(key))
+            {
+                if(openfl.Assets.cache.hasBitmapData(key))
+                    openfl.Assets.cache.removeBitmapData(key);
+
+                removeGraphic(FlxG.bitmap.get(key));
+                trace("removed graphic: " + key);
+            }
+		}
+    }
+
+    static function removeGraphic(graphic:FlxGraphic)
+	{
+        graphic.bitmap.lock();
+		if (graphic.bitmap.__texture != null)
+        {
+			graphic.bitmap.__texture.dispose();
+        }
+        graphic.bitmap.dispose();
+
+		FlxG.bitmap.remove(graphic);
+        graphic.dump();
+		graphic.destroy();
+	}
 
 }

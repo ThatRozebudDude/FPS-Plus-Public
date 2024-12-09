@@ -310,6 +310,8 @@ class PlayState extends MusicBeatState
 		FlxG.mouse.visible = false;
 		add(tweenManager);
 
+		ImageCache.clear();
+
 		FlxG.signals.preStateSwitch.addOnce(preStateChange);
 
 		customTransIn = new ScreenWipeIn(1.2);

@@ -54,6 +54,8 @@ class MainMenuState extends MusicBeatState
 	override function create()
 	{
 
+		ImageCache.clear();
+
 		Config.setFramerate(144);
 
 		if (!FlxG.sound.music.playing)
