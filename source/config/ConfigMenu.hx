@@ -111,6 +111,7 @@ class ConfigMenu extends FlxUIStateExt
 
 	override function create(){
 
+        ImageCache.clear();
 		Config.setFramerate(fpsCapInSettings);
 
         if(exitTo == null){

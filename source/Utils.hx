@@ -96,8 +96,11 @@ class Utils
 	/*
 	*	Left over functions. Hopefully polymod should be able to do this now.
 	*/
-	public static function exists(path:String):Bool{
-		return Assets.exists(path);
+	public static function exists(path:Dynamic):Bool{
+		if (Std.isOfType(path, String))
+			return Assets.exists(path);
+
+		return (path != null);
 	}
 
 	public static function getText(path:String):String{
