@@ -97,9 +97,10 @@ class Utils
 	*	Left over functions. Hopefully polymod should be able to do this now.
 	*/
 	public static function exists(path:Dynamic):Bool{
-		if (Std.isOfType(path, flixel.graphics.FlxGraphic))
-			return (path != null);
-		return Assets.exists(path);
+		if (Std.isOfType(path, String))
+			return Assets.exists(path);
+
+		return (path != null);
 	}
 
 	public static function getText(path:String):String{

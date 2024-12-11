@@ -5,6 +5,7 @@ import sys.FileSystem;
 #end
 
 import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.graphics.FlxGraphic;
 
 using StringTools;
 
@@ -20,6 +21,8 @@ class Paths
 
     }
 
+    public static var currentUsedAssets:Array<String> = new Array<String>();
+
     inline static public function image(key:String, forceLoadFromDisk:Bool = false):Dynamic{
 
         var data:String = file(key, "images", "png");
@@ -29,10 +32,12 @@ class Paths
             return ImageCache.get(data);
         }
         else{
-            //trace(key + " loading from file");
+            if (!currentUsedAssets.contains(data)){
+                trace("tracking:" + data);
+                currentUsedAssets.push(data);
+            }
             return data;
         }
-            
     }
 
     inline static public function xml(key:String, ?location:String = "images"){

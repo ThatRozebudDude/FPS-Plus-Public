@@ -30,15 +30,24 @@ class ImageCache{
     public static function clear(){
         for (key in FlxG.bitmap._cache.keys())
 		{
-            if (!cache.exists(key))
-            {
-                if(openfl.Assets.cache.hasBitmapData(key))
-                    openfl.Assets.cache.removeBitmapData(key);
+            if(openfl.Assets.cache.hasBitmapData(key))
+                openfl.Assets.cache.removeBitmapData(key);
 
-                removeGraphic(FlxG.bitmap.get(key));
-                trace("removed graphic: " + key);
-            }
+            removeGraphic(FlxG.bitmap.get(key));
+            Paths.currentUsedAssets.remove(key);
+            //trace("removed graphic: " + key);
 		}
+        //cleanup leftover assets
+        for (key in Paths.currentUsedAssets)
+		{
+            if(openfl.Assets.cache.hasBitmapData(key))
+                openfl.Assets.cache.removeBitmapData(key);
+
+            FlxG.bitmap.get(key).dump();
+
+            //trace("cleaned graphic: " + key);
+		}
+        Paths.currentUsedAssets = [];
     }
 
     static function removeGraphic(graphic:FlxGraphic)
