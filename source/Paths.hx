@@ -21,8 +21,6 @@ class Paths
 
     }
 
-    public static var currentUsedAssets:Array<String> = new Array<String>();
-
     inline static public function image(key:String, forceLoadFromDisk:Bool = false):Dynamic{
 
         var data:String = file(key, "images", "png");
@@ -32,9 +30,9 @@ class Paths
             return ImageCache.get(data);
         }
         else{
-            if (!currentUsedAssets.contains(data)){
-                trace("tracking:" + data);
-                currentUsedAssets.push(data);
+            if(!ImageCache.trackedAssets.contains(data)){
+                //trace("tracking:" + data);
+                ImageCache.trackedAssets.push(data);
             }
             return data;
         }
