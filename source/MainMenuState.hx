@@ -51,6 +51,8 @@ class MainMenuState extends MusicBeatState
 	inline public static final NONFINAL_TAG:String = "(Non-Release Build)";
 	inline public static final SHOW_BUILD_INFO:Bool = true; //Set this to false when making a release build.
 
+	public static var buildDate:String = "";
+
 	override function create()
 	{
 
@@ -120,7 +122,9 @@ class MainMenuState extends MusicBeatState
 		if(SHOW_BUILD_INFO){
 			versionText.text = "FPS Plus: v" + VERSION + " " + NONFINAL_TAG + " | Mod API: v" + PolymodHandler.API_VERSION_STRING;
 
-			var buildInfoText = new FlxTextExt(1280 - 5, FlxG.height - 37, 0, "Build Date: " + CompileTime.buildDateString() + "\n" + GitCommit.getGitBranch() +  " (" + GitCommit.getGitCommitHash() + ")", 16);
+			buildDate = CompileTime.buildDateString();
+
+			var buildInfoText = new FlxTextExt(1280 - 5, FlxG.height - 37, 0, "Build Date: " + buildDate + "\n" + GitCommit.getGitBranch() +  " (" + GitCommit.getGitCommitHash() + ")", 16);
 			buildInfoText.scrollFactor.set();
 			buildInfoText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			buildInfoText.x -= buildInfoText.width;
