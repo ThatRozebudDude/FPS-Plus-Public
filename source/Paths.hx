@@ -26,12 +26,10 @@ class Paths
         var data:String = file(key, "images", "png");
 
         if(ImageCache.exists(data) && !forceLoadFromDisk){
-            //trace(key + " is in the cache");
             return ImageCache.get(data);
         }
         else{
             if(!ImageCache.trackedAssets.contains(data)){
-                //trace("tracking:" + data);
                 ImageCache.trackedAssets.push(data);
             }
             return data;

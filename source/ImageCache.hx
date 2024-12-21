@@ -9,7 +9,7 @@ import flixel.FlxG;
 class ImageCache
 {
 
-    //GPU image caching stuff.
+    //GPU image caching stuff.      ==============================================================================
     
     public static var cache:Map<String, FlxGraphic> = new Map<String, FlxGraphic>();
 
@@ -29,7 +29,7 @@ class ImageCache
         return cache.exists(path);
     }
 
-    //OpenFL image cache clearing.
+    //OpenFL image cache clearing.  ==============================================================================
 
     public static var trackedAssets:Array<String> = new Array<String>();
 
@@ -40,7 +40,6 @@ class ImageCache
                 removeGraphic(FlxG.bitmap.get(key));
                 trackedAssets.remove(key);
             }
-            //trace("removed graphic: " + key);
 		}
 
         //cleanup leftover assets
@@ -49,13 +48,12 @@ class ImageCache
                 openfl.Assets.cache.removeBitmapData(key);
                 FlxG.bitmap.get(key).dump();
             }
-            //trace("cleaned graphic: " + key);
 		}
+
         trackedAssets = [];
     }
 
     static function removeGraphic(graphic:FlxGraphic){
-        //graphic.bitmap.lock(); //doesn't seem needed since it only works on air
 		if(graphic.bitmap.__texture != null){
 			graphic.bitmap.__texture.dispose();
         }

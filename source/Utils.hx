@@ -100,6 +100,7 @@ class Utils
 		if(Std.isOfType(path, String)){
 			return Assets.exists(path);
 		}
+		
 		return (path != null);
 	}
 
