@@ -1,4 +1,3 @@
-import stages.data.MallErect;
 import flixel.sound.FlxSound;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
@@ -17,7 +16,7 @@ class SantaDies extends ScriptedCutscene
         santa.antialiasing = true;
         santa.addFullAnimation("full", 24, false);
         if(playstate.stage.name == "mallErect"){
-            santa.shader = playstate.stage.santa.shader;
+            santa.shader = playstate.stage.scriptGet("santa").shader;
         }
 
         parents = new AtlasSprite(-517, 503, Paths.getTextureAtlas("week5/parents_shoot_assets"));

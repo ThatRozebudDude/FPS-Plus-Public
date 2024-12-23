@@ -60,7 +60,7 @@ class NoteSplash extends FlxSprite{
         frames = Paths.getSparrowAtlas(persistentSkinInfo.info.path);
         antialiasing = persistentSkinInfo.info.antialiasing;
         animation.addByPrefix("splash", anim.prefix, FlxG.random.int(anim.framerateRange[0], anim.framerateRange[1]), false);
-        animation.finishCallback = function(n){ destroy(); }
+        animation.finishCallback = function(n){ Utils.destroyWhenAvailable(this); }
         animation.play("splash");
 
         alpha = persistentSkinInfo.info.alpha;
