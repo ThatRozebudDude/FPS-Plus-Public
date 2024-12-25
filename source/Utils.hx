@@ -100,6 +100,7 @@ class Utils
 		if(Std.isOfType(path, String)){
 			return Assets.exists(path);
 		}
+		
 		return (path != null);
 	}
 
@@ -167,6 +168,12 @@ class Utils
 			}
 			return false;
 		});
+	}
+
+	//Flixel 5.9.0 changed how animation callbacks are called so destroying an object in one of them will cause a null object reference. This is a fix for that.
+	//Sets up an object to be destroyed after the update loop is finished being processed.
+	public static inline function destroyWhenAvailable(obj:FlxObject):Void{
+		FlxG.signals.postUpdate.addOnce(function(){ obj.destroy(); });
 	}
 
 	public static inline function defaultSongMetadata(_name:String):Dynamic{
