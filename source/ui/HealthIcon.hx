@@ -99,8 +99,11 @@ class HealthIcon extends FlxSprite
 			}
 
 			antialiasing = (iconJson.antialiasing != null) ? iconJson.antialiasing : true;
+
+			defualtIconScale = (iconJson.scale != null) ? iconJson.scale : 1;
 		}
 
+		iconScale = defualtIconScale;
 		iconSize = width;
 	}
 
@@ -114,7 +117,8 @@ class HealthIcon extends FlxSprite
     "x": 10,
     "y": -10
   },
-  "antialiasing": true
+  "antialiasing": true,
+  "scale": 1
 }
 
 */
