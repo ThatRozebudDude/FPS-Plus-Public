@@ -353,6 +353,7 @@ class PlayState extends MusicBeatState
 		
 		for(i in EVENTS.events){
 			eventList.push([i[1], i[3]]);
+			preExecuteEvent(i[3]);
 		}
 
 		eventList.sort(sortByEventStuff);
@@ -2460,6 +2461,17 @@ class PlayState extends MusicBeatState
 		}
 		else{
 			trace("No event found for: " + tag);
+		}
+
+		return;
+	}
+
+	public function preExecuteEvent(tag:String):Void{
+
+		var prefix = tag.split(";")[0];
+
+		if(Events.preEvents.exists(prefix)){
+			Events.preEvents.get(prefix)(tag);
 		}
 
 		return;

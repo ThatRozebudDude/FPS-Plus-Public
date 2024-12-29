@@ -1,6 +1,5 @@
 class CharacterAnimationEvents extends Events
 {
-
     override function defineEvents() {
         addEvent("playAnim", playAnim, PLAY_ANIM_DESC);
         addEvent("singAnim", singAnim, SING_ANIM_DESC);
@@ -16,7 +15,7 @@ class CharacterAnimationEvents extends Events
         addEvent("dadAnimLockToggle", dadAnimLockToggle, DAD_ANIM_LOCK_TOGGLE_DESC);
         addEvent("gfAnimLockToggle", gfAnimLockToggle, GF_ANIM_LOCK_TOGGLE_DESC);
 
-        addEvent("changeCharacter", changeCharacter, CHANGE_CHARACTER_DESC);
+        addEvent("changeCharacter", changeCharacter, CHANGE_CHARACTER_DESC, cacheCharacter);
     }
 
     function playAnim(tag:String):Void{
@@ -129,8 +128,7 @@ class CharacterAnimationEvents extends Events
                 newCharacter.reposition();
 
                 if(newCharacter.getShader() == null && boyfriend.getShader() != null && Events.parseBool(args[2])){
-                    var copyShader = boyfriend.getShader();
-                    newCharacter.applyShader(copyShader);
+                    newCharacter.applyShader(boyfriend.getShader());
                 }
 
                 playstate.characterLayer.remove(playstate.boyfriend);
@@ -155,8 +153,7 @@ class CharacterAnimationEvents extends Events
                 newCharacter.reposition();
 
                 if(newCharacter.getShader() == null && dad.getShader() != null && Events.parseBool(args[2])){
-                    var copyShader = dad.getShader();
-                    newCharacter.applyShader(copyShader);
+                    newCharacter.applyShader(dad.getShader());
                 }
 
                 playstate.characterLayer.remove(playstate.dad);
@@ -180,8 +177,7 @@ class CharacterAnimationEvents extends Events
                 newCharacter.reposition();
 
                 if(newCharacter.getShader() == null && gf.getShader() != null && Events.parseBool(args[2])){
-                    var copyShader = gf.getShader();
-                    newCharacter.applyShader(copyShader);
+                    newCharacter.applyShader(gf.getShader());
                 }
 
                 playstate.characterLayer.remove(playstate.gf);
@@ -192,6 +188,12 @@ class CharacterAnimationEvents extends Events
                     gf.characterInfo.info.functions.add(gf);
                 }
         }
+    }
+    //Cache Character before song starts.
+    function cacheCharacter(tag:String):Void{
+        var args = Events.getArgs(tag, ["bf", "Bf", "true"]);
+        trace(args);
+        var cache = new Character(0, 0, args[1]);
     }
 
 

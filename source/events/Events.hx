@@ -11,10 +11,12 @@ class Events
 {
 
     public static var events:Map<String, (String)->Void>;
+	public static var preEvents:Map<String, (String)->Void>;
     public static var eventsMeta:Map<String, String>;
 
     public static function initEvents():Void{
         events = new Map<String, (String)->Void>();
+		preEvents = new Map<String, (String)->Void>();
         eventsMeta = new Map<String, String>();
 
 		for(x in ScriptableEvents.listScriptClasses()){
@@ -28,10 +30,13 @@ class Events
     */
     public function defineEvents():Void{}
 
-    function addEvent(prefix:String, processFunction:(String)->Void, metaDescription:String = null):Void{
+    function addEvent(prefix:String, processFunction:(String)->Void, metaDescription:String = null, preDoFunction:(String)->Void = null):Void{
         events.set(prefix, processFunction);
 		if(metaDescription != null){
 			eventsMeta.set(prefix, metaDescription);
+		}
+		if(preDoFunction != null){
+			preEvents.set(prefix, preDoFunction);
 		}
     }
 
