@@ -192,7 +192,6 @@ class CharacterAnimationEvents extends Events
     //Cache Character before song starts.
     function cacheCharacter(tag:String):Void{
         var args = Events.getArgs(tag, ["bf", "Bf", "true"]);
-        trace(args);
         var cache = new Character(0, 0, args[1]);
     }
 
