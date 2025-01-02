@@ -231,7 +231,7 @@ class PolymodHandler
     static function buildImports():Void{
 
         //Default imports
-        Polymod.addDefaultImport(Assets);
+        Polymod.addDefaultImport(openfl.utils.Assets);
         Polymod.addDefaultImport(Paths);
         Polymod.addDefaultImport(flixel.group.FlxGroup);
         Polymod.addDefaultImport(flixel.group.FlxSpriteGroup);
@@ -252,7 +252,6 @@ class PolymodHandler
         
         Polymod.addDefaultImport(Utils);
         Polymod.addDefaultImport(modding.ScriptingUtil);
-        Polymod.addDefaultImport(modding.ScriptingUtil.FlxTextBorderStyle);
 
         //Import scriptable classes so they can be made without importing
         Polymod.addDefaultImport(characters.CharacterInfoBase);
@@ -273,56 +272,10 @@ class PolymodHandler
         Polymod.addDefaultImport(objects.ScriptableSpriteGroup.ScriptedSpriteGroup);
         
         //Alias
-        Polymod.addImportAlias("lime.utils.Assets", Assets);
-        Polymod.addImportAlias("openfl.utils.Assets", Assets);
+        ScriptingCompat.implement();
 
-        Polymod.addImportAlias("flash.display.BlendMode", modding.ScriptingUtil.PolyBlendMode);
-        Polymod.addImportAlias("openfl.display.BlendMode", modding.ScriptingUtil.PolyBlendMode);
-
+        Polymod.addImportAlias("lime.utils.Assets", openfl.utils.Assets);
         Polymod.addImportAlias("flixel.math.FlxPoint", flixel.math.FlxPoint.FlxBasePoint);
-
-        // `Sys`
-        // Sys.command() can run malicious processes
-        Polymod.blacklistImport("Sys");
-
-        // `Reflect`
-        // Reflect.callMethod() can access blacklisted packages
-        Polymod.blacklistImport("Reflect");
-
-        // `Type`
-        // Type.createInstance(Type.resolveClass()) can access blacklisted packages
-        Polymod.blacklistImport("Type");
-
-        // `cpp.Lib`
-        // Lib.load() can load malicious DLLs
-        Polymod.blacklistImport("cpp.Lib");
-
-        // `Unserializer`
-        // Unserializer.DEFAULT_RESOLVER.resolveClass() can access blacklisted packages
-        Polymod.blacklistImport("Unserializer");
-
-        // `lime.system.CFFI`
-        // Can load and execute compiled binaries.
-        Polymod.blacklistImport("lime.system.CFFI");
-
-        // `lime.system.JNI`
-        // Can load and execute compiled binaries.
-        Polymod.blacklistImport("lime.system.JNI");
-
-        // `lime.system.System`
-        // System.load() can load malicious DLLs
-        Polymod.blacklistImport("lime.system.System");
-
-        // `lime.utils.Assets`
-        // Literally just has a private `resolveClass` function for some reason?
-        Polymod.blacklistImport("lime.utils.Assets");
-        Polymod.blacklistImport("openfl.utils.Assets");
-        Polymod.blacklistImport("openfl.Lib");
-        Polymod.blacklistImport("openfl.system.ApplicationDomain");
-
-        // `openfl.desktop.NativeProcess`
-        // Can load native processes on the host operating system.
-        Polymod.blacklistImport("openfl.desktop.NativeProcess");
     }
 
     static function buildFrameworkParams():polymod.Polymod.FrameworkParams{
