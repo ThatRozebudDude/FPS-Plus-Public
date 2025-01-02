@@ -349,6 +349,7 @@ class PlayState extends MusicBeatState
 			if(jsonMeta.compatableInsts != null)	{ metadata.compatableInsts = jsonMeta.compatableInsts; }
 			if(jsonMeta.mixName != null)			{ metadata.mixName = jsonMeta.mixName; }
 			if(jsonMeta.pauseMusic != null)			{ metadata.pauseMusic = jsonMeta.pauseMusic; }
+			if(jsonMeta.scripts != null)			{ metadata.scripts = jsonMeta.scripts; }
 		}
 		
 		for(i in EVENTS.events){
@@ -422,6 +423,7 @@ class PlayState extends MusicBeatState
 
 		if(ScriptableStage.listScriptClasses().contains(stageCheck)){
 			stage = ScriptableStage.init(stageCheck);
+			scripts.set(stageCheck, stage);
 		}
 		else{
 			stage = new BaseStage();
@@ -499,30 +501,10 @@ class PlayState extends MusicBeatState
 			camOffsetAmount = stage.extraCameraMovementAmount;
 		}
 
-		for(i in 0...stage.backgroundElements.length){
-			backgroundLayer.add(stage.backgroundElements[i]);
-		}
-
 		gfLayer.add(gf);
-
-		for(i in 0...stage.middleElements.length){
-			middleLayer.add(stage.middleElements[i]);
-		}
 		
 		characterLayer.add(dad);
 		characterLayer.add(boyfriend);
-
-		for(i in 0...stage.foregroundElements.length){
-			foregroundLayer.add(stage.foregroundElements[i]);
-		}
-		
-		for(i in 0...stage.hudElements.length){
-			hudLayer.add(stage.hudElements[i]);
-		}
-		
-		for(i in 0...stage.overlayElements.length){
-			overlayLayer.add(stage.overlayElements[i]);
-		}
 
 		add(backgroundLayer);
 		add(gfLayer);
@@ -724,10 +706,9 @@ class PlayState extends MusicBeatState
 		//trace(globalScripts);
 
 		var scriptList:Array<String> = [];
-		if(Utils.exists(Paths.json("scripts", "data/songs/" + SONG.song.toLowerCase()))){
+		if(metadata.scripts != null){
 			trace("song has scripts");
-			var scriptJson = Json.parse(Utils.getText(Paths.json("scripts", "data/songs/" + SONG.song.toLowerCase())));
-			scriptList = scriptJson.scripts;
+			scriptList = metadata.scripts;
 
 			//Remove duplicates from song script list.
 			scriptList = Utils.removeDuplicates(scriptList);
@@ -765,8 +746,12 @@ class PlayState extends MusicBeatState
 		fromChartEditor = false;
 		fceForLilBuddies = false;
 		
-		stage.postCreate();
-		for(script in scripts){ script.create(); }
+		for(script in scripts){
+			if (script != stage)
+				script.create();
+			else
+				script.postCreate();
+		}
 		
 		cutsceneCheck();
 
@@ -820,7 +805,6 @@ class PlayState extends MusicBeatState
 		var countdownSkinName:String = uiSkinNames.countdown;
 		var countdownSkin:CountdownSkinBase = new CountdownSkinBase(countdownSkinName);
 
-		stage.countdownBeat(-1);
 		for(script in scripts){ script.countdownBeat(-1); }
 
 		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
@@ -935,7 +919,6 @@ class PlayState extends MusicBeatState
 			}
 
 			if(swagCounter < 4){
-				stage.countdownBeat(swagCounter);
 				for(script in scripts){ script.countdownBeat(swagCounter); }
 			}
 
@@ -992,13 +975,11 @@ class PlayState extends MusicBeatState
 		if(gf.characterInfo.info.functions.songStart != null){
 			gf.characterInfo.info.functions.songStart(gf);
 		}
-		stage.songStart();
 		for(script in scripts){ script.songStart(); }
 
 		boyfriend.step(0);
 		dad.step(0);
 		gf.step(0);
-		stage.step(0);
 		for(script in scripts){ script.step(0); }
 
 		beatHit();
@@ -1443,7 +1424,6 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		stage.update(elapsed);
 		for(script in scripts){ script.update(elapsed); }
 
 		if(!startingSong){
@@ -1758,7 +1738,6 @@ class PlayState extends MusicBeatState
 				if(dad.characterInfo.info.functions.noteHit != null){
 					dad.characterInfo.info.functions.noteHit(dad, daNote);
 				}
-				stage.noteHit(dad, daNote);
 				for(script in scripts){ script.noteHit(dad, daNote); }
 					
 
@@ -2254,7 +2233,6 @@ class PlayState extends MusicBeatState
 			if(boyfriend.characterInfo.info.functions.noteMiss != null){
 				boyfriend.characterInfo.info.functions.noteMiss(boyfriend, direction, countMiss);
 			}
-			stage.noteMiss(direction, countMiss);
 			for(script in scripts){ script.noteMiss(direction, countMiss); }
 
 		}
@@ -2343,7 +2321,6 @@ class PlayState extends MusicBeatState
 			if(boyfriend.characterInfo.info.functions.noteHit != null){
 				boyfriend.characterInfo.info.functions.noteHit(boyfriend, note);
 			}
-			stage.noteHit(boyfriend, note);
 			for(script in scripts){ script.noteHit(boyfriend, note); }
 
 			if(!note.isSustainNote){
@@ -2390,7 +2367,6 @@ class PlayState extends MusicBeatState
 		boyfriend.step(curStep+1);
 		dad.step(curStep+1);
 		gf.step(curStep+1);
-		stage.step(curStep+1);
 		for(script in scripts){ script.step(curStep+1); }
 
 		super.stepHit();
@@ -2443,7 +2419,6 @@ class PlayState extends MusicBeatState
 		boyfriend.beat(curBeat);
 		dad.beat(curBeat);
 		gf.beat(curBeat);
-		stage.beat(curBeat);
 		for(script in scripts){ script.beat(curBeat); }
 		
 	}
@@ -2859,7 +2834,6 @@ class PlayState extends MusicBeatState
 	}
 
 	function preStateChange():Void{
-		stage.exit();
 		for(script in scripts){ script.exit(); }
 	}
 

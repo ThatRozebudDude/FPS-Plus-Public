@@ -270,6 +270,8 @@ class PolymodHandler
         Polymod.addDefaultImport(objects.ScriptableSprite.ScriptedSprite);
         Polymod.addDefaultImport(objects.ScriptableAtlasSprite.ScriptedAtlasSprite);
         Polymod.addDefaultImport(objects.ScriptableSpriteGroup.ScriptedSpriteGroup);
+
+        Polymod.addDefaultImport(StringTools);
         
         //Alias
         ScriptingCompat.implement();

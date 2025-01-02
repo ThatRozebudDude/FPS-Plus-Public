@@ -13,6 +13,11 @@ class Script
     public function create(){}
 
     /**
+	* Called after PlayState.create() is done.
+	*/
+    public function postCreate(){}
+
+    /**
      * Called every frame in PlayState update.
      *
      * @param   elpased  The elapsed time between previous frames passed in by PlayState.
@@ -85,6 +90,7 @@ class Script
       */
     public function noteMiss(direction:Int, countedMiss:Bool){}
 
+    inline function add(x:FlxBasic)         { addToBackground(x); }
     inline function addToBackground(x:FlxBasic)         { PlayState.instance.backgroundLayer.add(x); }
     inline function removeFromBackground(x:FlxBasic)    { PlayState.instance.backgroundLayer.remove(x); }
     inline function addToGf(x:FlxBasic)                 { PlayState.instance.gfLayer.add(x); }

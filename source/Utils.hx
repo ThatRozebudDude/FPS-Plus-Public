@@ -186,7 +186,8 @@ class Utils
 			bfBeats: [1, 3],
 			compatableInsts: null,
 			mixName: "Original",
-			pauseMusic: "pause/breakfast"
+			pauseMusic: "pause/breakfast",
+			scripts: null
 		}
 	}
 

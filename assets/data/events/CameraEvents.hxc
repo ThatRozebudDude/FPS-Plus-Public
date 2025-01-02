@@ -1,4 +1,5 @@
 import flixel.math.FlxMath;
+import flixel.util.FlxColor;
 import flixel.math.FlxPoint;
 
 class CameraEvents extends Events
@@ -79,25 +80,25 @@ class CameraEvents extends Events
     function flash(tag:String):Void{
         var args = Events.getArgs(tag, ["1b", "0xFFFFFF"]);
 		playstate.camGame.stopFX();
-		playstate.camGame.fade(ScriptingUtil.colorFromString(args[1]), Events.eventConvertTime(args[0]), true);
+		playstate.camGame.fade(FlxColor.fromString(args[1]), Events.eventConvertTime(args[0]), true);
     }
 
     function flashHud(tag:String):Void{
         var args = Events.getArgs(tag, ["1b", "0xFFFFFF"]);
 		playstate.camHUD.stopFX();
-		playstate.camHUD.fade(ScriptingUtil.colorFromString(args[1]), Events.eventConvertTime(args[0]), true);
+		playstate.camHUD.fade(FlxColor.fromString(args[1]), Events.eventConvertTime(args[0]), true);
     }
 
     function fadeOut(tag:String):Void{
         var args = Events.getArgs(tag, ["1b", "0x000000"]);
 		playstate.camGame.stopFX();
-		playstate.camGame.fade(ScriptingUtil.colorFromString(args[1]), Events.eventConvertTime(args[0]));
+		playstate.camGame.fade(FlxColor.fromString(args[1]), Events.eventConvertTime(args[0]));
     }
 
     function fadeOutHud(tag:String):Void{
         var args = Events.getArgs(tag, ["1b", "0x000000"]);
 		playstate.camHUD.stopFX();
-		playstate.camHUD.fade(ScriptingUtil.colorFromString(args[1]), Events.eventConvertTime(args[0]));
+		playstate.camHUD.fade(FlxColor.fromString(args[1]), Events.eventConvertTime(args[0]));
     }
 
     function startCamShake(tag:String):Void{

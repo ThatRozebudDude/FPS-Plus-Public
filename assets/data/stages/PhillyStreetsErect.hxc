@@ -377,7 +377,7 @@ class PhillyStreetsErect extends BaseStage
 
 	public function createBullet(tag:String):Void{
 		var bullet = new PicoBullet(boyfriend.x + 159, boyfriend.y + 127);
-		addToForegroundLive(bullet);
+		addToForeground(bullet);
 	}
 
 	//car code basically just taken from base game, ily fabs
