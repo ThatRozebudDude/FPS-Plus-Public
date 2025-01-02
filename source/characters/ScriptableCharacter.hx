@@ -1,4 +1,4 @@
 package characters;
 
 @:hscriptClass
-class ScriptableCharacter extends CharacterInfoBase implements polymod.hscript.HScriptedClass{}
+class ScriptableCharacter extends CharacterInfo implements polymod.hscript.HScriptedClass{}

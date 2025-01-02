@@ -2,7 +2,7 @@ package debug;
 
 import note.NoteSplash;
 import flixel.math.FlxPoint;
-import characters.CharacterInfoBase;
+import characters.CharacterInfo;
 import config.Config;
 import openfl.desktop.ClipboardFormats;
 import openfl.desktop.Clipboard;

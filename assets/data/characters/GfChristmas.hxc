@@ -1,4 +1,4 @@
-class GfChristmas extends CharacterInfoBase
+class GfChristmas extends CharacterInfo
 {
 
     public function new(){

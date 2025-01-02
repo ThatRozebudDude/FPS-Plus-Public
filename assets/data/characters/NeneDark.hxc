@@ -3,7 +3,7 @@ import shaders.TheShaderThatTurnsEverythingOrange;
 import objects.ABot;
 import flixel.FlxG;
 
-class NeneDark extends CharacterInfoBase
+class NeneDark extends CharacterInfo
 {
 
     public function new(){

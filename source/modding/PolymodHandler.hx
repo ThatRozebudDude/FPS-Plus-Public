@@ -11,7 +11,7 @@ using StringTools;
 class PolymodHandler
 {
 
-    public static final API_VERSION:Array<Int> = [1, 1, 0];
+    public static final API_VERSION:Array<Int> = [2, 0, 0];
     public static final API_VERSION_STRING:String = API_VERSION[0]+"."+API_VERSION[1]+"."+API_VERSION[2];
     
     public static var allModDirs:Array<String>;
@@ -254,7 +254,7 @@ class PolymodHandler
         Polymod.addDefaultImport(modding.ScriptingUtil);
 
         //Import scriptable classes so they can be made without importing
-        Polymod.addDefaultImport(characters.CharacterInfoBase);
+        Polymod.addDefaultImport(characters.CharacterInfo);
         Polymod.addDefaultImport(note.NoteType);
         Polymod.addDefaultImport(events.Events);
         Polymod.addDefaultImport(stages.Stages);

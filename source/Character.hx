@@ -5,7 +5,7 @@ import flixel.system.FlxAssets.FlxShader;
 import flixel.util.FlxSignal;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
-import characters.CharacterInfoBase;
+import characters.CharacterInfo;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -67,7 +67,7 @@ class Character extends FlxSpriteGroup
 
 	var character:FlxSprite;
 	var atlasCharacter:AtlasSprite;
-	public var characterInfo:CharacterInfoBase;
+	public var characterInfo:CharacterInfo;
 
 	var curOffset = new FlxPoint();
 

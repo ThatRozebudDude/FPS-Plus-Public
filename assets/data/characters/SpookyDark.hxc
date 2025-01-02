@@ -1,4 +1,4 @@
-class SpookyDark extends CharacterInfoBase
+class SpookyDark extends CharacterInfo
 {
 
     public function new(){

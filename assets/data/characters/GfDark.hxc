@@ -1,6 +1,6 @@
 import flixel.tweens.FlxEase;
 
-class GfDark extends CharacterInfoBase
+class GfDark extends CharacterInfo
 {
 
     public function new(){

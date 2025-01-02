@@ -2,7 +2,6 @@ package debug;
 
 import haxe.Json;
 import flixel.math.FlxPoint;
-import characters.CharacterInfoBase;
 import config.Config;
 import openfl.desktop.ClipboardFormats;
 import openfl.desktop.Clipboard;

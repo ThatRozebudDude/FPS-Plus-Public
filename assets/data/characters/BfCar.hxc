@@ -1,4 +1,4 @@
-class BfCar extends CharacterInfoBase
+class BfCar extends CharacterInfo
 {
 
     public function new(){

@@ -1,7 +1,7 @@
 import flixel.FlxG;
 import flixel.FlxSprite;
 
-class PicoBlazin extends CharacterInfoBase
+class PicoBlazin extends CharacterInfo
 {
 
     public function new(){

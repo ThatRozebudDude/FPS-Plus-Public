@@ -1,4 +1,4 @@
-class GfTankmen extends CharacterInfoBase
+class GfTankmen extends CharacterInfo
 {
 
     public function new(){

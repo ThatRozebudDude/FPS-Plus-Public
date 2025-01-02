@@ -1,4 +1,4 @@
-class Spooky extends CharacterInfoBase
+class Spooky extends CharacterInfo
 {
 
     public function new(){

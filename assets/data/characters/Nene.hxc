@@ -1,7 +1,7 @@
 import objects.ABot;
 import flixel.FlxG;
 
-class Nene extends CharacterInfoBase
+class Nene extends CharacterInfo
 {
 
     public function new(){

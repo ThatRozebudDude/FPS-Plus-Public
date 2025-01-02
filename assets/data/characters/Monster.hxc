@@ -1,4 +1,4 @@
-class Monster extends CharacterInfoBase
+class Monster extends CharacterInfo
 {
 
     public function new(){

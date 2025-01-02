@@ -1,4 +1,4 @@
-class MonsterChristmas extends CharacterInfoBase
+class MonsterChristmas extends CharacterInfo
 {
 
     public function new(){

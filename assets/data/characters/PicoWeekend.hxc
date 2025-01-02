@@ -1,4 +1,4 @@
-class PicoWeekend extends CharacterInfoBase
+class PicoWeekend extends CharacterInfo
 {
 
     public function new(){

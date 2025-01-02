@@ -1,4 +1,4 @@
-class SenpaiAngry extends CharacterInfoBase
+class SenpaiAngry extends CharacterInfo
 {
 
     public function new(){

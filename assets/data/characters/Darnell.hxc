@@ -1,4 +1,4 @@
-class Darnell extends CharacterInfoBase
+class Darnell extends CharacterInfo
 {
 
     public function new(){

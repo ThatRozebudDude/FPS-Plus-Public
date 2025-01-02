@@ -1,4 +1,4 @@
-class BfPixel extends CharacterInfoBase
+class BfPixel extends CharacterInfo
 {
 
     public function new(){

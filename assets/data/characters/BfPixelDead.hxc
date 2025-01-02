@@ -1,4 +1,4 @@
-class BfPixelDead extends CharacterInfoBase
+class BfPixelDead extends CharacterInfo
 {
 
     public function new(){

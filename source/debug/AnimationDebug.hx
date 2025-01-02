@@ -2,7 +2,7 @@ package debug;
 
 import modding.PolymodHandler;
 import characters.ScriptableCharacter;
-import characters.CharacterInfoBase;
+import characters.CharacterInfo;
 import config.Config;
 import openfl.desktop.ClipboardFormats;
 import openfl.desktop.Clipboard;
@@ -25,7 +25,7 @@ class AnimationDebug extends FlxState
 {
 	var dad:Character;
 	var dadBG:Character;
-	var charInfo:CharacterInfoBase;
+	var charInfo:CharacterInfo;
 	//var char:Character;
 	var textAnim:FlxText;
 	var dumbTexts:FlxTypedGroup<FlxText>;

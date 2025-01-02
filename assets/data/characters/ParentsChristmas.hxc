@@ -1,4 +1,4 @@
-class ParentsChristmas extends CharacterInfoBase
+class ParentsChristmas extends CharacterInfo
 {
 
     public function new(){

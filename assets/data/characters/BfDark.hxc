@@ -1,4 +1,4 @@
-class BfDark extends CharacterInfoBase
+class BfDark extends CharacterInfo
 {
 
     public function new(){

@@ -1,7 +1,7 @@
 import flixel.FlxG;
 import objects.TankmenBG;
 
-class PicoSpeaker extends CharacterInfoBase
+class PicoSpeaker extends CharacterInfo
 {
 
     public function new(){

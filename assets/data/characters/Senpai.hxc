@@ -1,4 +1,4 @@
-class Senpai extends CharacterInfoBase
+class Senpai extends CharacterInfo
 {
 
     public function new(){

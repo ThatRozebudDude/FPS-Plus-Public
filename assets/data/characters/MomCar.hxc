@@ -1,4 +1,4 @@
-class MomCar extends CharacterInfoBase
+class MomCar extends CharacterInfo
 {
 
     public function new(){

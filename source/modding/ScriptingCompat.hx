@@ -3,8 +3,8 @@ package modding;
 import polymod.Polymod;
 
 /*
-	will provide compatibility (to a certain extent) with the old scripting API.
-	Also create an abstract alias for it until it is implemented in Polymod itself.
+	Create an abstract alias for it until it is implemented in Polymod itself.
+	also assists with updating to new scripting API.
 */
 
 using StringTools;
@@ -24,26 +24,27 @@ class ScriptingCompat
 
 		Polymod.addImportAlias("StringTools", StringToolsScript);
 		Polymod.addDefaultImport(StringToolsScript, "StringTools");
-
-		// Old Scripting API's Compatibility. It will eventually be deleted.
-		Polymod.addDefaultImport(BaseStage);
-		Polymod.addDefaultImport(ScriptedCutscene);
 	}
 }
-// Alias for Old Script Classes
-class BaseStage extends stages.Stages
+// Old Script Classes For Just Showing Deprecated Error
+
+class CharacterInfoBase
 {
 	override public function new(){
+		trace("CharacterInfoBase is deprecated, use CharacterInfo");
+	}
+}
+class BaseStage
+{
+	public function new(){
 		trace("BaseStage is deprecated, use Stages");
-		super();
 	}
 }
 
-class ScriptedCutscene extends cutscenes.Cutscene
+class ScriptedCutscene
 {
-	override public function new(args:Array<Dynamic>){
+	public function new(args:Array<Dynamic>){
 		trace("ScriptedCutscene is deprecated, use Cutscene");
-		super(args);
 	}
 }
 

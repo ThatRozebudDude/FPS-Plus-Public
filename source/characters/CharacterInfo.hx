@@ -68,7 +68,7 @@ typedef CharacterFunctions = {
 	var noteMiss:(Character, Int, Bool)->Void;  //This function is run when the character misses a note.
 }
 
-typedef CharacterInfo = {
+typedef CharacterInfoData = {
 	var name:String;
     var spritePath:String;
     var frameLoadType:FrameLoadType;
@@ -100,13 +100,13 @@ typedef CharacterInfo = {
 	@author Rozebud
 **/
 @:build(modding.GlobalScriptingTypesMacro.build())
-class CharacterInfoBase
+class CharacterInfo
 {
 
     public var includeInCharacterList:Bool = true;
     public var includeInGfList:Bool = false;
 
-    public var info:CharacterInfo = {
+    public var info:CharacterInfoData = {
         name: "",
         spritePath: "",
         frameLoadType: sparrow,

@@ -131,7 +131,7 @@ class Tank extends Stages
 	}
 
 	public override function beat(curBeat:Int){
-		for(x in foregroundElements){
+		for(x in foregroundLayer.members){
 			x.dance();
 		}
 	}
