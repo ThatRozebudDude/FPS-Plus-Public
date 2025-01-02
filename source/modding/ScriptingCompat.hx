@@ -7,6 +7,8 @@ import polymod.Polymod;
 	Also create an abstract alias for it until it is implemented in Polymod itself.
 */
 
+using StringTools;
+
 class ScriptingCompat
 {
 	public static function implement():Void
@@ -19,6 +21,12 @@ class ScriptingCompat
 		Polymod.addDefaultImport(FlxTextBorderStyle);
 
 		Polymod.addImportAlias("flixel.util.FlxColor", FlxColor);
+
+		Polymod.addImportAlias("StringTools", StringToolsScript);
+		Polymod.addDefaultImport(StringToolsScript, "StringTools");
+
+		// Alias for Old Scripting API's Compatibility. It will eventually be deleted.
+		//Polymod.addDefaultImport(cutscenes.Cutscene, "ScriptedCutscene");
 	}
 }
 
@@ -95,4 +103,40 @@ class FlxColor
 
 	public static function fromString(string:String):Int
 		return flixel.util.FlxColor.fromString(string);
+}
+
+class StringToolsScript
+{
+	public static function contains(s:String, value:String):Bool
+		return s.contains(value);
+
+	public static function endsWith(s:String, end:String):Bool
+		return s.endsWith(end);
+
+	public static function fastCodeAt(s:String, index:Int):Int
+		return s.fastCodeAt(index);
+
+	public static function hex(n:Int, ?digits:Int):String
+		return hex(n, digits);
+
+	public static function htmlEscape(s:String, ?quotes:Bool):String
+		return s.htmlEscape(quotes);
+
+	public static function htmlUnescape(s:String):String
+		return s.htmlUnescape();
+
+	public static function isEof(c:Int):Bool
+		return isEof(c);
+
+	public static function isSpace(s:String, pos:Int):Bool
+		return s.isSpace(pos);
+
+	public static function ltrim(s:String):String
+		return s.ltrim();
+
+	public static function replace(s:String, sub:String, by:String):String
+		return s.replace(sub, by);
+
+	public static function startsWith(s:String, start:String):Bool
+		return s.startsWith(start);
 }

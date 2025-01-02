@@ -9,7 +9,6 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import objects.PicoBullet;
-import StringTools;
 import openfl.display.BlendMode;
 
 class PhillyStreetsErect extends BaseStage

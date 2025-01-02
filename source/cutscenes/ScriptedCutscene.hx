@@ -4,24 +4,21 @@ import PlayState.VocalType;
 import flixel.tweens.FlxTween.FlxTweenManager;
 import flixel.FlxG;
 import flixel.FlxBasic;
+import scripts.Script;
 
-@:build(modding.GlobalScriptingTypesMacro.build())
-class ScriptedCutscene extends FlxBasic
+class ScriptedCutscene extends Script
 {
 
     public var totalTime:Float = 0;
 
-    public var started(get, never):Bool;
-    var __started:Bool = false;
+    var started:Bool = false;
 
     public var events:Array<Array<Dynamic>> = [];
 
-    public function new(args:Array<Dynamic>){ super(); }
+    public function new(args:Array<Dynamic>){}
 
     override function update(elapsed:Float) {
-        super.update(elapsed);
-
-        if(__started){
+        if(started){
             if(events.length > 0){
                 totalTime += elapsed;
             }
@@ -42,7 +39,7 @@ class ScriptedCutscene extends FlxBasic
      * Starts the cutscene.
      */
     public function start():Void{
-        __started = true;
+        started = true;
         
         for(event in events){
             if(event[0] > 0){ break; }
@@ -66,102 +63,86 @@ class ScriptedCutscene extends FlxBasic
         events.sort((a, b) -> { Utils.sign(a[0] - b[0]); });
     }
 
+    //These functions are Deprecated! Use the function as in the base script!!
+
     /**
      * Adds an object to the background element layer in PlayState.
     **/
     public function addToBackgroundLayer(x:FlxBasic):Void{
-        PlayState.instance.backgroundLayer.add(x);
+        trace("addToBackgroundLayer is deprecated, use addToBackground");
+        addToBackground(x);
     }
 
     /**
      * Removes an object from the background element layer in PlayState.
     **/
     public function removeFromBackgroundLayer(x:FlxBasic):Void{
-        PlayState.instance.backgroundLayer.remove(x);
+        trace("removeFromBackgroundLayer is deprecated, use removeFromBackground");
+        removeFromBackground(x);
     }
 
     /**
      * Adds an object to the girlfriend layer in PlayState.
     **/
     public function addToGfLayer(x:FlxBasic):Void{
-        PlayState.instance.gfLayer.add(x);
+        trace("addToGfLayer is deprecated, use addToGf");
+        addToGf(x);
     }
 
     /**
      * Removes an object from the girlfriend layer in PlayState.
     **/
     public function removeFromGfLayer(x:FlxBasic):Void{
-        PlayState.instance.gfLayer.remove(x);
+        trace("removeFromGfLayer is deprecated, use removeFromGf");
+        removeFromGf(x);
     }
 
     /**
      * Adds an object to the middle element layer in PlayState.
     **/
     public function addToMiddleLayer(x:FlxBasic):Void{
-        PlayState.instance.middleLayer.add(x);
+        trace("addToMiddleLayer is deprecated, use addToMiddle");
+        addToMiddle(x);
     }
 
     /**
      * Removes an object from the middle element layer in PlayState.
     **/
     public function removeFromMiddleLayer(x:FlxBasic):Void{
-        PlayState.instance.middleLayer.remove(x);
+        trace("removeFromMiddleLayer is deprecated, use removeFromMiddle");
+        removeFromMiddle(x);
     }
 
     /**
      * Adds an object to the character layer in PlayState.
     **/
     public function addToCharacterLayer(x:FlxBasic):Void{
-        PlayState.instance.characterLayer.add(x);
+        trace("addToCharacterLayer is deprecated, use addToCharacter");
+        addToCharacter(x);
     }
 
     /**
      * Removes an object from the character layer in PlayState.
     **/
     public function removeFromCharacterLayer(x:FlxBasic):Void{
-        PlayState.instance.characterLayer.remove(x);
+        trace("removeFromCharacterLayer is deprecated, use removeFromCharacter");
+        removeFromCharacter(x);
     }
 
     /**
      * Adds an object to the foreground element layer in PlayState.
     **/
     public function addToForegroundLayer(x:FlxBasic):Void{
-        PlayState.instance.foregroundLayer.add(x);
+        trace("addToForegroundLayer is deprecated, use addToForeground");
+        addToForeground(x);
     }
 
     /**
      * Removes an object from the foreground element layer in PlayState.
     **/
     public function removeFromForegroundLayer(x:FlxBasic):Void{
-        PlayState.instance.foregroundLayer.remove(x);
-    }
-
-    /**
-     * Adds an object to the current state.
-    **/
-    public function addGeneric(x:FlxBasic):Void{
-        FlxG.state.add(x);
-    }
-
-    /**
-     * Removes an object from the current state.
-    **/
-    public function removeGeneric(x:FlxBasic):Void{
-        FlxG.state.remove(x);
-    }
-
-    /**
-     * Adds an object to the current substate.
-    **/
-    public function addGenericSubstate(x:FlxBasic):Void{
-        FlxG.state.subState.add(x);
-    }
-
-    /**
-     * Removes an object from the current substate.
-    **/
-    public function removeGenericSubstate(x:FlxBasic):Void{
-        FlxG.state.subState.remove(x);
+        trace("removeFromForegroundLayer is deprecated, use removeFromForeground");
+        removeFromForeground(x);
     }
 
     public function next(?doCamFadeIn:Bool = true):Void{
@@ -179,6 +160,4 @@ class ScriptedCutscene extends FlxBasic
         if(PlayState.SONG.notes[0].mustHitSection){ PlayState.instance.camFocusBF(); }
         else{ PlayState.instance.camFocusOpponent(); }
     }
-
-    function get_started():Bool{ return __started; }
 }

@@ -675,6 +675,7 @@ class PlayState extends MusicBeatState
 					if(cutsceneJson.startCutscene.playOnce != null) {startCutscenePlayOnce = cutsceneJson.startCutscene.playOnce;}
 					//startCutscene = Type.createInstance(startCutsceneClass, startCutsceneArgs);
 					startCutscene = ScriptableCutscene.init(cutsceneJson.startCutscene.name, startCutsceneArgs);
+					scripts.set(cutsceneJson.startCutscene.name, startCutscene);
 				}
 			}
 			//trace(startCutscene);
@@ -689,6 +690,7 @@ class PlayState extends MusicBeatState
 					if(cutsceneJson.endCutscene.playOnce != null) {endCutscenePlayOnce = cutsceneJson.endCutscene.playOnce;}
 					//endCutscene = Type.createInstance(endCutsceneClass, endCutsceneArgs);
 					endCutscene = ScriptableCutscene.init(cutsceneJson.endCutscene.name, endCutsceneArgs);
+					scripts.set(cutsceneJson.endCutscene.name, endCutscene);
 				}
 			}
 			//trace(endCutscene);
@@ -761,7 +763,6 @@ class PlayState extends MusicBeatState
 	function cutsceneCheck():Void{
 		//trace("in cutsceneCheck");
 		if(startCutscene != null && (startCutscenePlayOnce ? replayStartCutscene : true)){
-			add(startCutscene);
 			inCutscene = true;
 			startCutscene.start();
 		}
@@ -1770,7 +1771,6 @@ class PlayState extends MusicBeatState
 		stopMusic();
 
 		if(endCutscene != null){
-			add(endCutscene);
 			inCutscene = true;
 			inEndingCutscene = true;
 			endCutscene.start();
