@@ -3,7 +3,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import objects.DeltaTrail;
 
-class SchoolEvil extends BaseStage
+class SchoolEvil extends Stages
 {
 
     public function new(){

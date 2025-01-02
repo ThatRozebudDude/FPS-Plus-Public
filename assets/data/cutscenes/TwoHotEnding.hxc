@@ -4,7 +4,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
 
-class TwoHotEnding extends ScriptedCutscene
+class TwoHotEnding extends Cutscene
 {
 
     var video:VideoHandler;

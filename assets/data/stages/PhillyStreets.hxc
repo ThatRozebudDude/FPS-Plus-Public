@@ -10,7 +10,7 @@ import flixel.FlxObject;
 import objects.PicoBullet;
 import openfl.display.BlendMode;
 
-class PhillyStreets extends BaseStage
+class PhillyStreets extends Stages
 {
 	var rainShader:RainShader;
 	var rainInensityEnd:Float = 0;

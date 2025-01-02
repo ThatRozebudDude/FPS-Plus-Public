@@ -2,7 +2,7 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 
-class MallEvil extends BaseStage
+class MallEvil extends Stages
 {
 
     public function new(){

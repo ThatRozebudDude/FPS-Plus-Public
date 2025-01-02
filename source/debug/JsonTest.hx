@@ -1,7 +1,6 @@
 package debug;
 
 import haxe.Json;
-import cutscenes.ScriptedCutscene;
 import flixel.math.FlxPoint;
 import characters.CharacterInfoBase;
 import config.Config;

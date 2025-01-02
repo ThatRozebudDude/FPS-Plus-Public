@@ -10,7 +10,7 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import openfl.display.BlendMode;
 
-class PhillyBlazin extends BaseStage
+class PhillyBlazin extends Stages
 {
 	var rainShader:RainShader;
 

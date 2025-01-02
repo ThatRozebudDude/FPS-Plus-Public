@@ -1,7 +1,7 @@
 import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
 
-class VideoCutscene extends ScriptedCutscene
+class VideoCutscene extends Cutscene
 {
 
     var video:VideoHandler;

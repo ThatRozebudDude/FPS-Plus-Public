@@ -2,7 +2,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
 
-class DarnellIntro extends ScriptedCutscene
+class DarnellIntro extends Cutscene
 {
 
     var picoIntro:Character;

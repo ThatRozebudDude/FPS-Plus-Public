@@ -2,7 +2,7 @@ import transition.data.InstantTransition;
 import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
 
-class VideoCutsceneEnd extends ScriptedCutscene
+class VideoCutsceneEnd extends Cutscene
 {
 
     var video:VideoHandler;

@@ -14,7 +14,7 @@ import scripts.Script;
 	@author Rozebud
 **/
 
-class BaseStage extends Script
+class Stages extends Script
 {
 
     public var name:String;

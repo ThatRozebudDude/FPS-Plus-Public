@@ -257,9 +257,9 @@ class PolymodHandler
         Polymod.addDefaultImport(characters.CharacterInfoBase);
         Polymod.addDefaultImport(note.NoteType);
         Polymod.addDefaultImport(events.Events);
-        Polymod.addDefaultImport(stages.BaseStage);
+        Polymod.addDefaultImport(stages.Stages);
 
-        Polymod.addDefaultImport(cutscenes.ScriptedCutscene);
+        Polymod.addDefaultImport(cutscenes.Cutscene);
         Polymod.addDefaultImport(scripts.Script);
         Polymod.addDefaultImport(freeplay.DJCharacter);
         Polymod.addDefaultImport(characterSelect.CharacterSelectCharacter);

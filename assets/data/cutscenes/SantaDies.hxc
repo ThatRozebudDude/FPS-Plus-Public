@@ -2,7 +2,7 @@ import flixel.sound.FlxSound;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
 
-class SantaDies extends ScriptedCutscene
+class SantaDies extends Cutscene
 {
     var santa:AtlasSprite;
     var parents:AtlasSprite;

@@ -2,7 +2,7 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 
-class Mall extends BaseStage
+class Mall extends Stages
 {
 
 	var upperBoppers:FlxSprite;

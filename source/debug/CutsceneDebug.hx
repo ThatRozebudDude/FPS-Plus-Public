@@ -1,6 +1,6 @@
 package debug;
 
-import cutscenes.ScriptedCutscene;
+import cutscenes.Cutscene;
 import flixel.math.FlxPoint;
 import characters.CharacterInfoBase;
 import config.Config;
@@ -20,10 +20,10 @@ using StringTools;
 
 class CutsceneDebug extends FlxState
 {
-    var cutsceneTest:ScriptedCutscene;
+    var cutsceneTest:Cutscene;
 
 	override function create() {
-        cutsceneTest = new ScriptedCutscene();
+        cutsceneTest = new Cutscene();
         cutsceneTest.addEvent(0, event1);
         cutsceneTest.addEvent(1, event2);
         cutsceneTest.addEvent(3, event3);

@@ -1,4 +1,4 @@
-class ExecuteEvents extends ScriptedCutscene
+class ExecuteEvents extends Cutscene
 {
 
     var e:Array<String>;

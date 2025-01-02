@@ -2,7 +2,7 @@ import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
 import flixel.FlxG;
 
-class PicoDoppleganger extends ScriptedCutscene
+class PicoDoppleganger extends Cutscene
 {
 
     var opPico:AtlasSprite;

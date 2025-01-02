@@ -90,11 +90,6 @@ class Script
       */
     public function noteMiss(direction:Int, countedMiss:Bool){}
 
-    // It's not inline because it needs change the way it works depending on the script type.
-    public function add(x:FlxBasic)         { FlxG.state.add(x); }
-    public function remove(x:FlxBasic)         { FlxG.state.remove(x); }
-    public function insert(pos:Int, x:FlxBasic)         { FlxG.state.insert(pos, x); }
-
     inline function addToBackground(x:FlxBasic)         { PlayState.instance.backgroundLayer.add(x); }
     inline function removeFromBackground(x:FlxBasic)    { PlayState.instance.backgroundLayer.remove(x); }
     inline function addToGf(x:FlxBasic)                 { PlayState.instance.gfLayer.add(x); }
@@ -114,6 +109,11 @@ class Script
     inline function removeGeneric(x:FlxBasic)              { FlxG.state.remove(x); }
     inline function addGenericSubstate(x:FlxBasic)      { FlxG.state.subState.add(x); }
     inline function removeGenericSubstate(x:FlxBasic)   { FlxG.state.subState.remove(x); }
+
+        // It's not inline because it needs change the way it works depending on the script type.
+        public function add(x:FlxBasic)         { FlxG.state.add(x); }
+        public function remove(x:FlxBasic)         { FlxG.state.remove(x); }
+        public function insert(pos:Int, x:FlxBasic)         { FlxG.state.insert(pos, x); }
 
     public function toString():String{ return "Script"; }
 }

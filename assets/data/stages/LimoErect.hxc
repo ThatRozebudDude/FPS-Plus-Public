@@ -8,7 +8,7 @@ import flixel.math.FlxPoint;
 import openfl.display.BlendMode;
 import objects.BackgroundDancer;
 
-class LimoErect extends BaseStage
+class LimoErect extends Stages
 {
 	var	characterShader:AdjustColorShader = new AdjustColorShader(-30, -30, 0, -20);
 

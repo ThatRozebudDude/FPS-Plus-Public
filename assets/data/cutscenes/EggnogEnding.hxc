@@ -1,7 +1,7 @@
 import flixel.FlxSprite;
 import flixel.FlxG;
 
-class EggnogEnding extends ScriptedCutscene
+class EggnogEnding extends Cutscene
 {
 
     public function new(args:Array<Dynamic>){

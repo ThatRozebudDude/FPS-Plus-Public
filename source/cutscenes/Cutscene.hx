@@ -6,7 +6,7 @@ import flixel.FlxG;
 import flixel.FlxBasic;
 import scripts.Script;
 
-class ScriptedCutscene extends Script
+class Cutscene extends Script
 {
 
     public var totalTime:Float = 0;

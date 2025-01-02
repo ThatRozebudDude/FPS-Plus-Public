@@ -2,7 +2,7 @@ import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
 import cutscenes.ScriptableCutscene;
 
-class DarnellVideo extends ScriptedCutscene
+class DarnellVideo extends Cutscene
 {
 
     var black:FlxSprite;

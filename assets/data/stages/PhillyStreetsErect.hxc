@@ -11,7 +11,7 @@ import flixel.FlxObject;
 import objects.PicoBullet;
 import openfl.display.BlendMode;
 
-class PhillyStreetsErect extends BaseStage
+class PhillyStreetsErect extends Stages
 {
 	var	characterShader:AdjustColorShader = new AdjustColorShader(-20, -5, -25, -40);
 	

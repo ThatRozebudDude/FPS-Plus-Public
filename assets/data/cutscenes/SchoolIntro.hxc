@@ -3,7 +3,7 @@ import flixel.FlxSprite;
 import flixel.FlxG;
 import objects.DialogueBox;
 
-class SchoolIntro extends ScriptedCutscene
+class SchoolIntro extends Cutscene
 {
     
     var BLACK_ALPHA_SUBTRACT:Float = 0.15;

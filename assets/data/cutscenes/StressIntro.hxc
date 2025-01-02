@@ -5,7 +5,7 @@ import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
 
-class StressIntro extends ScriptedCutscene
+class StressIntro extends Cutscene
 {
 
     var tankman:AtlasSprite;

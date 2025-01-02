@@ -3,7 +3,7 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 
-class BuddiesErect extends BaseStage
+class BuddiesErect extends Stages
 {
 
 	var chartBlackBG:FlxSprite;

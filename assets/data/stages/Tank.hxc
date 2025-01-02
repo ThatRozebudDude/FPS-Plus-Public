@@ -8,7 +8,7 @@ import flixel.FlxObject;
 import objects.BGSprite;
 import objects.TankmenBG;
 
-class Tank extends BaseStage
+class Tank extends Stages
 {
 
 	//var gfCutsceneLayer:FlxGroup;

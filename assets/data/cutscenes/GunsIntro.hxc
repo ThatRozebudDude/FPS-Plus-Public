@@ -2,7 +2,7 @@ import flixel.sound.FlxSound;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
 
-class GunsIntro extends ScriptedCutscene
+class GunsIntro extends Cutscene
 {
 
     var tankman:AtlasSprite;

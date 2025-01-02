@@ -3,7 +3,7 @@ import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
 
-class WinterHorrorlandIntro extends ScriptedCutscene
+class WinterHorrorlandIntro extends Cutscene
 {
 
     var blackScreen:FlxSprite;

@@ -3,7 +3,7 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 
-class MallErect extends BaseStage
+class MallErect extends Stages
 {
 	var	characterShader:AdjustColorShader = new AdjustColorShader(0, 10, 0, 20);
 

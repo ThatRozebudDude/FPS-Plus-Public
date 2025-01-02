@@ -10,7 +10,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import openfl.display.BlendMode;
 
-class PhillyErect extends BaseStage
+class PhillyErect extends Stages
 {
 
 	var characterShader:AdjustColorShader = new AdjustColorShader(-5, -26, 0, -16);

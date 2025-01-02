@@ -5,7 +5,7 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 
-class SpookyMansionErect extends BaseStage
+class SpookyMansionErect extends Stages
 {
 
 	var bgFlash:FlxSprite;

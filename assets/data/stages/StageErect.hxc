@@ -3,7 +3,7 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import openfl.display.BlendMode;
 
-class StageErect extends BaseStage
+class StageErect extends Stages
 {
 
 	var bfShader:AdjustColorShader = new AdjustColorShader(-23, 12, 7, 0);

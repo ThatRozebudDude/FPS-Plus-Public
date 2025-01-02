@@ -25,8 +25,25 @@ class ScriptingCompat
 		Polymod.addImportAlias("StringTools", StringToolsScript);
 		Polymod.addDefaultImport(StringToolsScript, "StringTools");
 
-		// Alias for Old Scripting API's Compatibility. It will eventually be deleted.
-		//Polymod.addDefaultImport(cutscenes.Cutscene, "ScriptedCutscene");
+		// Old Scripting API's Compatibility. It will eventually be deleted.
+		Polymod.addDefaultImport(BaseStage);
+		Polymod.addDefaultImport(ScriptedCutscene);
+	}
+}
+// Alias for Old Script Classes
+class BaseStage extends stages.Stages
+{
+	override public function new(){
+		trace("BaseStage is deprecated, use Stages");
+		super();
+	}
+}
+
+class ScriptedCutscene extends cutscenes.Cutscene
+{
+	override public function new(args:Array<Dynamic>){
+		trace("ScriptedCutscene is deprecated, use Cutscene");
+		super(args);
 	}
 }
 

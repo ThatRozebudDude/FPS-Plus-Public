@@ -2,7 +2,7 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 
-class EmptyStage extends BaseStage
+class EmptyStage extends Stages
 {
 
     public function new(){

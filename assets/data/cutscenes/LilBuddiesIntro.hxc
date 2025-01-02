@@ -1,7 +1,7 @@
 import transition.data.InstantTransition;
 import flixel.tweens.FlxEase;
 
-class LilBuddiesIntro extends ScriptedCutscene
+class LilBuddiesIntro extends Cutscene
 {
     
     public function new(args:Array<Dynamic>){

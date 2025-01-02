@@ -6,7 +6,7 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 
-class SpookyMansion extends BaseStage
+class SpookyMansion extends Stages
 {
 
 	var halloweenBG:FlxSprite;

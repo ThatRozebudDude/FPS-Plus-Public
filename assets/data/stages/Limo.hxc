@@ -6,7 +6,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import objects.BackgroundDancer;
 
-class Limo extends BaseStage
+class Limo extends Stages
 {
 
 	var limo:FlxSprite;

@@ -222,7 +222,7 @@ class PlayState extends MusicBeatState
 	public static final minCombo:Int = 10;
 	public var comboUiGroup:FlxTypedGroup<ComboPopup>;
 
-	public var stage:BaseStage;
+	public var stage:Stages;
 
 	public var scoreTxt:FlxTextExt;
 
@@ -426,7 +426,7 @@ class PlayState extends MusicBeatState
 			scripts.set(stageCheck, stage);
 		}
 		else{
-			stage = new BaseStage();
+			stage = new Stages();
 		}
 
 		curStage = stage.name;

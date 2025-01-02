@@ -1,4 +1,4 @@
 package stages;
 
 @:hscriptClass
-class ScriptableStage extends BaseStage implements polymod.hscript.HScriptedClass{}
+class ScriptableStage extends Stages implements polymod.hscript.HScriptedClass{}
