@@ -30,13 +30,13 @@ class Events
     */
     public function defineEvents():Void{}
 
-    function addEvent(prefix:String, processFunction:(String)->Void, metaDescription:String = null, preDoFunction:(String)->Void = null):Void{
+    function addEvent(prefix:String, processFunction:(String)->Void, metaDescription:String = null, preprocessFunction:(String)->Void = null):Void{
         events.set(prefix, processFunction);
 		if(metaDescription != null){
 			eventsMeta.set(prefix, metaDescription);
 		}
-		if(preDoFunction != null){
-			preEvents.set(prefix, preDoFunction);
+		if(preprocessFunction != null){
+			preEvents.set(prefix, preprocessFunction);
 		}
     }
 

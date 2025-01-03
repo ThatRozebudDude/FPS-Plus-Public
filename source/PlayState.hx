@@ -353,7 +353,7 @@ class PlayState extends MusicBeatState
 		
 		for(i in EVENTS.events){
 			eventList.push([i[1], i[3]]);
-			eventPushed(i[3]);
+			preprocessEvent(i[3]);
 		}
 
 		eventList.sort(sortByEventStuff);
@@ -2466,14 +2466,11 @@ class PlayState extends MusicBeatState
 		return;
 	}
 
-	public function eventPushed(tag:String):Void{
-
+	public function preprocessEvent(tag:String):Void{
 		var prefix = tag.split(";")[0];
-
 		if(Events.preEvents.exists(prefix)){
 			Events.preEvents.get(prefix)(tag);
 		}
-
 		return;
 	}
 

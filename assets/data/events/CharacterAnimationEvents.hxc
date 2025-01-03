@@ -15,7 +15,7 @@ class CharacterAnimationEvents extends Events
         addEvent("dadAnimLockToggle", dadAnimLockToggle, DAD_ANIM_LOCK_TOGGLE_DESC);
         addEvent("gfAnimLockToggle", gfAnimLockToggle, GF_ANIM_LOCK_TOGGLE_DESC);
 
-        addEvent("changeCharacter", changeCharacter, CHANGE_CHARACTER_DESC, cacheCharacter);
+        addEvent("changeCharacter", changeCharacter, CHANGE_CHARACTER_DESC, changeCharacterPreprocess);
     }
 
     function playAnim(tag:String):Void{
@@ -189,8 +189,8 @@ class CharacterAnimationEvents extends Events
                 }
         }
     }
-    //Cache Character before song starts.
-    function cacheCharacter(tag:String):Void{
+
+    function changeCharacterPreprocess(tag:String):Void{
         var args = Events.getArgs(tag, ["bf", "Bf", "true"]);
         var cache = new Character(0, 0, args[1]);
     }
