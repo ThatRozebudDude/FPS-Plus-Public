@@ -139,10 +139,11 @@ class Utils
 
 	//FileSystem readDirectory but with mods folder
 	public static inline function readDirectory(path:String):Array<String>{
-		var files:Array<String> = [];
+		var files:Array<String> = null;
 		if(FileSystem.exists(path)){ files = FileSystem.readDirectory(path); }
 		for (mod in PolymodHandler.loadedModDirs){
 			if (FileSystem.exists('mods/$mod/' + path.split("assets/")[1])){
+				if(files == null){ files = []; }
 				var modfile = FileSystem.readDirectory('mods/$mod/' + path.split("assets/")[1]);
 				for (file in modfile){
 					if (!files.contains(file)){
