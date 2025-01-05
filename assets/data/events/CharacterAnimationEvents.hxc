@@ -16,6 +16,8 @@ class CharacterAnimationEvents extends Events
         addEvent("gfAnimLockToggle", gfAnimLockToggle, GF_ANIM_LOCK_TOGGLE_DESC);
 
         addEvent("changeCharacter", changeCharacter, CHANGE_CHARACTER_DESC, changeCharacterPreprocess);
+
+        addEvent("swapCharacters", swapCharacters, SWAP_CHARACTER_DESC);
     }
 
     function playAnim(tag:String):Void{
@@ -195,6 +197,25 @@ class CharacterAnimationEvents extends Events
         var cache = new Character(0, 0, args[1]);
     }
 
+    function swapCharacters(tag:String):Void{
+        var tempBf = boyfriend;
+        var tempDad = dad;
+
+        playstate.characterLayer.remove(playstate.dad);
+        playstate.characterLayer.remove(playstate.boyfriend);
+
+        playstate.dad = tempBf;
+        playstate.dad.isPlayer = false;
+        playstate.characterLayer.add(playstate.dad);
+
+        playstate.boyfriend = tempDad;
+        playstate.boyfriend.isPlayer = true;
+        playstate.characterLayer.add(playstate.boyfriend);
+
+        playstate.iconP1.setIconCharacter(boyfriend.iconName);
+        playstate.iconP2.setIconCharacter(dad.iconName);
+    }
+
 
 
     //Event descriptions. Not required but it helps with charting.
@@ -209,4 +230,5 @@ class CharacterAnimationEvents extends Events
     var DAD_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether Dad will automatically play animations.";
     var GF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether GF will automatically play animations.";
     var CHANGE_CHARACTER_DESC:String = "Change a character to a different one.\n\nArgs:\n    String: Target character to change (\"bf\", \"dad\", or \"gf\")\n    String: New character's class name\n    Bool: Whether to copy the shader";
+    var SWAP_CHARACTER_DESC:String = "Swap which character you are playing as.";
 }

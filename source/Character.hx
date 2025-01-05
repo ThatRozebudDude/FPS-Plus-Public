@@ -100,63 +100,8 @@ class Character extends FlxSpriteGroup
 		createCharacterFromInfo(charClass);
 
 		if (((facesLeft && !isPlayer) || (!facesLeft && isPlayer)) && !debugMode){
-
-			if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
-				setFlipX(true);
-
-				if (character.animation.getByName('singRIGHT') != null){
-					var oldRight = character.animation.getByName("singRIGHT").frames;
-					var oldRightOffset = animOffsets.get("singRIGHT");
-					var oldRightOffsetOriginal = originalAnimOffsets.get("singRIGHT");
-					character.animation.getByName("singRIGHT").frames = character.animation.getByName("singLEFT").frames;
-					animOffsets.set("singRIGHT", animOffsets.get("singLEFT"));
-					originalAnimOffsets.set("singRIGHT", originalAnimOffsets.get("singLEFT"));
-					character.animation.getByName('singLEFT').frames = oldRight;
-					animOffsets.set("singLEFT", oldRightOffset);
-					originalAnimOffsets.set("singLEFT", oldRightOffsetOriginal);
-				}
-
-				// IF THEY HAVE MISS ANIMATIONS??
-				if (character.animation.getByName('singRIGHTmiss') != null){
-					var oldMiss = character.animation.getByName("singRIGHTmiss").frames;
-					var oldMissOffset = animOffsets.get("singRIGHTmiss");
-					var oldMissOffsetOriginal = originalAnimOffsets.get("singRIGHTmiss");
-					character.animation.getByName("singRIGHTmiss").frames = character.animation.getByName("singLEFTmiss").frames;
-					animOffsets.set("singRIGHTmiss", animOffsets.get("singLEFTmiss"));
-					originalAnimOffsets.set("singRIGHTmiss", originalAnimOffsets.get("singLEFTmiss"));
-					character.animation.getByName('singLEFTmiss').frames = oldMiss;
-					animOffsets.set("singLEFTmiss", oldMissOffset);
-					originalAnimOffsets.set("singLEFTmiss", oldMissOffsetOriginal);
-				}
-			}
-			else { //Code for atlas characters
-				setFlipX(true);
-
-				if (atlasCharacter.animInfoMap.get("singRIGHT") != null){
-					var oldRight = atlasCharacter.animInfoMap.get("singRIGHT");
-					var oldRightOffset = animOffsets.get("singRIGHT");
-					var oldRightOffsetOriginal = originalAnimOffsets.get("singRIGHT");
-					atlasCharacter.animInfoMap.set("singRIGHT", atlasCharacter.animInfoMap.get("singLEFT"));
-					animOffsets.set("singRIGHT", animOffsets.get("singLEFT"));
-					originalAnimOffsets.set("singRIGHT", originalAnimOffsets.get("singLEFT"));
-					atlasCharacter.animInfoMap.set("singLEFT", oldRight);
-					animOffsets.set("singLEFT", oldRightOffset);
-					originalAnimOffsets.set("singLEFT", oldRightOffsetOriginal);
-				}
-
-				if (atlasCharacter.animInfoMap.get("singRIGHTmiss") != null){
-					var oldMiss = atlasCharacter.animInfoMap.get("singRIGHTmiss");
-					var oldMissOffset = animOffsets.get("singRIGHTmiss");
-					var oldMissOffsetOriginal = originalAnimOffsets.get("singRIGHTmiss");
-					atlasCharacter.animInfoMap.set("singRIGHTmiss", atlasCharacter.animInfoMap.get("singLEFTmiss"));
-					animOffsets.set("singRIGHTmiss", animOffsets.get("singLEFTmiss"));
-					originalAnimOffsets.set("singRIGHTmiss", originalAnimOffsets.get("singLEFTmiss"));
-					atlasCharacter.animInfoMap.set("singLEFTmiss", oldMiss);
-					animOffsets.set("singLEFTmiss", oldMissOffset);
-					originalAnimOffsets.set("singLEFTmiss", oldMissOffsetOriginal);
-				}
-			}
-
+			setFlipX(true);
+			swapLeftAndRightAnimations();
 		}
 
 		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
@@ -616,6 +561,60 @@ class Character extends FlxSpriteGroup
 		}
 
 		updateCharacterPostion();
+	}
+
+	public function swapLeftAndRightAnimations():Void{
+		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+			if (character.animation.getByName('singRIGHT') != null){
+				var oldRight = character.animation.getByName("singRIGHT").frames;
+				var oldRightOffset = animOffsets.get("singRIGHT");
+				var oldRightOffsetOriginal = originalAnimOffsets.get("singRIGHT");
+				character.animation.getByName("singRIGHT").frames = character.animation.getByName("singLEFT").frames;
+				animOffsets.set("singRIGHT", animOffsets.get("singLEFT"));
+				originalAnimOffsets.set("singRIGHT", originalAnimOffsets.get("singLEFT"));
+				character.animation.getByName('singLEFT').frames = oldRight;
+				animOffsets.set("singLEFT", oldRightOffset);
+				originalAnimOffsets.set("singLEFT", oldRightOffsetOriginal);
+			}
+
+			// IF THEY HAVE MISS ANIMATIONS??
+			if (character.animation.getByName('singRIGHTmiss') != null){
+				var oldMiss = character.animation.getByName("singRIGHTmiss").frames;
+				var oldMissOffset = animOffsets.get("singRIGHTmiss");
+				var oldMissOffsetOriginal = originalAnimOffsets.get("singRIGHTmiss");
+				character.animation.getByName("singRIGHTmiss").frames = character.animation.getByName("singLEFTmiss").frames;
+				animOffsets.set("singRIGHTmiss", animOffsets.get("singLEFTmiss"));
+				originalAnimOffsets.set("singRIGHTmiss", originalAnimOffsets.get("singLEFTmiss"));
+				character.animation.getByName('singLEFTmiss').frames = oldMiss;
+				animOffsets.set("singLEFTmiss", oldMissOffset);
+				originalAnimOffsets.set("singLEFTmiss", oldMissOffsetOriginal);
+			}
+		}
+		else { //Code for atlas characters
+			if (atlasCharacter.animInfoMap.get("singRIGHT") != null){
+				var oldRight = atlasCharacter.animInfoMap.get("singRIGHT");
+				var oldRightOffset = animOffsets.get("singRIGHT");
+				var oldRightOffsetOriginal = originalAnimOffsets.get("singRIGHT");
+				atlasCharacter.animInfoMap.set("singRIGHT", atlasCharacter.animInfoMap.get("singLEFT"));
+				animOffsets.set("singRIGHT", animOffsets.get("singLEFT"));
+				originalAnimOffsets.set("singRIGHT", originalAnimOffsets.get("singLEFT"));
+				atlasCharacter.animInfoMap.set("singLEFT", oldRight);
+				animOffsets.set("singLEFT", oldRightOffset);
+				originalAnimOffsets.set("singLEFT", oldRightOffsetOriginal);
+			}
+
+			if (atlasCharacter.animInfoMap.get("singRIGHTmiss") != null){
+				var oldMiss = atlasCharacter.animInfoMap.get("singRIGHTmiss");
+				var oldMissOffset = animOffsets.get("singRIGHTmiss");
+				var oldMissOffsetOriginal = originalAnimOffsets.get("singRIGHTmiss");
+				atlasCharacter.animInfoMap.set("singRIGHTmiss", atlasCharacter.animInfoMap.get("singLEFTmiss"));
+				animOffsets.set("singRIGHTmiss", animOffsets.get("singLEFTmiss"));
+				originalAnimOffsets.set("singRIGHTmiss", originalAnimOffsets.get("singLEFTmiss"));
+				atlasCharacter.animInfoMap.set("singLEFTmiss", oldMiss);
+				animOffsets.set("singLEFTmiss", oldMissOffset);
+				originalAnimOffsets.set("singLEFTmiss", oldMissOffsetOriginal);
+			}
+		}
 	}
 
 

@@ -296,7 +296,7 @@ class PlayState extends MusicBeatState
 
 	var endingSong:Bool = false;
 
-	var forceCenteredNotes:Bool = false;
+	public var forceCenteredNotes:Bool = false;
 
 	public var meta:SongMetaTags;
 
