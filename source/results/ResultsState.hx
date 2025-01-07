@@ -27,12 +27,12 @@ import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxCamera;
-import extensions.flixel.FlxUIStateExt;
+import extensions.flixel.FlxStateExt;
 import modding.PolymodHandler;
 
 using StringTools;
 
-class ResultsState extends FlxUIStateExt
+class ResultsState extends FlxStateExt
 {
     public static var instance:ResultsState;
     public static var enableDebugControls:Bool = false;

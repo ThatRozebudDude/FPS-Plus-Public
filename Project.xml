@@ -94,6 +94,8 @@
 	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
+	<haxelib name="haxeui-core" />
+	<haxelib name="haxeui-flixel" />
 	<haxelib name="compiletime" />
 	<haxelib name="flxanimate" />
 	<haxelib name="hxCodec" if="desktop" />
@@ -165,5 +167,15 @@
 	<haxedef name="POLYMOD_APPEND_FOLDER" value="append" />
 	<haxedef name="POLYMOD_MERGE_FOLDER" value="merge" />
 	<haxedef name="hscriptPos" />
+
+	<!-- _________________________________ HaxeUI Stuff _______________________________ -->
+	<haxedef name="haxeui_dont_impose_base_class" />
+	<haxedef name="haxeui_flixel_no_custom_cursors" />
+	<haxedef name="haxeui_focus_out_on_click" />
+
+	<haxeflag name="--macro" value="include('haxe.ui.backend.flixel.components')" />
+	<haxeflag name="--macro" value="include('haxe.ui.containers.dialogs')" />
+	<haxeflag name="--macro" value="include('haxe.ui.containers.menus')" />
+	<haxeflag name="--macro" value="include('haxe.ui.components')" />
 
 </project>

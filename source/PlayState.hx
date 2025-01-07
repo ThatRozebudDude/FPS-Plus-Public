@@ -1885,9 +1885,6 @@ class PlayState extends MusicBeatState
 				FlxG.sound.music.stop();
 
 				switchState(new PlayState());
-
-				transIn = FlxTransitionableState.defaultTransIn;
-				transOut = FlxTransitionableState.defaultTransOut;
 			}
 		}
 		//CODE FOR ENDING A FREEPLAY SONG

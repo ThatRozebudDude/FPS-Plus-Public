@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vbox width="100%" height="100%">
+	<menubar id="menuBar" width="100%" paddingLeft="0">
+		<style>
+			.menu {
+			    width: 180px;
+			}
+		</style>
+		<menu text="Files" style="padding: 5px;">
+			<menu-item id="saveChartButton" text="Save Chart" />
+			<menu-item id="saveEventButton" text="Save Events" />
+            <menu-separator />
+            <menu-item id="reloadChartButton" text="Reload Chart" />
+            <menu-item id="reloadMusicButton" text="Reload Music" />
+            <menu-item id="loadAutoSaveButton" text="Load Autosave" />
+            <menu-separator />
+            <menu-item id="clearChartButton" text="Full Blank" />
+		</menu>
+		<menu text="Tools" style="padding: 5px;">
+			<menu-checkbox id="muteInstCheck" text="Mute Instrumental" />
+            <menu-separator />
+            <menu-checkbox id="muteVocalCheck" text="Mute Vocals" />
+            <menu-checkbox id="muteVocalOtherCheck" text="Mute Opponent Vocals (if available)"/>
+			<menu-separator />
+			<menu-checkbox id="bfClickSoundCheck" text="BF Note Click" />
+			<menu-checkbox id="oppClickSoundCheck" text="Opp Note Click" />
+            <menu-separator />
+            <menu-checkbox id="lilBuddiesCheck" text="Lil' Buddies" />
+            <menu-checkbox id="halfSpeedCheck" text="Half Speed" />
+		</menu>
+        <menu text="Misc" style="padding: 5px;">
+            <menu-item id="aboutButton" text="About" />
+            <menu-separator />
+            <menu-item id="exitButton" text="Exit Chart Editor" />
+		</menu>
+	</menubar>
+	<spacer height="280" />
+	<tabview id="tabs" width="300" height="400" style="padding: 5px; spacing : 5px;">
+		<vbox text="Song">
+			<frame>
+                <vbox>
+				    <grid>
+				    	<label text="Song" verticalAlign="center" />
+				    	<textfield id="songNameField" verticalAlign="center" />
+				    	<label text="BPM" verticalAlign="center" />
+				    	<number-stepper id="bpmStepper" pos="100" step="0.1" verticalAlign="center" />
+				    	<label text="Scroll Speed" verticalAlign="center" />
+				    	<number-stepper id="scrollStepper" pos="1" step="0.1" verticalAlign="center" />
+				    </grid>
+                    <menu-separator />
+                    <grid>
+                        <label text="Stage" verticalAlign="center" />
+				    	<dropdown id="stageDrop" width="80" verticalAlign="center" />
+    			    	<label text="Difficulty" verticalAlign="center" />
+				    	<dropdown id="diffDrop" width="80" verticalAlign="center" />
+                    </grid>
+                </vbox>
+			</frame>
+		</vbox>
+        <vbox text="Characters">
+            <frame>
+                <vbox>
+                    <label text="Player" verticalAlign="center" />
+					<dropdown id="bfDrop" width="80" verticalAlign="center" />
+    				<label text="Girlfriend" verticalAlign="center" />
+					<dropdown id="gfDrop" width="80" verticalAlign="center" />
+                    <label text="Opponent" verticalAlign="center" />
+					<dropdown id="oppDrop" width="80" verticalAlign="center" />
+                </vbox>
+            </frame>
+        </vbox>
+        <vbox text="Events">
+			<frame>
+				<vbox>
+                    <label text="Event" verticalAlign="center" />
+                    <textfield id="eventField" verticalAlign="center" />
+                    <label text="Event Description1\nEvent Description2\nEvent Description3" verticalAlign="center" />
+                    <button id="eventCopyButton" text="Copy" />
+                    <menu-separator />
+                    <label text="Used Events" verticalAlign="center" />
+                    <dropdown id="usedEventsDrop" width="80" verticalAlign="center" />
+                    <label text="Event Tag Prefixes" verticalAlign="center" />
+                    <dropdown id="eventsPrefixesDrop" width="80" verticalAlign="center" />
+				</vbox>
+			</frame>
+		</vbox>
+        <vbox text="Notes">
+			<frame>
+				<vbox>
+                    <label text="Note Tag" verticalAlign="center" />
+                    <dropdown id="noteTypeDrop" width="80" verticalAlign="center" />
+				</vbox>
+			</frame>
+		</vbox>
+        <vbox text="Section">
+			<frame>
+				<vbox>
+                    <checkbox id="mustHitCheck" text="Must Hit Section" verticalAlign="center" />
+                    <menu-separator />
+                    <checkbox id="changeBPMCheck" text="change BPM" verticalAlign="center" />
+                    <number-stepper id="changeBPMStepper" pos="100" step="0.1" verticalAlign="center" />
+                    <menu-separator />
+                    <grid>
+                        <number-stepper id="copySectionStepper" pos="0" step="1" verticalAlign="center" />
+                        <button id="copySectionButton" text="Copy Section" />
+                    </grid>
+                    <menu-separator />
+                    <grid>
+                        <button id="swapSectionButton" text="Swap Section" />
+                        <button id="flipOppButton" text="Flip Opponent Notes" />
+                        <button id="flipBfButton" text="Flip BF Notes" />
+                    </grid>
+                    <menu-separator />
+                    <grid>
+                        <button id="clerOppButton" text="Clear Opponent Notes" />
+                        <button id="clerBfButton" text="Clear BF Notes" />
+                        <button id="clerSectionButton" text="Clear Section" />
+                    </grid>
+				</vbox>
+			</frame>
+		</vbox>
+	</tabview>
+</vbox>

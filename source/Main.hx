@@ -6,6 +6,7 @@ import flixel.FlxG;
 import flixel.FlxGame;
 import openfl.display.FPS;
 import openfl.display.Sprite;
+import haxe.ui.Toolkit;
 import debug.*;
 
 class Main extends Sprite
@@ -19,6 +20,10 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
+
+		Toolkit.init();
+		Toolkit.theme = 'dark'; // don't be cringe
+		Toolkit.autoScale = false;
 
 		PolymodHandler.init();
 

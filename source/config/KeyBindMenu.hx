@@ -1,7 +1,7 @@
 package config;
 
 import config.KeyIcon.ControllerIcon;
-import extensions.flixel.FlxUIStateExt;
+import extensions.flixel.FlxStateExt;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.input.gamepad.FlxGamepadInputID;
 import Binds.Keybind;
@@ -20,7 +20,7 @@ import extensions.flixel.FlxTextExt;
 
 using StringTools;
 
-class KeyBindMenu extends FlxUIStateExt
+class KeyBindMenu extends FlxStateExt
 {
 
     var state:String = "selecting";

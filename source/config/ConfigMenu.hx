@@ -13,13 +13,13 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
-import extensions.flixel.FlxUIStateExt;
+import extensions.flixel.FlxStateExt;
 import extensions.flixel.FlxTextExt;
 
 
 using StringTools;
 
-class ConfigMenu extends FlxUIStateExt
+class ConfigMenu extends FlxStateExt
 {
 
     public static var USE_LAYERED_MUSIC:Bool = true;    //If you're not using a layered options theme, set this to false.

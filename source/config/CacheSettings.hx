@@ -1,6 +1,6 @@
 package config;
 
-import extensions.flixel.FlxUIStateExt;
+import extensions.flixel.FlxStateExt;
 import extensions.flixel.FlxTextExt;
 import flixel.sound.FlxSound;
 import transition.data.*;
@@ -13,7 +13,7 @@ import flixel.text.FlxText;
 
 using StringTools;
 
-class CacheSettings extends FlxUIStateExt
+class CacheSettings extends FlxStateExt
 {
 
     public static var noFunMode = false;

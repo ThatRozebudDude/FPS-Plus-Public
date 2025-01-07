@@ -20,7 +20,7 @@ import flixel.text.FlxText;
 import openfl.system.System;
 //import openfl.utils.Future;
 //import flixel.addons.util.FlxAsyncLoop;
-import extensions.flixel.FlxUIStateExt;
+import extensions.flixel.FlxStateExt;
 
 using StringTools;
 
@@ -120,10 +120,10 @@ class Startup extends FlxState
         Main.fpsDisplay.visible = Config.showFPS;
         FlxG.autoPause = Config.autoPause;
 
-        FlxUIStateExt.defaultTransIn = ScreenWipeIn;
-        FlxUIStateExt.defaultTransInArgs = [0.6];
-        FlxUIStateExt.defaultTransOut = ScreenWipeOut;
-        FlxUIStateExt.defaultTransOutArgs = [0.6];
+        FlxStateExt.defaultTransIn = ScreenWipeIn;
+        FlxStateExt.defaultTransInArgs = [0.6];
+        FlxStateExt.defaultTransOut = ScreenWipeOut;
+        FlxStateExt.defaultTransOutArgs = [0.6];
 
         /*if (FlxG.save.data.weekUnlocked != null)
 		{

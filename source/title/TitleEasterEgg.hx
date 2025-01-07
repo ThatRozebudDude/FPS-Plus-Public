@@ -9,7 +9,7 @@ import flixel.text.FlxText;
 import flixel.FlxSprite;
 import config.Config;
 import flixel.FlxG;
-import extensions.flixel.FlxUIStateExt;
+import extensions.flixel.FlxStateExt;
 import objects.WaveformSprite;
 
 class TitleEasterEgg extends MusicBeatState
