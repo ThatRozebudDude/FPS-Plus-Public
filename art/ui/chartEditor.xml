@@ -36,7 +36,7 @@
 	</menubar>
 	<spacer height="280" />
 	<tabview id="uiTabs" width="300" height="400" style="padding: 5px; spacing : 5px;">
-		<vbox text="Song">
+		<vbox text="Song" >
 			<frame>
                 <vbox>
 				    <grid>
@@ -61,11 +61,11 @@
             <frame>
                 <vbox>
                     <label text="Player" verticalAlign="center" />
-					<dropdown id="bfDrop" width="80" verticalAlign="center" />
+					<dropdown id="bfDrop" width="200" verticalAlign="center" dropdownSize="8"/>
     				<label text="Girlfriend" verticalAlign="center" />
-					<dropdown id="gfDrop" width="80" verticalAlign="center" />
+					<dropdown id="gfDrop" width="200" verticalAlign="center" />
                     <label text="Opponent" verticalAlign="center" />
-					<dropdown id="oppDrop" width="80" verticalAlign="center" />
+					<dropdown id="oppDrop" width="200" verticalAlign="center" />
                 </vbox>
             </frame>
         </vbox>
@@ -74,13 +74,13 @@
 				<vbox>
                     <label text="Event" verticalAlign="center" />
                     <textfield id="eventField" verticalAlign="center" />
-                    <label text="Event Description1\nEvent Description2\nEvent Description3" verticalAlign="center" />
+                    <label id="eventDesc" text="Event Description1\nEvent Description2\nEvent Description3" verticalAlign="center" />
                     <button id="eventCopyButton" text="Copy" />
                     <menu-separator />
                     <label text="Used Events" verticalAlign="center" />
-                    <dropdown id="usedEventsDrop" width="80" verticalAlign="center" />
+                    <dropdown id="usedEventsDrop" width="180" verticalAlign="center" dropdownSize="8"/>
                     <label text="Event Tag Prefixes" verticalAlign="center" />
-                    <dropdown id="eventsPrefixesDrop" width="80" verticalAlign="center" />
+                    <dropdown id="eventsPrefixesDrop" width="180" verticalAlign="center" searchable="true" dropdownSize="8"/>
 				</vbox>
 			</frame>
 		</vbox>
@@ -112,9 +112,14 @@
                     </grid>
                     <menu-separator />
                     <grid>
-                        <button id="clerOppButton" text="Clear Opponent Notes" />
-                        <button id="clerBfButton" text="Clear BF Notes" />
-                        <button id="clerSectionButton" text="Clear Section" />
+                        <button id="clearOppButton" text="Clear Opponent Notes" />
+                        <button id="clearBfButton" text="Clear BF Notes" />
+                        <button id="clearSectionButton" text="Clear Section" />
+                    </grid>
+                    <menu-separator />
+                    <grid>
+                        <number-stepper id="goSectionStepper" pos="0" step="1" verticalAlign="center" />
+                        <button id="goSectionButton" text="Go to Section" />
                     </grid>
 				</vbox>
 			</frame>

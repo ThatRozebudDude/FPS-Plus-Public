@@ -169,9 +169,10 @@
 	<haxedef name="hscriptPos" />
 
 	<!-- _________________________________ HaxeUI Stuff _______________________________ -->
-	<haxedef name="haxeui_dont_impose_base_class" />
-	<haxedef name="haxeui_flixel_no_custom_cursors" />
-	<haxedef name="haxeui_focus_out_on_click" />
+	<haxedef name="haxeui_allow_drag_any_component" value="true" />
+	<haxedef name="haxeui_flixel_no_custom_cursors" value="true" />
+	<haxedef name="haxeui_dont_impose_base_class" value="true" />
+	<haxedef name="haxeui_focus_out_on_click" value="true"/>
 
 	<haxeflag name="--macro" value="include('haxe.ui.backend.flixel.components')" />
 	<haxeflag name="--macro" value="include('haxe.ui.containers.dialogs')" />
