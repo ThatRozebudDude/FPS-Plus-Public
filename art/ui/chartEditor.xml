@@ -35,7 +35,7 @@
 		</menu>
 	</menubar>
 	<spacer height="280" />
-	<tabview id="tabs" width="300" height="400" style="padding: 5px; spacing : 5px;">
+	<tabview id="uiTabs" width="300" height="400" style="padding: 5px; spacing : 5px;">
 		<vbox text="Song">
 			<frame>
                 <vbox>
@@ -52,7 +52,7 @@
                         <label text="Stage" verticalAlign="center" />
 				    	<dropdown id="stageDrop" width="80" verticalAlign="center" />
     			    	<label text="Difficulty" verticalAlign="center" />
-				    	<dropdown id="diffDrop" width="80" verticalAlign="center" />
+				    	<dropdown id="diffDropUI" width="80" verticalAlign="center" />
                     </grid>
                 </vbox>
 			</frame>
