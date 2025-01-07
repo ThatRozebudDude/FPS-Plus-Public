@@ -1467,7 +1467,7 @@ class PlayState extends MusicBeatState
 		if (Binds.justPressed("chartEditor") && !isStoryMode){
 
 			if(!FlxG.keys.pressed.SHIFT){
-				ChartingState.startSection = curSection;
+				//ChartingState.startSection = curSection;
 			}
 
 			FlxG.sound.music.pause();
