@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<collapsible-dialog title="Section Properties" width="325" height="465">
+	<vbox width="100%" height="100%">
+		<checkbox id="mustHitCheck" text="Must Hit Section" verticalAlign="center" />
+		<menu-separator />
+		<checkbox id="changeBPMCheck" text="change BPM" verticalAlign="center" />
+		<number-stepper id="changeBPMStepper" pos="100" step="0.1" verticalAlign="center" />
+		<menu-separator />
+		<grid>
+			<number-stepper id="copySectionStepper" pos="0" step="1" verticalAlign="center" />
+			<button id="copySectionButton" text="Copy Section" />
+		</grid>
+		<menu-separator />
+		<grid>
+			<button id="swapSectionButton" text="Swap Section" />
+			<button id="flipOppButton" text="Flip Opponent Notes" />
+			<button id="flipBfButton" text="Flip BF Notes" />
+		</grid>
+		<menu-separator />
+		<grid>
+			<button id="clearOppButton" text="Clear Opponent Notes" />
+			<button id="clearBfButton" text="Clear BF Notes" />
+			<button id="clearSectionButton" text="Clear Section" />
+		</grid>
+		<menu-separator />
+		<grid>
+			<number-stepper id="goSectionStepper" pos="0" step="1" verticalAlign="center" />
+			<button id="goSectionButton" text="Go to Section" />
+		</grid>
+	</vbox>
+</collapsible-dialog>

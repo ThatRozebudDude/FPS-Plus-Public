@@ -6,17 +6,13 @@ import characters.CharacterInfoBase;
 import modding.PolymodHandler;
 import characters.ScriptableCharacter;
 import events.Events;
-import sys.FileSystem;
 import ui.HealthIcon;
 import flixel.util.FlxSort;
 import extensions.flixel.addons.ui.FlxUIDropDownMenuScrollable;
 import note.Note;
 import transition.data.InstantTransition;
 import flixel.addons.ui.FlxUIText;
-import flixel.util.FlxTimer;
-import haxe.rtti.Meta;
 import config.Config;
-import flixel.input.FlxInput;
 import flixel.group.FlxSpriteGroup;
 import transition.data.InstantTransition;
 import openfl.display.Bitmap;
@@ -24,7 +20,6 @@ import flixel.addons.plugin.screengrab.FlxScreenGrab;
 import openfl.display.BitmapData;
 import flixel.graphics.FlxGraphic;
 import Song.SongEvents;
-import openfl.media.SoundChannel;
 import Conductor.BPMChangeEvent;
 import Section.SwagSection;
 import Song.SwagSong;
@@ -44,24 +39,22 @@ import flixel.math.FlxPoint;
 import flixel.sound.FlxSound;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
-import flixel.ui.FlxSpriteButton;
 import flixel.util.FlxColor;
 import haxe.Json;
-import lime.utils.Assets;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import openfl.media.Sound;
 import openfl.net.FileReference;
-import openfl.utils.ByteArray;
 
 import haxe.ui.backend.flixel.UIState;
 import haxe.ui.events.UIEvent;
 import haxe.ui.data.ArrayDataSource;
 import haxe.ui.focus.FocusManager;
+import debug.charting.ui.*;
 
 using StringTools;
 
-@:build(haxe.ui.ComponentBuilder.build("art/ui/chartEditor.xml"))
+@:build(haxe.ui.ComponentBuilder.build("art/ui/chart/chartEditor.xml"))
 class ChartingState extends UIState
 {
 
@@ -155,6 +148,8 @@ class ChartingState extends UIState
 	var lilOpp:FlxSprite;
 
 	var eventCache:Map<String, BitmapData> = new Map();
+
+	var sectionWindow:SectionWindow;
 
 	override function create()
 	{
@@ -357,13 +352,17 @@ class ChartingState extends UIState
 		UI_box.resize(300, 400);
 		UI_box.x = 830;
 		UI_box.y = 20;
-		add(UI_box);
+		//add(UI_box);
+
+		setFileUI();
+		setToolsUI();
 
 		addSongUI();
+		sectionWindow = new SectionWindow(this);
+		sectionWindow.open();
 		addSectionUI();
 		addNoteUI();
 		addEventUI();
-		addToolsUI();
 		updateHeads(true);
 
 		FlxG.camera.follow(strumLine);
@@ -386,10 +385,8 @@ class ChartingState extends UIState
 		
 	}
 
-	function addSongUI():Void
+	function setFileUI():Void
 	{
-		songNameField.text = _song.song;
-
 		saveChartButton.onClick = function(e){ saveLevel(); };
 
 		saveEventButton.onClick = function(e){ saveEvents(); };
@@ -425,6 +422,11 @@ class ChartingState extends UIState
 
 			FlxG.resetState();
 		};
+	}
+
+	function addSongUI():Void
+	{
+		songNameField.text = _song.song;
 
 		var stepperSpeed:FlxUINumericStepper = new FlxUINumericStepper(10, 70, 0.1, 1, 0.1, 25, 1);
 		stepperSpeed.value = _song.speed;
@@ -465,7 +467,7 @@ class ChartingState extends UIState
 		{
             _song.gf = gfDrop.text;
 		});
-        oppDrop.text = _song.gf;
+        gfDrop.text = _song.gf;
 		
 		stageDropDown = new FlxUIDropDownMenuScrollable(140, 130, FlxUIDropDownMenu.makeStrIdLabelArray(stageList, true), function(selStage:String)
 			{
@@ -486,76 +488,62 @@ class ChartingState extends UIState
 		UI_box.scrollFactor.set();
 	}
 
-	function addToolsUI():Void
-		{
-			goSectionButton.onClick = function(e){
-				changeSection(Std.int(goSectionStepper.value), true);
-				goSectionStepper.value = 0;
-			};
-
-			//I DO NOT KNOW WHY THE TEXT IS FUCKING MISALIGNED WHY IS FLXUI LIKE THIS????????????
-	
-			muteInstCheck.selected = false;
-			muteInstCheck.onClick = function(e){
-				if(muteInstCheck.selected){
-					FlxG.sound.music.volume = 0;
-				}
-				else{
-					FlxG.sound.music.volume = 0.6;
-				}
-			};
-
-			muteVocalCheck.selected = false;
-			muteVocalCheck.onClick = function(e){
-				if(muteVocalCheck.selected){
-					vocals.volume = 0;
-				}
-				else{
-					vocals.volume = 1;
-				}
-			};
-
-			muteVocalOtherCheck.selected = false;
-			muteVocalOtherCheck.onClick = function(e){
-				if(muteVocalOtherCheck.selected){
-					vocalsOther.volume = 0;
-				}
-				else{
-					vocalsOther.volume = 1;
-				}
-			};
-	
-			bfClickSoundCheck.selected = false;
-			oppClickSoundCheck.selected = false;
-
-			lilBuddiesCheck.selected = true;
-			lilBuddiesCheck.onClick = function(e){
-				lilBf.visible = lilBuddiesCheck.selected;
-				lilOpp.visible = lilBuddiesCheck.selected;
-				lilStage.visible = lilBuddiesCheck.selected;
-			};
-
-			halfSpeedCheck.selected = false;
-			halfSpeedCheck.onClick = function(e){
-				if(halfSpeedCheck.selected){
-					FlxG.sound.music.pitch = 0.5;
-					vocals.pitch = 0.5;
-					vocalsOther.pitch = 0.5;
-				}
-				else{
-					FlxG.sound.music.pitch = 1;
-					vocals.pitch = 1;
-					vocalsOther.pitch = 1;
-				}
+	function setToolsUI():Void
+	{
+		muteInstCheck.selected = false;
+		muteInstCheck.onClick = function(e){
+			if(muteInstCheck.selected){
+				FlxG.sound.music.volume = 0;
 			}
+			else{
+				FlxG.sound.music.volume = 0.6;
+			}
+		};
+
+		muteVocalCheck.selected = false;
+		muteVocalCheck.onClick = function(e){
+			if(muteVocalCheck.selected){
+				vocals.volume = 0;
+			}
+			else{
+				vocals.volume = 1;
+			}
+		};
+
+		muteVocalOtherCheck.selected = false;
+		muteVocalOtherCheck.onClick = function(e){
+			if(muteVocalOtherCheck.selected){
+				vocalsOther.volume = 0;
+			}
+			else{
+				vocalsOther.volume = 1;
+			}
+		};
 	
-			var tab_group_tools = new FlxUI(null, UI_box);
-			tab_group_tools.name = "Tools";
-			
-	
-			UI_box.addGroup(tab_group_tools);
-			UI_box.scrollFactor.set();
+		bfClickSoundCheck.selected = false;
+		oppClickSoundCheck.selected = false;
+
+		lilBuddiesCheck.selected = true;
+		lilBuddiesCheck.onClick = function(e){
+		lilBf.visible = lilBuddiesCheck.selected;
+		lilOpp.visible = lilBuddiesCheck.selected;
+		lilStage.visible = lilBuddiesCheck.selected;
+		};
+
+		halfSpeedCheck.selected = false;
+		halfSpeedCheck.onClick = function(e){
+			if(halfSpeedCheck.selected){
+				FlxG.sound.music.pitch = 0.5;
+				vocals.pitch = 0.5;
+				vocalsOther.pitch = 0.5;
+			}
+			else{
+				FlxG.sound.music.pitch = 1;
+				vocals.pitch = 1;
+				vocalsOther.pitch = 1;
+			}
 		}
+	}
 
 	var check_changeBPM:FlxUICheckBox;
 	var stepperSectionBPM:FlxUINumericStepper;
@@ -575,64 +563,6 @@ class ChartingState extends UIState
 		{
 			copySection(Std.int(stepperCopy.value));
 		});
-
-		clearSectionButton.onClick = function(e) clearSection;
-		
-		clearOppButton.onClick = function(e) clearSectionOpp;
-
-		clearBfButton.onClick = function(e) clearSectionBF;
-
-		swapSectionButton.onClick = function(e) swapSections;
-
-		//Flips BF Notes
-		flipBfButton.onClick = function(e)
-		{
-			var flipTable:Array<Int> = [3, 2, 1, 0, 7, 6, 5, 4];
-
-			//[noteStrum, noteData, noteSus]
-			for(x in _song.notes[curSection].sectionNotes){
-				if(_song.notes[curSection].mustHitSection){
-					if(x[1] < 4)
-						x[1] = flipTable[x[1]];
-				}
-				else{
-					if(x[1] > 3)
-						x[1] = flipTable[x[1]];
-				}
-			}
-
-			_song.notes[curSection].sectionNotes.sort(sortByNoteStuff);
-			
-			updateGrid();
-		};
-		
-		//Flips Opponent Notes
-		flipOppButton.onClick = function(e){
-			var flipTable:Array<Int> = [3, 2, 1, 0, 7, 6, 5, 4];
-
-			//[noteStrum, noteData, noteSus]
-			for(x in _song.notes[curSection].sectionNotes){
-				if(_song.notes[curSection].mustHitSection){
-					if(x[1] > 3)
-						x[1] = flipTable[x[1]];
-				}
-				else{
-					if(x[1] < 4)
-						x[1] = flipTable[x[1]];
-				}
-			}
-
-			_song.notes[curSection].sectionNotes.sort(sortByNoteStuff);
-			
-			updateGrid();
-		};
-
-		mustHitCheck.selected = _song.notes[0].mustHitSection;
-		mustHitCheck.onClick = function(e){
-			_song.notes[curSection].mustHitSection = mustHitCheck.selected;
-			updateHeads();
-			swapSections();
-		}
 
 		check_changeBPM = new FlxUICheckBox(10, 60, null, null, 'Change BPM', 100);
 		check_changeBPM.name = 'check_changeBPM';
@@ -918,7 +848,7 @@ class ChartingState extends UIState
 
 			if (FlxG.keys.justPressed.U){
 				_song.notes[curSection].mustHitSection = !_song.notes[curSection].mustHitSection;
-				mustHitCheck.selected = _song.notes[curSection].mustHitSection;
+				sectionWindow.mustHitCheck.selected = _song.notes[curSection].mustHitSection;
 				updateHeads();
 				swapSections();
 			}
@@ -1482,7 +1412,7 @@ class ChartingState extends UIState
 	{
 		var sec = _song.notes[curSection];
 
-		mustHitCheck.selected = sec.mustHitSection;
+		sectionWindow.mustHitCheck.selected = sec.mustHitSection;
 		check_changeBPM.checked = sec.changeBPM;
 		stepperSectionBPM.value = sec.bpm;
 
@@ -1861,11 +1791,6 @@ class ChartingState extends UIState
 
 	private var daSpacing:Float = 0.3;
 
-	function loadLevel():Void
-	{
-		trace(_song.notes);
-	}
-
 	function getNotes():Array<Dynamic>
 	{
 		var noteData:Array<Dynamic> = [];
@@ -1881,6 +1806,9 @@ class ChartingState extends UIState
 	function loadJson(song:String):Void
 	{
 		PlayState.SONG = Song.loadFromJson(song.toLowerCase() + diffDropFinal, song.toLowerCase());
+		if(Utils.exists("assets/data/songs/" + song.toLowerCase() + "/events.json")){
+			PlayState.EVENTS = Song.parseEventJSON(Utils.getText(Paths.json(song.toLowerCase() + "/events")));
+		}
 		if(PlayState.SONG.stage == null){
 			PlayState.SONG.stage = _song.stage;
 		}
