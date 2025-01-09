@@ -51,6 +51,7 @@ import haxe.ui.events.UIEvent;
 import haxe.ui.data.ArrayDataSource;
 import haxe.ui.focus.FocusManager;
 import debug.charting.ui.*;
+import debug.charting.objects.*;
 
 using StringTools;
 
@@ -65,8 +66,6 @@ class ChartingState extends UIState
 
 	var UI_box:FlxUITabMenu;
 
-	static var charactersList:Array<String> = [];
-	static var gfList:Array<String> = [];
 	static var stageList:Array<String> = [];
 
 	static var eventIconList:Array<String> = [];
@@ -118,7 +117,6 @@ class ChartingState extends UIState
 	var _events:SongEvents;
 
 	var noteType:FlxUIInputText;
-	var noteTypesArray:Array<String> = [""];
 
 	var textBoxArray:Array<FlxUIInputText> = [];
 
@@ -143,13 +141,14 @@ class ChartingState extends UIState
 	
 	var justChanged:Bool;
 
-	var lilStage:FlxSprite;
-	var lilBf:FlxSprite;
-	var lilOpp:FlxSprite;
+	var lilBuddies:LilBuddies;
 
 	var eventCache:Map<String, BitmapData> = new Map();
 
+	var dataWindow:DataWindow;
 	var sectionWindow:SectionWindow;
+	var noteWindow:NoteWindow;
+	var eventWindow:EventWindow;
 
 	override function create()
 	{
@@ -166,36 +165,8 @@ class ChartingState extends UIState
 		controlInfo.scrollFactor.set();
 		add(controlInfo);
 
-		lilStage = new FlxSprite(32, 432).loadGraphic(Paths.image("chartEditor/lilStage"));
-		lilStage.scrollFactor.set();
-		add(lilStage);
-
-		lilBf = new FlxSprite(32, 432).loadGraphic(Paths.image("chartEditor/lilBf"), true, 300, 256);
-		lilBf.animation.add("idle", [0, 1], 12, true);
-		lilBf.animation.add("0", [3, 4, 5], 12, false);
-		lilBf.animation.add("1", [6, 7, 8], 12, false);
-		lilBf.animation.add("2", [9, 10, 11], 12, false);
-		lilBf.animation.add("3", [12, 13, 14], 12, false);
-		lilBf.animation.add("yeah", [17, 20, 23], 12, false);
-		lilBf.animation.play("idle");
-		lilBf.animation.finishCallback = function(name:String){
-			lilBf.animation.play(name, true, false, lilBf.animation.getByName(name).numFrames - 2);
-		}
-		lilBf.scrollFactor.set();
-		add(lilBf);
-
-		lilOpp = new FlxSprite(32, 432).loadGraphic(Paths.image("chartEditor/lilOpp"), true, 300, 256);
-		lilOpp.animation.add("idle", [0, 1], 12, true);
-		lilOpp.animation.add("0", [3, 4, 5], 12, false);
-		lilOpp.animation.add("1", [6, 7, 8], 12, false);
-		lilOpp.animation.add("2", [9, 10, 11], 12, false);
-		lilOpp.animation.add("3", [12, 13, 14], 12, false);
-		lilOpp.animation.play("idle");
-		lilOpp.animation.finishCallback = function(name:String){
-			lilOpp.animation.play(name, true, false, lilOpp.animation.getByName(name).numFrames - 2);
-		}
-		lilOpp.scrollFactor.set();
-		add(lilOpp);
+		lilBuddies = new LilBuddies();
+		add(lilBuddies);
 
 		lastSection = 0;
 
@@ -357,12 +328,18 @@ class ChartingState extends UIState
 		setFileUI();
 		setToolsUI();
 
+		dataWindow = new DataWindow(this);
+		dataWindow.open();
 		addSongUI();
 		sectionWindow = new SectionWindow(this);
 		sectionWindow.open();
 		addSectionUI();
+		noteWindow = new NoteWindow(this);
+		noteWindow.open();
 		addNoteUI();
 		addEventUI();
+		eventWindow = new EventWindow(this);
+		eventWindow.open();
 		updateHeads(true);
 
 		FlxG.camera.follow(strumLine);
@@ -426,31 +403,6 @@ class ChartingState extends UIState
 
 	function addSongUI():Void
 	{
-		songNameField.text = _song.song;
-
-		var stepperSpeed:FlxUINumericStepper = new FlxUINumericStepper(10, 70, 0.1, 1, 0.1, 25, 1);
-		stepperSpeed.value = _song.speed;
-		stepperSpeed.name = 'song_speed';
-
-		var stepperBPM:FlxUINumericStepper = new FlxUINumericStepper(10, 50, 1, 1, 1, 999, 2);
-		stepperBPM.value = Conductor.bpm;
-		stepperBPM.name = 'song_bpm';
-
-        bfDrop.dataSource = ArrayDataSource.fromArray(charactersList);
-        bfDrop.registerEvent(UIEvent.CLOSE, function(e)
-		{
-            _song.player1 = bfDrop.text;
-            updateHeads(true);
-		});
-		bfDrop.text = _song.player1;
-
-        oppDrop.dataSource = ArrayDataSource.fromArray(charactersList);
-        oppDrop.registerEvent(UIEvent.CLOSE, function(e)
-		{
-            _song.player2 = oppDrop.text;
-            updateHeads(true);
-		});
-		oppDrop.text = _song.player2;
 
 		diffDrop = new FlxUIDropDownMenu(10, 160, FlxUIDropDownMenu.makeStrIdLabelArray(diffNameList, true), function(diff:String)
 		{
@@ -461,13 +413,6 @@ class ChartingState extends UIState
 		});
 		diffDrop.selectedLabel = diffNameList[PlayState.storyDifficulty];
 		diffDropFinal = diffList[Std.parseInt(diffDrop.selectedId)];
-
-        gfDrop.dataSource = ArrayDataSource.fromArray(gfList);
-        gfDrop.registerEvent(UIEvent.CLOSE, function(e)
-		{
-            _song.gf = gfDrop.text;
-		});
-        gfDrop.text = _song.gf;
 		
 		stageDropDown = new FlxUIDropDownMenuScrollable(140, 130, FlxUIDropDownMenu.makeStrIdLabelArray(stageList, true), function(selStage:String)
 			{
@@ -478,8 +423,6 @@ class ChartingState extends UIState
 		var tab_group_song = new FlxUI(null, UI_box);
 		tab_group_song.name = "Song";
 
-		tab_group_song.add(stepperBPM);
-		tab_group_song.add(stepperSpeed);
 		tab_group_song.add(diffDrop);
 		tab_group_song.add(stageDropDown);
 		
@@ -525,9 +468,7 @@ class ChartingState extends UIState
 
 		lilBuddiesCheck.selected = true;
 		lilBuddiesCheck.onClick = function(e){
-		lilBf.visible = lilBuddiesCheck.selected;
-		lilOpp.visible = lilBuddiesCheck.selected;
-		lilStage.visible = lilBuddiesCheck.selected;
+			lilBuddies.visible = lilBuddiesCheck.selected;
 		};
 
 		halfSpeedCheck.selected = false;
@@ -582,14 +523,7 @@ class ChartingState extends UIState
 
 		noteType = new FlxUIInputText(10, 30, 160, "", 8);
 		textBoxArray.push(noteType);
-
-		var noteTagText = new FlxUIText(10, noteType.y - 20, 0, "Note Tag");
-
-		for(k => v in NoteType.types){ noteTypesArray.push(k); }
-		noteTypeDrop.dataSource = ArrayDataSource.fromArray(noteTypesArray);
-		noteTypeDrop.text = "";
-
-		tab_group_note.add(noteTagText);
+	
 		tab_group_note.add(noteType);
 
 		UI_box.addGroup(tab_group_note);
@@ -597,13 +531,6 @@ class ChartingState extends UIState
 
 	function addEventUI():Void
 	{
-		usedEventsDrop.dataSource = ArrayDataSource.fromArray(eventTagList);
-		usedEventsDrop.registerEvent(UIEvent.CLOSE, function(e)
-		{
-			eventField.text = usedEventsDrop.text;
-			updateEventDescription();
-		});
-
 		var stepperCopy:FlxUINumericStepper = new FlxUINumericStepper(110, 40, 1, 1, -999, 999, 0);
 
 		var copyButton:FlxButton = new FlxButton(10, 40, "Copy", function()
@@ -614,26 +541,6 @@ class ChartingState extends UIState
 		var clearButton:FlxButton = new FlxButton(210, 40, "Clear Section", function()
 		{
 			clearEventSection(curSection);
-		});
-
-		for(prefix in Events.events.keys()){
-			allEventPrefixes.push(prefix);
-		}
-
-		allEventPrefixes.sort(function(a:String, b:String):Int{
-			a = a.toUpperCase();
-			b = b.toUpperCase();
-			if(a < b){ return -1; }
-			else if(a > b){ return 1; }
-			else{ return 0; }
-		});
-
-		eventsPrefixesDrop.dataSource = ArrayDataSource.fromArray(allEventPrefixes);
-
-		eventsPrefixesDrop.registerEvent(UIEvent.CLOSE, function(e)
-		{
-			eventField.text = eventsPrefixesDrop.text;
-			updateEventDescription();
 		});
 
 		var tab_group_event = new FlxUI(null, UI_box);
@@ -723,22 +630,7 @@ class ChartingState extends UIState
 			var nums:FlxUINumericStepper = cast sender;
 			var wname = nums.name;
 			FlxG.log.add(wname);
-			if (wname == 'section_length')
-			{
-				_song.notes[curSection].lengthInSteps = Std.int(nums.value);
-				updateGrid();
-			}
-			else if (wname == 'song_speed')
-			{
-				_song.speed = nums.value;
-			}
-			else if (wname == 'song_bpm')
-			{
-				tempBpm = nums.value;
-				Conductor.mapBPMChanges(_song);
-				Conductor.changeBPM(nums.value);
-			}
-			else if (wname == 'note_susLength')
+			if (wname == 'note_susLength')
 			{
 				curSelectedNote[2] = nums.value;
 				updateGrid();
@@ -791,7 +683,7 @@ class ChartingState extends UIState
 		curStep = recalculateSteps();
 
 		Conductor.songPosition = FlxG.sound.music.time;
-		_song.song = songNameField.text;
+		_song.song = dataWindow.songNameField.text;
 
 		strumLine.y = getYfromStrum(Conductor.songPosition - sectionStartTime());
 
@@ -810,7 +702,7 @@ class ChartingState extends UIState
 		FlxG.watch.addQuick('daBeat', curBeat);
 		FlxG.watch.addQuick('daStep', curStep);
 
-		if(eventField.focus){
+		if(eventWindow.eventField.focus){
 			updateEventDescription();
 		}
 
@@ -824,8 +716,8 @@ class ChartingState extends UIState
 					vocals.pause();
 					vocalsOther.pause();
 
-					lilBf.animation.play("idle");
-					lilOpp.animation.play("idle");
+					lilBuddies.lilBf.animation.play("idle");
+					lilBuddies.lilOpp.animation.play("idle");
 				}
 				else
 				{
@@ -833,8 +725,8 @@ class ChartingState extends UIState
 					vocalsOther.play();
 					FlxG.sound.music.play();
 
-					lilBf.animation.play("idle");
-					lilOpp.animation.play("idle");
+					lilBuddies.lilBf.animation.play("idle");
+					lilBuddies.lilOpp.animation.play("idle");
 				}
 			}
 
@@ -861,8 +753,8 @@ class ChartingState extends UIState
 				vocals.pause();
 				vocalsOther.pause();
 
-				lilBf.animation.play("idle");
-				lilOpp.animation.play("idle");
+				lilBuddies.lilBf.animation.play("idle");
+				lilBuddies.lilOpp.animation.play("idle");
 
 				if(wheelSpin > 0 && strumLine.y < gridBG.y)
 					wheelSpin = 0;
@@ -894,8 +786,8 @@ class ChartingState extends UIState
 					vocals.pause();
 					vocalsOther.pause();
 
-					lilBf.animation.play("idle");
-					lilOpp.animation.play("idle");
+					lilBuddies.lilBf.animation.play("idle");
+					lilBuddies.lilOpp.animation.play("idle");
 
 					var daTime:Float = 1000 * FlxG.elapsed;
 
@@ -912,8 +804,8 @@ class ChartingState extends UIState
 			else{
 				if (FlxG.keys.pressed.W || FlxG.keys.pressed.S || FlxG.keys.pressed.UP || FlxG.keys.pressed.DOWN){
 					if(FlxG.sound.music.playing){
-						lilBf.animation.play("idle");
-						lilOpp.animation.play("idle");
+						lilBuddies.lilBf.animation.play("idle");
+						lilBuddies.lilOpp.animation.play("idle");
 					}
 
 					FlxG.sound.music.pause();
@@ -1014,7 +906,7 @@ class ChartingState extends UIState
 					{
 						if (FlxG.mouse.overlaps(event))
 						{
-							eventField.text = event.tag;
+							eventWindow.eventField.text = event.tag;
 						}
 					});
 				}
@@ -1155,11 +1047,11 @@ class ChartingState extends UIState
 				if(x.y < strumLine.y && !x.playedEditorClick && FlxG.sound.music.playing){
 					if(x.editorBFNote){
 						if(bfClickSoundCheck.selected){ FlxG.sound.play(Paths.sound("tick"), 0.6); }
-						lilBf.animation.play("" + (x.noteData % 4), true);
+						lilBuddies.lilBf.animation.play("" + (x.noteData % 4), true);
 					}
 					else if(!x.editorBFNote){
 						if(oppClickSoundCheck.selected){ FlxG.sound.play(Paths.sound("tick"), 0.6); }
-						lilOpp.animation.play("" + (x.noteData % 4), true);
+						lilBuddies.lilOpp.animation.play("" + (x.noteData % 4), true);
 					}
 				}
 
@@ -1191,10 +1083,10 @@ class ChartingState extends UIState
 		if(Startup.hasEe2 && lilBuddiesCheck.selected){
 			if(!ee2Check && 
 				!FlxG.sound.music.playing &&
-				FlxG.mouse.screenX >= lilBf.x &&
-				FlxG.mouse.screenX <= lilBf.x + lilBf.width &&
-				FlxG.mouse.screenY >= lilBf.y &&
-				FlxG.mouse.screenY <= lilBf.y + lilBf.height &&
+				FlxG.mouse.screenX >= lilBuddies.lilBf.x &&
+				FlxG.mouse.screenX <= lilBuddies.lilBf.x + lilBuddies.lilBf.width &&
+				FlxG.mouse.screenY >= lilBuddies.lilBf.y &&
+				FlxG.mouse.screenY <= lilBuddies.lilBf.y + lilBuddies.lilBf.height &&
 				FlxG.mouse.justPressed){
 	
 					autosaveSong();
@@ -1225,22 +1117,22 @@ class ChartingState extends UIState
 					//lilBf.animation.play("yeah");
 			}
 			else if(!FlxG.sound.music.playing &&
-				FlxG.mouse.screenX >= lilBf.x &&
-				FlxG.mouse.screenX <= lilBf.x + lilBf.width &&
-				FlxG.mouse.screenY >= lilBf.y &&
-				FlxG.mouse.screenY <= lilBf.y + lilBf.height &&
+				FlxG.mouse.screenX >= lilBuddies.lilBf.x &&
+				FlxG.mouse.screenX <= lilBuddies.lilBf.x + lilBuddies.lilBf.width &&
+				FlxG.mouse.screenY >= lilBuddies.lilBf.y &&
+				FlxG.mouse.screenY <= lilBuddies.lilBf.y + lilBuddies.lilBf.height &&
 				FlxG.mouse.justPressed){
-					lilBf.animation.play("yeah");
+					lilBuddies.lilBf.animation.play("yeah");
 			}
 		}
 		else if(lilBuddiesCheck.selected){
 			if(!FlxG.sound.music.playing &&
-				FlxG.mouse.screenX >= lilBf.x &&
-				FlxG.mouse.screenX <= lilBf.x + lilBf.width &&
-				FlxG.mouse.screenY >= lilBf.y &&
-				FlxG.mouse.screenY <= lilBf.y + lilBf.height &&
+				FlxG.mouse.screenX >= lilBuddies.lilBf.x &&
+				FlxG.mouse.screenX <= lilBuddies.lilBf.x + lilBuddies.lilBf.width &&
+				FlxG.mouse.screenY >= lilBuddies.lilBf.y &&
+				FlxG.mouse.screenY <= lilBuddies.lilBf.y + lilBuddies.lilBf.height &&
 				FlxG.mouse.justPressed){
-					lilBf.animation.play("yeah");
+					lilBuddies.lilBf.animation.play("yeah");
 			}
 		}
 
@@ -1254,12 +1146,12 @@ class ChartingState extends UIState
 	}
 
 	function updateEventDescription():Void{
-		if(Events.eventsMeta.exists(eventField.text.split(";")[0])){
-			var descText = Events.eventsMeta.get(eventField.text.split(";")[0]);
-			if(eventDesc.text == descText){ return; }
-			eventDesc.text = descText;
+		if(Events.eventsMeta.exists(eventWindow.eventField.text.split(";")[0])){
+			var descText = Events.eventsMeta.get(eventWindow.eventField.text.split(";")[0]);
+			if(eventWindow.eventDesc.text == descText){ return; }
+			eventWindow.eventDesc.text = descText;
 		}
-		else{ eventDesc.text = ""; }
+		else{ eventWindow.eventDesc.text = ""; }
 		//eventDesc.y = 410 - eventDesc.height;
 	}
 
@@ -1321,8 +1213,8 @@ class ChartingState extends UIState
 		vocals.pause();
 		vocalsOther.pause();
 
-		lilBf.animation.play("idle");
-		lilOpp.animation.play("idle");
+		lilBuddies.lilBf.animation.play("idle");
+		lilBuddies.lilOpp.animation.play("idle");
 
 		// Basically old shit from changeSection???
 		FlxG.sound.music.time = sectionStartTime();
@@ -1357,8 +1249,8 @@ class ChartingState extends UIState
 				vocals.pause();
 				vocalsOther.pause();
 
-				lilBf.animation.play("idle");
-				lilOpp.animation.play("idle");
+				lilBuddies.lilBf.animation.play("idle");
+				lilBuddies.lilOpp.animation.play("idle");
 
 				/*var daNum:Int = 0;
 					var daLength:Float = 0;
@@ -1380,8 +1272,8 @@ class ChartingState extends UIState
 			updateSectionUI();
 		}
 
-		lilBf.animation.play("idle");
-		lilOpp.animation.play("idle");
+		lilBuddies.lilBf.animation.play("idle");
+		lilBuddies.lilOpp.animation.play("idle");
 	}
 
 	function copySection(?sectionNum:Int = 1){
@@ -1425,8 +1317,8 @@ class ChartingState extends UIState
 			var leftChar:characters.CharacterInfoBase;
 			var rightChar:characters.CharacterInfoBase;
 
-			leftChar = ScriptableCharacter.init(oppDrop.text);
-			rightChar = ScriptableCharacter.init(bfDrop.text);
+			leftChar = ScriptableCharacter.init(dataWindow.oppDrop.text);
+			rightChar = ScriptableCharacter.init(dataWindow.bfDrop.text);
 
 			leftIcon.setIconCharacter(leftChar.info.iconName);
 			leftIcon.iconScale = leftIcon.defualtIconScale * 0.5;
@@ -1996,7 +1888,7 @@ class ChartingState extends UIState
 	private function addEventNote(_noteStrum:Float, _noteData:Int):Void{
 		var noteData = _noteData;
 		var noteStrum = _noteStrum;
-		var eventTag = eventField.text;
+		var eventTag = eventWindow.eventField.text;
 		var section = curSection;
 
 		for (i in _events.events){
@@ -2005,8 +1897,8 @@ class ChartingState extends UIState
 			}
 		}
 
-		if(pushEvent(eventField.text)){
-			usedEventsDrop.dataSource = ArrayDataSource.fromArray(eventTagList);
+		if(pushEvent(eventWindow.eventField.text)){
+			eventWindow.usedEventsDrop.dataSource = ArrayDataSource.fromArray(eventTagList);
 		}
 
 		_events.events.push([section, noteStrum, noteData, eventTag]);
@@ -2046,7 +1938,7 @@ class ChartingState extends UIState
 		}
 		if(remove){
 			eventTagList.remove(tag);
-			usedEventsDrop.dataSource = ArrayDataSource.fromArray(eventTagList);
+			eventWindow.usedEventsDrop.dataSource = ArrayDataSource.fromArray(eventTagList);
 		}
 		
 
@@ -2106,38 +1998,11 @@ class ChartingState extends UIState
 	}
 
 	public static function loadLists():Void{
-		
-
-		charactersList = [];
-		gfList = [];
 		stageList = [];
-
-		for(x in ScriptableCharacter.listScriptClasses()){
-			var getScriptInfo:CharacterInfoBase = ScriptableCharacter.init(x);
-			if(getScriptInfo.includeInCharacterList){ charactersList.push(x); }
-			if(getScriptInfo.includeInGfList){ gfList.push(x); }
-		}
-		trace(charactersList);
 
 		for(x in ScriptableStage.listScriptClasses()){
 			stageList.push(x);
 		}
-
-		//makes them be in alphabetical order
-		charactersList.sort(function(a:String, b:String):Int{
-			a = a.toUpperCase();
-			b = b.toUpperCase();
-			if(a < b){ return -1; }
-			else if(a > b){ return 1; }
-			else{ return 0; }
-		});
-		gfList.sort(function(a:String, b:String):Int{
-			a = a.toUpperCase();
-			b = b.toUpperCase();
-			if(a < b){ return -1; }
-			else if(a > b){ return 1; }
-			else{ return 0; }
-		});
 		
 		stageList.sort(function(a:String, b:String):Int{
 			a = a.toUpperCase();

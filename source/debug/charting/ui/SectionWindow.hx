@@ -3,7 +3,7 @@ import haxe.ui.components.CheckBox;
 
 @:access(debug.charting.ChartingState)
 @:build(haxe.ui.ComponentBuilder.build("art/ui/chart/sectionWindow.xml"))
-class SectionWindow extends DialogueBasic
+class SectionWindow extends ChartWindowBasic
 {
 	public var mustHitCheck:CheckBox;
 

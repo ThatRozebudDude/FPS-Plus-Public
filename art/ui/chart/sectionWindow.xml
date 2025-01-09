@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<collapsible-dialog title="Section Properties" width="325" height="465">
+<collapsible-dialog title="Section Properties" width="325" height="400">
 	<vbox width="100%" height="100%">
 		<checkbox id="mustHitCheck" text="Must Hit Section" verticalAlign="center" />
 		<menu-separator />

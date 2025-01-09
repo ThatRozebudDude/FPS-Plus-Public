@@ -4,7 +4,7 @@ import haxe.ui.containers.dialogs.CollapsibleDialog;
 import flixel.FlxG;
 
 @:access(debug.charting.ChartingState)
-class DialogueBasic extends CollapsibleDialog
+class ChartWindowBasic extends CollapsibleDialog
 {
 	public var editor:ChartingState = null;
 
@@ -13,7 +13,7 @@ class DialogueBasic extends CollapsibleDialog
 		super();
 
 		editor = _instance;
-		closable = false;
+		closable = true;
 		modal = false;
 		destroyOnClose = false;
 		editor.root.addComponent(this);

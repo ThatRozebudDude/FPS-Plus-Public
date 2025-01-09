@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<collapsible-dialog title="Events" width="350" height="400">
+	<vbox width="100%" height="100%">
+		<label text="Event" verticalAlign="center" />
+		<textfield id="eventField" verticalAlign="center" />
+		<label id="eventDesc" text="" verticalAlign="center" />
+		<button id="eventCopyButton" text="Copy" />
+		<menu-separator />
+		<label text="Used Events" verticalAlign="center" />
+		<dropdown id="usedEventsDrop" width="180" verticalAlign="center" dropdownSize="8"/>
+		<label text="Event Tag Prefixes" verticalAlign="center" />
+		<dropdown id="eventsPrefixesDrop" width="180" verticalAlign="center" searchable="true" dropdownSize="8"/>
+	</vbox>
+</collapsible-dialog>

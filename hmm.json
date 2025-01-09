@@ -109,6 +109,11 @@
             "name": "haxeui-flixel",
             "type": "haxelib",
             "version": null
+        },
+        {
+            "name": "flixel-text-input",
+            "type": "haxelib",
+            "version": null
         }
     ]
 }
