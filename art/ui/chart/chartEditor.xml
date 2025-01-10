@@ -29,7 +29,7 @@
             <menu-checkbox id="halfSpeedCheck" text="Half Speed" />
 		</menu>
         <menu text="Misc" style="padding: 5px;">
-            <menu-item id="aboutButton" text="About" />
+            <menu-item id="controlButton" text="Control" />
             <menu-separator />
             <menu-item id="exitButton" text="Exit Chart Editor" />
 		</menu>

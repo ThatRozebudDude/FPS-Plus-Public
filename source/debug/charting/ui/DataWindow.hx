@@ -83,5 +83,19 @@ class DataWindow extends ChartWindowBasic
             editor._song.gf = gfDrop.text;
 		});
         gfDrop.text = editor._song.gf;
+
+		//This is so dumbass
+		var shit:Array<String> = [];
+		for (key in editor.diffList.keys())
+			shit.push(key);
+		diffDrop.dataSource = ArrayDataSource.fromArray(shit);
+
+        diffDrop.registerEvent(UIEvent.CLOSE, function(e)
+		{
+			editor.diffDropFinal = editor.diffList.get(diffDrop.text);
+			PlayState.storyDifficulty = shit.indexOf(diffDrop.text);
+		});
+        diffDrop.text = shit[PlayState.storyDifficulty];
+		editor.diffDropFinal = editor.diffList.get(diffDrop.text);
 	}
 }

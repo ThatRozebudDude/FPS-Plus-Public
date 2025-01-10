@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<collapsible-dialog title="Events" width="350" height="400">
+<collapsible-dialog title="Note Properties" width="350" height="400">
 	<vbox width="100%" height="100%">
         <label text="Note Tag" verticalAlign="center" />
         <dropdown id="noteTypeDrop" width="80" verticalAlign="center" />

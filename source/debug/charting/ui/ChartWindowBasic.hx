@@ -13,7 +13,7 @@ class ChartWindowBasic extends CollapsibleDialog
 		super();
 
 		editor = _instance;
-		closable = true;
+		closable = false;
 		modal = false;
 		destroyOnClose = false;
 		editor.root.addComponent(this);

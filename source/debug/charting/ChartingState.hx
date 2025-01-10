@@ -51,7 +51,9 @@ import haxe.ui.events.UIEvent;
 import haxe.ui.data.ArrayDataSource;
 import haxe.ui.focus.FocusManager;
 import debug.charting.ui.*;
-import debug.charting.objects.*;
+import debug.charting.components.*;
+import haxe.ui.containers.dialogs.MessageBox.MessageBoxType;
+import haxe.ui.containers.dialogs.Dialogs;
 
 using StringTools;
 
@@ -85,8 +87,11 @@ class ChartingState extends UIState
 
 	var bpmTxt:FlxText;
 	var stageDropDown:FlxUIDropDownMenuScrollable;
-	var diffNameList:Array<String> = ["Easy", "Normal", "Hard"];
-	var diffList:Array<String> = ["-easy", "", "-hard"];
+	final diffList:Map<String, String> = [
+		"Easy" => "-easy",
+		"Normal" => "",
+		"Hard" => "-hard"
+	];
 	var diffDropFinal:String = "";
 	var diffDrop:FlxUIDropDownMenu;
 
@@ -161,9 +166,12 @@ class ChartingState extends UIState
 
 		loadLists();
 
-		var controlInfo = new FlxText(10, 30, 0, "LEFT CLICK - Place Notes\nRIGHT CLICK - Delete Notes\nMIDDLE CLICK - Reselect a note.\n\nSHIFT - Unlock cursor from grid\nALT - Triplets\nCONTROL - 1/32 Notes\nSHIFT + CONTROL - 1/64 Notes\n\nTAB - Place notes on both sides\nHJKL - Place notes during\n                       playback\n\nR - Top of section\nCTRL + R - Song start\n\nENTER - Test chart.\nCTRL + ENTER - Test chart from\n                         current section.", 12);
-		controlInfo.scrollFactor.set();
-		add(controlInfo);
+		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menu/menuDesat'));
+		bg.scrollFactor.set();
+		bg.color = 0xffec96ff;
+		bg.screenCenter();
+		bg.antialiasing = true;
+		add(bg);
 
 		lilBuddies = new LilBuddies();
 		add(lilBuddies);
@@ -327,6 +335,7 @@ class ChartingState extends UIState
 
 		setFileUI();
 		setToolsUI();
+		setMiscUI();
 
 		dataWindow = new DataWindow(this);
 		dataWindow.open();
@@ -359,7 +368,6 @@ class ChartingState extends UIState
 		}
 
 		startSection = 0;
-		
 	}
 
 	function setFileUI():Void
@@ -402,18 +410,7 @@ class ChartingState extends UIState
 	}
 
 	function addSongUI():Void
-	{
-
-		diffDrop = new FlxUIDropDownMenu(10, 160, FlxUIDropDownMenu.makeStrIdLabelArray(diffNameList, true), function(diff:String)
-		{
-			trace(diff);
-			diffDropFinal = diffList[Std.parseInt(diff)];
-			PlayState.storyDifficulty = Std.parseInt(diff);
-			
-		});
-		diffDrop.selectedLabel = diffNameList[PlayState.storyDifficulty];
-		diffDropFinal = diffList[Std.parseInt(diffDrop.selectedId)];
-		
+	{	
 		stageDropDown = new FlxUIDropDownMenuScrollable(140, 130, FlxUIDropDownMenu.makeStrIdLabelArray(stageList, true), function(selStage:String)
 			{
 				_song.stage = stageList[Std.parseInt(selStage)];
@@ -422,8 +419,7 @@ class ChartingState extends UIState
 
 		var tab_group_song = new FlxUI(null, UI_box);
 		tab_group_song.name = "Song";
-
-		tab_group_song.add(diffDrop);
+	
 		tab_group_song.add(stageDropDown);
 		
 
@@ -483,6 +479,15 @@ class ChartingState extends UIState
 				vocals.pitch = 1;
 				vocalsOther.pitch = 1;
 			}
+		}
+	}
+
+	function setMiscUI():Void
+	{
+		controlButton.onClick = function(e){
+			createModal("Control Info",
+			"LEFT CLICK - Place Notes\nRIGHT CLICK - Delete Notes\nMIDDLE CLICK - Reselect a note.\n\nSHIFT - Unlock cursor from grid\nALT - Triplets\nCONTROL - 1/32 Notes\nSHIFT + CONTROL - 1/64 Notes\n\nTAB - Place notes on both sides\nHJKL - Place notes during\n                       playback\n\nR - Top of section\nCTRL + R - Song start\n\nENTER - Test chart.\nCTRL + ENTER - Test chart from\n                         current section.",
+			"info");
 		}
 	}
 
@@ -1697,6 +1702,13 @@ class ChartingState extends UIState
 
 	function loadJson(song:String):Void
 	{
+		//Return if chart doesn't exist
+		var findPath = Paths.json(song.toLowerCase() + '/' + song.toLowerCase() + diffDropFinal);
+		if(!Utils.exists(findPath)){
+			createModal("Error!", "No Chart Found on " + findPath.trim() + "!", "error");
+			return;
+		}
+
 		PlayState.SONG = Song.loadFromJson(song.toLowerCase() + diffDropFinal, song.toLowerCase());
 		if(Utils.exists("assets/data/songs/" + song.toLowerCase() + "/events.json")){
 			PlayState.EVENTS = Song.parseEventJSON(Utils.getText(Paths.json(song.toLowerCase() + "/events")));
@@ -1712,6 +1724,11 @@ class ChartingState extends UIState
 
 	function loadAutosave():Void
 	{
+		if (FlxG.save.data.autosave == null)
+		{
+			createModal("Warning", "No Autosave Found!", "warning");
+			return;
+		}
 		PlayState.SONG = Song.parseJSONshit(FlxG.save.data.autosave);
 		PlayState.EVENTS = Song.parseEventJSON(FlxG.save.data.autosaveEvents);
 		FlxG.resetState();
@@ -1746,38 +1763,6 @@ class ChartingState extends UIState
 			_file.save(data.trim(), _song.song.toLowerCase() + diffDropFinal + ".json");
 		}
 	}
-	
-	/* No more save generic no one uses that shit
-	private function saveGenericLevel()
-	{
-		
-		var genericSong =
-		{
-			song: _song.song,
-			notes: _song.notes,
-			bpm: _song.bpm,
-			needsVoices: _song.needsVoices,
-			speed: _song.speed,
-			player1: _song.player1,
-			player2: _song.player2,
-			validScore: true
-		};
-
-		var json = {
-			"song": genericSong
-		};
-
-		var data:String = Json.stringify(json, null, "\t");
-
-		if ((data != null) && (data.length > 0))
-		{
-			_file = new FileReference();
-			_file.addEventListener(Event.COMPLETE, onSaveComplete);
-			_file.addEventListener(Event.CANCEL, onSaveCancel);
-			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-			_file.save(data.trim(), _song.song.toLowerCase() + diffDropFinal + ".json");
-		}
-	}*/
 
 	private function saveEvents()
 	{
@@ -2068,6 +2053,10 @@ class ChartingState extends UIState
 			return true;
 		}
 		return false;
+	}
+
+	public function createModal(title:String, message:String, boxType:String = "yesno"):Void{
+		Dialogs.messageBox(message, title, boxType, true);
 	}
 	
 }
