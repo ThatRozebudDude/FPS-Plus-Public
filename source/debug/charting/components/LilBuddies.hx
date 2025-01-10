@@ -4,7 +4,7 @@ import flixel.group.FlxSpriteGroup;
 import flixel.FlxSprite;
 
 /*
-	Small, current chart preview buddies.
+	Little, current chart preview buddies.
 
 	@author Rozebud
 */
