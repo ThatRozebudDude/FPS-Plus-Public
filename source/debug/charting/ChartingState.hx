@@ -1,6 +1,5 @@
 package debug.charting;
 
-import stages.ScriptableStage;
 import note.NoteType;
 import characters.CharacterInfoBase;
 import modding.PolymodHandler;
@@ -339,7 +338,7 @@ class ChartingState extends UIState
 
 		dataWindow = new DataWindow(this);
 		dataWindow.open();
-		addSongUI();
+
 		sectionWindow = new SectionWindow(this);
 		sectionWindow.open();
 		addSectionUI();
@@ -407,24 +406,6 @@ class ChartingState extends UIState
 
 			FlxG.resetState();
 		};
-	}
-
-	function addSongUI():Void
-	{	
-		stageDropDown = new FlxUIDropDownMenuScrollable(140, 130, FlxUIDropDownMenu.makeStrIdLabelArray(stageList, true), function(selStage:String)
-			{
-				_song.stage = stageList[Std.parseInt(selStage)];
-			});
-		stageDropDown.selectedLabel = _song.stage;
-
-		var tab_group_song = new FlxUI(null, UI_box);
-		tab_group_song.name = "Song";
-	
-		tab_group_song.add(stageDropDown);
-		
-
-		UI_box.addGroup(tab_group_song);
-		UI_box.scrollFactor.set();
 	}
 
 	function setToolsUI():Void
@@ -1703,9 +1684,9 @@ class ChartingState extends UIState
 	function loadJson(song:String):Void
 	{
 		//Return if chart doesn't exist
-		var findPath = Paths.json(song.toLowerCase() + '/' + song.toLowerCase() + diffDropFinal);
+		var findPath = Paths.json(song.toLowerCase() + '/' + song.toLowerCase() + diffDropFinal).trim();
 		if(!Utils.exists(findPath)){
-			createModal("Error!", "No Chart Found on " + findPath.trim() + "!", "error");
+			createModal("Error!", "No Chart Found on " + findPath + "!", "error");
 			return;
 		}
 
@@ -1983,20 +1964,6 @@ class ChartingState extends UIState
 	}
 
 	public static function loadLists():Void{
-		stageList = [];
-
-		for(x in ScriptableStage.listScriptClasses()){
-			stageList.push(x);
-		}
-		
-		stageList.sort(function(a:String, b:String):Int{
-			a = a.toUpperCase();
-			b = b.toUpperCase();
-			if(a < b){ return -1; }
-			else if(a > b){ return 1; }
-			else{ return 0; }
-		});
-
 		var iconsRaw = Utils.readDirectory("assets/images/chartEditor/event/");
 		for(icon in iconsRaw){
 			if(icon.split(".")[1] == "png"){

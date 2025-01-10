@@ -4,7 +4,6 @@ import haxe.ui.events.UIEvent;
 import haxe.ui.data.ArrayDataSource;
 import events.Events;
 
-//Unused. keeping for custom window example.
 @:access(debug.charting.ChartingState)
 
 @:build(haxe.ui.ComponentBuilder.build("art/ui/chart/eventWindow.xml"))

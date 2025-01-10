@@ -2,11 +2,11 @@ package debug.charting.ui;
 
 import haxe.ui.components.*;
 import characters.ScriptableCharacter;
+import stages.ScriptableStage;
 import haxe.ui.data.ArrayDataSource;
 import characters.CharacterInfoBase;
 import haxe.ui.events.UIEvent;
 
-//Unused. keeping for custom window example.
 @:access(debug.charting.ChartingState)
 
 @:build(haxe.ui.ComponentBuilder.build("art/ui/chart/dataWindow.xml"))
@@ -97,5 +97,22 @@ class DataWindow extends ChartWindowBasic
 		});
         diffDrop.text = shit[PlayState.storyDifficulty];
 		editor.diffDropFinal = editor.diffList.get(diffDrop.text);
+
+		var stageList:Array<String> = ScriptableStage.listScriptClasses();
+		
+		stageList.sort(function(a:String, b:String):Int{
+			a = a.toUpperCase();
+			b = b.toUpperCase();
+			if(a < b){ return -1; }
+			else if(a > b){ return 1; }
+			else{ return 0; }
+		});
+
+		stageDrop.dataSource = ArrayDataSource.fromArray(stageList);
+        stageDrop.registerEvent(UIEvent.CLOSE, function(e)
+		{
+            editor._song.stage = stageDrop.text;
+		});
+        stageDrop.text = editor._song.stage;
 	}
 }

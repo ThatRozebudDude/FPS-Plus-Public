@@ -4,7 +4,6 @@ import haxe.ui.components.*;
 import haxe.ui.data.ArrayDataSource;
 import note.NoteType;
 
-//Unused. keeping for custom window example.
 @:access(debug.charting.ChartingState)
 
 @:build(haxe.ui.ComponentBuilder.build("art/ui/chart/noteWindow.xml"))

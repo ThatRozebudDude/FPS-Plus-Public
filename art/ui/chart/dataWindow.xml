@@ -16,8 +16,8 @@
 		<dropdown id="oppDrop" width="200" verticalAlign="center" />
 		<menu-separator />
 		<label text="Stage" verticalAlign="center" />
-		<dropdown id="stageDrop" width="80" verticalAlign="center" />
+		<dropdown id="stageDrop" width="190" verticalAlign="center" />
 		<label text="Difficulty" verticalAlign="center" />
-		<dropdown id="diffDrop" width="80" verticalAlign="center" />
+		<dropdown id="diffDrop" width="110" verticalAlign="center" />
 	</vbox>
 </collapsible-dialog>
