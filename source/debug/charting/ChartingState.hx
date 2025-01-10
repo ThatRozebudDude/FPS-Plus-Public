@@ -57,7 +57,7 @@ import haxe.ui.containers.dialogs.Dialogs;
 
 using StringTools;
 
-@:build(haxe.ui.ComponentBuilder.build("art/ui/chart/chartEditor.xml"))
+@:build(haxe.ui.ComponentBuilder.build("art/ui/chart/tabBar.xml"))
 class ChartingState extends UIState
 {
 
