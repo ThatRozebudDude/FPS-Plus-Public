@@ -38,13 +38,13 @@ class BaseTransition extends FlxSpriteGroup{
     **/
     public function end(){
         FlxStateExt.inTransition = false;
-        System.gc();
+        //System.gc();
         if(state != null){
             FlxG.switchState(state);
         }
         else{
             FlxG.cameras.remove(cameras[0], true);
-            this.destroy();
+            Utils.destroyWhenAvailable(this);
         }
     }
 
