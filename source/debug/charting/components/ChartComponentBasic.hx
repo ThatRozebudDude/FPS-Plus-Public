@@ -8,11 +8,22 @@ using StringTools;
 
 	@author Sulkiez
 */
-
 class ChartComponentBasic extends FlxSpriteGroup
 {
-	override public function new(x:Float, y:Float)
+	public var editor:ChartingState = null;
+
+	override public function new(x:Float, y:Float, _editor:ChartingState)
 	{
 		super(x, y);
+
+		editor = _editor;
+
+		create();
 	}
+
+	public function create() {}
+
+	public function changeSection(sec:Int, updateMusic:Bool) {}
+
+	public function resetSection(songBeginning:Bool) {}
 }

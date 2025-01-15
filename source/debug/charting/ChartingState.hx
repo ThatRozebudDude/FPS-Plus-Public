@@ -51,6 +51,7 @@ import haxe.ui.data.ArrayDataSource;
 import haxe.ui.focus.FocusManager;
 import debug.charting.ui.*;
 import debug.charting.components.*;
+import haxe.ui.containers.menus.*;
 import haxe.ui.containers.dialogs.MessageBox.MessageBoxType;
 import haxe.ui.containers.dialogs.Dialogs;
 
@@ -67,7 +68,7 @@ class ChartingState extends UIState
 
 	var UI_box:FlxUITabMenu;
 
-	static var stageList:Array<String> = [];
+	public static var stageList:Array<String> = [];
 
 	static var eventIconList:Array<String> = [];
 	static var eventIconOverrides:Map<String, String> = new Map<String, String>();
@@ -76,13 +77,15 @@ class ChartingState extends UIState
 	 * Array of notes showing when each section STARTS in STEPS
 	 * Usually rounded up??
 	 */
-	var curSection:Int = 0;
+	public var curSection:Int = 0;
 
 	var timeOld:Float = 0;
 
-	var ee2Check:Bool;
+	public var ee2Check:Bool;
 
 	public static var lastSection:Int = 0;
+
+	final GRID_SIZE:Int = 40;
 
 	var bpmTxt:FlxText;
 	var stageDropDown:FlxUIDropDownMenuScrollable;
@@ -94,31 +97,30 @@ class ChartingState extends UIState
 	var diffDropFinal:String = "";
 	var diffDrop:FlxUIDropDownMenu;
 
-	var strumLine:FlxSprite;
+	public var strumLine:FlxSprite;
 	var bullshitUI:FlxGroup;
 
 	final strumColors:Array<FlxColor> = [0xFFC24B99, 0xFF00FFFF, 0xFF12FA05, 0xFFF9393F];
 	final eventColors:Array<FlxColor> = [0xFFFFFFFF, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFFFF00FF, 0xFFFFFF00, 0xFF00FFFF, 0xFFFF9100, 0xFFA200FF, 0xFFC24B99, 0xFF00FFFF, 0xFF12FA05, 0xFFF9393F, 0xFF00FFBF, 0xFFFF0095, 0xFFC8FF00, 0xFF0077FF];
 
-	var highlight:FlxSprite;
+	public var highlight:FlxSprite;
 
-	var GRID_SIZE:Int = 40;
 	//var TRIPLE_GRID_SIZE:Float = 40 * 4/3;
 
 	var dummyArrow:FlxSprite;
 	var holding:Bool;
 
-	var curRenderedNotes:FlxTypedGroup<Note>;
-	var curRenderedSustains:FlxTypedGroup<FlxSprite>;
-	var curRenderedEvents:FlxTypedGroup<EventSprite>;
+	public var curRenderedNotes:FlxTypedGroup<Note>;
+	public var curRenderedSustains:FlxTypedGroup<FlxSprite>;
+	public var curRenderedEvents:FlxTypedGroup<EventSprite>;
 
 	var gridBG:FlxSprite;
 	var gridBG2:FlxSprite;
 	//var gridBGTriple:FlxSprite;
 	var gridBGOverlay:FlxSprite;
 
-	var _song:SwagSong;
-	var _events:SongEvents;
+	public var _song:SwagSong;
+	public var _events:SongEvents;
 
 	var noteType:FlxUIInputText;
 
@@ -130,20 +132,20 @@ class ChartingState extends UIState
 	/*
 	 * WILL BE THE CURRENT / LAST PLACED NOTE
 	**/
-	var curSelectedNote:Array<Dynamic>;
+	public var curSelectedNote:Array<Dynamic>;
 
 	var tempBpm:Float = 0;
 
-	var vocals:FlxSound;
-	var vocalsOther:FlxSound;
+	public var vocals:FlxSound;
+	public var vocalsOther:FlxSound;
 
-	var leftIcon:HealthIcon;
-	var rightIcon:HealthIcon;
+	public var leftIcon:HealthIcon;
+	public var rightIcon:HealthIcon;
 
-	var leftIconBack:FlxSprite;
-	var rightIconBack:FlxSprite;
+	public var leftIconBack:FlxSprite;
+	public var rightIconBack:FlxSprite;
 	
-	var justChanged:Bool;
+	public var justChanged:Bool;
 
 	var lilBuddies:LilBuddies;
 
@@ -153,6 +155,11 @@ class ChartingState extends UIState
 	var sectionWindow:SectionWindow;
 	var noteWindow:NoteWindow;
 	var eventWindow:EventWindow;
+
+	public var bfClickSoundCheck:MenuCheckBox;
+	public var oppClickSoundCheck:MenuCheckBox;
+
+	public var components:Map<String, Dynamic> = [];
 
 	override function create()
 	{
@@ -172,8 +179,14 @@ class ChartingState extends UIState
 		bg.antialiasing = true;
 		add(bg);
 
-		lilBuddies = new LilBuddies();
-		add(lilBuddies);
+		//Hardcoded Components
+		components.set("lilBuddies", new LilBuddies(32, 432, this));
+
+		//Scripted Components
+		for (script in ScriptableChartComponent.listScriptClasses())
+		{
+			components.set(script, ScriptableChartComponent.init(script, 0, 0, this));
+		}
 
 		lastSection = 0;
 
@@ -445,7 +458,7 @@ class ChartingState extends UIState
 
 		lilBuddiesCheck.selected = true;
 		lilBuddiesCheck.onClick = function(e){
-			lilBuddies.visible = lilBuddiesCheck.selected;
+			components.get("lilBuddies").visible = lilBuddiesCheck.selected;
 		};
 
 		halfSpeedCheck.selected = false;
@@ -701,18 +714,12 @@ class ChartingState extends UIState
 					FlxG.sound.music.pause();
 					vocals.pause();
 					vocalsOther.pause();
-
-					lilBuddies.lilBf.animation.play("idle");
-					lilBuddies.lilOpp.animation.play("idle");
 				}
 				else
 				{
 					vocals.play();
 					vocalsOther.play();
 					FlxG.sound.music.play();
-
-					lilBuddies.lilBf.animation.play("idle");
-					lilBuddies.lilOpp.animation.play("idle");
 				}
 			}
 
@@ -731,16 +738,13 @@ class ChartingState extends UIState
 				swapSections();
 			}
 
-			if (FlxG.mouse.wheel != 0 && FocusManager.instance.focus == null){
+			if (FlxG.mouse.wheel != 0){
 				// && strumLine.y > gridBG.y)
 				var wheelSpin = FlxG.mouse.wheel;
 
 				FlxG.sound.music.pause();
 				vocals.pause();
 				vocalsOther.pause();
-
-				lilBuddies.lilBf.animation.play("idle");
-				lilBuddies.lilOpp.animation.play("idle");
 
 				if(wheelSpin > 0 && strumLine.y < gridBG.y)
 					wheelSpin = 0;
@@ -772,9 +776,6 @@ class ChartingState extends UIState
 					vocals.pause();
 					vocalsOther.pause();
 
-					lilBuddies.lilBf.animation.play("idle");
-					lilBuddies.lilOpp.animation.play("idle");
-
 					var daTime:Float = 1000 * FlxG.elapsed;
 
 					if ((FlxG.keys.pressed.W || FlxG.keys.pressed.UP) && strumLine.y > gridBG.y){
@@ -789,11 +790,6 @@ class ChartingState extends UIState
 			}
 			else{
 				if (FlxG.keys.pressed.W || FlxG.keys.pressed.S || FlxG.keys.pressed.UP || FlxG.keys.pressed.DOWN){
-					if(FlxG.sound.music.playing){
-						lilBuddies.lilBf.animation.play("idle");
-						lilBuddies.lilOpp.animation.play("idle");
-					}
-
 					FlxG.sound.music.pause();
 					vocals.pause();
 					vocalsOther.pause();
@@ -1020,38 +1016,6 @@ class ChartingState extends UIState
 
 		}
 
-		if(!justChanged){
-			curRenderedNotes.forEach(function(x:Note) {
-
-				if(x.absoluteNumber < 4 && _song.notes[curSection].mustHitSection){
-					x.editorBFNote = true;
-				}
-				else if(x.absoluteNumber > 3 && !_song.notes[curSection].mustHitSection){
-					x.editorBFNote = true;
-				}
-				
-				if(x.y < strumLine.y && !x.playedEditorClick && FlxG.sound.music.playing){
-					if(x.editorBFNote){
-						if(bfClickSoundCheck.selected){ FlxG.sound.play(Paths.sound("tick"), 0.6); }
-						lilBuddies.lilBf.animation.play("" + (x.noteData % 4), true);
-					}
-					else if(!x.editorBFNote){
-						if(oppClickSoundCheck.selected){ FlxG.sound.play(Paths.sound("tick"), 0.6); }
-						lilBuddies.lilOpp.animation.play("" + (x.noteData % 4), true);
-					}
-				}
-
-				if(x.y > strumLine.y && x.alpha != 0.4){
-					x.playedEditorClick = false;
-				}
-
-				if(x.y < strumLine.y && x.alpha != 0.4){
-					x.playedEditorClick = true;
-				}
-
-			});
-		}
-
 		justChanged = false;
 
 		if(Startup.hasEe2 && FlxG.keys.justPressed.B && FlxG.keys.pressed.SHIFT){
@@ -1069,10 +1033,10 @@ class ChartingState extends UIState
 		if(Startup.hasEe2 && lilBuddiesCheck.selected){
 			if(!ee2Check && 
 				!FlxG.sound.music.playing &&
-				FlxG.mouse.screenX >= lilBuddies.lilBf.x &&
-				FlxG.mouse.screenX <= lilBuddies.lilBf.x + lilBuddies.lilBf.width &&
-				FlxG.mouse.screenY >= lilBuddies.lilBf.y &&
-				FlxG.mouse.screenY <= lilBuddies.lilBf.y + lilBuddies.lilBf.height &&
+				FlxG.mouse.screenX >= components.get("lilBuddies").lilBf.x &&
+				FlxG.mouse.screenX <= components.get("lilBuddies").lilBf.x + components.get("lilBuddies").lilBf.width &&
+				FlxG.mouse.screenY >= components.get("lilBuddies").lilBf.y &&
+				FlxG.mouse.screenY <= components.get("lilBuddies").lilBf.y + components.get("lilBuddies").lilBf.height &&
 				FlxG.mouse.justPressed){
 	
 					autosaveSong();
@@ -1103,22 +1067,22 @@ class ChartingState extends UIState
 					//lilBf.animation.play("yeah");
 			}
 			else if(!FlxG.sound.music.playing &&
-				FlxG.mouse.screenX >= lilBuddies.lilBf.x &&
-				FlxG.mouse.screenX <= lilBuddies.lilBf.x + lilBuddies.lilBf.width &&
-				FlxG.mouse.screenY >= lilBuddies.lilBf.y &&
-				FlxG.mouse.screenY <= lilBuddies.lilBf.y + lilBuddies.lilBf.height &&
+				FlxG.mouse.screenX >= components.get("lilBuddies").lilBf.x &&
+				FlxG.mouse.screenX <= components.get("lilBuddies").lilBf.x + components.get("lilBuddies").lilBf.width &&
+				FlxG.mouse.screenY >= components.get("lilBuddies").lilBf.y &&
+				FlxG.mouse.screenY <= components.get("lilBuddies").lilBf.y + components.get("lilBuddies").lilBf.height &&
 				FlxG.mouse.justPressed){
-					lilBuddies.lilBf.animation.play("yeah");
+					components.get("lilBuddies").lilBf.animation.play("yeah");
 			}
 		}
 		else if(lilBuddiesCheck.selected){
 			if(!FlxG.sound.music.playing &&
-				FlxG.mouse.screenX >= lilBuddies.lilBf.x &&
-				FlxG.mouse.screenX <= lilBuddies.lilBf.x + lilBuddies.lilBf.width &&
-				FlxG.mouse.screenY >= lilBuddies.lilBf.y &&
-				FlxG.mouse.screenY <= lilBuddies.lilBf.y + lilBuddies.lilBf.height &&
+				FlxG.mouse.screenX >= components.get("lilBuddies").lilBf.x &&
+				FlxG.mouse.screenX <= components.get("lilBuddies").lilBf.x + components.get("lilBuddies").lilBf.width &&
+				FlxG.mouse.screenY >= components.get("lilBuddies").lilBf.y &&
+				FlxG.mouse.screenY <= components.get("lilBuddies").lilBf.y + components.get("lilBuddies").lilBf.height &&
 				FlxG.mouse.justPressed){
-					lilBuddies.lilBf.animation.play("yeah");
+					components.get("lilBuddies").lilBf.animation.play("yeah");
 			}
 		}
 
@@ -1131,7 +1095,7 @@ class ChartingState extends UIState
 		super.update(elapsed);
 	}
 
-	function updateEventDescription():Void{
+	public function updateEventDescription():Void{
 		if(Events.eventsMeta.exists(eventWindow.eventField.text.split(";")[0])){
 			var descText = Events.eventsMeta.get(eventWindow.eventField.text.split(";")[0]);
 			if(eventWindow.eventDesc.text == descText){ return; }
@@ -1199,9 +1163,6 @@ class ChartingState extends UIState
 		vocals.pause();
 		vocalsOther.pause();
 
-		lilBuddies.lilBf.animation.play("idle");
-		lilBuddies.lilOpp.animation.play("idle");
-
 		// Basically old shit from changeSection???
 		FlxG.sound.music.time = sectionStartTime();
 
@@ -1217,9 +1178,11 @@ class ChartingState extends UIState
 
 		updateGrid();
 		updateSectionUI();
+
+		for (component in components) component.resetSection(songBeginning);
 	}
 
-	function changeSection(sec:Int = 0, ?updateMusic:Bool = true):Void
+	public function changeSection(sec:Int = 0, ?updateMusic:Bool = true):Void
 	{
 		justChanged = true;
 
@@ -1234,9 +1197,6 @@ class ChartingState extends UIState
 				FlxG.sound.music.pause();
 				vocals.pause();
 				vocalsOther.pause();
-
-				lilBuddies.lilBf.animation.play("idle");
-				lilBuddies.lilOpp.animation.play("idle");
 
 				/*var daNum:Int = 0;
 					var daLength:Float = 0;
@@ -1258,8 +1218,7 @@ class ChartingState extends UIState
 			updateSectionUI();
 		}
 
-		lilBuddies.lilBf.animation.play("idle");
-		lilBuddies.lilOpp.animation.play("idle");
+		for (component in components) component.changeSection(sec, updateMusic);
 	}
 
 	function copySection(?sectionNum:Int = 1){
@@ -1326,7 +1285,7 @@ class ChartingState extends UIState
 		
 	}
 
-	function updateGrid():Void{
+	public function updateGrid():Void{
 
 		curRenderedNotes.clear();
 		curRenderedSustains.clear();
@@ -1579,7 +1538,7 @@ class ChartingState extends UIState
 		updateGrid();
 	}
 
-	function clearSectionOpp():Void
+	public function clearSectionOpp():Void
 		{
 	
 			var newSectionNotes:Array<Dynamic> = [];
@@ -1604,7 +1563,7 @@ class ChartingState extends UIState
 			updateGrid();
 		}
 
-	function clearSong():Void
+	public function clearSong():Void
 	{
 		for (daSection in 0..._song.notes.length)
 		{
@@ -1653,23 +1612,23 @@ class ChartingState extends UIState
 		autosaveSong();
 	}
 
-	function sortByNoteStuff(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int {
+	public function sortByNoteStuff(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int {
 		return FlxSort.byValues(FlxSort.ASCENDING, Obj1[0], Obj2[0]);
 	}
 
-	function getStrumTime(yPos:Float):Float
+	public function getStrumTime(yPos:Float):Float
 	{
 		return FlxMath.remapToRange(yPos, gridBG.y, gridBG.y + gridBG.height, 0, 16 * Conductor.stepCrochet);
 	}
 
-	function getYfromStrum(strumTime:Float):Float
+	public function getYfromStrum(strumTime:Float):Float
 	{
 		return FlxMath.remapToRange(strumTime, 0, 16 * Conductor.stepCrochet, gridBG.y, gridBG.y + gridBG.height);
 	}
 
 	private var daSpacing:Float = 0.3;
 
-	function getNotes():Array<Dynamic>
+	public function getNotes():Array<Dynamic>
 	{
 		var noteData:Array<Dynamic> = [];
 
@@ -1796,7 +1755,7 @@ class ChartingState extends UIState
 		FlxG.log.error("Problem saving Level data");
 	}
 
-	function swapSections()
+	public function swapSections()
 	{
 		for (i in 0..._song.notes[curSection].sectionNotes.length)
 		{

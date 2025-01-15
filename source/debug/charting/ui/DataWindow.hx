@@ -22,7 +22,7 @@ class DataWindow extends ChartWindowBasic
 	{
 		super(instance);
 
-		songNameField.text = editor._song.song;
+		songNameField.text = editor._song.song.trim();
 
 		scrollStepper.pos = editor._song.speed;
 		scrollStepper.onClick = function(e){
