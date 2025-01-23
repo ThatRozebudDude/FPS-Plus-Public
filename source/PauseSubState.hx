@@ -193,6 +193,9 @@ class PauseSubState extends MusicBeatSubstate
 						PlayState.replayStartCutscene = false;
 						pauseMusic.fadeOut(0.5, 0);
 						FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+						if(PlayState.instance.instSong != null){
+							PlayState.overrideInsturmental = PlayState.instance.instSong;
+						}
 						
 					case "Exit to menu":
 						PlayState.instance.tweenManager.clear();
