@@ -159,6 +159,10 @@ class ChartingState extends UIState
 	public var bfClickSoundCheck:MenuCheckBox;
 	public var oppClickSoundCheck:MenuCheckBox;
 
+	// Todo: make Dynamic to ChartWindowBasic and ChartComponentBasic
+
+	public var windows:Map<String, Dynamic> = [];
+
 	public var components:Map<String, Dynamic> = [];
 
 	override function create()
@@ -182,7 +186,7 @@ class ChartingState extends UIState
 		//Hardcoded Components
 		components.set("lilBuddies", new LilBuddies(32, 432, this));
 
-		//Scripted Components
+		//Scripted Components(W.I.P yet)
 		for (script in ScriptableChartComponent.listScriptClasses())
 		{
 			components.set(script, ScriptableChartComponent.init(script, 0, 0, this));
@@ -350,17 +354,41 @@ class ChartingState extends UIState
 		setMiscUI();
 
 		dataWindow = new DataWindow(this);
-		dataWindow.open();
 
 		sectionWindow = new SectionWindow(this);
-		sectionWindow.open();
 		addSectionUI();
 		noteWindow = new NoteWindow(this);
-		noteWindow.open();
 		addNoteUI();
 		addEventUI();
 		eventWindow = new EventWindow(this);
-		eventWindow.open();
+
+		// Uhh should add softcode support of this too?
+		windows = [
+			"Song Properties" => dataWindow,
+			"Section Properties" => sectionWindow,
+			"Note Properties" => noteWindow,
+			"Event Properties" => eventWindow
+		];
+
+		for (window in windows.keys())
+		{
+			var windowBox = new MenuCheckBox();
+			windowBox.text = window;
+			windowBox.onClick = function(e){
+				if (windowBox.selected)
+					windows.get(window).open();
+				else
+					windows.get(window).close();
+			}
+
+			windowBox.selected = false;
+
+			windowMenu.addComponent(windowBox);
+			//windows.get(window).open();
+		}
+
+
+
 		updateHeads(true);
 
 		FlxG.camera.follow(strumLine);

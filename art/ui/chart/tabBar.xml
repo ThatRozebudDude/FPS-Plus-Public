@@ -33,5 +33,8 @@
             <menu-separator />
             <menu-item id="exitButton" text="Exit Chart Editor" />
 		</menu>
+		<menu id="windowMenu" text="Window" style="padding: 5px;">
+		<!-- Components are adding by Chart Editor Code -->
+		</menu>
 	</menubar>
 </vbox>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<collapsible-dialog title="Song Data" width="325" height="465">
+<collapsible-dialog title="Song Properties" width="325" height="465">
 	<vbox width="100%" height="100%">
 		<label text="Song" verticalAlign="center" />
 		<textfield id="songNameField" verticalAlign="center" />

@@ -13,9 +13,6 @@ class ChartWindowBasic extends CollapsibleDialog
 		super();
 
 		editor = _instance;
-		closable = false;
-		modal = false;
-		destroyOnClose = false;
 		editor.root.addComponent(this);
 	}
 
@@ -28,6 +25,6 @@ class ChartWindowBasic extends CollapsibleDialog
 	public function open()
 	{
 		//FlxG.sound.play(Paths.sound('chartingSounds/openWindow'));
-		showDialog(modal);
+		showDialog(false);
 	}
 }

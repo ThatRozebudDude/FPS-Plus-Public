@@ -7,6 +7,8 @@ import haxe.ui.data.ArrayDataSource;
 import characters.CharacterInfoBase;
 import haxe.ui.events.UIEvent;
 
+using StringTools;
+
 @:access(debug.charting.ChartingState)
 
 @:build(haxe.ui.ComponentBuilder.build("art/ui/chart/dataWindow.xml"))
