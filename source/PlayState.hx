@@ -52,6 +52,7 @@ import scripts.Script;
 import modding.PolymodHandler;
 import openfl.filters.ShaderFilter;
 import story.StoryMenuState;
+import caching.*;
 
 using StringTools;
 
@@ -309,8 +310,6 @@ class PlayState extends MusicBeatState
 		instance = this;
 		FlxG.mouse.visible = false;
 		add(tweenManager);
-
-		ImageCache.clear();
 
 		FlxG.signals.preStateSwitch.addOnce(preStateChange);
 
@@ -1886,8 +1885,8 @@ class PlayState extends MusicBeatState
 
 				switchState(new PlayState());
 
-				transIn = FlxTransitionableState.defaultTransIn;
-				transOut = FlxTransitionableState.defaultTransOut;
+				//transIn = FlxTransitionableState.defaultTransIn;
+				//transOut = FlxTransitionableState.defaultTransOut;
 			}
 		}
 		//CODE FOR ENDING A FREEPLAY SONG
@@ -2863,6 +2862,10 @@ class PlayState extends MusicBeatState
 				Assets.cache.removeSound(Paths.inst(SONG.song));
 			}
 		}
+
+		var pauseSongName = "pause/breakfast";
+		if(metadata != null){ pauseSongName = metadata.pauseMusic; }
+		Assets.cache.removeSound(Paths.music(pauseSongName));
 
 		super.switchState(_state);
 	}

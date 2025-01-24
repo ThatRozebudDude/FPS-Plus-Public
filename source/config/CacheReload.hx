@@ -13,8 +13,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
 import openfl.system.System;
-//import openfl.utils.Future;
-//import flixel.addons.util.FlxAsyncLoop;
+import caching.*;
 
 using StringTools;
 
@@ -70,7 +69,7 @@ class CacheReload extends FlxState
             songsCached = true;
         }
 
-        System.gc();
+        Utils.gc();
 
         var text = new FlxText(0, 0, 1280, "LOADING ASSETS...", 64);
 	    text.scrollFactor.set(0, 0);
@@ -90,7 +89,7 @@ class CacheReload extends FlxState
     override function update(elapsed):Void{
 
         if(songsCached && charactersCached && graphicsCached){
-            System.gc();
+            Utils.gc();
             ImageCache.trackedAssets = [];
             FlxG.switchState(nextState);
         }

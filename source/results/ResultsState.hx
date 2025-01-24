@@ -1,5 +1,6 @@
 package results;
 
+import openfl.Assets;
 import story.StoryMenuState;
 import shaders.TintShader;
 import openfl.filters.ShaderFilter;
@@ -658,6 +659,7 @@ class ResultsState extends FlxUIStateExt
                 }});
                 FlxG.sound.music.fadeOut(0.8, 0, function(t){
                     FlxG.sound.music.stop();
+                    Assets.cache.clear("assets/music/results");
                 });
 			case "freeplay":
                 customTransOut = new StickerOut();
@@ -673,33 +675,16 @@ class ResultsState extends FlxUIStateExt
                 }});
                 FlxG.sound.music.fadeOut(0.8, 0, function(t) {
                     FlxG.sound.music.stop();
+                    Assets.cache.clear("assets/music/results");
                 });
 			default:
 				switchState(new MainMenuState());
                 FlxG.sound.music.fadeOut(0.3, 0, function(t) {
                     FlxG.sound.music.stop();
+                    Assets.cache.clear("assets/music/results");
                 });
 		}
 	}
-
-    function playSongBasedOnRank(_rank:Rank):Void{
-        switch(characterString){
-            default:
-                switch(_rank){
-                    case perfect | gold:
-                        FlxG.sound.playMusic(Paths.music("results/perfect"), 1, true); 
-                    case excellent:
-                        FlxG.sound.playMusic(Paths.music("results/excellent-loop"), 1, true); 
-                    case loss:
-                        FlxG.sound.playMusic(Paths.music("results/shit-intro"), 1, true);
-                        FlxG.sound.music.onComplete = function() {
-                            FlxG.sound.playMusic(Paths.music("results/shit-loop"), 1, true); 
-                        }
-                    default:
-                        FlxG.sound.playMusic(Paths.music("results/normal"), 1, true); 
-                }
-        }
-    }
 
     var counterPitch:Float = 1;
     function playCounterSoundTickUp():Void{

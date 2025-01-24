@@ -15,6 +15,7 @@ import flixel.util.FlxColor;
 import flixel.text.FlxText;
 import extensions.flixel.FlxUIStateExt;
 import extensions.flixel.FlxTextExt;
+import caching.*;
 
 
 using StringTools;
@@ -111,7 +112,6 @@ class ConfigMenu extends FlxUIStateExt
 
 	override function create(){
 
-        ImageCache.clear();
 		Config.setFramerate(fpsCapInSettings);
 
         if(exitTo == null){
@@ -332,9 +332,9 @@ class ConfigMenu extends FlxUIStateExt
         if(USE_LAYERED_MUSIC && !USE_MENU_MUSIC){
             songLayer.stop();
             songLayer.destroy();
-            Assets.cache.removeSound(layerSongTrack);
-            Assets.cache.removeSound(keySongTrack);
-            Assets.cache.removeSound(cacheSongTrack);
+            Assets.cache.removeSound(Paths.music(layerSongTrack));
+            Assets.cache.removeSound(Paths.music(keySongTrack));
+            Assets.cache.removeSound(Paths.music(cacheSongTrack));
         }
 		FlxG.sound.play(Paths.sound('cancelMenu'));
 		switchState(Type.createInstance(exitTo, []));

@@ -1,5 +1,6 @@
 package transition.data;
 
+import openfl.Assets;
 import flixel.util.FlxTimer;
 import flixel.math.FlxPoint;
 import sys.FileSystem;
@@ -122,6 +123,11 @@ class StickerOut extends BaseTransition{
 
     function withinDistance(a:FlxPoint, b:FlxPoint, distance:Float):Bool{
         return (Math.abs(a.x - b.x) <= distance) || (Math.abs(a.y - b.y) <= distance);
+    }
+
+    override public function end() {
+        for(i in 1...9){ Assets.cache.removeSound(Paths.sound("stickers/keyClick" + i)); }
+        super.end();
     }
 
 }

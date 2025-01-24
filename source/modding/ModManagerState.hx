@@ -17,6 +17,7 @@ import extensions.flixel.FlxTextExt;
 import flixel.math.FlxPoint;
 import flixel.FlxSprite;
 import extensions.flixel.FlxUIStateExt;
+import caching.*;
 
 class ModManagerState extends FlxUIStateExt
 {
@@ -60,8 +61,7 @@ class ModManagerState extends FlxUIStateExt
     final bottomStart:FlxPoint = new FlxPoint(520, 570);
 
     override function create() {
-
-        ImageCache.clear();
+        
         Config.setFramerate(144);
 
         oldDisabled = PolymodHandler.disabledModDirs;
