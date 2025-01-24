@@ -20,7 +20,19 @@ A UI skin is defined in a `.json` file in the `data/uiSkins` folder. It should c
 
 ## Combo Popup Skin
 
-> Wiki section not added yet.
+Combo Popup skins are defined in a `.json` file in the `data/uiSkins/comboPopup` folder. It should contain the following fields:
+
+- `ratings`: Combo Popup object for the note hit ratings.
+- `numbers`: Combo Popup object for the combo numbers.
+- `comboBreak`: Combo Popup object for the combo break graphic.
+
+A Combo Popup object holds the data for the graphics and position of its part of the combo display.
+
+- `path`: The path to the folder for the graphics for `ratings` and `numbers` or just the path to the graphic for `comboBreak`. Should not include the file extension.
+- `position`: An array that contains 2 numbers that adjust the position of the graphic. The first number is the `x` position, the second is the `y` position. Only used in when the Combo Popup mode is set to world. *(Optional)* If not defined it will be set the default skin values.
+- `antialiasing`: Whether the graphic uses antialiasing or not. *(Optional)* If not defined it will be set to `true`.
+- `scale`: The scale that the graphic will be displayed at. *(Optional)* If not defined it will be set to `1`.
+- `hudScaleMutltiplier`: An additional multiplier that will be applied to the scale when the Combo Popup mode is set to HUD. *(Optional)* If not defined it will be set to `1`.
 
 ## Countdown Skin
 
