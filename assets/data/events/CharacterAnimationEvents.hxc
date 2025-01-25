@@ -133,11 +133,11 @@ class CharacterAnimationEvents extends Events
                     newCharacter.applyShader(boyfriend.getShader());
                 }
 
-                playstate.characterLayer.replace(playstate.newCharacter, newCharacter);
-                playstate.newCharacter = newCharacter;
+                playstate.characterLayer.replace(playstate.boyfriend, newCharacter);
+                playstate.boyfriend = newCharacter;
 
-                if(newCharacter.characterInfo.info.functions.add != null){
-                    newCharacter.characterInfo.info.functions.add(newCharacter);
+                if(boyfriend.characterInfo.info.functions.add != null){
+                    boyfriend.characterInfo.info.functions.add(boyfriend);
                 }
 
             case "dad":
@@ -158,8 +158,8 @@ class CharacterAnimationEvents extends Events
                 playstate.characterLayer.replace(playstate.dad, newCharacter);
                 playstate.dad = newCharacter;
 
-                if(newCharacter.characterInfo.info.functions.add != null){
-                    newCharacter.characterInfo.info.functions.add(newCharacter);
+                if(dad.characterInfo.info.functions.add != null){
+                    dad.characterInfo.info.functions.add(dad);
                 }
 
             case "gf":
@@ -179,8 +179,8 @@ class CharacterAnimationEvents extends Events
                 playstate.gfLayer.replace(playstate.gf, newCharacter);
                 playstate.gf = newCharacter;
 
-                if(newCharacter.characterInfo.info.functions.add != null){
-                    newCharacter.characterInfo.info.functions.add(newCharacter);
+                if(gf.characterInfo.info.functions.add != null){
+                    gf.characterInfo.info.functions.add(gf);
                 }
         }
 
@@ -191,8 +191,7 @@ class CharacterAnimationEvents extends Events
     var cachedCharacters:Array<String> = [];
     function changeCharacterPreprocess(tag:String):Void{
         var args = Events.getArgs(tag, ["bf", "Bf", "true"]);
-        if (!cachedCharacters.contains(args[1]))
-        {
+        if (!cachedCharacters.contains(args[1])){
             var cache = new Character(0, 0, args[1]);
             cachedCharacters.push(args[1]);
         }
