@@ -1,17 +1,17 @@
 package;
 
+import extensions.openfl.display.FPSExt;
 import modding.PolymodHandler;
 import flixel.system.scaleModes.RatioScaleMode;
 import flixel.FlxG;
 import flixel.FlxGame;
-import openfl.display.FPS;
 import openfl.display.Sprite;
 import debug.*;
 
 class Main extends Sprite
 {
 
-	public static var fpsDisplay:FPS;
+	public static var fpsDisplay:FPSExt;
 
 	public static var novid:Bool = false;
 	public static var flippymode:Bool = false;
@@ -29,7 +29,7 @@ class Main extends Sprite
 
 		SaveManager.global();
 
-		fpsDisplay = new FPS(10, 3, 0xFFFFFF);
+		fpsDisplay = new FPSExt(3, 3, 0xFFFFFF);
 		fpsDisplay.visible = true;
 
 		addChild(new FlxGame(0, 0, Startup, 60, 60, true));

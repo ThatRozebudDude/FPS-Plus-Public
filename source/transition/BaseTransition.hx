@@ -42,15 +42,14 @@ class BaseTransition extends FlxSpriteGroup{
         
         if(state != null){ //State exit animation.
             //FlxG.signals.postStateSwitch.addOnce(Utils.gc);
-            if (!MusicBeatState.keepCache){
-                FlxG.signals.preStateCreate.addOnce(function(state){
+            FlxG.signals.preStateCreate.addOnce(function(state){
+                if(!ImageCache.keepCache){
                     ImageCache.clear();
                     AudioCache.clear();
-                    Utils.gc();
-                });
-            }
-
-            MusicBeatState.keepCache = false; // Make sure to set this to false to avoid clutter
+                    ImageCache.keepCache = false; // Make sure to set this to false to avoid clutter
+                }
+                Utils.gc();
+            });
 
             FlxG.switchState(state);
         }

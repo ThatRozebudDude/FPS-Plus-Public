@@ -279,7 +279,7 @@ class FreeplayState extends MusicBeatState
 						exitAnimation();
 						customTransOut = new InstantTransition();
 						MainMenuState.fromFreeplay = true;
-						MusicBeatState.keepCache = true;
+						ImageCache.keepCache = true;
 						new FlxTimer().start(transitionTimeExit + (staggerTimeExit*4), function(t) {
 							switchState(new MainMenuState());
 						});

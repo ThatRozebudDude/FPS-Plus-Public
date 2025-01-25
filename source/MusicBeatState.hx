@@ -5,8 +5,6 @@ import extensions.flixel.FlxUIStateExt;
 
 class MusicBeatState extends FlxUIStateExt
 {
-	public static var keepCache:Bool = false;
-	
 	private var lastBeat:Float = 0;
 	private var lastStep:Float = 0;
 
