@@ -765,7 +765,7 @@ class ConfigMenu extends FlxUIStateExt
             showFPS.setting = ": " + genericOnOff[showFPSValue?0:1];
         }
 
-        var useGPU = new ConfigOption("GPU GRAPHIC", ": " + genericOnOff[useGPUValue?0:1], "Use the GPU for all image loading. (if possible)");
+        var useGPU = new ConfigOption("GPU LOADING", ": " + genericOnOff[useGPUValue?0:1], "Load graphics on the GPU if possible. Reduces memory usage but might not work well on lower end machines.");
         useGPU.optionUpdate = function(){
             if (pressRight || pressLeft || pressAccept) {
                 FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -1077,7 +1077,7 @@ class ConfigMenu extends FlxUIStateExt
 
 
         configOptions = [
-                            [fpsCap, noteSplash, noteGlow, extraCamStuff, camBopStuff, captionsStuff, bgDim, showFPS, useGPU],
+                            [fpsCap, noteSplash, noteGlow, extraCamStuff, camBopStuff, captionsStuff, bgDim, useGPU, showFPS],
                             [noteOffset, downscroll, centeredNotes, ghostTap, keyBinds],
                             [showMissesSetting, showAccuracyDisplay, comboDisplay, autoPauseSettings, variationsSettings, scrollSpeed, hpGain, hpDrain, cacheSettings]
                         ];

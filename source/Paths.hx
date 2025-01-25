@@ -30,17 +30,14 @@ class Paths
             return ImageCache.get(data);
         }
         else if(!forceLoadFromDisk){
-            if(ImageCache.localCache.exists(data))
-            {
+            if(ImageCache.localCache.exists(data)){
                 return ImageCache.localCache.get(data);
             }
-            else
-            {
+            else{
                 return ImageCache.addLocal(data);
             }
         }
-        else
-        {
+        else{
             return data;
         }
     }

@@ -11,6 +11,8 @@ class ImageCache
 
     //GPU image caching stuff.      ==============================================================================
     
+    public static var keepCache:Bool = false;
+    
     public static var cache:Map<String, FlxGraphic> = new Map<String, FlxGraphic>();
 
     public static function add(path:String):Void{

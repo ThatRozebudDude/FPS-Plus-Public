@@ -1,5 +1,6 @@
 package debug;
 
+import caching.*;
 import stages.ScriptableStage;
 import note.NoteType;
 import characters.CharacterInfoBase;
@@ -1253,7 +1254,7 @@ class ChartingState extends MusicBeatState
 					
 				PlayState.loadEvents = false;
 		
-				MusicBeatState.keepCache = true;
+				ImageCache.keepCache = true;
 				switchState(new PlayState());
 			}
 		
