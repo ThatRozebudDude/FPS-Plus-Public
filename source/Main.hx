@@ -4,9 +4,9 @@ import modding.PolymodHandler;
 import flixel.system.scaleModes.RatioScaleMode;
 import flixel.FlxG;
 import flixel.FlxGame;
-import openfl.display.FPS;
 import openfl.display.Sprite;
 import debug.*;
+import openfl.display.FPS;
 
 class Main extends Sprite
 {

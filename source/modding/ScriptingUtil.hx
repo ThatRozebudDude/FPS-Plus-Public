@@ -1,6 +1,6 @@
 package modding;
 
-import openfl.display.BlendMode;
+import openfl.display.BlendMode as BaseBlendMode;
 import flixel.text.FlxText.FlxTextBorderStyle;
 import flixel.input.keyboard.FlxKey;
 import Highscore.Rank;
@@ -60,23 +60,23 @@ class ScriptingUtil
     }
 }
 
-class PolyBlendMode
+class BlendMode
 {
-    public static var ADD = BlendMode.ADD;
-    public static var ALPHA = BlendMode.ALPHA;
-    public static var DARKEN = BlendMode.DARKEN;
-    public static var DIFFERENCE = BlendMode.DIFFERENCE;
-    public static var ERASE = BlendMode.ERASE;
-    public static var HARDLIGHT = BlendMode.HARDLIGHT;
-    public static var INVERT = BlendMode.INVERT;
-    public static var LAYER = BlendMode.LAYER;
-    public static var LIGHTEN = BlendMode.LIGHTEN;
-    public static var MULTIPLY = BlendMode.MULTIPLY;
-    public static var NORMAL = BlendMode.NORMAL;
-    public static var OVERLAY = BlendMode.OVERLAY;
-    public static var SCREEN = BlendMode.SCREEN;
-    public static var SHADER = BlendMode.SHADER;
-    public static var SUBTRACT = BlendMode.SUBTRACT;
+    public static var ADD = BaseBlendMode.ADD;
+    public static var ALPHA = BaseBlendMode.ALPHA;
+    public static var DARKEN = BaseBlendMode.DARKEN;
+    public static var DIFFERENCE = BaseBlendMode.DIFFERENCE;
+    public static var ERASE = BaseBlendMode.ERASE;
+    public static var HARDLIGHT = BaseBlendMode.HARDLIGHT;
+    public static var INVERT = BaseBlendMode.INVERT;
+    public static var LAYER = BaseBlendMode.LAYER;
+    public static var LIGHTEN = BaseBlendMode.LIGHTEN;
+    public static var MULTIPLY = BaseBlendMode.MULTIPLY;
+    public static var NORMAL = BaseBlendMode.NORMAL;
+    public static var OVERLAY = BaseBlendMode.OVERLAY;
+    public static var SCREEN = BaseBlendMode.SCREEN;
+    public static var SHADER = BaseBlendMode.SHADER;
+    public static var SUBTRACT = BaseBlendMode.SUBTRACT;
 }
 
 class FlxTextBorderStyle
