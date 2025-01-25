@@ -61,7 +61,6 @@ class ImageCache
         var data:FlxGraphic = FlxGraphic.fromBitmapData(bitmap, false, path, false);
         data.persist = true; // Disabled because it messes up the map
 
-        trace("cache added: " + path);
         localCache.set(path, data);
         return data;
     }
@@ -79,7 +78,6 @@ class ImageCache
 
         //cleanup local cached assets
         for(key in localCache.keys()){
-            trace("cleaning " + key);
             removeGraphic(localCache.get(key));
 		}
 
