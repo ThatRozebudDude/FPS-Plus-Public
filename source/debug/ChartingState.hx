@@ -1253,6 +1253,7 @@ class ChartingState extends MusicBeatState
 					
 				PlayState.loadEvents = false;
 		
+				MusicBeatState.keepCache = true;
 				switchState(new PlayState());
 			}
 		

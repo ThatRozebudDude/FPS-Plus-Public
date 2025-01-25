@@ -32,6 +32,7 @@ class PolymodHandler
     public static function reload(?restartState:Bool = true):Void{
         reloadScripts();
         //scriptableClassCheck();
+        MusicBeatState.keepCache = true;
         if(restartState){ FlxG.resetState(); }
     }
 
