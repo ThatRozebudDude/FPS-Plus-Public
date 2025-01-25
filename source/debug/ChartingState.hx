@@ -475,7 +475,6 @@ class ChartingState extends MusicBeatState
 
 		diffDrop = new FlxUIDropDownMenu(10, 160, FlxUIDropDownMenu.makeStrIdLabelArray(diffNameList, true), function(diff:String)
 		{
-			trace(diff);
 			diffDropFinal = diffList[Std.parseInt(diff)];
 			PlayState.storyDifficulty = Std.parseInt(diff);
 			
@@ -964,10 +963,6 @@ class ChartingState extends MusicBeatState
 
 		if (curStep >= 16 * (curSection + 1) && FlxG.sound.music.playing)
 		{
-			trace(curStep);
-			trace((_song.notes[curSection].lengthInSteps) * (curSection + 1));
-			trace('DUMBSHIT');
-
 			if (_song.notes[curSection + 1] == null)
 			{
 				addSection();
@@ -1135,9 +1130,6 @@ class ChartingState extends MusicBeatState
 		
 				if (FlxG.mouse.overlaps(curRenderedNotes))
 				{
-		
-					trace("Overlapping Notes");
-		
 					curRenderedNotes.forEach(function(note:Note)
 					{
 						if (FlxG.mouse.overlaps(note))
@@ -1148,9 +1140,6 @@ class ChartingState extends MusicBeatState
 				}
 				else if (FlxG.mouse.overlaps(curRenderedEvents))
 				{
-		
-					trace("Overlapping Events");
-		
 					curRenderedEvents.forEach(function(event:EventSprite)
 					{
 						if (FlxG.mouse.overlaps(event))
@@ -1166,9 +1155,6 @@ class ChartingState extends MusicBeatState
 		
 				if (FlxG.mouse.overlaps(curRenderedNotes))
 				{
-		
-					trace("Overlapping Notes");
-		
 					var selected:Bool = false;
 		
 					curRenderedNotes.forEach(function(note:Note)
@@ -1183,9 +1169,6 @@ class ChartingState extends MusicBeatState
 				}
 				else if (FlxG.mouse.overlaps(curRenderedEvents))
 				{
-		
-					trace("Overlapping Events");
-		
 					curRenderedEvents.forEach(function(event:EventSprite)
 					{
 						if (FlxG.mouse.overlaps(event))
@@ -1395,7 +1378,6 @@ class ChartingState extends MusicBeatState
 					PlayState.returnLocation = "freeplay";
 					PlayState.storyWeek = 0;
 					PlayState.overrideInsturmental = "";
-					trace('CUR WEEK' + PlayState.storyWeek);
 					switchState(new PlayState());
 	
 					//lilBf.animation.play("yeah");
@@ -1521,8 +1503,6 @@ class ChartingState extends MusicBeatState
 	{
 		justChanged = true;
 
-		trace('changing section' + sec);
-
 		if (_song.notes[sec] != null)
 		{
 			curSection = sec;
@@ -1579,9 +1559,6 @@ class ChartingState extends MusicBeatState
 			removeDuplicates(curSection);
 	
 			updateGrid();
-		}
-		else{
-			trace("Section does not exist.");
 		}
 		
 	}
@@ -1944,11 +1921,6 @@ class ChartingState extends MusicBeatState
 
 		removeDuplicates(curSection, curSelectedNote);
 
-		trace(noteStrum);
-		trace(curSection);
-		trace("adding \"" + noteType.text + "\" note");
-		trace(_song.notes[curSection].sectionNotes);
-
 		_song.notes[curSection].sectionNotes.sort(sortByNoteStuff);
 
 		updateGrid();
@@ -1972,11 +1944,6 @@ class ChartingState extends MusicBeatState
 	}
 
 	private var daSpacing:Float = 0.3;
-
-	function loadLevel():Void
-	{
-		trace(_song.notes);
-	}
 
 	function getNotes():Array<Dynamic>
 	{
