@@ -1,5 +1,6 @@
 package transition.data;
 
+import openfl.Assets;
 import flixel.util.FlxTimer;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -68,6 +69,11 @@ class StickerIn extends BaseTransition{
             });
         }
         
+    }
+
+    override public function end() {
+        for(i in 1...9){ Assets.cache.removeSound(Paths.sound("stickers/keyClick" + i)); }
+        super.end();
     }
 
 }

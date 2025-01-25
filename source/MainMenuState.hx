@@ -21,6 +21,7 @@ import flixel.util.FlxColor;
 import lime.utils.Assets;
 import flixel.text.FlxText;
 import extensions.flixel.FlxTextExt;
+import caching.*;
 
 using StringTools;
 
@@ -53,10 +54,7 @@ class MainMenuState extends MusicBeatState
 
 	public static var buildDate:String = "";
 
-	override function create()
-	{
-
-		ImageCache.clear();
+	override function create(){
 
 		Config.setFramerate(144);
 
@@ -212,10 +210,6 @@ class MainMenuState extends MusicBeatState
 					var daChoice:String = optionShit[curSelected];
 					
 					switch (daChoice){
-						case 'freeplay':
-							if(CacheConfig.music){
-								FlxG.sound.music.stop();
-							}
 						case 'options':
 							if(!ConfigMenu.USE_MENU_MUSIC){
 								FlxG.sound.music.stop();

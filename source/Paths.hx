@@ -6,6 +6,7 @@ import sys.FileSystem;
 
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.FlxGraphic;
+import caching.*;
 
 using StringTools;
 
@@ -49,7 +50,11 @@ class Paths
     }
 
     inline static public function sound(key:String){
-        return file(key, "sounds", audioExtension);
+        var data:String = file(key, "sounds", audioExtension);
+        if(!AudioCache.trackedSounds.contains(data)){
+            AudioCache.trackedSounds.push(data);
+        }
+        return data;
     }
 
     inline static public function music(key:String){

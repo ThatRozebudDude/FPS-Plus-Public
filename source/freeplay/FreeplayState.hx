@@ -32,9 +32,11 @@ import flixel.util.FlxColor;
 import lime.utils.Assets;
 import flixel.text.FlxText;
 import extensions.flixel.FlxTextExt;
+import caching.*;
 
 using StringTools;
 
+@clearImageCache(false)
 class FreeplayState extends MusicBeatState
 {
 
@@ -136,7 +138,6 @@ class FreeplayState extends MusicBeatState
 
 	override function create(){
 
-		ImageCache.clear();
 		Config.setFramerate(144);
 
 		persistentUpdate = persistentDraw = true;

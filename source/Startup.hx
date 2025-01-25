@@ -1,5 +1,6 @@
 package;
 
+import extensions.flixel.system.frontEnds.SoundFrontEndExt;
 import note.NoteType;
 import events.Events;
 import sys.FileSystem;
@@ -21,6 +22,7 @@ import openfl.system.System;
 //import openfl.utils.Future;
 //import flixel.addons.util.FlxAsyncLoop;
 import extensions.flixel.FlxStateExt;
+import caching.*;
 
 using StringTools;
 
@@ -48,8 +50,7 @@ class Startup extends FlxState
                                 "Senpai", "Roses", "Thorns",
                                 "Ugh", "Guns", "Stress",
                                 "Darnell", "Lit-Up", "2hot", "Blazin",
-                                "Lil-Buddies",
-                                "klaskiiLoop", "freeplayRandom", "stayFunky"]; //Start of the non-gameplay songs.
+                                "Lil-Buddies"];
                                 
     //List of character graphics and some other stuff.
     //Just in case it want to do something with it later.
@@ -97,6 +98,12 @@ class Startup extends FlxState
         //results.ResultsState.enableDebugControls = true;
 
         SaveManager.global();
+
+        #if FLX_SOUND_SYSTEM
+        @:privateAccess{
+            FlxG.sound = new SoundFrontEndExt();
+        }
+        #end
 
         FlxG.mouse.visible = false;
         FlxG.sound.muteKeys = null;
@@ -205,14 +212,12 @@ class Startup extends FlxState
             cacheStart = true;
         }
         if(splash.animation.curAnim.finished && splash.animation.curAnim.name == "end"){
-            System.gc();
+            Utils.gc();
             ImageCache.trackedAssets = [];
             FlxG.switchState(nextState);  
         }
 
         if(songsCached && charactersCached && graphicsCached && splash.animation.curAnim.finished && !(splash.animation.curAnim.name == "end")){
-            
-            //System.gc();
             splash.animation.play("end");
             splash.updateHitbox();
             splash.screenCenter();

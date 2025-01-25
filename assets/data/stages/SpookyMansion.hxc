@@ -40,8 +40,6 @@ class SpookyMansion extends BaseStage
 
         name = "spooky";
 
-		trace("hi");
-
 		wall = Utils.makeColoredSprite(1280*2, 720*2, 0xFFFFFFFF);
 		wall.screenCenter(ScriptingUtil.axisXY);
 		wall.scrollFactor.set();
