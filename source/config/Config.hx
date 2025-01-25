@@ -20,6 +20,7 @@ class Config
 	public static var scrollSpeedOverride:Float;
 	public static var showComboBreaks:Bool;
 	public static var showFPS:Bool;
+	public static var useGPU:Bool;
 	public static var extraCamMovement:Bool;
 	public static var camBopAmount:Int;
 	public static var showCaptions:Bool;
@@ -49,6 +50,7 @@ class Config
 		FlxG.save.data.scrollSpeedOverride = -1;
 		FlxG.save.data.showComboBreaks = false;
 		FlxG.save.data.showFPS = false;
+		FlxG.save.data.useGPU = true;
 		FlxG.save.data.extraCamMovement = true;
 		FlxG.save.data.camBopAmount = 0;
 		FlxG.save.data.showCaptions = true;
@@ -80,6 +82,7 @@ class Config
 		scrollSpeedOverride = FlxG.save.data.scrollSpeedOverride;
 		showComboBreaks = FlxG.save.data.showComboBreaks;
 		showFPS = FlxG.save.data.showFPS;
+		useGPU = FlxG.save.data.useGPU;
 		extraCamMovement = FlxG.save.data.extraCamMovement;
 		camBopAmount = FlxG.save.data.camBopAmount;
 		showCaptions = FlxG.save.data.showCaptions;
@@ -107,6 +110,7 @@ class Config
 								scrollSpeedOverrideW:Float,
 								showComboBreaksW:Bool,
 								showFPSW:Bool,
+								useGPUW:Bool,
 								extraCamMovementW:Bool,
 								camBopAmountW:Int,
 								showCaptionsW:Bool,
@@ -133,6 +137,7 @@ class Config
 		FlxG.save.data.scrollSpeedOverride = scrollSpeedOverrideW;
 		FlxG.save.data.showComboBreaks = showComboBreaksW;
 		FlxG.save.data.showFPS = showFPSW;
+		FlxG.save.data.useGPU = useGPUW;
 		FlxG.save.data.extraCamMovement = extraCamMovementW;
 		FlxG.save.data.camBopAmount = camBopAmountW;
 		FlxG.save.data.showCaptions = showCaptionsW;
@@ -180,6 +185,8 @@ class Config
 			FlxG.save.data.showComboBreaks = false;
 		if(FlxG.save.data.showFPS == null)
 			FlxG.save.data.showFPS = false;
+		if(FlxG.save.data.useGPU == null)
+			FlxG.save.data.useGPU = true;
 		if(FlxG.save.data.extraCamMovement == null)
 			FlxG.save.data.extraCamMovement = true;
 		if(FlxG.save.data.camBopAmount == null)

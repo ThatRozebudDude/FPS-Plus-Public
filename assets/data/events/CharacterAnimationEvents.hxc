@@ -192,9 +192,14 @@ class CharacterAnimationEvents extends Events
         }
     }
 
+    var cachedCharacters:Array<String> = [];
     function changeCharacterPreprocess(tag:String):Void{
         var args = Events.getArgs(tag, ["bf", "Bf", "true"]);
-        var cache = new Character(0, 0, args[1]);
+        if (!cachedCharacters.contains(args[1]))
+        {
+            var cache = new Character(0, 0, args[1]);
+            cachedCharacters.push(args[1]);
+        }
     }
 
     function swapCharacters(tag:String):Void{

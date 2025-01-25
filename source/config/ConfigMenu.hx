@@ -88,6 +88,7 @@ class ConfigMenu extends FlxUIStateExt
     var scrollSpeedValue:Int;
     var showComboBreaksValue:Bool;
     var showFPSValue:Bool;
+    var useGPUValue:Bool;
     var extraCamMovementValue:Bool;
     var camBopAmountValue:Int;
     final camBopAmountTypes:Array<String> = ["on", "reduced", "off"];
@@ -480,6 +481,7 @@ class ConfigMenu extends FlxUIStateExt
 		scrollSpeedValue = Std.int(Config.scrollSpeedOverride * 10);
 		showComboBreaksValue = Config.showComboBreaks;
 		showFPSValue = Config.showFPS;
+        useGPUValue = Config.useGPU;
 		extraCamMovementValue = Config.extraCamMovement;
 		camBopAmountValue = Config.camBopAmount;
 		showCaptionsValue = Config.showCaptions;
@@ -763,6 +765,14 @@ class ConfigMenu extends FlxUIStateExt
             showFPS.setting = ": " + genericOnOff[showFPSValue?0:1];
         }
 
+        var useGPU = new ConfigOption("GPU GRAPHIC", ": " + genericOnOff[useGPUValue?0:1], "Use the GPU for all image loading. (if possible)");
+        useGPU.optionUpdate = function(){
+            if (pressRight || pressLeft || pressAccept) {
+                FlxG.sound.play(Paths.sound('scrollMenu'));
+                useGPUValue = !useGPUValue;
+            }
+            useGPU.setting = ": " + genericOnOff[useGPUValue?0:1];
+        }
 
 
         //MISC
@@ -1067,7 +1077,7 @@ class ConfigMenu extends FlxUIStateExt
 
 
         configOptions = [
-                            [fpsCap, noteSplash, noteGlow, extraCamStuff, camBopStuff, captionsStuff, bgDim, showFPS],
+                            [fpsCap, noteSplash, noteGlow, extraCamStuff, camBopStuff, captionsStuff, bgDim, showFPS, useGPU],
                             [noteOffset, downscroll, centeredNotes, ghostTap, keyBinds],
                             [showMissesSetting, showAccuracyDisplay, comboDisplay, autoPauseSettings, variationsSettings, scrollSpeed, hpGain, hpDrain, cacheSettings]
                         ];
@@ -1075,7 +1085,7 @@ class ConfigMenu extends FlxUIStateExt
     }
 
     function writeToConfig(){
-		Config.write(offsetValue, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, allowedFramerates[framerateValue], dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue, showAccuracyValue, showMissesValue, enableVariationsValue, autoPauseValue);
+		Config.write(offsetValue, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, allowedFramerates[framerateValue], dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, useGPUValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue, showAccuracyValue, showMissesValue, enableVariationsValue, autoPauseValue);
 	}
 
     function resyncLayers():Void {
