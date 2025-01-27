@@ -1274,12 +1274,12 @@ class PlayState extends MusicBeatState
 			if(!Config.downscroll){
 				comboUI.ratingInfo.position.set(844, 580);
 				comboUI.numberInfo.position.set(340, 505);
-				comboUI.comboBreakInfo.position.set(844, 580);
+				comboUI.comboBreakInfo.position.set(400, 535);
 			}
 			else{
 				comboUI.ratingInfo.position.set(844, 150);
 				comboUI.numberInfo.position.set(340, 125);
-				comboUI.comboBreakInfo.position.set(844, 150);
+				comboUI.comboBreakInfo.position.set(400, 165);
 			}
 
 			comboUI.ratingInfo.scale *= comboPopupSkin.info.ratingsHudScaleMultiply;

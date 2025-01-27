@@ -49,7 +49,7 @@ class FPSExt extends TextField
 
 		final now:Float = haxe.Timer.stamp() * 1000;
 		times.push(now);
-		while (times[0] < now - 1000) times.shift();
+		while (times[0] < now - 1000){ times.shift(); }
 
 		deltaTimeout += deltaTime;
         if (deltaTimeout >= 16) {
