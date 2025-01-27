@@ -1495,6 +1495,10 @@ class PlayState extends MusicBeatState
 
 		if(FlxG.keys.anyJustPressed([O])){
 			trace(getOpponentFocusPosition());
+		}
+
+		if(FlxG.keys.anyJustPressed([I])){
+			trace(getGfFocusPosition());
 		}*/
 
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconP1.xOffset);
@@ -2647,7 +2651,12 @@ class PlayState extends MusicBeatState
 	}
 
 	public inline function getGfFocusPosition():FlxPoint{
-		return new FlxPoint(gf.getMidpoint().x + gf.focusOffset.x + stage.gfCameraOffset.x, gf.getMidpoint().y + gf.focusOffset.y + stage.gfCameraOffset.y);
+		if(!stage.useStaticStageCameras){
+			return new FlxPoint(gf.getMidpoint().x + gf.focusOffset.x + stage.gfCameraOffset.x, gf.getMidpoint().y + gf.focusOffset.y + stage.gfCameraOffset.y);
+		}
+		else{
+			return new FlxPoint(stage.staticGfCamera.x + stage.gfCameraOffset.x, stage.staticGfCamera.y + stage.gfCameraOffset.y);
+		}
 	}
 
 	public function camMove(_x:Float, _y:Float, _time:Float, ?_ease:Null<flixel.tweens.EaseFunction>, ?_focus:String = "", ?_onComplete:Null<TweenCallback> = null):Void{

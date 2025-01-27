@@ -52,6 +52,7 @@ class BaseStage
     public var useStaticStageCameras:Bool = false;
     public var staticBfCamera:FlxPoint = new FlxPoint(886.5, 560.5);
     public var staticDadCamera:FlxPoint = new FlxPoint(485, 367.5);
+    public var staticGfCamera:FlxPoint = new FlxPoint(751.5, 458.5);
 
     public function new(){}
 

@@ -43,10 +43,16 @@ Besides `startingZoom`, there are other stage properties that you can set to adj
 - `cameraMovementEnabled`: A boolean that deternines whether the camera moves on its own.
 - `extraCameraMovementAmount`: The distance the camera will move when hitting a note with the Dynamic Camera setting turned on. This does not scale with the stage zoom so you may want to adjust this to have the camera move more with zoomed out stages.
 - `cameraStartPosition`: The point that the camera will focus on before the song starts. By default the camera will be placed half way between the player and opponent characters.
-- `globalCameraOffset`: A global offset applied to the position of the camera no matter what it is focusing on.
-- `bfCameraOffset`: An offset applied to the camera when it is focused on the player.
-- `dadCameraOffset`: An offset applied to the camera when it is focused on the opponent.
-- `gfCameraOffset`: An offset applied to the camera when it is focused on the GF character. 
+#
+- `globalCameraOffset`: An FlxPoint offset applied to the position of the camera no matter what it is focusing on.
+- `bfCameraOffset`: An FlxPoint offset applied to the camera when it is focused on the player.
+- `dadCameraOffset`: An FlxPoint offset applied to the camera when it is focused on the opponent.
+- `gfCameraOffset`: An FlxPoint offset applied to the camera when it is focused on GF.
+#
+- `useStaticStageCameras`: A boolean that deternines whether the camera focus position is based on the character or a preset position defined by the stage.
+- `staticBfCamera`: An FlxPoint the holds the position the camera will focus on when focusing on the player and `useStaticStageCameras` is `true`.
+- `staticDadCamera`: An FlxPoint the holds the position the camera will focus on when focusing on the opponent and `useStaticStageCameras` is `true`.
+- `staticGfCamera`: An FlxPoint the holds the position the camera will focus on when focusing on GF and `useStaticStageCameras` is `true`.
 
 ## Other Stage Properties
 
@@ -57,6 +63,8 @@ There are a few other miscellaneous stage properties that can be set:
 You can also set extra data with `addExtraData(key, data)` that isn't a part of normal stage properties:
 
 - `forceCenteredNotes`: A boolean that forces the stage to used a centered strumline. Used in Blazin'.
+
+If you want to extend the extra data properties you can create a script to read the stage's extra data and react accordingly based on the extra data key.
 
 ## Advanced Stage Scripting
 
