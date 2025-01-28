@@ -138,6 +138,15 @@ class DigitDisplay extends FlxSpriteGroup
         }
     }
 
+    inline public function getDigitWidth():Float{
+        if(digits.length == 0){ return 0; }
+        return digits[0].width;
+    }
+
+    inline public function getAdjustedSpacing():Float{
+        return spacing * digitScale;
+    }
+
     function set_digitColor(value:FlxColor):FlxColor {
         digitColor = value;
         for(digit in digits){ digit.color = value; }

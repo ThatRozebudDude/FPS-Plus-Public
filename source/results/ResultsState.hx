@@ -247,6 +247,7 @@ class ResultsState extends FlxUIStateExt
         totalNoteCounter = new DigitDisplay(374, 152, "menu/results/tallieNumber", -1, 1, 10);
         totalNoteCounter.ease = FlxEase.quartOut;
         totalNoteCounter.visible = false;
+        if(totalNotes > 999){ totalNoteCounter.x -= (totalNoteCounter.getDigitWidth() + totalNoteCounter.getAdjustedSpacing()); }
         new FlxTimer().start((0.3 * 0) + 1.2, function(t){
             totalNoteCounter.visible = true;
             totalNoteCounter.tweenNumber(totalNotes, 0.5);
@@ -256,6 +257,7 @@ class ResultsState extends FlxUIStateExt
         maxComboCounter = new DigitDisplay(374, 202, "menu/results/tallieNumber", -1, 1, 10);
         maxComboCounter.ease = FlxEase.quartOut;
         maxComboCounter.visible = false;
+        if(scoreStats.highestCombo > 999){ maxComboCounter.x -= (maxComboCounter.getDigitWidth() + maxComboCounter.getAdjustedSpacing()); }
         new FlxTimer().start((0.3 * 1) + 1.2, function(t){
             maxComboCounter.visible = true;
             maxComboCounter.tweenNumber(scoreStats.highestCombo, 0.5);
