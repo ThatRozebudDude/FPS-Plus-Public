@@ -1,5 +1,7 @@
 package modding;
 
+import transition.CustomTransition;
+import transition.data.InstantTransition;
 import caching.*;
 import openfl.Assets;
 import haxe.Json;
@@ -33,7 +35,9 @@ class PolymodHandler
     public static function reload(?restartState:Bool = true):Void{
         reloadScripts();
         //scriptableClassCheck();
-        if(restartState){ FlxG.resetState(); }
+        if(restartState){ //Using CustomTransition since the transition is what handles the cache stuff. This is what FlxUIStateExt uses in it's switchState function.
+            CustomTransition.transition(new InstantTransition(), Type.createInstance(Type.getClass(FlxG.state), []));
+        }
     }
 
     public static function reInit():Void{
