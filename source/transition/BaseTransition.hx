@@ -46,8 +46,8 @@ class BaseTransition extends FlxSpriteGroup{
                 if(!ImageCache.keepCache){
                     ImageCache.clear();
                     AudioCache.clear();
-                    ImageCache.keepCache = false; // Make sure to set this to false to avoid clutter
                 }
+                ImageCache.keepCache = false; // Make sure to set this to false to avoid clutter
                 Utils.gc();
             });
 

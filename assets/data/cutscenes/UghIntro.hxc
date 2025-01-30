@@ -37,7 +37,7 @@ class UghIntro extends ScriptedCutscene
         tankman.playAnim("ugh1", true);
         dad.visible = false;
         FlxG.sound.play(Paths.sound("week7/wellWellWell"));
-        bgm = FlxG.sound.play(Paths.music("week7/distorto")).fadeIn(5, 0, 0.2);
+        bgm = FlxG.sound.play(Paths.music("week7/distorto"), 0).fadeIn(5, 0, 0.2);
         playstate.camFocusOpponent();
         playstate.camChangeZoom(originalZoom * 1.2, 0);
         playstate.camHUD.visible = false;

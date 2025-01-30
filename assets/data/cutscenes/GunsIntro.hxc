@@ -35,7 +35,7 @@ class GunsIntro extends ScriptedCutscene
         tankman.playAnim("guns", true);
         dad.visible = false;
         FlxG.sound.play(Paths.sound("week7/tankSong2"));
-        bgm = FlxG.sound.play(Paths.music("week7/distorto")).fadeIn(5, 0, 0.2);
+        bgm = FlxG.sound.play(Paths.music("week7/distorto"), 0).fadeIn(5, 0, 0.2);
         playstate.camFocusOpponent();
         playstate.camChangeZoom(originalZoom * 1.3, 4, FlxEase.quadInOut);
         playstate.camHUD.visible = false;
