@@ -18,21 +18,23 @@ class Conductor
 	public static var lastSongPos:Float;
 	public static var offset:Float = 0;
 
-	//public static var safeFrames:Float = 8;
+	//Reference variables
+	static inline final defaultSafeZoneOffset:Float = 160;
+	static inline final defaultShitZone:Float = 135;
+	static inline final defaultBadZone:Float = 90;
+	static inline final defaultGoodZone:Float = 45;
 
-	public static var safeZoneOffset:Float = 160; // is calculated in create(), is safeFrames in milliseconds
-
-	public static var goodZone:Float = 45;
-	public static var badZone:Float = 90;
+	//Actual timing variables
+	public static var safeZoneOffset:Float = 160;
 	public static var shitZone:Float = 135;
+	public static var badZone:Float = 90;
+	public static var goodZone:Float = 45;
 
 	public static var bpmChangeMap:Array<BPMChangeEvent> = [];
 
-	public function new(){
-	}
+	public function new(){}
 
-	public static function mapBPMChanges(song:SwagSong)
-	{
+	public static function mapBPMChanges(song:SwagSong){
 		bpmChangeMap = [];
 
 		var curBPM:Float = song.bpm;
@@ -58,12 +60,22 @@ class Conductor
 		trace("new BPM map BUDDY " + bpmChangeMap);
 	}
 
-	public static function changeBPM(newBpm:Float)
-	{
+	public static function changeBPM(newBpm:Float){
 		bpm = newBpm;
-
 		crochet = ((60 / bpm) * 1000);
 		stepCrochet = crochet / 4;
+	}
+
+	/**
+	 * Returns the time in seconds that a beat will last for at the specified BPM.
+	 *
+	 * @param `_factor`	The multiplier to apply to the hit zone timings.
+	 */
+	public static function recalculateHitZones(_factor:Float):Void{
+		safeZoneOffset = defaultSafeZoneOffset * _factor;
+		shitZone = defaultShitZone * _factor;
+		badZone = defaultBadZone * _factor;
+		goodZone = defaultGoodZone * _factor;
 	}
 
 	/**

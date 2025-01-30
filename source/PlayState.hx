@@ -132,6 +132,7 @@ class PlayState extends MusicBeatState
 	public var vocalsOther:FlxSound;
 	public var vocalType:VocalType = combinedVocalTrack;
 	public var canChangeVocalVolume:Bool = true;
+	public var songPlaybackSpeed(default, set):Float = 1;
 
 	public var dad:Character;
 	public var gf:Character;
@@ -399,6 +400,7 @@ class PlayState extends MusicBeatState
 
 		Conductor.changeBPM(SONG.bpm);
 		Conductor.mapBPMChanges(SONG);
+		Conductor.recalculateHitZones(songPlaybackSpeed);
 
 		gfCheck = "Gf";
 
@@ -1546,7 +1548,10 @@ class PlayState extends MusicBeatState
 				switchState(new AnimationDebug(SONG.player2));
 			}
 		}
-			
+
+		FlxG.sound.music.pitch = songPlaybackSpeed;
+		vocals.pitch = songPlaybackSpeed;
+		if(vocalType == splitVocalTrack){ vocalsOther.pitch = songPlaybackSpeed; }
 
 		if (startingSong)
 		{
@@ -1566,7 +1571,7 @@ class PlayState extends MusicBeatState
 				previousReportedSongTime = FlxG.sound.music.time;
 			}
 			else{
-				Conductor.songPosition += FlxG.elapsed * 1000;
+				Conductor.songPosition += FlxG.elapsed * 1000 * songPlaybackSpeed;
 			}
 		}
 
@@ -2899,6 +2904,16 @@ class PlayState extends MusicBeatState
 	function preStateChange():Void{
 		stage.exit();
 		for(script in scripts){ script.exit(); }
+	}
+
+	/* 
+	* This is done because changing the playback speed causes the song time to update slower essentially
+	* causing the hit window to change with the playback speed. This mitigates that.
+	*/
+	private function set_songPlaybackSpeed(value:Float):Float{
+		songPlaybackSpeed = value;
+		Conductor.recalculateHitZones(value);
+		return value;
 	}
 
 }
