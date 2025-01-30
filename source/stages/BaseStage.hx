@@ -20,13 +20,7 @@ class BaseStage
     public var name:String;
     public var startingZoom:Float = 1;
     public var uiType:String = "Default";
-    public var cameraMovementEnabled:Bool = true;
-    public var extraCameraMovementAmount:Null<Float> = null; //Leave null for PlayState default.
-    public var cameraStartPosition:FlxPoint; //Leave null for PlayState default.
-    public var globalCameraOffset:FlxPoint = new FlxPoint();
-    public var bfCameraOffset:FlxPoint = new FlxPoint();
-    public var dadCameraOffset:FlxPoint = new FlxPoint();
-    public var gfCameraOffset:FlxPoint = new FlxPoint();
+
     public var extraData:Map<String, Dynamic> = new Map<String, Dynamic>();
     public var events:Map<String, (String)->Void> = new Map<String, (String)->Void>();
     public var instantStart:Bool = false;
@@ -46,6 +40,19 @@ class BaseStage
     public var dadStart:FlxPoint = new FlxPoint(314.5, 867);
     public var bfStart:FlxPoint = new FlxPoint(975.5, 862);
     public var gfStart:FlxPoint = new FlxPoint(751.5, 778);
+
+    public var cameraMovementEnabled:Bool = true;
+    public var extraCameraMovementAmount:Null<Float> = null; //Leave null for PlayState default.
+    public var cameraStartPosition:FlxPoint; //Leave null for PlayState default.
+    public var globalCameraOffset:FlxPoint = new FlxPoint();
+    public var bfCameraOffset:FlxPoint = new FlxPoint();
+    public var dadCameraOffset:FlxPoint = new FlxPoint();
+    public var gfCameraOffset:FlxPoint = new FlxPoint();
+
+    public var useStaticStageCameras:Bool = false;
+    public var staticBfCamera:FlxPoint = new FlxPoint(886.5, 560.5);
+    public var staticDadCamera:FlxPoint = new FlxPoint(485, 367.5);
+    public var staticGfCamera:FlxPoint = new FlxPoint(751.5, 458.5);
 
     public function new(){}
 

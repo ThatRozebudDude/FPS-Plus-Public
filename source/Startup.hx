@@ -212,8 +212,8 @@ class Startup extends FlxState
             cacheStart = true;
         }
         if(splash.animation.curAnim.finished && splash.animation.curAnim.name == "end"){
+            ImageCache.localCache.clear();
             Utils.gc();
-            ImageCache.trackedAssets = [];
             FlxG.switchState(nextState);  
         }
 

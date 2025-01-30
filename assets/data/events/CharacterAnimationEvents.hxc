@@ -133,18 +133,15 @@ class CharacterAnimationEvents extends Events
                     newCharacter.applyShader(boyfriend.getShader());
                 }
 
-                playstate.characterLayer.remove(playstate.boyfriend);
+                playstate.characterLayer.replace(playstate.boyfriend, newCharacter);
                 playstate.boyfriend = newCharacter;
-                playstate.characterLayer.add(playstate.boyfriend);
 
-                if(!boyfriend.debugMode && boyfriend.characterInfo.info.functions.add != null){
+                if(boyfriend.characterInfo.info.functions.add != null){
                     boyfriend.characterInfo.info.functions.add(boyfriend);
                 }
 
             case "dad":
                 if (dad.charClass == args[1]){ return; }
-
-                playstate.characterLayer.remove(dad);
 
                 var newCharacter = new Character(dad.x - dad.repositionPoint.x, dad.y - dad.repositionPoint.y, args[1]);
                 playstate.iconP2.setIconCharacter(newCharacter.iconName);
@@ -158,18 +155,15 @@ class CharacterAnimationEvents extends Events
                     newCharacter.applyShader(dad.getShader());
                 }
 
-                playstate.characterLayer.remove(playstate.dad);
+                playstate.characterLayer.replace(playstate.dad, newCharacter);
                 playstate.dad = newCharacter;
-                playstate.characterLayer.add(playstate.dad);
 
-                if(!dad.debugMode && dad.characterInfo.info.functions.add != null){
+                if(dad.characterInfo.info.functions.add != null){
                     dad.characterInfo.info.functions.add(dad);
                 }
 
             case "gf":
                 if (gf.charClass == args[1]){ return; }
-
-                playstate.gfLayer.remove(gf);
 
                 var newCharacter = new Character(gf.x - gf.repositionPoint.x, gf.y - gf.repositionPoint.y, args[1], false, true);
 
@@ -182,19 +176,25 @@ class CharacterAnimationEvents extends Events
                     newCharacter.applyShader(gf.getShader());
                 }
 
-                playstate.characterLayer.remove(playstate.gf);
+                playstate.gfLayer.replace(playstate.gf, newCharacter);
                 playstate.gf = newCharacter;
-                playstate.characterLayer.add(playstate.gf);
 
-                if(!gf.debugMode && gf.characterInfo.info.functions.add != null){
+                if(gf.characterInfo.info.functions.add != null){
                     gf.characterInfo.info.functions.add(gf);
                 }
         }
+
+        playstate.healthBar.createFilledBar(dad.characterColor, boyfriend.characterColor);
+        playstate.healthBar.updateFilledBar();
     }
 
+    var cachedCharacters:Array<String> = [];
     function changeCharacterPreprocess(tag:String):Void{
         var args = Events.getArgs(tag, ["bf", "Bf", "true"]);
-        var cache = new Character(0, 0, args[1]);
+        if (!cachedCharacters.contains(args[1])){
+            var cache = new Character(0, 0, args[1]);
+            cachedCharacters.push(args[1]);
+        }
     }
 
     function swapCharacters(tag:String):Void{

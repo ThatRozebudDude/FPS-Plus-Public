@@ -43,4 +43,4 @@ All of the scripted class contain helper variables to make accessing certain var
 - `up`: Can be used when refering to note directions. Alias for `2`.
 - `right`: Can be used when refering to note directions. Alias for `3`.
 
-Note that for variables like `boyfriend` or `dad` you cannot directly set these, you need to use the full variable like `PlayState.instance.boyfriend` to set it to a new character object for example.
+Note that for variables like `boyfriend` or `dad` you cannot directly set these, you need to use the full variable like `playstate.boyfriend` to set it to a new character object for example.

@@ -76,12 +76,12 @@ class HealthIcon extends FlxSprite
 		//This loads the image, gets it's dimensions, and reloads the image with animation based on cutting up the dimensions.
 		//Basically you can have any size icon as long as it's evenly cut.
 
-		loadGraphic(Paths.image("ui/" + subDir + "/" + icon), false);
+		var graphic = Paths.image("ui/" + subDir + "/" + icon);
 
-		var graphicWidth = Std.int(pixels.width/3);
-		var graphicHeight = Std.int(pixels.height);
+		var graphicWidth = Std.int(graphic.width/3);
+		var graphicHeight = Std.int(graphic.height);
 
-		loadGraphic(pixels, true, graphicWidth, graphicHeight);
+		loadGraphic(graphic, true, graphicWidth, graphicHeight);
 		animation.add("icon", [0, 1, 2], 0, false, isPlayer);
 		animation.play("icon");
 

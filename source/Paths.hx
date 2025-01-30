@@ -29,10 +29,15 @@ class Paths
         if(ImageCache.exists(data) && !forceLoadFromDisk){
             return ImageCache.get(data);
         }
-        else{
-            if(!ImageCache.trackedAssets.contains(data)){
-                ImageCache.trackedAssets.push(data);
+        else if(!forceLoadFromDisk){
+            if(ImageCache.localCache.exists(data)){
+                return ImageCache.localCache.get(data);
             }
+            else{
+                return ImageCache.addLocal(data);
+            }
+        }
+        else{
             return data;
         }
     }

@@ -1,5 +1,6 @@
 package modding;
 
+import caching.*;
 import openfl.Assets;
 import haxe.Json;
 import polymod.PolymodConfig;
@@ -32,6 +33,7 @@ class PolymodHandler
     public static function reload(?restartState:Bool = true):Void{
         reloadScripts();
         //scriptableClassCheck();
+        ImageCache.keepCache = true;
         if(restartState){ FlxG.resetState(); }
     }
 
@@ -276,8 +278,8 @@ class PolymodHandler
         Polymod.addImportAlias("lime.utils.Assets", Assets);
         Polymod.addImportAlias("openfl.utils.Assets", Assets);
 
-        Polymod.addImportAlias("flash.display.BlendMode", modding.ScriptingUtil.PolyBlendMode);
-        Polymod.addImportAlias("openfl.display.BlendMode", modding.ScriptingUtil.PolyBlendMode);
+        Polymod.addImportAlias("flash.display.BlendMode", modding.ScriptingUtil.BlendMode);
+        Polymod.addImportAlias("openfl.display.BlendMode", modding.ScriptingUtil.BlendMode);
 
         Polymod.addImportAlias("flixel.math.FlxPoint", flixel.math.FlxPoint.FlxBasePoint);
 
