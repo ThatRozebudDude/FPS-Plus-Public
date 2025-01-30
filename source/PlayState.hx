@@ -379,13 +379,15 @@ class PlayState extends MusicBeatState
 		canHit = !(Config.ghostTapType > 0);
 
 		camGame = new FlxCamera();
+		camGame.filters = [];
+
+		camOverlay = new FlxCamera();
+		camOverlay.bgColor.alpha = 0;
+		camOverlay.filters = [];
 
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 		camHUD.filters = [new ShaderFilter(hudShader.shader)];
-
-		camOverlay = new FlxCamera();
-		camOverlay.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camOverlay, false);
@@ -1488,6 +1490,8 @@ class PlayState extends MusicBeatState
 
 		if (Binds.justPressed("polymodReload") && !isStoryMode){
 			FlxG.sound.music.pause();
+			vocals.pause();
+			if(vocalType == splitVocalTrack){ vocalsOther.pause(); }
 			PolymodHandler.reload();
 		}
 
@@ -1553,21 +1557,19 @@ class PlayState extends MusicBeatState
 		vocals.pitch = songPlaybackSpeed;
 		if(vocalType == splitVocalTrack){ vocalsOther.pitch = songPlaybackSpeed; }
 
-		if (startingSong)
-		{
-			if (startedCountdown)
-			{
+		if (startingSong){
+			if (startedCountdown){
 				Conductor.songPosition += FlxG.elapsed * 1000;
-				if (Conductor.songPosition >= 0)
+				if (Conductor.songPosition >= 0){
 					startSong();
+				}
 			}
 		}
-		/*else if(inEndingCutscene){
-
-		}*/
 		else{
 			if(previousReportedSongTime != FlxG.sound.music.time){
 				Conductor.songPosition = FlxG.sound.music.time;
+				//Failsafe to make sure that the onComplete actually runs because sometimes it would just not run sometimes when I was doing stuff with the song playback speed.
+				if(inRange(previousReportedSongTime, FlxG.sound.music.length, 1000) && Conductor.songPosition < FlxG.sound.music.length/2 && !songEnded){ FlxG.sound.music.onComplete(); }
 				previousReportedSongTime = FlxG.sound.music.time;
 			}
 			else{
@@ -2385,15 +2387,14 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	override function stepHit()
-	{
+	override function stepHit(){
 
-		if((Math.abs(FlxG.sound.music.time - (Conductor.songPosition)) > 20 || (vocalType != noVocalTrack && Math.abs(vocals.time - (Conductor.songPosition)) > 20)) && FlxG.sound.music.playing){
+		if((Math.abs(FlxG.sound.music.time - (Conductor.songPosition)) > (20 * songPlaybackSpeed) || (vocalType != noVocalTrack && Math.abs(vocals.time - (Conductor.songPosition)) > (20 * songPlaybackSpeed))) && FlxG.sound.music.playing){
 			resyncVocals();
 		}
 
 		if(vocalType == splitVocalTrack){
-			if((Math.abs(vocalsOther.time - (Conductor.songPosition)) > 20) && FlxG.sound.music.playing){
+			if((Math.abs(vocalsOther.time - (Conductor.songPosition)) > (20 * songPlaybackSpeed)) && FlxG.sound.music.playing){
 				resyncVocals();
 			}
 		}
