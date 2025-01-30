@@ -1569,7 +1569,7 @@ class PlayState extends MusicBeatState
 			if(previousReportedSongTime != FlxG.sound.music.time){
 				Conductor.songPosition = FlxG.sound.music.time;
 				//Failsafe to make sure that the onComplete actually runs because sometimes it would just not run sometimes when I was doing stuff with the song playback speed.
-				if(inRange(previousReportedSongTime, FlxG.sound.music.length, 1000) && Conductor.songPosition < FlxG.sound.music.length/2 && !songEnded){ FlxG.sound.music.onComplete(); }
+				if(inRange(previousReportedSongTime, FlxG.sound.music.length, 1000) && !inRange(Conductor.songPosition, FlxG.sound.music.length, 1000) && !songEnded){ FlxG.sound.music.onComplete(); }
 				previousReportedSongTime = FlxG.sound.music.time;
 			}
 			else{
