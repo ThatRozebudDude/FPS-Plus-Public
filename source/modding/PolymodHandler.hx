@@ -33,7 +33,6 @@ class PolymodHandler
     public static function reload(?restartState:Bool = true):Void{
         reloadScripts();
         //scriptableClassCheck();
-        ImageCache.keepCache = true;
         if(restartState){ FlxG.resetState(); }
     }
 
