@@ -8,17 +8,17 @@
     {
       "name": "flixel",
       "type": "haxelib",
-      "version": null
+      "version": "5.9.0"
     },
     {
       "name": "flixel-addons",
       "type": "haxelib",
-      "version": null
+      "version": "3.3.0"
     },
     {
       "name": "flixel-ui",
       "type": "haxelib",
-      "version": null
+      "version": "2.6.3"
     },
     {
       "name": "flxanimate",

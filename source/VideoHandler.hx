@@ -3,6 +3,7 @@ package;
 import flixel.util.FlxSignal;
 import flixel.FlxSprite;
 import flixel.FlxG;
+import openfl.Assets;
 import flixel.util.FlxColor;
 
 #if desktop
@@ -103,7 +104,7 @@ class VideoHandler extends FlxSprite
 		bitmap.onEndReached.add(onVLCComplete);
 		
 		FlxG.addChildBelowMouse(bitmap);
-		bitmap.play(checkFile(path), repeat);
+		bitmap.play(Assets.getPath(path), repeat);
 		bitmap.alpha = 0;
 		
 		if (FlxG.autoPause) {
@@ -112,17 +113,6 @@ class VideoHandler extends FlxSprite
 		}
 
 		waitingStart = true;
-	}
-
-	function checkFile(fileName:String):String{
-		var pDir = "";
-		var appDir = "file:///" + Sys.getCwd() + "/";
-		if (fileName.indexOf(":") == -1) // Not a path
-			pDir = appDir;
-		else if (fileName.indexOf("file://") == -1 || fileName.indexOf("http") == -1) // C:, D: etc? ..missing "file:///" ?
-			pDir = "file:///";
-
-		return pDir + fileName;
 	}
 
 	function onVLCVideoReady(){

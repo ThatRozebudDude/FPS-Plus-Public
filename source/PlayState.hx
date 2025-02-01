@@ -132,6 +132,7 @@ class PlayState extends MusicBeatState
 	public var vocalsOther:FlxSound;
 	public var vocalType:VocalType = combinedVocalTrack;
 	public var canChangeVocalVolume:Bool = true;
+	public var songPlaybackSpeed(default, set):Float = 1;
 
 	public var dad:Character;
 	public var gf:Character;
@@ -378,13 +379,15 @@ class PlayState extends MusicBeatState
 		canHit = !(Config.ghostTapType > 0);
 
 		camGame = new FlxCamera();
+		camGame.filters = [];
+
+		camOverlay = new FlxCamera();
+		camOverlay.bgColor.alpha = 0;
+		camOverlay.filters = [];
 
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 		camHUD.filters = [new ShaderFilter(hudShader.shader)];
-
-		camOverlay = new FlxCamera();
-		camOverlay.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camOverlay, false);
@@ -399,6 +402,7 @@ class PlayState extends MusicBeatState
 
 		Conductor.changeBPM(SONG.bpm);
 		Conductor.mapBPMChanges(SONG);
+		Conductor.recalculateHitZones(songPlaybackSpeed);
 
 		gfCheck = "Gf";
 
@@ -1486,6 +1490,8 @@ class PlayState extends MusicBeatState
 
 		if (Binds.justPressed("polymodReload") && !isStoryMode){
 			FlxG.sound.music.pause();
+			vocals.pause();
+			if(vocalType == splitVocalTrack){ vocalsOther.pause(); }
 			PolymodHandler.reload();
 		}
 
@@ -1546,27 +1552,28 @@ class PlayState extends MusicBeatState
 				switchState(new AnimationDebug(SONG.player2));
 			}
 		}
-			
 
-		if (startingSong)
-		{
-			if (startedCountdown)
-			{
+		FlxG.sound.music.pitch = songPlaybackSpeed;
+		vocals.pitch = songPlaybackSpeed;
+		if(vocalType == splitVocalTrack){ vocalsOther.pitch = songPlaybackSpeed; }
+
+		if (startingSong){
+			if (startedCountdown){
 				Conductor.songPosition += FlxG.elapsed * 1000;
-				if (Conductor.songPosition >= 0)
+				if (Conductor.songPosition >= 0){
 					startSong();
+				}
 			}
 		}
-		/*else if(inEndingCutscene){
-
-		}*/
 		else{
 			if(previousReportedSongTime != FlxG.sound.music.time){
 				Conductor.songPosition = FlxG.sound.music.time;
+				//Failsafe to make sure that the onComplete actually runs because sometimes it would just not run sometimes when I was doing stuff with the song playback speed.
+				if(inRange(previousReportedSongTime, FlxG.sound.music.length, 1000) && !inRange(Conductor.songPosition, FlxG.sound.music.length, 1000) && !songEnded){ FlxG.sound.music.onComplete(); }
 				previousReportedSongTime = FlxG.sound.music.time;
 			}
 			else{
-				Conductor.songPosition += FlxG.elapsed * 1000;
+				Conductor.songPosition += FlxG.elapsed * 1000 * songPlaybackSpeed;
 			}
 		}
 
@@ -2378,15 +2385,14 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	override function stepHit()
-	{
+	override function stepHit(){
 
-		if((Math.abs(FlxG.sound.music.time - (Conductor.songPosition)) > 20 || (vocalType != noVocalTrack && Math.abs(vocals.time - (Conductor.songPosition)) > 20)) && FlxG.sound.music.playing){
+		if((Math.abs(FlxG.sound.music.time - (Conductor.songPosition)) > (20 * songPlaybackSpeed) || (vocalType != noVocalTrack && Math.abs(vocals.time - (Conductor.songPosition)) > (20 * songPlaybackSpeed))) && FlxG.sound.music.playing){
 			resyncVocals();
 		}
 
 		if(vocalType == splitVocalTrack){
-			if((Math.abs(vocalsOther.time - (Conductor.songPosition)) > 20) && FlxG.sound.music.playing){
+			if((Math.abs(vocalsOther.time - (Conductor.songPosition)) > (20 * songPlaybackSpeed)) && FlxG.sound.music.playing){
 				resyncVocals();
 			}
 		}
@@ -2897,6 +2903,16 @@ class PlayState extends MusicBeatState
 	function preStateChange():Void{
 		stage.exit();
 		for(script in scripts){ script.exit(); }
+	}
+
+	/* 
+	* This is done because changing the playback speed causes the song time to update slower essentially
+	* causing the hit window to change with the playback speed. This mitigates that.
+	*/
+	private function set_songPlaybackSpeed(value:Float):Float{
+		songPlaybackSpeed = value;
+		Conductor.recalculateHitZones(value);
+		return value;
 	}
 
 }

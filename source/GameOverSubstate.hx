@@ -33,6 +33,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		camGameOver = new FlxCamera();
 		camGameOver.zoom = camZoom;
+		camGameOver.filters = [];
 		FlxG.cameras.add(camGameOver, false);
 		cameras = [camGameOver];
 
