@@ -3,6 +3,7 @@ package;
 import thx.Path;
 import shaders.*;
 import ui.*;
+import data.*;
 import config.*;
 import debug.*;
 import title.*;
@@ -784,12 +785,19 @@ class PlayState extends MusicBeatState
 			startCutscene.start();
 		}
 		else{
+			var countdownEvent = new GameplayEvent("Countdown", true);
 			if(!stage.instantStart){
-				startCountdown();
+				countdownEvent.onEvent.add(startCountdown);
 			}
 			else{
-				instantStart();
+				countdownEvent.onEvent.add(instantStart);
 			}
+
+			countdownEvent.onCancel.add(instantStart);
+
+			for(script in scripts){ script.countdownStart(countdownEvent); }
+
+			countdownEvent.call();
 		}
 		replayStartCutscene = true;
 	}

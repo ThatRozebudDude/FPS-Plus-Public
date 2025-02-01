@@ -2,6 +2,7 @@ package scripts;
 
 import flixel.FlxG;
 import flixel.FlxBasic;
+import data.GameplayEvent;
 import note.Note;
 
 @:build(modding.GlobalScriptingTypesMacro.build())
@@ -39,6 +40,11 @@ class Script
      * @param   curStep  The current song step passed in by PlayState.
      */
     public function step(curStep:Int){}
+
+    /**
+     * Called once the countdown starts.
+     */
+    public function countdownStart(event:GameplayEvent){}
  
     /**
      * Called once the song starts.
