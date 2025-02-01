@@ -18,10 +18,10 @@ class Limo extends BaseStage
 
 	var fastCarCanDrive:Bool = true;
 
-    public function new(){
+	public function new(){
 		super();
 
-        name = "limo";
+		name = "limo";
 		startingZoom = 0.9;
 
 		var skyBG:FlxSprite = new FlxSprite(-120, -50).loadGraphic(Paths.image("week4/limo/limoSunset"));
@@ -72,7 +72,7 @@ class Limo extends BaseStage
 		gfStart.set(787, 779);
 
 		bfCameraOffset.set(-200, 0);
-    }
+	}
 
 	public override function beat(curBeat:Float){
 		for(dancer in grpLimoDancers){

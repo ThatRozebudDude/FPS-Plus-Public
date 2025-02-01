@@ -11,34 +11,34 @@ import transition.data.*;
 
 	This class was made as an alternative to HaxeFlixel's built in 
 
-    transitions to allow for more complex animations.
+	transitions to allow for more complex animations.
 
-    Written by Rozebud
+	Written by Rozebud
 **/
 class CustomTransition{
 
-    /**
+	/**
 	* Plays a custom transition animation and switches states.
 	*
-	* @param	transitionData  The animation that will get played. Can also be anything that extends `BaseTransition`.
-	* @param	state           The state that will be switched to after the animation. If set to `null` the transition will be destroyed after playing instead of switching states.
+	* @param	transitionData	The animation that will get played. Can also be anything that extends `BaseTransition`.
+	* @param	state			The state that will be switched to after the animation. If set to `null` the transition will be destroyed after playing instead of switching states.
 	**/
-    public static function transition(transitionData:BaseTransition, ?state:FlxState = null):Void{
+	public static function transition(transitionData:BaseTransition, ?state:FlxState = null):Void{
 
-        var transitionCamera = new FlxCamera();
+		var transitionCamera = new FlxCamera();
 		transitionCamera.bgColor.alpha = 0;
 		FlxG.cameras.add(transitionCamera, false);
-        
-        transitionData.state = state;
-        transitionData.cameras = [transitionCamera];
-        transitionData.play();
+		
+		transitionData.state = state;
+		transitionData.cameras = [transitionCamera];
+		transitionData.play();
 
-        FlxUIStateExt.inTransition = true;
+		FlxUIStateExt.inTransition = true;
 
-        FlxG.state.add(transitionData);
+		FlxG.state.add(transitionData);
 
-        return;
+		return;
 
-    }
+	}
 
 }

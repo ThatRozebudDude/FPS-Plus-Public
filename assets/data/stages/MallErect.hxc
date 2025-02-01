@@ -11,10 +11,10 @@ class MallErect extends BaseStage
 	var bottomBoppers:FlxSprite;
 	public var santa:FlxSprite;
 
-    public function new(){
+	public function new(){
 		super();
 		
-        name = "mallErect";
+		name = "mallErect";
 		startingZoom = 0.8;
 
 		var bg:FlxSprite = new FlxSprite(-1000, -440).loadGraphic(Paths.image('week5/christmas/erect/bgWalls'));
@@ -91,7 +91,7 @@ class MallErect extends BaseStage
 		gf.applyShader(characterShader.shader);
 
 		addEvent("mall-toggleSantaVisible", toggleSantaVisible);
-    }
+	}
 
 	public override function beat(curBeat:Int){
 		upperBoppers.animation.play('bop', true);

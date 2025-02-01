@@ -1,17 +1,17 @@
 class BfPixelDead extends CharacterInfoBase
 {
 
-    public function new(){
-        super();
+	public function new(){
+		super();
 
-        includeInCharacterList = false;
+		includeInCharacterList = false;
 
-        info.name = "bf-pixel-dead";
-        info.spritePath = "week6/bfPixelsDEAD";
-        info.frameLoadType = setSparrow();
-        
-        info.iconName = "bf-pixel";
-        info.facesLeft = true;
+		info.name = "bf-pixel-dead";
+		info.spritePath = "week6/bfPixelsDEAD";
+		info.frameLoadType = setSparrow();
+		
+		info.iconName = "bf-pixel";
+		info.facesLeft = true;
 		info.antialiasing = false;
 
 		addByPrefix('firstDeath', offset(), "BF Dies pixel", 24, loop(false));
@@ -22,6 +22,6 @@ class BfPixelDead extends CharacterInfoBase
 		addExtraData("deathSound", "gameOver/fnf_loss_sfx-pixel");
 		addExtraData("deathSong", "gameOver/gameOver-pixel");
 		addExtraData("deathSongEnd", "gameOver/gameOverEnd-pixel");
-    }
+	}
 
 }

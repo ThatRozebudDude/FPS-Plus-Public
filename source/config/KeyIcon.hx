@@ -109,7 +109,7 @@ class KeyIcon extends FlxSpriteGroup
 		text.setFormat(Paths.font("funkin", "otf"), 80, FlxColor.BLACK, FlxTextAlign.CENTER);
 		text.y = (keyBg.height / 2) - (text.height / 2) + yOffset;
 		text.text += "\n\n";
-        add(text);
+		add(text);
 
 	}
 

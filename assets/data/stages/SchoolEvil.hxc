@@ -6,10 +6,10 @@ import objects.DeltaTrail;
 class SchoolEvil extends BaseStage
 {
 
-    public function new(){
+	public function new(){
 		super();
 		
-        name = "schoolEvil";
+		name = "schoolEvil";
 		startingZoom = 1.05;
 		uiType = "Pixel";
 
@@ -36,5 +36,5 @@ class SchoolEvil extends BaseStage
 
 		bfCameraOffset.set(-48, 0);
 		gfCameraOffset.set(0, -16);
-    }
+	}
 }

@@ -9,10 +9,10 @@ class Mall extends BaseStage
 	var bottomBoppers:FlxSprite;
 	var santa:FlxSprite;
 
-    public function new(){
+	public function new(){
 		super();
 
-        name = "mall";
+		name = "mall";
 		startingZoom = 0.8;
 
 		var bg:FlxSprite = new FlxSprite(-1000, -500).loadGraphic(Paths.image('week5/christmas/bgWalls'));
@@ -79,7 +79,7 @@ class Mall extends BaseStage
 		bfCameraOffset.set(0, -70);
 
 		addEvent("mall-toggleSantaVisible", toggleSantaVisible);
-    }
+	}
 
 	public override function beat(curBeat:Int){
 		upperBoppers.animation.play('bop', true);

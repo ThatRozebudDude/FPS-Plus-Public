@@ -35,10 +35,10 @@ class SpookyMansion extends BaseStage
 	var windowLightColor:FlxColor = 0xFF4646AD;
 	var windowLightFlashColors:Array<FlxColor> = [0xFFFFFFFF, 0xFF12123D, 0xFFD5D5FF];
 
-    public function new(){
+	public function new(){
 		super();
 
-        name = "spooky";
+		name = "spooky";
 
 		wall = Utils.makeColoredSprite(1280*2, 720*2, 0xFFFFFFFF);
 		wall.screenCenter(ScriptingUtil.axisXY);
@@ -71,7 +71,7 @@ class SpookyMansion extends BaseStage
 
 		dadStart.set(346, 849);
 		bfCameraOffset.set(0, -40);
-    }
+	}
 
 	public override function beat(curBeat:Int){
 		if (FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset){

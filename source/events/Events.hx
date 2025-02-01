@@ -10,60 +10,60 @@ using StringTools;
 class Events
 {
 
-    public static var events:Map<String, (String)->Void>;
+	public static var events:Map<String, (String)->Void>;
 	public static var preEvents:Map<String, (String)->Void>;
-    public static var eventsMeta:Map<String, String>;
+	public static var eventsMeta:Map<String, String>;
 
-    public static function initEvents():Void{
-        events = new Map<String, (String)->Void>();
+	public static function initEvents():Void{
+		events = new Map<String, (String)->Void>();
 		preEvents = new Map<String, (String)->Void>();
-        eventsMeta = new Map<String, String>();
+		eventsMeta = new Map<String, String>();
 
 		for(x in ScriptableEvents.listScriptClasses()){
 			var eventClass:Events = ScriptableEvents.init(x);
-            eventClass.defineEvents();
+			eventClass.defineEvents();
 		}
-    }
+	}
 
-    /**
-    * Override this function and define your events here.
-    */
-    public function defineEvents():Void{}
+	/**
+	* Override this function and define your events here.
+	*/
+	public function defineEvents():Void{}
 
-    function addEvent(prefix:String, processFunction:(String)->Void, metaDescription:String = null, preprocessFunction:(String)->Void = null):Void{
-        events.set(prefix, processFunction);
+	function addEvent(prefix:String, processFunction:(String)->Void, metaDescription:String = null, preprocessFunction:(String)->Void = null):Void{
+		events.set(prefix, processFunction);
 		if(metaDescription != null){
 			eventsMeta.set(prefix, metaDescription);
 		}
 		if(preprocessFunction != null){
 			preEvents.set(prefix, preprocessFunction);
 		}
-    }
+	}
 
-    /**
-    * Splits the event tag at each `;` to get the event arguments.
-    */
-    public static function getArgs(fullEventTag:String, ?defaultArgs:Array<String>):Array<String>{
-        var r = [];
+	/**
+	* Splits the event tag at each `;` to get the event arguments.
+	*/
+	public static function getArgs(fullEventTag:String, ?defaultArgs:Array<String>):Array<String>{
+		var r = [];
 
-        var args = fullEventTag.split(";");
-        for(i in 0...args.length){
-            if(i == 0) { continue; }
-            r.push(args[i]);
-        }
+		var args = fullEventTag.split(";");
+		for(i in 0...args.length){
+			if(i == 0) { continue; }
+			r.push(args[i]);
+		}
 
-        if(defaultArgs != null && defaultArgs.length > r.length){
-            for(i in 0...defaultArgs.length){
-                if(i >= r.length){
-                    r.push(defaultArgs[i]);
-                }
-            }
-        }
+		if(defaultArgs != null && defaultArgs.length > r.length){
+			for(i in 0...defaultArgs.length){
+				if(i >= r.length){
+					r.push(defaultArgs[i]);
+				}
+			}
+		}
 
-        return r;
-    }
+		return r;
+	}
 
-    //For converting event properties to easing functions. Please let me know if there is a better way.
+	//For converting event properties to easing functions. Please let me know if there is a better way.
 	public static inline function easeNameToEase(ease:String):Null<flixel.tweens.EaseFunction>{
 		var r;
 		switch(ease){

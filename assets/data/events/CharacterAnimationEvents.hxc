@@ -1,57 +1,57 @@
 class CharacterAnimationEvents extends Events
 {
-    override function defineEvents() {
-        addEvent("playAnim", playAnim, PLAY_ANIM_DESC);
-        addEvent("singAnim", singAnim, SING_ANIM_DESC);
-        addEvent("setAnimSet", setAnimSet, SET_ANIM_SET_DESC);
+	override function defineEvents() {
+		addEvent("playAnim", playAnim, PLAY_ANIM_DESC);
+		addEvent("singAnim", singAnim, SING_ANIM_DESC);
+		addEvent("setAnimSet", setAnimSet, SET_ANIM_SET_DESC);
 
-        addEvent("gfBopFreq", gfBopFreq, GF_BOP_FREQ_DESC);
-        addEvent("iconBopFreq", iconBopFreq, ICON_BOP_FREQ_DESC);
+		addEvent("gfBopFreq", gfBopFreq, GF_BOP_FREQ_DESC);
+		addEvent("iconBopFreq", iconBopFreq, ICON_BOP_FREQ_DESC);
 
-        addEvent("bfBop", bfBop, BF_BOP_DESC);
-        addEvent("dadBop", dadBop, DAD_BOP_DESC);
+		addEvent("bfBop", bfBop, BF_BOP_DESC);
+		addEvent("dadBop", dadBop, DAD_BOP_DESC);
 
-        addEvent("bfAnimLockToggle", bfAnimLockToggle, BF_ANIM_LOCK_TOGGLE_DESC);
-        addEvent("dadAnimLockToggle", dadAnimLockToggle, DAD_ANIM_LOCK_TOGGLE_DESC);
-        addEvent("gfAnimLockToggle", gfAnimLockToggle, GF_ANIM_LOCK_TOGGLE_DESC);
+		addEvent("bfAnimLockToggle", bfAnimLockToggle, BF_ANIM_LOCK_TOGGLE_DESC);
+		addEvent("dadAnimLockToggle", dadAnimLockToggle, DAD_ANIM_LOCK_TOGGLE_DESC);
+		addEvent("gfAnimLockToggle", gfAnimLockToggle, GF_ANIM_LOCK_TOGGLE_DESC);
 
-        addEvent("changeCharacter", changeCharacter, CHANGE_CHARACTER_DESC, changeCharacterPreprocess);
+		addEvent("changeCharacter", changeCharacter, CHANGE_CHARACTER_DESC, changeCharacterPreprocess);
 
-        addEvent("swapCharacters", swapCharacters, SWAP_CHARACTER_DESC);
-    }
+		addEvent("swapCharacters", swapCharacters, SWAP_CHARACTER_DESC);
+	}
 
-    function playAnim(tag:String):Void{
-        var args = Events.getArgs(tag, ["bf", "", "false", "false", "0"]);
+	function playAnim(tag:String):Void{
+		var args = Events.getArgs(tag, ["bf", "", "false", "false", "0"]);
 
 		switch(args[0]){
 			case "dad":
 				dad.playAnim(args[1], Events.parseBool(args[2]), Events.parseBool(args[3]), Std.parseInt(args[4]));
 
-            case "gf":
+			case "gf":
 				gf.playAnim(args[1], Events.parseBool(args[2]), Events.parseBool(args[3]), Std.parseInt(args[4]));
 
 			default:
 				boyfriend.playAnim(args[1], Events.parseBool(args[2]), Events.parseBool(args[3]), Std.parseInt(args[4]));
 		}
-    }
+	}
 
-    function singAnim(tag:String):Void{
-        var args = Events.getArgs(tag, ["bf", "", "false", "false", "0"]);
+	function singAnim(tag:String):Void{
+		var args = Events.getArgs(tag, ["bf", "", "false", "false", "0"]);
 
 		switch(args[0]){
 			case "dad":
 				dad.singAnim(args[1], Events.parseBool(args[2]), Events.parseBool(args[3]), Std.parseInt(args[4]));
 
-            case "gf":
+			case "gf":
 				gf.singAnim(args[1], Events.parseBool(args[2]), Events.parseBool(args[3]), Std.parseInt(args[4]));
 
 			default:
 				boyfriend.singAnim(args[1], Events.parseBool(args[2]), Events.parseBool(args[3]), Std.parseInt(args[4]));
 		}
-    }
+	}
 
-    function setAnimSet(tag:String):Void{
-        var args = Events.getArgs(tag, ["bf", ""]);
+	function setAnimSet(tag:String):Void{
+		var args = Events.getArgs(tag, ["bf", ""]);
 
 		switch(args[0]){
 			case "dad":
@@ -63,172 +63,172 @@ class CharacterAnimationEvents extends Events
 			default:
 				boyfriend.animSet = args[1];
 		}
-    }
+	}
 
-    function gfBopFreq(tag:String):Void{
-        var args = Events.getArgs(tag);
-        playstate.gfBopFrequency = Std.parseInt(args[0]);
-    }
+	function gfBopFreq(tag:String):Void{
+		var args = Events.getArgs(tag);
+		playstate.gfBopFrequency = Std.parseInt(args[0]);
+	}
 
-    function iconBopFreq(tag:String):Void{
-        var args = Events.getArgs(tag);
-        playstate.iconBopFrequency = Std.parseInt(args[0]);
-    }
+	function iconBopFreq(tag:String):Void{
+		var args = Events.getArgs(tag);
+		playstate.iconBopFrequency = Std.parseInt(args[0]);
+	}
 
-    function bfBop(tag:String):Void{
-        var args = Events.getArgs(tag);
-        switch(args[0]){
-            case "EveryBeat":
-                playstate.bfBeats = [0, 1, 2, 3];
-            case "OddBeats": //Swapped due to event icon starting at 1 instead of 0
-                playstate.bfBeats = [0, 2];
-            case "EvenBeats": //Swapped due to event icon starting at 1 instead of 0
-                playstate.bfBeats = [1, 3];
-            case "Never":
-                playstate.bfBeats = [];
-        }
-    }
+	function bfBop(tag:String):Void{
+		var args = Events.getArgs(tag);
+		switch(args[0]){
+			case "EveryBeat":
+				playstate.bfBeats = [0, 1, 2, 3];
+			case "OddBeats": //Swapped due to event icon starting at 1 instead of 0
+				playstate.bfBeats = [0, 2];
+			case "EvenBeats": //Swapped due to event icon starting at 1 instead of 0
+				playstate.bfBeats = [1, 3];
+			case "Never":
+				playstate.bfBeats = [];
+		}
+	}
 
-    function dadBop(tag:String):Void{
-        var args = Events.getArgs(tag);
-        switch(args[0]){
-            case "EveryBeat":
-                playstate.dadBeats = [0, 1, 2, 3];
-            case "OddBeats": //Swapped due to event icon starting at 1 instead of 0
-                playstate.dadBeats = [0, 2];
-            case "EvenBeats": //Swapped due to event icon starting at 1 instead of 0
-                playstate.dadBeats = [1, 3];
-            case "Never":
-                playstate.dadBeats = [];
-        }
-    }
+	function dadBop(tag:String):Void{
+		var args = Events.getArgs(tag);
+		switch(args[0]){
+			case "EveryBeat":
+				playstate.dadBeats = [0, 1, 2, 3];
+			case "OddBeats": //Swapped due to event icon starting at 1 instead of 0
+				playstate.dadBeats = [0, 2];
+			case "EvenBeats": //Swapped due to event icon starting at 1 instead of 0
+				playstate.dadBeats = [1, 3];
+			case "Never":
+				playstate.dadBeats = [];
+		}
+	}
 
-    function bfAnimLockToggle(tag:String):Void{
-        boyfriend.canAutoAnim = !boyfriend.canAutoAnim;
-    }
+	function bfAnimLockToggle(tag:String):Void{
+		boyfriend.canAutoAnim = !boyfriend.canAutoAnim;
+	}
 
-    function dadAnimLockToggle(tag:String):Void{
-        dad.canAutoAnim = !dad.canAutoAnim;
-    }
+	function dadAnimLockToggle(tag:String):Void{
+		dad.canAutoAnim = !dad.canAutoAnim;
+	}
 
-    function gfAnimLockToggle(tag:String):Void{
-        gf.canAutoAnim = !gf.canAutoAnim;
-    }
+	function gfAnimLockToggle(tag:String):Void{
+		gf.canAutoAnim = !gf.canAutoAnim;
+	}
 
-    function changeCharacter(tag:String):Void{
-        var args = Events.getArgs(tag, ["bf", "Bf", "true"]);
-        switch(args[0].toLowerCase()){
-            case "bf":
-                if (boyfriend.charClass == args[1]){ return; }
+	function changeCharacter(tag:String):Void{
+		var args = Events.getArgs(tag, ["bf", "Bf", "true"]);
+		switch(args[0].toLowerCase()){
+			case "bf":
+				if (boyfriend.charClass == args[1]){ return; }
 
-                var newCharacter = new Character(boyfriend.x - boyfriend.repositionPoint.x, boyfriend.y - boyfriend.repositionPoint.y, args[1], true);
-                playstate.iconP1.setIconCharacter(newCharacter.iconName);
+				var newCharacter = new Character(boyfriend.x - boyfriend.repositionPoint.x, boyfriend.y - boyfriend.repositionPoint.y, args[1], true);
+				playstate.iconP1.setIconCharacter(newCharacter.iconName);
 
-                if((playstate.stage.useStartPoints && !playstate.stage.overrideBfStartPoints) || (!playstate.stage.useStartPoints && playstate.stage.overrideBfStartPoints)){
-                    newCharacter.setPosition(playstate.stage.bfStart.x - ((newCharacter.getFrameWidth() * newCharacter.getScale().x)/2), playstate.stage.bfStart.y - (newCharacter.getFrameHeight() * newCharacter.getScale().y));
-                }
-                newCharacter.reposition();
+				if((playstate.stage.useStartPoints && !playstate.stage.overrideBfStartPoints) || (!playstate.stage.useStartPoints && playstate.stage.overrideBfStartPoints)){
+					newCharacter.setPosition(playstate.stage.bfStart.x - ((newCharacter.getFrameWidth() * newCharacter.getScale().x)/2), playstate.stage.bfStart.y - (newCharacter.getFrameHeight() * newCharacter.getScale().y));
+				}
+				newCharacter.reposition();
 
-                if(newCharacter.getShader() == null && boyfriend.getShader() != null && Events.parseBool(args[2])){
-                    newCharacter.applyShader(boyfriend.getShader());
-                }
+				if(newCharacter.getShader() == null && boyfriend.getShader() != null && Events.parseBool(args[2])){
+					newCharacter.applyShader(boyfriend.getShader());
+				}
 
-                playstate.characterLayer.replace(playstate.boyfriend, newCharacter);
-                playstate.boyfriend = newCharacter;
+				playstate.characterLayer.replace(playstate.boyfriend, newCharacter);
+				playstate.boyfriend = newCharacter;
 
-                if(boyfriend.characterInfo.info.functions.add != null){
-                    boyfriend.characterInfo.info.functions.add(boyfriend);
-                }
+				if(boyfriend.characterInfo.info.functions.add != null){
+					boyfriend.characterInfo.info.functions.add(boyfriend);
+				}
 
-            case "dad":
-                if (dad.charClass == args[1]){ return; }
+			case "dad":
+				if (dad.charClass == args[1]){ return; }
 
-                var newCharacter = new Character(dad.x - dad.repositionPoint.x, dad.y - dad.repositionPoint.y, args[1]);
-                playstate.iconP2.setIconCharacter(newCharacter.iconName);
+				var newCharacter = new Character(dad.x - dad.repositionPoint.x, dad.y - dad.repositionPoint.y, args[1]);
+				playstate.iconP2.setIconCharacter(newCharacter.iconName);
 
-                if((playstate.stage.useStartPoints && !playstate.stage.overrideDadStartPoints) || (!playstate.stage.useStartPoints && playstate.stage.overrideDadStartPoints)){
-                    newCharacter.setPosition(playstate.stage.dadStart.x - ((newCharacter.getFrameWidth() * newCharacter.getScale().x)/2), playstate.stage.dadStart.y - (newCharacter.getFrameHeight() * newCharacter.getScale().y));
-                }
-                newCharacter.reposition();
+				if((playstate.stage.useStartPoints && !playstate.stage.overrideDadStartPoints) || (!playstate.stage.useStartPoints && playstate.stage.overrideDadStartPoints)){
+					newCharacter.setPosition(playstate.stage.dadStart.x - ((newCharacter.getFrameWidth() * newCharacter.getScale().x)/2), playstate.stage.dadStart.y - (newCharacter.getFrameHeight() * newCharacter.getScale().y));
+				}
+				newCharacter.reposition();
 
-                if(newCharacter.getShader() == null && dad.getShader() != null && Events.parseBool(args[2])){
-                    newCharacter.applyShader(dad.getShader());
-                }
+				if(newCharacter.getShader() == null && dad.getShader() != null && Events.parseBool(args[2])){
+					newCharacter.applyShader(dad.getShader());
+				}
 
-                playstate.characterLayer.replace(playstate.dad, newCharacter);
-                playstate.dad = newCharacter;
+				playstate.characterLayer.replace(playstate.dad, newCharacter);
+				playstate.dad = newCharacter;
 
-                if(dad.characterInfo.info.functions.add != null){
-                    dad.characterInfo.info.functions.add(dad);
-                }
+				if(dad.characterInfo.info.functions.add != null){
+					dad.characterInfo.info.functions.add(dad);
+				}
 
-            case "gf":
-                if (gf.charClass == args[1]){ return; }
+			case "gf":
+				if (gf.charClass == args[1]){ return; }
 
-                var newCharacter = new Character(gf.x - gf.repositionPoint.x, gf.y - gf.repositionPoint.y, args[1], false, true);
+				var newCharacter = new Character(gf.x - gf.repositionPoint.x, gf.y - gf.repositionPoint.y, args[1], false, true);
 
-                if((playstate.stage.useStartPoints && !playstate.stage.overrideGfStartPoints) || (!playstate.stage.useStartPoints && playstate.stage.overrideGfStartPoints)){
-                    newCharacter.setPosition(playstate.stage.gfStart.x - ((newCharacter.getFrameWidth() * newCharacter.getScale().x)/2), playstate.stage.gfStart.y - (newCharacter.getFrameHeight() * newCharacter.getScale().y));
-                }
-                newCharacter.reposition();
+				if((playstate.stage.useStartPoints && !playstate.stage.overrideGfStartPoints) || (!playstate.stage.useStartPoints && playstate.stage.overrideGfStartPoints)){
+					newCharacter.setPosition(playstate.stage.gfStart.x - ((newCharacter.getFrameWidth() * newCharacter.getScale().x)/2), playstate.stage.gfStart.y - (newCharacter.getFrameHeight() * newCharacter.getScale().y));
+				}
+				newCharacter.reposition();
 
-                if(newCharacter.getShader() == null && gf.getShader() != null && Events.parseBool(args[2])){
-                    newCharacter.applyShader(gf.getShader());
-                }
+				if(newCharacter.getShader() == null && gf.getShader() != null && Events.parseBool(args[2])){
+					newCharacter.applyShader(gf.getShader());
+				}
 
-                playstate.gfLayer.replace(playstate.gf, newCharacter);
-                playstate.gf = newCharacter;
+				playstate.gfLayer.replace(playstate.gf, newCharacter);
+				playstate.gf = newCharacter;
 
-                if(gf.characterInfo.info.functions.add != null){
-                    gf.characterInfo.info.functions.add(gf);
-                }
-        }
+				if(gf.characterInfo.info.functions.add != null){
+					gf.characterInfo.info.functions.add(gf);
+				}
+		}
 
-        playstate.healthBar.createFilledBar(dad.characterColor, boyfriend.characterColor);
-        playstate.healthBar.updateFilledBar();
-    }
+		playstate.healthBar.createFilledBar(dad.characterColor, boyfriend.characterColor);
+		playstate.healthBar.updateFilledBar();
+	}
 
-    var cachedCharacters:Array<String> = [];
-    function changeCharacterPreprocess(tag:String):Void{
-        var args = Events.getArgs(tag, ["bf", "Bf", "true"]);
-        if (!cachedCharacters.contains(args[1])){
-            var cache = new Character(0, 0, args[1]);
-            cachedCharacters.push(args[1]);
-        }
-    }
+	var cachedCharacters:Array<String> = [];
+	function changeCharacterPreprocess(tag:String):Void{
+		var args = Events.getArgs(tag, ["bf", "Bf", "true"]);
+		if (!cachedCharacters.contains(args[1])){
+			var cache = new Character(0, 0, args[1]);
+			cachedCharacters.push(args[1]);
+		}
+	}
 
-    function swapCharacters(tag:String):Void{
-        var tempBf = boyfriend;
-        var tempDad = dad;
+	function swapCharacters(tag:String):Void{
+		var tempBf = boyfriend;
+		var tempDad = dad;
 
-        playstate.characterLayer.remove(playstate.dad);
-        playstate.characterLayer.remove(playstate.boyfriend);
+		playstate.characterLayer.remove(playstate.dad);
+		playstate.characterLayer.remove(playstate.boyfriend);
 
-        playstate.dad = tempBf;
-        playstate.dad.isPlayer = false;
-        playstate.characterLayer.add(playstate.dad);
+		playstate.dad = tempBf;
+		playstate.dad.isPlayer = false;
+		playstate.characterLayer.add(playstate.dad);
 
-        playstate.boyfriend = tempDad;
-        playstate.boyfriend.isPlayer = true;
-        playstate.characterLayer.add(playstate.boyfriend);
+		playstate.boyfriend = tempDad;
+		playstate.boyfriend.isPlayer = true;
+		playstate.characterLayer.add(playstate.boyfriend);
 
-        playstate.iconP1.setIconCharacter(boyfriend.iconName);
-        playstate.iconP2.setIconCharacter(dad.iconName);
-    }
+		playstate.iconP1.setIconCharacter(boyfriend.iconName);
+		playstate.iconP2.setIconCharacter(dad.iconName);
+	}
 
 
 
-    //Event descriptions. Not required but it helps with charting.
-    var PLAY_ANIM_DESC:String = "Plays an animation on a character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation name\n    Bool: Force play animation\n    Bool: Reverse animation\n    Int: Frame to start on";
-    var SING_ANIM_DESC:String = "Plays an animation treated as a note sing direction.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation name\n    Bool: Force play animation\n    Bool: Reverse animation\n    Int: Frame to start on";
-    var SET_ANIM_SET_DESC:String = "Sets the animation set on a character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation set suffix";
-    var GF_BOP_FREQ_DESC:String = "Sets the interval that GF does their idle dance.\n\nArgs:\n    Int: Interval (every \"x\" beats)";
-    var ICON_BOP_FREQ_DESC:String = "Sets the interval that the health icons bop.\n\nArgs:\n    Int: Interval (every \"x\" beats)";
-    var BF_BOP_DESC:String = "Sets the beats that BF does their idle dance.\n\nArgs:\n    String: \"EveryBeat\", \"OddBeats\", \"EvenBeats\", \"Never\"";
-    var DAD_BOP_DESC:String = "Sets the beats that Dad does their idle dance.\n\nArgs:\n    String: \"EveryBeat\", \"OddBeats\", \"EvenBeats\", \"Never\"";
-    var BF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether BF will automatically play animations.";
-    var DAD_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether Dad will automatically play animations.";
-    var GF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether GF will automatically play animations.";
-    var CHANGE_CHARACTER_DESC:String = "Change a character to a different one.\n\nArgs:\n    String: Target character to change (\"bf\", \"dad\", or \"gf\")\n    String: New character's class name\n    Bool: Whether to copy the shader";
-    var SWAP_CHARACTER_DESC:String = "Swap which character you are playing as.";
+	//Event descriptions. Not required but it helps with charting.
+	var PLAY_ANIM_DESC:String = "Plays an animation on a character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation name\n    Bool: Force play animation\n    Bool: Reverse animation\n    Int: Frame to start on";
+	var SING_ANIM_DESC:String = "Plays an animation treated as a note sing direction.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation name\n    Bool: Force play animation\n    Bool: Reverse animation\n    Int: Frame to start on";
+	var SET_ANIM_SET_DESC:String = "Sets the animation set on a character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation set suffix";
+	var GF_BOP_FREQ_DESC:String = "Sets the interval that GF does their idle dance.\n\nArgs:\n    Int: Interval (every \"x\" beats)";
+	var ICON_BOP_FREQ_DESC:String = "Sets the interval that the health icons bop.\n\nArgs:\n    Int: Interval (every \"x\" beats)";
+	var BF_BOP_DESC:String = "Sets the beats that BF does their idle dance.\n\nArgs:\n    String: \"EveryBeat\", \"OddBeats\", \"EvenBeats\", \"Never\"";
+	var DAD_BOP_DESC:String = "Sets the beats that Dad does their idle dance.\n\nArgs:\n    String: \"EveryBeat\", \"OddBeats\", \"EvenBeats\", \"Never\"";
+	var BF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether BF will automatically play animations.";
+	var DAD_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether Dad will automatically play animations.";
+	var GF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether GF will automatically play animations.";
+	var CHANGE_CHARACTER_DESC:String = "Change a character to a different one.\n\nArgs:\n    String: Target character to change (\"bf\", \"dad\", or \"gf\")\n    String: New character's class name\n    Bool: Whether to copy the shader";
+	var SWAP_CHARACTER_DESC:String = "Swap which character you are playing as.";
 }

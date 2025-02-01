@@ -16,9 +16,9 @@ import openfl.net.NetStream;
 #end
 
 /**
-	An adaptation of PolybiusProxy's OpenFL desktop MP4 code to not only make         
-	work as a Flixel Sprite, but also allow it to work with standard OpenFL               
-	on Web builds as well.              
+	An adaptation of PolybiusProxy's OpenFL desktop MP4 code to not only make
+	work as a Flixel Sprite, but also allow it to work with standard OpenFL
+	on Web builds as well.
 	@author Rozebud
 **/
 

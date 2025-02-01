@@ -5,10 +5,10 @@ import flixel.FlxObject;
 class MallEvil extends BaseStage
 {
 
-    public function new(){
+	public function new(){
 		super();
 
-        name = "mallEvil";
+		name = "mallEvil";
 
 		var bg:FlxSprite = new FlxSprite(-400, -500).loadGraphic(Paths.image("week5/christmas/evilBG"));
 		bg.antialiasing = true;
@@ -30,5 +30,5 @@ class MallEvil extends BaseStage
 		dadStart.set(342, 861);
 		bfStart.set(1295.5, 866);
 		gfStart.set(808.5, 845-60);
-    }
+	}
 }

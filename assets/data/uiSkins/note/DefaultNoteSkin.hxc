@@ -1,31 +1,31 @@
 class DefaultNoteSkin extends NoteSkinBase
 {
 
-    public function new(){
-        super();
+	public function new(){
+		super();
 
-        info.path = "ui/notes/NOTE_assets";
-        info.frameLoadType = setSparrow();
+		info.path = "ui/notes/NOTE_assets";
+		info.frameLoadType = setSparrow();
 
-        setScrollAnimPrefix(left, "purple0");
-        setGlowAnimPrefix(left, "Purple Active");
-        setHoldAnimPrefix(left, "purple hold piece");
-        setEndAnimPrefix(left, "pruple end hold");
+		setScrollAnimPrefix(left, "purple0");
+		setGlowAnimPrefix(left, "Purple Active");
+		setHoldAnimPrefix(left, "purple hold piece");
+		setEndAnimPrefix(left, "pruple end hold");
 
-        setScrollAnimPrefix(down, "blue0");
-        setGlowAnimPrefix(down, "Blue Active");
-        setHoldAnimPrefix(down, "blue hold piece");
-        setEndAnimPrefix(down, "blue hold end");
+		setScrollAnimPrefix(down, "blue0");
+		setGlowAnimPrefix(down, "Blue Active");
+		setHoldAnimPrefix(down, "blue hold piece");
+		setEndAnimPrefix(down, "blue hold end");
 
-        setScrollAnimPrefix(up, "green0");
-        setGlowAnimPrefix(up, "Green Active");
-        setHoldAnimPrefix(up, "green hold piece");
-        setEndAnimPrefix(up, "green hold end");
+		setScrollAnimPrefix(up, "green0");
+		setGlowAnimPrefix(up, "Green Active");
+		setHoldAnimPrefix(up, "green hold piece");
+		setEndAnimPrefix(up, "green hold end");
 
-        setScrollAnimPrefix(right, "red0");
-        setGlowAnimPrefix(right, "Red Active");
-        setHoldAnimPrefix(right, "red hold piece");
-        setEndAnimPrefix(right, "red hold end");
-    }
+		setScrollAnimPrefix(right, "red0");
+		setGlowAnimPrefix(right, "Red Active");
+		setHoldAnimPrefix(right, "red hold piece");
+		setEndAnimPrefix(right, "red hold end");
+	}
 
 }

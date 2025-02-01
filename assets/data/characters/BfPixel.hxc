@@ -1,15 +1,15 @@
 class BfPixel extends CharacterInfoBase
 {
 
-    public function new(){
-        super();
+	public function new(){
+		super();
 
-        info.name = "bf-pixel";
-        info.spritePath = "week6/bfPixel";
-        info.frameLoadType = setSparrow();
-        
-        info.iconName = "bf-pixel";
-        info.facesLeft = true;
+		info.name = "bf-pixel";
+		info.spritePath = "week6/bfPixel";
+		info.frameLoadType = setSparrow();
+		
+		info.iconName = "bf-pixel";
+		info.facesLeft = true;
 		info.deathCharacter = "BfPixelDead";
 		info.antialiasing = false;
 		info.focusOffset.set(100, -100);
@@ -26,6 +26,6 @@ class BfPixel extends CharacterInfoBase
 
 		addExtraData("scale", 6);
 
-    }
+	}
 
 }

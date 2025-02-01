@@ -1,15 +1,15 @@
 class PicoLil extends CharacterInfoBase
 {
 
-    public function new(){
-        super();
+	public function new(){
+		super();
 
-        info.name = "pico-lil";
-        info.spritePath = "fpsPlus/lil/lilPico";
-        info.frameLoadType = setLoad(256, 256);
-        
-        info.iconName = "pico-lil";
-        info.facesLeft = true;
+		info.name = "pico-lil";
+		info.spritePath = "fpsPlus/lil/lilPico";
+		info.frameLoadType = setLoad(256, 256);
+		
+		info.iconName = "pico-lil";
+		info.facesLeft = true;
 		info.antialiasing = false;
 		info.resultsCharacter = "PicoResults";
 
@@ -28,13 +28,13 @@ class PicoLil extends CharacterInfoBase
 		add("singUPmiss", 		offset(),	[9, 21, 21, 22, 22], 	24, loop(true, -4));
 		add("singRIGHTmiss", 	offset(),	[12, 24, 24, 25, 25], 	24, loop(true, -4));
 
-		add('firstDeath', offset(), [23, 26, 23, 26, 23, 26, 23, 26, 23, 26, 23, 26, 23, 26, 23, 26], 12, loop(false));
-        add('deathLoop', offset(), [23, 26], 12, loop(true));
-        add('deathConfirm', offset(), [0, 1], 12, loop(true));
+		add('firstDeath', 	offset(), [23, 26, 23, 26, 23, 26, 23, 26, 23, 26, 23, 26, 23, 26, 23, 26], 	12, loop(false));
+		add('deathLoop', 	offset(), [23, 26], 															12, loop(true));
+		add('deathConfirm', offset(), [0, 1], 																12, loop(true));
 
 		addExtraData("deathSound", "gameOver/fnf_loss_sfx-pico");
 		addExtraData("deathSong", "gameOver/gameOver-pico");
 		addExtraData("deathSongEnd", "gameOver/gameOverEnd-pico");
-    }
+	}
 
 }

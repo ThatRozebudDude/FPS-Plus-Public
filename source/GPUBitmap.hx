@@ -24,10 +24,10 @@ class GPUBitmap
 
 		* Creates BitmapData for a sprite and deletes the reference stored in RAM leaving only the texture in VRAM.
 		*
-		* @param   path                The file path.
-		* @param   texFormat           The texture format.
-		* @param   optimizeForRender   Generates mipmaps.
-		* @param   cachekey            Key for the Texture Buffer cache. 
+		* @param   path					The file path.
+		* @param   texFormat			The texture format.
+		* @param   optimizeForRender	Generates mipmaps.
+		* @param   cachekey				Key for the Texture Buffer cache. 
 		*
 	 */
 	public static function create(path:String, texFormat:Context3DTextureFormat = BGRA, optimizeForRender:Bool = true, ?_cachekey:String):BitmapData{

@@ -114,8 +114,8 @@ class HealthIcon extends FlxSprite
 
 {
   "offset": {
-    "x": 10,
-    "y": -10
+	"x": 10,
+	"y": -10
   },
   "antialiasing": true,
   "scale": 1

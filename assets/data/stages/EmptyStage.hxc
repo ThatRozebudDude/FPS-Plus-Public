@@ -5,9 +5,9 @@ import flixel.FlxObject;
 class EmptyStage extends BaseStage
 {
 
-    public function new(){
+	public function new(){
 		super();
 
-        name = "empty";
+		name = "empty";
 	}
 }

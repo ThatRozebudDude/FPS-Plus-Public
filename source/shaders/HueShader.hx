@@ -39,11 +39,11 @@ class HueShaderGLSL extends FlxShader
 		uniform float hue;
 
 		vec3 applyHue(vec3 aColor, float aHue){
-            float angle = radians(aHue);
-            vec3 k = vec3(0.57735, 0.57735, 0.57735);
-            float cosAngle = cos(angle);
-            return aColor * cosAngle + cross(k, aColor) * sin(angle) + k * dot(k, aColor) * (1.0 - cosAngle);
-        }
+			float angle = radians(aHue);
+			vec3 k = vec3(0.57735, 0.57735, 0.57735);
+			float cosAngle = cos(angle);
+			return aColor * cosAngle + cross(k, aColor) * sin(angle) + k * dot(k, aColor) * (1.0 - cosAngle);
+		}
 
 		void main(){
 

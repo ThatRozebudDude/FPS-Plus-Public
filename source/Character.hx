@@ -807,7 +807,7 @@ class Character extends FlxSpriteGroup
 }
 
 enum abstract AttachedAction(Int){
-    var withDance = 0;
+	var withDance = 0;
 	var withSing = 1;
 	var withPlayAnim = 2;
 }

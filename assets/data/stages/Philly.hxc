@@ -30,10 +30,10 @@ class Philly extends BaseStage
 	var windowColorIndex:Int = -1;
 	var windowColors:Array<FlxColor> = [0x31A2FD, 0x31FD8C, 0xFB33F5, 0xFD4531, 0xFBA633];
 
-    public function new(){
+	public function new(){
 		super();
 
-        name = "philly";
+		name = "philly";
 		startingZoom = 1.1;
 
 		var bg:FlxSprite = new FlxSprite(-100, -20).loadGraphic(Paths.image('week3/philly/sky'));
@@ -87,7 +87,7 @@ class Philly extends BaseStage
 
 		dadCameraOffset.set(-50, 0);
 		bfCameraOffset.set(-100, 0);
-    }
+	}
 
 	public override function update(elapsed:Float){
 		super.update(elapsed);

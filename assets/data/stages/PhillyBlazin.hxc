@@ -28,11 +28,11 @@ class PhillyBlazin extends BaseStage
 	var gfScroll:Float = 0.7;
 	var gfPosOffset:FlxPoint = new FlxPoint(-225, -110);
 
-    public function new(){
+	public function new(){
 		super();
 
-        name = "phillyBlazin";
-        startingZoom = 0.75;
+		name = "phillyBlazin";
+		startingZoom = 0.75;
 
 		var scrollingSky = new FlxBackdrop(Paths.image("weekend1/phillyBlazin/skyBlur"), ScriptingUtil.axisX);
 		scrollingSky.setPosition(-600, -175);
@@ -114,7 +114,7 @@ class PhillyBlazin extends BaseStage
 		addEvent("phillyBlazin-slowRain", slowRain);
 		addEvent("phillyBlazin-normalRain", normalRain);
 		addEvent("phillyBlazin-toggleLightning", toggleLightning);
-    }
+	}
 
 	override function update(elapsed:Float) {
 		super.update(elapsed);
@@ -130,20 +130,20 @@ class PhillyBlazin extends BaseStage
 
 		/*var mod = (FlxG.keys.anyPressed([SHIFT])) ? 20 : 1;
 		if(FlxG.keys.anyJustPressed([I, J, K, L])){
-            if(FlxG.keys.anyJustPressed([I])){ boyfriend.y -= mod; }
-            if(FlxG.keys.anyJustPressed([J])){ boyfriend.x -= mod; }
-            if(FlxG.keys.anyJustPressed([K])){ boyfriend.y += mod; }
-            if(FlxG.keys.anyJustPressed([L])){ boyfriend.x += mod; }
-            trace(boyfriend.getPosition());
-        }
+			if(FlxG.keys.anyJustPressed([I])){ boyfriend.y -= mod; }
+			if(FlxG.keys.anyJustPressed([J])){ boyfriend.x -= mod; }
+			if(FlxG.keys.anyJustPressed([K])){ boyfriend.y += mod; }
+			if(FlxG.keys.anyJustPressed([L])){ boyfriend.x += mod; }
+			trace(boyfriend.getPosition());
+		}
 
 		if(FlxG.keys.anyJustPressed([W, A, S, D])){
-            if(FlxG.keys.anyJustPressed([W])){ dad.y -= mod; }
-            if(FlxG.keys.anyJustPressed([A])){ dad.x -= mod; }
-            if(FlxG.keys.anyJustPressed([S])){ dad.y += mod; }
-            if(FlxG.keys.anyJustPressed([D])){ dad.x += mod; }
-            trace(dad.getPosition());
-        }*/
+			if(FlxG.keys.anyJustPressed([W])){ dad.y -= mod; }
+			if(FlxG.keys.anyJustPressed([A])){ dad.x -= mod; }
+			if(FlxG.keys.anyJustPressed([S])){ dad.y += mod; }
+			if(FlxG.keys.anyJustPressed([D])){ dad.x += mod; }
+			trace(dad.getPosition());
+		}*/
 	}
 
 	public override function pause() {

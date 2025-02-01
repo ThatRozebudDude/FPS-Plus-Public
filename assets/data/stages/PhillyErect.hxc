@@ -35,10 +35,10 @@ class PhillyErect extends BaseStage
 	var windowColorIndex:Int = -1;
 	var windowColors:Array<FlxColor> = [0xFFB66F43, 0xFF329A6D, 0xFF932C28, 0xFF2663AC, 0xFF502D64];
 
-    public function new(){
+	public function new(){
 		super();
 
-        name = "phillyErect";
+		name = "phillyErect";
 		startingZoom = 1.1;
 
 		var bg:FlxSprite = new FlxSprite(-100, 0).loadGraphic(Paths.image('week3/philly/erect/sky'));
@@ -96,7 +96,7 @@ class PhillyErect extends BaseStage
 		boyfriend.applyShader(characterShader.shader);
 		dad.applyShader(characterShader.shader);
 		gf.applyShader(characterShader.shader);
-    }
+	}
 
 	public override function update(elapsed:Float){
 		super.update(elapsed);

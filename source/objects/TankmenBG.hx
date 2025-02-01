@@ -89,7 +89,7 @@ class TankmenBG extends FlxSprite
 		}
 	}
 
-    static public function loadMappedAnims(fileName:String, song:String)
+	static public function loadMappedAnims(fileName:String, song:String)
 	{
 		var swagshit = Song.loadFromJson(fileName, song);
 
@@ -110,7 +110,7 @@ class TankmenBG extends FlxSprite
 		
 	}
 
-    static function sortAnims(val1:Array<Dynamic>, val2:Array<Dynamic>):Int
+	static function sortAnims(val1:Array<Dynamic>, val2:Array<Dynamic>):Int
 	{
 		return FlxSort.byValues(FlxSort.ASCENDING, val1[0], val2[0]);
 	}

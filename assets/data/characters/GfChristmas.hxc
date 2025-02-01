@@ -1,19 +1,19 @@
 class GfChristmas extends CharacterInfoBase
 {
 
-    public function new(){
-        super();
+	public function new(){
+		super();
 
-        includeInGfList = true;
+		includeInGfList = true;
 
-        info.name = "gf-christmas";
-        info.spritePath = "week5/gfChristmas";
-        info.frameLoadType = setSparrow();
-        
-        info.iconName = "gf";
+		info.name = "gf-christmas";
+		info.spritePath = "week5/gfChristmas";
+		info.frameLoadType = setSparrow();
+		
+		info.iconName = "gf";
 		info.focusOffset.set();
 
-        addByIndices("danceLeft", offset(0, -9), "GF Dancing Beat", [30,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], "", 24, loop(false), false, false);
+		addByIndices("danceLeft", offset(0, -9), "GF Dancing Beat", [30,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], "", 24, loop(false), false, false);
 		addByIndices("danceRight", offset(0, -9), "GF Dancing Beat", [15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], "", 24, loop(false), false, false);
 		addByIndices('idleLoop', offset(0, -9), 'GF Dancing Beat', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, loop(true));
 		addByPrefix("cheer", offset(0, 0), "GF Cheer", 24, loop(false), false, false);
@@ -29,6 +29,6 @@ class GfChristmas extends CharacterInfoBase
 		info.idleSequence = ["danceLeft", "danceRight"];
 
 		addExtraData("reposition", [0, 60]);
-    }
+	}
 
 }

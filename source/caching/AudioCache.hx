@@ -6,14 +6,14 @@ import flixel.FlxG;
 class AudioCache
 {
 
-    public static var trackedSounds:Array<String> = new Array<String>();
+	public static var trackedSounds:Array<String> = new Array<String>();
 
-    public static function clear():Void{
-        for(sound in trackedSounds){
-            Assets.cache.clear(sound);
-        }
-        
-        trackedSounds = [];
-    }
+	public static function clear():Void{
+		for(sound in trackedSounds){
+			Assets.cache.clear(sound);
+		}
+		
+		trackedSounds = [];
+	}
 
 }

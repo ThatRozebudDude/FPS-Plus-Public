@@ -30,15 +30,15 @@ class BlueFadeShaderGLSL extends FlxShader
 	@:glFragmentSource('
 		#pragma header
 
-        uniform float fadeAmt;
+		uniform float fadeAmt;
 
-        void main(){
+		void main(){
 			vec4 tex = flixel_texture2D(bitmap, openfl_TextureCoordv);
 			vec3 finalColor = mix(vec3(0.0, 0.0, tex.b) * fadeAmt, vec3(tex.rgb) * fadeAmt, fadeAmt);
 			gl_FragColor = vec4(finalColor, tex.a);
-        }
+		}
 
-    ')
+	')
 
 	public function new()
 	{

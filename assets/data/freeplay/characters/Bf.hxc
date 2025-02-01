@@ -16,179 +16,179 @@ import openfl.display.BlendMode;
 
 class BoyfriendFreeplay extends DJCharacter
 {
-    var sound:FlxSound = new FlxSound();
-    var soundData:Array<Dynamic> = [];
+	var sound:FlxSound = new FlxSound();
+	var soundData:Array<Dynamic> = [];
 
-    var scrollingText:FlxSpriteGroup;
-    var scrollingTextStuff:Array<ScrollingTextInfo> = [];
+	var scrollingText:FlxSpriteGroup;
+	var scrollingTextStuff:Array<ScrollingTextInfo> = [];
 
-    var cardFlash:FlxSprite;
-    var cardPinkFlash:FlxSprite;
-    var cardAcceptBg:FlxSprite;
-    var cardAcceptText:AtlasSprite;
-    var cardAcceptTextGlow:FlxSprite;
-    var cardGlowBright:FlxSprite;
-    var cardGlowDark:FlxSprite;
+	var cardFlash:FlxSprite;
+	var cardPinkFlash:FlxSprite;
+	var cardAcceptBg:FlxSprite;
+	var cardAcceptText:AtlasSprite;
+	var cardAcceptTextGlow:FlxSprite;
+	var cardGlowBright:FlxSprite;
+	var cardGlowDark:FlxSprite;
 
-    override function setup():Void{
-        listSuffix = "bf";
-        idleCount = 2;
-        canPlayIdleAfter = ["idle1start", "idle2end", "cheerWin", "cheerLose"];
+	override function setup():Void{
+		listSuffix = "bf";
+		idleCount = 2;
+		canPlayIdleAfter = ["idle1start", "idle2end", "cheerWin", "cheerLose"];
 
-        setPosition(-9, 290);
-        loadAtlas(Paths.getTextureAtlas("menu/freeplay/dj/bf"));
+		setPosition(-9, 290);
+		loadAtlas(Paths.getTextureAtlas("menu/freeplay/dj/bf"));
 
-        addAnimationByLabel('idle', "Idle", 24, true, -2);
-        addAnimationByLabel('intro', "Intro", 24);
-        addAnimationByLabel('confirm', "Confirm", 24, true, -8);
-        addAnimationByLabel('cheerHold', "RatingHold", 24, true, 0);
-        addAnimationByLabel('cheerWin', "Win", 24, true, -4);
-        addAnimationByLabel('cheerLose', "Lose", 24, true, -4);
-        addAnimationByLabel('jump', "Jump", 24, true, -4);
-        addAnimationByLabel('idle1start', "Idle1", 24);
-        addAnimationByLabel('idle2start', "Idle2Start", 24);
-        addAnimationByLabel('idle2loop', "Idle2Loop", 24, true);
-        addAnimationByLabel('idle2end', "Idle2End", 24);
+		addAnimationByLabel('idle', "Idle", 24, true, -2);
+		addAnimationByLabel('intro', "Intro", 24);
+		addAnimationByLabel('confirm', "Confirm", 24, true, -8);
+		addAnimationByLabel('cheerHold', "RatingHold", 24, true, 0);
+		addAnimationByLabel('cheerWin', "Win", 24, true, -4);
+		addAnimationByLabel('cheerLose', "Lose", 24, true, -4);
+		addAnimationByLabel('jump', "Jump", 24, true, -4);
+		addAnimationByLabel('idle1start', "Idle1", 24);
+		addAnimationByLabel('idle2start', "Idle2Start", 24);
+		addAnimationByLabel('idle2loop', "Idle2Loop", 24, true);
+		addAnimationByLabel('idle2end', "Idle2End", 24);
 
-        animationEndCallback = function(name) {
-            switch(name){
-                case "intro":
-                    introFinish();
-                    skipNextIdle = true;
-                    playAnim("idle", true);
-                case "idle2start":
-                    playAnim("idle2loop", true);
-            }
-        }
+		animationEndCallback = function(name) {
+			switch(name){
+				case "intro":
+					introFinish();
+					skipNextIdle = true;
+					playAnim("idle", true);
+				case "idle2start":
+					playAnim("idle2loop", true);
+			}
+		}
 
-        var soundData = Utils.readDirectory("assets/sounds/freeplay/cartoons/");
-        for(i in 0...soundData.length){ soundData[i] = soundData[i].split(".ogg")[0]; }
+		var soundData = Utils.readDirectory("assets/sounds/freeplay/cartoons/");
+		for(i in 0...soundData.length){ soundData[i] = soundData[i].split(".ogg")[0]; }
 
-        FlxG.sound.list.add(sound);
+		FlxG.sound.list.add(sound);
 
-        frameCallback = function(name, frame, index) {
-            switch(name){
-                case "idle2start":
-                    if(frame == 81){
-                        var soundPath = Paths.sound("freeplay/cartoons/" + soundData[FlxG.random.int(0, soundData.length-1)]);
-                        //trace(soundPath);
-                        sound.loadEmbedded(soundPath, true);
-                        sound.play(true);
-                        FlxG.sound.music.fadeOut(1, 0.25);
-                        FlxG.sound.play(Paths.sound("freeplay/remoteClick"), 0.7, false);
-                    }
-            }
-        }
+		frameCallback = function(name, frame, index) {
+			switch(name){
+				case "idle2start":
+					if(frame == 81){
+						var soundPath = Paths.sound("freeplay/cartoons/" + soundData[FlxG.random.int(0, soundData.length-1)]);
+						//trace(soundPath);
+						sound.loadEmbedded(soundPath, true);
+						sound.play(true);
+						FlxG.sound.music.fadeOut(1, 0.25);
+						FlxG.sound.play(Paths.sound("freeplay/remoteClick"), 0.7, false);
+					}
+			}
+		}
 
-        super.setup();
-        setupCard();
-    }
+		super.setup();
+		setupCard();
+	}
 
-    override function buttonPress():Void{
-        super.buttonPress();
-        if(curAnim == "idle2loop"){
-            playAnim("idle2end", true);
-            if(sound.playing){ sound.fadeOut(1, 0, function(t){ sound.stop(); }); }
-            FlxG.sound.music.fadeIn(1, FlxG.sound.music.volume, 1);
-        }
-    }
+	override function buttonPress():Void{
+		super.buttonPress();
+		if(curAnim == "idle2loop"){
+			playAnim("idle2end", true);
+			if(sound.playing){ sound.fadeOut(1, 0, function(t){ sound.stop(); }); }
+			FlxG.sound.music.fadeIn(1, FlxG.sound.music.volume, 1);
+		}
+	}
 
-    override function playCheer(_lostSong:Bool):Void{
-        playAnim("cheerHold", true);
-        var lostSong:Bool = _lostSong; //IDK why I have to do this but I do.
-        new FlxTimer().start(1.3, function(t):Void{
-            if(!lostSong && curAnim == "cheerHold"){
-                playAnim("cheerWin", true);
-            }
-            else if(curAnim == "cheerHold"){
-                playAnim("cheerLose", true);
-            }
-        });
-    }
+	override function playCheer(_lostSong:Bool):Void{
+		playAnim("cheerHold", true);
+		var lostSong:Bool = _lostSong; //IDK why I have to do this but I do.
+		new FlxTimer().start(1.3, function(t):Void{
+			if(!lostSong && curAnim == "cheerHold"){
+				playAnim("cheerWin", true);
+			}
+			else if(curAnim == "cheerHold"){
+				playAnim("cheerLose", true);
+			}
+		});
+	}
 
-    override function toCharacterSelect() {
-        super.toCharacterSelect();
-        for(text in scrollingText){
-            FlxTween.tween(text.velocity, {x: 0}, 1.4, {ease: FlxEase.sineIn});
-        }
-    }
+	override function toCharacterSelect() {
+		super.toCharacterSelect();
+		for(text in scrollingText){
+			FlxTween.tween(text.velocity, {x: 0}, 1.4, {ease: FlxEase.sineIn});
+		}
+	}
 
-    override function backingCardStart():Void{
-        FlxTween.cancelTweensOf(cardFlash);
-        cardFlash.alpha = 1;
-        FlxTween.tween(cardFlash, {alpha: 0}, 16/24, {ease: FlxEase.quartOut});
-    }
+	override function backingCardStart():Void{
+		FlxTween.cancelTweensOf(cardFlash);
+		cardFlash.alpha = 1;
+		FlxTween.tween(cardFlash, {alpha: 0}, 16/24, {ease: FlxEase.quartOut});
+	}
 
-    override function backingCardSelect():Void{
-        cardAcceptBg.visible = true;
+	override function backingCardSelect():Void{
+		cardAcceptBg.visible = true;
 
-        cardAcceptText.visible = true;
-        cardAcceptText.playAnim("text");
+		cardAcceptText.visible = true;
+		cardAcceptText.playAnim("text");
 
-        cardPinkFlash.alpha = 1;
-        FlxTween.tween(cardPinkFlash, {alpha: 0}, 6/24, {ease: FlxEase.quadOut});
+		cardPinkFlash.alpha = 1;
+		FlxTween.tween(cardPinkFlash, {alpha: 0}, 6/24, {ease: FlxEase.quadOut});
 
-        FlxTween.tween(cardGlowDark, {alpha: 0.5}, 0.33, {ease: FlxEase.quadOut, onComplete: function(t){
-            cardGlowDark.alpha = 0.6;
-            cardGlowBright.alpha = 1;
-            cardAcceptTextGlow.visible = true;
-            FlxTween.tween(cardAcceptTextGlow, {alpha: 0.4}, 0.5);
-            FlxTween.tween(cardGlowBright, {alpha: 0}, 0.5);
-        }});
-    }
+		FlxTween.tween(cardGlowDark, {alpha: 0.5}, 0.33, {ease: FlxEase.quadOut, onComplete: function(t){
+			cardGlowDark.alpha = 0.6;
+			cardGlowBright.alpha = 1;
+			cardAcceptTextGlow.visible = true;
+			FlxTween.tween(cardAcceptTextGlow, {alpha: 0.4}, 0.5);
+			FlxTween.tween(cardGlowBright, {alpha: 0}, 0.5);
+		}});
+	}
 
-    function setupCard():Void{
-        setUpScrollingText();
-        addScrollingText();
+	function setupCard():Void{
+		setUpScrollingText();
+		addScrollingText();
 
-        var bg = new FlxSprite().loadGraphic(Paths.image("menu/freeplay/bgs/bf/cardBg"));
+		var bg = new FlxSprite().loadGraphic(Paths.image("menu/freeplay/bgs/bf/cardBg"));
 		bg.antialiasing = true;
-        backingCard.add(bg);
+		backingCard.add(bg);
 
-        backingCard.add(scrollingText);
-        
-        cardAcceptBg = Utils.makeColoredSprite(528, 720, 0xFF171831);
-        cardAcceptBg.antialiasing = true;
-        cardAcceptBg.visible = false;
-        backingCard.add(cardAcceptBg);
+		backingCard.add(scrollingText);
+		
+		cardAcceptBg = Utils.makeColoredSprite(528, 720, 0xFF171831);
+		cardAcceptBg.antialiasing = true;
+		cardAcceptBg.visible = false;
+		backingCard.add(cardAcceptBg);
 
-        cardGlowBright = new FlxSprite(-30, 240).loadGraphic(Paths.image('menu/freeplay/bgs/bf/confirmGlowBright'));
-        cardGlowBright.antialiasing = true;
-        cardGlowBright.alpha = 0;
-        cardGlowBright.blend = BlendMode.ADD;
-        backingCard.add(cardGlowBright);
+		cardGlowBright = new FlxSprite(-30, 240).loadGraphic(Paths.image('menu/freeplay/bgs/bf/confirmGlowBright'));
+		cardGlowBright.antialiasing = true;
+		cardGlowBright.alpha = 0;
+		cardGlowBright.blend = BlendMode.ADD;
+		backingCard.add(cardGlowBright);
 
-        cardGlowDark = new FlxSprite(cardGlowBright.x, cardGlowBright.y).loadGraphic(Paths.image('menu/freeplay/bgs/bf/confirmGlowDark'));
-        cardGlowDark.antialiasing = true;
-        cardGlowDark.alpha = 0;
-        backingCard.add(cardGlowDark);
+		cardGlowDark = new FlxSprite(cardGlowBright.x, cardGlowBright.y).loadGraphic(Paths.image('menu/freeplay/bgs/bf/confirmGlowDark'));
+		cardGlowDark.antialiasing = true;
+		cardGlowDark.alpha = 0;
+		backingCard.add(cardGlowDark);
 
-        cardAcceptText = new AtlasSprite(640, 420, Paths.getTextureAtlas("menu/freeplay/bgs/bf/backing-text-yeah"));
-        cardAcceptText.antialiasing = true;
-        cardAcceptText.visible = false;
-        cardAcceptText.addFullAnimation("text", 24, false);
-        backingCard.add(cardAcceptText);
+		cardAcceptText = new AtlasSprite(640, 420, Paths.getTextureAtlas("menu/freeplay/bgs/bf/backing-text-yeah"));
+		cardAcceptText.antialiasing = true;
+		cardAcceptText.visible = false;
+		cardAcceptText.addFullAnimation("text", 24, false);
+		backingCard.add(cardAcceptText);
 
-        cardAcceptTextGlow = new FlxSprite(-8, 165).loadGraphic(Paths.image("menu/freeplay/bgs/bf/glowingText"));
-        cardAcceptTextGlow.antialiasing = true;
-        cardAcceptTextGlow.visible = false;
-        cardAcceptTextGlow.blend = BlendMode.ADD;
-        backingCard.add(cardAcceptTextGlow);
+		cardAcceptTextGlow = new FlxSprite(-8, 165).loadGraphic(Paths.image("menu/freeplay/bgs/bf/glowingText"));
+		cardAcceptTextGlow.antialiasing = true;
+		cardAcceptTextGlow.visible = false;
+		cardAcceptTextGlow.blend = BlendMode.ADD;
+		backingCard.add(cardAcceptTextGlow);
 
-        cardPinkFlash = Utils.makeColoredSprite(528, 720, 0xFFFFD0D5);
-        cardPinkFlash.antialiasing = true;
-        cardPinkFlash.alpha = 0;
-        backingCard.add(cardPinkFlash);
+		cardPinkFlash = Utils.makeColoredSprite(528, 720, 0xFFFFD0D5);
+		cardPinkFlash.antialiasing = true;
+		cardPinkFlash.alpha = 0;
+		backingCard.add(cardPinkFlash);
 
-        cardFlash = Utils.makeColoredSprite(528, 720, 0xFFFEF8A5);
-        cardFlash.antialiasing = true;
-        cardFlash.blend = BlendMode.ADD;
-        cardFlash.alpha = 0;
-        backingCard.add(cardFlash);
-    }
+		cardFlash = Utils.makeColoredSprite(528, 720, 0xFFFEF8A5);
+		cardFlash.antialiasing = true;
+		cardFlash.blend = BlendMode.ADD;
+		cardFlash.alpha = 0;
+		backingCard.add(cardFlash);
+	}
 
 	function setUpScrollingText():Void{
-        scrollingText = ScriptingUtil.makeFlxSpriteGroup();
+		scrollingText = ScriptingUtil.makeFlxSpriteGroup();
 		scrollingTextStuff = [];
 
 		scrollingTextStuff.push({
@@ -244,9 +244,9 @@ class BoyfriendFreeplay extends DJCharacter
 			position: new FlxPoint(0, 455),
 			velocity: -3.8
 		});
-    }
+	}
 
-    function addScrollingText():Void{
+	function addScrollingText():Void{
 
 		scrollingText.forEachExists(function(text){ text.destroy(); });
 		scrollingText.clear();

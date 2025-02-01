@@ -5,67 +5,67 @@ import flixel.tweens.FlxEase;
 class VideoCutsceneEnd extends ScriptedCutscene
 {
 
-    var video:VideoHandler;
-    var videoOver:Bool = false;
+	var video:VideoHandler;
+	var videoOver:Bool = false;
 
-    var black:FlxSprite;
+	var black:FlxSprite;
 
-    var path:String;
-    var skipable:Bool;
+	var path:String;
+	var skipable:Bool;
 
-    public function new(args:Array<Dynamic>){
-        super(args);
+	public function new(args:Array<Dynamic>){
+		super(args);
 
-        path = args[0];
-        skipable = args[1];
+		path = args[0];
+		skipable = args[1];
 
-        black = new FlxSprite().makeGraphic(1, 1, 0xFF000000);
+		black = new FlxSprite().makeGraphic(1, 1, 0xFF000000);
 		black.scale.set(1280, 720);
 		black.updateHitbox();
 		black.scrollFactor.set();
 		black.visible = false;
 		black.cameras = [playstate.camOverlay];
 
-        video = new VideoHandler();
+		video = new VideoHandler();
 		video.scrollFactor.set();
 		video.antialiasing = true;
 		video.visible = false;
-        video.cameras = [playstate.camOverlay];
+		video.cameras = [playstate.camOverlay];
 
-        addEvent(0, setup);
-    }
+		addEvent(0, setup);
+	}
 
-    override function update(elapsed:Float) {
-        super.update(elapsed);
-        if(!videoOver && Binds.justPressed("menuAccept") && playstate.inVideoCutscene && skipable){
-            videoOver = true;
-            black.visible = true;
+	override function update(elapsed:Float) {
+		super.update(elapsed);
+		if(!videoOver && Binds.justPressed("menuAccept") && playstate.inVideoCutscene && skipable){
+			videoOver = true;
+			black.visible = true;
 			tween.tween(video, {alpha: 0, volume: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
 				video.skip();
 			}});
-        }
-    }
+		}
+	}
 
-    function setup() {
-        playstate.inVideoCutscene = true;
+	function setup() {
+		playstate.inVideoCutscene = true;
 
-        video.visible = true;
-        video.onStart.addOnce(videoStarted);
+		video.visible = true;
+		video.onStart.addOnce(videoStarted);
 
 		video.playMP4(Paths.video(path), function(){
-            videoOver = true;
+			videoOver = true;
 			playstate.customTransOut = new InstantTransition();
-            playstate.endSong();
+			playstate.endSong();
 		}, false);
 
 		addGeneric(black);
 		addGeneric(video);
-    }
+	}
 
-    function videoStarted() {
-        black.visible = true;
-        playstate.camGame.filters = [];
-        playstate.camHUD.visible = false;
-    }
+	function videoStarted() {
+		black.visible = true;
+		playstate.camGame.filters = [];
+		playstate.camHUD.visible = false;
+	}
 
 }

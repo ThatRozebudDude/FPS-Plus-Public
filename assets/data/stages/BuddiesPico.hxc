@@ -8,10 +8,10 @@ class BuddiesPico extends BaseStage
 
 	var chartBlackBG:FlxSprite;
 
-    public function new(){
+	public function new(){
 		super();
 
-        name = "buddiesPico";
+		name = "buddiesPico";
 		startingZoom = 2.8;
 
 		var lilStage = new FlxSprite(0, -34).loadGraphic(Paths.image("fpsPlus/lil/stageP"));
@@ -28,6 +28,6 @@ class BuddiesPico extends BaseStage
 
 		cameraStartPosition = new FlxPoint(256/2, 256/2);
 
-    }
+	}
 
 }
