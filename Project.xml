@@ -120,7 +120,6 @@
 	<!--At fault are both haxelib and the fact that hxCodec doesn't use a macro to point to local installs.-->
 	<!--It uses ${haxelib:hxCodec} which ONLY CHECKS GLOBAL INSTALLS.-->
 	<!--!!REMOVE WHEN HAXELIB UPDATES / HAXE 5.0.0 RELEASES!!-->
-	<!--!!THIS ALSO COUNTS FOR HXVLC, IF FPS+ EVER MOVES TO IT!! (which you should 'cause it's a lot faster than hxCodec)-->
 	<setenv name="HAXEPATH" value="./"/>
 
 	<!--Enable the Flixel core recording system-->
