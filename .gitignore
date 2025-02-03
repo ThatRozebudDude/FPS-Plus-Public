@@ -3,6 +3,7 @@ export/
 releases/
 promo/
 art/scripts/convertedSongs
+art/ignore
 
 # Ignore IDE and library stuff
 .haxelib/
