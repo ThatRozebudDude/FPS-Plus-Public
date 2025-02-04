@@ -96,6 +96,7 @@ class Highscore
 		SaveManager.scores();
 
 		if(FlxG.save.data.scoreFormatVersion == null || cast (FlxG.save.data.scoreFormatVersion, String).split(".")[0] != scoreFormatVersion.split(".")[0] || forceResetScores){
+			trace("Reseting scores!"); //Imma be honest, my scores just got wiped and I don't know why. Can't replicate the issue...
 			FlxG.save.data.songScores = songScores;
 		}
 		//This is to fix broken score files if the save version is a non-breaking format change. (ex. Version 1.0 only saved score and accuracy, version 1.1 adds a rank to the score format)
