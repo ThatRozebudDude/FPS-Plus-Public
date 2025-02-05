@@ -114,7 +114,7 @@ class CharacterInfoBase
 		spritePaths: [],
 		frameLoadType: sparrow,
 		iconName: "face",
-		deathCharacter: "Bf",
+		deathCharacter: "BfDead",
 		resultsCharacter: "BoyfriendResults",
 		healthColor: null,
 		facesLeft: false,
