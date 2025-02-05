@@ -134,6 +134,8 @@ class PlayState extends MusicBeatState
 	public var canChangeVocalVolume:Bool = true;
 	public var songPlaybackSpeed(default, set):Float = 1;
 
+	public var scrollSpeedMultiplier(default, set):Float = 1;
+
 	public var dad:Character;
 	public var gf:Character;
 	public var boyfriend:Character;
@@ -1704,6 +1706,8 @@ class PlayState extends MusicBeatState
 				scrollSpeed = FlxMath.roundDecimal(PlayState.SONG.speed, 2);
 			}
 
+			scrollSpeed *= scrollSpeedMultiplier;
+
 			if(Config.downscroll){
 				daNote.y = (targetY + (Conductor.songPosition - daNote.strumTime) * (0.45 * scrollSpeed)) - daNote.yOffset;	
 				if(daNote.isSustainNote){
@@ -2934,6 +2938,21 @@ class PlayState extends MusicBeatState
 	private function set_songPlaybackSpeed(value:Float):Float{
 		songPlaybackSpeed = value;
 		Conductor.recalculateHitZones(value);
+		return value;
+	}
+	
+	private function set_scrollSpeedMultiplier(value:Float):Float{
+		scrollSpeedMultiplier = value;
+		for(note in unspawnNotes){
+			if(note.isSustainNote && !note.isSustainEnd){
+				note.updateHoldLength(value);
+			}
+		}
+		notes.forEachAlive(function(note){
+			if(note.isSustainNote && !note.isSustainEnd){
+				note.updateHoldLength(value);
+			}
+		});
 		return value;
 	}
 
