@@ -265,7 +265,7 @@ class VideoHandler extends FlxSprite
 			else{
 				var vol:Float = FlxG.sound.volume;
 				vol = (vol) * 0.7;
-				vol += 0.3;
+				vol += vol > 0.001 ? 0.3 : 0;
 				bitmap.volume = Std.int(vol * volume * 100);
 			}
 
