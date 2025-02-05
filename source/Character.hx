@@ -394,6 +394,9 @@ class Character extends FlxSpriteGroup
 			case sparrow:
 				character = new FlxSprite();
 				character.frames = Paths.getSparrowAtlas(characterInfo.info.spritePath);
+			case multiSparrow:
+				character = new FlxSprite();
+				character.frames = Paths.getMultipleSparrowAtlas(characterInfo.info.spritePaths);
 			case packer:
 				character = new FlxSprite();
 				character.frames = Paths.getPackerAtlas(characterInfo.info.spritePath);

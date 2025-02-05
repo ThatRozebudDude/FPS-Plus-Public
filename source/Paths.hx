@@ -89,6 +89,23 @@ class Paths
 		return 'assets/images/$key';
 	}
 
+	//Stolen from Psych Engine hehehhehe
+	inline static public function getMultipleSparrowAtlas(keys:Array<String>){
+		var parentFrames:FlxAtlasFrames = getSparrowAtlas(keys[0]);
+		if(keys.length > 1){
+			var original:FlxAtlasFrames = parentFrames;
+			parentFrames = new FlxAtlasFrames(parentFrames.parent);
+			parentFrames.addAtlas(original, true);
+			for (i in 1...keys.length){
+				var extraFrames:FlxAtlasFrames = getSparrowAtlas(keys[i]);
+				if(extraFrames != null){
+					parentFrames.addAtlas(extraFrames, true);
+				}
+			}
+		}
+		return parentFrames;
+	}
+
 	inline static public function video(key:String){
 		return file(key, "videos", "mp4");
 	}

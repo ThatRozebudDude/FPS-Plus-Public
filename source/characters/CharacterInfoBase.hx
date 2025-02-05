@@ -24,6 +24,7 @@ enum FrameLoadType {
 	packer;
 	load(frameWidth:Int, frameHeight:Int);
 	atlas;
+	multiSparrow;
 }
 
 typedef AnimInfo = {
@@ -71,6 +72,7 @@ typedef CharacterFunctions = {
 typedef CharacterInfo = {
 	var name:String;
 	var spritePath:String;
+	var spritePaths:Array<String>;
 	var frameLoadType:FrameLoadType;
 	var iconName:String;
 	var deathCharacter:String;
@@ -109,6 +111,7 @@ class CharacterInfoBase
 	public var info:CharacterInfo = {
 		name: "",
 		spritePath: "",
+		spritePaths: [],
 		frameLoadType: sparrow,
 		iconName: "face",
 		deathCharacter: "Bf",
@@ -430,6 +433,7 @@ class CharacterInfoBase
 	function setPacker():FrameLoadType{ return FrameLoadType.packer; }
 	function setLoad(frameWidth:Int, frameHeight:Int):FrameLoadType{ return FrameLoadType.load(frameWidth, frameHeight); }
 	function setAtlas():FrameLoadType{ return FrameLoadType.atlas; }
+	function setMultiSparrow():FrameLoadType{ return FrameLoadType.multiSparrow; }
 
 	public function toString():String{ return ""+info; }
 }
