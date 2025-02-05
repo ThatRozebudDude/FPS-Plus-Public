@@ -66,7 +66,7 @@ class MusicEvents extends Events
 	//Event descriptions. Not required but it helps with charting.
 	var MUTE_INST_DESC:String = "Mutes the instrumental.";
 	var PLAY_INST_DESC:String = "Plays the instrumental.";
-	var PLAY_VOCALS_DESC:String = "Plays the instrumental.\n\nArgs:\n    String: Voice track (\"bf\", \"dad\", or \"all\")";
-	var MUTE_VOCALS_DESC:String = "Plays the instrumental.\n\nArgs:\n    String: Voice track (\"bf\", \"dad\", or \"all\")";
+	var PLAY_VOCALS_DESC:String = "Plays the vocals.\n\nArgs:\n    String: Voice track (\"bf\", \"dad\", or \"all\")";
+	var MUTE_VOCALS_DESC:String = "Mutes the vocals.\n\nArgs:\n    String: Voice track (\"bf\", \"dad\", or \"all\")";
 	var TOGGLE_VOCAL_VOLUME_LOCK_DESC:String = "Toggles whether hitting/missing notes will toggle the volume on the vocal tracks.";
 }
