@@ -1,7 +1,3 @@
-# 6.2.0 *(Current Upcoming Release)*
-
-- Get build ready to release. *(I am lazy but I think it's basically all done.)*
-
 # 6.3.0 *(Planned Features)*
 
 - Config menu redesign.
