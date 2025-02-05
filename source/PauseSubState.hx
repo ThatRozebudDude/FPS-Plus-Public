@@ -116,6 +116,8 @@ class PauseSubState extends MusicBeatSubstate
 		for(script in PlayState.instance.scripts){ script.pause(); }
 
 		super.create();
+
+		Utils.gc();
 	}
 
 	override function update(elapsed:Float){
