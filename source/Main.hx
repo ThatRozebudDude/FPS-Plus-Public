@@ -22,8 +22,9 @@ class Main extends Sprite
 	{
 		super();
 
+		// Initalize HaxeUI
 		Toolkit.init();
-		Toolkit.theme = 'dark'; // don't be cringe
+		Toolkit.theme = 'dark';
 		Toolkit.autoScale = false;
 
 		PolymodHandler.init();

@@ -186,12 +186,6 @@ class ChartingState extends UIState
 		//Hardcoded Components
 		components.set("lilBuddies", new LilBuddies(32, 432, this));
 
-		//Scripted Components(W.I.P yet)
-		for (script in ScriptableChartComponent.listScriptClasses())
-		{
-			components.set(script, ScriptableChartComponent.init(script, 0, 0, this));
-		}
-
 		lastSection = 0;
 
 		var gridBG2Length:Int = 4;

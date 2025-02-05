@@ -253,7 +253,7 @@ class PolymodHandler
 		Polymod.addDefaultImport(Scoring);
 		Polymod.addDefaultImport(note.Note);
 		Polymod.addDefaultImport(shaders.RuntimeShader);
-		Polymod.addDefaultImport(debug.ChartingState);
+		Polymod.addDefaultImport(debug.charting.ChartingState);
 		
 		Polymod.addDefaultImport(Utils);
 		Polymod.addDefaultImport(modding.ScriptingUtil);
