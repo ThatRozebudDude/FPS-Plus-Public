@@ -1,18 +1,18 @@
 class ExecuteEvents extends ScriptedCutscene
 {
 
-    var e:Array<String>;
+	var e:Array<String>;
 
-    public function new(args:Array<Dyanmic>) {
-        super(args);
+	public function new(args:Array<Dyanmic>) {
+		super(args);
 
-        e = args[0];
-        addEvent(0, executeEvents);
-    }
+		e = args[0];
+		addEvent(0, executeEvents);
+	}
 
-    function executeEvents() {
-        for(event in e){ playstate.executeEvent(event); }
-        next();
-    }
+	function executeEvents() {
+		for(event in e){ playstate.executeEvent(event); }
+		next();
+	}
 
 }

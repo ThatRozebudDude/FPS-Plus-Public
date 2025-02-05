@@ -8,10 +8,10 @@ class Chart extends BaseStage
 
 	var chartBlackBG:FlxSprite;
 
-    public function new(){
+	public function new(){
 		super();
 		
-        name = "chart";
+		name = "chart";
 
 		if(PlayState.fceForLilBuddies){
 			startingZoom = 1;
@@ -67,7 +67,7 @@ class Chart extends BaseStage
 			cameraStartPosition = new FlxPoint(155, 600);
 		}
 
-    }
+	}
 
 	public override function songStart(){
 		tween.tween(chartBlackBG, {alpha: 1}, Conductor.crochet / 1000 * 16);

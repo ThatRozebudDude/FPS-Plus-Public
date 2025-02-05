@@ -3,20 +3,20 @@ import flixel.tweens.FlxEase;
 
 class LilBuddiesIntro extends ScriptedCutscene
 {
-    
-    public function new(args:Array<Dynamic>){
-        super(args);
+	
+	public function new(args:Array<Dynamic>){
+		super(args);
 		
-        if(PlayState.fceForLilBuddies){
-            addEvent(0, lilBuddiesIntro);
-        }
-        else{
-            addEvent(0, noIntro);
-        }
-    }
+		if(PlayState.fceForLilBuddies){
+			addEvent(0, lilBuddiesIntro);
+		}
+		else{
+			addEvent(0, noIntro);
+		}
+	}
 
-    function lilBuddiesIntro() {
-        playstate.instantStart();
+	function lilBuddiesIntro() {
+		playstate.instantStart();
 
 		playstate.healthBar.alpha = 0;
 		playstate.healthBarBG.alpha = 0;
@@ -24,7 +24,7 @@ class LilBuddiesIntro extends ScriptedCutscene
 		playstate.iconP2.alpha = 0;
 		playstate.scoreTxt.alpha = 0;
 
-        for(x in playstate.playerStrums.members){
+		for(x in playstate.playerStrums.members){
 			x.alpha = 0;
 		}
 		for(x in playstate.enemyStrums.members){
@@ -51,7 +51,7 @@ class LilBuddiesIntro extends ScriptedCutscene
 			}
 		});
 		playstate.camMove(155, 600, Conductor.crochet / 1000 * 16, FlxEase.quadOut, "center");
-    }
+	}
 
 	function noIntro():Void{
 		next(false);

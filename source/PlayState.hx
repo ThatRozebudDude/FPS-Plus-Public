@@ -77,10 +77,10 @@ class PlayState extends MusicBeatState
 
 	public static var uiSkinNames = {
 		comboPopup: "Default",
-    	countdown: "Default",
-    	note: "DefaultNoteSkin",
-    	playerNotes: "Default",
-    	opponentNotes: "Default"
+		countdown: "Default",
+		note: "DefaultNoteSkin",
+		playerNotes: "Default",
+		opponentNotes: "Default"
 	};
 
 	var previousReportedSongTime:Float = -1;

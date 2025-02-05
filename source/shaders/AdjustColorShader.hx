@@ -94,7 +94,7 @@ class AdjustColorShaderGLSL extends FlxShader
 			if(value > 0.0){ value = value * 3.0; }
 			value = (1.0 + (value / 100.0));
 			vec3 grayscale = vec3(dot(aColor, grayscaleValues));
-            return clamp(mix(grayscale, aColor, value), 0.0, 1.0);
+			return clamp(mix(grayscale, aColor, value), 0.0, 1.0);
 		}
 
 		vec3 applyContrast(vec3 aColor, float value){
@@ -103,10 +103,10 @@ class AdjustColorShaderGLSL extends FlxShader
 				value = (((0.00852259 * pow(e, 4.76454 * (value - 1.0))) * 1.01) - 0.0086078159) * 10.0; //Just roll with it...
 				value += 1.0;
 			}
-            return clamp((aColor - 0.25) * value + 0.25, 0.0, 1.0);
+			return clamp((aColor - 0.25) * value + 0.25, 0.0, 1.0);
 		}
 
-        vec3 applyHSBCEffect(vec3 color){
+		vec3 applyHSBCEffect(vec3 color){
 
 			//Brightness
 			color = color + ((brightness) / 255.0);
@@ -118,10 +118,10 @@ class AdjustColorShaderGLSL extends FlxShader
 			color = applyContrast(color, contrast);
 
 			//Saturation
-            color = applySaturation(color, saturation);
+			color = applySaturation(color, saturation);
 			
-            return color;
-        }
+			return color;
+		}
 
 		void main(){
 

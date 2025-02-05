@@ -19,10 +19,10 @@ class SpookyMansionErect extends BaseStage
 	var lightningSound:FlxSound = new FlxSound();
 	var unpauseSoundCheck:Bool = false;
 
-    public function new(){
+	public function new(){
 		super();
 
-        name = "spookyErect";
+		name = "spookyErect";
 		startingZoom = 1;
 
 		var color:FlxSprite = Utils.makeColoredSprite(2400, 2000, 0xFF03020B);
@@ -61,7 +61,7 @@ class SpookyMansionErect extends BaseStage
 
 		addEvent("spookyErect-toggleLightning", toggleLightning);
 		addEvent("spookyErect-forceLightning", lightningEvent);
-    }
+	}
 
 	public override function beat(curBeat:Int){
 		trackBeat = curBeat;

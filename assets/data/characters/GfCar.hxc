@@ -1,23 +1,23 @@
 class GfCar extends CharacterInfoBase
 {
 
-    public function new(){
-        super();
+	public function new(){
+		super();
 
-        includeInCharacterList = false;
-        includeInGfList = true;
+		includeInCharacterList = false;
+		includeInGfList = true;
 
-        info.name = "gf-car";
-        info.spritePath = "week4/gfCar";
-        info.frameLoadType = setSparrow();
-        
-        info.iconName = "gf";
-        info.focusOffset.set();
+		info.name = "gf-car";
+		info.spritePath = "week4/gfCar";
+		info.frameLoadType = setSparrow();
+		
+		info.iconName = "gf";
+		info.focusOffset.set();
 
 		addByIndices('danceLeft', offset(), 'GF Dancing Beat Hair blowing CAR', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, loop(false));
 		addByIndices('danceRight', offset(), 'GF Dancing Beat Hair blowing CAR', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, loop(false));
 
-        info.idleSequence = ["danceLeft", "danceRight"];
-    }
+		info.idleSequence = ["danceLeft", "danceRight"];
+	}
 
 }

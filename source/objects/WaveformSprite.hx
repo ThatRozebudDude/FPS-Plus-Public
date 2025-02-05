@@ -21,42 +21,42 @@ Bleh.
 class WaveformSprite extends FlxSprite
 {
 
-    public var audioSource:FlxSound;
-    public var waveformColor:FlxColor = 0xFFFFFFFF;
-    public var waveformSampleLength:Float = 0.5;
-    public var waveformDrawStep:Float = 1;
-    public var waveformDrawNegativeSpace:Float = 0;
-    public var waveformMultiply:Float = 1;
+	public var audioSource:FlxSound;
+	public var waveformColor:FlxColor = 0xFFFFFFFF;
+	public var waveformSampleLength:Float = 0.5;
+	public var waveformDrawStep:Float = 1;
+	public var waveformDrawNegativeSpace:Float = 0;
+	public var waveformMultiply:Float = 1;
 
-    public var framerate:Float = 60;
-    public var uncapFramerate:Bool = false;
+	public var framerate:Float = 60;
+	public var uncapFramerate:Bool = false;
 
-    var frametime:Float = 0;
+	var frametime:Float = 0;
 
-    public override function new(x, y, _width:Int, _height:Int, _audioSource:FlxSound) {
-        super(x, y);
+	public override function new(x, y, _width:Int, _height:Int, _audioSource:FlxSound) {
+		super(x, y);
 
-        width = _width;
-        height = _height;
+		width = _width;
+		height = _height;
 
-        makeGraphic(Std.int(width), Std.int(height), 0x00FFFFFF);
-        audioSource = _audioSource;
-    }
+		makeGraphic(Std.int(width), Std.int(height), 0x00FFFFFF);
+		audioSource = _audioSource;
+	}
 
-    public override function update(elapsed) {
-        super.update(elapsed);
-        if(active && audioSource.playing){
-            if(frametime >= 1/framerate || uncapFramerate){
-                updateWaveform();
-                frametime = 0;
-            }
-            else{
-                frametime += elapsed;
-            }
-        }
-    }
+	public override function update(elapsed) {
+		super.update(elapsed);
+		if(active && audioSource.playing){
+			if(frametime >= 1/framerate || uncapFramerate){
+				updateWaveform();
+				frametime = 0;
+			}
+			else{
+				frametime += elapsed;
+			}
+		}
+	}
 
-    var waveformPrinted:Bool = true;
+	var waveformPrinted:Bool = true;
 	var wavData:Array<Array<Array<Float>>> = [[[0], [0]], [[0], [0]]];
 
 	function updateWaveform() {

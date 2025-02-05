@@ -6,17 +6,17 @@ import flixel.text.FlxText;
 class FlxTextExt extends FlxText
 {
 
-    public var outlineSteps:Int = 16;
-    public var outlineExpandDistance:Float = 8;
+	public var outlineSteps:Int = 16;
+	public var outlineExpandDistance:Float = 8;
 
-    public var leading(get, set):Null<Int>;
+	public var leading(get, set):Null<Int>;
 
-    public function new(X:Float = 0, Y:Float = 0, FieldWidth:Float = 0, ?Text:String, Size:Int = 8, EmbeddedFont:Bool = true) {
-        super(X, Y, FieldWidth, Text, Size, EmbeddedFont);
-        antialiasing = true;
-    }
+	public function new(X:Float = 0, Y:Float = 0, FieldWidth:Float = 0, ?Text:String, Size:Int = 8, EmbeddedFont:Bool = true) {
+		super(X, Y, FieldWidth, Text, Size, EmbeddedFont);
+		antialiasing = true;
+	}
 
-    override function applyBorderStyle():Void
+	override function applyBorderStyle():Void
 	{
 		var iterations:Int = Std.int(borderSize * borderQuality);
 		if (iterations <= 0)
@@ -40,32 +40,32 @@ class FlxTextExt extends FlxText
 				_matrix.translate(-shadowOffset.x * borderSize, -shadowOffset.y * borderSize);
 
 			case OUTLINE:
-                
+				
 				applyFormats(_formatAdjusted, true);
 
-                var outlineExpandDelta:Float = outlineExpandDistance;
+				var outlineExpandDelta:Float = outlineExpandDistance;
 
-                while(true){
+				while(true){
 
-                    var breakAfterThing:Bool = false;
-                    
-                    if(outlineExpandDelta > borderSize){
-                        outlineExpandDelta = borderSize;
-                        breakAfterThing = true;
-                    }
+					var breakAfterThing:Bool = false;
+					
+					if(outlineExpandDelta > borderSize){
+						outlineExpandDelta = borderSize;
+						breakAfterThing = true;
+					}
 
-                    var stepSize:Float = 360/outlineSteps;
-                    for(j in 0...outlineSteps){
-                        copyTextAtAngle(stepSize * j, outlineExpandDelta);
-                    }
+					var stepSize:Float = 360/outlineSteps;
+					for(j in 0...outlineSteps){
+						copyTextAtAngle(stepSize * j, outlineExpandDelta);
+					}
 
-                    if(breakAfterThing){
-                        break;
-                    }
+					if(breakAfterThing){
+						break;
+					}
 
-                    outlineExpandDelta += outlineExpandDistance;
+					outlineExpandDelta += outlineExpandDistance;
 
-                }
+				}
 
 			case OUTLINE_FAST:
 				// Render an outline around the text
@@ -89,79 +89,79 @@ class FlxTextExt extends FlxText
 		}
 	}
 
-    inline function copyTextAtAngle(angle:Float, distance:Float = 1) {
+	inline function copyTextAtAngle(angle:Float, distance:Float = 1) {
 
-        var newX = distance * cos(angle);
-        var newY = distance * sin(angle);
+		var newX = distance * cos(angle);
+		var newY = distance * sin(angle);
 
 		var graphic:BitmapData = _hasBorderAlpha ? _borderPixels : graphic.bitmap;
 		_matrix.translate(newX, newY);
 		drawTextFieldTo(graphic);
-        _matrix.translate(-newX, -newY);
+		_matrix.translate(-newX, -newY);
 	}
 
-    //my lookup table :face_holding_back_tears:
-    inline function cos(a:Float):Float{
+	//my lookup table :face_holding_back_tears:
+	inline function cos(a:Float):Float{
 
-        switch(a){
-            case 0 | 360:
-                return 1;
-            case 22.5 | 337.5:
-                return 0.92387953251;
-            case 45 | 315:
-                return 0.70710678118;
-            case 67.5 | 292.5:
-                return 0.38268343236;
-            case 90 | 270:
-                return 0;
-            case 112.5 | 247.5:
-                return -0.38268343236;
-            case 135 | 225:
-                return -0.70710678118;
-            case 157.5 | 202.5:
-                return -0.92387953251;
-            case 180:
-                return -1;
-            default:
-                //trace("not in table");
-                return Math.cos(angle);
-        }
+		switch(a){
+			case 0 | 360:
+				return 1;
+			case 22.5 | 337.5:
+				return 0.92387953251;
+			case 45 | 315:
+				return 0.70710678118;
+			case 67.5 | 292.5:
+				return 0.38268343236;
+			case 90 | 270:
+				return 0;
+			case 112.5 | 247.5:
+				return -0.38268343236;
+			case 135 | 225:
+				return -0.70710678118;
+			case 157.5 | 202.5:
+				return -0.92387953251;
+			case 180:
+				return -1;
+			default:
+				//trace("not in table");
+				return Math.cos(angle);
+		}
 
-    }
+	}
 
-    inline function sin(a:Float):Float{
+	inline function sin(a:Float):Float{
 
-        switch(a){
-            case 0 | 180 | 360:
-                return 0;
-            case 22.5 | 157.5:
-                return 0.38268343236;
-            case 45 | 135:
-                return 0.70710678118;
-            case 67.5 | 112.5:
-                return 0.92387953251;
-            case 90:
-                return 1;
-            case 202.5 | 337.5:
-                return -0.38268343236;
-            case 225 | 315:
-                return -0.70710678118;
-            case 247.5 | 292.5:
-                return -0.92387953251;
-            case 270:
-                return -1;
-            default:
-                //trace("not in table");
-                return Math.sin(angle);
-        }
+		switch(a){
+			case 0 | 180 | 360:
+				return 0;
+			case 22.5 | 157.5:
+				return 0.38268343236;
+			case 45 | 135:
+				return 0.70710678118;
+			case 67.5 | 112.5:
+				return 0.92387953251;
+			case 90:
+				return 1;
+			case 202.5 | 337.5:
+				return -0.38268343236;
+			case 225 | 315:
+				return -0.70710678118;
+			case 247.5 | 292.5:
+				return -0.92387953251;
+			case 270:
+				return -1;
+			default:
+				//trace("not in table");
+				return Math.sin(angle);
+		}
 
-    }
+	}
 
-    function set_leading(value:Null<Int>):Null<Int> {
-        _defaultFormat.leading = value;
+	function set_leading(value:Null<Int>):Null<Int> {
+		_defaultFormat.leading = value;
 		updateDefaultFormat();
 		return value;
-    }
+	}
 
 	inline function get_leading():Null<Int> {
 		return _defaultFormat.leading;

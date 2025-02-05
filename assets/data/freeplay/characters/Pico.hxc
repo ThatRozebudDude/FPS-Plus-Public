@@ -11,189 +11,189 @@ import flixel.sound.FlxSound;
 
 class PicoFreeplay extends DJCharacter
 {
-    var cardFlash:FlxSprite;
-    var cardGlow:FlxSprite;
-    var confirmAtlas:AtlasSprite;
+	var cardFlash:FlxSprite;
+	var cardGlow:FlxSprite;
+	var confirmAtlas:AtlasSprite;
 
-    var scrollTop:FlxBackdrop;
-    var scrollMiddle:FlxBackdrop;
-    var scrollLower:FlxBackdrop;
-    var scrollBack:FlxBackdrop;
+	var scrollTop:FlxBackdrop;
+	var scrollMiddle:FlxBackdrop;
+	var scrollLower:FlxBackdrop;
+	var scrollBack:FlxBackdrop;
 
-    override function setup():Void{
-        listSuffix = "pico";
-        idleCount = 1;
-        canPlayIdleAfter = ["idle1start"];
+	override function setup():Void{
+		listSuffix = "pico";
+		idleCount = 1;
+		canPlayIdleAfter = ["idle1start"];
 
-        setPosition(-9, 290);
-        freeplaySkin = "pico";
-        capsuleDeselectColor = 0xFF9D9A96;
-        capsuleSelectOutlineColor = 0xFF795629;
-        capsuleDeselectOutlineColor = 0xFF4E2612;
+		setPosition(-9, 290);
+		freeplaySkin = "pico";
+		capsuleDeselectColor = 0xFF9D9A96;
+		capsuleSelectOutlineColor = 0xFF795629;
+		capsuleDeselectOutlineColor = 0xFF4E2612;
 
-        loadAtlas(Paths.getTextureAtlas("menu/freeplay/dj/pico"));
+		loadAtlas(Paths.getTextureAtlas("menu/freeplay/dj/pico"));
 
-        addAnimationByLabel('idle', "Idle", 24, true, -8);
-        addAnimationByLabel('intro', "Intro", 24);
-        addAnimationByLabel('confirm', "Confirm", 24, true, -8);
-        addAnimationByLabel('cheerHoldWin', "RatingHoldWin", 24, true, 0);
-        addAnimationByLabel('cheerHoldLose', "RatingHoldLose", 24, true, 0);
-        addAnimationByLabel('cheerWin', "Win", 24, false);
-        addAnimationByLabel('cheerLose', "Lose", 24, false);
-        addAnimationByLabel('jump', "Jump", 24, true, -8);
-        addAnimationByLabel('idle1start', "Idle1", 24);
+		addAnimationByLabel('idle', "Idle", 24, true, -8);
+		addAnimationByLabel('intro', "Intro", 24);
+		addAnimationByLabel('confirm', "Confirm", 24, true, -8);
+		addAnimationByLabel('cheerHoldWin', "RatingHoldWin", 24, true, 0);
+		addAnimationByLabel('cheerHoldLose', "RatingHoldLose", 24, true, 0);
+		addAnimationByLabel('cheerWin', "Win", 24, false);
+		addAnimationByLabel('cheerLose', "Lose", 24, false);
+		addAnimationByLabel('jump', "Jump", 24, true, -8);
+		addAnimationByLabel('idle1start', "Idle1", 24);
 
-        animationEndCallback = function(name) {
-            switch(name){
-                case "intro":
-                    introFinish();
-                    skipNextIdle = true;
-                    playAnim("idle", true);
-                case "cheerWin":
-                    playAnim("idle", true);
-                case "cheerLose":
-                    playAnim("idle", true);
-                case "idle1start":
-                    playAnim("idle", true);
-                    skipNextIdle = true;
-            }
-        }
+		animationEndCallback = function(name) {
+			switch(name){
+				case "intro":
+					introFinish();
+					skipNextIdle = true;
+					playAnim("idle", true);
+				case "cheerWin":
+					playAnim("idle", true);
+				case "cheerLose":
+					playAnim("idle", true);
+				case "idle1start":
+					playAnim("idle", true);
+					skipNextIdle = true;
+			}
+		}
 
-        setupCard();
-        super.setup();
-    }
+		setupCard();
+		super.setup();
+	}
 
-    override function update(elapsed:Float):Void{
-        super.update(elapsed);
-        var scrollProgress:Float = Math.abs(scrollTop.x % (scrollTop.frameWidth + 20));
+	override function update(elapsed:Float):Void{
+		super.update(elapsed);
+		var scrollProgress:Float = Math.abs(scrollTop.x % (scrollTop.frameWidth + 20));
 
-        if (scrollTop.animation.curAnim.finished == true){
-            if (FlxMath.inBounds(scrollProgress, 500, 700) && scrollTop.animation.curAnim.name != 'sniper'){
-                scrollTop.animation.play('sniper', true, false);
-            }
-        
-            if (FlxMath.inBounds(scrollProgress, 700, 1300) && scrollTop.animation.curAnim.name != 'rifle'){
-                scrollTop.animation.play('rifle', true, false);
-            }
-        
-            if (FlxMath.inBounds(scrollProgress, 1450, 2000) && scrollTop.animation.curAnim.name != 'rocket launcher'){
-                scrollTop.animation.play('rocket launcher', true, false);
-            }
-        
-            if (FlxMath.inBounds(scrollProgress, 0, 300) && scrollTop.animation.curAnim.name != 'uzi'){
-                scrollTop.animation.play('uzi', true, false);
-            }
-        }
-    }
+		if (scrollTop.animation.curAnim.finished == true){
+			if (FlxMath.inBounds(scrollProgress, 500, 700) && scrollTop.animation.curAnim.name != 'sniper'){
+				scrollTop.animation.play('sniper', true, false);
+			}
+		
+			if (FlxMath.inBounds(scrollProgress, 700, 1300) && scrollTop.animation.curAnim.name != 'rifle'){
+				scrollTop.animation.play('rifle', true, false);
+			}
+		
+			if (FlxMath.inBounds(scrollProgress, 1450, 2000) && scrollTop.animation.curAnim.name != 'rocket launcher'){
+				scrollTop.animation.play('rocket launcher', true, false);
+			}
+		
+			if (FlxMath.inBounds(scrollProgress, 0, 300) && scrollTop.animation.curAnim.name != 'uzi'){
+				scrollTop.animation.play('uzi', true, false);
+			}
+		}
+	}
 
-    override function beat(curBeat:Int):Void{
-        super.beat(curBeat);
-        if(FlxG.sound.music.playing && curBeat % 2 == 0){
-            FlxTween.cancelTweensOf(cardGlow);
-            FlxTween.color(cardGlow, 8/24, 0xFFB7E5FF, 0xFF6C8DEB, {ease: FlxEase.quadOut});
-        }
-    }
+	override function beat(curBeat:Int):Void{
+		super.beat(curBeat);
+		if(FlxG.sound.music.playing && curBeat % 2 == 0){
+			FlxTween.cancelTweensOf(cardGlow);
+			FlxTween.color(cardGlow, 8/24, 0xFFB7E5FF, 0xFF6C8DEB, {ease: FlxEase.quadOut});
+		}
+	}
 
-    override function playCheer(_lostSong:Bool):Void{
-        var lostSong:Bool = _lostSong; //IDK why I have to do this but I do.
-        if(!lostSong){
-            playAnim("cheerHoldWin", true);
-            new FlxTimer().start(1.35, function(t):Void{
-                if(curAnim == "cheerHoldWin"){
-                    playAnim("cheerWin", true);
-                }
-            });
-        }
-        else{
-            playAnim("cheerHoldLose", true);
-            new FlxTimer().start(1.35, function(t):Void{
-                if(curAnim == "cheerHoldLose"){
-                    playAnim("cheerLose", true);
-                }
-            });
-        }
-    }
+	override function playCheer(_lostSong:Bool):Void{
+		var lostSong:Bool = _lostSong; //IDK why I have to do this but I do.
+		if(!lostSong){
+			playAnim("cheerHoldWin", true);
+			new FlxTimer().start(1.35, function(t):Void{
+				if(curAnim == "cheerHoldWin"){
+					playAnim("cheerWin", true);
+				}
+			});
+		}
+		else{
+			playAnim("cheerHoldLose", true);
+			new FlxTimer().start(1.35, function(t):Void{
+				if(curAnim == "cheerHoldLose"){
+					playAnim("cheerLose", true);
+				}
+			});
+		}
+	}
 
-    override function toCharacterSelect() {
-        super.toCharacterSelect();
-        FlxTween.tween(scrollBack.velocity, {x: 0}, 1.2, {ease: FlxEase.sineIn});
-        FlxTween.tween(scrollLower.velocity, {x: 0}, 1.2, {ease: FlxEase.sineIn});
-        FlxTween.tween(scrollTop.velocity, {x: 0}, 1.2, {ease: FlxEase.sineIn});
-        FlxTween.tween(scrollMiddle.velocity, {x: 0}, 1.2, {ease: FlxEase.sineIn});
-    }
+	override function toCharacterSelect() {
+		super.toCharacterSelect();
+		FlxTween.tween(scrollBack.velocity, {x: 0}, 1.2, {ease: FlxEase.sineIn});
+		FlxTween.tween(scrollLower.velocity, {x: 0}, 1.2, {ease: FlxEase.sineIn});
+		FlxTween.tween(scrollTop.velocity, {x: 0}, 1.2, {ease: FlxEase.sineIn});
+		FlxTween.tween(scrollMiddle.velocity, {x: 0}, 1.2, {ease: FlxEase.sineIn});
+	}
 
-    override function backingCardStart():Void{
-        FlxTween.cancelTweensOf(cardFlash);
-        cardFlash.alpha = 1;
-        FlxTween.tween(cardFlash, {alpha: 0}, 16/24, {ease: FlxEase.quartOut});
-    }
+	override function backingCardStart():Void{
+		FlxTween.cancelTweensOf(cardFlash);
+		cardFlash.alpha = 1;
+		FlxTween.tween(cardFlash, {alpha: 0}, 16/24, {ease: FlxEase.quartOut});
+	}
 
-    override function backingCardSelect():Void{
-        confirmAtlas.visible = true;
-        confirmAtlas.playAnim("confirm");
-    }
+	override function backingCardSelect():Void{
+		confirmAtlas.visible = true;
+		confirmAtlas.playAnim("confirm");
+	}
 
-    function setupCard():Void{
-        
-        var bg = Utils.makeColoredSprite(528, 720, 0xFF98A2F3);
+	function setupCard():Void{
+		
+		var bg = Utils.makeColoredSprite(528, 720, 0xFF98A2F3);
 		bg.antialiasing = true;
-        backingCard.add(bg);
+		backingCard.add(bg);
 
-        scrollBack = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/lowerLoop'), ScriptingUtil.axisX, 20);
-        scrollBack.setPosition(0, 200);
-        scrollBack.flipX = true;
-        scrollBack.alpha = 0.39;
-        scrollBack.velocity.x = 110;
-        scrollBack.antialiasing = true;
-        backingCard.add(scrollBack);
+		scrollBack = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/lowerLoop'), ScriptingUtil.axisX, 20);
+		scrollBack.setPosition(0, 200);
+		scrollBack.flipX = true;
+		scrollBack.alpha = 0.39;
+		scrollBack.velocity.x = 110;
+		scrollBack.antialiasing = true;
+		backingCard.add(scrollBack);
 
-        scrollLower = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/lowerLoop'), ScriptingUtil.axisX, 20);
-        scrollLower.setPosition(0, 406);
-        scrollLower.velocity.x = -110;
-        scrollLower.antialiasing = true;
-        backingCard.add(scrollLower);
+		scrollLower = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/lowerLoop'), ScriptingUtil.axisX, 20);
+		scrollLower.setPosition(0, 406);
+		scrollLower.velocity.x = -110;
+		scrollLower.antialiasing = true;
+		backingCard.add(scrollLower);
 
-        var bar = new FlxSprite().loadGraphic(Paths.image("menu/freeplay/bgs/pico/blueBar"));
+		var bar = new FlxSprite().loadGraphic(Paths.image("menu/freeplay/bgs/pico/blueBar"));
 		bar.antialiasing = true;
-        bar.blend = ScriptingUtil.multiply;
-        bar.alpha = 0.4;
-        backingCard.add(bar);
+		bar.blend = ScriptingUtil.multiply;
+		bar.alpha = 0.4;
+		backingCard.add(bar);
 
-        scrollTop = new FlxBackdrop(null, ScriptingUtil.axisX, 20);
-        scrollTop.setPosition(0, 80);
-        scrollTop.velocity.x = -220;
-        scrollTop.antialiasing = true;
-        scrollTop.frames = Paths.getSparrowAtlas('menu/freeplay/bgs/pico/topLoop');
-        scrollTop.animation.addByPrefix('uzi', 'uzi info', 24, false);
-        scrollTop.animation.addByPrefix('sniper', 'sniper info', 24, false);
-        scrollTop.animation.addByPrefix('rocket launcher', 'rocket launcher info', 24, false);
-        scrollTop.animation.addByPrefix('rifle', 'rifle info', 24, false);
-        scrollTop.animation.addByPrefix('base', 'base', 24, false);
-        scrollTop.animation.play('base');
-        backingCard.add(scrollTop);
+		scrollTop = new FlxBackdrop(null, ScriptingUtil.axisX, 20);
+		scrollTop.setPosition(0, 80);
+		scrollTop.velocity.x = -220;
+		scrollTop.antialiasing = true;
+		scrollTop.frames = Paths.getSparrowAtlas('menu/freeplay/bgs/pico/topLoop');
+		scrollTop.animation.addByPrefix('uzi', 'uzi info', 24, false);
+		scrollTop.animation.addByPrefix('sniper', 'sniper info', 24, false);
+		scrollTop.animation.addByPrefix('rocket launcher', 'rocket launcher info', 24, false);
+		scrollTop.animation.addByPrefix('rifle', 'rifle info', 24, false);
+		scrollTop.animation.addByPrefix('base', 'base', 24, false);
+		scrollTop.animation.play('base');
+		backingCard.add(scrollTop);
 
-        scrollMiddle = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/middleLoop'), ScriptingUtil.axisX, 15);
-        scrollMiddle.setPosition(0, 346);
-        scrollMiddle.velocity.x = 220;
-        scrollMiddle.antialiasing = true;
-        backingCard.add(scrollMiddle);
+		scrollMiddle = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/middleLoop'), ScriptingUtil.axisX, 15);
+		scrollMiddle.setPosition(0, 346);
+		scrollMiddle.velocity.x = 220;
+		scrollMiddle.antialiasing = true;
+		backingCard.add(scrollMiddle);
 
-        cardGlow = new FlxSprite().loadGraphic(Paths.image("menu/freeplay/bgs/pico/glow"));
-        cardGlow.antialiasing = true;
-        cardGlow.color = 0xFFB7E5FF;
-        backingCard.add(cardGlow);
+		cardGlow = new FlxSprite().loadGraphic(Paths.image("menu/freeplay/bgs/pico/glow"));
+		cardGlow.antialiasing = true;
+		cardGlow.color = 0xFFB7E5FF;
+		backingCard.add(cardGlow);
 
-        cardFlash = Utils.makeColoredSprite(528, 720, 0xFF87C9FF);
-        cardFlash.antialiasing = true;
-        cardFlash.blend = ScriptingUtil.add;
-        cardFlash.alpha = 0;
-        backingCard.add(cardFlash);
+		cardFlash = Utils.makeColoredSprite(528, 720, 0xFF87C9FF);
+		cardFlash.antialiasing = true;
+		cardFlash.blend = ScriptingUtil.add;
+		cardFlash.alpha = 0;
+		backingCard.add(cardFlash);
 
-        confirmAtlas = new AtlasSprite(5, 55, Paths.getTextureAtlas("menu/freeplay/bgs/pico/pico-confirm"));
-        confirmAtlas.antialiasing = true;
-        confirmAtlas.addFullAnimation("confirm", 24, false);
-        confirmAtlas.visible = false;
-        backingCard.add(confirmAtlas);
-    }
+		confirmAtlas = new AtlasSprite(5, 55, Paths.getTextureAtlas("menu/freeplay/bgs/pico/pico-confirm"));
+		confirmAtlas.antialiasing = true;
+		confirmAtlas.addFullAnimation("confirm", 24, false);
+		confirmAtlas.visible = false;
+		backingCard.add(confirmAtlas);
+	}
 
 }

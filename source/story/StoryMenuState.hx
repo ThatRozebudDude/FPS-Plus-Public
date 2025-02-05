@@ -492,10 +492,10 @@ class StoryMenuState extends MusicBeatState
 
 typedef StoryWeek = {
 	var name:String;				//Name that will appear in the story menu and results screen.
-    var id:String;					//Internal name that will be used by the save file and week name image.
-    var sortOrder:Float;			//Determines where in the story mode list the week appears.
-    var songs:Array<String>;		//Name of the songs used in the week.
-    var characters:Array<String>;	//Characters that show up in the story menu.
-    var stickerSet:Array<String>;	//The set of stickers to use when returning to the story menu.
-    var color:FlxColor;				//The color that the story menu is set to when selecting the week.
+	var id:String;					//Internal name that will be used by the save file and week name image.
+	var sortOrder:Float;			//Determines where in the story mode list the week appears.
+	var songs:Array<String>;		//Name of the songs used in the week.
+	var characters:Array<String>;	//Characters that show up in the story menu.
+	var stickerSet:Array<String>;	//The set of stickers to use when returning to the story menu.
+	var color:FlxColor;				//The color that the story menu is set to when selecting the week.
 }

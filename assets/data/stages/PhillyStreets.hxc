@@ -32,11 +32,11 @@ class PhillyStreets extends BaseStage
 	var carInterruptable:Bool = true; // if the car can be reset
 	var car2Interruptable:Bool = true;
 
-    public function new(){
+	public function new(){
 		super();
 
-        name = "phillyStreets";
-        startingZoom = 0.75;
+		name = "phillyStreets";
+		startingZoom = 0.75;
 
 		var scrollingSky = new FlxBackdrop(Paths.image("weekend1/phillyStreets/phillySkybox"), ScriptingUtil.axisX);
 		scrollingSky.setPosition(-650, -375);
@@ -194,7 +194,7 @@ class PhillyStreets extends BaseStage
 		addEvent("phillyStreets-canShot", canShot);
 		addEvent("phillyStreets-playerGlow", createCharacterGlow);
 		addEvent("phillyStreets-createBullet", createBullet);
-    }
+	}
 
 	override function songStart() {
 		tween.tween(rainShader, {uIntensity: rainInensityEnd}, FlxG.sound.music.length/1000);

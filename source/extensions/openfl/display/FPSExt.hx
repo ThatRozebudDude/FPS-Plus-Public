@@ -52,12 +52,12 @@ class FPSExt extends TextField
 		while (times[0] < now - 1000){ times.shift(); }
 
 		deltaTimeout += deltaTime;
-        if (deltaTimeout >= 16) {
-            currentFPS = times.length;
-            updateText();
-            deltaTimeout = 0.0;
-            return;
-        }
+		if (deltaTimeout >= 16) {
+			currentFPS = times.length;
+			updateText();
+			deltaTimeout = 0.0;
+			return;
+		}
 
 	}
 

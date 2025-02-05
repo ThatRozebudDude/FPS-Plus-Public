@@ -1,18 +1,18 @@
 class Senpai extends CharacterInfoBase
 {
 
-    public function new(){
-        super();
+	public function new(){
+		super();
 
-        info.name = "senpai";
-        info.spritePath = "week6/senpai";
-        info.frameLoadType = setSparrow();
-        
-        info.iconName = "senpai";
-        info.antialiasing = false;
-        info.focusOffset.set(212, -20);
+		info.name = "senpai";
+		info.spritePath = "week6/senpai";
+		info.frameLoadType = setSparrow();
+		
+		info.iconName = "senpai";
+		info.antialiasing = false;
+		info.focusOffset.set(212, -20);
 
-        addByPrefix('idle', offset(), 'Senpai Idle', 24, loop(false));
+		addByPrefix('idle', offset(), 'Senpai Idle', 24, loop(false));
 		addByPrefix('singUP', offset(2, 6), 'SENPAI UP NOTE', 24, loop(false));
 		addByPrefix('singLEFT', offset(5), 'SENPAI LEFT NOTE', 24, loop(false));
 		addByPrefix('singRIGHT', offset(1), 'SENPAI RIGHT NOTE', 24, loop(false));
@@ -21,6 +21,6 @@ class Senpai extends CharacterInfoBase
 		addExtraData("scale", 6);
 		addExtraData("reposition", [0, 102]);
 
-    }
+	}
 
 }

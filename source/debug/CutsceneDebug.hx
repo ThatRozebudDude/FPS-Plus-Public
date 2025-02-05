@@ -20,34 +20,34 @@ using StringTools;
 
 class CutsceneDebug extends FlxState
 {
-    var cutsceneTest:ScriptedCutscene;
+	var cutsceneTest:ScriptedCutscene;
 
 	override function create() {
-        cutsceneTest = new ScriptedCutscene();
-        cutsceneTest.addEvent(0, event1);
-        cutsceneTest.addEvent(1, event2);
-        cutsceneTest.addEvent(3, event3);
-        add(cutsceneTest);
+		cutsceneTest = new ScriptedCutscene();
+		cutsceneTest.addEvent(0, event1);
+		cutsceneTest.addEvent(1, event2);
+		cutsceneTest.addEvent(3, event3);
+		add(cutsceneTest);
 	}
 
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 
-        if(cutsceneTest != null && FlxG.keys.anyJustPressed([SPACE])){
-            cutsceneTest.start();
-        }
+		if(cutsceneTest != null && FlxG.keys.anyJustPressed([SPACE])){
+			cutsceneTest.start();
+		}
 	}
 
-    function event1():Void{
-        trace("THIS IS THE FIRST EVENT! YAY!");
-    }
+	function event1():Void{
+		trace("THIS IS THE FIRST EVENT! YAY!");
+	}
 
-    function event2():Void{
-        trace("THIS IS THE SECOND EVENT! ONE SECOND HAS PASSED!");
-    }
+	function event2():Void{
+		trace("THIS IS THE SECOND EVENT! ONE SECOND HAS PASSED!");
+	}
 
-    function event3():Void{
-        trace("THE END, DESTROYING EVERYTHING AND KILLING MYSELF!");
-    }
+	function event3():Void{
+		trace("THE END, DESTROYING EVERYTHING AND KILLING MYSELF!");
+	}
 
 }

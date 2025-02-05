@@ -40,8 +40,8 @@ class CacheConfig
 	public static function check():Bool{
 
 		if(music == null || characters == null || graphics == null) {
-            return false;
-        }
+			return false;
+		}
 
 		return true;
 

@@ -394,6 +394,9 @@ class Character extends FlxSpriteGroup
 			case sparrow:
 				character = new FlxSprite();
 				character.frames = Paths.getSparrowAtlas(characterInfo.info.spritePath);
+			case multiSparrow:
+				character = new FlxSprite();
+				character.frames = Paths.getMultipleSparrowAtlas(characterInfo.info.spritePaths);
 			case packer:
 				character = new FlxSprite();
 				character.frames = Paths.getPackerAtlas(characterInfo.info.spritePath);
@@ -807,7 +810,7 @@ class Character extends FlxSpriteGroup
 }
 
 enum abstract AttachedAction(Int){
-    var withDance = 0;
+	var withDance = 0;
 	var withSing = 1;
 	var withPlayAnim = 2;
 }

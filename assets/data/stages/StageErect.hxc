@@ -10,10 +10,10 @@ class StageErect extends BaseStage
 	var dadShader:AdjustColorShader = new AdjustColorShader(-33, -32, -23, 0);
 	var gfShader:AdjustColorShader = new AdjustColorShader(-30, -9, -4, 0);
 
-    public function new(){
+	public function new(){
 		super();
 
-        name = "stageErect";
+		name = "stageErect";
 		startingZoom = 0.87;
 
 		var backDark:FlxSprite = new FlxSprite(729, -170).loadGraphic(Paths.image("week1/erect/backDark"));
@@ -91,5 +91,5 @@ class StageErect extends BaseStage
 		boyfriend.applyShader(bfShader.shader);
 		dad.applyShader(dadShader.shader);
 		gf.applyShader(gfShader.shader);
-    }
+	}
 }

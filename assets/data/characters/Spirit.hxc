@@ -1,25 +1,25 @@
 class Spirit extends CharacterInfoBase
 {
 
-    public function new(){
-        super();
+	public function new(){
+		super();
 
-        info.name = "spirit";
-        info.spritePath = "week6/spirit";
-        info.frameLoadType = setPacker();
-        
-        info.iconName = "spirit";
-        info.antialiasing = false;
-        info.focusOffset.set(254, 44);
+		info.name = "spirit";
+		info.spritePath = "week6/spirit";
+		info.frameLoadType = setPacker();
+		
+		info.iconName = "spirit";
+		info.antialiasing = false;
+		info.focusOffset.set(254, 44);
 
-        addByPrefix("idle", offset(0, 0), "idle spirit_", 24, loop(false, 0), false, false);
-        addByPrefix("singUP", offset(0, 7), "up_", 24, loop(false, 0), false, false);
-        addByPrefix("singRIGHT", offset(0, 0), "right_", 24, loop(false, 0), false, false);
-        addByPrefix("singLEFT", offset(3, 0), "left_", 24, loop(false, 0), false, false);
-        addByPrefix("singDOWN", offset(64, 64), "spirit down_", 24, loop(false, 0), false, false);
+		addByPrefix("idle", offset(0, 0), "idle spirit_", 24, loop(false, 0), false, false);
+		addByPrefix("singUP", offset(0, 7), "up_", 24, loop(false, 0), false, false);
+		addByPrefix("singRIGHT", offset(0, 0), "right_", 24, loop(false, 0), false, false);
+		addByPrefix("singLEFT", offset(3, 0), "left_", 24, loop(false, 0), false, false);
+		addByPrefix("singDOWN", offset(64, 64), "spirit down_", 24, loop(false, 0), false, false);
 
 		addExtraData("scale", 6);
 
-    }
+	}
 
 }

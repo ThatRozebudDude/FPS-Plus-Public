@@ -117,8 +117,8 @@ class Utils
 	}
 
 	public static function worldToLocal(object:FlxObject, x:Float, y:Float):FlxPoint{
-        return new FlxPoint(x - object.x, y - object.y);
-    }
+		return new FlxPoint(x - object.x, y - object.y);
+	}
 
 	public static inline function sign(v:Float):Int {
 		return (v > 0 ? 1 : (v < 0 ? -1 : 0));
@@ -149,8 +149,8 @@ class Utils
 				var modfile = FileSystem.readDirectory('mods/$mod/' + path.split("assets/")[1]);
 				for (file in modfile){
 					if (!files.contains(file)){
-                        files.push(file);
-                    }
+						files.push(file);
+					}
 				}
 			}
 		}
@@ -184,7 +184,7 @@ class Utils
 			artist: "",
 			album: "none",
 			difficulties: [0, 0, 0],
-    		dadBeats: [0, 2],
+			dadBeats: [0, 2],
 			bfBeats: [1, 3],
 			compatableInsts: null,
 			mixName: "Original",
@@ -319,46 +319,46 @@ class Utils
 	//Runs garbage collection and compacts memory.
 	public static function gc():Void{
 		System.gc();
-        #if cpp
-        cpp.vm.Gc.compact();
-        #end
+		#if cpp
+		cpp.vm.Gc.compact();
+		#end
 	}
 }
 
 class OrderedMap<K, V>{
 
-    public var keys:Array<K>;
-    public var values:Array<V>;
+	public var keys:Array<K>;
+	public var values:Array<V>;
 
-    public function new() {
-        keys = [];
-        values = [];
-    }
+	public function new() {
+		keys = [];
+		values = [];
+	}
 
-    public function set(key:K, value:V):Void{
-        if(keys.contains(key)){
-            var index = keys.indexOf(key);
-            values[index] = value;
-        }
-        else{
-            keys.push(key);
-            values.push(value);
-        }
-    }
+	public function set(key:K, value:V):Void{
+		if(keys.contains(key)){
+			var index = keys.indexOf(key);
+			values[index] = value;
+		}
+		else{
+			keys.push(key);
+			values.push(value);
+		}
+	}
 
-    public function get(key:K):V{
-        if(keys.contains(key)){
-            return values[keys.indexOf(key)];
-        }
-        return null;
-    }
+	public function get(key:K):V{
+		if(keys.contains(key)){
+			return values[keys.indexOf(key)];
+		}
+		return null;
+	}
 
-    public function remove(key:K):Void{
-        if(keys.contains(key)){
-            var index = keys.indexOf(key);
-            keys.remove(key);
-            values.remove(values[index]);
-        }
-    }
+	public function remove(key:K):Void{
+		if(keys.contains(key)){
+			var index = keys.indexOf(key);
+			keys.remove(key);
+			values.remove(values[index]);
+		}
+	}
 
 }

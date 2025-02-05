@@ -9,45 +9,45 @@ import flixel.FlxG;
 class ImageCache
 {
 
-    //GPU image caching stuff.      ==============================================================================
-    
-    public static var keepCache:Bool = false;
-    
-    public static var cache:Map<String, FlxGraphic> = new Map<String, FlxGraphic>();
+	//GPU image caching stuff. ==============================================================================
+	
+	public static var keepCache:Bool = false;
+	
+	public static var cache:Map<String, FlxGraphic> = new Map<String, FlxGraphic>();
 
-    public static function add(path:String):Void{
-        var bitmap = GPUBitmap.create(path);
-    
-        bitmap.lock();
+	public static function add(path:String):Void{
+		var bitmap = GPUBitmap.create(path);
+	
+		bitmap.lock();
 		bitmap.disposeImage();
-        
-        var data:FlxGraphic = FlxGraphic.fromBitmapData(bitmap);
-        data.persist = true;
-        data.destroyOnNoUse = false;
+		
+		var data:FlxGraphic = FlxGraphic.fromBitmapData(bitmap);
+		data.persist = true;
+		data.destroyOnNoUse = false;
 
-        cache.set(path, data);
-    }
+		cache.set(path, data);
+	}
 
-    public static function get(path:String):FlxGraphic{
-        return cache.get(path);
-    }
+	public static function get(path:String):FlxGraphic{
+		return cache.get(path);
+	}
 
-    public static function exists(path:String){
-        return cache.exists(path);
-    }
+	public static function exists(path:String){
+		return cache.exists(path);
+	}
 
-    //Local/CPU image caching stuff.      ==============================================================================
+	//Local/CPU image caching stuff. ==============================================================================
 
-    public static var localCache:Map<String, FlxGraphic> = new Map<String, FlxGraphic>();
+	public static var localCache:Map<String, FlxGraphic> = new Map<String, FlxGraphic>();
 
-    public static function addLocal(path:String):FlxGraphic{
-        if (!Utils.exists(path))
-            return null;
-        
-        var bitmap:BitmapData = openfl.Assets.getBitmapData(path);
-        if (config.Config.useGPU && bitmap.image != null)
-        {
-            bitmap.lock();
+	public static function addLocal(path:String):FlxGraphic{
+		if (!Utils.exists(path))
+			return null;
+		
+		var bitmap:BitmapData = openfl.Assets.getBitmapData(path);
+		if (config.Config.useGPU && bitmap.image != null)
+		{
+			bitmap.lock();
 			if (bitmap.__texture == null)
 			{
 				bitmap.image.premultiplied = true;
@@ -58,41 +58,41 @@ class ImageCache
 			bitmap.image.data = null;
 			bitmap.image = null;
 			bitmap.readable = true;
-        }
-
-        var data:FlxGraphic = FlxGraphic.fromBitmapData(bitmap, false, path, false);
-        data.persist = true; // Disabled because it messes up the map
-
-        localCache.set(path, data);
-        return data;
-    }
-
-    //OpenFL image cache clearing.  ==============================================================================
-
-    public static function clear(){
-        for(key in FlxG.bitmap._cache.keys()){
-            if(openfl.Assets.cache.hasBitmapData(key) && !exists(key)){
-                openfl.Assets.cache.removeBitmapData(key);
-                removeGraphic(FlxG.bitmap.get(key));
-                FlxG.bitmap.removeByKey(key);
-            }
 		}
 
-        //cleanup local cached assets
-        for(key in localCache.keys()){
-            removeGraphic(localCache.get(key));
+		var data:FlxGraphic = FlxGraphic.fromBitmapData(bitmap, false, path, false);
+		data.persist = true; // Disabled because it messes up the map
+
+		localCache.set(path, data);
+		return data;
+	}
+
+	//OpenFL image cache clearing. ==============================================================================
+
+	public static function clear(){
+		for(key in FlxG.bitmap._cache.keys()){
+			if(openfl.Assets.cache.hasBitmapData(key) && !exists(key)){
+				openfl.Assets.cache.removeBitmapData(key);
+				removeGraphic(FlxG.bitmap.get(key));
+				FlxG.bitmap.removeByKey(key);
+			}
 		}
 
-        ImageCache.localCache.clear();
-    }
+		//cleanup local cached assets
+		for(key in localCache.keys()){
+			removeGraphic(localCache.get(key));
+		}
 
-    static function removeGraphic(graphic:FlxGraphic){
+		ImageCache.localCache.clear();
+	}
+
+	static function removeGraphic(graphic:FlxGraphic){
 		if(graphic.bitmap.__texture != null){
 			graphic.bitmap.__texture.dispose();
-        }
-        graphic.bitmap.dispose();
+		}
+		graphic.bitmap.dispose();
 
-        graphic.dump();
+		graphic.dump();
 		graphic.destroy();
 	}
 

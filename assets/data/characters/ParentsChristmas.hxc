@@ -1,26 +1,26 @@
 class ParentsChristmas extends CharacterInfoBase
 {
 
-    public function new(){
-        super();
+	public function new(){
+		super();
 
-        info.name = "parents-christmas";
-        info.spritePath = "week5/mom_dad_christmas_assets";
-        info.frameLoadType = setSparrow();
-        
-        info.iconName = "parents";
+		info.name = "parents-christmas";
+		info.spritePath = "week5/mom_dad_christmas_assets";
+		info.frameLoadType = setSparrow();
+		
+		info.iconName = "parents";
 
-        addByPrefix('idle', offset(), 'Parent Christmas Idle', 24, loop(true, -4));
-	    addByPrefix('singUP', offset(-47, 24), 'Parent Up Note Dad', 24, loop(true, -4));
-	    addByPrefix('singDOWN', offset(-31, -29), 'Parent Down Note Dad', 24, loop(true, -4));
-	    addByPrefix('singLEFT', offset(-30, 16), 'Parent Left Note Dad', 24, loop(true, -4));
-	    addByPrefix('singRIGHT', offset(-1, -23), 'Parent Right Note Dad', 24, loop(true, -4));
+		addByPrefix('idle', offset(), 'Parent Christmas Idle', 24, loop(true, -4));
+		addByPrefix('singUP', offset(-47, 24), 'Parent Up Note Dad', 24, loop(true, -4));
+		addByPrefix('singDOWN', offset(-31, -29), 'Parent Down Note Dad', 24, loop(true, -4));
+		addByPrefix('singLEFT', offset(-30, 16), 'Parent Left Note Dad', 24, loop(true, -4));
+		addByPrefix('singRIGHT', offset(-1, -23), 'Parent Right Note Dad', 24, loop(true, -4));
 
-	    addByPrefix('singUP-alt', offset(-47, 24), 'Parent Up Note Mom', 24, loop(true, -4));
-	    addByPrefix('singDOWN-alt', offset(-30, -27), 'Parent Down Note Mom', 24, loop(true, -4));
-	    addByPrefix('singLEFT-alt', offset(-30, 15), 'Parent Left Note Mom', 24, loop(true, -4));
-	    addByPrefix('singRIGHT-alt', offset(-1, -24), 'Parent Right Note Mom', 24, loop(true, -4));
+		addByPrefix('singUP-alt', offset(-47, 24), 'Parent Up Note Mom', 24, loop(true, -4));
+		addByPrefix('singDOWN-alt', offset(-30, -27), 'Parent Down Note Mom', 24, loop(true, -4));
+		addByPrefix('singLEFT-alt', offset(-30, 15), 'Parent Left Note Mom', 24, loop(true, -4));
+		addByPrefix('singRIGHT-alt', offset(-1, -24), 'Parent Right Note Mom', 24, loop(true, -4));
 
-    }
+	}
 
 }

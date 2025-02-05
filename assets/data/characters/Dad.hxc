@@ -1,23 +1,23 @@
 class Dad extends CharacterInfoBase
 {
 
-    public function new(){
-        super();
+	public function new(){
+		super();
 
-        info.name = "dad";
-        info.spritePath = "week1/DADDY_DEAREST";
-        info.frameLoadType = setSparrow();
-        
-        info.iconName = "dad";
+		info.name = "dad";
+		info.spritePath = "week1/DADDY_DEAREST";
+		info.frameLoadType = setSparrow();
+		
+		info.iconName = "dad";
 
-        addByPrefix('idle', offset(), 'Dad idle dance', 24, loop(true, -4));
-        addByPrefix('singUP', offset(-9, 50), 'Dad Sing Note UP', 24, loop(true, -4));
-        addByPrefix('singRIGHT', offset(-4, 26), 'Dad Sing Note RIGHT', 24, loop(true, -4));
-        addByPrefix('singDOWN', offset(2, -32), 'Dad Sing Note DOWN', 24, loop(true, -4));
-        addByPrefix('singLEFT', offset(-11, 10), 'Dad Sing Note LEFT', 24, loop(true, -4));
+		addByPrefix('idle', offset(), 'Dad idle dance', 24, loop(true, -4));
+		addByPrefix('singUP', offset(-9, 50), 'Dad Sing Note UP', 24, loop(true, -4));
+		addByPrefix('singRIGHT', offset(-4, 26), 'Dad Sing Note RIGHT', 24, loop(true, -4));
+		addByPrefix('singDOWN', offset(2, -32), 'Dad Sing Note DOWN', 24, loop(true, -4));
+		addByPrefix('singLEFT', offset(-11, 10), 'Dad Sing Note LEFT', 24, loop(true, -4));
 
-        addExtraData("stepsUntilRelease", 6.1);
+		addExtraData("stepsUntilRelease", 6.1);
 
-    }
+	}
 
 }

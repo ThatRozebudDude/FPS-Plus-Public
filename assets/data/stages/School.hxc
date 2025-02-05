@@ -8,10 +8,10 @@ class School extends BaseStage
 
 	var bgGirls:BackgroundGirls;
 
-    public function new(){
+	public function new(){
 		super();
 
-        name = "school";
+		name = "school";
 		startingZoom = 1.05;
 		uiType = "Pixel";
 
@@ -76,7 +76,7 @@ class School extends BaseStage
 
 		bfCameraOffset.set(-48, 0);
 		dadCameraOffset.set(12, 0);
-    }
+	}
 
 	public override function beat(curBeat:Int){
 		bgGirls.dance();

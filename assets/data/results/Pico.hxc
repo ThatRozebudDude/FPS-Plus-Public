@@ -8,144 +8,144 @@ import flixel.FlxSprite;
 class PicoResults extends ResultsCharacter
 {
 
-    var pico:AtlasSprite;
+	var pico:AtlasSprite;
 
-    override function setup():Void{
-        goldText =      ["PERFECT", "SHARPSHOOTER", "UNTOUCHABLE", "NOT A SCRATCH", "FLAWLESS", "CLEAN KILL", "TARGET ELIMINATED"];
-        perfectText =   ["PERFECT", "MARKSMAN", "CAN'T MISS", "BULLSEYE", "CLEAN KILL", "TARGET ELIMINATED"];
-        excellentText = ["EXCELLENT", "EXPERT", "AMAZING EXECUTION", "SUCCESSFUL", "TARGET ELIMINATED"];
-        greatText =     ["GREAT", "MISSION COMPLETE", "NICE SHOT", "A JOB WELL DONE", "TARGET ELIMINATED"];
-        goodText =      ["GOOD", "MISSION COMPLETE", "ACCEPTABLE PERFORMANCE", "A JOB WELL DONE", "TARGET ELIMINATED"];
-        lossText =      ["BLAMMED", "TARGET ESCAPED", "MISSION FAILED", "NO PAY", "COULDN'T KEEP UP", "TOUGH SHIT"];
+	override function setup():Void{
+		goldText = 		["PERFECT", "SHARPSHOOTER", "UNTOUCHABLE", "NOT A SCRATCH", "FLAWLESS", "CLEAN KILL", "TARGET ELIMINATED"];
+		perfectText = 	["PERFECT", "MARKSMAN", "CAN'T MISS", "BULLSEYE", "CLEAN KILL", "TARGET ELIMINATED"];
+		excellentText = ["EXCELLENT", "EXPERT", "AMAZING EXECUTION", "SUCCESSFUL", "TARGET ELIMINATED"];
+		greatText = 	["GREAT", "MISSION COMPLETE", "NICE SHOT", "A JOB WELL DONE", "TARGET ELIMINATED"];
+		goodText = 		["GOOD", "MISSION COMPLETE", "ACCEPTABLE PERFORMANCE", "A JOB WELL DONE", "TARGET ELIMINATED"];
+		lossText = 		["BLAMMED", "TARGET ESCAPED", "MISSION FAILED", "NO PAY", "COULDN'T KEEP UP", "TOUGH SHIT"];
 
-        switch(rank){
-            case ScriptingUtil.rankGold:
-                pico = new AtlasSprite(385-100, 82-40, Paths.getTextureAtlas("menu/results/characters/pico/perfect"));
-                pico.visible = false;
-                pico.addAnimationByFrame("anim", 0, null, 24, true, 91);
-                pico.antialiasing = true;
-                pico.scale.set(0.88, 0.88);
+		switch(rank){
+			case ScriptingUtil.rankGold:
+				pico = new AtlasSprite(385-100, 82-40, Paths.getTextureAtlas("menu/results/characters/pico/perfect"));
+				pico.visible = false;
+				pico.addAnimationByFrame("anim", 0, null, 24, true, 91);
+				pico.antialiasing = true;
+				pico.scale.set(0.88, 0.88);
 
-                FlxG.sound.cache(Paths.music("results/pico/perfect-loop"));
-                
-            case ScriptingUtil.rankPerfect:
-                pico = new AtlasSprite(385-100, 82-40, Paths.getTextureAtlas("menu/results/characters/pico/perfect"));
-                pico.visible = false;
-                pico.addAnimationByFrame("anim", 0, null, 24, true, 91);
-                pico.antialiasing = true;
-                pico.scale.set(0.88, 0.88);
+				FlxG.sound.cache(Paths.music("results/pico/perfect-loop"));
+				
+			case ScriptingUtil.rankPerfect:
+				pico = new AtlasSprite(385-100, 82-40, Paths.getTextureAtlas("menu/results/characters/pico/perfect"));
+				pico.visible = false;
+				pico.addAnimationByFrame("anim", 0, null, 24, true, 91);
+				pico.antialiasing = true;
+				pico.scale.set(0.88, 0.88);
 
-                FlxG.sound.cache(Paths.music("results/pico/perfect-loop")); 
+				FlxG.sound.cache(Paths.music("results/pico/perfect-loop")); 
 
-            case ScriptingUtil.rankExcellent:
-                pico = new AtlasSprite(350+160, 25+85, Paths.getTextureAtlas("menu/results/characters/pico/excellent"));
-                pico.visible = false;
-                pico.addAnimationByFrame("anim", 0, null, 24, true, 32);
-                pico.antialiasing = true;
-                pico.scale.set(1.25, 1.25);
+			case ScriptingUtil.rankExcellent:
+				pico = new AtlasSprite(350+160, 25+85, Paths.getTextureAtlas("menu/results/characters/pico/excellent"));
+				pico.visible = false;
+				pico.addAnimationByFrame("anim", 0, null, 24, true, 32);
+				pico.antialiasing = true;
+				pico.scale.set(1.25, 1.25);
 
-                FlxG.sound.cache(Paths.music("results/pico/excellent-loop")); 
+				FlxG.sound.cache(Paths.music("results/pico/excellent-loop")); 
 
-            case ScriptingUtil.rankLoss:
-                pico = new AtlasSprite(-185, -125, Paths.getTextureAtlas("menu/results/characters/pico/loss"));
-                pico.visible = false;
-                pico.addAnimationByFrame("anim", 0, null, 24, true, 0);
-                pico.antialiasing = true;
+			case ScriptingUtil.rankLoss:
+				pico = new AtlasSprite(-185, -125, Paths.getTextureAtlas("menu/results/characters/pico/loss"));
+				pico.visible = false;
+				pico.addAnimationByFrame("anim", 0, null, 24, true, 0);
+				pico.antialiasing = true;
 
-                FlxG.sound.cache(Paths.music("results/pico/shit-loop")); 
+				FlxG.sound.cache(Paths.music("results/pico/shit-loop")); 
 
-            default:
-                pico = new AtlasSprite(350+160, 25+85, Paths.getTextureAtlas("menu/results/characters/pico/good"));
-                pico.visible = false;
-                pico.addAnimationByFrame("anim", 0, null, 24, true, 41);
-                pico.antialiasing = true;
-                pico.scale.set(1.25, 1.25);
+			default:
+				pico = new AtlasSprite(350+160, 25+85, Paths.getTextureAtlas("menu/results/characters/pico/good"));
+				pico.visible = false;
+				pico.addAnimationByFrame("anim", 0, null, 24, true, 41);
+				pico.antialiasing = true;
+				pico.scale.set(1.25, 1.25);
 
-        }
+		}
 
-        add(pico);
-    }
+		add(pico);
+	}
 
-    var lossWhiteColor = 0xFF000000;
-    var lossBlackColor = 0xFF1E152D;
-    var lossTextColor = 0xFF201739;
+	var lossWhiteColor = 0xFF000000;
+	var lossBlackColor = 0xFF1E152D;
+	var lossTextColor = 0xFF201739;
 
-    override function playAnim():Void{
-        pico.playAnim("anim", true);
-        pico.visible = true;
-        switch(rank){
-            default:
-            case ScriptingUtil.rankLoss:
-                pico.y += 720;
+	override function playAnim():Void{
+		pico.playAnim("anim", true);
+		pico.visible = true;
+		switch(rank){
+			default:
+			case ScriptingUtil.rankLoss:
+				pico.y += 720;
 
-                var dummyWhite:FlxSprite = new FlxSprite();
-                var dummyBlack:FlxSprite = new FlxSprite();
-                    
-                for(text in resultsScreen.scrollingTextGroup){
-                    text.color = lossTextColor;
-                }
+				var dummyWhite:FlxSprite = new FlxSprite();
+				var dummyBlack:FlxSprite = new FlxSprite();
+					
+				for(text in resultsScreen.scrollingTextGroup){
+					text.color = lossTextColor;
+				}
 
-                FlxTween.color(dummyWhite, 1.5, gradientTopColor, lossWhiteColor, {ease: FlxEase.quintOut, onUpdate: function(t){
-                    resultsScreen.bgShader.whiteColor = dummyWhite.color;
-                }});
-                FlxTween.color(dummyBlack, 1.5, gradientBottomColor, lossBlackColor, {ease: FlxEase.quintOut, onUpdate: function(t){
-                    resultsScreen.bgShader.blackColor = dummyBlack.color;
-                }});
+				FlxTween.color(dummyWhite, 1.5, gradientTopColor, lossWhiteColor, {ease: FlxEase.quintOut, onUpdate: function(t){
+					resultsScreen.bgShader.whiteColor = dummyWhite.color;
+				}});
+				FlxTween.color(dummyBlack, 1.5, gradientBottomColor, lossBlackColor, {ease: FlxEase.quintOut, onUpdate: function(t){
+					resultsScreen.bgShader.blackColor = dummyBlack.color;
+				}});
 
-                FlxTween.color(resultsScreen.extraGradient, 1.5, gradientBottomColor, lossBlackColor, {ease: FlxEase.quintOut}); 
+				FlxTween.color(resultsScreen.extraGradient, 1.5, gradientBottomColor, lossBlackColor, {ease: FlxEase.quintOut}); 
 
-                FlxTween.tween(pico, {y: pico.y - 720}, 1.5, {ease: FlxEase.quintOut});
+				FlxTween.tween(pico, {y: pico.y - 720}, 1.5, {ease: FlxEase.quintOut});
 
-                resultsScreen.camBg.stopFlash();
-                resultsScreen.scrollingTextGroup.visible = false;
-                resultsScreen.scrollingRankName.visible = false;
-                resultsScreen.scrollingRankName.x += 60;
+				resultsScreen.camBg.stopFlash();
+				resultsScreen.scrollingTextGroup.visible = false;
+				resultsScreen.scrollingRankName.visible = false;
+				resultsScreen.scrollingRankName.x += 60;
 
-                new FlxTimer().start(5.333, function(t):Void{
-                    resultsScreen.scrollingTextGroup.visible = true;
-                    resultsScreen.camBg.flash(lossTextColor, 1);
-                    resultsScreen.scrollingRankName.visible = true;
-                    resultsScreen.scrollingRankName.y -= 210;
-                    resultsScreen.scrollingRankName.velocity.y = 0;
-                    FlxTween.tween(resultsScreen.scrollingRankName, {x: resultsScreen.scrollingRankName.x - 60}, 1.5, {ease: FlxEase.quintOut});
-                    FlxTween.tween(resultsScreen.scrollingRankName.velocity, {y: 30}, 1.5, {ease: FlxEase.quintOut});
-                });
-        }
-    }
+				new FlxTimer().start(5.333, function(t):Void{
+					resultsScreen.scrollingTextGroup.visible = true;
+					resultsScreen.camBg.flash(lossTextColor, 1);
+					resultsScreen.scrollingRankName.visible = true;
+					resultsScreen.scrollingRankName.y -= 210;
+					resultsScreen.scrollingRankName.velocity.y = 0;
+					FlxTween.tween(resultsScreen.scrollingRankName, {x: resultsScreen.scrollingRankName.x - 60}, 1.5, {ease: FlxEase.quintOut});
+					FlxTween.tween(resultsScreen.scrollingRankName.velocity, {y: 30}, 1.5, {ease: FlxEase.quintOut});
+				});
+		}
+	}
 
-    override function playIntroSong():Void{
-        FlxG.sound.playMusic(Paths.music("results/bf/excellent-intro"), 1, false);
-    }
+	override function playIntroSong():Void{
+		FlxG.sound.playMusic(Paths.music("results/bf/excellent-intro"), 1, false);
+	}
 
-    override function playSong():Void{
-        switch(rank){
-            case ScriptingUtil.rankGold:
-                FlxG.sound.playMusic(Paths.music("results/pico/perfect-intro"), 1, true);
-                FlxG.sound.music.onComplete = function() {
-                    FlxG.sound.playMusic(Paths.music("results/pico/perfect-loop"), 1, true); 
-                }
+	override function playSong():Void{
+		switch(rank){
+			case ScriptingUtil.rankGold:
+				FlxG.sound.playMusic(Paths.music("results/pico/perfect-intro"), 1, true);
+				FlxG.sound.music.onComplete = function() {
+					FlxG.sound.playMusic(Paths.music("results/pico/perfect-loop"), 1, true); 
+				}
 
-            case ScriptingUtil.rankPerfect:
-                FlxG.sound.playMusic(Paths.music("results/pico/perfect-intro"), 1, true);
-                FlxG.sound.music.onComplete = function() {
-                    FlxG.sound.playMusic(Paths.music("results/pico/perfect-loop"), 1, true); 
-                }
+			case ScriptingUtil.rankPerfect:
+				FlxG.sound.playMusic(Paths.music("results/pico/perfect-intro"), 1, true);
+				FlxG.sound.music.onComplete = function() {
+					FlxG.sound.playMusic(Paths.music("results/pico/perfect-loop"), 1, true); 
+				}
 
-            case ScriptingUtil.rankExcellent:
-                FlxG.sound.playMusic(Paths.music("results/pico/excellent-intro"), 1, true);
-                FlxG.sound.music.onComplete = function() {
-                    FlxG.sound.playMusic(Paths.music("results/pico/excellent-loop"), 1, true); 
-                }
+			case ScriptingUtil.rankExcellent:
+				FlxG.sound.playMusic(Paths.music("results/pico/excellent-intro"), 1, true);
+				FlxG.sound.music.onComplete = function() {
+					FlxG.sound.playMusic(Paths.music("results/pico/excellent-loop"), 1, true); 
+				}
 
-            case ScriptingUtil.rankLoss:
-                FlxG.sound.playMusic(Paths.music("results/pico/shit-intro"), 1, true); 
-                FlxG.sound.music.onComplete = function() {
-                    FlxG.sound.playMusic(Paths.music("results/pico/shit-loop"), 1, true); 
-                }
-                
-            default:
-                FlxG.sound.playMusic(Paths.music("results/pico/normal"), 1, true); 
-        }
-    }
+			case ScriptingUtil.rankLoss:
+				FlxG.sound.playMusic(Paths.music("results/pico/shit-intro"), 1, true); 
+				FlxG.sound.music.onComplete = function() {
+					FlxG.sound.playMusic(Paths.music("results/pico/shit-loop"), 1, true); 
+				}
+				
+			default:
+				FlxG.sound.playMusic(Paths.music("results/pico/normal"), 1, true); 
+		}
+	}
 
 }

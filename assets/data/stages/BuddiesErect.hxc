@@ -8,10 +8,10 @@ class BuddiesErect extends BaseStage
 
 	var chartBlackBG:FlxSprite;
 
-    public function new(){
+	public function new(){
 		super();
 
-        name = "buddiesErect";
+		name = "buddiesErect";
 		startingZoom = 2.8;
 
 		var lilStage = new FlxSprite(0, -34).loadGraphic(Paths.image("fpsPlus/lil/stageE"));
@@ -28,6 +28,6 @@ class BuddiesErect extends BaseStage
 
 		cameraStartPosition = new FlxPoint(256/2, 256/2);
 
-    }
+	}
 
 }

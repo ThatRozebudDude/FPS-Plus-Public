@@ -31,10 +31,10 @@ class LimoErect extends BaseStage
 
 	var fastCarCanDrive:Bool = true;
 
-    public function new(){
+	public function new(){
 		super();
 
-        name = "limoErect";
+		name = "limoErect";
 		startingZoom = 0.9;
 
 		var skyBG:FlxSprite = new FlxSprite(-220, -80).loadGraphic(Paths.image("week4/limo/erect/limoSunset"));
@@ -83,7 +83,7 @@ class LimoErect extends BaseStage
 		mist4 = new FlxBackdrop(Paths.image('week4/limo/erect/mistBack'), ScriptingUtil.axisX);
 		mist4.setPosition(-650, -380);
 		mist4.scrollFactor.set(0.6, 0.6);
-    	mist4.blend = BlendMode.ADD;
+		mist4.blend = BlendMode.ADD;
 		mist4.color = 0xFF9c77c7;
 		mist4.alpha = 1;
 		mist4.velocity.x = 700;
@@ -115,7 +115,7 @@ class LimoErect extends BaseStage
 		mist1 = new FlxBackdrop(Paths.image('week4/limo/erect/mistMid'), ScriptingUtil.axisX);
 		mist1.setPosition(-650, -100);
 		mist1.scrollFactor.set(1.1, 1.1);
-    	mist1.blend = BlendMode.ADD;
+		mist1.blend = BlendMode.ADD;
 		mist1.color = 0xFFc6bfde;
 		mist1.alpha = 0.4;
 		mist1.velocity.x = 1700;
@@ -124,7 +124,7 @@ class LimoErect extends BaseStage
 		mist2 = new FlxBackdrop(Paths.image('week4/limo/erect/mistBack'), ScriptingUtil.axisX);
 		mist2.setPosition(-650, -100);
 		mist2.scrollFactor.set(1.2, 1.2);
-    	mist2.blend = BlendMode.ADD;
+		mist2.blend = BlendMode.ADD;
 		mist2.color = 0xFF6a4da1;
 		mist2.alpha = 1;
 		mist2.velocity.x = 2100;
@@ -142,7 +142,7 @@ class LimoErect extends BaseStage
 		boyfriend.applyShader(characterShader.shader);
 		dad.applyShader(characterShader.shader);
 		gf.applyShader(characterShader.shader);
-    }
+	}
 
 	var mistTimer:Float = 0;
 
