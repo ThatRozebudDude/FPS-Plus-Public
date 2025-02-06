@@ -157,37 +157,30 @@ The following is the character class for Boyfriend:
 class Bf extends CharacterInfoBase
 {
 
-    public function new(){
-        super();
+	public function new(){
+		super();
 
-        info.name = "bf";
-        info.spritePath = "BOYFRIEND";
-        info.frameLoadType = setSparrow();
-        
-        info.iconName = "bf";
-        info.facesLeft = true;
-        info.focusOffset.set(100, -120);
+		info.name = "bf";
+		info.spritePath = "BOYFRIEND";
+		info.frameLoadType = setSparrow();
+		
+		info.iconName = "bf";
+		info.facesLeft = true;
+		info.focusOffset.set(100, -120);
 
-        addByPrefix('idle', offset(), 'BF idle dance', 24, loop(false));
-
-        addByPrefix('singUP', offset(-42, 31), 'BF NOTE UP0', 24, loop(false));
-        addByPrefix('singLEFT', offset(9, -7), 'BF NOTE LEFT0', 24, loop(false));
-        addByPrefix('singRIGHT', offset(-44, -6), 'BF NOTE RIGHT0', 24, loop(false));
-        addByPrefix('singDOWN', offset(-22, -50), 'BF NOTE DOWN0', 24, loop(false));
-
-        addByPrefix('singUPmiss', offset(-37, 29), 'BF NOTE UP MISS', 24, loop(true, -4));
-        addByPrefix('singLEFTmiss', offset(9, 19), 'BF NOTE LEFT MISS', 24, loop(true, -4));
-        addByPrefix('singRIGHTmiss', offset(-38, 21), 'BF NOTE RIGHT MISS', 24, loop(true, -4));
-        addByPrefix('singDOWNmiss', offset(-25, -20), 'BF NOTE DOWN MISS', 24, loop(true, -4));
-
-        addByPrefix('hey', offset(1, 5), 'BF HEY', 24, loop(false));
-        addByPrefix('cheer', offset(-20, 20), 'Cheer', 24, loop(false));
-        addByPrefix('scared', offset(-2, 0), 'BF idle shaking', 24);
-
-        addByPrefix('firstDeath', offset(27, 6), "BF dies", 24, loop(false));
-        addByPrefix('deathLoop', offset(27, 0), "BF Dead Loop", 24, loop(true));
-        addByPrefix('deathConfirm', offset(27, 64), "BF Dead confirm", 24, loop(false));
-    }
+		addByPrefix('idle', offset(), 'BF idle dance', 24, loop(false));
+		addByPrefix('singUP', offset(-42, 31), 'BF NOTE UP0', 24, loop(false));
+		addByPrefix('singLEFT', offset(9, -7), 'BF NOTE LEFT0', 24, loop(false));
+		addByPrefix('singRIGHT', offset(-44, -6), 'BF NOTE RIGHT0', 24, loop(false));
+		addByPrefix('singDOWN', offset(-22, -50), 'BF NOTE DOWN0', 24, loop(false));
+		addByPrefix('singUPmiss', offset(-37, 29), 'BF NOTE UP MISS', 24, loop(true, -4));
+		addByPrefix('singLEFTmiss', offset(9, 19), 'BF NOTE LEFT MISS', 24, loop(true, -4));
+		addByPrefix('singRIGHTmiss', offset(-38, 21), 'BF NOTE RIGHT MISS', 24, loop(true, -4));
+		addByPrefix('singDOWNmiss', offset(-25, -20), 'BF NOTE DOWN MISS', 24, loop(true, -4));
+		addByPrefix('hey', offset(1, 5), 'BF HEY', 24, loop(false));
+		addByPrefix('cheer', offset(-20, 20), 'Cheer', 24, loop(false));
+		addByPrefix('scared', offset(-2, 0), 'BF idle shaking', 24);
+	}
 
 }
 ```
@@ -201,114 +194,114 @@ import flixel.FlxG;
 class Nene extends CharacterInfoBase
 {
 
-    public function new(){
-        super();
+	public function new(){
+		super();
 
-        includeInCharacterList = false;
-        includeInGfList = true;
+		includeInCharacterList = false;
+		includeInGfList = true;
 
-        info.name = "nene";
-        info.spritePath = "weekend1/Nene";
-        info.frameLoadType = setSparrow();
-        
-        info.iconName = "face";
-        info.focusOffset.set();
+		info.name = "nene";
+		info.spritePath = "weekend1/Nene";
+		info.frameLoadType = setSparrow();
+		
+		info.iconName = "face";
+		info.focusOffset.set(0, 0);
 
 		addByIndices("danceLeft", offset(0, 0), "Idle", [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], "", 24, loop(false, 0));
-        addByIndices("danceRight", offset(0, 0), "Idle", [15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], "", 24, loop(false, 0));
-        addByPrefix("idleLoop", offset(0, 0), "Idle", 24, loop(true, 0));
-        addByIndices("sad", offset(0, 0), "Laugh", [0,1,2,3], "", 24, loop(false, 0));
-        addByPrefix("laugh", offset(0, 0), "Laugh", 24, loop(true, -6));
-        addByIndices("laughCutscene", offset(0, 0), "Laugh", [0,1,2,3,4,5,6,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11], "", 24, loop(false, 0));
-        addByPrefix("comboCheer", offset(-120, 53), "ComboCheer", 24, loop(false, 0));
-        addByIndices("comboCheerHigh", offset(-40, -20), "ComboFawn", [0,1,2,3,4,5,6,4,5,6,4,5,6,4,5,6], "", 24, loop(false, 0));
-        addByPrefix("raiseKnife", offset(0, 51), "KnifeRaise", 24, loop(false, 0));
-        addByPrefix("idleKnife", offset(-98, 51), "KnifeIdle", 24, loop(false, 0));
-        addByIndices("lowerKnife", offset(135, 51), "KnifeLower", [0,1,2,3,4,5,6,7,8], "", 24, loop(false, 0));
+		addByIndices("danceRight", offset(0, 0), "Idle", [15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], "", 24, loop(false, 0));
+		addByPrefix("idleLoop", offset(0, 0), "Idle", 24, loop(true, 0));
+		addByIndices("sad", offset(0, 0), "Laugh", [0,1,2,3], "", 24, loop(false, 0));
+		addByPrefix("laugh", offset(0, 0), "Laugh", 24, loop(true, -6));
+		addByIndices("laughCutscene", offset(0, 0), "Laugh", [0,1,2,3,4,5,6,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11], "", 24, loop(false, 0));
+		addByPrefix("combo50", offset(-120, 53), "ComboCheer", 24, loop(false, 0));
+		addByIndices("combo200", offset(-40, -20), "ComboFawn", [0,1,2,3,4,5,6,4,5,6,4,5,6,4,5,6], "", 24, loop(false, 0));
+		addByPrefix("raiseKnife", offset(0, 51), "KnifeRaise", 24, loop(false, 0));
+		addByPrefix("idleKnife", offset(-98, 51), "KnifeIdle", 24, loop(false, 0));
+		addByIndices("lowerKnife", offset(135, 51), "KnifeLower", [0,1,2,3,4,5,6,7,8], "", 24, loop(false, 0));
 
-        addAnimChain("raiseKnife", "idleKnife");
-        addAnimChain("laughCutscene", "idleLoop");
+		addAnimChain("raiseKnife", "idleKnife");
+		addAnimChain("laughCutscene", "idleLoop");
 
-        info.idleSequence = ["danceLeft", "danceRight"];
+		info.idleSequence = ["danceLeft", "danceRight"];
 
-        info.functions.create = create;
-        info.functions.songStart = songStart;
-        info.functions.update = update;
-        info.functions.beat = beat;
-        info.functions.danceOverride = danceOverride;
+		info.functions.create = create;
+		info.functions.songStart = songStart;
+		info.functions.update = update;
+		info.functions.beat = beat;
+		info.functions.danceOverride = danceOverride;
 
-        addExtraData("reposition", [0, -165]);
-    }
+		addExtraData("reposition", [0, -165]);
+	}
 
-    var knifeRaised:Bool = false;
-    var blinkTime:Float = 0;
+	var knifeRaised:Bool = false;
+	var blinkTime:Float = 0;
 
-    var abot:ABot;
-    var abotLookDir:Bool = false;
+	var abot:ABot;
+	var abotLookDir:Bool = false;
 
-    var BLINK_MIN:Float = 1;
-    var BLINK_MAX:Float = 3;
+	var BLINK_MIN:Float = 1;
+	var BLINK_MAX:Float = 3;
 
-    function create(character:Character):Void{
-        abot = new ABot(-134.5, 311);
+	function create(character:Character):Void{
+		abot = new ABot(-134.5, 311);
 		abot.lookLeft();
-        addToCharacter(abot);
-    }
+		addToCharacter(abot);
+	}
 
-    function update(character:Character, elapsed:Float):Void{
-        
-        if(character.curAnim == "idleKnife"){
-            blinkTime -= elapsed;
+	function update(character:Character, elapsed:Float):Void{
+		
+		if(character.curAnim == "idleKnife"){
+			blinkTime -= elapsed;
 
-            if(blinkTime <= 0){
-                character.playAnim("idleKnife", true);
-                blinkTime = FlxG.random.float(BLINK_MIN, BLINK_MAX);
-            }
-        }
+			if(blinkTime <= 0){
+				character.playAnim("idleKnife", true);
+				blinkTime = FlxG.random.float(BLINK_MIN, BLINK_MAX);
+			}
+		}
 
-        if(!character.debugMode){
-            if(playstate.camFocus == "dad" && abotLookDir){
-                abotLookDir = !abotLookDir;
-                abot.lookLeft();
-            }
-            else if(playstate.camFocus == "bf" && !abotLookDir){
-                abotLookDir = !abotLookDir;
-                abot.lookRight();
-            }
-        }
-        
-    }
+		if(!character.debugMode){
+			if(playstate.camFocus == "dad" && abotLookDir){
+				abotLookDir = !abotLookDir;
+				abot.lookLeft();
+			}
+			else if(playstate.camFocus == "bf" && !abotLookDir){
+				abotLookDir = !abotLookDir;
+				abot.lookRight();
+			}
+		}
+		
+	}
 
-    function beat(character:Character, beat:Int) {
-        abot.bop();
+	function beat(character:Character, beat:Int) {
+		abot.bop();
 
-        //raise knife on low health
-        if(PlayState.SONG.song.toLowerCase() != "blazin"){
-            if(PlayState.instance.health < 0.4 && !knifeRaised){
-                knifeRaised = true;
-                blinkTime = FlxG.random.float(BLINK_MIN, BLINK_MAX);
-                character.playAnim("raiseKnife", true);
-            } 
-            else if(PlayState.instance.health >= 0.4 && knifeRaised && (character.curAnim == "idleKnife" || character.curAnim == "sad")){
-                knifeRaised = false;
-                character.playAnim("lowerKnife", true);
-                character.idleSequenceIndex = 1;
-                character.danceLockout = true;
-            }
-        }
+		//raise knife on low health
+		if(PlayState.SONG.song.toLowerCase() != "blazin"){
+			if(PlayState.instance.health < 0.4 && !knifeRaised){
+				knifeRaised = true;
+				blinkTime = FlxG.random.float(BLINK_MIN, BLINK_MAX);
+				character.playAnim("raiseKnife", true);
+			} 
+			else if(PlayState.instance.health >= 0.4 && knifeRaised && (character.curAnim == "idleKnife" || character.curAnim == "sad")){
+				knifeRaised = false;
+				character.playAnim("lowerKnife", true);
+				character.idleSequenceIndex = 1;
+				character.danceLockout = true;
+			}
+		}
 
-    }
+	}
 
-    function danceOverride(character:Character):Void{
-        if(!knifeRaised){
-            character.defaultDanceBehavior();
-        }
-    }
+	function danceOverride(character:Character):Void{
+		if(!knifeRaised){
+			character.defaultDanceBehavior();
+		}
+	}
 
-    function songStart(character:Character):Void{
-        abot.setAudioSource(FlxG.sound.music);
+	function songStart(character:Character):Void{
+		abot.setAudioSource(FlxG.sound.music);
 		abot.startVisualizer();
-    }
+	}
 
 }
 ```
