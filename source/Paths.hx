@@ -22,23 +22,22 @@ class Paths
 
 	}
 
-	inline static public function image(key:String, forceLoadFromDisk:Bool = false):Dynamic{
+	inline static public function image(key:String, forcePath:Bool = false):Dynamic{
 
 		var data:String = file(key, "images", "png");
 
-		if(ImageCache.exists(data) && !forceLoadFromDisk){
+		if(forcePath) { return data; }
+
+		if(ImageCache.exists(data)){
 			return ImageCache.get(data);
 		}
-		else if(!forceLoadFromDisk){
+		else{
 			if(ImageCache.localCache.exists(data)){
 				return ImageCache.localCache.get(data);
 			}
 			else{
 				return ImageCache.addLocal(data);
 			}
-		}
-		else{
-			return data;
 		}
 	}
 

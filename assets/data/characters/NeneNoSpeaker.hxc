@@ -22,8 +22,8 @@ class NeneNoSpeaker extends CharacterInfoBase
 		addByPrefix("idleLoop", offset(0, 0), "Idle", 24, loop(true, 0), false, false);
 		addByIndices("sad", offset(0, 0), "Laugh", [0,1,2,3], "", 24, loop(false, 0), false, false);
 		addByIndices("laughCutscene", offset(0, 0), "Laugh", [0,1,2,3,4,5,6,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11], "", 24, loop(false, 0), false, false);
-		addByPrefix("comboCheer", offset(-120, 53), "ComboCheer", 24, loop(false, 0), false, false);
-		addByIndices("comboCheerHigh", offset(-40, -20), "ComboFawn", [0,1,2,3,4,5,6,4,5,6,4,5,6,4,5,6], "", 24, loop(false, 0), false, false);
+		addByPrefix("combo50", offset(-120, 53), "ComboCheer", 24, loop(false, 0), false, false);
+		addByIndices("combo200", offset(-40, -20), "ComboFawn", [0,1,2,3,4,5,6,4,5,6,4,5,6,4,5,6], "", 24, loop(false, 0), false, false);
 		addByPrefix("raiseKnife", offset(0, 51), "KnifeRaise", 24, loop(false, 0), false, false);
 		addByPrefix("idleKnife", offset(-98, 51), "KnifeIdle", 24, loop(false, 0), false, false);
 		addByIndices("lowerKnife", offset(135, 51), "KnifeLower", [0,1,2,3,4,5,6,7,8], "", 24, loop(false, 0), false, false);

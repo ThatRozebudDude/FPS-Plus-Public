@@ -2349,8 +2349,9 @@ class PlayState extends MusicBeatState
 			note.hitCallback(note, boyfriend);
 
 			if (!note.isSustainNote){
-				popUpScore(note, healthAdjustOverride == null);
 				combo++;
+				popUpScore(note, healthAdjustOverride == null);
+				if(gf.hasAnimation("combo" + combo)){ gf.danceLockout = gf.playAnim("combo" + combo); }
 				if(combo > songStats.highestCombo) { songStats.highestCombo = combo; }
 			}
 			else{
