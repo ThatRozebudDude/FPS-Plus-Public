@@ -57,11 +57,11 @@ class Startup extends FlxState
 	var charactersCached:Bool;
 	var startCachingCharacters:Bool = false;
 	var charI:Int = 0;
-	public static final characters:Array<String> =   ["BOYFRIEND", "week4/bfCar", "week5/bfChristmas", "week6/bfPixel", "week6/bfPixelsDEAD", "week7/bfAndGF", "week7/bfHoldingGF-DEAD",
+	public static final characters:Array<String> =   ["BOYFRIEND", "BOYFRIEND_DEAD", "week4/bfCar", "week5/bfChristmas", "week6/bfPixel", "week6/bfPixelsDEAD", "week7/bfAndGF", "week7/bfHoldingGF-DEAD",
 									"GF_assets", "week4/gfCar", "week5/gfChristmas", "week6/gfPixel", "week7/gfTankmen",
 									"week1/DADDY_DEAREST", 
 									"week2/spooky_kids_assets", "week2/Monster_Assets",
-									"week3/Pico_FNF_assetss", "week7/picoSpeaker", "weekend1/pico_all",  "weekend1/pico_death",  "weekend1/Pico_Death_Retry",  "weekend1/Pico_Intro",  "weekend1/picoBlazinDeathConfirm", 
+									"week3/Pico_FNF_assetss", "week7/picoSpeaker", "weekend1/pico_weekend1",  "weekend1/pico_death",  "weekend1/Pico_Death_Retry",  "weekend1/Pico_Intro",  "weekend1/picoBlazinDeathConfirm", 
 									"week4/Mom_Assets", "week4/momCar",
 									"week5/mom_dad_christmas_assets", "week5/monsterChristmas",
 									"week6/senpai", "week6/spirit",

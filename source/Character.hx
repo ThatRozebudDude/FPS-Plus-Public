@@ -620,6 +620,10 @@ class Character extends FlxSpriteGroup
 		}
 	}
 
+	public function hasAnimation(_name:String):Bool{
+		return animOffsets.exists(_name);
+	}
+
 
 
 	public function setFlipX(value:Bool):Void {

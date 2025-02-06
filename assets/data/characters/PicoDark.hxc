@@ -1,5 +1,3 @@
-import shaders.TextureMixShader;
-
 class PicoDark extends CharacterInfoBase
 {
 
@@ -38,31 +36,33 @@ class PicoDark extends CharacterInfoBase
 		addByPrefix("shit", offset(), "Shit", 24, loop(false, 0), false, false);
 		addByPrefix("shit-censor", offset(), "Censor Shit", 24, loop(false, 0), false, false);
 
-		info.functions.add = addShader;
+		info.functions.create = create;
 
 		addAction("flashOn", flashOn);
 		addAction("flashOff", flashOff);
 		addAction("flashFade", flashFade);
 	}
 
-	var mixShader:TextureMixShader = new TextureMixShader(Paths.image("week3/Pico_Everything"));
+	var flash:Character;
 
-	function addShader(character:Character):Void{
-		mixShader.mix = 0;
-		character.applyShader(mixShader.shader);
+	function create(character:Character):Void{
+		flash = new Character(0, 0, "PicoPlayer", characterReference.isPlayer, characterReference.isGirlfriend, characterReference.debugMode);
+		flash.noLogic = true;
+		character.attachCharacter(flash, [withPlayAnim]);
+		addToCharacter(flash);
 	}
 
 	function flashOn(character:Character):Void{
-		mixShader.mix = 1;
+		character.getSprite().alpha = 0;
 	}
 
 	function flashOff(character:Character):Void{
-		mixShader.mix = 0;
+		character.getSprite().alpha = 1;
 	}
 
 	function flashFade(character:Character):Void{
-		mixShader.mix = 1;
-		playstate.tweenManager.tween(mixShader, {mix: 0}, 1.5);
+		character.getSprite().alpha = 0;
+		playstate.tweenManager.tween(character.getSprite(), {alpha: 1}, 1.5);
 	}
 
 }

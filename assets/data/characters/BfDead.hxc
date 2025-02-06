@@ -1,0 +1,22 @@
+class BfDead extends CharacterInfoBase
+{
+
+	public function new(){
+		super();
+
+		includeInCharacterList = false;
+
+		info.name = "bf";
+		info.spritePath = "BOYFRIEND_DEAD";
+		info.frameLoadType = setSparrow();
+		
+		info.iconName = "bf";
+		info.facesLeft = true;
+		info.focusOffset.set(100, -120);
+
+		addByPrefix('firstDeath', offset(27, 6), "BF dies", 24, loop(false));
+		addByPrefix('deathLoop', offset(27, 0), "BF Dead Loop", 24, loop(true));
+		addByPrefix('deathConfirm', offset(27, 64), "BF Dead confirm", 24, loop(false));
+	}
+
+}

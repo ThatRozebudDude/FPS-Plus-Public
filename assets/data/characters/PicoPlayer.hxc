@@ -5,8 +5,8 @@ class PicoPlayer extends CharacterInfoBase
 		super();
 
 		info.name = "pico";
-		info.spritePath = "week3/Pico_Everything";
-		info.frameLoadType = setSparrow();
+		info.spritePaths = ["week3/Pico_FNF_assetss", "week3/pico_extra"];
+		info.frameLoadType = setMultiSparrow();
 		
 		info.iconName = "pico";
 		info.facesLeft = true;

@@ -134,6 +134,8 @@ class PlayState extends MusicBeatState
 	public var canChangeVocalVolume:Bool = true;
 	public var songPlaybackSpeed(default, set):Float = 1;
 
+	public var scrollSpeedMultiplier(default, set):Float = 1;
+
 	public var dad:Character;
 	public var gf:Character;
 	public var boyfriend:Character;
@@ -1327,28 +1329,22 @@ class PlayState extends MusicBeatState
 		generateComboPopup(skin);
 	}
 
-	override function openSubState(SubState:FlxSubState) {
+	override function openSubState(SubState:FlxSubState){
 
-		if (paused){
-
-			if (FlxG.sound.music != null){
-				FlxG.sound.music.pause();
-				vocals.pause();
-				if(vocalType == splitVocalTrack){ vocalsOther.pause(); }
-			}
-
-			if (startTimer != null && !startTimer.finished)
+		if(paused){
+			pauseSongPlayback();
+			if (startTimer != null && !startTimer.finished){
 				startTimer.active = false;
+			}
 		}
 
 		super.openSubState(SubState);
 	}
 
-	override function closeSubState() {
+	override function closeSubState(){
 		
-		if (paused){
-
-			if (FlxG.sound.music != null && !startingSong){
+		if(paused){
+			if(!startingSong){
 				resyncVocals();
 			}
 
@@ -1366,6 +1362,7 @@ class PlayState extends MusicBeatState
 
 	function resyncVocals():Void {
 		vocals.pause();
+		//FlxG.sound.music.pause();
 		FlxG.sound.music.play();
 		Conductor.songPosition = FlxG.sound.music.time;
 		if (Conductor.songPosition <= vocals.length){
@@ -1380,7 +1377,23 @@ class PlayState extends MusicBeatState
 				vocalsOther.play();
 			}
 		}
-		//trace("resyncing vocals");
+		trace("resyncing vocals");
+	}
+
+	public function pauseSongPlayback():Void {
+		if(FlxG.sound.music != null){
+			FlxG.sound.music.pause();
+			vocals.pause();
+			if(vocalType == splitVocalTrack){ vocalsOther.pause(); }
+		}
+	}
+
+	public function resumeSongPlayback():Void {
+		if(FlxG.sound.music != null){
+			FlxG.sound.music.play();
+			vocals.play();
+			if(vocalType == splitVocalTrack){ vocalsOther.play(); }
+		}
 	}
 
 	private var paused:Bool = false;
@@ -1553,9 +1566,11 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		FlxG.sound.music.pitch = songPlaybackSpeed;
-		vocals.pitch = songPlaybackSpeed;
-		if(vocalType == splitVocalTrack){ vocalsOther.pitch = songPlaybackSpeed; }
+		if(songPlaybackSpeed != FlxG.sound.music.pitch){
+			FlxG.sound.music.pitch = songPlaybackSpeed;
+			vocals.pitch = songPlaybackSpeed;
+			if(vocalType == splitVocalTrack){ vocalsOther.pitch = songPlaybackSpeed; }
+		}
 
 		if (startingSong){
 			if (startedCountdown){
@@ -1690,6 +1705,8 @@ class PlayState extends MusicBeatState
 			else{
 				scrollSpeed = FlxMath.roundDecimal(PlayState.SONG.speed, 2);
 			}
+
+			scrollSpeed *= scrollSpeedMultiplier;
 
 			if(Config.downscroll){
 				daNote.y = (targetY + (Conductor.songPosition - daNote.strumTime) * (0.45 * scrollSpeed)) - daNote.yOffset;	
@@ -2330,8 +2347,9 @@ class PlayState extends MusicBeatState
 			note.hitCallback(note, boyfriend);
 
 			if (!note.isSustainNote){
-				popUpScore(note, healthAdjustOverride == null);
 				combo++;
+				popUpScore(note, healthAdjustOverride == null);
+				if(gf.hasAnimation("combo" + combo)){ gf.danceLockout = gf.playAnim("combo" + combo); }
 				if(combo > songStats.highestCombo) { songStats.highestCombo = combo; }
 			}
 			else{
@@ -2385,14 +2403,16 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	final RESYNC_WINDOW:Float = 25;
+
 	override function stepHit(){
 
-		if((Math.abs(FlxG.sound.music.time - (Conductor.songPosition)) > (20 * songPlaybackSpeed) || (vocalType != noVocalTrack && Math.abs(vocals.time - (Conductor.songPosition)) > (20 * songPlaybackSpeed))) && FlxG.sound.music.playing){
+		if((Math.abs(FlxG.sound.music.time - (Conductor.songPosition)) > (RESYNC_WINDOW * songPlaybackSpeed) || (vocalType != noVocalTrack && Math.abs(vocals.time - (Conductor.songPosition)) > (RESYNC_WINDOW * songPlaybackSpeed))) && FlxG.sound.music.playing){
 			resyncVocals();
 		}
 
 		if(vocalType == splitVocalTrack){
-			if((Math.abs(vocalsOther.time - (Conductor.songPosition)) > (20 * songPlaybackSpeed)) && FlxG.sound.music.playing){
+			if((Math.abs(vocalsOther.time - (Conductor.songPosition)) > (RESYNC_WINDOW * songPlaybackSpeed)) && FlxG.sound.music.playing){
 				resyncVocals();
 			}
 		}
@@ -2905,6 +2925,11 @@ class PlayState extends MusicBeatState
 		for(script in scripts){ script.exit(); }
 	}
 
+	override function onFocus(){
+		Utils.gc();
+		super.onFocus();
+	}
+
 	/* 
 	* This is done because changing the playback speed causes the song time to update slower essentially
 	* causing the hit window to change with the playback speed. This mitigates that.
@@ -2912,6 +2937,21 @@ class PlayState extends MusicBeatState
 	private function set_songPlaybackSpeed(value:Float):Float{
 		songPlaybackSpeed = value;
 		Conductor.recalculateHitZones(value);
+		return value;
+	}
+	
+	private function set_scrollSpeedMultiplier(value:Float):Float{
+		scrollSpeedMultiplier = value;
+		for(note in unspawnNotes){
+			if(note.isSustainNote && !note.isSustainEnd){
+				note.updateHoldLength(value);
+			}
+		}
+		notes.forEachAlive(function(note){
+			if(note.isSustainNote && !note.isSustainEnd){
+				note.updateHoldLength(value);
+			}
+		});
 		return value;
 	}
 

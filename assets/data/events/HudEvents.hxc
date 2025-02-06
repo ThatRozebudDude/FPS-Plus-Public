@@ -8,6 +8,7 @@ class HudEvents extends Events
 		addEvent("hudVisible", hudVisible, HUD_VISIBLE_DESC);
 		addEvent("showSongMeta", showSongMeta, SHOW_SONG_META_DESC);
 		addEvent("swapNoteSides", swapNoteSides, SWAP_NOTE_SIDES_DESC);
+		addEvent("scrollSpeedMultiplier", scrollSpeedMultiplier, SCROLL_SPEED_MULTIPLIER_DESC);
 	}
 
 	function setHudSkin(tag:String):Void{
@@ -25,7 +26,7 @@ class HudEvents extends Events
 	}
 	
 	function swapNoteSides(tag:String):Void{
-		if(Config.centeredNotes /*|| playstate.forceCenteredNotes*/){ return; } //Don't swap notes if there aren't notes to swap with.
+		if(Config.centeredNotes || playstate.forceCenteredNotes){ return; } //Don't swap notes if there aren't notes to swap with.
 		
 		var args = Events.getArgs(tag, ["1b", "quartOut"]);
 		var playerNotePositions = [];
@@ -48,6 +49,18 @@ class HudEvents extends Events
 			tween.tween(playstate.enemyStrums.memebers[i], {x: playerNotePositions[i][0], y: playerNotePositions[i][1]}, 1);
 		}
 	}
+
+	function scrollSpeedMultiplier(tag:String):Void{
+		var args = Events.getArgs(tag, ["1", "0", "linear"]);
+		var time = Events.eventConvertTime(args[1]);
+
+		if(time > 0){
+			tween.tween(playstate, {scrollSpeedMultiplier: Std.parseFloat(args[0])}, time, {ease: Events.easeNameToEase(args[3])});
+		}
+		else{
+			playstate.scrollSpeedMultiplier = Std.parseFloat(args[0]);
+		}
+	}
 	
 
 
@@ -56,4 +69,5 @@ class HudEvents extends Events
 	var HUD_VISIBLE_DESC:String = "Sets the visibility of the HUD.\n\nArgs:\n    Bool: HUD visibility";
 	var SHOW_SONG_META_DESC:String = "Shows the song name and artist.";
 	var SWAP_NOTE_SIDES_DESC:String = "Swaps player and opponent note sides.\nDoes nothing if the strumline is centered.";
+	var SCROLL_SPEED_MULTIPLIER_DESC:String = "Adjusts the modifier for the note scroll speed.\n\nArgs:\n    Float: Multiplier\n    Time: Tween time\n    Ease: Tween ease";
 }

@@ -5,8 +5,8 @@ class PicoWeekend extends CharacterInfoBase
 		super();
 
 		info.name = "pico";
-		info.spritePath = "weekend1/pico_all";
-		info.frameLoadType = setSparrow();
+		info.spritePaths = ["week3/Pico_FNF_assetss", "weekend1/pico_weekend1"];
+		info.frameLoadType = setMultiSparrow();
 		
 		info.iconName = "pico";
 		info.facesLeft = true;
