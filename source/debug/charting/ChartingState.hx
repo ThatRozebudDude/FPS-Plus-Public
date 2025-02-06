@@ -178,7 +178,7 @@ class ChartingState extends UIState
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menu/menuDesat'));
 		bg.scrollFactor.set();
-		bg.color = 0xffec96ff;
+		bg.color = 0xfff95ba4;
 		bg.screenCenter();
 		bg.antialiasing = true;
 		add(bg);
