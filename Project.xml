@@ -94,12 +94,15 @@
 	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
+	<haxelib name="haxeui-core" />
+	<haxelib name="haxeui-flixel" />
 	<haxelib name="compiletime" />
 	<haxelib name="flxanimate" />
 	<haxelib name="hxCodec" if="desktop" />
 	<haxelib name="funkin.vis" />
 	<haxelib name="grig.audio" />
 	<haxelib name="polymod" />
+	<haxelib name="flixel-text-input" />
 
 	<!--haxelib name="newgrounds"/-->
 	<!--haxelib name="faxe" if='switch'/-->
@@ -171,5 +174,17 @@
 	<haxedef name="POLYMOD_APPEND_FOLDER" value="append" />
 	<haxedef name="POLYMOD_MERGE_FOLDER" value="merge" />
 	<haxedef name="hscriptPos" />
+
+	<!-- _________________________________ HaxeUI Stuff _______________________________ -->
+	<haxedef name="haxeui_focus_out_on_click" />
+	<haxedef name="haxeui_no_mouse_reset" />
+	<haxedef name="haxeui_allow_drag_any_component" />
+	<haxedef name="haxeui_flixel_no_custom_cursors" />
+	<haxedef name="haxeui_dont_impose_base_class" />
+
+	<haxeflag name="--macro" value="include('haxe.ui.backend.flixel.components')" />
+	<haxeflag name="--macro" value="include('haxe.ui.containers.dialogs')" />
+	<haxeflag name="--macro" value="include('haxe.ui.containers.menus')" />
+	<haxeflag name="--macro" value="include('haxe.ui.components')" />
 
 </project>

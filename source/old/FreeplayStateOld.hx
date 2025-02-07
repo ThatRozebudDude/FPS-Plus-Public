@@ -2,7 +2,7 @@ package old;
 
 import ui.HealthIcon;
 import transition.data.StickerIn;
-import extensions.flixel.FlxUIStateExt;
+import extensions.flixel.FlxStateExt;
 import config.CacheConfig;
 import title.TitleScreen;
 import config.Config;

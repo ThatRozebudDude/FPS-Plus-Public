@@ -7,9 +7,8 @@ import cpp.vm.Gc;
 import openfl.system.System;
 import flixel.FlxG;
 import flixel.FlxState;
-import flixel.addons.ui.FlxUIState;
 
-class FlxUIStateExt extends FlxUIState
+class FlxStateExt extends FlxState
 {
 	public var useDefaultTransIn:Bool = true;
 	public var useDefaultTransOut:Bool = true;
