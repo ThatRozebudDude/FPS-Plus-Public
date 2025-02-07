@@ -164,7 +164,7 @@ class FreeplayStateOld extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		lerpScore = Math.floor(Utils.fpsAdjsutedLerp(lerpScore, intendedScore, 0.4));
+		lerpScore = Math.floor(Utils.fpsAdjustedLerp(lerpScore, intendedScore, 0.4));
 
 		if (Math.abs(lerpScore - intendedScore) <= 10)
 			lerpScore = intendedScore;

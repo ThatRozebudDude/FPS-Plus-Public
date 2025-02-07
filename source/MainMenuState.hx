@@ -261,8 +261,8 @@ class MainMenuState extends MusicBeatState
 		}
 
 		if(!instantCamFollow){
-			camFollow.x = Utils.fpsAdjsutedLerp(camFollow.x, camTarget.x, lerpSpeed, 144);
-			camFollow.y = Utils.fpsAdjsutedLerp(camFollow.y, camTarget.y, lerpSpeed, 144);
+			camFollow.x = Utils.fpsAdjustedLerp(camFollow.x, camTarget.x, lerpSpeed, 144);
+			camFollow.y = Utils.fpsAdjustedLerp(camFollow.y, camTarget.y, lerpSpeed, 144);
 		}
 		else{
 			camFollow.x = camTarget.x;

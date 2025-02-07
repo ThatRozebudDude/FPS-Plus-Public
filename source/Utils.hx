@@ -95,13 +95,16 @@ class Utils
 	* @param	b				Target value.
 	* @param	ratio			The ratio at which the values are interpolated.
 	* @param	referenceFps	An optional parameter that makes the lerp act as if it was running at that framerate.
+	* @param	snap			An optional parameter that determines whether to snap `a` to `b` if their difference is within `snapTolerance`.
+	* @param	snapTolerance	An optional parameter that adjusts the difference needed to snap `a` to `b`.
 	*/
-	public static inline function fpsAdjsutedLerp(a:Float, b:Float, ratio:Float, ?referenceFps:Float = 60):Float{
-		return dampen(a, b, Math.pow(1 - ratio, referenceFps));
+	public static inline function fpsAdjustedLerp(a:Float, b:Float, ratio:Float, ?referenceFps:Float = 60, ?snap:Bool = false, ?snapTolerance:Float = 0.001):Float{
+		var v = dampen(a, b, Math.pow(1 - ratio, referenceFps));
+		return (snap && inRange(v, b, snapTolerance)) ? b : v;
 	}
 
 	/**
-	* The dampening fuction used in `fpsAdjsutedLerp`.
+	* The dampening fuction used in `fpsAdjustedLerp`.
 	* 
 	* @param	a				Source value.
 	* @param	b				Target value.
@@ -115,8 +118,12 @@ class Utils
 	*	Lerp that calls `fpsAdjust` on the ratio.
 	*	This function is exactly the correct way to do this but I'm leaving it here for backwards compatibility.
 	*/
-	public static inline function fpsAdjsutedLerpOld(a:Float, b:Float, ratio:Float):Float{
+	public static inline function fpsAdjustedLerpOld(a:Float, b:Float, ratio:Float):Float{
 		return FlxMath.lerp(a, b, clamp(fpsAdjust(ratio), 0, 1));
+	}
+
+	public static inline function inRange(a:Float, b:Float, tolerance:Float):Bool{
+		return (a <= b + tolerance && a >= b - tolerance);
 	}
 
 	/*

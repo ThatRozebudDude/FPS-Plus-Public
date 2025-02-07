@@ -1531,13 +1531,9 @@ class PlayState extends MusicBeatState
 		}
 
 		if(healthLerp != health){
-			//Designed to be roughly equivalent to Utils.fpsAdjsutedLerp(healthLerp, health, 0.07, 600),
-			//which is roughly equivalent to Utils.fpsAdjsutedLerpOld(healthLerp, health, 0.7) at the performance I got when I implemented with smoother health bar.
-			healthLerp = Utils.fpsAdjsutedLerp(healthLerp, health, 0.516);
-			if(inRange(healthLerp, health, 0.0001)){
-				healthLerp = health;
-				//trace("snapping health!");
-			}
+			//Designed to be roughly equivalent to Utils.fpsAdjustedLerp(healthLerp, health, 0.07, 600),
+			//which is roughly equivalent to Utils.fpsAdjustedLerpOld(healthLerp, health, 0.7) at the performance I got when I implemented with smoother health bar.
+			healthLerp = Utils.fpsAdjustedLerp(healthLerp, health, 0.516, 60, true, 0.0001);
 		}
 
 		//Health Icons
@@ -1587,7 +1583,7 @@ class PlayState extends MusicBeatState
 			if(previousReportedSongTime != FlxG.sound.music.time){
 				Conductor.songPosition = FlxG.sound.music.time;
 				//Failsafe to make sure that the onComplete actually runs because sometimes it would just not run sometimes when I was doing stuff with the song playback speed.
-				if(inRange(previousReportedSongTime, FlxG.sound.music.length, 1000) && !inRange(Conductor.songPosition, FlxG.sound.music.length, 1000) && !songEnded){ FlxG.sound.music.onComplete(); }
+				if(Utils.inRange(previousReportedSongTime, FlxG.sound.music.length, 1000) && !Utils.inRange(Conductor.songPosition, FlxG.sound.music.length, 1000) && !songEnded){ FlxG.sound.music.onComplete(); }
 				previousReportedSongTime = FlxG.sound.music.time;
 			}
 			else{
@@ -2578,7 +2574,7 @@ class PlayState extends MusicBeatState
 	//Moved to a separate function and out of note check so the hit callback function will be run every note hit and not just when the animation is supposed to play.
 	public inline static function characterShouldPlayAnimation(note:Note, character:Character):Bool{
 		return (Character.LOOP_ANIM_ON_HOLD ? (note.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!character.isSinging || (character.timeInCurrentAnimation >= (3/24) || character.curAnimFinished())) : true) : true) : !note.isSustainNote)
-			&& (Character.PREVENT_SHORT_SING ? !inRange(character.lastSingTime, Conductor.songPosition, Character.SHORT_SING_TOLERENCE) : true);
+			&& (Character.PREVENT_SHORT_SING ? !Utils.inRange(character.lastSingTime, Conductor.songPosition, Character.SHORT_SING_TOLERENCE) : true);
 	}
 
 	var bfOnTop:Bool = true;
@@ -2863,10 +2859,6 @@ class PlayState extends MusicBeatState
 		}
 		if(combo > 0){ songStats.comboBreakCount++; }
 		combo = 0;
-	}
-
-	static function inRange(a:Float, b:Float, tolerance:Float):Bool{
-		return (a <= b + tolerance && a >= b - tolerance);
 	}
 
 	function sortNotes(){

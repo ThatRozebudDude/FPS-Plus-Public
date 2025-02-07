@@ -177,8 +177,8 @@ class Capsule extends FlxSpriteGroup
 
 	override function update(elapsed:Float):Void{
 		if(doLerp){
-			x = Utils.fpsAdjsutedLerp(x - xPositionOffset, targetPos.x, 0.126, 144) + xPositionOffset;
-			y = Utils.fpsAdjsutedLerp(y, targetPos.y, 0.168, 144);
+			x = Utils.fpsAdjustedLerp(x - xPositionOffset, targetPos.x, 0.126, 144, true) + xPositionOffset;
+			y = Utils.fpsAdjustedLerp(y, targetPos.y, 0.168, 144, true);
 	
 			text.x = x + 95 + scrollOffset;
 		}

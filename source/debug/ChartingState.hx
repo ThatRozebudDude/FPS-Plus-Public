@@ -1789,7 +1789,7 @@ class ChartingState extends MusicBeatState
 
 		for(x in _song.notes[curSection].sectionNotes){
 
-			if(approxEqual(x[0], note.strumTime, 3) && x[1] == note.absoluteNumber && approxEqual(x[2], note.sustainLength, 3)){
+			if(Utils.inRange(x[0], note.strumTime, 3) && x[1] == note.absoluteNumber && Utils.inRange(x[2], note.sustainLength, 3)){
 
 				curSelectedNote = x;
 				noteType.text = x[3];
@@ -1812,7 +1812,7 @@ class ChartingState extends MusicBeatState
 		for (i in _song.notes[curSection].sectionNotes)
 		{
 			//trace("Testing: " + i[0]);
-			if (approxEqual(i[0], note.strumTime, 3) && i[1] == note.absoluteNumber)
+			if (Utils.inRange(i[0], note.strumTime, 3) && i[1] == note.absoluteNumber)
 			{
 				//trace('FOUND EVIL NUMBER');
 				_song.notes[curSection].sectionNotes.remove(i);
@@ -2129,7 +2129,7 @@ class ChartingState extends MusicBeatState
 			for(y in newNotes){
 
 				if(newNotes.length > 0){
-					if(approxEqual(x[0], y[0], 6) && x[1] == y[1]){
+					if(Utils.inRange(x[0], y[0], 6) && x[1] == y[1]){
 						add = false;
 					}
 				}
@@ -2153,7 +2153,7 @@ class ChartingState extends MusicBeatState
 		var section = curSection;
 
 		for (i in _events.events){
-			if (approxEqual(i[1], noteStrum, 3) && (eventTag == i[3] || noteData == i[2])){
+			if (Utils.inRange(i[1], noteStrum, 3) && (eventTag == i[3] || noteData == i[2])){
 				return;
 			}
 		}
@@ -2180,7 +2180,7 @@ class ChartingState extends MusicBeatState
 		var tag = event.tag;
 
 		for (i in _events.events){
-			if (approxEqual(i[1], strumTime, 3) && tag == i[3]){
+			if (Utils.inRange(i[1], strumTime, 3) && tag == i[3]){
 				_events.events.remove(i);
 			}
 
@@ -2243,12 +2243,6 @@ class ChartingState extends MusicBeatState
 		_events.events.sort(sortByEventStuff);
 
 		updateGrid();
-	}
-
-	function approxEqual(x:Dynamic, y:Dynamic, tolerance:Float){
-
-		return x <= y + tolerance && x >= y - tolerance;
-
 	}
 
 	function loadAndCacheEventGraphic(tag:String):FlxGraphic{
