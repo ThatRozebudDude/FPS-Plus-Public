@@ -378,10 +378,7 @@ class ChartingState extends UIState
 			windowBox.selected = false;
 
 			windowMenu.addComponent(windowBox);
-			//windows.get(window).open();
 		}
-
-
 
 		updateHeads(true);
 
@@ -710,14 +707,15 @@ class ChartingState extends UIState
 
 		if (Math.ceil(strumLine.y) >= gridBG.height)
 		{
-			if (_song.notes[curSection + 1] == null)
-			{
+			if (_song.notes[curSection + 1] == null){
 				addSection();
 			}
 
 			changeSection(curSection + 1, false);
 		} else if(strumLine.y < -10) {
-			changeSection(curSection - 1, false);
+			if (_song.notes[curSection - 1] == null){
+				changeSection(curSection - 1, false);
+			}
 		}
 
 		FlxG.watch.addQuick('daBeat', curBeat);
