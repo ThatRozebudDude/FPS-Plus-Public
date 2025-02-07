@@ -45,10 +45,10 @@ class MainMenuState extends MusicBeatState
 
 	public static var fromFreeplay:Bool = false;
 
-	public static final lerpSpeed:Float = 0.01;
+	public static final lerpSpeed:Float = 0.0042;
 	final warningDelay:Float = 10;
 
-	inline public static final VERSION:String = "6.2.1";
+	inline public static final VERSION:String = "6.2.2";
 	inline public static final NONFINAL_TAG:String = "(Non-Release Build)";
 	inline public static final SHOW_BUILD_INFO:Bool = true; //Set this to false when making a release build.
 
@@ -261,8 +261,8 @@ class MainMenuState extends MusicBeatState
 		}
 
 		if(!instantCamFollow){
-			camFollow.x = Utils.fpsAdjsutedLerp(camFollow.x, camTarget.x, lerpSpeed);
-			camFollow.y = Utils.fpsAdjsutedLerp(camFollow.y, camTarget.y, lerpSpeed);
+			camFollow.x = Utils.fpsAdjsutedLerp(camFollow.x, camTarget.x, lerpSpeed, 144);
+			camFollow.y = Utils.fpsAdjsutedLerp(camFollow.y, camTarget.y, lerpSpeed, 144);
 		}
 		else{
 			camFollow.x = camTarget.x;

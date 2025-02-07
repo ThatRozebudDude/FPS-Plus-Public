@@ -88,10 +88,34 @@ class Utils
 		return value * (referenceFps * FlxG.elapsed);
 	}
 
+	/**
+	* Lerp function that can be run in update and is consistent independent of the game's framerate.
+	* 
+	* @param	a				Source value.
+	* @param	b				Target value.
+	* @param	ratio			The ratio at which the values are interpolated.
+	* @param	referenceFps	An optional parameter that makes the lerp act as if it was running at that framerate.
+	*/
+	public static inline function fpsAdjsutedLerp(a:Float, b:Float, ratio:Float, ?referenceFps:Float = 60):Float{
+		return dampen(a, b, Math.pow(1 - ratio, referenceFps));
+	}
+
+	/**
+	* The dampening fuction used in `fpsAdjsutedLerp`.
+	* 
+	* @param	a				Source value.
+	* @param	b				Target value.
+	* @param	smoothing		The proportion of `a` left after 1 second.
+	*/
+	public static inline function dampen(a:Float, b:Float, smoothing:Float):Float{
+		return FlxMath.lerp(a, b, 1 - Math.pow(smoothing, FlxG.elapsed));
+	}
+
 	/*
 	*	Lerp that calls `fpsAdjust` on the ratio.
+	*	This function is exactly the correct way to do this but I'm leaving it here for backwards compatibility.
 	*/
-	public static inline function fpsAdjsutedLerp(a:Float, b:Float, ratio:Float):Float{
+	public static inline function fpsAdjsutedLerpOld(a:Float, b:Float, ratio:Float):Float{
 		return FlxMath.lerp(a, b, clamp(fpsAdjust(ratio), 0, 1));
 	}
 

@@ -1377,7 +1377,7 @@ class PlayState extends MusicBeatState
 				vocalsOther.play();
 			}
 		}
-		trace("resyncing vocals");
+		//trace("resyncing vocals");
 	}
 
 	public function pauseSongPlayback():Void {
@@ -1531,10 +1531,13 @@ class PlayState extends MusicBeatState
 		}
 
 		if(healthLerp != health){
-			healthLerp = Utils.fpsAdjsutedLerp(healthLerp, health, 0.7);
-		}
-		if(inRange(healthLerp, 2, 0.001)){
-			healthLerp = 2;
+			//Designed to be roughly equivalent to Utils.fpsAdjsutedLerp(healthLerp, health, 0.07, 600),
+			//which is roughly equivalent to Utils.fpsAdjsutedLerpOld(healthLerp, health, 0.7) at the performance I got when I implemented with smoother health bar.
+			healthLerp = Utils.fpsAdjsutedLerp(healthLerp, health, 0.516);
+			if(inRange(healthLerp, health, 0.0001)){
+				healthLerp = health;
+				//trace("snapping health!");
+			}
 		}
 
 		//Health Icons
@@ -2355,7 +2358,7 @@ class PlayState extends MusicBeatState
 				if(combo > songStats.highestCombo) { songStats.highestCombo = combo; }
 			}
 			else{
-				if(healthAdjustOverride != null){
+				if(healthAdjustOverride == null){
 					health += Scoring.HOLD_HEAL_AMOUNT * Config.healthMultiplier;
 				}
 				songStats.score += Std.int(Scoring.HOLD_SCORE_PER_SECOND * (Conductor.stepCrochet/1000));

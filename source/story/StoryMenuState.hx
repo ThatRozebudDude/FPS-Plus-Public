@@ -254,7 +254,7 @@ class StoryMenuState extends MusicBeatState
 
 	override function update(elapsed:Float){
 		// scoreText.setFormat('VCR OSD Mono', 32);
-		lerpScore = Math.floor(Utils.fpsAdjsutedLerp(lerpScore, intendedScore, 0.5));
+		lerpScore = Math.floor(Utils.fpsAdjsutedLerp(lerpScore, intendedScore, 0.21, 144));
 
 		scoreText.text = "WEEK SCORE:" + lerpScore;
 
