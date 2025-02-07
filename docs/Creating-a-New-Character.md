@@ -10,11 +10,13 @@ To set the info of a character you use `info.{field}`. The following isn't a com
 
 - `name`: The name of the character when you use `Character.curCharacter`. (Optional, if not defined it will be set as the class name in lowercase.)
 - `spritePath`: The path to the sprite sheet or texture atlas folder.
+- `spritePaths`: An array of paths to multiple sprites sheets. *Only used when using multiple sparrow atlas frame load type.*
 - `frameLoadType`: The method of loading the sprite for the character. It can be one of the following:
     - `setSparrow()` for standard sparrow sprite sheets.
-    - `setPacker()` for texture packer sprite sheets. *(Spirit uses this.)*
+    - `setPacker()` for texture packer sprite sheets. *(Used by Spirit.)*
     - `setLoad(width, height)` for fixed frame width sprite sheets. You must specify the frame height and width to use this.
     - `setAtlas()` for sprites that use a texture atlas.
+    - `setMultiSparrow()` for sprites that are made from multiple sparrow sprite sheets. *(Used by Pico to add extra animations without being a part of his base enemy sprite sheet.)*
 - `iconName`: The name of the icon image used for the character. (Optional, if not defined it will default to `"face"`.)
 - `deathCharacter`: The name of the character class to use on the death screen. (Optional, if not defined it will default to `"Bf"`.)
 - `resultsCharacter`: The name of the results character class to use on the results screen. (Optional, if not defined it will default to `"BoyfriendResults"`.)
@@ -301,6 +303,43 @@ class Nene extends CharacterInfoBase
 	function songStart(character:Character):Void{
 		abot.setAudioSource(FlxG.sound.music);
 		abot.startVisualizer();
+	}
+
+}
+```
+
+Here is the playable Pico class used in Weekend 1, which uses mutliple sparrow atlases from different locations:
+
+```haxe
+class PicoWeekend extends CharacterInfoBase
+{
+
+	public function new(){
+		super();
+
+		info.name = "pico";
+		info.spritePaths = ["week3/Pico_FNF_assetss", "weekend1/pico_weekend1"];
+		info.frameLoadType = setMultiSparrow();
+		
+		info.iconName = "pico";
+		info.facesLeft = true;
+		info.deathCharacter = "PicoDead";
+		info.resultsCharacter = "PicoResults";
+		info.focusOffset.set(100, -100);
+
+		addByPrefix("idle", offset(0, 0), "Idle", 24, loop(false, 0), false, false);
+		addByPrefix("singUP", offset(20, 29), "Sing Up", 24, loop(false, 0), false, false);
+		addByPrefix("singDOWN", offset(92, -77), "Sing Down", 24, loop(false, 0), false, false);
+		addByPrefix("singLEFT", offset(86, -11), "Sing Left", 24, loop(false, 0), false, false);
+		addByPrefix("singRIGHT", offset(-46, 1), "Sing Right", 24, loop(false, 0), false, false);
+		addByPrefix("singRIGHTmiss", offset(-40, 49), "Miss Right", 24, loop(true, -4), false, false);
+		addByPrefix("singLEFTmiss", offset(82, 27), "Miss Left", 24, loop(true, -4), false, false);
+		addByPrefix("singUPmiss", offset(26, 67), "Miss Up", 24, loop(true, -4), false, false);
+		addByPrefix("singDOWNmiss", offset(86, -37), "Miss Down", 24, loop(true, -4), false, false);
+		addByPrefix("shoot", offset(342, 230), "Pico Shoot", 24, loop(false, 0), false, false);
+		addByPrefix("reload", offset(70, -10), "Pico Reload", 24, loop(false, 0), false, false);
+		addByPrefix("hit", offset(-18, -8), "Pico Hit", 24, loop(true, -3), false, false);
+
 	}
 
 }

@@ -1,5 +1,6 @@
 package modding;
 
+import flixel.input.gamepad.FlxGamepadInputID;
 import openfl.display.BlendMode as BaseBlendMode;
 import flixel.text.FlxText.FlxTextBorderStyle;
 import flixel.input.keyboard.FlxKey;
@@ -57,6 +58,48 @@ class ScriptingUtil
 	public static inline function screenCenter(obj:FlxObject, ?x:Bool = true, ?y:Bool = true):Void{ 
 		if (x){ obj.x = (FlxG.width - obj.width)	/ 2; }
 		if (y){ obj.y = (FlxG.height - obj.height)  / 2; }	
+	}
+
+	//Stuff for getting input without using Binds. Useful for adding debug keys and stuff.
+	public static inline function anyPressed(keys:Array<String>):Bool{
+		var checkKeys:Array<FlxKey> = [];
+		for(key in keys){ checkKeys.push(FlxKey.fromString(key)); }
+		return FlxG.keys.anyPressed(checkKeys);
+	}
+	public static inline function anyJustPressed(keys:Array<String>):Bool{
+		var checkKeys:Array<FlxKey> = [];
+		for(key in keys){ checkKeys.push(FlxKey.fromString(key)); }
+		return FlxG.keys.anyJustPressed(checkKeys);
+	}
+	public static inline function anyJustReleased(keys:Array<String>):Bool{
+		var checkKeys:Array<FlxKey> = [];
+		for(key in keys){ checkKeys.push(FlxKey.fromString(key)); }
+		return FlxG.keys.anyJustReleased(checkKeys);
+	}
+	
+	public static inline function anyPressedController(keys:Array<String>):Bool{
+		var r:Bool = false;
+		for(key in keys){
+			r = FlxG.gamepads.anyPressed(FlxGamepadInputID.fromString(key));
+			if(r){ break; }
+		}
+		return r;
+	}
+	public static inline function anyJustPressedController(keys:Array<String>):Bool{
+		var r:Bool = false;
+		for(key in keys){
+			r = FlxG.gamepads.anyJustPressed(FlxGamepadInputID.fromString(key));
+			if(r){ break; }
+		}
+		return r;
+	}
+	public static inline function anyJustReleasedController(keys:Array<String>):Bool{
+		var r:Bool = false;
+		for(key in keys){
+			r = FlxG.gamepads.anyJustReleased(FlxGamepadInputID.fromString(key));
+			if(r){ break; }
+		}
+		return r;
 	}
 }
 
