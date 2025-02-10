@@ -67,5 +67,5 @@ class FPSExt extends TextField
 	}
 
 	inline function get_memoryMegas():Float
-		return cast(System.totalMemory, UInt);
+		return System.totalMemoryNumber;
 }
