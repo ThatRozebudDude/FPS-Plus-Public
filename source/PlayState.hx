@@ -1044,6 +1044,8 @@ class PlayState extends MusicBeatState
 
 		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
 
+		var preloadSplashList:Array<String> = [];
+
 		for (section in noteData)
 		{
 			if(sectionStart && daBeats < sectionStartPoint){
@@ -1081,6 +1083,10 @@ class PlayState extends MusicBeatState
 
 				swagNote.mustPress = gottaHitNote;
 
+				if(swagNote.noteSplashOverride != null && !preloadSplashList.contains(swagNote.noteSplashOverride)){
+					preloadSplashList.push(swagNote.noteSplashOverride);
+				}
+
 				setNoteHitCallback(swagNote);
 				
 				unspawnNotes.push(swagNote);
@@ -1115,6 +1121,10 @@ class PlayState extends MusicBeatState
 		// playerCounter += 1;
 
 		unspawnNotes.sort(sortByShit);
+
+		for(splash in preloadSplashList){
+			var preloadSplash = new NoteSplash(-2000, -2000, 0, false, splash);
+		}
 
 		generatedMusic = true;
 	}
@@ -1970,7 +1980,7 @@ class PlayState extends MusicBeatState
 				health += Scoring.SICK_HEAL_AMOUNT * Config.healthMultiplier * noHealMultiply;
 				songStats.sickCount++;
 				if(Config.noteSplashType >= 1 && Config.noteSplashType < 4){
-					createNoteSplash(note.noteData);
+					createNoteSplash(note);
 				}
 			case "good":
 				health += Scoring.GOOD_HEAL_AMOUNT * Config.healthMultiplier * noHealMultiply;
@@ -1992,8 +2002,8 @@ class PlayState extends MusicBeatState
 
 	}
 
-	private function createNoteSplash(note:Int){
-		var bigSplashy = new NoteSplash(Utils.getGraphicMidpoint(playerStrums.members[note]).x, Utils.getGraphicMidpoint(playerStrums.members[note]).y, note);
+	private function createNoteSplash(note:Note){
+		var bigSplashy = new NoteSplash(Utils.getGraphicMidpoint(playerStrums.members[note.noteData]).x, Utils.getGraphicMidpoint(playerStrums.members[note.noteData]).y, note.noteData, false, note.noteSplashOverride);
 		bigSplashy.cameras = [camHUD];
 		add(bigSplashy);
 	}

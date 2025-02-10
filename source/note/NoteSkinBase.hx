@@ -39,11 +39,14 @@ typedef NoteSkinInfo = {
 	var holdScaleAdjust:Float;
 	var antialiasing:Bool;
 	var offset:FlxPoint;
+
+	var noteSplashOverride:String;
 }
 
 typedef NoteFuncions = {
 	var create:(Note)->Void;			//This function is run after the Character new() function is complete.
 	var update:(Note, Float)->Void;		//This function is run every frame. Float is elapsed.
+	var destroy:(Note)->Void;			//This function is run every frame. Float is elapsed.
 }
 
 @:build(modding.GlobalScriptingTypesMacro.build())
@@ -111,13 +114,15 @@ class NoteSkinBase
 		functions: {
 			create: null,
 			update: null,
+			destroy: null,
 		},
 
 		canGlow: true,
 		scale: 0.7,
 		holdScaleAdjust: 1,
 		antialiasing: true,
-		offset: new FlxPoint()
+		offset: new FlxPoint(),
+		noteSplashOverride: null
 	};
 
 	public function new(){}
