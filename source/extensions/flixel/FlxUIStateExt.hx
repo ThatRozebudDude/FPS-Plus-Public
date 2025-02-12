@@ -3,6 +3,8 @@ package extensions.flixel;
 import transition.*;
 import transition.data.*;
 
+import scripts.ScriptableState;
+
 import cpp.vm.Gc;
 import openfl.system.System;
 import flixel.FlxG;
@@ -36,6 +38,16 @@ class FlxUIStateExt extends FlxUIState
 	}
 
 	public function switchState(_state:FlxState){
+		// Scripted States
+		final statePath = Type.getClassName(Type.getClass(_state)).split(".");
+		final stateName = statePath[statePath.length - 1];
+
+		// These are bit "hacky" but we have to do this to create script instance in parent...
+		if (Reflect.callMethod(null, Reflect.getProperty(ScriptableState, "listScriptClasses"), [stateName]).contains(stateName)){
+			_state = Reflect.callMethod(null, Reflect.getProperty(ScriptableState, "init"), [stateName]);
+			Reflect.setProperty(_state, "stateName", stateName);
+		}
+
 		if(customTransOut != null){
 			CustomTransition.transition(customTransOut, _state);
 		}
