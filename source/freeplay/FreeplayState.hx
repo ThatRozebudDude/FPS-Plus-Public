@@ -36,7 +36,9 @@ import caching.*;
 
 using StringTools;
 
-@clearImageCache(false)
+@:hscriptClass
+class ScriptedFreeplayState extends FreeplayState implements polymod.hscript.HScriptedClass{}
+
 class FreeplayState extends MusicBeatState
 {
 
