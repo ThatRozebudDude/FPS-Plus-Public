@@ -20,6 +20,9 @@ import caching.*;
 
 using StringTools;
 
+@:hscriptClass
+class ScriptedStoryMenuState extends StoryMenuState implements polymod.hscript.HScriptedClass{}
+
 class StoryMenuState extends MusicBeatState
 {
 	var scoreText:FlxText;

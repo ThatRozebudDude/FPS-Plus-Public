@@ -21,7 +21,7 @@ class DJCharacter extends AtlasSprite
 	var maxAfkTime:Float = 27;
 
 	public var freeplaySkin:String = "";
-	public var listSuffix:String = "-bf";
+	public var listSuffix:String = "bf";
 
 	public var capsuleSelectColor:FlxColor = 0xFFFFFFFF;
 	public var capsuleDeselectColor:FlxColor = 0xFF969A9D;

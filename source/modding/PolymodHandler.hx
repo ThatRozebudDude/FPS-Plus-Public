@@ -276,6 +276,8 @@ class PolymodHandler
 		Polymod.addDefaultImport(objects.ScriptableSprite.ScriptedSprite);
 		Polymod.addDefaultImport(objects.ScriptableAtlasSprite.ScriptedAtlasSprite);
 		Polymod.addDefaultImport(objects.ScriptableSpriteGroup.ScriptedSpriteGroup);
+
+		Polymod.addDefaultImport(scripts.ScriptedState);
 		
 		//Alias
 		Polymod.addImportAlias("lime.utils.Assets", Assets);
