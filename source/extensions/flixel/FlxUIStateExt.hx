@@ -4,12 +4,15 @@ import transition.*;
 import transition.data.*;
 
 import scripts.ScriptableState;
+import polymod.hscript._internal.PolymodScriptClass;
 
 import cpp.vm.Gc;
 import openfl.system.System;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.addons.ui.FlxUIState;
+
+using StringTools;
 
 class FlxUIStateExt extends FlxUIState
 {
@@ -39,13 +42,19 @@ class FlxUIStateExt extends FlxUIState
 
 	public function switchState(_state:FlxState){
 		// Scripted States
-		final statePath = Type.getClassName(Type.getClass(_state)).split(".");
-		final stateName = statePath[statePath.length - 1];
+		final statePath = Type.getClassName(Type.getClass(_state));
+		final stateName = statePath.split(".")[statePath.split(".").length - 1];
 
 		// These are bit "hacky" but we have to do this to create script instance in parent...
 		if (Utils.forceCall(ScriptableState, "listScriptClasses").contains(stateName)){
 			_state = Utils.forceCall(ScriptableState, "init", [stateName]);
 			Reflect.setProperty(_state, "stateName", stateName);
+		}
+		// Extended States
+		else if (PolymodScriptClass.listScriptClassesExtending(statePath).length > 0)
+		{
+			var scriptClassPath = statePath.replace(stateName, "Scripted" + stateName);
+			_state = Utils.forceCall(Type.resolveClass(scriptClassPath), "init", [Utils.forceCall(Type.resolveClass(scriptClassPath), "listScriptClasses")[0]]);
 		}
 
 		if(customTransOut != null){
