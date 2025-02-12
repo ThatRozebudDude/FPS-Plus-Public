@@ -43,8 +43,8 @@ class FlxUIStateExt extends FlxUIState
 		final stateName = statePath[statePath.length - 1];
 
 		// These are bit "hacky" but we have to do this to create script instance in parent...
-		if (Reflect.callMethod(null, Reflect.getProperty(ScriptableState, "listScriptClasses"), [stateName]).contains(stateName)){
-			_state = Reflect.callMethod(null, Reflect.getProperty(ScriptableState, "init"), [stateName]);
+		if (Utils.forceCall(ScriptableState, "listScriptClasses").contains(stateName)){
+			_state = Utils.forceCall(ScriptableState, "init", [stateName]);
 			Reflect.setProperty(_state, "stateName", stateName);
 		}
 

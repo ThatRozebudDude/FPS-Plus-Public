@@ -1,0 +1,267 @@
+import ui.HealthIcon;
+import transition.data.StickerIn;
+import extensions.flixel.FlxUIStateExt;
+import config.CacheConfig;
+import title.TitleScreen;
+import config.Config;
+import flash.text.TextField;
+import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
+import flixel.addons.display.FlxGridOverlay;
+import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.math.FlxMath;
+import flixel.text.FlxText;
+import flixel.util.FlxColor;
+import lime.utils.Assets;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import transition.data.ScreenWipeOutFlipped;
+import characterSelect.CharacterSelectState;
+import freeplay.FreeplayState;
+import freeplay.ScriptableDJCharacter;
+import Highscore;
+import Song;
+
+import StringTools;
+
+class FreeplayState extends ScriptedState
+{
+	var songs:Array<Dynamic> = [];
+
+	var startingSelection:Int = 0;
+	var selector:FlxText;
+	var curSelected:Int = 0;
+	var curDifficulty:Int = 1;
+
+	var scoreText:FlxText;
+	var diffText:FlxText;
+	var lerpScore:Int = 0;
+	var intendedScore:Int = 0;
+
+	var grpSongs:FlxTypedGroup<Alphabet>;
+	var curPlaying:Bool = false;
+
+	var iconArray:Array<HealthIcon> = [];
+
+	function create()
+	{
+		Config.setFramerate(144);
+
+		var dj = ScriptableDJCharacter.init(FreeplayState.djCharacter);
+		dj.setup();
+
+		var songList:Array<String> = Utils.getTextInLines(Paths.text("songList-" + dj.listSuffix, "data/freeplay"));
+		for(line in songList){
+			if(StringTools.startsWith(line, "song")){
+				var parts:Array<String> = line.split("|");
+				var name:String = StringTools.trim(parts[1]);
+				var icon:String = StringTools.trim(parts[2]);
+				var fullArrayString:String = StringTools.trim(parts[3]);
+
+				var categoryArray:Array<String> = fullArrayString.split(",");
+				for(i in 0...categoryArray.length){
+					if(i == 0){ categoryArray[i] = categoryArray[i].substring(1); }
+					if(i == categoryArray.length-1){ categoryArray[i] = categoryArray[i].substring(0, categoryArray[i].length-1); }
+					categoryArray[i] = StringTools.trim(categoryArray[i]);
+				}
+				
+				addSong(name, icon);
+			}
+		}
+
+		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menu/menuDesat'));
+		bg.color = dj.capsuleSelectOutlineColor;
+		add(bg);
+
+		grpSongs = new FlxTypedGroup();
+		add(grpSongs);
+
+		for (i in 0...songs.length)
+		{
+			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false);
+			songText.isMenuItem = true;
+			songText.targetY = i;
+			grpSongs.add(songText);
+
+			var icon:HealthIcon = new HealthIcon(songs[i].songCharacter, false, i);
+			icon.sprTracker = songText;
+
+			// using a FlxGroup is too much fuss!
+			iconArray.push(icon);
+			add(icon);
+		}
+
+		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
+		// scoreText.autoSize = false;
+		scoreText.setFormat(Paths.font("vcr"), 32, 0xFFFFFFFF, "right");
+		// scoreText.alignment = RIGHT;
+
+		var scoreBG:FlxSprite = new FlxSprite(scoreText.x - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);
+		scoreBG.alpha = 0.6;
+		add(scoreBG);
+
+		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
+		diffText.font = scoreText.font;
+		add(diffText);
+
+		add(scoreText);
+
+		changeSelection(startingSelection);
+		changeDiff(0, false);
+
+		FlxG.sound.playMusic(Paths.music("freeplayRandom"), TitleScreen.titleMusicVolume);
+
+		super.create();
+	}
+
+	public function update(elapsed:Float)
+	{
+		super.update(elapsed);
+
+		lerpScore = Math.floor(Utils.fpsAdjustedLerp(lerpScore, intendedScore, 0.4));
+
+		if (Math.abs(lerpScore - intendedScore) <= 10)
+			lerpScore = intendedScore;
+
+		scoreText.text = "PERSONAL BEST:" + lerpScore;
+
+		if (Binds.justPressed("menuUp")){
+			changeSelection(-1);
+			changeDiff(0, false);
+		}
+		if (Binds.justPressed("menuDown")){
+			changeSelection(1);
+			changeDiff(0, false);
+		}
+
+		if (Binds.justPressed("menuLeft")){
+			changeDiff(-1);
+		}
+			
+		if (Binds.justPressed("menuRight")){
+			changeDiff(1);
+		}
+
+		if (Binds.justPressed("menuBack") && !FlxUIStateExt.inTransition){
+			if(CacheConfig.music){ FlxG.sound.music.stop(); }
+			FlxG.sound.play(Paths.sound('cancelMenu'));
+			switchState(new MainMenuState());
+		}
+
+		if (Binds.justPressed("menuAccept") && !FlxUIStateExt.inTransition)
+		{
+			var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
+			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
+			PlayState.isStoryMode = false;
+			PlayState.storyDifficulty = curDifficulty;
+			PlayState.loadEvents = true;
+			startingSelection = curSelected;
+			PlayState.returnLocation = "freeplay";
+			switchState(new PlayState());
+			if (FlxG.sound.music != null)
+				FlxG.sound.music.stop();
+		}
+
+		if(Binds.justPressed("menuChangeCharacter")){
+			customTransOut = new ScreenWipeOutFlipped(0.8, FlxEase.backIn);
+
+			FlxG.sound.play(Paths.sound('confirmMenu'));
+			FlxG.sound.music.pitch = 1;
+			FlxTween.tween(FlxG.sound.music, {pitch: 0.5}, 0.4, {ease: FlxEase.quadOut, onComplete: function(t){
+				FlxG.sound.music.fadeOut(0.05);
+			}});
+
+			new FlxTimer().start(0.25, function(t) {
+				new FlxTimer().start(0.1, function(t) {
+					switchState(new CharacterSelectState());
+				});
+			});
+		}
+	}
+
+	function changeDiff(change:Int = 0, playSound:Bool = true){
+
+		if(playSound){
+			FlxG.sound.play(Paths.sound('scrollMenu'));
+		}
+
+		curDifficulty += change;
+
+		if (curDifficulty < 0)
+			curDifficulty = 2;
+		if (curDifficulty > 2)
+			curDifficulty = 0;
+
+		if(songs[curSelected].songName == "Lil-Buddies"){
+			curDifficulty = 2;
+		}
+
+		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty).score;
+
+		switch (curDifficulty)
+		{
+			case 0:
+				diffText.text = "EASY";
+			case 1:
+				diffText.text = 'NORMAL';
+			case 2:
+				diffText.text = "HARD";
+		}
+	}
+
+	public function addSong(name:String, songCharacter:String)
+	{
+		songs.push({
+			songName: name,
+			songCharacter: songCharacter
+		});
+	}
+
+	function changeSelection(change:Int = 0){
+
+		FlxG.sound.play(Paths.sound('scrollMenu'));
+
+		curSelected += change;
+
+		if (curSelected < 0)
+			curSelected = songs.length - 1;
+		if (curSelected >= songs.length)
+			curSelected = 0;
+
+		// selector.y = (70 * curSelected) + 30;
+
+		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty).score;
+
+		if(CacheConfig.music){
+			FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
+			FlxG.sound.music.fadeIn(1, 0, 1);
+		}
+
+		var bullShit:Int = 0;
+
+		for (i in 0...iconArray.length)
+		{
+			iconArray[i].alpha = 0.6;
+			iconArray[i].animation.curAnim.curFrame = 0;
+		}
+
+		iconArray[curSelected].alpha = 1;
+		iconArray[curSelected].animation.curAnim.curFrame = 2;
+
+		for (item in grpSongs.members)
+		{
+			item.targetY = bullShit - curSelected;
+			bullShit++;
+
+			item.alpha = 0.6;
+			// item.setGraphicSize(Std.int(item.width * 0.8));
+
+			if (item.targetY == 0)
+			{
+				item.alpha = 1;
+				// item.setGraphicSize(Std.int(item.width));
+			}
+		}
+	}
+}

@@ -15,7 +15,7 @@ class ScriptedState extends FlxUIStateExt
         if (Binds.justPressed("polymodReload")){
 			PolymodHandler.reload(false);
             // Its a bit "hacky" but we have to do this to create script instance in parent...(yep again)
-            var newInstance = Reflect.callMethod(null, Reflect.getProperty(ScriptableState, "init"), [stateName]);
+            var newInstance = Utils.forceCall(ScriptableState, "init", [stateName]);
             Reflect.setProperty(newInstance, "stateName", stateName);
             CustomTransition.transition(new InstantTransition(), newInstance);
 		}
