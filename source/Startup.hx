@@ -214,6 +214,7 @@ class Startup extends FlxUIStateExt
 		if(splash.animation.curAnim.finished && splash.animation.curAnim.name == "end"){
 			ImageCache.localCache.clear();
 			Utils.gc();
+			customTransOut = new FadeOut(0.3);
 			switchState(nextState);  
 		}
 
@@ -356,6 +357,7 @@ class Startup extends FlxUIStateExt
 		#if desktop
 		FlxG.sound.play(Paths.sound('cancelMenu'));
 		CacheSettings.noFunMode = true;
+		customTransOut = new FadeOut(0.3);
 		switchState(new CacheSettings());
 		CacheSettings.returnLoc = new Startup();
 		#end
