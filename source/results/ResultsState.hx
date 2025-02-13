@@ -241,9 +241,9 @@ class ResultsState extends FlxUIStateExt
 		highscoreNew.animation.addByPrefix("", "highscoreAnim", 24, false);
 		highscoreNew.visible = false;
 		highscoreNew.antialiasing = true;
-		highscoreNew.animation.finishCallback = function(name) {
+		highscoreNew.animation.onFinish.add(function(name) {
 			highscoreNew.animation.play("", true, false, highscoreNew.animation.curAnim.numFrames - 12);
-		}
+		});
 
 		//COUNTER STUFF AAAHHHHHHHH!!!!!
 

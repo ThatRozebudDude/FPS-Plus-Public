@@ -1201,13 +1201,13 @@ class PlayState extends MusicBeatState
 
 			if (player == 1) {
 				playerStrums.add(babyArrow);
-				babyArrow.animation.finishCallback = function(name:String){
+				babyArrow.animation.onFinish.add(function(name:String){
 					if(autoplay){
 						if(name == "confirm"){
 							babyArrow.animation.play('static', true);
 						}
 					}
-				}
+				});
 
 				if(!Config.centeredNotes && !forceCenteredNotes){
 					babyArrow.x += ((FlxG.width / 2));
@@ -1221,11 +1221,11 @@ class PlayState extends MusicBeatState
 			}
 			else {
 				enemyStrums.add(babyArrow);
-				babyArrow.animation.finishCallback = function(name:String){
+				babyArrow.animation.onFinish.add(function(name:String){
 					if(name == "confirm"){
 						babyArrow.animation.play('static', true);
 					}
-				}
+				});
 
 				if(Config.centeredNotes || forceCenteredNotes){
 					babyArrow.x -= 1280;
@@ -1240,7 +1240,7 @@ class PlayState extends MusicBeatState
 				tweenManager.tween(babyArrow, {y: babyArrow.y + 10, alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
 			}
 
-			babyArrow.animation.callback = function(name:String, frame:Int, index:Int) {
+			babyArrow.animation.onFrameChange.add(function(name:String, frame:Int, index:Int) {
 				if(frame == 0){
 					babyArrow.centerOffsets();
 					switch(name){
@@ -1255,7 +1255,7 @@ class PlayState extends MusicBeatState
 							babyArrow.offset.y += hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.offset[1];
 					}
 				}
-			}
+			});
 
 			babyArrow.animation.play('static');
 		}

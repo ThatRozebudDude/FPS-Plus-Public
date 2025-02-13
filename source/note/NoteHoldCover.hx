@@ -38,7 +38,7 @@ class NoteHoldCover extends FlxSprite{
 		animation.addByPrefix("start", skin.info.anims[noteDirection].start.prefix, skin.info.anims[noteDirection].start.framerateRange[0], false);
 		animation.addByPrefix("hold", skin.info.anims[noteDirection].hold.prefix, skin.info.anims[noteDirection].hold.framerateRange[0], true);
 		animation.addByPrefix("end", skin.info.anims[noteDirection].splash.prefix, skin.info.anims[noteDirection].splash.framerateRange[0], false);
-		animation.finishCallback = callback;
+		animation.onFinish.add(callback);
 		animation.play("start");
 
 		setGraphicSize(width * skin.info.scale);

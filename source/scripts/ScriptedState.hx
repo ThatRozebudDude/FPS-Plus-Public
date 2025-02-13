@@ -8,6 +8,7 @@ import extensions.flixel.FlxUIStateExt;
 import restricted.RestrictedUtils;
 
 //Basically just FlxUIStateExt with polymodReload
+@:build(modding.GlobalScriptingTypesMacro.build())
 class ScriptedState extends FlxUIStateExt
 {
 	public var stateName:String = "";
