@@ -19,7 +19,7 @@ Normally you cannot use blend mode names with HScript as they are an `abstract e
 
 ## Aliases
 
-All of the scripted class contain helper variables to make accessing certain variables more simple:
+All of the scripted class (except for scripted states) contain helper variables to make interfacing with the current PlayState instance and accessing certain variables more simple:
 
 - `boyfriend`: The current player character. Alias for `PlayState.instance.boyfriend`.
 - `dad`: The current opponent character. Alias for `PlayState.instance.dad`.
