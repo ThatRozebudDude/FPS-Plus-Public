@@ -11,6 +11,7 @@ import openfl.system.System;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.addons.ui.FlxUIState;
+import restricted.RestrictedUtils;
 
 using StringTools;
 
@@ -41,22 +42,22 @@ class FlxUIStateExt extends FlxUIState
 	}
 
 	public function switchState(_state:FlxState){
-		// Scripted States
+		//Scripted States
 		final statePath = Type.getClassName(Type.getClass(_state));
 		final stateName = statePath.split(".")[statePath.split(".").length - 1];
 
-		// These are bit "hacky" but we have to do this to create script instance in parent...
-		if (Utils.forceCall(ScriptableState, "listScriptClasses").contains(stateName)){
-			_state = Utils.forceCall(ScriptableState, "init", [stateName]);
+		//These are bit "hacky" but we have to do this to create script instance in parent...
+		if (RestrictedUtils.callStaticGeneratedMethod(ScriptableState, "listScriptClasses").contains(stateName)){
+			_state = RestrictedUtils.callStaticGeneratedMethod(ScriptableState, "init", [stateName]);
 			Reflect.setProperty(_state, "stateName", stateName);
 		}
-		// Extended States
-		else if (PolymodScriptClass.listScriptClassesExtending(statePath).length > 0)
-		{
+		//Extended States
+		else if (PolymodScriptClass.listScriptClassesExtending(statePath).length > 0){
 			var scriptClassPath = statePath.replace(stateName, "Scripted" + stateName);
-			_state = Utils.forceCall(Type.resolveClass(scriptClassPath), "init", [Utils.forceCall(Type.resolveClass(scriptClassPath), "listScriptClasses")[0]]);
+			_state = RestrictedUtils.callStaticGeneratedMethod(Type.resolveClass(scriptClassPath), "init", [RestrictedUtils.callStaticGeneratedMethod(Type.resolveClass(scriptClassPath), "listScriptClasses")[0]]);
 		}
 
+		//Transition stuff.
 		if(customTransOut != null){
 			CustomTransition.transition(customTransOut, _state);
 		}
