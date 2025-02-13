@@ -197,9 +197,9 @@ class ChartingState extends MusicBeatState
 		lilBf.animation.add("3", [12, 13, 14], 12, false);
 		lilBf.animation.add("yeah", [17, 20, 23], 12, false);
 		lilBf.animation.play("idle");
-		lilBf.animation.finishCallback = function(name:String){
+		lilBf.animation.onFinish.add(function(name:String){
 			lilBf.animation.play(name, true, false, lilBf.animation.getByName(name).numFrames - 2);
-		}
+		});
 		lilBf.scrollFactor.set();
 		add(lilBf);
 
@@ -210,9 +210,9 @@ class ChartingState extends MusicBeatState
 		lilOpp.animation.add("2", [9, 10, 11], 12, false);
 		lilOpp.animation.add("3", [12, 13, 14], 12, false);
 		lilOpp.animation.play("idle");
-		lilOpp.animation.finishCallback = function(name:String){
+		lilOpp.animation.onFinish.add(function(name:String){
 			lilOpp.animation.play(name, true, false, lilOpp.animation.getByName(name).numFrames - 2);
-		}
+		});
 		lilOpp.scrollFactor.set();
 		add(lilOpp);
 
@@ -1349,13 +1349,13 @@ class ChartingState extends MusicBeatState
 			SaveManager.chartAutosave(_song.song.replace(" ", "-"));
 		}
 
-		if(Startup.hasEe2 && lilBuddiesBox.checked){
+		if(Startup.hasEe2 && lilBuddiesBox.checked && false){ //temp disable cuz its broken and i dont wanna try to fix it right now
 			if(!ee2Check && 
 				!FlxG.sound.music.playing &&
-				FlxG.mouse.screenX >= lilBf.x &&
-				FlxG.mouse.screenX <= lilBf.x + lilBf.width &&
-				FlxG.mouse.screenY >= lilBf.y &&
-				FlxG.mouse.screenY <= lilBf.y + lilBf.height &&
+				FlxG.mouse.viewX >= lilBf.x &&
+				FlxG.mouse.viewX <= lilBf.x + lilBf.width &&
+				FlxG.mouse.viewY >= lilBf.y &&
+				FlxG.mouse.viewY <= lilBf.y + lilBf.height &&
 				FlxG.mouse.justPressed){
 	
 					autosaveSong();
@@ -1368,7 +1368,7 @@ class ChartingState extends MusicBeatState
 					Config.reload();
 	
 					PlayState.fceForLilBuddies = true;
-					screenshotBitmap = FlxScreenGrab.grab(null, false, true);
+					screenshotBitmap = FlxScreenGrab.grab(null, false, true); //idk why this isn't working anymore
 	
 					customTransOut = new InstantTransition();
 	
@@ -1385,20 +1385,20 @@ class ChartingState extends MusicBeatState
 					//lilBf.animation.play("yeah");
 			}
 			else if(!FlxG.sound.music.playing &&
-				FlxG.mouse.screenX >= lilBf.x &&
-				FlxG.mouse.screenX <= lilBf.x + lilBf.width &&
-				FlxG.mouse.screenY >= lilBf.y &&
-				FlxG.mouse.screenY <= lilBf.y + lilBf.height &&
+				FlxG.mouse.viewX >= lilBf.x &&
+				FlxG.mouse.viewX <= lilBf.x + lilBf.width &&
+				FlxG.mouse.viewY >= lilBf.y &&
+				FlxG.mouse.viewY <= lilBf.y + lilBf.height &&
 				FlxG.mouse.justPressed){
 					lilBf.animation.play("yeah");
 			}
 		}
 		else if(lilBuddiesBox.checked){
 			if(!FlxG.sound.music.playing &&
-				FlxG.mouse.screenX >= lilBf.x &&
-				FlxG.mouse.screenX <= lilBf.x + lilBf.width &&
-				FlxG.mouse.screenY >= lilBf.y &&
-				FlxG.mouse.screenY <= lilBf.y + lilBf.height &&
+				FlxG.mouse.viewX >= lilBf.x &&
+				FlxG.mouse.viewX <= lilBf.x + lilBf.width &&
+				FlxG.mouse.viewY >= lilBf.y &&
+				FlxG.mouse.viewY <= lilBf.y + lilBf.height &&
 				FlxG.mouse.justPressed){
 					lilBf.animation.play("yeah");
 			}
