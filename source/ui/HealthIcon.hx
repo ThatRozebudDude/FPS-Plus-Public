@@ -55,7 +55,12 @@ class HealthIcon extends FlxSprite
 	public function tweenToDefaultScale(_time:Float, _ease:Null<flixel.tweens.EaseFunction>){
 
 		tween.cancel();
-		tween = FlxTween.tween(this, {iconScale: this.defualtIconScale}, _time, {ease: _ease});
+		if(_time > 0){
+			tween = FlxTween.tween(this, {iconScale: this.defualtIconScale}, _time, {ease: _ease});
+		}
+		else{
+			iconScale = defualtIconScale;
+		}
 
 	}
 
@@ -88,6 +93,7 @@ class HealthIcon extends FlxSprite
 		xOffset = defaultOffsets[0];
 		yOffset = defaultOffsets[1];
 		antialiasing = true;
+		defualtIconScale = 1;
 
 		//Optional json
 		if(Utils.exists("assets/images/ui/" + subDir + "/" + icon + ".json")){

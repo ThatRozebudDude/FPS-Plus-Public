@@ -1,5 +1,6 @@
 package debug;
 
+import openfl.display.Sprite;
 import caching.*;
 import stages.ScriptableStage;
 import note.NoteType;
@@ -63,7 +64,7 @@ using StringTools;
 class ChartingState extends MusicBeatState
 {
 
-	public static var screenshotBitmap:Bitmap = null;
+	public static var screenshotBitmap:BitmapData = null;
 	public static var startSection:Int = 0;
 
 	var _file:FileReference;
@@ -263,8 +264,8 @@ class ChartingState extends MusicBeatState
 		leftIcon.scrollFactor.set(1, 1);
 		rightIcon.scrollFactor.set(1, 1);
 
-		leftIcon.defualtIconScale = 0.5;
-		rightIcon.defualtIconScale = 0.5;
+		leftIcon.defualtIconScale = leftIcon.defualtIconScale * 0.5;
+		rightIcon.defualtIconScale = rightIcon.defualtIconScale * 0.5;
 
 		leftIcon.setPosition((gridBG.width / 6) - (leftIcon.width / 4), -75);
 		rightIcon.setPosition((gridBG.width / 6) * 3 - (rightIcon.width / 4), -75);
@@ -384,6 +385,7 @@ class ChartingState extends MusicBeatState
 		updateHeads(true);
 
 		FlxG.camera.follow(strumLine);
+		FlxG.camera.flashSprite.cacheAsBitmap = true;
 
 		add(curRenderedNotes);
 		add(curRenderedSustains);
@@ -1368,7 +1370,9 @@ class ChartingState extends MusicBeatState
 					Config.reload();
 	
 					PlayState.fceForLilBuddies = true;
-					screenshotBitmap = FlxScreenGrab.grab(null, false, true); //idk why this isn't working anymore
+					screenshotBitmap = FlxG.camera.buffer.clone();
+
+					//FlxScreenGrab.grab(null, false, true);
 	
 					customTransOut = new InstantTransition();
 	
@@ -1588,6 +1592,12 @@ class ChartingState extends MusicBeatState
 
 			leftIcon.setIconCharacter(leftChar.info.iconName);
 			rightIcon.setIconCharacter(rightChar.info.iconName);
+
+			leftIcon.defualtIconScale = leftIcon.defualtIconScale * 0.5;
+			rightIcon.defualtIconScale = rightIcon.defualtIconScale * 0.5;
+
+			leftIcon.tweenToDefaultScale(0, null);
+			rightIcon.tweenToDefaultScale(0, null);
 		}
 
 		if (_song.notes[curSection].mustHitSection){
