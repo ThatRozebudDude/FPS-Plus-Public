@@ -41,6 +41,7 @@ typedef NoteSkinInfo = {
 	var offset:FlxPoint;
 
 	var noteSplashOverride:String;
+	var holdCoverOverride:String;
 }
 
 typedef NoteFuncions = {
@@ -122,7 +123,8 @@ class NoteSkinBase
 		holdScaleAdjust: 1,
 		antialiasing: true,
 		offset: new FlxPoint(),
-		noteSplashOverride: null
+		noteSplashOverride: null,
+		holdCoverOverride: null
 	};
 
 	public function new(){}

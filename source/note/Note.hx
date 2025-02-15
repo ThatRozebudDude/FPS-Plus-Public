@@ -46,6 +46,7 @@ class Note extends FlxSprite
 	public var canGlow:Bool;
 
 	public var noteSplashOverride:String;
+	public var holdCoverOverride:String;
 
 	var graphicScale:Float;
 
@@ -99,6 +100,7 @@ class Note extends FlxSprite
 		canGlow = noteSkin.info.canGlow;
 		antialiasing = noteSkin.info.antialiasing;
 		noteSplashOverride = noteSkin.info.noteSplashOverride;
+		holdCoverOverride = noteSkin.info.holdCoverOverride;
 
 		var path = defaultPath;
 		var frameLoadType = defaultLoadType;

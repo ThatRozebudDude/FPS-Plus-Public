@@ -13,7 +13,9 @@ using StringTools;
 
 class NoteHoldCover extends FlxSprite{
 
-	var coverSkin:String = "Default";
+	public var coverSkin:String = "Default";
+
+	public static var defaultSkin:String = "Default";
 
 	public var noteDirection:Int = -1;
 	var splashAlpha = 0.7;
@@ -28,9 +30,15 @@ class NoteHoldCover extends FlxSprite{
 		super(0, 0);
 
 		referenceSprite = _referenceSprite;
-		coverSkin = _coverSkin;
 		noteDirection = direction;
 
+		if(_coverSkin == null){ coverSkin = defaultSkin; }
+		else{ coverSkin = _coverSkin; }
+		loadSkin();
+		visible = false;
+	}
+
+	public function loadSkin():Void{
 		skin = new NoteHoldCoverSkinBase(coverSkin);
 
 		frames = Paths.getSparrowAtlas(skin.info.path);
@@ -47,8 +55,6 @@ class NoteHoldCover extends FlxSprite{
 		offset.set(skin.info.offset[0], skin.info.offset[1]);
 		posOffset.set(skin.info.positionOffset[0], skin.info.positionOffset[1]);
 		splashAlpha = skin.info.alpha;
-		
-		visible = false;
 	}
 
 	override function update(elapsed:Float) {
