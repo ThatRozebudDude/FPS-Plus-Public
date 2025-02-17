@@ -121,6 +121,7 @@ class StoryMenuState extends MusicBeatState
 					characters: ["dad", "bf", "gf"],
 					stickerSet: null,
 					color: 0xFFF9CF51,
+					difficulties: ["easy", "normal", "hard"],
 				}
 				var weekJson = Json.parse(Utils.getText(Paths.json(week.split(".json")[0], "data/weeks")));
 				weekToAdd.name = weekJson.name;
@@ -131,6 +132,7 @@ class StoryMenuState extends MusicBeatState
 				if(weekJson.characters != null){ weekToAdd.characters = weekJson.characters; }
 				if(weekJson.stickerSet != null){ weekToAdd.stickerSet = weekJson.stickerSet; }
 				if(weekJson.color != null){ weekToAdd.color = FlxColor.fromString(weekJson.color); }
+				if(weekJson.difficulties != null){ weekToAdd.difficulties = weekJson.difficulties; }
 				
 				weekList.push(weekToAdd);
 			}
@@ -268,43 +270,45 @@ class StoryMenuState extends MusicBeatState
 
 		difficultySelectors.visible = true; //weekUnlocked[curWeek]
 
-		grpLocks.forEach(function(lock:FlxSprite)
-		{
+		grpLocks.forEach(function(lock:FlxSprite){
 			lock.y = grpWeekText.members[lock.ID].y;
 		});
 
-		if (!movedBack)
-		{
-			if (!selectedWeek)
-			{
-				if (Binds.justPressed("menuUp"))
-				{
+		if (!movedBack){
+			if (!selectedWeek){
+				if(Binds.justPressed("menuUp")){
 					changeWeek(-1);
+					changeDifficulty(0, false);
 				}
-
-				if (Binds.justPressed("menuDown"))
-				{
+				else if(Binds.justPressed("menuDown")){
 					changeWeek(1);
+					changeDifficulty(0, false);
 				}
 
-				if (Binds.pressed("menuRight"))
-					rightArrow.animation.play('press')
-				else
+				if (Binds.pressed("menuRight")){
+					rightArrow.animation.play('press');
+				}
+				else{
 					rightArrow.animation.play('idle');
+				}
 
-				if (Binds.pressed("menuLeft"))
+				if(Binds.pressed("menuLeft")){
 					leftArrow.animation.play('press');
-				else
+				}
+				else{
 					leftArrow.animation.play('idle');
+				}
 
-				if (Binds.justPressed("menuRight"))
+				if(Binds.justPressed("menuRight")){
 					changeDifficulty(1);
-				if (Binds.justPressed("menuLeft"))
+				}
+
+				if(Binds.justPressed("menuLeft")){
 					changeDifficulty(-1);
+				}
 			}
 
-			if (Binds.justPressed("menuAccept"))
-			{
+			if (Binds.justPressed("menuAccept")){
 				selectWeek();
 			}
 		}
@@ -383,19 +387,36 @@ class StoryMenuState extends MusicBeatState
 		}
 	}
 
-	function changeDifficulty(change:Int = 0, ?playAnim:Bool = true):Void
-	{
-		curDifficulty += change;
+	function changeDifficulty(change:Int = 0, ?playAnim:Bool = true):Void{
 
-		if (curDifficulty < 0)
+		curDifficulty += change;
+		final diffList = ["easy", "normal", "hard"];
+
+		if(curDifficulty < 0){
 			curDifficulty = 2;
-		if (curDifficulty > 2)
+		}
+		if(curDifficulty > 2){
 			curDifficulty = 0;
+		}
+
+		//the evil while(true) >:O
+		while(true){
+			if(weekList[curWeek].difficulties.contains(diffList[curDifficulty])){
+				break;
+			}
+			curDifficulty += change >= 0 ? 1 : -1;
+			if(curDifficulty < 0){
+				curDifficulty = 2;
+			}
+			if(curDifficulty > 2){
+				curDifficulty = 0;
+			}
+		}
+		
 
 		sprDifficulty.offset.x = 0;
 
-		switch (curDifficulty)
-		{
+		switch (curDifficulty){
 			case 0:
 				sprDifficulty.animation.play('easy');
 				sprDifficulty.offset.x = 20;
@@ -406,17 +427,13 @@ class StoryMenuState extends MusicBeatState
 				sprDifficulty.animation.play('hard');
 				sprDifficulty.offset.x = 20;
 		}
-
-		FlxTween.cancelTweensOf(sprDifficulty);
-
-		sprDifficulty.alpha = 0;
-
-		// USING THESE WEIRD VALUES SO THAT IT DOESNT FLOAT UP
-		sprDifficulty.y = leftArrow.y - 15;
+		
 		intendedScore = Highscore.getWeekScore(weekList[curWeek].id, curDifficulty).score;
-		FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07);
-		if(!playAnim){
+		if(playAnim){
 			FlxTween.completeTweensOf(sprDifficulty);
+			sprDifficulty.y = leftArrow.y - 15;
+			sprDifficulty.alpha = 0;
+			FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07);
 		}
 	}
 
@@ -501,4 +518,5 @@ typedef StoryWeek = {
 	var characters:Array<String>;	//Characters that show up in the story menu.
 	var stickerSet:Array<String>;	//The set of stickers to use when returning to the story menu.
 	var color:FlxColor;				//The color that the story menu is set to when selecting the week.
+	var difficulties:Array<String>;	//The color that the story menu is set to when selecting the week.
 }
