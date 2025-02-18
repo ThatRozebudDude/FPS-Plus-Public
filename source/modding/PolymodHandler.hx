@@ -2,7 +2,6 @@ package modding;
 
 import transition.CustomTransition;
 import transition.data.InstantTransition;
-import caching.*;
 import openfl.Assets;
 import haxe.Json;
 import polymod.PolymodConfig;
@@ -256,8 +255,7 @@ class PolymodHandler
 		Polymod.addDefaultImport(debug.ChartingState);
 		
 		Polymod.addDefaultImport(Utils);
-		Polymod.addDefaultImport(modding.ScriptingUtil);
-		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTextBorderStyle);
+		Polymod.addDefaultImport(ScriptingUtil);
 
 		//Import scriptable classes so they can be made without importing
 		Polymod.addDefaultImport(characters.CharacterInfoBase);
@@ -283,10 +281,18 @@ class PolymodHandler
 		Polymod.addImportAlias("lime.utils.Assets", Assets);
 		Polymod.addImportAlias("openfl.utils.Assets", Assets);
 
-		Polymod.addImportAlias("flash.display.BlendMode", modding.ScriptingUtil.BlendMode);
-		Polymod.addImportAlias("openfl.display.BlendMode", modding.ScriptingUtil.BlendMode);
-
 		Polymod.addImportAlias("flixel.math.FlxPoint", flixel.math.FlxPoint.FlxBasePoint);
+
+		// W.I.P
+		Polymod.addImportAlias("flixel.util.FlxColor", Type.resolveClass("flixel.util.FlxColor_AL"));
+		Polymod.addImportAlias("flash.display.BlendMode", Type.resolveClass("flash.display.BlendMode_AL"));
+		Polymod.addImportAlias("openfl.display.BlendMode", Type.resolveClass("openfl.display.BlendMode_AL"));
+
+		trace(scripts.ScriptAbstractMacro.availableAbstracts);
+		for (alias in scripts.ScriptAbstractMacro.availableAbstracts)
+		{
+			trace("importing " + alias);
+		}
 
 		// `Sys`
 		// Sys.command() can run malicious processes

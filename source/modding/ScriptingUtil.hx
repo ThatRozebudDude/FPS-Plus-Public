@@ -1,8 +1,6 @@
 package modding;
 
 import flixel.input.gamepad.FlxGamepadInputID;
-import openfl.display.BlendMode as BaseBlendMode;
-import flixel.text.FlxText.FlxTextBorderStyle;
 import flixel.input.keyboard.FlxKey;
 import Highscore.Rank;
 import flixel.FlxG;
@@ -101,31 +99,4 @@ class ScriptingUtil
 		}
 		return r;
 	}
-}
-
-class BlendMode
-{
-	public static var ADD = BaseBlendMode.ADD;
-	public static var ALPHA = BaseBlendMode.ALPHA;
-	public static var DARKEN = BaseBlendMode.DARKEN;
-	public static var DIFFERENCE = BaseBlendMode.DIFFERENCE;
-	public static var ERASE = BaseBlendMode.ERASE;
-	public static var HARDLIGHT = BaseBlendMode.HARDLIGHT;
-	public static var INVERT = BaseBlendMode.INVERT;
-	public static var LAYER = BaseBlendMode.LAYER;
-	public static var LIGHTEN = BaseBlendMode.LIGHTEN;
-	public static var MULTIPLY = BaseBlendMode.MULTIPLY;
-	public static var NORMAL = BaseBlendMode.NORMAL;
-	public static var OVERLAY = BaseBlendMode.OVERLAY;
-	public static var SCREEN = BaseBlendMode.SCREEN;
-	public static var SHADER = BaseBlendMode.SHADER;
-	public static var SUBTRACT = BaseBlendMode.SUBTRACT;
-}
-
-class FlxTextBorderStyle
-{
-	public static var NONE = flixel.text.FlxText.FlxTextBorderStyle.NONE;
-	public static var SHADOW = flixel.text.FlxText.FlxTextBorderStyle.SHADOW;
-	public static var OUTLINE = flixel.text.FlxText.FlxTextBorderStyle.OUTLINE;
-	public static var OUTLINE_FAST = flixel.text.FlxText.FlxTextBorderStyle.OUTLINE_FAST;
 }
