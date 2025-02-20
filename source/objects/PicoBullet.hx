@@ -14,7 +14,7 @@ class PicoBullet extends FlxSprite
 		frames = Paths.getSparrowAtlas("weekend1/PicoBullet");
 		animation.addByPrefix("pop", "Pop", 24, false);
 		animation.play("pop");
-		animation.callback = bulletCallback;
+		animation.onFrameChange.add(bulletCallback);
 		antialiasing = true;
 	}
 

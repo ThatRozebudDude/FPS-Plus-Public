@@ -182,9 +182,9 @@ class Digit extends FlxSprite
 
 		animation.play(""+0, true);
 
-		animation.callback = function(name:String, frameNumber:Int, frameIndex:Int) {
+		animation.onFrameChange.add(function(name:String, frameNumber:Int, frameIndex:Int){
 			setOffset();
-		}
+		});
 
 		antialiasing = true;
 	}

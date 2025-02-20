@@ -86,14 +86,14 @@ class Capsule extends FlxSpriteGroup
 		capsule.scale.set(capsuleScale, capsuleScale);
 		capsule.antialiasing = true;
 		
-		capsule.animation.callback = function(name:String, frameNumber:Int, frameIndex:Int){
+		capsule.animation.onFrameChange.add(function(name:String, frameNumber:Int, frameIndex:Int){
 			switch(name){
 				case "deslected":
 					capsule.offset.set(-4, 0);
 				default:
 					capsule.offset.set(0, 0);
 			}
-		}
+		}); 
 
 		text = new FlxTextExt(95, 34, 0, _displayName, 32);
 		text.setFormat(Paths.font("5by7"), 32, selectColor, LEFT, FlxTextBorderStyle.OUTLINE, selectBorderColor);
@@ -148,7 +148,7 @@ class Capsule extends FlxSpriteGroup
 		sparkle.offset.set(30, 30);
 		sparkle.offset.x += FlxG.random.int(-10, 10);
 		sparkle.offset.y += FlxG.random.int(-10, 10);
-		sparkle.animation.finishCallback = function(name) {
+		sparkle.animation.onFinish.add(function(name) {
 			sparkle.visible = false;
 			new FlxTimer().start(FlxG.random.float(0.4, 1.2), function(t) {
 				sparkle.visible = true;
@@ -157,7 +157,7 @@ class Capsule extends FlxSpriteGroup
 				sparkle.offset.y += FlxG.random.int(-10, 10);
 				sparkle.animation.play("sparkle", true);
 			});
-		}
+		});
 		sparkle.scale.set(0.75, 0.75);
 		sparkle.antialiasing = true;
 		sparkle.alpha = 0;
@@ -177,8 +177,8 @@ class Capsule extends FlxSpriteGroup
 
 	override function update(elapsed:Float):Void{
 		if(doLerp){
-			x = Utils.fpsAdjsutedLerp(x - xPositionOffset, targetPos.x, 0.3) + xPositionOffset;
-			y = Utils.fpsAdjsutedLerp(y, targetPos.y, 0.4);
+			x = Utils.fpsAdjustedLerp(x - xPositionOffset, targetPos.x, 0.126, 144, true) + xPositionOffset;
+			y = Utils.fpsAdjustedLerp(y, targetPos.y, 0.168, 144, true);
 	
 			text.x = x + 95 + scrollOffset;
 		}

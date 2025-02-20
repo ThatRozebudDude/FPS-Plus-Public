@@ -6,6 +6,9 @@ import flixel.util.FlxColor;
 
 using StringTools;
 
+@:hscriptClass
+class ScriptedTitleVideo extends TitleVideo implements polymod.hscript.HScriptedClass{}
+
 class TitleVideo extends FlxState
 {
 	var oldFPS:Int = VideoHandler.MAX_FPS;

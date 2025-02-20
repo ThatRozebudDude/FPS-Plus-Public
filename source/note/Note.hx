@@ -45,6 +45,9 @@ class Note extends FlxSprite
 	var noteSkin:NoteSkinBase;
 	public var canGlow:Bool;
 
+	public var noteSplashOverride:String;
+	public var holdCoverOverride:String;
+
 	var graphicScale:Float;
 
 	inline public static final swagWidth:Float = 112/*160 * 0.7*/;
@@ -96,6 +99,8 @@ class Note extends FlxSprite
 		var defaultLoadType = noteSkin.info.frameLoadType;
 		canGlow = noteSkin.info.canGlow;
 		antialiasing = noteSkin.info.antialiasing;
+		noteSplashOverride = noteSkin.info.noteSplashOverride;
+		holdCoverOverride = noteSkin.info.holdCoverOverride;
 
 		var path = defaultPath;
 		var frameLoadType = defaultLoadType;
@@ -268,5 +273,13 @@ class Note extends FlxSprite
 		updateHitbox();
 
 		if(isFake){ yOffset = noteSkin.info.offset.y + height; }
+	}
+
+	override public function destroy() {
+		if(noteSkin.info.functions.destroy != null){
+			noteSkin.info.functions.destroy(this);
+		}
+
+		super.destroy();
 	}
 }

@@ -46,11 +46,11 @@ class DifficultyStars extends FlxSpriteGroup
 			flame.antialiasing = true;
 			flame.origin.set(60, 150);
 			flame.scale.set(0.8, 0.8);
-			flame.animation.finishCallback = function(name){
+			flame.animation.onFinish.add(function(name){
 				if(name == "start") { 
 					flame.animation.play("loop"); 
 				} 
-			};
+			});
 			flames.push(flame);
 		}
 

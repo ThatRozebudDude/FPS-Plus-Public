@@ -105,8 +105,8 @@ class Character extends FlxSpriteGroup
 		}
 
 		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
-			character.animation.finishCallback = animationEnd;
-			character.animation.callback = frameUpdate;
+			character.animation.onFinish.add(animationEnd);
+			character.animation.onFrameChange.add(frameUpdate);
 		}
 		else { //Code for atlas characters
 			atlasCharacter.animationEndCallback = animationEnd;

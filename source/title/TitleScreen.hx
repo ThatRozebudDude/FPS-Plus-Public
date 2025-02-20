@@ -33,6 +33,9 @@ import openfl.Assets;
 
 using StringTools;
 
+@:hscriptClass
+class ScriptedTitleScreen extends TitleScreen implements polymod.hscript.HScriptedClass{}
+
 class TitleScreen extends MusicBeatState
 {
 

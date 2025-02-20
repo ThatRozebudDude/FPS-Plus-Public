@@ -1,3 +1,7 @@
+# 6.2.*
+
+- Change hold splashes to work like note splashes and can be overridden in a note skin.
+
 # 6.3.0 *(Planned Features)*
 
 - Config menu redesign.

@@ -61,7 +61,7 @@ using StringTools;
 class ChartingState extends UIState
 {
 
-	public static var screenshotBitmap:Bitmap = null;
+	public static var screenshotBitmap:BitmapData = null;
 	public static var startSection:Int = 0;
 
 	var _file:FileReference;
@@ -233,6 +233,9 @@ class ChartingState extends UIState
 		leftIcon.scrollFactor.set(1, 1);
 		rightIcon.scrollFactor.set(1, 1);
 
+		leftIcon.defualtIconScale = leftIcon.defualtIconScale * 0.5;
+		rightIcon.defualtIconScale = rightIcon.defualtIconScale * 0.5;
+
 		leftIcon.setPosition((gridBG.width / 6) - (leftIcon.width / 4), -75);
 		rightIcon.setPosition((gridBG.width / 6) * 3 - (rightIcon.width / 4), -75);
 
@@ -383,6 +386,7 @@ class ChartingState extends UIState
 		updateHeads(true);
 
 		FlxG.camera.follow(strumLine);
+		FlxG.camera.flashSprite.cacheAsBitmap = true;
 
 		add(curRenderedNotes);
 		add(curRenderedSustains);
@@ -1050,7 +1054,7 @@ class ChartingState extends UIState
 			SaveManager.chartAutosave(_song.song.replace(" ", "-"));
 		}
 
-		if(Startup.hasEe2 && lilBuddiesCheck.selected){
+		if(Startup.hasEe2 && lilBuddiesCheck.selected && false){
 			if(!ee2Check && 
 				!FlxG.sound.music.playing &&
 				FlxG.mouse.screenX >= components.get("lilBuddies").lilBf.x &&
@@ -1069,7 +1073,9 @@ class ChartingState extends UIState
 					Config.reload();
 	
 					PlayState.fceForLilBuddies = true;
-					screenshotBitmap = FlxScreenGrab.grab(null, false, true);
+					screenshotBitmap = FlxG.camera.buffer.clone();
+
+					//FlxScreenGrab.grab(null, false, true);
 	
 					customTransOut = new InstantTransition();
 	
@@ -1288,7 +1294,12 @@ class ChartingState extends UIState
 			leftIcon.setIconCharacter(leftChar.info.iconName);
 			leftIcon.iconScale = leftIcon.defualtIconScale * 0.5;
 			rightIcon.setIconCharacter(rightChar.info.iconName);
-			rightIcon.iconScale = rightIcon.defualtIconScale * 0.5;
+
+			leftIcon.defualtIconScale = leftIcon.defualtIconScale * 0.5;
+			rightIcon.defualtIconScale = rightIcon.defualtIconScale * 0.5;
+
+			leftIcon.tweenToDefaultScale(0, null);
+			rightIcon.tweenToDefaultScale(0, null);
 		}
 
 		if (_song.notes[curSection].mustHitSection){
@@ -1490,7 +1501,7 @@ class ChartingState extends UIState
 
 		for(x in _song.notes[curSection].sectionNotes){
 
-			if(approxEqual(x[0], note.strumTime, 3) && x[1] == note.absoluteNumber && approxEqual(x[2], note.sustainLength, 3)){
+			if(Utils.inRange(x[0], note.strumTime, 3) && x[1] == note.absoluteNumber && Utils.inRange(x[2], note.sustainLength, 3)){
 
 				curSelectedNote = x;
 				noteType.text = x[3];
@@ -1513,7 +1524,7 @@ class ChartingState extends UIState
 		for (i in _song.notes[curSection].sectionNotes)
 		{
 			//trace("Testing: " + i[0]);
-			if (approxEqual(i[0], note.strumTime, 3) && i[1] == note.absoluteNumber)
+			if (Utils.inRange(i[0], note.strumTime, 3) && i[1] == note.absoluteNumber)
 			{
 				//trace('FOUND EVIL NUMBER');
 				_song.notes[curSection].sectionNotes.remove(i);
@@ -1813,7 +1824,7 @@ class ChartingState extends UIState
 			for(y in newNotes){
 
 				if(newNotes.length > 0){
-					if(approxEqual(x[0], y[0], 6) && x[1] == y[1]){
+					if(Utils.inRange(x[0], y[0], 6) && x[1] == y[1]){
 						add = false;
 					}
 				}
@@ -1837,7 +1848,7 @@ class ChartingState extends UIState
 		var section = curSection;
 
 		for (i in _events.events){
-			if (approxEqual(i[1], noteStrum, 3) && (eventTag == i[3] || noteData == i[2])){
+			if (Utils.inRange(i[1], noteStrum, 3) && (eventTag == i[3] || noteData == i[2])){
 				return;
 			}
 		}
@@ -1864,7 +1875,7 @@ class ChartingState extends UIState
 		var tag = event.tag;
 
 		for (i in _events.events){
-			if (approxEqual(i[1], strumTime, 3) && tag == i[3]){
+			if (Utils.inRange(i[1], strumTime, 3) && tag == i[3]){
 				_events.events.remove(i);
 			}
 
@@ -1927,12 +1938,6 @@ class ChartingState extends UIState
 		_events.events.sort(sortByEventStuff);
 
 		updateGrid();
-	}
-
-	function approxEqual(x:Dynamic, y:Dynamic, tolerance:Float){
-
-		return x <= y + tolerance && x >= y - tolerance;
-
 	}
 
 	function loadAndCacheEventGraphic(tag:String):FlxGraphic{

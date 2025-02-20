@@ -14,7 +14,7 @@ using StringTools;
 class PolymodHandler
 {
 
-	public static final API_VERSION:Array<Int> = [1, 2, 0];
+	public static final API_VERSION:Array<Int> = [1, 3, 0];
 	public static final API_VERSION_STRING:String = API_VERSION[0]+"."+API_VERSION[1]+"."+API_VERSION[2];
 	
 	public static var allModDirs:Array<String>;
@@ -276,6 +276,8 @@ class PolymodHandler
 		Polymod.addDefaultImport(objects.ScriptableSprite.ScriptedSprite);
 		Polymod.addDefaultImport(objects.ScriptableAtlasSprite.ScriptedAtlasSprite);
 		Polymod.addDefaultImport(objects.ScriptableSpriteGroup.ScriptedSpriteGroup);
+
+		Polymod.addDefaultImport(scripts.ScriptedState);
 		
 		//Alias
 		Polymod.addImportAlias("lime.utils.Assets", Assets);
@@ -328,6 +330,9 @@ class PolymodHandler
 		// `openfl.desktop.NativeProcess`
 		// Can load native processes on the host operating system.
 		Polymod.blacklistImport("openfl.desktop.NativeProcess");
+
+		//Restricted stuff from FPS Plus
+		Polymod.blacklistImport("restricted.RestrictedUtils");
 	}
 
 	static function buildFrameworkParams():polymod.Polymod.FrameworkParams{

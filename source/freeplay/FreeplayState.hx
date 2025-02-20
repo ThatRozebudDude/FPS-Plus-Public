@@ -36,7 +36,9 @@ import caching.*;
 
 using StringTools;
 
-@clearImageCache(false)
+@:hscriptClass
+class ScriptedFreeplayState extends FreeplayState implements polymod.hscript.HScriptedClass{}
+
 class FreeplayState extends MusicBeatState
 {
 
@@ -354,8 +356,8 @@ class FreeplayState extends MusicBeatState
 			controllerMode = true;
 		}
 		
-		camFollow.x = Utils.fpsAdjsutedLerp(camFollow.x, camTarget.x, MainMenuState.lerpSpeed);
-		camFollow.y = Utils.fpsAdjsutedLerp(camFollow.y, camTarget.y, MainMenuState.lerpSpeed);
+		camFollow.x = Utils.fpsAdjustedLerp(camFollow.x, camTarget.x, MainMenuState.lerpSpeed, 144);
+		camFollow.y = Utils.fpsAdjustedLerp(camFollow.y, camTarget.y, MainMenuState.lerpSpeed, 144);
 
 		if(Binds.justPressed("polymodReload")){
 			PolymodHandler.reload();
