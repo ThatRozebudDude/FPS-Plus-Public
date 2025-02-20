@@ -4,11 +4,10 @@ import transition.CustomTransition;
 import transition.data.InstantTransition;
 
 import modding.PolymodHandler;
-import extensions.flixel.FlxUIStateExt;
 import restricted.RestrictedUtils;
 
-//Basically just FlxUIStateExt with polymodReload
-class ScriptedState extends FlxUIStateExt
+//Basically just MusicBeatState with polymodReload
+class ScriptedState extends MusicBeatState
 {
 	public var stateName:String = "";
 

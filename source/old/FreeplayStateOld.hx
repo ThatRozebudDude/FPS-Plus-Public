@@ -189,13 +189,13 @@ class FreeplayStateOld extends MusicBeatState
 		}
 			
 
-		if (Binds.justPressed("menuBack") && !FlxUIStateExt.inTransition){
+		if (Binds.justPressed("menuBack") && !FlxStateExt.inTransition){
 			if(CacheConfig.music){ FlxG.sound.music.stop(); }
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			switchState(new MainMenuState());
 		}
 
-		if (Binds.justPressed("menuAccept") && !FlxUIStateExt.inTransition)
+		if (Binds.justPressed("menuAccept") && !FlxStateExt.inTransition)
 		{
 			var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
 			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());

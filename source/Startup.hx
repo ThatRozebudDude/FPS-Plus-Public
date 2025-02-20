@@ -26,7 +26,7 @@ import caching.*;
 
 using StringTools;
 
-class Startup extends FlxUIStateExt
+class Startup extends FlxStateExt
 {
 
     var nextState:FlxState = new debug.charting.ChartingState();

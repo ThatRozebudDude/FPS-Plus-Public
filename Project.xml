@@ -104,6 +104,8 @@
 	<haxelib name="polymod" />
 	<haxelib name="flixel-text-input" />
 
+	<haxelib name="hxcpp-debug-server" if="debug"/>
+
 	<!--haxelib name="newgrounds"/-->
 	<!--haxelib name="faxe" if='switch'/-->
 	<!--haxelib name="polymod"/-->
