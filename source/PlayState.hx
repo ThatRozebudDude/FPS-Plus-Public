@@ -1513,12 +1513,12 @@ class PlayState extends MusicBeatState
 		if (Binds.justPressed("chartEditor") && !isStoryMode){
 
 			if(!FlxG.keys.pressed.SHIFT){
-				ChartingState.startSection = curSection;
+				debug.charting.ChartingState.startSection = curSection;
 			}
 
 			FlxG.sound.music.pause();
 
-			switchState(new ChartingState());
+			switchState(new debug.charting.ChartingState());
 			sectionStart = false;
 
 			if(instSong != null){
@@ -1950,9 +1950,7 @@ class PlayState extends MusicBeatState
 				FlxG.sound.music.stop();
 
 				switchState(new PlayState());
-
-				//transIn = FlxTransitionableState.defaultTransIn;
-				//transOut = FlxTransitionableState.defaultTransOut;
+        
 			}
 		}
 		//CODE FOR ENDING A FREEPLAY SONG

@@ -16,10 +16,10 @@ import flixel.text.FlxText.FlxTextAlign;
 import extensions.flixel.FlxTextExt;
 import flixel.math.FlxPoint;
 import flixel.FlxSprite;
-import extensions.flixel.FlxUIStateExt;
+import extensions.flixel.FlxStateExt;
 import caching.*;
 
-class ModManagerState extends FlxUIStateExt
+class ModManagerState extends FlxStateExt
 {
 
 	var curSelectedMod:Int = 0;

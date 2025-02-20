@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vbox width="100%" height="100%">
+	<menubar id="menuBar" width="100%" paddingLeft="0">
+		<style>
+			.menu {
+			    width: 180px;
+			}
+		</style>
+		<menu text="Files" style="padding: 5px;">
+			<menu-item id="saveChartButton" text="Save Chart" />
+			<menu-item id="saveEventButton" text="Save Events" />
+            <menu-separator />
+            <menu-item id="reloadChartButton" text="Reload Chart" />
+            <menu-item id="reloadMusicButton" text="Reload Music" />
+            <menu-item id="loadAutoSaveButton" text="Load Autosave" />
+            <menu-separator />
+            <menu-item id="clearChartButton" text="Full Blank" />
+		</menu>
+		<menu text="Tools" style="padding: 5px;">
+			<menu-checkbox id="muteInstCheck" text="Mute Instrumental" />
+            <menu-separator />
+            <menu-checkbox id="muteVocalCheck" text="Mute Vocals" />
+            <menu-checkbox id="muteVocalOtherCheck" text="Mute Opponent Vocals (if available)"/>
+			<menu-separator />
+			<menu-checkbox id="bfClickSoundCheck" text="BF Note Click" />
+			<menu-checkbox id="oppClickSoundCheck" text="Opp Note Click" />
+            <menu-separator />
+            <menu-checkbox id="lilBuddiesCheck" text="Lil' Buddies" />
+            <menu-checkbox id="halfSpeedCheck" text="Half Speed" />
+		</menu>
+        <menu text="Misc" style="padding: 5px;">
+            <menu-item id="controlButton" text="Control" />
+            <menu-separator />
+            <menu-item id="exitButton" text="Exit Chart Editor" />
+		</menu>
+		<menu id="windowMenu" text="Window" style="padding: 5px;">
+		<!-- Components are adding by Chart Editor Code -->
+		</menu>
+	</menubar>
+</vbox>
