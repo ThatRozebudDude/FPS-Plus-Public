@@ -1,0 +1,82 @@
+{
+	"meta": {
+		"language": "English",
+
+		"mockup_notes_0": "Basically, I would move a bunch of text out of the source and into a language file.",
+		"mockup_notes_1": "You would call something like Localization.text('hud_accuracy') or Localization.image('main_menu_story_button') and it would grab it from the currently loaded localization file and fall back to the default english file if not found.",
+		"mockup_notes_2": "If the string isn't found in either the currently loaded language or the default language it would just return the original string it was given.",
+		"mockup_notes_3": "That way you could have localized week names but mods could just have a normal string as the week name and both would be able to work.",
+		"mockup_notes_4": "Also maybe a system for inline text replacement with values so stuff like 'config_keybind_menu_instructions' could work without needing multiple entries and allows more flexibility for different languages' grammatical structure."
+	},
+	"text": {
+		"hud_score": "Score",
+		"hud_misses": "Misses",
+		"hud_combo_breaks": "Combo Breaks",
+		"hud_accuracy": "Accuracy",
+
+		"main_menu_reset_controls_hint": "If your controls aren't working, try pressing CTRL + BACKSPACE to reset them.",
+
+		"story_menu_tracks": "Tracks",
+		"story_menu_score": "SCORE",
+
+		"story_tutorial": "Teaching Time",
+		"story_week_1": "Daddy Dearest",
+		"story_week_2": "Spooky Month",
+		"story_week_3": "Pico",
+		"story_week_4": "Mommy Must Murder",
+		"story_week_5": "Red Snow",
+		"story_week_6": "Hating Simulator ft. Moawling",
+		"story_week_7": "Tankman ft. JohnnyUtah",
+		"story_weekend_1": "Due Debts",
+
+		"freeplay_dj_bf_text_line_0": "HOT BLOODED IN MORE WAYS THAN ONE",
+		"freeplay_dj_bf_text_line_1": "BOYFRIEND",
+		"freeplay_dj_bf_text_line_2": "PROTECT YO NUTS",
+
+		"config_menu_on": "on",
+		"config_menu_off": "off",
+
+		"config_fps_label": "FRAMERATE",
+		"config_fps_description": "Uncaps the framerate during gameplay.\n(Some menus will limit framerate but gameplay will always be at the specified framerate.)",
+		"config_fps_uncapped": "uncapped",
+
+		"config_offset_menu_instructions": "Tap any key to the beat of the music!",
+		"config_offset_menu_offset": "OFFSET",
+		"config_offset_menu_previous": "PREVIOUS",
+
+		"config_keybind_menu_instructions": "Press {0} to remove a bind. Hold {1} to reset all binds."
+	},
+	"images": {
+		"hud_rating_path": "ui/ratings",
+		"hud_rating_combo_break": "ui/ratings/comboBreak",
+		"hud_countdown_ready": "ui/countDown/ready",
+		"hud_countdown_set": "ui/countDown/set",
+		"hud_countdown_go": "ui/countDown/go",
+
+		"hud_pixel_rating_path": "week6/weeb/pixelUI/ratings",
+		"hud_pixel_rating_combo_break": "week6/weeb/pixelUI/ratings/comboBreak-pixel",
+		"hud_pixel_countdown_ready": "week6/weeb/pixelUI/countDown/ready-pixel",
+		"hud_pixel_countdown_set": "week6/weeb/pixelUI/countDown/set-pixel",
+		"hud_pixel_countdown_go": "week6/weeb/pixelUI/countDown/date-pixel",
+
+		"main_menu_story_button": "menu/main/storymode",
+		"main_menu_freeplay_button": "menu/main/freeplay",
+		"main_menu_mods_button": "menu/main/mods",
+		"main_menu_options_button": "menu/main/options",
+		"main_menu_credits_button": "menu/main/credits",
+		"main_menu_donate_button": "menu/main/donate",
+		"main_menu_kickstarter_button": "menu/main/kickstarter",
+		"main_menu_merch_button": "menu/main/merch",
+		
+		"story_menu_difficulty": "menu/story/campaign_menu_UI_assets",
+
+		"freeplay_menu_easy": "menu/freeplay/diff/easy",
+		"freeplay_menu_normal": "menu/freeplay/diff/normal",
+		"freeplay_menu_hard": "menu/freeplay/diff/hard",
+		"freeplay_menu_erect": "menu/freeplay/diff/erect/normal",
+		"freeplay_menu_nightmare": "menu/freeplay/diff/erect/hard",
+
+		"config_menu_labels": "fpsPlus/config/text",
+		"config_keybind_menu_label": "fpsPlus/config/controls/title"
+	}
+}

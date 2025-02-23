@@ -4,6 +4,10 @@
 	- Maybe change how config settings are accessed? A lil' clunky right now.
 - Mod configs. *(Options that can be set in the mod menu and can be read by mods.)*
 
+# Possible Future Version Features
+
+- Localiztion files.
+
 # Known Bugs
 
 - Chart editor transition to Lil' Buddies is broken.
