@@ -217,7 +217,7 @@ class Utils
 			difficulties: [0, 0, 0],
 			dadBeats: [0, 2],
 			bfBeats: [1, 3],
-			compatableInsts: null,
+			compatableInsts: [null],
 			mixName: "Original",
 			pauseMusic: "pause/breakfast"
 		}

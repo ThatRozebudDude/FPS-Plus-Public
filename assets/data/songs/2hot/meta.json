@@ -3,5 +3,7 @@
   "artist": "Kawai Sprite",
   "album": "vol3",
   "difficulties": [3, 4, 5],
+  "compatableInsts": [],
+  "mixName": "Original",
   "pauseMusic": "pause/breakfast-pico"
 }

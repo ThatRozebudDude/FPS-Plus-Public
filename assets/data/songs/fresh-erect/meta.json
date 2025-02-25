@@ -2,5 +2,7 @@
   "name": "Fresh Erect",
   "artist": "Kohta Takahashi (ft. Saruky)",
   "album": "vol3",
-  "difficulties": [0, 6, 7]
+  "difficulties": [0, 6, 7],
+  "compatableInsts": [],
+  "mixName": "Original"
 }
