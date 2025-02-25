@@ -223,7 +223,7 @@ class Character extends FlxSpriteGroup
 
 	public function defaultIdleEndBehavior():Void{
 		if(idleSequence.length > 0){
-			playAnim(idleSequence[idleSequence.length-1], true, false, getAnimLength(idleSequence[idleSequence.length-1]) - 1);
+			playAnim(idleSequence[0], true, false, getAnimLength(idleSequence[0]) - 1);
 		}
 	}
 
