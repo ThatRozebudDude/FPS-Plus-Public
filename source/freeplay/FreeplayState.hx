@@ -521,9 +521,10 @@ class FreeplayState extends MusicBeatState
 		add(backCardGroup);
 
 		add(flash);
-		add(cover);
 
 		add(dj);
+
+		add(cover);
 
 		add(highscoreSprite);
 		add(clearPercentSprite);
