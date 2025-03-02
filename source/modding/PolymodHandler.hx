@@ -35,7 +35,7 @@ class PolymodHandler
 	public static function reload(?restartState:Bool = true):Void{
 		reloadScripts();
 		//scriptableClassCheck();
-		if(restartState){ //Using CustomTransition since the transition is what handles the cache stuff. This is what FlxUIStateExt uses in it's switchState function.
+		if(restartState){ //Using CustomTransition since the transition is what handles the cache stuff. This is what FlxStateExt uses in it's switchState function.
 			CustomTransition.transition(new InstantTransition(), Type.createInstance(Type.getClass(FlxG.state), []));
 		}
 	}
@@ -253,7 +253,7 @@ class PolymodHandler
 		Polymod.addDefaultImport(Scoring);
 		Polymod.addDefaultImport(note.Note);
 		Polymod.addDefaultImport(shaders.RuntimeShader);
-		Polymod.addDefaultImport(debug.ChartingState);
+		Polymod.addDefaultImport(debug.charting.ChartingState);
 		
 		Polymod.addDefaultImport(Utils);
 		Polymod.addDefaultImport(modding.ScriptingUtil);

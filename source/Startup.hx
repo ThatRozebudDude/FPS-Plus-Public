@@ -21,17 +21,17 @@ import flixel.text.FlxText;
 import openfl.system.System;
 //import openfl.utils.Future;
 //import flixel.addons.util.FlxAsyncLoop;
-import extensions.flixel.FlxUIStateExt;
+import extensions.flixel.FlxStateExt;
 import caching.*;
 
 using StringTools;
 
-class Startup extends FlxUIStateExt
+class Startup extends FlxStateExt
 {
 
-	var nextState:FlxState = new TitleVideo();
-	//var nextState:FlxState = new modding.ModManagerState();
-	//var nextState:FlxState = new results.ResultsState(null, "Results Test", "PicoResults");
+    var nextState:FlxState = new debug.charting.ChartingState();
+    //var nextState:FlxState = new modding.ModManagerState();
+    //var nextState:FlxState = new results.ResultsState(null, "Results Test", "PicoResults");
 
 	var splash:FlxSprite;
 	var loadingBar:FlxBar;
@@ -127,10 +127,10 @@ class Startup extends FlxUIStateExt
 		Main.fpsDisplay.visible = Config.showFPS;
 		FlxG.autoPause = Config.autoPause;
 
-		FlxUIStateExt.defaultTransIn = ScreenWipeIn;
-		FlxUIStateExt.defaultTransInArgs = [0.6];
-		FlxUIStateExt.defaultTransOut = ScreenWipeOut;
-		FlxUIStateExt.defaultTransOutArgs = [0.6];
+        FlxStateExt.defaultTransIn = ScreenWipeIn;
+        FlxStateExt.defaultTransInArgs = [0.6];
+        FlxStateExt.defaultTransOut = ScreenWipeOut;
+        FlxStateExt.defaultTransOutArgs = [0.6];
 
 		/*if (FlxG.save.data.weekUnlocked != null)
 		{

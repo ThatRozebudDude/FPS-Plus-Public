@@ -116,6 +116,16 @@
       "dir": null,
       "ref": "bdb191fe7cf745c02a980749906dbf22719e200b",
       "url": "https://github.com/fponticelli/thx.semver"
+    },
+    {
+        "name": "haxeui-flixel",
+        "type": "haxelib",
+        "version": null
+    },
+    {
+        "name": "flixel-text-input",
+        "type": "haxelib",
+        "version": null
     }
   ]
 }
