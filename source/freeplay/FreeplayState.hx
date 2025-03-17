@@ -740,7 +740,7 @@ class FreeplayState extends MusicBeatState
 		updateSongDifficulty();
 	}
 
-	function changeDifficulty(change:Int):Void{
+	function changeDifficulty(change:Int, ?doTween:Bool = true):Void{
 		curDifficulty += change;
 		if(curDifficulty < 0){
 			curDifficulty = 2;
@@ -757,9 +757,11 @@ class FreeplayState extends MusicBeatState
 		updateDifficultyGraphic();
 		updateSongDifficulty();
 
-		FlxTween.completeTweensOf(difficulty);
-		difficulty.y -= 15;
-		FlxTween.tween(difficulty, {y: difficulty.y + 15}, 0.1, {ease: FlxEase.cubeOut});
+		if(doTween){
+			FlxTween.completeTweensOf(difficulty);
+			difficulty.y -= 15;
+			FlxTween.tween(difficulty, {y: difficulty.y + 15}, 0.1, {ease: FlxEase.cubeOut});
+		}
 
 		for(capsule in capsuleGroup){
 			capsule.showRank(curDifficulty);
@@ -937,7 +939,7 @@ class FreeplayState extends MusicBeatState
 
 		if(!allowedDifficulties.contains(curDifficulty)){
 			curDifficulty = 0;
-			changeDifficulty(allowedDifficulties[0]);
+			changeDifficulty(allowedDifficulties[0], false);
 		}
 
 		updateDifficultyGraphic();
