@@ -301,7 +301,7 @@ class Character extends FlxSpriteGroup
 			if(getFlipX()){
 				xOffsetAdjust *= -1;
 				if(characterInfo.info.frameLoadType != atlas){
-					xOffsetAdjust += getFrameWidth();
+					xOffsetAdjust += getFrameWidth() * getScale().x;
 					xOffsetAdjust -= getWidth();
 				}
 			}
@@ -310,7 +310,7 @@ class Character extends FlxSpriteGroup
 			if(getFlipY()){
 				yOffsetAdjust *= -1;
 				if(characterInfo.info.frameLoadType != atlas){
-					yOffsetAdjust += getFrameHeight();
+					yOffsetAdjust += getFrameHeight() * getScale().y;
 					yOffsetAdjust -= getHeight();
 				}
 			}
