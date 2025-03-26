@@ -3,5 +3,7 @@
   "artist": "Rozebud",
   "album": "lil",
   "difficulties": [0, 0, 20],
+  "compatableInsts": [],
+  "mixName": "Original",
   "pauseMusic": "pause/1100059_skippingrecord_Loop"
 }

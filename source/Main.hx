@@ -1,5 +1,6 @@
 package;
 
+import flixel.system.debug.log.LogStyle;
 import extensions.openfl.display.FPSExt;
 import modding.PolymodHandler;
 import flixel.system.scaleModes.RatioScaleMode;
@@ -22,6 +23,14 @@ class Main extends Sprite
 		super();
 
 		PolymodHandler.init();
+
+		#if !debug
+		LogStyle.ERROR.openConsole = false;
+		LogStyle.ERROR.errorSound = null;
+		#end
+
+		LogStyle.WARNING.openConsole = false;
+		LogStyle.WARNING.errorSound = null;
 
 		#if sys
 		novid = Sys.args().contains("-novid");

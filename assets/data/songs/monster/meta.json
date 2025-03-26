@@ -5,5 +5,7 @@
   "difficulties": [1, 1, 2],
   "bfBeats": [0, 1, 2, 3],
   "dadBeats": [0, 1, 2, 3],
+  "compatableInsts": [],
+  "mixName": "Original",
   "pauseMusic": "pause/911825_woah_Loop"
 }

@@ -13,6 +13,7 @@ Inside the JSON file you need to add informations about your week. You can set t
 - `characters`: An array of the name of the characters to load at the top of Story Mode. More information about Story Menu characters will be provided below. *(Optional)* If not defined it will be set to `["dad", "bf", "gf"]`.
 - `stickerSet`: An array of the stickers names to use when transitioning back to the Story Menu after completeing the week. These are the names of the sticker folders and all stickers in said folder will be used. *(Optional)* If not defined it will be set to `null` meaning all stickers will be used.
 - `color`: The color that the top part of the Story Mode menu is set to when the week is selected. It should be in the format of `0xRRGGBB`. *(Optional)* If not defined it will be set to `0xF9CF51`, the default Story Mode yellow.
+- `difficulties`: An array containing the available difficulties for the week as strings. Only accepts `"easy"`, `"normal"`, and `"hard"`. *(Optional)* If not defined it will be set to `["easy", "normal", "hard"]`.
 
 ## Week Name Image
 

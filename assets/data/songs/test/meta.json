@@ -2,5 +2,7 @@
   "name": "Test",
   "artist": "Kawai Sprite (ft. MtH)",
   "album": "vol1",
-  "difficulties": [0, 0, 0]
+  "difficulties": [0, 0, 0],
+  "compatableInsts": [],
+  "mixName": "Original"
 }

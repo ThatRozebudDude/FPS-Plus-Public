@@ -89,7 +89,7 @@ class BoyfriendFreeplay extends DJCharacter
 		if(curAnim == "idle2loop"){
 			playAnim("idle2end", true);
 			if(sound.playing){ sound.fadeOut(1, 0, function(t){ sound.stop(); }); }
-			FlxG.sound.music.fadeIn(1, FlxG.sound.music.volume, 1);
+			FlxG.sound.music.fadeIn(1, FlxG.sound.music.volume, freeplaySongVolume);
 		}
 	}
 
