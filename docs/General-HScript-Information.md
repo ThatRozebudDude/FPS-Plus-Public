@@ -4,18 +4,15 @@ There are a few things to keep in mind when working with HScript classes. You ca
 
 Additionally, the scripted class *are not namespaced*, meaning if you define the class `Boyfriend` as a freeplay character and also define `Boyfriend` as a character select character it will only be able to find one of them despite them being separated into different locations. Each class needs a unique name like `BoyfriendFreeplay` and `BoyfriendCharacterSelect`. Keep the class names descriptive.
 
-## ScriptingUtil
+## Utilities
 
-HScript also does not support `enum` or `abstract` types (at least not using the abstract name for them), however there is a `ScriptingUtil` class that provides shortcuts to use some of these types.
-
+HScript does not officially support `enum` or `abstract` types either, but FPS Plus implements them in a way that you can "almost" access them using macros.
+For abstracts, like if you import `openfl.display.BlendMode` you can use `BlendMode.{blendMode}` to use that blend mode the same way you would normal.
+For enums, there are also shortcuts in ScriptingUtil that allow easy access to those types.
 - You can use `ScriptingUtil.axis{axisType}` for FlxAxes directions.
 - You can use `ScriptingUtil.rank{rankType}` for song rankings.
 
 There are also other useful functions for certain things that I found did not work or behaved strangely. I recommend taking a look through the class to see what you are able to do with it in more detail.
-
-## Blend Modes
-
-Normally you cannot use blend mode names with HScript as they are an `abstract enum`, however, in FPS Plus if you import `openfl.display.BlendMode` you can use `BlendMode.{blendMode}` to use that blend mode the same way you would normal. You must include `BlendMode` at the begining so you can just do `ADD`, you'd need to use `BlendMode.ADD`. You can also use `FlxTextBorderStyle` the same way you use blend modes, including needing the class name before the type and everything, however, this is automatically imported.
 
 ## Aliases
 
