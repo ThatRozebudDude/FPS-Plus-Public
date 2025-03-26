@@ -2,7 +2,6 @@ package modding;
 
 import transition.CustomTransition;
 import transition.data.InstantTransition;
-import caching.*;
 import openfl.Assets;
 import haxe.Json;
 import polymod.PolymodConfig;
@@ -256,9 +255,7 @@ class PolymodHandler
 		Polymod.addDefaultImport(debug.ChartingState);
 		
 		Polymod.addDefaultImport(Utils);
-		Polymod.addDefaultImport(modding.ScriptingUtil);
-		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTextBorderStyle);
-		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTweenType);
+		Polymod.addDefaultImport(ScriptingUtil);
 
 		//Import scriptable classes so they can be made without importing
 		Polymod.addDefaultImport(characters.CharacterInfoBase);
@@ -284,12 +281,11 @@ class PolymodHandler
 		Polymod.addImportAlias("lime.utils.Assets", Assets);
 		Polymod.addImportAlias("openfl.utils.Assets", Assets);
 
-		Polymod.addImportAlias("flash.display.BlendMode", modding.ScriptingUtil.BlendMode);
-		Polymod.addImportAlias("openfl.display.BlendMode", modding.ScriptingUtil.BlendMode);
-
 		Polymod.addImportAlias("flixel.math.FlxPoint", flixel.math.FlxPoint.FlxBasePoint);
 
-		// `Sys`
+		ScriptingAbstractsMacro.addAbstractAliases();
+
+		// `Sys`s
 		// Sys.command() can run malicious processes
 		Polymod.blacklistImport("Sys");
 
