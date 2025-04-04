@@ -1,7 +1,7 @@
 {
     "song": {
         "speed": "2.1",
-        "stage": "Tank",
+        "stage": "TankErect",
         "player1": "PicoPlayer",
         "player2": "Tankman",
         "gf": "Nene",

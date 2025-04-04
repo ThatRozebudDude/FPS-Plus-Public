@@ -1,7 +1,7 @@
 {
     "song": {
         "speed": "2.4",
-        "stage": "Tank",
+        "stage": "TankErect",
         "player1": "Bf",
         "player2": "Tankman",
         "gf": "GfTankmen",

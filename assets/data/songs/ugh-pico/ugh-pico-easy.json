@@ -1,7 +1,7 @@
 {
 	"song": {
 		"speed": "1.8",
-		"stage": "Tank",
+		"stage": "TankErect",
 		"player1": "PicoPlayer",
 		"player2": "Tankman",
 		"notes": [

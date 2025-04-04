@@ -1,0 +1,103 @@
+import flixel.math.FlxAngle;
+import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.math.FlxPoint;
+import flixel.FlxObject;
+import shaders.AdjustColorShader;
+
+class TankErect extends BaseStage
+{
+
+	//Temp until we get the full drop shadow shader
+	var	characterShader:AdjustColorShader = new AdjustColorShader(-46, -38, -25, -20);
+
+	var sniper:FlxSprite;
+	var guy:FlxSprite;
+
+	var sniperSipping:Bool = true;
+
+	public function new(){
+		super();
+		
+		name = "tankErect";
+		startingZoom = 0.7;
+
+		var bg = new FlxSprite(-985, -805).loadGraphic(Paths.image("week7/stage/erect/bg"));
+		bg.antialiasing = true;
+		bg.scale.set(1.15, 1.15);
+		bg.updateHitbox();
+		addToBackground(bg);
+
+		sniper = new FlxSprite(-127, 349);
+		sniper.frames = Paths.getSparrowAtlas("week7/stage/erect/sniper");
+		sniper.antialiasing = true;
+		sniper.scale.set(1.15, 1.15);
+		sniper.updateHitbox();
+		sniper.animation.addByPrefix("idle", "Tankmanidlebaked instance 1", 24, false);
+		sniper.animation.addByPrefix("sip", "tanksippingBaked instance 1", 24, false);
+		sniper.animation.play("idle");
+		addToBackground(sniper);
+
+		guy = new FlxSprite(1398, 407);
+		guy.frames = Paths.getSparrowAtlas("week7/stage/erect/guy");
+		guy.antialiasing = true;
+		guy.scale.set(1.15, 1.15);
+		guy.updateHitbox();
+		guy.animation.addByPrefix("idle", "BLTank2 instance 1", 24, false);
+		guy.animation.play("idle");
+		addToBackground(guy);
+
+		dadStart.set(140, 900);
+		bfStart.set(1340.5, 885);
+		gfStart.set(800.5, 775);
+
+		boyfriend.applyShader(characterShader.shader);
+		dad.applyShader(characterShader.shader);
+		gf.applyShader(characterShader.shader);
+
+		/*if(gf.curCharacter == "pico-speaker" && PlayState.SONG.song.toLowerCase() == "stress"){
+			TankmenBG.loadMappedAnims("picospeaker", "stress");
+
+			var tempTankman:TankmenBG = new TankmenBG(20, 500, true);
+			tempTankman.strumTime = 10;
+			tempTankman.resetShit(20, 900, true);
+			tankmanRun.add(tempTankman);
+
+			for (i in 0...TankmenBG.animationNotes.length){
+				if (FlxG.random.bool(16)){
+					var tankman:TankmenBG = tankmanRun.recycle(TankmenBG);
+					// new TankmenBG(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
+					tankman.strumTime = TankmenBG.animationNotes[i][0];
+					tankman.resetShit(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
+					tankmanRun.add(tankman);
+				}
+			}
+		}*/
+
+	}
+
+	public override function update(elapsed:Float){
+		super.update(elapsed);
+	}
+
+	public override function beat(curBeat:Int){
+		if(curBeat % 2 == 0){
+			guy.animation.play("idle", false);
+			sniper.animation.play("idle", false);
+		}
+
+		if(FlxG.random.bool(2)){
+			sniper.animation.play("sip", false, true);
+		}
+	}
+
+	/*override function gameOverLoop() {
+		FlxG.sound.music.volume = 0.2;
+		FlxG.sound.play(Paths.sound('week7/jeffGameover/jeffGameover-' + FlxG.random.int(1, 25)), 1, false, null, true, function(){
+			if(FlxG.sound.music.playing){
+				FlxG.sound.music.fadeIn(2.5, 0.2, 1);
+			}
+		});
+	}*/
+
+}
