@@ -134,10 +134,7 @@ class SpookyMansionErect extends BaseStage
 		lightningStrikeBeat = beat;
 		lightningStrikeOffset = FlxG.random.int(8, 24);
 
-		boyfriend.playAnim("scared", true);
-		boyfriend.danceLockout = true;
-
-		gf.playAnim("scared", true);
-		gf.danceLockout = true;
+		boyfriend.danceLockout = boyfriend.playAnim("scared", true);
+		gf.danceLockout = gf.playAnim("scared", true);
 	}
 }

@@ -3,5 +3,7 @@
   "artist": "Kawai Sprite",
   "album": "vol1",
   "difficulties": [2, 3, 4],
+  "compatableInsts": [],
+  "mixName": "Original",
   "pauseMusic": "pause/1317505_RUN1N_Loop"
 }

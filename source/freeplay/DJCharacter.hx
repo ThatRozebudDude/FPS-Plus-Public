@@ -34,6 +34,10 @@ class DJCharacter extends AtlasSprite
 	var skipNextIdle:Bool = false;
 	var canPlayIdleAfter:Array<String> = [];
 
+	public var freeplaySong:String = "freeplayRandom";
+	public var freeplaySongBpm:Float = 145;
+	public var freeplaySongVolume:Float = 0.8;
+
 	public var backingCard:FlxSpriteGroup = new FlxSpriteGroup();
 
 	public function new() {

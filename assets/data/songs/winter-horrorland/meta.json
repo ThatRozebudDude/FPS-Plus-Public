@@ -3,5 +3,7 @@
   "artist": "Basset (ft. Kawai Sprite)",
   "album": "monster",
   "difficulties": [1, 1, 2],
+  "compatableInsts": [],
+  "mixName": "Original",
   "pauseMusic": "pause/911825_woah_Loop"
 }

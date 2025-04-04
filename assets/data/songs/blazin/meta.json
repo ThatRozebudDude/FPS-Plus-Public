@@ -5,5 +5,7 @@
   "difficulties": [3, 4, 5],
   "bfBeats": [],
   "dadBeats": [],
+  "compatableInsts": [],
+  "mixName": "Original",
   "pauseMusic": "pause/breakfast-pico"
 }
