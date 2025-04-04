@@ -33,7 +33,7 @@ class ABotVisualizer extends FlxTypedSpriteGroup<FlxSprite>
 		var visCount = pixel ? (7 + 1) : (7 + 1);
 		var visScale = pixel ? 6 : 1;
 
-		var visFrms:FlxAtlasFrames = Paths.getSparrowAtlas(pixel ? "NOT_IMPLEMENTED_DO_NOT_USE_THANK_YOU" : "weekend1/abot/aBotViz");
+		var visFrms:FlxAtlasFrames = Paths.getSparrowAtlas(pixel ? "week6/abot/aBotVizPixel" : "weekend1/abot/aBotViz");
 
 		// these are the differences in X position, from left to right
 		var positionX:Array<Float> = pixel ? [0, 7 * visScale, 8 * visScale, 9 * visScale, 10 * visScale, 6 * visScale, 7 * visScale] : [0, 59, 56, 66, 54, 52, 51];
@@ -57,6 +57,7 @@ class ABotVisualizer extends FlxTypedSpriteGroup<FlxSprite>
 			var visStr = 'viz';
 			viz.animation.addByPrefix('VIZ', '$visStr${index}0', 0);
 			viz.animation.play('VIZ', false, false, 6);
+			viz.visible = false;
 		}
 	}
 

@@ -1,7 +1,6 @@
 # Base Game 0.6.0 Porting
 
 - Characters
-	- Pico Pixel
 	- Nene Pixel
 	- Pico & Nene
 	- Tankman Bleeding Knife Ouch
@@ -18,6 +17,7 @@
 	- Redo Week 6 Dialogue Stuff
 	- Nene Hair Blowing
 	- Cutscene Stuff for Stress
+	- Pico Cheer Stuff
 - Maybe
 	- Use official pixel lose icons and remake winning in similar style.
 

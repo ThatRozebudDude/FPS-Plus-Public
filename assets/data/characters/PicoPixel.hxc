@@ -1,0 +1,38 @@
+class PicoPixel extends CharacterInfoBase
+{
+
+	public function new(){
+		super();
+
+		info.name = "pico-pixel";
+		info.spritePath = "week6/picoPixel";
+		info.frameLoadType = setSparrow();
+		
+		info.iconName = "pico";
+		info.facesLeft = true;
+		info.deathCharacter = "PicoPixel";
+		info.antialiasing = false;
+		info.focusOffset.set(100, -100);
+
+		addByPrefix('idle', offset(), 'idle', 24, loop(false));
+		addByPrefix('singUP', offset(), 'up0', 24, loop(false));
+		addByPrefix('singLEFT', offset(), 'left0', 24, loop(false));
+		addByPrefix('singRIGHT', offset(), 'right0', 24, loop(false));
+		addByPrefix('singDOWN', offset(), 'down0', 24, loop(false));
+		addByPrefix('singUPmiss', offset(), 'upmiss', 24, loop(false));
+		addByPrefix('singLEFTmiss', offset(), 'leftmiss', 24, loop(false));
+		addByPrefix('singRIGHTmiss', offset(), 'rightmiss', 24, loop(false));
+		addByPrefix('singDOWNmiss', offset(), 'downmiss', 24, loop(false));
+
+		addByPrefix('firstDeath', offset(), "firstDeath", 24, loop(false));
+		addByPrefix('deathLoop', offset(), "deathLoop", 24, loop(true));
+		addByPrefix('deathConfirm', offset(), "deathConfirm", 24, loop(false));
+
+		addExtraData("scale", 6);
+
+		addExtraData("deathSound", "gameOver/fnf_loss_sfx-pixel-pico");
+		addExtraData("deathSong", "gameOver/gameOver-pixel-pico");
+		addExtraData("deathSongEnd", "gameOver/gameOverEnd-pixel-pico");
+	}
+
+}
