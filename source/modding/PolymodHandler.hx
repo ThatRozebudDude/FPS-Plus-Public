@@ -258,6 +258,7 @@ class PolymodHandler
 		Polymod.addDefaultImport(Utils);
 		Polymod.addDefaultImport(modding.ScriptingUtil);
 		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTextBorderStyle);
+		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTweenType);
 
 		//Import scriptable classes so they can be made without importing
 		Polymod.addDefaultImport(characters.CharacterInfoBase);

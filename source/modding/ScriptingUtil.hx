@@ -122,6 +122,15 @@ class BlendMode
 	public static var SUBTRACT = BaseBlendMode.SUBTRACT;
 }
 
+class FlxTweenType
+{
+	public static var PERSIST = flixel.tweens.FlxTween.FlxTweenType.PERSIST;
+	public static var LOOPING = flixel.tweens.FlxTween.FlxTweenType.LOOPING;
+	public static var PINGPONG = flixel.tweens.FlxTween.FlxTweenType.PINGPONG;
+	public static var ONESHOT = flixel.tweens.FlxTween.FlxTweenType.ONESHOT;
+	public static var BACKWARD = flixel.tweens.FlxTween.FlxTweenType.BACKWARD;
+}
+
 class FlxTextBorderStyle
 {
 	public static var NONE = flixel.text.FlxText.FlxTextBorderStyle.NONE;
