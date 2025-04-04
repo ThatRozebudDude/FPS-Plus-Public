@@ -13,7 +13,7 @@ using Lambda;
 class ABotVisualizer extends FlxTypedSpriteGroup<FlxSprite>
 {
 	// public var vis:VisShit;
-	public var updateRate:Float = 1/24;
+	public var updateRate:Float = 1/30;
 	var updateCount:Float = 0;
 
 	var analyzer:SpectralAnalyzer;
@@ -67,9 +67,6 @@ class ABotVisualizer extends FlxTypedSpriteGroup<FlxSprite>
 		// analyzer.maxDb = -35;
 		// analyzer.fftN = 2048;
 	}
-
-	var visTimer:Float = -1;
-	var visTimeMax:Float = 1 / 30;
 
 	override function update(elapsed:Float){
 		updateCount += elapsed;

@@ -1,0 +1,21 @@
+{
+    "name": "Darnell Erect",
+    "artist": "Kawai Sprite",
+    "album": "ext2",
+    "difficulties": [
+        0,
+        8,
+        9
+    ],
+    "bfBeats": [
+        1,
+        3
+    ],
+    "dadBeats": [
+        0,
+        2
+    ],
+	"compatableInsts": [],
+	"mixName": "Original",
+	"pauseMusic": "pause/breakfast-pico"
+}

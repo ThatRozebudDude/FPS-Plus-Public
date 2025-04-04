@@ -1,0 +1,21 @@
+{
+    "name": "Cocoa (Pico Mix)",
+    "artist": "Six Impala (feat. Saruky)",
+    "album": "ext2",
+    "difficulties": [
+        2,
+        3,
+        4
+    ],
+    "bfBeats": [
+        1,
+        3
+    ],
+    "dadBeats": [
+        0,
+        2
+    ],
+	"compatableInsts": ["Cocoa"],
+	"mixName": "Pico Mix",
+	"pauseMusic": "pause/918379_Love-Emoji_Loop"
+}

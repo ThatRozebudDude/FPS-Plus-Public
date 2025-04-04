@@ -1,3 +1,26 @@
+# Base Game 0.6.0 Porting
+
+- Characters
+	- Pico Pixel
+	- Nene Pixel
+	- Pico & Nene
+	- Tankman Bleeding Knife Ouch
+	- Otis
+- Stages
+	- School Evil Erect
+	- Otis logic in Tank Erect
+	- Rimlight Shaders (When Public)
+- Songs
+	- Senpai (Pico)
+	- Roses (Pico)
+	- Stress (Pico)
+- Misc
+	- Redo Week 6 Dialogue Stuff
+	- Nene Hair Blowing
+	- Cutscene Stuff for Stress
+- Maybe
+	- Use official pixel lose icons and remake winning in similar style.
+
 # 6.3.0 *(Planned Features)*
 
 - Config menu redesign.
