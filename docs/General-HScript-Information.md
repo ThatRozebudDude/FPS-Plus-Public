@@ -6,14 +6,14 @@ Additionally, the scripted class *are not namespaced*, meaning if you define the
 
 ## Utilities
 
-HScript does not officially support `enum` or `abstract` types, but FPS Plus implements a way for you to use them.
-For abstracts, you can import them like normal (ex. `import openfl.display.BlendMode` lets you use `BlendMode.{blendMode}`).
+HScript does not officially support `enum` or `abstract` types either, but FPS Plus implements them in a way that you can "almost" access them using macros.
+For abstracts, like if you import `openfl.display.BlendMode` you can use `BlendMode.{blendMode}` to use that blend mode the same way you would normal.
 
 For enums, there are also shortcuts in ScriptingUtil that allow easy access to those types.
 - You can use `ScriptingUtil.axis{axisType}` for FlxAxes directions.
 - You can use `ScriptingUtil.rank{rankType}` for song rankings.
 
-`ScriptingUtil` also has other useful functions for certain things that I found did not work or behaved strangely. I recommend taking a look through the class to see what you are able to do with it in more detail.
+`ScriptingUtil` has also other useful functions for certain things that I found did not work or behaved strangely. I recommend taking a look through the class to see what you are able to do with it in more detail.
 
 ## Aliases
 
