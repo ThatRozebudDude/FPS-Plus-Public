@@ -22,34 +22,40 @@ class ABotVisualizer extends FlxTypedSpriteGroup<FlxSprite>
 
 	public var snd:FlxSound;
 
-	public function new(snd:FlxSound){
+	public function new(snd:FlxSound, ?pixel:Bool = false){
 		super();
 
 		this.snd = snd;
 
 		// vis = new VisShit(snd);
-		// vis.snd = snd;
+		// vis.snd = snd;	
 
-		var visFrms:FlxAtlasFrames = Paths.getSparrowAtlas("weekend1/abot/aBotViz");
+		var visCount = pixel ? (7 + 1) : (7 + 1);
+		var visScale = pixel ? 6 : 1;
+
+		var visFrms:FlxAtlasFrames = Paths.getSparrowAtlas(pixel ? "NOT_IMPLEMENTED_DO_NOT_USE_THANK_YOU" : "weekend1/abot/aBotViz");
 
 		// these are the differences in X position, from left to right
-		var positionX:Array<Float> = [0, 59, 56, 66, 54, 52, 51];
-		var positionY:Array<Float> = [0, -8, -3.5, -0.4, 0.5, 4.7, 7];
+		var positionX:Array<Float> = pixel ? [0, 7 * visScale, 8 * visScale, 9 * visScale, 10 * visScale, 6 * visScale, 7 * visScale] : [0, 59, 56, 66, 54, 52, 51];
+		var positionY:Array<Float> = pixel ? [0, -2 * visScale, -1 * visScale, 0, 0, 1 * visScale, 2 * visScale] : [0, -8, -3.5, -0.4, 0.5, 4.7, 7];
 
-		for (lol in 1...8){
+		for (index in 1...visCount){
 			// pushes initial value
 			volumes.push(0.0);
-			var sum = function(num:Float, total:Float) return total += num;
-			var posX:Float = positionX.slice(0, lol).fold(sum, 0);
-			var posY:Float = positionY.slice(0, lol).fold(sum, 0);
 
+			// Sum the offsets up to the current index
+			var sum = function(num:Float, total:Float) return total += num;
+			var posX:Float = positionX.slice(0, index).fold(sum, 0);
+			var posY:Float = positionY.slice(0, index).fold(sum, 0);
+	  
 			var viz:FlxSprite = new FlxSprite(posX, posY);
 			viz.frames = visFrms;
-			viz.antialiasing = true;
+			viz.antialiasing = pixel ? false : true;
+			viz.scale.set(visScale, visScale);
 			add(viz);
-
+	  
 			var visStr = 'viz';
-			viz.animation.addByPrefix('VIZ', visStr + lol, 0);
+			viz.animation.addByPrefix('VIZ', '$visStr${index}0', 0);
 			viz.animation.play('VIZ', false, false, 6);
 		}
 	}
@@ -57,15 +63,17 @@ class ABotVisualizer extends FlxTypedSpriteGroup<FlxSprite>
 	public function initAnalyzer(){
 		@:privateAccess
 		analyzer = new SpectralAnalyzer(snd._channel.__audioSource, 7, 0.1, 40);
+		analyzer.minDb = -65;
+		analyzer.maxDb = -25;
+		analyzer.maxFreq = 22000;
+		// we use a very low minFreq since some songs use low low subbass like a boss
+		analyzer.minFreq = 10;
 
 		#if desktop
 		// On desktop it uses FFT stuff that isn't as optimized as the direct browser stuff we use on HTML5
 		// So we want to manually change it!
 		analyzer.fftN = 256;
 		#end
-
-		// analyzer.maxDb = -35;
-		// analyzer.fftN = 2048;
 	}
 
 	override function update(elapsed:Float){
@@ -92,19 +100,26 @@ class ABotVisualizer extends FlxTypedSpriteGroup<FlxSprite>
 	{
 		var levels = analyzer.getLevels();
 
-		for (i in 0...min(group.members.length, levels.length))
-		{
-			var animFrame:Int = Math.round(levels[i].value * 5);
-
+		for (i in 0...min(group.members.length, levels.length)){
+			var animFrame:Int = Math.round(levels[i].value * 6);
+		
+			// don't display if we're at 0 volume from the level
+			group.members[i].visible = animFrame > 0;
+		
+			// decrement our animFrame, so we can get a value from 0-5 for animation frames
+			animFrame -= 1;
+		
 			#if desktop
-			animFrame = Math.round(animFrame * FlxG.sound.volume);
+			// Web version scales with the Flixel volume level.
+			// This line brings platform parity but looks worse.
+			// animFrame = Math.round(animFrame * FlxG.sound.volume);
 			#end
-
+		
 			animFrame = Math.floor(Math.min(5, animFrame));
 			animFrame = Math.floor(Math.max(0, animFrame));
-
+		
 			animFrame = Std.int(Math.abs(animFrame - 5)); // shitty dumbass flip, cuz dave got da shit backwards lol!
-
+		
 			group.members[i].animation.curAnim.curFrame = animFrame;
 		}
 	}
