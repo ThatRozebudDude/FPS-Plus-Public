@@ -18,7 +18,7 @@
 	<!--Allows all of Flixel to be used by scripts at runtime instead of only what was imported in the code.-->
 	<compilerflag name="--macro" value="include('flixel', true, [ 'flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.system.macros.*' ])" />
 
-	<compilerflag name="--macro" value="modding.ScriptingAbstractsMacro.buildCompileMacro()" />
+	<compilerflag name="--macro" value="scripts.ScriptAbstractMacro.buildCompileMacro()" />
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 

@@ -283,9 +283,18 @@ class PolymodHandler
 
 		Polymod.addImportAlias("flixel.math.FlxPoint", flixel.math.FlxPoint.FlxBasePoint);
 
-		ScriptingAbstractsMacro.addAbstractAliases();
+		// W.I.P
+		Polymod.addImportAlias("flixel.util.FlxColor", Type.resolveClass("flixel.util.FlxColor_AL"));
+		Polymod.addImportAlias("flash.display.BlendMode", Type.resolveClass("flash.display.BlendMode_AL"));
+		Polymod.addImportAlias("openfl.display.BlendMode", Type.resolveClass("openfl.display.BlendMode_AL"));
 
-		// `Sys`s
+		trace(scripts.ScriptAbstractMacro.availableAbstracts);
+		for (alias in scripts.ScriptAbstractMacro.availableAbstracts)
+		{
+			trace("importing " + alias);
+		}
+
+		// `Sys`
 		// Sys.command() can run malicious processes
 		Polymod.blacklistImport("Sys");
 

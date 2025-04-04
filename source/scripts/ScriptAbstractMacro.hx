@@ -1,12 +1,9 @@
-package modding;
+package scripts;
 
 import haxe.macro.Type.ClassType;
 import haxe.macro.Expr;
 import haxe.macro.Context;
 import haxe.macro.Compiler;
-
-import polymod.Polymod;
-import restricted.RestrictedUtils;
 
 
 using StringTools;
@@ -17,80 +14,47 @@ using StringTools;
 
 	@author Sulkiez
 */
-class ScriptingAbstractsMacro
+class ScriptAbstractMacro
 {
 	public static var availableAbstracts(get, default):Array<String> = [];
 	public static function get_availableAbstracts()
 	{
-		var ar:Array<String> = restricted.RestrictedUtils.callStaticGeneratedMethod(Type.resolveClass("modding.AbstractLists"), "get");
-		var newAr:Array<String> = [];
-
-		for (al in ar){
-			var packageArray:Array<String> = al.split(".");
-			// package name is fucking broken to me some reason so im trying fix them
-			for (pack in packageArray){
-				if (packageArray[packageArray.length - 1] == packageArray[packageArray.length - 2])
-				{
-					packageArray.pop();
-				}
-			}
-			newAr.push(packageArray.join("."));
-		}
-		return newAr;
-	}
-	
-	public static function addAbstractAliases()
-	{
-		for (alias in availableAbstracts)
-		{
-			Polymod.addImportAlias(alias, Type.resolveClass(alias + '_AL'));
-		}
+		return restricted.RestrictedUtils.callStaticGeneratedMethod(Type.resolveClass("scripts.ListGetter"), "getList");
 	}
 
 	#if macro
 	public static final excludeAbstracts:Array<String> = [
-		"haxe.macro"
+
     ];
-
-
-	// fuck macro
-	private static var builtAlready:Bool = false;
-
+	
 	public static function buildCompileMacro(){
 		#if !display
 		for (pack in ["flash", "openfl", "flixel"])
 		{
-			Compiler.addGlobalMetadata(pack, '@:build(modding.ScriptingAbstractsMacro.build())');
+			Compiler.addGlobalMetadata(pack, '@:build(scripts.ScriptAbstractMacro.build())');
 		}
+
+		Context.defineModule('scripts.ScriptAbstractMacro', [{
+			pack: ['scripts'],
+			name: 'ListGetter',
+			kind: TypeDefKind.TDClass(null, [], false, false, false),
+			fields: [
+				{
+					name: 'getList',
+					access: [Access.APublic, Access.AStatic],
+					kind: FieldType.FFun({
+						args: [],
+						ret: (macro :Array<String>),
+						expr: macro {
+							return $v{aliasesList};
+						}
+					}),
+					pos: Context.currentPos()
+				}
+			],
+			pos: Context.currentPos()
+		}]);
 		#end
-
-		Context.onAfterTyping(function(a)
-		{
-			if (builtAlready)
-				return;
-			builtAlready = true;
-
-			Context.defineModule('modding.AbstractLists', [{
-				pack: ['modding'],
-				name: 'AbstractLists',
-				kind: TypeDefKind.TDClass(null, [], false, false, false),
-				fields: [
-					{
-						name: 'get',
-						access: [Access.APublic, Access.AStatic],
-						kind: FieldType.FFun({
-							args: [],
-							ret: (macro :Array<String>),
-							expr: macro {
-								return $v{aliasesList};
-							}
-						}),
-						pos: Context.currentPos()
-					}
-				],
-				pos: Context.currentPos()
-			}]);
-		});
 	}
 
 	public static var aliasesList:Array<String> = [];
@@ -143,15 +107,17 @@ class ScriptingAbstractsMacro
 							if(t == null){
 								t = TPath({
 									name: abstractName,
-									pack: []
+									pack: [],//pack
 								});
 							}
+
+							var prvAcc = Context.parse('@:privateAccess ($abstractName.$name)', field.pos);
 
 							var field:Field = {
 								pos: field.pos,
 								name: field.name,
 								meta: field.meta,
-								kind: FVar(null, Context.parse('@:privateAccess ($abstractName.$name)', field.pos)),
+								kind: FVar(null, prvAcc),
 								doc: field.doc,
 								access: [APublic, AStatic]
 							}
