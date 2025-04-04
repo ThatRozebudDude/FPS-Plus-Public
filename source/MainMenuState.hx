@@ -253,7 +253,7 @@ class MainMenuState extends MusicBeatState
 										switchState(new ConfigMenu());
 										trace("options time");
 									case 'mods':
-										switchState(new ModManagerState(), false);
+										switchState(new ModManagerState());
 										trace("options time");
 								}
 							});

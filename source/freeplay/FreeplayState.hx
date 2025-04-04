@@ -115,6 +115,10 @@ class FreeplayState extends MusicBeatState
 
 	var fadeShader:BlueFadeShader = new BlueFadeShader(1);
 
+	static final freeplaySong:String = "freeplayRandom"; 
+	static final freeplaySongBpm:Float = 145; 
+	static final freeplaySongVolume:Float = 0.8; 
+
 	static final  transitionTime:Float = 1;
 	static final  staggerTime:Float = 0.1;
 	static final  randomVariation:Float = 0.04;
@@ -521,10 +525,9 @@ class FreeplayState extends MusicBeatState
 		add(backCardGroup);
 
 		add(flash);
+		add(cover);
 
 		add(dj);
-
-		add(cover);
 
 		add(highscoreSprite);
 		add(clearPercentSprite);
@@ -662,8 +665,8 @@ class FreeplayState extends MusicBeatState
 	}
 	
 	function startFreeplaySong():Void{
-		FlxG.sound.playMusic(Paths.music(dj.freeplaySong), dj.freeplaySongVolume);
-		Conductor.changeBPM(dj.freeplaySongBpm);
+		FlxG.sound.playMusic(Paths.music(freeplaySong), freeplaySongVolume);
+		Conductor.changeBPM(freeplaySongBpm);
 		FlxG.sound.music.onComplete = function(){ 
 			lastStep = -Conductor.stepCrochet;
 		}
@@ -740,7 +743,7 @@ class FreeplayState extends MusicBeatState
 		updateSongDifficulty();
 	}
 
-	function changeDifficulty(change:Int, ?doTween:Bool = true):Void{
+	function changeDifficulty(change:Int):Void{
 		curDifficulty += change;
 		if(curDifficulty < 0){
 			curDifficulty = 2;
@@ -757,11 +760,9 @@ class FreeplayState extends MusicBeatState
 		updateDifficultyGraphic();
 		updateSongDifficulty();
 
-		if(doTween){
-			FlxTween.completeTweensOf(difficulty);
-			difficulty.y -= 15;
-			FlxTween.tween(difficulty, {y: difficulty.y + 15}, 0.1, {ease: FlxEase.cubeOut});
-		}
+		FlxTween.completeTweensOf(difficulty);
+		difficulty.y -= 15;
+		FlxTween.tween(difficulty, {y: difficulty.y + 15}, 0.1, {ease: FlxEase.cubeOut});
 
 		for(capsule in capsuleGroup){
 			capsule.showRank(curDifficulty);
@@ -939,7 +940,7 @@ class FreeplayState extends MusicBeatState
 
 		if(!allowedDifficulties.contains(curDifficulty)){
 			curDifficulty = 0;
-			changeDifficulty(allowedDifficulties[0], false);
+			changeDifficulty(allowedDifficulties[0]);
 		}
 
 		updateDifficultyGraphic();

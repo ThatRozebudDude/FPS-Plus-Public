@@ -1518,7 +1518,7 @@ class PlayState extends MusicBeatState
 
 			FlxG.sound.music.pause();
 
-			switchState(new ChartingState(), false);
+			switchState(new ChartingState());
 			sectionStart = false;
 
 			if(instSong != null){
@@ -1586,13 +1586,13 @@ class PlayState extends MusicBeatState
 			sectionStart = false;
 
 			if(FlxG.keys.pressed.SHIFT){
-				switchState(new AnimationDebug(SONG.player1), false);
+				switchState(new AnimationDebug(SONG.player1));
 			}
 			else if(FlxG.keys.pressed.CONTROL){
-				switchState(new AnimationDebug(gfCheck), false);
+				switchState(new AnimationDebug(gfCheck));
 			}
 			else{
-				switchState(new AnimationDebug(SONG.player2), false);
+				switchState(new AnimationDebug(SONG.player2));
 			}
 		}
 
@@ -2948,7 +2948,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	override function switchState(_state:FlxState, ?_allowScriptedStates:Bool = true):Void{
+	override function switchState(_state:FlxState):Void{
 		if(Utils.exists(Paths.voices(SONG.song, "Player"))){
 			Assets.cache.removeSound(Paths.voices(SONG.song, "Player"));
 			Assets.cache.removeSound(Paths.voices(SONG.song, "Opponent"));

@@ -223,7 +223,7 @@ class Character extends FlxSpriteGroup
 
 	public function defaultIdleEndBehavior():Void{
 		if(idleSequence.length > 0){
-			playAnim(idleSequence[0], true, false, getAnimLength(idleSequence[0]) - 1);
+			playAnim(idleSequence[idleSequence.length-1], true, false, getAnimLength(idleSequence[idleSequence.length-1]) - 1);
 		}
 	}
 
@@ -301,7 +301,7 @@ class Character extends FlxSpriteGroup
 			if(getFlipX()){
 				xOffsetAdjust *= -1;
 				if(characterInfo.info.frameLoadType != atlas){
-					xOffsetAdjust += getFrameWidth() * getScale().x;
+					xOffsetAdjust += getFrameWidth();
 					xOffsetAdjust -= getWidth();
 				}
 			}
@@ -310,7 +310,7 @@ class Character extends FlxSpriteGroup
 			if(getFlipY()){
 				yOffsetAdjust *= -1;
 				if(characterInfo.info.frameLoadType != atlas){
-					yOffsetAdjust += getFrameHeight() * getScale().y;
+					yOffsetAdjust += getFrameHeight();
 					yOffsetAdjust -= getHeight();
 				}
 			}

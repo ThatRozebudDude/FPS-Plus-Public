@@ -51,15 +51,3 @@ To add a song to Freeplay you have to append it to an exitsting character's Free
  Note that you don't need to include quotes around any of these as it is just parsed as plain text. Every song that you add needs to be on a new line.
 
  An example of the format to add a song to a song list would be the following: `song | Foolhardy-2023 | none | [ALL, Zardy]`
-
-## Creating a Song Variation
-
-In FPS Plus, songs that are remixes of other songs can have their instrumentals selected to be played with the original vocals provided they have the same BPM and song structure. If you want to have variations in your custom songs all you need to do is add the variation's song name to the `compatableInsts` array in your song's `meta.json` file. If you want to add your song as a variation of a pre-existing song you will need to merge your song's name into the other song's `meta.json` file.
-
-To do this first create a file called `meta.json` in `merge/data/songs/{song you want add the variation to}/`. Inside the file you should add the following:
-```json
-[
-	{"op": "add", "path": "/compatableInsts/-", "value": "Song-Name"}
-]
-```
-Where `Song-Name` is replaced with the name of your song. This should be the same name used in the `songs/` folder that contains your instrumental and vocal tracks.

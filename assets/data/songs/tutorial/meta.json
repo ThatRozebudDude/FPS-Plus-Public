@@ -3,7 +3,5 @@
   "artist": "Kawai Sprite",
   "album": "vol1",
   "difficulties": [0, 0, 1],
-  "dadBeats": [0, 1, 2, 3],
-  "compatableInsts": [],
-  "mixName": "Original"
+  "dadBeats": [0, 1, 2, 3]
 }
