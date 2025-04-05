@@ -15,8 +15,6 @@
 - Misc
 	- Redo Week 6 Dialogue Stuff
 	- Cutscene Stuff for Stress
-- Maybe
-	- Use official pixel lose icons and remake winning in similar style.
 
 # 6.3.0 *(Planned Features)*
 
