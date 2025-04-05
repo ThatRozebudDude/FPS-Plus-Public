@@ -1810,7 +1810,7 @@ class PlayState extends MusicBeatState
 					}
 				});
 
-				dad.holdTimer = 0;
+				//dad.holdTimer = 0;
 
 				switch(vocalType){
 					case splitVocalTrack:
@@ -2115,7 +2115,7 @@ class PlayState extends MusicBeatState
 
 		if ((upPress || rightPress || downPress || leftPress) && generatedMusic){
 			
-			boyfriend.holdTimer = 0;
+			//boyfriend.holdTimer = 0;
 
 			var possibleNotes:Array<Note> = [];
 
@@ -2160,7 +2160,7 @@ class PlayState extends MusicBeatState
 				if (daNote.canBeHit && daNote.mustPress && daNote.isSustainNote && !daNote.wasGoodHit)
 				{
 
-					boyfriend.holdTimer = 0;
+					//boyfriend.holdTimer = 0;
 
 					switch (daNote.noteData)
 					{
@@ -2295,7 +2295,7 @@ class PlayState extends MusicBeatState
 
 		for(x in hitNotes){
 
-			boyfriend.holdTimer = 0;
+			//boyfriend.holdTimer = 0;
 
 			goodNoteHit(x);
 			

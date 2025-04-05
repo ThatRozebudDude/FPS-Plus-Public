@@ -290,6 +290,7 @@ class Character extends FlxSpriteGroup
 			isSinging = true;
 			lastSingTime = Conductor.songPosition;
 			onSing.dispatch(AnimName, Force, Reversed, Frame);
+			holdTimer = 0;
 		}
 	}
 
