@@ -8,7 +8,7 @@ class PicoPixel extends CharacterInfoBase
 		info.spritePath = "week6/picoPixel";
 		info.frameLoadType = setSparrow();
 		
-		info.iconName = "pico";
+		info.iconName = "pico-pixel";
 		info.facesLeft = true;
 		info.deathCharacter = "PicoPixel";
 		info.antialiasing = false;
