@@ -5,7 +5,7 @@ class PicoPlayer extends CharacterInfoBase
 		super();
 
 		info.name = "pico";
-		info.spritePaths = ["week3/Pico_FNF_assetss", "week3/pico_extra"];
+		info.spritePaths = ["week3/Pico_FNF_assetss", "week3/pico_extra", "week3/pico_cheers"];
 		info.frameLoadType = setMultiSparrow();
 		
 		info.iconName = "pico";
@@ -35,6 +35,9 @@ class PicoPlayer extends CharacterInfoBase
 		addByPrefix("burpBig", offset(37, -1), "Big Burp", 24, loop(false, 0), false, false);
 		addByPrefix("shit", offset(), "Shit", 24, loop(false, 0), false, false);
 		addByPrefix("shit-censor", offset(), "Censor Shit", 24, loop(false, 0), false, false);
+
+		addByPrefix("hey", offset(35, 2), "Pico HEY", 24, loop(false, 0), false, false);
+		addByPrefix("cheer", offset(60, 20), "Pico YEAH cheer", 24, loop(false, 0), false, false);
 	}
 
 }

@@ -363,10 +363,10 @@
 						""
 					],
 					[
-						15599,
+						15600,
 						6,
 						0,
-						""
+						"week-2-cheer"
 					],
 					[
 						15600,
@@ -454,7 +454,7 @@
 						18800,
 						2,
 						100,
-						""
+						"week-2-cheer"
 					],
 					[
 						18800,
@@ -1152,13 +1152,13 @@
 					],
 					[
 						41200,
+						6,
 						0,
-						0,
-						""
+						"week-2-cheer"
 					],
 					[
 						41200,
-						6,
+						0,
 						0,
 						""
 					],
@@ -1248,7 +1248,7 @@
 						44400,
 						2,
 						100,
-						""
+						"week-2-cheer"
 					],
 					[
 						44400,
@@ -3087,6 +3087,13 @@
 				],
 				"bpm": 0,
 				"changeBPM": null,
+				"mustHitSection": true
+			},
+			{
+				"lengthInSteps": 16,
+				"sectionNotes": [],
+				"bpm": 0,
+				"changeBPM": false,
 				"mustHitSection": true
 			},
 			{

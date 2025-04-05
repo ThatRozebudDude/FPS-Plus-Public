@@ -5,8 +5,8 @@ class PicoDark extends CharacterInfoBase
 		super();
 
 		info.name = "pico";
-		info.spritePath = "week2/pico_dark";
-		info.frameLoadType = setSparrow();
+		info.spritePaths = ["week2/pico_dark", "week2/pico_dark_yeah"];
+		info.frameLoadType = setMultiSparrow();
 		
 		info.iconName = "pico";
 		info.facesLeft = true;
@@ -35,6 +35,8 @@ class PicoDark extends CharacterInfoBase
 		addByPrefix("burpBig", offset(37, -1), "Big Burp", 24, loop(false, 0), false, false);
 		addByPrefix("shit", offset(), "Shit", 24, loop(false, 0), false, false);
 		addByPrefix("shit-censor", offset(), "Censor Shit", 24, loop(false, 0), false, false);
+
+		addByPrefix("cheer", offset(60, 20), "Pico YEAH cheer", 24, loop(false, 0), false, false);
 
 		info.functions.create = create;
 

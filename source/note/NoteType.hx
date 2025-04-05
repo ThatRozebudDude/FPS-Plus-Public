@@ -11,6 +11,9 @@ class NoteType
 	public static var sustainTypes:Map<String, Array<Dynamic>>;
 	public static var typeSkins:Map<String, String>;
 
+	//TODO: add a way to sort note type classes in chart editor
+	//public static var noteTypeList:Map<String, Array<String>>;
+
 	public static function initTypes():Void{
 		types = new Map<String, Array<Dynamic>>();
 		sustainTypes = new Map<String, Array<Dynamic>>();

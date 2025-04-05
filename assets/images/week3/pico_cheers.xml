@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Funkin Packer v0.1.3 DEV https://neeeoo.github.io/funkin-packer/
+-->
+<TextureAtlas imagePath="pico_cheers.png" width="1510" height="1008" spritePadding="2" borderPadding="1">
+	<SubTexture name="Pico YEAH cheer0000" x="1" y="494" width="514" height="513" rotated="true" frameX="-29" frameY="0" frameWidth="529" frameHeight="515"/>
+	<SubTexture name="Pico YEAH cheer0001" x="1" y="494" width="514" height="513" rotated="true" frameX="-29" frameY="0" frameWidth="529" frameHeight="515"/>
+	<SubTexture name="Pico YEAH cheer0002" x="1" y="1" width="529" height="491" frameX="0" frameY="-16" frameWidth="529" frameHeight="515"/>
+	<SubTexture name="Pico YEAH cheer0003" x="1" y="1" width="529" height="491" frameX="0" frameY="-16" frameWidth="529" frameHeight="515"/>
+	<SubTexture name="Pico YEAH cheer0004" x="532" y="1" width="500" height="527" rotated="true" frameX="-5" frameY="-13" frameWidth="529" frameHeight="515"/>
+	<SubTexture name="Pico YEAH cheer0005" x="532" y="1" width="500" height="527" rotated="true" frameX="-5" frameY="-13" frameWidth="529" frameHeight="515"/>
+	<SubTexture name="Pico YEAH cheer0006" x="532" y="1" width="500" height="527" rotated="true" frameX="-5" frameY="-13" frameWidth="529" frameHeight="515"/>
+	<SubTexture name="Pico YEAH cheer0007" x="532" y="1" width="500" height="527" rotated="true" frameX="-5" frameY="-13" frameWidth="529" frameHeight="515"/>
+	<SubTexture name="Pico YEAH cheer0008" x="532" y="1" width="500" height="527" rotated="true" frameX="-5" frameY="-13" frameWidth="529" frameHeight="515"/>
+	<SubTexture name="Pico HEY!!0000" x="517" y="530" width="512" height="475" frameX="-2" frameY="0" frameWidth="512" frameHeight="475"/>
+	<SubTexture name="Pico HEY!!0001" x="517" y="530" width="512" height="475" frameX="-2" frameY="0" frameWidth="512" frameHeight="475"/>
+	<SubTexture name="Pico HEY!!0002" x="1034" y="500" width="474" height="487" rotated="true" frameX="0" frameY="-3" frameWidth="512" frameHeight="475"/>
+	<SubTexture name="Pico HEY!!0003" x="1034" y="500" width="474" height="487" rotated="true" frameX="0" frameY="-3" frameWidth="512" frameHeight="475"/>
+	<SubTexture name="Pico HEY!!0004" x="1034" y="1" width="475" height="497" rotated="true" frameX="0" frameY="-2" frameWidth="512" frameHeight="475"/>
+	<SubTexture name="Pico HEY!!0005" x="1034" y="1" width="475" height="497" rotated="true" frameX="0" frameY="-2" frameWidth="512" frameHeight="475"/>
+	<SubTexture name="Pico HEY!!0006" x="1034" y="1" width="475" height="497" rotated="true" frameX="0" frameY="-2" frameWidth="512" frameHeight="475"/>
+	<SubTexture name="Pico HEY!!0007" x="1034" y="1" width="475" height="497" rotated="true" frameX="0" frameY="-2" frameWidth="512" frameHeight="475"/>
+</TextureAtlas>
