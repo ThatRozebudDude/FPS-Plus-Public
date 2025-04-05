@@ -20,12 +20,12 @@ class ABotPixel extends FlxTypedSpriteGroup<FlxSprite>
 	public function new(x:Float, y:Float) {
 		super(x, y);
 
-		head = new FlxSprite(0, 0);
+		head = new FlxSprite(-325, 72);
 		head.frames = Paths.getSparrowAtlas("week6/abot/abotHead");
 		head.scale.set(6, 6);
 		head.antialiasing = false;
-		head.animation.addByPrefix('lookleft', 'toleft0', 24, false);
-		head.animation.addByPrefix('lookright', 'toright0', 24, false);
+		head.animation.addByPrefix("lookLeft", "toleft", 24, false);
+		head.animation.addByPrefix("lookRight", "toright", 24, false);
 
 		body = new FlxSprite(0, 0);
 		body.frames = Paths.getSparrowAtlas("week6/abot/aBotPixelBody");
@@ -33,28 +33,28 @@ class ABotPixel extends FlxTypedSpriteGroup<FlxSprite>
 		body.origin.x = Math.round(body.origin.x);
 		body.origin.y = Math.round(body.origin.y);
 		body.antialiasing = false;
-		body.x = this.x;
-		body.y = this.y;
-		body.animation.addByPrefix('bop', 'danceLeft', 24, false);
+		//body.x = this.x;
+		//body.y = this.y;
+		body.animation.addByPrefix("bop", "danceLeft", 24, false);
 
-		speaker = new FlxSprite(0, 0);
+		speaker = new FlxSprite(-78, 9);
 		speaker.frames = Paths.getSparrowAtlas("week6/abot/aBotPixelSpeaker");
 		speaker.scale.set(6, 6);
 		speaker.origin.x = Math.round(speaker.origin.x);
 		speaker.origin.y = Math.round(speaker.origin.y);
 		speaker.antialiasing = false;
-		speaker.x = this.x;
-		speaker.y = this.y;
-		speaker.animation.addByPrefix('bop', 'danceLeft', 24, false);
+		//speaker.x = this.x;
+		//speaker.y = this.y;
+		speaker.animation.addByPrefix("bop", "danceLeft", 24, false);
 
-		back = new FlxSprite(0, 0).loadGraphic(Paths.image("week6/abot/aBotPixelBack"));
+		back = new FlxSprite(-55, 0).loadGraphic(Paths.image("week6/abot/aBotPixelBack"));
 		back.scale.set(6, 6);
 		back.antialiasing = false;
-		back.x = this.x;
-		back.y = this.y;
+		//back.x = this.x;
+		//back.y = this.y;
 
 		visualizer = new ABotVisualizer(null, true);
-		visualizer.setPosition(this.x, this.y);
+		visualizer.setPosition(this.x - 160 - 298, this.y + 13 - 421);
 
 		add(speaker);
 		add(back);
@@ -75,6 +75,7 @@ class ABotPixel extends FlxTypedSpriteGroup<FlxSprite>
 
 	public function bop():Void{
 		speaker.animation.play("bop", true);
+		body.animation.play("bop", true);
 	}
 
 	public function lookLeft():Void{

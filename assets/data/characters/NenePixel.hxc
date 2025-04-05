@@ -1,7 +1,7 @@
-import objects.ABot;
+import objects.ABotPixel;
 import flixel.FlxG;
 
-class NeneChristmas extends CharacterInfoBase
+class NenePixel extends CharacterInfoBase
 {
 
 	public function new(){
@@ -11,24 +11,21 @@ class NeneChristmas extends CharacterInfoBase
 		includeInGfList = true;
 
 		info.name = "nene";
-		info.spritePath = "week5/neneChristmas";
+		info.spritePath = "week6/nenePixel";
 		info.frameLoadType = setSparrow();
-		
+		info.antialiasing = false;
 		info.iconName = "face";
-		info.focusOffset.set();
+		info.focusOffset.set(50, 0);
 
-		addByIndices("danceLeft", offset(0, 0), "Nene Abot Idle xmas", [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], "", 24, loop(false, 0), false, false);
-		addByIndices("danceRight", offset(0, 0), "Nene Abot Idle xmas", [15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], "", 24, loop(false, 0), false, false);
-		addByPrefix("idleLoop", offset(0, 0), "Nene Abot Idle xmas", 24, loop(true, 0), false, false);
-		addByIndices("sad", offset(0, 0), "laughing nene xmas", [0,1,2,3], "", 24, loop(false, 0), false, false);
-		addByPrefix("combo50", offset(-120, 53), "combo celebration 1 nene", 24, loop(false, 0), false, false);
-		addByIndices("combo200", offset(-40, -20), "fawn nene xmas", [0,1,2,3,4,5,6,4,5,6,4,5,6,4,5,6], "", 24, loop(false, 0), false, false);
-		addByPrefix("raiseKnife", offset(0, 51), "knife raise", 24, loop(false, 0), false, false);
-		addByPrefix("idleKnife", offset(-112, 51), "knife high held", 24, loop(false, 0), false, false);
-		addByPrefix("lowerKnife", offset(134, 51), "knife lower", 24, loop(false, 0), false, false);
-		
+		addByIndices("danceLeft", offset(0, 0), "idle", [0,1,2,3,4,5,6,7,8,9,10,11,12,13], "", 24, loop(false, 0), false, false);
+		addByIndices("danceRight", offset(0, 0), "idle", [14,15,16,17,18,19,20,21,22,23,24,25,26,27], "", 24, loop(false, 0), false, false);
+		addByPrefix("raiseKnife", offset(-2, 10), "raise", 24, loop(false, 0), false, false);
+		addByIndices("idleKnife", offset(-21, 10), "blink", [0,1,2,3,4,5], "", 24, loop(false, 0), false, false);
+		addByIndices("idleKnifeEnd", offset(-2, 10), "blink", [6,7], "", 24, loop(false, 0), false, false);
+		addByIndices("lowerKnife", offset(-2, 10), "lower", [0,1,2,3,4,5], "", 24, loop(false, 0), false, false);
+
 		addAnimChain("raiseKnife", "idleKnife");
-		addAnimChain("laughCutscene", "idleLoop");
+		addAnimChain("idleKnife", "idleKnifeEnd");
 
 		info.idleSequence = ["danceLeft", "danceRight"];
 
@@ -39,7 +36,8 @@ class NeneChristmas extends CharacterInfoBase
 		info.functions.countdownBeat = countdownBeat;
 		info.functions.danceOverride = danceOverride;
 
-		addExtraData("reposition", [0, -165]);
+		addExtraData("reposition", [0, -168]);
+		addExtraData("scale", 6);
 	}
 
 	var knifeRaised:Bool = false;
@@ -52,14 +50,14 @@ class NeneChristmas extends CharacterInfoBase
 	var BLINK_MAX:Float = 3;
 
 	function create(character:Character):Void{
-		abot = new ABot(-134.5, 311);
+		abot = new ABotPixel(296, 430);
 		abot.lookLeft();
 		addToCharacter(abot);
 	}
 
 	function update(character:Character, elapsed:Float):Void{
-		
-		if(character.curAnim == "idleKnife"){
+
+		if(ScriptingUtil.startsWith(character.curAnim, "idleKnife")){
 			blinkTime -= elapsed;
 
 			if(blinkTime <= 0){
@@ -91,10 +89,10 @@ class NeneChristmas extends CharacterInfoBase
 				blinkTime = FlxG.random.float(BLINK_MIN, BLINK_MAX);
 				character.playAnim("raiseKnife", true);
 			} 
-			else if(PlayState.instance.health >= 0.4 && knifeRaised && (character.curAnim == "idleKnife" || character.curAnim == "sad")){
+			else if(PlayState.instance.health >= 0.4 && knifeRaised && (ScriptingUtil.startsWith(character.curAnim, "idleKnife") || character.curAnim == "sad")){
 				knifeRaised = false;
 				character.playAnim("lowerKnife", true);
-				character.idleSequenceIndex = 1;
+				character.idleSequenceIndex = 0;
 				character.danceLockout = true;
 			}
 		}

@@ -44,6 +44,7 @@ class Nene extends CharacterInfoBase
 		info.functions.songStart = songStart;
 		info.functions.update = update;
 		info.functions.beat = beat;
+		info.functions.countdownBeat = countdownBeat;
 		info.functions.danceOverride = danceOverride;
 
 		addAction("hairBlow", hairBlow);
@@ -120,6 +121,10 @@ class Nene extends CharacterInfoBase
 			}
 		}
 
+	}
+
+	function countdownBeat(character:Character, beat:Int) {
+		abot.bop();
 	}
 
 	function danceOverride(character:Character):Void{

@@ -828,6 +828,16 @@ class PlayState extends MusicBeatState
 		stage.countdownBeat(-1);
 		for(script in scripts){ script.countdownBeat(-1); }
 
+		if(boyfriend.characterInfo.info.functions.countdownBeat != null){
+			boyfriend.characterInfo.info.functions.countdownBeat(boyfriend, -1);
+		}
+		if(dad.characterInfo.info.functions.countdownBeat != null){
+			dad.characterInfo.info.functions.countdownBeat(dad, -1);
+		}
+		if(gf.characterInfo.info.functions.countdownBeat != null){
+			gf.characterInfo.info.functions.countdownBeat(gf, -1);
+		}
+
 		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 		{
 
@@ -942,6 +952,17 @@ class PlayState extends MusicBeatState
 			if(swagCounter < 4){
 				stage.countdownBeat(swagCounter);
 				for(script in scripts){ script.countdownBeat(swagCounter); }
+
+				if(boyfriend.characterInfo.info.functions.countdownBeat != null){
+					boyfriend.characterInfo.info.functions.countdownBeat(boyfriend, swagCounter);
+				}
+				if(dad.characterInfo.info.functions.countdownBeat != null){
+					dad.characterInfo.info.functions.countdownBeat(dad, swagCounter);
+				}
+				if(gf.characterInfo.info.functions.countdownBeat != null){
+					gf.characterInfo.info.functions.countdownBeat(gf, swagCounter);
+				}
+				
 			}
 
 			swagCounter++;

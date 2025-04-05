@@ -56,6 +56,7 @@ typedef CharacterFunctions = {
 	var danceOverride:(Character)->Void;		//This function replaces the default dance behavior.
 	var beat:(Character, Int)->Void;			//This function is run every beat. Int is curBeat. Called after dance().
 	var step:(Character, Int)->Void;			//This function is run every step. Int is curStep. Called before dance().
+	var countdownBeat:(Character, Int)->Void;	//This function is run every beat during the countdown.
 	var playAnim:(Character, String)->Void;		//This function is run after the Character playAnim() function is complete. String is the name of the animation given to playAnim().
 	var idleEnd:(Character)->Void;				//This function is run after default idleEnd behavior.
 	var idleEndOverride:(Character)->Void;		//This function replaces the default idleEnd behavior.
@@ -131,6 +132,7 @@ class CharacterInfoBase
 			danceOverride: null,
 			beat: null,
 			step: null,
+			countdownBeat: null,
 			playAnim: null,
 			idleEnd: null,
 			idleEndOverride: null,
