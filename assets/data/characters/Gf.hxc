@@ -36,6 +36,9 @@ class Gf extends CharacterInfoBase
 		info.functions.update = update;
 		info.functions.danceOverride = danceOverride;
 		info.functions.playAnim = playAnim;
+
+		addAction("hairBlow", hairBlow);
+		addAction("hairFall", hairFall);
 	}
 
 	function create(character:Character):Void{
@@ -58,6 +61,7 @@ class Gf extends CharacterInfoBase
 		if (character.curAnim == 'hairFall' && character.curAnimFinished()){
 			character.playAnim('danceRight');
 			character.idleSequenceIndex = 0;
+			character.danceLockout = true;
 		}
 	}
 
@@ -70,7 +74,14 @@ class Gf extends CharacterInfoBase
 	function playAnim(character:Character, anim:String):Void{
 		if (anim == 'singLEFT') { character.idleSequenceIndex = 1; }
 		else if (anim == 'singRIGHT') { character.idleSequenceIndex = 0; }
-		//if (anim == 'singUP' || anim == 'singDOWN') { character.idleSequenceIndex++; }
+	}
+
+	function hairBlow(character:Character):Void{
+		character.playAnim("hairBlow");
+	}
+	
+	function hairFall(character:Character):Void{
+		character.playAnim("hairFall");
 	}
 
 }

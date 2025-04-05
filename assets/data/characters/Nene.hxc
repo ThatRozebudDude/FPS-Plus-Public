@@ -11,8 +11,8 @@ class Nene extends CharacterInfoBase
 		includeInGfList = true;
 
 		info.name = "nene";
-		info.spritePath = "weekend1/Nene";
-		info.frameLoadType = setSparrow();
+		info.spritePaths = ["weekend1/Nene", "weekend1/Nene_Hair_Blowing"];
+		info.frameLoadType = setMultiSparrow();
 		
 		info.iconName = "face";
 		info.focusOffset.set(0, 0);
@@ -29,6 +29,12 @@ class Nene extends CharacterInfoBase
 		addByPrefix("idleKnife", offset(-98, 51), "KnifeIdle", 24, loop(false, 0));
 		addByIndices("lowerKnife", offset(135, 51), "KnifeLower", [0,1,2,3,4,5,6,7,8], "", 24, loop(false, 0));
 
+		addByIndices("hairBlowNormal", offset(), "HairBlow0", [0, 1, 2, 3], "", 24, loop(true));
+		addByIndices("hairFallNormal", offset(), "HairBlow0", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], "", 24, loop(false, 0));
+
+		addByIndices("hairBlowKnife", offset(-79, 51), "HairBlowKnife0", [0, 1, 2, 3], "", 24, loop(true));
+		addByIndices("hairFallKnife", offset(-79, 51), "HairBlowKnife0", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, loop(false, 0));
+
 		addAnimChain("raiseKnife", "idleKnife");
 		addAnimChain("laughCutscene", "idleLoop");
 
@@ -39,6 +45,9 @@ class Nene extends CharacterInfoBase
 		info.functions.update = update;
 		info.functions.beat = beat;
 		info.functions.danceOverride = danceOverride;
+
+		addAction("hairBlow", hairBlow);
+		addAction("hairFall", hairFall);
 
 		addExtraData("reposition", [0, -165]);
 	}
@@ -60,6 +69,17 @@ class Nene extends CharacterInfoBase
 
 	function update(character:Character, elapsed:Float):Void{
 		
+		if (ScriptingUtil.startsWith(character.curAnim, "hairFall") && character.curAnimFinished()){
+			if(!knifeRaised){
+				character.playAnim('danceRight');
+				character.idleSequenceIndex = 0;
+				character.danceLockout = true;
+			}
+			else{
+				character.playAnim('idleKnife');
+			}
+		}
+
 		if(character.curAnim == "idleKnife"){
 			blinkTime -= elapsed;
 
@@ -86,7 +106,7 @@ class Nene extends CharacterInfoBase
 		abot.bop();
 
 		//raise knife on low health
-		if(PlayState.SONG.song.toLowerCase() != "blazin"){
+		if(PlayState.SONG.song.toLowerCase() != "blazin" && !ScriptingUtil.startsWith(character.curAnim, "hair")){
 			if(PlayState.instance.health < 0.4 && !knifeRaised){
 				knifeRaised = true;
 				blinkTime = FlxG.random.float(BLINK_MIN, BLINK_MAX);
@@ -103,7 +123,7 @@ class Nene extends CharacterInfoBase
 	}
 
 	function danceOverride(character:Character):Void{
-		if(!knifeRaised){
+		if(!knifeRaised && !ScriptingUtil.startsWith(character.curAnim, "hair")){
 			character.defaultDanceBehavior();
 		}
 	}
@@ -111,6 +131,26 @@ class Nene extends CharacterInfoBase
 	function songStart(character:Character):Void{
 		abot.setAudioSource(FlxG.sound.music);
 		abot.startVisualizer();
+	}
+
+	function hairBlow(character:Character):Void{
+		if((character.curAnim != "raiseKnife" && character.curAnim != "lowerKnife")){
+			if(!knifeRaised){
+				character.playAnim("hairBlowNormal");
+			}
+			else{
+				character.playAnim("hairBlowKnife");
+			}
+		}
+	}
+	
+	function hairFall(character:Character):Void{
+		if(!knifeRaised){
+			character.playAnim("hairFallNormal");
+		}
+		else{
+			character.playAnim("hairFallKnife");
+		}
 	}
 
 }
