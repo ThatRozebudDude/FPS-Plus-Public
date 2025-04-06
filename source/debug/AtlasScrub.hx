@@ -27,7 +27,7 @@ class AtlasScrub extends FlxState
 		gridBG.screenCenter(XY);
 		add(gridBG);
 
-		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("menu/characterSelect/characters/locked/CharacterSelect_Locked"));
+		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("week7/picoAndNene-DEAD"));
 		atlas.addFullAnimation("full", 0, false);
 		atlas.antialiasing = true;
 		atlas.screenCenter();

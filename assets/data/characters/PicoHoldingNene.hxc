@@ -10,7 +10,7 @@ class PicoHoldingNene extends CharacterInfoBase
 		
 		info.iconName = "pico";
 		info.facesLeft = true;
-		info.deathCharacter = "PicoDead";
+		info.deathCharacter = "PicoHoldingNeneDead";
 		info.resultsCharacter = "PicoResults";
 		info.focusOffset.set(100, -100);
 

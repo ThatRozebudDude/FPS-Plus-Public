@@ -1,7 +1,5 @@
 # Base Game 0.6.0 Porting
 
-- Characters
-	- Pico & Nene DEATH
 - Stages
 	- School Evil Erect
 - Misc
