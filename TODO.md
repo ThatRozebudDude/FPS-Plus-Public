@@ -7,7 +7,6 @@
 - Stages
 	- School Evil Erect
 	- Otis logic in Tank Erect
-	- Rimlight Shaders
 - Songs
 	- Stress (Pico)
 - Misc
