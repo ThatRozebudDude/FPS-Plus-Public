@@ -81,6 +81,9 @@ class Character extends FlxSpriteGroup
 	public var onSing:FlxTypedSignal<(String, Bool, Bool, Int) -> Void> = new FlxTypedSignal();
 	public var onDance:FlxTypedSignal<Void -> Void> = new FlxTypedSignal();
 
+	public var onAnimationFrame:FlxTypedSignal<(String, Int, Int) -> Void> = new FlxTypedSignal();
+	public var onAnimationFinish:FlxTypedSignal<(String) -> Void> = new FlxTypedSignal();
+
 	public function new(x:Float, y:Float, ?_character:String = "Bf", ?_isPlayer:Bool = false, ?_isGirlfriend:Bool = false, ?_enableDebug:Bool = false){
 
 		debugMode = _enableDebug;
@@ -194,7 +197,6 @@ class Character extends FlxSpriteGroup
 			}
 
 			onDance.dispatch();
-
 		}
 	}
 
@@ -352,7 +354,8 @@ class Character extends FlxSpriteGroup
 				characterInfo.info.functions.animationEnd(this, name);
 			}
 		}
-		
+
+		onAnimationFinish.dispatch(name);
 	}
 
 	function frameUpdate(name:String, frameNumber:Int, frameIndex:Int){
@@ -363,6 +366,8 @@ class Character extends FlxSpriteGroup
 				characterInfo.info.functions.frame(this, name, frameNumber);
 			}
 		}
+		
+		onAnimationFrame.dispatch(name, frameNumber, frameIndex);
 	}
 
 	function createCharacterFromInfo(name:String):Void{

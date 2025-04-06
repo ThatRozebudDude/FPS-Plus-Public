@@ -1,13 +1,14 @@
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import shaders.AdjustColorShader;
+import shaders.DropShadowShader;
 
 class SchoolErect extends BaseStage
 {
 
-	//Temp until we get the full drop shadow shader
-	var	characterShader:AdjustColorShader = new AdjustColorShader(-66, -10, 24, -23);
+	var bfShader:DropShadowShader;
+	var dadShader:DropShadowShader;
+	var gfShader:DropShadowShader;
 
 	public function new(){
 		super();
@@ -71,8 +72,77 @@ class SchoolErect extends BaseStage
 		bfCameraOffset.set(-48, 0);
 		dadCameraOffset.set(12, 0);
 
-		boyfriend.applyShader(characterShader.shader);
-		dad.applyShader(characterShader.shader);
-		gf.applyShader(characterShader.shader);
+		bfShader = new DropShadowShader();
+		bfShader.setAdjustColor(-66, -10, 24, -23);
+    	bfShader.color = 0xFF52351D;
+		bfShader.angle = 90;
+		bfShader.antialiasAmt = 0;
+		bfShader.distance = 5;
+		bfShader.attachedSprite = boyfriend.getSprite();
+		boyfriend.applyShader(bfShader);
+		boyfriend.onAnimationFrame.add(function(name:String, frame:Int, index:Int){
+			bfShader.updateFrameInfo(boyfriend.getSprite().frame);
+		});
+
+		switch(boyfriend.curCharacter){
+			case "bf-pixel":
+				bfShader.loadAltMask(Paths.image("week6/weeb/erect/masks/bfPixel_mask", true));
+				bfShader.maskThreshold = 1;
+				bfShader.useAltMask = true;
+				
+			case "pico-pixel":
+				bfShader.loadAltMask(Paths.image("week6/weeb/erect/masks/picoPixel_mask", true));
+				bfShader.maskThreshold = 1;
+				bfShader.useAltMask = true;
+		}
+
+		dadShader = new DropShadowShader();
+		dadShader.setAdjustColor(-66, -10, 24, -23);
+    	dadShader.color = 0xFF52351D;
+		dadShader.angle = 90;
+		dadShader.antialiasAmt = 0;
+		dadShader.distance = 5;
+		dadShader.attachedSprite = dad.getSprite();
+		dad.applyShader(dadShader);
+		dad.onAnimationFrame.add(function(name:String, frame:Int, index:Int){
+			dadShader.updateFrameInfo(dad.getSprite().frame);
+		});
+
+		switch(dad.curCharacter){
+			case "senpai":
+				dadShader.loadAltMask(Paths.image("week6/weeb/erect/masks/senpai_mask", true));
+				dadShader.maskThreshold = 1;
+				dadShader.useAltMask = true;
+				
+			case "senpai-angry":
+				dadShader.loadAltMask(Paths.image("week6/weeb/erect/masks/senpai_mask", true));
+				dadShader.maskThreshold = 1;
+				dadShader.useAltMask = true;
+		}
+
+		gfShader = new DropShadowShader();
+		gfShader.setAdjustColor(-42, -10, 5, -25);
+    	gfShader.color = 0xFF52351D;
+		gfShader.angle = 90;
+		gfShader.antialiasAmt = 0;
+		gfShader.distance = 3;
+		gfShader.threshold = 0.3;
+		gfShader.attachedSprite = gf.getSprite();
+		gf.applyShader(gfShader);
+		gf.onAnimationFrame.add(function(name:String, frame:Int, index:Int){
+			gfShader.updateFrameInfo(gf.getSprite().frame);
+		});
+
+		switch(boyfriend.curCharacter){
+			case "gf-pixel":
+				gfShader.loadAltMask(Paths.image("week6/weeb/erect/masks/gfPixel_mask", true));	
+				gfShader.maskThreshold = 1;
+				gfShader.useAltMask = true;
+			
+			case "nene-pixel":
+				gfShader.loadAltMask(Paths.image("week6/weeb/erect/masks/nenePixel_mask", true));	
+				gfShader.maskThreshold = 1;
+				gfShader.useAltMask = true;
+		}
 	}
 }

@@ -3,16 +3,17 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import shaders.AdjustColorShader;
+import shaders.DropShadowShader;
 
 class TankErect extends BaseStage
 {
 
-	//Temp until we get the full drop shadow shader
-	var	characterShader:AdjustColorShader = new AdjustColorShader(-46, -38, -25, -20);
-
 	var sniper:FlxSprite;
 	var guy:FlxSprite;
+
+	var bfShader:DropShadowShader;
+	var dadShader:DropShadowShader;
+	var gfShader:DropShadowShader;
 
 	var sniperSipping:Bool = true;
 
@@ -51,10 +52,6 @@ class TankErect extends BaseStage
 		bfStart.set(1340.5, 885);
 		gfStart.set(800.5, 775);
 
-		boyfriend.applyShader(characterShader.shader);
-		dad.applyShader(characterShader.shader);
-		gf.applyShader(characterShader.shader);
-
 		/*if(gf.curCharacter == "pico-speaker" && PlayState.SONG.song.toLowerCase() == "stress"){
 			TankmenBG.loadMappedAnims("picospeaker", "stress");
 
@@ -73,6 +70,45 @@ class TankErect extends BaseStage
 				}
 			}
 		}*/
+
+		bfShader = new DropShadowShader();
+		bfShader.setAdjustColor(-46, -38, -25, -20);
+    	bfShader.color = 0xFFDFEF3C;
+		bfShader.angle = 90;
+		bfShader.attachedSprite = boyfriend.getSprite();
+		boyfriend.applyShader(bfShader);
+		boyfriend.onAnimationFrame.add(function(name:String, frame:Int, index:Int){
+			bfShader.updateFrameInfo(boyfriend.getSprite().frame);
+		});
+
+		dadShader = new DropShadowShader();
+		dadShader.setAdjustColor(-46, -38, -25, -20);
+    	dadShader.color = 0xFFDFEF3C;
+		dadShader.angle = 135;
+		dadShader.threshold = 0.3;
+		dadShader.attachedSprite = dad.getSprite();
+		dad.applyShader(dadShader);
+		dad.onAnimationFrame.add(function(name:String, frame:Int, index:Int){
+			dadShader.updateFrameInfo(dad.getSprite().frame);
+		});
+
+		gfShader = new DropShadowShader();
+		gfShader.setAdjustColor(-46, -38, -25, -20);
+    	gfShader.color = 0xFFDFEF3C;
+		gfShader.angle = 90;
+		gfShader.attachedSprite = gf.getSprite();
+		gf.applyShader(gfShader);
+		gf.onAnimationFrame.add(function(name:String, frame:Int, index:Int){
+			gfShader.updateFrameInfo(gf.getSprite().frame);
+		});
+
+		switch(gf.curCharacter){
+			case "gf-tankmen":
+				trace("doing");
+				gfShader.loadAltMask(Paths.image("week7/stage/erect/masks/gfTankmen_mask", true));
+				gfShader.maskThreshold = 0.4;
+				gfShader.useAltMask = true;
+		}
 
 	}
 

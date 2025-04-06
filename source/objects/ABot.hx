@@ -7,6 +7,7 @@ import flixel.sound.FlxSound;
 import flixel.FlxG;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.FlxSprite;
+import shaders.*;
 
 class ABot extends FlxTypedSpriteGroup<FlxSprite>
 {
@@ -80,10 +81,22 @@ class ABot extends FlxTypedSpriteGroup<FlxSprite>
 	}
 
 	public function applyShader(shader:FlxShader):Void{
-		bg.shader = shader;	
-		eyeBack.shader = shader;	
-		eyes.shader = shader;	
-		system.shader = shader;	
+		switch(Type.getClass(shader)){
+			case DropShadowShader:
+				var dropShadowShader:DropShadowShader = cast(shader, DropShadowShader);
+				var colorAdjustCopy = new AdjustColorShader(dropShadowShader.baseBrightness, dropShadowShader.baseHue, dropShadowShader.baseContrast, dropShadowShader.baseSaturation).shader;
+
+				bg.shader = colorAdjustCopy;	
+				eyeBack.shader = colorAdjustCopy;	
+				eyes.shader = colorAdjustCopy;	
+				system.shader = colorAdjustCopy;
+
+			default:
+				bg.shader = shader;	
+				eyeBack.shader = shader;	
+				eyes.shader = shader;	
+				system.shader = shader;
+		}
 	}
 
 }
