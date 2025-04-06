@@ -56,6 +56,9 @@ class VideoCutscene extends ScriptedCutscene
 		prevCamFilters = playstate.camGame.filters;
 		playstate.camGame.filters = [];
 
+		black.scale.x = black.scale.x / playstate.defaultCamZoom;
+		black.scale.y = black.scale.y / playstate.defaultCamZoom;
+
 		video.playMP4(Paths.video(path), function(){
 			videoOver = true;
 
