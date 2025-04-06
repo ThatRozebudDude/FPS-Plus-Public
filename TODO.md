@@ -7,10 +7,8 @@
 - Stages
 	- School Evil Erect
 	- Otis logic in Tank Erect
-	- Rimlight Shaders (When Public)
+	- Rimlight Shaders
 - Songs
-	- Senpai (Pico)
-	- Roses (Pico)
 	- Stress (Pico)
 - Misc
 	- Redo Week 6 Dialogue Stuff

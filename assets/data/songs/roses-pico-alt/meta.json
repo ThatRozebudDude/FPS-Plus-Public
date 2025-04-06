@@ -1,0 +1,21 @@
+{
+    "name": "Roses (Pico Mix)",
+    "artist": "Xploshi (ft. Saruky)",
+    "album": "ext2",
+    "difficulties": [
+        2,
+        3,
+        4
+    ],
+    "bfBeats": [
+        1,
+        3
+    ],
+    "dadBeats": [
+        0,
+        2
+    ],
+	"compatableInsts": ["Roses-Alt"],
+	"mixName": "Pico Mix",
+	"pauseMusic": "pause/breakfast-pixel"
+}
