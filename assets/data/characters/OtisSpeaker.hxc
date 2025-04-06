@@ -1,0 +1,93 @@
+import flixel.FlxG;
+import objects.TankmenBG;
+import objects.ABot;
+
+class OtisSpeaker extends CharacterInfoBase
+{
+
+	public function new(){
+		super();
+
+		includeInCharacterList = false;
+		includeInGfList = true;
+
+		info.name = "otis-speaker";
+		info.spritePath = "week7/otisSpeaker";
+		info.frameLoadType = setSparrow();
+		
+		info.iconName = "face";
+		info.focusOffset.set();
+
+		addByPrefix('idle', offset(), "otis idle0", 24, loop(false));
+
+		addByPrefix('shoot1', offset(0, 13), "shoot back0", 24, loop(false));
+		addByPrefix('shoot2', offset(-35, 21), "shoot back low0", 24, loop(false));
+		addByPrefix('shoot3', offset(238, 96), "shoot forward0", 24, loop(false));
+		addByPrefix('shoot4', offset(260, 23), "shoot forward low0", 24, loop(false));
+
+		info.idleSequence = [];
+
+		info.functions.create = create;
+		info.functions.update = update;
+		info.functions.beat = beat;
+		info.functions.countdownBeat = countdownBeat;
+		info.functions.songStart = songStart;
+
+		addExtraData("reposition", [-54.5, -250]);
+	}
+
+	var abot:ABot;
+	var abotLookDir:Bool = false;
+
+	function create(character:Character):Void{
+		abot = new ABot(-80, 330);
+		abot.lookLeft();
+		addToCharacter(abot);
+	}
+
+	function update(character:Character, elpased:Float):Void{
+		if (TankmenBG.animationNotes.length > 0){
+			if (Conductor.songPosition > TankmenBG.animationNotes[0][0]){
+				//trace('played shoot anim' + TankmenBG.animationNotes[0][1]);
+
+				var shootAnim:Int = 1;
+
+				if (TankmenBG.animationNotes[0][1] >= 2)
+					shootAnim = 3;
+
+				shootAnim += FlxG.random.int(0, 1);
+
+				character.playAnim('shoot' + shootAnim, true);
+				TankmenBG.animationNotes.shift();
+			}
+		}
+
+		if(!character.debugMode){
+			if(playstate.camFocus == "dad" && abotLookDir){
+				abotLookDir = !abotLookDir;
+				abot.lookLeft();
+			}
+			else if(playstate.camFocus == "bf" && !abotLookDir){
+				abotLookDir = !abotLookDir;
+				abot.lookRight();
+			}
+		}
+	}
+
+	function beat(character:Character, beat:Int) {
+		abot.bop();
+	}
+
+	function countdownBeat(character:Character, beat:Int) {
+		abot.bop();
+		if(beat % 2 == 0){
+			character.playAnim("idle", true);
+		}
+	}
+
+	function songStart(character:Character):Void{
+		abot.setAudioSource(FlxG.sound.music);
+		abot.startVisualizer();
+	}
+
+}

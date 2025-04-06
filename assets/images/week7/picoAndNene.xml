@@ -7,13 +7,6 @@ Created with Funkin Packer v0.1.3 DEV https://neeeoo.github.io/funkin-packer/
 	<SubTexture name="Pico Down Note0001" x="4324" y="1588" width="579" height="450" frameX="-13" frameY="-4" frameWidth="593" frameHeight="457"/>
 	<SubTexture name="Pico Down Note0002" x="2135" y="1074" width="592" height="457" frameX="0" frameY="0" frameWidth="593" frameHeight="457"/>
 	<SubTexture name="Pico Down Note0003" x="2135" y="1074" width="592" height="457" frameX="0" frameY="0" frameWidth="593" frameHeight="457"/>
-	<SubTexture name="Pico Down Note0004" x="2135" y="1074" width="592" height="457" frameX="0" frameY="0" frameWidth="593" frameHeight="457"/>
-	<SubTexture name="Pico Down Note0005" x="2135" y="1074" width="592" height="457" frameX="0" frameY="0" frameWidth="593" frameHeight="457"/>
-	<SubTexture name="Pico Down Note0006" x="2135" y="1074" width="592" height="457" frameX="0" frameY="0" frameWidth="593" frameHeight="457"/>
-	<SubTexture name="Pico Down Note0007" x="2135" y="1074" width="592" height="457" frameX="0" frameY="0" frameWidth="593" frameHeight="457"/>
-	<SubTexture name="Pico Down Note0008" x="2135" y="1074" width="592" height="457" frameX="0" frameY="0" frameWidth="593" frameHeight="457"/>
-	<SubTexture name="Pico Down Note0009" x="2135" y="1074" width="592" height="457" frameX="0" frameY="0" frameWidth="593" frameHeight="457"/>
-	<SubTexture name="Pico Down Note0010" x="2135" y="1074" width="592" height="457" frameX="0" frameY="0" frameWidth="593" frameHeight="457"/>
 	<SubTexture name="Pico Idle Dance0000" x="2553" y="2100" width="497" height="505" frameX="-18" frameY="-6" frameWidth="528" frameHeight="513"/>
 	<SubTexture name="Pico Idle Dance0001" x="2553" y="2100" width="497" height="505" frameX="-18" frameY="-6" frameWidth="528" frameHeight="513"/>
 	<SubTexture name="Pico Idle Dance0002" x="1551" y="2100" width="502" height="508" frameX="-11" frameY="-4" frameWidth="528" frameHeight="513"/>
@@ -26,42 +19,14 @@ Created with Funkin Packer v0.1.3 DEV https://neeeoo.github.io/funkin-packer/
 	<SubTexture name="Pico Idle Dance0009" x="540" y="1074" width="528" height="513" frameX="0" frameY="0" frameWidth="528" frameHeight="513"/>
 	<SubTexture name="Pico Idle Dance0010" x="1069" y="1074" width="528" height="513" frameX="0" frameY="0" frameWidth="528" frameHeight="513"/>
 	<SubTexture name="Pico Idle Dance0011" x="1069" y="1074" width="528" height="513" frameX="0" frameY="0" frameWidth="528" frameHeight="513"/>
-	<SubTexture name="Pico Idle Dance0012" x="1069" y="1074" width="528" height="513" frameX="0" frameY="0" frameWidth="528" frameHeight="513"/>
-	<SubTexture name="Pico Idle Dance0013" x="1069" y="1074" width="528" height="513" frameX="0" frameY="0" frameWidth="528" frameHeight="513"/>
-	<SubTexture name="Pico Idle Dance0014" x="1069" y="1074" width="528" height="513" frameX="0" frameY="0" frameWidth="528" frameHeight="513"/>
-	<SubTexture name="Pico Idle Dance0015" x="1069" y="1074" width="528" height="513" frameX="0" frameY="0" frameWidth="528" frameHeight="513"/>
-	<SubTexture name="Pico Idle Dance0016" x="1069" y="1074" width="528" height="513" frameX="0" frameY="0" frameWidth="528" frameHeight="513"/>
-	<SubTexture name="Pico Idle Dance0017" x="1069" y="1074" width="528" height="513" frameX="0" frameY="0" frameWidth="528" frameHeight="513"/>
-	<SubTexture name="Pico Idle Dance0018" x="1069" y="1074" width="528" height="513" frameX="0" frameY="0" frameWidth="528" frameHeight="513"/>
-	<SubTexture name="Pico Idle Dance0019" x="1069" y="1074" width="528" height="513" frameX="0" frameY="0" frameWidth="528" frameHeight="513"/>
 	<SubTexture name="Pico NOTE LEFT0000" x="4048" y="2100" width="493" height="496" rotated="true" frameX="-7" frameY="-4" frameWidth="505" frameHeight="497"/>
 	<SubTexture name="Pico NOTE LEFT0001" x="4048" y="2100" width="493" height="496" rotated="true" frameX="-7" frameY="-4" frameWidth="505" frameHeight="497"/>
 	<SubTexture name="Pico NOTE LEFT0002" x="3051" y="2100" width="497" height="505" rotated="true" frameX="0" frameY="0" frameWidth="505" frameHeight="497"/>
 	<SubTexture name="Pico NOTE LEFT0003" x="3051" y="2100" width="497" height="505" rotated="true" frameX="0" frameY="0" frameWidth="505" frameHeight="497"/>
-	<SubTexture name="Pico NOTE LEFT0004" x="3051" y="2100" width="497" height="505" rotated="true" frameX="0" frameY="0" frameWidth="505" frameHeight="497"/>
-	<SubTexture name="Pico NOTE LEFT0005" x="3051" y="2100" width="497" height="505" rotated="true" frameX="0" frameY="0" frameWidth="505" frameHeight="497"/>
-	<SubTexture name="Pico NOTE LEFT0006" x="3051" y="2100" width="497" height="505" rotated="true" frameX="0" frameY="0" frameWidth="505" frameHeight="497"/>
-	<SubTexture name="Pico NOTE LEFT0007" x="3051" y="2100" width="497" height="505" rotated="true" frameX="0" frameY="0" frameWidth="505" frameHeight="497"/>
-	<SubTexture name="Pico NOTE LEFT0008" x="3051" y="2100" width="497" height="505" rotated="true" frameX="0" frameY="0" frameWidth="505" frameHeight="497"/>
-	<SubTexture name="Pico NOTE LEFT0009" x="3051" y="2100" width="497" height="505" rotated="true" frameX="0" frameY="0" frameWidth="505" frameHeight="497"/>
-	<SubTexture name="Pico NOTE LEFT0010" x="3051" y="2100" width="497" height="505" rotated="true" frameX="0" frameY="0" frameWidth="505" frameHeight="497"/>
-	<SubTexture name="Pico NOTE LEFT0011" x="3051" y="2100" width="497" height="505" rotated="true" frameX="0" frameY="0" frameWidth="505" frameHeight="497"/>
-	<SubTexture name="Pico NOTE LEFT0012" x="3051" y="2100" width="497" height="505" rotated="true" frameX="0" frameY="0" frameWidth="505" frameHeight="497"/>
-	<SubTexture name="Pico NOTE LEFT0013" x="3051" y="2100" width="497" height="505" rotated="true" frameX="0" frameY="0" frameWidth="505" frameHeight="497"/>
-	<SubTexture name="Pico NOTE LEFT0014" x="3051" y="2100" width="497" height="505" rotated="true" frameX="0" frameY="0" frameWidth="505" frameHeight="497"/>
-	<SubTexture name="Pico NOTE LEFT0015" x="3051" y="2100" width="497" height="505" rotated="true" frameX="0" frameY="0" frameWidth="505" frameHeight="497"/>
 	<SubTexture name="Pico Note Right0000" x="2175" y="1588" width="543" height="486" frameX="-1" frameY="-6" frameWidth="543" frameHeight="492"/>
 	<SubTexture name="Pico Note Right0001" x="2175" y="1588" width="543" height="486" frameX="-1" frameY="-6" frameWidth="543" frameHeight="492"/>
 	<SubTexture name="Pico Note Right0002" x="3789" y="1588" width="534" height="492" frameX="0" frameY="0" frameWidth="543" frameHeight="492"/>
 	<SubTexture name="Pico Note Right0003" x="3789" y="1588" width="534" height="492" frameX="0" frameY="0" frameWidth="543" frameHeight="492"/>
-	<SubTexture name="Pico Note Right0004" x="3789" y="1588" width="534" height="492" frameX="0" frameY="0" frameWidth="543" frameHeight="492"/>
-	<SubTexture name="Pico Note Right0005" x="3789" y="1588" width="534" height="492" frameX="0" frameY="0" frameWidth="543" frameHeight="492"/>
-	<SubTexture name="Pico Note Right0006" x="3789" y="1588" width="534" height="492" frameX="0" frameY="0" frameWidth="543" frameHeight="492"/>
-	<SubTexture name="Pico Note Right0007" x="3789" y="1588" width="534" height="492" frameX="0" frameY="0" frameWidth="543" frameHeight="492"/>
-	<SubTexture name="Pico Note Right0008" x="3789" y="1588" width="534" height="492" frameX="0" frameY="0" frameWidth="543" frameHeight="492"/>
-	<SubTexture name="Pico Note Right0009" x="3789" y="1588" width="534" height="492" frameX="0" frameY="0" frameWidth="543" frameHeight="492"/>
-	<SubTexture name="Pico Note Right0010" x="3789" y="1588" width="534" height="492" frameX="0" frameY="0" frameWidth="543" frameHeight="492"/>
-	<SubTexture name="Pico Note Right0011" x="3789" y="1588" width="534" height="492" frameX="0" frameY="0" frameWidth="543" frameHeight="492"/>
 	<SubTexture name="note miss down pico nene0000" x="4904" y="1588" width="579" height="450" frameX="-18" frameY="0" frameWidth="606" frameHeight="450"/>
 	<SubTexture name="note miss down pico nene0001" x="4869" y="1074" width="600" height="443" frameX="-1" frameY="-12" frameWidth="606" frameHeight="450"/>
 	<SubTexture name="note miss down pico nene0002" x="4869" y="1074" width="600" height="443" frameX="-1" frameY="-12" frameWidth="606" frameHeight="450"/>

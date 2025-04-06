@@ -4,9 +4,14 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import shaders.DropShadowShader;
+import shaders.AdjustColorShader;
+import objects.TankmenBG;
 
 class TankErect extends BaseStage
 {
+
+	var tankmanRun:FlxGroup;
+	var tankmanRunShader:AdjustColorShader = new AdjustColorShader(-46, -38, -25, -20);
 
 	var sniper:FlxSprite;
 	var guy:FlxSprite;
@@ -48,16 +53,19 @@ class TankErect extends BaseStage
 		guy.animation.play("idle");
 		addToBackground(guy);
 
+		tankmanRun = ScriptingUtil.makeFlxSpriteGroup();
+		addToBackground(tankmanRun);
+
 		dadStart.set(140, 900);
 		bfStart.set(1340.5, 885);
 		gfStart.set(800.5, 775);
 
-		/*if(gf.curCharacter == "pico-speaker" && PlayState.SONG.song.toLowerCase() == "stress"){
-			TankmenBG.loadMappedAnims("picospeaker", "stress");
+		if(gf.curCharacter == "otis-speaker" && PlayState.SONG.song.toLowerCase() == "stress-pico"){
+			TankmenBG.loadMappedAnims("picospeaker", "stress-pico");
 
-			var tempTankman:TankmenBG = new TankmenBG(20, 500, true);
+			var tempTankman:TankmenBG = new TankmenBG(20, 2000, true);
 			tempTankman.strumTime = 10;
-			tempTankman.resetShit(20, 900, true);
+			tempTankman.resetShit(20, 2000, true);
 			tankmanRun.add(tempTankman);
 
 			for (i in 0...TankmenBG.animationNotes.length){
@@ -65,11 +73,12 @@ class TankErect extends BaseStage
 					var tankman:TankmenBG = tankmanRun.recycle(TankmenBG);
 					// new TankmenBG(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
 					tankman.strumTime = TankmenBG.animationNotes[i][0];
-					tankman.resetShit(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
+					tankman.resetShit(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] >= 2);
+					tankman.shader = tankmanRunShader.shader;
 					tankmanRun.add(tankman);
 				}
 			}
-		}*/
+		}
 
 		bfShader = new DropShadowShader();
 		bfShader.setAdjustColor(-46, -38, -25, -20);
@@ -104,7 +113,6 @@ class TankErect extends BaseStage
 
 		switch(gf.curCharacter){
 			case "gf-tankmen":
-				trace("doing");
 				gfShader.loadAltMask(Paths.image("week7/stage/erect/masks/gfTankmen_mask", true));
 				gfShader.maskThreshold = 0.4;
 				gfShader.useAltMask = true;

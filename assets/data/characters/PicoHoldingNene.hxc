@@ -1,0 +1,33 @@
+class PicoHoldingNene extends CharacterInfoBase
+{
+
+	public function new(){
+		super();
+
+		info.name = "pico-holding-nene";
+		info.spritePath = "week7/picoAndNene";
+		info.frameLoadType = setSparrow();
+		
+		info.iconName = "pico";
+		info.facesLeft = true;
+		info.deathCharacter = "PicoDead";
+		info.resultsCharacter = "PicoResults";
+		info.focusOffset.set(100, -100);
+
+		addByPrefix("idle", offset(0, 0), "Pico Idle Dance", 24, loop(false, 0), false, false);
+
+		addByPrefix("singUP", offset(56, 3), "pico Up note0", 24, loop(false, 0), false, false);
+		addByPrefix("singDOWN", offset(93, -70), "Pico Down Note0", 24, loop(false, 0), false, false);
+		addByPrefix("singLEFT", offset(27, -16), "Pico NOTE LEFT0", 24, loop(false, 0), false, false);
+		addByPrefix("singRIGHT", offset(-48, -20), "Pico Note Right0", 24, loop(false, 0), false, false);
+
+		addByPrefix("singRIGHTmiss", offset(-45, -19), "note miss right pico nene0", 24, loop(true, -4), false, false);
+		addByPrefix("singLEFTmiss", offset(28, -11), "note miss left pico nene0", 24, loop(true, -4), false, false);
+		addByPrefix("singUPmiss", offset(60, 2), "note miss up piconene0", 24, loop(true, -4), false, false);
+		addByPrefix("singDOWNmiss", offset(95, -74), "note miss down pico nene0", 24, loop(true, -4), false, false);
+
+		addByPrefix("knifeToss", offset(14, 26), "pico nene knife toss0", 24, loop(true), false, false);
+		addByPrefix("laughEnd", offset(5, 7), "pico nene laughing full0", 24, loop(true), false, false);
+	}
+
+}

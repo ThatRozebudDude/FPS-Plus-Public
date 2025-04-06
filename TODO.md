@@ -1,17 +1,13 @@
 # Base Game 0.6.0 Porting
 
 - Characters
-	- Pico & Nene
-	- Tankman Bleeding Knife Ouch
-	- Otis
+	- Pico & Nene DEATH
 - Stages
 	- School Evil Erect
-	- Otis logic in Tank Erect
-- Songs
-	- Stress (Pico)
+	- Otis logic in Tank Erect (Finish)
 - Misc
 	- Redo Week 6 Dialogue Stuff
-	- Cutscene Stuff for Stress
+	- Stress Pico End Cutscene
 
 # 6.3.0 *(Planned Features)*
 

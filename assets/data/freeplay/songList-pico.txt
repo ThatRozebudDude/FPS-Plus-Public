@@ -22,6 +22,7 @@ song | Roses-Pico | senpai | [ALL, Week 7]
 
 song | Ugh-Pico | tankman | [ALL, Week 7]
 song | Guns-Pico | tankman | [ALL, Week 7]
+song | Stress-Pico | tankman | [ALL, Week 7]
 
 song | Darnell | darnell | [ALL, Weekend 1]
 song | Lit-Up | darnell | [ALL, Weekend 1]
