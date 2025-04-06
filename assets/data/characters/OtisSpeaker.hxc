@@ -49,15 +49,7 @@ class OtisSpeaker extends CharacterInfoBase
 		if (TankmenBG.animationNotes.length > 0){
 			if (Conductor.songPosition > TankmenBG.animationNotes[0][0]){
 				//trace('played shoot anim' + TankmenBG.animationNotes[0][1]);
-
-				var shootAnim:Int = 1;
-
-				if (TankmenBG.animationNotes[0][1] >= 2)
-					shootAnim = 3;
-
-				shootAnim += FlxG.random.int(0, 1);
-
-				character.playAnim('shoot' + shootAnim, true);
+				character.playAnim('shoot' + (TankmenBG.animationNotes[0][1] + 1), true);
 				TankmenBG.animationNotes.shift();
 			}
 		}

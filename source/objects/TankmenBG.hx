@@ -5,13 +5,15 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import haxe.display.Display.Package;
 
+using StringTools;
+
 class TankmenBG extends FlxSprite
 {
 	public static var animationNotes:Array<Dynamic> = [];
 
 	public var strumTime:Float = 0;
 	public var goingRight:Bool = false;
-	public var tankSpeed:Float = 0.7;
+	public var tankSpeed:Float = 0.875;
 
 	public var endingOffset:Float;
 
@@ -24,15 +26,16 @@ class TankmenBG extends FlxSprite
 		frames = Paths.getSparrowAtlas('week7/stage/tankmanKilled1');
 		antialiasing = true;
 		animation.addByPrefix('run', 'tankman running', 24, true);
-		animation.addByPrefix('shot', 'John Shot ' + FlxG.random.int(1, 2), 24, false);
+		animation.addByPrefix('shot1', 'John Shot 1', 24, false);
+		animation.addByPrefix('shot2', 'John Shot 2', 24, false);
 
 		animation.play('run');
 		animation.curAnim.curFrame = FlxG.random.int(0, animation.curAnim.numFrames - 1);
 
 		updateHitbox();
 
-		setGraphicSize(Std.int(width * 0.8));
-		updateHitbox();
+		//setGraphicSize(Std.int(width * 0.8));
+		//updateHitbox();
 	}
 
 	public function resetShit(x:Float, y:Float, isGoingRight:Bool)
@@ -40,7 +43,7 @@ class TankmenBG extends FlxSprite
 		setPosition(x, y);
 		goingRight = isGoingRight;
 		endingOffset = FlxG.random.float(50, 200);
-		tankSpeed = FlxG.random.float(0.6, 1);
+		tankSpeed = (FlxG.random.float(0.6, 1) / 0.8);
 
 		if (goingRight)
 			flipX = true;
@@ -50,7 +53,7 @@ class TankmenBG extends FlxSprite
 	{
 		super.update(elapsed);
 
-		if (x >= FlxG.width * 1.2 || x <= FlxG.width * -0.5)
+		if (x >= FlxG.width * 2 || x <= FlxG.width * -2)
 			visible = false;
 		else
 			visible = true;
@@ -63,28 +66,25 @@ class TankmenBG extends FlxSprite
 			{
 				endDirection = (FlxG.width * 0.02) - endingOffset;
 
-				x = (endDirection + (Conductor.songPosition - strumTime) * tankSpeed);
+				x = (endDirection + (Conductor.songPosition - strumTime) * (tankSpeed * scale.x));
 			}
 			else
 			{
-				x = (endDirection - (Conductor.songPosition - strumTime) * tankSpeed);
+				x = (endDirection - (Conductor.songPosition - strumTime) * (tankSpeed * scale.x));
 			}
 		}
 
-		if (Conductor.songPosition > strumTime)
-		{
+		if (Conductor.songPosition > strumTime && !animation.curAnim.name.startsWith("shot")){
 			// kill();
-			animation.play('shot');
+			animation.play("shot" + FlxG.random.int(1, 2));
 
-			if (goingRight)
-			{
-				offset.y = 200;
+			offset.y = 150;
+			if (goingRight){
 				offset.x = 300;
 			}
 		}
 
-		if (animation.curAnim.name == 'shot' && animation.curAnim.curFrame >= animation.curAnim.frames.length - 1)
-		{
+		if (animation.curAnim.name.startsWith("shot") && animation.curAnim.curFrame >= animation.curAnim.frames.length - 1){
 			kill();
 		}
 	}

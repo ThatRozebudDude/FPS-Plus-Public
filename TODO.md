@@ -4,7 +4,6 @@
 	- Pico & Nene DEATH
 - Stages
 	- School Evil Erect
-	- Otis logic in Tank Erect (Finish)
 - Misc
 	- Redo Week 6 Dialogue Stuff
 	- Stress Pico End Cutscene

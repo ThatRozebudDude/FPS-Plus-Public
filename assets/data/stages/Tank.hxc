@@ -118,6 +118,8 @@ class Tank extends BaseStage
 					// new TankmenBG(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
 					tankman.strumTime = TankmenBG.animationNotes[i][0];
 					tankman.resetShit(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
+					tankman.scale.set(0.8, 0.8);
+					tankman.updateHitbox();
 					tankmanRun.add(tankman);
 				}
 			}
