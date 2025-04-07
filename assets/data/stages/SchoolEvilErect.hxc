@@ -1,0 +1,46 @@
+import flixel.FlxSprite;
+import flixel.math.FlxPoint;
+import flixel.FlxObject;
+import objects.DeltaTrail;
+import shaders.WiggleEffect;
+import shaders.WiggleEffectType;
+
+class SchoolEvilErect extends BaseStage
+{
+
+	var wiggle:WiggleEffect;
+
+	public function new(){
+		super();
+		
+		name = "schoolEvil";
+		startingZoom = 1;
+		uiType = "Pixel";
+
+		wiggle = new WiggleEffect();
+		wiggle.effectType = WiggleEffectType.DREAMY;
+		wiggle.waveSpeed = 2;
+		wiggle.waveFrequency = 4;
+		wiggle.waveAmplitude = 0.017;
+
+		var bg:FlxSprite = new FlxSprite(-200, 18).loadGraphic(Paths.image("week6/weeb/erect/evilSchoolBG"));
+		bg.animation.play('idle');
+		bg.scale.set(6, 6);
+		bg.updateHitbox();
+		bg.shader = wiggle.shader;
+		addToBackground(bg);
+
+		var evilTrail = new DeltaTrail(dad.getSprite(), null, 7, 3 / 60, 0.4);
+		addToMiddle(evilTrail);
+
+		dadStart.set(400, 924);
+		bfStart.set(1139, 908);
+		gfStart.set(840, 766);
+
+		bfCameraOffset.set(-96, 24);
+	}
+
+	function update(elapsed:Float){
+		wiggle.update(elapsed);
+	}
+}

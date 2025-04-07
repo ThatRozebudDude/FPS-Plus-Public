@@ -14,25 +14,22 @@ class SchoolEvil extends BaseStage
 		uiType = "Pixel";
 
 		var posX = 400;
-		var posY = 200;
+		var posY = 222;
 
 		var bg:FlxSprite = new FlxSprite(posX, posY);
 		bg.frames = Paths.getSparrowAtlas("week6/weeb/animatedEvilSchool");
 		bg.animation.addByPrefix('idle', 'background 2', 24);
 		bg.animation.play('idle');
-		bg.scrollFactor.set(0.8, 0.9);
+		bg.scrollFactor.set(1, 1);
 		bg.scale.set(6, 6);
 		addToBackground(bg);
 
-		// trailArea.scrollFactor.set();
-
-		var evilTrail = new DeltaTrail(dad.getSprite(), null, 10, 3 / 60, 0.4);
-		//var evilTrail = new DeltaTrail(dad, null, 10, 24 / 60, 0.4, 0.005); //This is basically the default look of Spirit in base game.
+		var evilTrail = new DeltaTrail(dad.getSprite(), null, 7, 3 / 60, 0.4);
 		addToMiddle(evilTrail);
 
-		dadStart.set(230, 924);
-		bfStart.set(960, 870);
-		gfStart.set(640, 801);
+		dadStart.set(300, 924);
+		bfStart.set(1039, 908);
+		gfStart.set(740, 766);
 
 		bfCameraOffset.set(-48, 0);
 		gfCameraOffset.set(0, -16);

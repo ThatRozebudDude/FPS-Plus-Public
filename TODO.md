@@ -1,7 +1,7 @@
 # Base Game 0.6.0 Porting
 
 - Stages
-	- School Evil Erect
+	- Fix up Week 6 Stages
 - Misc
 	- Redo Week 6 Dialogue Stuff
 	- Stress Pico End Cutscene
