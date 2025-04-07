@@ -3,7 +3,6 @@
 - Stages
 	- Fix up Week 6 Stages
 - Misc
-	- i need to added roses dialogue i forgot oops
 	- Add shader to Stress Pico cutscene
 
 # 6.3.0 *(Planned Features)*

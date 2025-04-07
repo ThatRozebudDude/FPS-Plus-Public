@@ -52,9 +52,7 @@ class SchoolIntro extends ScriptedCutscene
 
 		dialogueBox = new DialogueBox(dialogue, dialogueBgColor);
 		dialogueBox.onDialogueEnd.add(function(d){
-			new FlxTimer().start(1, function(tmr:FlxTimer){
-				next();
-			});
+			next();
 		});
 		dialogueBox.cameras = [playstate.camHUD];
 		addGeneric(dialogueBox);
@@ -111,6 +109,9 @@ class SchoolIntro extends ScriptedCutscene
 							FlxG.sound.music.fadeIn(1, 0, 0.8);
 					}
 				});
+			case "roses-pico":
+				addGeneric(black);
+				FlxG.sound.play(Paths.sound('week6/ANGRY_TEXT_BOX'));
 		}
 	}
 
