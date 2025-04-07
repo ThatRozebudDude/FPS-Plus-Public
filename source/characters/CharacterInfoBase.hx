@@ -143,6 +143,7 @@ class CharacterInfoBase
 			deathCreate: null,
 			deathAdd: null,
 			songStart: null,
+			songEnd: null,
 			noteHit: null,
 			noteMiss: null,
 		},
