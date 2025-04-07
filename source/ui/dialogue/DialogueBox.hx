@@ -8,6 +8,8 @@ import flixel.util.FlxSignal;
 import flixel.math.FlxPoint;
 import flixel.FlxG;
 import haxe.Json;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
 
 using StringTools;
 
@@ -46,6 +48,7 @@ typedef DialogueConversation = {
 	var portraits:Array<String>;
 	var text:String;
 	var box:String;
+	var ?skipAnimation:Bool;
 }
 
 class DialogueBox extends FlxSpriteGroup
@@ -53,11 +56,13 @@ class DialogueBox extends FlxSpriteGroup
 	public var skin:DialogueSkin;
 	public var data:DialogueData;
 
-	var finishedDialogue:Bool = false;
+	var finishedDialogue:Bool = true;
 	var curLine:Int = 0;
 
 	var curDisplayedPortraits:Array<String> = [];
 	var dialoguePortraits:Map<String, DialoguePortrait> = new Map();
+
+	var bg:FlxSprite;
 
 	var box:FlxSprite;
 	var offsetMap:Map<String, FlxPoint> = [];
@@ -87,6 +92,11 @@ class DialogueBox extends FlxSpriteGroup
 			skin = Json.parse(Utils.getText(Paths.json("Default", "data/uiSkins/dialogueBox")));
 		}
 
+		bg = new FlxSprite(-200, -200).makeGraphic(Std.int(FlxG.width * 1.3), Std.int(FlxG.height * 1.3), 0xFFB3DFd8);
+		bg.scrollFactor.set();
+		bg.alpha = 0;
+		add(bg);
+
 		// Add characters
 		for (conv in data.dialogue){
 			for (p in conv.portraits){
@@ -96,7 +106,7 @@ class DialogueBox extends FlxSpriteGroup
 					dialoguePortraits.set(p, portrait);
 					add(portrait);
 
-					portrait.hide();
+					hidePortrait(portrait);
 					onPortraitHide.dispatch(p);
 				}
 			}
@@ -130,12 +140,27 @@ class DialogueBox extends FlxSpriteGroup
 		//dialogueText.showCursor = true;
 	}
 
+	// made function dynamic to make able to override functions like dialogueBox.showPortrait = function(s)
+	public dynamic function showPortrait(portrait:DialoguePortrait){
+		portrait.visible = true;
+
+		portrait.animation.play("appear");
+		portrait.animation.onFinish.addOnce(function(anim){
+			portrait.animation.play("idle");
+		});
+	}
+
+	public dynamic function hidePortrait(portrait:DialoguePortrait){
+		portrait.visible = false;
+	}
+
 	public function start()
 	{
 		curLine = 0;
 		finishedDialogue = false;
 		curDisplayedPortraits = [];
 
+		FlxTween.tween(bg, {alpha: 0.7}, 2, {ease: FlxEase.quintOut});
 		add(box);
 		add(dialogueText);
 
@@ -158,13 +183,16 @@ class DialogueBox extends FlxSpriteGroup
 			});
 
 			for (portrait in curDisplayedPortraits){
-				dialoguePortraits.get(portrait).hide();
+				if (!data.dialogue[curLine].portraits.contains(portrait)){
+					hidePortrait(dialoguePortraits.get(portrait));
+				}
 			}
 			
-			for (portrait in data.dialogue[curLine].portraits)
-			{
-				dialoguePortraits.get(portrait).appear();
-				onPortraitAppear.dispatch(portrait);
+			for (portrait in data.dialogue[curLine].portraits){
+				if (!curDisplayedPortraits.contains(portrait)){
+					showPortrait(dialoguePortraits.get(portrait));
+					onPortraitAppear.dispatch(portrait);
+				}
 			}
 
 			curDisplayedPortraits = data.dialogue[curLine].portraits;
@@ -181,10 +209,11 @@ class DialogueBox extends FlxSpriteGroup
 	{
 		remove(box);
 		remove(dialogueText);
+		FlxTween.tween(bg, {alpha: 0}, 1, {ease: FlxEase.quintIn});
 
-		for (key => character in dialoguePortraits)
+		for (key => portrait in dialoguePortraits)
 		{
-			character.hide();
+			hidePortrait(portrait);
 			onPortraitHide.dispatch(key);
 		}
 

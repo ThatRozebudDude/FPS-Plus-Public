@@ -1,0 +1,30 @@
+import ui.dialogue.DialogueBox;
+import flixel.util.FlxTimer;
+import haxe.Json;
+
+class DialogueCutscene extends ScriptedCutscene
+{
+	public function new(args:Array<Dynamic>){
+		super(args);
+		
+		addEvent(0, setup);
+	}
+
+	function setup() {
+		var dialogue = Json.parse(Utils.getText(Paths.json("dialogue", "data/songs/" + PlayState.SONG.song.toLowerCase())));
+
+		var dialogueBox = new DialogueBox(dialogue);
+		dialogueBox.onDialogueEnd.add(function(d){
+			new FlxTimer().start(1, function(tmr:FlxTimer){
+				playstate.startCountdown();
+			});
+		});
+		dialogueBox.cameras = [playstate.camHUD];
+		addGeneric(dialogueBox);
+
+		new FlxTimer().start(0.5, function(tmr:FlxTimer){
+			dialogueBox.start();
+		});
+	}
+
+}

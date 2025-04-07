@@ -1,0 +1,35 @@
+{
+    "path": "ui/dialogue/dialogueBox-evil",
+    "text": {
+        "position": {"x": 220, "y": 480},
+        "font": "pixel.otf",
+        "size": 32,
+        "color": "0xFFFFFFFF"
+    },
+    "sounds": {
+        "open": null,
+        "close": "week6/clickText",
+        "speak": "week6/pixelText"
+    },
+    "antialiasing": false,
+    "scale": 5.4,
+    "position": {"x": 520, "y": 350},
+    "animations": [
+        {
+            "name": "normalOpen",
+            "prefix": "Spirit Textbox spawn",
+            "offset": {"x": 0, "y": 0},
+            "fps": 24,
+            "flipX": false,
+            "loop": false
+        },
+        {
+            "name": "normal",
+            "prefix": "Spirit Text Box Sentence Complete0000",
+            "offset": {"x": 0, "y": 0},
+            "fps": 24,
+            "flipX": false,
+            "loop": true
+        }
+    ]
+}

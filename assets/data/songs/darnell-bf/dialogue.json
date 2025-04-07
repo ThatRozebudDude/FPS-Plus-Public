@@ -1,0 +1,50 @@
+{
+    "dialogue": [
+        {
+            "portraits": ["portrait-pico"],
+            "text": "hi i am pico test",
+            "box": "normal"
+        },
+        {
+            "portraits": ["portrait-boyfriend"],
+            "text": "hi also im bf test"
+        },
+        {
+            "portraits": ["portrait-senpai", "portrait-nene"],
+            "text": "hey hey guys we are senpai and nene whats up!"
+        },
+        {
+            "portraits": ["portrait-pico-peeved"],
+            "text": "no one asked you two!"
+        },
+        {
+            "portraits": ["spiritFaceForward"],
+            "text": "stop pico! is one of their is your girlfriend. right?"
+        },
+        {
+            "portraits": ["portrait-pico-peeved"],
+            "text": "SHE IS NOT MY GIRLFRIEND FUCK UM CAN WE GET BACK TOGETHER BF"
+        },
+        {
+            "portraits": ["portrait-boyfriend"],
+            "text": "nope"
+        },
+        {
+            "portraits": ["portrait-senpai-bwuh"],
+            "text": "so... um what is this??"
+        },
+        {
+            "portraits": ["portrait-nene-peeved"],
+            "text": "i think this is dialogue test"
+        },
+        {
+            "portraits": ["portrait-nene"],
+            "text": "not so (easy sonic world)."
+        },
+        {
+            "portraits": ["portrait-senpai-angry"],
+            "text": "ok this is end of dialogue! lets go!!"
+        }
+    ],
+    "skin": "Pixel"
+}

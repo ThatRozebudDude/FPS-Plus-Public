@@ -9,8 +9,8 @@ class DialoguePortrait extends FlxSprite
 		super();
 		
 		frames = Paths.getSparrowAtlas("ui/dialogue/portraits/" + id);
-		animation.addByPrefix("appear", "portraitEnter", 12, false);
-		animation.addByPrefix("idle", "portraitTalk", 12, true);
+		animation.addByPrefix("appear", "portraitEnter", 24, false);
+		animation.addByPrefix("idle", "portraitTalk", 24, true);
 
 		//Optional json
 		if (Utils.exists(Paths.json(id, "images/ui/dialogue/portraits"))){
@@ -29,6 +29,7 @@ class DialoguePortrait extends FlxSprite
 
 		// nvm
 		screenCenter(Y);
+		//this.alpha = 0;
 	}
 
 	public function appear(){
