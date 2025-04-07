@@ -4,8 +4,8 @@
         "position": {"x": 220, "y": 480},
         "font": "pixel.otf",
         "size": 32,
-        "color": "0xff3f2021",
-        "shadow": "0xffd89494"
+        "color": "0x3F2021",
+        "shadow": "0xD89494"
     },
     "sounds": {
         "open": null,

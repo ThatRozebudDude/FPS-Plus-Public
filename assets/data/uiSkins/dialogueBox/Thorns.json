@@ -4,7 +4,7 @@
         "position": {"x": 220, "y": 480},
         "font": "pixel.otf",
         "size": 32,
-        "color": "0xFFFFFFFF"
+        "color": "0xFFFFFF"
     },
     "sounds": {
         "open": null,
@@ -17,7 +17,7 @@
     "animations": [
         {
             "name": "normalOpen",
-            "prefix": "Spirit Textbox spawn",
+            "prefix": "opening",
             "offset": {"x": 0, "y": 0},
             "fps": 24,
             "flipX": false,
@@ -25,7 +25,7 @@
         },
         {
             "name": "normal",
-            "prefix": "Spirit Text Box Sentence Complete0000",
+            "prefix": "box",
             "offset": {"x": 0, "y": 0},
             "fps": 24,
             "flipX": false,
