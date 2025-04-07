@@ -56,8 +56,8 @@ class DialogueBox extends FlxSpriteGroup
 	public var skin:DialogueSkin;
 	public var data:DialogueData;
 
-	var finishedDialogue:Bool = true;
-	var curLine:Int = 0;
+	public var finishedDialogue:Bool = true;
+	public var curLine:Int = 0;
 
 	var curDisplayedPortraits:Array<String> = [];
 	var dialoguePortraits:Map<String, DialoguePortrait> = new Map();
@@ -74,7 +74,7 @@ class DialogueBox extends FlxSpriteGroup
 	public var onPortraitAppear:FlxTypedSignal<(String) -> Void> = new FlxTypedSignal();
 	public var onPortraitHide:FlxTypedSignal<(String) -> Void> = new FlxTypedSignal();
 
-	public var onDialogueSkip:FlxTypedSignal<(DialogueBox) -> Void> = new FlxTypedSignal();
+	public var onDialogueChange:FlxTypedSignal<(DialogueBox) -> Void> = new FlxTypedSignal();
 	public var onDialogueEnd:FlxTypedSignal<(DialogueBox) -> Void> = new FlxTypedSignal();
 
 	override public function new(data:DialogueData)
@@ -203,12 +203,15 @@ class DialogueBox extends FlxSpriteGroup
 		dialogueText.completeCallback = function(){
 			finishedLine = true;
 		};
+
+		onDialogueChange.dispatch(this);
 	}
 
 	public function finishDialogue()
 	{
 		remove(box);
 		remove(dialogueText);
+		FlxTween.completeTweensOf(bg);
 		FlxTween.tween(bg, {alpha: 0}, 1, {ease: FlxEase.quintIn});
 
 		for (key => portrait in dialoguePortraits)
@@ -242,7 +245,6 @@ class DialogueBox extends FlxSpriteGroup
 			{
 				dialogueText.skip();
 				finishedLine = true;
-				onDialogueSkip.dispatch(this);
 			}
 			//Go to next Dialogue
 			if (finishedLine)

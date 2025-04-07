@@ -1,14 +1,30 @@
 {
     "dialogue": [
         {
-            "portraits": ["portrait-pico"],
-            "text": "hi fucker i hate you die",
+            "portraits": ["spiritFaceForward"],
+            "text": "Direct contact with real humans, after being trapped in here for so long...",
             "box": "normal"
         },
         {
-            "portraits": ["portrait-boyfriend"],
-            "text": "k i don't care lmfao"
+            "portraits": ["spiritFaceForward"],
+            "text": " and HER of all people.",
+            "box": "normal"
+        },
+        {
+            "portraits": ["spiritFaceForward"],
+            "text": "I'll make her father pay for what he's done to me and all the others...",
+            "box": "normal"
+        },
+        {
+            "portraits": ["spiritFaceForward"],
+            "text": "I'll beat you and make you take my place.",
+            "box": "normal"
+        },
+        {
+            "portraits": ["spiritFaceForward"],
+            "text": "You don't mind your bodies being borrowed right?\nIt's only fair...",
+            "box": "normal"
         }
     ],
-    "skin": "Thorns"
+    "skin": "Pixel"
 }

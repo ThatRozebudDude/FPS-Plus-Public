@@ -2,7 +2,7 @@
   "startCutscene": {
     "name": "SchoolIntro",
     "storyOnly": true,
-    "playOnce": true
+    "playOnce": false
   },
   "endCutscene": "null"
 }

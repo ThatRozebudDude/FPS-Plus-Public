@@ -1,13 +1,19 @@
 {
     "dialogue": [
         {
-            "portraits": ["portrait-pico"],
-            "text": "hi fucker i hate you die",
+            "portraits": ["spiritFaceForward"],
+            "text": "Ah, a new fair maiden has come in search of true love!",
+            "box": "normal"
+        },
+        {
+            "portraits": ["portrait-senpai"],
+            "text": "A serenade between gentlemen shall decide where her beautiful heart shall reside.",
             "box": "normal"
         },
         {
             "portraits": ["portrait-boyfriend"],
-            "text": "k i don't care lmfao"
+            "text": "Beep bo bop",
+            "box": "normal"
         }
     ],
     "skin": "Pixel"

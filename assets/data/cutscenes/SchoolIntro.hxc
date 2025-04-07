@@ -88,6 +88,20 @@ class SchoolIntro extends ScriptedCutscene
 				addGeneric(red);
 				FlxG.sound.playMusic(Paths.music("week6/LunchboxScary"), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
+
+			case "senpai-pico":
+				addGeneric(black);
+				FlxG.sound.playMusic(Paths.music("week6/Lunchbox"), 0);
+				FlxG.sound.music.fadeIn(1, 0, 0.8);
+				dialogueBox.onDialogueChange.add(function(box)
+				{
+					switch(box.curLine){
+						case 1:
+							FlxG.sound.music.fadeOut(0.2, 0);
+						case 7:
+							FlxG.sound.music.fadeIn(1, 0, 0.8);
+					}
+				});
 		}
 	}
 

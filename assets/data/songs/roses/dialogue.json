@@ -1,13 +1,19 @@
 {
     "dialogue": [
         {
-            "portraits": ["portrait-pico"],
-            "text": "hi fucker i hate you die",
+            "portraits": ["portrait-senpai-angry"],
+            "text": "Not bad for an ugly worm.",
+            "box": "normal"
+        },
+        {
+            "portraits": ["portrait-senpai-angry"],
+            "text": "But this time I'll rip your nuts off right after your girlfriend finishes gargling mine.",
             "box": "normal"
         },
         {
             "portraits": ["portrait-boyfriend"],
-            "text": "k i don't care lmfao"
+            "text": "Bop beep be be skdoo bep",
+            "box": "normal"
         }
     ],
     "skin": "Pixel"

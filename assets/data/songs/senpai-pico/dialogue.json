@@ -1,0 +1,83 @@
+{
+    "dialogue": [
+        {
+            "portraits": ["portrait-senpai"],
+            "text": "Ah, another lovely fair maiden has graced m-",
+            "box": "normal"
+        },
+        {
+            "portraits": ["portrait-senpai-bwuh"],
+            "text": "wait"
+        },
+        {
+            "portraits": ["portrait-senpai-bwuh"],
+            "text": "Ew."
+        },
+        {
+            "portraits": ["portrait-senpai-bwuh"],
+            "text": "Who are you two?"
+        },
+        {
+            "portraits": ["portrait-nene"],
+            "text": "I'm Nene.",
+            "box": "normal"
+        },
+        {
+            "portraits": ["portrait-nene"],
+            "text": "He's Pico."
+        },
+        {
+            "portraits": ["portrait-pico"],
+            "text": "Hey.",
+            "box": "normal"
+        },
+        {
+            "portraits": ["portrait-senpai"],
+            "text": "My my, such odd clothing...\nHow queer...",
+            "box": "normal"
+        },
+        {
+            "portraits": ["portrait-nene"],
+            "text": "Look who's talking.",
+            "box": "normal"
+        },
+        {
+            "portraits": ["portrait-senpai"],
+            "text": "And bringing a gun to school?\nHow uncouth!",
+            "box": "normal"
+        },
+        {
+            "portraits": ["portrait-senpai"],
+            "text": "You've scared away all the lovely roses who enjoy my performances so..."
+        },
+        {
+            "portraits": ["portrait-senpai"],
+            "text": "Even if it IS fake, you know that's at least 3 days suspension!"
+        },
+        {
+            "portraits": ["portrait-nene"],
+            "text": "No that's real it-",
+            "box": "normal"
+        },
+        {
+            "portraits": ["portrait-senpai"],
+            "text": "I'll enjoy informing the principal, right after I teach you what's stronger than bad manners...",
+            "box": "normal"
+        },
+        {
+            "portraits": ["portrait-senpai"],
+            "text": "The beauty of SONG!"
+        },
+        {
+            "portraits": ["portrait-nene-peeved"],
+            "text": "...",
+            "box": "normal"
+        },
+        {
+            "portraits": ["portrait-pico-peeved"],
+            "text": "...",
+            "box": "normal"
+        }
+    ],
+    "skin": "Pixel"
+}
