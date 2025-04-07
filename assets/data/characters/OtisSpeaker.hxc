@@ -19,6 +19,7 @@ class OtisSpeaker extends CharacterInfoBase
 		info.focusOffset.set();
 
 		addByPrefix('idle', offset(), "otis idle0", 24, loop(false));
+		addByPrefix('idle-loop', offset(), "otis idle0", 24, loop(true));
 
 		addByPrefix('shoot1', offset(0, 13), "shoot back0", 24, loop(false));
 		addByPrefix('shoot2', offset(-35, 21), "shoot back low0", 24, loop(false));

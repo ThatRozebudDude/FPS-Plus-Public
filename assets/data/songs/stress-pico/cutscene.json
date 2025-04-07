@@ -5,5 +5,10 @@
 	  "storyOnly": false,
 	  "playOnce": true
 	},
-	"endCutscene": "null"
-  }
+	"endCutscene": {
+		"name": "StressPicoEnding",
+		"args": [],
+		"storyOnly": false,
+		"playOnce": true
+	}
+}
