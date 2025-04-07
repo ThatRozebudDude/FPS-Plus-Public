@@ -42,6 +42,7 @@ class Nene extends CharacterInfoBase
 
 		info.functions.create = create;
 		info.functions.songStart = songStart;
+		info.functions.songEnd = songEnd;
 		info.functions.update = update;
 		info.functions.beat = beat;
 		info.functions.countdownBeat = countdownBeat;
@@ -136,6 +137,10 @@ class Nene extends CharacterInfoBase
 	function songStart(character:Character):Void{
 		abot.setAudioSource(FlxG.sound.music);
 		abot.startVisualizer();
+	}
+
+	function songEnd(character:Character):Void{
+		abot.visualizer.alpha = 0;
 	}
 
 	function hairBlow(character:Character):Void{

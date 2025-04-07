@@ -33,6 +33,7 @@ class OtisSpeaker extends CharacterInfoBase
 		info.functions.beat = beat;
 		info.functions.countdownBeat = countdownBeat;
 		info.functions.songStart = songStart;
+		info.functions.songEnd = songEnd;
 
 		addExtraData("reposition", [-54.5, -250]);
 	}
@@ -81,6 +82,10 @@ class OtisSpeaker extends CharacterInfoBase
 	function songStart(character:Character):Void{
 		abot.setAudioSource(FlxG.sound.music);
 		abot.startVisualizer();
+	}
+
+	function songEnd(character:Character):Void{
+		abot.visualizer.alpha = 0;
 	}
 
 }
