@@ -1,5 +1,7 @@
 import ui.dialogue.DialogueBox;
 import flixel.util.FlxTimer;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
 import haxe.Json;
 
 class DialogueCutscene extends ScriptedCutscene
@@ -19,6 +21,27 @@ class DialogueCutscene extends ScriptedCutscene
 				playstate.startCountdown();
 			});
 		});
+
+		// Replace with "Unpixelated" Transitions cuz yes
+		dialogueBox.showPortrait = function(portrait){
+			FlxTween.completeTweensOf(portrait);
+			portrait.visible = true;
+			portrait.alpha = 0;
+
+			portrait.y += 300;
+			portrait.animation.play("idle");
+			FlxTween.tween(portrait, {alpha: 1, y: portrait.y - 300}, 0.8, {ease: FlxEase.quintOut});
+		}
+
+		dialogueBox.hidePortrait = function(portrait){
+			portrait.visible = true;
+			portrait.alpha = 1;
+			
+			FlxTween.completeTweensOf(portrait);
+			FlxTween.tween(portrait, {alpha: 0}, 0.8, {ease: FlxEase.quintOut});
+		}
+	
+
 		dialogueBox.cameras = [playstate.camHUD];
 		addGeneric(dialogueBox);
 

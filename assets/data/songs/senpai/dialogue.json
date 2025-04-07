@@ -1,7 +1,7 @@
 {
     "dialogue": [
         {
-            "portraits": ["spiritFaceForward"],
+            "portraits": ["portrait-senpai"],
             "text": "Ah, a new fair maiden has come in search of true love!",
             "box": "normal"
         },
