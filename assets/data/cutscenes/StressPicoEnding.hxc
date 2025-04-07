@@ -1,0 +1,98 @@
+import flixel.sound.FlxSound;
+import flixel.FlxG;
+import flixel.tweens.FlxEase;
+import flixel.math.FlxMath;
+import flixel.math.FlxPoint;
+
+class StressPicoEnding extends ScriptedCutscene
+{
+	var tankmanCutscene:AtlasSprite;
+	var cutsceneAudio:FlxSound;
+
+	public function new(args:Array<Dynamic>){
+		super(args);
+		
+		tankmanCutscene = new AtlasSprite(749, 521, Paths.getTextureAtlas("week7/stage/erect/cutscene/tankmanEnding"));
+		tankmanCutscene.antialiasing = true;
+		tankmanCutscene.addFullAnimation("full", 24, false);
+
+		addEvent(0, setup);
+		addEvent(7.3, laugh);
+		addEvent(10, panUp);
+		addEvent(12, fadeOut);
+		addEvent(13.3, end);
+	}
+
+	/*override function update(elapsed:Float) {
+		super.update(elapsed);
+
+		var moveAmount:Int = 1;
+
+		if(ScriptingUtil.anyPressed(["SHIFT"])){
+			moveAmount = 10;
+		}
+		
+		if(ScriptingUtil.anyPressed(["SPACE"])){
+			tankmanCutscene.playAnim("full", true);
+		}
+
+		if(ScriptingUtil.anyJustPressed(["I"])){
+			tankmanCutscene.y -= moveAmount;
+			trace(tankmanCutscene.getPosition());
+		}
+		if(ScriptingUtil.anyJustPressed(["K"])){
+			tankmanCutscene.y += moveAmount;
+			trace(tankmanCutscene.getPosition());
+		}
+		if(ScriptingUtil.anyJustPressed(["J"])){
+			tankmanCutscene.x -= moveAmount;
+			trace(tankmanCutscene.getPosition());
+		}
+		if(ScriptingUtil.anyJustPressed(["L"])){
+			tankmanCutscene.x += moveAmount;
+			trace(tankmanCutscene.getPosition());
+		}
+	}*/
+
+	function setup() {
+		addToCharacterLayer(tankmanCutscene);
+		tankmanCutscene.playAnim("full", true);
+		dad.visible = false;
+
+		boyfriend.playAnim("idle-loop", true);
+		gf.playAnim("idle-loop", true);
+
+		FlxG.sound.play(Paths.sound("week7/picoEndCutscene"));
+
+		tween.tween(playstate.hudShader, {alpha: 0}, 0.3);
+
+		playstate.camMove(FlxMath.lerp(playstate.getOpponentFocusPosition().x, playstate.getBfFocusPostion().x, 0.5), FlxMath.lerp(playstate.getOpponentFocusPosition().y, playstate.getBfFocusPostion().y, 0.5), 1.5, FlxEase.quadInOut);
+		playstate.camChangeZoom(playstate.stage.startingZoom, 1.5, FlxEase.quadInOut);
+	}
+
+	function laugh() {
+		boyfriend.playAnim("laughEnd", true);
+	}
+
+	function panUp() {
+		playstate.camMove(playstate.camFollow.x, playstate.camFollow.y - 200, 3, FlxEase.cubeIn);
+	}
+
+	function fadeOut() {
+		playstate.camOverlay.fade(0xFF000000, 1);
+	}
+	
+	function end() {
+		next();
+	}
+
+	/*function gfIdleLoop() {
+		var frame:Int = gf.curAnimFrame();
+		var frameOffset:Int = 0;
+		if(gf.curAnim == "danceRight"){ frameOffset = 16; }
+		var finalFrame:Int = (frame + frameOffset) % 31;
+		gf.canAutoAnim = false;
+		gf.playAnim("idleLoop", true, false, finalFrame);
+	}*/
+
+}

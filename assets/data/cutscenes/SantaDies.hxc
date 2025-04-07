@@ -7,8 +7,6 @@ class SantaDies extends ScriptedCutscene
 	var santa:AtlasSprite;
 	var parents:AtlasSprite;
 
-	var santaVoiceline:FlxSound;
-
 	public function new(args:Array<Dynamic>){
 		super(args);
 		

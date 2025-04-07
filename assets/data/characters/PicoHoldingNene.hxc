@@ -15,6 +15,7 @@ class PicoHoldingNene extends CharacterInfoBase
 		info.focusOffset.set(100, -100);
 
 		addByPrefix("idle", offset(0, 0), "Pico Idle Dance", 24, loop(false, 0), false, false);
+		addByIndices("idle-loop", offset(0, 0), "Pico Idle Dance", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 11, 11], "", 24, loop(true, 0), false, false);
 
 		addByPrefix("singUP", offset(56, 3), "pico Up note0", 24, loop(false, 0), false, false);
 		addByPrefix("singDOWN", offset(93, -70), "Pico Down Note0", 24, loop(false, 0), false, false);
@@ -26,8 +27,8 @@ class PicoHoldingNene extends CharacterInfoBase
 		addByPrefix("singUPmiss", offset(60, 2), "note miss up piconene0", 24, loop(true, -4), false, false);
 		addByPrefix("singDOWNmiss", offset(95, -74), "note miss down pico nene0", 24, loop(true, -4), false, false);
 
-		addByPrefix("knifeToss", offset(14, 26), "pico nene knife toss0", 24, loop(true), false, false);
-		addByPrefix("laughEnd", offset(5, 7), "pico nene laughing full0", 24, loop(true), false, false);
+		addByPrefix("knifeToss", offset(14, 26), "pico nene knife toss0", 24, loop(false), false, false);
+		addByPrefix("laughEnd", offset(5, 7), "pico nene laughing full0", 24, loop(false), false, false);
 	}
 
 }
