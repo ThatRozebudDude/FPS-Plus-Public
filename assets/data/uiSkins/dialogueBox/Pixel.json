@@ -1,0 +1,36 @@
+{
+    "path": "ui/dialogue/dialogueBox-pixel",
+    "text": {
+        "position": {"x": 220, "y": 480},
+        "font": "pixel.otf",
+        "size": 32,
+        "color": "0xff3f2021",
+        "shadow": "0xffd89494"
+    },
+    "sounds": {
+        "open": null,
+        "close": "week6/clickText",
+        "speak": "week6/pixelText"
+    },
+    "antialiasing": false,
+    "scale": 5.4,
+    "position": {"x": 520, "y": 350},
+    "animations": [
+        {
+            "name": "normalOpen",
+            "prefix": "Text Box Appear",
+            "offset": {"x": 0, "y": 0},
+            "fps": 24,
+            "flipX": false,
+            "loop": false
+        },
+        {
+            "name": "normal",
+            "prefix": "Text Box wait to click",
+            "offset": {"x": 0, "y": 0},
+            "fps": 24,
+            "flipX": false,
+            "loop": true
+        }
+    ]
+}

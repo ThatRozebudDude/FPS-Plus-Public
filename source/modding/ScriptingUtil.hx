@@ -138,3 +138,14 @@ class FlxTextBorderStyle
 	public static var OUTLINE = flixel.text.FlxText.FlxTextBorderStyle.OUTLINE;
 	public static var OUTLINE_FAST = flixel.text.FlxText.FlxTextBorderStyle.OUTLINE_FAST;
 }
+
+class NativeJson
+{
+	public static inline function parse(text:String):Dynamic{
+		return haxe.Json.parse(text);
+	}
+
+	public static inline function stringify(value:Dynamic, ?replacer:(key:Dynamic, value:Dynamic) -> Dynamic, ?space:String):String{
+		return haxe.Json.stringify(value, replacer, space);
+	}
+}

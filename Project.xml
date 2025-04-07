@@ -14,6 +14,7 @@
 	<compilerflag name="--macro" value="include('cutscenes', true)" />
 	<compilerflag name="--macro" value="include('shaders', true)" />
 	<compilerflag name="--macro" value="include('objects', true)" />
+	<compilerflag name="--macro" value="include('ui', true)" />
 
 	<!--Allows all of Flixel to be used by scripts at runtime instead of only what was imported in the code.-->
 	<compilerflag name="--macro" value="include('flixel', true, [ 'flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.system.macros.*' ])" />

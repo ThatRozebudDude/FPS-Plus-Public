@@ -1,7 +1,9 @@
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
 import flixel.FlxG;
-import objects.DialogueBox;
+import ui.dialogue.DialogueBox;
+import flixel.util.FlxTimer;
+import haxe.Json;
 
 class SchoolIntro extends ScriptedCutscene
 {
@@ -30,16 +32,23 @@ class SchoolIntro extends ScriptedCutscene
 		senpaiEvil.scrollFactor.set();
 		senpaiEvil.x += 275;
 
+		/*
 		var dialogue:Array<String> = [];
 
 		if(Utils.exists(Paths.text("songs/" + PlayState.SONG.song.toLowerCase() + "/" + PlayState.SONG.song.toLowerCase() + "Dialogue"))){
 			dialogue = Utils.getTextInLines(Paths.text("songs/" + PlayState.SONG.song.toLowerCase() + "/" + PlayState.SONG.song.toLowerCase() + "Dialogue"));
 		}
+		*/
+		var dialogue = Json.parse(Utils.getText(Paths.json("dialogue", "data/songs/" + PlayState.SONG.song.toLowerCase())));
 
-		dialogueBox = new DialogueBox(false, dialogue);
-		dialogueBox.scrollFactor.set();
-		dialogueBox.finishThing = playstate.startCountdown;
+		dialogueBox = new DialogueBox(dialogue);
+		dialogueBox.onDialogueEnd.add(function(d){
+			new FlxTimer().start(1, function(tmr:FlxTimer){
+				playstate.startCountdown();
+			});
+		});
 		dialogueBox.cameras = [playstate.camHUD];
+		addGeneric(dialogueBox);
 
 
 		addEvent(0, setup);
@@ -87,7 +96,7 @@ class SchoolIntro extends ScriptedCutscene
 	}
 
 	function startDialogue() {
-		addGeneric(dialogueBox);
+		dialogueBox.start();
 	}
 
 	function thornsSetup() {
@@ -105,7 +114,7 @@ class SchoolIntro extends ScriptedCutscene
 			removeGeneric(senpaiEvil);
 			removeGeneric(red);
 			FlxG.camera.fade(0xFFFFFFFF, 0.01, true, function(){
-				addGeneric(dialogueBox);
+				startDialogue();
 			}, true);
 		});
 	}

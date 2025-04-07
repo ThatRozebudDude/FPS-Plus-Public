@@ -5,7 +5,6 @@ import transition.data.InstantTransition;
 import caching.*;
 import openfl.Assets;
 import haxe.Json;
-import polymod.PolymodConfig;
 import flixel.FlxG;
 import polymod.Polymod;
 
@@ -283,6 +282,7 @@ class PolymodHandler
 		//Alias
 		Polymod.addImportAlias("lime.utils.Assets", Assets);
 		Polymod.addImportAlias("openfl.utils.Assets", Assets);
+		Polymod.addImportAlias("haxe.Json", modding.ScriptingUtil.NativeJson);
 
 		Polymod.addImportAlias("flash.display.BlendMode", modding.ScriptingUtil.BlendMode);
 		Polymod.addImportAlias("openfl.display.BlendMode", modding.ScriptingUtil.BlendMode);

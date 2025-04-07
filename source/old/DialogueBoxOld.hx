@@ -1,4 +1,4 @@
-package objects;
+package old;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -12,7 +12,7 @@ import flixel.util.FlxTimer;
 
 using StringTools;
 
-class DialogueBox extends FlxSpriteGroup
+class DialogueBoxOld extends FlxSpriteGroup
 {
 	var box:FlxSprite;
 

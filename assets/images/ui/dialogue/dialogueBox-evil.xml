@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TextureAtlas imagePath="dialogueBoxes-evilNew.png">
+<TextureAtlas imagePath="dialogueBoxes-evil.png">
 	<SubTexture name="Spirit Text Box Click0000" x="4" y="4" width="248" height="144" />
 	<SubTexture name="Spirit Text Box Sentence Complete0000" x="256" y="4" width="248" height="144" />
 	<SubTexture name="Spirit Textbox0000" x="508" y="4" width="248" height="144" />

@@ -1,0 +1,14 @@
+{
+    "dialogue": [
+        {
+            "portraits": ["portrait-pico"],
+            "text": "hi fucker i hate you die",
+            "box": "normal"
+        },
+        {
+            "portraits": ["portrait-boyfriend"],
+            "text": "k i don't care lmfao"
+        }
+    ],
+    "skin": "Pixel"
+}
