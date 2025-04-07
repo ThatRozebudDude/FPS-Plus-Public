@@ -3,7 +3,6 @@
 - Stages
 	- Fix up Week 6 Stages
 - Misc
-	- Redo Week 6 Dialogue Stuff
 	- Add shader to Stress Pico cutscene
 
 # 6.3.0 *(Planned Features)*
