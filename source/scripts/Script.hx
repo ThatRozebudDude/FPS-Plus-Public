@@ -44,6 +44,11 @@ class Script
 	 * Called once the song starts.
 	 */
 	public function songStart(){}
+
+	/**
+	 * Called once the song end.
+	 */
+	public function songEnd(){}
  
 	/**
 	 * Called when the game is paused.

@@ -1877,6 +1877,18 @@ class PlayState extends MusicBeatState
 		//trace("in cutsceneCheck");
 		stopMusic();
 
+		if(boyfriend.characterInfo.info.functions.songEnd != null){
+			boyfriend.characterInfo.info.functions.songEnd(boyfriend);
+		}
+		if(dad.characterInfo.info.functions.songEnd != null){
+			dad.characterInfo.info.functions.songEnd(dad);
+		}
+		if(gf.characterInfo.info.functions.songEnd != null){
+			gf.characterInfo.info.functions.songEnd(gf);
+		}
+		stage.songEnd();
+		for(script in scripts){ script.songEnd(); }
+
 		if(endCutscene != null){
 			add(endCutscene);
 			inCutscene = true;

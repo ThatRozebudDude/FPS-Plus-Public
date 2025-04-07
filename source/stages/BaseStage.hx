@@ -194,6 +194,11 @@ class BaseStage
 	public function songStart(){}
 
 	/**
+	 * Called once the song end.
+	 */
+	public function songEnd(){}
+
+	/**
 	 * Called when the game is paused.
 	 */
 	public function pause(){}

@@ -66,6 +66,7 @@ typedef CharacterFunctions = {
 	var deathCreate:(Character)->Void;			//This function is run after the character is created in the game over state.
 	var deathAdd:(Character)->Void;				//This function is run after the character is added to the game over state.
 	var songStart:(Character)->Void;			//This function is run when the song starts.
+	var songEnd:(Character)->Void;				//This function is run when the song ends.
 	var noteHit:(Character, Note)->Void;		//This function is run when the character hits a note.
 	var noteMiss:(Character, Int, Bool)->Void;	//This function is run when the character misses a note.
 }

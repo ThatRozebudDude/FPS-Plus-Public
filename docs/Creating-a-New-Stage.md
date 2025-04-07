@@ -85,6 +85,7 @@ Additionally, you can override different functions similarly to a generic script
 - `step(curStep)`: This is run every step of the song.
     - `curStep`: The current step of the song as an integer.
 - `songStart()`: This is run once the song starts playing.
+- `songEnd()`: This is run once the song finishes playing.
 - `pause()`: This is run whenever the game is paused.
 - `unpause()`: This is run whenever the game is unpaused.
 - `gameOverStart()`: This is run when the death screen is started.
