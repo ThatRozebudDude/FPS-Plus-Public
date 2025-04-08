@@ -38,7 +38,7 @@ class School extends BaseStage
 		ground.updateHitbox();
 		addToBackground(ground);
 
-		var backTrees = new FlxSprite(-200 + 36, 0).loadGraphic(Paths.image("week6/weeb/backTrees"));
+		var backTrees = new FlxSprite(-200, 0).loadGraphic(Paths.image("week6/weeb/backTrees"));
 		backTrees.scale.set(6, 6);
 		backTrees.updateHitbox();
 		addToBackground(backTrees);
