@@ -1,3 +1,5 @@
+import flixel.FlxSprite;
+
 class PicoPixel extends CharacterInfoBase
 {
 
@@ -29,11 +31,30 @@ class PicoPixel extends CharacterInfoBase
 		addByPrefix('deathLoop', offset(), "deathLoop", 24, loop(true));
 		addByPrefix('deathConfirm', offset(), "deathConfirm", 24, loop(false));
 
+		info.functions.deathCreate = deathCreate;
+
 		addExtraData("scale", 6);
 
 		addExtraData("deathSound", "gameOver/fnf_loss_sfx-pixel-pico");
 		addExtraData("deathSong", "gameOver/gameOver-pixel-pico");
 		addExtraData("deathSongEnd", "gameOver/gameOverEnd-pixel-pico");
+	}
+
+	var nene:FlxSprite;
+
+	function deathCreate(character:Character):Void{
+		nene = new FlxSprite(playstate.gf.getScreenPosition().x + 120, playstate.gf.getScreenPosition().y + 30);
+		nene.frames = Paths.getSparrowAtlas("week6/nenePixelKnifeToss");
+		nene.antialiasing = false;
+		nene.scale.set(6, 6);
+		nene.updateHitbox();
+		nene.animation.addByPrefix("throw", "knifetosscolor", 24, false);
+		nene.animation.play("throw");
+		nene.animation.finishCallback = function(name:String){
+			nene.visible = false;
+		}
+
+		addToSubstate(nene);
 	}
 
 }

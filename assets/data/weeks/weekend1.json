@@ -4,6 +4,6 @@
     "sortOrder": 101,
     "songs": ["Darnell", "Lit-Up", "2hot", "Blazin"],
     "characters": ["darnell", "pico-player", "nene"],
-    "stickerSet": ["pico-pico", "nene", "darnell"],
+    "stickerSet": ["pico-pico", "nene", "darnell", "pico-misc"],
     "color": "0x6560D1"
 }

@@ -130,8 +130,8 @@ class GameOverSubstate extends MusicBeatSubstate
 		for(script in PlayState.instance.scripts){ script.gameOverEnd(); }
 		new FlxTimer().start(0.4, function(tmr:FlxTimer){
 			camGameOver.fade(FlxColor.BLACK, 1.2, false, function(){
-				PlayState.instance.switchState(new PlayState());
 				PlayState.replayStartCutscene = false;
+				PlayState.instance.switchState(new PlayState());
 			});
 		});
 	}

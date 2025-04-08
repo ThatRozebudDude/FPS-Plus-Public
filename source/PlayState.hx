@@ -697,7 +697,9 @@ class PlayState extends MusicBeatState
 					if(cutsceneJson.startCutscene.args != null) {startCutsceneArgs = cutsceneJson.startCutscene.args;}
 					if(cutsceneJson.startCutscene.playOnce != null) {startCutscenePlayOnce = cutsceneJson.startCutscene.playOnce;}
 					//startCutscene = Type.createInstance(startCutsceneClass, startCutsceneArgs);
-					startCutscene = ScriptableCutscene.init(cutsceneJson.startCutscene.name, startCutsceneArgs);
+					if((startCutscenePlayOnce ? replayStartCutscene : true)){
+						startCutscene = ScriptableCutscene.init(cutsceneJson.startCutscene.name, startCutsceneArgs);
+					}
 				}
 			}
 			//trace(startCutscene);
