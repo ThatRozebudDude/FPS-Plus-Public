@@ -1,7 +1,7 @@
 {
     "path": "ui/dialogue/dialogueBox-evil",
     "text": {
-        "position": {"x": 220, "y": 480},
+        "position": {"x": 196, "y": 480},
         "font": "pixel.otf",
         "size": 32,
         "color": "0xFFFFFF"

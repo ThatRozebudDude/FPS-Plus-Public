@@ -1,7 +1,3 @@
-# Base Game 0.6.0 Porting
-
-- I think we're done, baby.
-
 # 7.1.0 *(Planned Features)*
 
 - Config menu redesign.

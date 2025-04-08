@@ -77,4 +77,8 @@ class School extends BaseStage
 	public override function beat(curBeat:Int){
 		bgGirls.dance();
 	}
+
+	public override function countdownBeat(curBeat:Int){
+		bgGirls.dance();
+	}
 }
