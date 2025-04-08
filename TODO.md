@@ -1,7 +1,5 @@
 # Base Game 0.6.0 Porting
 
-- Stages
-	- Fix up Week 6 Stages
 - Misc
 	- Add shader to Stress Pico cutscene
 

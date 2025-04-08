@@ -17,7 +17,7 @@ class SchoolErect extends BaseStage
 		startingZoom = 1;
 		uiType = "Pixel";
 
-		var sky = new FlxSprite(-200, -24).loadGraphic(Paths.image("week6/weeb/erect/sky"));
+		var sky = new FlxSprite(-200, -48).loadGraphic(Paths.image("week6/weeb/erect/sky"));
 		sky.scale.set(6, 6);
 		sky.updateHitbox();
 		sky.scrollFactor.set(0.1, 0.3);
@@ -38,20 +38,17 @@ class SchoolErect extends BaseStage
 		var ground = new FlxSprite(-200, 0).loadGraphic(Paths.image("week6/weeb/erect/ground"));
 		ground.scale.set(6, 6);
 		ground.updateHitbox();
-		ground.scrollFactor.set(0.95, 0.95);
 		addToBackground(ground);
 
-		var backTrees = new FlxSprite(-200, 0).loadGraphic(Paths.image("week6/weeb/erect/backTrees"));
+		var backTrees = new FlxSprite(-200 + 36, 0).loadGraphic(Paths.image("week6/weeb/erect/backTrees"));
 		backTrees.scale.set(6, 6);
 		backTrees.updateHitbox();
-		backTrees.scrollFactor.set(0.81, 0.95);
 		addToBackground(backTrees);
 
 		var fgTrees = new FlxSprite(-818, -1098);
 		fgTrees.frames = Paths.getPackerAtlas("week6/weeb/erect/weebTrees");
 		fgTrees.scale.set(6, 6);
 		fgTrees.updateHitbox();
-		fgTrees.scrollFactor.set(0.88, 0.95);
 		fgTrees.animation.add('treeLoop', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], 12);
 		fgTrees.animation.play('treeLoop');
 		addToBackground(fgTrees);
@@ -63,13 +60,13 @@ class SchoolErect extends BaseStage
 		leaves.scrollFactor.set(1, 1);
 		leaves.animation.addByPrefix('leaves', 'PETALS ALL', 24, true);
 		leaves.animation.play('leaves');
-		addToBackground(leaves);
+		addToMiddle(leaves);
 
 		dadStart.set(306, 900);
 		bfStart.set(1168, 900);
 		gfStart.set(724, 763);
 
-		bfCameraOffset.set(-48, 0);
+		bfCameraOffset.set(-180, 0);
 		dadCameraOffset.set(12, 0);
 
 		bfShader = new DropShadowShader();
