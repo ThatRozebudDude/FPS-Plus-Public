@@ -3,18 +3,41 @@ import flixel.FlxG;
 import flixel.tweens.FlxEase;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
+import flixel.FlxCamera;
+import flixel.FlxCameraFollowStyle;
+import openfl.filters.ShaderFilter;
+import shaders.DropShadowScreenspaceShader;
 
 class StressPicoEnding extends ScriptedCutscene
 {
 	var tankmanCutscene:AtlasSprite;
+	var	tankmanShader:DropShadowScreenspaceShader;
 	var cutsceneAudio:FlxSound;
+	var cutsceneCamera:FlxCamera;
 
 	public function new(args:Array<Dynamic>){
 		super(args);
+
+		cutsceneCamera = new FlxCamera();
+		cutsceneCamera.bgColor = 0x00000000;
+		FlxG.cameras.insert(cutsceneCamera, FlxG.cameras.list.indexOf(playstate.camGame) + 1, false);
 		
 		tankmanCutscene = new AtlasSprite(749, 521, Paths.getTextureAtlas("week7/stage/erect/cutscene/tankmanEnding"));
 		tankmanCutscene.antialiasing = true;
+		tankmanCutscene.cameras = [cutsceneCamera];
 		tankmanCutscene.addFullAnimation("full", 24, false);
+
+		cutsceneCamera.follow(playstate.camFollowFinal, FlxCameraFollowStyle.LOCKON);
+		cutsceneCamera.zoom = playstate.camGame.zoom;
+		cutsceneCamera.focusOn(playstate.camFollowFinal.getPosition());
+
+		tankmanShader = new DropShadowScreenspaceShader();
+		tankmanShader.setAdjustColor(-46, -38, -25, -20);
+		tankmanShader.color = 0xFFDFEF3C;
+		tankmanShader.angle = 45;
+		tankmanShader.threshold = 0.3;
+
+		cutsceneCamera.filters = [new ShaderFilter(tankmanShader)];
 
 		addEvent(0, setup);
 		addEvent(7.3, laugh);
@@ -23,10 +46,11 @@ class StressPicoEnding extends ScriptedCutscene
 		addEvent(13.3, end);
 	}
 
-	/*override function update(elapsed:Float) {
+	override function update(elapsed:Float) {
 		super.update(elapsed);
-
-		var moveAmount:Int = 1;
+		cutsceneCamera.zoom = playstate.camGame.zoom;
+		tankmanShader.curZoom = cutsceneCamera.zoom;
+		/*var moveAmount:Int = 1;
 
 		if(ScriptingUtil.anyPressed(["SHIFT"])){
 			moveAmount = 10;
@@ -51,8 +75,8 @@ class StressPicoEnding extends ScriptedCutscene
 		if(ScriptingUtil.anyJustPressed(["L"])){
 			tankmanCutscene.x += moveAmount;
 			trace(tankmanCutscene.getPosition());
-		}
-	}*/
+		}*/
+	}
 
 	function setup() {
 		addToCharacterLayer(tankmanCutscene);
@@ -85,14 +109,5 @@ class StressPicoEnding extends ScriptedCutscene
 	function end() {
 		next();
 	}
-
-	/*function gfIdleLoop() {
-		var frame:Int = gf.curAnimFrame();
-		var frameOffset:Int = 0;
-		if(gf.curAnim == "danceRight"){ frameOffset = 16; }
-		var finalFrame:Int = (frame + frameOffset) % 31;
-		gf.canAutoAnim = false;
-		gf.playAnim("idleLoop", true, false, finalFrame);
-	}*/
 
 }

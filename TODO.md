@@ -1,7 +1,7 @@
 # Base Game 0.6.0 Porting
 
 - Misc
-	- Add shader to Stress Pico cutscene
+	- I FORGOT ABOUT THE STICKERS
 
 # 7.1.0 *(Planned Features)*
 

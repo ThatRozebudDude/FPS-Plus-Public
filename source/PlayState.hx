@@ -613,14 +613,14 @@ class PlayState extends MusicBeatState
 
 		add(camFollowFinal);
 
-		FlxG.camera.follow(camFollowFinal, LOCKON);
+		camGame.follow(camFollowFinal, LOCKON);
 
 		defaultCamZoom = stage.startingZoom;
 		
 		// FlxG.camera.setScrollBounds(0, FlxG.width, 0, FlxG.height);
 		camGame.zoom = defaultCamZoom;
 
-		FlxG.camera.focusOn(camFollowFinal.getPosition());
+		camGame.focusOn(camFollowFinal.getPosition());
 
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 
