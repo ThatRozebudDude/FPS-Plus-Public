@@ -34,6 +34,7 @@ class BoyfriendFreeplay extends DJCharacter
 		listSuffix = "bf";
 		idleCount = 2;
 		canPlayIdleAfter = ["idle1start", "idle2end", "cheerWin", "cheerLose"];
+		freeplayStickers = ["bf", "dad", "gf", "mom", "monster", "pico", "pump", "skid", "roze", "senpai", "spirit", "tankman"];
 
 		setPosition(-9, 290);
 		loadAtlas(Paths.getTextureAtlas("menu/freeplay/dj/bf"));

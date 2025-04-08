@@ -30,7 +30,7 @@ class SchoolIntro extends ScriptedCutscene
 	public function new(args:Array<Dynamic>){
 		super(args);
 
-		fadeInShader = new MultiplyFadeShader(4, 0, 4);
+		fadeInShader = new MultiplyFadeShader(4, 0, 3);
 		fadeInShaderFilter = new ShaderFilter(fadeInShader.shader);
 
 		red = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFFff1b31);

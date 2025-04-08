@@ -38,6 +38,8 @@ class DJCharacter extends AtlasSprite
 	public var freeplaySongBpm:Float = 145;
 	public var freeplaySongVolume:Float = 0.8;
 
+	public var freeplayStickers:Array<String> = null;
+
 	public var backingCard:FlxSpriteGroup = new FlxSpriteGroup();
 
 	public function new() {

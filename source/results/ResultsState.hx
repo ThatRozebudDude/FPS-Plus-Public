@@ -669,7 +669,7 @@ class ResultsState extends FlxUIStateExt
 					Assets.cache.clear("assets/music/results");
 				});
 			case "freeplay":
-				customTransOut = new StickerOut();
+				customTransOut = new StickerOut(FreeplayState.curCharacterStickers);
 				FreeplayState.playStickerIntro = true;
 				if(rank != loss){
 					switchState(new FreeplayState(fromSongWin));

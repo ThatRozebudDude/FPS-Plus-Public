@@ -1,7 +1,6 @@
 # Base Game 0.6.0 Porting
 
-- Misc
-	- I FORGOT ABOUT THE STICKERS
+- I think we're done, baby.
 
 # 7.1.0 *(Planned Features)*
 

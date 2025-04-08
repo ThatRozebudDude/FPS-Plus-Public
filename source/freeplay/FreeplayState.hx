@@ -114,6 +114,8 @@ class FreeplayState extends MusicBeatState
 	private var camFreeplay:FlxCamera;
 
 	var fadeShader:BlueFadeShader = new BlueFadeShader(1);
+	
+	public static var curCharacterStickers:Array<String>;
 
 	static final  transitionTime:Float = 1;
 	static final  staggerTime:Float = 0.1;
@@ -180,6 +182,7 @@ class FreeplayState extends MusicBeatState
 		dj.setupSongList();
 		dj.introFinish = djIntroFinish;
 		dj.cameras = [camFreeplay];
+		curCharacterStickers = dj.freeplayStickers;
 
 		fakeMainMenuSetup();
 
