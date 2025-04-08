@@ -4,7 +4,7 @@ import flixel.FlxG;
 import ui.dialogue.DialogueBox;
 import flixel.util.FlxTimer;
 import haxe.Json;
-import shaders.ColorFadeShader;
+import shaders.MultiplyFadeShader;
 import openfl.filters.ShaderFilter;
 import transition.data.InstantTransition;
 import flixel.sound.FlxSound;
@@ -30,7 +30,7 @@ class SchoolIntro extends ScriptedCutscene
 	public function new(args:Array<Dynamic>){
 		super(args);
 
-		fadeInShader = new ColorFadeShader(0xFF8EBBFF, 0);
+		fadeInShader = new MultiplyFadeShader(5, 0);
 		fadeInShaderFilter = new ShaderFilter(fadeInShader.shader);
 
 		red = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFFff1b31);
@@ -71,6 +71,7 @@ class SchoolIntro extends ScriptedCutscene
 		dialogueBox.onDialogueEnd.add(function(d){
 			new FlxTimer().start(0.5, function(tmr:FlxTimer){
 				next();
+				playstate.camGame.filters.remove(fadeInShaderFilter);
 				if(cutsceneMusic != null){
 					cutsceneMusic.fadeOut((Conductor.crochet / 1000) * 3, 0);
 				}
@@ -120,7 +121,6 @@ class SchoolIntro extends ScriptedCutscene
 
 			case "senpai-pico":
 				playstate.camGame.filters.push(fadeInShaderFilter);
-				fadeInShader.color = 0xFFFFAAC2;
 				cutsceneMusic = FlxG.sound.play(Paths.music("week6/Lunchbox"), 0);
 				cutsceneMusic.fadeIn(1, 0, 0.8);
 				dialogueBox.onDialogueChange.add(function(box)
@@ -134,7 +134,6 @@ class SchoolIntro extends ScriptedCutscene
 				});
 			case "roses-pico":
 				playstate.camGame.filters.push(fadeInShaderFilter);
-				fadeInShader.color = 0xFFFFAAC2;
 				FlxG.sound.play(Paths.sound('week6/ANGRY_TEXT_BOX'));
 		}
 	}

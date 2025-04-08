@@ -3,7 +3,7 @@
 - Misc
 	- Add shader to Stress Pico cutscene
 
-# 6.3.0 *(Planned Features)*
+# 7.1.0 *(Planned Features)*
 
 - Config menu redesign.
 	- Maybe change how config settings are accessed? A lil' clunky right now.
