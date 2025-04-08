@@ -43,7 +43,7 @@ class PicoPixel extends CharacterInfoBase
 	var nene:FlxSprite;
 
 	function deathCreate(character:Character):Void{
-		nene = new FlxSprite(playstate.gf.getScreenPosition().x + 120, playstate.gf.getScreenPosition().y + 30);
+		nene = new FlxSprite(playstate.gf.getScreenPosition().x + 120, playstate.gf.getScreenPosition().y + 18);
 		nene.frames = Paths.getSparrowAtlas("week6/nenePixelKnifeToss");
 		nene.antialiasing = false;
 		nene.scale.set(6, 6);
