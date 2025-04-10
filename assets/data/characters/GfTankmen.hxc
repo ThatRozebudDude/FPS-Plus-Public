@@ -20,6 +20,9 @@ class GfTankmen extends CharacterInfoBase
 		addByIndices("sad", offset(0, -27), "GF Crying at Gunpoint", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "", 24, loop(true, -8));
 
 		info.idleSequence = ["danceLeft", "danceRight"];
+
+		addExtraData("dropShadowMask", "week7/stage/erect/masks/gfTankmen_mask");
+		addExtraData("dropShadowMaskThreshold", 0.4);
 	}
 
 }

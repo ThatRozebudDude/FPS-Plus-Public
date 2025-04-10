@@ -26,6 +26,8 @@ class BfPixel extends CharacterInfoBase
 
 		addExtraData("scale", 6);
 
+		addExtraData("dropShadowMask", "week6/weeb/erect/masks/bfPixel_mask");
+		addExtraData("dropShadowMaskThreshold", 1);
 	}
 
 }

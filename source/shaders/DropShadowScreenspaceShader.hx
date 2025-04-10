@@ -54,6 +54,8 @@ class DropShadowScreenspaceShader extends DropShadowShader
 
       uniform float AA_STAGES;
 
+	  uniform bool pixelPerfect;
+
       const vec3 grayscaleValues = vec3(0.3098039215686275, 0.607843137254902, 0.0823529411764706);
 		  const float e = 2.718281828459045;
 
@@ -159,14 +161,21 @@ class DropShadowScreenspaceShader extends DropShadowShader
 
       vec3 createDropShadow(vec3 col, float curThreshold, bool useMask) {
 
+	  	vec2 finalUv = openfl_TextureCoordv;
+
+		if(pixelPerfect){
+			finalUv.x = (floor(finalUv.x * openfl_TextureSize.x) / openfl_TextureSize.x) + ((1.0/openfl_TextureSize.x) * .5);
+			finalUv.y = (floor(finalUv.y * openfl_TextureSize.y) / openfl_TextureSize.y) + ((1.0/openfl_TextureSize.y) * .5);
+		}
+
         // essentially a mask so that areas under the threshold dont show the rimlight (mainly the outlines)
-        float intensity = antialias(openfl_TextureCoordv, curThreshold, useMask);
+        float intensity = antialias(finalUv, curThreshold, useMask);
 
         // the distance the dropshadow moves needs to be correctly scaled based on the texture size
         vec2 imageRatio = vec2(1.0/openfl_TextureSize.x, 1.0/openfl_TextureSize.y);
 
         // check the pixel in the direction and distance specified
-        vec2 checkedPixel = vec2(openfl_TextureCoordv.x + ((dist*zoom) * cos(ang + angOffset) * imageRatio.x), openfl_TextureCoordv.y - ((dist*zoom) * sin(ang + angOffset) * imageRatio.y));
+        vec2 checkedPixel = vec2(finalUv.x + ((dist*zoom) * cos(ang + angOffset) * imageRatio.x), finalUv.y - ((dist*zoom) * sin(ang + angOffset) * imageRatio.y));
 
         // multiplier for the intensity of the drop shadow
         float dropShadowAmount = 0.0;

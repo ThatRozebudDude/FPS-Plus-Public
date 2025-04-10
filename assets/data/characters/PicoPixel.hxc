@@ -34,6 +34,8 @@ class PicoPixel extends CharacterInfoBase
 		info.functions.deathCreate = deathCreate;
 
 		addExtraData("scale", 6);
+		addExtraData("dropShadowMask", "week6/weeb/erect/masks/picoPixel_mask");
+		addExtraData("dropShadowMaskThreshold", 1);
 
 		addExtraData("deathSound", "gameOver/fnf_loss_sfx-pixel-pico");
 		addExtraData("deathSong", "gameOver/gameOver-pixel-pico");

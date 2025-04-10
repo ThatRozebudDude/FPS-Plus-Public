@@ -20,7 +20,8 @@ class Senpai extends CharacterInfoBase
 
 		addExtraData("scale", 6);
 		addExtraData("reposition", [0, 102]);
-
+		addExtraData("dropShadowMask", "week6/weeb/erect/masks/senpai_mask");
+		addExtraData("dropShadowMaskThreshold", 1);
 	}
 
 }

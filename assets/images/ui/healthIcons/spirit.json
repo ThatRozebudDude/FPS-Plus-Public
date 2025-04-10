@@ -1,4 +1,8 @@
 {
-    "antialiasing": false,
-    "scale": 5
+	"antialiasing": false,
+	"scale": 5,
+	"offset": {
+		"x": -5,
+		"y": 0
+	}
 }

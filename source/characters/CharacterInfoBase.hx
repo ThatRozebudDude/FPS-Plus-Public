@@ -148,7 +148,7 @@ class CharacterInfoBase
 			noteMiss: null,
 		},
 		actions: null,
-		extraData: null
+		extraData: new Map<String, Dynamic>()
 	};
 
 	public var characterReference:Character;
@@ -419,9 +419,6 @@ class CharacterInfoBase
 	 * @param	data	The data.
 	 */
 	function addExtraData(key:String, data:Dynamic):Void{
-		if(info.extraData == null){
-			info.extraData = new Map<String, Dynamic>();
-		}
 		info.extraData.set(key, data);
 	}
 

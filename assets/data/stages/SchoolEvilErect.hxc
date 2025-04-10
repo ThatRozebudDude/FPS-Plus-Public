@@ -4,11 +4,16 @@ import flixel.FlxObject;
 import objects.DeltaTrail;
 import shaders.WiggleEffect;
 import shaders.WiggleEffectType;
+import shaders.DropShadowShader;
+import shaders.AdjustColorShader;
 
 class SchoolEvilErect extends BaseStage
 {
 
 	var wiggle:WiggleEffect;
+
+	var bfShader:DropShadowShader;
+	var gfShader:DropShadowShader;
 
 	public function new(){
 		super();
@@ -38,6 +43,45 @@ class SchoolEvilErect extends BaseStage
 		gfStart.set(840, 766);
 
 		bfCameraOffset.set(-96, 24);
+
+		bfShader = new DropShadowShader();
+		bfShader.setAdjustColor(-70, -25, -15, 0);
+    	bfShader.color = 0xFF771122;
+		bfShader.angle = 115;
+		bfShader.antialiasAmt = 0;
+		bfShader.usePixelPerfect = true;
+		bfShader.distance = 3;
+		bfShader.attachedSprite = boyfriend.getSprite();
+		boyfriend.applyShader(bfShader);
+		boyfriend.onAnimationFrame.add(function(name:String, frame:Int, index:Int){
+			bfShader.updateFrameInfo(boyfriend.getSprite().frame);
+		});
+
+		if(boyfriend.characterInfo.info.extraData.get("dropShadowMask") != null){
+			bfShader.loadAltMask(Paths.image(boyfriend.characterInfo.info.extraData.get("dropShadowMask"), true));
+			bfShader.maskThreshold = boyfriend.characterInfo.info.extraData.get("dropShadowMaskThreshold");
+			bfShader.useAltMask = true;
+		}
+
+		gfShader = new DropShadowShader();
+		gfShader.setAdjustColor(-70, -25, -15, 0);
+    	gfShader.color = 0xFF771122;
+		gfShader.angle = 225;
+		gfShader.antialiasAmt = 0;
+		gfShader.usePixelPerfect = true;
+		gfShader.distance = 3;
+		gfShader.threshold = 0.3;
+		gfShader.attachedSprite = gf.getSprite();
+		gf.applyShader(gfShader);
+		gf.onAnimationFrame.add(function(name:String, frame:Int, index:Int){
+			gfShader.updateFrameInfo(gf.getSprite().frame);
+		});
+
+		if(gf.characterInfo.info.extraData.get("dropShadowMask") != null){
+			gfShader.loadAltMask(Paths.image(gf.characterInfo.info.extraData.get("dropShadowMask"), true));
+			gfShader.maskThreshold = gf.characterInfo.info.extraData.get("dropShadowMaskThreshold");
+			gfShader.useAltMask = true;
+		}
 	}
 
 	function update(elapsed:Float){

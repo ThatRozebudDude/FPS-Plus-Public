@@ -21,6 +21,8 @@ class GfPixel extends CharacterInfoBase
 		info.idleSequence = ["danceLeft", "danceRight"];
 
 		addExtraData("scale", 6);
+		addExtraData("dropShadowMask", "week6/weeb/erect/masks/gfPixel_mask");
+		addExtraData("dropShadowMaskThreshold", 1);
 	}
 
 }
