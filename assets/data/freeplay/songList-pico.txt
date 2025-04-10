@@ -17,8 +17,8 @@ song | Blammed-Pico | pico | [ALL, Week 3]
 song | Cocoa-Pico | parents-christmas | [ALL, Week 5]
 song | Eggnog-Pico | parents-christmas | [ALL, Week 5]
 
-song | Senpai-Pico | senpai | [ALL, Week 7]
-song | Roses-Pico | senpai | [ALL, Week 7]
+song | Senpai-Pico | senpai | [ALL, Week 6]
+song | Roses-Pico | senpai | [ALL, Week 6]
 
 song | Ugh-Pico | tankman | [ALL, Week 7]
 song | Guns-Pico | tankman | [ALL, Week 7]
