@@ -627,7 +627,7 @@ class Character extends FlxSpriteGroup
 		else{ //Code for atlas characters
 
 			for(set in animSetList){
-				if (atlasCharacter.animInfoMap.get("singRIGHT" + set) != null && atlasCharacter.animInfoMap.get("singLEFT" + set) != null){
+				if(atlasCharacter.animInfoMap.get("singRIGHT" + set) != null && atlasCharacter.animInfoMap.get("singLEFT" + set) != null){
 					var oldRight = atlasCharacter.animInfoMap.get("singRIGHT" + set);
 					var oldRightOffset = animOffsets.get("singRIGHT" + set);
 					var oldRightOffsetOriginal = originalAnimOffsets.get("singRIGHT" + set);
@@ -638,7 +638,7 @@ class Character extends FlxSpriteGroup
 					animOffsets.set("singLEFT" + set, oldRightOffset);
 					originalAnimOffsets.set("singLEFT" + set, oldRightOffsetOriginal);
 				}
-				if (atlasCharacter.animInfoMap.get("singRIGHTmiss" + set) != null && atlasCharacter.animInfoMap.get("singLEFTmiss" + set) != null){
+				if(atlasCharacter.animInfoMap.get("singRIGHTmiss" + set) != null && atlasCharacter.animInfoMap.get("singLEFTmiss" + set) != null){
 					var oldMiss = atlasCharacter.animInfoMap.get("singRIGHTmiss" + set);
 					var oldMissOffset = animOffsets.get("singRIGHTmiss" + set);
 					var oldMissOffsetOriginal = originalAnimOffsets.get("singRIGHTmiss" + set);
