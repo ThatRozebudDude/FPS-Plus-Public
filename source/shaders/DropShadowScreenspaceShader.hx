@@ -55,6 +55,8 @@ class DropShadowScreenspaceShader extends DropShadowShader
       uniform float AA_STAGES;
 
 	  uniform bool pixelPerfect;
+	  uniform bool attachedSpriteFlipX;
+	  uniform bool attachedSpriteFlipY;
 
       const vec3 grayscaleValues = vec3(0.3098039215686275, 0.607843137254902, 0.0823529411764706);
 		  const float e = 2.718281828459045;
@@ -175,7 +177,9 @@ class DropShadowScreenspaceShader extends DropShadowShader
         vec2 imageRatio = vec2(1.0/openfl_TextureSize.x, 1.0/openfl_TextureSize.y);
 
         // check the pixel in the direction and distance specified
-        vec2 checkedPixel = vec2(finalUv.x + ((dist*zoom) * cos(ang + angOffset) * imageRatio.x), finalUv.y - ((dist*zoom) * sin(ang + angOffset) * imageRatio.y));
+		float hMult = attachedSpriteFlipX ? -1.0 : 1.0;
+		float vMult = attachedSpriteFlipY ? -1.0 : 1.0;
+		vec2 checkedPixel = vec2(finalUv.x + ((dist*zoom) * (cos(ang + (angOffset * hMult * vMult)) * hMult) * imageRatio.x), finalUv.y - ((dist*zoom) * (sin(ang + (angOffset * hMult * vMult)) * vMult) * imageRatio.y));
 
         // multiplier for the intensity of the drop shadow
         float dropShadowAmount = 0.0;

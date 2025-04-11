@@ -87,50 +87,24 @@ class TankErect extends BaseStage
 		bfShader.setAdjustColor(-46, -38, -25, -20);
     	bfShader.color = 0xFFDFEF3C;
 		bfShader.angle = 90;
-		bfShader.attachedSprite = boyfriend.getSprite();
+		bfShader.attachCharacter(boyfriend);
 		boyfriend.applyShader(bfShader);
-		boyfriend.onAnimationFrame.add(function(name:String, frame:Int, index:Int){
-			bfShader.updateFrameInfo(boyfriend.getSprite().frame);
-		});
-
-		if(boyfriend.characterInfo.info.extraData.get("dropShadowMask") != null){
-			bfShader.loadAltMask(Paths.image(boyfriend.characterInfo.info.extraData.get("dropShadowMask"), true));
-			bfShader.maskThreshold = boyfriend.characterInfo.info.extraData.get("dropShadowMaskThreshold");
-			bfShader.useAltMask = true;
-		}
 
 		dadShader = new DropShadowShader();
 		dadShader.setAdjustColor(-46, -38, -25, -20);
     	dadShader.color = 0xFFDFEF3C;
 		dadShader.angle = 45;
 		dadShader.threshold = 0.3;
-		dadShader.attachedSprite = dad.getSprite();
+		dadShader.attachCharacter(dad);
 		dad.applyShader(dadShader);
-		dad.onAnimationFrame.add(function(name:String, frame:Int, index:Int){
-			dadShader.updateFrameInfo(dad.getSprite().frame);
-		});
-
-		if(dad.characterInfo.info.extraData.get("dropShadowMask") != null){
-			dadShader.loadAltMask(Paths.image(dad.characterInfo.info.extraData.get("dropShadowMask"), true));
-			dadShader.maskThreshold = dad.characterInfo.info.extraData.get("dropShadowMaskThreshold");
-			dadShader.useAltMask = true;
-		}
 
 		gfShader = new DropShadowShader();
 		gfShader.setAdjustColor(-46, -38, -25, -20);
     	gfShader.color = 0xFFDFEF3C;
 		gfShader.angle = 90;
 		gfShader.attachedSprite = gf.getSprite();
+		gfShader.attachCharacter(gf);
 		gf.applyShader(gfShader);
-		gf.onAnimationFrame.add(function(name:String, frame:Int, index:Int){
-			gfShader.updateFrameInfo(gf.getSprite().frame);
-		});
-
-		if(gf.characterInfo.info.extraData.get("dropShadowMask") != null){
-			gfShader.loadAltMask(Paths.image(gf.characterInfo.info.extraData.get("dropShadowMask"), true));
-			gfShader.maskThreshold = gf.characterInfo.info.extraData.get("dropShadowMaskThreshold");
-			gfShader.useAltMask = true;
-		}
 
 	}
 

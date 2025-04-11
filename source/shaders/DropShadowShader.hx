@@ -220,15 +220,6 @@ class DropShadowShader extends FlxShader
 	}
 
 	/*
-		Should be called on the animation.callback of the attached sprite.
-		TODO: figure out why the reference to the attachedSprite breaks on web??
-	 */
-	public function onAttachedFrame(name, frameNum, frameIndex)
-	{
-		if (attachedSprite != null) updateFrameInfo(attachedSprite.frame);
-	}
-
-	/*
 		Updates the frame bounds and angle offset of the sprite for the shader.
 	 */
 	public function updateFrameInfo(frame:FlxFrame)
@@ -240,14 +231,29 @@ class DropShadowShader extends FlxShader
 		angOffset.value = [frame.angle * FlxAngle.TO_RAD];
 
 		if (attachedSprite != null){
-			var updatedAngle = angle;
+			/*var updatedAngle = angle;
 			if(attachedSprite.flipX){
 				updatedAngle = 180 - angle;
 				if(updatedAngle < 0){
 					updatedAngle += 360;
 				}
 			}
-			ang.value = [updatedAngle * FlxAngle.TO_RAD];
+			ang.value = [updatedAngle * FlxAngle.TO_RAD];*/
+			
+			attachedSpriteFlipX.value = [attachedSprite.flipX];
+			attachedSpriteFlipY.value = [attachedSprite.flipY];
+		}
+	}
+
+	public function attachCharacter(character:Character):Void{
+		attachedSprite = character.getSprite();
+		character.onAnimationFrame.add(function(name:String, frame:Int, index:Int){
+			updateFrameInfo(character.getSprite().frame);
+		});
+		if(character.characterInfo.info.extraData.get("dropShadowMask") != null){
+			loadAltMask(Paths.image(character.characterInfo.info.extraData.get("dropShadowMask"), true));
+			maskThreshold = character.characterInfo.info.extraData.get("dropShadowMaskThreshold");
+			useAltMask = true;
 		}
 	}
 
@@ -307,6 +313,8 @@ class DropShadowShader extends FlxShader
 			uniform float AA_STAGES;
 
 			uniform bool pixelPerfect;
+			uniform bool attachedSpriteFlipX;
+			uniform bool attachedSpriteFlipY;
 
 			const vec3 grayscaleValues = vec3(0.3098039215686275, 0.607843137254902, 0.0823529411764706);
 			const float e = 2.718281828459045;
@@ -427,7 +435,9 @@ class DropShadowShader extends FlxShader
 				vec2 imageRatio = vec2(1.0/openfl_TextureSize.x, 1.0/openfl_TextureSize.y);
 
 				// check the pixel in the direction and distance specified
-				vec2 checkedPixel = vec2(finalUv.x + (dist * cos(ang + angOffset) * imageRatio.x), finalUv.y - (dist * sin(ang + angOffset) * imageRatio.y));
+				float hMult = attachedSpriteFlipX ? -1.0 : 1.0;
+				float vMult = attachedSpriteFlipY ? -1.0 : 1.0;
+				vec2 checkedPixel = vec2(finalUv.x + (dist * (cos(ang + (angOffset * hMult * vMult)) * hMult) * imageRatio.x), finalUv.y - (dist * (sin(ang + (angOffset * hMult * vMult)) * vMult) * imageRatio.y));
 
 				// multiplier for the intensity of the drop shadow
 				float dropShadowAmount = 0.0;
@@ -478,6 +488,8 @@ class DropShadowShader extends FlxShader
 		useAltMask = false;
 
 		angOffset.value = [0];
+		attachedSpriteFlipX.value = [false];
+		attachedSpriteFlipY.value = [false];
 	}
 
 	function set_usePixelPerfect(value:Bool):Bool {
