@@ -12,3 +12,5 @@
 
 - Chart editor transition to Lil' Buddies is broken.
 	- Maybe remove it? IDK if people care about it + it could annoy someone who is charting...
+
+- Sometimes if you change categories in freeplay fast enough after transitioning to the screen the capsules go invisible and I don't know why.

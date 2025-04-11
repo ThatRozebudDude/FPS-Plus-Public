@@ -725,6 +725,9 @@ class FreeplayState extends MusicBeatState
 	}
 
 	function addCapsules():Void{
+		for(capsule in capsuleGroup){
+			FlxTween.cancelTweensOf(capsule);
+		}
 		capsuleGroup.clear();
 		for(i in 0...categoryMap[categoryNames[curCategory]].length){
 			updateCapsulePosition(i);
@@ -863,7 +866,7 @@ class FreeplayState extends MusicBeatState
 		updateAlbum();
 		addCapsules();
 		updateSongDifficulty();
-		tweenCapsulesOnScreen(transitionTime/2, randomVariation/2, staggerTime);
+		tweenCapsulesOnScreen(transitionTime/2, 0, staggerTime);
 	}
 
 	function updateScore():Void{
@@ -1081,7 +1084,7 @@ class FreeplayState extends MusicBeatState
 		}});
 	}
 
-	function tweenCapsulesOnScreen(_transitionTime:Float, _randomVariation:Float, _staggerTime:Float, ?_distance:Float = 1800):Void{
+	function tweenCapsulesOnScreen(_transitionTime:Float, _randomVariation:Float, _staggerTime:Float, ?_distance:Float = 1200):Void{
 		for(i in 0...categoryMap[categoryNames[curCategory]].length){
 			FlxTween.cancelTweensOf(categoryMap[categoryNames[curCategory]][i]);
 			categoryMap[categoryNames[curCategory]][i].xPositionOffset = _distance;
@@ -1138,7 +1141,7 @@ class FreeplayState extends MusicBeatState
 		FlxTween.tween(miniArrowRight, {y: miniArrowRight.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
 
 		difficultyStars.tweenIn(transitionTime, 0, transitionEase, staggerTime*2);
-		tweenCapsulesOnScreen(transitionTime, randomVariation, staggerTime);
+		tweenCapsulesOnScreen(transitionTime, 0, staggerTime);
 	}
 
 	function exitAnimation():Void{
@@ -1166,7 +1169,7 @@ class FreeplayState extends MusicBeatState
 		FlxTween.tween(miniArrowRight, {y: miniArrowRight.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
 		
 		difficultyStars.tweenOut(transitionTimeExit, 0, transitionEaseExit, staggerTimeExit);
-		tweenCapsulesOffScreen(transitionTimeExit, randomVariationExit, staggerTimeExit);
+		tweenCapsulesOffScreen(transitionTimeExit, 0, staggerTimeExit);
 
 		FlxTween.completeTweensOf(flash);
 		flash.alpha = 1;
