@@ -90,6 +90,7 @@ class FreeplayState extends MusicBeatState
 	public static var curVariation:Int = 0;
 
 	var textCycleCount:Int = 0;
+	var categoryLockOutSoItStopsBreaking:Float = 0;
 
 	public static var djCharacter:String = "BoyfriendFreeplay";
 
@@ -241,14 +242,20 @@ class FreeplayState extends MusicBeatState
 						FlxG.sound.play(Paths.sound('scrollMenu'));
 					}
 		
-					if(Binds.justPressed("menuCycleLeft")){
-						changeCategory(-1);
-						FlxG.sound.play(Paths.sound('scrollMenu'));
+					if(categoryLockOutSoItStopsBreaking > 0.25){
+						if(Binds.justPressed("menuCycleLeft")){
+							changeCategory(-1);
+							FlxG.sound.play(Paths.sound('scrollMenu'));
+						}
+						else if(Binds.justPressed("menuCycleRight")){
+							changeCategory(1);
+							FlxG.sound.play(Paths.sound('scrollMenu'));
+						}
 					}
-					else if(Binds.justPressed("menuCycleRight")){
-						changeCategory(1);
-						FlxG.sound.play(Paths.sound('scrollMenu'));
+					else{
+						categoryLockOutSoItStopsBreaking += elapsed;
 					}
+					
 		
 					if(Binds.justPressed("menuAccept")){
 						if(categoryMap[categoryNames[curCategory]][curSelected].variations.length > 1 && Config.enableVariations){
