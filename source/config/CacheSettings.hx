@@ -101,10 +101,9 @@ class CacheSettings extends FlxUIStateExt
 		backText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(backText);
 
-		if(!CacheConfig.check())
-		{
+		if(!CacheConfig.check()){
 			CacheConfig.music = false;
-			CacheConfig.characters = true;
+			CacheConfig.characters = false;
 			CacheConfig.graphics = false;
 		}
 

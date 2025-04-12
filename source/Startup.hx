@@ -143,8 +143,10 @@ class Startup extends FlxUIStateExt
 				StoryMenuState.weekUnlocked[0] = true;
 		}*/
 
-		if(!CacheConfig.check()) {
-			openPreloadSettings();
+		if(!CacheConfig.check()){
+			CacheConfig.music = false;
+			CacheConfig.characters = false;
+			CacheConfig.graphics = false;
 		}
 		else{
 			songsCached = !CacheConfig.music;
@@ -197,8 +199,8 @@ class Startup extends FlxUIStateExt
 		if(splash.animation.curAnim.finished && splash.animation.curAnim.name == "start" && !cacheStart){
 			
 			#if web
-			new FlxTimer().start(1.5, function(tmr:FlxTimer)
-			{
+			songsCached = false;
+			new FlxTimer().start(1, function(tmr:FlxTimer){
 				songsCached = true;
 				charactersCached = true;
 				graphicsCached = true;
@@ -206,6 +208,13 @@ class Startup extends FlxUIStateExt
 			#else
 			if(!songsCached || !charactersCached || !graphicsCached){
 				preload(); 
+			}
+			else{
+				loadingText.visible = false;
+				songsCached = false;
+				new FlxTimer().start(1, function(tmr:FlxTimer){
+					songsCached = true;
+				});
 			}
 			#end
 			
@@ -236,7 +245,7 @@ class Startup extends FlxUIStateExt
 				Binds.resetToDefaultControls();
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 			}
-			else if(FlxG.keys.justPressed.ANY){
+			else if(FlxG.keys.justPressed.ANY && !(FlxG.keys.anyJustPressed(FlxG.sound.volumeDownKeys) || FlxG.keys.anyJustPressed(FlxG.sound.volumeUpKeys))){
 				openPreloadSettings();
 			}
 		}
