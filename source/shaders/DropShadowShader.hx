@@ -230,23 +230,17 @@ class DropShadowShader extends FlxShader
 		// if a frame is rotated the shader will look completely wrong lol
 		angOffset.value = [frame.angle * FlxAngle.TO_RAD];
 
+		//Flips the angle that is used for the drop shadow so it applies consistently even if the sprite is flipped horizontally or vertically.
 		if (attachedSprite != null){
-			/*var updatedAngle = angle;
-			if(attachedSprite.flipX){
-				updatedAngle = 180 - angle;
-				if(updatedAngle < 0){
-					updatedAngle += 360;
-				}
-			}
-			ang.value = [updatedAngle * FlxAngle.TO_RAD];*/
-			
 			attachedSpriteFlipX.value = [attachedSprite.flipX];
 			attachedSpriteFlipY.value = [attachedSprite.flipY];
 		}
 	}
 
+	//Automatically sets up a character to have it's sprite attached to the shader and to update the frame UVs.
 	public function attachCharacter(character:Character):Void{
 		attachedSprite = character.getSprite();
+		updateFrameInfo(character.getSprite().frame);
 		character.onAnimationFrame.add(function(name:String, frame:Int, index:Int){
 			updateFrameInfo(character.getSprite().frame);
 		});
