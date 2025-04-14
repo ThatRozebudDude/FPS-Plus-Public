@@ -1,0 +1,30 @@
+[VIDEO]
+    fpsCap
+    bgDim
+    useGPU
+    showFPS
+
+[INPUT] (maybe rename to GAMEPLAY)
+    keyBinds
+    ghostTap
+    noteOffset
+    scrollSpeed
+
+[CUSTOMIZE]
+    downscroll
+    centeredNotes
+    -noteSplash
+    -noteGlow
+    showMissesSetting
+    showAccuracyDisplay
+    comboDisplay
+    -variationsSettings
+    cacheSettings
+
+[ACCESSIBILITY]
+    extraCamStuff
+    camBopStuff
+    captionsStuff
+    autoPauseSettings
+    hpGain
+    hpDrain

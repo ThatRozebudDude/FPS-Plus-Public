@@ -1,5 +1,7 @@
 package config;
 
+import flixel.addons.display.FlxGridOverlay;
+import shaders.ColorGradientShader;
 import openfl.utils.Assets;
 import title.TitleScreen;
 import flixel.sound.FlxSound;
@@ -29,6 +31,8 @@ class ConfigMenu extends FlxUIStateExt
 	public static var exitTo:Class<Dynamic>;
 	public static var startSong = true;
 	public static var startInSubMenu:Int = -1;
+	public static var savedListPos:Int = -1;
+	public static var savedListOffset:Int = -1;
 
 	public static final baseSongTrack:String = "config/nuConfiguratorBase";
 	public static final layerSongTrack:String = "config/nuConfiguratorDrums";
@@ -40,36 +44,47 @@ class ConfigMenu extends FlxUIStateExt
 	final fpsCapInSettings:Int = 120;
 
 	var curSelected:Int = 0;
-	var curSelectedSub:Int = 0;
+
+	var curListPosition:Int = 0;
+	var curListStartOffset:Int = 0;
 
 	var state:String = "topLevelMenu";
 	var exiting:Bool = false;
 
-	var icons:Array<FlxSprite> = [];
-	var titles:Array<FlxSprite> = [];
+	var invertedTitleColorShader = new ColorGradientShader(0xFFFFFFFF, 0xFF000000);
+
+	final iconOffsets:Array<Float> = [-1000, -500, 0, 500, 1000];
+	final iconScales:Array<Float> = [0.3, 0.6, 1, 0.6, 0.3];
+	final titleVertOffsets:Array<Float> = [-100, -50, 0, -50, -100];
+	final iconAlphaValues:Array<Float> = [0, 0.6, 1, 0.6, 0];
+	final optionIndexOffset:Array<Int> = [-2, -1, 0, 1, 2];
 
 	var bg:FlxSprite;
 	var optionTitle:FlxSprite;
-	var splatter:FlxSprite;
+	var icons:Array<FlxSprite> = [];
+	var titles:Array<FlxSprite> = [];
+	
 	var descBar:FlxSprite;
+
+	var categoryTitle:FlxSprite;
+	var grid:FlxSprite;
+
+	var optionNames:Array<FlxTextExt> = [];
+	var optionValues:Array<FlxTextExt> = [];
+	var descText:FlxTextExt;
+
+	var subMenuUpArrow:FlxSprite;
+	var subMenuDownArrow:FlxSprite;
 
 	var topLevelMenuGroup:FlxSpriteGroup = new FlxSpriteGroup();
 	var subMenuGroup:FlxSpriteGroup = new FlxSpriteGroup();
 
-	final options:Array<String> = ["video", "input", "misc"];
-	final optionPostions:Array<Float> = [1/5, 1/2, 4/5];
-
-	final menuTweenTime:Float = 0.6;
-	final menuAlphaTweenTime:Float = 0.4;
-
-	var configText:FlxTextExt;
-	var descText:FlxTextExt;
+	final options:Array<String> = ["gameplay", "video", "customize", "accessibility"];
 
 	var configOptions:Array<Array<ConfigOption>> = [];
 
-	var updateTextOnce:Bool = false;
-
 	final genericOnOff:Array<String> = ["on", "off"];
+
 	var offsetValue:Float;
 	var healthValue:Int;
 	var healthDrainValue:Int;
@@ -96,9 +111,7 @@ class ConfigMenu extends FlxUIStateExt
 	var showAccuracyValue:Bool;
 	var showMissesValue:Int;
 	final showMissesTypes:Array<String> = ["off", "on", "combo breaks"];
-	var enableVariationsValue:Bool;
 	var autoPauseValue:Bool;
-	//final pauseMusicBehaviorTypes:Array<String> = ["unique", "base game", "breakfast only"];
 
 	var pressUp:Bool = false;
 	var pressDown:Bool = false;
@@ -147,96 +160,133 @@ class ConfigMenu extends FlxUIStateExt
 		}
 
 		bg = new FlxSprite(-80).loadGraphic(Paths.image('menu/menuDesat'));
-		bg.scrollFactor.x = 0;
-		bg.scrollFactor.y = 0;
 		bg.setGraphicSize(Std.int(bg.width * 1.18));
 		bg.updateHitbox();
 		bg.screenCenter();
 		bg.antialiasing = true;
 		bg.color = 0xFF5C6CA5;
 
-		optionTitle = new FlxSprite(0, 40);
+		optionTitle = new FlxSprite(0, 100);
 		optionTitle.frames = Paths.getSparrowAtlas("menu/main/options");
 		optionTitle.animation.addByPrefix('selected', "selected", 24);
 		optionTitle.animation.play('selected');
-		optionTitle.scrollFactor.set();
 		optionTitle.antialiasing = true;
 		optionTitle.updateHitbox();
 		optionTitle.screenCenter(X);
+		optionTitle.y -= optionTitle.height/2;
 
-		descBar = new FlxSprite(0, 720).makeGraphic(1280, 89, 0x77000000);
+		descBar = new FlxSprite(0, 720).makeGraphic(1280, 90, 0xFF000000);
+		descBar.alpha = 0.5;
 
-		add(bg);
-		add(descBar);
 		topLevelMenuGroup.add(optionTitle);
 
-		splatter = new FlxSprite();
-		splatter.frames = Paths.getSparrowAtlas("fpsPlus/config/splatter");
-		splatter.animation.addByPrefix("boil", "", 24);
-		splatter.animation.play("boil");
-		splatter.antialiasing = true;
-		topLevelMenuGroup.add(splatter);
+		var categoryFrames = Paths.getSparrowAtlas("menu/config/categories");
 
-		add(subMenuGroup);
-		add(topLevelMenuGroup);
+		categoryTitle = new FlxSprite(0, 100);
+		categoryTitle.frames = categoryFrames;
+		for(option in options){
+			categoryTitle.animation.addByPrefix(option, option, 24, true);
+		}
+		categoryTitle.visible = false;
 
-		var iconTexture = Paths.getSparrowAtlas("fpsPlus/config/icons");
-		var textTexture = Paths.getSparrowAtlas("fpsPlus/config/text");
+		grid = new FlxSprite(30, 225).loadGraphic(FlxGridOverlay.createGrid(1220, 60, 1220, 60 * 6, true, 0x7F000000, 0x60000000));
 
-		for(i in 0...options.length){
-			var icon = new FlxSprite();
-			icon.frames = iconTexture;
-			icon.animation.addByPrefix("boil", options[i] + "Icon", 24);
-			icon.animation.play("boil");
+		descText = new FlxTextExt(320, 740, 640, "AHAHAHH!", 20);
+		descText.setFormat(Paths.font("vcr"), descText.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		descText.borderQuality = 1;
+		
+		subMenuGroup.add(grid);
+
+		subMenuUpArrow = new FlxSprite(0, grid.y - 11).loadGraphic(Paths.image("menu/config/smallArrow"));
+		subMenuUpArrow.antialiasing = true;
+		subMenuUpArrow.y -= subMenuUpArrow.height;
+		subMenuUpArrow.screenCenter(X);
+
+		subMenuDownArrow = new FlxSprite(0, grid.y + grid.height + 11).loadGraphic(Paths.image("menu/config/smallArrow"));
+		subMenuDownArrow.antialiasing = true;
+		subMenuDownArrow.flipY = true;
+		subMenuDownArrow.screenCenter(X);
+
+		subMenuGroup.add(subMenuUpArrow);
+		subMenuGroup.add(subMenuDownArrow);
+
+		for(i in 0...6){
+			var configText = new FlxTextExt(grid.x + 8, grid.y + 8 + (60*i), 1220 - 16, "OPTION " + i, 50);
+			configText.setFormat(Paths.font("Funkin-Bold", "otf"), configText.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			configText.borderSize = 4;
+			configText.borderQuality = 1;
+			optionNames.push(configText);
+			subMenuGroup.add(configText);
+		}
+
+		for(i in 0...6){
+			var valueText = new FlxTextExt(grid.x + 8, grid.y + 8 + (60*i), 1220 - 16, "<VALUE " + i + ">", 50);
+			valueText.setFormat(Paths.font("Funkin-Bold", "otf"), valueText.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			valueText.borderSize = 4;
+			valueText.borderQuality = 1;
+			optionValues.push(valueText);
+			subMenuGroup.add(valueText);
+		}
+
+		for(i in 0...optionIndexOffset.length){
+			var icon = new FlxSprite().makeGraphic(320, 320, 0xFFFFFFFF);
 			icon.antialiasing = true;
-			icon.screenCenter(Y);
-			icon.x = optionPostions[i] * 1280;
-			icon.x -= icon.frameWidth/2;
+			icon.screenCenter(XY);
+			icon.x += iconOffsets[i];
+			icon.scale.set(iconScales[i], iconScales[i]);
 			icons.push(icon);
 			topLevelMenuGroup.add(icon);
 
-			var text = new FlxSprite();
-			text.frames = textTexture;
-			text.animation.addByIndices('active', options[i] + "Text", [0, 1, 2], "", 24, true);
-			text.animation.addByIndices('inactive', options[i] + "Text", [3, 6, 9], "", 8, true);
-			text.animation.play("inactive");
-			text.antialiasing = true;
-			text.x = Utils.oldGetGraphicMidpoint(icon).x;
-			text.y = 3/4 * 720;
-			text.x -= text.frameWidth/2;
-			titles.push(text);
-			add(text);
-
+			var title = new FlxSprite();
+			title.frames = categoryFrames;
+			for(option in options){
+				title.animation.addByPrefix(option, option, 24, true);
+			}
+			title.antialiasing = true;
+			title.screenCenter(X);
+			title.x += iconOffsets[i];
+			title.y = 620 - title.height/2;
+			title.y += titleVertOffsets[i];
+			title.scale.set(iconScales[i], iconScales[i]);
+			titles.push(title);
+			topLevelMenuGroup.add(title);
 		}
 
-		configText = new FlxTextExt(0, 0, 1280, "", 60);
-		configText.scrollFactor.set(0, 0);
-		configText.setFormat(Paths.font("Funkin-Bold", "otf"), configText.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		configText.borderSize = 4;
-		configText.borderQuality = 1;
-		subMenuGroup.add(configText);
+		subMenuGroup.alpha = 0;
 
-		descText = new FlxTextExt(320, 638, 640, "", 20);
-		descText.scrollFactor.set(0, 0);
-		descText.setFormat(Paths.font("vcr"), descText.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		//descText.borderSize = 3;
-		descText.borderQuality = 1;
-		subMenuGroup.add(descText);
+		add(bg);
+
+		add(topLevelMenuGroup);
+		add(subMenuGroup);
+		
+		add(descBar);
+		add(descText);
+		add(categoryTitle);
 
 		setupOptions();
-		if(startInSubMenu > -1){
-			instantBringTextToTop(startInSubMenu);
-		}
-		changeSelected(0);
+		updateAllOptions();
 
 		customTransIn = new WeirdBounceIn(0.6);
 		customTransOut = new WeirdBounceOut(0.6);
+
+		changeCategory(0, false);
+
+		if(startInSubMenu > -1){
+			changeCategory(startInSubMenu, false);
+			openSubMenu(false);
+			curListPosition = savedListPos;
+			curListStartOffset = savedListOffset; 
+			textUpdate();
+			startInSubMenu = -1;
+			savedListPos = -1;
+			savedListOffset = -1;
+		}
 
 		super.create();
 
 	}
 
-	override function update(elapsed:Float){
+	override function update(elapsed:Float):Void{
 
 		super.update(elapsed);
 
@@ -266,27 +316,20 @@ class ConfigMenu extends FlxUIStateExt
 						songLayer.volume = 0;
 					}
 
-					if (pressLeft){
-						FlxG.sound.play(Paths.sound('scrollMenu'));
-						changeSelected(-1);
-					}
-					else if(pressRight){
-						FlxG.sound.play(Paths.sound('scrollMenu'));
-						changeSelected(1);
-					}
-
 					if (pressBack){
 						exit();
 					}
-					else if (pressAccept){
+					else if(pressAccept){
 						FlxG.sound.play(Paths.sound('confirmMenu'));
-						bringTextToTop(curSelected);
-						curSelectedSub = 0;
-						textUpdate();
+						openSubMenu();
 					}
-
-					if(updateTextOnce){
-						updateTextOnce = false;
+					else if(pressLeft){
+						FlxG.sound.play(Paths.sound('scrollMenu'));
+						changeCategory(-1);
+					}
+					else if(pressRight){
+						FlxG.sound.play(Paths.sound('scrollMenu'));
+						changeCategory(1);
 					}
 
 				case "subMenu":
@@ -294,36 +337,249 @@ class ConfigMenu extends FlxUIStateExt
 						songLayer.volume = 1;
 					}
 
-					if (pressBack){
-						FlxG.sound.play(Paths.sound('cancelMenu'));
-						backToCategories();
-					}
-
-					if (pressUp){
+					if(Binds.justPressed("menuCycleLeft")){
 						FlxG.sound.play(Paths.sound('scrollMenu'));
-						changeSubSelected(-1);
-					}
-					else if(pressDown){
-						FlxG.sound.play(Paths.sound('scrollMenu'));
-						changeSubSelected(1);
-					}
-
-					if(configOptions[curSelected][curSelectedSub].optionUpdate != null){
-						configOptions[curSelected][curSelectedSub].optionUpdate();
-					}
-
-					if(pressUp || pressDown || pressLeft || pressRight || pressAccept || !updateTextOnce){
+						curListPosition = 0;
+						curListStartOffset = 0;
+						changeCategory(-1, false);
 						textUpdate();
-						updateTextOnce = true;
+
+						FlxTween.cancelTweensOf(categoryTitle);
+						FlxTween.cancelTweensOf(categoryTitle.scale);
+						categoryTitle.animation.play(options[curSelected]);
+						categoryTitle.centerOrigin();
+						categoryTitle.scale.set(1, 1);
+						categoryTitle.x = (1280/2) - (categoryTitle.frameWidth/2);
+						categoryTitle.x += -120;
+						categoryTitle.y = 100 - (categoryTitle.frameHeight/2);
+
+						FlxTween.tween(categoryTitle, {x: categoryTitle.x + 120}, 0.4, {ease: FlxEase.quintOut});
+					}
+					else if(Binds.justPressed("menuCycleRight")){
+						FlxG.sound.play(Paths.sound('scrollMenu'));
+						curListPosition = 0;
+						curListStartOffset = 0;
+						changeCategory(1, false);
+						textUpdate();
+
+						FlxTween.cancelTweensOf(categoryTitle);
+						FlxTween.cancelTweensOf(categoryTitle.scale);
+						categoryTitle.animation.play(options[curSelected]);
+						categoryTitle.centerOrigin();
+						categoryTitle.scale.set(1, 1);
+						categoryTitle.x = (1280/2) - (categoryTitle.frameWidth/2);
+						categoryTitle.x += 120;
+						categoryTitle.y = 100 - (categoryTitle.frameHeight/2);
+
+						FlxTween.tween(categoryTitle, {x: categoryTitle.x - 120}, 0.4, {ease: FlxEase.quintOut});
+					}
+
+					/*if(holdUp && curListPosition == 0){
+						subMenuUpArrow.scale.set(0.7, 0.7);
+					}
+					else{
+						subMenuUpArrow.scale.set(1, 1);
+					}
+
+					if(holdDown && curListPosition == 5){
+						subMenuDownArrow.scale.set(0.7, 0.7);
+					}
+					else{
+						subMenuDownArrow.scale.set(1, 1);
+					}*/
+
+					if(pressDown){
+						if(curListStartOffset + curListPosition < configOptions[curSelected].length-1){
+							if(curListPosition == 5){
+								curListStartOffset++;
+							}
+							else{
+								curListPosition++;
+							}
+							FlxG.sound.play(Paths.sound('scrollMenu'));
+						}
+					}
+					else if(pressUp){
+						if(curListStartOffset + curListPosition > 0){
+							if(curListPosition == 0){
+								curListStartOffset--;
+							}
+							else{
+								curListPosition--;
+							}
+							FlxG.sound.play(Paths.sound('scrollMenu'));
+						}
+					}
+
+					subMenuUpArrow.visible = !(curListStartOffset == 0);
+					subMenuDownArrow.visible = !(curListStartOffset + 6 >= configOptions[curSelected].length);
+
+					if(configOptions[curSelected][curListStartOffset + curListPosition].optionUpdate != null){
+						configOptions[curSelected][curListStartOffset + curListPosition].optionUpdate();
+					}
+
+					if(state != "transitioning"){
+						if(pressBack){
+							FlxG.sound.play(Paths.sound('cancelMenu'));
+							closeSubMenu();
+						}
+					}
+
+					if(pressUp || pressDown || pressLeft || pressRight || pressAccept){
+						textUpdate();
 					}
 
 			}
 
 		}
 
+		descText.y = descBar.y + 20;
+
 	}
 
-	function exit(){
+	function changeCategory(change:Int, ?doTween:Bool = true):Void{
+		curSelected += change;
+		if(curSelected < 0){ curSelected = options.length-1; }
+		if(curSelected >= options.length){ curSelected = 0; }
+
+		if(doTween){
+			for(i in 0...titles.length){
+				FlxTween.cancelTweensOf(titles[i]);
+				FlxTween.cancelTweensOf(titles[i].scale);
+				FlxTween.cancelTweensOf(icons[i]);
+				FlxTween.cancelTweensOf(icons[i].scale);
+
+				var iOffset = i + Utils.sign(change);
+				if(iOffset < 0 || iOffset >= optionIndexOffset.length){
+					titles[i].visible = false;
+					icons[i].visible = false;
+				}
+				else{
+					titles[i].visible = true;
+					titles[i].animation.play(options[wrapToOptionLength(curSelected + optionIndexOffset[i])]);
+					titles[i].x = 1280/2 - titles[i].frameWidth/2;
+					titles[i].x += iconOffsets[iOffset];
+					titles[i].y = 620 - titles[i].frameHeight/2;
+					titles[i].y += titleVertOffsets[iOffset];
+					titles[i].centerOrigin();
+					titles[i].scale.set(iconScales[iOffset], iconScales[iOffset]);
+					//titles[i].alpha = iconAlphaValues[iOffset];
+
+					FlxTween.tween(titles[i], {x: (1280/2 - titles[i].frameWidth/2) + iconOffsets[i], y: (620 - titles[i].frameHeight/2) + titleVertOffsets[i]}, 0.5, {ease: FlxEase.quintOut});
+					FlxTween.tween(titles[i].scale, {x: iconScales[i], y: iconScales[i]}, 0.5, {ease: FlxEase.quintOut});
+
+					icons[i].visible = true;
+					icons[i].x = 1280/2 - icons[i].frameWidth/2;
+					icons[i].x += iconOffsets[iOffset];
+					icons[i].scale.set(iconScales[iOffset], iconScales[iOffset]);
+					//icons[i].alpha = iconAlphaValues[iOffset];
+
+					FlxTween.tween(icons[i], {x: (1280/2 - icons[i].frameWidth/2) + iconOffsets[i]}, 0.5, {ease: FlxEase.quintOut});
+					FlxTween.tween(icons[i].scale, {x: iconScales[i], y: iconScales[i]}, 0.5, {ease: FlxEase.quintOut});
+				}
+			}
+		}
+		else{
+			for(i in 0...titles.length){
+				FlxTween.cancelTweensOf(titles[i]);
+				FlxTween.cancelTweensOf(titles[i].scale);
+				FlxTween.cancelTweensOf(icons[i]);
+				FlxTween.cancelTweensOf(icons[i].scale);
+
+				titles[i].animation.play(options[wrapToOptionLength(curSelected + optionIndexOffset[i])]);
+				titles[i].x = 1280/2 - titles[i].frameWidth/2;
+				titles[i].x += iconOffsets[i];
+				titles[i].y = 620 - titles[i].frameHeight/2;
+				titles[i].y += titleVertOffsets[i];
+				titles[i].centerOrigin();
+				titles[i].scale.set(iconScales[i], iconScales[i]);
+				//titles[i].alpha = iconAlphaValues[i];
+
+				icons[i].x = 1280/2 - icons[i].frameWidth/2;
+				icons[i].x += iconOffsets[i];
+				icons[i].scale.set(iconScales[i], iconScales[i]);
+				//icons[i].alpha = iconAlphaValues[i];
+			}
+		}
+
+		for(i in 0...titles.length){
+			if(i == 2){
+				titles[i].shader = null;
+				titles[i].animation.curAnim.frameRate = 24;
+			}
+			else{
+				titles[i].shader = invertedTitleColorShader.shader;
+				titles[i].animation.curAnim.frameRate = 8;
+			}
+		}
+	}
+
+	inline function wrapToOptionLength(v:Int):Int{
+		while(v >= options.length){ v -= options.length; }
+		while(v < 0){ v += options.length; }
+		return v;
+	}
+
+	function openSubMenu(?doTween:Bool = true):Void{
+		state = "subMenu";
+		curListPosition = 0;
+		curListStartOffset = 0;
+		textUpdate();
+
+		FlxTween.cancelTweensOf(topLevelMenuGroup);
+		FlxTween.cancelTweensOf(subMenuGroup);
+		FlxTween.cancelTweensOf(descBar);
+		FlxTween.cancelTweensOf(categoryTitle);
+		FlxTween.cancelTweensOf(categoryTitle.scale);
+		FlxTween.cancelTweensOf(bg);
+
+		if(doTween){
+			FlxTween.tween(topLevelMenuGroup, {alpha: 0}, 0.3, {ease: FlxEase.quintOut});
+			FlxTween.tween(subMenuGroup, {alpha: 1}, 0.3, {ease: FlxEase.quintOut});
+			FlxTween.tween(descBar, {y: 720 - descBar.height}, 0.5, {ease: FlxEase.quintOut});
+			FlxTween.color(bg, 1.75, 0xFF4961B8, 0xFF5C6CA5, {ease: FlxEase.quintOut});
+
+			categoryTitle.visible = true;
+			titles[2].visible = false;
+			categoryTitle.setPosition(titles[2].x, titles[2].y);
+			categoryTitle.animation.play(options[curSelected]);
+			categoryTitle.centerOrigin();
+			categoryTitle.scale.set(titles[2].scale.x, titles[2].scale.y);
+
+			FlxTween.tween(categoryTitle, {x: (1280/2) - (categoryTitle.frameWidth/2), y: 100 - (categoryTitle.frameHeight/2)}, 0.5, {ease: FlxEase.quintOut});
+			FlxTween.tween(categoryTitle.scale, {x: 1, y: 1}, 0.5, {ease: FlxEase.quintOut});
+		}
+		else{
+			topLevelMenuGroup.alpha = 0;
+			subMenuGroup.alpha = 1;
+			descBar.y = 720 - descBar.height;
+
+			categoryTitle.visible = true;
+			titles[2].visible = false;
+			categoryTitle.animation.play(options[curSelected]);
+			categoryTitle.centerOrigin();
+			categoryTitle.scale.set(1, 1);
+			categoryTitle.x = (1280/2) - (categoryTitle.frameWidth/2);
+			categoryTitle.y = 100 - (categoryTitle.frameHeight/2);
+		}
+	}
+
+	function closeSubMenu():Void{
+		state = "topLevelMenu";
+
+		FlxTween.cancelTweensOf(topLevelMenuGroup);
+		FlxTween.cancelTweensOf(subMenuGroup);
+		FlxTween.cancelTweensOf(descBar);
+
+		FlxTween.tween(topLevelMenuGroup, {alpha: 1}, 0.3, {ease: FlxEase.quintOut});
+		FlxTween.tween(subMenuGroup, {alpha: 0}, 0.3, {ease: FlxEase.quintOut});
+		FlxTween.tween(descBar, {y: 720}, 0.5, {ease: FlxEase.quintOut});
+
+		categoryTitle.visible = false;
+		titles[2].visible = true;
+	}
+
+	function exit():Void{
 		writeToConfig();
 		exiting = true;
 		if(!USE_MENU_MUSIC || exitTo != MainMenuState){
@@ -342,128 +598,46 @@ class ConfigMenu extends FlxUIStateExt
 		exitTo = null;
 	}
 
-	function bringTextToTop(x:Int){
-		state = "subMenu";
-		FlxTween.cancelTweensOf(titles[x]);
-		FlxTween.cancelTweensOf(topLevelMenuGroup);
-		FlxTween.cancelTweensOf(subMenuGroup);
-		FlxTween.cancelTweensOf(descBar);
-		FlxTween.cancelTweensOf(bg);
-		FlxTween.tween(titles[x], {x: Utils.getGraphicMidpoint(optionTitle).x - titles[x].width/2, y: Utils.getGraphicMidpoint(optionTitle).y - titles[x].height/2, alpha: 1}, menuTweenTime, {ease: FlxEase.quintOut});
-		FlxTween.tween(topLevelMenuGroup, {alpha: 0}, menuAlphaTweenTime, {ease: FlxEase.quintOut});
-		FlxTween.tween(subMenuGroup, {alpha: 1}, menuAlphaTweenTime, {ease: FlxEase.quintOut});
-		FlxTween.tween(descBar, {y: 720 - descBar.height}, menuAlphaTweenTime, {ease: FlxEase.quintOut});
-		FlxTween.color(bg, 1.75, 0xFF4961B8, 0xFF5C6CA5, {ease: FlxEase.quintOut});
-		for(i in 0...titles.length){
-			if(i != x){
-				FlxTween.cancelTweensOf(titles[i]);
-				FlxTween.tween(titles[i], {x: Utils.oldGetGraphicMidpoint(icons[i]).x - titles[i].frameWidth/2, y: 3/4 * 720, alpha: 0}, menuAlphaTweenTime, {ease: FlxEase.quintOut});
+	function writeToConfig():Void{
+		Config.write(offsetValue, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, allowedFramerates[framerateValue], dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, useGPUValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue, showAccuracyValue, showMissesValue, autoPauseValue);
+	}
+
+	function updateAllOptions():Void{
+		for(configOptionsList in configOptions){
+			for(opt in configOptionsList){
+				opt.optionUpdate();
 			}
 		}
 	}
 
-	function instantBringTextToTop(x:Int){
-		state = "subMenu";
-		curSelected = x;
-		startInSubMenu = -1;
-		titles[x].x = Utils.getGraphicMidpoint(optionTitle).x - titles[x].width/2;
-		titles[x].y = Utils.getGraphicMidpoint(optionTitle).y - titles[x].height/2;
-		titles[x].alpha = 1;
-		topLevelMenuGroup.alpha = 0;
-		subMenuGroup.alpha = 1;
-		descBar.y = 720 - descBar.height;
-		for(i in 0...titles.length){
-			if(i != x){
-				titles[i].x = Utils.oldGetGraphicMidpoint(icons[i]).x - titles[i].frameWidth/2;
-				titles[i].y = 3/4 * 720;
-				titles[i].alpha = 0;
-			}
-		}
-		textUpdate();
-	}
+	function textUpdate():Void{
+		for(i in 0...optionNames.length){
+			optionNames[i].text = "";
+			optionValues[i].text = "";
 
-	function backToCategories(){
-		state = "topLevelMenu";
-		FlxTween.cancelTweensOf(topLevelMenuGroup);
-		FlxTween.cancelTweensOf(subMenuGroup);
-		FlxTween.cancelTweensOf(descBar);
-		for(i in 0...titles.length){
-			FlxTween.cancelTweensOf(titles[i]);
-			FlxTween.tween(titles[i], {x: Utils.oldGetGraphicMidpoint(icons[i]).x - titles[i].frameWidth/2, y: 3/4 * 720, alpha: 1}, menuTweenTime, {ease: FlxEase.quintOut});
-		}   
-		FlxTween.tween(descBar, {y: 720}, menuAlphaTweenTime, {ease: FlxEase.quintOut});
-		FlxTween.tween(topLevelMenuGroup, {alpha: 1}, menuAlphaTweenTime, {ease: FlxEase.quintOut});
-		FlxTween.tween(subMenuGroup, {alpha: 0}, menuAlphaTweenTime, {ease: FlxEase.quintOut});
-	}
+			var optionPosition = curListStartOffset + i;
+			if(optionPosition >= configOptions[curSelected].length){ continue; }
 
-	function changeSelected(change:Int){
-		
-		curSelected += change;
+			optionNames[i].text = configOptions[curSelected][optionPosition].name + "\n\n";
+			optionValues[i].text = configOptions[curSelected][optionPosition].setting;
 
-		if(curSelected < 0){
-			curSelected = options.length - 1;
-		}
-		else if(curSelected >= options.length){
-			curSelected = 0;
-		}
-
-		for(i in 0...options.length){
-			if(i == curSelected){
-				icons[i].scale.set(1, 1);
-				titles[i].animation.play("active");
-				splatter.setPosition(Utils.oldGetGraphicMidpoint(icons[i]).x, Utils.oldGetGraphicMidpoint(icons[i]).y);
-				splatter.x -= splatter.width/2;
-				splatter.y -= splatter.height/2;
-				/*FlxTween.cancelTweensOf(splatter.scale);
-				splatter.scale.set(1.075, 1.075);
-				FlxTween.tween(splatter.scale, {x: 1, y: 1}, 0.6, {ease: FlxEase.quintOut});*/
+			if(i == curListPosition){
+				optionNames[i].color = 0xFFFFFF00;
+				optionValues[i].color = 0xFFFFFF00;
+				descText.text = configOptions[curSelected][optionPosition].description + "\n\n";
+				if(optionValues[i].text.length > 0){
+					optionValues[i].text = "< " + optionValues[i].text + " >";
+				}
 			}
 			else{
-				icons[i].scale.set(0.85, 0.85);
-				titles[i].animation.play("inactive");
-			}
-		}
-	}
-
-	function changeSubSelected(change:Int){
-		
-		curSelectedSub += change;
-
-		if(curSelectedSub < 0){
-			curSelectedSub = configOptions[curSelected].length - 1;
-		}
-		else if(curSelectedSub >= configOptions[curSelected].length){
-			curSelectedSub = 0;
-		}
-
-	}
-
-	function textUpdate(){
-
-		configText.clearFormats();
-		configText.text = "";
-
-		for(i in 0...configOptions[curSelected].length){
-
-			var sectionStart = configText.text.length;
-			configText.text += configOptions[curSelected][i].name + configOptions[curSelected][i].setting + "\n";
-			var sectionEnd = configText.text.length - 1;
-
-			if(i == curSelectedSub){
-				configText.addFormat(new FlxTextFormat(0xFFFFFF00), sectionStart, sectionEnd);
+				optionNames[i].color = 0xFFFFFFFF;
+				optionValues[i].color = 0xFFFFFFFF;
 			}
 
+			if(optionValues[i].text == ""){
+				optionValues[i].text = "---\n\n";
+			}
 		}
-
-		configText.screenCenter(XY);
-		configText.y += 30;
-
-		configText.text += "\n";
-
-		descText.text = configOptions[curSelected][curSelectedSub].description;
-
-		//tabDisplay.text = Std.string(tabKeys);
-
 	}
 
 	function setupOptions(){
@@ -487,7 +661,6 @@ class ConfigMenu extends FlxUIStateExt
 		showCaptionsValue = Config.showCaptions;
 		showAccuracyValue = Config.showAccuracy;
 		showMissesValue = Config.showMisses;
-		enableVariationsValue = Config.enableVariations;
 		autoPauseValue = Config.autoPause;
 
 		framerateValue = allowedFramerates.indexOf(Config.framerate);
@@ -497,7 +670,7 @@ class ConfigMenu extends FlxUIStateExt
 
 		//VIDEO
 
-		var fpsCap = new ConfigOption("FRAMERATE", #if desktop ": " + (allowedFramerates[framerateValue] == 999 ? "uncapped" : ""+allowedFramerates[framerateValue]) #else ": disabled" #end, #if desktop "Uncaps the framerate during gameplay.\n(Some menus will limit framerate but gameplay will always be at the specified framerate.)" #else "Disabled on Web builds." #end);
+		var fpsCap = new ConfigOption("FRAMERATE", #if desktop (allowedFramerates[framerateValue] == 999 ? "uncapped" : ""+allowedFramerates[framerateValue]) #else "disabled" #end, #if desktop "Uncaps the framerate during gameplay.\n(Some menus will limit framerate but gameplay will always be at the specified framerate.)" #else "Disabled on Web builds." #end);
 		fpsCap.optionUpdate = function(){
 			#if desktop
 			if (pressRight) {
@@ -518,13 +691,13 @@ class ConfigMenu extends FlxUIStateExt
 
 			Config.setFramerate(fpsCapInSettings, allowedFramerates[framerateValue]);
 
-			fpsCap.setting = ": " + (allowedFramerates[framerateValue] == 999 ? "uncapped" : ""+allowedFramerates[framerateValue]);
+			fpsCap.setting = (allowedFramerates[framerateValue] == 999 ? "uncapped" : ""+allowedFramerates[framerateValue]);
 			#end
 		};
 
 
 
-		var bgDim = new ConfigOption("BACKGROUND DIM", ": " + (dimValue * 10) + "%", "Adjusts how dark the background is.\nIt is recommended that you use the HUD combo display with a high background dim.");
+		var bgDim = new ConfigOption("BACKGROUND DIM", (dimValue * 10) + "%", "Adjusts how dark the background is.\nIt is recommended that you use the HUD combo display with a high background dim.");
 		bgDim.optionUpdate = function(){
 			if (pressRight){
 				FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -541,12 +714,12 @@ class ConfigMenu extends FlxUIStateExt
 			if (dimValue < 0)
 				dimValue = 10;
 
-			bgDim.setting = ": " + (dimValue * 10) + "%";
+			bgDim.setting = (dimValue * 10) + "%";
 		}
 
 
 
-		var noteSplash = new ConfigOption("NOTE SPLASH", ": " + noteSplashTypes[noteSplashValue], "temp :]");
+		var noteSplash = new ConfigOption("NOTE SPLASH", noteSplashTypes[noteSplashValue], "temp :]");
 		noteSplash.extraData[0] = "All note splashes are disabled.";
 		noteSplash.extraData[1] = "Both note splashes and hold covers are enabled.";
 		noteSplash.extraData[2] = "Both note splashes and hold covers are enabled, but there is no hold release splash.";
@@ -568,35 +741,35 @@ class ConfigMenu extends FlxUIStateExt
 			if (noteSplashValue < 0)
 				noteSplashValue = noteSplashTypes.length - 1;
 
-			noteSplash.setting = ": " + noteSplashTypes[noteSplashValue];
+			noteSplash.setting = noteSplashTypes[noteSplashValue];
 			noteSplash.description = noteSplash.extraData[noteSplashValue];
 		}
 
 
 
-		var noteGlow = new ConfigOption("NOTE GLOW", ": " + genericOnOff[glowValue?0:1], "Makes note arrows glow if they are able to be hit.");
+		var noteGlow = new ConfigOption("NOTE GLOW", genericOnOff[glowValue?0:1], "Makes note arrows glow if they are able to be hit.");
 		noteGlow.optionUpdate = function(){
 			if (pressRight || pressLeft || pressAccept) {
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				glowValue = !glowValue;
 			}
-			noteGlow.setting = ": " + genericOnOff[glowValue?0:1];
+			noteGlow.setting = genericOnOff[glowValue?0:1];
 		}
 
 
 
-		var extraCamStuff = new ConfigOption("DYNAMIC CAMERA", ": " + genericOnOff[extraCamMovementValue?0:1] , "Moves the camera in the direction of hit notes.");
+		var extraCamStuff = new ConfigOption("DYNAMIC CAMERA", genericOnOff[extraCamMovementValue?0:1] , "Moves the camera in the direction of hit notes.");
 		extraCamStuff.optionUpdate = function(){
 			if (pressRight || pressLeft || pressAccept) {
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				extraCamMovementValue = !extraCamMovementValue;
 			}
-			extraCamStuff.setting = ": " + genericOnOff[extraCamMovementValue?0:1];
+			extraCamStuff.setting = genericOnOff[extraCamMovementValue?0:1];
 		};
 
 
 
-		var camBopStuff = new ConfigOption("CAMERA BOP", ": " + camBopAmountTypes[camBopAmountValue] , "Adjust how much the camera zooms on beat.");
+		var camBopStuff = new ConfigOption("CAMERA BOP", camBopAmountTypes[camBopAmountValue] , "Adjust how much the camera zooms on beat.");
 		camBopStuff.optionUpdate = function(){
 			if (pressRight){
 				FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -614,18 +787,18 @@ class ConfigMenu extends FlxUIStateExt
 			if (camBopAmountValue < 0)
 				camBopAmountValue = 2;
 
-			camBopStuff.setting = ": " + camBopAmountTypes[camBopAmountValue];
+			camBopStuff.setting = camBopAmountTypes[camBopAmountValue];
 		};
 
 
 
-		var captionsStuff = new ConfigOption("CAPTIONS", ": " + genericOnOff[showCaptionsValue?0:1] , "Enables captions for songs that have them.");
+		var captionsStuff = new ConfigOption("CAPTIONS", genericOnOff[showCaptionsValue?0:1] , "Enables captions for songs that have them.");
 		captionsStuff.optionUpdate = function(){
 			if (pressRight || pressLeft || pressAccept) {
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				showCaptionsValue = !showCaptionsValue;
 			}
-			captionsStuff.setting = ": " + genericOnOff[showCaptionsValue?0:1];
+			captionsStuff.setting = genericOnOff[showCaptionsValue?0:1];
 		};
 
 
@@ -634,7 +807,7 @@ class ConfigMenu extends FlxUIStateExt
 
 
 
-		var noteOffset = new ConfigOption("NOTE OFFSET", ": " + offsetValue, "Adjust note timings.\nPress \"ENTER\" to start the offset calibration." + (Config.ee1?"\nHold \"SHIFT\" to force the pixel calibration.\nHold \"CTRL\" to force the normal calibration.":""));
+		var noteOffset = new ConfigOption("NOTE OFFSET", ""+offsetValue, "Adjust note timings.\nPress \"ENTER\" to start the offset calibration." + (Config.ee1?"\nHold \"SHIFT\" to force the pixel calibration.\nHold \"CTRL\" to force the normal calibration.":""));
 		noteOffset.extraData[0] = 0;
 		noteOffset.optionUpdate = function(){
 			if (pressRight){
@@ -672,7 +845,7 @@ class ConfigMenu extends FlxUIStateExt
 
 			if(FlxG.keys.justPressed.ENTER){
 				state = "transitioning";
-				startInSubMenu = curSelected;
+				saveMenuPosition();
 				FlxG.sound.music.fadeOut(0.3);
 				writeToConfig();
 				AutoOffsetState.forceEasterEgg = FlxG.keys.pressed.SHIFT ? 1 : (FlxG.keys.pressed.CONTROL ? -1 : 0);
@@ -682,34 +855,34 @@ class ConfigMenu extends FlxUIStateExt
 				switchState(new AutoOffsetState());
 			}
 
-			noteOffset.setting = ": " + offsetValue;
+			noteOffset.setting = ""+offsetValue;
 		};
 
 
 
-		var downscroll = new ConfigOption("DOWNSCROLL", ": " + genericOnOff[downValue?0:1], "Makes notes approach from the top instead the bottom.");
+		var downscroll = new ConfigOption("DOWNSCROLL", genericOnOff[downValue?0:1], "Makes notes approach from the top instead the bottom.");
 		downscroll.optionUpdate = function(){
 			if (pressRight || pressLeft || pressAccept) {
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				downValue = !downValue;
 			}
-			downscroll.setting = ": " + genericOnOff[downValue?0:1];
+			downscroll.setting = genericOnOff[downValue?0:1];
 		}
 
 
 
-		var centeredNotes = new ConfigOption("CENTERED STRUM LINE", ": " + genericOnOff[centeredValue?0:1], "Makes the strum line centered instead of to the side.");
+		var centeredNotes = new ConfigOption("CENTERED STRUM LINE", genericOnOff[centeredValue?0:1], "Makes the strum line centered instead of to the side.");
 		centeredNotes.optionUpdate = function(){
 			if (pressRight || pressLeft || pressAccept) {
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				centeredValue = !centeredValue;
 			}
-			centeredNotes.setting = ": " + genericOnOff[centeredValue?0:1];
+			centeredNotes.setting = genericOnOff[centeredValue?0:1];
 		}
 
 
 
-		var ghostTap = new ConfigOption("ALLOW GHOST TAPPING", ": " + randomTapTypes[randomTapValue], "");
+		var ghostTap = new ConfigOption("ALLOW GHOST TAPPING", randomTapTypes[randomTapValue], "");
 		ghostTap.extraData[0] = "Any key press that isn't for a valid note will cause you to miss.";
 		ghostTap.extraData[1] = "You can only  miss while you need to sing.";
 		ghostTap.extraData[2] = "You cannot miss unless you do not hit a note.";
@@ -730,7 +903,7 @@ class ConfigMenu extends FlxUIStateExt
 			if (randomTapValue < 0)
 				randomTapValue = 2;
 
-			ghostTap.setting = ": " + randomTapTypes[randomTapValue];
+			ghostTap.setting = randomTapTypes[randomTapValue];
 			ghostTap.description = ghostTap.extraData[randomTapValue];
 		}
 
@@ -741,7 +914,7 @@ class ConfigMenu extends FlxUIStateExt
 			if (pressAccept) {
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				state = "transitioning";
-				startInSubMenu = curSelected;
+				saveMenuPosition();
 				writeToConfig();
 				if(USE_LAYERED_MUSIC && !USE_MENU_MUSIC){
 					songLayer.fadeOut(0.3);
@@ -755,23 +928,23 @@ class ConfigMenu extends FlxUIStateExt
 			}
 		}
 
-		var showFPS = new ConfigOption("SHOW FPS", ": " + genericOnOff[showFPSValue?0:1], "Show or hide the game's framerate.");
+		var showFPS = new ConfigOption("SHOW FPS", genericOnOff[showFPSValue?0:1], "Show or hide the game's framerate.");
 		showFPS.optionUpdate = function(){
 			if (pressRight || pressLeft || pressAccept) {
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				showFPSValue = !showFPSValue;
 				Main.fpsDisplay.visible = showFPSValue;
 			}
-			showFPS.setting = ": " + genericOnOff[showFPSValue?0:1];
+			showFPS.setting = genericOnOff[showFPSValue?0:1];
 		}
 
-		var useGPU = new ConfigOption("GPU LOADING", ": " + genericOnOff[useGPUValue?0:1], "Load graphics on the GPU if possible. Reduces memory usage but might not work well on lower end machines.");
+		var useGPU = new ConfigOption("GPU LOADING", genericOnOff[useGPUValue?0:1], "Load graphics on the GPU if possible. Reduces memory usage but might not work well on lower end machines.");
 		useGPU.optionUpdate = function(){
 			if (pressRight || pressLeft || pressAccept) {
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				useGPUValue = !useGPUValue;
 			}
-			useGPU.setting = ": " + genericOnOff[useGPUValue?0:1];
+			useGPU.setting = genericOnOff[useGPUValue?0:1];
 		}
 
 
@@ -779,7 +952,7 @@ class ConfigMenu extends FlxUIStateExt
 
 
 
-		/*var accuracyDisplay = new ConfigOption("ACCURACY DISPLAY", ": " + accuracyType, "What type of accuracy calculation you want to use. Simple is just notes hit / total notes. Complex also factors in how early or late a note was.");
+		/*var accuracyDisplay = new ConfigOption("ACCURACY DISPLAY", accuracyType, "What type of accuracy calculation you want to use. Simple is just notes hit / total notes. Complex also factors in how early or late a note was.");
 		accuracyDisplay.optionUpdate = function(){
 			if (pressRight){
 				FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -799,23 +972,23 @@ class ConfigMenu extends FlxUIStateExt
 					
 			accuracyType = accuracyTypes[accuracyTypeInt];
 			
-			accuracyDisplay.setting = ": " + accuracyType;
+			accuracyDisplay.setting = accuracyType;
 		};*/
 
 
 
-		var showAccuracyDisplay = new ConfigOption("SHOW ACCURACY", ": " + genericOnOff[showAccuracyValue?0:1], "Shows the accuracy on the in-game HUD.");
+		var showAccuracyDisplay = new ConfigOption("SHOW ACCURACY", genericOnOff[showAccuracyValue?0:1], "Shows the accuracy on the in-game HUD.");
 		showAccuracyDisplay.optionUpdate = function(){
 			if (pressRight || pressLeft || pressAccept) {
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				showAccuracyValue = !showAccuracyValue;
 			}
-			showAccuracyDisplay.setting = ": " + genericOnOff[showAccuracyValue?0:1];
+			showAccuracyDisplay.setting = genericOnOff[showAccuracyValue?0:1];
 		}
 
 
 
-		var comboDisplay = new ConfigOption("COMBO DISPLAY", ": " + comboTypes[comboValue], "");
+		var comboDisplay = new ConfigOption("COMBO DISPLAY", comboTypes[comboValue], "");
 		comboDisplay.extraData[0] = "Ratings and combo count are a part of the world and move around with the camera.";
 		comboDisplay.extraData[1] = "Ratings and combo count are a part of the hud and stay in a static position.";
 		comboDisplay.extraData[2] = "Ratings and combo count are hidden.";
@@ -837,13 +1010,13 @@ class ConfigMenu extends FlxUIStateExt
 			if (comboValue < 0)
 				comboValue = comboTypes.length - 1;
 			
-			comboDisplay.setting = ": " + comboTypes[comboValue];
+			comboDisplay.setting = comboTypes[comboValue];
 			comboDisplay.description = comboDisplay.extraData[comboValue];
 		};
 
 
 
-		var hpGain = new ConfigOption("HP GAIN MULTIPLIER", ": " + healthValue / 10.0, "Modifies how much Health you gain when hitting a note.");
+		var hpGain = new ConfigOption("HP GAIN MULTIPLIER", ""+(healthValue / 10.0), "Modifies how much Health you gain when hitting a note.");
 		hpGain.extraData[0] = 0;
 		hpGain.optionUpdate = function(){
 			if (pressRight){
@@ -884,12 +1057,12 @@ class ConfigMenu extends FlxUIStateExt
 				textUpdate();
 			}
 			
-			hpGain.setting = ": " + healthValue / 10.0;
+			hpGain.setting = ""+(healthValue / 10.0);
 		};
 
 
 
-		var hpDrain = new ConfigOption("HP LOSS MULTIPLIER", ": " + healthDrainValue / 10.0, "Modifies how much Health you lose when missing a note.");
+		var hpDrain = new ConfigOption("HP LOSS MULTIPLIER", ""+(healthDrainValue / 10.0), "Modifies how much Health you lose when missing a note.");
 		hpDrain.extraData[0] = 0;
 		hpDrain.optionUpdate = function(){
 			if (pressRight){
@@ -930,7 +1103,7 @@ class ConfigMenu extends FlxUIStateExt
 				textUpdate();
 			}
 			
-			hpDrain.setting = ": " + healthDrainValue / 10.0;
+			hpDrain.setting = ""+(healthDrainValue / 10.0);
 		};
 
 
@@ -941,7 +1114,7 @@ class ConfigMenu extends FlxUIStateExt
 				#if desktop
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				state = "transitioning";
-				startInSubMenu = curSelected;
+				saveMenuPosition();
 				writeToConfig();
 				if(USE_LAYERED_MUSIC && !USE_MENU_MUSIC){
 					songLayer.fadeOut(0.3);
@@ -954,7 +1127,7 @@ class ConfigMenu extends FlxUIStateExt
 
 
 
-		var scrollSpeed = new ConfigOption("STATIC SCROLL SPEED", ": " + (scrollSpeedValue > 0 ? "" + (scrollSpeedValue / 10.0) : "[DISABLED]"), "");
+		var scrollSpeed = new ConfigOption("STATIC SCROLL SPEED", (scrollSpeedValue > 0 ? "" + (scrollSpeedValue / 10.0) : ""), "");
 		scrollSpeed.extraData[0] = 0;
 		scrollSpeed.extraData[1] = "Press ENTER to enable.\nSets the song scroll speed to the set value instead of the song's default.";
 		scrollSpeed.extraData[2] = "Press ENTER to disable.\nSets the song scroll speed to the set value instead of the song's default.";
@@ -1012,23 +1185,23 @@ class ConfigMenu extends FlxUIStateExt
 			}
 
 			scrollSpeed.description = scrollSpeedValue > 0 ? scrollSpeed.extraData[2] : scrollSpeed.extraData[1];
-			scrollSpeed.setting = ": " + (scrollSpeedValue > 0 ? "" + (scrollSpeedValue / 10.0) : "[DISABLED]");
+			scrollSpeed.setting = (scrollSpeedValue > 0 ? "" + (scrollSpeedValue / 10.0) : "");
 		};
 
 
 
-		/*var showComboBreaks = new ConfigOption("SHOW COMBO BREAKS", ": " + genericOnOff[showComboBreaksValue?0:1], "Show combo breaks instead of misses.\nMisses only happen when you actually miss a note.\nCombo breaks can happen in other instances like dropping hold notes.");
+		/*var showComboBreaks = new ConfigOption("SHOW COMBO BREAKS", genericOnOff[showComboBreaksValue?0:1], "Show combo breaks instead of misses.\nMisses only happen when you actually miss a note.\nCombo breaks can happen in other instances like dropping hold notes.");
 		showComboBreaks.optionUpdate = function(){
 			if (pressRight || pressLeft || pressAccept) {
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				showComboBreaksValue = !showComboBreaksValue;
 			}
-			showComboBreaks.setting = ": " + genericOnOff[showComboBreaksValue?0:1];
+			showComboBreaks.setting = genericOnOff[showComboBreaksValue?0:1];
 		}*/
 
 
 
-		var showMissesSetting = new ConfigOption("SHOW MISSES", ": " + showMissesTypes[showMissesValue], "TEMP");
+		var showMissesSetting = new ConfigOption("SHOW MISSES", showMissesTypes[showMissesValue], "TEMP");
 		showMissesSetting.extraData[0] = "Misses are not shown on the in-game HUD.";
 		showMissesSetting.extraData[1] = "Misses are shown on the in-game HUD.";
 		showMissesSetting.extraData[2] = "Combo breaks are shown on the in-game HUD.";
@@ -1048,23 +1221,11 @@ class ConfigMenu extends FlxUIStateExt
 			if (showMissesValue < 0)
 				showMissesValue = 2;
 			
-			showMissesSetting.setting = ": " + showMissesTypes[showMissesValue];
+			showMissesSetting.setting = showMissesTypes[showMissesValue];
 			showMissesSetting.description = showMissesSetting.extraData[showMissesValue];
 		};
 
-
-
-		var variationsSettings = new ConfigOption("SHOW SONG VARIATIONS", ": " + genericOnOff[enableVariationsValue?0:1], "Enable or disable playing song variations in Freeplay.");
-		variationsSettings.optionUpdate = function(){
-			if (pressRight || pressLeft){
-				FlxG.sound.play(Paths.sound('scrollMenu'));
-				enableVariationsValue = !enableVariationsValue;
-			}
-
-			variationsSettings.setting = ": " + genericOnOff[enableVariationsValue?0:1];
-		};
-
-		var autoPauseSettings = new ConfigOption("AUTO PAUSE", ": " + genericOnOff[autoPauseValue?0:1], "Pauses the game when it's unfocused.");
+		var autoPauseSettings = new ConfigOption("AUTO PAUSE", genericOnOff[autoPauseValue?0:1], "Pauses the game when it's unfocused.");
 		autoPauseSettings.optionUpdate = function(){
 			if (pressRight || pressLeft){
 				FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -1072,20 +1233,17 @@ class ConfigMenu extends FlxUIStateExt
 				FlxG.autoPause = autoPauseValue;
 			}
 
-			autoPauseSettings.setting = ": " + genericOnOff[autoPauseValue?0:1];
+			autoPauseSettings.setting = genericOnOff[autoPauseValue?0:1];
 		};
 
 
 		configOptions = [
-							[fpsCap, noteSplash, noteGlow, extraCamStuff, camBopStuff, captionsStuff, bgDim, useGPU, showFPS],
-							[noteOffset, downscroll, centeredNotes, ghostTap, keyBinds],
-							[showMissesSetting, showAccuracyDisplay, comboDisplay, autoPauseSettings, variationsSettings, scrollSpeed, hpGain, hpDrain, cacheSettings]
+							[keyBinds, ghostTap, noteOffset, scrollSpeed],
+							[fpsCap, bgDim, useGPU, showFPS],
+							[downscroll, centeredNotes, noteSplash, noteGlow, showMissesSetting, showAccuracyDisplay, cacheSettings],
+							[extraCamStuff, camBopStuff, captionsStuff, autoPauseSettings, hpGain, hpDrain]
 						];
 
-	}
-
-	function writeToConfig(){
-		Config.write(offsetValue, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, allowedFramerates[framerateValue], dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, useGPUValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue, showAccuracyValue, showMissesValue, enableVariationsValue, autoPauseValue);
 	}
 
 	function resyncLayers():Void {
@@ -1095,24 +1253,10 @@ class ConfigMenu extends FlxUIStateExt
 		songLayer.play();
 	}
 
-}
-
-class ConfigOption
-{
-
-	public var name:String;
-	public var setting:String;
-	public var description:String;
-	public var optionUpdate:Void->Void;
-	public var extraData:Array<Dynamic> = [];
-
-	public function new(_name:String, _setting:String, _description:String, ?initFunction:Void->Void){
-		name = _name;
-		setting = _setting;
-		description = _description;
-		if(initFunction != null){
-			initFunction();
-		}
+	function saveMenuPosition():Void{
+		startInSubMenu = curSelected;
+		savedListPos = curListPosition;
+		savedListOffset = curListStartOffset;
 	}
 
 }

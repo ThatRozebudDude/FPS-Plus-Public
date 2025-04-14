@@ -258,7 +258,7 @@ class FreeplayState extends MusicBeatState
 					
 		
 					if(Binds.justPressed("menuAccept")){
-						if(categoryMap[categoryNames[curCategory]][curSelected].variations.length > 1 && Config.enableVariations){
+						if(categoryMap[categoryNames[curCategory]][curSelected].variations.length > 1){
 							openVariationPopup();
 						}
 						else{

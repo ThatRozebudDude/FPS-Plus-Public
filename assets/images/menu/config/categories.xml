@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="fconfigCats.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="accessibility0000" x="1" y="1" width="582" height="154"/>
+	<SubTexture name="accessibility0001" x="585" y="1" width="582" height="154"/>
+	<SubTexture name="accessibility0002" x="1169" y="1" width="582" height="153" frameX="0" frameY="-1" frameWidth="582" frameHeight="154"/>
+	<SubTexture name="customize0000" x="1" y="157" width="576" height="157" frameX="-1" frameY="0" frameWidth="577" frameHeight="157"/>
+	<SubTexture name="customize0001" x="579" y="157" width="576" height="157" frameX="-1" frameY="0" frameWidth="577" frameHeight="157"/>
+	<SubTexture name="customize0002" x="1157" y="157" width="576" height="155" frameX="0" frameY="-1" frameWidth="577" frameHeight="157"/>
+	<SubTexture name="gameplay0000" x="1" y="316" width="555" height="151" frameX="0" frameY="0" frameWidth="555" frameHeight="152"/>
+	<SubTexture name="gameplay0001" x="558" y="316" width="555" height="151" frameX="0" frameY="0" frameWidth="555" frameHeight="152"/>
+	<SubTexture name="gameplay0002" x="1115" y="316" width="554" height="152" frameX="0" frameY="0" frameWidth="555" frameHeight="152"/>
+	<SubTexture name="video0000" x="1671" y="316" width="365" height="146"/>
+	<SubTexture name="video0001" x="1" y="470" width="365" height="146"/>
+	<SubTexture name="video0002" x="368" y="470" width="364" height="145" frameX="0" frameY="0" frameWidth="365" frameHeight="146"/>
+</TextureAtlas>

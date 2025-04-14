@@ -56,7 +56,6 @@ class Config
 		FlxG.save.data.showCaptions = true;
 		FlxG.save.data.showAccuracy = true;
 		FlxG.save.data.showMisses = 1;
-		FlxG.save.data.enableVariations = true;
 		FlxG.save.data.autoPause = true;
 
 		reload();
@@ -88,7 +87,6 @@ class Config
 		showCaptions = FlxG.save.data.showCaptions;
 		showAccuracy = FlxG.save.data.showAccuracy;
 		showMisses = FlxG.save.data.showMisses;
-		enableVariations = FlxG.save.data.enableVariations;
 		autoPause = FlxG.save.data.autoPause;
 
 		ee1 = FlxG.save.data.ee1;
@@ -116,7 +114,6 @@ class Config
 								showCaptionsW:Bool,
 								showAccuracyW:Bool,
 								showMissesW:Int,
-								enableVariationsW:Bool,
 								autoPauseW:Bool
 								):Void
 	{
@@ -143,7 +140,6 @@ class Config
 		FlxG.save.data.showCaptions = showCaptionsW;
 		FlxG.save.data.showAccuracy = showAccuracyW;
 		FlxG.save.data.showMisses = showMissesW;
-		FlxG.save.data.enableVariations = enableVariationsW;
 		FlxG.save.data.autoPause = autoPauseW;
 
 		SaveManager.flush();
@@ -197,8 +193,6 @@ class Config
 			FlxG.save.data.showAccuracy = true;
 		if(FlxG.save.data.showMisses == null)
 			FlxG.save.data.showMisses = 1;
-		if(FlxG.save.data.enableVariations == null)
-			FlxG.save.data.enableVariations = true;
 		if(FlxG.save.data.autoPause == null)
 			FlxG.save.data.autoPause = true;
 

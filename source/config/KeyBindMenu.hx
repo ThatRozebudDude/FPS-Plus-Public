@@ -86,7 +86,7 @@ class KeyBindMenu extends FlxUIStateExt
 		add(bg);
 
 		var controlText:FlxSprite = new FlxSprite(0, 40);
-		controlText.frames = Paths.getSparrowAtlas("fpsPlus/config/controls/title");
+		controlText.frames = Paths.getSparrowAtlas("menu/config/controls");
 		controlText.animation.addByPrefix("boil", "", 24);
 		controlText.animation.play("boil");
 		controlText.screenCenter(X);

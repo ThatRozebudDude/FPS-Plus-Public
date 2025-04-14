@@ -109,6 +109,7 @@ class KeyIcon extends FlxSpriteGroup
 		text.setFormat(Paths.font("funkin", "otf"), 80, FlxColor.BLACK, FlxTextAlign.CENTER);
 		text.y = (keyBg.height / 2) - (text.height / 2) + yOffset;
 		text.text += "\n\n";
+		text.antialiasing = true;
 		add(text);
 
 	}
@@ -118,6 +119,7 @@ class KeyIcon extends FlxSpriteGroup
 		k.frames = Paths.getSparrowAtlas("ui/keyIcons");
 		k.animation.addByPrefix("k", frame, 0, false);
 		k.animation.play("k");
+		k.antialiasing = true;
 		add(k);
 
 		iconWidth = Std.int(k.frameWidth / 10) * 10;
@@ -167,6 +169,7 @@ class ControllerIcon extends FlxSpriteGroup
 		k.frames = Paths.getSparrowAtlas("ui/controllerIcons");
 		k.animation.addByPrefix("k", frame, 0, false);
 		k.animation.play("k");
+		k.antialiasing = true;
 		add(k);
 
 		iconWidth = Std.int(k.frameWidth / 10) * 10;
