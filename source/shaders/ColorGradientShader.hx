@@ -45,7 +45,7 @@ class ColorGradientShaderGLSL extends FlxShader
 		{
 			vec4 textureColor = flixel_texture2D(bitmap, openfl_TextureCoordv);
 
-			vec3 outColor = mix(blackColor.rgb, whiteColor.rgb, textureColor.r);
+			vec3 outColor = mix(blackColor.rgb, whiteColor.rgb, textureColor.a > 0.0 ? textureColor.r/textureColor.a : 0.0);
 
 			gl_FragColor = vec4(outColor * textureColor.a, textureColor.a);
 		}')
