@@ -21,7 +21,6 @@ class PhillyErect extends BaseStage
 	var phillyTrain:FlxSprite;
 
 	var trainSound:FlxSound;
-	var unpauseSoundCheck:Bool = false;
 
 	var trainMoving:Bool = false;
 	var trainFrameTiming:Float = 0;
@@ -80,8 +79,7 @@ class PhillyErect extends BaseStage
 		phillyTrain.visible = false;
 		addToBackground(phillyTrain);
 
-		trainSound = new FlxSound().loadEmbedded(Paths.sound('week3/train_passes'));
-		FlxG.sound.list.add(trainSound);
+		trainSound = new FlxSound();
 
 		var street:FlxSprite = new FlxSprite(-40, 50).loadGraphic(Paths.image('week3/philly/erect/street'));
 		street.antialiasing = true;
@@ -126,20 +124,6 @@ class PhillyErect extends BaseStage
 		}
 	}
 
-	public override function pause() {
-		if(trainSound.playing){
-			unpauseSoundCheck = true;
-			trainSound.pause();
-		}
-	}
-
-	public override function unpause() {
-		if(unpauseSoundCheck){
-			unpauseSoundCheck = false;
-			trainSound.play(false);
-		}
-	}
-
 	function changeLightColor(){
 		windowColorIndex = FlxG.random.int(0, 4, [windowColorIndex]);
 		phillyCityLights.color = windowColors[windowColorIndex];
@@ -151,7 +135,7 @@ class PhillyErect extends BaseStage
 
 	function trainStart():Void{
 		trainMoving = true;
-		trainSound.play(true);
+		trainSound = playstate.playSound(Paths.sound("week3/train_passes"));
 	}
 
 	function updateTrainPos():Void{

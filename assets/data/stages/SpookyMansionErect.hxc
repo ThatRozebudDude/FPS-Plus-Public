@@ -16,9 +16,6 @@ class SpookyMansionErect extends BaseStage
 	var allowLightning:Bool = true;
 	var trackBeat:Int = 0;
 
-	var lightningSound:FlxSound = new FlxSound();
-	var unpauseSoundCheck:Bool = false;
-
 	public function new(){
 		super();
 
@@ -71,20 +68,6 @@ class SpookyMansionErect extends BaseStage
 		}
 	}
 
-	public override function pause() {
-		if(lightningSound.playing){
-			unpauseSoundCheck = true;
-			lightningSound.pause();
-		}
-	}
-
-	public override function unpause() {
-		if(unpauseSoundCheck){
-			unpauseSoundCheck = false;
-			lightningSound.play(false);
-		}
-	}
-
 	function toggleLightning(tag:String):Void{
 		allowLightning = !allowLightning;
 	}
@@ -99,7 +82,7 @@ class SpookyMansionErect extends BaseStage
 			//return;
 
 		if (playSound){
-			lightningSound = FlxG.sound.play(Paths.sound("week2/thunder_" + FlxG.random.int(1, 2)));
+			playstate.playSound(Paths.sound("week2/thunder_" + FlxG.random.int(1, 2)));
 		}
 
 		// getNamedProp('halloweenBG').animation.play('lightning');

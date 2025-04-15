@@ -16,14 +16,14 @@ class DarnellNotes extends NoteType
 		if(character.canAutoAnim){
 			character.playAnim('lightCan', true);
 		}
-		FlxG.sound.play(Paths.sound("weekend1/Darnell_Lighter"));
+		playstate.playSound(Paths.sound("weekend1/Darnell_Lighter"));
 	}
 
 	function kickcanHit (note:Note, character:Character){
 		if(character.canAutoAnim){
 			character.playAnim('kickUp', true);
 		}
-		FlxG.sound.play(Paths.sound("weekend1/Kick_Can_UP"));
+		playstate.playSound(Paths.sound("weekend1/Kick_Can_UP"));
 		playstate.executeEvent("phillyStreets-canKick");
 	}
 
@@ -31,7 +31,7 @@ class DarnellNotes extends NoteType
 		if(character.canAutoAnim){
 			character.playAnim('kneeForward', true);
 		}
-		FlxG.sound.play(Paths.sound("weekend1/Kick_Can_FORWARD"));
+		playstate.playSound(Paths.sound("weekend1/Kick_Can_FORWARD"));
 		playstate.executeEvent("phillyStreets-canKickForward");
 	}
 
@@ -40,7 +40,7 @@ class DarnellNotes extends NoteType
 			character.playAnim('reload', true);
 		}
 		playstate.getExtraCamMovement(note);
-		FlxG.sound.play(Paths.sound("weekend1/Gun_Prep"));
+		playstate.playSound(Paths.sound("weekend1/Gun_Prep"));
 		playstate.executeEvent("phillyStreets-playerGlow");
 		playstate.executeEvent("phillyStreets-createBullet");
 	}
@@ -51,7 +51,7 @@ class DarnellNotes extends NoteType
 		}
 		character.danceLockout = true;
 		playstate.getExtraCamMovement(note);
-		FlxG.sound.play(Paths.sound("weekend1/shot" + FlxG.random.int(1, 4)));
+		playstate.playSound(Paths.sound("weekend1/shot" + FlxG.random.int(1, 4)));
 		playstate.executeEvent("phillyStreets-stageDarken");
 		playstate.executeEvent("phillyStreets-canShot");
 		playstate.camFocusBF();
@@ -62,7 +62,7 @@ class DarnellNotes extends NoteType
 		if(character.canAutoAnim){
 			character.playAnim('hit', true);
 		}
-		FlxG.sound.play(Paths.sound("weekend1/Pico_Bonk"));
+		playstate.playSound(Paths.sound("weekend1/Pico_Bonk"));
 		playstate.executeEvent("phillyStreets-canHit");
 		playstate.camFocusBF();
 		playstate.camChangeZoom(0.85, (Conductor.crochet/1000) * 2, FlxEase.expoOut);

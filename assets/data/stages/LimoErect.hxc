@@ -26,9 +26,6 @@ class LimoErect extends BaseStage
 	var mist4:FlxBackdrop;
 	var mist5:FlxBackdrop;
 
-	var carSound:FlxSound = new FlxSound();
-	var unpauseSoundCheck:Bool = false;
-
 	var fastCarCanDrive:Bool = true;
 
 	public function new(){
@@ -171,20 +168,6 @@ class LimoErect extends BaseStage
 		}
 	} 
 
-	public override function pause() {
-		if(carSound.playing){
-			unpauseSoundCheck = true;
-			carSound.pause();
-		}
-	}
-
-	public override function unpause() {
-		if(unpauseSoundCheck){
-			unpauseSoundCheck = false;
-			carSound.play(false);
-		}
-	}
-
 	function resetFastCar():Void{
 		fastCar.x = -12600;
 		fastCar.y = FlxG.random.int(140, 250);
@@ -193,7 +176,7 @@ class LimoErect extends BaseStage
 	}
 
 	function fastCarDrive(){
-		carSound = FlxG.sound.play(Paths.sound('week4/carPass' + FlxG.random.int(0, 1)), 0.7);
+		playstate.playSound(Paths.sound('week4/carPass' + FlxG.random.int(0, 1)), 0.7);
 
 		fastCar.velocity.x = (FlxG.random.int(170, 220) / FlxG.elapsed) * 3;
 		fastCarCanDrive = false;

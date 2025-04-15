@@ -23,9 +23,6 @@ class SpookyMansion extends BaseStage
 	var lightningStrikeBeat:Int = 0;
 	var lightningOffset:Int = 8;
 
-	var lightningSound:FlxSound = new FlxSound();
-	var unpauseSoundCheck:Bool = false;
-
 	var wallColor:FlxColor = 0xFF32325A;
 	var wallFlashColors:Array<FlxColor> = [0xFF4D4D75, 0xFF12123D, 0xFF090937];
 
@@ -79,22 +76,8 @@ class SpookyMansion extends BaseStage
 		}
 	}
 
-	public override function pause() {
-		if(lightningSound.playing){
-			unpauseSoundCheck = true;
-			lightningSound.pause();
-		}
-	}
-
-	public override function unpause() {
-		if(unpauseSoundCheck){
-			unpauseSoundCheck = false;
-			lightningSound.play(false);
-		}
-	}
-
 	function lightningStrikeShit(curBeat:Int):Void{
-		lightningSound = FlxG.sound.play(Paths.sound("week2/thunder_" + FlxG.random.int(1, 2)));
+		playstate.playSound(Paths.sound("week2/thunder_" + FlxG.random.int(1, 2)));
 
 		light.animation.play("flash");
 		window.animation.play("flash");

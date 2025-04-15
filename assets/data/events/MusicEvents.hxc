@@ -11,6 +11,8 @@ class MusicEvents extends Events
 		addEvent("playVocals", playVocals, PLAY_VOCALS_DESC);
 
 		addEvent("toggleVocalVolumeLock", toggleVocalVolumeLock, TOGGLE_VOCAL_VOLUME_LOCK_DESC);
+
+		addEvent("playSound", playSound, PLAY_SOUND_DESC);
 	}
 
 	function muteInst(tag:String):Void{
@@ -61,6 +63,11 @@ class MusicEvents extends Events
 		playstate.canChangeVocalVolume = !playstate.canChangeVocalVolume;
 	}
 
+	function playSound(tag:String):Void{
+		var args = Events.getArgs(tag, ["", "1"]);
+		playstate.playSound(Paths.sound(args[0]), Std.parseFloat(args[1]));
+	}
+
 
 
 	//Event descriptions. Not required but it helps with charting.
@@ -69,4 +76,5 @@ class MusicEvents extends Events
 	var PLAY_VOCALS_DESC:String = "Plays the vocals.\n\nArgs:\n    String: Voice track (\"bf\", \"dad\", or \"all\")";
 	var MUTE_VOCALS_DESC:String = "Mutes the vocals.\n\nArgs:\n    String: Voice track (\"bf\", \"dad\", or \"all\")";
 	var TOGGLE_VOCAL_VOLUME_LOCK_DESC:String = "Toggles whether hitting/missing notes will toggle the volume on the vocal tracks.";
+	var PLAY_SOUND_DESC:String = "Plays a specified audio file.\n\nArgs:\n    String: Audio file path\n    Float: Volume";
 }
