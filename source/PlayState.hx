@@ -286,6 +286,8 @@ class PlayState extends MusicBeatState
 	var endCutsceneStoryOnly:Bool = false;
 	var endCutscenePlayOnce:Bool = false;
 
+	public var managedSounds:Array<FlxSound> = [];
+
 	public var scripts:Map<String, Script> = new Map<String, Script>();
 
 	public static var replayStartCutscene:Bool = true;
@@ -856,7 +858,7 @@ class PlayState extends MusicBeatState
 			{
 				case 0:
 					if(countdownSkin.info.first.audioPath != null){
-						FlxG.sound.play(Paths.sound(countdownSkin.info.first.audioPath), 0.6);
+						playSound(Paths.sound(countdownSkin.info.first.audioPath), 0.6);
 					}
 					if(countdownSkin.info.first.graphicPath != null){
 						var countdownSprite:FlxSprite = new FlxSprite().loadGraphic(Paths.image(countdownSkin.info.first.graphicPath));
@@ -879,7 +881,7 @@ class PlayState extends MusicBeatState
 					}
 				case 1:
 					if(countdownSkin.info.second.audioPath != null){
-						FlxG.sound.play(Paths.sound(countdownSkin.info.second.audioPath), 0.6);
+						playSound(Paths.sound(countdownSkin.info.second.audioPath), 0.6);
 					}
 					if(countdownSkin.info.second.graphicPath != null){
 						var countdownSprite:FlxSprite = new FlxSprite().loadGraphic(Paths.image(countdownSkin.info.second.graphicPath));
@@ -902,7 +904,7 @@ class PlayState extends MusicBeatState
 					}
 				case 2:
 					if(countdownSkin.info.third.audioPath != null){
-						FlxG.sound.play(Paths.sound(countdownSkin.info.third.audioPath), 0.6);
+						playSound(Paths.sound(countdownSkin.info.third.audioPath), 0.6);
 					}
 					if(countdownSkin.info.third.graphicPath != null){
 						var countdownSprite:FlxSprite = new FlxSprite().loadGraphic(Paths.image(countdownSkin.info.third.graphicPath));
@@ -925,7 +927,7 @@ class PlayState extends MusicBeatState
 					}
 				case 3:
 					if(countdownSkin.info.fourth.audioPath != null){
-						FlxG.sound.play(Paths.sound(countdownSkin.info.fourth.audioPath), 0.6);
+						playSound(Paths.sound(countdownSkin.info.fourth.audioPath), 0.6);
 					}
 					if(countdownSkin.info.fourth.graphicPath != null){
 						var countdownSprite:FlxSprite = new FlxSprite().loadGraphic(Paths.image(countdownSkin.info.fourth.graphicPath));
@@ -1390,6 +1392,12 @@ class PlayState extends MusicBeatState
 			if (startTimer != null && !startTimer.finished){
 				startTimer.active = false;
 			}
+
+			for(sound in managedSounds){
+				if(sound != null && sound.playing){
+					sound.pause();
+				}
+			}
 		}
 
 		super.openSubState(SubState);
@@ -1404,6 +1412,12 @@ class PlayState extends MusicBeatState
 
 			if (startTimer != null && !startTimer.finished){
 				startTimer.active = true;
+			}
+
+			for(sound in managedSounds){
+				if(sound != null && !sound.playing){
+					sound.resume();
+				}
 			}
 				
 			paused = false;
@@ -2364,7 +2378,7 @@ class PlayState extends MusicBeatState
 			songStats.score -= scoreAdjust;
 			
 			if(playAudio){
-				FlxG.sound.play(Paths.sound('missnote' + FlxG.random.int(1, 3)), 0.2);
+				playSound(Paths.sound('missnote' + FlxG.random.int(1, 3)), 0.2);
 			}
 			
 			forceMissNextNote = false;
@@ -2572,7 +2586,10 @@ class PlayState extends MusicBeatState
 		gf.beat(curBeat);
 		stage.beat(curBeat);
 		for(script in scripts){ script.beat(curBeat); }
-		
+
+		managedSounds = managedSounds.filter(function(sound:FlxSound):Bool{
+			return sound != null;
+		});
 	}
 
 	public function executeEvent(tag:String):Void{
@@ -2956,6 +2973,12 @@ class PlayState extends MusicBeatState
 		if (generatedMusic){
 			notes.sort(noteSortThing, FlxSort.DESCENDING);
 		}
+	}
+
+	public function playSound(_embeddedSound:flixel.system.FlxAssets.FlxSoundAsset, _volume:Float = 1.0, _looped:Bool = false, ?_group:Null<flixel.sound.FlxSoundGroup>, _autoDestroy:Bool = true, ?_onComplete:Null<() -> Void>):FlxSound{
+		var sound = FlxG.sound.play(_embeddedSound, _volume, _looped, _group, _autoDestroy, _onComplete);
+		managedSounds.push(sound);
+		return sound;
 	}
 
 	public static inline function noteSortThing(Order:Int, Obj1:Note, Obj2:Note):Int{

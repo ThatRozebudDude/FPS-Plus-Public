@@ -363,6 +363,12 @@
 			],
 			[
 				46,
+				63033.7078651685,
+				0,
+				"playSound;week7/stressPicoKnifeThrow"
+			],
+			[
+				46,
 				63244.3820224719,
 				1,
 				"bfAnimLockToggle"

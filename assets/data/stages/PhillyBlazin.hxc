@@ -19,9 +19,6 @@ class PhillyBlazin extends BaseStage
 	var additionalLighten:FlxSprite;
 	var lightning:FlxSprite;
 
-	var lightningSound:FlxSound = new FlxSound();
-	var unpauseSoundCheck:Bool = false;
-
 	var lightningTimer:Float = 3;
 	var lightningActive:Bool = true;
 
@@ -146,20 +143,6 @@ class PhillyBlazin extends BaseStage
 		}*/
 	}
 
-	public override function pause() {
-		if(lightningSound.playing){
-			unpauseSoundCheck = true;
-			lightningSound.pause();
-		}
-	}
-
-	public override function unpause() {
-		if(unpauseSoundCheck){
-			unpauseSoundCheck = false;
-			lightningSound.play(false);
-		}
-	}
-
 	var LIGHTNING_FULL_DURATION = 1.5;
 	var LIGHTNING_FADE_DURATION = 0.3;
 	var LIGHTNING_HOLD_DURATION = 0.15;
@@ -195,7 +178,7 @@ class PhillyBlazin extends BaseStage
 		tween.color(dad, LIGHTNING_FADE_DURATION, CHARACTER_DARKEN_COLOR, 0xFFDEDEDE, {startDelay: LIGHTNING_HOLD_DURATION});
 		tween.color(gf, LIGHTNING_FADE_DURATION, CHARACTER_DARKEN_COLOR, 0xFF888888, {startDelay: LIGHTNING_HOLD_DURATION});
 
-		lightningSound = FlxG.sound.play(Paths.sound("weekend1/Lightning" + FlxG.random.int(1, 3)));
+		playstate.playSound(Paths.sound("weekend1/Lightning" + FlxG.random.int(1, 3)));
 	}
 
 	function cleanupLightning(t:FlxTween) {
