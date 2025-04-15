@@ -54,7 +54,8 @@ class ConfigMenu extends FlxUIStateExt
 	var invertedTitleColorShader = new ColorGradientShader(0xFFFFFFFF, 0xFF000000);
 
 	final iconOffsets:Array<Float> = [-1000, -500, 0, 500, 1000];
-	final iconScales:Array<Float> = [0.3, 0.6, 1, 0.6, 0.3];
+	final iconScales:Array<Float> = [0.4, 0.7, 1, 0.7, 0.4];
+	final textScales:Array<Float> = [0.3, 0.6, 1, 0.6, 0.3];
 	final titleVertOffsets:Array<Float> = [-100, -50, 0, -50, -100];
 	final iconAlphaValues:Array<Float> = [0, 0.6, 1, 0.6, 0];
 	final optionIndexOffset:Array<Int> = [-2, -1, 0, 1, 2];
@@ -229,7 +230,11 @@ class ConfigMenu extends FlxUIStateExt
 		}
 
 		for(i in 0...optionIndexOffset.length){
-			var icon = new FlxSprite().makeGraphic(320, 320, 0xFFFFFFFF);
+			var icon = new FlxSprite();
+			icon.frames = Paths.getSparrowAtlas("menu/config/icons");
+			//for(option in options){ icon.animation.addByPrefix(option, option, 24, true); }
+			icon.animation.addByPrefix("gameplay", "gameplay", 24, true);
+			icon.animation.addByPrefix("blank", "new", 24, true);
 			icon.antialiasing = true;
 			icon.screenCenter(XY);
 			icon.x += iconOffsets[i];
@@ -239,15 +244,13 @@ class ConfigMenu extends FlxUIStateExt
 
 			var title = new FlxSprite();
 			title.frames = categoryFrames;
-			for(option in options){
-				title.animation.addByPrefix(option, option, 24, true);
-			}
+			for(option in options){ title.animation.addByPrefix(option, option, 24, true); }
 			title.antialiasing = true;
 			title.screenCenter(X);
 			title.x += iconOffsets[i];
 			title.y = 620 - title.height/2;
 			title.y += titleVertOffsets[i];
-			title.scale.set(iconScales[i], iconScales[i]);
+			title.scale.set(textScales[i], textScales[i]);
 			titles.push(title);
 			topLevelMenuGroup.add(title);
 		}
@@ -462,13 +465,19 @@ class ConfigMenu extends FlxUIStateExt
 					titles[i].y = 620 - titles[i].frameHeight/2;
 					titles[i].y += titleVertOffsets[iOffset];
 					titles[i].centerOrigin();
-					titles[i].scale.set(iconScales[iOffset], iconScales[iOffset]);
+					titles[i].scale.set(textScales[iOffset], textScales[iOffset]);
 					//titles[i].alpha = iconAlphaValues[iOffset];
 
 					FlxTween.tween(titles[i], {x: (1280/2 - titles[i].frameWidth/2) + iconOffsets[i], y: (620 - titles[i].frameHeight/2) + titleVertOffsets[i]}, 0.5, {ease: FlxEase.quintOut});
-					FlxTween.tween(titles[i].scale, {x: iconScales[i], y: iconScales[i]}, 0.5, {ease: FlxEase.quintOut});
+					FlxTween.tween(titles[i].scale, {x: textScales[i], y: textScales[i]}, 0.5, {ease: FlxEase.quintOut});
 
 					icons[i].visible = true;
+					if(icons[i].animation.exists(options[wrapToOptionLength(curSelected + optionIndexOffset[i])])){
+						icons[i].animation.play(options[wrapToOptionLength(curSelected + optionIndexOffset[i])]);
+					}
+					else{
+						icons[i].animation.play("blank");
+					}
 					icons[i].x = 1280/2 - icons[i].frameWidth/2;
 					icons[i].x += iconOffsets[iOffset];
 					icons[i].scale.set(iconScales[iOffset], iconScales[iOffset]);
@@ -486,15 +495,23 @@ class ConfigMenu extends FlxUIStateExt
 				FlxTween.cancelTweensOf(icons[i]);
 				FlxTween.cancelTweensOf(icons[i].scale);
 
+				titles[i].visible = true;
 				titles[i].animation.play(options[wrapToOptionLength(curSelected + optionIndexOffset[i])]);
 				titles[i].x = 1280/2 - titles[i].frameWidth/2;
 				titles[i].x += iconOffsets[i];
 				titles[i].y = 620 - titles[i].frameHeight/2;
 				titles[i].y += titleVertOffsets[i];
 				titles[i].centerOrigin();
-				titles[i].scale.set(iconScales[i], iconScales[i]);
+				titles[i].scale.set(textScales[i], textScales[i]);
 				//titles[i].alpha = iconAlphaValues[i];
 
+				icons[i].visible = true;
+				if(icons[i].animation.exists(options[wrapToOptionLength(curSelected + optionIndexOffset[i])])){
+					icons[i].animation.play(options[wrapToOptionLength(curSelected + optionIndexOffset[i])]);
+				}
+				else{
+					icons[i].animation.play("blank");
+				}
 				icons[i].x = 1280/2 - icons[i].frameWidth/2;
 				icons[i].x += iconOffsets[i];
 				icons[i].scale.set(iconScales[i], iconScales[i]);
