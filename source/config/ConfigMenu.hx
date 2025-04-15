@@ -629,31 +629,35 @@ class ConfigMenu extends FlxUIStateExt
 
 	function textUpdate():Void{
 		for(i in 0...optionNames.length){
-			optionNames[i].text = "";
-			optionValues[i].text = "";
+			textUpdateSingle(i);
+		}
+	}
 
-			var optionPosition = curListStartOffset + i;
-			if(optionPosition >= configOptions[curSelected].length){ continue; }
+	function textUpdateSingle(index:Int):Void{
+		optionNames[index].text = "";
+		optionValues[index].text = "";
 
-			optionNames[i].text = configOptions[curSelected][optionPosition].name + "\n\n";
-			optionValues[i].text = configOptions[curSelected][optionPosition].setting;
+		var optionPosition = curListStartOffset + index;
+		if(optionPosition >= configOptions[curSelected].length){ return; }
 
-			if(i == curListPosition){
-				optionNames[i].color = 0xFFFFFF00;
-				optionValues[i].color = 0xFFFFFF00;
-				descText.text = configOptions[curSelected][optionPosition].description + "\n\n";
-				if(optionValues[i].text.length > 0){
-					optionValues[i].text = "< " + optionValues[i].text + " >";
-				}
+		optionNames[index].text = configOptions[curSelected][optionPosition].name + "\n\n";
+		optionValues[index].text = configOptions[curSelected][optionPosition].setting;
+
+		if(index == curListPosition){
+			optionNames[index].color = 0xFFFFFF00;
+			optionValues[index].color = 0xFFFFFF00;
+			descText.text = configOptions[curSelected][optionPosition].description + "\n\n";
+			if(optionValues[index].text.length > 0){
+				optionValues[index].text = "< " + optionValues[index].text + " >\n\n";
 			}
-			else{
-				optionNames[i].color = 0xFFFFFFFF;
-				optionValues[i].color = 0xFFFFFFFF;
-			}
+		}
+		else{
+			optionNames[index].color = 0xFFFFFFFF;
+			optionValues[index].color = 0xFFFFFFFF;
+		}
 
-			if(optionValues[i].text == ""){
-				optionValues[i].text = "---\n\n";
-			}
+		if(optionValues[index].text == ""){
+			optionValues[index].text = "---\n\n";
 		}
 	}
 
@@ -842,7 +846,7 @@ class ConfigMenu extends FlxUIStateExt
 					
 				if(noteOffset.extraData[0] > 64) {
 					offsetValue += 1;
-					textUpdate();
+					textUpdateSingle(curListPosition);
 				}
 			}
 				
@@ -851,13 +855,13 @@ class ConfigMenu extends FlxUIStateExt
 					
 				if(noteOffset.extraData[0] > 64) {
 					offsetValue -= 1;
-					textUpdate();
+					textUpdateSingle(curListPosition);
 				}
 			}
 				
 			if(!holdRight && !holdLeft && noteOffset.extraData[0] != 0){
 				noteOffset.extraData[0] = 0;
-				textUpdate();
+				textUpdateSingle(curListPosition);
 			}
 
 			if(FlxG.keys.justPressed.ENTER){
@@ -1056,7 +1060,7 @@ class ConfigMenu extends FlxUIStateExt
 				
 				if(hpGain.extraData[0] > 64 && hpGain.extraData[0] % 10 == 0) {
 					healthValue += 1;
-					textUpdate();
+					textUpdateSingle(curListPosition);
 				}
 			}
 			
@@ -1065,13 +1069,13 @@ class ConfigMenu extends FlxUIStateExt
 				
 				if(hpGain.extraData[0] > 64 && hpGain.extraData[0] % 10 == 0) {
 					healthValue -= 1;
-					textUpdate();
+					textUpdateSingle(curListPosition);
 				}
 			}
 			
 			if(!holdRight && !holdLeft){
 				hpGain.extraData[0] = 0;
-				textUpdate();
+				textUpdateSingle(curListPosition);
 			}
 			
 			hpGain.setting = ""+(healthValue / 10.0);
@@ -1102,7 +1106,7 @@ class ConfigMenu extends FlxUIStateExt
 				
 				if(hpGain.extraData[0] > 64 && hpGain.extraData[0] % 10 == 0) {
 					healthDrainValue += 1;
-					textUpdate();
+					textUpdateSingle(curListPosition);
 				}
 			}
 			
@@ -1111,13 +1115,13 @@ class ConfigMenu extends FlxUIStateExt
 				
 				if(hpGain.extraData[0] > 64 && hpGain.extraData[0] % 10 == 0) {
 					healthDrainValue -= 1;
-					textUpdate();
+					textUpdateSingle(curListPosition);
 				}
 			}
 			
 			if(!holdRight && !holdLeft){
 				hpGain.extraData[0] = 0;
-				textUpdate();
+				textUpdateSingle(curListPosition);
 			}
 			
 			hpDrain.setting = ""+(healthDrainValue / 10.0);
@@ -1171,7 +1175,7 @@ class ConfigMenu extends FlxUIStateExt
 					
 					if(scrollSpeed.extraData[0] > 64 && scrollSpeed.extraData[0] % 10 == 0) {
 						scrollSpeedValue += 1;
-						textUpdate();
+						textUpdateSingle(curListPosition);
 					}
 				}
 				
@@ -1180,13 +1184,13 @@ class ConfigMenu extends FlxUIStateExt
 					
 					if(scrollSpeed.extraData[0] > 64 && scrollSpeed.extraData[0] % 10 == 0) {
 						scrollSpeedValue -= 1;
-						textUpdate();
+						textUpdateSingle(curListPosition);
 					}
 				}
 				
 				if(!holdRight && !holdLeft){
 					scrollSpeed.extraData[0] = 0;
-					textUpdate();
+					textUpdateSingle(curListPosition);
 				}
 
 				if(pressAccept){
