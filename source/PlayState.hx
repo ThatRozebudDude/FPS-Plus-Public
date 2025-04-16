@@ -1523,6 +1523,7 @@ class PlayState extends MusicBeatState
 		   songStats.missCount != previouslyTrackedSongStats.missCount || 
 		   songStats.comboBreakCount != previouslyTrackedSongStats.comboBreakCount){
 			updateScoreText();
+			previouslyTrackedSongStats = Reflect.copy(songStats);
 		}
 
 		super.update(elapsed);
@@ -2941,7 +2942,7 @@ class PlayState extends MusicBeatState
 		endCamShake(_returnTime, _ease, _time);
 	}
 
-	function updateScoreText(){
+	dynamic function updateScoreText():Void{
 
 		scoreTxt.text = "Score:" + songStats.score;
 
@@ -2955,8 +2956,6 @@ class PlayState extends MusicBeatState
 		if(Config.showAccuracy){
 			scoreTxt.text += " | Accuracy:" + truncateFloat(songStats.accuracy, 2) + "%";
 		}
-
-		previouslyTrackedSongStats = Reflect.copy(songStats);
 
 	}
 
