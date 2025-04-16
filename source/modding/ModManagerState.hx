@@ -45,6 +45,7 @@ class ModManagerState extends FlxUIStateExt
 	var enableDisableButton:ModManagerButton;
 	var moveUpButton:ModManagerButton;
 	var moveDownButton:ModManagerButton;
+	var configButton:ModManagerButton;
 	var reloadButton:ModManagerButton;
 	var openFolderButton:ModManagerButton;
 	var menuButtons:Array<ModManagerButton> = [];
@@ -56,9 +57,11 @@ class ModManagerState extends FlxUIStateExt
 	final bgSpriteColor:FlxColor = 0xFFB26DAF;
 	final selectorColor:FlxColor = 0xFFFF9DE1;
 
+	final disabledColor:FlxColor = 0xFFE25F5D;
+
 	final listStart:FlxPoint = new FlxPoint(60, 60);
 	final infoStart:FlxPoint = new FlxPoint(520, 60);
-	final bottomStart:FlxPoint = new FlxPoint(520, 570);
+	final bottomStart:FlxPoint = new FlxPoint(520 - 42.5, 570);
 
 	override function create() {
 		
@@ -123,7 +126,7 @@ class ModManagerState extends FlxUIStateExt
 			else{
 				FlxG.sound.play(Paths.sound("characterSelect/deny"), 0.5);
 				if(enableDisableButtonTween != null) { enableDisableButtonTween.cancel(); }
-				enableDisableButtonTween = FlxTween.color(enableDisableButton, 0.8, 0xFFE25F5D, 0xFFFFFFFF, {ease: FlxEase.quartOut});
+				enableDisableButtonTween = FlxTween.color(enableDisableButton, 0.8, disabledColor, 0xFFFFFFFF, {ease: FlxEase.quartOut});
 			}
 		}
 
@@ -145,7 +148,7 @@ class ModManagerState extends FlxUIStateExt
 			else{
 				FlxG.sound.play(Paths.sound("characterSelect/deny"), 0.5);
 				if(moveUpButtonTween != null) { moveUpButtonTween.cancel(); }
-				moveUpButtonTween = FlxTween.color(moveUpButton, 0.8, 0xFFE25F5D, 0xFFFFFFFF, {ease: FlxEase.quartOut});
+				moveUpButtonTween = FlxTween.color(moveUpButton, 0.8, disabledColor, 0xFFFFFFFF, {ease: FlxEase.quartOut});
 			}
 		}
 
@@ -167,11 +170,23 @@ class ModManagerState extends FlxUIStateExt
 			else{
 				FlxG.sound.play(Paths.sound("characterSelect/deny"), 0.5);
 				if(moveDownButtonTween != null) { moveDownButtonTween.cancel(); }
-				moveDownButtonTween = FlxTween.color(moveDownButton, 0.8, 0xFFE25F5D, 0xFFFFFFFF, {ease: FlxEase.quartOut});
+				moveDownButtonTween = FlxTween.color(moveDownButton, 0.8, disabledColor, 0xFFFFFFFF, {ease: FlxEase.quartOut});
 			}
 		}
+		
+		var configButtonTween:flixel.tweens.misc.ColorTween;
+		configButton = new ModManagerButton(bottomStart.x + 60 + 245 + 85 + 85, bottomStart.y + 5);
+		configButton.loadGraphic(Paths.image("menu/modMenu/configButton"), true, 80, 80);
+		configButton.antialiasing = true;
+		configButton.animation.add("selected", [1], 0, false);
+		configButton.animation.add("deselected", [0], 0, false);
+		configButton.pressFunction = function(){
+			FlxG.sound.play(Paths.sound("characterSelect/deny"), 0.5);
+			if(configButtonTween != null) { configButtonTween.cancel(); }
+			configButtonTween = FlxTween.color(configButton, 0.8, disabledColor, 0xFFFFFFFF, {ease: FlxEase.quartOut});
+		}
 
-		reloadButton = new ModManagerButton(bottomStart.x + 60 + 245 + 85 + 85, bottomStart.y + 5);
+		reloadButton = new ModManagerButton(bottomStart.x + 60 + 245 + 85 + 85 + 85, bottomStart.y + 5);
 		reloadButton.loadGraphic(Paths.image("menu/modMenu/reloadButton"), true, 80, 80);
 		reloadButton.antialiasing = true;
 		reloadButton.animation.add("selected", [1], 0, false);
@@ -186,7 +201,7 @@ class ModManagerState extends FlxUIStateExt
 			FlxG.sound.play(Paths.sound("scrollMenu"));
 		}
 
-		openFolderButton = new ModManagerButton(bottomStart.x + 60 + 245 + 85 + 85 + 85, bottomStart.y + 5);
+		openFolderButton = new ModManagerButton(bottomStart.x + 60 + 245 + 85 + 85 + 85 + 85, bottomStart.y + 5);
 		openFolderButton.loadGraphic(Paths.image("menu/modMenu/folderButton"), true, 80, 80);
 		openFolderButton.antialiasing = true;
 		openFolderButton.animation.add("selected", [1], 0, false);
@@ -197,7 +212,7 @@ class ModManagerState extends FlxUIStateExt
 			Sys.command("explorer.exe /n, /e, \"" + Sys.getCwd().substring(0, Sys.getCwd().length-1) + "\\mods\"");
 		};
 
-		menuButtons = [enableDisableButton, moveUpButton, moveDownButton, reloadButton, openFolderButton];
+		menuButtons = [enableDisableButton, moveUpButton, moveDownButton, configButton, reloadButton, openFolderButton];
 
 		buildFullModList();
 
@@ -391,6 +406,7 @@ class ModManagerState extends FlxUIStateExt
 				apiVersion: null,
 				modVersion: null,
 				enabled: true,
+				hasConfig: false,
 				malformed: false
 			};
 
@@ -402,7 +418,7 @@ class ModManagerState extends FlxUIStateExt
 						info.icon = getModIcon(dir);
 						info.apiVersion = "None";
 						info.modVersion = "None";
-					case MISSING_META_FIELDS:
+					case MISSING_VERSION_FIELDS:
 						var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
 						if(json.title != null){ info.name = json.title; }
 						else{ info.name = dir; }
@@ -412,6 +428,14 @@ class ModManagerState extends FlxUIStateExt
 						else{ info.apiVersion = "None"; }
 						if(json.mod_version != null){ info.modVersion = json.mod_version; }
 						else{ info.modVersion = "None"; }
+					case MISSING_UUID:
+						var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
+						if(json.title != null){ info.name = json.title; }
+						else{ info.name = dir; }
+						info.description = "This mod is missing a \"uuid\" field in the meta.json file. This is required for all mods on API version 1.4.0 and onwards.";
+						info.icon = getModIcon(dir);
+						info.apiVersion = json.api_version;
+						info.modVersion = json.mod_version;
 					case API_VERSION_TOO_OLD:
 						var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
 						if(json.title != null){ info.name = json.title; }
@@ -443,6 +467,7 @@ class ModManagerState extends FlxUIStateExt
 				info.icon = getModIcon(dir);
 				info.apiVersion = json.api_version;
 				info.modVersion = json.mod_version;
+				info.hasConfig = FileSystem.exists("mods/" + dir + "/config.json");
 				info.enabled = !PolymodHandler.disabledModDirs.contains(dir);
 			}
 
@@ -455,8 +480,14 @@ class ModManagerState extends FlxUIStateExt
 	}
 
 	function buildShownModList():Void{
-		for(modIcon in modIcons){ remove(modIcon); }
-		for(modName in modNames){ remove(modName); }
+		for(modIcon in modIcons){ 
+			remove(modIcon); 
+			//modIcon.destroy();
+		}
+		for(modName in modNames){ 
+			remove(modName);
+			modName.destroy();
+		}
 
 		modIcons = [];
 		modNames = [];
@@ -481,8 +512,8 @@ class ModManagerState extends FlxUIStateExt
 			modName.text += "\n\n";
 
 			if(modList[i + listStartIndex].malformed){
-				modIcon.color = 0xFFE25F5D;
-				modName.color = 0xFFE25F5D;
+				modIcon.color = disabledColor;
+				modName.color = disabledColor;
 			}
 			else if(!modList[i + listStartIndex].enabled){
 				modIcon.color = 0xFF999999;
@@ -495,6 +526,8 @@ class ModManagerState extends FlxUIStateExt
 
 		for(modIcon in modIcons){ add(modIcon); }
 		for(modName in modNames){ add(modName); }
+
+		Utils.gc();
 	}
 
 	function save():Void{
@@ -539,6 +572,7 @@ typedef ModInfo = {
 	var apiVersion:String;
 	var modVersion:String;
 	var enabled:Bool;
+	var hasConfig:Bool;
 	var malformed:Bool;
 }
 

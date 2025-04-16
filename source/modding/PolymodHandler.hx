@@ -13,7 +13,7 @@ using StringTools;
 class PolymodHandler
 {
 
-	public static final API_VERSION:Array<Int> = [1, 3, 1];
+	public static final API_VERSION:Array<Int> = [1, 4, 0];
 	public static final API_VERSION_STRING:String = API_VERSION[0]+"."+API_VERSION[1]+"."+API_VERSION[2];
 	
 	public static var allModDirs:Array<String>;
@@ -158,12 +158,18 @@ class PolymodHandler
 
 			var json = Json.parse(sys.io.File.getContent("mods/" + mod + "/meta.json"));
 			if(json.api_version == null || json.mod_version == null){
-				malformedMods.set(mod, MISSING_META_FIELDS);
-				trace("COULD NOT LOAD MOD \"" + mod + "\": MISSING_META_FIELDS");
+				malformedMods.set(mod, MISSING_VERSION_FIELDS);
+				trace("COULD NOT LOAD MOD \"" + mod + "\": MISSING_VERSION_FIELDS");
 				continue;
 			}
 
 			var modAPIVersion:Array<Int> = [Std.parseInt(json.api_version.split(".")[0]), Std.parseInt(json.api_version.split(".")[1]), Std.parseInt(json.api_version.split(".")[2])];
+			if(json.uuid == null || modAPIVersion[1] >= 4){
+				malformedMods.set(mod, MISSING_UUID);
+				trace("COULD NOT LOAD MOD \"" + mod + "\": MISSING_UUID");
+				continue;
+			}
+
 			if(modAPIVersion[0] < API_VERSION[0]){
 				malformedMods.set(mod, API_VERSION_TOO_OLD);
 				trace("COULD NOT LOAD MOD \"" + mod + "\": API_VERSION_TOO_OLD");
@@ -352,7 +358,8 @@ class PolymodHandler
 
 enum ModError{
 	MISSING_META_JSON;
-	MISSING_META_FIELDS;
+	MISSING_VERSION_FIELDS;
+	MISSING_UUID;
 	API_VERSION_TOO_OLD;
 	API_VERSION_TOO_NEW;
 }
