@@ -27,6 +27,11 @@ class SaveManager
 		FlxG.save.bind(song, "Rozebud/FunkinFPSPlus/" + openfl.Lib.current.stage.application.meta["company"].replace(" ", "-") + "." + openfl.Lib.current.stage.application.meta["file"].replace(" ", "-") + "/Chart-Editor-Autosaves");
 	}
 
+	inline public static function modConfig():Void {
+		FlxG.save.close();
+		FlxG.save.bind("modConfig", "Rozebud/FunkinFPSPlus/" + openfl.Lib.current.stage.application.meta["company"].replace(" ", "-") + "." + openfl.Lib.current.stage.application.meta["file"].replace(" ", "-"));
+	}
+
 	inline public static function flush():Void {
 		FlxG.save.flush();
 	}

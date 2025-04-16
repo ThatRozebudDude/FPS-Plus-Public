@@ -164,7 +164,7 @@ class PolymodHandler
 			}
 
 			var modAPIVersion:Array<Int> = [Std.parseInt(json.api_version.split(".")[0]), Std.parseInt(json.api_version.split(".")[1]), Std.parseInt(json.api_version.split(".")[2])];
-			if(json.uuid == null || modAPIVersion[1] >= 4){
+			if(json.uuid == null && modAPIVersion[1] >= 4){
 				malformedMods.set(mod, MISSING_UUID);
 				trace("COULD NOT LOAD MOD \"" + mod + "\": MISSING_UUID");
 				continue;

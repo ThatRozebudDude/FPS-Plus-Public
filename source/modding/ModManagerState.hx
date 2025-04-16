@@ -61,11 +61,11 @@ class ModManagerState extends FlxUIStateExt
 
 	final listStart:FlxPoint = new FlxPoint(60, 60);
 	final infoStart:FlxPoint = new FlxPoint(520, 60);
-	final bottomStart:FlxPoint = new FlxPoint(520 - 42.5, 570);
+	final bottomStart:FlxPoint = new FlxPoint(477.5, 570);
 
 	override function create() {
 		
-		Config.setFramerate(144);
+		Config.setFramerate(120);
 
 		oldDisabled = PolymodHandler.disabledModDirs;
 		oldOrder = PolymodHandler.allModDirs;
@@ -181,9 +181,14 @@ class ModManagerState extends FlxUIStateExt
 		configButton.animation.add("selected", [1], 0, false);
 		configButton.animation.add("deselected", [0], 0, false);
 		configButton.pressFunction = function(){
-			FlxG.sound.play(Paths.sound("characterSelect/deny"), 0.5);
-			if(configButtonTween != null) { configButtonTween.cancel(); }
-			configButtonTween = FlxTween.color(configButton, 0.8, disabledColor, 0xFFFFFFFF, {ease: FlxEase.quartOut});
+			if(modList[curSelectedMod].hasConfig){
+
+			}
+			else{
+				FlxG.sound.play(Paths.sound("characterSelect/deny"), 0.5);
+				if(configButtonTween != null) { configButtonTween.cancel(); }
+				configButtonTween = FlxTween.color(configButton, 0.8, disabledColor, 0xFFFFFFFF, {ease: FlxEase.quartOut});
+			}
 		}
 
 		reloadButton = new ModManagerButton(bottomStart.x + 60 + 245 + 85 + 85 + 85, bottomStart.y + 5);
