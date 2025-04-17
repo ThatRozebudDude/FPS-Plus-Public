@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TextureAtlas imagePath="iconzzz.png">
+<TextureAtlas imagePath="icons more.png">
 	<!-- Created with Adobe Animate version 22.0.0.93 -->
 	<!-- http://www.adobe.com/products/animate.html -->
-	<SubTexture name="gameplay icon0000" x="1" y="1" width="347" height="344"/>
-	<SubTexture name="new icon0000" x="350" y="1" width="320" height="320"/>
+	<SubTexture name="customize icon0000" x="1" y="1" width="413" height="339"/>
+	<SubTexture name="gameplay icon0000" x="416" y="1" width="347" height="344"/>
+	<SubTexture name="new icon0000" x="1" y="347" width="320" height="320"/>
 </TextureAtlas>

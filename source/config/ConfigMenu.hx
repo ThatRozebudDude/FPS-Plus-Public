@@ -234,6 +234,7 @@ class ConfigMenu extends FlxUIStateExt
 			icon.frames = Paths.getSparrowAtlas("menu/config/icons");
 			//for(option in options){ icon.animation.addByPrefix(option, option, 24, true); }
 			icon.animation.addByPrefix("gameplay", "gameplay", 24, true);
+			icon.animation.addByPrefix("customize", "customize", 24, true);
 			icon.animation.addByPrefix("blank", "new", 24, true);
 			icon.antialiasing = true;
 			icon.screenCenter(XY);
