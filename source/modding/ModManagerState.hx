@@ -767,10 +767,37 @@ class ModManagerState extends FlxUIStateExt
 				case "float":
 					var value:Float = ModConfig.get(meta.uid, json.config[i].name);
 					var increment:Float = json.config[i].properties.increment;
-					var tracker:Int = 0; //FIX THIS NOT STARTING AT THE CORRECT VALUE BECAUSE I WANT TO COMBAT FLOATING POINT ROUNDING ERRORS I LOVE YOU :face_holding_back_tears:
+					var tracker:Int = 0;
 					var minValue:Float = json.config[i].properties.range[0];
 					var maxValue:Float = json.config[i].properties.range[1];
 					var startingValue:Float = cast(json.config[i].properties.defaultValue, Float);
+
+					//:face_holding_back_tears:
+					if(value != startingValue){
+						var tempValue:Float = startingValue;
+						var tempTracker:Int = 0;
+						var resetValue:Bool = true;
+						while(tempValue < maxValue && resetValue){
+							tempTracker++;
+							tempValue = startingValue + (tempTracker * increment);
+							if(tempValue > maxValue){ tempValue = maxValue; }
+							if(tempValue == value){ resetValue = false; }
+						}
+						if(resetValue){
+							tempValue = startingValue;
+							tempTracker = 0;
+						}
+						while(tempValue > minValue && resetValue){
+							tempTracker--;
+							tempValue = startingValue + (tempTracker * increment);
+							if(tempValue < minValue){ tempValue = minValue; }
+							if(tempValue == value){ resetValue = false; }
+						}
+	
+						if(resetValue){ value = startingValue; }
+						else{ tracker = tempTracker; }
+					}
+					
 					setting = new ConfigOption(json.config[i].name, "", "");
 					setting.optionUpdate = function(){
 						if(allowConfigInput){
@@ -786,12 +813,8 @@ class ModManagerState extends FlxUIStateExt
 							}
 						}
 
-						if(value < minValue){
-							value = minValue;
-						}
-						if(value > maxValue){
-							value = maxValue;
-						}
+						if(value < minValue){ value = minValue; }
+						if(value > maxValue){ value = maxValue; }
 
 						setting.setting = ""+value;
 						setting.extraData[0] = value;
