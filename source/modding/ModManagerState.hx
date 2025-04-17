@@ -347,7 +347,7 @@ class ModManagerState extends FlxUIStateExt
 							else{
 								curListPosition++;
 							}
-							FlxG.sound.play(Paths.sound('scrollMenu'));
+							FlxG.sound.play(Paths.sound("scrollMenu"));
 							selectionConfigMoveTween.cancel();
 							selectionConfigMoveTween = FlxTween.tween(selectionConfig, {y: 160 + (50*curListPosition)}, 0.2, {ease: FlxEase.expoOut});
 							textUpdate();
@@ -361,11 +361,19 @@ class ModManagerState extends FlxUIStateExt
 							else{
 								curListPosition--;
 							}
-							FlxG.sound.play(Paths.sound('scrollMenu'));
+							FlxG.sound.play(Paths.sound("scrollMenu"));
 							selectionConfigMoveTween.cancel();
 							selectionConfigMoveTween = FlxTween.tween(selectionConfig, {y: 160 + (50*curListPosition)}, 0.2, {ease: FlxEase.expoOut});
 							textUpdate();
 						}
+					}
+
+					if(state == "config"){
+						modList[curSelectedMod].config[curListStartOffset + curListPosition].optionUpdate();
+					}
+
+					if(Binds.justPressed("menuLeft") || Binds.justPressed("menuRight")){
+						textUpdate();
 					}
 			}
 		}
@@ -845,13 +853,9 @@ class ModManagerState extends FlxUIStateExt
 		optionValues[index].text = modList[curSelectedMod].config[optionPosition].setting;
 
 		if(index == curListPosition){
-			//optionNames[index].color = 0xFFFFFF00;
-			//optionValues[index].color = 0xFFFFFF00;
 			optionValues[index].text = "< " + optionValues[index].text + " >\n\n";
 		}
 		else{
-			//optionNames[index].color = 0xFFFFFFFF;
-			//optionValues[index].color = 0xFFFFFFFF;
 			optionValues[index].text = optionValues[index].text + "\n\n";
 		}
 	}
