@@ -10,6 +10,8 @@ class SaveManager
 	static var currentLocation:String = "";
 	static var previousLocation:String = "";
 
+	static var currentChart:String = "";
+
 	inline public static function global():Void{
 		previousLocation = currentLocation;
 		FlxG.save.close();
@@ -33,8 +35,9 @@ class SaveManager
 
 	inline public static function chartAutosave(song:String):Void{
 		previousLocation = currentLocation;
+		currentChart = song;
 		FlxG.save.close();
-		FlxG.save.bind(song, "Rozebud/FunkinFPSPlus/" + openfl.Lib.current.stage.application.meta["company"].replace(" ", "-") + "." + openfl.Lib.current.stage.application.meta["file"].replace(" ", "-") + "/Chart-Editor-Autosaves");
+		FlxG.save.bind(currentChart, "Rozebud/FunkinFPSPlus/" + openfl.Lib.current.stage.application.meta["company"].replace(" ", "-") + "." + openfl.Lib.current.stage.application.meta["file"].replace(" ", "-") + "/Chart-Editor-Autosaves");
 		currentLocation = "chartAutosave";
 	}
 
@@ -62,7 +65,7 @@ class SaveManager
 			case "modSpecific":
 				modSpecific();
 			case "chartAutosave":
-				chartAutosave();
+				chartAutosave(currentChart);
 			case "modConfig":
 				modConfig();
 			default:

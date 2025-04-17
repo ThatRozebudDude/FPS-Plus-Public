@@ -164,9 +164,9 @@ class PolymodHandler
 			}
 
 			var modAPIVersion:Array<Int> = [Std.parseInt(json.api_version.split(".")[0]), Std.parseInt(json.api_version.split(".")[1]), Std.parseInt(json.api_version.split(".")[2])];
-			if(json.uuid == null && modAPIVersion[1] >= 4){
-				malformedMods.set(mod, MISSING_UUID);
-				trace("COULD NOT LOAD MOD \"" + mod + "\": MISSING_UUID");
+			if(json.uid == null && modAPIVersion[1] >= 4){
+				malformedMods.set(mod, MISSING_UID);
+				trace("COULD NOT LOAD MOD \"" + mod + "\": MISSING_UID");
 				continue;
 			}
 
@@ -264,6 +264,7 @@ class PolymodHandler
 		Polymod.addDefaultImport(modding.ScriptingUtil);
 		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTextBorderStyle);
 		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTweenType);
+		Polymod.addDefaultImport(modding.ModConfig);
 
 		//Import scriptable classes so they can be made without importing
 		Polymod.addDefaultImport(characters.CharacterInfoBase);
@@ -359,7 +360,7 @@ class PolymodHandler
 enum ModError{
 	MISSING_META_JSON;
 	MISSING_VERSION_FIELDS;
-	MISSING_UUID;
+	MISSING_UID;
 	API_VERSION_TOO_OLD;
 	API_VERSION_TOO_NEW;
 }

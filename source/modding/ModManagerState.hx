@@ -125,7 +125,7 @@ class ModManagerState extends FlxUIStateExt
 		bigInfoDescription = new FlxTextExt(infoStart.x + 10, infoStart.y + 110, 680, "This is where the mod description will go. I need this text to be long to make sure it wraps properly and doesn't go outside of the text box. Hurray! Fabs is on base. Game!", 36);
 		bigInfoDescription.setFormat(Paths.font("Funkin-Bold", "otf"), 36, 0xFFFFFFFF, FlxTextAlign.LEFT);
 
-		bigInfoVersion = new FlxTextExt(infoStart.x + 695, infoStart.y + 445, 0, "API Version: 1.0.0\nMod Version: 1.0.0\nUUID: None", 20);
+		bigInfoVersion = new FlxTextExt(infoStart.x + 695, infoStart.y + 445, 0, "API Version: 1.0.0\nMod Version: 1.0.0\nUID: None", 20);
 		bigInfoVersion.setFormat(Paths.font("Funkin-Bold", "otf"), 20, 0xFFFFFFFF, FlxTextAlign.RIGHT);
 		bigInfoVersion.color = 0xFF999999;
 		bigInfoVersion.y -= bigInfoVersion.height;
@@ -498,7 +498,7 @@ class ModManagerState extends FlxUIStateExt
 
 		bigInfoDescription.text = modList[curSelectedMod].description + "\n\n";
 
-		bigInfoVersion.text = "API Version: " + modList[curSelectedMod].apiVersion + "\nMod Version: " + modList[curSelectedMod].modVersion + "\nUUID: " + modList[curSelectedMod].uuid;
+		bigInfoVersion.text = "API Version: " + modList[curSelectedMod].apiVersion + "\nMod Version: " + modList[curSelectedMod].modVersion + "\nUID: " + modList[curSelectedMod].uid;
 		bigInfoVersion.setPosition(infoStart.x + 695, infoStart.y + 445);
 		bigInfoVersion.y -= bigInfoVersion.height;
 		bigInfoVersion.x -= bigInfoVersion.width;
@@ -572,7 +572,7 @@ class ModManagerState extends FlxUIStateExt
 				icon: null,
 				apiVersion: null,
 				modVersion: null,
-				uuid: null,
+				uid: null,
 				enabled: true,
 				config: null,
 				malformed: false
@@ -586,7 +586,7 @@ class ModManagerState extends FlxUIStateExt
 						info.icon = getModIcon(dir);
 						info.apiVersion = "None";
 						info.modVersion = "None";
-						info.uuid = "None";
+						info.uid = "None";
 					case MISSING_VERSION_FIELDS:
 						var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
 						if(json.title != null){ info.name = json.title; }
@@ -597,17 +597,17 @@ class ModManagerState extends FlxUIStateExt
 						else{ info.apiVersion = "None"; }
 						if(json.mod_version != null){ info.modVersion = json.mod_version; }
 						else{ info.modVersion = "None"; }
-						if(json.uuid != null){ info.uuid = json.uuid; }
-						else{ info.uuid = "None"; }
-					case MISSING_UUID:
+						if(json.uid != null){ info.uid = json.uid; }
+						else{ info.uid = "None"; }
+					case MISSING_UID:
 						var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
 						if(json.title != null){ info.name = json.title; }
 						else{ info.name = dir; }
-						info.description = "This mod is missing a \"uuid\" field in the meta.json file. This is required for all mods on API version 1.4.0 and onwards.";
+						info.description = "This mod is missing a \"uid\" field in the meta.json file. This is required for all mods on API version 1.4.0 and onwards.";
 						info.icon = getModIcon(dir);
 						info.apiVersion = json.api_version;
 						info.modVersion = json.mod_version;
-						info.uuid = "None";
+						info.uid = "None";
 					case API_VERSION_TOO_OLD:
 						var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
 						if(json.title != null){ info.name = json.title; }
@@ -616,7 +616,7 @@ class ModManagerState extends FlxUIStateExt
 						info.icon = getModIcon(dir);
 						info.apiVersion = json.api_version;
 						info.modVersion = json.mod_version;
-						info.uuid = json.uuid;
+						info.uid = json.uid;
 					case API_VERSION_TOO_NEW:
 						var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
 						if(json.title != null){ info.name = json.title; }
@@ -625,7 +625,7 @@ class ModManagerState extends FlxUIStateExt
 						info.icon = getModIcon(dir);
 						info.apiVersion = json.api_version;
 						info.modVersion = json.mod_version;
-						info.uuid = json.uuid;
+						info.uid = json.uid;
 					default:
 				}
 
@@ -641,8 +641,8 @@ class ModManagerState extends FlxUIStateExt
 				info.icon = getModIcon(dir);
 				info.apiVersion = json.api_version;
 				info.modVersion = json.mod_version;
-				if(json.uuid != null){ info.uuid = json.uuid; }
-				else{ info.uuid = "None"; }
+				if(json.uid != null){ info.uid = json.uid; }
+				else{ info.uid = "None"; }
 				info.config = buildModConfig(dir);
 				info.enabled = !PolymodHandler.disabledModDirs.contains(dir);
 			}
@@ -709,8 +709,8 @@ class ModManagerState extends FlxUIStateExt
 			return null;
 		}
 
+		var meta = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
 		var json = Json.parse(File.getContent("mods/" + dir + "/config.json"));
-		trace(json);
 
 		var r:Array<ConfigOption> = [];
 
@@ -720,7 +720,7 @@ class ModManagerState extends FlxUIStateExt
 
 			switch(json.config[i].type){
 				case "bool":
-					var value:Bool = json.config[i].properties.defaultBool;
+					var value:Bool = ModConfig.get(meta.uid, json.config[i].name);
 					var trueName:String = (json.config[i].properties.trueName != null) ? json.config[i].properties.trueName : "true";
 					var falseName:String = (json.config[i].properties.falseName != null) ? json.config[i].properties.falseName : "false";
 					setting = new ConfigOption(json.config[i].name, "", "");
@@ -732,10 +732,11 @@ class ModManagerState extends FlxUIStateExt
 							}
 						}
 						setting.setting = value ? trueName : falseName;
+						setting.extraData[0] = value;
 					};
 
 				case "int":
-					var value:Int = Std.int(json.config[i].properties.defaultValue);
+					var value:Int = Std.int(ModConfig.get(meta.uid, json.config[i].name));
 					var increment:Int = Std.int(json.config[i].properties.increment);
 					var minValue:Int = Std.int(json.config[i].properties.range[0]);
 					var maxValue:Int = Std.int(json.config[i].properties.range[1]);
@@ -760,12 +761,13 @@ class ModManagerState extends FlxUIStateExt
 						}
 
 						setting.setting = ""+value;
+						setting.extraData[0] = value;
 					}
 
 				case "float":
-					var value:Float = json.config[i].properties.defaultValue;
+					var value:Float = ModConfig.get(meta.uid, json.config[i].name);
 					var increment:Float = json.config[i].properties.increment;
-					var tracker:Int = 0;
+					var tracker:Int = 0; //FIX THIS NOT STARTING AT THE CORRECT VALUE BECAUSE I WANT TO COMBAT FLOATING POINT ROUNDING ERRORS I LOVE YOU :face_holding_back_tears:
 					var minValue:Float = json.config[i].properties.range[0];
 					var maxValue:Float = json.config[i].properties.range[1];
 					var startingValue:Float = cast(json.config[i].properties.defaultValue, Float);
@@ -792,12 +794,13 @@ class ModManagerState extends FlxUIStateExt
 						}
 
 						setting.setting = ""+value;
+						setting.extraData[0] = value;
 					}
 
 				case "list":
-					var value:String = json.config[i].properties.values[Std.int(json.config[i].properties.defaultIndex)];
-					var index:Int = Std.int(json.config[i].properties.defaultIndex);
-					var values = json.config[i].properties.values;
+					var value:String = ModConfig.get(meta.uid, json.config[i].name);
+					var values:Array<String> = json.config[i].properties.values;
+					var index:Int = values.indexOf(value);
 					setting = new ConfigOption(json.config[i].name, "", "");
 					setting.optionUpdate = function(){
 						if(allowConfigInput){
@@ -821,6 +824,7 @@ class ModManagerState extends FlxUIStateExt
 						value = values[index];
 
 						setting.setting = value;
+						setting.extraData[0] = value;
 					}
 
 				default:
@@ -890,6 +894,19 @@ class ModManagerState extends FlxUIStateExt
 
 		trace(PolymodHandler.disabledModDirs);
 		trace(PolymodHandler.allModDirs);
+
+		@:privateAccess{
+			for(i in 0...modList.length){
+				if(PolymodHandler.malformedMods.exists(modList[i].dir) || modList[i].config == null){
+					continue;
+				}
+				for(j in 0...modList[i].config.length){
+					ModConfig.configMap.get(modList[i].uid).get(modList[i].config[j].name).value = modList[i].config[j].extraData[0];
+				}
+			}
+			ModConfig.save();
+			//trace(ModConfig.configMap);
+		}
 	}
 
 }
@@ -901,7 +918,7 @@ typedef ModInfo = {
 	var icon:BitmapData;
 	var apiVersion:String;
 	var modVersion:String;
-	var uuid:String;
+	var uid:String;
 	var enabled:Bool;
 	var config:Array<ConfigOption>;
 	var malformed:Bool;

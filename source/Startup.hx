@@ -23,6 +23,7 @@ import openfl.system.System;
 //import flixel.addons.util.FlxAsyncLoop;
 import extensions.flixel.FlxUIStateExt;
 import caching.*;
+import modding.*;
 
 using StringTools;
 
@@ -116,6 +117,11 @@ class Startup extends FlxUIStateExt
 		Highscore.load();
 
 		SaveManager.global();
+
+		@:privateAccess{
+			ModConfig.load();
+			//trace(ModConfig.configMap);
+		}
 		
 		//debug.ChartingState.loadLists();
 

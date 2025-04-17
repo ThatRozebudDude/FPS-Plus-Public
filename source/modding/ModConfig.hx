@@ -25,12 +25,12 @@ class ModConfig
 				var meta = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
 				var json = Json.parse(File.getContent("mods/" + dir + "/config.json"));
 
-				if(!configMap.exists(meta.uuid)){
-					configMap.set(meta.uuid, new Map<String, ModSetting>());
+				if(!configMap.exists(meta.uid)){
+					configMap.set(meta.uid, new Map<String, ModSetting>());
 				}
 
 				for(i in 0...json.config.length){
-					var setting:ModSetting;
+					var setting:ModSetting = null;
 
 					switch(json.config[i].type){
 						case "bool":
@@ -57,13 +57,24 @@ class ModConfig
 							trace("Unknown config type \"" + json.config[i].type + "\", skipping.");
 					}
 					
-					if(!configMap.get(meta.uuid).exists(json.config[i].name)){
-						configMap.get(meta.uuid).set(json.config[i].name, setting);
-					}
-					else{
-						//Should probably add more checks later to make sure stuff doesn't go out of bounds or whatever.
-						if(configMap.get(meta.uuid).get(json.config[i].name).type != setting.type){
-							configMap.get(meta.uuid).set(json.config[i].name, setting);
+					if(setting != null){
+						if(!configMap.get(meta.uid).exists(json.config[i].name)){
+							configMap.get(meta.uid).set(json.config[i].name, setting);
+						}
+						else{
+							//Should probably add more checks later to make sure stuff doesn't go out of bounds or whatever.
+							if(configMap.get(meta.uid).get(json.config[i].name).type != setting.type){
+								trace(meta.uid + "\t" + json.config[i].name + "\tWrong type!");
+								configMap.get(meta.uid).set(json.config[i].name, setting);
+							}
+							else if(json.config[i].properties.range != null && (configMap.get(meta.uid).get(json.config[i].name).value * 1 < json.config[i].properties.range[0] * 1 || configMap.get(meta.uid).get(json.config[i].name).value * 1 > json.config[i].properties.range[1] * 1)){
+								trace(meta.uid + "\t" + json.config[i].name + "\tOut of range!");
+								configMap.get(meta.uid).set(json.config[i].name, setting);
+							}
+							else if(json.config[i].properties.values != null && (json.config[i].properties.values.indexOf(configMap.get(meta.uid).get(json.config[i].name).value) == -1)){
+								trace(meta.uid + "\t" + json.config[i].name + "\tIndex not found!");
+								configMap.get(meta.uid).set(json.config[i].name, setting);
+							}
 						}
 					}
 				}
@@ -81,10 +92,13 @@ class ModConfig
 		SaveManager.previousSave();
 	}
 
-	public static function get(uuid:String, name:String):Dynamic{
-		var r = configMap.get(uuid);
-		if(r != null){ r = r.get(name).value; }
-		return r;
+	public static function get(uid:String, name:String):Dynamic{
+		if(configMap.exists(uid)){
+			//trace(uid + "\t" + name + "\t" + configMap.get(uid).get(name).value);
+			return configMap.get(uid).get(name).value;
+		}
+		//trace(uid + "\t" + name + "\tDOES NOT EXIST?");
+		return null;
 	}
 
 }
