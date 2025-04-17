@@ -1,5 +1,6 @@
 package modding;
 
+import config.ConfigOption;
 import config.CacheReload;
 import config.CacheConfig;
 import config.Config;
@@ -23,10 +24,16 @@ class ModManagerState extends FlxUIStateExt
 {
 
 	var curSelectedMod:Int = 0;
-	//var curListPosition:Int = 0;
 	var curSelectedButton:Int = 0;
+	var curListPosition:Int = 0;
+	var curListStartOffset:Int = 0;
 
 	var selectionBg:FlxSprite;
+	var selectionConfig:FlxSprite;
+
+	var selectionBgTween:FlxTween;
+	var selectionConfigTween:FlxTween;
+	var selectionConfigMoveTween:FlxTween;
 
 	var hasMods:Bool = true;
 
@@ -36,6 +43,10 @@ class ModManagerState extends FlxUIStateExt
 
 	var modNames:Array<FlxTextExt> = [];
 	var modIcons:Array<FlxSprite> = [];
+
+	var optionNames:Array<FlxTextExt> = [];
+	var optionValues:Array<FlxTextExt> = [];
+	var allowConfigInput:Bool = true;
 
 	var bigInfoIcon:FlxSprite;
 	var bigInfoName:FlxTextExt;
@@ -54,6 +65,8 @@ class ModManagerState extends FlxUIStateExt
 	var oldOrder:Array<String>;
 	var oldLoadedModList:Array<String>;
 
+	var state:String = "selecting";
+
 	final bgSpriteColor:FlxColor = 0xFFB26DAF;
 	final selectorColor:FlxColor = 0xFFFF9DE1;
 
@@ -70,6 +83,7 @@ class ModManagerState extends FlxUIStateExt
 		oldDisabled = PolymodHandler.disabledModDirs;
 		oldOrder = PolymodHandler.allModDirs;
 		oldLoadedModList = PolymodHandler.loadedModDirs;
+		
 
 		var bg = new FlxSprite().loadGraphic(Paths.image("menu/menuDesat"));
 		bg.scale.set(1.18, 1.18);
@@ -78,10 +92,19 @@ class ModManagerState extends FlxUIStateExt
 		bg.color = bgSpriteColor;
 
 		var uiBg = new FlxSprite().loadGraphic(Paths.image("menu/modMenu/ui"));
+
+		selectionBgTween = FlxTween.tween(this, {}, 0);
+		selectionConfigTween = FlxTween.tween(this, {}, 0);
+		selectionConfigMoveTween = FlxTween.tween(this, {}, 0);
 		
 		selectionBg = new FlxSprite(listStart.x + 4, listStart.y + 4).loadGraphic(Paths.image("menu/modMenu/selector"));
 		selectionBg.color = selectorColor;
 		selectionBg.antialiasing = true;
+		
+		selectionConfig = new FlxSprite(521, 160).loadGraphic(Paths.image("menu/modMenu/selectorConfig"));
+		selectionConfig.color = selectorColor;
+		selectionConfig.antialiasing = true;
+		selectionConfig.alpha = 0;
 
 		/*var iconTest = new FlxSprite(listStart.x + 10, listStart.y + 10).loadGraphic(Paths.image("menu/modMenu/defaultModIcon"));
 		iconTest.antialiasing = true;
@@ -102,11 +125,29 @@ class ModManagerState extends FlxUIStateExt
 		bigInfoDescription = new FlxTextExt(infoStart.x + 10, infoStart.y + 110, 680, "This is where the mod description will go. I need this text to be long to make sure it wraps properly and doesn't go outside of the text box. Hurray! Fabs is on base. Game!", 36);
 		bigInfoDescription.setFormat(Paths.font("Funkin-Bold", "otf"), 36, 0xFFFFFFFF, FlxTextAlign.LEFT);
 
-		bigInfoVersion = new FlxTextExt(infoStart.x + 695, infoStart.y + 445, 0, "API Version: 1.0.0\nMod Version: 1.0.0", 20);
+		bigInfoVersion = new FlxTextExt(infoStart.x + 695, infoStart.y + 445, 0, "API Version: 1.0.0\nMod Version: 1.0.0\nUUID: None", 20);
 		bigInfoVersion.setFormat(Paths.font("Funkin-Bold", "otf"), 20, 0xFFFFFFFF, FlxTextAlign.RIGHT);
 		bigInfoVersion.color = 0xFF999999;
 		bigInfoVersion.y -= bigInfoVersion.height;
 		bigInfoVersion.x -= bigInfoVersion.width;
+
+		for(i in 0...7){
+			var configText = new FlxTextExt(521 + 12, 160 + 12 + (50*i), 674, "Setting Option Thing GRAAHHHHH " + i + "\n\n", 28);
+			configText.setFormat(Paths.font("Funkin-Bold", "otf"), configText.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			configText.borderSize = 2;
+			configText.borderQuality = 1;
+			configText.alpha = 0;
+			optionNames.push(configText);
+		}
+
+		for(i in 0...7){
+			var valueText = new FlxTextExt(521 + 12, 160 + 12 + (50*i), 674, "< VALUE " + i + " >\n\n", 28);
+			valueText.setFormat(Paths.font("Funkin-Bold", "otf"), valueText.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			valueText.borderSize = 2;
+			valueText.borderQuality = 1;
+			valueText.alpha = 0;
+			optionValues.push(valueText);
+		}
 
 		var enableDisableButtonTween:flixel.tweens.misc.ColorTween;
 		enableDisableButton = new ModManagerButton(bottomStart.x + 60, bottomStart.y + 5);
@@ -181,8 +222,9 @@ class ModManagerState extends FlxUIStateExt
 		configButton.animation.add("selected", [1], 0, false);
 		configButton.animation.add("deselected", [0], 0, false);
 		configButton.pressFunction = function(){
-			if(modList[curSelectedMod].hasConfig){
-
+			if(modList[curSelectedMod].config != null){
+				FlxG.sound.play(Paths.sound("characterSelect/confirm"), 0.5);
+				switchToConfigEdit();
 			}
 			else{
 				FlxG.sound.play(Paths.sound("characterSelect/deny"), 0.5);
@@ -224,11 +266,17 @@ class ModManagerState extends FlxUIStateExt
 		add(bg);
 		add(uiBg);
 		add(selectionBg);
+		add(selectionConfig);
 
 		add(bigInfoIcon);
 		add(bigInfoName);
 		add(bigInfoDescription);
 		add(bigInfoVersion);
+
+		for(i in 0...optionNames.length){
+			add(optionNames[i]);
+			add(optionValues[i]);
+		}
 
 		for(button in menuButtons){
 			add(button);
@@ -247,44 +295,150 @@ class ModManagerState extends FlxUIStateExt
 	override function update(elapsed:Float) {
 
 		if(canDoThings){
-			if(Binds.justPressed("menuUp") && hasMods){
-				changeModSelection(-1);
-				FlxG.sound.play(Paths.sound("scrollMenu"));
-			}
-			else if(Binds.justPressed("menuDown") && hasMods){
-				changeModSelection(1);
-				FlxG.sound.play(Paths.sound("scrollMenu"));
-			}
-	
-			if(Binds.justPressed("menuLeft")){
-				changeButtonSelection(-1);
-				FlxG.sound.play(Paths.sound("scrollMenu"));
-			}
-			else if(Binds.justPressed("menuRight")){
-				changeButtonSelection(1);
-				FlxG.sound.play(Paths.sound("scrollMenu"));
-			}
-			if(Binds.justPressed("menuAccept")){
-				menuButtons[curSelectedButton].press();
-			}
-	
-			if(Binds.justPressed("menuBack")){
-				FlxG.sound.play(Paths.sound("cancelMenu"));
-				canDoThings = false;
-				save();
-				FlxG.signals.preStateSwitch.addOnce(function() { 
-					PolymodHandler.reInit();
-				});
-				if(CacheConfig.music || CacheConfig.characters || CacheConfig.graphics){
-					switchState(new CacheReload(new MainMenuState()));
-				}
-				else{
-					switchState(new MainMenuState());
-				}
+			switch(state){
+				case "selecting":
+					if(Binds.justPressed("menuUp") && hasMods){
+						changeModSelection(-1);
+						FlxG.sound.play(Paths.sound("scrollMenu"));
+					}
+					else if(Binds.justPressed("menuDown") && hasMods){
+						changeModSelection(1);
+						FlxG.sound.play(Paths.sound("scrollMenu"));
+					}
+			
+					if(Binds.justPressed("menuLeft")){
+						changeButtonSelection(-1);
+						FlxG.sound.play(Paths.sound("scrollMenu"));
+					}
+					else if(Binds.justPressed("menuRight")){
+						changeButtonSelection(1);
+						FlxG.sound.play(Paths.sound("scrollMenu"));
+					}
+					if(Binds.justPressed("menuAccept")){
+						menuButtons[curSelectedButton].press();
+					}
+			
+					if(Binds.justPressed("menuBack")){
+						FlxG.sound.play(Paths.sound("cancelMenu"));
+						canDoThings = false;
+						save();
+						FlxG.signals.preStateSwitch.addOnce(function() { 
+							PolymodHandler.reInit();
+						});
+						if(CacheConfig.music || CacheConfig.characters || CacheConfig.graphics){
+							switchState(new CacheReload(new MainMenuState()));
+						}
+						else{
+							switchState(new MainMenuState());
+						}
+						Utils.gc();
+					}
+
+				case "config":
+					if(Binds.justPressed("menuBack")){
+						FlxG.sound.play(Paths.sound("cancelMenu"));
+						switchToSelecting();
+					}
+					else if(Binds.justPressed("menuDown")){
+						if(curListStartOffset + curListPosition < modList[curSelectedMod].config.length-1){
+							if(curListPosition == 6){
+								curListStartOffset++;
+							}
+							else{
+								curListPosition++;
+							}
+							FlxG.sound.play(Paths.sound('scrollMenu'));
+							selectionConfigMoveTween.cancel();
+							selectionConfigMoveTween = FlxTween.tween(selectionConfig, {y: 160 + (50*curListPosition)}, 0.2, {ease: FlxEase.expoOut});
+							textUpdate();
+						}
+					}
+					else if(Binds.justPressed("menuUp")){
+						if(curListStartOffset + curListPosition > 0){
+							if(curListPosition == 0){
+								curListStartOffset--;
+							}
+							else{
+								curListPosition--;
+							}
+							FlxG.sound.play(Paths.sound('scrollMenu'));
+							selectionConfigMoveTween.cancel();
+							selectionConfigMoveTween = FlxTween.tween(selectionConfig, {y: 160 + (50*curListPosition)}, 0.2, {ease: FlxEase.expoOut});
+							textUpdate();
+						}
+					}
 			}
 		}
 
 		super.update(elapsed);
+	}
+
+	final FADE_TIME:Float = 0.25;
+
+	function switchToConfigEdit():Void{
+		state = "config";
+		curListPosition = 0;
+		curListStartOffset = 0;
+
+		selectionBgTween.cancel();
+		selectionConfigTween.cancel();
+
+		selectionBgTween = FlxTween.tween(selectionBg, {alpha: 0}, FADE_TIME, {ease: FlxEase.quintOut});
+		selectionConfigTween = FlxTween.tween(selectionConfig, {alpha: 1}, FADE_TIME, {ease: FlxEase.quintOut});
+
+		FlxTween.cancelTweensOf(bigInfoDescription);
+		FlxTween.tween(bigInfoDescription, {alpha: 0}, FADE_TIME, {ease: FlxEase.quintOut});
+		
+		FlxTween.cancelTweensOf(bigInfoVersion);
+		FlxTween.tween(bigInfoVersion, {alpha: 0}, FADE_TIME, {ease: FlxEase.quintOut});
+
+		for(i in 0...optionNames.length){
+			FlxTween.cancelTweensOf(optionNames[i]);
+			FlxTween.cancelTweensOf(optionValues[i]);
+
+			FlxTween.tween(optionNames[i], {alpha: 1}, FADE_TIME, {ease: FlxEase.quintOut});
+			FlxTween.tween(optionValues[i], {alpha: 1}, FADE_TIME, {ease: FlxEase.quintOut});
+		}
+
+		for(i in 0...menuButtons.length){
+			menuButtons[i].deselect();
+		}
+
+		selectionConfigMoveTween.cancel();
+		selectionConfig.y = 160 + (50*curListPosition);
+
+		allowConfigInput = false;
+		for(setting in modList[curSelectedMod].config){
+			setting.optionUpdate();
+		}
+		allowConfigInput = true;
+		textUpdate();
+	}
+
+	function switchToSelecting():Void{
+		state = "selecting";
+
+		selectionBgTween.cancel();
+		selectionConfigTween.cancel();
+
+		selectionBgTween = FlxTween.tween(selectionBg, {alpha: 1}, FADE_TIME, {ease: FlxEase.quintOut});
+		selectionConfigTween = FlxTween.tween(selectionConfig, {alpha: 0}, FADE_TIME, {ease: FlxEase.quintOut});
+
+		FlxTween.cancelTweensOf(bigInfoDescription);
+		FlxTween.tween(bigInfoDescription, {alpha: 1}, FADE_TIME, {ease: FlxEase.quintOut});
+
+		FlxTween.cancelTweensOf(bigInfoVersion);
+		FlxTween.tween(bigInfoVersion, {alpha: 1}, FADE_TIME, {ease: FlxEase.quintOut});
+
+		for(i in 0...optionNames.length){
+			FlxTween.cancelTweensOf(optionNames[i]);
+			FlxTween.cancelTweensOf(optionValues[i]);
+
+			FlxTween.tween(optionNames[i], {alpha: 0}, FADE_TIME, {ease: FlxEase.quintOut});
+			FlxTween.tween(optionValues[i], {alpha: 0}, FADE_TIME, {ease: FlxEase.quintOut});
+		}
+
+		updateMenuButtons();
 	}
 
 	function changeModSelection(change:Int, ?doTween:Bool = true) {
@@ -336,7 +490,7 @@ class ModManagerState extends FlxUIStateExt
 
 		bigInfoDescription.text = modList[curSelectedMod].description + "\n\n";
 
-		bigInfoVersion.text = "API Version: " + modList[curSelectedMod].apiVersion + "\nMod Version: " + modList[curSelectedMod].modVersion;
+		bigInfoVersion.text = "API Version: " + modList[curSelectedMod].apiVersion + "\nMod Version: " + modList[curSelectedMod].modVersion + "\nUUID: " + modList[curSelectedMod].uuid;
 		bigInfoVersion.setPosition(infoStart.x + 695, infoStart.y + 445);
 		bigInfoVersion.y -= bigInfoVersion.height;
 		bigInfoVersion.x -= bigInfoVersion.width;
@@ -410,8 +564,9 @@ class ModManagerState extends FlxUIStateExt
 				icon: null,
 				apiVersion: null,
 				modVersion: null,
+				uuid: null,
 				enabled: true,
-				hasConfig: false,
+				config: null,
 				malformed: false
 			};
 
@@ -423,6 +578,7 @@ class ModManagerState extends FlxUIStateExt
 						info.icon = getModIcon(dir);
 						info.apiVersion = "None";
 						info.modVersion = "None";
+						info.uuid = "None";
 					case MISSING_VERSION_FIELDS:
 						var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
 						if(json.title != null){ info.name = json.title; }
@@ -433,6 +589,8 @@ class ModManagerState extends FlxUIStateExt
 						else{ info.apiVersion = "None"; }
 						if(json.mod_version != null){ info.modVersion = json.mod_version; }
 						else{ info.modVersion = "None"; }
+						if(json.uuid != null){ info.uuid = json.uuid; }
+						else{ info.uuid = "None"; }
 					case MISSING_UUID:
 						var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
 						if(json.title != null){ info.name = json.title; }
@@ -441,6 +599,7 @@ class ModManagerState extends FlxUIStateExt
 						info.icon = getModIcon(dir);
 						info.apiVersion = json.api_version;
 						info.modVersion = json.mod_version;
+						info.uuid = "None";
 					case API_VERSION_TOO_OLD:
 						var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
 						if(json.title != null){ info.name = json.title; }
@@ -449,6 +608,7 @@ class ModManagerState extends FlxUIStateExt
 						info.icon = getModIcon(dir);
 						info.apiVersion = json.api_version;
 						info.modVersion = json.mod_version;
+						info.uuid = json.uuid;
 					case API_VERSION_TOO_NEW:
 						var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
 						if(json.title != null){ info.name = json.title; }
@@ -457,6 +617,7 @@ class ModManagerState extends FlxUIStateExt
 						info.icon = getModIcon(dir);
 						info.apiVersion = json.api_version;
 						info.modVersion = json.mod_version;
+						info.uuid = json.uuid;
 					default:
 				}
 
@@ -472,7 +633,9 @@ class ModManagerState extends FlxUIStateExt
 				info.icon = getModIcon(dir);
 				info.apiVersion = json.api_version;
 				info.modVersion = json.mod_version;
-				info.hasConfig = FileSystem.exists("mods/" + dir + "/config.json");
+				if(json.uuid != null){ info.uuid = json.uuid; }
+				else{ info.uuid = "None"; }
+				info.config = buildModConfig(dir);
 				info.enabled = !PolymodHandler.disabledModDirs.contains(dir);
 			}
 
@@ -531,8 +694,166 @@ class ModManagerState extends FlxUIStateExt
 
 		for(modIcon in modIcons){ add(modIcon); }
 		for(modName in modNames){ add(modName); }
+	}
+	
+	function buildModConfig(dir:String):Array<ConfigOption>{
+		if(!FileSystem.exists("mods/" + dir + "/config.json")){
+			return null;
+		}
 
-		Utils.gc();
+		var json = Json.parse(File.getContent("mods/" + dir + "/config.json"));
+		trace(json);
+
+		var r:Array<ConfigOption> = [];
+
+		for(i in 0...json.config.length){
+
+			var setting:ConfigOption = null;
+
+			switch(json.config[i].type){
+				case "bool":
+					var value:Bool = json.config[i].properties.defaultBool;
+					var trueName:String = (json.config[i].properties.trueName != null) ? json.config[i].properties.trueName : "true";
+					var falseName:String = (json.config[i].properties.falseName != null) ? json.config[i].properties.falseName : "false";
+					setting = new ConfigOption(json.config[i].name, "", "");
+					setting.optionUpdate = function(){
+						if(allowConfigInput){
+							if(Binds.justPressed("menuLeft") || Binds.justPressed("menuRight")){
+								FlxG.sound.play(Paths.sound('scrollMenu'));
+								value = !value;
+							}
+						}
+						setting.setting = value ? trueName : falseName;
+					};
+
+				case "int":
+					var value:Int = Std.int(json.config[i].properties.defaultValue);
+					var increment:Int = Std.int(json.config[i].properties.increment);
+					var minValue:Int = Std.int(json.config[i].properties.range[0]);
+					var maxValue:Int = Std.int(json.config[i].properties.range[1]);
+					setting = new ConfigOption(json.config[i].name, "", "");
+					setting.optionUpdate = function(){
+						if(allowConfigInput){
+							if(Binds.justPressed("menuLeft") && value > minValue){
+								FlxG.sound.play(Paths.sound('scrollMenu'));
+								value -= increment;
+							}
+							else if(Binds.justPressed("menuRight") && value < maxValue){
+								FlxG.sound.play(Paths.sound('scrollMenu'));
+								value += increment;
+							}
+						}
+
+						if(value < minValue){
+							value = minValue;
+						}
+						if(value > maxValue){
+							value = maxValue;
+						}
+
+						setting.setting = ""+value;
+					}
+
+				case "float":
+					var value:Float = json.config[i].properties.defaultValue;
+					var increment:Float = json.config[i].properties.increment;
+					var tracker:Int = 0;
+					var minValue:Float = json.config[i].properties.range[0];
+					var maxValue:Float = json.config[i].properties.range[1];
+					var startingValue:Float = cast(json.config[i].properties.defaultValue, Float);
+					setting = new ConfigOption(json.config[i].name, "", "");
+					setting.optionUpdate = function(){
+						if(allowConfigInput){
+							if(Binds.justPressed("menuLeft") && value > minValue){
+								FlxG.sound.play(Paths.sound('scrollMenu'));
+								tracker--;
+								value = startingValue + (tracker * increment);
+							}
+							else if(Binds.justPressed("menuRight") && value < maxValue){
+								FlxG.sound.play(Paths.sound('scrollMenu'));
+								tracker++;
+								value = startingValue + (tracker * increment);
+							}
+						}
+
+						if(value < minValue){
+							value = minValue;
+						}
+						if(value > maxValue){
+							value = maxValue;
+						}
+
+						setting.setting = ""+value;
+					}
+
+				case "list":
+					var value:String = json.config[i].properties.values[Std.int(json.config[i].properties.defaultIndex)];
+					var index:Int = Std.int(json.config[i].properties.defaultIndex);
+					var values = json.config[i].properties.values;
+					setting = new ConfigOption(json.config[i].name, "", "");
+					setting.optionUpdate = function(){
+						if(allowConfigInput){
+							if(Binds.justPressed("menuLeft")){
+								FlxG.sound.play(Paths.sound('scrollMenu'));
+								index--;
+							}
+							else if(Binds.justPressed("menuRight")){
+								FlxG.sound.play(Paths.sound('scrollMenu'));
+								index++;
+							}
+						}
+
+						if(index < 0){
+							index = values.length-1;
+						}
+						else if(index >= values.length){
+							index = 0;
+						}
+
+						value = values[index];
+
+						setting.setting = value;
+					}
+
+				default:
+					trace("Unknown config type \"" + json.config[i].type + "\", skipping.");
+			}
+
+			if(setting != null){
+				r.push(setting);
+			}
+		
+		}
+
+		return r;
+	}
+
+	function textUpdate():Void{
+		for(i in 0...optionNames.length){
+			textUpdateSingle(i);
+		}
+	}
+
+	function textUpdateSingle(index:Int):Void{
+		optionNames[index].text = "";
+		optionValues[index].text = "";
+
+		var optionPosition = curListStartOffset + index;
+		if(optionPosition >= modList[curSelectedMod].config.length){ return; }
+
+		optionNames[index].text = modList[curSelectedMod].config[optionPosition].name + "\n\n";
+		optionValues[index].text = modList[curSelectedMod].config[optionPosition].setting;
+
+		if(index == curListPosition){
+			//optionNames[index].color = 0xFFFFFF00;
+			//optionValues[index].color = 0xFFFFFF00;
+			optionValues[index].text = "< " + optionValues[index].text + " >\n\n";
+		}
+		else{
+			//optionNames[index].color = 0xFFFFFFFF;
+			//optionValues[index].color = 0xFFFFFFFF;
+			optionValues[index].text = optionValues[index].text + "\n\n";
+		}
 	}
 
 	function save():Void{
@@ -576,8 +897,9 @@ typedef ModInfo = {
 	var icon:BitmapData;
 	var apiVersion:String;
 	var modVersion:String;
+	var uuid:String;
 	var enabled:Bool;
-	var hasConfig:Bool;
+	var config:Array<ConfigOption>;
 	var malformed:Bool;
 }
 

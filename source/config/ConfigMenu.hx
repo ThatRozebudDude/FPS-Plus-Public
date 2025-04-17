@@ -613,6 +613,7 @@ class ConfigMenu extends FlxUIStateExt
 		FlxG.sound.play(Paths.sound('cancelMenu'));
 		switchState(Type.createInstance(exitTo, []));
 		exitTo = null;
+		Utils.gc();
 	}
 
 	function writeToConfig():Void{

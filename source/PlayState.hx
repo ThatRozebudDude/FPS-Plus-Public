@@ -2942,7 +2942,7 @@ class PlayState extends MusicBeatState
 		endCamShake(_returnTime, _ease, _time);
 	}
 
-	dynamic function updateScoreText():Void{
+	public dynamic function updateScoreText():Void{
 
 		scoreTxt.text = "Score:" + songStats.score;
 

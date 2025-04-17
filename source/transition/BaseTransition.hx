@@ -51,10 +51,11 @@ class BaseTransition extends FlxSpriteGroup{
 				Utils.gc();
 			});
 
+			Utils.gc(false);
 			FlxG.switchState(state);
 		}
 		else{ //State intro animation.
-			FlxG.signals.postUpdate.addOnce(Utils.gc);
+			FlxG.signals.postUpdate.addOnce(function(){Utils.gc();});
 			FlxG.cameras.remove(cameras[0], true);
 			this.destroy();
 		}

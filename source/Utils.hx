@@ -348,10 +348,10 @@ class Utils
 	}
 
 	//Runs garbage collection and compacts memory.
-	public static function gc():Void{
+	public static function gc(?doCompact:Bool = true):Void{
 		System.gc();
 		#if cpp
-		cpp.vm.Gc.compact();
+		if(doCompact){ cpp.vm.Gc.compact(); }
 		#end
 	}
 }
