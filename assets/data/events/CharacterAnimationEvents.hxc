@@ -20,18 +20,40 @@ class CharacterAnimationEvents extends Events
 		addEvent("swapCharacters", swapCharacters, SWAP_CHARACTER_DESC);
 	}
 
-	function playAnim(tag:String):Void{
-		var args = Events.getArgs(tag, ["bf", "", "false", "false", "0"]);
+	function playAnim(tag:String):Void {
+		var args = Events.getArgs(tag, ["bf", "", "false", "false", "0", "false", "false"]);
 
-		switch(args[0]){
-			case "dad":
-				dad.playAnim(args[1], Events.parseBool(args[2]), Events.parseBool(args[3]), Std.parseInt(args[4]));
-
-			case "gf":
-				gf.playAnim(args[1], Events.parseBool(args[2]), Events.parseBool(args[3]), Std.parseInt(args[4]));
-
-			default:
-				boyfriend.playAnim(args[1], Events.parseBool(args[2]), Events.parseBool(args[3]), Std.parseInt(args[4]));
+	switch (args[0]) {
+		case "dad":
+			dad.playAnim(
+				args[1],
+				Events.parseBool(args[2]),
+				Events.parseBool(args[5]),
+				Events.parseBool(args[3]),
+				Std.parseInt(args[4]),
+				false,
+				Events.parseBool(args[6])
+			); 
+		case "gf":
+			gf.playAnim(
+				args[1],
+				Events.parseBool(args[2]),
+				Events.parseBool(args[5]),
+				Events.parseBool(args[3]),
+				Std.parseInt(args[4]),
+				false,
+				Events.parseBool(args[6])
+			);
+		default:
+			boyfriend.playAnim(
+				args[1],
+				Events.parseBool(args[2]),
+				Events.parseBool(args[5]),
+				Events.parseBool(args[3]),
+				Std.parseInt(args[4]),
+				false,
+				Events.parseBool(args[6])
+			);
 		}
 	}
 
@@ -219,7 +241,7 @@ class CharacterAnimationEvents extends Events
 
 
 	//Event descriptions. Not required but it helps with charting.
-	var PLAY_ANIM_DESC:String = "Plays an animation on a character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation name\n    Bool: Force play animation\n    Bool: Reverse animation\n    Int: Frame to start on";
+	var PLAY_ANIM_DESC:String = "Plays an animation on a character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation name\n    Bool: Force play animation\n    Bool: Reverse animation\n    Int: Frame to start on\n    Bool: Special animation\n    Bool: Preserve special animation";
 	var SING_ANIM_DESC:String = "Plays an animation treated as a note sing direction.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation name\n    Bool: Force play animation\n    Bool: Reverse animation\n    Int: Frame to start on";
 	var SET_ANIM_SET_DESC:String = "Sets the animation set on a character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation set suffix";
 	var GF_BOP_FREQ_DESC:String = "Sets the interval that GF does their idle dance.\n\nArgs:\n    Int: Interval (every \"x\" beats)";
