@@ -195,6 +195,7 @@ class ConfigMenu extends FlxUIStateExt
 			categoryTitle.animation.addByPrefix(option, option, 24, true);
 		}
 		categoryTitle.visible = false;
+		categoryTitle.antialiasing = true;
 
 		grid = new FlxSprite(30, 225).loadGraphic(FlxGridOverlay.createGrid(1220, 60, 1220, 60 * 6, true, 0x7F000000, 0x60000000));
 
@@ -217,21 +218,17 @@ class ConfigMenu extends FlxUIStateExt
 		subMenuGroup.add(subMenuUpArrow);
 		subMenuGroup.add(subMenuDownArrow);
 
-		nextCategoryIcon = new FlxSprite(1280 - 180, 100);
+		nextCategoryIcon = new FlxSprite(1280 - 190, 100);
 		nextCategoryIcon.frames = categoryIconFrames;
 		nextCategoryIcon.antialiasing = true;
 		nextCategoryIcon.scale.set(0.5, 0.5);
-		nextCategoryIcon.animation.addByPrefix("gameplay", "gameplay", 24, true);
-		nextCategoryIcon.animation.addByPrefix("customize", "customize", 24, true);
-		nextCategoryIcon.animation.addByPrefix("blank", "new", 24, true);
+		for(option in options){ nextCategoryIcon.animation.addByPrefix(option, option, 24, true); }
 
-		prevCategoryIcon = new FlxSprite(180, 100);
+		prevCategoryIcon = new FlxSprite(190, 100);
 		prevCategoryIcon.frames = categoryIconFrames;
 		prevCategoryIcon.antialiasing = true;
 		prevCategoryIcon.scale.set(0.5, 0.5);
-		prevCategoryIcon.animation.addByPrefix("gameplay", "gameplay", 24, true);
-		prevCategoryIcon.animation.addByPrefix("customize", "customize", 24, true);
-		prevCategoryIcon.animation.addByPrefix("blank", "new", 24, true);
+		for(option in options){ prevCategoryIcon.animation.addByPrefix(option, option, 24, true); }
 
 		nextCategoryArrow = new FlxSprite(1280 - 50, 100).loadGraphic(Paths.image("menu/config/arrow"));
 		nextCategoryArrow.antialiasing = true;
@@ -270,12 +267,9 @@ class ConfigMenu extends FlxUIStateExt
 		for(i in 0...optionIndexOffset.length){
 			var icon = new FlxSprite();
 			icon.frames = categoryIconFrames;
-			//for(option in options){ icon.animation.addByPrefix(option, option, 24, true); }
-			icon.animation.addByPrefix("gameplay", "gameplay", 24, true);
-			icon.animation.addByPrefix("customize", "customize", 24, true);
-			icon.animation.addByPrefix("blank", "new", 24, true);
+			for(option in options){ icon.animation.addByPrefix(option, option, 24, true); }
 			icon.antialiasing = true;
-			icon.screenCenter(XY);
+			icon.screenCenter(X);
 			icon.x += iconOffsets[i];
 			icon.scale.set(iconScales[i], iconScales[i]);
 			icons.push(icon);
@@ -517,14 +511,10 @@ class ConfigMenu extends FlxUIStateExt
 					FlxTween.tween(titles[i].scale, {x: textScales[i], y: textScales[i]}, 0.5, {ease: FlxEase.quintOut});
 
 					icons[i].visible = true;
-					if(icons[i].animation.exists(options[wrapToOptionLength(curSelected + optionIndexOffset[i])])){
-						icons[i].animation.play(options[wrapToOptionLength(curSelected + optionIndexOffset[i])]);
-					}
-					else{
-						icons[i].animation.play("blank");
-					}
+					icons[i].animation.play(options[wrapToOptionLength(curSelected + optionIndexOffset[i])]);
 					icons[i].x = 1280/2 - icons[i].frameWidth/2;
 					icons[i].x += iconOffsets[iOffset];
+					icons[i].y = 720/2 - icons[i].frameHeight/2;
 					icons[i].scale.set(iconScales[iOffset], iconScales[iOffset]);
 					//icons[i].alpha = iconAlphaValues[iOffset];
 
@@ -550,15 +540,10 @@ class ConfigMenu extends FlxUIStateExt
 				titles[i].scale.set(textScales[i], textScales[i]);
 				//titles[i].alpha = iconAlphaValues[i];
 
-				icons[i].visible = true;
-				if(icons[i].animation.exists(options[wrapToOptionLength(curSelected + optionIndexOffset[i])])){
-					icons[i].animation.play(options[wrapToOptionLength(curSelected + optionIndexOffset[i])]);
-				}
-				else{
-					icons[i].animation.play("blank");
-				}
+				icons[i].animation.play(options[wrapToOptionLength(curSelected + optionIndexOffset[i])]);
 				icons[i].x = 1280/2 - icons[i].frameWidth/2;
 				icons[i].x += iconOffsets[i];
+				icons[i].y = 720/2 - icons[i].frameHeight/2;
 				icons[i].scale.set(iconScales[i], iconScales[i]);
 				//icons[i].alpha = iconAlphaValues[i];
 			}
@@ -575,24 +560,14 @@ class ConfigMenu extends FlxUIStateExt
 			}
 		}
 
-		if(nextCategoryIcon.animation.exists(options[wrapToOptionLength(curSelected + 1)])){
-			nextCategoryIcon.animation.play(options[wrapToOptionLength(curSelected + 1)]);
-		}
-		else{ 
-			nextCategoryIcon.animation.play("blank"); 
-		}
-		nextCategoryIcon.setPosition(1280 - 180, 100);
+		nextCategoryIcon.animation.play(options[wrapToOptionLength(curSelected + 1)]);
+		nextCategoryIcon.setPosition(1280 - 190, 100);
 		nextCategoryIcon.x -= nextCategoryIcon.frameWidth/2;
 		nextCategoryIcon.y -= nextCategoryIcon.frameHeight/2;
 		nextCategoryIcon.centerOrigin();
 
-		if(prevCategoryIcon.animation.exists(options[wrapToOptionLength(curSelected - 1)])){
-			prevCategoryIcon.animation.play(options[wrapToOptionLength(curSelected - 1)]);
-		}
-		else{ 
-			prevCategoryIcon.animation.play("blank"); 
-		}
-		prevCategoryIcon.setPosition(180, 100);
+		prevCategoryIcon.animation.play(options[wrapToOptionLength(curSelected - 1)]);
+		prevCategoryIcon.setPosition(190, 100);
 		prevCategoryIcon.x -= prevCategoryIcon.frameWidth/2;
 		prevCategoryIcon.y -= prevCategoryIcon.frameHeight/2;
 		prevCategoryIcon.centerOrigin();
