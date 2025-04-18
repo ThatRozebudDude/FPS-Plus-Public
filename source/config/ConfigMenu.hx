@@ -77,6 +77,11 @@ class ConfigMenu extends FlxUIStateExt
 	var subMenuUpArrow:FlxSprite;
 	var subMenuDownArrow:FlxSprite;
 
+	var nextCategoryIcon:FlxSprite;
+	var prevCategoryIcon:FlxSprite;
+	var nextCategoryArrow:FlxSprite;
+	var prevCategoryArrow:FlxSprite;
+
 	var topLevelMenuGroup:FlxSpriteGroup = new FlxSpriteGroup();
 	var subMenuGroup:FlxSpriteGroup = new FlxSpriteGroup();
 
@@ -182,6 +187,7 @@ class ConfigMenu extends FlxUIStateExt
 		topLevelMenuGroup.add(optionTitle);
 
 		var categoryFrames = Paths.getSparrowAtlas("menu/config/categories");
+		var categoryIconFrames = Paths.getSparrowAtlas("menu/config/icons");
 
 		categoryTitle = new FlxSprite(0, 100);
 		categoryTitle.frames = categoryFrames;
@@ -211,6 +217,38 @@ class ConfigMenu extends FlxUIStateExt
 		subMenuGroup.add(subMenuUpArrow);
 		subMenuGroup.add(subMenuDownArrow);
 
+		nextCategoryIcon = new FlxSprite(1280 - 180, 100);
+		nextCategoryIcon.frames = categoryIconFrames;
+		nextCategoryIcon.antialiasing = true;
+		nextCategoryIcon.scale.set(0.5, 0.5);
+		nextCategoryIcon.animation.addByPrefix("gameplay", "gameplay", 24, true);
+		nextCategoryIcon.animation.addByPrefix("customize", "customize", 24, true);
+		nextCategoryIcon.animation.addByPrefix("blank", "new", 24, true);
+
+		prevCategoryIcon = new FlxSprite(180, 100);
+		prevCategoryIcon.frames = categoryIconFrames;
+		prevCategoryIcon.antialiasing = true;
+		prevCategoryIcon.scale.set(0.5, 0.5);
+		prevCategoryIcon.animation.addByPrefix("gameplay", "gameplay", 24, true);
+		prevCategoryIcon.animation.addByPrefix("customize", "customize", 24, true);
+		prevCategoryIcon.animation.addByPrefix("blank", "new", 24, true);
+
+		nextCategoryArrow = new FlxSprite(1280 - 50, 100).loadGraphic(Paths.image("menu/config/arrow"));
+		nextCategoryArrow.antialiasing = true;
+		nextCategoryArrow.x -= nextCategoryArrow.width/2;
+		nextCategoryArrow.y -= nextCategoryArrow.height/2;
+
+		prevCategoryArrow = new FlxSprite(50, 100).loadGraphic(Paths.image("menu/config/arrow"));
+		prevCategoryArrow.antialiasing = true;
+		prevCategoryArrow.flipX = true;
+		prevCategoryArrow.x -= prevCategoryArrow.width/2;
+		prevCategoryArrow.y -= prevCategoryArrow.height/2;
+
+		subMenuGroup.add(nextCategoryIcon);
+		subMenuGroup.add(prevCategoryIcon);
+		subMenuGroup.add(nextCategoryArrow);
+		subMenuGroup.add(prevCategoryArrow);
+
 		for(i in 0...6){
 			var configText = new FlxTextExt(grid.x + 8, grid.y + 8 + (60*i), 1220 - 16, "OPTION " + i, 50);
 			configText.setFormat(Paths.font("Funkin-Bold", "otf"), configText.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -231,7 +269,7 @@ class ConfigMenu extends FlxUIStateExt
 
 		for(i in 0...optionIndexOffset.length){
 			var icon = new FlxSprite();
-			icon.frames = Paths.getSparrowAtlas("menu/config/icons");
+			icon.frames = categoryIconFrames;
 			//for(option in options){ icon.animation.addByPrefix(option, option, 24, true); }
 			icon.animation.addByPrefix("gameplay", "gameplay", 24, true);
 			icon.animation.addByPrefix("customize", "customize", 24, true);
@@ -392,6 +430,12 @@ class ConfigMenu extends FlxUIStateExt
 						subMenuDownArrow.scale.set(1, 1);
 					}*/
 
+					if(Binds.pressed("menuCycleRight")){ nextCategoryArrow.scale.set(0.75, 0.75); }
+					else{ nextCategoryArrow.scale.set(1, 1); }
+
+					if(Binds.pressed("menuCycleLeft")){ prevCategoryArrow.scale.set(0.75, 0.75); }
+					else{ prevCategoryArrow.scale.set(1, 1); }
+
 					if(pressDown){
 						if(curListStartOffset + curListPosition < configOptions[curSelected].length-1){
 							if(curListPosition == 5){
@@ -530,6 +574,28 @@ class ConfigMenu extends FlxUIStateExt
 				titles[i].animation.curAnim.frameRate = 8;
 			}
 		}
+
+		if(nextCategoryIcon.animation.exists(options[wrapToOptionLength(curSelected + 1)])){
+			nextCategoryIcon.animation.play(options[wrapToOptionLength(curSelected + 1)]);
+		}
+		else{ 
+			nextCategoryIcon.animation.play("blank"); 
+		}
+		nextCategoryIcon.setPosition(1280 - 180, 100);
+		nextCategoryIcon.x -= nextCategoryIcon.frameWidth/2;
+		nextCategoryIcon.y -= nextCategoryIcon.frameHeight/2;
+		nextCategoryIcon.centerOrigin();
+
+		if(prevCategoryIcon.animation.exists(options[wrapToOptionLength(curSelected - 1)])){
+			prevCategoryIcon.animation.play(options[wrapToOptionLength(curSelected - 1)]);
+		}
+		else{ 
+			prevCategoryIcon.animation.play("blank"); 
+		}
+		prevCategoryIcon.setPosition(180, 100);
+		prevCategoryIcon.x -= prevCategoryIcon.frameWidth/2;
+		prevCategoryIcon.y -= prevCategoryIcon.frameHeight/2;
+		prevCategoryIcon.centerOrigin();
 	}
 
 	inline function wrapToOptionLength(v:Int):Int{
