@@ -140,7 +140,7 @@ class StressIntro extends ScriptedCutscene
 		gf.visible = true;
 		dad.visible = true;
 		boyfriend.canAutoAnim = true;
-		gf.playAnim("shoot1", true);
+		gf.playAnim("idle", true);
 
 		playstate.camHUD.visible = true;
 		focusCameraBasedOnFirstSection();
