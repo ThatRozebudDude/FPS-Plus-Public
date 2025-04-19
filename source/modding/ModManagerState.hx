@@ -724,6 +724,7 @@ class ModManagerState extends FlxUIStateExt
 					var trueName:String = (json.config[i].properties.trueName != null) ? json.config[i].properties.trueName : "true";
 					var falseName:String = (json.config[i].properties.falseName != null) ? json.config[i].properties.falseName : "false";
 					setting = new ConfigOption(json.config[i].name, "", "");
+					setting.extraData[0] = value;
 					setting.optionUpdate = function(){
 						if(allowConfigInput){
 							if(Binds.justPressed("menuLeft") || Binds.justPressed("menuRight")){
@@ -741,6 +742,7 @@ class ModManagerState extends FlxUIStateExt
 					var minValue:Int = Std.int(json.config[i].properties.range[0]);
 					var maxValue:Int = Std.int(json.config[i].properties.range[1]);
 					setting = new ConfigOption(json.config[i].name, "", "");
+					setting.extraData[0] = value;
 					setting.optionUpdate = function(){
 						if(allowConfigInput){
 							if(Binds.justPressed("menuLeft") && value > minValue){
@@ -799,6 +801,7 @@ class ModManagerState extends FlxUIStateExt
 					}
 					
 					setting = new ConfigOption(json.config[i].name, "", "");
+					setting.extraData[0] = value;
 					setting.optionUpdate = function(){
 						if(allowConfigInput){
 							if(Binds.justPressed("menuLeft") && value > minValue){
@@ -825,6 +828,7 @@ class ModManagerState extends FlxUIStateExt
 					var values:Array<String> = json.config[i].properties.values;
 					var index:Int = values.indexOf(value);
 					setting = new ConfigOption(json.config[i].name, "", "");
+					setting.extraData[0] = value;
 					setting.optionUpdate = function(){
 						if(allowConfigInput){
 							if(Binds.justPressed("menuLeft")){
