@@ -26,7 +26,6 @@ class Config
 	public static var showCaptions:Bool;
 	public static var showAccuracy:Bool;
 	public static var showMisses:Int;
-	public static var enableVariations:Bool;
 	public static var autoPause:Bool;
 
 	public static var ee1:Bool;

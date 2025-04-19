@@ -918,18 +918,16 @@ class ModManagerState extends FlxUIStateExt
 		trace(PolymodHandler.disabledModDirs);
 		trace(PolymodHandler.allModDirs);
 
-		@:privateAccess{
-			for(i in 0...modList.length){
-				if(PolymodHandler.malformedMods.exists(modList[i].dir) || modList[i].config == null){
-					continue;
-				}
-				for(j in 0...modList[i].config.length){
-					ModConfig.configMap.get(modList[i].uid).get(modList[i].config[j].name).value = modList[i].config[j].extraData[0];
-				}
+		for(i in 0...modList.length){
+			if(PolymodHandler.malformedMods.exists(modList[i].dir) || modList[i].config == null){
+				continue;
 			}
-			ModConfig.save();
-			//trace(ModConfig.configMap);
+			for(j in 0...modList[i].config.length){
+				ModConfig.configMap.get(modList[i].uid).get(modList[i].config[j].name).value = modList[i].config[j].extraData[0];
+			}
 		}
+		ModConfig.save();
+		//trace(ModConfig.configMap);
 	}
 
 }

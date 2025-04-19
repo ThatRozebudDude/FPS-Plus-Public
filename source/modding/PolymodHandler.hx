@@ -264,7 +264,9 @@ class PolymodHandler
 		Polymod.addDefaultImport(modding.ScriptingUtil);
 		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTextBorderStyle);
 		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTweenType);
-		Polymod.addDefaultImport(modding.ModConfig);
+		
+		Polymod.addDefaultImport(modding.ScriptingUtil.ScriptConfig, "Config");
+		Polymod.addDefaultImport(modding.ScriptingUtil.ScriptModConfig, "ModConfig");
 
 		//Import scriptable classes so they can be made without importing
 		Polymod.addDefaultImport(characters.CharacterInfoBase);
@@ -287,6 +289,9 @@ class PolymodHandler
 		Polymod.addDefaultImport(scripts.ScriptedState);
 		
 		//Alias
+		Polymod.addImportAlias("config.Config", modding.ScriptingUtil.ScriptConfig);
+		Polymod.addImportAlias("modding.ModConfig", modding.ScriptingUtil.ScriptModConfig);
+
 		Polymod.addImportAlias("lime.utils.Assets", Assets);
 		Polymod.addImportAlias("openfl.utils.Assets", Assets);
 		Polymod.addImportAlias("haxe.Json", modding.ScriptingUtil.NativeJson);

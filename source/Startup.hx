@@ -118,10 +118,8 @@ class Startup extends FlxUIStateExt
 
 		SaveManager.global();
 
-		@:privateAccess{
-			ModConfig.load();
-			//trace(ModConfig.configMap);
-		}
+		ModConfig.load();
+		//trace(ModConfig.configMap);
 		
 		//debug.ChartingState.loadLists();
 

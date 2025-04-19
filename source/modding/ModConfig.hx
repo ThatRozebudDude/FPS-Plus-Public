@@ -8,9 +8,9 @@ import flixel.FlxG;
 class ModConfig
 {
 
-	static var configMap:Map<String, Map<String, Dynamic>> = new Map<String, Map<String, ModSetting>>();
+	public static var configMap:Map<String, Map<String, Dynamic>> = new Map<String, Map<String, ModSetting>>();
 
-	static function load():Void{
+	public static function load():Void{
 		SaveManager.modConfig();
 
 		if(FlxG.save.data.configMap != null){
@@ -86,7 +86,7 @@ class ModConfig
 		SaveManager.previousSave();
 	}
 
-	static function save():Void{
+	public static function save():Void{
 		SaveManager.modConfig();
 		FlxG.save.data.configMap = configMap;
 		SaveManager.previousSave();

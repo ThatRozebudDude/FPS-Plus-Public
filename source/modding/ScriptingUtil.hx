@@ -1,5 +1,6 @@
 package modding;
 
+import config.Config;
 import flixel.input.gamepad.FlxGamepadInputID;
 import openfl.display.BlendMode as BaseBlendMode;
 import flixel.text.FlxText.FlxTextBorderStyle;
@@ -147,5 +148,59 @@ class NativeJson
 
 	public static inline function stringify(value:Dynamic, ?replacer:(key:Dynamic, value:Dynamic) -> Dynamic, ?space:String):String{
 		return haxe.Json.stringify(value, replacer, space);
+	}
+}
+
+class ScriptConfig
+{
+	public static var offset(get, never):Float;
+	public static var healthMultiplier(get, never):Float;
+	public static var healthDrainMultiplier(get, never):Float;
+	public static var comboType(get, never):Int;
+	public static var downscroll(get, never):Bool;
+	public static var noteGlow(get, never):Bool;
+	public static var ghostTapType(get, never):Int;
+	public static var framerate(get, never):Int;
+	public static var bgDim(get, never):Int;
+	public static var noteSplashType(get, never):Int;
+	public static var centeredNotes(get, never):Bool;
+	public static var scrollSpeedOverride(get, never):Float;
+	public static var showComboBreaks(get, never):Bool;
+	public static var showFPS(get, never):Bool;
+	public static var useGPU(get, never):Bool;
+	public static var extraCamMovement(get, never):Bool;
+	public static var camBopAmount(get, never):Int;
+	public static var showCaptions(get, never):Bool;
+	public static var showAccuracy(get, never):Bool;
+	public static var showMisses(get, never):Int;
+	public static var autoPause(get, never):Bool;
+	
+	public static function get_offset():Float { return Config.offset; }
+	public static function get_healthMultiplier():Float { return Config.healthMultiplier; }
+	public static function get_healthDrainMultiplier():Float { return Config.healthDrainMultiplier; }
+	public static function get_comboType():Int { return Config.comboType; }
+	public static function get_downscroll():Bool { return Config.downscroll; }
+	public static function get_noteGlow():Bool { return Config.noteGlow; }
+	public static function get_ghostTapType():Int { return Config.ghostTapType; }
+	public static function get_framerate():Int { return Config.framerate; }
+	public static function get_bgDim():Int { return Config.bgDim; }
+	public static function get_noteSplashType():Int { return Config.noteSplashType; }
+	public static function get_centeredNotes():Bool { return Config.centeredNotes; }
+	public static function get_scrollSpeedOverride():Float { return Config.scrollSpeedOverride; }
+	public static function get_showComboBreaks():Bool { return Config.showComboBreaks; }
+	public static function get_showFPS():Bool { return Config.showFPS; }
+	public static function get_useGPU():Bool { return Config.useGPU; }
+	public static function get_extraCamMovement():Bool { return Config.extraCamMovement; }
+	public static function get_camBopAmount():Int { return Config.camBopAmount; }
+	public static function get_showCaptions():Bool { return Config.showCaptions; }
+	public static function get_showAccuracy():Bool { return Config.showAccuracy; }
+	public static function get_showMisses():Int { return Config.showMisses; }
+	public static function get_autoPause():Bool { return Config.autoPause; }
+}
+
+class ScriptModConfig
+{
+	public static function get(uid:String, name:String):Dynamic{
+		return ModConfig.get(uid, name);
 	}
 }
