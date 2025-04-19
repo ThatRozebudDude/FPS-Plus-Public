@@ -17,22 +17,22 @@ class SchoolErect extends BaseStage
 		startingZoom = 1;
 		uiType = "Pixel";
 
-		var sky = new FlxSprite(-200, -48).loadGraphic(Paths.image("week6/weeb/erect/sky"));
+		var sky = new FlxSprite(-164, -84).loadGraphic(Paths.image("week6/weeb/erect/sky"));
 		sky.scale.set(6, 6);
 		sky.updateHitbox();
-		sky.scrollFactor.set(0.1, 0.3);
+		sky.scrollFactor.set(0.2, 0.2);
 		addToBackground(sky);
 
-		var farBackTrees = new FlxSprite(-200, 0).loadGraphic(Paths.image("week6/weeb/erect/farBackTrees"));
+		var farBackTrees = new FlxSprite(-242, -86).loadGraphic(Paths.image("week6/weeb/erect/farBackTrees"));
 		farBackTrees.scale.set(6, 6);
 		farBackTrees.updateHitbox();
-		farBackTrees.scrollFactor.set(0.4, 0.8);
+		farBackTrees.scrollFactor.set(0.5, 0.5);
 		addToBackground(farBackTrees);
 
-		var school = new FlxSprite(-200, 0).loadGraphic(Paths.image("week6/weeb/erect/school"));
+		var school = new FlxSprite(-200, -36).loadGraphic(Paths.image("week6/weeb/erect/school"));
 		school.scale.set(6, 6);
 		school.updateHitbox();
-		school.scrollFactor.set(0.6, 0.9);
+		school.scrollFactor.set(0.75, 0.75);
 		addToBackground(school);
 
 		var ground = new FlxSprite(-200, 0).loadGraphic(Paths.image("week6/weeb/erect/ground"));
