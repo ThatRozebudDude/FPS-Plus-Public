@@ -11,7 +11,10 @@ class TankErect extends BaseStage
 {
 
 	var tankmanRun:FlxGroup;
-	var tankmanRunShader:AdjustColorShader = new AdjustColorShader(-46, -38, -25, -20);
+	var updateFunctions:Array<Void->Void> = [];
+
+	var leftLightPoint = new FlxPoint(280, 200);
+	var rightLightPoint = new FlxPoint(1350, 200);
 
 	var sniper:FlxSprite;
 	var guy:FlxSprite;
@@ -77,8 +80,29 @@ class TankErect extends BaseStage
 					// new TankmenBG(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
 					tankman.strumTime = TankmenBG.animationNotes[i][0];
 					tankman.resetShit(500, 230 + FlxG.random.int(50, 80), TankmenBG.animationNotes[i][1] >= 2);
-					tankman.shader = tankmanRunShader.shader;
 					tankmanRun.add(tankman);
+					
+					var tankmanRunShader = new DropShadowShader();
+					tankmanRunShader.setAdjustColor(-46, -38, -25, -20);
+					tankmanRunShader.color = 0xFFDFEF3C;
+					tankmanRunShader.angle = tankman.goingRight ? 45 : 135;
+					tankmanRunShader.threshold = 0.4;
+					tankmanRunShader.attachedSprite = tankman;
+					tankman.shader = tankmanRunShader;
+					tankman.animation.callback = function(name:String, frameNumber:Int, frameIndex:Int){
+						tankmanRunShader.updateFrameInfo(tankman.frame);
+					};
+
+					updateFunctions.push(function(){
+						if(tankman.alive && tankman.visible){
+							if(tankman.goingRight){
+								tankmanRunShader.angle = (Math.atan2(-(leftLightPoint.y - tankman.getMidpoint().y), leftLightPoint.x - tankman.getMidpoint().x)) * FlxAngle.TO_DEG;
+							}
+							else{
+								tankmanRunShader.angle = (Math.atan2(-(rightLightPoint.y - tankman.getMidpoint().y), rightLightPoint.x - tankman.getMidpoint().x)) * FlxAngle.TO_DEG;
+							}
+						}
+					});
 				}
 			}
 		}
@@ -110,6 +134,7 @@ class TankErect extends BaseStage
 
 	public override function update(elapsed:Float){
 		super.update(elapsed);
+		for(func in updateFunctions){ func(); }
 	}
 
 	public override function beat(curBeat:Int){
