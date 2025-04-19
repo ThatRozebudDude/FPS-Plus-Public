@@ -116,10 +116,9 @@ class Startup extends FlxUIStateExt
 
 		Highscore.load();
 
-		SaveManager.global();
-
 		ModConfig.load();
-		//trace(ModConfig.configMap);
+
+		SaveManager.global();
 		
 		//debug.ChartingState.loadLists();
 

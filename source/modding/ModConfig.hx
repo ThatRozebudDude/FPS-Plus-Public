@@ -72,7 +72,7 @@ class ModConfig
 								configMap.get(meta.uid).set(json.config[i].name, setting);
 							}
 							else if(json.config[i].properties.values != null && (json.config[i].properties.values.indexOf(configMap.get(meta.uid).get(json.config[i].name).value) == -1)){
-								trace(meta.uid + "\t" + json.config[i].name + "\tIndex not found!");
+								trace(meta.uid + "\t" + json.config[i].name + "\tIndex not found!\tValue: " + configMap.get(meta.uid).get(json.config[i].name).value);
 								configMap.get(meta.uid).set(json.config[i].name, setting);
 							}
 						}
