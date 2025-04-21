@@ -18,6 +18,7 @@ class PhillyStreets extends BaseStage
 
 	var dimSprite:FlxSprite;
 	var kickedCan:AtlasSprite;
+	var canExplosion:FlxSprite;
 	var characterGlow:FlxSprite;
 
 	var phillyTraffic:FlxSprite;
@@ -153,12 +154,27 @@ class PhillyStreets extends BaseStage
 		kickedCan.addAnimationByLabel("hit", "Hit Pico", 24, false);
 		kickedCan.addAnimationByLabel("shot", "Can Shot", 24, false);
 		kickedCan.animationEndCallback = function(name) {
-			if(name == "hit" || name == "shot"){
+			if(name == "shot"){
 				kickedCan.visible = false;
+			}
+			if(name == "hit"){
+				kickedCan.visible = false;
+				canExplosion.visible = true;
+				canExplosion.animation.play("explode", true);
+				playstate.playSound(Paths.sound("weekend1/canExplodeSfx"));
 			}
 		}
 		addToForeground(kickedCan);
 
+		canExplosion = new FlxSprite(1500, 400);
+		canExplosion.frames = Paths.getSparrowAtlas("weekend1/spraypaintExplosionEZ");
+		canExplosion.antialiasing = true;
+		canExplosion.visible = false;
+		canExplosion.animation.addByPrefix("explode", "", 24, false);
+		canExplosion.animation.onFinish.add(function(name:String){
+			canExplosion.visible = false;
+		});
+		addToForeground(canExplosion);
 
 		bfStart.set(2151, 1228);
 		dadStart.set(900, 1110);
@@ -194,6 +210,7 @@ class PhillyStreets extends BaseStage
 		addEvent("phillyStreets-canShot", canShot);
 		addEvent("phillyStreets-playerGlow", createCharacterGlow);
 		addEvent("phillyStreets-createBullet", createBullet);
+		addEvent("phillyStreets-canExplosion", createBullet);
 	}
 
 	override function songStart() {

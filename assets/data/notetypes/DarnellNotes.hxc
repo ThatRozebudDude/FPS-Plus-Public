@@ -60,7 +60,7 @@ class DarnellNotes extends NoteType
 
 	function firegunMiss (direction:Int, character:Character){
 		if(character.canAutoAnim){
-			character.playAnim('hit', true);
+			boyfriend.danceLockout = character.playAnim('hit', true);
 		}
 		playstate.playSound(Paths.sound("weekend1/Pico_Bonk"));
 		playstate.executeEvent("phillyStreets-canHit");
