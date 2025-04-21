@@ -6,11 +6,25 @@ import openfl.utils.Assets;
 class RuntimeShader extends FlxRuntimeShader
 {
 
-	public function new(?fragmentSourcePath:String, ?vertexSourcePath:String):Void{
+	public function new(?fragmentSource:String, ?vertexSource:String):Void{
 		var frag:String = null;
 		var vert:String = null;
-		if (fragmentSourcePath != null){ frag = Assets.getText(fragmentSourcePath); }
-		if (vertexSourcePath != null){ vert = Assets.getText(vertexSourcePath); }
+		if (fragmentSource != null){
+			if(Utils.exists(fragmentSource)){ //Treat as path first.
+				frag = Assets.getText(fragmentSource);
+			}
+			else{ //Otherwise just use it as a source directly.
+				frag = fragmentSource;
+			}
+		}
+		if (vertexSource != null){
+			if(Utils.exists(vertexSource)){
+				vert = Assets.getText(vertexSource);
+			}
+			else{
+				vert = vertexSource;
+			}
+		}
 		super(frag, vert);
 	}
 
