@@ -1,5 +1,6 @@
 package extensions.flixel;
 
+import flixel.math.FlxAngle;
 import flixel.math.FlxMath;
 import openfl.display.BitmapData;
 import flixel.text.FlxText;
@@ -180,7 +181,7 @@ class FlxTextExt extends FlxText
 				return -1;
 			default:
 				//trace("not in table");
-				return Math.cos(angle);
+				return Math.cos(angle * FlxAngle.TO_RAD);
 		}
 
 	}
@@ -208,7 +209,7 @@ class FlxTextExt extends FlxText
 				return -1;
 			default:
 				//trace("not in table");
-				return Math.sin(angle);
+				return Math.sin(angle * FlxAngle.TO_RAD);
 		}
 
 	}
