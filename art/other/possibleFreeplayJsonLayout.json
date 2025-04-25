@@ -1,0 +1,227 @@
+{
+	"categories":[
+		"ALL",
+		"ERECT",
+		"Week 1",
+		"Week 2",
+		"Week 3",
+		"Week 4",
+		"Week 5",
+		"Week 6",
+		"Week 7",
+		"Weekend 1",
+		"Secret"
+	],
+	"songs":[
+		{
+			"song": "Tutorial",
+			"icon": "gf",
+			"categories": ["ALL", "Week 1"]
+		},
+		{
+			"song": "Bopeebo",
+			"icon": "dad",
+			"categories": ["ALL", "Week 1"]
+		},
+		{
+			"song": "Fresh",
+			"icon": "dad",
+			"categories": ["ALL", "Week 1"]
+		},
+		{
+			"song": "Dadbattle",
+			"icon": "dad",
+			"categories": ["ALL", "Week 1"]
+		},
+		{
+			"song": "Spookeez",
+			"icon": "spooky",
+			"categories": ["ALL", "Week 2"]
+		},
+		{
+			"song": "South",
+			"icon": "spooky",
+			"categories": ["ALL", "Week 2"]
+		},
+		{
+			"song": "Monster",
+			"icon": "monster",
+			"categories": ["ALL", "Week 2"]
+		},
+		{
+			"song": "Pico",
+			"icon": "pico",
+			"categories": ["ALL", "Week 3"]
+		},
+		{
+			"song": "Philly",
+			"icon": "pico",
+			"categories": ["ALL", "Week 3"]
+		},
+		{
+			"song": "Blammed",
+			"icon": "pico",
+			"categories": ["ALL", "Week 3"]
+		},
+		{
+			"song": "Satin-Panties",
+			"icon": "mom",
+			"categories": ["ALL", "Week 4"]
+		},
+		{
+			"song": "High",
+			"icon": "mom",
+			"categories": ["ALL", "Week 4"]
+		},
+		{
+			"song": "Milf",
+			"icon": "mom",
+			"categories": ["ALL", "Week 4"]
+		},
+		{
+			"song": "Cocoa",
+			"icon": "parents-christmas",
+			"categories": ["ALL", "Week 5"]
+		},
+		{
+			"song": "Eggnog",
+			"icon": "parents-christmas",
+			"categories": ["ALL", "Week 5"]
+		},
+		{
+			"song": "Winter-Horrorland",
+			"icon": "monster",
+			"categories": ["ALL", "Week 5"]
+		},
+		{
+			"song": "Senpai",
+			"icon": "senpai",
+			"categories": ["ALL", "Week 6"]
+		},
+		{
+			"song": "Roses",
+			"icon": "senpai",
+			"categories": ["ALL", "Week 6"]
+		},
+		{
+			"song": "Thorns",
+			"icon": "spirit",
+			"categories": ["ALL", "Week 6"]
+		},
+		{
+			"song": "Ugh",
+			"icon": "tankman",
+			"categories": ["ALL", "Week 7"]
+		},
+		{
+			"song": "Guns",
+			"icon": "tankman",
+			"categories": ["ALL", "Week 7"]
+		},
+		{
+			"song": "Stress",
+			"icon": "tankman",
+			"categories": ["ALL", "Week 7"]
+		},
+		{
+			"song": "Darnell-Bf",
+			"icon": "darnell",
+			"categories": ["ALL", "Weekend 1"]
+		},
+		{
+			"song": "Lit-Up-Bf",
+			"icon": "darnell",
+			"categories": ["ALL", "Weekend 1"]
+		},
+		{
+			"song": "Bopeebo-Erect",
+			"icon": "dad",
+			"categories": ["ERECT", "Week 1"]
+		},
+		{
+			"song": "Fresh-Erect",
+			"icon": "dad",
+			"categories": ["ERECT", "Week 1"]
+		},
+		{
+			"song": "Dadbattle-Erect",
+			"icon": "dad",
+			"categories": ["ERECT", "Week 1"]
+		},
+		{
+			"song": "Spookeez-Erect",
+			"icon": "spooky",
+			"categories": ["ERECT", "Week 2"]
+		},
+		{
+			"song": "South-Erect",
+			"icon": "spooky",
+			"categories": ["ERECT", "Week 2"]
+		},
+		{
+			"song": "Pico-Erect",
+			"icon": "pico",
+			"categories": ["ERECT", "Week 3"]
+		},
+		{
+			"song": "Philly-Erect",
+			"icon": "pico",
+			"categories": ["ERECT", "Week 3"]
+		},
+		{
+			"song": "Blammed-Erect",
+			"icon": "pico",
+			"categories": ["ERECT", "Week 3"]
+		},
+		{
+			"song": "Satin-Panties-Erect",
+			"icon": "mom",
+			"categories": ["ERECT", "Week 4"]
+		},
+		{
+			"song": "High-Erect",
+			"icon": "mom",
+			"categories": ["ERECT", "Week 4"]
+		},
+		{
+			"song": "Cocoa-Erect",
+			"icon": "parents-christmas",
+			"categories": ["ERECT", "Week 5"]
+		},
+		{
+			"song": "Eggnog-Erect",
+			"icon": "parents-christmas",
+			"categories": ["ERECT", "Week 5"]
+		},
+		{
+			"song": "Senpai-Erect",
+			"icon": "senpai",
+			"categories": ["ERECT", "Week 6"]
+		},
+		{
+			"song": "Roses-Erect",
+			"icon": "senpai",
+			"categories": ["ERECT", "Week 6"]
+		},
+		{
+			"song": "Thorns-Erect",
+			"icon": "spirit",
+			"categories": ["ERECT", "Week 6"]
+		},
+		{
+			"song": "Ugh-Erect",
+			"icon": "tankman",
+			"categories": ["ERECT", "Week 7"]
+		},
+		{
+			"song": "Lil-Buddies",
+			"icon": "bf",
+			"categories": ["Secret"]
+		},
+		{
+			"song": "Lil-Buddies-Erect",
+			"icon": "bf",
+			"categories": ["Secret"]
+		}
+	]
+}
