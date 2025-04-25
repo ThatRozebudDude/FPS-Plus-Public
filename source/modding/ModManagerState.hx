@@ -242,6 +242,8 @@ class ModManagerState extends FlxUIStateExt
 			if(curSelectedMod == modList.length-1 && modList.length > 6){ listStartIndex--; }
 			save();
 			PolymodHandler.buildModDirectories();
+			ModConfig.load();
+			SaveManager.global();
 			buildFullModList();
 			if(modList.length <= 6 ){ listStartIndex = 0; }
 			changeModSelection(0, false);
@@ -634,6 +636,7 @@ class ModManagerState extends FlxUIStateExt
 			}
 			else{
 				var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
+				var modAPIVersion:Array<Int> = [Std.parseInt(json.api_version.split(".")[0]), Std.parseInt(json.api_version.split(".")[1]), Std.parseInt(json.api_version.split(".")[2])];
 				if(json.title != null){ info.name = json.title; }
 				else{ info.name = dir; }
 				if(json.description != null){ info.description = json.description; }
@@ -643,7 +646,7 @@ class ModManagerState extends FlxUIStateExt
 				info.modVersion = json.mod_version;
 				if(json.uid != null){ info.uid = json.uid; }
 				else{ info.uid = "None"; }
-				info.config = buildModConfig(dir);
+				info.config = modAPIVersion[1] >= 4 ? buildModConfig(dir) : null;
 				info.enabled = !PolymodHandler.disabledModDirs.contains(dir);
 			}
 

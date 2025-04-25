@@ -22,8 +22,14 @@ class ModConfig
 				if(!FileSystem.exists("mods/" + dir + "/config.json")){
 					continue;
 				}
+				
 				var meta = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
 				var json = Json.parse(File.getContent("mods/" + dir + "/config.json"));
+
+				var modAPIVersion:Array<Int> = [Std.parseInt(meta.api_version.split(".")[0]), Std.parseInt(meta.api_version.split(".")[1]), Std.parseInt(meta.api_version.split(".")[2])];
+				if(meta.uid == null || modAPIVersion[1] >= 4){
+					continue;
+				}
 
 				if(!configMap.exists(meta.uid)){
 					configMap.set(meta.uid, new Map<String, ModSetting>());
