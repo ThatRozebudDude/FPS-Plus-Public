@@ -1,0 +1,60 @@
+[
+	{
+		"op": "add", 
+		"path": "/categories/-", 
+		"value": "New Category"
+	},
+	{
+		"op": "add", 
+		"path": "/categories/5", 
+		"value": "Week 4.5 Insert"
+	},
+	{
+		"op": "add", 
+		"path": "/songs/-", 
+		"value": {
+			"song": "Random-Pico-Song",
+			"icon": "pico",
+			"categories": ["ALL", "New Category"]
+		}
+	},
+	{
+		"op": "add", 
+		"path": "/songs/-", 
+		"value": {
+			"song": "Satin-Panties-Pico",
+			"icon": "mom",
+			"categories": ["ALL", "Week 4.5 Insert"],
+			"insert": {
+				"type": "after",
+				"value": "Blammed-Pico"
+			}
+		}
+	},
+	{
+		"op": "add", 
+		"path": "/songs/-", 
+		"value": {
+			"song": "High-Pico",
+			"icon": "mom",
+			"categories": ["ALL", "Week 4.5 Insert"],
+			"insert": {
+				"type": "after",
+				"value": "Satin-Panties-Pico"
+			}
+		}
+	},
+	{
+		"op": "add", 
+		"path": "/songs/-", 
+		"value": {
+			"song": "Milf-Pico",
+			"icon": "mom",
+			"categories": ["ALL", "Week 4.5 Insert"],
+			"insert": {
+				"type": "after",
+				"value": "High-Pico"
+			}
+		}
+	}
+]
