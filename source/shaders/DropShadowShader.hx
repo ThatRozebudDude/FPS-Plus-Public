@@ -441,9 +441,14 @@ class DropShadowShader extends FlxShader
 				}
 
 				// add the dropshadow color	based on the amount, strength, and intensity
-				col.rgb += dropColor.rgb * ((1.0 - (dropShadowAmount * str))*intensity);
+				vec3 r = col.rgb + (dropColor.rgb * ((1.0 - (dropShadowAmount * str))*intensity));
 
-				return col;
+				if(useMask){
+					float forceHighlightAmount = texture2D(altMask, finalUv).g;
+					return mix(r, col.rgb + (dropColor.rgb * str), forceHighlightAmount);
+				}
+
+				return r;
 			}
 
 			void main()
@@ -454,7 +459,7 @@ class DropShadowShader extends FlxShader
 
 				vec3 outColor = applyHSBCEffect(unpremultipliedColor);
 
-				outColor = createDropShadow(outColor, thr, useMask);
+				outColor = clamp(createDropShadow(outColor, thr, useMask), 0.0, 1.0);
 
 				gl_FragColor = vec4(outColor.rgb * col.a, col.a);
 			}

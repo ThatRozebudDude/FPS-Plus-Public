@@ -2,83 +2,55 @@
 <!--
 Created with Funkin Packer v0.1.3 DEV https://neeeoo.github.io/funkin-packer/
 -->
-<TextureAtlas imagePath="otisSpeaker.png" width="2882" height="3233" spritePadding="1" borderPadding="2">
-	<SubTexture name="otis idle0000" x="609" y="2786" width="488" height="384" frameX="-14" frameY="0" frameWidth="508" frameHeight="385"/>
-	<SubTexture name="otis idle0001" x="609" y="2786" width="488" height="384" frameX="-14" frameY="0" frameWidth="508" frameHeight="385"/>
-	<SubTexture name="otis idle0002" x="2447" y="2017" width="385" height="495" rotated="true" frameX="-4" frameY="0" frameWidth="508" frameHeight="385"/>
-	<SubTexture name="otis idle0003" x="2447" y="2017" width="385" height="495" rotated="true" frameX="-4" frameY="0" frameWidth="508" frameHeight="385"/>
-	<SubTexture name="otis idle0004" x="2450" y="631" width="379" height="499" rotated="true" frameX="0" frameY="-6" frameWidth="508" frameHeight="385"/>
-	<SubTexture name="otis idle0005" x="2450" y="631" width="379" height="499" rotated="true" frameX="0" frameY="-6" frameWidth="508" frameHeight="385"/>
-	<SubTexture name="otis idle0006" x="2259" y="2719" width="376" height="507" rotated="true" frameX="-4" frameY="-9" frameWidth="508" frameHeight="385"/>
-	<SubTexture name="otis idle0007" x="2259" y="2719" width="376" height="507" rotated="true" frameX="-4" frameY="-9" frameWidth="508" frameHeight="385"/>
-	<SubTexture name="otis idle0008" x="2259" y="2719" width="376" height="507" rotated="true" frameX="-4" frameY="-9" frameWidth="508" frameHeight="385"/>
-	<SubTexture name="otis idle0009" x="1882" y="2719" width="376" height="508" rotated="true" frameX="-5" frameY="-9" frameWidth="508" frameHeight="385"/>
-	<SubTexture name="otis idle0010" x="1882" y="2719" width="376" height="508" rotated="true" frameX="-5" frameY="-9" frameWidth="508" frameHeight="385"/>
-	<SubTexture name="otis idle0011" x="1882" y="2719" width="376" height="508" rotated="true" frameX="-5" frameY="-9" frameWidth="508" frameHeight="385"/>
-	<SubTexture name="otis idle0012" x="1882" y="2719" width="376" height="508" rotated="true" frameX="-5" frameY="-9" frameWidth="508" frameHeight="385"/>
-	<SubTexture name="otis idle0013" x="1882" y="2719" width="376" height="508" rotated="true" frameX="-5" frameY="-9" frameWidth="508" frameHeight="385"/>
-	<SubTexture name="otis idle0014" x="1882" y="2719" width="376" height="508" rotated="true" frameX="-5" frameY="-9" frameWidth="508" frameHeight="385"/>
-	<SubTexture name="shoot back0000" x="2" y="2" width="880" height="389" frameX="0" frameY="-9" frameWidth="880" frameHeight="398"/>
-	<SubTexture name="shoot back0001" x="2" y="392" width="876" height="389" frameX="0" frameY="-9" frameWidth="880" frameHeight="398"/>
-	<SubTexture name="shoot back0002" x="2051" y="2" width="398" height="715" rotated="true" frameX="-45" frameY="0" frameWidth="880" frameHeight="398"/>
-	<SubTexture name="shoot back0003" x="2051" y="2" width="398" height="715" rotated="true" frameX="-45" frameY="0" frameWidth="880" frameHeight="398"/>
-	<SubTexture name="shoot back0004" x="1652" y="1485" width="396" height="723" rotated="true" frameX="-46" frameY="-2" frameWidth="880" frameHeight="398"/>
-	<SubTexture name="shoot back0005" x="1260" y="762" width="391" height="754" rotated="true" frameX="-35" frameY="-7" frameWidth="880" frameHeight="398"/>
-	<SubTexture name="shoot back0006" x="1260" y="762" width="391" height="754" rotated="true" frameX="-35" frameY="-7" frameWidth="880" frameHeight="398"/>
-	<SubTexture name="shoot back0007" x="1260" y="2" width="391" height="759" rotated="true" frameX="-35" frameY="-7" frameWidth="880" frameHeight="398"/>
-	<SubTexture name="shoot back0008" x="1260" y="2" width="391" height="759" rotated="true" frameX="-35" frameY="-7" frameWidth="880" frameHeight="398"/>
-	<SubTexture name="shoot back0009" x="1260" y="2" width="391" height="759" rotated="true" frameX="-35" frameY="-7" frameWidth="880" frameHeight="398"/>
-	<SubTexture name="shoot back0010" x="798" y="782" width="391" height="760" rotated="true" frameX="-35" frameY="-7" frameWidth="880" frameHeight="398"/>
-	<SubTexture name="shoot back0011" x="798" y="782" width="391" height="760" rotated="true" frameX="-35" frameY="-7" frameWidth="880" frameHeight="398"/>
-	<SubTexture name="shoot back0012" x="798" y="782" width="391" height="760" rotated="true" frameX="-35" frameY="-7" frameWidth="880" frameHeight="398"/>
-	<SubTexture name="shoot back0013" x="798" y="782" width="391" height="760" rotated="true" frameX="-35" frameY="-7" frameWidth="880" frameHeight="398"/>
-	<SubTexture name="shoot back0014" x="798" y="782" width="391" height="760" rotated="true" frameX="-35" frameY="-7" frameWidth="880" frameHeight="398"/>
-	<SubTexture name="shoot back0015" x="798" y="782" width="391" height="760" rotated="true" frameX="-35" frameY="-7" frameWidth="880" frameHeight="398"/>
-	<SubTexture name="shoot back low0000" x="2" y="782" width="795" height="408" frameX="-22" frameY="0" frameWidth="795" frameHeight="408"/>
-	<SubTexture name="shoot back low0001" x="2" y="1968" width="740" height="408" frameX="-22" frameY="0" frameWidth="795" frameHeight="408"/>
-	<SubTexture name="shoot back low0002" x="1652" y="747" width="397" height="737" rotated="true" frameX="0" frameY="-11" frameWidth="795" frameHeight="408"/>
-	<SubTexture name="shoot back low0003" x="1652" y="747" width="397" height="737" rotated="true" frameX="0" frameY="-11" frameWidth="795" frameHeight="408"/>
-	<SubTexture name="shoot back low0004" x="1652" y="2" width="398" height="744" rotated="true" frameX="-1" frameY="-10" frameWidth="795" frameHeight="408"/>
-	<SubTexture name="shoot back low0005" x="756" y="1568" width="752" height="399" frameX="-6" frameY="-9" frameWidth="795" frameHeight="408"/>
-	<SubTexture name="shoot back low0006" x="756" y="1568" width="752" height="399" frameX="-6" frameY="-9" frameWidth="795" frameHeight="408"/>
-	<SubTexture name="shoot back low0007" x="756" y="1568" width="752" height="399" frameX="-6" frameY="-9" frameWidth="795" frameHeight="408"/>
-	<SubTexture name="shoot back low0008" x="2" y="1568" width="753" height="399" frameX="-6" frameY="-9" frameWidth="795" frameHeight="408"/>
-	<SubTexture name="shoot back low0009" x="2" y="1568" width="753" height="399" frameX="-6" frameY="-9" frameWidth="795" frameHeight="408"/>
-	<SubTexture name="shoot back low0010" x="2" y="1568" width="753" height="399" frameX="-6" frameY="-9" frameWidth="795" frameHeight="408"/>
-	<SubTexture name="shoot back low0011" x="2" y="1568" width="753" height="399" frameX="-6" frameY="-9" frameWidth="795" frameHeight="408"/>
-	<SubTexture name="shoot back low0012" x="2" y="1568" width="753" height="399" frameX="-6" frameY="-9" frameWidth="795" frameHeight="408"/>
-	<SubTexture name="shoot back low0013" x="2" y="1568" width="753" height="399" frameX="-6" frameY="-9" frameWidth="795" frameHeight="408"/>
-	<SubTexture name="shoot back low0014" x="2" y="1568" width="753" height="399" frameX="-6" frameY="-9" frameWidth="795" frameHeight="408"/>
-	<SubTexture name="shoot forward0000" x="883" y="2" width="376" height="772" rotated="true" frameX="0" frameY="-106" frameWidth="772" frameHeight="482"/>
-	<SubTexture name="shoot forward0001" x="2" y="1191" width="765" height="376" frameX="-7" frameY="-106" frameWidth="772" frameHeight="482"/>
-	<SubTexture name="shoot forward0002" x="1478" y="2209" width="569" height="482" frameX="-237" frameY="0" frameWidth="772" frameHeight="482"/>
-	<SubTexture name="shoot forward0003" x="1478" y="2209" width="569" height="482" frameX="-237" frameY="0" frameWidth="772" frameHeight="482"/>
-	<SubTexture name="shoot forward0004" x="1328" y="2719" width="553" height="478" frameX="-242" frameY="-4" frameWidth="772" frameHeight="482"/>
-	<SubTexture name="shoot forward0005" x="2" y="2786" width="606" height="445" frameX="-178" frameY="-37" frameWidth="772" frameHeight="482"/>
-	<SubTexture name="shoot forward0006" x="2" y="2786" width="606" height="445" frameX="-178" frameY="-37" frameWidth="772" frameHeight="482"/>
-	<SubTexture name="shoot forward0007" x="2447" y="1391" width="433" height="625" rotated="true" frameX="-159" frameY="-49" frameWidth="772" frameHeight="482"/>
-	<SubTexture name="shoot forward0008" x="2447" y="1391" width="433" height="625" rotated="true" frameX="-159" frameY="-49" frameWidth="772" frameHeight="482"/>
-	<SubTexture name="shoot forward0009" x="2447" y="1391" width="433" height="625" rotated="true" frameX="-159" frameY="-49" frameWidth="772" frameHeight="482"/>
-	<SubTexture name="shoot forward0010" x="2450" y="2" width="430" height="628" rotated="true" frameX="-156" frameY="-52" frameWidth="772" frameHeight="482"/>
-	<SubTexture name="shoot forward0011" x="2450" y="2" width="430" height="628" rotated="true" frameX="-156" frameY="-52" frameWidth="772" frameHeight="482"/>
-	<SubTexture name="shoot forward0012" x="2450" y="2" width="430" height="628" rotated="true" frameX="-156" frameY="-52" frameWidth="772" frameHeight="482"/>
-	<SubTexture name="shoot forward0013" x="2450" y="2" width="430" height="628" rotated="true" frameX="-156" frameY="-52" frameWidth="772" frameHeight="482"/>
-	<SubTexture name="shoot forward low0000" x="743" y="1968" width="734" height="408" frameX="0" frameY="-1" frameWidth="734" frameHeight="409"/>
-	<SubTexture name="shoot forward low0001" x="2" y="2377" width="673" height="408" frameX="-61" frameY="-1" frameWidth="734" frameHeight="409"/>
-	<SubTexture name="shoot forward low0002" x="676" y="2377" width="651" height="389" frameX="-88" frameY="-19" frameWidth="734" frameHeight="409"/>
-	<SubTexture name="shoot forward low0003" x="676" y="2377" width="651" height="389" frameX="-88" frameY="-19" frameWidth="734" frameHeight="409"/>
-	<SubTexture name="shoot forward low0004" x="2049" y="2062" width="392" height="656" rotated="true" frameX="-83" frameY="-16" frameWidth="734" frameHeight="409"/>
-	<SubTexture name="shoot forward low0005" x="2050" y="1391" width="396" height="670" rotated="true" frameX="-67" frameY="-12" frameWidth="734" frameHeight="409"/>
-	<SubTexture name="shoot forward low0006" x="2050" y="1391" width="396" height="670" rotated="true" frameX="-67" frameY="-12" frameWidth="734" frameHeight="409"/>
-	<SubTexture name="shoot forward low0007" x="2050" y="1391" width="396" height="670" rotated="true" frameX="-67" frameY="-12" frameWidth="734" frameHeight="409"/>
-	<SubTexture name="shoot forward low0008" x="2051" y="718" width="396" height="672" rotated="true" frameX="-65" frameY="-12" frameWidth="734" frameHeight="409"/>
-	<SubTexture name="shoot forward low0009" x="2051" y="718" width="396" height="672" rotated="true" frameX="-65" frameY="-12" frameWidth="734" frameHeight="409"/>
-	<SubTexture name="shoot forward low0010" x="2051" y="718" width="396" height="672" rotated="true" frameX="-65" frameY="-12" frameWidth="734" frameHeight="409"/>
-	<SubTexture name="shoot forward low0011" x="2051" y="718" width="396" height="672" rotated="true" frameX="-65" frameY="-12" frameWidth="734" frameHeight="409"/>
-	<SubTexture name="shoot forward low0012" x="2051" y="718" width="396" height="672" rotated="true" frameX="-65" frameY="-12" frameWidth="734" frameHeight="409"/>
-	<SubTexture name="shoot forward low0013" x="2051" y="718" width="396" height="672" rotated="true" frameX="-65" frameY="-12" frameWidth="734" frameHeight="409"/>
-	<SubTexture name="shoot forward low0014" x="2051" y="718" width="396" height="672" rotated="true" frameX="-65" frameY="-12" frameWidth="734" frameHeight="409"/>
-	<SubTexture name="shoot forward low0015" x="2051" y="718" width="396" height="672" rotated="true" frameX="-65" frameY="-12" frameWidth="734" frameHeight="409"/>
-	<SubTexture name="shoot forward low0016" x="2051" y="718" width="396" height="672" rotated="true" frameX="-65" frameY="-12" frameWidth="734" frameHeight="409"/>
-	<SubTexture name="shoot forward low0017" x="2051" y="718" width="396" height="672" rotated="true" frameX="-65" frameY="-12" frameWidth="734" frameHeight="409"/>
+<TextureAtlas imagePath="otis temp shooting.png" width="3519" height="3841" spritePadding="2" borderPadding="1">
+	<SubTexture name="otis idle0000" x="1629" y="3408" width="488" height="384" frameX="-14" frameY="0" frameWidth="509" frameHeight="385"/>
+	<SubTexture name="otis idle0001" x="1629" y="3408" width="488" height="384" frameX="-14" frameY="0" frameWidth="509" frameHeight="385"/>
+	<SubTexture name="otis idle0002" x="1132" y="3409" width="495" height="385" frameX="-4" frameY="0" frameWidth="509" frameHeight="385"/>
+	<SubTexture name="otis idle0003" x="1132" y="3409" width="495" height="385" frameX="-4" frameY="0" frameWidth="509" frameHeight="385"/>
+	<SubTexture name="otis idle0004" x="631" y="3409" width="499" height="379" frameX="0" frameY="-6" frameWidth="509" frameHeight="385"/>
+	<SubTexture name="otis idle0005" x="631" y="3409" width="499" height="379" frameX="0" frameY="-6" frameWidth="509" frameHeight="385"/>
+	<SubTexture name="otis idle0006" x="3117" y="1841" width="376" height="507" rotated="true" frameX="-4" frameY="-9" frameWidth="509" frameHeight="385"/>
+	<SubTexture name="otis idle0007" x="3117" y="1841" width="376" height="507" rotated="true" frameX="-4" frameY="-9" frameWidth="509" frameHeight="385"/>
+	<SubTexture name="otis idle0008" x="3117" y="1841" width="376" height="507" rotated="true" frameX="-4" frameY="-9" frameWidth="509" frameHeight="385"/>
+	<SubTexture name="otis idle0009" x="3117" y="1331" width="376" height="508" rotated="true" frameX="-5" frameY="-9" frameWidth="509" frameHeight="385"/>
+	<SubTexture name="shoot back0000" x="1916" y="1048" width="389" height="979" rotated="true" frameX="-1" frameY="-57" frameWidth="1165" frameHeight="545"/>
+	<SubTexture name="shoot back0001" x="1" y="2206" width="979" height="389" frameX="-1" frameY="-57" frameWidth="1165" frameHeight="545"/>
+	<SubTexture name="shoot back0002" x="1169" y="1136" width="398" height="1053" rotated="true" frameX="-47" frameY="-48" frameWidth="1165" frameHeight="545"/>
+	<SubTexture name="shoot back0003" x="1" y="1167" width="1164" height="544" frameX="-47" frameY="0" frameWidth="1165" frameHeight="545"/>
+	<SubTexture name="shoot back0004" x="2392" y="2427" width="723" height="396" frameX="-48" frameY="-50" frameWidth="1165" frameHeight="545"/>
+	<SubTexture name="shoot back0005" x="2307" y="1671" width="391" height="754" rotated="true" frameX="-37" frameY="-55" frameWidth="1165" frameHeight="545"/>
+	<SubTexture name="shoot back0006" x="2307" y="1671" width="391" height="754" rotated="true" frameX="-37" frameY="-55" frameWidth="1165" frameHeight="545"/>
+	<SubTexture name="shoot back0007" x="2712" y="1550" width="391" height="759" rotated="true" frameX="-37" frameY="-55" frameWidth="1165" frameHeight="545"/>
+	<SubTexture name="shoot back0008" x="2712" y="1550" width="391" height="759" rotated="true" frameX="-37" frameY="-55" frameWidth="1165" frameHeight="545"/>
+	<SubTexture name="shoot back0009" x="2712" y="1550" width="391" height="759" rotated="true" frameX="-37" frameY="-55" frameWidth="1165" frameHeight="545"/>
+	<SubTexture name="shoot back0010" x="2712" y="788" width="391" height="760" rotated="true" frameX="-37" frameY="-55" frameWidth="1165" frameHeight="545"/>
+	<SubTexture name="shoot back low0000" x="1" y="2597" width="800" height="409" frameX="-22" frameY="-43" frameWidth="1194" frameHeight="563"/>
+	<SubTexture name="shoot back low0001" x="803" y="2597" width="800" height="409" frameX="-22" frameY="-43" frameWidth="1194" frameHeight="563"/>
+	<SubTexture name="shoot back low0002" x="1916" y="1" width="416" height="1045" rotated="true" frameX="0" frameY="-55" frameWidth="1194" frameHeight="563"/>
+	<SubTexture name="shoot back low0003" x="1" y="1" width="1194" height="563" frameX="0" frameY="0" frameWidth="1194" frameHeight="563"/>
+	<SubTexture name="shoot back low0004" x="1510" y="3008" width="744" height="398" frameX="-1" frameY="-54" frameWidth="1194" frameHeight="563"/>
+	<SubTexture name="shoot back low0005" x="756" y="3008" width="752" height="399" frameX="-6" frameY="-53" frameWidth="1194" frameHeight="563"/>
+	<SubTexture name="shoot back low0006" x="756" y="3008" width="752" height="399" frameX="-6" frameY="-53" frameWidth="1194" frameHeight="563"/>
+	<SubTexture name="shoot back low0007" x="756" y="3008" width="752" height="399" frameX="-6" frameY="-53" frameWidth="1194" frameHeight="563"/>
+	<SubTexture name="shoot back low0008" x="1" y="3008" width="753" height="399" frameX="-6" frameY="-53" frameWidth="1194" frameHeight="563"/>
+	<SubTexture name="shoot forward0000" x="2334" y="1" width="376" height="833" rotated="true" frameX="-299" frameY="-106" frameWidth="1167" frameHeight="601"/>
+	<SubTexture name="shoot forward0001" x="2334" y="836" width="376" height="833" rotated="true" frameX="-299" frameY="-106" frameWidth="1167" frameHeight="601"/>
+	<SubTexture name="shoot forward0002" x="1" y="1713" width="1065" height="491" frameX="-101" frameY="0" frameWidth="1167" frameHeight="601"/>
+	<SubTexture name="shoot forward0003" x="1" y="566" width="1166" height="599" frameX="0" frameY="0" frameWidth="1167" frameHeight="601"/>
+	<SubTexture name="shoot forward0004" x="2930" y="2825" width="479" height="553" rotated="true" frameX="-602" frameY="-3" frameWidth="1167" frameHeight="601"/>
+	<SubTexture name="shoot forward0005" x="2883" y="3392" width="606" height="446" frameX="-538" frameY="-36" frameWidth="1167" frameHeight="601"/>
+	<SubTexture name="shoot forward0006" x="2883" y="3392" width="606" height="446" frameX="-538" frameY="-36" frameWidth="1167" frameHeight="601"/>
+	<SubTexture name="shoot forward0007" x="2256" y="3392" width="625" height="434" frameX="-519" frameY="-48" frameWidth="1167" frameHeight="601"/>
+	<SubTexture name="shoot forward0008" x="2256" y="3392" width="625" height="434" frameX="-519" frameY="-48" frameWidth="1167" frameHeight="601"/>
+	<SubTexture name="shoot forward0009" x="2256" y="3392" width="625" height="434" frameX="-519" frameY="-48" frameWidth="1167" frameHeight="601"/>
+	<SubTexture name="shoot forward0010" x="1" y="3409" width="628" height="431" frameX="-516" frameY="-51" frameWidth="1167" frameHeight="601"/>
+	<SubTexture name="shoot forward low0000" x="1605" y="2584" width="785" height="408" frameX="-344" frameY="-128" frameWidth="1133" frameHeight="718"/>
+	<SubTexture name="shoot forward low0001" x="2712" y="1" width="408" height="785" rotated="true" frameX="-344" frameY="-128" frameWidth="1133" frameHeight="718"/>
+	<SubTexture name="shoot forward low0002" x="1068" y="2191" width="951" height="391" frameX="-182" frameY="-144" frameWidth="1133" frameHeight="718"/>
+	<SubTexture name="shoot forward low0003" x="1197" y="1" width="717" height="1133" rotated="true" frameX="0" frameY="0" frameWidth="1133" frameHeight="718"/>
+	<SubTexture name="shoot forward low0004" x="3122" y="673" width="392" height="656" rotated="true" frameX="-477" frameY="-143" frameWidth="1133" frameHeight="718"/>
+	<SubTexture name="shoot forward low0005" x="3122" y="1" width="396" height="670" rotated="true" frameX="-461" frameY="-139" frameWidth="1133" frameHeight="718"/>
+	<SubTexture name="shoot forward low0006" x="3122" y="1" width="396" height="670" rotated="true" frameX="-461" frameY="-139" frameWidth="1133" frameHeight="718"/>
+	<SubTexture name="shoot forward low0007" x="3122" y="1" width="396" height="670" rotated="true" frameX="-461" frameY="-139" frameWidth="1133" frameHeight="718"/>
+	<SubTexture name="shoot forward low0008" x="2256" y="2994" width="672" height="396" frameX="-459" frameY="-139" frameWidth="1133" frameHeight="718"/>
 </TextureAtlas>

@@ -187,9 +187,14 @@ class DropShadowScreenspaceShader extends DropShadowShader
         dropShadowAmount = texture2D(bitmap, checkedPixel).a;
 
         // add the dropshadow color  based on the amount, strength, and intensity
-        col.rgb += dropColor.rgb * ((1.0 - (dropShadowAmount * str))*intensity);
+        vec3 r = col.rgb + (dropColor.rgb * ((1.0 - (dropShadowAmount * str))*intensity));
 
-        return col;
+		if(useMask){
+			float forceHighlightAmount = texture2D(altMask, finalUv).g;
+			return mix(r, col.rgb + (dropColor.rgb * str), forceHighlightAmount);
+		}
+
+		return r;
       }
 
       void main()
@@ -200,7 +205,7 @@ class DropShadowScreenspaceShader extends DropShadowShader
 
         vec3 outColor = applyHSBCEffect(unpremultipliedColor);
 
-        outColor = createDropShadow(outColor, thr, useMask);
+        outColor = clamp(createDropShadow(outColor, thr, useMask), 0.0, 1.0);
 
         gl_FragColor = vec4(outColor.rgb * col.a, col.a);
       }

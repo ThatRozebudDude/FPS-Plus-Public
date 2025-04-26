@@ -18,13 +18,13 @@ class OtisSpeaker extends CharacterInfoBase
 		info.iconName = "face";
 		info.focusOffset.set();
 
-		addByPrefix('idle', offset(), "otis idle0", 24, loop(false));
-		addByPrefix('idle-loop', offset(), "otis idle0", 24, loop(true));
+		addByPrefix("idle", offset(0, 0), "otis idle0", 24, loop(false, 0), false, false);
+		addByPrefix("idle-loop", offset(0, 0), "otis idle0", 24, loop(true, 0), false, false);
 
-		addByPrefix('shoot1', offset(0, 13), "shoot back0", 24, loop(false));
-		addByPrefix('shoot2', offset(-35, 21), "shoot back low0", 24, loop(false));
-		addByPrefix('shoot3', offset(238, 96), "shoot forward0", 24, loop(false));
-		addByPrefix('shoot4', offset(260, 23), "shoot forward low0", 24, loop(false));
+		addByPrefix("shoot1", offset(2, 61), "shoot back0", 24, loop(false, 0), false, false);
+		addByPrefix("shoot2", offset(-35, 65), "shoot back low0", 24, loop(false, 0), false, false);
+		addByPrefix("shoot3", offset(599, 96), "shoot forward0", 24, loop(false, 0), false, false);
+		addByPrefix("shoot4", offset(655, 149), "shoot forward low0", 24, loop(false, 0), false, false);
 
 		info.idleSequence = [];
 
@@ -36,6 +36,8 @@ class OtisSpeaker extends CharacterInfoBase
 		info.functions.songEnd = songEnd;
 
 		addExtraData("reposition", [-54.5, -250]);
+		addExtraData("dropShadowMask", "week7/stage/erect/masks/otisSpeaker_mask");
+		addExtraData("dropShadowMaskThreshold", -1);
 	}
 
 	var abot:ABot;
