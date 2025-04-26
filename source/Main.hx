@@ -56,3 +56,5 @@ class Main extends Sprite
 
 	}
 }
+
+// add comments for noobs like the person writing the comment right now
