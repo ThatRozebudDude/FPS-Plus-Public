@@ -1289,7 +1289,7 @@ class ConfigMenu extends FlxUIStateExt
 			showMissesSetting.description = showMissesSetting.extraData[showMissesValue];
 		};
 
-		var autoPauseSettings = new ConfigOption("AUTO PAUSE", genericOnOff[autoPauseValue?0:1], "Pauses the game when it's unfocused.");
+		var autoPauseSettings = new ConfigOption("PAUSE WHEN UNFOCUSED", genericOnOff[autoPauseValue?0:1], "Pauses the game when the application is unfocused or minimized.");
 		autoPauseSettings.optionUpdate = function(){
 			if (pressRight || pressLeft){
 				FlxG.sound.play(Paths.sound('scrollMenu'));
