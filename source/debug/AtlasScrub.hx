@@ -27,8 +27,9 @@ class AtlasScrub extends FlxState
 		gridBG.screenCenter(XY);
 		add(gridBG);
 
-		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("week7/picoAndNene-DEAD"));
+		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("menu/results/characters/pico/resultsGOOD"));
 		atlas.addFullAnimation("full", 0, false);
+		//atlas.addFullAnimation("full24", 24, false);
 		atlas.antialiasing = true;
 		atlas.screenCenter();
 		atlas.playAnim("full");
@@ -49,7 +50,7 @@ class AtlasScrub extends FlxState
 	override function update(elapsed:Float) {
 
 		var amount:Int = 1;
-
+		
 		if (FlxG.keys.pressed.SHIFT){
 			amount = 10;
 		}
@@ -64,6 +65,12 @@ class AtlasScrub extends FlxState
 		if (FlxG.keys.justPressed.RIGHT){
 			curFrame += amount;
 			if(curFrame > atlas.anim.length - 1) {curFrame = atlas.anim.length - 1;}
+			atlas.playAnim("full", true, false, curFrame);
+			trace(curFrame);
+		}
+
+		if (FlxG.keys.justPressed.R){
+			curFrame = 0;
 			atlas.playAnim("full", true, false, curFrame);
 			trace(curFrame);
 		}
@@ -87,7 +94,16 @@ class AtlasScrub extends FlxState
 			FlxG.camera.zoom += zoomSpeed * FlxG.camera.zoom;
 		if (FlxG.keys.pressed.Q)
 			FlxG.camera.zoom -= zoomSpeed * FlxG.camera.zoom;
+		
+		if (FlxG.keys.justPressed.TAB)
+			showLabels();
 
 		super.update(elapsed);
+	}
+
+	function showLabels():Void{
+		for(label in atlas.anim.getFrameLabels()){
+			trace("label: " + label.name + "\tindex: " + label.index + "\tduration: " + label.duration);
+		}
 	}
 }

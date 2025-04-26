@@ -582,7 +582,9 @@ class ResultsState extends FlxUIStateExt
 		}
 
 		if(Binds.justPressed("polymodReload")){
-			PolymodHandler.reload();
+			PolymodHandler.reload(false);
+			var newResultsState:ResultsState = new ResultsState(scoreStats, songNameText, characterString, saveInfo);
+			switchState(newResultsState);
 		}
 
 		/*

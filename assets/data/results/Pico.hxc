@@ -10,6 +10,12 @@ class PicoResults extends ResultsCharacter
 
 	var pico:AtlasSprite;
 
+	var whiteFlash:FlxSprite;
+	var blackFlash:FlxSprite;
+
+	var WHITE_FLASH_FRAMES:Array<Int> = [43, 49, 81, 87, 143, 149, 156, 338, 344, 351, 364, 517, 521, 537, 546, 559, 570, 576, 676, 682, 714, 720, 776, 782, 789];
+	var BLACK_FLASH_FRAMES:Array<Int> = [46, 52, 84, 90, 147, 153, 158, 335, 345, 353, 359, 362, 366, 523, 529, 533, 541, 547, 554, 563, 569, 577, 580, 679, 685, 717, 723, 780, 786, 791];
+
 	override function setup():Void{
 		goldText = 		["PERFECT", "SHARPSHOOTER", "UNTOUCHABLE", "NOT A SCRATCH", "FLAWLESS", "CLEAN KILL", "TARGET ELIMINATED"];
 		perfectText = 	["PERFECT", "MARKSMAN", "CAN'T MISS", "BULLSEYE", "CLEAN KILL", "TARGET ELIMINATED"];
@@ -57,13 +63,25 @@ class PicoResults extends ResultsCharacter
 			default:
 				pico = new AtlasSprite(350+160, 25+85, Paths.getTextureAtlas("menu/results/characters/pico/good"));
 				pico.visible = false;
-				pico.addAnimationByFrame("anim", 0, null, 24, true, 41);
+				pico.addAnimationByLabel("intro", "intro", 24, false);
+				pico.addAnimationByLabel("loop", "loop", 24, true);
+				pico.addAnimationByLabel("intro-cass", "intro cass", 24, false);
+				pico.addAnimationByLabel("intro-fat", "intro fat gf", 24, false);
 				pico.antialiasing = true;
 				pico.scale.set(1.25, 1.25);
 
+				whiteFlash = new FlxSprite().makeGraphic(1280, 720, 0x33FFFFFF);
+				whiteFlash.visible = false;
+				blackFlash = new FlxSprite().makeGraphic(1280, 720, 0x33000000);
+				blackFlash.visible = false;
+
+				pico.frameCallback = whiteFlashCallback;
 		}
 
 		add(pico);
+
+		if(whiteFlash != null){ add(whiteFlash); }
+		if(blackFlash != null){ add(blackFlash); }
 	}
 
 	var lossWhiteColor = 0xFF000000;
@@ -71,11 +89,32 @@ class PicoResults extends ResultsCharacter
 	var lossTextColor = 0xFF201739;
 
 	override function playAnim():Void{
-		pico.playAnim("anim", true);
-		pico.visible = true;
 		switch(rank){
-			default:
+			case ScriptingUtil.rankGreat:
+				if(FlxG.random.bool(5))			{ pico.playAnim("intro-fat", true); }
+				else if(FlxG.random.bool(20))	{ pico.playAnim("intro-cass", true); }
+				else							{ pico.playAnim("intro", true); }
+				pico.visible = true;
+				pico.animationEndCallback = function(name){
+					if(name != "loop"){
+						pico.playAnim("loop", true);
+					}
+				}
+
+			case ScriptingUtil.rankGood:
+				if(FlxG.random.bool(5))			{ pico.playAnim("intro-fat", true); }
+				else if(FlxG.random.bool(20))	{ pico.playAnim("intro-cass", true); }
+				else							{ pico.playAnim("intro", true); }
+				pico.visible = true;
+				pico.animationEndCallback = function(name){
+					if(name != "loop"){
+						pico.playAnim("loop", true);
+					}
+				}
+
 			case ScriptingUtil.rankLoss:
+				pico.playAnim("anim", true);
+				pico.visible = true;
 				pico.y += 720;
 
 				var dummyWhite:FlxSprite = new FlxSprite();
@@ -110,6 +149,10 @@ class PicoResults extends ResultsCharacter
 					FlxTween.tween(resultsScreen.scrollingRankName, {x: resultsScreen.scrollingRankName.x - 60}, 1.5, {ease: FlxEase.quintOut});
 					FlxTween.tween(resultsScreen.scrollingRankName.velocity, {y: 30}, 1.5, {ease: FlxEase.quintOut});
 				});
+
+			default:
+				pico.playAnim("anim", true);
+				pico.visible = true;
 		}
 	}
 
@@ -145,6 +188,30 @@ class PicoResults extends ResultsCharacter
 				
 			default:
 				FlxG.sound.playMusic(Paths.music("results/pico/normal"), 1, true); 
+		}
+	}
+
+	var first:Bool = false;
+
+	function whiteFlashCallback(name:String, frame:Int, index:Int){
+		if(!first){ //Texture atlas you truely are a mystery...
+			whiteFlash.visible = true;
+			whiteFlash.alpha = 0.01;
+			blackFlash.visible = true;
+			blackFlash.alpha = 0.01;
+			first = true;
+		}
+		else if(WHITE_FLASH_FRAMES.contains(index)){
+			whiteFlash.visible = true;
+			blackFlash.visible = false;
+		}
+		else if(BLACK_FLASH_FRAMES.contains(index)){
+			whiteFlash.visible = false;
+			blackFlash.visible = true;
+		}
+		else{
+			whiteFlash.visible = false;
+			blackFlash.visible = false;
 		}
 	}
 
