@@ -1,0 +1,2 @@
+This folder has contains docs for future Modding API versions. When an update is released they will be updated in the main docs folder and deleted from here.
+I'm doing this so I have a place to save docs for the current API stuff in the master branch while keeping the GitHub wiki applicable to the current release build.

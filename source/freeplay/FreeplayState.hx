@@ -183,20 +183,13 @@ class FreeplayState extends MusicBeatState
 		}
 		dj = ScriptableDJCharacter.init(djCharacter);
 		dj.setup();
-		dj.setupSongList();
 		dj.introFinish = djIntroFinish;
 		dj.cameras = [camFreeplay];
 		curCharacterStickers = dj.freeplayStickers;
 
 		fakeMainMenuSetup();
 
-		for(cat in dj.freeplayCategories){
-			createCategory(cat);
-		}
-
-		for(song in dj.freeplaySongs){
-			addSong(song[0], song[1], song[2]);
-		}
+		createSongList();
 
 		super.create();
 	} 
@@ -1306,6 +1299,100 @@ class FreeplayState extends MusicBeatState
 			path = "menu/freeplay/skins/" + dj.freeplaySkin + "/" + image;
 		}
 		return Paths.getSparrowAtlas(path);
+	}
+
+	function createSongList():Void{
+
+		var freeplayCategories:Array<String> = [];
+		var freeplaySongs:Array<Array<Dynamic>> = [];
+
+		//Load freeplay song list from json.
+		if(Utils.exists(Paths.json("songList-" + dj.listSuffix, "data/freeplay"))){
+			var json = Json.parse(Utils.getText(Paths.json("songList-" + dj.listSuffix, "data/freeplay")));
+
+			if(json.categories != null){
+				for(i in 0...json.categories.length){
+					if(!freeplayCategories.contains(json.categories[i])){
+						freeplayCategories.push(json.categories[i]);
+					}
+				}
+			}
+
+			for(i in 0...json.songs.length){
+				if(json.songs[i].insert == null){
+					freeplaySongs.push([json.songs[i].song, json.songs[i].icon, json.songs[i].categories]);
+					for(i in 0...json.songs[i].categories.length){
+						if(!freeplayCategories.contains(json.songs[i].categories[i])){
+							freeplayCategories.push(json.songs[i].categories[i]);
+						}
+					}
+				}
+				else{
+					var index:Int = freeplaySongs.length;
+					for(i in 0...freeplaySongs.length){
+						if(freeplaySongs[i][0] == json.songs[i].insert.value){
+							index = i + (json.songs[i].insert.type == "after" ? 1 : 0);
+							break;
+						}
+					}
+					freeplaySongs.insert(index, [json.songs[i].song, json.songs[i].icon, json.songs[i].categories]);
+					for(i in 0...json.songs[i].categories.length){
+						if(!freeplayCategories.contains(json.songs[i].categories[i])){
+							freeplayCategories.push(json.songs[i].categories[i]);
+						}
+					}
+				}
+			}
+		}
+
+		//Support deprecated format because I am very benevolent.
+		if(Utils.exists(Paths.text("songList-" + dj.listSuffix, "data/freeplay"))){
+			var deprecatedText:Array<String> = Utils.getTextInLines(Paths.text("songList-" + dj.listSuffix, "data/freeplay"));
+
+			//Create categories first
+			for(line in deprecatedText){
+				line = line.trim();
+				if(line.startsWith("category")){
+					var categoryName = line.split("|")[1].trim();
+					if(!freeplayCategories.contains(categoryName)){
+						freeplayCategories.push(categoryName);
+					}
+				}
+			}
+
+			//Then add songs
+			for(line in deprecatedText){
+				if(line.startsWith("song")){
+					var parts:Array<String> = line.split("|");
+					var name:String = parts[1].trim();
+					var icon:String = parts[2].trim();
+					var fullArrayString:String = parts[3].trim();
+
+					var categoryArray:Array<String> = fullArrayString.split(",");
+					for(i in 0...categoryArray.length){
+						if(i == 0){ categoryArray[i] = categoryArray[i].substring(1); }
+						if(i == categoryArray.length-1){ categoryArray[i] = categoryArray[i].substring(0, categoryArray[i].length-1); }
+						categoryArray[i] = categoryArray[i].trim();
+					}
+					
+					freeplaySongs.push([name, icon, categoryArray]);
+					for(cat in categoryArray){
+						if(!freeplayCategories.contains(cat)){
+							freeplayCategories.push(cat);
+						}
+					}
+				}
+			}
+		}
+
+		for(cat in freeplayCategories){
+			createCategory(cat);
+		}
+
+		for(song in freeplaySongs){
+			addSong(song[0], song[1], song[2]);
+		}
+		
 	}
 }
 

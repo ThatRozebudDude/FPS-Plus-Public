@@ -1,0 +1,116 @@
+{
+	"categories":[
+		"ALL",
+		"ERECT",
+		"Week 1",
+		"Week 2",
+		"Week 3",
+		"Week 5",
+		"Week 6",
+		"Week 7",
+		"Weekend 1",
+		"Secret"
+	],
+	"songs":[
+		{
+			"song": "Bopeebo-Pico",
+			"icon": "dad",
+			"categories": ["ALL", "Week 1"]
+		},
+		{
+			"song": "Fresh-Pico",
+			"icon": "dad",
+			"categories": ["ALL", "Week 1"]
+		},
+		{
+			"song": "Dadbattle-Pico",
+			"icon": "dad",
+			"categories": ["ALL", "Week 1"]
+		},
+		{
+			"song": "Spookeez-Pico",
+			"icon": "spooky",
+			"categories": ["ALL", "Week 2"]
+		},
+		{
+			"song": "South-Pico",
+			"icon": "spooky",
+			"categories": ["ALL", "Week 2"]
+		},
+		{
+			"song": "Pico-Pico",
+			"icon": "pico",
+			"categories": ["ALL", "Week 3"]
+		},
+		{
+			"song": "Philly-Pico",
+			"icon": "pico",
+			"categories": ["ALL", "Week 3"]
+		},
+		{
+			"song": "Blammed-Pico",
+			"icon": "pico",
+			"categories": ["ALL", "Week 3"]
+		},
+		{
+			"song": "Cocoa-Pico",
+			"icon": "parents-christmas",
+			"categories": ["ALL", "Week 5"]
+		},
+		{
+			"song": "Eggnog-Pico",
+			"icon": "parents-christmas",
+			"categories": ["ALL", "Week 5"]
+		},
+		{
+			"song": "Senpai-Pico",
+			"icon": "senpai",
+			"categories": ["ALL", "Week 6"]
+		},
+		{
+			"song": "Roses-Pico",
+			"icon": "senpai",
+			"categories": ["ALL", "Week 6"]
+		},
+		{
+			"song": "Ugh-Pico",
+			"icon": "tankman",
+			"categories": ["ALL", "Week 7"]
+		},
+		{
+			"song": "Guns-Pico",
+			"icon": "tankman",
+			"categories": ["ALL", "Week 7"]
+		},
+		{
+			"song": "Stress-Pico",
+			"icon": "tankman",
+			"categories": ["ALL", "Week 7"]
+		},
+		{
+			"song": "Darnell",
+			"icon": "darnell",
+			"categories": ["ALL", "Weekend 1"]
+		},
+		{
+			"song": "Lit-Up",
+			"icon": "darnell",
+			"categories": ["ALL", "Weekend 1"]
+		},
+		{
+			"song": "2hot",
+			"icon": "darnell",
+			"categories": ["ALL", "Weekend 1"]
+		},
+		{
+			"song": "Blazin",
+			"icon": "darnell",
+			"categories": ["ALL", "Weekend 1"]
+		},
+		{
+			"song": "Lil-Buddies-Pico",
+			"icon": "pico",
+			"categories": ["Secret"]
+		}
+	]
+}
