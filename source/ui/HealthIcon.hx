@@ -78,6 +78,8 @@ class HealthIcon extends FlxSprite
 			else{ subDir = "heathIcons"; }
 		}
 
+		this.character = icon;
+
 		//This loads the image, gets it's dimensions, and reloads the image with animation based on cutting up the dimensions.
 		//Basically you can have any size icon as long as it's evenly cut.
 
