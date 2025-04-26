@@ -118,7 +118,7 @@ class ResultsState extends FlxUIStateExt
 
 		totalNotes = scoreStats.sickCount + scoreStats.goodCount + scoreStats.badCount + scoreStats.shitCount;
 		if(totalNotes + scoreStats.missCount > 0){
-			grade = (scoreStats.sickCount + scoreStats.goodCount) / (totalNotes + scoreStats.missCount);
+			grade = Scoring.calculateAccuracy(scoreStats.sickCount, scoreStats.goodCount, scoreStats.badCount, scoreStats.shitCount, scoreStats.missCount);
 		}
 		
 		rank = Highscore.calculateRank(scoreStats);
@@ -343,8 +343,8 @@ class ResultsState extends FlxUIStateExt
 		new FlxTimer().start((0.3 * 7) + 1.2, function(t){
 			clearPercentCounter.visible = true;
 
-			if(Math.floor(grade * 100) > 1){
-				clearPercentCounter.tweenNumber(Math.floor(grade * 100) - 1, 1.4);
+			if(Math.floor(grade) > 1){
+				clearPercentCounter.tweenNumber(Math.floor(grade) - 1, 1.4);
 			}
 			else{
 				clearPercentCounter.setNumber(0, true);
@@ -625,11 +625,11 @@ class ResultsState extends FlxUIStateExt
 		scrollingRankName.visible = true;
 
 		var gradeAdjust = 0;
-		if(grade == 1){
+		if(grade == 100){
 			gradeAdjust = 35;
 		}
 
-		clearPercentCounter.setNumber(Math.floor(grade * 100), true);
+		clearPercentCounter.setNumber(Math.floor(grade), true);
 
 		clearShader.amount = 1;
 		FlxTween.tween(clearShader, {amount: 0}, 0.75, {startDelay: 1/24, ease: FlxEase.quintOut});

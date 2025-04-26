@@ -801,9 +801,7 @@ class PlayState extends MusicBeatState
 	}
 
 	function updateAccuracy(){
-		var total:Float = (songStats.sickCount) + (songStats.goodCount) + (songStats.badCount) + (songStats.shitCount) + (songStats.missCount);
-		songStats.accuracy = total == 0 ? 0 : (((songStats.sickCount + songStats.goodCount) / total) * 100);
-		songStats.accuracy = Utils.clamp(songStats.accuracy, 0, 100);
+		songStats.accuracy = Scoring.calculateAccuracy(songStats.sickCount, songStats.goodCount, songStats.badCount, songStats.shitCount, songStats.missCount);
 	}
 
 	var startTimer:FlxTimer;
@@ -2238,7 +2236,7 @@ class PlayState extends MusicBeatState
 				if(daNote.prevNote.tooLate && !daNote.prevNote.wasGoodHit){
 					daNote.tooLate = true;
 					daNote.destroy();
-					noteMiss(daNote.noteData, daNote.missCallback, Scoring.HOLD_DROP_DMAMGE_PER_NOTE * (daNote.isFake ? 0 : 1), false, false, true, Scoring.HOLD_DROP_PENALTY);
+					noteMiss(daNote.noteData, daNote.missCallback, Scoring.HOLD_DROP_DMAMGE_PER_NOTE * (daNote.isFake ? 0 : 1), false, false, true, Std.int(Scoring.HOLD_DROP_PENALTY_PER_SECOND * (Conductor.stepCrochet/1000)));
 					//updateAccuracyOld();
 				}
 
@@ -2246,7 +2244,7 @@ class PlayState extends MusicBeatState
 				if(daNote.prevNote.wasGoodHit && !daNote.wasGoodHit){
 
 					if(releaseTimes[daNote.noteData] >= releaseBufferTime){
-						noteMiss(daNote.noteData, daNote.missCallback, Scoring.HOLD_DROP_INITAL_DAMAGE, true, false, true, Scoring.HOLD_DROP_INITIAL_PENALTY);
+						noteMiss(daNote.noteData, daNote.missCallback, Scoring.HOLD_DROP_INITAL_DAMAGE, true, false, true, Std.int(Scoring.HOLD_DROP_INITIAL_PENALTY_PER_SECOND * (Conductor.stepCrochet/1000)));
 						if(canChangeVocalVolume){ vocals.volume = 0; }
 						daNote.tooLate = true;
 						daNote.destroy();
@@ -2465,7 +2463,7 @@ class PlayState extends MusicBeatState
 			}
 			else{
 				if(healthAdjustOverride == null){
-					health += Scoring.HOLD_HEAL_AMOUNT * Config.healthMultiplier;
+					health += (Scoring.HOLD_HEAL_AMOUNT_PER_SECOND * (Conductor.stepCrochet/1000)) * Config.healthMultiplier;
 				}
 				songStats.score += Std.int(Scoring.HOLD_SCORE_PER_SECOND * (Conductor.stepCrochet/1000));
 				songStats.susCount++;

@@ -9,7 +9,7 @@ class Scoring
 	public static final GOOD_HEAL_AMOUNT:Float = (0.75 / 100) * 2;
 	public static final BAD_HEAL_AMOUNT:Float = (0 / 100) * 2;
 	public static final SHIT_HEAL_AMOUNT:Float = (-1 / 100) * 2;
-	public static final HOLD_HEAL_AMOUNT:Float = (0.5 / 100) * 2;
+	public static final HOLD_HEAL_AMOUNT_PER_SECOND:Float = (6 / 100) * 2;
 
 	public static final MISS_DAMAGE_AMOUNT:Float = (4 / 100) * 2;
 	public static final WRONG_TAP_DAMAGE_AMOUNT:Float = (2 / 100) * 2;
@@ -20,10 +20,11 @@ class Scoring
 	public static final MIN_NOTE_SCORE:Int = 9;
 	public static final HOLD_SCORE_PER_SECOND:Int = 250;
 	
-	public static final MISS_PENALTY:Int = 0;
-	public static final HOLD_DROP_INITIAL_PENALTY:Int = 0;
-	public static final HOLD_DROP_PENALTY:Int = 0;
-	public static final WRONG_PRESS_PENALTY:Int = 0;
+	//These values are positive since missing a note subtracts the value from the score.
+	public static final MISS_PENALTY:Int = 100;
+	public static final HOLD_DROP_INITIAL_PENALTY_PER_SECOND:Int = 250;
+	public static final HOLD_DROP_PENALTY_PER_SECOND:Int = 250;
+	public static final WRONG_PRESS_PENALTY:Int = 10;
 
 	//This uses the PBOT1 scoring system added in FNF 0.3.0 
 	public static function scoreNote(msTiming:Float):Int{
@@ -51,6 +52,11 @@ class Scoring
 		else if (absTiming > Conductor.goodZone){ r = 'good'; }
 
 		return r;
+	}
+
+	public static function calculateAccuracy(sickCount:Int, goodCount:Int, badCount:Int, shitCount:Int, missCount:Int):Float{
+		var total:Float = (sickCount) + (goodCount) + (badCount) + (shitCount) + (missCount);
+		return (total <= 0) ? 0 : Utils.clamp((((sickCount + goodCount) - missCount) / total) * 100, 0, 100);
 	}
 
 }
