@@ -1304,7 +1304,7 @@ class ConfigMenu extends FlxUIStateExt
 		configOptions = [
 							[keyBinds, ghostTap, noteOffset, scrollSpeed],
 							[fpsCap, bgDim, useGPU, showFPS],
-							[downscroll, centeredNotes, noteSplash, noteGlow, showMissesSetting, showAccuracyDisplay, cacheSettings],
+							[downscroll, centeredNotes, noteSplash, noteGlow, showMissesSetting, showAccuracyDisplay, comboDisplay, cacheSettings],
 							[extraCamStuff, camBopStuff, captionsStuff, autoPauseSettings, hpGain, hpDrain]
 						];
 
