@@ -5,7 +5,6 @@ import flixel.sound.FlxSound;
 import flixel.FlxG;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxSprite;
-import openfl.display.BlendMode;
 
 class Philly extends BaseStage
 {

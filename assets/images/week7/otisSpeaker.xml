@@ -13,6 +13,11 @@ Created with Funkin Packer v0.1.3 DEV https://neeeoo.github.io/funkin-packer/
 	<SubTexture name="otis idle0007" x="3117" y="1841" width="376" height="507" rotated="true" frameX="-4" frameY="-9" frameWidth="509" frameHeight="385"/>
 	<SubTexture name="otis idle0008" x="3117" y="1841" width="376" height="507" rotated="true" frameX="-4" frameY="-9" frameWidth="509" frameHeight="385"/>
 	<SubTexture name="otis idle0009" x="3117" y="1331" width="376" height="508" rotated="true" frameX="-5" frameY="-9" frameWidth="509" frameHeight="385"/>
+	<SubTexture name="otis idle0010" x="3117" y="1331" width="376" height="508" rotated="true" frameX="-5" frameY="-9" frameWidth="509" frameHeight="385"/>
+	<SubTexture name="otis idle0011" x="3117" y="1331" width="376" height="508" rotated="true" frameX="-5" frameY="-9" frameWidth="509" frameHeight="385"/>
+	<SubTexture name="otis idle0012" x="3117" y="1331" width="376" height="508" rotated="true" frameX="-5" frameY="-9" frameWidth="509" frameHeight="385"/>
+	<SubTexture name="otis idle0013" x="3117" y="1331" width="376" height="508" rotated="true" frameX="-5" frameY="-9" frameWidth="509" frameHeight="385"/>
+	<SubTexture name="otis idle0014" x="3117" y="1331" width="376" height="508" rotated="true" frameX="-5" frameY="-9" frameWidth="509" frameHeight="385"/>
 	<SubTexture name="shoot back0000" x="1916" y="1048" width="389" height="979" rotated="true" frameX="-1" frameY="-57" frameWidth="1165" frameHeight="545"/>
 	<SubTexture name="shoot back0001" x="1" y="2206" width="979" height="389" frameX="-1" frameY="-57" frameWidth="1165" frameHeight="545"/>
 	<SubTexture name="shoot back0002" x="1169" y="1136" width="398" height="1053" rotated="true" frameX="-47" frameY="-48" frameWidth="1165" frameHeight="545"/>

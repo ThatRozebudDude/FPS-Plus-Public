@@ -3,16 +3,14 @@ import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
 import flixel.math.FlxPoint;
-import freeplay.ScrollingText.ScrollingTextInfo;
+import freeplay.ScrollingTextInfo;
 import flixel.addons.display.FlxBackdrop;
 import flixel.group.FlxSpriteGroup;
-import config.Config;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import sys.FileSystem;
 import flixel.sound.FlxSound;
 import freeplay.ScrollingText;
-import openfl.display.BlendMode;
 
 class BoyfriendFreeplay extends DJCharacter
 {

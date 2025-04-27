@@ -33,7 +33,7 @@ class SchoolIntro extends ScriptedCutscene
 		fadeInShader = new MultiplyFadeShader(4, 0, 3);
 		fadeInShaderFilter = new ShaderFilter(fadeInShader.shader);
 
-		red = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFFff1b31);
+		red = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFFFF1B31);
 		red.scrollFactor.set();
 
 		senpaiEvil = new FlxSprite();

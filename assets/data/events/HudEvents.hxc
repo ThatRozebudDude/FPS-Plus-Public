@@ -1,5 +1,3 @@
-import config.Config;
-
 class HudEvents extends Events
 {
 

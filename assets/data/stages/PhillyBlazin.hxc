@@ -8,7 +8,6 @@ import flixel.tweens.FlxEase;
 import flixel.addons.display.FlxBackdrop;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
-import openfl.display.BlendMode;
 
 class PhillyBlazin extends BaseStage
 {

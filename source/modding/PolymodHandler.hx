@@ -262,6 +262,7 @@ class PolymodHandler
 		
 		Polymod.addDefaultImport(Utils);
 		Polymod.addDefaultImport(modding.ScriptingUtil);
+		Polymod.addDefaultImport(modding.ScriptingUtil.BlendMode);
 		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTextBorderStyle);
 		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTweenType);
 		

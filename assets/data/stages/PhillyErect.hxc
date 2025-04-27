@@ -8,7 +8,6 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import openfl.display.BlendMode;
 
 class PhillyErect extends BaseStage
 {

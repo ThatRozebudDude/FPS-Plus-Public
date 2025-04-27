@@ -108,6 +108,11 @@
 			"categories": ["ALL", "Weekend 1"]
 		},
 		{
+			"song": "Darnell-Erect",
+			"icon": "darnell",
+			"categories": ["ERECT", "Weekend 1"]
+		},
+		{
 			"song": "Lil-Buddies-Pico",
 			"icon": "pico",
 			"categories": ["Secret"]

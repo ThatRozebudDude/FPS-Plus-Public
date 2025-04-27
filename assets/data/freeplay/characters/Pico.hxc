@@ -1,4 +1,3 @@
-import config.Config;
 import flixel.math.FlxMath;
 import flixel.addons.display.FlxBackdrop;
 import flixel.tweens.FlxEase;
@@ -8,7 +7,6 @@ import flixel.util.FlxTimer;
 import flixel.FlxG;
 import sys.FileSystem;
 import flixel.sound.FlxSound;
-import openfl.display.BlendMode;
 
 class PicoFreeplay extends DJCharacter
 {

@@ -40,17 +40,7 @@ class Limo extends BaseStage
 			grpLimoDancers.push(dancer);
 			addToBackground(dancer);
 		}
-
-		//overlayShit:FlxSprite = new FlxSprite(-500, -600).loadGraphic(Paths.images("limo/limoOverlay"));
-		//overlayShit.alpha = 0.5;
-		//add(overlayShit);
-
-		// var shaderBullshit = new BlendModeEffect(new OverlayShader(), FlxColor.RED);
-
-		// FlxG.camera.setFilters([new ShaderFilter(cast shaderBullshit.shader)]);
-
-		// overlayShit.shader = shaderBullshit;
-
+		
 		fastCar = new FlxSprite(-300, 160).loadGraphic(Paths.image("week4/limo/fastCarLol"));
 		fastCar.antialiasing = true;
 		addToBackground(fastCar);

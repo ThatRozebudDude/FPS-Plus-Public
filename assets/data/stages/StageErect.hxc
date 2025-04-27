@@ -1,7 +1,6 @@
 import shaders.AdjustColorShader;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
-import openfl.display.BlendMode;
 
 class StageErect extends BaseStage
 {
