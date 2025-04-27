@@ -253,7 +253,6 @@ class PolymodHandler
 		Polymod.addDefaultImport(Character);
 		Polymod.addDefaultImport(Conductor);
 		Polymod.addDefaultImport(AtlasSprite);
-		Polymod.addDefaultImport(Binds);
 		Polymod.addDefaultImport(VideoHandler);
 		Polymod.addDefaultImport(Scoring);
 		Polymod.addDefaultImport(note.Note);
@@ -266,7 +265,9 @@ class PolymodHandler
 		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTextBorderStyle);
 		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTweenType);
 		
+		Polymod.addDefaultImport(modding.ScriptingUtil.ScriptBinds, "Binds");
 		Polymod.addDefaultImport(modding.ScriptingUtil.ScriptConfig, "Config");
+		Polymod.addDefaultImport(modding.ScriptingUtil.ScriptCacheConfig, "CacheConfig");
 		Polymod.addDefaultImport(modding.ScriptingUtil.ScriptModConfig, "ModConfig");
 
 		//Import scriptable classes so they can be made without importing
@@ -290,7 +291,9 @@ class PolymodHandler
 		Polymod.addDefaultImport(scripts.ScriptedState);
 		
 		//Alias
+		Polymod.addImportAlias("Binds", modding.ScriptingUtil.ScriptBinds);
 		Polymod.addImportAlias("config.Config", modding.ScriptingUtil.ScriptConfig);
+		Polymod.addImportAlias("config.CacheConfig", modding.ScriptingUtil.ScriptCacheConfig);
 		Polymod.addImportAlias("modding.ModConfig", modding.ScriptingUtil.ScriptModConfig);
 
 		Polymod.addImportAlias("lime.utils.Assets", Assets);

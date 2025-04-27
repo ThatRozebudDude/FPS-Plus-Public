@@ -39,7 +39,7 @@ class Binds
 
 	}
 
-	static public function generateDefaultControls():KeybindMap {
+	public static function generateDefaultControls():KeybindMap {
 		var r:KeybindMap = new KeybindMap();
 
 		//Gameplay buttons
@@ -225,7 +225,7 @@ class Binds
 		return r;
 	}
 
-	static public function setControls():Void{
+	public static function setControls():Void{
 		binds.clear();
 
 		SaveManager.global();
@@ -243,7 +243,7 @@ class Binds
 		SaveManager.global();
 	}
 
-	static public function saveControls():Void{
+	public static function saveControls():Void{
 		var g:KeybindMap = new KeybindMap();
 		var l:KeybindMap = new KeybindMap();
 
@@ -288,7 +288,7 @@ class Binds
 
 	}
 
-	static public function repairControls():KeybindMap {
+	public static function repairControls():KeybindMap {
 		var r:KeybindMap = generateDefaultControls();
 
 		for(x in r.keys){
@@ -307,36 +307,36 @@ class Binds
 		return r;
 	}
 
-	static public function resetToDefaultControls() {
+	public static function resetToDefaultControls() {
 		binds = generateDefaultControls();
 		saveControls();
 	}
 
-	inline static public function pressed(input:String){
+	inline public static function pressed(input:String):Bool{
 		return pressedKeyboardOnly(input) || pressedControllerOnly(input);
 	}
 
-	inline static public function justPressed(input:String){
+	inline public static function justPressed(input:String):Bool{
 		return justPressedKeyboardOnly(input) || justPressedControllerOnly(input);
 	}
 
-	inline static public function justReleased(input:String){
+	inline public static function justReleased(input:String):Bool{
 		return justReleasedKeyboardOnly(input) || justReleasedControllerOnly(input);
 	}
 
-	inline static public function pressedKeyboardOnly(input:String){
+	inline public static function pressedKeyboardOnly(input:String):Bool{
 		return FlxG.keys.anyPressed(binds.get(input).binds);
 	}
 
-	inline static public function justPressedKeyboardOnly(input:String){
+	inline public static function justPressedKeyboardOnly(input:String):Bool{
 		return FlxG.keys.anyJustPressed(binds.get(input).binds);
 	}
 
-	inline static public function justReleasedKeyboardOnly(input:String){
+	inline public static function justReleasedKeyboardOnly(input:String):Bool{
 		return FlxG.keys.anyJustReleased(binds.get(input).binds);
 	}
 
-	inline static public function pressedControllerOnly(input:String){
+	inline public static function pressedControllerOnly(input:String):Bool{
 		var r:Bool = false;
 		for(x in binds.get(input).controllerBinds){
 			r = FlxG.gamepads.anyPressed(x);
@@ -345,7 +345,7 @@ class Binds
 		return r;
 	}
 
-	inline static public function justPressedControllerOnly(input:String){
+	inline public static function justPressedControllerOnly(input:String):Bool{
 		var r:Bool = false;
 		for(x in binds.get(input).controllerBinds){
 			r = FlxG.gamepads.anyJustPressed(x);
@@ -355,7 +355,7 @@ class Binds
 		return r;
 	}
 
-	inline static public function justReleasedControllerOnly(input:String){
+	inline public static function justReleasedControllerOnly(input:String):Bool{
 		var r:Bool = false;
 		for(x in binds.get(input).controllerBinds){
 			r = FlxG.gamepads.anyJustReleased(x);

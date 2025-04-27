@@ -1,5 +1,6 @@
 package modding;
 
+import config.CacheConfig;
 import config.Config;
 import flixel.input.gamepad.FlxGamepadInputID;
 import openfl.display.BlendMode as BaseBlendMode;
@@ -203,4 +204,28 @@ class ScriptModConfig
 	public static function get(uid:String, name:String):Dynamic{
 		return ModConfig.get(uid, name);
 	}
+}
+
+class ScriptBinds
+{
+	public static function pressed(input:String):Bool { return Binds.pressed(input); }
+	public static function justPressed(input:String):Bool { return Binds.justPressed(input); }
+	public static function justReleased(input:String):Bool { return Binds.justReleased(input); }
+	public static function pressedKeyboardOnly(input:String):Bool { return Binds.pressedKeyboardOnly(input); }
+	public static function justPressedKeyboardOnly(input:String):Bool { return Binds.justPressedKeyboardOnly(input); }
+	public static function justReleasedKeyboardOnly(input:String):Bool { return Binds.justReleasedKeyboardOnly(input); }
+	public static function pressedControllerOnly(input:String):Bool { return Binds.pressedControllerOnly(input); }
+	public static function justPressedControllerOnly(input:String):Bool { return Binds.justPressedControllerOnly(input); }
+	public static function justReleasedControllerOnly(input:String):Bool { return Binds.justReleasedControllerOnly(input); }
+}
+
+class ScriptCacheConfig
+{
+	public static var music(get, never):Null<Bool>;
+	public static var characters(get, never):Null<Bool>;
+	public static var graphics(get, never):Null<Bool>;
+
+	public static inline function get_music() { return CacheConfig.music; }
+	public static inline function get_characters() { return CacheConfig.characters; }
+	public static inline function get_graphics() { return CacheConfig.graphics; }
 }
