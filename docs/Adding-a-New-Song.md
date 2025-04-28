@@ -38,19 +38,55 @@ The `cutscene.json` file contains the following fields:
     - `playOnce`: A boolean that denotes whether the cutscene should play again after restarting a song or not.
     - `args`: An array containing data that can be passed to the cutscene class's constructor.
 
-## Adding the Song to Freeplay
+## Adding the Song to Freeplay 
 
-To add a song to Freeplay you have to append it to an exitsting character's Freeplay song list or make a new character with a new Freeplay song list. To append a song list, you first need to make a folder in the root directory of the mod called `append/` and inside that a folder called `data/` and inside that another called `freeplay/`. Then create a text file with the same name as the song list you want to append, `songList-bf.txt` for example. Then you need to add a line to the file with the following format:
+To add a song to Freeplay you have to include it in a freeplay character's song list file. This can be found in `data/freeplay/songList-{listSuffix}.json`. The `songList-{listSuffix}.json` file contains the following fields:
 
-`song | {songName} | {icon} | [{categories}]` where:
+- `"categories"`: An array containing the categories that will be created in the freeplay menu for the character. The categories will be created in the order they are listed.
 
- - `songName` is the name of name of the song specified for the song's audio.
- - `icon` is name of the icon sprite that's loaded. You can also use `none` to not display an icon.
- - `categories` is a comma separated list of at the categories you want the song to appear in. Typically you want to include the `ALL` category but you can omit it if you don't want the song to appear in the default song list. If a category doesn't already exist it will be created and ordered after all previously created categories.
+- `"songs"`: An array containing objects with the following fields:
+	- `"song"`: The name of name of the song. This should be the same name as the folder that the song's audio files are contained in *including capitalization*.
+	- `"icon"`: The name of the icon sprite that's loaded. You can also use a value of `"none"` to not display an icon. If you created an icon with the name `none` it will not show up.
+	- `"categories"`: An array containing the categories that the song will appear under. If a category is not defined in the song list's `"categories"` list it will be added to the end of list.
+	- `"insert"`: An option field that will allow you to insert a song before or after a specified song instead of being appended to the song list in order. The song referenced must be defined before this so it is recommended that you add any inserted songs to the end of the song list. It contains the following fields:
+		- `"type"`: Can be either `"before"` or `"after"`. If it is `"before"` the song will be inserted before the song in `"value"` and if it is `"after"` the song will be inserted after the song in `"value"`.
+		- `"value"`: The name of the song that it this song will be inserted before or after.
 
- Note that you don't need to include quotes around any of these as it is just parsed as plain text. Every song that you add needs to be on a new line.
+An example of a song list would be the following:
 
- An example of the format to add a song to a song list would be the following: `song | Foolhardy-2023 | none | [ALL, Zardy]`
+```json
+{
+	"categories":[
+		"ALL",
+		"Zardy"
+	],
+	"songs":[
+		{
+			"song": "Foolhardy-2023",
+			"icon": "none",
+			"categories": ["ALL", "Zardy"]
+		}
+	]
+}
+```
+
+If you want to add a song to an already existing freeplay song list you need to `merge` the data into the `json`. Create a file called `songList-{listSuffix}.json` in `data/freeplay/songList/`. Inside the file you should add the following:
+
+```json
+[
+	{
+		"op": "add", 
+		"path": "/songs/-", 
+		"value": {
+			"song": "Song-Name",
+			"icon": "iconName",
+			"categories": ["ALL", "Other Category"]
+		}
+	}
+]
+```
+
+The object in the `"value"` field is the same as the object that you put in the `"songs"` list in the actual `songList-{listSuffix}.json` file, so you can also include a `"insert"` field to have the song inserted before or after a specific song. You can also change the `"path"` value to `"/songs/{index}"` to insert the song into the list at a certain position but I recommend just using the `"insert"` field since song positions my move around in the future.
 
 ## Creating a Song Variation
 

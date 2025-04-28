@@ -116,7 +116,8 @@ An action is a function that you can run by calling `doAction({actionName})` on 
 
 The character info has a field called `functions` which is an object containing a variety of functions that you are able to define similarly to a generic script. Each function has at least 1 argument with the `Character` type that is used to refer to this character however some have additional arguments to pass through data. Here are all the functions:
 
-- `create(character)`: This is run after the character is created but before they are added.
+- `create(character)`: This is run after the character is created but before they are added to the Character object.
+- `postCreate(character)`: This is run after the character is created and after they are added to the Character object.
 - `add(character)`: This is run after the character is added to `PlayState`.
 - `update(character, elapsed)`: This is run every frame.
     - `elapsed`: The time in seconds from the previous frame to this frame as a float.
