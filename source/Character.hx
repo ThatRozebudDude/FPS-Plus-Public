@@ -485,6 +485,10 @@ class Character extends FlxSpriteGroup
 			add(atlasCharacter);
 		}
 
+		if(characterInfo.info.functions.postCreate != null){
+			characterInfo.info.functions.postCreate(this);
+		}
+
 	}
 
 	//Update character scale and adjust the character's offsets

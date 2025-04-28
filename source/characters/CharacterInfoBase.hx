@@ -51,6 +51,7 @@ typedef LoopData = {
 
 typedef CharacterFunctions = {
 	var create:(Character)->Void;				//This function is run after the Character new() function is complete.
+	var postCreate:(Character)->Void;				//This function is run after the Character new() function is complete.
 	var update:(Character, Float)->Void;		//This function is run every frame. Float is elapsed.
 	var dance:(Character)->Void;				//This function is run after default dance behavior.
 	var danceOverride:(Character)->Void;		//This function replaces the default dance behavior.
@@ -128,6 +129,7 @@ class CharacterInfoBase
 		animChains: null,
 		functions: {
 			create: null,
+			postCreate: null,
 			update: null,
 			dance: null,
 			danceOverride: null,
