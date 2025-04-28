@@ -44,7 +44,7 @@ class OtisSpeaker extends CharacterInfoBase
 	var abotLookDir:Bool = false;
 
 	var gunshots:FlxSprite;
-	var gunshotPositions:Array<Array<Float>> = [[425, -70], [540, -60], [-580, -90], [-650, -140]];
+	var gunshotPositions:Array<Array<Float>> = [[650, 0], [680, -50], [-540, -50], [-590, -80]];
 
 	function create(character:Character):Void{
 		abot = new ABot(-80, 330);
@@ -57,11 +57,10 @@ class OtisSpeaker extends CharacterInfoBase
 		gunshots.frames = Paths.getSparrowAtlas("week7/otisGunshots");
 		gunshots.antialiasing = true;
 		gunshots.visible = false;
-		gunshots.animation.addByPrefix("shoot1", "shoot back high", 24 , false);
-		gunshots.animation.addByPrefix("shoot2", "shoot back low", 24 , false);
-		gunshots.animation.addByPrefix("shoot3", "shoot forward high", 24 , false);
-		gunshots.animation.addByPrefix("shoot4", "shoot forward low", 24 , false);
-		gunshots.animation.addByPrefix("shoot4", "shoot forward low", 24 , false);
+		gunshots.animation.addByPrefix("shoot1", "shoot back0", 24 , false);
+		gunshots.animation.addByPrefix("shoot2", "shoot back low0", 24 , false);
+		gunshots.animation.addByPrefix("shoot3", "shoot forward0", 24 , false);
+		gunshots.animation.addByPrefix("shoot4", "shoot forward low0", 24 , false);
 		gunshots.animation.onFrameChange.add(gunshotFrameUpdate);
 		gunshots.animation.onFinish.add(gunshotAnimationEnd);
 		addToCharacter(gunshots);

@@ -2,21 +2,21 @@
 <!--
 Created with Funkin Packer v0.1.3 DEV https://neeeoo.github.io/funkin-packer/
 -->
-<TextureAtlas imagePath="otis temp shooting muzzle.png" width="2045" height="1136" spritePadding="2" borderPadding="1">
-	<SubTexture name="shoot back high0000" x="1798" y="820" width="200" height="109" frameX="-309" frameY="-251" frameWidth="740" frameHeight="545"/>
-	<SubTexture name="shoot back high0001" x="1798" y="820" width="200" height="109" frameX="-309" frameY="-251" frameWidth="740" frameHeight="545"/>
-	<SubTexture name="shoot back high0002" x="743" y="349" width="537" height="357" frameX="-92" frameY="-68" frameWidth="740" frameHeight="545"/>
-	<SubTexture name="shoot back high0003" x="1" y="1" width="740" height="545" frameX="0" frameY="0" frameWidth="740" frameHeight="545"/>
-	<SubTexture name="shoot back low0000" x="1798" y="720" width="211" height="98" frameX="-118" frameY="-291" frameWidth="553" frameHeight="564"/>
-	<SubTexture name="shoot back low0001" x="1798" y="720" width="211" height="98" frameX="-118" frameY="-291" frameWidth="553" frameHeight="564"/>
-	<SubTexture name="shoot back low0002" x="743" y="1" width="552" height="346" frameX="0" frameY="-125" frameWidth="553" frameHeight="564"/>
-	<SubTexture name="shoot back low0003" x="1297" y="466" width="244" height="563" frameX="-457" frameY="-1" frameWidth="553" frameHeight="564"/>
-	<SubTexture name="shoot forward high0000" x="1798" y="931" width="195" height="97" frameX="-298" frameY="-273" frameWidth="708" frameHeight="589"/>
-	<SubTexture name="shoot forward high0001" x="1798" y="931" width="195" height="97" frameX="-298" frameY="-273" frameWidth="708" frameHeight="589"/>
-	<SubTexture name="shoot forward high0002" x="1297" y="1" width="499" height="463" frameX="-101" frameY="-16" frameWidth="708" frameHeight="589"/>
-	<SubTexture name="shoot forward high0003" x="1" y="548" width="708" height="587" frameX="0" frameY="0" frameWidth="708" frameHeight="589"/>
-	<SubTexture name="shoot forward low0000" x="1543" y="466" width="182" height="139" frameX="-345" frameY="-320" frameWidth="535" frameHeight="718"/>
-	<SubTexture name="shoot forward low0001" x="1543" y="466" width="182" height="139" frameX="-345" frameY="-320" frameWidth="535" frameHeight="718"/>
-	<SubTexture name="shoot forward low0002" x="743" y="708" width="534" height="386" frameX="-183" frameY="-144" frameWidth="535" frameHeight="718"/>
-	<SubTexture name="shoot forward low0003" x="1798" y="1" width="246" height="717" frameX="0" frameY="0" frameWidth="535" frameHeight="718"/>
+<TextureAtlas imagePath="otis assets v2(2).png" width="1296" height="1328" spritePadding="2" borderPadding="1">
+	<SubTexture name="shoot back0000" x="1133" y="887" width="152" height="214" rotated="true" frameX="-94" frameY="-129" frameWidth="576" frameHeight="484"/>
+	<SubTexture name="shoot back0001" x="1133" y="887" width="152" height="214" rotated="true" frameX="-94" frameY="-129" frameWidth="576" frameHeight="484"/>
+	<SubTexture name="shoot back0002" x="985" y="449" width="310" height="436" rotated="true" frameX="-58" frameY="-89" frameWidth="576" frameHeight="484"/>
+	<SubTexture name="shoot back0003" x="1" y="501" width="576" height="484" frameX="0" frameY="0" frameWidth="576" frameHeight="484"/>
+	<SubTexture name="shoot back low0000" x="798" y="1197" width="230" height="120" frameX="0" frameY="-260" frameWidth="461" frameHeight="560"/>
+	<SubTexture name="shoot back low0001" x="798" y="1197" width="230" height="120" frameX="0" frameY="-260" frameWidth="461" frameHeight="560"/>
+	<SubTexture name="shoot back low0002" x="590" y="1" width="329" height="460" rotated="true" frameX="-83" frameY="-116" frameWidth="461" frameHeight="560"/>
+	<SubTexture name="shoot back low0003" x="1" y="987" width="560" height="292" rotated="true" frameX="-387" frameY="0" frameWidth="461" frameHeight="560"/>
+	<SubTexture name="shoot forward0000" x="1133" y="1103" width="135" height="224" rotated="true" frameX="-237" frameY="-181" frameWidth="588" frameHeight="500"/>
+	<SubTexture name="shoot forward0001" x="1133" y="1103" width="135" height="224" rotated="true" frameX="-237" frameY="-181" frameWidth="588" frameHeight="500"/>
+	<SubTexture name="shoot forward0002" x="579" y="501" width="404" height="411" frameX="-87" frameY="0" frameWidth="588" frameHeight="500"/>
+	<SubTexture name="shoot forward0003" x="1" y="1" width="587" height="498" frameX="0" frameY="-1" frameWidth="588" frameHeight="500"/>
+	<SubTexture name="shoot forward low0000" x="563" y="1197" width="233" height="121" frameX="-282" frameY="-264" frameWidth="446" frameHeight="568"/>
+	<SubTexture name="shoot forward low0001" x="563" y="1197" width="233" height="121" frameX="-282" frameY="-264" frameWidth="446" frameHeight="568"/>
+	<SubTexture name="shoot forward low0002" x="921" y="1" width="306" height="446" rotated="true" frameX="-147" frameY="-114" frameWidth="446" frameHeight="568"/>
+	<SubTexture name="shoot forward low0003" x="563" y="987" width="568" height="208" rotated="true" frameX="0" frameY="0" frameWidth="446" frameHeight="568"/>
 </TextureAtlas>
