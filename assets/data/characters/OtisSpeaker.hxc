@@ -1,4 +1,5 @@
 import flixel.FlxG;
+import flixel.FlxSprite;
 import objects.TankmenBG;
 import objects.ABot;
 
@@ -18,17 +19,18 @@ class OtisSpeaker extends CharacterInfoBase
 		info.iconName = "face";
 		info.focusOffset.set();
 
-		addByPrefix("idle", offset(0, 0), "otis idle0", 24, loop(false, 0), false, false);
-		addByPrefix("idle-loop", offset(0, 0), "otis idle0", 24, loop(true, 0), false, false);
+		addByPrefix('idle', offset(), "otis idle0", 24, loop(false));
+		addByPrefix('idle-loop', offset(), "otis idle0", 24, loop(true));
 
-		addByPrefix("shoot1", offset(2, 61), "shoot back0", 24, loop(false, 0), false, false);
-		addByPrefix("shoot2", offset(-35, 65), "shoot back low0", 24, loop(false, 0), false, false);
-		addByPrefix("shoot3", offset(599, 96), "shoot forward0", 24, loop(false, 0), false, false);
-		addByPrefix("shoot4", offset(655, 149), "shoot forward low0", 24, loop(false, 0), false, false);
+		addByPrefix('shoot1', offset(0, 13), "shoot back0", 24, loop(false));
+		addByPrefix('shoot2', offset(-35, 21), "shoot back low0", 24, loop(false));
+		addByPrefix('shoot3', offset(238, 96), "shoot forward0", 24, loop(false));
+		addByPrefix('shoot4', offset(260, 23), "shoot forward low0", 24, loop(false));
 
 		info.idleSequence = [];
 
 		info.functions.create = create;
+		info.functions.postCreate = postCreate;
 		info.functions.update = update;
 		info.functions.beat = beat;
 		info.functions.countdownBeat = countdownBeat;
@@ -36,12 +38,13 @@ class OtisSpeaker extends CharacterInfoBase
 		info.functions.songEnd = songEnd;
 
 		addExtraData("reposition", [-54.5, -250]);
-		addExtraData("dropShadowMask", "week7/stage/erect/masks/otisSpeaker_mask");
-		addExtraData("dropShadowMaskThreshold", -1);
 	}
 
 	var abot:ABot;
 	var abotLookDir:Bool = false;
+
+	var gunshots:FlxSprite;
+	var gunshotPositions:Array<Array<Float>> = [[425, -70], [540, -60], [-580, -90], [-650, -140]];
 
 	function create(character:Character):Void{
 		abot = new ABot(-80, 330);
@@ -49,11 +52,27 @@ class OtisSpeaker extends CharacterInfoBase
 		addToCharacter(abot);
 	}
 
+	function postCreate(character:Character):Void{
+		gunshots = new FlxSprite();
+		gunshots.frames = Paths.getSparrowAtlas("week7/otisGunshots");
+		gunshots.antialiasing = true;
+		gunshots.visible = false;
+		gunshots.animation.addByPrefix("shoot1", "shoot back high", 24 , false);
+		gunshots.animation.addByPrefix("shoot2", "shoot back low", 24 , false);
+		gunshots.animation.addByPrefix("shoot3", "shoot forward high", 24 , false);
+		gunshots.animation.addByPrefix("shoot4", "shoot forward low", 24 , false);
+		gunshots.animation.addByPrefix("shoot4", "shoot forward low", 24 , false);
+		gunshots.animation.onFrameChange.add(gunshotFrameUpdate);
+		gunshots.animation.onFinish.add(gunshotAnimationEnd);
+		addToCharacter(gunshots);
+	}
+
 	function update(character:Character, elpased:Float):Void{
-		if (TankmenBG.animationNotes.length > 0){
-			if (Conductor.songPosition > TankmenBG.animationNotes[0][0]){
-				//trace('played shoot anim' + TankmenBG.animationNotes[0][1]);
+		if(TankmenBG.animationNotes.length > 0){
+			if(Conductor.songPosition > TankmenBG.animationNotes[0][0]){
 				character.playAnim('shoot' + (TankmenBG.animationNotes[0][1] + 1), true);
+				gunshots.animation.play('shoot' + (TankmenBG.animationNotes[0][1] + 1), true);
+				gunshots.setPosition(character.x + gunshotPositions[TankmenBG.animationNotes[0][1]][0], character.y + gunshotPositions[TankmenBG.animationNotes[0][1]][1]);
 				TankmenBG.animationNotes.shift();
 			}
 		}
@@ -79,6 +98,7 @@ class OtisSpeaker extends CharacterInfoBase
 		if(beat % 2 == 0){
 			character.playAnim("idle", true);
 		}
+		gunshots.shader = null;
 	}
 
 	function songStart(character:Character):Void{
@@ -88,6 +108,20 @@ class OtisSpeaker extends CharacterInfoBase
 
 	function songEnd(character:Character):Void{
 		abot.visualizer.alpha = 0;
+	}
+
+	function gunshotFrameUpdate(name:String, frame:Int, index:Int):Void{
+		if(frame < 2){
+			gunshots.visible = true;
+			gunshots.blend = BlendMode.ADD;
+		}
+		else{
+			gunshots.blend = BlendMode.NORMAL;
+		}
+	}
+	
+	function gunshotAnimationEnd(name:String):Void{
+		gunshots.visible = false;
 	}
 
 }

@@ -241,25 +241,27 @@ class PolymodHandler
 	static function buildImports():Void{
 
 		//Default imports
+		Polymod.addDefaultImport(Alphabet);
 		Polymod.addDefaultImport(Assets);
-		Polymod.addDefaultImport(Paths);
-		Polymod.addDefaultImport(flixel.group.FlxGroup);
-		Polymod.addDefaultImport(flixel.group.FlxSpriteGroup);
-		
-		Polymod.addDefaultImport(PlayState);
-		Polymod.addDefaultImport(GameOverSubstate);
-		Polymod.addDefaultImport(PauseSubState);
-		
+		Polymod.addDefaultImport(AtlasSprite);
 		Polymod.addDefaultImport(Character);
 		Polymod.addDefaultImport(Conductor);
-		Polymod.addDefaultImport(AtlasSprite);
-		Polymod.addDefaultImport(VideoHandler);
+		Polymod.addDefaultImport(GameOverSubstate);
+		Polymod.addDefaultImport(Highscore);
+		Polymod.addDefaultImport(MainMenuState);
+		Polymod.addDefaultImport(MusicBeatState);
+		Polymod.addDefaultImport(MusicBeatSubstate);
+		Polymod.addDefaultImport(Paths);
+		Polymod.addDefaultImport(PauseSubState);
+		Polymod.addDefaultImport(PlayState);
 		Polymod.addDefaultImport(Scoring);
+		Polymod.addDefaultImport(Utils);
+		Polymod.addDefaultImport(VideoHandler);
+
 		Polymod.addDefaultImport(note.Note);
 		Polymod.addDefaultImport(shaders.RuntimeShader);
 		Polymod.addDefaultImport(debug.ChartingState);
 		
-		Polymod.addDefaultImport(Utils);
 		Polymod.addDefaultImport(modding.ScriptingUtil);
 		Polymod.addDefaultImport(modding.ScriptingUtil.BlendMode);
 		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTextBorderStyle);
@@ -289,6 +291,9 @@ class PolymodHandler
 		Polymod.addDefaultImport(objects.ScriptableSpriteGroup.ScriptedSpriteGroup);
 
 		Polymod.addDefaultImport(scripts.ScriptedState);
+
+		Polymod.addDefaultImport(flixel.group.FlxGroup);
+		Polymod.addDefaultImport(flixel.group.FlxSpriteGroup);
 		
 		//Alias
 		Polymod.addImportAlias("Binds", modding.ScriptingUtil.ScriptBinds);
