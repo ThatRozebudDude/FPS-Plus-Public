@@ -248,7 +248,7 @@ class Startup extends FlxUIStateExt
 				Binds.resetToDefaultControls();
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 			}
-			else if(FlxG.keys.justPressed.ANY && !(FlxG.keys.anyJustPressed(FlxG.sound.volumeDownKeys) || FlxG.keys.anyJustPressed(FlxG.sound.volumeUpKeys))){
+			else if(FlxG.keys.justPressed.ESCAPE){
 				openPreloadSettings();
 			}
 		}

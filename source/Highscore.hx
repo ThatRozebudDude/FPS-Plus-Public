@@ -150,18 +150,18 @@ class Highscore
 		else if (scoreData.sickCount == totalNotes) return gold;
 
 		
-		var grade = (scoreData.sickCount + scoreData.goodCount) / totalNotes;
+		var grade = Scoring.calculateAccuracy(scoreData.sickCount, scoreData.goodCount, scoreData.badCount, scoreData.shitCount, scoreData.missCount);
 	  
-		if(grade == 1){
+		if(grade == 100){
 			return perfect;
 		}
-		else if(grade >= 0.90){
+		else if(grade >= 90){
 			return excellent;
 		}
-		else if(grade >= 0.80){
+		else if(grade >= 80){
 			return great;
 		}
-		else if(grade >= 0.60){
+		else if(grade >= 60){
 			return good;
 		}
 		else{

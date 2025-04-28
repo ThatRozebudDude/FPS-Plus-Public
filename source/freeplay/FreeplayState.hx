@@ -779,8 +779,8 @@ class FreeplayState extends MusicBeatState
 		updateSongDifficulty();
 
 		if(doTween){
-			FlxTween.completeTweensOf(difficulty);
-			difficulty.y -= 15;
+			FlxTween.cancelTweensOf(difficulty);
+			difficulty.y = 115 - 15;
 			FlxTween.tween(difficulty, {y: difficulty.y + 15}, 0.1, {ease: FlxEase.cubeOut});
 		}
 

@@ -223,7 +223,9 @@ class MainMenuState extends MusicBeatState
 							}
 					}
 
-					FlxFlicker.flicker(magenta, 1.1, 0.15, false);
+					if(Config.flashingLights){
+						FlxFlicker.flicker(magenta, 1.1, 0.15, false);
+					}
 
 					menuItems.forEach(function(spr:FlxSprite){
 						if (curSelected != spr.ID){

@@ -27,6 +27,7 @@ class Config
 	public static var showAccuracy:Bool;
 	public static var showMisses:Int;
 	public static var autoPause:Bool;
+	public static var flashingLights:Bool;
 
 	public static var ee1:Bool;
 	public static var ee2:Bool;
@@ -56,6 +57,7 @@ class Config
 		FlxG.save.data.showAccuracy = true;
 		FlxG.save.data.showMisses = 1;
 		FlxG.save.data.autoPause = true;
+		FlxG.save.data.flashingLights = true;
 
 		reload();
 
@@ -87,6 +89,7 @@ class Config
 		showAccuracy = FlxG.save.data.showAccuracy;
 		showMisses = FlxG.save.data.showMisses;
 		autoPause = FlxG.save.data.autoPause;
+		flashingLights = FlxG.save.data.flashingLights;
 
 		ee1 = FlxG.save.data.ee1;
 		ee2 = FlxG.save.data.ee2;
@@ -113,7 +116,8 @@ class Config
 								showCaptionsW:Bool,
 								showAccuracyW:Bool,
 								showMissesW:Int,
-								autoPauseW:Bool
+								autoPauseW:Bool,
+								flashingLightsW:Bool
 								):Void
 	{
 
@@ -140,6 +144,7 @@ class Config
 		FlxG.save.data.showAccuracy = showAccuracyW;
 		FlxG.save.data.showMisses = showMissesW;
 		FlxG.save.data.autoPause = autoPauseW;
+		FlxG.save.data.flashingLights = flashingLightsW;
 
 		SaveManager.flush();
 		
@@ -194,6 +199,8 @@ class Config
 			FlxG.save.data.showMisses = 1;
 		if(FlxG.save.data.autoPause == null)
 			FlxG.save.data.autoPause = true;
+		if(FlxG.save.data.flashingLights == null)
+			FlxG.save.data.flashingLights = true;
 
 		if(FlxG.save.data.ee1 == null)
 			FlxG.save.data.ee1 = false;
@@ -201,7 +208,7 @@ class Config
 			FlxG.save.data.ee2 = false;
 	}
 
-	public static function setFramerate(cap:Int, ?useValueInsteadOfSave:Int = -1){
+	public static function setFramerate(cap:Int, ?useValueInsteadOfSave:Int = -1):Void{
 		var fps:Int = framerate;
 		if(useValueInsteadOfSave > -1){ fps = useValueInsteadOfSave; }
 		if(fps > cap) { fps = cap; }

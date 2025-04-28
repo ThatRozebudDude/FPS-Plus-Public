@@ -1,5 +1,6 @@
 package title;
 
+import config.Config;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.util.FlxColor;
@@ -57,7 +58,13 @@ class TitleVideo extends FlxState
 
 	function next():Void{
 
-		FlxG.camera.flash(FlxColor.WHITE, 60);
+		if(Config.flashingLights){
+			FlxG.camera.flash(0xFFFFFFFF, 60);
+		}
+		else{
+			FlxG.camera.flash(0xFF000000, 60);
+		}
+
 		FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
 		Conductor.changeBPM(158);
 		FlxG.switchState(titleState);

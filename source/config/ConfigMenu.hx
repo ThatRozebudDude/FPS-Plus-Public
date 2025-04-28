@@ -118,6 +118,7 @@ class ConfigMenu extends FlxUIStateExt
 	var showMissesValue:Int;
 	final showMissesTypes:Array<String> = ["off", "on", "combo breaks"];
 	var autoPauseValue:Bool;
+	var flashingLightsValue:Bool;
 
 	var pressUp:Bool = false;
 	var pressDown:Bool = false;
@@ -659,7 +660,7 @@ class ConfigMenu extends FlxUIStateExt
 	}
 
 	function writeToConfig():Void{
-		Config.write(offsetValue, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, allowedFramerates[framerateValue], dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, useGPUValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue, showAccuracyValue, showMissesValue, autoPauseValue);
+		Config.write(offsetValue, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, allowedFramerates[framerateValue], dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, useGPUValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue, showAccuracyValue, showMissesValue, autoPauseValue, flashingLightsValue);
 	}
 
 	function updateAllOptions():Void{
@@ -726,6 +727,7 @@ class ConfigMenu extends FlxUIStateExt
 		showAccuracyValue = Config.showAccuracy;
 		showMissesValue = Config.showMisses;
 		autoPauseValue = Config.autoPause;
+		flashingLightsValue = Config.flashingLights;
 
 		framerateValue = allowedFramerates.indexOf(Config.framerate);
 		if(framerateValue == -1){
@@ -1300,12 +1302,22 @@ class ConfigMenu extends FlxUIStateExt
 			autoPauseSettings.setting = genericOnOff[autoPauseValue?0:1];
 		};
 
+		var flashingLightsSettings = new ConfigOption("FLASHING EFFECTS", genericOnOff[flashingLightsValue?0:1], "Determines whether certain bright or flashing effects that could cause eye strain will play.");
+		flashingLightsSettings.optionUpdate = function(){
+			if (pressRight || pressLeft){
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				flashingLightsValue = !flashingLightsValue;
+			}
+
+			flashingLightsSettings.setting = genericOnOff[flashingLightsValue?0:1];
+		};
+
 
 		configOptions = [
 							[keyBinds, ghostTap, noteOffset, scrollSpeed],
 							[fpsCap, bgDim, useGPU, showFPS],
 							[downscroll, centeredNotes, noteSplash, noteGlow, showMissesSetting, showAccuracyDisplay, comboDisplay, cacheSettings],
-							[extraCamStuff, camBopStuff, captionsStuff, autoPauseSettings, hpGain, hpDrain]
+							[extraCamStuff, camBopStuff, captionsStuff, flashingLightsSettings, autoPauseSettings, hpGain, hpDrain]
 						];
 
 	}

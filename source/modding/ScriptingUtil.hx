@@ -175,6 +175,7 @@ class ScriptConfig
 	public static var showAccuracy(get, never):Bool;
 	public static var showMisses(get, never):Int;
 	public static var autoPause(get, never):Bool;
+	public static var flashingLights(get, never):Bool;
 	
 	public static function get_offset():Float { return Config.offset; }
 	public static function get_healthMultiplier():Float { return Config.healthMultiplier; }
@@ -197,6 +198,9 @@ class ScriptConfig
 	public static function get_showAccuracy():Bool { return Config.showAccuracy; }
 	public static function get_showMisses():Int { return Config.showMisses; }
 	public static function get_autoPause():Bool { return Config.autoPause; }
+	public static function get_flashingLights():Bool { return Config.flashingLights; }
+
+	public static function setFramerate(cap:Int, ?useValueInsteadOfSave:Int = -1):Void { Config.setFramerate(cap, useValueInsteadOfSave); }
 }
 
 class ScriptModConfig

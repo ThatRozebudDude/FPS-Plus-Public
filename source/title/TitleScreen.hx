@@ -150,7 +150,12 @@ class TitleScreen extends MusicBeatState
 
 		FlxG.sound.music.onComplete = function(){lastStep = 0;}
 		
-		camMain.flash(FlxColor.WHITE, 1);
+		if(Config.flashingLights){
+			camMain.flash(0xFFFFFFFF, 1);
+		}
+		else{
+			camMain.flash(0xFF000000, 0.5);
+		}
 
 		super.create();
 
@@ -184,8 +189,10 @@ class TitleScreen extends MusicBeatState
 		{
 			titleText.animation.play('press');
 
-			camMain.stopFX();
-			camMain.flash(FlxColor.WHITE, 1);
+			if(Config.flashingLights){
+				camMain.stopFX();
+				camMain.flash(FlxColor.WHITE, 1);
+			}
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 			transitioning = true;

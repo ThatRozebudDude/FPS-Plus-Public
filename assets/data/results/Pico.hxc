@@ -191,27 +191,26 @@ class PicoResults extends ResultsCharacter
 		}
 	}
 
-	var first:Bool = false;
-
 	function whiteFlashCallback(name:String, frame:Int, index:Int){
-		if(!first){ //Texture atlas you truely are a mystery...
+		if(frame <= 10){ //Texture atlas you truely are a mystery...
 			whiteFlash.visible = true;
 			whiteFlash.alpha = 0.01;
 			blackFlash.visible = true;
 			blackFlash.alpha = 0.01;
-			first = true;
 		}
-		else if(WHITE_FLASH_FRAMES.contains(index)){
+		else if(WHITE_FLASH_FRAMES.contains(index) && Config.flashingLights){
 			whiteFlash.visible = true;
 			blackFlash.visible = false;
 		}
-		else if(BLACK_FLASH_FRAMES.contains(index)){
+		else if(BLACK_FLASH_FRAMES.contains(index) && Config.flashingLights){
 			whiteFlash.visible = false;
 			blackFlash.visible = true;
 		}
 		else{
 			whiteFlash.visible = false;
+			whiteFlash.alpha = 1;
 			blackFlash.visible = false;
+			blackFlash.alpha = 1;
 		}
 	}
 
