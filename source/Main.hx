@@ -45,6 +45,8 @@ class Main extends Sprite
 		addChild(new FlxGame(0, 0, Startup, 60, 60, true));
 		addChild(fpsDisplay);
 
+		FlxG.scaleMode = new RatioScaleMode();
+		
 		//On web builds, video tends to lag quite a bit, so this just helps it run a bit faster.
 		#if web
 		VideoHandler.MAX_FPS = 30;
