@@ -82,10 +82,11 @@ class NenePixel extends CharacterInfoBase
 		
 	}
 
-	function beat(character:Character, beat:Int) {
-		abot.bop();
+	var skipBop:Bool = false;
 
+	function beat(character:Character, beat:Int) {
 		//raise knife on low health
+		skipBop = false;
 		if(PlayState.SONG.song.toLowerCase() != "blazin"){
 			if(PlayState.instance.health < 0.4 && !knifeRaised){
 				knifeRaised = true;
@@ -97,9 +98,13 @@ class NenePixel extends CharacterInfoBase
 				character.playAnim("lowerKnife", true);
 				character.idleSequenceIndex = 0;
 				character.danceLockout = true;
+				skipBop = true;
 			}
 		}
 
+		if(!knifeRaised && !skipBop){
+			abot.bop();
+		}
 	}
 
 	function countdownBeat(character:Character, beat:Int) {
