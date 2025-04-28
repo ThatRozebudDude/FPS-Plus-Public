@@ -1321,24 +1321,24 @@ class FreeplayState extends MusicBeatState
 			for(i in 0...json.songs.length){
 				if(json.songs[i].insert == null){
 					freeplaySongs.push([json.songs[i].song, json.songs[i].icon, json.songs[i].categories]);
-					for(i in 0...json.songs[i].categories.length){
-						if(!freeplayCategories.contains(json.songs[i].categories[i])){
-							freeplayCategories.push(json.songs[i].categories[i]);
+					for(j in 0...json.songs[i].categories.length){
+						if(!freeplayCategories.contains(json.songs[j].categories[j])){
+							freeplayCategories.push(json.songs[j].categories[j]);
 						}
 					}
 				}
 				else{
 					var index:Int = freeplaySongs.length;
-					for(i in 0...freeplaySongs.length){
-						if(freeplaySongs[i][0] == json.songs[i].insert.value){
-							index = i + (json.songs[i].insert.type == "after" ? 1 : 0);
+					for(j in 0...freeplaySongs.length){
+						if(freeplaySongs[j][0] == json.songs[i].insert.value){
+							index = j + (json.songs[i].insert.type == "after" ? 1 : 0);
 							break;
 						}
 					}
 					freeplaySongs.insert(index, [json.songs[i].song, json.songs[i].icon, json.songs[i].categories]);
-					for(i in 0...json.songs[i].categories.length){
-						if(!freeplayCategories.contains(json.songs[i].categories[i])){
-							freeplayCategories.push(json.songs[i].categories[i]);
+					for(j in 0...json.songs[i].categories.length){
+						if(!freeplayCategories.contains(json.songs[j].categories[j])){
+							freeplayCategories.push(json.songs[j].categories[j]);
 						}
 					}
 				}
