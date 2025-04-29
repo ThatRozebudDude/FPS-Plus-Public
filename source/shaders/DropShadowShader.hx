@@ -496,5 +496,25 @@ class DropShadowShader extends FlxShader
 		pixelPerfect.value = [value];
 		return value;
 	}
+
+	function copy():DropShadowShader{
+		var copiedShader = new DropShadowShader();
+		
+		copiedShader.angle = angle;
+		copiedShader.strength = strength;
+		copiedShader.distance = distance;
+		copiedShader.threshold = threshold;
+
+		copiedShader.baseHue = baseHue;
+		copiedShader.baseSaturation = baseSaturation;
+		copiedShader.baseBrightness = baseBrightness;
+		copiedShader.baseContrast = baseContrast;
+
+		copiedShader.usePixelPerfect = usePixelPerfect;
+
+		copiedShader.antialiasAmt = antialiasAmt;
+
+		return copiedShader;
+	}
 }
 

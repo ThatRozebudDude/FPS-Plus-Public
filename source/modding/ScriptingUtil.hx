@@ -103,6 +103,8 @@ class ScriptingUtil
 		}
 		return r;
 	}
+	
+	public static inline function getClass<T>(o:T):Class<T>		{ return Type.getClass(o); }
 }
 
 class BlendMode

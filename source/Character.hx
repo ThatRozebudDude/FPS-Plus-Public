@@ -554,8 +554,17 @@ class Character extends FlxSpriteGroup
 		}
 	}
 
-	//Checks if the object has a custom applyShader function and runs that if found. Basically just used for ABot as of right now.
 	public function applyShader(shader:FlxShader):Void{
+		if(characterInfo.info.functions.applyShader != null){
+			characterInfo.info.functions.applyShader(this, shader);
+		}
+		else{
+			defaultApplyShaderBehavior(shader);
+		}
+	}
+
+	//Checks if the object has a custom applyShader function and runs that if found. 
+	public function defaultApplyShaderBehavior(shader:FlxShader){
 		for(member in members){
 			if(Type.getInstanceFields(Type.getClass(member)).contains("applyShader")){
 				Reflect.callMethod(member, Reflect.field(member, "applyShader"), [shader]);

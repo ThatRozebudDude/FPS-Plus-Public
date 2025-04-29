@@ -9,6 +9,7 @@ import flixel.FlxBasic;
 import flixel.util.FlxColor;
 import flixel.math.FlxPoint;
 import Character.AttachedAction;
+import flixel.system.FlxAssets.FlxShader;
 
 enum AnimType {
 	prefix;
@@ -50,26 +51,27 @@ typedef LoopData = {
 }
 
 typedef CharacterFunctions = {
-	var create:(Character)->Void;				//This function is run after the Character new() function is complete.
+	var create:(Character)->Void;					//This function is run after the Character new() function is complete.
 	var postCreate:(Character)->Void;				//This function is run after the Character new() function is complete.
-	var update:(Character, Float)->Void;		//This function is run every frame. Float is elapsed.
-	var dance:(Character)->Void;				//This function is run after default dance behavior.
-	var danceOverride:(Character)->Void;		//This function replaces the default dance behavior.
-	var beat:(Character, Int)->Void;			//This function is run every beat. Int is curBeat. Called after dance().
-	var step:(Character, Int)->Void;			//This function is run every step. Int is curStep. Called before dance().
-	var countdownBeat:(Character, Int)->Void;	//This function is run every beat during the countdown.
-	var playAnim:(Character, String)->Void;		//This function is run after the Character playAnim() function is complete. String is the name of the animation given to playAnim().
-	var idleEnd:(Character)->Void;				//This function is run after default idleEnd behavior.
-	var idleEndOverride:(Character)->Void;		//This function replaces the default idleEnd behavior.
-	var frame:(Character, String, Int)->Void;	//This function is run every animation frame. String is the current animation. Int is the current frame.
-	var animationEnd:(Character, String)->Void; //This function is run when an animation is finished. String is the finished animation.
-	var add:(Character)->Void;					//This function is run when the character is added to the state.
-	var deathCreate:(Character)->Void;			//This function is run after the character is created in the game over state.
-	var deathAdd:(Character)->Void;				//This function is run after the character is added to the game over state.
-	var songStart:(Character)->Void;			//This function is run when the song starts.
-	var songEnd:(Character)->Void;				//This function is run when the song ends.
-	var noteHit:(Character, Note)->Void;		//This function is run when the character hits a note.
-	var noteMiss:(Character, Int, Bool)->Void;	//This function is run when the character misses a note.
+	var update:(Character, Float)->Void;			//This function is run every frame. Float is elapsed.
+	var dance:(Character)->Void;					//This function is run after default dance behavior.
+	var danceOverride:(Character)->Void;			//This function replaces the default dance behavior.
+	var beat:(Character, Int)->Void;				//This function is run every beat. Int is curBeat. Called after dance().
+	var step:(Character, Int)->Void;				//This function is run every step. Int is curStep. Called before dance().
+	var countdownBeat:(Character, Int)->Void;		//This function is run every beat during the countdown.
+	var playAnim:(Character, String)->Void;			//This function is run after the Character playAnim() function is complete. String is the name of the animation given to playAnim().
+	var idleEnd:(Character)->Void;					//This function is run after default idleEnd behavior.
+	var idleEndOverride:(Character)->Void;			//This function replaces the default idleEnd behavior.
+	var frame:(Character, String, Int)->Void;		//This function is run every animation frame. String is the current animation. Int is the current frame.
+	var animationEnd:(Character, String)->Void; 	//This function is run when an animation is finished. String is the finished animation.
+	var add:(Character)->Void;						//This function is run when the character is added to the state.
+	var deathCreate:(Character)->Void;				//This function is run after the character is created in the game over state.
+	var deathAdd:(Character)->Void;					//This function is run after the character is added to the game over state.
+	var songStart:(Character)->Void;				//This function is run when the song starts.
+	var songEnd:(Character)->Void;					//This function is run when the song ends.
+	var noteHit:(Character, Note)->Void;			//This function is run when the character hits a note.
+	var noteMiss:(Character, Int, Bool)->Void;		//This function is run when the character misses a note.
+	var applyShader:(Character, FlxShader)->Void;	//This function is run when the character misses a note.
 }
 
 typedef CharacterInfo = {
@@ -148,6 +150,7 @@ class CharacterInfoBase
 			songEnd: null,
 			noteHit: null,
 			noteMiss: null,
+			applyShader: null,
 		},
 		actions: null,
 		extraData: new Map<String, Dynamic>()

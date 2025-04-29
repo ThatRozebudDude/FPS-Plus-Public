@@ -295,6 +295,8 @@ class PolymodHandler
 		Polymod.addDefaultImport(flixel.group.FlxGroup);
 		Polymod.addDefaultImport(flixel.group.FlxSpriteGroup);
 		
+		Polymod.addDefaultImport(flixel.system.FlxAssets.FlxShader);
+		
 		//Alias
 		Polymod.addImportAlias("Binds", modding.ScriptingUtil.ScriptBinds);
 		Polymod.addImportAlias("config.Config", modding.ScriptingUtil.ScriptConfig);

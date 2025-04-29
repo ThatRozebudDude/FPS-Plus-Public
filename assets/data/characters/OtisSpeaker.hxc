@@ -36,6 +36,7 @@ class OtisSpeaker extends CharacterInfoBase
 		info.functions.countdownBeat = countdownBeat;
 		info.functions.songStart = songStart;
 		info.functions.songEnd = songEnd;
+		info.functions.applyShader = applyShader;
 
 		addExtraData("reposition", [-54.5, -250]);
 	}
@@ -97,7 +98,6 @@ class OtisSpeaker extends CharacterInfoBase
 		if(beat % 2 == 0){
 			character.playAnim("idle", true);
 		}
-		gunshots.shader = null;
 	}
 
 	function songStart(character:Character):Void{
@@ -107,6 +107,11 @@ class OtisSpeaker extends CharacterInfoBase
 
 	function songEnd(character:Character):Void{
 		abot.visualizer.alpha = 0;
+	}
+
+	function applyShader(character:Character, shader:FlxShader){
+		character.getSprite().shader = shader;
+		abot.applyShader(shader);
 	}
 
 	function gunshotFrameUpdate(name:String, frame:Int, index:Int):Void{
