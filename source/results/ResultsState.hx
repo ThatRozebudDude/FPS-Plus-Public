@@ -195,12 +195,14 @@ class ResultsState extends FlxUIStateExt
 
 		var blackTopBar:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menu/results/topBarBlack"));
 		blackTopBar.y = -blackTopBar.height;
+		blackTopBar.antialiasing = true;
 		FlxTween.tween(blackTopBar, {y: 0}, 7/24, {ease: FlxEase.quartOut, startDelay: 3/24});
 
 		var soundSystem:FlxSprite = new FlxSprite(-15, -180);
 		soundSystem.frames = Paths.getSparrowAtlas("menu/results/soundSystem");
 		soundSystem.animation.addByPrefix("", "", 24, false);
 		soundSystem.visible = false;
+		soundSystem.antialiasing = true;
 		new FlxTimer().start(8/24, function(t){
 			soundSystem.animation.play("");
 			soundSystem.visible = true;
