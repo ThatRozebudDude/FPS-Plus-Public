@@ -316,7 +316,7 @@ class DropShadowShader extends FlxShader
 			vec4 texture2D_bilinear(sampler2D t, vec2 uv){
 				vec2 texelSize = 1.0/openfl_TextureSize;
 				vec2 f = fract(uv * openfl_TextureSize);
-				uv += (.5 - f) * texelSize;    // move uv to texel centre
+				uv += (.5 - f) * texelSize;
 				vec4 tl = flixel_texture2D(t, uv);
 				vec4 tr = flixel_texture2D(t, uv + vec2(texelSize.x, 0.0));
 				vec4 bl = flixel_texture2D(t, uv + vec2(0.0, texelSize.y));

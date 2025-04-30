@@ -1,5 +1,6 @@
 package;
 
+import thx.Int64s;
 import flixel.util.FlxSignal;
 import flixel.FlxSprite;
 import flixel.FlxG;
@@ -7,7 +8,7 @@ import openfl.Assets;
 import flixel.util.FlxColor;
 
 #if desktop
-import hxcodec.openfl.Video;
+import hxvlc.openfl.Video;
 #elseif web
 import openfl.media.SoundTransform;
 import openfl.media.Video;
@@ -104,7 +105,8 @@ class VideoHandler extends FlxSprite
 		bitmap.onEndReached.add(onVLCComplete);
 		
 		FlxG.addChildBelowMouse(bitmap);
-		bitmap.play(Assets.getPath(path), repeat);
+		bitmap.load(Assets.getPath(path));
+		bitmap.play();
 		bitmap.alpha = 0;
 		
 		if (FlxG.autoPause) {
@@ -263,10 +265,7 @@ class VideoHandler extends FlxSprite
 				bitmap.volume = 0;
 			}
 			else{
-				var vol:Float = FlxG.sound.volume;
-				vol = (vol) * 0.7;
-				vol += vol > 0.001 ? 0.3 : 0;
-				bitmap.volume = Std.int(vol * volume * 100);
+				bitmap.volume = Std.int(FlxG.sound.volume * volume * 100);
 			}
 
 		}
@@ -415,7 +414,7 @@ class VideoHandler extends FlxSprite
 
 	function get_length():Float {
 		#if desktop
-		return bitmap.length / 1000;
+		return Int64s.toFloat(bitmap.length) / 1000000;
 		#end
 		#if web
 		@:privateAccess

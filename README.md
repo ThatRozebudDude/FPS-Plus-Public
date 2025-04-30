@@ -21,7 +21,10 @@ To download and install all libraries required compiling, you must install Haxe'
 
 * After `hmm`'s install is complete, run `hmm install` in the root directory to install all haxelibs.
 
-* If you have issues with the compiler reporting that `hxCodec` isn't installed, refer to [this issue](https://github.com/ThatRozebudDude/FPS-Plus-Public/issues/91).
+* If you have issues with the compiler reporting that `hxvlc` isn't installed, try running the following commnad:
+	```
+		haxelib --global install hxvlc
+	```
 
 * After installing all libraries, run `haxelib run lime setup` to set up `lime`.
 
