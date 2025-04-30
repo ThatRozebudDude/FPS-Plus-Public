@@ -172,6 +172,9 @@ class NeneTankmen extends CharacterInfoBase
 				speakerGuysBack.animation.onFrameChange.add(function(name:String, frame:Int, index:Int){
 					speakerGuysBackShader.updateFrameInfo(speakerGuysBack.frame);
 				});
+				speakerGuysBackShader.loadAltMask(Paths.image("week7/stage/erect/masks/speakerGuys_mask", true));
+				speakerGuysBackShader.maskThreshold = 1;
+				speakerGuysBackShader.useAltMask = true;
 
 				var speakerGuysFrontShader = shader.copy();
 				speakerGuysFrontShader.threshold = 0.4;
@@ -180,6 +183,9 @@ class NeneTankmen extends CharacterInfoBase
 				speakerGuysFront.animation.onFrameChange.add(function(name:String, frame:Int, index:Int){
 					speakerGuysFrontShader.updateFrameInfo(speakerGuysFront.frame);
 				});
+				speakerGuysFrontShader.loadAltMask(Paths.image("week7/stage/erect/masks/speakerGuys_mask", true));
+				speakerGuysFrontShader.maskThreshold = 1;
+				speakerGuysFrontShader.useAltMask = true;
 
 			default:
 				speakerGuysBack.shader = shader;

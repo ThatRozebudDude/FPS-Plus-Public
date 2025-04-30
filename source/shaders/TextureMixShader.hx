@@ -37,9 +37,22 @@ class TextureMixShaderGLSL extends FlxShader
 		uniform sampler2D mixTexture;
 		uniform float mixAmount;
 
+		vec4 texture2D_bilinear(sampler2D t, vec2 uv){
+			vec2 texelSize = 1.0/openfl_TextureSize;
+			vec2 f = fract(uv * openfl_TextureSize);
+			uv += (.5 - f) * texelSize;    // move uv to texel centre
+			vec4 tl = flixel_texture2D(t, uv);
+			vec4 tr = flixel_texture2D(t, uv + vec2(texelSize.x, 0.0));
+			vec4 bl = flixel_texture2D(t, uv + vec2(0.0, texelSize.y));
+			vec4 br = flixel_texture2D(t, uv + vec2(texelSize.x, texelSize.y));
+			vec4 tA = mix(tl, tr, f.x);
+			vec4 tB = mix(bl, br, f.x);
+			return mix(tA, tB, f.y);
+		}
+
 		void main(){
 			vec4 textureColor = flixel_texture2D(bitmap, openfl_TextureCoordv);
-			vec4 mixColor = flixel_texture2D(mixTexture, openfl_TextureCoordv);
+			vec4 mixColor = texture2D_bilinear(mixTexture, openfl_TextureCoordv);
 			
 			gl_FragColor = mix(textureColor, mixColor, mixAmount);
 		}')

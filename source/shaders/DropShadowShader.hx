@@ -313,6 +313,19 @@ class DropShadowShader extends FlxShader
 			const vec3 grayscaleValues = vec3(0.3098039215686275, 0.607843137254902, 0.0823529411764706);
 			const float e = 2.718281828459045;
 
+			vec4 texture2D_bilinear(sampler2D t, vec2 uv){
+				vec2 texelSize = 1.0/openfl_TextureSize;
+				vec2 f = fract(uv * openfl_TextureSize);
+				uv += (.5 - f) * texelSize;    // move uv to texel centre
+				vec4 tl = flixel_texture2D(t, uv);
+				vec4 tr = flixel_texture2D(t, uv + vec2(texelSize.x, 0.0));
+				vec4 bl = flixel_texture2D(t, uv + vec2(0.0, texelSize.y));
+				vec4 br = flixel_texture2D(t, uv + vec2(texelSize.x, texelSize.y));
+				vec4 tA = mix(tl, tr, f.x);
+				vec4 tB = mix(bl, br, f.x);
+				return mix(tA, tB, f.y);
+			}
+
 			vec3 applyHueRotate(vec3 aColor, float aHue){
 				float angle = radians(aHue);
 
@@ -364,11 +377,11 @@ class DropShadowShader extends FlxShader
 			}
 
 			float intensityPass(vec2 fragCoord, float curThreshold, bool useMask) {
-				vec4 col = texture2D(bitmap, fragCoord);
+				vec4 col = flixel_texture2D(bitmap, fragCoord);
 
 				float maskIntensity = 0.0;
 				if(useMask == true){
-					maskIntensity = mix(0.0, 1.0, texture2D(altMask, fragCoord).b);
+					maskIntensity = mix(0.0, 1.0, pixelPerfect ? flixel_texture2D(altMask, fragCoord).b : texture2D_bilinear(altMask, fragCoord).b);
 				}
 
 				if(col.a == 0.0){
@@ -437,14 +450,14 @@ class DropShadowShader extends FlxShader
 				float dropShadowAmount = 0.0;
 
 				if(checkedPixel.x > uFrameBounds.x && checkedPixel.y > uFrameBounds.y && checkedPixel.x < uFrameBounds.z && checkedPixel.y < uFrameBounds.w){
-					dropShadowAmount = texture2D(bitmap, checkedPixel).a;
+					dropShadowAmount = flixel_texture2D(bitmap, checkedPixel).a;
 				}
 
 				// add the dropshadow color	based on the amount, strength, and intensity
 				vec3 r = col.rgb + (dropColor.rgb * ((1.0 - (dropShadowAmount * str))*intensity));
 
 				if(useMask){
-					float forceHighlightAmount = texture2D(altMask, finalUv).g;
+					float forceHighlightAmount = pixelPerfect ? flixel_texture2D(altMask, finalUv).g : texture2D_bilinear(altMask, finalUv).g;
 					return mix(r, col.rgb + (dropColor.rgb * str), forceHighlightAmount);
 				}
 
@@ -453,7 +466,7 @@ class DropShadowShader extends FlxShader
 
 			void main()
 			{
-				vec4 col = texture2D(bitmap, openfl_TextureCoordv);
+				vec4 col = flixel_texture2D(bitmap, openfl_TextureCoordv);
 
 				vec3 unpremultipliedColor = col.a > 0.0 ? col.rgb / col.a : col.rgb;
 
