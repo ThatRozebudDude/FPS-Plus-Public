@@ -19,7 +19,7 @@ class Alphabet extends FlxSpriteGroup
 
 	// for menu shit
 	public var targetY:Float = 0;
-	public var isMenuItem:Bool = false;
+	public var isMenuItem(default, set):Bool = false;
 
 	public var text:String = "";
 
@@ -218,17 +218,24 @@ class Alphabet extends FlxSpriteGroup
 		}, splitWords.length);
 	}
 
-	override function update(elapsed:Float)
-	{
-		if (isMenuItem)
-		{
-			var scaledY = FlxMath.remapToRange(targetY, 0, 1, 0, 1.3);
-
-			y = Utils.fpsAdjustedLerp(y, (scaledY * 120) + (FlxG.height * 0.48), 0.18, 144, true);
-			x = Utils.fpsAdjustedLerp(x, (targetY * 20) + 90, 0.18, 144, true);
+	override function update(elapsed:Float){
+		if (isMenuItem){
+			lerpPosition(0.18, 144);
 		}
 
 		super.update(elapsed);
+	}
+
+	function lerpPosition(ratio:Float, fpsRef:Float){
+		var scaledY = FlxMath.remapToRange(targetY, 0, 1, 0, 1.3);
+		y = Utils.fpsAdjustedLerp(y, (scaledY * 120) + (FlxG.height * 0.48), ratio, fpsRef, true);
+		x = Utils.fpsAdjustedLerp(x, (targetY * 20) + 90, ratio, fpsRef, true);
+	}
+
+	function set_isMenuItem(v:Bool):Bool{
+		isMenuItem = v;
+		if(isMenuItem){ lerpPosition(1, 1); }
+		return isMenuItem;
 	}
 }
 

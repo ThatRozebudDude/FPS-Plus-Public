@@ -64,8 +64,8 @@ class ABotVisualizer extends FlxTypedSpriteGroup<FlxSprite>
 	public function initAnalyzer(){
 		@:privateAccess
 		analyzer = new SpectralAnalyzer(snd._channel.__audioSource, 7, 0.1, 40);
-		analyzer.minDb = -65;
-		analyzer.maxDb = -25;
+		//analyzer.minDb = -65;
+		//analyzer.maxDb = -10;
 		analyzer.maxFreq = 22000;
 		// we use a very low minFreq since some songs use low low subbass like a boss
 		analyzer.minFreq = 10;
