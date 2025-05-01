@@ -1,5 +1,6 @@
 package shaders;
 
+import flixel.graphics.FlxGraphic;
 import openfl.display.BitmapData;
 import flixel.FlxBasic;
 import flixel.util.FlxColor;
@@ -12,14 +13,14 @@ class TextureMixShader extends FlxBasic
 	public var shader(default, null):TextureMixShaderGLSL = new TextureMixShaderGLSL();
 	public var mix(default, set):Float = 1;
 
-	public function new(mixTexturePath:String, mixAmount:Float = 1):Void{
+	public function new(mixTexture:FlxGraphic, mixAmount:Float = 1):Void{
 		super();
-		shader.data.mixTexture.input = BitmapData.fromFile(mixTexturePath);
+		changeMixTexture(mixTexture);
 		mix = mixAmount;
 	}
 
-	function changeMixTexture(mixTexturePath:String):Void{
-		shader.data.mixTexture.input = BitmapData.fromFile(mixTexturePath);
+	function changeMixTexture(mixTexture:FlxGraphic):Void{
+		shader.data.mixTexture.input = mixTexture.bitmap;
 	}
 
 	function set_mix(v:Float):Float{

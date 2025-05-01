@@ -56,7 +56,7 @@ class NeneDark extends CharacterInfoBase
 	var abot:ABot;
 	var abotLookDir:Bool = false;
 
-	var abotShader:TextureMixShader = new TextureMixShader(Paths.image("week2/abot_dark/abotSystem/spritemap1", true));
+	var abotShader:TextureMixShader = new TextureMixShader(Paths.image("week2/abot_dark/abotSystem/spritemap1"));
 
 	var BLINK_MIN:Float = 1;
 	var BLINK_MAX:Float = 3;
