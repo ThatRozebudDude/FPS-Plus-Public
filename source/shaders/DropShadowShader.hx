@@ -1,5 +1,6 @@
 package shaders;
 
+import flixel.graphics.FlxGraphic;
 import flixel.system.FlxAssets.FlxShader;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
@@ -208,15 +209,9 @@ class DropShadowShader extends FlxShader
 		Loads an image for the mask.
 		While you *could* directly set the value of the mask, this function works for both HTML5 and desktop targets.
 	 */
-	public function loadAltMask(path:String)
+	public function loadAltMask(maskGraphic:FlxGraphic)
 	{
-		#if html5
-		BitmapData.loadFromFile(path).onComplete(function(bmp:BitmapData) {
-			altMaskImage = bmp;
-		});
-		#else
-		altMaskImage = BitmapData.fromFile(path);
-		#end
+		altMaskImage = maskGraphic.bitmap;
 	}
 
 	/*
@@ -243,9 +238,12 @@ class DropShadowShader extends FlxShader
 		updateFrameInfo(character.getSprite().frame);
 		character.onAnimationFrame.add(function(name:String, frame:Int, index:Int){
 			updateFrameInfo(character.getSprite().frame);
+			if(character.characterInfo.info.extraData.get("dropShadowMaskAnimationList") != null){
+				useAltMask = character.characterInfo.info.extraData.get("dropShadowMaskAnimationList").contains(name);
+			}
 		});
 		if(character.characterInfo.info.extraData.get("dropShadowMask") != null){
-			loadAltMask(Paths.image(character.characterInfo.info.extraData.get("dropShadowMask"), true));
+			loadAltMask(Paths.image(character.characterInfo.info.extraData.get("dropShadowMask")));
 			maskThreshold = character.characterInfo.info.extraData.get("dropShadowMaskThreshold");
 			useAltMask = true;
 		}
