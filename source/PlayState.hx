@@ -365,10 +365,6 @@ class PlayState extends MusicBeatState
 		inCutscene = false;
 
 		songPreload();
-
-		for(i in 1...4){
-			FlxG.sound.cache(Paths.sound("missnote" + i));
-		}
 		
 		Config.setFramerate(999);
 
@@ -424,6 +420,10 @@ class PlayState extends MusicBeatState
 		var bfChar = SONG.player1;
 
 		boyfriend = new Character(770, 450, bfChar, true);
+
+		for(missSound in boyfriend.missSounds){
+			FlxG.sound.cache(Paths.sound(missSound));
+		}
 
 		var stageCheck:String = "EmptyStage";
 		if (SONG.stage != null) { stageCheck = SONG.stage; }
@@ -2376,8 +2376,8 @@ class PlayState extends MusicBeatState
 			
 			songStats.score -= scoreAdjust;
 			
-			if(playAudio){
-				playSound(Paths.sound('missnote' + FlxG.random.int(1, 3)), 0.2);
+			if(playAudio && boyfriend.missSounds.length > 0){
+				playSound(Paths.sound(boyfriend.missSounds[FlxG.random.int(0, boyfriend.missSounds.length-1)]), boyfriend.missSoundVolume);
 			}
 			
 			forceMissNextNote = false;

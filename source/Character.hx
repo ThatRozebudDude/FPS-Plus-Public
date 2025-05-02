@@ -52,6 +52,9 @@ class Character extends FlxSpriteGroup
 	public var iconName:String = "face";
 	public var characterColor:Null<FlxColor> = null;
 
+	public var missSounds:Array<String> = ["missnote1", "missnote2", "missnote3"];
+	public var missSoundVolume:Float = 0.2;
+
 	public var curAnim:String = "";
 
 	var facesLeft:Bool = false;
@@ -466,6 +469,10 @@ class Character extends FlxSpriteGroup
 						deathSongEnd = data;
 					case "worldPopupOffset":
 						worldPopupOffset.set(data[0], data[1]);
+					case "missSounds":
+						missSounds = data[0];
+					case "missSoundVolume":
+						missSoundVolume = data[0];
 					default:
 						//Do nothing by default.
 				}
