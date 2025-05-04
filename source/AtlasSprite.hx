@@ -3,6 +3,12 @@ package;
 import flixel.math.FlxMatrix;
 import flixel.util.FlxTimer;
 import flxanimate.FlxAnimate;
+import flxanimate.frames.FlxAnimateFrames;
+import flxanimate.data.SpriteMapData;
+import flixel.FlxG;
+import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.graphics.FlxGraphic;
+import flixel.math.FlxRect;
 
 typedef AtlasAnimInfo = {
 	startFrame:Int,
@@ -34,13 +40,26 @@ class AtlasSprite extends FlxAnimate
 		anim.onFrame.add(animCallback);
 	}
 
-	override function loadAtlas(Path:String) {
-		super.loadAtlas(Path);
+	override function loadAtlas(atlasDirectory:String) {
+		//super.loadAtlas(Path);
 		//baseWidth = pixels.width/2;
 		//baseHeight = pixels.height/2;
 		//width = baseWidth;
 		//height = baseHeight;
 		//draw();
+		//Override loadAtlas with a copy so the graphic can be handled by the GPU caching stuff.
+		var p = haxe.io.Path.removeTrailingSlashes(haxe.io.Path.normalize(atlasDirectory));
+		if (!Assets.exists('$atlasDirectory/Animation.json') && haxe.io.Path.extension(atlasDirectory) != "zip"){
+			FlxG.log.error('Animation file not found in specified path: "${atlasDirectory}", have you written the correct path?');
+			return;
+		}
+		if(!Assets.exists('$atlasDirectory/metadata.json')){
+			loadSeparateAtlas(atlasSetting(atlasDirectory), fromTextureAtlas(atlasDirectory));
+		}
+		else{
+			loadSeparateAtlas(null, fromTextureAtlas(atlasDirectory));	
+			anim._loadExAtlas(atlasDirectory);
+		}
 	}
 
 	public function addAnimationByLabel(name:String, label:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
@@ -276,5 +295,96 @@ class AtlasSprite extends FlxAnimate
 			largestRenderedHeight = value;
 		}
 		return value;
+	}
+
+	//Copy some static functions from FlxAnimateFrames to support GPU caching stuff.
+	public static function fromTextureAtlas(Path:String):FlxAnimateFrames{
+		var frames:FlxAnimateFrames = new FlxAnimateFrames();
+		
+		var texts = Assets.list(TEXT).filter((text) -> StringTools.startsWith(text, '$Path/sprite'));
+		
+		var texts = [];
+		var isDone = false;
+		
+		if(Assets.exists('$Path/spritemap.json')){
+			texts.push('$Path/spritemap.json');
+			isDone = true;
+		}
+		
+		var i = 1;
+		while (!isDone){
+			if(Assets.exists('$Path/spritemap$i.json')){
+				texts.push('$Path/spritemap$i.json');
+			}
+			else{
+				isDone = true;
+			}
+
+			i++;
+		}
+		
+		for (text in texts){
+			var spritemapFrames = fromSpriteMap(text, Paths.image(text.split("assets/images/")[1].split(".json")[0]));
+		
+			if(spritemapFrames != null){
+				frames.addAtlas(spritemapFrames);
+			}
+		}
+		
+		if (frames.frames == []){
+			FlxG.log.error("the Frames parsing couldn't parse any of the frames, it's completely empty! \n Maybe you misspelled the Path?");
+			return null;
+		}
+	
+		return frames;
+	}
+
+	public static function fromSpriteMap(Path:FlxSpriteMap, ?Image:FlxGraphic):FlxAtlasFrames{
+		if (Path == null){
+			return null;
+		}
+	
+		var json:AnimateAtlas = null;
+	
+		if (Path is String){
+			var str:String = haxe.io.Path.normalize(cast(Path, String));
+			var text = (StringTools.contains(str, "/")) ? Assets.getText(str) : str;
+			json = haxe.Json.parse(text.split(String.fromCharCode(0xFEFF)).join(""));
+		}
+		else{
+			json = Path;
+		}
+
+		if (json == null){
+			return null;
+		}
+	
+		var f = findImage(Image);
+	
+		if (f.crash == true){
+			return null;
+		}
+		else if (f.frames != null){
+			return f.frames;
+		}
+	
+		var frames = new FlxAtlasFrames(f.graphic);
+	
+		for (sprite in json.ATLAS.SPRITES){
+			var limb = sprite.SPRITE;
+			var rect = FlxRect.get(limb.x, limb.y, limb.w, limb.h);
+			if (limb.rotated){
+				rect.setSize(rect.height, rect.width);
+			}
+	
+			FlxAnimateFrames.sliceFrame(limb.name, limb.rotated, rect, frames);
+		}
+	
+		return frames;
+	}
+
+	public static function findImage(Image:FlxGraphic):{crash:Bool, ?graphic:FlxGraphic, ?frames:FlxAtlasFrames}{
+		var frames:FlxAtlasFrames = FlxAtlasFrames.findFrame(Image);
+		return {crash: false, graphic: Image, frames: frames};
 	}
 }
