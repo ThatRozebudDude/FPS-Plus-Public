@@ -30,6 +30,10 @@ class ScriptedMainMenuState extends MainMenuState implements polymod.hscript.HSc
 
 class MainMenuState extends MusicBeatState
 {
+
+	public static var menuMusic:String = "klaskiiLoop"; 
+	public static var menuMusicVolume:Float = 0.9; 
+	public static var menuMusicBpm:Float = 158; 
 	
 	public static var curSelected:Int = 0;
 
@@ -51,7 +55,7 @@ class MainMenuState extends MusicBeatState
 	public static final lerpSpeed:Float = 0.0042;
 	final warningDelay:Float = 15;
 
-	inline public static final VERSION:String = "7.1.1";
+	inline public static final VERSION:String = "7.1.2";
 	inline public static final NONFINAL_TAG:String = "(Non-Release Build)";
 	inline public static final SHOW_BUILD_INFO:Bool = true; //Set this to false when making a release build.
 
@@ -61,9 +65,8 @@ class MainMenuState extends MusicBeatState
 
 		Config.setFramerate(144);
 
-		if (!FlxG.sound.music.playing)
-		{	
-			FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
+		if (!FlxG.sound.music.playing){	
+			playMenuMusic();
 		}
 
 		persistentUpdate = persistentDraw = true;
@@ -303,5 +306,10 @@ class MainMenuState extends MusicBeatState
 
 			spr.updateHitbox();
 		});
+	}
+
+	public static function playMenuMusic():Void{
+		FlxG.sound.playMusic(Paths.music(menuMusic), menuMusicVolume);
+		Conductor.changeBPM(menuMusicBpm);
 	}
 }

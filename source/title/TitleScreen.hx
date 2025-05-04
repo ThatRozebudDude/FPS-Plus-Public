@@ -38,10 +38,6 @@ class ScriptedTitleScreen extends TitleScreen implements polymod.hscript.HScript
 
 class TitleScreen extends MusicBeatState
 {
-
-	public static var titleMusic:String = "klaskiiLoop"; 
-	public static var titleMusicVolume:Float = 0.9; 
-
 	var camBackground:FlxCamera;
 	var camMain:FlxCamera;
 
@@ -134,21 +130,15 @@ class TitleScreen extends MusicBeatState
 		add(titleText);
 
 		if(FlxG.sound.music == null){
-			FlxG.sound.playMusic(Paths.music(titleMusic), titleMusicVolume);
+			MainMenuState.playMenuMusic();
 		}
 		else{
 			if(!FlxG.sound.music.playing){
-				FlxG.sound.playMusic(Paths.music(titleMusic), titleMusicVolume);
-				switch(titleMusic){
-					case "klaskiiLoop":
-						Conductor.changeBPM(158);
-					case "freakyMenu":
-						Conductor.changeBPM(102);
-				}
+				MainMenuState.playMenuMusic();
 			}
 		}
 
-		FlxG.sound.music.onComplete = function(){lastStep = 0;}
+		//FlxG.sound.music.onComplete = function(){nextStep = 0;}
 		
 		if(Config.flashingLights){
 			camMain.flash(0xFFFFFFFF, 1);

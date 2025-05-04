@@ -95,7 +95,8 @@ class Note extends FlxSprite
 		if(!ScriptableNoteSkin.listScriptClasses().contains(noteSkinClassName)){ noteSkinClassName = "DefaultNoteSkin"; }
 		noteSkin = ScriptableNoteSkin.init(noteSkinClassName);
 
-		var defaultPath = noteSkin.info.path;
+		var defaultPath:String = noteSkin.info.path;
+		var defaultPaths:Array<String> = noteSkin.info.paths;
 		var defaultLoadType = noteSkin.info.frameLoadType;
 		canGlow = noteSkin.info.canGlow;
 		antialiasing = noteSkin.info.antialiasing;
@@ -103,9 +104,11 @@ class Note extends FlxSprite
 		holdCoverOverride = noteSkin.info.holdCoverOverride;
 
 		var path = defaultPath;
+		var paths = defaultPaths;
 		var frameLoadType = defaultLoadType;
 		if(!isSustainNote){
 			if(noteSkin.info.noteInfoList[noteData].pathOverride != null){ path = noteSkin.info.noteInfoList[noteData].pathOverride; }
+			if(noteSkin.info.noteInfoList[noteData].pathsOverride != null){ paths = noteSkin.info.noteInfoList[noteData].pathsOverride; }
 			if(noteSkin.info.noteInfoList[noteData].frameLoadTypeOverride != null){ frameLoadType = noteSkin.info.noteInfoList[noteData].frameLoadTypeOverride; }
 			switch(frameLoadType){
 				case sparrow:
@@ -114,6 +117,8 @@ class Note extends FlxSprite
 					frames = Paths.getPackerAtlas(path);
 				case load(fw, fh):
 					loadGraphic(Paths.image(path), true, fw, fh);
+				case multiSparrow:
+					frames = Paths.getMultipleSparrowAtlas(paths);
 				default:
 					trace("not supported, sorry :[");
 			}
@@ -134,6 +139,7 @@ class Note extends FlxSprite
 		}
 		else{
 			if(noteSkin.info.sustainInfoList[noteData].pathOverride != null){ path = noteSkin.info.sustainInfoList[noteData].pathOverride; }
+			if(noteSkin.info.sustainInfoList[noteData].pathsOverride != null){ paths = noteSkin.info.sustainInfoList[noteData].pathsOverride; }
 			if(noteSkin.info.sustainInfoList[noteData].frameLoadTypeOverride != null){ frameLoadType = noteSkin.info.sustainInfoList[noteData].frameLoadTypeOverride; }
 			switch(frameLoadType){
 				case sparrow:
@@ -142,6 +148,8 @@ class Note extends FlxSprite
 					frames = Paths.getPackerAtlas(path);
 				case load(fw, fh):
 					loadGraphic(Paths.image(path), true, fw, fh);
+				case multiSparrow:
+					frames = Paths.getMultipleSparrowAtlas(paths);
 				default:
 					trace("not supported, sorry :[");
 			}
@@ -255,6 +263,18 @@ class Note extends FlxSprite
 
 	inline public function idle():Void{
 		animation.play("scroll");
+	}
+
+	public function beat(curBeat:Int):Void{
+		if(noteSkin.info.functions.beat != null){
+			noteSkin.info.functions.beat(this, curBeat);
+		}
+	}
+
+	public function step(curStep:Int):Void{
+		if(noteSkin.info.functions.step != null){
+			noteSkin.info.functions.step(this, curStep);
+		}
 	}
 
 	public function updateHoldLength(_speedMultiplier:Float = 1){

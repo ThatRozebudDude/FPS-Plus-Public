@@ -59,11 +59,7 @@ class TitleIntroText extends MusicBeatState
 		ngSpr.screenCenter(X);
 		ngSpr.antialiasing = true;
 
-		Conductor.changeBPM(102);
-		TitleScreen.titleMusic = "freakyMenu";
-		TitleScreen.titleMusicVolume = 0.8;
-		FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
-
+		MainMenuState.playMenuMusic();
 	}
 
 	function getIntroTextShit():Array<Array<String>>

@@ -5,87 +5,61 @@ import extensions.flixel.FlxUIStateExt;
 
 class MusicBeatState extends FlxUIStateExt
 {
-	private var lastBeat:Float = 0;
-	private var lastStep:Float = 0;
-
-	private var totalBeats:Int = 0;
-	private var totalSteps:Int = 0;
-
 	private var curStep:Int = 0;
 	private var curBeat:Int = 0;
+
+	private var trackedStep:Int = -1;
+	private var trackedBeat:Int = -1;
+
+	private var timeSinceLastStep:Float = 0;
+	private var timeSinceLastBeat:Float = 0;
+
+	private var countSteps:Bool = true;
 
 	override function create(){
 		super.create();
 	}
 
 	override function update(elapsed:Float){
+		if(countSteps){
+			var lastChange:BPMChangeEvent = {
+				stepTime: 0,
+				songTime: 0,
+				bpm: 0
+			}
+			for (i in 0...Conductor.bpmChangeMap.length){
+				if (Conductor.songPosition >= Conductor.bpmChangeMap[i].songTime){
+					lastChange = Conductor.bpmChangeMap[i];
+				}
+			}
 
-		everyStep();
+			curStep = lastChange.stepTime + Math.floor((Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet);
+			curBeat = Math.floor(curStep / 4);
 
-		updateCurStep();
+			timeSinceLastStep += elapsed;
+			timeSinceLastBeat += elapsed;
 
-		updateBeat();
+			if(curStep != trackedStep){
+				trackedStep = curStep;
+				if(timeSinceLastStep > (Conductor.stepCrochet/1000)/4){
+					stepHit();
+					timeSinceLastStep = 0;
+				}
+			}
 
+			if(curBeat != trackedBeat){
+				trackedBeat = curBeat;
+				if(timeSinceLastBeat > (Conductor.stepCrochet/1000)/4){
+					beatHit();
+					timeSinceLastBeat = 0;
+				}
+			}
+		}
 		super.update(elapsed);
 	}
 
-	private function updateBeat():Void{
+	public function stepHit():Void{}
 
-		// Needs to be ROUNED, rather than ceil or floor
-		curBeat = Math.round(curStep / 4);
-	}
-
-	/**
-	 * CHECKS EVERY FRAME
-	 */
-	private function everyStep():Void{
-
-		if (Conductor.songPosition > lastStep + Conductor.stepCrochet - Conductor.safeZoneOffset
-			|| Conductor.songPosition < lastStep + Conductor.safeZoneOffset)
-		{
-			if (Conductor.songPosition > lastStep + Conductor.stepCrochet)
-			{
-				stepHit();
-			}
-		}
-	}
-
-	private function updateCurStep():Void{
-		
-		var lastChange:BPMChangeEvent = {
-			stepTime: 0,
-			songTime: 0,
-			bpm: 0
-		}
-		for (i in 0...Conductor.bpmChangeMap.length)
-		{
-			if (Conductor.songPosition >= Conductor.bpmChangeMap[i].songTime)
-				lastChange = Conductor.bpmChangeMap[i];
-		}
-
-		curStep = lastChange.stepTime + Math.floor((Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet);
-	}
-
-	public function stepHit():Void{
-
-		totalSteps += 1;
-		lastStep += Conductor.stepCrochet;
-
-		// If the song is at least 3 steps behind
-		if (Conductor.songPosition > lastStep + (Conductor.stepCrochet * 3))
-		{
-			lastStep = Conductor.songPosition;
-			totalSteps = Math.ceil(lastStep / Conductor.stepCrochet);
-		}
-
-		if (totalSteps % 4 == 0)
-			beatHit();
-	}
-
-	public function beatHit():Void{
-
-		lastBeat += Conductor.crochet;
-		totalBeats += 1;
-	}
-
+	public function beatHit():Void{}
+	
 }

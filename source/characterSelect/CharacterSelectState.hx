@@ -78,6 +78,8 @@ class CharacterSelectState extends MusicBeatState
 
 		Config.setFramerate(144);
 
+		countSteps = false;
+
 		customTransIn = new transition.data.ScreenWipeInFlipped(0.8, FlxEase.quadOut);
 		customTransOut = new transition.data.ScreenWipeOut(0.8, FlxEase.quadIn);
 
@@ -493,15 +495,8 @@ class CharacterSelectState extends MusicBeatState
 	function startSong():Void{
 		FlxG.sound.playMusic(Paths.music(characterSelectSong), characterSelectSongVolume);
 		Conductor.changeBPM(characterSelectSongBpm);
-		FlxG.sound.music.onComplete = function(){ 
-			lastStep = -Conductor.stepCrochet;
-		}
-		lastBeat = 0;
-		lastStep = 0;
-		totalBeats = 0;
-		totalSteps = 0;
-		curStep = 0;
-		curBeat = 0;
+		Conductor.songPosition = 0;
+		countSteps = true;
 	}
 
 	function addCharacter(name:String, playerClass:String, partnerClass:String, freeplayClass:String, position:Array<Int>):Void{

@@ -8,6 +8,7 @@ import characters.CharacterInfoBase.AnimType;
 
 typedef NoteInfo = {
 	var pathOverride:String;
+	var pathsOverride:Array<String>;
 	var frameLoadTypeOverride:FrameLoadType;
 	var scrollAnim:NoteAnimInfo;
 	var glowAnim:NoteAnimInfo;
@@ -15,6 +16,7 @@ typedef NoteInfo = {
 
 typedef SustainInfo = {
 	var pathOverride:String;
+	var pathsOverride:Array<String>;
 	var frameLoadTypeOverride:FrameLoadType;
 	var holdAnim:NoteAnimInfo;
 	var endAnim:NoteAnimInfo;
@@ -27,6 +29,7 @@ typedef NoteAnimInfo = {
 
 typedef NoteSkinInfo = {
 	var path:String;
+	var paths:Array<String>;
 	var frameLoadType:FrameLoadType;
 	
 	var noteInfoList:Array<NoteInfo>;
@@ -47,6 +50,8 @@ typedef NoteSkinInfo = {
 typedef NoteFuncions = {
 	var create:(Note)->Void;			//This function is run after the Character new() function is complete.
 	var update:(Note, Float)->Void;		//This function is run every frame. Float is elapsed.
+	var step:(Note, Int)->Void;			//This function is run every step. Int is the current step.
+	var beat:(Note, Int)->Void;			//This function is run every beat. Int is the current beat.
 	var destroy:(Note)->Void;			//This function is run every frame. Float is elapsed.
 }
 
@@ -56,29 +61,34 @@ class NoteSkinBase
 
 	public var info:NoteSkinInfo = {
 		path: null,
+		paths: null,
 		frameLoadType: null,
 
 		noteInfoList: [
 			{
 				pathOverride: null,
+				pathsOverride: null,
 				frameLoadTypeOverride: null,
 				scrollAnim: null,
 				glowAnim: null
 			},
 			{
 				pathOverride: null,
+				pathsOverride: null,
 				frameLoadTypeOverride: null,
 				scrollAnim: null,
 				glowAnim: null
 			},
 			{
 				pathOverride: null,
+				pathsOverride: null,
 				frameLoadTypeOverride: null,
 				scrollAnim: null,
 				glowAnim: null
 			},
 			{
 				pathOverride: null,
+				pathsOverride: null,
 				frameLoadTypeOverride: null,
 				scrollAnim: null,
 				glowAnim: null
@@ -88,24 +98,28 @@ class NoteSkinBase
 		sustainInfoList: [
 			{
 				pathOverride: null,
+				pathsOverride: null,
 				frameLoadTypeOverride: null,
 				holdAnim: null,
 				endAnim: null
 			},
 			{
 				pathOverride: null,
+				pathsOverride: null,
 				frameLoadTypeOverride: null,
 				holdAnim: null,
 				endAnim: null
 			},
 			{
 				pathOverride: null,
+				pathsOverride: null,
 				frameLoadTypeOverride: null,
 				holdAnim: null,
 				endAnim: null
 			},
 			{
 				pathOverride: null,
+				pathsOverride: null,
 				frameLoadTypeOverride: null,
 				holdAnim: null,
 				endAnim: null
@@ -115,6 +129,8 @@ class NoteSkinBase
 		functions: {
 			create: null,
 			update: null,
+			step: null,
+			beat: null,
 			destroy: null,
 		},
 
@@ -268,9 +284,10 @@ class NoteSkinBase
 	}
 
 	function setSparrow():FrameLoadType{ return FrameLoadType.sparrow; }
-	//function setPacker():FrameLoadType{ return FrameLoadType.packer; }
+	function setPacker():FrameLoadType{ return FrameLoadType.packer; }
 	function setLoad(frameWidth:Int, frameHeight:Int):FrameLoadType{ return FrameLoadType.load(frameWidth, frameHeight); }
 	//function setAtlas():FrameLoadType{ return FrameLoadType.atlas; }
+	function setMultiSparrow():FrameLoadType{ return FrameLoadType.multiSparrow; }
 
 	public function toString():String{ return "NoteSkinBase"; }
 }

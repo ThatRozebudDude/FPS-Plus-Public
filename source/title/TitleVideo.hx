@@ -65,10 +65,8 @@ class TitleVideo extends FlxState
 			FlxG.camera.flash(0xFF000000, 60);
 		}
 
-		FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
-		Conductor.changeBPM(158);
+		MainMenuState.playMenuMusic();
 		FlxG.switchState(titleState);
-
 	}
 	
 }

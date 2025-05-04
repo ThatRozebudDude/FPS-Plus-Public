@@ -74,8 +74,8 @@ class StoryMenuState extends MusicBeatState
 		
 		Config.setFramerate(144);
 	
-		if (FlxG.sound.music == null || !FlxG.sound.music.playing){
-			FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
+		if(FlxG.sound.music == null || !FlxG.sound.music.playing){
+			MainMenuState.playMenuMusic();
 		}
 
 		persistentUpdate = persistentDraw = true;

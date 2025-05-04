@@ -136,7 +136,7 @@ class ConfigMenuOld extends FlxUIStateExt
 				}
 			}
 			else{
-				FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
+				MainMenuState.playMenuMusic();
 			}
 		}
 		else{

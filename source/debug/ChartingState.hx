@@ -957,7 +957,7 @@ class ChartingState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		curStep = recalculateSteps();
+		//curStep = recalculateSteps();
 
 		Conductor.songPosition = FlxG.sound.music.time;
 		_song.song = typingShit.text;
@@ -1457,26 +1457,6 @@ class ChartingState extends MusicBeatState
 		updateGrid();
 	}
 
-	function recalculateSteps():Int
-	{
-		var lastChange:BPMChangeEvent = {
-			stepTime: 0,
-			songTime: 0,
-			bpm: 0
-		}
-
-		for (i in 0...Conductor.bpmChangeMap.length)
-		{
-			if (FlxG.sound.music.time > Conductor.bpmChangeMap[i].songTime)
-				lastChange = Conductor.bpmChangeMap[i];
-		}
-
-		curStep = lastChange.stepTime + Math.floor((FlxG.sound.music.time - lastChange.songTime) / Conductor.stepCrochet);
-		updateBeat();
-
-		return curStep;
-	}
-
 	function resetSection(songBeginning:Bool = false):Void
 	{
 		updateGrid();
@@ -1505,18 +1485,15 @@ class ChartingState extends MusicBeatState
 		updateSectionUI();
 	}
 
-	function changeSection(sec:Int = 0, ?updateMusic:Bool = true):Void
-	{
+	function changeSection(sec:Int = 0, ?updateMusic:Bool = true):Void{
 		justChanged = true;
 
-		if (_song.notes[sec] != null)
-		{
+		if (_song.notes[sec] != null){
 			curSection = sec;
 
 			updateGrid();
 
-			if (updateMusic)
-			{
+			if (updateMusic){
 				FlxG.sound.music.pause();
 				vocals.pause();
 				vocalsOther.pause();
@@ -1546,6 +1523,22 @@ class ChartingState extends MusicBeatState
 
 		lilBf.animation.play("idle");
 		lilOpp.animation.play("idle");
+	}
+
+	function updateCurStep():Void{
+		var lastChange:BPMChangeEvent = {
+			stepTime: 0,
+			songTime: 0,
+			bpm: 0
+		}
+		for (i in 0...Conductor.bpmChangeMap.length){
+			if (Conductor.songPosition >= Conductor.bpmChangeMap[i].songTime){
+				lastChange = Conductor.bpmChangeMap[i];
+			}
+		}
+
+		curStep = lastChange.stepTime + Math.floor((Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet);
+		curBeat = Math.floor(curStep / 4);
 	}
 
 	function copySection(?sectionNum:Int = 1){

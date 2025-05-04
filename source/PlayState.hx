@@ -321,6 +321,8 @@ class PlayState extends MusicBeatState
 		customTransIn = new ScreenWipeIn(1.2);
 		customTransOut = new ScreenWipeOut(0.6);
 
+		countSteps = false;
+
 		if(overrideInsturmental != ""){
 			instSong = overrideInsturmental;
 			overrideInsturmental = "";
@@ -1003,6 +1005,8 @@ class PlayState extends MusicBeatState
 		vocals.play();
 		if(vocalType == splitVocalTrack){ vocalsOther.play(); }
 
+		Conductor.songPosition = 0;
+
 		if(sectionStart){
 			FlxG.sound.music.time = sectionStartTime;
 			Conductor.songPosition = sectionStartTime;
@@ -1023,13 +1027,7 @@ class PlayState extends MusicBeatState
 		stage.songStart();
 		for(script in scripts){ script.songStart(); }
 
-		boyfriend.step(0);
-		dad.step(0);
-		gf.step(0);
-		stage.step(0);
-		for(script in scripts){ script.step(0); }
-
-		beatHit();
+		countSteps = true;
 	}
 
 	private function generateSong(dataPath:String):Void {
@@ -1524,22 +1522,8 @@ class PlayState extends MusicBeatState
 			previouslyTrackedSongStats = Reflect.copy(songStats);
 		}
 
-		super.update(elapsed);
-
 		stage.update(elapsed);
 		for(script in scripts){ script.update(elapsed); }
-
-		if(!startingSong){
-			for(i in eventList){
-				if(i[0] > Conductor.songPosition){
-					break;
-				}
-				else{
-					executeEvent(i[1]);
-					eventList.remove(i);
-				}
-			}
-		}
 
 		if (Binds.justPressed("pause") && startedCountdown && canPause){
 			paused = true;
@@ -1658,6 +1642,27 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		if(!startingSong){
+			//countSteps = !FlxG.keys.anyPressed(["TAB"]); //Debug to test for lag.
+			for(i in 0...Conductor.bpmChangeMap.length){
+				if(Conductor.songPosition >= Conductor.bpmChangeMap[i].songTime && Conductor.bpm != Conductor.bpmChangeMap[i].bpm){
+					Conductor.changeBPM(Conductor.bpmChangeMap[i].bpm);
+				}
+			}
+		}
+
+		if(!startingSong){
+			for(i in eventList){
+				if(i[0] > Conductor.songPosition){
+					break;
+				}
+				else{
+					executeEvent(i[1]);
+					eventList.remove(i);
+				}
+			}
+		}
+
 		if(!dad.isSinging && !boyfriend.isSinging && !returnedToCenter){
 			returnedToCenter = true;
 			changeCamOffset(0, 0);
@@ -1728,6 +1733,8 @@ class PlayState extends MusicBeatState
 				releaseTimes[i] = -1;
 			}
 		}
+
+		super.update(elapsed);
 	}
 
 	public function openGameOver(?character:String):Void{
@@ -1956,7 +1963,6 @@ class PlayState extends MusicBeatState
 			//CODE FOR ENDING A WEEK
 			if (storyPlaylist.length <= 0)
 			{
-				//FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
 
 				StoryMenuState.fromPlayState = true;
 				//returnToMenu();
@@ -2512,6 +2518,8 @@ class PlayState extends MusicBeatState
 
 	override function stepHit(){
 
+		super.stepHit();
+
 		if((Math.abs(FlxG.sound.music.time - (Conductor.songPosition)) > (RESYNC_WINDOW * songPlaybackSpeed) || (vocalType != noVocalTrack && Math.abs(vocals.time - (Conductor.songPosition)) > (RESYNC_WINDOW * songPlaybackSpeed))) && FlxG.sound.music.playing){
 			resyncVocals();
 		}
@@ -2527,27 +2535,22 @@ class PlayState extends MusicBeatState
 		}
 
 		//curStep is kinda weird, maybe I'll fix it at some point
-		boyfriend.step(curStep+1);
-		dad.step(curStep+1);
-		gf.step(curStep+1);
-		stage.step(curStep+1);
-		for(script in scripts){ script.step(curStep+1); }
+		//UPDATE: I FIXED IT!!!!!!!!
+		boyfriend.step(curStep);
+		dad.step(curStep);
+		gf.step(curStep);
+		stage.step(curStep);
+		notes.forEachAlive(function(note){ note.step(curStep); });
+		for(script in scripts){ script.step(curStep); }
 
-		super.stepHit();
+		//trace("STEP: " + curStep);
 	}
 
-	override function beatHit()
-	{
-		//wiggleShit.update(Conductor.crochet);
+	override function beatHit(){
+
 		super.beatHit();
 
-		//sortNotes();
-
-		if (SONG.notes[Math.floor(curStep / 16)] != null)
-		{
-			if (SONG.notes[Math.floor(curStep / 16)].changeBPM){
-				Conductor.changeBPM(SONG.notes[Math.floor(curStep / 16)].bpm);
-			}
+		if (SONG.notes[Math.floor(curStep / 16)] != null){
 
 			// Dad doesnt interupt his own notes
 			if(dadBeats.contains(curBeat % 4) && dad.canAutoAnim && dad.holdTimer == 0 && !dad.isSinging && (Character.PREVENT_SHORT_IDLE ? !anyOpponentNoteInRange : true)){
@@ -2584,11 +2587,14 @@ class PlayState extends MusicBeatState
 		dad.beat(curBeat);
 		gf.beat(curBeat);
 		stage.beat(curBeat);
+		notes.forEachAlive(function(note){ note.beat(curBeat); });
 		for(script in scripts){ script.beat(curBeat); }
 
 		managedSounds = managedSounds.filter(function(sound:FlxSound):Bool{
 			return sound != null;
 		});
+
+		//trace("BEAT: " + curBeat);
 	}
 
 	public function executeEvent(tag:String):Void{
@@ -3031,6 +3037,7 @@ class PlayState extends MusicBeatState
 	function preStateChange():Void{
 		stage.exit();
 		for(script in scripts){ script.exit(); }
+		Conductor.resetBPMChanges();
 	}
 
 	override function onFocus(){

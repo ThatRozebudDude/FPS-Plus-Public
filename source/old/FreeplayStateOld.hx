@@ -106,7 +106,7 @@ class FreeplayStateOld extends MusicBeatState
 		changeDiff(0, false);
 
 		if(!fromMainMenu && !CacheConfig.music){
-			FlxG.sound.playMusic(Paths.music(TitleScreen.titleMusic), TitleScreen.titleMusicVolume);
+			MainMenuState.playMenuMusic();
 		}
 
 		if(fromPlayStateFinishSong){

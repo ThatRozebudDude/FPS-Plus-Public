@@ -89,7 +89,7 @@ That is all you really need to know to set up a basic character, however there a
 - `deathOffset`: An FlxPoint that adds an offset from the center of a character when the camera moves towards them on the death screen.
 - `functions`: A set of functions that you can define that will be called at certain times. There will be more information about these in the **Advanced Character Scripting** section.
 
-You can also use the function `addExtraData(key, data)` to add addition info that isn't part of the base character info class. The data is `Dynamic` so the keys aren't all going to refer to the same type. Here are the different keys you can use:
+You can also use the function `addExtraData(key, data)` to add addition info that isn't part of the base character info class. The data is `Dynamic` so the keys aren't all going to refer to the same type. Here are some of the different keys you can use:
 
 - `stepsUntilRelease`: The minimum number of steps a character will hold a note for. Most characters have 4 by default but Dad has 6.1.
 - `scale`: An array of 2 numbers that change the `x` and `y` scale of the character. Useful for pixel art.
@@ -99,6 +99,10 @@ You can also use the function `addExtraData(key, data)` to add addition info tha
 - `deathSong`: The path to the song that plays when you die.
 - `deathSongEnd`: The path to the audio that plays when you retry from the death screen.
 - `worldPopupOffset`: An array of 2 numbers that change the `x` and `y` offset of the combo graphics if the player has them set to appear in the world instead of on the HUD.
+- `missSounds`: An array of paths containing all of the sounds that will play when you miss a note. The sound if selected randomly from this array.
+- `missSoundVolume`: The volume that the miss sounds will play in the range of 0 to 1.
+
+These are just keys that are specific to the `Character` class. You can add whatever data you want and read it in scripts with `character.characterInfo.info.extraData.get("key")`. If you're checking a key that not all characters will have set you should check if the key exists with `character.characterInfo.info.extraData.exists("key")` or check if the value isn't `null` with `character.characterInfo.info.extraData.get("key") != null`.
 
 ## Animation Chains
 
