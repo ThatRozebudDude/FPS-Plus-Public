@@ -11,8 +11,8 @@ class MusicBeatSubstate extends FlxSubState
 	private var trackedStep:Int = -1;
 	private var trackedBeat:Int = -1;
 
-	private var timeSinceLastStep:Float = 0;
-	private var timeSinceLastBeat:Float = 0;
+	private var timeSinceLastStep:Float = 1000;
+	private var timeSinceLastBeat:Float = 1000;
 
 	private var countSteps:Bool = true;
 
