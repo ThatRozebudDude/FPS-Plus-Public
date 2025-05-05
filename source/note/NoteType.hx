@@ -11,17 +11,47 @@ class NoteType
 	public static var sustainTypes:Map<String, Array<Dynamic>>;
 	public static var typeSkins:Map<String, String>;
 
-	//TODO: add a way to sort note type classes in chart editor
-	//public static var noteTypeList:Map<String, Array<String>>;
+	public static var typeGroups:Map<String, Array<String>>;
+
+	public var localTypes:Map<String, Array<Dynamic>> = new Map<String, Array<Dynamic>>();
+	public var localSustainTypes:Map<String, Array<Dynamic>> = new Map<String, Array<Dynamic>>();
+	public var localTypeSkins:Map<String, String> = new Map<String, String>();
 
 	public static function initTypes():Void{
 		types = new Map<String, Array<Dynamic>>();
 		sustainTypes = new Map<String, Array<Dynamic>>();
 		typeSkins = new Map<String, String>();
+		typeGroups = new Map<String, Array<String>>();
+
+		typeGroups.set("All Note Types", []);
 
 		for(x in ScriptableNoteType.listScriptClasses()){
+			typeGroups.set(x, []);
+
 			var noteTypeClass:NoteType = ScriptableNoteType.init(x);
 			noteTypeClass.defineTypes();
+
+			for(k => v in noteTypeClass.localTypes){
+				types.set(k, v);
+				if(!typeGroups.get("All Note Types").contains(k)){
+					typeGroups.get("All Note Types").push(k);
+				}
+				if(!typeGroups.get(x).contains(k)){
+					typeGroups.get(x).push(k);
+				}
+			}
+			for(k => v in noteTypeClass.localSustainTypes){
+				sustainTypes.set(k, v);
+				if(!typeGroups.get("All Note Types").contains(k)){
+					typeGroups.get("All Note Types").push(k);
+				}
+				if(!typeGroups.get(x).contains(k)){
+					typeGroups.get(x).push(k);
+				}
+			}
+			for(k => v in noteTypeClass.localTypeSkins){
+				typeSkins.set(k, v);
+			}
 		}
 	}
 
@@ -31,15 +61,15 @@ class NoteType
 	function defineTypes():Void{}
 
 	function addNoteType(name:String, hitFunction:(Note, Character)->Void, missFunction:(Int, Character)->Void):Void{
-		types.set(name, [hitFunction, missFunction]);
+		localTypes.set(name, [hitFunction, missFunction]);
 	}
 
 	function addSustainType(name:String, hitFunction:(Note, Character)->Void, missFunction:(Int, Character)->Void):Void{
-		sustainTypes.set(name, [hitFunction, missFunction]);
+		localSustainTypes.set(name, [hitFunction, missFunction]);
 	}
 
 	function addTypeSkin(name:String, noteSkinName:String):Void{
-		typeSkins.set(name, noteSkinName);
+		localTypeSkins.set(name, noteSkinName);
 	}
 
 	@:isVar var healthAdjust(never,set):Float;
