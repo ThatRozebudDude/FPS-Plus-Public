@@ -47,7 +47,8 @@ class PolymodHandler
 			dirs: loadedModDirs,
 			useScriptedClasses: true,
 			errorCallback: onPolymodError,
-			frameworkParams: buildFrameworkParams()
+			frameworkParams: buildFrameworkParams(),
+			ignoredFiles: buildIgnoreList(),
 		});
 
 		//trace("Mod Meta List: " + loadedModMetadata);
@@ -370,6 +371,17 @@ class PolymodHandler
 				"videos" => "videos"
 			]
 		}
+	}
+
+	static function buildIgnoreList():Array<String>{
+		var result = Polymod.getDefaultIgnoreList();
+
+    	result.push('.git');
+    	result.push('.gitignore');
+    	result.push('.gitattributes');
+    	result.push('README.md');
+
+    	return result;
 	}
 }
 
