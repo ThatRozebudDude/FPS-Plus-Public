@@ -1215,8 +1215,6 @@ class ChartingState extends MusicBeatState
 				}
 					
 				PlayState.loadEvents = false;
-		
-				ImageCache.skipDestroy = true;
 				switchState(new PlayState());
 			}
 		

@@ -45,8 +45,7 @@ class BaseTransition extends FlxSpriteGroup{
 			FlxG.signals.preStateCreate.addOnce(function(state){
 				ImageCache.destroyByCount();
 				AudioCache.clear();
-
-				ImageCache.skipDestroy = false; // Make sure to set this to false to avoid clutter
+				
 				Utils.gc();
 			});
 

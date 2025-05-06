@@ -65,7 +65,6 @@ class ImageCache
 
 	//Local image caching stuff. ==============================================================================
 
-	public static var skipDestroy:Bool = false;
 	public static var localCache:Map<String, GraphicAsset> = new Map<String, GraphicAsset>();
 
 	public static function loadLocal(path:String):GraphicAsset{
@@ -80,11 +79,6 @@ class ImageCache
 	}
 
 	public static function destroyByCount():Void{
-		if(skipDestroy){
-			skipDestroy = false;
-			return;
-		}
-
 		for(key => data in localCache){
 			data.remain -= 1;
 			if(data.autoDestroy && data.remain < 1){
