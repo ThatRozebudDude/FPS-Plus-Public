@@ -42,24 +42,23 @@ class Startup extends FlxUIStateExt
 	var loadTotal:Int = 0;
 
 	var songsCached:Bool;
-	public static var songs(get, never):Array<String>;
-	static function get_songs():Array<String>
-	{
-		var returnArray:Array<String> = [];
-		for (folder in FileSystem.readDirectory("assets/songs")){
-			if (FileSystem.isDirectory(folder) && FileSystem.exists(folder + "/Inst.ogg")){// Check if this is a real song folder
-				returnArray.push(folder);
-			}
-		}
-		return returnArray;
-	}
-
+	public static final songs:Array<String> =   ["Tutorial", 
+								"Bopeebo", "Fresh", "Dadbattle", 
+								"Spookeez", "South", "Monster",
+								"Pico", "Philly", "Blammed", 
+								"Satin-Panties", "High", "Milf", 
+								"Cocoa", "Eggnog", "Winter-Horrorland", 
+								"Senpai", "Roses", "Thorns",
+								"Ugh", "Guns", "Stress",
+								"Darnell", "Lit-Up", "2hot", "Blazin",
+								"Lil-Buddies"];
+								
 	//List of character graphics and some other stuff.
 	//Just in case it want to do something with it later.
 	var charactersCached:Bool;
 	var startCachingCharacters:Bool = false;
 	var charI:Int = 0;
-	public static var characters:Array<String> =   ["BOYFRIEND", "BOYFRIEND_DEAD", "week4/bfCar", "week5/bfChristmas", "week6/bfPixel", "week6/bfPixelsDEAD", "week7/bfAndGF", "week7/bfHoldingGF-DEAD",
+	public static final characters:Array<String> =   ["BOYFRIEND", "BOYFRIEND_DEAD", "week4/bfCar", "week5/bfChristmas", "week6/bfPixel", "week6/bfPixelsDEAD", "week7/bfAndGF", "week7/bfHoldingGF-DEAD",
 									"GF_assets", "week4/gfCar", "week5/gfChristmas", "week6/gfPixel", "week7/gfTankmen",
 									"week1/DADDY_DEAREST", 
 									"week2/spooky_kids_assets", "week2/Monster_Assets",
