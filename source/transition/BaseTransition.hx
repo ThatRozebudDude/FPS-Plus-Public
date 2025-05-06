@@ -39,15 +39,14 @@ class BaseTransition extends FlxSpriteGroup{
 	**/
 	public function end(){
 		FlxUIStateExt.inTransition = false;
-		
+
 		if(state != null){ //State exit animation.
 			//FlxG.signals.postStateSwitch.addOnce(Utils.gc);
 			FlxG.signals.preStateCreate.addOnce(function(state){
-				if(!ImageCache.keepCache){
-					ImageCache.clear();
-					AudioCache.clear();
-				}
-				ImageCache.keepCache = false; // Make sure to set this to false to avoid clutter
+				ImageCache.destroyByCount();
+				AudioCache.clear();
+
+				ImageCache.skipDestroy = false; // Make sure to set this to false to avoid clutter
 				Utils.gc();
 			});
 
@@ -57,7 +56,7 @@ class BaseTransition extends FlxSpriteGroup{
 		else{ //State intro animation.
 			FlxG.signals.postUpdate.addOnce(function(){Utils.gc();});
 			FlxG.cameras.remove(cameras[0], true);
-			this.destroy();
+			Utils.destroyWhenAvailable(this);
 		}
 	}
 

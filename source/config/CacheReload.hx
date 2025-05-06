@@ -54,8 +54,7 @@ class CacheReload extends FlxState
 		graphicsCached = !CacheConfig.graphics;
 
 		if(doGraphics){
-			GPUBitmap.disposeAll();
-			ImageCache.cache.clear();
+			ImageCache.clearAll();
 		}
 		else{
 			charactersCached = true;
@@ -102,7 +101,7 @@ class CacheReload extends FlxState
 				charactersCached = true;
 			}
 			else{
-				ImageCache.add(Paths.file(Startup.characters[charI], "images", "png"));
+				ImageCache.preload(Paths.file(Startup.characters[charI], "images", "png"));
 				charI++;
 			}
 		}
@@ -115,7 +114,7 @@ class CacheReload extends FlxState
 				graphicsCached = true;
 			}
 			else{
-				ImageCache.add(Paths.file(Startup.graphics[gfxI], "images", "png"));
+				ImageCache.preload(Paths.file(Startup.graphics[gfxI], "images", "png"));
 				gfxI++;
 			}
 		}

@@ -286,7 +286,7 @@ class FreeplayState extends MusicBeatState
 						exitAnimation();
 						customTransOut = new InstantTransition();
 						MainMenuState.fromFreeplay = true;
-						ImageCache.keepCache = true;
+						ImageCache.skipDestroy = true;
 						new FlxTimer().start(transitionTimeExit + (staggerTimeExit*4), function(t) {
 							switchState(new MainMenuState());
 						});
@@ -605,8 +605,6 @@ class FreeplayState extends MusicBeatState
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
-
-		var tex = Paths.getSparrowAtlas('menu/FNF_main_menu_assets');
 
 		for (i in 0...MainMenuState.optionShit.length)
 		{

@@ -23,21 +23,15 @@ class Paths
 	}
 
 	inline static public function image(key:String, forcePath:Bool = false):Dynamic{
-
 		var data:String = file(key, "images", "png");
 
 		if(forcePath) { return data; }
 
 		if(ImageCache.exists(data)){
-			return ImageCache.get(data);
+			return ImageCache.get(data).graphic;
 		}
 		else{
-			if(ImageCache.localCache.exists(data)){
-				return ImageCache.localCache.get(data);
-			}
-			else{
-				return ImageCache.addLocal(data);
-			}
+			return ImageCache.loadLocal(data).graphic;
 		}
 	}
 
