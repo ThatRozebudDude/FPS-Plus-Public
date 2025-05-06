@@ -1,4 +1,4 @@
-package;
+package caching;
 
 import openfl.display3D.textures.Texture;
 import openfl.Assets;

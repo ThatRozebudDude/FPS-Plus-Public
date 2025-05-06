@@ -4,6 +4,7 @@ import flixel.graphics.FlxGraphic;
 import flixel.util.FlxDestroyUtil;
 import config.Config;
 import openfl.utils.Assets;
+import caching.GPUBitmap;
 
 class ImageCache
 {
@@ -27,7 +28,7 @@ class ImageCache
 		return preloadCache.exists(path);
 	}
 
-	public static function clearAll(){
+	public static function clearAll():Void{
 		clearPreload();
 		clearLocal();
 	}
@@ -47,37 +48,18 @@ class ImageCache
 		return graphic;
 	}
 
-	public static function clearPreload(){
-		for (key => graphic in preloadCache)
-		{
+	public static function clearPreload():Void{
+		for(key => graphic in preloadCache){
 			removePreload(key);
 		}
 
 		preloadCache.clear();
 	}
 
-	public static function removePreload(key){
-		if (preloadCache.exists(key))
-		{
+	public static function removePreload(key):Void{
+		if(preloadCache.exists(key)){
 			preloadCache.get(key).destroy();
 			preloadCache.remove(key);
-		}
-	}
-
-	public static function destroyByCount(){
-		if (skipDestroy){
-			skipDestroy = false;
-			return;
-		}
-
-		for (key => data in localCache){
-			data.remain -= 1;
-			trace(key + ": " + data.remain);
-
-			if (data.autoDestroy && data.remain < 1){
-				trace("destroyed " + key);
-				removeLocal(key);
-			}
 		}
 	}
 
@@ -87,7 +69,7 @@ class ImageCache
 	public static var localCache:Map<String, GraphicAsset> = new Map<String, GraphicAsset>();
 
 	public static function loadLocal(path:String):GraphicAsset{
-		if (!Utils.exists(path)){
+		if(!Utils.exists(path)){
 			trace('Tried to cache non-existent graphic ($path)');
 			return GraphicAsset.getPlaceHolderAsset();
 		}
@@ -97,18 +79,30 @@ class ImageCache
 		return graphic;
 	}
 
-	public static function clearLocal(){
-		for (key => graphic in localCache){
+	public static function destroyByCount():Void{
+		if(skipDestroy){
+			skipDestroy = false;
+			return;
+		}
+
+		for(key => data in localCache){
+			data.remain -= 1;
+			if(data.autoDestroy && data.remain < 1){
+				removeLocal(key);
+			}
+		}
+	}
+
+	public static function clearLocal():Void{
+		for(key => graphic in localCache){
 			removeLocal(key);
 		}
 
 		localCache.clear();
 	}
 
-
-	public static function removeLocal(key){
-		if (localCache.exists(key))
-		{
+	public static function removeLocal(key):Void{
+		if(localCache.exists(key)){
 			localCache.get(key).destroy();
 			localCache.remove(key);
 		}
@@ -120,18 +114,20 @@ class ImageCache
 class GraphicAsset implements IFlxDestroyable
 {
 	public var key:String;
+
 	public var graphic:FlxGraphic;
 
 	public var autoDestroy:Bool = true;
+
 	public var remain(default, set):Int = ImageCache.DESTROY_PERIOD;
-	function set_remain(value){
-		if (value > ImageCache.DESTROY_PERIOD){
+	function set_remain(value:Int):Int{
+		if(value > ImageCache.DESTROY_PERIOD){
 			value = ImageCache.DESTROY_PERIOD;
 		}
 		return remain = value;
 	}
-
-	public static function getPlaceHolderAsset(){
+ 
+	public static function getPlaceHolderAsset():GraphicAsset{
 		var placeholderGraphic = flixel.system.FlxAssets.GraphicLogo;
 		return new GraphicAsset("placeholder", true, placeholderGraphic);
 	}
@@ -141,11 +137,11 @@ class GraphicAsset implements IFlxDestroyable
 		this.autoDestroy = autoDestroy;
 
 		var bitmap:Dynamic = customBitmap;
-		if (bitmap == null)
-		{
-			if (Config.useGPU){
+		if (bitmap == null){
+			if(Config.useGPU){
 				bitmap = GPUBitmap.create(key);
-			}else{
+			}
+			else{
 				bitmap = Assets.getBitmapData(key, false);
 			}
 		}
@@ -160,7 +156,7 @@ class GraphicAsset implements IFlxDestroyable
 		this.graphic = data;
 	}
 
-	public function destroy(){
+	public function destroy():Void{
 		if(graphic.bitmap.__texture != null){
 			graphic.bitmap.__texture.dispose();
 		}
