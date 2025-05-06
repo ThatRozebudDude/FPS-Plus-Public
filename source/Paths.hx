@@ -25,7 +25,7 @@ class Paths
 	inline static public function image(key:String, forcePath:Bool = false):Dynamic{
 		var data:String = file(key, "images", "png");
 
-		if(forcePath) { return data; }
+		if(forcePath || !Utils.exists(key)) { return data; }
 
 		if(ImageCache.exists(data)){
 			return ImageCache.get(data).graphic;
