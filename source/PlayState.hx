@@ -1671,13 +1671,13 @@ class PlayState extends MusicBeatState
 			returnedToCenter = false;
 		}
 
-		if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null && !endingSong) {
+		if (generatedMusic && PlayState.SONG.notes[Math.floor(curStep / 16)] != null && !endingSong && startedCountdown) {
 
-			if (camFocus != "dad" && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && autoCam){
+			if (camFocus != "dad" && !PlayState.SONG.notes[Math.floor(curStep / 16)].mustHitSection && autoCam){
 				camFocusOpponent();
 			}
 
-			if (camFocus != "bf" && PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && autoCam){
+			if (camFocus != "bf" && PlayState.SONG.notes[Math.floor(curStep / 16)].mustHitSection && autoCam){
 				camFocusBF();
 			}
 		}
