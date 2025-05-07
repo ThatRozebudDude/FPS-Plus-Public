@@ -1,5 +1,6 @@
 package debug;
 
+import caching.ImageCache;
 import modding.PolymodHandler;
 import characters.ScriptableCharacter;
 import characters.CharacterInfoBase;
@@ -212,8 +213,8 @@ class AnimationDebug extends FlxState
 			genBoyOffsets(false);
 		}
 		
-		if (FlxG.keys.justPressed.ESCAPE)
-		{
+		if (FlxG.keys.justPressed.ESCAPE){
+			ImageCache.refreshLocal();
 			FlxG.switchState(new PlayState());
 		}
 

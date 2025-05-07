@@ -43,7 +43,13 @@ class BaseTransition extends FlxSpriteGroup{
 		if(state != null){ //State exit animation.
 			//FlxG.signals.postStateSwitch.addOnce(Utils.gc);
 			FlxG.signals.preStateCreate.addOnce(function(state){
-				ImageCache.destroyByCount();
+				if(!ImageCache.forceClearOnTransition){
+					ImageCache.destroyByCount();
+				}
+				else{
+					ImageCache.clearLocal();
+					ImageCache.forceClearOnTransition = false;
+				}
 				AudioCache.clear();
 				
 				Utils.gc();

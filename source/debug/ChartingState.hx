@@ -444,7 +444,8 @@ class ChartingState extends MusicBeatState
 				events: []
 			};
 
-			FlxG.resetState();
+			ImageCache.refreshLocal();
+			switchState(new ChartingState());
 		});
 
 		var stepperSpeed:FlxUINumericStepper = new FlxUINumericStepper(10, 70, 0.1, 1, 0.1, 25, 1);
@@ -1215,6 +1216,7 @@ class ChartingState extends MusicBeatState
 				}
 					
 				PlayState.loadEvents = false;
+				ImageCache.refreshLocal();
 				switchState(new PlayState());
 			}
 		
@@ -1901,13 +1903,15 @@ class ChartingState extends MusicBeatState
 		if(PlayState.SONG.gf == null){
 			PlayState.SONG.gf = _song.gf;
 		}
-		FlxG.resetState();
+		ImageCache.refreshLocal();
+		switchState(new ChartingState());
 	}
 
 	function loadAutosave():Void{
 		PlayState.SONG = Song.parseJSONshit(FlxG.save.data.autosave);
 		PlayState.EVENTS = Song.parseEventJSON(FlxG.save.data.autosaveEvents);
-		FlxG.resetState();
+		ImageCache.refreshLocal();
+		switchState(new ChartingState());
 	}
 
 	function autosaveSong():Void{

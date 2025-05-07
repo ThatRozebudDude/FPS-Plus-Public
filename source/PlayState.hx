@@ -1934,6 +1934,7 @@ class PlayState extends MusicBeatState
 			vocalsOther.volume = 0; 
 			vocalsOther.pause();
 		}
+		countSteps = false;
 	}
 
 	public function endSong():Void{
@@ -1984,6 +1985,7 @@ class PlayState extends MusicBeatState
 				}
 				var weekName:String = StoryMenuState.weekList[storyWeek].name;
 
+				ImageCache.forceClearOnTransition = true;
 				switchState(new ResultsState(weekStats, weekName, boyfriend.characterInfo.info.resultsCharacter, songSaveStuff, StoryMenuState.weekList[storyWeek].stickerSet));
 
 				//FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
@@ -2028,11 +2030,13 @@ class PlayState extends MusicBeatState
 					diff: storyDifficulty
 				}
 			}
+			ImageCache.forceClearOnTransition = true;
 			switchState(new ResultsState(songStats, songName, boyfriend.characterInfo.info.resultsCharacter, songSaveStuff));
 		}
 	}
 
 	public function returnToMenu():Void{
+		ImageCache.forceClearOnTransition = true;
 		switch(returnLocation){
 			case "story":
 				switchState(new StoryMenuState());

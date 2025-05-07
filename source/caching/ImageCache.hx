@@ -8,7 +8,7 @@ import caching.GPUBitmap;
 
 class ImageCache
 {
-	// The grace period before unused local textures are deleted (counted by state switches)
+	//The amount of state switches needed to destroy an asset.
 	inline public static final DESTROY_PERIOD:Int = 2;
 
 	public static function get(path:String):GraphicAsset{
@@ -62,6 +62,8 @@ class ImageCache
 
 	public static var localCache:Map<String, GraphicAsset> = new Map<String, GraphicAsset>();
 
+	public static var forceClearOnTransition:Bool = false;
+
 	public static function loadLocal(path:String):GraphicAsset{
 		var graphic = new GraphicAsset(path);
 		localCache.set(path, graphic);
@@ -89,6 +91,12 @@ class ImageCache
 		if(localCache.exists(key)){
 			localCache.get(key).destroy();
 			localCache.remove(key);
+		}
+	}
+
+	public static function refreshLocal():Void{
+		for(key => value in localCache){
+			value.remain = DESTROY_PERIOD;
 		}
 	}
 }

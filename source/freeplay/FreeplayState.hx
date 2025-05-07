@@ -1010,6 +1010,7 @@ class FreeplayState extends MusicBeatState
 		PlayState.loadEvents = true;
 		PlayState.returnLocation = "freeplay";
 		new FlxTimer().start(1.5, function(t){
+			ImageCache.forceClearOnTransition = true;
 			switchState(new PlayState());
 			FlxG.sound.music.fadeOut(0.5);
 		});
