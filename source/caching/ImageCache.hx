@@ -38,6 +38,11 @@ class ImageCache
 	public static var preloadCache:Map<String, GraphicAsset> = new Map<String, GraphicAsset>();
 
 	public static function preload(path:String):GraphicAsset{
+		if (!Utils.exists(path)){
+			trace('Tried to preload non-existent graphic ($path)');
+			return GraphicAsset.getPlaceHolderAsset();
+		}
+
 		var graphic = new GraphicAsset(path, false);
 		preloadCache.set(path, graphic);
 		return graphic;
@@ -63,6 +68,11 @@ class ImageCache
 	public static var localCache:Map<String, GraphicAsset> = new Map<String, GraphicAsset>();
 
 	public static function loadLocal(path:String):GraphicAsset{
+		if(!Utils.exists(path)){
+			trace('Tried to cache non-existent graphic ($path)');
+			return GraphicAsset.getPlaceHolderAsset();
+		}
+
 		var graphic = new GraphicAsset(path);
 		localCache.set(path, graphic);
 		return graphic;
@@ -109,6 +119,11 @@ class GraphicAsset implements IFlxDestroyable
 			value = ImageCache.DESTROY_PERIOD;
 		}
 		return remain = value;
+	}
+ 
+	public static function getPlaceHolderAsset():GraphicAsset{
+		var placeholderGraphic = flixel.system.FlxAssets.GraphicLogo;
+		return new GraphicAsset("placeholder", true, placeholderGraphic);
 	}
 
 	public function new(key:String, autoDestroy:Bool = true, customBitmap:Dynamic = null){
