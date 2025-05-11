@@ -109,6 +109,15 @@ class ABotPixel extends FlxTypedSpriteGroup<FlxSprite>
 				speaker.shader = colorAdjustCopy;	
 				back.shader = colorAdjustCopy;
 
+			case DropShadowScreenspaceShader:
+				var dropShadowShader:DropShadowScreenspaceShader = cast(shader, DropShadowScreenspaceShader);
+				var colorAdjustCopy = new AdjustColorShader(dropShadowShader.baseBrightness, dropShadowShader.baseHue, dropShadowShader.baseContrast, dropShadowShader.baseSaturation).shader;
+
+				head.shader = colorAdjustCopy;	
+				body.shader = colorAdjustCopy;	
+				speaker.shader = colorAdjustCopy;	
+				back.shader = colorAdjustCopy;
+
 			default:
 				head.shader = shader;	
 				body.shader = shader;	

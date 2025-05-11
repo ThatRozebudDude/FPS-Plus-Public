@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Funkin Packer v0.1.3 DEV https://neeeoo.github.io/funkin-packer/
+-->
+<TextureAtlas imagePath="picoStressGunshot.png" width="728" height="546" spritePadding="2" borderPadding="1">
+	<SubTexture name="gunshot0000" x="444" y="383" width="166" height="154" frameX="-581" frameY="0" frameWidth="726" frameHeight="242"/>
+	<SubTexture name="gunshot0001" x="1" y="182" width="301" height="242" frameX="-378" frameY="-95" frameWidth="726" frameHeight="242"/>
+	<SubTexture name="gunshot0002" x="1" y="1" width="726" height="179" frameX="0" frameY="-171" frameWidth="726" frameHeight="242"/>
+	<SubTexture name="gunshot0003" x="304" y="293" width="399" height="88" frameX="-342" frameY="-166" frameWidth="726" frameHeight="242"/>
+	<SubTexture name="gunshot0004" x="304" y="182" width="415" height="109" frameX="-332" frameY="-172" frameWidth="726" frameHeight="242"/>
+	<SubTexture name="gunshot0005" x="304" y="182" width="415" height="109" frameX="-332" frameY="-172" frameWidth="726" frameHeight="242"/>
+	<SubTexture name="gunshot0006" x="1" y="426" width="441" height="119" frameX="-312" frameY="-184" frameWidth="726" frameHeight="242"/>
+	<SubTexture name="gunshot0007" x="1" y="426" width="441" height="119" frameX="-312" frameY="-184" frameWidth="726" frameHeight="242"/>
+</TextureAtlas>

@@ -91,6 +91,15 @@ class ABot extends FlxTypedSpriteGroup<FlxSprite>
 				eyes.shader = colorAdjustCopy;	
 				system.shader = colorAdjustCopy;
 
+			case DropShadowScreenspaceShader:
+				var dropShadowShader:DropShadowScreenspaceShader = cast(shader, DropShadowScreenspaceShader);
+				var colorAdjustCopy = new AdjustColorShader(dropShadowShader.baseBrightness, dropShadowShader.baseHue, dropShadowShader.baseContrast, dropShadowShader.baseSaturation).shader;
+
+				bg.shader = colorAdjustCopy;	
+				eyeBack.shader = colorAdjustCopy;	
+				eyes.shader = colorAdjustCopy;	
+				system.shader = colorAdjustCopy;
+
 			default:
 				bg.shader = shader;	
 				eyeBack.shader = shader;	

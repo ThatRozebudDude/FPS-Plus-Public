@@ -1,0 +1,290 @@
+import flixel.math.FlxMath;
+import flixel.math.FlxPoint;
+import flixel.sound.FlxSound;
+import flixel.FlxSprite;
+import flixel.FlxG;
+import flixel.tweens.FlxEase;
+import flixel.FlxCamera;
+import flixel.FlxCameraFollowStyle;
+import openfl.filters.ShaderFilter;
+import shaders.DropShadowScreenspaceShader;
+import objects.ABot;
+
+class StressPicoIntro extends ScriptedCutscene
+{
+
+	var tankman:AtlasSprite;
+	var pico:AtlasSprite;
+	var speakerFront:AtlasSprite;
+	var speakerBack:AtlasSprite;
+	var speakerCharacter:AtlasSprite;
+
+	var abot:ABot;
+	var gunshot:FlxSprite;
+
+	var cutsceneAudio:FlxSound;
+
+	var tankmanCamera:FlxCamera;
+	var picoCamera:FlxCamera;
+	var speakerCharacterCamera:FlxCamera;
+	var speakerCamera:FlxCamera;
+	var frontCamera:FlxCamera;
+	var behindCamera:FlxCamera;
+
+	var	tankmanShader:DropShadowScreenspaceShader;
+	var	picoShader:DropShadowScreenspaceShader;
+	var	speakerCharacterShader:DropShadowScreenspaceShader;
+	var	frontShader:DropShadowScreenspaceShader;
+	var	behindShader:DropShadowScreenspaceShader;
+
+	var originalZoom:Float;
+	var camStartPoint:FlxPoint;
+
+	public function new(args:Array<Dynamic>){
+		super(args);
+
+		tankmanCamera = new FlxCamera();
+		tankmanCamera.bgColor = 0x00000000;
+		tankmanCamera.zoom = playstate.camGame.zoom;
+		tankmanCamera.follow(playstate.camFollowFinal, FlxCameraFollowStyle.LOCKON);
+		tankmanCamera.focusOn(playstate.camFollowFinal.getPosition());
+		
+		picoCamera = new FlxCamera();
+		picoCamera.bgColor = 0x00000000;
+		picoCamera.zoom = playstate.camGame.zoom;
+		picoCamera.follow(playstate.camFollowFinal, FlxCameraFollowStyle.LOCKON);
+		picoCamera.focusOn(playstate.camFollowFinal.getPosition());
+
+		speakerCharacterCamera = new FlxCamera();
+		speakerCharacterCamera.bgColor = 0x00000000;
+		speakerCharacterCamera.zoom = playstate.camGame.zoom;
+		speakerCharacterCamera.follow(playstate.camFollowFinal, FlxCameraFollowStyle.LOCKON);
+		speakerCharacterCamera.focusOn(playstate.camFollowFinal.getPosition());
+
+		speakerCamera = new FlxCamera();
+		speakerCamera.bgColor = 0x00000000;
+		speakerCamera.zoom = playstate.camGame.zoom;
+		speakerCamera.follow(playstate.camFollowFinal, FlxCameraFollowStyle.LOCKON);
+		speakerCamera.focusOn(playstate.camFollowFinal.getPosition());
+
+		frontCamera = new FlxCamera();
+		frontCamera.bgColor = 0x00000000;
+		frontCamera.zoom = playstate.camGame.zoom;
+		frontCamera.follow(playstate.camFollowFinal, FlxCameraFollowStyle.LOCKON);
+		frontCamera.focusOn(playstate.camFollowFinal.getPosition());
+		
+		behindCamera = new FlxCamera();
+		behindCamera.bgColor = 0x00000000;
+		behindCamera.zoom = playstate.camGame.zoom;
+		behindCamera.follow(playstate.camFollowFinal, FlxCameraFollowStyle.LOCKON);
+		behindCamera.focusOn(playstate.camFollowFinal.getPosition());
+
+		camStartPoint = playstate.camFollowFinal.getPosition();
+
+		FlxG.cameras.insert(behindCamera, 			FlxG.cameras.list.indexOf(playstate.camGame) + 1, false);
+		FlxG.cameras.insert(speakerCamera, 			FlxG.cameras.list.indexOf(playstate.camGame) + 2, false);
+		FlxG.cameras.insert(speakerCharacterCamera, FlxG.cameras.list.indexOf(playstate.camGame) + 3, false);
+		FlxG.cameras.insert(frontCamera, 			FlxG.cameras.list.indexOf(playstate.camGame) + 4, false);
+		FlxG.cameras.insert(tankmanCamera, 			FlxG.cameras.list.indexOf(playstate.camGame) + 5, false);
+		FlxG.cameras.insert(picoCamera, 			FlxG.cameras.list.indexOf(playstate.camGame) + 6, false);
+		
+		abot = new ABot(412, 470);
+		abot.cameras = [speakerCamera];
+		abot.lookLeft();
+		
+		tankman = new AtlasSprite(809, 499, Paths.getTextureAtlas("week7/cutscene/picoStress/tankman"));
+		tankman.antialiasing = true;
+		tankman.addFullAnimation("anim", 24, false);
+		tankman.addFullAnimation("animFastForTest", 800, false);
+		tankman.cameras = [tankmanCamera];
+
+		pico = new AtlasSprite(782, 470, Paths.getTextureAtlas("week7/cutscene/picoStress/pico"));
+		pico.antialiasing = true;
+		pico.addFullAnimation("anim", 24, false);
+		pico.addFullAnimation("animFastForTest", 800, false);
+		pico.cameras = [picoCamera];
+
+		speakerFront = new AtlasSprite(288, 205, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerFront"));
+		speakerFront.antialiasing = true;
+		speakerFront.addFullAnimation("anim", 24, false);
+		speakerFront.cameras = [frontCamera];
+
+		speakerCharacter = new AtlasSprite(287, -712, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerCharacter"));
+		speakerCharacter.antialiasing = true;
+		speakerCharacter.addFullAnimation("anim", 24, false);
+		speakerCharacter.addFullAnimation("animFastForTest", 800, false);
+		speakerCharacter.cameras = [speakerCharacterCamera];
+		
+		speakerBack = new AtlasSprite(206, 105, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerBack"));
+		speakerBack.antialiasing = true;
+		speakerBack.addFullAnimation("anim", 24, false);
+		speakerBack.cameras = [behindCamera];
+
+		tankmanShader = new DropShadowScreenspaceShader();
+		tankmanShader.setAdjustColor(-46, -38, -25, -20);
+		tankmanShader.color = 0xFFDFEF3C;
+		tankmanShader.angle = 45;
+		tankmanShader.threshold = 0.3;
+
+		picoShader = new DropShadowScreenspaceShader();
+		picoShader.setAdjustColor(-46, -38, -25, -20);
+    	picoShader.color = 0xFFDFEF3C;
+		picoShader.angle = 90;
+
+		speakerCharacterShader = new DropShadowScreenspaceShader();
+		speakerCharacterShader.setAdjustColor(-46, -38, -25, -20);
+    	speakerCharacterShader.color = 0xFFDFEF3C;
+		speakerCharacterShader.angle = 90;
+		
+		frontShader = new DropShadowScreenspaceShader();
+		frontShader.setAdjustColor(-46, -38, -25, -20);
+    	frontShader.color = 0xFFDFEF3C;
+		frontShader.angle = 90;
+		frontShader.threshold = 0.4;
+
+		behindShader = new DropShadowScreenspaceShader();
+		behindShader.setAdjustColor(-46, -38, -25, -20);
+    	behindShader.color = 0xFFDFEF3C;
+		behindShader.angle = 90;
+		behindShader.threshold = 0.4;
+
+		tankmanCamera.filters = [new ShaderFilter(tankmanShader)];
+		picoCamera.filters = [new ShaderFilter(picoShader)];
+		speakerCharacterCamera.filters = [new ShaderFilter(speakerCharacterShader)];
+		frontCamera.filters = [new ShaderFilter(frontShader)];
+		behindCamera.filters = [new ShaderFilter(behindShader)];
+
+		abot.applyShader(speakerCharacterShader);
+
+		originalZoom = playstate.defaultCamZoom;
+
+		addEvent(0, 		setup);
+		addEvent(150/24, 	camera1);
+		addEvent(205/24, 	camera2);
+		addEvent(270/24, 	camera3);
+		addEvent(301/24, 	camera4);
+		addEvent(325/24, 	camera5);
+		addEvent(33, 		stressEnd);
+	}
+
+	override function update(elapsed:Float) {
+		super.update(elapsed);
+		tankmanCamera.zoom = playstate.camGame.zoom;
+		speakerCharacterCamera.zoom = playstate.camGame.zoom;
+		speakerCamera.zoom = playstate.camGame.zoom;
+		behindCamera.zoom = playstate.camGame.zoom;
+		frontCamera.zoom = playstate.camGame.zoom;
+		picoCamera.zoom = playstate.camGame.zoom;
+
+		tankmanShader.curZoom = tankmanCamera.zoom;
+		picoShader.curZoom = picoCamera.zoom;
+		speakerCharacterShader.curZoom = speakerCharacterCamera.zoom;
+		frontShader.curZoom = frontCamera.zoom;
+		behindShader.curZoom = behindCamera.zoom;
+
+		/*var moveAmount:Int = 1;
+
+		if(ScriptingUtil.anyPressed(["SHIFT"])){
+			moveAmount = 10;
+		}
+		
+		if(ScriptingUtil.anyPressed(["P"])){
+			pico.pause();
+			tankman.pause();
+			speakerCharacter.pause();
+			speakerFront.pause();
+			speakerBack.pause();
+		}
+
+		if(ScriptingUtil.anyJustPressed(["I"])){
+			speakerFront.y -= moveAmount;
+			speakerBack.y -= moveAmount;
+			trace(speakerFront.getPosition() + "\t" + speakerBack.getPosition());
+		}
+		if(ScriptingUtil.anyJustPressed(["K"])){
+			speakerFront.y += moveAmount;
+			speakerBack.y += moveAmount;
+			trace(speakerFront.getPosition() + "\t" + speakerBack.getPosition());
+		}
+		if(ScriptingUtil.anyJustPressed(["J"])){
+			speakerFront.x -= moveAmount;
+			speakerBack.x -= moveAmount;
+			trace(speakerFront.getPosition() + "\t" + speakerBack.getPosition());
+		}
+		if(ScriptingUtil.anyJustPressed(["L"])){
+			speakerFront.x += moveAmount;
+			speakerBack.x += moveAmount;
+			trace(speakerFront.getPosition() + "\t" + speakerBack.getPosition());
+		}*/
+	}
+
+	function setup() {
+		dad.visible = false;
+		gf.visible = false;
+		boyfriend.visible = false;
+
+		addGeneric(speakerBack);
+		addGeneric(abot);
+		addGeneric(speakerCharacter);
+		addGeneric(speakerFront);
+		addGeneric(pico);
+		addGeneric(tankman);
+
+		pico.playAnim("anim");
+		tankman.playAnim("anim");
+		speakerCharacter.playAnim("anim");
+		speakerFront.playAnim("anim");
+		speakerBack.playAnim("anim");
+
+		cutsceneAudio = FlxG.sound.play(Paths.sound("week7/picoStressCutscene"));
+
+		//playstate.camFocusOpponent();
+		playstate.camChangeZoom(0.68, 0);
+		playstate.camChangeZoom(0.7, 150/24);
+		//playstate.camHUD.visible = false;
+	}
+
+	function camera1(){
+		playstate.camChangeZoom(1.08, 31/24, FlxEase.quadOut);
+		playstate.camMove(camStartPoint.x + 40, camStartPoint.y - 144, 31/24, FlxEase.quadOut);
+	}
+	
+	function camera2(){
+		playstate.camMove(camStartPoint.x + 10, camStartPoint.y - 144, 0.9, FlxEase.quartOut);
+	}
+
+	function camera3(){
+		playstate.camChangeZoom(0.76, 27/24, FlxEase.cubeIn);
+		playstate.camMove(camStartPoint.x, camStartPoint.y - 600, 27/24, FlxEase.cubeIn);
+	}
+	
+	function camera4(){
+		playstate.camMove(camStartPoint.x + 50, camStartPoint.y - 550, 24/24);
+	}
+
+	function camera5(){
+		playstate.camChangeZoom(1.03, 16/24, FlxEase.quintOut);
+		playstate.camMove(camStartPoint.x + 525, camStartPoint.y + 75, 16/24, FlxEase.quintOut);
+	}
+
+	function stressEnd() {
+		//clean up camera stuff
+		FlxG.cameras.remove(behindCamera, false);
+		FlxG.cameras.remove(speakerCamera, false);
+		FlxG.cameras.remove(frontCamera, false);
+		FlxG.cameras.remove(speakerCharacterCamera, false);
+		FlxG.cameras.remove(tankmanCamera, false);
+		FlxG.cameras.remove(picoCamera, false);
+
+		playstate.camChangeZoom(originalZoom, (Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
+
+		gf.visible = true;
+		dad.visible = true;
+		boyfriend.visible = true;
+
+		playstate.camHUD.visible = true;
+		focusCameraBasedOnFirstSection();
+		next();
+	}
+
+}

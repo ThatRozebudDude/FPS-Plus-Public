@@ -58,6 +58,7 @@ class OtisSpeaker extends CharacterInfoBase
 		gunshots.frames = Paths.getSparrowAtlas("week7/otisGunshots");
 		gunshots.antialiasing = true;
 		gunshots.visible = false;
+		gunshots.alpha = 0;
 		gunshots.animation.addByPrefix("shoot1", "shoot back0", 24 , false);
 		gunshots.animation.addByPrefix("shoot2", "shoot back low0", 24 , false);
 		gunshots.animation.addByPrefix("shoot3", "shoot forward0", 24 , false);
@@ -117,6 +118,7 @@ class OtisSpeaker extends CharacterInfoBase
 	function gunshotFrameUpdate(name:String, frame:Int, index:Int):Void{
 		if(frame < 2){
 			gunshots.visible = true;
+			gunshots.alpha = 1;
 			gunshots.blend = BlendMode.ADD;
 		}
 		else{
@@ -126,6 +128,7 @@ class OtisSpeaker extends CharacterInfoBase
 	
 	function gunshotAnimationEnd(name:String):Void{
 		gunshots.visible = false;
+		gunshots.alpha = 0;
 	}
 
 }
