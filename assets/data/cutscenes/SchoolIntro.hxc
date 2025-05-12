@@ -49,13 +49,6 @@ class SchoolIntro extends ScriptedCutscene
 			playstate.customTransIn = new InstantTransition();
 		}
 
-		/*
-		var dialogue:Array<String> = [];
-
-		if(Utils.exists(Paths.text("songs/" + PlayState.SONG.song.toLowerCase() + "/" + PlayState.SONG.song.toLowerCase() + "Dialogue"))){
-			dialogue = Utils.getTextInLines(Paths.text("songs/" + PlayState.SONG.song.toLowerCase() + "/" + PlayState.SONG.song.toLowerCase() + "Dialogue"));
-		}
-		*/
 		var dialogue = Json.parse(Utils.getText(Paths.json("dialogue", "data/songs/" + PlayState.SONG.song.toLowerCase())));
 
 		var dialogueBgColor = 0xFFB3DFD8;

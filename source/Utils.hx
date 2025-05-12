@@ -1,5 +1,6 @@
 package;
 
+import flixel.tweens.FlxEase;
 import caching.AudioCache;
 import modding.PolymodHandler;
 import flixel.input.gamepad.FlxGamepadInputID;
@@ -207,6 +208,20 @@ class Utils
 	//Sets up an object to be destroyed after the update loop is finished being processed.
 	public static inline function destroyWhenAvailable(obj:FlxObject):Void{
 		FlxG.signals.postUpdate.addOnce(function(){ obj.destroy(); });
+	}
+
+	//Combines multiple eases into a singular ease function.
+	public static function easeCombine(eases:Array<flixel.tweens.EaseFunction>):Null<flixel.tweens.EaseFunction>{
+		if(eases.length < 1){ return null; }
+		var r:flixel.tweens.EaseFunction = function(v:Float):Float{
+			if(v * eases.length >= eases.length){
+				return v;
+			}
+			var index:Int = Math.floor(v * eases.length);
+			v = (index/eases.length) + (eases[index]((v - (index/eases.length)) * eases.length)/eases.length);
+			return v;
+		}
+		return r;
 	}
 
 	public static inline function defaultSongMetadata(_name:String):Dynamic{

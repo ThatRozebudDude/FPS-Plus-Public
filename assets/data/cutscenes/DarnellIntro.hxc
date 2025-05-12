@@ -31,9 +31,9 @@ class DarnellIntro extends ScriptedCutscene
 				boyfriend.dance();
 				picoIntro.visible = false;
 				removeFromCharacterLayer(picoIntro);
+				Utils.destroyWhenAvailable(picoIntro);
 			}
 		}
-		//addToCharacterLayer(picoIntro);
 
 		addEvent(0, first);
 		addEvent(2, zoomOut);
@@ -47,13 +47,6 @@ class DarnellIntro extends ScriptedCutscene
 		addEvent(beatTime * 20.5, neneLaugh);
 		addEvent(9, startSong);
 	}
-
-	/*override function update(elapsed:Float) {
-		super.update(elapsed);
-		if(FlxG.keys.anyJustPressed([TWO])){
-			playstate().switchState(new debug.AnimationDebug("PicoCutscene", "PicoAll"));
-		}
-	}*/
 
 	function first() {
 		FlxG.sound.play(Paths.music("weekend1/darnellCanCutscene"));

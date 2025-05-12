@@ -136,6 +136,15 @@ class StressIntro extends ScriptedCutscene
 		picoSpeaker.visible = false;
 		tankman.visible = false;
 
+		removeFromCharacterLayer(tankman);
+		removeFromGfLayer(gfSpeaker);
+		removeFromGfLayer(picoSpeaker);
+		removeFromGfLayer(gfSummon);
+
+		tankman.destroy();
+		gfSpeaker.destroy();
+		picoSpeaker.destroy();
+		gfSummon.destroy();
 
 		gf.visible = true;
 		dad.visible = true;

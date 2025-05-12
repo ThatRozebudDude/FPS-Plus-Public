@@ -59,51 +59,6 @@ class PicoDoppleganger extends ScriptedCutscene
 		}
 	}
 
-	override function update(elapsed:Float) {
-
-		/*var mod = 1;
-		if(FlxG.keys.anyPressed([SHIFT])){
-			mod = 20;
-		}
-
-		if(FlxG.keys.anyJustPressed([W])){ opPico.y -= mod; }
-		if(FlxG.keys.anyJustPressed([S])){ opPico.y += mod; }
-		if(FlxG.keys.anyJustPressed([A])){ opPico.x -= mod; }
-		if(FlxG.keys.anyJustPressed([D])){ opPico.x += mod; }
-
-		if(FlxG.keys.anyJustPressed([UP])){ playerPico.y -= mod; }
-		if(FlxG.keys.anyJustPressed([DOWN])){ playerPico.y += mod; }
-		if(FlxG.keys.anyJustPressed([LEFT])){ playerPico.x -= mod; }
-		if(FlxG.keys.anyJustPressed([RIGHT])){ playerPico.x += mod; }
-
-		if(FlxG.keys.anyJustPressed([I])){ cigarette.y -= mod; }
-		if(FlxG.keys.anyJustPressed([K])){ cigarette.y += mod; }
-		if(FlxG.keys.anyJustPressed([J])){ cigarette.x -= mod; }
-		if(FlxG.keys.anyJustPressed([L])){ cigarette.x += mod; }
-		if(FlxG.keys.anyJustPressed([I, J, K, L])){ cigarette.animation.play("cigarette spit", true); }
-		if(FlxG.keys.anyJustPressed([O])){ cigarette.flipX = !cigarette.flipX; }
-
-		if(FlxG.keys.anyJustPressed([SPACE])){
-			trace("op: " + opPico.getPosition());
-			trace("pl: " + playerPico.getPosition());
-			trace("cg: " + cigarette.getPosition());
-		}
-
-		if(FlxG.keys.anyJustPressed([ONE])){
-			opPico.playAnim("shootOpponent", true);
-			opPico.pause();
-			playerPico.playAnim("shootPlayer", true);
-			playerPico.pause();
-		}
-
-		if(FlxG.keys.anyJustPressed([TWO])){
-			opPico.resume();
-			playerPico.resume();
-		}*/
-
-		super.update(elapsed);
-	}
-
 	function first(){
 
 		if(playerCigarette){
@@ -205,6 +160,7 @@ class PicoDoppleganger extends ScriptedCutscene
 			}
 
 			removeFromCharacterLayer(playerPico);
+			playerPico.destroy();
 			boyfriend.visible = true;
 			next();
 		}
@@ -214,6 +170,8 @@ class PicoDoppleganger extends ScriptedCutscene
 		else{
 			removeFromCharacterLayer(opPico);
 			removeFromCharacterLayer(playerPico);
+			opPico.destroy();
+			playerPico.destroy();
 			boyfriend.visible = true;
 			dad.visible = true;
 			next();

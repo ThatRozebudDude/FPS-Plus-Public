@@ -197,7 +197,7 @@ class StressPicoIntro extends ScriptedCutscene
 		addEvent(startOffset + 33.5 + (Conductor.crochet / 1000) * 5, swapBackToGameplayTankman);
 	}
 
-	override function update(elapsed:Float) {
+	override function update(elapsed:Float){
 		super.update(elapsed);
 		tankmanCamera.zoom = playstate.camGame.zoom;
 		speakerCharacterCamera.zoom = playstate.camGame.zoom;
@@ -214,7 +214,7 @@ class StressPicoIntro extends ScriptedCutscene
 		behindShader.curZoom = behindCamera.zoom;
 	}
 
-	function setup() {
+	function setup(){
 		addGeneric(speakerBack);
 		addGeneric(abot);
 		addGeneric(speakerCharacter);
@@ -226,7 +226,7 @@ class StressPicoIntro extends ScriptedCutscene
 		playstate.camChangeZoom(0.68, 0);
 	}
 
-	function startCutscene() {
+	function startCutscene(){
 		dad.visible = false;
 		gf.visible = false;
 		boyfriend.visible = false;
@@ -295,13 +295,33 @@ class StressPicoIntro extends ScriptedCutscene
 		playstate.camMove(camStartPoint.x, camStartPoint.y, 60/24, FlxEase.quadInOut);
 	}
 
-	function end() {
-		//clean up camera stuff
-		FlxG.cameras.remove(behindCamera, false);
-		FlxG.cameras.remove(speakerCamera, false);
-		FlxG.cameras.remove(frontCamera, false);
-		FlxG.cameras.remove(speakerCharacterCamera, false);
-		FlxG.cameras.remove(picoCamera, false);
+	function end(){
+		//clean up stuff
+		removeGeneric(speakerBack);
+		removeGeneric(abot);
+		removeGeneric(speakerCharacter);
+		removeGeneric(speakerFront);
+		removeGeneric(pico);
+		removeGeneric(gunshot);
+		
+		speakerBack.destroy();
+		abot.destroy();
+		speakerCharacter.destroy();
+		speakerFront.destroy();
+		pico.destroy();
+		gunshot.destroy();
+
+		behindCamera.filters = [];
+		speakerCamera.filters = [];
+		frontCamera.filters = [];
+		speakerCharacterCamera.filters = [];
+		picoCamera.filters = [];
+
+		FlxG.cameras.remove(behindCamera, true);
+		FlxG.cameras.remove(speakerCamera, true);
+		FlxG.cameras.remove(frontCamera, true);
+		FlxG.cameras.remove(speakerCharacterCamera, true);
+		FlxG.cameras.remove(picoCamera, true);
 
 		gf.visible = true;
 		boyfriend.visible = true;
@@ -312,8 +332,11 @@ class StressPicoIntro extends ScriptedCutscene
 		next();
 	}
 	
-	function swapBackToGameplayTankman() {
-		FlxG.cameras.remove(tankmanCamera, false);
+	function swapBackToGameplayTankman(){
+		removeGeneric(tankman);
+		tankman.destroy();
+		tankmanCamera.filters = [];
+		FlxG.cameras.remove(tankmanCamera, true);
 		dad.visible = true;
 	}
 
