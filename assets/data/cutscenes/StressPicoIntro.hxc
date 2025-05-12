@@ -9,6 +9,7 @@ import flixel.FlxCameraFollowStyle;
 import openfl.filters.ShaderFilter;
 import shaders.DropShadowScreenspaceShader;
 import objects.ABot;
+import transition.data.InstantTransition;
 
 class StressPicoIntro extends ScriptedCutscene
 {
@@ -23,6 +24,7 @@ class StressPicoIntro extends ScriptedCutscene
 	var gunshot:FlxSprite;
 
 	var cutsceneAudio:FlxSound;
+	var startOffset:Float = 0.5;
 
 	var tankmanCamera:FlxCamera;
 	var picoCamera:FlxCamera;
@@ -30,6 +32,7 @@ class StressPicoIntro extends ScriptedCutscene
 	var speakerCamera:FlxCamera;
 	var frontCamera:FlxCamera;
 	var behindCamera:FlxCamera;
+	var gunshotCamera:FlxCamera;
 
 	var	tankmanShader:DropShadowScreenspaceShader;
 	var	picoShader:DropShadowScreenspaceShader;
@@ -42,6 +45,8 @@ class StressPicoIntro extends ScriptedCutscene
 
 	public function new(args:Array<Dynamic>){
 		super(args);
+
+		FlxG.sound.cache(Paths.sound("week7/picoStressCutscene"));
 
 		tankmanCamera = new FlxCamera();
 		tankmanCamera.bgColor = 0x00000000;
@@ -78,6 +83,12 @@ class StressPicoIntro extends ScriptedCutscene
 		behindCamera.zoom = playstate.camGame.zoom;
 		behindCamera.follow(playstate.camFollowFinal, FlxCameraFollowStyle.LOCKON);
 		behindCamera.focusOn(playstate.camFollowFinal.getPosition());
+		
+		gunshotCamera = new FlxCamera();
+		gunshotCamera.bgColor = 0x00000000;
+		gunshotCamera.zoom = playstate.camGame.zoom;
+		gunshotCamera.follow(playstate.camFollowFinal, FlxCameraFollowStyle.LOCKON);
+		gunshotCamera.focusOn(playstate.camFollowFinal.getPosition());
 
 		camStartPoint = playstate.camFollowFinal.getPosition();
 
@@ -87,12 +98,21 @@ class StressPicoIntro extends ScriptedCutscene
 		FlxG.cameras.insert(frontCamera, 			FlxG.cameras.list.indexOf(playstate.camGame) + 4, false);
 		FlxG.cameras.insert(tankmanCamera, 			FlxG.cameras.list.indexOf(playstate.camGame) + 5, false);
 		FlxG.cameras.insert(picoCamera, 			FlxG.cameras.list.indexOf(playstate.camGame) + 6, false);
+		FlxG.cameras.insert(gunshotCamera, 			FlxG.cameras.list.indexOf(playstate.camGame) + 7, false);
 		
 		abot = new ABot(412, 470);
 		abot.cameras = [speakerCamera];
 		abot.lookLeft();
+
+		gunshot = new FlxSprite(-215, 543);
+		gunshot.frames = Paths.getSparrowAtlas("week7/cutscene/picoStress/gunshot");
+		gunshot.antialiasing = true;
+		gunshot.visible = false;
+		gunshot.animation.addByPrefix("anim", "", 24, false);
+		gunshot.cameras = [gunshotCamera];
+		gunshot.animation.onFinish.add(gunshotAnimationEnd);
 		
-		tankman = new AtlasSprite(809, 499, Paths.getTextureAtlas("week7/cutscene/picoStress/tankman"));
+		tankman = new AtlasSprite(-136, 316, Paths.getTextureAtlas("week7/cutscene/picoStress/tankman"));
 		tankman.antialiasing = true;
 		tankman.addFullAnimation("anim", 24, false);
 		tankman.addFullAnimation("animFastForTest", 800, false);
@@ -157,14 +177,24 @@ class StressPicoIntro extends ScriptedCutscene
 		abot.applyShader(speakerCharacterShader);
 
 		originalZoom = playstate.defaultCamZoom;
+		playstate.customTransIn = new InstantTransition();
+		playstate.camOverlay.fade(0xFF000000, 0);
 
-		addEvent(0, 		setup);
-		addEvent(150/24, 	camera1);
-		addEvent(205/24, 	camera2);
-		addEvent(270/24, 	camera3);
-		addEvent(301/24, 	camera4);
-		addEvent(325/24, 	camera5);
-		addEvent(33, 		stressEnd);
+		addEvent(0, 					setup);
+		addEvent(startOffset, 			startCutscene);
+		addEvent(startOffset + 150/24, 	camera1);
+		addEvent(startOffset + 205/24, 	camera2);
+		addEvent(startOffset + 270/24, 	camera3);
+		addEvent(startOffset + 301/24, 	camera4);
+		addEvent(startOffset + 325/24, 	camera5);
+		addEvent(startOffset + 330/24, 	camera6);
+		addEvent(startOffset + 336/24, 	camera7);
+		addEvent(startOffset + 579/24, 	camera8);
+		addEvent(startOffset + 669/24, 	camera9);
+		addEvent(startOffset + 672/24, 	camera10);
+		addEvent(startOffset + 733/24, 	camera11);
+		addEvent(startOffset + 33.5, 	end);
+		addEvent(startOffset + 33.5 + (Conductor.crochet / 1000) * 5, swapBackToGameplayTankman);
 	}
 
 	override function update(elapsed:Float) {
@@ -175,60 +205,31 @@ class StressPicoIntro extends ScriptedCutscene
 		behindCamera.zoom = playstate.camGame.zoom;
 		frontCamera.zoom = playstate.camGame.zoom;
 		picoCamera.zoom = playstate.camGame.zoom;
+		gunshotCamera.zoom = playstate.camGame.zoom;
 
 		tankmanShader.curZoom = tankmanCamera.zoom;
 		picoShader.curZoom = picoCamera.zoom;
 		speakerCharacterShader.curZoom = speakerCharacterCamera.zoom;
 		frontShader.curZoom = frontCamera.zoom;
 		behindShader.curZoom = behindCamera.zoom;
-
-		/*var moveAmount:Int = 1;
-
-		if(ScriptingUtil.anyPressed(["SHIFT"])){
-			moveAmount = 10;
-		}
-		
-		if(ScriptingUtil.anyPressed(["P"])){
-			pico.pause();
-			tankman.pause();
-			speakerCharacter.pause();
-			speakerFront.pause();
-			speakerBack.pause();
-		}
-
-		if(ScriptingUtil.anyJustPressed(["I"])){
-			speakerFront.y -= moveAmount;
-			speakerBack.y -= moveAmount;
-			trace(speakerFront.getPosition() + "\t" + speakerBack.getPosition());
-		}
-		if(ScriptingUtil.anyJustPressed(["K"])){
-			speakerFront.y += moveAmount;
-			speakerBack.y += moveAmount;
-			trace(speakerFront.getPosition() + "\t" + speakerBack.getPosition());
-		}
-		if(ScriptingUtil.anyJustPressed(["J"])){
-			speakerFront.x -= moveAmount;
-			speakerBack.x -= moveAmount;
-			trace(speakerFront.getPosition() + "\t" + speakerBack.getPosition());
-		}
-		if(ScriptingUtil.anyJustPressed(["L"])){
-			speakerFront.x += moveAmount;
-			speakerBack.x += moveAmount;
-			trace(speakerFront.getPosition() + "\t" + speakerBack.getPosition());
-		}*/
 	}
 
 	function setup() {
-		dad.visible = false;
-		gf.visible = false;
-		boyfriend.visible = false;
-
 		addGeneric(speakerBack);
 		addGeneric(abot);
 		addGeneric(speakerCharacter);
 		addGeneric(speakerFront);
 		addGeneric(pico);
 		addGeneric(tankman);
+		addGeneric(gunshot);
+
+		playstate.camChangeZoom(0.68, 0);
+	}
+
+	function startCutscene() {
+		dad.visible = false;
+		gf.visible = false;
+		boyfriend.visible = false;
 
 		pico.playAnim("anim");
 		tankman.playAnim("anim");
@@ -236,12 +237,11 @@ class StressPicoIntro extends ScriptedCutscene
 		speakerFront.playAnim("anim");
 		speakerBack.playAnim("anim");
 
-		cutsceneAudio = FlxG.sound.play(Paths.sound("week7/picoStressCutscene"));
+		cutsceneAudio = playstate.playSound(Paths.sound("week7/picoStressCutscene"));
 
-		//playstate.camFocusOpponent();
-		playstate.camChangeZoom(0.68, 0);
 		playstate.camChangeZoom(0.7, 150/24);
-		//playstate.camHUD.visible = false;
+		playstate.camOverlay.stopFX();
+		playstate.camOverlay.flash(0xFF000000, 8/24);
 	}
 
 	function camera1(){
@@ -259,32 +259,67 @@ class StressPicoIntro extends ScriptedCutscene
 	}
 	
 	function camera4(){
-		playstate.camMove(camStartPoint.x + 50, camStartPoint.y - 550, 24/24);
+		playstate.camMove(camStartPoint.x + 50, camStartPoint.y - 550, 24/24, FlxEase.linear);
 	}
 
 	function camera5(){
-		playstate.camChangeZoom(1.03, 16/24, FlxEase.quintOut);
-		playstate.camMove(camStartPoint.x + 525, camStartPoint.y + 75, 16/24, FlxEase.quintOut);
+		playstate.camChangeZoom(1.03, 5/24, FlxEase.linear);
+		playstate.camMove(camStartPoint.x + 495, camStartPoint.y + 35, 5/24, FlxEase.linear);
+	}
+	
+	function camera6(){
+		playstate.camMove(camStartPoint.x + 535, camStartPoint.y + 75, 6/24, FlxEase.quartOut);
+	}
+	
+	function camera7(){
+		playstate.camChangeZoom(1.04, 20/24, FlxEase.quadInOut);
 	}
 
-	function stressEnd() {
+	function camera8(){
+		playstate.camChangeZoom(0.87, 26/24, FlxEase.cubeInOut);
+		playstate.camMove(camStartPoint.x - 150, camStartPoint.y, 26/24, FlxEase.cubeInOut);
+	}
+	
+	function camera9(){
+		gunshot.visible = true;
+		gunshot.animation.play("anim");
+		playstate.camMove(camStartPoint.x - 190, camStartPoint.y, 2/24, FlxEase.quartOut);
+	}
+
+	function camera10(){
+		playstate.camMove(camStartPoint.x - 185, camStartPoint.y, 5/24, FlxEase.quartOut);
+	}
+	
+	function camera11(){
+		playstate.camChangeZoom(0.80, 60/24, FlxEase.quadInOut);
+		playstate.camMove(camStartPoint.x, camStartPoint.y, 60/24, FlxEase.quadInOut);
+	}
+
+	function end() {
 		//clean up camera stuff
 		FlxG.cameras.remove(behindCamera, false);
 		FlxG.cameras.remove(speakerCamera, false);
 		FlxG.cameras.remove(frontCamera, false);
 		FlxG.cameras.remove(speakerCharacterCamera, false);
-		FlxG.cameras.remove(tankmanCamera, false);
 		FlxG.cameras.remove(picoCamera, false);
 
-		playstate.camChangeZoom(originalZoom, (Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
-
 		gf.visible = true;
-		dad.visible = true;
 		boyfriend.visible = true;
 
 		playstate.camHUD.visible = true;
-		focusCameraBasedOnFirstSection();
+		playstate.camChangeZoom(originalZoom, (Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
+		focusCameraBasedOnFirstSection((Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
 		next();
+	}
+	
+	function swapBackToGameplayTankman() {
+		FlxG.cameras.remove(tankmanCamera, false);
+		dad.visible = true;
+	}
+
+	function gunshotAnimationEnd(name:String):Void{
+		gunshot.visible = false;
+		gunshot.alpha = 0;
 	}
 
 }

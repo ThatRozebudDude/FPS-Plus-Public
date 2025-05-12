@@ -2,6 +2,8 @@ package cutscenes;
 
 import PlayState.VocalType;
 import flixel.tweens.FlxTween.FlxTweenManager;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.FlxG;
 import flixel.FlxBasic;
 
@@ -166,8 +168,13 @@ class ScriptedCutscene extends FlxBasic
 
 	public function next(?doCamFadeIn:Bool = true):Void{
 		if(PlayState.instance.inEndingCutscene){ PlayState.instance.endSong(); }
-		else{ 
-			PlayState.instance.startCountdown();
+		else{
+			if(!playstate.stage.instantStart){
+				PlayState.instance.startCountdown();
+			}
+			else{
+				PlayState.instance.instantStart();
+			}
 			if(doCamFadeIn){
 				playstate.hudShader.alpha = 0;
 				tween.tween(playstate.hudShader, {alpha: 1}, 0.3);
@@ -175,9 +182,10 @@ class ScriptedCutscene extends FlxBasic
 		}  
 	}
 
-	public function focusCameraBasedOnFirstSection():Void{
-		if(PlayState.SONG.notes[0].mustHitSection){ PlayState.instance.camFocusBF(); }
-		else{ PlayState.instance.camFocusOpponent(); }
+	public function focusCameraBasedOnFirstSection(_time:Float = 1.9, _ease:Null<flixel.tweens.EaseFunction>):Void{
+		if(_ease == null){_ease = FlxEase.expoOut;}
+		if(PlayState.SONG.notes[0].mustHitSection){ PlayState.instance.camFocusBF(0, 0, _time, _ease); }
+		else{ PlayState.instance.camFocusOpponent(0, 0, _time, _ease); }
 	}
 
 	function get_started():Bool{ return __started; }

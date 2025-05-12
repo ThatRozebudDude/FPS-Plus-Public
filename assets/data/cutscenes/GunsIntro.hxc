@@ -57,7 +57,7 @@ class GunsIntro extends ScriptedCutscene
 		tankman.visible = false;
 		removeFromCharacterLayer(tankman);
 		playstate.camHUD.visible = true;
-		focusCameraBasedOnFirstSection();
+		focusCameraBasedOnFirstSection((Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
 		next();
 	}
 

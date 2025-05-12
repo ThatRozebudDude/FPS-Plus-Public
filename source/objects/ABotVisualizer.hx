@@ -58,6 +58,7 @@ class ABotVisualizer extends FlxTypedSpriteGroup<FlxSprite>
 			viz.animation.addByPrefix('VIZ', '$visStr${index}0', 0);
 			viz.animation.play('VIZ', false, false, 6);
 			viz.visible = false;
+			viz.alpha = 0;
 		}
 	}
 
@@ -106,6 +107,7 @@ class ABotVisualizer extends FlxTypedSpriteGroup<FlxSprite>
 		
 			// don't display if we're at 0 volume from the level
 			group.members[i].visible = animFrame > 0;
+			group.members[i].alpha = animFrame > 0 ? 1 : 0;
 		
 			// decrement our animFrame, so we can get a value from 0-5 for animation frames
 			animFrame -= 1;

@@ -50,32 +50,6 @@ class StressPicoEnding extends ScriptedCutscene
 		super.update(elapsed);
 		cutsceneCamera.zoom = playstate.camGame.zoom;
 		tankmanShader.curZoom = cutsceneCamera.zoom;
-		/*var moveAmount:Int = 1;
-
-		if(ScriptingUtil.anyPressed(["SHIFT"])){
-			moveAmount = 10;
-		}
-		
-		if(ScriptingUtil.anyPressed(["SPACE"])){
-			tankmanCutscene.playAnim("full", true);
-		}
-
-		if(ScriptingUtil.anyJustPressed(["I"])){
-			tankmanCutscene.y -= moveAmount;
-			trace(tankmanCutscene.getPosition());
-		}
-		if(ScriptingUtil.anyJustPressed(["K"])){
-			tankmanCutscene.y += moveAmount;
-			trace(tankmanCutscene.getPosition());
-		}
-		if(ScriptingUtil.anyJustPressed(["J"])){
-			tankmanCutscene.x -= moveAmount;
-			trace(tankmanCutscene.getPosition());
-		}
-		if(ScriptingUtil.anyJustPressed(["L"])){
-			tankmanCutscene.x += moveAmount;
-			trace(tankmanCutscene.getPosition());
-		}*/
 	}
 
 	function setup() {

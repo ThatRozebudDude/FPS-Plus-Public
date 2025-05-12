@@ -787,12 +787,14 @@ class PlayState extends MusicBeatState
 	function cutsceneCheck():Void{
 		//trace("in cutsceneCheck");
 		if(startCutscene != null && (startCutscenePlayOnce ? replayStartCutscene : true)){
+			if(!stage.instantStart){ countdownPreload(); }
 			add(startCutscene);
 			inCutscene = true;
 			startCutscene.start();
 		}
 		else{
 			if(!stage.instantStart){
+				countdownPreload();
 				startCountdown();
 			}
 			else{
@@ -804,6 +806,41 @@ class PlayState extends MusicBeatState
 
 	function updateAccuracy(){
 		songStats.accuracy = Scoring.calculateAccuracy(songStats.sickCount, songStats.goodCount, songStats.badCount, songStats.shitCount, songStats.missCount);
+	}
+
+	//Preload countdown audio and graphics for the countdown because sometimes it lags the game when starting countdown from a cutscene I guess.
+	public function countdownPreload():Void{
+		var countdownSkinName:String = uiSkinNames.countdown;
+		var countdownSkin:CountdownSkinBase = new CountdownSkinBase(countdownSkinName);
+
+		//Audio Cache
+		if(countdownSkin.info.first.audioPath != null){
+			FlxG.sound.cache(Paths.sound(countdownSkin.info.first.audioPath));
+		}
+		if(countdownSkin.info.second.audioPath != null){
+			FlxG.sound.cache(Paths.sound(countdownSkin.info.second.audioPath));
+		}
+		if(countdownSkin.info.third.audioPath != null){
+			FlxG.sound.cache(Paths.sound(countdownSkin.info.third.audioPath));
+		}
+		if(countdownSkin.info.fourth.audioPath != null){
+			FlxG.sound.cache(Paths.sound(countdownSkin.info.fourth.audioPath));
+		}
+
+		//Preload graphics in local cache.
+		//Fun side effect of how Paths.image is done is that just calling it on it's own will load a graphic into the cache even if it doesn't get used.
+		if(countdownSkin.info.first.graphicPath != null){
+			Paths.image(countdownSkin.info.first.graphicPath);
+		}
+		if(countdownSkin.info.second.graphicPath != null){
+			Paths.image(countdownSkin.info.second.graphicPath);
+		}
+		if(countdownSkin.info.third.graphicPath != null){
+			Paths.image(countdownSkin.info.third.graphicPath);
+		}
+		if(countdownSkin.info.fourth.graphicPath != null){
+			Paths.image(countdownSkin.info.fourth.graphicPath);
+		}
 	}
 
 	var startTimer:FlxTimer;
@@ -853,9 +890,7 @@ class PlayState extends MusicBeatState
 			if(bfBeats.contains((swagCounter % 4)))
 				if(swagCounter != 4) { boyfriend.dance(); }
 
-			switch (swagCounter)
-
-			{
+			switch (swagCounter){
 				case 0:
 					if(countdownSkin.info.first.audioPath != null){
 						playSound(Paths.sound(countdownSkin.info.first.audioPath), 0.6);
