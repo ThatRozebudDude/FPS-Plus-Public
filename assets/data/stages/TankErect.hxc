@@ -19,9 +19,17 @@ class TankErect extends BaseStage
 	var sniper:FlxSprite;
 	var guy:FlxSprite;
 
+	var neneKnife:FlxSprite;
+	var neneKnifeTracking:FlxObject;
+	var neneKnifeStartPos:FlxPoint;
+	var neneKnifeShader:DropShadowShader;
+	var neneKnifeGravity:Float = 0;
+	var neneKnifeMoveTime:Float = 0;
+
 	var bfShader:DropShadowShader;
 	var dadShader:DropShadowShader;
 	var gfShader:DropShadowShader;
+	
 
 	var sniperSipping:Bool = true;
 
@@ -55,6 +63,18 @@ class TankErect extends BaseStage
 		guy.animation.addByPrefix("idle", "BLTank2 instance 1", 24, false);
 		guy.animation.play("idle");
 		addToBackground(guy);
+		
+		neneKnife = new FlxSprite(950, 500);
+		neneKnife.frames = Paths.getSparrowAtlas("week7/neneKnifeThrow");
+		neneKnife.antialiasing = true;
+		neneKnife.visible = false;
+		neneKnife.animation.addByPrefix("spin", "", 30, true);
+		neneKnife.animation.play("spin");
+		neneKnifeStartPos = neneKnife.getPosition();
+		addToForeground(neneKnife);
+
+		neneKnifeTracking = new FlxObject(neneKnifeStartPos.x, neneKnifeStartPos.y);
+		addToUpdate(neneKnifeTracking);
 
 		tankmanRun = ScriptingUtil.makeFlxSpriteGroup();
 		addToBackground(tankmanRun);
@@ -93,6 +113,7 @@ class TankErect extends BaseStage
 						tankmanRunShader.updateFrameInfo(tankman.frame);
 					};
 
+					
 					updateFunctions.push(function(){
 						if(tankman.alive && tankman.visible){
 							if(tankman.goingRight){
@@ -130,10 +151,25 @@ class TankErect extends BaseStage
 		gfShader.attachCharacter(gf);
 		gf.applyShader(gfShader);
 
+		neneKnifeShader = new DropShadowShader();
+		neneKnifeShader.setAdjustColor(-46, -38, -25, -20);
+		neneKnifeShader.color = 0xFFDFEF3C;
+		neneKnifeShader.angle = 90;
+		neneKnifeShader.threshold = 0.4;
+		neneKnifeShader.attachedSprite = neneKnife;
+		neneKnife.shader = neneKnifeShader;
+		neneKnife.animation.callback = function(name:String, frameNumber:Int, frameIndex:Int){
+			neneKnifeShader.updateFrameInfo(neneKnife.frame);
+			neneKnife.setPosition(neneKnifeTracking.x, neneKnifeTracking.y);
+		};
+
+		addEvent("tankErect-throwKnife", throwKnife);
+		addEvent("tankErect-hideKnife", hideKnife);
 	}
 
 	public override function update(elapsed:Float){
 		super.update(elapsed);
+		if(neneKnife.visible){ neneKnifeTracking.velocity.y += neneKnifeGravity * elapsed; }
 		for(func in updateFunctions){ func(); }
 	}
 
@@ -165,6 +201,21 @@ class TankErect extends BaseStage
 				}
 			});
 		}
+	}
+
+	public function throwKnife(tag:String):Void{
+		var args = Events.getArgs(tag, ["0", "0", "0"]);
+		neneKnife.setPosition(neneKnifeStartPos.x, neneKnifeStartPos.y);
+		neneKnife.visible = true;
+		neneKnife.animation.play("spin", true);
+		neneKnifeTracking.setPosition(neneKnifeStartPos.x, neneKnifeStartPos.y);
+		neneKnifeTracking.velocity.set(Std.parseFloat(args[0]), Std.parseFloat(args[1]));
+		neneKnifeGravity = Std.parseFloat(args[2]);
+	}
+
+	public function hideKnife(tag:String):Void{
+		neneKnife.visible = false;
+		neneKnifeTracking.velocity.set(0, 0);
 	}
 
 }

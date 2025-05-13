@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Funkin Packer v0.1.3 DEV https://neeeoo.github.io/funkin-packer/
+-->
+<TextureAtlas imagePath="neneKnifeThrow.png" width="1021" height="212" spritePadding="2" borderPadding="1">
+	<SubTexture name="knife spin0000" x="369" y="1" width="169" height="209" rotated="true" frameX="-7" frameY="0" frameWidth="209" frameHeight="210"/>
+	<SubTexture name="knife spin0001" x="865" y="1" width="155" height="199" frameX="-38" frameY="-50" frameWidth="209" frameHeight="210"/>
+	<SubTexture name="knife spin0002" x="1" y="1" width="192" height="210" frameX="-63" frameY="-43" frameWidth="209" frameHeight="210"/>
+	<SubTexture name="knife spin0003" x="540" y="1" width="159" height="207" rotated="true" frameX="0" frameY="-10" frameWidth="209" frameHeight="210"/>
+	<SubTexture name="knife spin0004" x="701" y="1" width="162" height="199" frameX="-46" frameY="-49" frameWidth="209" frameHeight="210"/>
+	<SubTexture name="knife spin0005" x="195" y="1" width="172" height="207" frameX="-84" frameY="0" frameWidth="209" frameHeight="210"/>
+</TextureAtlas>
