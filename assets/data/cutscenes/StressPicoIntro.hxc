@@ -128,6 +128,12 @@ class StressPicoIntro extends ScriptedCutscene
 		speakerFront.antialiasing = true;
 		speakerFront.addFullAnimation("anim", 24, false);
 		speakerFront.cameras = [frontCamera];
+		speakerFront.animationEndCallback = function(name:String){
+			removeGeneric(speakerFront);
+			frontCamera.filters = [];
+			FlxG.cameras.remove(frontCamera, true);
+			Utils.destroyWhenAvailable(speakerFront);
+		}
 
 		speakerCharacter = new AtlasSprite(287, -712, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerCharacter"));
 		speakerCharacter.antialiasing = true;
@@ -139,6 +145,12 @@ class StressPicoIntro extends ScriptedCutscene
 		speakerBack.antialiasing = true;
 		speakerBack.addFullAnimation("anim", 24, false);
 		speakerBack.cameras = [behindCamera];
+		speakerBack.animationEndCallback = function(name:String){
+			removeGeneric(speakerBack);
+			behindCamera.filters = [];
+			FlxG.cameras.remove(behindCamera, true);
+			Utils.destroyWhenAvailable(speakerBack);
+		}
 
 		tankmanShader = new DropShadowScreenspaceShader();
 		tankmanShader.setAdjustColor(-46, -38, -25, -20);
@@ -297,29 +309,21 @@ class StressPicoIntro extends ScriptedCutscene
 
 	function end(){
 		//clean up stuff
-		removeGeneric(speakerBack);
 		removeGeneric(abot);
 		removeGeneric(speakerCharacter);
-		removeGeneric(speakerFront);
 		removeGeneric(pico);
 		removeGeneric(gunshot);
 		
-		speakerBack.destroy();
 		abot.destroy();
 		speakerCharacter.destroy();
-		speakerFront.destroy();
 		pico.destroy();
 		gunshot.destroy();
 
-		behindCamera.filters = [];
 		speakerCamera.filters = [];
-		frontCamera.filters = [];
 		speakerCharacterCamera.filters = [];
 		picoCamera.filters = [];
 
-		FlxG.cameras.remove(behindCamera, true);
 		FlxG.cameras.remove(speakerCamera, true);
-		FlxG.cameras.remove(frontCamera, true);
 		FlxG.cameras.remove(speakerCharacterCamera, true);
 		FlxG.cameras.remove(picoCamera, true);
 

@@ -10,11 +10,11 @@
 	<!--Minimum without FLX_NO_GAMEPAD: 11.8, without FLX_NO_NATIVE_CURSOR: 11.2-->
 	<set name="SWF_VERSION" value="11.8" />
 
+	<haxeflag name="-dce no" />
+
 	<!--Makes sure that all of these are included when complied even if they aren't directly called in the code.-->
-	<compilerflag name="--macro" value="include('cutscenes', true)" />
 	<compilerflag name="--macro" value="include('shaders', true)" />
 	<compilerflag name="--macro" value="include('objects', true)" />
-	<compilerflag name="--macro" value="include('ui', true)" />
 
 	<!--Allows all of Flixel to be used by scripts at runtime instead of only what was imported in the code.-->
 	<compilerflag name="--macro" value="include('flixel', true, [ 'flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.system.macros.*' ])" />
