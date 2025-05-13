@@ -101,6 +101,8 @@ class PlayState extends MusicBeatState
 	private var camZoomTween:FlxTween;
 	private var camZoomAdjustTween:FlxTween;
 	private var uiZoomTween:FlxTween;
+	public var defaultCameraTime:Float = 1.9;
+	public var defaultCameraEase:flixel.tweens.EaseFunction = FlxEase.expoOut;
 
 	public var camFollow:FlxPoint;
 	public var camFollowFinal:FlxObject;
@@ -108,6 +110,8 @@ class PlayState extends MusicBeatState
 	public var camFollowOffset:FlxPoint;
 	private var offsetTween:FlxTween;
 	private var returnedToCenter:Bool = true;
+	public var defaultCameraOffsetTime:Float = 1.4;
+	public var defaultCameraOffsetEase:flixel.tweens.EaseFunction = FlxEase.expoOut;
 
 	public var camFollowShake:FlxPoint;
 	private var shakeTween:FlxTween;
@@ -2785,8 +2789,9 @@ class PlayState extends MusicBeatState
 		return false;
 	}
 
-	public function camFocusOpponent(?offsetX:Float = 0, ?offsetY:Float = 0, ?_time:Float = 1.9, ?_ease:Null<flixel.tweens.EaseFunction>){
-		if(_ease == null){_ease = FlxEase.expoOut;}
+	public function camFocusOpponent(?offsetX:Float = 0, ?offsetY:Float = 0, ?_time:Null<Float>, ?_ease:Null<flixel.tweens.EaseFunction>){
+		if(_time == null){_time = defaultCameraTime;}
+		if(_ease == null){_ease = defaultCameraEase;}
 		
 		var pos = getOpponentFocusPosition();
 		camMove(pos.x + offsetX, pos.y + offsetY, _time, _ease, "dad");
@@ -2802,8 +2807,9 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	public function camFocusBF(?offsetX:Float = 0, ?offsetY:Float = 0, ?_time:Float = 1.9, ?_ease:Null<flixel.tweens.EaseFunction>){
-		if(_ease == null){_ease = FlxEase.expoOut;}
+	public function camFocusBF(?offsetX:Float = 0, ?offsetY:Float = 0, ?_time:Null<Float>, ?_ease:Null<flixel.tweens.EaseFunction>){
+		if(_time == null){_time = defaultCameraTime;}
+		if(_ease == null){_ease = defaultCameraEase;}
 
 		var pos = getBfFocusPostion();
 		camMove(pos.x + offsetX, pos.y + offsetY, _time, _ease, "bf");
@@ -2819,8 +2825,9 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	public function camFocusGF(?offsetX:Float = 0, ?offsetY:Float = 0, ?_time:Float = 1.9, ?_ease:Null<flixel.tweens.EaseFunction>){
-		if(_ease == null){_ease = FlxEase.expoOut;}
+	public function camFocusGF(?offsetX:Float = 0, ?offsetY:Float = 0, ?_time:Null<Float>, ?_ease:Null<flixel.tweens.EaseFunction>){
+		if(_time == null){_time = defaultCameraTime;}
+		if(_ease == null){_ease = defaultCameraEase;}
 
 		var pos = getGfFocusPosition();
 		camMove(pos.x + offsetX, pos.y + offsetY, _time, _ease, "gf");
@@ -2928,14 +2935,13 @@ class PlayState extends MusicBeatState
 
 	}
 
-	public function changeCamOffset(_x:Float, _y:Float, ?_time:Float = 1.4, ?_ease:Null<flixel.tweens.EaseFunction>){
+	public function changeCamOffset(_x:Float, _y:Float, ?_time:Null<Float>, ?_ease:Null<flixel.tweens.EaseFunction>){
 
 		//Don't allow for extra camera offsets if it's disabled in the config.
 		if(!Config.extraCamMovement){ return; }
 
-		if(_ease == null){
-			_ease = FlxEase.expoOut;
-		}
+		if(_time == null){ _time = defaultCameraOffsetTime; }
+		if(_ease == null){ _ease = defaultCameraOffsetEase; }
 
 		offsetTween.cancel();
 		if(_time > 0){
