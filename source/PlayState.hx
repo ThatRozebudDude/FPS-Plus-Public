@@ -189,7 +189,7 @@ class PlayState extends MusicBeatState
 	public var anyPlayerNoteInRange:Bool = false;
 	public var anyOpponentNoteInRange:Bool = false;
 
-	private var strumLineVerticalPosition:Float;
+	public var strumLineVerticalPosition:Float;
 	private var curSection:Int = 0;
 
 	private static var prevCamFollow:FlxObject;
@@ -595,7 +595,7 @@ class PlayState extends MusicBeatState
 			strumLineVerticalPosition = 570;
 		}
 		else {
-			strumLineVerticalPosition = 30;
+			strumLineVerticalPosition = 40;
 		}
 
 		playerStrums = new FlxTypedGroup<FlxSprite>();

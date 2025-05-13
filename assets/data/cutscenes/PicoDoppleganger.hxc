@@ -160,7 +160,7 @@ class PicoDoppleganger extends ScriptedCutscene
 			}
 
 			removeFromCharacterLayer(playerPico);
-			playerPico.destroy();
+			Utils.destroyWhenAvailable(opPico);
 			boyfriend.visible = true;
 			next();
 		}
@@ -170,8 +170,8 @@ class PicoDoppleganger extends ScriptedCutscene
 		else{
 			removeFromCharacterLayer(opPico);
 			removeFromCharacterLayer(playerPico);
-			opPico.destroy();
-			playerPico.destroy();
+			Utils.destroyWhenAvailable(opPico);
+			Utils.destroyWhenAvailable(playerPico);
 			boyfriend.visible = true;
 			dad.visible = true;
 			next();
