@@ -24,6 +24,7 @@ class Tankman extends CharacterInfoBase
 		addByPrefix("beat it", offset(-11, -13), "tankman beat it", 24, loop(false, 0), false, false);
 		addByPrefix("laugh", offset(-19, 14), "tankman laugh", 24, loop(false, 0), false, false);
 
+		addExtraData("dropShadowThreshold", 0.3);
 	}
 
 }

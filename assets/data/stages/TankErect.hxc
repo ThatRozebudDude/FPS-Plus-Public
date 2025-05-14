@@ -139,7 +139,6 @@ class TankErect extends BaseStage
 		dadShader.setAdjustColor(-46, -38, -25, -20);
     	dadShader.color = 0xFFDFEF3C;
 		dadShader.angle = 45;
-		dadShader.threshold = 0.3;
 		dadShader.attachCharacter(dad);
 		dad.applyShader(dadShader);
 

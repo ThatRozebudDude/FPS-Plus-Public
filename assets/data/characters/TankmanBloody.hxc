@@ -34,6 +34,7 @@ class TankmanBloody extends CharacterInfoBase
 		addByPrefix("prettyGood-bloody", offset(98, 89), "pretty good anim", 24, loop(false, 0), false, false);
 		addByPrefix("redheads", offset(191, 119), "redheads anim", 24, loop(false, 0), false, false);
 
+		addExtraData("dropShadowThreshold", 0.3);
 		addExtraData("dropShadowMask", "week7/stage/erect/masks/tankmanCaptainBloody_mask");
 		addExtraData("dropShadowMaskAnimationList", ["idle-bloody", "singUP-bloody", "singDOWN-bloody", "singRIGHT-bloody", "singLEFT-bloody", "prettyGood-bloody", "redheads"]);
 		addExtraData("dropShadowMaskThreshold", 1);

@@ -39,6 +39,7 @@ class NenePixel extends CharacterInfoBase
 
 		addExtraData("reposition", [0, -168]);
 		addExtraData("scale", 6);
+		addExtraData("dropShadowThreshold", 0.3);
 		addExtraData("dropShadowMask", "week6/weeb/erect/masks/nenePixel_mask");
 		addExtraData("dropShadowMaskThreshold", 1);
 	}

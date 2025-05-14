@@ -61,7 +61,6 @@ class SchoolEvilErect extends BaseStage
 		gfShader.antialiasAmt = 0;
 		gfShader.usePixelPerfect = true;
 		gfShader.distance = 3;
-		gfShader.threshold = 0.3;
 		gfShader.attachCharacter(gf);
 		gf.applyShader(gfShader);
 	}

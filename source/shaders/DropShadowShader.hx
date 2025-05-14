@@ -242,6 +242,9 @@ class DropShadowShader extends FlxShader
 				useAltMask = character.characterInfo.info.extraData.get("dropShadowMaskAnimationList").contains(name);
 			}
 		});
+		if(character.characterInfo.info.extraData.get("dropShadowThreshold") != null){
+			threshold = character.characterInfo.info.extraData.get("dropShadowThreshold");
+		}
 		if(character.characterInfo.info.extraData.get("dropShadowMask") != null){
 			loadAltMask(Paths.image(character.characterInfo.info.extraData.get("dropShadowMask")));
 			maskThreshold = character.characterInfo.info.extraData.get("dropShadowMaskThreshold");
