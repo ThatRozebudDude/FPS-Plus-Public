@@ -1,17 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<TextureAtlas imagePath="bgtrees.png">
-	<!-- Created with Adobe Animate version 22.0.5.191 -->
-	<!-- http://www.adobe.com/products/animate.html -->
-	<SubTexture name="bgtrees0000" x="0" y="0" width="600" height="400"/>
-	<SubTexture name="bgtrees0001" x="605" y="0" width="600" height="400"/>
-	<SubTexture name="bgtrees0002" x="1210" y="0" width="600" height="400"/>
-	<SubTexture name="bgtrees0003" x="0" y="405" width="600" height="400"/>
-	<SubTexture name="bgtrees0004" x="605" y="405" width="600" height="400"/>
-	<SubTexture name="bgtrees0005" x="1210" y="405" width="600" height="400"/>
-	<SubTexture name="bgtrees0006" x="0" y="810" width="600" height="400"/>
-	<SubTexture name="bgtrees0007" x="605" y="810" width="600" height="400"/>
-	<SubTexture name="bgtrees0008" x="1210" y="810" width="600" height="400"/>
-	<SubTexture name="bgtrees0009" x="0" y="1215" width="600" height="400"/>
-	<SubTexture name="bgtrees0010" x="605" y="1215" width="600" height="400"/>
-	<SubTexture name="bgtrees0011" x="1210" y="1215" width="600" height="400"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Funkin Packer v0.1.3 DEV https://neeeoo.github.io/funkin-packer/
+-->
+<TextureAtlas imagePath="bgtrees.png" width="7224" height="402" spritePadding="2" borderPadding="1">
+	<SubTexture name="bgtrees0000" x="1" y="1" width="600" height="400" frameX="0" frameY="0" frameWidth="600" frameHeight="400"/>
+	<SubTexture name="bgtrees0001" x="603" y="1" width="600" height="400" frameX="0" frameY="0" frameWidth="600" frameHeight="400"/>
+	<SubTexture name="bgtrees0002" x="1205" y="1" width="600" height="400" frameX="0" frameY="0" frameWidth="600" frameHeight="400"/>
+	<SubTexture name="bgtrees0003" x="1807" y="1" width="600" height="400" frameX="0" frameY="0" frameWidth="600" frameHeight="400"/>
+	<SubTexture name="bgtrees0004" x="2409" y="1" width="600" height="400" frameX="0" frameY="0" frameWidth="600" frameHeight="400"/>
+	<SubTexture name="bgtrees0005" x="3011" y="1" width="600" height="400" frameX="0" frameY="0" frameWidth="600" frameHeight="400"/>
+	<SubTexture name="bgtrees0006" x="3613" y="1" width="600" height="400" frameX="0" frameY="0" frameWidth="600" frameHeight="400"/>
+	<SubTexture name="bgtrees0007" x="4215" y="1" width="600" height="400" frameX="0" frameY="0" frameWidth="600" frameHeight="400"/>
+	<SubTexture name="bgtrees0008" x="4817" y="1" width="600" height="400" frameX="0" frameY="0" frameWidth="600" frameHeight="400"/>
+	<SubTexture name="bgtrees0009" x="5419" y="1" width="600" height="400" frameX="0" frameY="0" frameWidth="600" frameHeight="400"/>
+	<SubTexture name="bgtrees0010" x="6021" y="1" width="600" height="400" frameX="0" frameY="0" frameWidth="600" frameHeight="400"/>
+	<SubTexture name="bgtrees0011" x="6623" y="1" width="600" height="400" frameX="0" frameY="0" frameWidth="600" frameHeight="400"/>
 </TextureAtlas>

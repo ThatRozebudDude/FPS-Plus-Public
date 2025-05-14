@@ -1,137 +1,138 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<TextureAtlas imagePath="snowflakes.png">
-	<!-- Created with Adobe Animate version 22.0.5.191 -->
-	<!-- http://www.adobe.com/products/animate.html -->
-	<SubTexture name="snowflake10000" x="0" y="0" width="10" height="8"/>
-	<SubTexture name="snowflake10001" x="0" y="0" width="10" height="8"/>
-	<SubTexture name="snowflake10002" x="15" y="0" width="8" height="6" frameX="-1" frameY="-1" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10003" x="15" y="0" width="8" height="6" frameX="-1" frameY="-1" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10004" x="28" y="0" width="6" height="5" frameX="-2" frameY="-2" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10005" x="28" y="0" width="6" height="5" frameX="-2" frameY="-2" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10006" x="39" y="0" width="8" height="7" frameX="-1" frameY="0" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10007" x="39" y="0" width="8" height="7" frameX="-1" frameY="0" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10008" x="52" y="0" width="7" height="6" frameX="-1" frameY="-1" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10009" x="52" y="0" width="7" height="6" frameX="-1" frameY="-1" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10010" x="52" y="0" width="7" height="6" frameX="-1" frameY="-1" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10011" x="52" y="0" width="7" height="6" frameX="-1" frameY="-1" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10012" x="64" y="0" width="7" height="6" frameX="-1" frameY="-1" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10013" x="64" y="0" width="7" height="6" frameX="-1" frameY="-1" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10014" x="76" y="0" width="6" height="6" frameX="-2" frameY="-1" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10015" x="76" y="0" width="6" height="6" frameX="-2" frameY="-1" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10016" x="87" y="0" width="6" height="5" frameX="-2" frameY="-1" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10017" x="87" y="0" width="6" height="5" frameX="-2" frameY="-1" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10018" x="98" y="0" width="6" height="5" frameX="-2" frameY="-1" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10019" x="98" y="0" width="6" height="5" frameX="-2" frameY="-1" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10020" x="109" y="0" width="6" height="5" frameX="-2" frameY="-1" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10021" x="109" y="0" width="6" height="5" frameX="-2" frameY="-1" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10022" x="120" y="0" width="4" height="2" frameX="-3" frameY="-3" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10023" x="120" y="0" width="4" height="2" frameX="-3" frameY="-3" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10024" x="0" y="13" width="0" height="0" frameX="751" frameY="-120" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake10025" x="0" y="13" width="0" height="0" frameX="751" frameY="-120" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake20000" x="5" y="13" width="12" height="11" frameX="0" frameY="-2" frameWidth="15" frameHeight="15"/>
-	<SubTexture name="snowflake20001" x="5" y="13" width="12" height="11" frameX="0" frameY="-2" frameWidth="15" frameHeight="15"/>
-	<SubTexture name="snowflake20002" x="22" y="13" width="12" height="10" frameX="0" frameY="-2" frameWidth="15" frameHeight="15"/>
-	<SubTexture name="snowflake20003" x="22" y="13" width="12" height="10" frameX="0" frameY="-2" frameWidth="15" frameHeight="15"/>
-	<SubTexture name="snowflake20004" x="39" y="13" width="13" height="15" frameX="-1" frameY="0" frameWidth="15" frameHeight="15"/>
-	<SubTexture name="snowflake20005" x="39" y="13" width="13" height="15" frameX="-1" frameY="0" frameWidth="15" frameHeight="15"/>
-	<SubTexture name="snowflake20006" x="57" y="13" width="15" height="15"/>
-	<SubTexture name="snowflake20007" x="57" y="13" width="15" height="15"/>
-	<SubTexture name="snowflake20008" x="77" y="13" width="13" height="11" frameX="-1" frameY="-1" frameWidth="15" frameHeight="15"/>
-	<SubTexture name="snowflake20009" x="77" y="13" width="13" height="11" frameX="-1" frameY="-1" frameWidth="15" frameHeight="15"/>
-	<SubTexture name="snowflake20010" x="95" y="13" width="13" height="12" frameX="-1" frameY="0" frameWidth="15" frameHeight="15"/>
-	<SubTexture name="snowflake20011" x="95" y="13" width="13" height="12" frameX="-1" frameY="0" frameWidth="15" frameHeight="15"/>
-	<SubTexture name="snowflake20012" x="113" y="13" width="8" height="6" frameX="-4" frameY="-4" frameWidth="15" frameHeight="15"/>
-	<SubTexture name="snowflake20013" x="113" y="13" width="8" height="6" frameX="-4" frameY="-4" frameWidth="15" frameHeight="15"/>
-	<SubTexture name="snowflake20014" x="0" y="33" width="8" height="6" frameX="-4" frameY="-3" frameWidth="15" frameHeight="15"/>
-	<SubTexture name="snowflake20015" x="0" y="33" width="8" height="6" frameX="-4" frameY="-3" frameWidth="15" frameHeight="15"/>
-	<SubTexture name="snowflake20016" x="13" y="33" width="0" height="0" frameX="846" frameY="-125" frameWidth="15" frameHeight="15"/>
-	<SubTexture name="snowflake20017" x="13" y="33" width="0" height="0" frameX="846" frameY="-125" frameWidth="15" frameHeight="15"/>
-	<SubTexture name="snowflake30000" x="18" y="33" width="7" height="8" frameX="-1" frameY="-1" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30001" x="18" y="33" width="7" height="8" frameX="-1" frameY="-1" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30002" x="30" y="33" width="7" height="5" frameX="-1" frameY="-3" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30003" x="30" y="33" width="7" height="5" frameX="-1" frameY="-3" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30004" x="64" y="0" width="7" height="6" frameX="-1" frameY="-3" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake30005" x="64" y="0" width="7" height="6" frameX="-1" frameY="-3" frameWidth="10" frameHeight="8"/>
-	<SubTexture name="snowflake30006" x="42" y="33" width="11" height="8" frameX="0" frameY="-1" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30007" x="42" y="33" width="11" height="8" frameX="0" frameY="-1" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30008" x="58" y="33" width="10" height="8" frameX="-1" frameY="-2" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30009" x="58" y="33" width="10" height="8" frameX="-1" frameY="-2" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30010" x="73" y="33" width="8" height="9" frameX="-2" frameY="0" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30011" x="73" y="33" width="8" height="9" frameX="-2" frameY="0" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30012" x="86" y="33" width="7" height="7" frameX="-3" frameY="-1" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30013" x="86" y="33" width="7" height="7" frameX="-3" frameY="-1" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30014" x="98" y="33" width="8" height="7" frameX="-3" frameY="-1" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30015" x="98" y="33" width="8" height="7" frameX="-3" frameY="-1" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30016" x="111" y="33" width="7" height="5" frameX="-3" frameY="-2" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30017" x="111" y="33" width="7" height="5" frameX="-3" frameY="-2" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30018" x="0" y="47" width="7" height="8" frameX="-3" frameY="-1" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30019" x="0" y="47" width="7" height="8" frameX="-3" frameY="-1" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30020" x="12" y="47" width="6" height="6" frameX="-4" frameY="-2" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30021" x="12" y="47" width="6" height="6" frameX="-4" frameY="-2" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30022" x="23" y="47" width="7" height="7" frameX="-3" frameY="-2" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30023" x="23" y="47" width="7" height="7" frameX="-3" frameY="-2" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30024" x="35" y="47" width="0" height="0" frameX="956" frameY="-127" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake30025" x="35" y="47" width="0" height="0" frameX="956" frameY="-127" frameWidth="11" frameHeight="10"/>
-	<SubTexture name="snowflake40000" x="40" y="47" width="8" height="7" frameX="0" frameY="0" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40001" x="40" y="47" width="8" height="7" frameX="0" frameY="0" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40002" x="53" y="47" width="5" height="4" frameX="-2" frameY="-1" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40003" x="53" y="47" width="5" height="4" frameX="-2" frameY="-1" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40004" x="63" y="47" width="8" height="7" frameX="-1" frameY="0" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40005" x="63" y="47" width="8" height="7" frameX="-1" frameY="0" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40006" x="76" y="47" width="6" height="6" frameX="-2" frameY="0" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40007" x="76" y="47" width="6" height="6" frameX="-2" frameY="0" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40008" x="87" y="47" width="6" height="5" frameX="-2" frameY="-1" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40009" x="87" y="47" width="6" height="5" frameX="-2" frameY="-1" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40010" x="98" y="47" width="5" height="3" frameX="-3" frameY="-2" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40011" x="98" y="47" width="5" height="3" frameX="-3" frameY="-2" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40012" x="108" y="47" width="5" height="4" frameX="-3" frameY="-2" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40013" x="108" y="47" width="5" height="4" frameX="-3" frameY="-2" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40014" x="118" y="47" width="5" height="2" frameX="-3" frameY="-3" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40015" x="118" y="47" width="5" height="2" frameX="-3" frameY="-3" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40016" x="0" y="60" width="4" height="3" frameX="-4" frameY="-2" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40017" x="0" y="60" width="4" height="3" frameX="-4" frameY="-2" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40018" x="9" y="60" width="0" height="0" frameX="1027" frameY="-126" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake40019" x="9" y="60" width="0" height="0" frameX="1027" frameY="-126" frameWidth="9" frameHeight="7"/>
-	<SubTexture name="snowflake50000" x="14" y="60" width="11" height="11" frameX="-1" frameY="-3" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake50001" x="14" y="60" width="11" height="11" frameX="-1" frameY="-3" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake50002" x="30" y="60" width="13" height="11" frameX="0" frameY="-2" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake50003" x="30" y="60" width="13" height="11" frameX="0" frameY="-2" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake50004" x="48" y="60" width="12" height="13" frameX="-1" frameY="-2" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake50005" x="48" y="60" width="12" height="13" frameX="-1" frameY="-2" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake50006" x="65" y="60" width="9" height="10" frameX="-3" frameY="-3" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake50007" x="65" y="60" width="9" height="10" frameX="-3" frameY="-3" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake50008" x="79" y="60" width="13" height="14" frameX="-1" frameY="0" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake50009" x="79" y="60" width="13" height="14" frameX="-1" frameY="0" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake50010" x="97" y="60" width="11" height="9" frameX="-2" frameY="-4" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake50011" x="97" y="60" width="11" height="9" frameX="-2" frameY="-4" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake50012" x="113" y="60" width="9" height="9" frameX="-3" frameY="-3" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake50013" x="113" y="60" width="9" height="9" frameX="-3" frameY="-3" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake50014" x="0" y="79" width="7" height="6" frameX="-4" frameY="-5" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake50015" x="0" y="79" width="7" height="6" frameX="-4" frameY="-5" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake50016" x="12" y="79" width="0" height="0" frameX="1085" frameY="-129" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake50017" x="12" y="79" width="0" height="0" frameX="1085" frameY="-129" frameWidth="14" frameHeight="15"/>
-	<SubTexture name="snowflake60000" x="17" y="79" width="9" height="7" frameX="-2" frameY="-2" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60001" x="17" y="79" width="9" height="7" frameX="-2" frameY="-2" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60002" x="31" y="79" width="12" height="9" frameX="0" frameY="-1" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60003" x="31" y="79" width="12" height="9" frameX="0" frameY="-1" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60004" x="48" y="79" width="9" height="7" frameX="-2" frameY="-2" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60005" x="48" y="79" width="9" height="7" frameX="-2" frameY="-2" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60006" x="62" y="79" width="9" height="7" frameX="-2" frameY="-2" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60007" x="62" y="79" width="9" height="7" frameX="-2" frameY="-2" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60008" x="76" y="79" width="10" height="8" frameX="-2" frameY="-2" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60009" x="76" y="79" width="10" height="8" frameX="-2" frameY="-2" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60010" x="91" y="79" width="11" height="8" frameX="-1" frameY="-3" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60011" x="91" y="79" width="11" height="8" frameX="-1" frameY="-3" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60012" x="107" y="79" width="10" height="10" frameX="-2" frameY="-1" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60013" x="107" y="79" width="10" height="10" frameX="-2" frameY="-1" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60014" x="0" y="94" width="8" height="11" frameX="-3" frameY="-1" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60015" x="0" y="94" width="8" height="11" frameX="-3" frameY="-1" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60016" x="13" y="94" width="11" height="11" frameX="-2" frameY="-1" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60017" x="13" y="94" width="11" height="11" frameX="-2" frameY="-1" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60018" x="29" y="94" width="13" height="12" frameX="-1" frameY="0" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60019" x="29" y="94" width="13" height="12" frameX="-1" frameY="0" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60020" x="47" y="94" width="11" height="10" frameX="-2" frameY="-2" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60021" x="47" y="94" width="11" height="10" frameX="-2" frameY="-2" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60022" x="63" y="94" width="10" height="13" frameX="-3" frameY="0" frameWidth="14" frameHeight="13"/>
-	<SubTexture name="snowflake60023" x="63" y="94" width="10" height="13" frameX="-3" frameY="0" frameWidth="14" frameHeight="13"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Funkin Packer v0.1.3 DEV https://neeeoo.github.io/funkin-packer/
+-->
+<TextureAtlas imagePath="snowflakes.png" width="80" height="86" spritePadding="2" borderPadding="1">
+	<SubTexture name="snowflake10000" x="59" y="41" width="10" height="8" frameX="0" frameY="0" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10001" x="59" y="41" width="10" height="8" frameX="0" frameY="0" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10002" x="51" y="54" width="6" height="8" rotated="true" frameX="-1" frameY="-1" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10003" x="51" y="54" width="6" height="8" rotated="true" frameX="-1" frameY="-1" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10004" x="57" y="71" width="5" height="6" rotated="true" frameX="-2" frameY="-2" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10005" x="57" y="71" width="5" height="6" rotated="true" frameX="-2" frameY="-2" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10006" x="68" y="20" width="8" height="7" frameX="-1" frameY="0" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10007" x="68" y="20" width="8" height="7" frameX="-1" frameY="0" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10008" x="71" y="56" width="7" height="6" frameX="-1" frameY="-1" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10009" x="71" y="56" width="7" height="6" frameX="-1" frameY="-1" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10010" x="71" y="56" width="7" height="6" frameX="-1" frameY="-1" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10011" x="71" y="56" width="7" height="6" frameX="-1" frameY="-1" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10012" x="1" y="70" width="6" height="7" rotated="true" frameX="-1" frameY="-1" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10013" x="1" y="70" width="6" height="7" rotated="true" frameX="-1" frameY="-1" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10014" x="1" y="79" width="6" height="6" frameX="-2" frameY="-1" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10015" x="1" y="79" width="6" height="6" frameX="-2" frameY="-1" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10016" x="64" y="71" width="5" height="6" rotated="true" frameX="-2" frameY="-1" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10017" x="64" y="71" width="5" height="6" rotated="true" frameX="-2" frameY="-1" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10018" x="9" y="79" width="5" height="6" rotated="true" frameX="-2" frameY="-1" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10019" x="9" y="79" width="5" height="6" rotated="true" frameX="-2" frameY="-1" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10020" x="16" y="79" width="5" height="6" rotated="true" frameX="-2" frameY="-1" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10021" x="16" y="79" width="5" height="6" rotated="true" frameX="-2" frameY="-1" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10022" x="62" y="79" width="2" height="4" rotated="true" frameX="-3" frameY="-3" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10023" x="62" y="79" width="2" height="4" rotated="true" frameX="-3" frameY="-3" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10024" x="43" y="41" width="1" height="1" frameX="751" frameY="-120" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake10025" x="43" y="41" width="1" height="1" frameX="751" frameY="-120" frameWidth="10" frameHeight="8"/>
+	<SubTexture name="snowflake20000" x="1" y="33" width="12" height="11" frameX="0" frameY="-2" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake20001" x="1" y="33" width="12" height="11" frameX="0" frameY="-2" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake20002" x="43" y="29" width="11" height="10" frameX="-1" frameY="-2" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake20003" x="43" y="29" width="11" height="10" frameX="-1" frameY="-2" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake20004" x="1" y="1" width="13" height="15" frameX="-1" frameY="0" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake20005" x="1" y="1" width="13" height="15" frameX="-1" frameY="0" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake20006" x="16" y="1" width="15" height="15" frameX="0" frameY="0" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake20007" x="16" y="1" width="15" height="15" frameX="0" frameY="0" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake20008" x="15" y="33" width="12" height="11" frameX="-2" frameY="-1" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake20009" x="15" y="33" width="12" height="11" frameX="-2" frameY="-1" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake20010" x="43" y="1" width="12" height="12" frameX="-2" frameY="0" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake20011" x="43" y="1" width="12" height="12" frameX="-2" frameY="0" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake20012" x="51" y="64" width="8" height="5" frameX="-4" frameY="-4" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake20013" x="51" y="64" width="8" height="5" frameX="-4" frameY="-4" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake20014" x="69" y="12" width="8" height="6" frameX="-4" frameY="-3" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake20015" x="69" y="12" width="8" height="6" frameX="-4" frameY="-3" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake20016" x="43" y="41" width="1" height="1" frameX="751" frameY="-120" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake20017" x="43" y="41" width="1" height="1" frameX="751" frameY="-120" frameWidth="15" frameHeight="15"/>
+	<SubTexture name="snowflake30000" x="71" y="29" width="8" height="7" rotated="true" frameX="-1" frameY="-1" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30001" x="71" y="29" width="8" height="7" rotated="true" frameX="-1" frameY="-1" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30002" x="9" y="70" width="5" height="7" rotated="true" frameX="-1" frameY="-3" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30003" x="9" y="70" width="5" height="7" rotated="true" frameX="-1" frameY="-3" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30004" x="16" y="70" width="6" height="7" rotated="true" frameX="-1" frameY="-3" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30005" x="16" y="70" width="6" height="7" rotated="true" frameX="-1" frameY="-3" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30006" x="33" y="1" width="8" height="11" rotated="true" frameX="0" frameY="-1" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30007" x="33" y="1" width="8" height="11" rotated="true" frameX="0" frameY="-1" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30008" x="57" y="1" width="10" height="7" frameX="-1" frameY="-2" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30009" x="57" y="1" width="10" height="7" frameX="-1" frameY="-2" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30010" x="1" y="59" width="8" height="9" frameX="-2" frameY="0" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30011" x="1" y="59" width="8" height="9" frameX="-2" frameY="0" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30012" x="24" y="70" width="7" height="7" frameX="-3" frameY="-1" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30013" x="24" y="70" width="7" height="7" frameX="-3" frameY="-1" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30014" x="71" y="38" width="8" height="7" frameX="-3" frameY="-1" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30015" x="71" y="38" width="8" height="7" frameX="-3" frameY="-1" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30016" x="33" y="70" width="5" height="7" rotated="true" frameX="-3" frameY="-2" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30017" x="33" y="70" width="5" height="7" rotated="true" frameX="-3" frameY="-2" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30018" x="61" y="63" width="8" height="6" rotated="true" frameX="-4" frameY="-1" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30019" x="61" y="63" width="8" height="6" rotated="true" frameX="-4" frameY="-1" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30020" x="23" y="79" width="6" height="6" frameX="-4" frameY="-2" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30021" x="23" y="79" width="6" height="6" frameX="-4" frameY="-2" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30022" x="40" y="70" width="6" height="7" frameX="-3" frameY="-2" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30023" x="40" y="70" width="6" height="7" frameX="-3" frameY="-2" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30024" x="43" y="41" width="1" height="1" frameX="751" frameY="-120" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake30025" x="43" y="41" width="1" height="1" frameX="751" frameY="-120" frameWidth="11" frameHeight="9"/>
+	<SubTexture name="snowflake40000" x="71" y="47" width="8" height="7" frameX="0" frameY="0" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40001" x="71" y="47" width="8" height="7" frameX="0" frameY="0" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40002" x="45" y="79" width="4" height="5" rotated="true" frameX="-2" frameY="-1" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40003" x="45" y="79" width="4" height="5" rotated="true" frameX="-2" frameY="-1" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40004" x="71" y="64" width="7" height="7" frameX="-1" frameY="0" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40005" x="71" y="64" width="7" height="7" frameX="-1" frameY="0" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40006" x="31" y="79" width="6" height="6" frameX="-2" frameY="0" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40007" x="31" y="79" width="6" height="6" frameX="-2" frameY="0" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40008" x="39" y="79" width="4" height="6" rotated="true" frameX="-2" frameY="-1" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40009" x="39" y="79" width="4" height="6" rotated="true" frameX="-2" frameY="-1" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40010" x="51" y="79" width="3" height="5" rotated="true" frameX="-3" frameY="-2" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40011" x="51" y="79" width="3" height="5" rotated="true" frameX="-3" frameY="-2" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40012" x="56" y="79" width="4" height="5" rotated="true" frameX="-3" frameY="-2" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40013" x="56" y="79" width="4" height="5" rotated="true" frameX="-3" frameY="-2" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40014" x="33" y="14" width="5" height="2" frameX="-3" frameY="-3" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40015" x="33" y="14" width="5" height="2" frameX="-3" frameY="-3" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40016" x="66" y="79" width="3" height="4" rotated="true" frameX="-4" frameY="-2" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40017" x="66" y="79" width="3" height="4" rotated="true" frameX="-4" frameY="-2" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40018" x="43" y="41" width="1" height="1" frameX="751" frameY="-120" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake40019" x="43" y="41" width="1" height="1" frameX="751" frameY="-120" frameWidth="8" frameHeight="7"/>
+	<SubTexture name="snowflake50000" x="1" y="46" width="11" height="11" frameX="-1" frameY="-3" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake50001" x="1" y="46" width="11" height="11" frameX="-1" frameY="-3" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake50002" x="29" y="33" width="12" height="11" frameX="-1" frameY="-2" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake50003" x="29" y="33" width="12" height="11" frameX="-1" frameY="-2" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake50004" x="17" y="18" width="12" height="13" frameX="-1" frameY="-2" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake50005" x="17" y="18" width="12" height="13" frameX="-1" frameY="-2" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake50006" x="11" y="59" width="9" height="9" frameX="-3" frameY="-3" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake50007" x="11" y="59" width="9" height="9" frameX="-3" frameY="-3" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake50008" x="1" y="18" width="14" height="13" rotated="true" frameX="-1" frameY="0" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake50009" x="1" y="18" width="14" height="13" rotated="true" frameX="-1" frameY="0" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake50010" x="14" y="46" width="9" height="11" rotated="true" frameX="-2" frameY="-4" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake50011" x="14" y="46" width="9" height="11" rotated="true" frameX="-2" frameY="-4" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake50012" x="22" y="59" width="9" height="9" frameX="-3" frameY="-3" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake50013" x="22" y="59" width="9" height="9" frameX="-3" frameY="-3" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake50014" x="48" y="71" width="7" height="6" frameX="-4" frameY="-5" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake50015" x="48" y="71" width="7" height="6" frameX="-4" frameY="-5" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake50016" x="43" y="41" width="1" height="1" frameX="751" frameY="-120" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake50017" x="43" y="41" width="1" height="1" frameX="751" frameY="-120" frameWidth="13" frameHeight="14"/>
+	<SubTexture name="snowflake60000" x="57" y="20" width="9" height="7" frameX="-2" frameY="-2" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60001" x="57" y="20" width="9" height="7" frameX="-2" frameY="-2" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60002" x="25" y="46" width="9" height="11" rotated="true" frameX="-1" frameY="-1" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60003" x="25" y="46" width="9" height="11" rotated="true" frameX="-1" frameY="-1" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60004" x="33" y="59" width="7" height="9" rotated="true" frameX="-2" frameY="-2" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60005" x="33" y="59" width="7" height="9" rotated="true" frameX="-2" frameY="-2" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60006" x="42" y="59" width="7" height="9" rotated="true" frameX="-2" frameY="-2" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60007" x="42" y="59" width="7" height="9" rotated="true" frameX="-2" frameY="-2" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60008" x="71" y="1" width="8" height="9" rotated="true" frameX="-2" frameY="-2" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60009" x="71" y="1" width="8" height="9" rotated="true" frameX="-2" frameY="-2" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60010" x="57" y="10" width="10" height="8" frameX="-1" frameY="-3" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60011" x="57" y="10" width="10" height="8" frameX="-1" frameY="-3" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60012" x="59" y="51" width="10" height="10" frameX="-2" frameY="-1" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60013" x="59" y="51" width="10" height="10" frameX="-2" frameY="-1" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60014" x="36" y="46" width="8" height="11" frameX="-3" frameY="-1" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60015" x="36" y="46" width="8" height="11" frameX="-3" frameY="-1" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60016" x="46" y="41" width="11" height="11" frameX="-2" frameY="-1" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60017" x="46" y="41" width="11" height="11" frameX="-2" frameY="-1" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60018" x="43" y="15" width="12" height="12" frameX="-1" frameY="0" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60019" x="43" y="15" width="12" height="12" frameX="-1" frameY="0" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60020" x="56" y="29" width="11" height="10" frameX="-2" frameY="-2" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60021" x="56" y="29" width="11" height="10" frameX="-2" frameY="-2" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60022" x="31" y="18" width="10" height="13" frameX="-3" frameY="0" frameWidth="13" frameHeight="13"/>
+	<SubTexture name="snowflake60023" x="31" y="18" width="10" height="13" frameX="-3" frameY="0" frameWidth="13" frameHeight="13"/>
 </TextureAtlas>
