@@ -546,9 +546,6 @@ class PlayState extends MusicBeatState
 
 		add(overlayLayer);
 		overlayLayer.cameras = [camOverlay];
-		
-		add(hudLayer);
-		hudLayer.cameras = [camHUD];
 
 		characterLayer.memberAdded.removeAll();
 		gfLayer.memberAdded.removeAll();
@@ -691,6 +688,9 @@ class PlayState extends MusicBeatState
 
 		// cameras = [FlxG.cameras.list[1]];
 		startingSong = true;
+
+		add(hudLayer);
+		hudLayer.cameras = [camHUD];
 
 		//Get and run cutscene stuff
 		if(Utils.exists("assets/data/songs/" + SONG.song.toLowerCase() + "/cutscene.json")){
@@ -2612,11 +2612,8 @@ class PlayState extends MusicBeatState
 		}
 
 		if (curBeat % iconBopFrequency == 0){
-			iconP1.iconScale = iconP1.defualtIconScale * 1.25;
-			iconP2.iconScale = iconP2.defualtIconScale * 1.25;
-
-			iconP1.tweenToDefaultScale(0.2, FlxEase.quintOut);
-			iconP2.tweenToDefaultScale(0.2, FlxEase.quintOut);
+			iconP1.bop(1.25, 0.2, FlxEase.quintOut);
+			iconP2.bop(1.25, 0.2, FlxEase.quintOut);
 		}
 		
 		if (curBeat % gfBopFrequency == 0){

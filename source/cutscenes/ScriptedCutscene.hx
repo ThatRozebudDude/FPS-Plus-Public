@@ -139,6 +139,34 @@ class ScriptedCutscene extends FlxBasic
 	}
 
 	/**
+	 * Adds an object from the overlay element layer in PlayState.
+	**/
+	public function addToOverlayLayer(x:FlxBasic):Void{
+		PlayState.instance.overlayLayer.add(x);
+	}
+
+	/**
+	 * Removes an object from the overlay element layer in PlayState.
+	**/
+	public function removeFromOverlayLayer(x:FlxBasic):Void{
+		PlayState.instance.overlayLayer.remove(x);
+	}
+
+	/**
+	 * Adds an object from the HUD element layer in PlayState.
+	**/
+	public function addToHudLayer(x:FlxBasic):Void{
+		PlayState.instance.hudLayer.add(x);
+	}
+
+	/**
+	 * Removes an object from the HUD element layer in PlayState.
+	**/
+	public function removeHudLayer(x:FlxBasic):Void{
+		PlayState.instance.hudLayer.remove(x);
+	}
+
+	/**
 	 * Adds an object to the current state.
 	**/
 	public function addGeneric(x:FlxBasic):Void{

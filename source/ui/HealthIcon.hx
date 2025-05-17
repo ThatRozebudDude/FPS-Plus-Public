@@ -52,9 +52,11 @@ class HealthIcon extends FlxSprite
 		}
 	}
 
-	public function tweenToDefaultScale(_time:Float, _ease:Null<flixel.tweens.EaseFunction>){
+	public function bop(_scale:Float, _time:Float, ?_ease:Null<flixel.tweens.EaseFunction>){
 
+		if(_ease == null){ _ease = FlxEase.linear; }
 		tween.cancel();
+		iconScale = _scale;
 		if(_time > 0){
 			tween = FlxTween.tween(this, {iconScale: this.defualtIconScale}, _time, {ease: _ease});
 		}
