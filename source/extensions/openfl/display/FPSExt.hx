@@ -47,9 +47,7 @@ class FPSExt extends TextField
 			currentFPS = Math.floor(1000 / deltaTime);
 			updateText();
 			deltaTimeout = 0.0;
-			return;
 		}
-
 	}
 
 	public dynamic function updateText():Void { // so people can override it in hscript
