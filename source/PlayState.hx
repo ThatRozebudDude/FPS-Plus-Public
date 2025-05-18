@@ -2564,16 +2564,6 @@ class PlayState extends MusicBeatState
 
 		super.stepHit();
 
-		if((Math.abs(FlxG.sound.music.time - (Conductor.songPosition)) > (RESYNC_WINDOW * songPlaybackSpeed) || (vocalType != noVocalTrack && Math.abs(vocals.time - (Conductor.songPosition)) > (RESYNC_WINDOW * songPlaybackSpeed))) && FlxG.sound.music.playing){
-			resyncVocals();
-		}
-
-		if(vocalType == splitVocalTrack){
-			if((Math.abs(vocalsOther.time - (Conductor.songPosition)) > (RESYNC_WINDOW * songPlaybackSpeed)) && FlxG.sound.music.playing){
-				resyncVocals();
-			}
-		}
-
 		if(curStep > 0 && curStep % 16 == 0){
 			curSection++;
 		}
@@ -2651,8 +2641,6 @@ class PlayState extends MusicBeatState
 		else{
 			trace("No event found for: " + tag);
 		}
-
-		return;
 	}
 
 	public function preprocessEvent(tag:String):Void{
@@ -2660,7 +2648,6 @@ class PlayState extends MusicBeatState
 		if(Events.preEvents.exists(prefix)){
 			Events.preEvents.get(prefix)(tag);
 		}
-		return;
 	}
 
 	public function defaultNoteHit(note:Note, character:Character):Void{

@@ -47,7 +47,6 @@ class PolymodHandler
 			dirs: loadedModDirs,
 			useScriptedClasses: true,
 			errorCallback: onPolymodError,
-			frameworkParams: buildFrameworkParams(),
 			ignoredFiles: buildIgnoreList(),
 		});
 
@@ -360,22 +359,10 @@ class PolymodHandler
 		Polymod.blacklistImport("restricted.RestrictedUtils");
 	}
 
-	static function buildFrameworkParams():polymod.Polymod.FrameworkParams{
-		return {
-			assetLibraryPaths: [
-				"data" => "data",
-				"images" => "images",
-				"music" => "music",
-				"songs" => "songs",
-				"sounds" => "sounds",
-				"videos" => "videos"
-			]
-		}
-	}
-
 	static function buildIgnoreList():Array<String>{
 		var result = Polymod.getDefaultIgnoreList();
 
+		result.push('.vscode');
     	result.push('.git');
     	result.push('.gitignore');
     	result.push('.gitattributes');
