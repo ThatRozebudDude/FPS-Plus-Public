@@ -21,8 +21,6 @@ class FPSExt extends TextField
 	**/
 	public var memoryMegas(get, never):Float;
 
-	@:noCompletion private var times:Array<Float>;
-
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
 	{
 		super();
@@ -38,22 +36,15 @@ class FPSExt extends TextField
 		multiline = true;
 		textColor = 0xFFFFFFFF;
 		text = "FPS: ";
-
-		times = [];
 	}
 
 	var deltaTimeout:Float = 0.0;
 
 	// Event Handlers
 	private override function __enterFrame(deltaTime:Float):Void{
-
-		final now:Float = haxe.Timer.stamp() * 1000;
-		times.push(now);
-		while (times[0] < now - 1000){ times.shift(); }
-
 		deltaTimeout += deltaTime;
 		if (deltaTimeout >= 16) {
-			currentFPS = times.length;
+			currentFPS = Math.floor(1000 / deltaTime);
 			updateText();
 			deltaTimeout = 0.0;
 			return;
@@ -67,5 +58,5 @@ class FPSExt extends TextField
 	}
 
 	inline function get_memoryMegas():Float
-		return cast(System.totalMemory, UInt);
+		return System.totalMemoryNumber;
 }
