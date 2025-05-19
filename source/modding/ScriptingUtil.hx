@@ -231,7 +231,10 @@ class ScriptCacheConfig
 	public static var characters(get, never):Null<Bool>;
 	public static var graphics(get, never):Null<Bool>;
 
-	public static inline function get_music() { return CacheConfig.music; }
 	public static inline function get_characters() { return CacheConfig.characters; }
 	public static inline function get_graphics() { return CacheConfig.graphics; }
+	public static inline function get_music() {
+		trace("Music caching is no longer supported. This function will always return false for backwards compatibility and should be removed from scripts if possible.");
+		return false;
+	}
 }

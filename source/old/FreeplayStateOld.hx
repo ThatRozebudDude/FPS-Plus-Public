@@ -105,7 +105,7 @@ class FreeplayStateOld extends MusicBeatState
 		changeSelection(startingSelection);
 		changeDiff(0, false);
 
-		if(!fromMainMenu && !CacheConfig.music){
+		if(!fromMainMenu){
 			MainMenuState.playMenuMusic();
 		}
 
@@ -190,7 +190,6 @@ class FreeplayStateOld extends MusicBeatState
 			
 
 		if (Binds.justPressed("menuBack") && !FlxUIStateExt.inTransition){
-			if(CacheConfig.music){ FlxG.sound.music.stop(); }
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			switchState(new MainMenuState());
 		}
@@ -259,11 +258,6 @@ class FreeplayStateOld extends MusicBeatState
 		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty).score;
 		// lerpScore = 0;
 		#end
-
-		if(CacheConfig.music){
-			FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
-			FlxG.sound.music.fadeIn(1, 0, 1);
-		}
 
 		var bullShit:Int = 0;
 

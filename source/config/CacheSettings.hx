@@ -21,7 +21,6 @@ class CacheSettings extends FlxUIStateExt
 	var keyTextDisplay:FlxTextExt;
 	var warning:FlxTextExt;
 	var warningText:Array<String> = [
-									"Enabling this will load the song instrumentals into RAM. This will decrease loading times and allow you to preview songs in the Freeplay menu at the cost of using more memory. Leave this disabled to reduce memory usage.",
 									"Enabling this will load the character sprites into VRAM. This will decrease loading times. Disabling this will increase RAM usage slightly during gameplay.",
 									"Enabling this will load most of the stage graphics into VRAM. This will decrease loading times. Disabling this will increase RAM usage during gameplay. If you don't have a decent GPU it might be best to leave this disabled.",
 									];
@@ -31,7 +30,7 @@ class CacheSettings extends FlxUIStateExt
 
 	var settings:Array<Bool>;
 	var startingSettings:Array<Bool>;
-	var names:Array<String> = ["MUSIC", "CHARACTERS", "GRAPHICS"];
+	var names:Array<String> = ["CHARACTERS", "GRAPHICS"];
 	var onOff:Array<String> = ["off", "on"];
 
 	var curSelected:Int = 0;
@@ -102,13 +101,12 @@ class CacheSettings extends FlxUIStateExt
 		add(backText);
 
 		if(!CacheConfig.check()){
-			CacheConfig.music = false;
 			CacheConfig.characters = false;
 			CacheConfig.graphics = false;
 		}
 
-		settings = [CacheConfig.music, CacheConfig.characters, CacheConfig.graphics];
-		startingSettings = [CacheConfig.music, CacheConfig.characters, CacheConfig.graphics];
+		settings = [CacheConfig.characters, CacheConfig.graphics];
+		startingSettings = [CacheConfig.characters, CacheConfig.graphics];
 
 		textUpdate();
 
@@ -167,9 +165,9 @@ class CacheSettings extends FlxUIStateExt
 		keyTextDisplay.clearFormats();
 		if(!noFunMode){ keyTextDisplay.text = "\n"; }
 		else{ keyTextDisplay.text = ""; }
-		keyTextDisplay.text += "\n\nCACHE SETTINGS\n\n";
+		keyTextDisplay.text += "\nCACHE SETTINGS\n\n\n";
 
-		for(i in 0...3){
+		for(i in 0...names.length){
 
 			var sectionStart = keyTextDisplay.text.length;
 			keyTextDisplay.text += names[i] + ": " + (settings[i]?onOff[1]:onOff[0]) + "\n";
@@ -187,9 +185,8 @@ class CacheSettings extends FlxUIStateExt
 
 	function save(){
 
-		CacheConfig.music = settings[0];
-		CacheConfig.characters = settings[1];
-		CacheConfig.graphics = settings[2];
+		CacheConfig.characters = settings[0];
+		CacheConfig.graphics = settings[0];
 
 		FlxG.save.flush();
 
@@ -203,14 +200,10 @@ class CacheSettings extends FlxUIStateExt
 
 		save();
 
-		CacheReload.doMusic = true;
 		CacheReload.doGraphics = true;
 
-		if((startingSettings[0] != settings[0] || startingSettings[1] != settings[1] || startingSettings[2] != settings[2]) && !noFunMode){
-			if(startingSettings[0] == settings[0]){
-				CacheReload.doMusic = false;
-			}
-			if(startingSettings[1] == settings[1] && startingSettings[2] == settings[2]){
+		if((startingSettings[0] != settings[0] || startingSettings[1] != settings[1]) && !noFunMode){
+			if(startingSettings[0] == settings[0] && startingSettings[1] == settings[1]){
 				CacheReload.doGraphics = false;
 			}
 			returnLoc = new CacheReload();
@@ -235,10 +228,10 @@ class CacheSettings extends FlxUIStateExt
 	function changeItem(_amount:Int = 0){
 		curSelected += _amount;
 				
-		if (curSelected > 2)
+		if (curSelected > names.length-1)
 			curSelected = 0;
 		if (curSelected < 0)
-			curSelected = 2;
+			curSelected = names.length-1;
 
 		switch(curSelected){}
 
