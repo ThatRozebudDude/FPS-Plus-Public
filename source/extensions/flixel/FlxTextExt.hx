@@ -18,8 +18,8 @@ class FlxTextExt extends FlxText
 		antialiasing = true;
 	}
 
-	override function applyBorderStyle():Void
-	{
+	override function applyBorderStyle():Void{
+
 		if (!borderStyle.match(OUTLINE))
 			return super.applyBorderStyle();
 
@@ -56,7 +56,7 @@ class FlxTextExt extends FlxText
 		}
 	}
 
-	inline function copyTextAtAngle(angle:Float, distance:Float = 1) {
+	inline function copyTextAtAngle(angle:Float, distance:Float = 1):Void{
 
 		var newX = distance * cos(angle);
 		var newY = distance * sin(angle);

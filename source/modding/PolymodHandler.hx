@@ -363,12 +363,12 @@ class PolymodHandler
 		var result = Polymod.getDefaultIgnoreList();
 
 		result.push('.vscode');
-    	result.push('.git');
-    	result.push('.gitignore');
-    	result.push('.gitattributes');
-    	result.push('README.md');
+		result.push('.git');
+		result.push('.gitignore');
+		result.push('.gitattributes');
+		result.push('README.md');
 
-    	return result;
+		return result;
 	}
 }
 
