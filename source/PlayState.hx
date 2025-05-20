@@ -3048,13 +3048,11 @@ class PlayState extends MusicBeatState
 			Assets.cache.removeSound(Paths.voices(SONG.song));
 		}
 
-		if(!CacheConfig.music){
-			if(instSong != null){
-				Assets.cache.removeSound(Paths.inst(instSong));
-			}
-			else{
-				Assets.cache.removeSound(Paths.inst(SONG.song));
-			}
+		if(instSong != null){
+			Assets.cache.removeSound(Paths.inst(instSong));
+		}
+		else{
+			Assets.cache.removeSound(Paths.inst(SONG.song));
 		}
 
 		var pauseSongName = "pause/breakfast";

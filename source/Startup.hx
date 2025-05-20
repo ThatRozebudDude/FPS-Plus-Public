@@ -40,18 +40,6 @@ class Startup extends FlxUIStateExt
 
 	var currentLoaded:Int = 0;
 	var loadTotal:Int = 0;
-
-	var songsCached:Bool;
-	public static final songs:Array<String> =   ["Tutorial", 
-								"Bopeebo", "Fresh", "Dadbattle", 
-								"Spookeez", "South", "Monster",
-								"Pico", "Philly", "Blammed", 
-								"Satin-Panties", "High", "Milf", 
-								"Cocoa", "Eggnog", "Winter-Horrorland", 
-								"Senpai", "Roses", "Thorns",
-								"Ugh", "Guns", "Stress",
-								"Darnell", "Lit-Up", "2hot", "Blazin",
-								"Lil-Buddies"];
 								
 	//List of character graphics and some other stuff.
 	//Just in case it want to do something with it later.
@@ -147,12 +135,10 @@ class Startup extends FlxUIStateExt
 		}*/
 
 		if(!CacheConfig.check()){
-			CacheConfig.music = false;
 			CacheConfig.characters = false;
 			CacheConfig.graphics = false;
 		}
 		else{
-			songsCached = !CacheConfig.music;
 			charactersCached = !CacheConfig.characters;
 			graphicsCached = !CacheConfig.graphics;
 		}
@@ -168,7 +154,7 @@ class Startup extends FlxUIStateExt
 		splash.updateHitbox();
 		splash.screenCenter();
 
-		loadTotal = (!songsCached ? songs.length : 0) + (!charactersCached ? characters.length : 0) + (!graphicsCached ? graphics.length : 0);
+		loadTotal = (!charactersCached ? characters.length : 0) + (!graphicsCached ? graphics.length : 0);
 
 		if(loadTotal > 0){
 			loadingBar = new FlxBar(0, 605, LEFT_TO_RIGHT, 600, 24, this, 'currentLoaded', 0, loadTotal);
@@ -202,21 +188,24 @@ class Startup extends FlxUIStateExt
 		if(splash.animation.curAnim.finished && splash.animation.curAnim.name == "start" && !cacheStart){
 			
 			#if web
-			songsCached = false;
+			loadingText.visible = false;
+			charactersCached = false;
+			graphicsCached = false;
 			new FlxTimer().start(1, function(tmr:FlxTimer){
-				songsCached = true;
 				charactersCached = true;
 				graphicsCached = true;
 			});
 			#else
-			if(!songsCached || !charactersCached || !graphicsCached){
+			if(!charactersCached || !graphicsCached){
 				preload(); 
 			}
 			else{
 				loadingText.visible = false;
-				songsCached = false;
+				charactersCached = false;
+				graphicsCached = false;
 				new FlxTimer().start(1, function(tmr:FlxTimer){
-					songsCached = true;
+					charactersCached = true;
+					graphicsCached = true;
 				});
 			}
 			#end
@@ -230,7 +219,7 @@ class Startup extends FlxUIStateExt
 			switchState(nextState);  
 		}
 
-		if(songsCached && charactersCached && graphicsCached && splash.animation.curAnim.finished && !(splash.animation.curAnim.name == "end")){
+		if(charactersCached && graphicsCached && splash.animation.curAnim.finished && !(splash.animation.curAnim.name == "end")){
 			splash.animation.play("end");
 			splash.updateHitbox();
 			splash.screenCenter();
@@ -300,13 +289,6 @@ class Startup extends FlxUIStateExt
 		if(loadingBar != null){
 			loadingBar.visible = true;
 		}
-		
-		if(!songsCached){ 
-			#if sys sys.thread.Thread.create(() -> { #end
-				preloadMusic();
-			#if sys }); #end
-		}
-		
 
 		/*if(!charactersCached){
 			var i = 0;
@@ -331,20 +313,6 @@ class Startup extends FlxUIStateExt
 			startCachingGraphics = true;
 		}
 
-	}
-
-	function preloadMusic(){
-		for(x in songs){
-			if(Utils.exists(Paths.inst(x))){
-				FlxG.sound.cache(Paths.inst(x));
-			}
-			else if(Utils.exists(Paths.music(x))){
-				FlxG.sound.cache(Paths.music(x));
-			}
-			currentLoaded++;
-		}
-		loadingText.text = "Songs cached...";
-		songsCached = true;
 	}
 
 	function preloadCharacters(){

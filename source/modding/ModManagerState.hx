@@ -327,7 +327,7 @@ class ModManagerState extends FlxUIStateExt
 						FlxG.signals.preStateSwitch.addOnce(function() { 
 							PolymodHandler.reInit();
 						});
-						if(CacheConfig.music || CacheConfig.characters || CacheConfig.graphics){
+						if(CacheConfig.characters || CacheConfig.graphics){
 							switchState(new CacheReload(new MainMenuState()));
 						}
 						else{

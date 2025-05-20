@@ -20,7 +20,6 @@ using StringTools;
 class CacheReload extends FlxState
 {
 
-	public static var doMusic = true;
 	public static var doGraphics = true;
 
 	var nextState:FlxState;
@@ -28,8 +27,6 @@ class CacheReload extends FlxState
 	//var splash:FlxSprite;
 	//var dummy:FlxSprite;
 	var loadingText:FlxText;
-
-	var songsCached:Bool;
 
 	var charactersCached:Bool;
 	var startCachingCharacters:Bool = false;
@@ -49,7 +46,6 @@ class CacheReload extends FlxState
 
 	override function create()
 	{
-		songsCached = !CacheConfig.music;
 		charactersCached = !CacheConfig.characters;
 		graphicsCached = !CacheConfig.graphics;
 
@@ -59,13 +55,6 @@ class CacheReload extends FlxState
 		else{
 			charactersCached = true;
 			graphicsCached = true;
-		}
-
-		if(doMusic){
-			Assets.cache.clear();
-		}
-		else{
-			songsCached = true;
 		}
 
 		Utils.gc();
@@ -87,7 +76,7 @@ class CacheReload extends FlxState
 
 	override function update(elapsed):Void{
 
-		if(songsCached && charactersCached && graphicsCached){
+		if(charactersCached && graphicsCached){
 			ImageCache.localCache.clear();
 			Utils.gc();
 			FlxG.switchState(nextState);
@@ -126,13 +115,6 @@ class CacheReload extends FlxState
 	function preload(){
 
 		//loadingText.text = "Preloading Assets...";
-		
-		if(!songsCached){ 
-			#if sys sys.thread.Thread.create(() -> { #end
-				preloadMusic();
-			#if sys }); #end
-		}
-		
 
 		/*if(!charactersCached){
 			var i = 0;
@@ -157,20 +139,6 @@ class CacheReload extends FlxState
 			startCachingGraphics = true;
 		}
 
-	}
-
-	function preloadMusic(){
-		for(x in Startup.songs){
-			if(Utils.exists(Paths.inst(x))){
-				FlxG.sound.cache(Paths.inst(x));
-			}
-			else if(Utils.exists(Paths.music(x))){
-				FlxG.sound.cache(Paths.music(x));
-			}
-		}
-		//loadingText.text = "Songs cached...";
-		//FlxG.sound.play(Paths.sound("tick"), 1);
-		songsCached = true;
 	}
 
 	/*

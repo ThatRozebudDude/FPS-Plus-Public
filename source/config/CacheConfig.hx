@@ -6,18 +6,8 @@ using StringTools;
 class CacheConfig
 {
 	
-	public static var music(get, set):Null<Bool>;
 	public static var characters(get, set):Null<Bool>;
 	public static var graphics(get, set):Null<Bool>;
-
-	public static inline function get_music() {
-		return FlxG.save.data.musicPreload3;
-	}
-
-	public static inline function set_music(value:Null<Bool>) {
-		FlxG.save.data.musicPreload3 = value;
-		return value;
-	}
 
 	public static inline function get_characters() {
 		return FlxG.save.data.charPreload3;
@@ -39,7 +29,7 @@ class CacheConfig
 
 	public static function check():Bool{
 
-		if(music == null || characters == null || graphics == null) {
+		if(characters == null || graphics == null) {
 			return false;
 		}
 
