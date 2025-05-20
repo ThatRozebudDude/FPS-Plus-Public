@@ -31,20 +31,34 @@ class HudEvents extends Events
 		var opponentNotePositions = [];
 
 		for(arrow in playstate.playerStrums.members){
+			tween.completeTweensOf(arrow);
 			playerNotePositions.push([arrow.x, arrow.y]);
 		}
 		for(arrow in playstate.enemyStrums.members){
+			tween.completeTweensOf(arrow);
 			opponentNotePositions.push([arrow.x, arrow.y]);
 		}
 
-		trace(opponentNotePositions);
-		trace(playerNotePositions);
+		//trace(opponentNotePositions);
+		//trace(playerNotePositions);
 
-		for(i in 0...playerNotePositions.length){
-			tween.tween(playstate.playerStrums.memebers[i], {x: opponentNotePositions[i][0], y: opponentNotePositions[i][1]}, 1);
+		for(arrow in playstate.playerStrums.members){
+			if(Events.eventConvertTime(args[0]) > 0){
+				tween.tween(arrow, {x: opponentNotePositions[arrow.ID][0], y: opponentNotePositions[arrow.ID][1]}, Events.eventConvertTime(args[0]), {ease: Events.easeNameToEase(args[1])});
+			}
+			else{
+				arrow.x = opponentNotePositions[arrow.ID][0];
+				arrow.y = opponentNotePositions[arrow.ID][1];
+			}
 		}
-		for(i in 0...opponentNotePositions.length){
-			tween.tween(playstate.enemyStrums.memebers[i], {x: playerNotePositions[i][0], y: playerNotePositions[i][1]}, 1);
+		for(arrow in playstate.enemyStrums.members){
+			if(Events.eventConvertTime(args[0]) > 0){
+				tween.tween(arrow, {x: playerNotePositions[arrow.ID][0], y: playerNotePositions[arrow.ID][1]}, Events.eventConvertTime(args[0]), {ease: Events.easeNameToEase(args[1])});
+			}
+			else{
+				arrow.x = playerNotePositions[arrow.ID][0];
+				arrow.y = playerNotePositions[arrow.ID][1];
+			}
 		}
 	}
 
@@ -66,6 +80,6 @@ class HudEvents extends Events
 	var SET_HUD_SKIN_DESC:String = "Changes the HUD note skin.\n\nArgs:\n    String: Skin name";
 	var HUD_VISIBLE_DESC:String = "Sets the visibility of the HUD.\n\nArgs:\n    Bool: HUD visibility";
 	var SHOW_SONG_META_DESC:String = "Shows the song name and artist.";
-	var SWAP_NOTE_SIDES_DESC:String = "Swaps player and opponent note sides.\nDoes nothing if the strumline is centered.";
+	var SWAP_NOTE_SIDES_DESC:String = "Swaps player and opponent note sides.\nDoes nothing if the strumline is centered.\n\nArgs:\n    Time: Tween time\n    Ease: Tween ease";
 	var SCROLL_SPEED_MULTIPLIER_DESC:String = "Adjusts the modifier for the note scroll speed.\n\nArgs:\n    Float: Multiplier\n    Time: Tween time\n    Ease: Tween ease";
 }
