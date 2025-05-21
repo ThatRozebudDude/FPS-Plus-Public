@@ -341,7 +341,7 @@ class Character extends FlxSpriteGroup
 		
 		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
 			//custom method for looping animations since the anim end callback doesnt run on looped anmations normally
-			if(animLoopPoints.exists(name)){
+			if(animLoopPoints.get(name) != null){
 				playAnim(name, true, false, animLoopPoints.get(name), true);
 			}
 		}
@@ -625,57 +625,73 @@ class Character extends FlxSpriteGroup
 					var oldRight = null;
 					var oldRightOffset = null;
 					var oldRightOffsetOriginal = null;
+					var oldRightLoopPoint = null;
 					var oldLeft = null;
 					var oldLeftOffset = null;
 					var oldLeftOffsetOriginal = null;
+					var oldLeftLoopPoint = null;
 
 					if(character.animation.getByName("singRIGHT" + set) != null){
 						oldRight = character.animation.getByName("singRIGHT" + set);
 						oldRightOffset = animOffsets.get("singRIGHT" + set);
 						oldRightOffsetOriginal = originalAnimOffsets.get("singRIGHT" + set);
+						oldRightLoopPoint = animLoopPoints.get("singRIGHT" + set);
 					}
 					if(character.animation.getByName("singLEFT" + set) != null){
 						oldLeft = character.animation.getByName("singLEFT" + set);
 						oldLeftOffset = animOffsets.get("singLEFT" + set);
 						oldLeftOffsetOriginal = originalAnimOffsets.get("singLEFT" + set);
+						oldLeftLoopPoint = animLoopPoints.get("singLEFT" + set);
 					}
 					if(oldRight != null){
 						character.animation._animations.set("singLEFT" + set, oldRight);
+						character.animation._animations.get("singLEFT" + set).name = "singLEFT" + set;
 						animOffsets.set("singLEFT" + set, oldRightOffset);
 						originalAnimOffsets.set("singLEFT" + set, oldRightOffsetOriginal);
+						animLoopPoints.set("singLEFT" + set, oldRightLoopPoint);
 					}
 					if(oldLeft != null){
 						character.animation._animations.set("singRIGHT" + set, oldLeft);
+						character.animation._animations.get("singRIGHT" + set).name = "singRIGHT" + set;
 						animOffsets.set("singRIGHT" + set, oldLeftOffset);
 						originalAnimOffsets.set("singRIGHT" + set, oldLeftOffsetOriginal);
+						animLoopPoints.set("singRIGHT" + set, oldLeftLoopPoint);
 					}
 
 					var oldRightMiss = null;
 					var oldRightOffsetMiss = null;
 					var oldRightOffsetOriginalMiss = null;
+					var oldRightLoopPointMiss = null;
 					var oldLeftMiss = null;
 					var oldLeftOffsetMiss = null;
 					var oldLeftOffsetOriginalMiss = null;
+					var oldLeftLoopPointMiss = null;
 
 					if(character.animation.getByName("singRIGHTmiss" + set) != null){
 						oldRightMiss = character.animation.getByName("singRIGHTmiss" + set);
-						oldRightOffsetMiss = animOffsets.get("singRIGHmissT" + set);
+						oldRightOffsetMiss = animOffsets.get("singRIGHTmiss" + set);
 						oldRightOffsetOriginalMiss = originalAnimOffsets.get("singRIGHTmiss" + set);
+						oldRightLoopPointMiss = animLoopPoints.get("singRIGHTmiss" + set);
 					}
 					if(character.animation.getByName("singLEFTmiss" + set) != null){
 						oldLeftMiss = character.animation.getByName("singLEFTmiss" + set);
 						oldLeftOffsetMiss = animOffsets.get("singLEFTmiss" + set);
 						oldLeftOffsetOriginalMiss = originalAnimOffsets.get("singLEFTmiss" + set);
+						oldLeftLoopPointMiss = animLoopPoints.get("singLEFTmiss" + set);
 					}
 					if(oldRightMiss != null){
 						character.animation._animations.set("singLEFTmiss" + set, oldRightMiss);
+						character.animation._animations.get("singLEFTmiss" + set).name = "singLEFTmiss" + set;
 						animOffsets.set("singLEFTmiss" + set, oldRightOffsetMiss);
 						originalAnimOffsets.set("singLEFTmiss" + set, oldRightOffsetOriginalMiss);
+						animLoopPoints.set("singLEFTmiss" + set, oldRightLoopPointMiss);
 					}
 					if(oldLeftMiss != null){
 						character.animation._animations.set("singRIGHTmiss" + set, oldLeftMiss);
+						character.animation._animations.get("singRIGHTmiss" + set).name = "singRIGHTmiss" + set;
 						animOffsets.set("singRIGHTmiss" + set, oldLeftOffsetMiss);
 						originalAnimOffsets.set("singRIGHTmiss" + set, oldLeftOffsetOriginalMiss);
+						animLoopPoints.set("singRIGHTmiss" + set, oldLeftLoopPointMiss);
 					}
 					
 				}
