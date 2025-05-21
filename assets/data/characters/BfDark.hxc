@@ -23,7 +23,7 @@ class BfDark extends CharacterInfoBase
 		addByPrefix("singDOWNmiss", offset(-25, -20), "BF NOTE DOWN MISS", 24, loop(true, -4));
 		addByPrefix("hey", offset(1, 5), "BF HEY", 24, loop(false));
 		addByPrefix("cheer", offset(-20, 20), "Cheer", 24, loop(false));
-		addByPrefix("scared", offset(-2, 0), "BF idle shaking", 24);
+		addByPrefix("scared", offset(-1, 1), "BF idle shaking", 24);
 
 		info.functions.create = create;
 
