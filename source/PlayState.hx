@@ -213,7 +213,7 @@ class PlayState extends MusicBeatState
 	public var healthBar:FlxBar;
 
 	public var generatedMusic:Bool = false;
-	public var startingSong:Bool = false;
+	public var startingSong:Bool = true;
 
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
@@ -687,7 +687,7 @@ class PlayState extends MusicBeatState
 		scoreTxt.visible = false;
 
 		// cameras = [FlxG.cameras.list[1]];
-		startingSong = true;
+		//startingSong = true;
 
 		add(hudLayer);
 		hudLayer.cameras = [camHUD];
@@ -1480,6 +1480,8 @@ class PlayState extends MusicBeatState
 				vocalsOther.play();
 			}
 		}
+
+		resyncWindow = RESYNC_WINDOW_FINAL;
 		//trace("resyncing vocals");
 	}
 
@@ -1526,6 +1528,11 @@ class PlayState extends MusicBeatState
 			if(missTime <= 0){
 				canHit = false;
 			}
+		}
+
+		if(resyncWindow < RESYNC_WINDOW_FINAL && FlxG.sound.music.playing && !startingSong){
+			resyncWindow += (RESYNC_WINDOW_FINAL - RESYNC_WINDOW_INITIAL) * elapsed;
+			if(resyncWindow > RESYNC_WINDOW_FINAL){ resyncWindow = RESYNC_WINDOW_FINAL; }
 		}
 
 		keyCheck();
@@ -2558,18 +2565,20 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	final RESYNC_WINDOW:Float = 25;
+	static final RESYNC_WINDOW_INITIAL:Float = 12.5;
+	static final RESYNC_WINDOW_FINAL:Float = 25;
+	var resyncWindow:Float = RESYNC_WINDOW_INITIAL;
 
 	override function stepHit(){
 
 		super.stepHit();
 
-		if((Math.abs(FlxG.sound.music.time - (Conductor.songPosition)) > (RESYNC_WINDOW * songPlaybackSpeed) || (vocalType != noVocalTrack && Math.abs(vocals.time - (Conductor.songPosition)) > (RESYNC_WINDOW * songPlaybackSpeed))) && FlxG.sound.music.playing){
+		if((Math.abs(FlxG.sound.music.time - (Conductor.songPosition)) > (resyncWindow * songPlaybackSpeed) || (vocalType != noVocalTrack && Math.abs(vocals.time - (Conductor.songPosition)) > (resyncWindow * songPlaybackSpeed))) && FlxG.sound.music.playing){
 			resyncVocals();
 		}
 
 		if(vocalType == splitVocalTrack){
-			if((Math.abs(vocalsOther.time - (Conductor.songPosition)) > (RESYNC_WINDOW * songPlaybackSpeed)) && FlxG.sound.music.playing){
+			if((Math.abs(vocalsOther.time - (Conductor.songPosition)) > (resyncWindow * songPlaybackSpeed)) && FlxG.sound.music.playing){
 				resyncVocals();
 			}
 		}
