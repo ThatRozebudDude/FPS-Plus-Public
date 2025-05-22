@@ -3,7 +3,7 @@
     {
       "name": "compiletime",
       "type": "haxelib",
-      "version": null
+      "version": "2.8.0"
     },
     {
       "name": "flixel",
@@ -30,7 +30,7 @@
     {
       "name": "format",
       "type": "haxelib",
-      "version": null
+      "version": "3.8.0"
     },
     {
       "name": "funkin.vis",
@@ -56,17 +56,17 @@
     {
       "name": "hxvlc",
       "type": "haxelib",
-      "version": null
+      "version": "2.2.1"
     },
     {
       "name": "hxcpp",
       "type": "haxelib",
-      "version": null
+      "version": "4.3.2"
     },
     {
       "name": "hxp",
       "type": "haxelib",
-      "version": null
+      "version": "1.3.0"
     },
     {
       "name": "jsonpatch",
@@ -92,7 +92,7 @@
     {
       "name": "openfl",
       "type": "haxelib",
-      "version": null
+      "version": "9.4.1"
     },
     {
       "name": "polymod",
