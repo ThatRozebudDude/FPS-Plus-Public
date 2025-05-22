@@ -1,6 +1,5 @@
 package;
 
-import extensions.flixel.system.frontEnds.SoundFrontEndExt;
 import note.NoteType;
 import events.Events;
 import sys.FileSystem;
@@ -88,12 +87,6 @@ class Startup extends FlxUIStateExt
 
 		SaveManager.global();
 
-		#if FLX_SOUND_SYSTEM
-		@:privateAccess{
-			FlxG.sound = new SoundFrontEndExt();
-		}
-		#end
-
 		FlxG.mouse.visible = false;
 		FlxG.sound.muteKeys = null;
 
@@ -122,17 +115,6 @@ class Startup extends FlxUIStateExt
 		FlxUIStateExt.defaultTransInArgs = [0.6];
 		FlxUIStateExt.defaultTransOut = ScreenWipeOut;
 		FlxUIStateExt.defaultTransOutArgs = [0.6];
-
-		/*if (FlxG.save.data.weekUnlocked != null)
-		{
-
-			if (StoryMenuState.weekUnlocked.length < 4)
-				StoryMenuState.weekUnlocked.insert(0, true);
-
-			// QUICK PATCH OOPS!
-			if (!StoryMenuState.weekUnlocked[0])
-				StoryMenuState.weekUnlocked[0] = true;
-		}*/
 
 		if(!CacheConfig.check()){
 			CacheConfig.characters = false;

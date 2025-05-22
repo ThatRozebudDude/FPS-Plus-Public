@@ -149,7 +149,7 @@ class GraphicAsset implements IFlxDestroyable
 		}
 		graphic.bitmap.dispose();
 
-		graphic.dump();
+		//graphic.dump();
 		graphic.destroy();
 	}
 }

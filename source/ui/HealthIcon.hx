@@ -56,7 +56,7 @@ class HealthIcon extends FlxSprite
 
 		if(_ease == null){ _ease = FlxEase.linear; }
 		tween.cancel();
-		iconScale = _scale;
+		iconScale = _scale * defualtIconScale;
 		if(_time > 0){
 			tween = FlxTween.tween(this, {iconScale: this.defualtIconScale}, _time, {ease: _ease});
 		}

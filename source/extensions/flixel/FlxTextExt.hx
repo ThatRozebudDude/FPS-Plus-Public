@@ -24,7 +24,12 @@ class FlxTextExt extends FlxText
 			return super.applyBorderStyle();
 
 		// offset entire image to fit the border
-		_graphicOffset.set(-borderSize, -borderSize);
+		if (borderSize < 0){
+			_graphicOffset.set(-borderSize, -borderSize);
+		}
+		else{
+			_graphicOffset.set(borderSize, borderSize);
+		}
 		_matrix.translate(_graphicOffset.x, _graphicOffset.y);
 		
 		// Render an outline around the text
