@@ -26,17 +26,12 @@ class GPUBitmap
 		* @param   cachekey				Key for the Texture Buffer cache. 
 		*
 	 */
-	public static function create(path:String, texFormat:Context3DTextureFormat = BGRA, optimizeForRender:Bool = true, ?_cachekey:String):BitmapData{
-
-		if (_cachekey == null){
-			_cachekey = path;
-		}
-
+	public static function create(path:String, optimizeForRender:Bool = true):BitmapData{
 		var bmp = Assets.getBitmapData(path, false);
-		var _texture = FlxG.stage.context3D.createTexture(bmp.width, bmp.height, texFormat, optimizeForRender);
-		_texture.uploadFromBitmapData(bmp);
+		var texture = FlxG.stage.context3D.createTexture(bmp.width, bmp.height, Context3DTextureFormat.BGRA, optimizeForRender);
+		texture.uploadFromBitmapData(bmp);
 		bmp.dispose();
 		bmp.disposeImage();
-		return BitmapData.fromTexture(_texture);
+		return BitmapData.fromTexture(texture);
 	}
 }
