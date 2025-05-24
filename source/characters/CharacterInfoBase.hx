@@ -92,15 +92,9 @@ typedef CharacterInfo = {
 	var animChains:Map<String, String>;
 	var functions:CharacterFunctions;
 	var actions:Map<String, (Character)->Void>;
+	var animAliases:Map<String, String>;
 	var extraData:Map<String, Dynamic>;
 }
-
-/*	
-*	NOTE ABOUT CHARACTER METADATA
-*	To exclude characters from the character list add the metadata @charList(false) to the class. If this is not included it is interpreted as true.
-*	To include characters in the GF list add the metadata @gfList(true) to the class. If this is not included it is interpreted as false.
-*	You can use @charList(false) and @gfList(false) to hide the character from both lists.
-*/	
 
 /**
 	This is the base class for character info. When making your own character make a new class extending this one.
@@ -128,7 +122,7 @@ class CharacterInfoBase
 		idleSequence: ["idle"],
 		focusOffset: new FlxPoint(150, -100),
 		deathOffset: new FlxPoint(),
-		animChains: null,
+		animChains: new Map<String, String>(),
 		functions: {
 			create: null,
 			postCreate: null,
@@ -152,7 +146,8 @@ class CharacterInfoBase
 			noteMiss: null,
 			applyShader: null,
 		},
-		actions: null,
+		actions: new Map<String, (Character)->Void>(),
+		animAliases: new Map<String, String>(),
 		extraData: new Map<String, Dynamic>()
 	};
 
@@ -402,6 +397,19 @@ class CharacterInfoBase
 			info.animChains = new Map<String, String>();
 		}
 		info.animChains.set(firstAnim, chainedAnim);
+	}
+
+	/**
+	 * Adds an alias that will play a different animation when called.
+	 *
+	 * @param	alias		The name of the alias that will play a different animation.
+	 * @param	animation	The name of the animation that will actually play.
+	 */
+	 function addAnimAlias(alias:String, animation:String):Void{
+		if(info.animAliases == null){
+			info.animAliases = new Map<String, String>();
+		}
+		info.animAliases.set(alias, animation);
 	}
 
 	/**

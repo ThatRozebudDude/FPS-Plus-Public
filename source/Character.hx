@@ -206,7 +206,7 @@ class Character extends FlxSpriteGroup
 	public function defaultDanceBehavior():Void{
 		if(idleSequence.length > 0){
 			idleSequenceIndex = idleSequenceIndex % idleSequence.length;
-			playAnim(idleSequence[idleSequenceIndex], true);
+			_playAnim(idleSequence[idleSequenceIndex], true);
 			idleSequenceIndex++;
 		}
 	}
@@ -228,7 +228,7 @@ class Character extends FlxSpriteGroup
 
 	public function defaultIdleEndBehavior():Void{
 		if(idleSequence.length > 0){
-			playAnim(idleSequence[0], true, false, getAnimLength(idleSequence[0]) - 1);
+			_playAnim(idleSequence[0], true, false, getAnimLength(idleSequence[0]) - 1);
 		}
 	}
 
@@ -251,16 +251,38 @@ class Character extends FlxSpriteGroup
 	 * @param	Force					If `true` it will force the animation to play no matter what. If `false` the animation will only play if it isn't currently playing or is finished.
 	 * @param	Reversed				If `true` the animation will play backwards.
 	 * @param	Frame					The frame number that the animation should start on.
-	 * @param	isPartOfLoopingAnim		***DO NOT USE THIS.*** This is used by `Character.hx` to determine if the function is being used to loop an animation.
 	 * 
 	 * @return  						Returns `true` if the animation was played. Returns `false` if the animation wasn't found and could not be played.
 	 */
-	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0, ?isPartOfLoopingAnim:Bool = false):Bool{
+	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Bool{
+		return _playAnim(AnimName, Force, Reversed, Frame, false);
+	}
+
+	//You can treat any animation as a singing animation instead of requiring "sing" to be in the animation name.
+	public function singAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Bool{
+		var animPlayed:Bool = playAnim(AnimName, Force, Reversed, Frame);
+		if(animPlayed){
+			isSinging = true;
+			lastSingTime = Conductor.songPosition;
+			onSing.dispatch(AnimName, Force, Reversed, Frame);
+			holdTimer = 0;
+		}
+		return animPlayed;
+	}
+
+	/**
+	 * Internal version of playAnim used to prevent `isPartOfLoopingAnim` from being used by users.
+	 */
+	private function _playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0, ?isPartOfLoopingAnim:Bool = false):Bool{
 
 		if(animSet != "" && !isPartOfLoopingAnim){
 			if(animOffsets.exists(AnimName + "-" + animSet)){
 				AnimName = AnimName + "-" + animSet;
 			}
+		}
+
+		if(!animOffsets.exists(AnimName) && characterInfo.info.animAliases.exists(AnimName)){
+			return _playAnim(characterInfo.info.animAliases.get(AnimName), Force, Reversed, Frame, isPartOfLoopingAnim);
 		}
 
 		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
@@ -286,17 +308,6 @@ class Character extends FlxSpriteGroup
 
 		return true;
 
-	}
-
-	//You can treat any animation as a singing animation instead of requiring "sing" to be in the animation name.
-	public function singAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0, ?isPartOfLoopingAnim:Bool = false) {
-		var animPlayed:Bool = playAnim(AnimName, Force, Reversed, Frame, isPartOfLoopingAnim);
-		if(animPlayed){
-			isSinging = true;
-			lastSingTime = Conductor.songPosition;
-			onSing.dispatch(AnimName, Force, Reversed, Frame);
-			holdTimer = 0;
-		}
 	}
 
 	function changeOffsets() {
@@ -342,7 +353,7 @@ class Character extends FlxSpriteGroup
 		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
 			//custom method for looping animations since the anim end callback doesnt run on looped anmations normally
 			if(animLoopPoints.get(name) != null){
-				playAnim(name, true, false, animLoopPoints.get(name), true);
+				_playAnim(name, true, false, animLoopPoints.get(name), true);
 			}
 		}
 		//Not needed for atlas since this is built in to the AtlasSprite functionality.
@@ -350,7 +361,7 @@ class Character extends FlxSpriteGroup
 		if(!debugMode){
 			//Checks for and plays a chained animation.
 			if(characterInfo.info.animChains.exists(name)){
-				playAnim(characterInfo.info.animChains.get(name));
+				_playAnim(characterInfo.info.animChains.get(name));
 			}
 
 			if(characterInfo.info.functions.animationEnd != null){
@@ -445,7 +456,7 @@ class Character extends FlxSpriteGroup
 		}
 
 		if(characterInfo.info.anims.length > 0){
-			playAnim(characterInfo.info.anims[0].name);
+			_playAnim(characterInfo.info.anims[0].name);
 			dance();
 		}
 
@@ -766,7 +777,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function hasAnimation(_name:String):Bool{
-		return animOffsets.exists(_name);
+		return animOffsets.exists(_name) || characterInfo.info.animAliases.exists(_name);
 	}
 
 
