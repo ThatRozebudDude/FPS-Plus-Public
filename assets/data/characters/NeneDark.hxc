@@ -134,6 +134,7 @@ class NeneDark extends CharacterInfoBase
 
 	function songEnd(character:Character):Void{
 		abot.visualizer.alpha = 0;
+		abot.visualizer.visible = false;
 	}
 
 	function flashOn(character:Character):Void{

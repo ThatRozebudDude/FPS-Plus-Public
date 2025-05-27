@@ -157,6 +157,7 @@ class NeneTankmen extends CharacterInfoBase
 
 	function songEnd(character:Character):Void{
 		abot.visualizer.alpha = 0;
+		abot.visualizer.visible = false;
 	}
 	
 	function applyShader(character:Character, shader:FlxShader):Void{

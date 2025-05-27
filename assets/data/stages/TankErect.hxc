@@ -29,9 +29,6 @@ class TankErect extends BaseStage
 	var bfShader:DropShadowShader;
 	var dadShader:DropShadowShader;
 	var gfShader:DropShadowShader;
-	
-
-	var sniperSipping:Bool = true;
 
 	public function new(){
 		super();
@@ -174,12 +171,10 @@ class TankErect extends BaseStage
 
 	public override function beat(curBeat:Int){
 		if(curBeat % 2 == 0){
-			guy.animation.play("idle", false);
-			sniper.animation.play("idle", false);
-		}
-
-		if(FlxG.random.bool(2)){
-			sniper.animation.play("sip", false, true);
+			guy.animation.play("idle", true);
+			if(sniper.animation.curAnim.name != "sip" || sniper.animation.curAnim.finished){
+				sniper.animation.play(FlxG.random.bool(2) ? "sip" : "idle", true);
+			}
 		}
 	}
 

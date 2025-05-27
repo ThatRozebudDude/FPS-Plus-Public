@@ -2,20 +2,20 @@
 <!--
 Created with Funkin Packer v0.1.3 DEV https://neeeoo.github.io/funkin-packer/
 -->
-<TextureAtlas imagePath="guy.png" width="1271" height="295" spritePadding="2" borderPadding="1">
-	<SubTexture name="BLTank2 instance 10000" x="1" y="1" width="255" height="286" frameX="0" frameY="-7" frameWidth="255" frameHeight="293"/>
-	<SubTexture name="BLTank2 instance 10001" x="1" y="1" width="255" height="286" frameX="0" frameY="-7" frameWidth="255" frameHeight="293"/>
-	<SubTexture name="BLTank2 instance 10002" x="258" y="1" width="253" height="287" frameX="-2" frameY="-6" frameWidth="255" frameHeight="293"/>
-	<SubTexture name="BLTank2 instance 10003" x="258" y="1" width="253" height="287" frameX="-2" frameY="-6" frameWidth="255" frameHeight="293"/>
-	<SubTexture name="BLTank2 instance 10004" x="513" y="1" width="251" height="291" frameX="-4" frameY="-2" frameWidth="255" frameHeight="293"/>
-	<SubTexture name="BLTank2 instance 10005" x="513" y="1" width="251" height="291" frameX="-4" frameY="-2" frameWidth="255" frameHeight="293"/>
-	<SubTexture name="BLTank2 instance 10006" x="766" y="1" width="251" height="293" frameX="-4" frameY="0" frameWidth="255" frameHeight="293"/>
-	<SubTexture name="BLTank2 instance 10007" x="766" y="1" width="251" height="293" frameX="-4" frameY="0" frameWidth="255" frameHeight="293"/>
-	<SubTexture name="BLTank2 instance 10008" x="1019" y="1" width="251" height="293" frameX="-4" frameY="0" frameWidth="255" frameHeight="293"/>
-	<SubTexture name="BLTank2 instance 10009" x="1019" y="1" width="251" height="293" frameX="-4" frameY="0" frameWidth="255" frameHeight="293"/>
-	<SubTexture name="BLTank2 instance 10010" x="1019" y="1" width="251" height="293" frameX="-4" frameY="0" frameWidth="255" frameHeight="293"/>
-	<SubTexture name="BLTank2 instance 10011" x="1019" y="1" width="251" height="293" frameX="-4" frameY="0" frameWidth="255" frameHeight="293"/>
-	<SubTexture name="BLTank2 instance 10012" x="1019" y="1" width="251" height="293" frameX="-4" frameY="0" frameWidth="255" frameHeight="293"/>
-	<SubTexture name="BLTank2 instance 10013" x="1019" y="1" width="251" height="293" frameX="-4" frameY="0" frameWidth="255" frameHeight="293"/>
-	<SubTexture name="BLTank2 instance 10014" x="1019" y="1" width="251" height="293" frameX="-4" frameY="0" frameWidth="255" frameHeight="293"/>
+<TextureAtlas imagePath="guy.png" width="1267" height="296" spritePadding="2" borderPadding="1">
+	<SubTexture name="BLTank2 instance 10000" x="1" y="1" width="255" height="288" frameX="0" frameY="-6" frameWidth="255" frameHeight="294"/>
+	<SubTexture name="BLTank2 instance 10001" x="1" y="1" width="255" height="288" frameX="0" frameY="-6" frameWidth="255" frameHeight="294"/>
+	<SubTexture name="BLTank2 instance 10002" x="258" y="1" width="252" height="288" frameX="-2" frameY="-6" frameWidth="255" frameHeight="294"/>
+	<SubTexture name="BLTank2 instance 10003" x="258" y="1" width="252" height="288" frameX="-2" frameY="-6" frameWidth="255" frameHeight="294"/>
+	<SubTexture name="BLTank2 instance 10004" x="512" y="1" width="250" height="293" frameX="-4" frameY="-1" frameWidth="255" frameHeight="294"/>
+	<SubTexture name="BLTank2 instance 10005" x="512" y="1" width="250" height="293" frameX="-4" frameY="-1" frameWidth="255" frameHeight="294"/>
+	<SubTexture name="BLTank2 instance 10006" x="764" y="1" width="250" height="294" frameX="-4" frameY="0" frameWidth="255" frameHeight="294"/>
+	<SubTexture name="BLTank2 instance 10007" x="764" y="1" width="250" height="294" frameX="-4" frameY="0" frameWidth="255" frameHeight="294"/>
+	<SubTexture name="BLTank2 instance 10008" x="1016" y="1" width="250" height="294" frameX="-4" frameY="0" frameWidth="255" frameHeight="294"/>
+	<SubTexture name="BLTank2 instance 10009" x="1016" y="1" width="250" height="294" frameX="-4" frameY="0" frameWidth="255" frameHeight="294"/>
+	<SubTexture name="BLTank2 instance 10010" x="1016" y="1" width="250" height="294" frameX="-4" frameY="0" frameWidth="255" frameHeight="294"/>
+	<SubTexture name="BLTank2 instance 10011" x="1016" y="1" width="250" height="294" frameX="-4" frameY="0" frameWidth="255" frameHeight="294"/>
+	<SubTexture name="BLTank2 instance 10012" x="1016" y="1" width="250" height="294" frameX="-4" frameY="0" frameWidth="255" frameHeight="294"/>
+	<SubTexture name="BLTank2 instance 10013" x="1016" y="1" width="250" height="294" frameX="-4" frameY="0" frameWidth="255" frameHeight="294"/>
+	<SubTexture name="BLTank2 instance 10014" x="1016" y="1" width="250" height="294" frameX="-4" frameY="0" frameWidth="255" frameHeight="294"/>
 </TextureAtlas>

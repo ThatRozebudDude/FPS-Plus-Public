@@ -125,6 +125,7 @@ class NenePixel extends CharacterInfoBase
 
 	function songEnd(character:Character):Void{
 		abot.visualizer.alpha = 0;
+		abot.visualizer.visible = false;
 	}
 
 }
