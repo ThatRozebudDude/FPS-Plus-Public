@@ -222,6 +222,10 @@ class PlayState extends MusicBeatState
 	public var camOverlay:FlxCamera;
 	private var camGameZoomAdjust:Float = 0;
 
+	public var defaultIconBopScale:Float = 1.2;
+	public var defaultIconBopTime:Float = 0.33;
+	public var defaultIconBopEase:flixel.tweens.EaseFunction = FlxEase.quintOut;
+
 	public var hudShader:AlphaShader = new AlphaShader(1);
 
 	private var eventList:Array<Dynamic> = [];
@@ -2621,8 +2625,8 @@ class PlayState extends MusicBeatState
 		}
 
 		if (curBeat % iconBopFrequency == 0){
-			iconP1.bop(1.25, 0.2, FlxEase.quintOut);
-			iconP2.bop(1.25, 0.2, FlxEase.quintOut);
+			iconP1.bop(defaultIconBopScale, defaultIconBopTime, defaultIconBopEase);
+			iconP2.bop(defaultIconBopScale, defaultIconBopTime, defaultIconBopEase);
 		}
 		
 		if (curBeat % gfBopFrequency == 0){
