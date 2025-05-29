@@ -2329,9 +2329,9 @@ class PlayState extends MusicBeatState
 			}
 		});
 
-		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim && (Character.PREVENT_SHORT_IDLE ? !anyPlayerNoteInRange : true)){
+		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
 			if (boyfriend.isSinging){
-				if(Character.USE_IDLE_END){ 
+				if((boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd != null ? boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd : Character.USE_IDLE_END)){ 
 					boyfriend.idleEnd(); 
 				}
 				else{ 
@@ -2390,9 +2390,9 @@ class PlayState extends MusicBeatState
 			}
 		});
 
-		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim && (Character.PREVENT_SHORT_IDLE ? !anyPlayerNoteInRange : true)){
+		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
 			if (boyfriend.isSinging){
-				if(Character.USE_IDLE_END){ 
+				if((boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd != null ? boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd : Character.USE_IDLE_END)){ 
 					boyfriend.idleEnd(); 
 				}
 				else{ 
@@ -2610,7 +2610,7 @@ class PlayState extends MusicBeatState
 		if (SONG.notes[Math.floor(curStep / 16)] != null){
 
 			// Dad doesnt interupt his own notes
-			if(dadBeats.contains(curBeat % 4) && dad.canAutoAnim && dad.holdTimer == 0 && !dad.isSinging && (Character.PREVENT_SHORT_IDLE ? !anyOpponentNoteInRange : true)){
+			if(dadBeats.contains(curBeat % 4) && dad.canAutoAnim && dad.holdTimer == 0 && !dad.isSinging && ((dad.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? dad.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyOpponentNoteInRange : true)){
 				dad.dance();
 			}
 			
@@ -2633,7 +2633,7 @@ class PlayState extends MusicBeatState
 			gf.dance();
 		}
 
-		if(bfBeats.contains(curBeat % 4) && boyfriend.canAutoAnim && !boyfriend.isSinging && (Character.PREVENT_SHORT_IDLE ? !anyPlayerNoteInRange : true)){
+		if(bfBeats.contains(curBeat % 4) && boyfriend.canAutoAnim && !boyfriend.isSinging && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
 			boyfriend.dance();
 		}
 
@@ -2737,8 +2737,8 @@ class PlayState extends MusicBeatState
 
 	//Moved to a separate function and out of note check so the hit callback function will be run every note hit and not just when the animation is supposed to play.
 	public inline static function characterShouldPlayAnimation(note:Note, character:Character):Bool{
-		return (Character.LOOP_ANIM_ON_HOLD ? (note.isSustainNote ? (Character.HOLD_LOOP_WAIT ? (!character.isSinging || (character.timeInCurrentAnimation >= (3/24) || character.curAnimFinished())) : true) : true) : !note.isSustainNote)
-			&& (Character.PREVENT_SHORT_SING ? !Utils.inRange(character.lastSingTime, Conductor.songPosition, Character.SHORT_SING_TOLERENCE) : true);
+		return ((character.characterInfo.info.characterPropertyOverrides.loopAnimOnHold != null ? character.characterInfo.info.characterPropertyOverrides.loopAnimOnHold : Character.LOOP_ANIM_ON_HOLD) ? (note.isSustainNote ? ((character.characterInfo.info.characterPropertyOverrides.holdLoopWait != null ? character.characterInfo.info.characterPropertyOverrides.holdLoopWait : Character.HOLD_LOOP_WAIT) ? (!character.isSinging || (character.timeInCurrentAnimation >= (3/24) || character.curAnimFinished())) : true) : true) : !note.isSustainNote)
+			&& ((character.characterInfo.info.characterPropertyOverrides.preventShortSing != null ? character.characterInfo.info.characterPropertyOverrides.preventShortSing : Character.PREVENT_SHORT_SING) ? !Utils.inRange(character.lastSingTime, Conductor.songPosition, (character.characterInfo.info.characterPropertyOverrides.shortSingTolerence != null ? character.characterInfo.info.characterPropertyOverrides.shortSingTolerence : Character.SHORT_SING_TOLERENCE)) : true);
 	}
 
 	var bfOnTop:Bool = true;

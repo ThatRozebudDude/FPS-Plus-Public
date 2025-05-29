@@ -50,6 +50,15 @@ typedef LoopData = {
 	var loopPoint:Int;
 }
 
+typedef CharacterPropertyOverrides = {
+	var loopAnimOnHold:Null<Bool>;
+	var holdLoopWait:Null<Bool>;
+	var useIdleEnd:Null<Bool>;
+	var preventShortIdle:Null<Bool>;
+	var preventShortSing:Null<Bool>;
+	var shortSingTolerence:Null<Float>;
+}
+
 typedef CharacterFunctions = {
 	var create:(Character)->Void;					//This function is run after the Character new() function is complete.
 	var postCreate:(Character)->Void;				//This function is run after the Character new() function is complete.
@@ -94,6 +103,7 @@ typedef CharacterInfo = {
 	var actions:Map<String, (Character)->Void>;
 	var animAliases:Map<String, String>;
 	var extraData:Map<String, Dynamic>;
+	var characterPropertyOverrides:CharacterPropertyOverrides;
 }
 
 /**
@@ -148,7 +158,15 @@ class CharacterInfoBase
 		},
 		actions: new Map<String, (Character)->Void>(),
 		animAliases: new Map<String, String>(),
-		extraData: new Map<String, Dynamic>()
+		extraData: new Map<String, Dynamic>(),
+		characterPropertyOverrides: {
+			loopAnimOnHold: null,
+			holdLoopWait: null,
+			useIdleEnd: null,
+			preventShortIdle: null,
+			preventShortSing: null,
+			shortSingTolerence: null,
+		}
 	};
 
 	public var characterReference:Character;
