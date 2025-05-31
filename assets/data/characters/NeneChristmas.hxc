@@ -30,6 +30,10 @@ class NeneChristmas extends CharacterInfoBase
 		addAnimChain("raiseKnife", "idleKnife");
 		addAnimChain("laughCutscene", "idleLoop");
 
+		//Adds combo aliases.
+		for(i in 2...20){ addAnimAlias("combo" + (i * 50), "combo50"); }
+		for(i in 2...5){ addAnimAlias("combo" + (i * 200), "combo200"); }
+
 		info.idleSequence = ["danceLeft", "danceRight"];
 
 		info.functions.create = create;
