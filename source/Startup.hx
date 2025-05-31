@@ -116,14 +116,9 @@ class Startup extends FlxUIStateExt
 		FlxUIStateExt.defaultTransOut = ScreenWipeOut;
 		FlxUIStateExt.defaultTransOutArgs = [0.6];
 
-		if(!CacheConfig.check()){
-			CacheConfig.characters = false;
-			CacheConfig.graphics = false;
-		}
-		else{
-			charactersCached = !CacheConfig.characters;
-			graphicsCached = !CacheConfig.graphics;
-		}
+		CacheConfig.check();
+		charactersCached = !CacheConfig.characters;
+		graphicsCached = !CacheConfig.graphics;
 
 		hasEe2 = Utils.exists(Paths.inst("Lil-Buddies"));
 

@@ -27,7 +27,7 @@ class ModConfig
 				var json = Json.parse(File.getContent("mods/" + dir + "/config.json"));
 
 				var modAPIVersion:Array<Int> = [Std.parseInt(meta.api_version.split(".")[0]), Std.parseInt(meta.api_version.split(".")[1]), Std.parseInt(meta.api_version.split(".")[2])];
-				if(meta.uid == null || modAPIVersion[1] >= 4){
+				if(meta.uid == null || modAPIVersion[1] < 4){
 					continue;
 				}
 
@@ -87,7 +87,7 @@ class ModConfig
 			}
 		}
 
-		save();
+		FlxG.save.data.configMap = configMap;
 
 		SaveManager.previousSave();
 	}

@@ -88,6 +88,13 @@ That is all you really need to know to set up a basic character, however there a
 - `focusOffset`: An FlxPoint that adds an offset from the center of a character when the camera focuses on them. The `x` value is multipled by -1 when on the player's side.
 - `deathOffset`: An FlxPoint that adds an offset from the center of a character when the camera moves towards them on the death screen.
 - `functions`: A set of functions that you can define that will be called at certain times. There will be more information about these in the **Advanced Character Scripting** section.
+- `characterPropertyOverrides`: An object containing overrides to default character behaviors such as looping the sing animation on hold notes or returning to the end of the idle animation instead of the begining when releasing notes.
+	- `loopAnimOnHold`: Boolean that determines whether animations repeatedly loop when hitting a hold note.
+	- `holdLoopWait`: Boolean that determines whether hold animations wait a certain amount of time before being allowed to loop.
+	- `useIdleEnd`: Boolean that determines whether the character will go to the begining or the end of their idle when ending a note animation.
+	- `preventShortIdle`: Boolean that determines whether the character can play their idle if they are able to hit another note shortly.
+	- `preventShortSing`: Boolean that determines whether the character can play sing animations shortly after hitting another note.
+	- `shortSingTolerence`: Float that determines the time required between hitting notes (in milliseconds) to play another sing animation.
 
 You can also use the function `addExtraData(key, data)` to add addition info that isn't part of the base character info class. The data is `Dynamic` so the keys aren't all going to refer to the same type. Here are some of the different keys you can use:
 
