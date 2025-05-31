@@ -18,7 +18,8 @@ class CacheSettings extends FlxUIStateExt
 
 	public static var noFunMode = false;
 
-	var keyTextDisplay:FlxTextExt;
+	var titleText:FlxTextExt;
+	var settingText:FlxTextExt;
 	var warning:FlxTextExt;
 	var warningText:Array<String> = [
 									"Enabling this will load the character sprites into VRAM. This will decrease loading times. Disabling this will increase RAM usage slightly during gameplay.",
@@ -66,12 +67,19 @@ class CacheSettings extends FlxUIStateExt
 		bg.color = bgColor;
 		add(bg);
 
-		keyTextDisplay = new FlxTextExt(0, 0, 1280, "", 72);
-		keyTextDisplay.scrollFactor.set(0, 0);
-		keyTextDisplay.setFormat(font, 72, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		keyTextDisplay.borderSize = 4;
-		keyTextDisplay.borderQuality = 1;
-		add(keyTextDisplay);
+		titleText = new FlxTextExt(0, 125, 1280, "CACHE SETTINGS\n", 72);
+		titleText.scrollFactor.set(0, 0);
+		titleText.setFormat(font, 72, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		titleText.borderSize = 4;
+		titleText.borderQuality = 1;
+		add(titleText);
+
+		settingText = new FlxTextExt(0, 300, 1280, "", 72);
+		settingText.scrollFactor.set(0, 0);
+		settingText.setFormat(font, 72, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		settingText.borderSize = 4;
+		settingText.borderQuality = 1;
+		add(settingText);
 
 		warning = new FlxTextExt(0, 540, 1120, warningText[curSelected], 32);
 		warning.scrollFactor.set(0, 0);
@@ -158,24 +166,22 @@ class CacheSettings extends FlxUIStateExt
 
 	function textUpdate(){
 
-		keyTextDisplay.clearFormats();
-		if(!noFunMode){ keyTextDisplay.text = "\n"; }
-		else{ keyTextDisplay.text = ""; }
-		keyTextDisplay.text += "\nCACHE SETTINGS\n\n\n";
+		settingText.clearFormats();
+		settingText.text = "";
 
 		for(i in 0...names.length){
 
-			var sectionStart = keyTextDisplay.text.length;
-			keyTextDisplay.text += names[i] + ": " + (settings[i]?onOff[1]:onOff[0]) + "\n";
-			var sectionEnd = keyTextDisplay.text.length - 1;
+			var sectionStart = settingText.text.length;
+			settingText.text += names[i] + ": " + (settings[i]?onOff[1]:onOff[0]) + "\n";
+			var sectionEnd = settingText.text.length - 1;
 
 			if(i == curSelected){
-				keyTextDisplay.addFormat(new FlxTextFormat(0xFFFFFF00), sectionStart, sectionEnd);
+				settingText.addFormat(new FlxTextFormat(0xFFFFFF00), sectionStart, sectionEnd);
 			}
 
 		}
 
-		keyTextDisplay.text += "\n\n";
+		settingText.text += "\n\n";
 
 	}
 
