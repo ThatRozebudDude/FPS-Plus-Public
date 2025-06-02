@@ -188,12 +188,14 @@ class CharacterAnimationEvents extends Events
 		playstate.healthBar.updateFilledBar();
 	}
 
-	var cachedCharacters:Array<String> = [];
 	function changeCharacterPreprocess(tag:String):Void{
 		var args = Events.getArgs(tag, ["bf", "Bf", "true"]);
-		if (!cachedCharacters.contains(args[1])){
+		//Creates a character object and immediately destroys it.
+		//This is to cache the character's graphics so it doesn't need to load them from disk when changing characters later in the song.
+		if(!data.exists("CACHED_CHARACTER___" + args[1])){
 			var cache = new Character(0, 0, args[1]);
-			cachedCharacters.push(args[1]);
+			cache.destroy();
+			data.set("CACHED_CHARACTER___" + args[1], true);
 		}
 	}
 
