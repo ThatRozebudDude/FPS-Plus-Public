@@ -131,6 +131,9 @@ class CharacterAnimationEvents extends Events
 
 				if(newCharacter.getShader() == null && boyfriend.getShader() != null && Events.parseBool(args[2])){
 					newCharacter.applyShader(boyfriend.getShader());
+					if(ScriptingUtil.instanceHasField(boyfriend.getShader(), "attachCharacter")){
+						newCharacter.getShader().attachCharacter(newCharacter);
+					}
 				}
 
 				playstate.characterLayer.replace(playstate.boyfriend, newCharacter);
@@ -153,6 +156,9 @@ class CharacterAnimationEvents extends Events
 
 				if(newCharacter.getShader() == null && dad.getShader() != null && Events.parseBool(args[2])){
 					newCharacter.applyShader(dad.getShader());
+					if(ScriptingUtil.instanceHasField(dad.getShader(), "attachCharacter")){
+						newCharacter.getShader().attachCharacter(newCharacter);
+					}
 				}
 
 				playstate.characterLayer.replace(playstate.dad, newCharacter);
@@ -174,6 +180,9 @@ class CharacterAnimationEvents extends Events
 
 				if(newCharacter.getShader() == null && gf.getShader() != null && Events.parseBool(args[2])){
 					newCharacter.applyShader(gf.getShader());
+					if(ScriptingUtil.instanceHasField(gf.getShader(), "attachCharacter")){
+						newCharacter.getShader().attachCharacter(newCharacter);
+					}
 				}
 
 				playstate.gfLayer.replace(playstate.gf, newCharacter);
