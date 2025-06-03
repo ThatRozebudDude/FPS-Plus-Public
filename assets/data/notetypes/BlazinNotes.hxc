@@ -38,11 +38,11 @@ class BlazinNotes extends NoteType
 	}
 
 	function alternating():Int{
-		if(!data.exists("blazin-alternating")){
-			data.set("blazin-alternating", true);
+		if(!data.exists("BLAZIN_ALTERNATING")){
+			data.set("BLAZIN_ALTERNATING", true);
 		}
-		data["blazin-alternating"] = !data["blazin-alternating"];
-		return (data["blazin-alternating"]) ? 2 : 1;
+		data["BLAZIN_ALTERNATING"] = !data["BLAZIN_ALTERNATING"];
+		return (data["BLAZIN_ALTERNATING"]) ? 2 : 1;
 	}
 
 	function punchlowHit(note:Note, character:Character){
