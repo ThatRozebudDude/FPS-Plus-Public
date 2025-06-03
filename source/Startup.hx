@@ -55,12 +55,12 @@ class Startup extends FlxUIStateExt
 									"week6/senpai", "week6/spirit",
 									"week7/tankmanCaptain",
 									"weekend1/darnell",
-									"weekend1/Nene", "weekend1/abot/*", "weekend1/abot/*"];
+									"weekend1/Nene", "weekend1/abot/*"];
 
 	var graphicsCached:Bool;
 	var startCachingGraphics:Bool = false;
 	var gfxI:Int = 0;
-	public static var graphics:Array<String> = ["logoBumpin", "titleEnter", "fpsPlus/title/backgroundBf", "fpsPlus/title/barBottom", "fpsPlus/title/barTop", "fpsPlus/title/gf", "fpsPlus/title/glow", 
+	public static var graphics:Array<String> = ["logoBumpin", "titleEnter", "fpsPlus/title/*", 
 									"week1/stageback", "week1/stagefront", "week1/stagecurtains",
 									"week2/stage/*",
 									"week3/philly/*",
