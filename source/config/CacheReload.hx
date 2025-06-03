@@ -178,10 +178,10 @@ class CacheReload extends FlxState
 
 		for(mod in PolymodHandler.loadedModDirs){
 			var meta = haxe.Json.parse(sys.io.File.getContent("mods/" + mod + "/meta.json"));
-			if (meta.preload != null && meta.preload.characters != null){
+			if(meta.preload != null && meta.preload.characters != null){
 				characterPreloadList = characterPreloadList.concat(meta.preload.characters);
 			}
-			if (meta.preload != null && meta.preload.graphics != null){
+			if(meta.preload != null && meta.preload.graphics != null){
 				graphicsPreloadList = graphicsPreloadList.concat(meta.preload.graphics);
 			}
 		}
@@ -194,9 +194,9 @@ class CacheReload extends FlxState
 		var finalArray:Array<String> = [];
 		var excludes:Array<String> = [];
 
-		for (file in list){
-			if (file.endsWith("/*")){
-				if (file.startsWith("!")){
+		for(file in list){
+			if(file.endsWith("/*")){
+				if(file.startsWith("!")){
 					var thing = file.split("!")[1];
 					for(f in Utils.listEveryFileInFolder("images/" + thing.split("/*")[0], ".png")){
 						excludes.push(thing.split("/*")[0] + "/" + f.split(".png")[0]);
@@ -209,18 +209,18 @@ class CacheReload extends FlxState
 				}
 			}
 			else{
-				if (file.startsWith("!")){
+				if(file.startsWith("!")){
 					excludes.push(file);
-				}else{
+				}
+				else{
 					finalArray.push(file);
 				}
 			}	
 		}
 
-		for (fil in finalArray){
-			if (excludes.contains(fil)){
-				// trace("excluded file " + fil);
-				finalArray.remove(fil);
+		for(file in finalArray){
+			if(excludes.contains(file)){
+				finalArray.remove(file);
 			}
 		}
 
