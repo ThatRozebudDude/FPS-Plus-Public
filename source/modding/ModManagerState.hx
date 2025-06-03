@@ -321,6 +321,7 @@ class ModManagerState extends FlxUIStateExt
 					}
 			
 					if(Binds.justPressed("menuBack")){
+						ImageCache.forceClearOnTransition = true;
 						FlxG.sound.play(Paths.sound("cancelMenu"));
 						canDoThings = false;
 						save();

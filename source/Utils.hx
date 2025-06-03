@@ -189,6 +189,18 @@ class Utils
 		return files;
 	}
 
+	public static inline function listEveryFileInFolder(folder:String, postfix:String)
+	{
+		var last:Array<String> = [];
+		var assets = Assets.list();
+		for (file in assets){
+			if (file.startsWith('assets/$folder/') && file.endsWith(postfix)){
+				last.push(file.split('assets/$folder/')[1]);
+			}
+		}
+		return last;
+	}
+
 	//Removes duplicate items from an array. Can additionally supply extra arrays to check from.
 	public static function removeDuplicates(arr:Dynamic, ?extraArrayComparisons:Array<Dynamic>):Dynamic{
 		if(extraArrayComparisons == null){ extraArrayComparisons = []; }

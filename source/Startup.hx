@@ -45,7 +45,7 @@ class Startup extends FlxUIStateExt
 	var charactersCached:Bool;
 	var startCachingCharacters:Bool = false;
 	var charI:Int = 0;
-	public static final characters:Array<String> =   ["BOYFRIEND", "BOYFRIEND_DEAD", "week4/bfCar", "week5/bfChristmas", "week6/bfPixel", "week6/bfPixelsDEAD", "week7/bfAndGF", "week7/bfHoldingGF-DEAD",
+	public static var characters:Array<String> =   ["BOYFRIEND", "BOYFRIEND_DEAD", "week4/bfCar", "week5/bfChristmas", "week6/bfPixel", "week6/bfPixelsDEAD", "week7/bfAndGF", "week7/bfHoldingGF-DEAD",
 									"GF_assets", "week4/gfCar", "week5/gfChristmas", "week6/gfPixel", "week7/gfTankmen",
 									"week1/DADDY_DEAREST", 
 									"week2/spooky_kids_assets", "week2/Monster_Assets",
@@ -55,24 +55,20 @@ class Startup extends FlxUIStateExt
 									"week6/senpai", "week6/spirit",
 									"week7/tankmanCaptain",
 									"weekend1/darnell",
-									"weekend1/Nene", "weekend1/abot/aBotViz", "weekend1/abot/stereoBG"];
+									"weekend1/Nene", "weekend1/abot/*", "weekend1/abot/*"];
 
 	var graphicsCached:Bool;
 	var startCachingGraphics:Bool = false;
 	var gfxI:Int = 0;
-	public static final graphics:Array<String> =	["logoBumpin", "titleEnter", "fpsPlus/title/backgroundBf", "fpsPlus/title/barBottom", "fpsPlus/title/barTop", "fpsPlus/title/gf", "fpsPlus/title/glow", 
+	public static var graphics:Array<String> = ["logoBumpin", "titleEnter", "fpsPlus/title/backgroundBf", "fpsPlus/title/barBottom", "fpsPlus/title/barTop", "fpsPlus/title/gf", "fpsPlus/title/glow", 
 									"week1/stageback", "week1/stagefront", "week1/stagecurtains",
-									"week2/stage/shadowsWhite", "week2/stage/window", "week2/stage/windowLightWhite",
-									"week3/philly/sky", "week3/philly/city", "week3/philly/behindTrain", "week3/philly/train", "week3/philly/street", "week3/philly/windowWhite", "week3/philly/windowWhiteGlow",
-									"week4/limo/bgLimo", "week4/limo/fastCarLol", "week4/limo/limoDancer", "week4/limo/limoDrive", "week4/limo/limoSunset",
-									"week5/christmas/bgWalls", "week5/christmas/upperBop", "week5/christmas/bgEscalator", "week5/christmas/christmasTree", "week5/christmas/bottomBop", "week5/christmas/fgSnow", "week5/christmas/santa",
-									"week5/christmas/evilBG", "week5/christmas/evilTree", "week5/christmas/evilSnow",
-									"week6/weeb/sky", "week6/weeb/farBackTrees", "week6/weeb/school", "week6/weeb/ground", "week6/weeb/backTrees", "week6/weeb/weebTrees", "week6/weeb/petals", "week6/weeb/bgFreaks",
-									"week6/weeb/animatedEvilSchool", "week6/weeb/senpaiCrazy",
-									"week7/stage/tank0", "week7/stage/tank1", "week7/stage/tank2", "week7/stage/tank3", "week7/stage/tank4", "week7/stage/tank5", "week7/stage/tankmanKilled1", 
-									"week7/stage/smokeLeft", "week7/stage/smokeRight", "week7/stage/tankBuildings", "week7/stage/tankClouds", "week7/stage/tankGround", "week7/stage/tankMountains", "week7/stage/tankRolling", "week7/stage/tankRuins", "week7/stage/tankSky", "week7/stage/tankWatchtower",
-									"weekend1/phillyStreets/phillyCars","weekend1/phillyStreets/phillyConstruction","weekend1/phillyStreets/phillyForeground","weekend1/phillyStreets/phillyForegroundCity","weekend1/phillyStreets/phillyHighway","weekend1/phillyStreets/phillyHighwayLights","weekend1/phillyStreets/phillyHighwayLights_lightmap","weekend1/phillyStreets/phillySkybox","weekend1/phillyStreets/phillySkyline","weekend1/phillyStreets/phillySmog","weekend1/phillyStreets/phillyTraffic","weekend1/phillyStreets/phillyTraffic_lightmap","weekend1/phillyStreets/SpraycanPile",  
-									"weekend1/phillyBlazin/lightning", "weekend1/phillyBlazin/skyBlur", "weekend1/phillyBlazin/streetBlur"];
+									"week2/stage/*",
+									"week3/philly/*",
+									"week4/limo/*",
+									"week5/christmas/*",
+									"week6/weeb/*",
+									"week7/stage/*",
+									"weekend1/phillyStreets/*", "weekend1/phillyBlazin/*"];
 
 	var cacheStart:Bool = false;
 
@@ -130,6 +126,17 @@ class Startup extends FlxUIStateExt
 		splash.animation.play("start");
 		splash.updateHitbox();
 		splash.screenCenter();
+
+		for (mod in PolymodHandler.loadedModDirs)
+		{
+			var meta = haxe.Json.parse(sys.io.File.getContent("mods/" + mod + "/meta.json"));
+			if (meta.preload != null && meta.preload.characters != null){
+				characters = characters.concat(meta.preload.characters);
+			}
+			if (meta.preload != null && meta.preload.graphics != null){
+				graphics = graphics.concat(meta.preload.graphics);
+			}
+		}
 
 		loadTotal = (!charactersCached ? characters.length : 0) + (!graphicsCached ? graphics.length : 0);
 
@@ -226,11 +233,20 @@ class Startup extends FlxUIStateExt
 				charactersCached = true;
 			}
 			else{
-				if(Utils.exists(Paths.file(characters[charI], "images", "png"))){
-					ImageCache.preload(Paths.file(characters[charI], "images", "png"));
+				if (characters[charI].endsWith("/*")){
+					for (f in Utils.listEveryFileInFolder("images/" + characters[charI].split("/*")[0], ".png")){
+						if(Utils.exists('assets/images/${ characters[charI].split("/*")[0]}/' + f)){
+							ImageCache.preload('assets/images/${ characters[charI].split("/*")[0]}/' + f);
+						}else{
+							trace("Graphic: File at " +  f + " not found, skipping cache.");
+						}
+					}
+				}
+				else if(Utils.exists(Paths.file( characters[charI], "images", "png"))){
+					ImageCache.preload(Paths.file( characters[charI], "images", "png"));
 				}
 				else{
-					trace("Character: File at " + characters[charI] + " not found, skipping cache.");
+					trace("Graphic: File at " +  characters[charI] + " not found, skipping cache.");
 				}
 				charI++;
 				currentLoaded++;
@@ -244,7 +260,16 @@ class Startup extends FlxUIStateExt
 				graphicsCached = true;
 			}
 			else{
-				if(Utils.exists(Paths.file(graphics[gfxI], "images", "png"))){
+				if (graphics[gfxI].endsWith("/*")){
+					for (f in Utils.listEveryFileInFolder("images/" + graphics[gfxI].split("/*")[0], ".png")){
+						if(Utils.exists('assets/images/${graphics[gfxI].split("/*")[0]}/' + f)){
+							ImageCache.preload('assets/images/${graphics[gfxI].split("/*")[0]}/' + f);
+						}else{
+							trace("Graphic: File at " + f + " not found, skipping cache.");
+						}
+					}
+				}
+				else if(Utils.exists(Paths.file(graphics[gfxI], "images", "png"))){
 					ImageCache.preload(Paths.file(graphics[gfxI], "images", "png"));
 				}
 				else{
@@ -294,7 +319,14 @@ class Startup extends FlxUIStateExt
 
 	function preloadCharacters(){
 		for(x in characters){
-			ImageCache.preload(Paths.file(x, "images", "png"));
+			if (x.endsWith("/*")){
+				for (f in Utils.listEveryFileInFolder("images/" + x.split("/*")[0], ".png")){
+					trace("caching from: " + 'assets/images/${x.split("/*")[0]}/' + f);
+					ImageCache.preload('assets/images/${x.split("/*")[0]}/' + f);
+				}
+			}else{
+				ImageCache.preload(Paths.file(x, "images", "png"));
+			}
 			//trace("Chached " + x);
 		}
 		loadingText.text = "Characters cached...";
@@ -303,8 +335,14 @@ class Startup extends FlxUIStateExt
 
 	function preloadGraphics(){
 		for(x in graphics){
-			ImageCache.preload(Paths.file(x, "images", "png"));
-			//trace("Chached " + x);
+			if (x.endsWith("/*")){
+				for (f in Utils.listEveryFileInFolder("images/" + x.split("/*")[0], ".png")){
+					trace("caching from: " + 'assets/images/${x.split("/*")[0]}/' + f);
+					ImageCache.preload('assets/images/${x.split("/*")[0]}/' + f);
+				}
+			}else{
+				ImageCache.preload(Paths.file(x, "images", "png"));
+			}
 		}
 		loadingText.text = "Graphics cached...";
 		graphicsCached = true;
