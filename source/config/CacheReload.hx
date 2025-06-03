@@ -44,7 +44,7 @@ class CacheReload extends FlxState
 		"week3/philly/*",
 		"week4/limo/*",
 		"week5/christmas/*",
-		"week6/weeb/*",
+		"week6/weeb/*", "!week6/weeb/pixelUI/*",
 		"week7/stage/*",
 		"weekend1/phillyStreets/*", "weekend1/phillyBlazin/*"
 	];
@@ -173,11 +173,8 @@ class CacheReload extends FlxState
 	}
 
 	public static function buildPreloadList():Void{
-		characterPreloadList = [];
-		graphicsPreloadList = [];
-
-		characterPreloadList = characterPreloadList.concat(defaultCharacterPreloadList);
-		graphicsPreloadList = graphicsPreloadList.concat(defaultCharacterPreloadList);
+		characterPreloadList = defaultCharacterPreloadList;
+		graphicsPreloadList = defaultGraphicsPreloadList;
 
 		for(mod in PolymodHandler.loadedModDirs){
 			var meta = haxe.Json.parse(sys.io.File.getContent("mods/" + mod + "/meta.json"));
@@ -188,20 +185,50 @@ class CacheReload extends FlxState
 				graphicsPreloadList = graphicsPreloadList.concat(meta.preload.graphics);
 			}
 		}
+
+		characterPreloadList = parsePreloadList(characterPreloadList);
+		graphicsPreloadList = parsePreloadList(graphicsPreloadList);
+	}
+
+	public static function parsePreloadList(list:Array<String>):Array<String>{
+		var finalArray:Array<String> = [];
+		var excludes:Array<String> = [];
+
+		for (file in list){
+			if (file.endsWith("/*")){
+				if (file.startsWith("!")){
+					var thing = file.split("!")[1];
+					for(f in Utils.listEveryFileInFolder("images/" + thing.split("/*")[0], ".png")){
+						excludes.push(thing.split("/*")[0] + "/" + f.split(".png")[0]);
+					}
+				}
+				else{
+					for(f in Utils.listEveryFileInFolder("images/" + file.split("/*")[0], ".png")){
+						finalArray.push(file.split("/*")[0] + "/" + f.split(".png")[0]);
+					}
+				}
+			}
+			else{
+				if (file.startsWith("!")){
+					excludes.push(file);
+				}else{
+					finalArray.push(file);
+				}
+			}	
+		}
+
+		for (fil in finalArray){
+			if (excludes.contains(fil)){
+				// trace("excluded file " + fil);
+				finalArray.remove(fil);
+			}
+		}
+
+		return finalArray;
 	}
 
 	public static function cacheCharacter(index:Int):Void{
-		if(characterPreloadList[index].endsWith("/*")){
-			for(f in Utils.listEveryFileInFolder("images/" + characterPreloadList[index].split("/*")[0], ".png")){
-				if(Utils.exists('assets/images/${characterPreloadList[index].split("/*")[0]}/' + f)){
-					ImageCache.preload('assets/images/${characterPreloadList[index].split("/*")[0]}/' + f);
-				}
-				else{
-					trace("Graphic: File at " +  f + " not found, skipping cache.");
-				}
-			}
-		}
-		else if(Utils.exists(Paths.file(characterPreloadList[index], "images", "png"))){
+		if(Utils.exists(Paths.file(characterPreloadList[index], "images", "png"))){
 			ImageCache.preload(Paths.file(characterPreloadList[index], "images", "png"));
 		}
 		else{
@@ -210,17 +237,7 @@ class CacheReload extends FlxState
 	}
 
 	public static function cacheGraphic(index:Int):Void{
-		if(graphicsPreloadList[index].endsWith("/*")){
-			for(f in Utils.listEveryFileInFolder("images/" + graphicsPreloadList[index].split("/*")[0], ".png")){
-				if(Utils.exists('assets/images/${graphicsPreloadList[index].split("/*")[0]}/' + f)){
-					ImageCache.preload('assets/images/${graphicsPreloadList[index].split("/*")[0]}/' + f);
-				}
-				else{
-					trace("Graphic: File at " +  f + " not found, skipping cache.");
-				}
-			}
-		}
-		else if(Utils.exists(Paths.file(graphicsPreloadList[index], "images", "png"))){
+		if(Utils.exists(Paths.file(graphicsPreloadList[index], "images", "png"))){
 			ImageCache.preload(Paths.file(graphicsPreloadList[index], "images", "png"));
 		}
 		else{
