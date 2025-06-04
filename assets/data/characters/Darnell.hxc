@@ -9,7 +9,7 @@ class Darnell extends CharacterInfoBase
 		info.frameLoadType = setSparrow();
 		
 		info.iconName = "darnell";
-		info.focusOffset.set(420, -100);
+		info.focusOffset.set(120, -100);
 
 		addByIndices('idle', offset(), 'Idle', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], "", 24, loop(false));
 		addByPrefix("idleLoop", offset(0, 0), "Idle", 24, loop(true, 0), false, false);
@@ -26,7 +26,7 @@ class Darnell extends CharacterInfoBase
 
 		addAnimChain("laughCutscene", "idleLoop");
 
-		addExtraData("reposition", [40, 200]);
+		addExtraData("reposition", [40, 120]);
 	}
 
 }

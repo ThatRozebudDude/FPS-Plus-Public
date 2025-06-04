@@ -87,7 +87,7 @@ class PhillyErect extends BaseStage
 		dadStart.set(450, 875);
 		bfStart.x += 50;
 
-		dadCameraOffset.set(-50, 0);
+		dadCameraOffset.set(162, 0);
 		bfCameraOffset.set(-100, 0);
 
 		boyfriend.applyShader(characterShader.shader);

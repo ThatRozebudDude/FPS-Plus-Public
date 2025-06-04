@@ -10,7 +10,7 @@ class Pico extends CharacterInfoBase
 		
 		info.iconName = "pico";
 		info.facesLeft = true;
-		info.focusOffset.set(312, -100);
+		info.focusOffset.set(100, -100);
 		info.resultsCharacter = "PicoResults";
 
 		addByPrefix('idle', offset(), "Idle", 24, loop(false));

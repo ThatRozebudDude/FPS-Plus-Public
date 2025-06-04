@@ -240,10 +240,11 @@ class PhillyStreetsErect extends BaseStage
 		addToForeground(mist2);
 
 		bfStart.set(2151, 1228);
-		dadStart.set(900, 1110);
+		dadStart.set(900, 1190);
 		gfStart.set(1453, 1065);
 
 		bfCameraOffset.set(-390, 0);
+		dadCameraOffset.set(300, 0);
 
 		switch(boyfriend.curCharacter){
 			case "bf":
