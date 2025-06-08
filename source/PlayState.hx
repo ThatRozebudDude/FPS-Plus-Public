@@ -697,7 +697,7 @@ class PlayState extends MusicBeatState
 		hudLayer.cameras = [camHUD];
 
 		//Get and run cutscene stuff
-		if(Utils.exists("assets/data/songs/" + SONG.song.toLowerCase() + "/cutscene.json")){
+		if(Utils.exists("assets/data/songs/" + SONG.song.toLowerCase() + "/cutscene.json") && !fromChartEditor){
 			trace("song has cutscene info");
 			var cutsceneJson = Json.parse(Utils.getText("assets/data/songs/" + SONG.song.toLowerCase() + "/cutscene.json"));
 			//trace(cutsceneJson);
@@ -781,8 +781,6 @@ class PlayState extends MusicBeatState
 		if(fromChartEditor && !fceForLilBuddies){
 			preventScoreSaving = true;
 		}
-		fromChartEditor = false;
-		fceForLilBuddies = false;
 		
 		stage.postCreate();
 		for(script in scripts){ script.create(); }
@@ -2064,25 +2062,31 @@ class PlayState extends MusicBeatState
 		}
 		//CODE FOR ENDING A FREEPLAY SONG
 		else{
-
-			sectionStart = false;
-			//returnToMenu();
-
-			var songName = SONG.song.replace("-", " ");
-			if(metadata != null){
-				songName = metadata.name;
-			}
-
-			var songSaveStuff:SaveInfo = null;
-			if(!preventScoreSaving){
-				songSaveStuff = {
-					song: SONG.song,
-					week: null,
-					diff: storyDifficulty
+			if(!fromChartEditor){
+				sectionStart = false;
+				//returnToMenu();
+	
+				var songName = SONG.song.replace("-", " ");
+				if(metadata != null){
+					songName = metadata.name;
 				}
+	
+				var songSaveStuff:SaveInfo = null;
+				if(!preventScoreSaving){
+					songSaveStuff = {
+						song: SONG.song,
+						week: null,
+						diff: storyDifficulty
+					}
+				}
+				ImageCache.forceClearOnTransition = true;
+				switchState(new ResultsState(songStats, songName, boyfriend.characterInfo.info.resultsCharacter, songSaveStuff));
 			}
-			ImageCache.forceClearOnTransition = true;
-			switchState(new ResultsState(songStats, songName, boyfriend.characterInfo.info.resultsCharacter, songSaveStuff));
+			else{ //Return to the chart editor after finishing a song from the chart editor.
+				ChartingState.startSection = 0;
+				switchState(new ChartingState(), false);
+				sectionStart = false;
+			}
 		}
 	}
 
@@ -3089,6 +3093,8 @@ class PlayState extends MusicBeatState
 		stage.exit();
 		for(script in scripts){ script.exit(); }
 		Conductor.resetBPMChanges();
+		fromChartEditor = false;
+		fceForLilBuddies = false;
 	}
 
 	override function onFocus(){
