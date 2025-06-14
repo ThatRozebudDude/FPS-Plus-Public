@@ -291,7 +291,7 @@ class Capsule extends FlxSpriteGroup
 	}
 
 	public function intendedY(index:Int):Float {
-		return (((index+1) * ((height * capsuleScale) + 10)) + 120) + 18 - (index < -1 ? 100 : 0);
+		return (((index+1) * ((capsule.height * capsuleScale) + 10)) + 120) + 18 - (index < -1 ? 100 : 0);
 	}
 
 	inline function getSparrowPathWithSkin(path:String):flixel.graphics.frames.FlxAtlasFrames{
