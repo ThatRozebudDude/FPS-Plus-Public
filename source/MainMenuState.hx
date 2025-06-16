@@ -201,6 +201,7 @@ class MainMenuState extends MusicBeatState
 				FlxG.sound.play(Paths.sound("cancelMenu"));
 			}
 			else if (Binds.justPressed("menuBack") && !FlxG.keys.pressed.CONTROL){
+				selectedSomethin = true;
 				switchState(new TitleScreen());
 				FlxG.sound.play(Paths.sound("cancelMenu"));
 			}
@@ -209,6 +210,10 @@ class MainMenuState extends MusicBeatState
 				selectedSomethin = true;
 				doButtonTransition(menuItems[curSelected]);
 			}
+		}
+
+		if(Binds.justPressed("polymodReload")){
+			PolymodHandler.reload();
 		}
 
 		if(!instantCamFollow){
@@ -322,6 +327,19 @@ class MainMenuState extends MusicBeatState
 
 			case "customState":
 				switchState(ScriptedState.init(button.action.state));
+				
+			case "playSong":
+				var formattedSong:String = Highscore.formatSong(button.action.song.toLowerCase(), button.action.difficulty);
+				PlayState.SONG = Song.loadFromJson(formattedSong, button.action.song.toLowerCase());
+				PlayState.isStoryMode = false;
+				PlayState.storyDifficulty = button.action.difficulty;
+				PlayState.loadEvents = true;
+				PlayState.returnLocation = "mainMenu";
+				ImageCache.forceClearOnTransition = true;
+				switchState(new PlayState());
+				if(FlxG.sound.music.playing){
+					FlxG.sound.music.fadeOut(0.3);
+				}
 
 			default:
 				trace("Unrecognized action type.");
