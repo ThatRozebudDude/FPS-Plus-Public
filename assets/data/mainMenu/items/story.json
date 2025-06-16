@@ -1,0 +1,14 @@
+{
+	"graphic": "menu/main/storymode",
+	"action":
+	{
+		"type": "story"
+	},
+	"transition":
+	{
+		"instant": false,
+		"sound": "confirmMenu",
+		"stopMusic": false
+	},
+	"sort": 100
+}

@@ -4,6 +4,7 @@ import transition.*;
 import transition.data.*;
 
 import scripts.ScriptableState;
+import scripts.ScriptedState;
 import polymod.hscript._internal.PolymodScriptClass;
 
 import cpp.vm.Gc;
@@ -41,22 +42,23 @@ class FlxUIStateExt extends FlxUIState
 		super.create();
 	}
 
-	public function switchState(_state:FlxState, ?_allowScriptedStates:Bool = true):Void{
+	public function switchState(_state:FlxState, ?_allowScriptedOverrides:Bool = true):Void{
 		//Scripted States
-		if(_allowScriptedStates){
+		if(_allowScriptedOverrides){
 			final statePath = Type.getClassName(Type.getClass(_state));
 			final stateName = statePath.split(".")[statePath.split(".").length - 1];
 
 			//These are bit "hacky" but we have to do this to create script instance in parent...
-			if (RestrictedUtils.callStaticGeneratedMethod(ScriptableState, "listScriptClasses").contains(stateName)){
-				_state = RestrictedUtils.callStaticGeneratedMethod(ScriptableState, "init", [stateName]);
-				Reflect.setProperty(_state, "stateName", stateName);
+			if(RestrictedUtils.callStaticGeneratedMethod(ScriptableState, "listScriptClasses").contains(stateName)){
+				_state = ScriptedState.init(stateName);
 			}
 			//Extended States
-			else if (PolymodScriptClass.listScriptClassesExtending(statePath).length > 0){
+			else if(PolymodScriptClass.listScriptClassesExtending(statePath).length > 0){
 				var scriptClassPath = statePath.replace(stateName, "Scripted" + stateName);
 				_state = RestrictedUtils.callStaticGeneratedMethod(Type.resolveClass(scriptClassPath), "init", [RestrictedUtils.callStaticGeneratedMethod(Type.resolveClass(scriptClassPath), "listScriptClasses")[0]]);
+				Reflect.setProperty(_state, "_stateName", "Scripted" + stateName);
 			}
+
 		}
 
 		//Transition stuff.

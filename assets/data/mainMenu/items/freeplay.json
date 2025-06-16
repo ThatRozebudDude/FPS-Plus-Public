@@ -1,0 +1,14 @@
+{
+	"graphic": "menu/main/freeplay",
+	"action":
+	{
+		"type": "freeplay"
+	},
+	"transition":
+	{
+		"instant": true,
+		"sound": null,
+		"stopMusic": false
+	},
+	"sort": 200
+}

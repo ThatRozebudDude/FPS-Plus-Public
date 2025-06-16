@@ -602,6 +602,10 @@ class FreeplayState extends MusicBeatState
 
 		camMenu.follow(camFollow);
 
+		/*if(MainMenuState.menuItemJson == null){
+			MainMenuState.getMenuItems();
+		}*/
+
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
@@ -641,17 +645,18 @@ class FreeplayState extends MusicBeatState
 		menuItems.forEach(function(spr:FlxSprite){
 			spr.animation.play('idle');
 	
-			if (spr.ID == 1){
+			if (spr.ID == MainMenuState.curSelected){
 				spr.animation.play('selected');
-				camTarget.set(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
-				if(introAnimType != fromMainMenu){
-					camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
-				}
 			}
 	
 			spr.updateHitbox();
 			spr.screenCenter(X);
 		});
+
+		camTarget.set(640, FlxMath.lerp(MainMenuState.CAM_TARTGET_TOP, MainMenuState.CAM_TARTGET_BOTTOM, MainMenuState.curSelected/(MainMenuState.optionShit.length-1)));
+		if(introAnimType != fromMainMenu){
+			camFollow.setPosition(camTarget.x, camTarget.y);
+		}
 	}
 
 	function djIntroFinish():Void{

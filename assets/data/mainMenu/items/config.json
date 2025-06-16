@@ -1,0 +1,14 @@
+{
+	"graphic": "menu/main/options",
+	"action":
+	{
+		"type": "config"
+	},
+	"transition":
+	{
+		"instant": false,
+		"sound": "confirmMenu",
+		"stopMusic": true
+	},
+	"sort": 400
+}
