@@ -36,25 +36,33 @@ class MainMenuState extends MusicBeatState
 {
 
 	public static var curSelected:Int = 0;
-
+	public static var scrolledAmount:Int = 0;
+	public static var menuItemDistanceFinal:Float = MENU_ITEM_DISTANCE;
 	
 	public static var menuItemJsonNames:Array<String>;
 	public static var menuItemJsonData:Array<Dynamic>;
+
+	public static var previousMenuItemCount:Int = -1;
+
+	inline public static final CAM_TARTGET_TOP:Float = 100;
+	inline public static final CAM_TARTGET_BOTTOM:Float = 620;
+	inline public static final MENU_ITEM_DISTANCE_EXPANDED:Float = 150;
+	inline public static final MENU_ITEM_DISTANCE:Float = 160;
+	inline public static final MENU_ITEM_TOP_OFFSET:Float = 120;
 	
 	var menuItems:Array<MainMenuButton> = [];
+	public static var menuItemPosition:Float = MENU_ITEM_TOP_OFFSET;
 
 	public static var optionShit:Array<String> = ["storymode", "freeplay", "mods", "options"];
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 	var camTarget:FlxPoint = new FlxPoint();
-
-	inline public static final CAM_TARTGET_TOP:Float = 100;
-	inline public static final CAM_TARTGET_BOTTOM:Float = 620;
 	
 	var instantCamFollow:Bool = false;
 
 	var versionText:FlxTextExt;
+	var buildInfoText:FlxTextExt;
 	var keyWarning:FlxTextExt;
 	var canCancelWarning:Bool = true;
 
@@ -107,16 +115,23 @@ class MainMenuState extends MusicBeatState
 		
 		getMenuItems();
 
+		menuItemDistanceFinal = (menuItemJsonData.length < 5) ? MENU_ITEM_DISTANCE : MENU_ITEM_DISTANCE_EXPANDED;
+
 		for(i in 0...menuItemJsonData.length){
 			var menuItem:MainMenuButton = new MainMenuButton(menuItemJsonData[i]);
-			menuItem.listPositionOffset = 60 + (i * 160);
-			menuItem.y = menuItem.listPositionOffset;
+			menuItem.listPositionOffset = i * menuItemDistanceFinal;
 			menuItem.screenCenter(X);
 			menuItem.scrollFactor.set();
 
 			menuItems.push(menuItem);
 			add(menuItem);
 		}
+
+		if(menuItems.length != previousMenuItemCount){
+			curSelected = 0;
+		}
+		scrolledAmount = 0;
+		previousMenuItemCount = menuItems.length;
 
 		FlxG.camera.follow(camFollow);
 
@@ -129,7 +144,7 @@ class MainMenuState extends MusicBeatState
 
 			buildDate = CompileTime.buildDateString();
 
-			var buildInfoText = new FlxTextExt(1280 - 5, FlxG.height - 37, 0, "Build Date: " + buildDate + "\n" + GitCommit.getGitBranch() +  " (" + GitCommit.getGitCommitHash() + ")", 16);
+			buildInfoText = new FlxTextExt(1280 - 5, FlxG.height - 37, 0, "Build Date: " + buildDate + "\n" + GitCommit.getGitBranch() +  " (" + GitCommit.getGitCommitHash() + ")", 16);
 			buildInfoText.scrollFactor.set();
 			buildInfoText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			buildInfoText.x -= buildInfoText.width;
@@ -199,11 +214,17 @@ class MainMenuState extends MusicBeatState
 		if(!instantCamFollow){
 			camFollow.x = Utils.fpsAdjustedLerp(camFollow.x, camTarget.x, lerpSpeed, 144);
 			camFollow.y = Utils.fpsAdjustedLerp(camFollow.y, camTarget.y, lerpSpeed, 144);
+			menuItemPosition = Utils.fpsAdjustedLerp(menuItemPosition, MENU_ITEM_TOP_OFFSET - (menuItemDistanceFinal * scrolledAmount), 0.14);
 		}
 		else{
 			camFollow.x = camTarget.x;
 			camFollow.y = camTarget.y;
+			menuItemPosition = MENU_ITEM_TOP_OFFSET - (menuItemDistanceFinal * scrolledAmount);
 			instantCamFollow = false;
+		}
+
+		for(item in menuItems){
+			item.y = menuItemPosition + item.listPositionOffset;
 		}
 
 		super.update(elapsed);
@@ -218,19 +239,40 @@ class MainMenuState extends MusicBeatState
  		if (curSelected < 0){
 			curSelected = menuItems.length - 1;
 		}
+
+		if(curSelected < scrolledAmount){
+			scrolledAmount = curSelected;
+		}
+		else if(curSelected > scrolledAmount + 3){
+			scrolledAmount = curSelected - 3;
+		}
 		
 		for(i in 0...menuItems.length){
 			if(i == curSelected){ 
 				menuItems[i].animation.play("selected");
 				remove(menuItems[i], true);
 				add(menuItems[i]);
+				if(buildInfoText != null){
+					remove(buildInfoText, true);
+					add(buildInfoText);
+				}
+				remove(versionText, true);
+				remove(keyWarning, true);
+				add(versionText);
+				add(keyWarning);
 			}
 			else{ menuItems[i].animation.play("idle"); }
 			menuItems[i].updateHitbox();
 			menuItems[i].screenCenter(X);
+			menuItems[i].offset.y = menuItems[i].frameHeight/2;
 		}
 
-		camTarget.set(640, FlxMath.lerp(CAM_TARTGET_TOP, CAM_TARTGET_BOTTOM, curSelected/(optionShit.length-1)));
+		if(menuItems.length > 1){
+			camTarget.set(640, FlxMath.lerp(CAM_TARTGET_TOP, CAM_TARTGET_BOTTOM, curSelected/(menuItems.length-1)));
+		}
+		else{
+			camTarget.set(640, FlxMath.lerp(CAM_TARTGET_TOP, CAM_TARTGET_BOTTOM, 0.5));
+		}
 		//trace(camTarget);
 	}
 
