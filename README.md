@@ -1,5 +1,7 @@
 ![](/art/logo.png)
 
+> *Note: This branch is used to provide source code for a hotfix on a previous release build of the game.*
+
 # Friday Night Funkin' FPS Plus
 Friday Night Funkin' FPS Plus is an engine mod of Friday Night Funkin' that aims to improve gameplay and add quality of life features.
 
