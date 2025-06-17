@@ -81,7 +81,7 @@ class MainMenuState extends MusicBeatState
 
 		Config.setFramerate(144);
 
-		if (!FlxG.sound.music.playing){	
+		if(!FlxG.sound.music.playing){	
 			playMenuMusic();
 		}
 
@@ -294,7 +294,10 @@ class MainMenuState extends MusicBeatState
 			if(Config.flashingLights){ FlxFlicker.flicker(magenta, 1.1, 0.15, false); }
 
 			for(i in 0...menuItems.length){
-				if (i != curSelected){ FlxTween.tween(menuItems[i], {alpha: 0}, 0.4, {ease: FlxEase.quadOut}); }
+				if (i != curSelected){
+					FlxTween.cancelTweensOf(menuItems[i]);
+					FlxTween.tween(menuItems[i], {alpha: 0}, 0.4, {ease: FlxEase.quadOut});
+				}
 				else{
 					FlxFlicker.flicker(menuItems[i], 1, 0.06, false, false, function(flick:FlxFlicker){
 						menuItems[i].visible = true;
@@ -342,6 +345,18 @@ class MainMenuState extends MusicBeatState
 				}
 
 			default:
+				if(!button.transition.instant){
+					for(i in 0...menuItems.length){
+						if (i != curSelected){
+							FlxTween.cancelTweensOf(menuItems[i]);
+							FlxTween.tween(menuItems[i], {alpha: 1}, 0.4, {ease: FlxEase.quadOut});
+						}
+					}
+				}
+				if(!FlxG.sound.music.playing){	
+					playMenuMusic();
+				}
+				selectedSomethin = false;
 				trace("Unrecognized action type.");
 		}
 	}

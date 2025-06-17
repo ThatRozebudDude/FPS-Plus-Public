@@ -2248,10 +2248,7 @@ class PlayState extends MusicBeatState
 			if(!playerNotesInRange[daNote.noteData] && daNote.inRange && daNote.mustPress){playerNotesInRange[daNote.noteData] = true;}
 		});
 
-		if ((upPress || rightPress || downPress || leftPress) && generatedMusic){
-			
-			//boyfriend.holdTimer = 0;
-
+		if((upPress || rightPress || downPress || leftPress) && generatedMusic){
 			var possibleNotes:Array<Note> = [];
 			var directionsAccounted:Array<Bool> = [false,false,false,false];
 			var ignoreList:Array<Bool> = [false, false, false, false];
