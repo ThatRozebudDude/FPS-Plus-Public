@@ -1894,7 +1894,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-			if (Config.downscroll ? (daNote.y > targetY + daNote.height + 50) : (daNote.y < targetY - daNote.height - 50)){
+			if(Config.downscroll ? (daNote.y > targetY + daNote.height + 50) : (daNote.y < targetY - daNote.height - 50)){
 				if (daNote.tooLate || daNote.wasGoodHit){
 								
 					daNote.active = false;
@@ -2253,16 +2253,13 @@ class PlayState extends MusicBeatState
 			//boyfriend.holdTimer = 0;
 
 			var possibleNotes:Array<Note> = [];
+			var directionsAccounted:Array<Bool> = [false,false,false,false];
+			var ignoreList:Array<Bool> = [false, false, false, false];
 
-			var ignoreList:Array<Int> = [];
-
-			notes.forEachAlive(function(daNote:Note) {
-				if (daNote.canBeHit && daNote.mustPress && !daNote.tooLate) {
-					// the sorting probably doesn't need to be in here? who cares lol
+			notes.forEachAlive(function(daNote:Note){
+				if(daNote.canBeHit && daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit) {
 					possibleNotes.push(daNote);
-					possibleNotes.sort((a, b) -> Std.int(a.strumTime - b.strumTime));
-
-					ignoreList.push(daNote.noteData);
+					ignoreList[daNote.noteData] = true;
 
 					if(Config.ghostTapType == 1){
 						setCanMiss();
@@ -2270,17 +2267,17 @@ class PlayState extends MusicBeatState
 				}
 			});
 
-			var directionsAccounted = [false,false,false,false];
+			possibleNotes.sort((a, b) -> FlxSort.byValues(FlxSort.ASCENDING, a.strumTime, b.strumTime));
 
-			if (possibleNotes.length > 0 && !forceMissNextNote){
-				for(note in possibleNotes){
-					if (controlArray[note.noteData] && !directionsAccounted[note.noteData]){
-						goodNoteHit(note);
-						directionsAccounted[note.noteData] = true;
+			if(possibleNotes.length > 0 && !forceMissNextNote){
+				for(i in 0...possibleNotes.length){
+					if(controlArray[possibleNotes[i].noteData] && !directionsAccounted[possibleNotes[i].noteData]){
+						goodNoteHit(possibleNotes[i]);
+						directionsAccounted[possibleNotes[i].noteData] = true;
 					}
 				}
 				for(i in 0...4){
-					if(!ignoreList.contains(i) && controlArray[i]){
+					if(!ignoreList[i] && controlArray[i]){
 						badNoteCheck(i);
 					}
 				}
@@ -3052,7 +3049,7 @@ class PlayState extends MusicBeatState
 	}
 
 	function sortNotes(){
-		if (generatedMusic){
+		if(generatedMusic){
 			notes.sort(noteSortThing, FlxSort.DESCENDING);
 		}
 	}
