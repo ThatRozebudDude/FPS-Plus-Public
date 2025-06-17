@@ -186,8 +186,18 @@ class PlayState extends MusicBeatState
 	public var notes:FlxTypedGroup<Note>;
 	public var unspawnNotes:Array<Note> = [];
 
-	public var anyPlayerNoteInRange:Bool = false;
-	public var anyOpponentNoteInRange:Bool = false;
+	public var playerNotesInRange:Array<Bool> = [false, false, false, false];
+	public var opponentNotesInRange:Array<Bool> = [false, false, false, false];
+	
+	public var anyPlayerNoteInRange(get, never):Bool;
+	public var anyOpponentNoteInRange(get, never):Bool;
+
+	inline function get_anyPlayerNoteInRange():Bool{
+		return playerNotesInRange[0] || playerNotesInRange[1] || playerNotesInRange[2] || playerNotesInRange[3];
+	}
+	inline function get_anyOpponentNoteInRange():Bool{
+		return opponentNotesInRange[0] || opponentNotesInRange[1] || opponentNotesInRange[2] || opponentNotesInRange[3];
+	}
 
 	public var strumLineVerticalPosition:Float;
 	private var curSection:Int = 0;
@@ -1740,13 +1750,13 @@ class PlayState extends MusicBeatState
 		//FlxG.watch.addQuick("totalBeats: ", totalBeats);
 
 		// RESET = Quick Game Over Screen
-		if (Binds.justPressed("killbind") && !startingSong) {
+		if(Binds.justPressed("killbind") && !startingSong) {
 			health = 0;
 		}
 
-		if (health <= 0){ openGameOver(); }
+		if(health <= 0){ openGameOver(); }
 
-		if (unspawnNotes[0] != null){
+		if(unspawnNotes[0] != null){
 			if (unspawnNotes[0].strumTime - Conductor.songPosition < 3000){
 				var dunceNote:Note = unspawnNotes[0];
 				notes.add(dunceNote);
@@ -1758,10 +1768,22 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (generatedMusic){
+		if(generatedMusic){
 			updateNote();
 			opponentNoteCheck();
 		}
+
+		playerCovers.forEach(function(cover:NoteHoldCover) {
+			if(!playerNotesInRange[cover.noteDirection] && cover.visible && cover.animation.curAnim.name != "end"){
+				cover.end(false);
+			}
+		});
+
+		enemyCovers.forEach(function(cover:NoteHoldCover) {
+			if(!opponentNotesInRange[cover.noteDirection] && cover.visible && cover.animation.curAnim.name != "end"){
+				cover.end(false);
+			}
+		});
 
 		#if debug
 		if (FlxG.keys.justPressed.ONE)
@@ -1884,10 +1906,10 @@ class PlayState extends MusicBeatState
 	}
 
 	function opponentNoteCheck(){
-		anyOpponentNoteInRange = false;
+		opponentNotesInRange = [false, false, false, false];
 		notes.forEachAlive(function(daNote:Note){
 
-			if(daNote.inRange && !daNote.mustPress) {anyOpponentNoteInRange = true;}
+			if(!opponentNotesInRange[daNote.noteData] && daNote.inRange && !daNote.mustPress) {opponentNotesInRange[daNote.noteData] = true;}
 
 			if (!daNote.mustPress && daNote.canBeHit && !daNote.wasGoodHit){
 
@@ -2221,9 +2243,9 @@ class PlayState extends MusicBeatState
 
 		var controlArray:Array<Bool> = [leftPress, downPress, upPress, rightPress];
 
-		anyPlayerNoteInRange = false;
+		playerNotesInRange = [false, false, false, false];
 		notes.forEachAlive(function(daNote:Note){
-			if(!anyPlayerNoteInRange && daNote.inRange && daNote.mustPress){anyPlayerNoteInRange = true;}
+			if(!playerNotesInRange[daNote.noteData] && daNote.inRange && daNote.mustPress){playerNotesInRange[daNote.noteData] = true;}
 		});
 
 		if ((upPress || rightPress || downPress || leftPress) && generatedMusic){
@@ -2384,10 +2406,10 @@ class PlayState extends MusicBeatState
 
 		var hitNotes:Array<Note> = [];
 
-		anyPlayerNoteInRange = false;
+		playerNotesInRange = [false, false, false, false];
 
 		notes.forEachAlive(function(daNote:Note){
-			if(daNote.inRange && daNote.mustPress){anyPlayerNoteInRange = true;}
+			if(!playerNotesInRange[daNote.noteData] && daNote.inRange && daNote.mustPress){ playerNotesInRange[daNote.noteData] = true; }
 
 			if (!forceMissNextNote && !daNote.wasGoodHit && daNote.mustPress && daNote.strumTime < Conductor.songPosition + Conductor.safeZoneOffset * (!daNote.isSustainNote ? 0.125 : (daNote.prevNote.wasGoodHit ? 1 : 0))){
 				hitNotes.push(daNote);

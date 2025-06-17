@@ -236,7 +236,7 @@ class Note extends FlxSprite
 
 			inRange = (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
 					&& strumTime < Conductor.songPosition + Conductor.safeZoneOffset)
-					&& !wasGoodHit;
+					&& (!wasGoodHit || isSustainNote);
 
 			//Glow note stuff.
 
