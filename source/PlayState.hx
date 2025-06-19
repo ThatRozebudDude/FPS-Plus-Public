@@ -423,6 +423,7 @@ class PlayState extends MusicBeatState
 		Conductor.changeBPM(SONG.bpm);
 		Conductor.mapBPMChanges(SONG);
 		Conductor.recalculateHitZones(songPlaybackSpeed);
+		stateConductorOffset = -Config.offset;
 
 		gfCheck = "Gf";
 
@@ -1681,7 +1682,7 @@ class PlayState extends MusicBeatState
 			if(vocalType == splitVocalTrack){ vocalsOther.pitch = songPlaybackSpeed; }
 		}
 
-		if (startingSong){
+		if(startingSong){
 			if (startedCountdown){
 				Conductor.songPosition += FlxG.elapsed * 1000;
 				if (Conductor.songPosition >= 0){
@@ -1712,7 +1713,9 @@ class PlayState extends MusicBeatState
 
 		if(!startingSong){
 			for(i in eventList){
-				if(i[0] > Conductor.songPosition){
+				var eventTime = i[0] + Config.offset;
+				if(eventTime < 0) { eventTime = 0; }
+				if(eventTime > Conductor.songPosition){
 					break;
 				}
 				else{

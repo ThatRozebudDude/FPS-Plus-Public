@@ -16,6 +16,8 @@ class MusicBeatState extends FlxUIStateExt
 
 	private var countSteps:Bool = true;
 
+	private var stateConductorOffset:Float = 0;
+
 	override function create(){
 		super.create();
 	}
@@ -27,13 +29,13 @@ class MusicBeatState extends FlxUIStateExt
 				songTime: 0,
 				bpm: 0
 			}
-			for (i in 0...Conductor.bpmChangeMap.length){
-				if (Conductor.songPosition >= Conductor.bpmChangeMap[i].songTime){
+			for(i in 0...Conductor.bpmChangeMap.length){
+				if((Conductor.songPosition + stateConductorOffset) >= Conductor.bpmChangeMap[i].songTime){
 					lastChange = Conductor.bpmChangeMap[i];
 				}
 			}
 
-			curStep = lastChange.stepTime + Math.floor((Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet);
+			curStep = lastChange.stepTime + Math.floor(((Conductor.songPosition + stateConductorOffset) - lastChange.songTime) / Conductor.stepCrochet);
 			curBeat = Math.floor(curStep / 4);
 
 			timeSinceLastStep += elapsed;

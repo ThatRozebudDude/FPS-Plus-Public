@@ -876,30 +876,28 @@ class ConfigMenu extends FlxUIStateExt
 		var noteOffset = new ConfigOption("NOTE OFFSET", ""+offsetValue, "Adjust note timings.\nPress \"ENTER\" to start the offset calibration." + (Config.ee1?"\nHold \"SHIFT\" to force the pixel calibration.\nHold \"CTRL\" to force the normal calibration.":""));
 		noteOffset.extraData[0] = 0;
 		noteOffset.optionUpdate = function(){
-			if (pressRight){
+			if(pressRight && offsetValue < 500){
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				offsetValue += 1;
 			}
 				
-			if (pressLeft){
+			if(pressLeft && offsetValue > -500){
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				offsetValue -= 1;
 			}
 				
-			if (holdRight){
+			if(holdRight){
 				noteOffset.extraData[0]++;
-					
 				if(noteOffset.extraData[0] > 64) {
-					offsetValue += 1;
+					if(offsetValue < 500){ offsetValue += 1; }
 					textUpdateSingle(curListPosition);
 				}
 			}
 				
-			if (holdLeft){
+			if(holdLeft){
 				noteOffset.extraData[0]++;
-					
 				if(noteOffset.extraData[0] > 64) {
-					offsetValue -= 1;
+					if(offsetValue > -500){ offsetValue -= 1; }
 					textUpdateSingle(curListPosition);
 				}
 			}
