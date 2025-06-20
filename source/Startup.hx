@@ -146,16 +146,10 @@ class Startup extends FlxUIStateExt
 				StoryMenuState.weekUnlocked[0] = true;
 		}*/
 
-		if(!CacheConfig.check()){
-			CacheConfig.music = false;
-			CacheConfig.characters = false;
-			CacheConfig.graphics = false;
-		}
-		else{
-			songsCached = !CacheConfig.music;
-			charactersCached = !CacheConfig.characters;
-			graphicsCached = !CacheConfig.graphics;
-		}
+		CacheConfig.check();
+		songsCached = !CacheConfig.music;
+		charactersCached = !CacheConfig.characters;
+		graphicsCached = !CacheConfig.graphics;
 
 		hasEe2 = Utils.exists(Paths.inst("Lil-Buddies"));
 
