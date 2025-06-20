@@ -562,7 +562,7 @@ class ModManagerState extends FlxUIStateExt
 			showbigInfoNoMods();
 			buildShownModList();
 			updateMenuButtons();
-			curSelectedButton = 3;
+			curSelectedButton = 4;
 			changeButtonSelection(0);
 			return;
 		}

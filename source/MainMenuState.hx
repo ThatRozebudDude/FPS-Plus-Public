@@ -127,6 +127,10 @@ class MainMenuState extends MusicBeatState
 			add(menuItem);
 		}
 
+		if(menuItems.length >= 5){
+			menuItemDistanceFinal -= 30/(menuItems.length-4);
+		}
+
 		if(menuItems.length != previousMenuItemCount){
 			curSelected = 0;
 		}
