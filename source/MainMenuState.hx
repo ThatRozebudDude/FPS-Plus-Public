@@ -37,7 +37,7 @@ class MainMenuState extends MusicBeatState
 
 	public static var curSelected:Int = 0;
 	public static var scrolledAmount:Int = 0;
-	public static var menuItemDistanceFinal:Float = MENU_ITEM_DISTANCE;
+	var menuItemDistanceFinal:Float = MENU_ITEM_DISTANCE;
 	
 	public static var menuItemJsonNames:Array<String>;
 	public static var menuItemJsonData:Array<Dynamic>;
@@ -52,8 +52,6 @@ class MainMenuState extends MusicBeatState
 	
 	var menuItems:Array<MainMenuButton> = [];
 	public static var menuItemPosition:Float = MENU_ITEM_TOP_OFFSET;
-
-	public static var optionShit:Array<String> = ["storymode", "freeplay", "mods", "options"];
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;

@@ -106,6 +106,7 @@ class FreeplayState extends MusicBeatState
 	var waitForFirstUpdateToStart:Bool = true;
 	var selectingMode:String = "song";
 
+	var menuItemDistanceFinal:Float = MainMenuState.MENU_ITEM_DISTANCE;
 	var menuItems:Array<MainMenuButton> = [];
 	var camFollow:FlxObject;
 	var camTarget:FlxPoint = new FlxPoint();
@@ -362,7 +363,7 @@ class FreeplayState extends MusicBeatState
 		
 		camFollow.x = Utils.fpsAdjustedLerp(camFollow.x, camTarget.x, MainMenuState.lerpSpeed, 144);
 		camFollow.y = Utils.fpsAdjustedLerp(camFollow.y, camTarget.y, MainMenuState.lerpSpeed, 144);
-		MainMenuState.menuItemPosition = Utils.fpsAdjustedLerp(MainMenuState.menuItemPosition, MainMenuState.MENU_ITEM_TOP_OFFSET - (MainMenuState.menuItemDistanceFinal * MainMenuState.scrolledAmount), 0.14);
+		MainMenuState.menuItemPosition = Utils.fpsAdjustedLerp(MainMenuState.menuItemPosition, MainMenuState.MENU_ITEM_TOP_OFFSET - (menuItemDistanceFinal * MainMenuState.scrolledAmount), 0.14);
 
 		for(item in menuItems){
 			item.y = MainMenuState.menuItemPosition + item.listPositionOffset;
@@ -611,15 +612,21 @@ class FreeplayState extends MusicBeatState
 			MainMenuState.getMenuItems();
 		}
 
+		menuItemDistanceFinal = (MainMenuState.menuItemJsonData.length < 5) ? MainMenuState.MENU_ITEM_DISTANCE : MainMenuState.MENU_ITEM_DISTANCE_EXPANDED;
+
 		for(i in 0...MainMenuState.menuItemJsonData.length){
 			var menuItem:MainMenuButton = new MainMenuButton(MainMenuState.menuItemJsonData[i]);
-			menuItem.listPositionOffset = i * MainMenuState.menuItemDistanceFinal;
+			menuItem.listPositionOffset = i * menuItemDistanceFinal;
 			menuItem.screenCenter(X);
 			menuItem.scrollFactor.set();
 			menuItem.cameras = [camMenu];
 
 			menuItems.push(menuItem);
 			add(menuItem);
+		}
+
+		if(menuItems.length >= 5){
+			menuItemDistanceFinal -= 30/(menuItems.length-4);
 		}
 
 		for(i in 0...menuItems.length){
@@ -663,7 +670,7 @@ class FreeplayState extends MusicBeatState
 			MainMenuState.scrolledAmount = 0;
 			if(MainMenuState.curSelected < MainMenuState.scrolledAmount){ MainMenuState.scrolledAmount = MainMenuState.curSelected; }
 			else if(MainMenuState.curSelected > MainMenuState.scrolledAmount + 3){ MainMenuState.scrolledAmount = MainMenuState.curSelected - 3; }
-			MainMenuState.menuItemPosition = MainMenuState.MENU_ITEM_TOP_OFFSET - (MainMenuState.menuItemDistanceFinal * MainMenuState.scrolledAmount);
+			MainMenuState.menuItemPosition = MainMenuState.MENU_ITEM_TOP_OFFSET - (menuItemDistanceFinal * MainMenuState.scrolledAmount);
 		}
 	}
 
@@ -692,7 +699,7 @@ class FreeplayState extends MusicBeatState
 		MainMenuState.scrolledAmount = 0;
 		if(MainMenuState.curSelected < MainMenuState.scrolledAmount){ MainMenuState.scrolledAmount = MainMenuState.curSelected; }
 		else if(MainMenuState.curSelected > MainMenuState.scrolledAmount + 3){ MainMenuState.scrolledAmount = MainMenuState.curSelected - 3; }
-		MainMenuState.menuItemPosition = MainMenuState.MENU_ITEM_TOP_OFFSET - (MainMenuState.menuItemDistanceFinal * MainMenuState.scrolledAmount);
+		MainMenuState.menuItemPosition = MainMenuState.MENU_ITEM_TOP_OFFSET - (menuItemDistanceFinal * MainMenuState.scrolledAmount);
 	}
 	
 	function startFreeplaySong():Void{
