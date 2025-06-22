@@ -38,7 +38,14 @@
 
 	<classpath name="source" />
 
-	<assets path="assets" >
+	<assets path="assets/images" />
+	<assets path="assets/data" />
+	<assets path="assets/videos" />
+
+	<assets path="assets/music" include="*.ogg" />
+	<assets path="assets/sounds" include="*.ogg" />
+	<assets path="assets/songs" />
+
 	<assets path="mods" />
 
 	<!-- Didn't delete it just because some mods could use it -->
