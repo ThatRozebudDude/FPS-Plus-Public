@@ -296,6 +296,9 @@ class PolymodHandler
 		Polymod.addDefaultImport(flixel.group.FlxSpriteGroup);
 		
 		Polymod.addDefaultImport(flixel.system.FlxAssets.FlxShader);
+
+		Polymod.addDefaultImport(transition.BaseTransition);
+		Polymod.addDefaultImport(transition.ScriptableTransition); // basically custom transitions can't do anything without this so
 		
 		//Alias
 		Polymod.addImportAlias("Binds", modding.ScriptingUtil.ScriptBinds);
