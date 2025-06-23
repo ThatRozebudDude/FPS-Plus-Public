@@ -376,7 +376,7 @@ class PlayState extends MusicBeatState
 		}
 		
 		for(i in EVENTS.events){
-			eventList.push([i[1], i[3]]);
+			eventList.push([i[1], i[3], i[2]]);
 			preprocessEvent(i[3]);
 		}
 
@@ -1226,7 +1226,8 @@ class PlayState extends MusicBeatState
 	}
 
 	function sortByEventStuff(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int{
-		return FlxSort.byValues(FlxSort.ASCENDING, Obj1[0], Obj2[0]);
+		var r:Int = FlxSort.byValues(FlxSort.ASCENDING, Obj1[0], Obj2[0]);
+		return (r != 0) ? r : FlxSort.byValues(FlxSort.ASCENDING, Obj1[2], Obj2[2]);
 	}
 
 	//player 1 is player, player 0 is opponent
