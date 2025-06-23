@@ -8,12 +8,12 @@ import flixel.FlxG;
 import flixel.FlxGame;
 import openfl.display.Sprite;
 import debug.*;
-import openfl.display.FPS;
+import openfl.display.InteractiveObject;
 
 class Main extends Sprite
 {
 
-	public static var fpsDisplay:FPSExt;
+	public static var fpsDisplay:InteractiveObject;
 
 	public static var novid:Bool = false;
 	public static var flippymode:Bool = false;
