@@ -103,9 +103,6 @@ class ScriptingUtil
 		}
 		return r;
 	}
-	
-	public static inline function getClass<T>(o:T):Class<T>							{ return Type.getClass(o); }
-	public static inline function instanceHasField<T>(o:T, fieldName:String):Bool	{ return Type.getInstanceFields(Type.getClass(o)).contains(fieldName); }
 }
 
 class BlendMode

@@ -168,8 +168,8 @@ class NeneTankmen extends CharacterInfoBase
 		character.getSprite().shader = shader;
 		abot.applyShader(shader);
 
-		switch(ScriptingUtil.getClass(shader)){
-			case DropShadowShader:
+		switch(ReflectUtil.getClassNameOf(shader)){
+			case "shaders.DropShadowShader":
 				var speakerGuysBackShader = shader.copy();
 				speakerGuysBackShader.threshold = 0.4;
 				speakerGuysBack.shader = speakerGuysBackShader;
@@ -193,6 +193,7 @@ class NeneTankmen extends CharacterInfoBase
 				speakerGuysFrontShader.useAltMask = true;
 
 			default:
+				trace("Generic shader transfer: " + ReflectUtil.getClassNameOf(shader));
 				speakerGuysBack.shader = shader;
 				speakerGuysFront.shader = shader;
 		}
