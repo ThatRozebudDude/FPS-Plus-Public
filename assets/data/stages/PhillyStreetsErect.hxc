@@ -259,6 +259,7 @@ class PhillyStreetsErect extends BaseStage
 
 		rainShader = new RainShader(0, FlxG.height / 200);
 		rainShader.timeScale = 0.75;
+		rainShader.uRainColor = 0xFFA8ADB5;
 		playstate.camGame.filters = [new ShaderFilter(rainShader.shader)];
 		addToUpdate(rainShader);
 
