@@ -660,28 +660,30 @@ class ConfigMenu extends FlxUIStateExt
 	}
 
 	function writeToConfig():Void{
-		Config.set("offset", offsetValue);
-		Config.set("healthMultiplier", healthValue / 10.0);
-		Config.set("healthDrainMultiplier", healthDrainValue / 10.0);
-		Config.set("comboType", comboValue);
-		Config.set("downscroll", downValue);
-		Config.set("noteGlow", glowValue);
-		Config.set("ghostTapType", randomTapValue);
-		Config.set("framerate", allowedFramerates[framerateValue]);
-		Config.set("bgDim", dimValue);
-		Config.set("noteSplashType", noteSplashValue);
-		Config.set("centeredNotes", centeredValue);
-		Config.set("scrollSpeedOverride", scrollSpeedValue / 10.0);
-		Config.set("showComboBreaks", showComboBreaksValue);
-		Config.set("showFPS", showFPSValue);
-		Config.set("useGPU", useGPUValue);
-		Config.set("extraCamMovement", extraCamMovementValue);
-		Config.set("camBopAmount", camBopAmountValue);
-		Config.set("showCaptions", showCaptionsValue);
-		Config.set("showAccuracy", showAccuracyValue);
-		Config.set("showMisses", showMissesValue);
-		Config.set("autoPause", autoPauseValue);
-		Config.set("flashingLights", flashingLightsValue);
+		Config.write("offset", offsetValue);
+		Config.write("healthMultiplier", healthValue / 10.0);
+		Config.write("healthDrainMultiplier", healthDrainValue / 10.0);
+		Config.write("comboType", comboValue);
+		Config.write("downscroll", downValue);
+		Config.write("noteGlow", glowValue);
+		Config.write("ghostTapType", randomTapValue);
+		Config.write("framerate", allowedFramerates[framerateValue]);
+		Config.write("bgDim", dimValue);
+		Config.write("noteSplashType", noteSplashValue);
+		Config.write("centeredNotes", centeredValue);
+		Config.write("scrollSpeedOverride", scrollSpeedValue / 10.0);
+		Config.write("showComboBreaks", showComboBreaksValue);
+		Config.write("showFPS", showFPSValue);
+		Config.write("useGPU", useGPUValue);
+		Config.write("extraCamMovement", extraCamMovementValue);
+		Config.write("camBopAmount", camBopAmountValue);
+		Config.write("showCaptions", showCaptionsValue);
+		Config.write("showAccuracy", showAccuracyValue);
+		Config.write("showMisses", showMissesValue);
+		Config.write("autoPause", autoPauseValue);
+		Config.write("flashingLights", flashingLightsValue);
+
+		Config.reload();
 	}
 
 	function updateAllOptions():Void{

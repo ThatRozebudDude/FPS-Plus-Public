@@ -43,11 +43,10 @@ class Config
 		}
 	}
 	
-	public static function set(option:String, data:Dynamic):Void
+	public static function write(option:String, data:Dynamic):Void
 	{
 		if (Type.getClassFields(Config).contains(option)){
 			SaveManager.global();
-			Reflect.setProperty(Config, option, data);
 			Reflect.setField(FlxG.save.data, option, data);
 			SaveManager.flush();
 		}
