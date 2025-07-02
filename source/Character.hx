@@ -455,6 +455,10 @@ class Character extends FlxSpriteGroup
 
 		}
 
+		if(characterInfo.info.functions.create != null){
+			characterInfo.info.functions.create(this);
+		}
+
 		if(characterInfo.info.anims.length > 0){
 			_playAnim(characterInfo.info.anims[0].name);
 			dance();
@@ -488,10 +492,6 @@ class Character extends FlxSpriteGroup
 						//Do nothing by default.
 				}
 			}
-		}
-
-		if(characterInfo.info.functions.create != null){
-			characterInfo.info.functions.create(this);
 		}
 
 		if(character != null){ 
