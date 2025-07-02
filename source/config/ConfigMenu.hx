@@ -660,7 +660,28 @@ class ConfigMenu extends FlxUIStateExt
 	}
 
 	function writeToConfig():Void{
-		Config.write(offsetValue, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, allowedFramerates[framerateValue], dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, useGPUValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue, showAccuracyValue, showMissesValue, autoPauseValue, flashingLightsValue);
+		Config.set("offset", offsetValue);
+		Config.set("healthMultiplier", healthValue / 10.0);
+		Config.set("healthDrainMultiplier", healthDrainValue / 10.0);
+		Config.set("comboType", comboValue);
+		Config.set("downscroll", downValue);
+		Config.set("noteGlow", glowValue);
+		Config.set("ghostTapType", randomTapValue);
+		Config.set("framerate", allowedFramerates[framerateValue]);
+		Config.set("bgDim", dimValue);
+		Config.set("noteSplashType", noteSplashValue);
+		Config.set("centeredNotes", centeredValue);
+		Config.set("scrollSpeedOverride", scrollSpeedValue / 10.0);
+		Config.set("showComboBreaks", showComboBreaksValue);
+		Config.set("showFPS", showFPSValue);
+		Config.set("useGPU", useGPUValue);
+		Config.set("extraCamMovement", extraCamMovementValue);
+		Config.set("camBopAmount", camBopAmountValue);
+		Config.set("showCaptions", showCaptionsValue);
+		Config.set("showAccuracy", showAccuracyValue);
+		Config.set("showMisses", showMissesValue);
+		Config.set("autoPause", autoPauseValue);
+		Config.set("flashingLights", flashingLightsValue);
 	}
 
 	function updateAllOptions():Void{
