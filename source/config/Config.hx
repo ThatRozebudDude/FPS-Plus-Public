@@ -47,11 +47,10 @@ class Config
 	{
 		if (Type.getClassFields(Config).contains(option)){
 			SaveManager.global();
+			Reflect.setProperty(Config, option, data);
 			Reflect.setField(FlxG.save.data, option, data);
 			SaveManager.flush();
 		}
-
-		reload();
 	}
 
 	public static function setFramerate(cap:Int, ?useValueInsteadOfSave:Int = -1):Void{
