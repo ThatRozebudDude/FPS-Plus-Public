@@ -1,11 +1,12 @@
 package config;
 
 import flixel.FlxG;
+import openfl.Lib;
+
 using StringTools;
 
 class Config
 {
-	
 	public static var offset:Float = 0.0;
 	public static var healthMultiplier:Float = 1.0;
 	public static var healthDrainMultiplier:Float = 1.0;
@@ -32,24 +33,33 @@ class Config
 	public static var ee1:Bool = false;
 	public static var ee2:Bool = false;
 
-	public static function reload():Void
+	public static function load():Void
+	{
+		SaveManager.global();
+
+		if (FlxG.save.data != null){
+			for (field in Type.getClassFields(Config)){
+				if (Reflect.hasField(FlxG.save.data, field)){
+					Reflect.setProperty(Config, field, Reflect.field(FlxG.save.data, field));
+				}
+			}
+		}
+
+		Lib.application.window.onClose.add(function(){
+			write();
+		});
+	}
+	
+	public static function write():Void
 	{
 		SaveManager.global();
 
 		for (field in Type.getClassFields(Config)){
-			if (Reflect.hasField(FlxG.save.data, field)){
-				Reflect.setProperty(Config, field, Reflect.field(FlxG.save.data, field));
+			if (!field.startsWith("_") && !Reflect.isFunction(Reflect.getProperty(Config, field))){
+				Reflect.setField(FlxG.save.data, field, Reflect.getProperty(Config, field));
 			}
 		}
-	}
-	
-	public static function write(option:String, data:Dynamic):Void
-	{
-		if (Type.getClassFields(Config).contains(option)){
-			SaveManager.global();
-			Reflect.setField(FlxG.save.data, option, data);
-			SaveManager.flush();
-		}
+		SaveManager.flush();
 	}
 
 	public static function setFramerate(cap:Int, ?useValueInsteadOfSave:Int = -1):Void{

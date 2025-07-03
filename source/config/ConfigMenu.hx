@@ -660,30 +660,28 @@ class ConfigMenu extends FlxUIStateExt
 	}
 
 	function writeToConfig():Void{
-		Config.write("offset", offsetValue);
-		Config.write("healthMultiplier", healthValue / 10.0);
-		Config.write("healthDrainMultiplier", healthDrainValue / 10.0);
-		Config.write("comboType", comboValue);
-		Config.write("downscroll", downValue);
-		Config.write("noteGlow", glowValue);
-		Config.write("ghostTapType", randomTapValue);
-		Config.write("framerate", allowedFramerates[framerateValue]);
-		Config.write("bgDim", dimValue);
-		Config.write("noteSplashType", noteSplashValue);
-		Config.write("centeredNotes", centeredValue);
-		Config.write("scrollSpeedOverride", scrollSpeedValue / 10.0);
-		Config.write("showComboBreaks", showComboBreaksValue);
-		Config.write("showFPS", showFPSValue);
-		Config.write("useGPU", useGPUValue);
-		Config.write("extraCamMovement", extraCamMovementValue);
-		Config.write("camBopAmount", camBopAmountValue);
-		Config.write("showCaptions", showCaptionsValue);
-		Config.write("showAccuracy", showAccuracyValue);
-		Config.write("showMisses", showMissesValue);
-		Config.write("autoPause", autoPauseValue);
-		Config.write("flashingLights", flashingLightsValue);
-
-		Config.reload();
+		Config.offset = offsetValue;
+		Config.healthMultiplier = healthValue / 10.0;
+		Config.healthDrainMultiplier = healthDrainValue / 10.0;
+		Config.comboType = comboValue;
+		Config.downscroll = downValue;
+		Config.noteGlow = glowValue;
+		Config.ghostTapType = randomTapValue;
+		Config.framerate = allowedFramerates[framerateValue];
+		Config.bgDim = dimValue;
+		Config.noteSplashType = noteSplashValue;
+		Config.centeredNotes = centeredValue;
+		Config.scrollSpeedOverride = scrollSpeedValue / 10.0;
+		Config.showComboBreaks = showComboBreaksValue;
+		Config.showFPS = showFPSValue;
+		Config.useGPU = useGPUValue;
+		Config.extraCamMovement = extraCamMovementValue;
+		Config.camBopAmount = camBopAmountValue;
+		Config.showCaptions = showCaptionsValue;
+		Config.showAccuracy = showAccuracyValue;
+		Config.showMisses = showMissesValue;
+		Config.autoPause = autoPauseValue;
+		Config.flashingLights = flashingLightsValue;
 	}
 
 	function updateAllOptions():Void{
