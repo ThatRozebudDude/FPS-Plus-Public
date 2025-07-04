@@ -66,8 +66,7 @@ class Startup extends FlxUIStateExt
 		FlxG.mouse.visible = false;
 		FlxG.sound.muteKeys = null;
 
-		Config.configCheck();
-		Config.reload();
+		Config.load();
 
 		Binds.init();
 

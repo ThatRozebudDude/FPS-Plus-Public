@@ -660,7 +660,29 @@ class ConfigMenu extends FlxUIStateExt
 	}
 
 	function writeToConfig():Void{
-		Config.write(offsetValue, healthValue / 10.0, healthDrainValue / 10.0, comboValue, downValue, glowValue, randomTapValue, allowedFramerates[framerateValue], dimValue, noteSplashValue, centeredValue, scrollSpeedValue / 10.0, showComboBreaksValue, showFPSValue, useGPUValue, extraCamMovementValue, camBopAmountValue, showCaptionsValue, showAccuracyValue, showMissesValue, autoPauseValue, flashingLightsValue);
+		Config.offset = offsetValue;
+		Config.healthMultiplier = healthValue / 10.0;
+		Config.healthDrainMultiplier = healthDrainValue / 10.0;
+		Config.comboType = comboValue;
+		Config.downscroll = downValue;
+		Config.noteGlow = glowValue;
+		Config.ghostTapType = randomTapValue;
+		Config.framerate = allowedFramerates[framerateValue];
+		Config.bgDim = dimValue;
+		Config.noteSplashType = noteSplashValue;
+		Config.centeredNotes = centeredValue;
+		Config.scrollSpeedOverride = scrollSpeedValue / 10.0;
+		Config.showComboBreaks = showComboBreaksValue;
+		Config.showFPS = showFPSValue;
+		Config.useGPU = useGPUValue;
+		Config.extraCamMovement = extraCamMovementValue;
+		Config.camBopAmount = camBopAmountValue;
+		Config.showCaptions = showCaptionsValue;
+		Config.showAccuracy = showAccuracyValue;
+		Config.showMisses = showMissesValue;
+		Config.autoPause = autoPauseValue;
+		Config.flashingLights = flashingLightsValue;
+		Config.write();
 	}
 
 	function updateAllOptions():Void{

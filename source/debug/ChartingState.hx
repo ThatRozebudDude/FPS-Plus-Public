@@ -1300,10 +1300,7 @@ class ChartingState extends MusicBeatState
 		if(Startup.hasEe2 && FlxG.keys.justPressed.B && FlxG.keys.pressed.SHIFT){
 			ee2Check = false;
 			//FlxG.save.bind("data", "Rozebud/FPSPlus");
-			SaveManager.global();
-			FlxG.save.data.ee2 = false;
-			SaveManager.flush();
-			Config.reload();
+			Config.ee2 = false;
 			//FlxG.save.flush();
 			//FlxG.save.bind(_song.song.replace(" ", "-"), "Rozebud/FPSPlus/Chart-Editor-Autosaves");
 			SaveManager.chartAutosave(_song.song.replace(" ", "-"));
@@ -1321,11 +1318,7 @@ class ChartingState extends MusicBeatState
 					autosaveSong();
 
 					//FlxG.save.bind("data", "Rozebud/FPSPlus");
-					SaveManager.global();
-					FlxG.save.data.ee2 = true;
-					//FlxG.save.flush();
-					SaveManager.flush();
-					Config.reload();
+					Config.ee2 = true;
 	
 					PlayState.fceForLilBuddies = true;
 					screenshotBitmap = FlxG.camera.buffer.clone();
