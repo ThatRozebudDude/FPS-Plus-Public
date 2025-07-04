@@ -682,6 +682,7 @@ class ConfigMenu extends FlxUIStateExt
 		Config.showMisses = showMissesValue;
 		Config.autoPause = autoPauseValue;
 		Config.flashingLights = flashingLightsValue;
+		Config.write();
 	}
 
 	function updateAllOptions():Void{

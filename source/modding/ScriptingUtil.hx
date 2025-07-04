@@ -201,6 +201,9 @@ class ScriptConfig
 	public static function get_flashingLights():Bool { return Config.flashingLights; }
 
 	public static function setFramerate(cap:Int, ?useValueInsteadOfSave:Int = -1):Void { Config.setFramerate(cap, useValueInsteadOfSave); }
+
+	public static function load():Void 					{ trace("Config.load() is not available in scripts."); }
+	public static function write(x:Bool = true):Void 	{ trace("Config.write() is not available in scripts."); }
 }
 
 class ScriptModConfig

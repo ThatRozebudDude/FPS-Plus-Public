@@ -272,6 +272,7 @@ class AutoOffsetState extends MusicBeatState
 		ending = true;
 
 		Config.offset = offsetCalc;
+		Config.write();
 
 		switchState(new ConfigMenu());
 	}
