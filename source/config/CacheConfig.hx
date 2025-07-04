@@ -38,7 +38,6 @@ class CacheConfig
 	}
 
 	public static function check():Void{
-
 		SaveManager.global();
 		if(FlxG.save.data.charPreload3 == null) {
 			FlxG.save.data.charPreload3 = false;

@@ -1,5 +1,6 @@
 package modding;
 
+import Binds.KeybindMap;
 import config.CacheConfig;
 import config.Config;
 import flixel.input.gamepad.FlxGamepadInputID;
@@ -211,6 +212,9 @@ class ScriptModConfig
 	public static function get(uid:String, name:String):Dynamic{
 		return ModConfig.get(uid, name);
 	}
+
+	public static function load():Void	{ trace("ModConfig.load() is not available in scripts."); }
+	public static function save():Void	{ trace("ModConfig.save() is not available in scripts."); }
 }
 
 class ScriptBinds
@@ -224,6 +228,14 @@ class ScriptBinds
 	public static function pressedControllerOnly(input:String):Bool { return Binds.pressedControllerOnly(input); }
 	public static function justPressedControllerOnly(input:String):Bool { return Binds.justPressedControllerOnly(input); }
 	public static function justReleasedControllerOnly(input:String):Bool { return Binds.justReleasedControllerOnly(input); }
+
+	public static function init():Void							{ trace("Binds.init() is not available in scripts."); }
+	public static function generateDefaultControls():KeybindMap	{ trace("Binds.generateDefaultControls() is not available in scripts. Returning null."); return null; }
+	public static function setControls():Void					{ trace("Binds.setControls() is not available in scripts."); }
+	public static function saveControls():Void					{ trace("Binds.saveControls() is not available in scripts."); }
+	public static function checkForRepair():Bool				{ trace("Binds.checkForRepair() is not available in scripts. Returning false."); return false; }
+	public static function repairControls():KeybindMap			{ trace("Binds.repairControls() is not available in scripts. Returning null."); return null; }
+	public static function resetToDefaultControls():Void		{ trace("Binds.resetToDefaultControls() is not available in scripts."); }
 }
 
 class ScriptCacheConfig
@@ -238,4 +250,6 @@ class ScriptCacheConfig
 		trace("Music caching is no longer supported. This function will always return false for backwards compatibility and should be removed from scripts if possible.");
 		return false;
 	}
+
+	public static function check():Void	{ trace("CacheConfig.check() is not available in scripts."); }
 }

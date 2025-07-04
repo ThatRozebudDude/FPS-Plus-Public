@@ -12,7 +12,7 @@ class Binds
 
 	public static var binds:KeybindMap;
 
-	public static function init() {
+	public static function init():Void{
 
 		binds = new KeybindMap();
 
@@ -39,7 +39,7 @@ class Binds
 
 	}
 
-	public static function generateDefaultControls():KeybindMap {
+	public static function generateDefaultControls():KeybindMap{
 		var r:KeybindMap = new KeybindMap();
 
 		//Gameplay buttons
@@ -267,7 +267,7 @@ class Binds
 		SaveManager.global();
 	}
 
-	static function checkForRepair():Bool {
+	static function checkForRepair():Bool{
 		
 		var defaultThing = generateDefaultControls();
 
@@ -288,7 +288,7 @@ class Binds
 
 	}
 
-	public static function repairControls():KeybindMap {
+	public static function repairControls():KeybindMap{
 		var r:KeybindMap = generateDefaultControls();
 
 		for(x in r.keys){
@@ -307,7 +307,7 @@ class Binds
 		return r;
 	}
 
-	public static function resetToDefaultControls() {
+	public static function resetToDefaultControls():Void{
 		binds = generateDefaultControls();
 		saveControls();
 	}
