@@ -33,6 +33,7 @@ class Startup extends FlxUIStateExt
 	//var nextState:FlxState = new debug.AtlasScrub();
 	//var nextState:FlxState = new results.ResultsState(null, "Results Test", "PicoResults");
 
+	var splashHasSoundTrigger:Bool = false;
 	var splash:AtlasSprite;
 	var loadingBar:FlxBar;
 	var loadingText:FlxText;
@@ -99,8 +100,15 @@ class Startup extends FlxUIStateExt
 
 		splash = new AtlasSprite(0, 0, Paths.getTextureAtlas("fpsPlus/splash"));
 		splash.antialiasing = true;
+
+		var labels = [];
+		for(tempLabel in splash.anim.getFrameLabels()){ labels.push(tempLabel.name); }
+
 		splash.addAnimationByLabel("start", "Start", 24, false);
-		splash.addAnimationByLabel("soundTrigger", "Trigger Sound", 24, false);
+		if(labels.contains("Trigger Sound")){
+			splash.addAnimationByLabel("soundTrigger", "Trigger Sound", 24, false);
+			splashHasSoundTrigger = true;
+		}
 		splash.addAnimationByLabel("end", "End", 24, false);
 		splash.animationEndCallback = splashState;
 		add(splash);
@@ -232,32 +240,15 @@ class Startup extends FlxUIStateExt
 		switch(anim){
 			case "start":
 				FlxG.sound.play(Paths.sound("splashSound"));
-				splash.playAnim("soundTrigger");
-
-			case "soundTrigger":
-				#if web
-				loadingText.visible = false;
-				charactersCached = false;
-				graphicsCached = false;
-				new FlxTimer().start(1, function(tmr:FlxTimer){
-					charactersCached = true;
-					graphicsCached = true;
-				});
-				#else
-				if(!charactersCached || !graphicsCached){
-					preload(); 
+				if(splashHasSoundTrigger){
+					splash.playAnim("soundTrigger");
 				}
 				else{
-					loadingText.visible = false;
-					charactersCached = false;
-					graphicsCached = false;
-					new FlxTimer().start(1, function(tmr:FlxTimer){
-						charactersCached = true;
-						graphicsCached = true;
-					});
+					startCache();
 				}
-				#end
-				cacheStart = true;
+
+			case "soundTrigger":
+				startCache();
 
 			case "end":
 				ImageCache.localCache.clear();
@@ -268,6 +259,32 @@ class Startup extends FlxUIStateExt
 			default:
 				trace("Something has gone horribly wrong... Fix it.");
 		}
+	}
+
+	function startCache():Void{
+		#if web
+		loadingText.visible = false;
+		charactersCached = false;
+		graphicsCached = false;
+		new FlxTimer().start(1, function(tmr:FlxTimer){
+			charactersCached = true;
+			graphicsCached = true;
+		});
+		#else
+		if(!charactersCached || !graphicsCached){
+			preload(); 
+		}
+		else{
+			loadingText.visible = false;
+			charactersCached = false;
+			graphicsCached = false;
+			new FlxTimer().start(1, function(tmr:FlxTimer){
+				charactersCached = true;
+				graphicsCached = true;
+			});
+		}
+		#end
+		cacheStart = true;
 	}
 
 }
