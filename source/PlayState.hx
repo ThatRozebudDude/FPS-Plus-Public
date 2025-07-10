@@ -3147,6 +3147,16 @@ class PlayState extends MusicBeatState
 		return value;
 	}
 
+	public static function setupSong(_song:String, _difficuly:Int, ?_storyMode:Null<Bool> = null, ?_returnLocation:String = null, ?_overrideInstrumental:String = null):Void{
+		var formattedSong:String = Highscore.formatSong(_song.toLowerCase(), _difficuly);
+		PlayState.SONG = Song.loadFromJson(formattedSong, _song.toLowerCase());
+		PlayState.storyDifficulty = _difficuly;
+		PlayState.loadEvents = true;
+		if(_storyMode != null)				{ PlayState.isStoryMode = _storyMode; }
+		if(_returnLocation != null) 		{ PlayState.returnLocation = _returnLocation; }
+		if(_overrideInstrumental != null)	{ PlayState.overrideInsturmental = _overrideInstrumental; }
+	}
+
 }
 
 enum abstract VocalType(Int) {

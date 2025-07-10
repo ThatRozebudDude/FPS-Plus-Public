@@ -331,12 +331,7 @@ class MainMenuState extends MusicBeatState
 				switchState(ScriptedState.init(button.action.state));
 				
 			case "playSong":
-				var formattedSong:String = Highscore.formatSong(button.action.song.toLowerCase(), button.action.difficulty);
-				PlayState.SONG = Song.loadFromJson(formattedSong, button.action.song.toLowerCase());
-				PlayState.isStoryMode = false;
-				PlayState.storyDifficulty = button.action.difficulty;
-				PlayState.loadEvents = true;
-				PlayState.returnLocation = "mainMenu";
+				PlayState.setupSong(button.action.song, button.action.difficulty, false, "mainMenu", null);
 				ImageCache.forceClearOnTransition = true;
 				switchState(new PlayState());
 				if(FlxG.sound.music.playing){
