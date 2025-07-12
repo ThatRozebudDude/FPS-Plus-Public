@@ -80,6 +80,8 @@ class ResultsState extends FlxUIStateExt
 	var songNameText:String;
 	var saveInfo:SaveInfo;
 
+	var clampedScore:Int;
+
 	var totalNotes:Int = 0;
 	var grade:Float = 0;
 	var rank:Rank = none;
@@ -113,6 +115,7 @@ class ResultsState extends FlxUIStateExt
 
 		characterString = _character;
 		scoreStats = _scoreStats;
+		clampedScore = scoreStats.score < 0 ? 0 : scoreStats.score;
 		songNameText = _songNameText;
 		useCustomStickerSet = _useCustomStickerSet;
 
@@ -128,11 +131,11 @@ class ResultsState extends FlxUIStateExt
 		if(saveInfo != null){
 			if(saveInfo.song != null){
 				prevHighscore = Highscore.getScore(saveInfo.song, saveInfo.diff).score;
-				Highscore.saveScore(saveInfo.song, scoreStats.score, scoreStats.accuracy, saveInfo.diff, rank);
+				Highscore.saveScore(saveInfo.song, clampedScore, scoreStats.accuracy, saveInfo.diff, rank);
 			}
 			else if(saveInfo.week != null){
 				prevHighscore = Highscore.getWeekScore(saveInfo.week, saveInfo.diff).score;
-				Highscore.saveWeekScore(saveInfo.week, scoreStats.score, scoreStats.accuracy, saveInfo.diff, rank);
+				Highscore.saveWeekScore(saveInfo.week, clampedScore, scoreStats.accuracy, saveInfo.diff, rank);
 			}
 		}
 	}
@@ -363,7 +366,7 @@ class ResultsState extends FlxUIStateExt
 
 		new FlxTimer().start((0.3 * 7) + 1.2, function(t){
 			FlxTween.tween(scoreCounter, {y: scoreCounter.y - 150}, 0.7, {ease: FlxEase.quintOut});
-			scoreCounter.tweenNumber(scoreStats.score, 1.5);
+			scoreCounter.tweenNumber(clampedScore, 1.5);
 		});
 
 		//SCROLLING TEXT!!!!!

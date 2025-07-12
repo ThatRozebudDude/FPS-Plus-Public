@@ -887,10 +887,11 @@ class FreeplayState extends MusicBeatState
 
 	function updateScore():Void{
 		var score:SongStats = categoryMap[categoryNames[curCategory]][curSelected].highscoreData[curDifficulty];
+		var clampedScore = score.score < 0 ? 0 : score.score;
 
-		if(prevScore != score.score){
-			scoreDisplay.tweenNumber(score.score, 0.8);
-			prevScore = score.score;
+		if(prevScore != clampedScore){
+			scoreDisplay.tweenNumber(clampedScore, 0.8);
+			prevScore = clampedScore;
 		}
 		
 		if(prevAccuracy != Math.floor(score.accuracy)){
