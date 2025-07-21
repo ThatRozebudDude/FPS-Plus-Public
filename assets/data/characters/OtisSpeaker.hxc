@@ -38,7 +38,7 @@ class OtisSpeaker extends CharacterInfoBase
 		info.functions.songEnd = songEnd;
 		info.functions.applyShader = applyShader;
 
-		addExtraData("reposition", [-54.5, -250]);
+		addExtraData("reposition", [-30, -275]);
 	}
 
 	var abot:ABot;

@@ -19,6 +19,7 @@ class StressPicoIntro extends ScriptedCutscene
 	var speakerFront:AtlasSprite;
 	var speakerBack:AtlasSprite;
 	var speakerCharacter:AtlasSprite;
+	var lovelyLittleBricks:FlxSprite;
 
 	var abot:ABot;
 	var gunshot:FlxSprite;
@@ -100,9 +101,16 @@ class StressPicoIntro extends ScriptedCutscene
 		FlxG.cameras.insert(picoCamera, 			FlxG.cameras.list.indexOf(playstate.camGame) + 6, false);
 		FlxG.cameras.insert(gunshotCamera, 			FlxG.cameras.list.indexOf(playstate.camGame) + 7, false);
 		
-		abot = new ABot(412, 470);
+		abot = new ABot(412 + 25, 470 - 25);
 		abot.cameras = [speakerCamera];
 		abot.lookLeft();
+
+		lovelyLittleBricks = new FlxSprite(465, 760).loadGraphic(Paths.image("week7/stage/erect/bricksGround"));
+		lovelyLittleBricks.antialiasing = true;
+		lovelyLittleBricks.flipX = true;
+		lovelyLittleBricks.scale.set(1.15, 1.15);
+		lovelyLittleBricks.updateHitbox();
+		lovelyLittleBricks.cameras = [speakerCamera];
 
 		gunshot = new FlxSprite(-215, 543);
 		gunshot.frames = Paths.getSparrowAtlas("week7/cutscene/picoStress/gunshot");
@@ -124,7 +132,7 @@ class StressPicoIntro extends ScriptedCutscene
 		pico.addFullAnimation("animFastForTest", 800, false);
 		pico.cameras = [picoCamera];
 
-		speakerFront = new AtlasSprite(288, 205, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerFront"));
+		speakerFront = new AtlasSprite(288 + 25, 205 -25, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerFront"));
 		speakerFront.antialiasing = true;
 		speakerFront.addFullAnimation("anim", 24, false);
 		speakerFront.cameras = [frontCamera];
@@ -135,13 +143,13 @@ class StressPicoIntro extends ScriptedCutscene
 			Utils.destroyWhenAvailable(speakerFront);
 		}
 
-		speakerCharacter = new AtlasSprite(287, -712, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerCharacter"));
+		speakerCharacter = new AtlasSprite(287 + 25, -712 -25, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerCharacter"));
 		speakerCharacter.antialiasing = true;
 		speakerCharacter.addFullAnimation("anim", 24, false);
 		speakerCharacter.addFullAnimation("animFastForTest", 800, false);
 		speakerCharacter.cameras = [speakerCharacterCamera];
 		
-		speakerBack = new AtlasSprite(206, 105, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerBack"));
+		speakerBack = new AtlasSprite(206 + 25, 105 -25, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerBack"));
 		speakerBack.antialiasing = true;
 		speakerBack.addFullAnimation("anim", 24, false);
 		speakerBack.cameras = [behindCamera];
@@ -234,6 +242,7 @@ class StressPicoIntro extends ScriptedCutscene
 		addGeneric(pico);
 		addGeneric(tankman);
 		addGeneric(gunshot);
+		addGeneric(lovelyLittleBricks);
 
 		playstate.camChangeZoom(0.68, 0);
 	}
@@ -313,11 +322,13 @@ class StressPicoIntro extends ScriptedCutscene
 		removeGeneric(speakerCharacter);
 		removeGeneric(pico);
 		removeGeneric(gunshot);
+		removeGeneric(lovelyLittleBricks);
 		
 		abot.destroy();
 		speakerCharacter.destroy();
 		pico.destroy();
 		gunshot.destroy();
+		lovelyLittleBricks.destroy();
 
 		speakerCamera.filters = [];
 		speakerCharacterCamera.filters = [];
