@@ -39,23 +39,23 @@ class Philly extends BaseStage
 		bg.scrollFactor.set(0.1, 0.1);
 		addToBackground(bg);
 
-		var city:FlxSprite = new FlxSprite(-81, 52).loadGraphic(Paths.image('week3/philly/city'));
+		var city:FlxSprite = new FlxSprite(-255, 45).loadGraphic(Paths.image('week3/philly/city'));
 		city.scrollFactor.set(0.3, 0.3);
-		city.setGraphicSize(Std.int(city.width * 0.85));
+		city.scale.set(0.9, 0.9);
 		city.updateHitbox();
 		city.antialiasing = true;
 		addToBackground(city);
 
-		phillyCityLights = new FlxSprite(city.x + (71 * 0.85), city.y - (52 * 0.85)).loadGraphic(Paths.image("week3/philly/windowWhite"));
+		phillyCityLights = new FlxSprite(city.x, city.y).loadGraphic(Paths.image("week3/philly/windowWhite"));
 		phillyCityLights.scrollFactor.set(0.3, 0.3);
-		phillyCityLights.setGraphicSize(Std.int(phillyCityLights.width * 0.85));
+		phillyCityLights.scale.set(0.9, 0.9);
 		phillyCityLights.updateHitbox();
 		phillyCityLights.antialiasing = true;
 		addToBackground(phillyCityLights);
 
 		phillyCityLightsGlow = new FlxSprite(phillyCityLights.x, phillyCityLights.y).loadGraphic(Paths.image("week3/philly/windowWhiteGlow"));
 		phillyCityLightsGlow.scrollFactor.set(0.3, 0.3);
-		phillyCityLightsGlow.setGraphicSize(Std.int(phillyCityLightsGlow.width * 0.85));
+		phillyCityLightsGlow.scale.set(0.9, 0.9);
 		phillyCityLightsGlow.updateHitbox();
 		phillyCityLightsGlow.antialiasing = true;
 		phillyCityLightsGlow.blend = BlendMode.ADD;
@@ -64,7 +64,7 @@ class Philly extends BaseStage
 
 		changeLightColor();
 
-		var streetBehind:FlxSprite = new FlxSprite(178, 50+97).loadGraphic(Paths.image('week3/philly/behindTrain'));
+		var streetBehind:FlxSprite = new FlxSprite(-299, 144).loadGraphic(Paths.image('week3/philly/behindTrain'));
 		streetBehind.antialiasing = true;
 		addToBackground(streetBehind);
 
@@ -75,7 +75,7 @@ class Philly extends BaseStage
 
 		trainSound = new FlxSound();
 
-		var street:FlxSprite = new FlxSprite(streetBehind.x-341, streetBehind.y-93).loadGraphic(Paths.image('week3/philly/street'));
+		var street:FlxSprite = new FlxSprite(-299, 144).loadGraphic(Paths.image('week3/philly/street'));
 		street.antialiasing = true;
 		addToBackground(street);
 

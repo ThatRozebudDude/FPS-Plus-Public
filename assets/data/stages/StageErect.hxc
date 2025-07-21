@@ -20,7 +20,7 @@ class StageErect extends BaseStage
 		backDark.active = false;
 		addToBackground(backDark);
 
-		var crowd:FlxSprite = new FlxSprite(560, 290);
+		var crowd:FlxSprite = new FlxSprite(682, 290);
 		crowd.frames = Paths.getSparrowAtlas("week1/erect/crowd");
 		crowd.antialiasing = true;
 		crowd.scrollFactor.set(0.8, 0.8);
@@ -36,12 +36,12 @@ class StageErect extends BaseStage
 		brightLightSmall.active = false;
 		addToBackground(brightLightSmall);
 
-		var bg:FlxSprite = new FlxSprite(-603, -187).loadGraphic(Paths.image("week1/erect/bg"));
+		var bg:FlxSprite = new FlxSprite(-765, -247).loadGraphic(Paths.image("week1/erect/bg"));
 		bg.antialiasing = true;
 		bg.active = false;
 		addToBackground(bg);
 
-		var server:FlxSprite = new FlxSprite(-361, 205).loadGraphic(Paths.image("week1/erect/server"));
+		var server:FlxSprite = new FlxSprite(-991, 205).loadGraphic(Paths.image("week1/erect/server"));
 		server.antialiasing = true;
 		server.active = false;
 		addToBackground(server);
@@ -65,7 +65,7 @@ class StageErect extends BaseStage
 		orangeLight.active = false;
 		addToBackground(orangeLight);
 
-		var lights:FlxSprite = new FlxSprite(-601, -147).loadGraphic(Paths.image("week1/erect/lights"));
+		var lights:FlxSprite = new FlxSprite(-847, -245).loadGraphic(Paths.image("week1/erect/lights"));
 		lights.antialiasing = true;
 		lights.scrollFactor.set(1.2, 1.2);
 		lights.active = false;
@@ -83,9 +83,9 @@ class StageErect extends BaseStage
 
 		gf.scrollFactor.set(1, 1);
 
-		bfCameraOffset.set(-180, -80);
+		bfCameraOffset.set(-180, -40);
 		dadCameraOffset.set(180, 0);
-		gfCameraOffset.set(0, -80);
+		gfCameraOffset.set(0, -40);
 
 		boyfriend.applyShader(bfShader.shader);
 		dad.applyShader(dadShader.shader);
