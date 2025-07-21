@@ -1,20 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-Created with Funkin Packer v0.1.3 DEV https://neeeoo.github.io/funkin-packer/
--->
-<TextureAtlas imagePath="upperBop.png" width="2258" height="1177" spritePadding="2" borderPadding="1">
-	<SubTexture name="upperBop0000" x="1" y="1" width="2256" height="284" frameX="0" frameY="-16" frameWidth="2259" frameHeight="302"/>
-	<SubTexture name="upperBop0001" x="1" y="1" width="2256" height="284" frameX="0" frameY="-16" frameWidth="2259" frameHeight="302"/>
-	<SubTexture name="upperBop0002" x="1" y="287" width="2246" height="289" frameX="-5" frameY="-10" frameWidth="2259" frameHeight="302"/>
-	<SubTexture name="upperBop0003" x="1" y="287" width="2246" height="289" frameX="-5" frameY="-10" frameWidth="2259" frameHeight="302"/>
-	<SubTexture name="upperBop0004" x="1" y="578" width="2244" height="297" frameX="-6" frameY="-2" frameWidth="2259" frameHeight="302"/>
-	<SubTexture name="upperBop0005" x="1" y="578" width="2244" height="297" frameX="-6" frameY="-2" frameWidth="2259" frameHeight="302"/>
-	<SubTexture name="upperBop0006" x="1" y="877" width="2240" height="299" frameX="-8" frameY="0" frameWidth="2259" frameHeight="302"/>
-	<SubTexture name="upperBop0007" x="1" y="877" width="2240" height="299" frameX="-8" frameY="0" frameWidth="2259" frameHeight="302"/>
-	<SubTexture name="upperBop0008" x="1" y="877" width="2240" height="299" frameX="-8" frameY="0" frameWidth="2259" frameHeight="302"/>
-	<SubTexture name="upperBop0009" x="1" y="877" width="2240" height="299" frameX="-8" frameY="0" frameWidth="2259" frameHeight="302"/>
-	<SubTexture name="upperBop0010" x="1" y="877" width="2240" height="299" frameX="-8" frameY="0" frameWidth="2259" frameHeight="302"/>
-	<SubTexture name="upperBop0011" x="1" y="877" width="2240" height="299" frameX="-8" frameY="0" frameWidth="2259" frameHeight="302"/>
-	<SubTexture name="upperBop0012" x="1" y="877" width="2240" height="299" frameX="-8" frameY="0" frameWidth="2259" frameHeight="302"/>
-	<SubTexture name="upperBop0013" x="1" y="877" width="2240" height="299" frameX="-8" frameY="0" frameWidth="2259" frameHeight="302"/>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="upperBop.png">
+	<!-- Created with Adobe Animate version 23.0.0.407 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="upperBop0000" x="0" y="0" width="2550" height="348" frameX="0" frameY="-20" frameWidth="2550" frameHeight="368"/>
+	<SubTexture name="upperBop0001" x="0" y="0" width="2550" height="348" frameX="0" frameY="-20" frameWidth="2550" frameHeight="368"/>
+	<SubTexture name="upperBop0002" x="0" y="353" width="2538" height="355" frameX="-6" frameY="-13" frameWidth="2550" frameHeight="368"/>
+	<SubTexture name="upperBop0003" x="0" y="353" width="2538" height="355" frameX="-6" frameY="-13" frameWidth="2550" frameHeight="368"/>
+	<SubTexture name="upperBop0004" x="0" y="713" width="2536" height="364" frameX="-7" frameY="-4" frameWidth="2550" frameHeight="368"/>
+	<SubTexture name="upperBop0005" x="0" y="713" width="2536" height="364" frameX="-7" frameY="-4" frameWidth="2550" frameHeight="368"/>
+	<SubTexture name="upperBop0006" x="0" y="1082" width="2531" height="368" frameX="-10" frameY="0" frameWidth="2550" frameHeight="368"/>
+	<SubTexture name="upperBop0007" x="0" y="1082" width="2531" height="368" frameX="-10" frameY="0" frameWidth="2550" frameHeight="368"/>
+	<SubTexture name="upperBop0008" x="0" y="1082" width="2531" height="368" frameX="-10" frameY="0" frameWidth="2550" frameHeight="368"/>
+	<SubTexture name="upperBop0009" x="0" y="1082" width="2531" height="368" frameX="-10" frameY="0" frameWidth="2550" frameHeight="368"/>
+	<SubTexture name="upperBop0010" x="0" y="1082" width="2531" height="368" frameX="-10" frameY="0" frameWidth="2550" frameHeight="368"/>
+	<SubTexture name="upperBop0011" x="0" y="1082" width="2531" height="368" frameX="-10" frameY="0" frameWidth="2550" frameHeight="368"/>
+	<SubTexture name="upperBop0012" x="0" y="1082" width="2531" height="368" frameX="-10" frameY="0" frameWidth="2550" frameHeight="368"/>
+	<SubTexture name="upperBop0013" x="0" y="1082" width="2531" height="368" frameX="-10" frameY="0" frameWidth="2550" frameHeight="368"/>
 </TextureAtlas>

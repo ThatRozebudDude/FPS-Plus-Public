@@ -28,8 +28,8 @@ class Limo extends BaseStage
 
 		var bgLimo:FlxSprite = new FlxSprite(-200, 480);
 		bgLimo.frames = Paths.getSparrowAtlas("week4/limo/bgLimo");
-		bgLimo.animation.addByPrefix('drive', "background limo pink", 24);
-		bgLimo.animation.play('drive');
+		bgLimo.animation.addByPrefix("drive", "background limo pink", 24);
+		bgLimo.animation.play("drive");
 		bgLimo.scrollFactor.set(0.4, 0.4);
 		bgLimo.antialiasing = true;
 		addToBackground(bgLimo);
@@ -47,8 +47,8 @@ class Limo extends BaseStage
 
 		limo = new FlxSprite(-120, 550);
 		limo.frames = Paths.getSparrowAtlas("week4/limo/limoDrive");
-		limo.animation.addByPrefix('drive', "Limo stage", 24);
-		limo.animation.play('drive');
+		limo.animation.addByPrefix("drive", "Limo stage", 24);
+		limo.animation.play("drive");
 		limo.antialiasing = true;
 		addToMiddle(limo);
 
@@ -79,7 +79,7 @@ class Limo extends BaseStage
 	}
 
 	function fastCarDrive(){
-		playstate.playSound(Paths.sound('week4/carPass' + FlxG.random.int(0, 1)), 0.7);
+		playstate.playSound(Paths.sound("week4/carPass" + FlxG.random.int(0, 1)), 0.7);
 
 		fastCar.velocity.x = (FlxG.random.int(170, 220) / FlxG.elapsed) * 3;
 		fastCarCanDrive = false;

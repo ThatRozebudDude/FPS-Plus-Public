@@ -85,7 +85,7 @@ class SpookyMansionErect extends BaseStage
 			playstate.playSound(Paths.sound("week2/thunder_" + FlxG.random.int(1, 2)));
 		}
 
-		// getNamedProp('halloweenBG').animation.play('lightning');
+		// getNamedProp("halloweenBG").animation.play("lightning");
 		bgFlash.alpha = 1;
 		stairsFlash.alpha = 1;
 

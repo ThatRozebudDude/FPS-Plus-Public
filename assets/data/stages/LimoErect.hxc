@@ -44,12 +44,12 @@ class LimoErect extends BaseStage
 		shootingStar.frames = Paths.getSparrowAtlas("week4/limo/erect/shooting star");
 		shootingStar.scrollFactor.set(0.12, 0.12);
 		shootingStar.antialiasing = true;
-		shootingStar.animation.addByPrefix('star', "shooting star", 24, false);
-		shootingStar.animation.play('star', true);
+		shootingStar.animation.addByPrefix("star", "shooting star", 24, false);
+		shootingStar.animation.play("star", true);
 		shootingStar.visible = false;
 		addToBackground(shootingStar);
 
-		mist5 = new FlxBackdrop(Paths.image('week4/limo/erect/mistMid'), ScriptingUtil.axisX);
+		mist5 = new FlxBackdrop(Paths.image("week4/limo/erect/mistMid"), ScriptingUtil.axisX);
 		mist5.setPosition(-650, -400);
 		mist5.scrollFactor.set(0.2, 0.2);
    		mist5.blend = BlendMode.ADD;
@@ -61,8 +61,8 @@ class LimoErect extends BaseStage
 
 		var bgLimo:FlxSprite = new FlxSprite(-200, 480);
 		bgLimo.frames = Paths.getSparrowAtlas("week4/limo/erect/bgLimo");
-		bgLimo.animation.addByPrefix('drive', "background limo blue", 24);
-		bgLimo.animation.play('drive');
+		bgLimo.animation.addByPrefix("drive", "background limo blue", 24);
+		bgLimo.animation.play("drive");
 		bgLimo.scrollFactor.set(0.4, 0.4);
 		bgLimo.antialiasing = true;
 		addToBackground(bgLimo);
@@ -76,7 +76,7 @@ class LimoErect extends BaseStage
 			addToBackground(dancer);
 		}
 
-		mist4 = new FlxBackdrop(Paths.image('week4/limo/erect/mistBack'), ScriptingUtil.axisX);
+		mist4 = new FlxBackdrop(Paths.image("week4/limo/erect/mistBack"), ScriptingUtil.axisX);
 		mist4.setPosition(-650, -380);
 		mist4.scrollFactor.set(0.6, 0.6);
 		mist4.blend = BlendMode.ADD;
@@ -86,7 +86,7 @@ class LimoErect extends BaseStage
 		mist4.scale.set(1.5, 1.5);
 		addToBackground(mist4);
 
-		mist3 = new FlxBackdrop(Paths.image('week4/limo/erect/mistMid'), ScriptingUtil.axisX);
+		mist3 = new FlxBackdrop(Paths.image("week4/limo/erect/mistMid"), ScriptingUtil.axisX);
 		mist3.setPosition(-650, -100);
 		mist3.scrollFactor.set(0.8, 0.8);
    		mist3.blend = BlendMode.ADD;
@@ -103,12 +103,12 @@ class LimoErect extends BaseStage
 
 		limo = new FlxSprite(-120, 550);
 		limo.frames = Paths.getSparrowAtlas("week4/limo/erect/limoDrive");
-		limo.animation.addByPrefix('drive', "Limo stage", 24);
-		limo.animation.play('drive');
+		limo.animation.addByPrefix("drive", "Limo stage", 24);
+		limo.animation.play("drive");
 		limo.antialiasing = true;
 		addToMiddle(limo);
 
-		mist1 = new FlxBackdrop(Paths.image('week4/limo/erect/mistMid'), ScriptingUtil.axisX);
+		mist1 = new FlxBackdrop(Paths.image("week4/limo/erect/mistMid"), ScriptingUtil.axisX);
 		mist1.setPosition(-650, -100);
 		mist1.scrollFactor.set(1.1, 1.1);
 		mist1.blend = BlendMode.ADD;
@@ -117,7 +117,7 @@ class LimoErect extends BaseStage
 		mist1.velocity.x = 1700;
 		addToForeground(mist1);
 
-		mist2 = new FlxBackdrop(Paths.image('week4/limo/erect/mistBack'), ScriptingUtil.axisX);
+		mist2 = new FlxBackdrop(Paths.image("week4/limo/erect/mistBack"), ScriptingUtil.axisX);
 		mist2.setPosition(-650, -100);
 		mist2.scrollFactor.set(1.2, 1.2);
 		mist2.blend = BlendMode.ADD;
@@ -175,7 +175,7 @@ class LimoErect extends BaseStage
 	}
 
 	function fastCarDrive(){
-		playstate.playSound(Paths.sound('week4/carPass' + FlxG.random.int(0, 1)), 0.7);
+		playstate.playSound(Paths.sound("week4/carPass" + FlxG.random.int(0, 1)), 0.7);
 
 		fastCar.velocity.x = (FlxG.random.int(170, 220) / FlxG.elapsed) * 3;
 		fastCarCanDrive = false;
@@ -189,7 +189,7 @@ class LimoErect extends BaseStage
 		shootingStar.x = FlxG.random.int(50,900);
 		shootingStar.y = FlxG.random.int(-10,20);
 		shootingStar.flipX = FlxG.random.bool(50);
-		shootingStar.animation.play('star', true);
+		shootingStar.animation.play("star", true);
 
 		shootingStarBeat = beat;
 		shootingStarOffset = FlxG.random.int(4, 8);

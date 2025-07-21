@@ -83,9 +83,9 @@ class StageErect extends BaseStage
 
 		gf.scrollFactor.set(1, 1);
 
-		bfCameraOffset.set(-180, -40);
+		bfCameraOffset.set(-180, -50);
 		dadCameraOffset.set(180, 0);
-		gfCameraOffset.set(0, -40);
+		gfCameraOffset.set(0, -50);
 
 		boyfriend.applyShader(bfShader.shader);
 		dad.applyShader(dadShader.shader);

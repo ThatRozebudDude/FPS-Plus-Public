@@ -14,16 +14,23 @@ class MallEvil extends BaseStage
 		bg.antialiasing = true;
 		bg.scrollFactor.set(0.2, 0.2);
 		bg.active = false;
-		bg.setGraphicSize(Std.int(bg.width * 0.8));
+		bg.scale.set(0.8, 0.8);
 		bg.updateHitbox();
 		addToBackground(bg);
 
-		var evilTree:FlxSprite = new FlxSprite(300, -300).loadGraphic(Paths.image('week5/christmas/evilTree'));
+		var evilTree:FlxSprite = new FlxSprite(300, -300).loadGraphic(Paths.image("week5/christmas/evilTree"));
 		evilTree.antialiasing = true;
 		evilTree.scrollFactor.set(0.2, 0.2);
 		addToBackground(evilTree);
 
-		var evilSnow:FlxSprite = new FlxSprite(-200, 700).loadGraphic(Paths.image("week5/christmas/evilSnow"));
+		var underSnow:FlxSprite = Utils.makeColoredSprite(1, 1, 0xFFD273B1);
+		underSnow.setPosition(-1200, 820);
+		underSnow.antialiasing = true;
+		underSnow.scale.set(5400, 3000);
+		underSnow.updateHitbox();
+		addToBackground(underSnow);
+
+		var evilSnow:FlxSprite = new FlxSprite(-500, 700).loadGraphic(Paths.image("week5/christmas/evilSnow"));
 		evilSnow.antialiasing = true;
 		addToBackground(evilSnow);
 

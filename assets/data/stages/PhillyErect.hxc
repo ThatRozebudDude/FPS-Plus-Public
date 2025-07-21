@@ -39,12 +39,12 @@ class PhillyErect extends BaseStage
 		name = "phillyErect";
 		startingZoom = 1.1;
 
-		var bg:FlxSprite = new FlxSprite(-100, 0).loadGraphic(Paths.image('week3/philly/erect/sky'));
+		var bg:FlxSprite = new FlxSprite(-100, 0).loadGraphic(Paths.image("week3/philly/erect/sky"));
 		bg.antialiasing = true;
 		bg.scrollFactor.set(0.1, 0.1);
 		addToBackground(bg);
 
-		var city:FlxSprite = new FlxSprite(-255, 45).loadGraphic(Paths.image('week3/philly/erect/city'));
+		var city:FlxSprite = new FlxSprite(-255, 45).loadGraphic(Paths.image("week3/philly/erect/city"));
 		city.scrollFactor.set(0.3, 0.3);
 		city.scale.set(0.9, 0.9);
 		city.updateHitbox();
@@ -69,18 +69,18 @@ class PhillyErect extends BaseStage
 
 		changeLightColor();
 
-		var behindTrain:FlxSprite = new FlxSprite(-299, 144).loadGraphic(Paths.image('week3/philly/erect/behindTrain'));
+		var behindTrain:FlxSprite = new FlxSprite(-299, 144).loadGraphic(Paths.image("week3/philly/erect/behindTrain"));
 		behindTrain.antialiasing = true;
 		addToBackground(behindTrain);
 
-		phillyTrain = new FlxSprite(2000, 360).loadGraphic(Paths.image('week3/philly/train'));
+		phillyTrain = new FlxSprite(2000, 360).loadGraphic(Paths.image("week3/philly/train"));
 		phillyTrain.antialiasing = true;
 		phillyTrain.visible = false;
 		addToBackground(phillyTrain);
 
 		trainSound = new FlxSound();
 
-		var street:FlxSprite = new FlxSprite(-299, 144).loadGraphic(Paths.image('week3/philly/erect/street'));
+		var street:FlxSprite = new FlxSprite(-299, 144).loadGraphic(Paths.image("week3/philly/erect/street"));
 		street.antialiasing = true;
 		addToBackground(street);
 
@@ -140,7 +140,7 @@ class PhillyErect extends BaseStage
 	function updateTrainPos():Void{
 		if (trainSound.time >= 4700){
 			startedMoving = true;
-			gf.doAction('hairBlow');
+			gf.doAction("hairBlow");
 			phillyTrain.visible = true;
 		}
 
@@ -163,7 +163,7 @@ class PhillyErect extends BaseStage
 	}
 
 	function trainReset():Void{
-		gf.doAction('hairFall');
+		gf.doAction("hairFall");
 		phillyTrain.x = FlxG.width + 200;
 		trainMoving = false;
 		trainCars = 8;

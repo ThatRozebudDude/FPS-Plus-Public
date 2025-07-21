@@ -34,12 +34,12 @@ class Philly extends BaseStage
 		name = "philly";
 		startingZoom = 1.1;
 
-		var bg:FlxSprite = new FlxSprite(-100, -20).loadGraphic(Paths.image('week3/philly/sky'));
+		var bg:FlxSprite = new FlxSprite(-100, -20).loadGraphic(Paths.image("week3/philly/sky"));
 		bg.antialiasing = true;
 		bg.scrollFactor.set(0.1, 0.1);
 		addToBackground(bg);
 
-		var city:FlxSprite = new FlxSprite(-255, 45).loadGraphic(Paths.image('week3/philly/city'));
+		var city:FlxSprite = new FlxSprite(-255, 45).loadGraphic(Paths.image("week3/philly/city"));
 		city.scrollFactor.set(0.3, 0.3);
 		city.scale.set(0.9, 0.9);
 		city.updateHitbox();
@@ -64,18 +64,18 @@ class Philly extends BaseStage
 
 		changeLightColor();
 
-		var streetBehind:FlxSprite = new FlxSprite(-299, 144).loadGraphic(Paths.image('week3/philly/behindTrain'));
+		var streetBehind:FlxSprite = new FlxSprite(-299, 144).loadGraphic(Paths.image("week3/philly/behindTrain"));
 		streetBehind.antialiasing = true;
 		addToBackground(streetBehind);
 
-		phillyTrain = new FlxSprite(2000, 360).loadGraphic(Paths.image('week3/philly/train'));
+		phillyTrain = new FlxSprite(2000, 360).loadGraphic(Paths.image("week3/philly/train"));
 		phillyTrain.antialiasing = true;
 		phillyTrain.visible = false;
 		addToBackground(phillyTrain);
 
 		trainSound = new FlxSound();
 
-		var street:FlxSprite = new FlxSprite(-299, 144).loadGraphic(Paths.image('week3/philly/street'));
+		var street:FlxSprite = new FlxSprite(-299, 144).loadGraphic(Paths.image("week3/philly/street"));
 		street.antialiasing = true;
 		addToBackground(street);
 
