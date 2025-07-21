@@ -1,32 +1,32 @@
 package;
 
-import flixel.tweens.FlxEase;
 import caching.AudioCache;
-import modding.PolymodHandler;
+import flixel.FlxG;
+import flixel.FlxObject;
+import flixel.FlxSprite;
 import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.input.keyboard.FlxKey;
-import flixel.util.FlxColor;
-import flixel.FlxObject;
-import flixel.math.FlxPoint;
-import flixel.FlxSprite;
-import sys.io.File;
-import sys.FileSystem;
 import flixel.math.FlxMath;
-import flixel.FlxG;
-import openfl.utils.Assets;
-import openfl.system.System;
-
+import flixel.math.FlxPoint;
+import flixel.tweens.FlxEase;
+import flixel.util.FlxColor;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
+import modding.PolymodHandler;
+import openfl.system.System;
+import openfl.utils.Assets;
+import sys.FileSystem;
+import sys.io.File;
+
+using Lambda;
+using StringTools;
 #if yaml
-import yaml.Yaml;
 import yaml.Parser;
 import yaml.Renderer;
+import yaml.Yaml;
 import yaml.util.ObjectMap;
 #end
-using StringTools;
-using Lambda;
 
 class Utils
 {
@@ -190,8 +190,7 @@ class Utils
 		return files;
 	}
 
-	public static inline function listEveryFileInFolder(folder:String, postfix:String)
-	{
+	public static inline function listEveryFileInFolder(folder:String, postfix:String){
 		var last:Array<String> = [];
 		var assets = Assets.list();
 		for (file in assets){
