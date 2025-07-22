@@ -65,7 +65,7 @@ class PhillyStreetsErect extends BaseStage
 		phillyForegroundCity.antialiasing = true;
 		addToBackground(phillyForegroundCity);
 
-		mist5 = new FlxBackdrop(Paths.image('weekend1/phillyStreets/erect/mistMid'), ScriptingUtil.axisX);
+		mist5 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistMid"), ScriptingUtil.axisX);
 		mist5.setPosition(-650, -100);
 		mist5.scrollFactor.set(0.5, 0.5);
    		mist5.blend = BlendMode.ADD;
@@ -123,7 +123,7 @@ class PhillyStreetsErect extends BaseStage
 		phillyCars.animation.addByPrefix("car4", "car4", 0, false);
 		addToBackground(phillyCars);
 
-		mist4 = new FlxBackdrop(Paths.image('weekend1/phillyStreets/erect/mistBack'), ScriptingUtil.axisX);
+		mist4 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistBack"), ScriptingUtil.axisX);
 		mist4.setPosition(-650, -100);
 		mist4.scrollFactor.set(0.8, 0.8);
    		mist4.blend = BlendMode.ADD;
@@ -162,7 +162,7 @@ class PhillyStreetsErect extends BaseStage
 		grey2.alpha = 0.8;
 		addToBackground(grey2);
 
-		mist3 = new FlxBackdrop(Paths.image('weekend1/phillyStreets/erect/mistMid'), ScriptingUtil.axisX);
+		mist3 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistMid"), ScriptingUtil.axisX);
 		mist3.setPosition(-650, -100);
 		mist3.scrollFactor.set(0.95, 0.95);
    		mist3.blend = BlendMode.ADD;
@@ -393,10 +393,10 @@ class PhillyStreetsErect extends BaseStage
 		lightsStop = !lightsStop;
 
 		if(lightsStop){
-			phillyTraffic.animation.play('tored');
+			phillyTraffic.animation.play("tored");
 			changeInterval = 20;
 		} else {
-			phillyTraffic.animation.play('togreen');
+			phillyTraffic.animation.play("togreen");
 			changeInterval = 30;
 
 			if(carWaiting == true) finishCarLights(phillyCars);
@@ -465,7 +465,7 @@ class PhillyStreetsErect extends BaseStage
 		carInterruptable = false;
 		tween.cancelTweensOf(sprite);
 		var variant:Int = FlxG.random.int(1,4);
-		sprite.animation.play('car' + variant);
+		sprite.animation.play("car" + variant);
 		var extraOffset = [0, 0];
 		var duration:Float = 2;
 
@@ -516,7 +516,7 @@ class PhillyStreetsErect extends BaseStage
 		carInterruptable = false;
 		tween.cancelTweensOf(sprite);
 		var variant:Int = FlxG.random.int(1,4);
-		sprite.animation.play('car' + variant);
+		sprite.animation.play("car" + variant);
 		// setting an offset here because the current implementation of stage prop offsets was not working at all for me
 		// if possible id love to not have to do this but im keeping this for now
 		var extraOffset = [0, 0];
@@ -562,7 +562,7 @@ class PhillyStreetsErect extends BaseStage
 		car2Interruptable = false;
 		tween.cancelTweensOf(sprite);
 		var variant:Int = FlxG.random.int(1,4);
-		sprite.animation.play('car' + variant);
+		sprite.animation.play("car" + variant);
 		// setting an offset here because the current implementation of stage prop offsets was not working at all for me
 		// if possible id love to not have to do this but im keeping this for now
 		var extraOffset = [0, 0];

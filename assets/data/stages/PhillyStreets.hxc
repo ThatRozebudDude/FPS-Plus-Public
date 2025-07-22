@@ -298,10 +298,10 @@ class PhillyStreets extends BaseStage
 		lightsStop = !lightsStop;
 
 		if(lightsStop){
-			phillyTraffic.animation.play('tored');
+			phillyTraffic.animation.play("tored");
 			changeInterval = 20;
 		} else {
-			phillyTraffic.animation.play('togreen');
+			phillyTraffic.animation.play("togreen");
 			changeInterval = 30;
 
 			if(carWaiting == true) finishCarLights(phillyCars);
@@ -370,7 +370,7 @@ class PhillyStreets extends BaseStage
 		carInterruptable = false;
 		tween.cancelTweensOf(sprite);
 		var variant:Int = FlxG.random.int(1,4);
-		sprite.animation.play('car' + variant);
+		sprite.animation.play("car" + variant);
 		var extraOffset = [0, 0];
 		var duration:Float = 2;
 
@@ -421,7 +421,7 @@ class PhillyStreets extends BaseStage
 		carInterruptable = false;
 		tween.cancelTweensOf(sprite);
 		var variant:Int = FlxG.random.int(1,4);
-		sprite.animation.play('car' + variant);
+		sprite.animation.play("car" + variant);
 		// setting an offset here because the current implementation of stage prop offsets was not working at all for me
 		// if possible id love to not have to do this but im keeping this for now
 		var extraOffset = [0, 0];
@@ -467,7 +467,7 @@ class PhillyStreets extends BaseStage
 		car2Interruptable = false;
 		tween.cancelTweensOf(sprite);
 		var variant:Int = FlxG.random.int(1,4);
-		sprite.animation.play('car' + variant);
+		sprite.animation.play("car" + variant);
 		// setting an offset here because the current implementation of stage prop offsets was not working at all for me
 		// if possible id love to not have to do this but im keeping this for now
 		var extraOffset = [0, 0];

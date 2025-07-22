@@ -188,7 +188,7 @@ class TankErect extends BaseStage
 	override function gameOverLoop() {
 		if(PlayState.SONG.song.toLowerCase() == "ugh-pico" || PlayState.SONG.song.toLowerCase() == "guns-pico" || PlayState.SONG.song.toLowerCase() == "stress-pico"){
 			FlxG.sound.music.volume = 0.2;
-			FlxG.sound.play(Paths.sound('week7/jeffGameover-pico/jeffGameover-' + FlxG.random.int(1, 10)), 1, false, null, true, function(){
+			FlxG.sound.play(Paths.sound("week7/jeffGameover-pico/jeffGameover-" + FlxG.random.int(1, 10)), 1, false, null, true, function(){
 				if(FlxG.sound.music.playing){
 					FlxG.sound.music.fadeIn(2.5, 0.2, 1);
 				}
@@ -196,7 +196,7 @@ class TankErect extends BaseStage
 		}
 		else{
 			FlxG.sound.music.volume = 0.2;
-			FlxG.sound.play(Paths.sound('week7/jeffGameover/jeffGameover-' + FlxG.random.int(1, 25)), 1, false, null, true, function(){
+			FlxG.sound.play(Paths.sound("week7/jeffGameover/jeffGameover-" + FlxG.random.int(1, 25)), 1, false, null, true, function(){
 				if(FlxG.sound.music.playing){
 					FlxG.sound.music.fadeIn(2.5, 0.2, 1);
 				}

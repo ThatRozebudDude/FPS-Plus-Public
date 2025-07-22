@@ -161,7 +161,7 @@ class PhillyBlazin extends BaseStage
 		tween.tween(additionalLighten, {alpha: 0.0}, LIGHTNING_FADE_DURATION, {startDelay: LIGHTNING_HOLD_DURATION});
 
 		lightning.visible = true;
-		lightning.animation.play('strike');
+		lightning.animation.play("strike");
 
 		if(FlxG.random.bool(65)){
 			lightning.x = FlxG.random.int(-250, 280);
