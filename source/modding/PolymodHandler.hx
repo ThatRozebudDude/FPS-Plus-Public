@@ -276,9 +276,6 @@ class PolymodHandler
 		
 		Polymod.addDefaultImport(modding.ScriptingUtil);
 		Polymod.addDefaultImport(modding.ReflectUtil);
-		Polymod.addDefaultImport(modding.ScriptingUtil.BlendMode);
-		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTextBorderStyle);
-		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTweenType);
 		
 		Polymod.addDefaultImport(modding.ScriptingUtil.ScriptBinds, "Binds");
 		Polymod.addDefaultImport(modding.ScriptingUtil.ScriptConfig, "Config");
@@ -323,9 +320,6 @@ class PolymodHandler
 		Polymod.addImportAlias("lime.utils.Assets", Assets);
 		Polymod.addImportAlias("openfl.utils.Assets", Assets);
 		Polymod.addImportAlias("haxe.Json", modding.ScriptingUtil.NativeJson);
-
-		Polymod.addImportAlias("flash.display.BlendMode", modding.ScriptingUtil.BlendMode);
-		Polymod.addImportAlias("openfl.display.BlendMode", modding.ScriptingUtil.BlendMode);
 
 		Polymod.addImportAlias("flixel.math.FlxPoint", flixel.math.FlxPoint.FlxBasePoint);
 

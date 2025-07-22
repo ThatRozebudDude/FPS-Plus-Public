@@ -106,42 +106,6 @@ class ScriptingUtil
 	}
 }
 
-class BlendMode
-{
-	public static var ADD = BaseBlendMode.ADD;
-	public static var ALPHA = BaseBlendMode.ALPHA;
-	public static var DARKEN = BaseBlendMode.DARKEN;
-	public static var DIFFERENCE = BaseBlendMode.DIFFERENCE;
-	public static var ERASE = BaseBlendMode.ERASE;
-	public static var HARDLIGHT = BaseBlendMode.HARDLIGHT;
-	public static var INVERT = BaseBlendMode.INVERT;
-	public static var LAYER = BaseBlendMode.LAYER;
-	public static var LIGHTEN = BaseBlendMode.LIGHTEN;
-	public static var MULTIPLY = BaseBlendMode.MULTIPLY;
-	public static var NORMAL = BaseBlendMode.NORMAL;
-	public static var OVERLAY = BaseBlendMode.OVERLAY;
-	public static var SCREEN = BaseBlendMode.SCREEN;
-	public static var SHADER = BaseBlendMode.SHADER;
-	public static var SUBTRACT = BaseBlendMode.SUBTRACT;
-}
-
-class FlxTweenType
-{
-	public static var PERSIST = flixel.tweens.FlxTween.FlxTweenType.PERSIST;
-	public static var LOOPING = flixel.tweens.FlxTween.FlxTweenType.LOOPING;
-	public static var PINGPONG = flixel.tweens.FlxTween.FlxTweenType.PINGPONG;
-	public static var ONESHOT = flixel.tweens.FlxTween.FlxTweenType.ONESHOT;
-	public static var BACKWARD = flixel.tweens.FlxTween.FlxTweenType.BACKWARD;
-}
-
-class FlxTextBorderStyle
-{
-	public static var NONE = flixel.text.FlxText.FlxTextBorderStyle.NONE;
-	public static var SHADOW = flixel.text.FlxText.FlxTextBorderStyle.SHADOW;
-	public static var OUTLINE = flixel.text.FlxText.FlxTextBorderStyle.OUTLINE;
-	public static var OUTLINE_FAST = flixel.text.FlxText.FlxTextBorderStyle.OUTLINE_FAST;
-}
-
 class NativeJson
 {
 	public static inline function parse(text:String):Dynamic{
