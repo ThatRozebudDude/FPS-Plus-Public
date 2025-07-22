@@ -222,7 +222,7 @@ class ModManagerState extends FlxUIStateExt
 		configButton.animation.add("selected", [1], 0, false);
 		configButton.animation.add("deselected", [0], 0, false);
 		configButton.pressFunction = function(){
-			if(modList[curSelectedMod].config != null){
+			if(hasMods && modList[curSelectedMod].config != null){
 				FlxG.sound.play(Paths.sound("characterSelect/confirm"), 0.5);
 				switchToConfigEdit();
 			}
