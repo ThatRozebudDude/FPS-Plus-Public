@@ -4,6 +4,7 @@ import flixel.sound.FlxSound;
 import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 
 class StressIntro extends ScriptedCutscene
 {
@@ -28,7 +29,7 @@ class StressIntro extends ScriptedCutscene
 		tankman.addAnimationByLabel("stress1", "Stress 1", 24, false);
 		tankman.addAnimationByLabel("stress2", "Stress 2", 24, false);
 
-		picoSpeaker = new AtlasSprite(322, -3, Paths.getTextureAtlas("week7/cutscene/picoSpeakerCutscene"));
+		picoSpeaker = new AtlasSprite(322-10, 3, Paths.getTextureAtlas("week7/cutscene/picoSpeakerCutscene"));
 		picoSpeaker.antialiasing = true;
 		picoSpeaker.addAnimationByLabel("fall", "Pico Fall", 24, false);
 		picoSpeaker.addAnimationByLabel("idle", "Idle", 24, true);
@@ -40,17 +41,19 @@ class StressIntro extends ScriptedCutscene
 		picoSpeaker.visible = false;
 		//picoSpeaker.scrollFactor.set(0.95, 0.95);
 
-		gfSummon = new FlxSprite(-10, -380);
+		gfSummon = new FlxSprite(-10, -374);
 		gfSummon.frames = Paths.getSparrowAtlas("week7/cutscene/gfCutscene");
 		gfSummon.antialiasing = true;
 		gfSummon.animation.addByPrefix("summon", "", 24, false);
 		gfSummon.visible = false;
 		//gfSummon.scrollFactor.set(0.95, 0.95);
 
-		gfSpeaker = new Character(210, 74, "GfTankmen", false, true);
+		gfSpeaker = new Character(210, 80, "GfTankmen", false, true);
 		//gfSpeaker.scrollFactor.set(0.95, 0.95);
 
 		originalZoom = playstate.defaultCamZoom;
+
+		bgm = Utils.createPausedSound(Paths.sound("week7/stressCutscene"));
 
 		addEvent(0, stress1);
 		addEvent(15.1, stress2);
@@ -77,8 +80,7 @@ class StressIntro extends ScriptedCutscene
 		boyfriend.canAutoAnim = false;
 		boyfriend.playAnim("idleNoGf", true);
 
-		///FlxG.sound.play(Paths.sound("week7/stressCutscene"));
-		bgm = FlxG.sound.play(Paths.sound("week7/stressCutscene"));
+		bgm.play();
 
 		playstate.camFocusOpponent();
 		playstate.camChangeZoom(originalZoom * 1.15, 0);
@@ -141,10 +143,10 @@ class StressIntro extends ScriptedCutscene
 		removeFromGfLayer(picoSpeaker);
 		removeFromGfLayer(gfSummon);
 
-		tankman.destroy();
-		gfSpeaker.destroy();
-		picoSpeaker.destroy();
-		gfSummon.destroy();
+		//tankman.destroy();
+		//gfSpeaker.destroy();
+		//picoSpeaker.destroy();
+		//gfSummon.destroy();
 
 		gf.visible = true;
 		dad.visible = true;

@@ -1,5 +1,6 @@
 package;
 
+import flixel.sound.FlxSound;
 import caching.AudioCache;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -234,6 +235,12 @@ class Utils
 			return v;
 		}
 		return r;
+	}
+
+	public static function createPausedSound(EmbeddedSound:String, Looped:Bool = false, AutoDestroy:Bool = false, ?OnComplete:Null<() -> Void>):FlxSound{
+		var sound = new FlxSound().loadEmbedded(EmbeddedSound, Looped, AutoDestroy, OnComplete);
+		FlxG.sound.list.add(sound);
+		return sound;
 	}
 
 	public static inline function defaultSongMetadata(_name:String):Dynamic{

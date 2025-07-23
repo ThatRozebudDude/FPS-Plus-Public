@@ -159,7 +159,7 @@ class BaseStage
 	 * Called every frame in PlayState update.
 	 * Don't forget to call `super.update(elasped)` or the update group won't be updated.
 	 *
-	 * @param	elpased		The elapsed time between previous frames passed in by PlayState.
+	 * @param	elapsed		The elapsed time between previous frames passed in by PlayState.
 	 */
 	public function update(elapsed:Float){
 		for(obj in updateGroup){

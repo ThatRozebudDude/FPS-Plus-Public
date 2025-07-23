@@ -1,3 +1,5 @@
+import objects.DeltaTrail;
+
 class Spirit extends CharacterInfoBase
 {
 
@@ -20,6 +22,16 @@ class Spirit extends CharacterInfoBase
 
 		addExtraData("scale", 6);
 
+		info.functions.create = create;
 	}
+
+	function create(character:Character):Void{
+		trail = new DeltaTrail(character.getSprite(), null, 7, 3 / 60, 0.4);
+		trail.blend = BlendMode.ADD;
+		trail.color = 0xFF741722;
+		addToCharacter(trail);
+	}
+
+	
 
 }

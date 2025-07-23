@@ -44,8 +44,6 @@ class ScriptedCutscene extends FlxBasic
 	 * Starts the cutscene.
 	 */
 	public function start():Void{
-		__started = true;
-		
 		for(event in events){
 			if(event[0] > 0){ break; }
 			else{
@@ -55,6 +53,7 @@ class ScriptedCutscene extends FlxBasic
 				events.remove(event);
 			}
 		}
+		__started = true;
 	}
 
 	/**

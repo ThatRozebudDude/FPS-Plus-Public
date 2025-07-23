@@ -3,14 +3,11 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
+import flixel.addons.display.FlxBackdrop;
 import objects.TankmenBG;
 
 class Tank extends BaseStage
 {
-
-	//var gfCutsceneLayer:FlxGroup;
-	//var bfTankCutsceneLayer:FlxGroup;
-
 	var tankmanRun:FlxGroup;
 	var tankWatchtower:FlxSprite;
 	var tankRolling:FlxSprite;
@@ -29,18 +26,12 @@ class Tank extends BaseStage
 		name = "tank";
 		startingZoom = 0.9;
 
-		var bg:FlxSprite = new FlxSprite(-2000, -400).loadGraphic(Paths.image("week7/stage/tankSky"));
-		bg.antialiasing = true;
-		bg.scrollFactor.set(0, 0);
-		bg.scale.set(4, 1);
-		bg.updateHitbox();
-		addToBackground(bg);
-
-		var tankSky:FlxSprite = new FlxSprite(FlxG.random.int(-700, -100), FlxG.random.int(-20, 20)).loadGraphic(Paths.image("week7/stage/tankClouds"));
-		tankSky.antialiasing = true;
-		tankSky.velocity.x = FlxG.random.float(5, 15);
-		tankSky.scrollFactor.set(0.1, 0.1);
-		addToBackground(tankSky);
+		var sky:FlxSprite = new FlxSprite(-2000, -400).loadGraphic(Paths.image("week7/stage/tankSky"));
+		sky.antialiasing = true;
+		sky.scrollFactor.set(0, 0);
+		sky.scale.set(4, 1);
+		sky.updateHitbox();
+		addToBackground(sky);
 
 		var tankMountains:FlxSprite = new FlxSprite(-500, -35).loadGraphic(Paths.image("week7/stage/tankMountains"));
 		tankMountains.antialiasing = true;
@@ -48,6 +39,13 @@ class Tank extends BaseStage
 		tankMountains.scale.set(1.2, 1.2);
 		tankMountains.updateHitbox();
 		addToBackground(tankMountains);
+
+		var clouds = new FlxBackdrop(Paths.image("week7/stage/tankClouds"), ScriptingUtil.axisX);
+		clouds.setPosition(-1100, 20);
+		clouds.antialiasing = true;
+		clouds.scrollFactor.set(0.25, 0.25);
+		clouds.velocity.x = 8;
+		addToBackground(clouds);
 
 		var tankBuildings:FlxSprite = new FlxSprite(-260, -35).loadGraphic(Paths.image("week7/stage/tankBuildings"));
 		tankBuildings.antialiasing = true;
@@ -106,7 +104,7 @@ class Tank extends BaseStage
 		tankGround.updateHitbox();
 		addToBackground(tankGround);
 
-		var lovelyLittleBricks = new FlxSprite(438, 700).loadGraphic(Paths.image("week7/stage/bricksGround"));
+		var lovelyLittleBricks = new FlxSprite(438, 715).loadGraphic(Paths.image("week7/stage/bricksGround"));
 		lovelyLittleBricks.antialiasing = true;
 		lovelyLittleBricks.scale.set(1.15, 1.15);
 		lovelyLittleBricks.updateHitbox();
@@ -167,7 +165,7 @@ class Tank extends BaseStage
 
 		dadStart.set(196, 898);
 		bfStart.set(1015.5, 862);
-		gfStart.set(655.5, 713);
+		gfStart.set(655.5, 730);
 
 		if(gf.curCharacter == "pico-speaker" && PlayState.SONG.song.toLowerCase() == "stress"){
 			TankmenBG.loadMappedAnims("picospeaker", "stress");

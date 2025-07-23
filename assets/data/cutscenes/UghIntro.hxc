@@ -24,6 +24,9 @@ class UghIntro extends ScriptedCutscene
 
 		originalZoom = playstate.defaultCamZoom;
 
+		bgm = Utils.createPausedSound(Paths.music("week7/distorto"));
+		bgm.volume = 0;
+
 		addEvent(0, ugh1);
 		addEvent(3, ugh2);
 		addEvent(4.5, bfBeep);
@@ -37,7 +40,8 @@ class UghIntro extends ScriptedCutscene
 		tankman.playAnim("ugh1", true);
 		dad.visible = false;
 		FlxG.sound.play(Paths.sound("week7/wellWellWell"));
-		bgm = FlxG.sound.play(Paths.music("week7/distorto"), 0).fadeIn(5, 0, 0.2);
+		bgm.play();
+		bgm.fadeIn(5, 0, 0.2);
 		playstate.camFocusOpponent();
 		playstate.camChangeZoom(originalZoom * 1.2, 0);
 		playstate.camHUD.visible = false;
@@ -61,6 +65,7 @@ class UghIntro extends ScriptedCutscene
 	}
 
 	function ugh4() {
+		trace((Conductor.crochet / 1000) * 5);
 		bgm.fadeOut((Conductor.crochet / 1000) * 5, 0);
 		playstate.camChangeZoom(originalZoom, (Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
 		playstate.camHUD.visible = true;
@@ -72,7 +77,7 @@ class UghIntro extends ScriptedCutscene
 		dad.visible = true;
 		tankman.visible = false;
 		removeFromCharacterLayer(tankman);
-		tankman.destroy();
+		//tankman.destroy();
 	}
 
 }

@@ -24,6 +24,9 @@ class GunsIntro extends ScriptedCutscene
 
 		originalZoom = playstate.defaultCamZoom;
 
+		bgm = Utils.createPausedSound(Paths.music("week7/distorto"));
+		bgm.volume = 0;
+
 		addEvent(0, guns1);
 		addEvent(4.1, guns2);
 		addEvent(4.55, guns3);
@@ -35,7 +38,8 @@ class GunsIntro extends ScriptedCutscene
 		tankman.playAnim("guns", true);
 		dad.visible = false;
 		FlxG.sound.play(Paths.sound("week7/tankSong2"));
-		bgm = FlxG.sound.play(Paths.music("week7/distorto"), 0).fadeIn(5, 0, 0.2);
+		bgm.play();
+		bgm.fadeIn(5, 0, 0.2);
 		playstate.camFocusOpponent();
 		playstate.camChangeZoom(originalZoom * 1.3, 4, FlxEase.quadInOut);
 		playstate.camHUD.visible = false;
@@ -51,12 +55,13 @@ class GunsIntro extends ScriptedCutscene
 	}
 
 	function guns4() {
+		trace((Conductor.crochet / 1000) * 5);
 		bgm.fadeOut((Conductor.crochet / 1000) * 5, 0);
 		playstate.camChangeZoom(originalZoom, (Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
 		dad.visible = true;
 		tankman.visible = false;
 		removeFromCharacterLayer(tankman);
-		tankman.destroy();
+		//tankman.destroy();
 		playstate.camHUD.visible = true;
 		focusCameraBasedOnFirstSection((Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
 		next();

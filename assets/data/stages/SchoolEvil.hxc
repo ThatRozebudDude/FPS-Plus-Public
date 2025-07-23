@@ -1,31 +1,83 @@
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import objects.DeltaTrail;
+import shaders.WiggleEffect;
+import shaders.WiggleEffectType;
+import events.Events;
 
 class SchoolEvil extends BaseStage
 {
+
+	var farShader:WiggleEffect;
+	var schoolShader:WiggleEffect;
+	var closeShader:WiggleEffect;
+
+	var speedMult = { value: 1 }
+	var freqMult = { value: 1 }
+	var ampMult = { value: 1 }
+
+	final FAR_WAVE_SPEED:Float = 2 * 0.8;
+	final FAR_WAVE_FREQ:Float = 4 * 0.4;
+	final FAR_WAVE_AMP:Float = 0.011;
+
+	final SCHOOL_WAVE_SPEED:Float = 2;
+	final SCHOOL_WAVE_FREQ:Float = 4;
+	final SCHOOL_WAVE_AMP:Float = 0.017;
+
+	final CLOSE_WAVE_SPEED:Float = 2;
+	final CLOSE_WAVE_FREQ:Float = 4;
+	final CLOSE_WAVE_AMP:Float = 0.007;
 
 	public function new(){
 		super();
 		
 		name = "schoolEvil";
-		startingZoom = 1.05;
+		startingZoom = 1;
 		uiType = "Pixel";
 
-		var posX = 400;
-		var posY = 222;
+		farShader = new WiggleEffect();
+		farShader.effectType = WiggleEffectType.DREAMY;
+		farShader.waveSpeed = FAR_WAVE_SPEED;
+		farShader.waveFrequency = FAR_WAVE_FREQ;
+		farShader.waveAmplitude = FAR_WAVE_AMP;
 
-		var bg:FlxSprite = new FlxSprite(posX, posY);
-		bg.frames = Paths.getSparrowAtlas("week6/weeb/animatedEvilSchool");
-		bg.animation.addByPrefix('idle', 'background 2', 24);
-		bg.animation.play('idle');
-		bg.scrollFactor.set(1, 1);
-		bg.scale.set(6, 6);
-		addToBackground(bg);
+		schoolShader = new WiggleEffect();
+		schoolShader.effectType = WiggleEffectType.DREAMY;
+		schoolShader.waveSpeed = SCHOOL_WAVE_SPEED;
+		schoolShader.waveFrequency = SCHOOL_WAVE_FREQ;
+		schoolShader.waveAmplitude = SCHOOL_WAVE_AMP;
 
-		var evilTrail = new DeltaTrail(dad.getSprite(), null, 7, 3 / 60, 0.4);
-		addToMiddle(evilTrail);
+		closeShader = new WiggleEffect();
+		closeShader.effectType = WiggleEffectType.DREAMY;
+		closeShader.waveSpeed = CLOSE_WAVE_SPEED;
+		closeShader.waveFrequency = CLOSE_WAVE_FREQ;
+		closeShader.waveAmplitude = CLOSE_WAVE_AMP;
+
+		var backTrees:FlxSprite = new FlxSprite(-842, -80).loadGraphic(Paths.image("week6/weeb/evil/weebBackTrees"));
+		backTrees.scrollFactor.set(0.5, 0.5);
+		backTrees.scale.set(6, 6);
+		backTrees.updateHitbox();
+		backTrees.shader = farShader.shader;
+		addToBackground(backTrees);
+
+		var school:FlxSprite = new FlxSprite(-816, -38).loadGraphic(Paths.image("week6/weeb/evil/weebSchool"));
+		school.scrollFactor.set(0.75, 0.75);
+		school.scale.set(6, 6);
+		school.updateHitbox();
+		school.shader = schoolShader.shader;
+		addToBackground(school);
+
+		var ground:FlxSprite = new FlxSprite(-662, 6).loadGraphic(Paths.image("week6/weeb/evil/weebStreet"));
+		ground.scale.set(6, 6);
+		ground.updateHitbox();
+		ground.shader = closeShader.shader;
+		addToBackground(ground);
+
+		var trees:FlxSprite = new FlxSprite(-662, 6).loadGraphic(Paths.image("week6/weeb/evil/weebTrees"));
+		trees.scale.set(6, 6);
+		trees.updateHitbox();
+		trees.shader = closeShader.shader;
+		addToBackground(trees);
 
 		dadStart.set(300, 924);
 		bfStart.set(1039, 908);
@@ -33,5 +85,63 @@ class SchoolEvil extends BaseStage
 
 		bfCameraOffset.set(-48, 0);
 		gfCameraOffset.set(0, -16);
+
+		addEvent("schoolEvil-setWaveSpeed", setWaveSpeed);
+		addEvent("schoolEvil-setWaveFrequency", setWaveFrequency);
+		addEvent("schoolEvil-setWaveAmplitude", setWaveAmplitude);
+	}
+
+	function update(elapsed:Float){
+		farShader.waveSpeed = FAR_WAVE_SPEED * speedMult.value;
+		farShader.waveFrequency = FAR_WAVE_FREQ * freqMult.value;
+		farShader.waveAmplitude = FAR_WAVE_AMP * ampMult.value;
+
+		schoolShader.waveSpeed = SCHOOL_WAVE_SPEED * speedMult.value;
+		schoolShader.waveFrequency = SCHOOL_WAVE_FREQ * freqMult.value;
+		schoolShader.waveAmplitude = SCHOOL_WAVE_AMP * ampMult.value;
+
+		closeShader.waveSpeed = CLOSE_WAVE_SPEED * speedMult.value;
+		closeShader.waveFrequency = CLOSE_WAVE_FREQ * freqMult.value;
+		closeShader.waveAmplitude = CLOSE_WAVE_AMP * ampMult.value;
+		
+		farShader.update(elapsed);
+		schoolShader.update(elapsed);
+		closeShader.update(elapsed);
+	}
+
+	function setWaveSpeed(tag:String):Void{
+		tween.cancelTweensOf(speedMult);
+		var args = Events.getArgs(tag, ["1", "1b", "quadOut", "_same"]);
+		if(args[3] != "_same"){ speedMult.value = Std.parseFloat(args[3]); }
+		if(Events.eventConvertTime(args[1]) <= 0){
+			speedMult.value = Std.parseFloat(args[0]);
+		}
+		else{
+			tween.tween(speedMult, {value: Std.parseFloat(args[0])}, Events.eventConvertTime(args[1]), {ease: Events.easeNameToEase(args[2])});
+		}
+	}
+
+	function setWaveFrequency(tag:String):Void{
+		tween.cancelTweensOf(freqMult);
+		var args = Events.getArgs(tag, ["1", "1b", "quadOut", "_same"]);
+		if(args[3] != "_same"){ freqMult.value = Std.parseFloat(args[3]); }
+		if(Events.eventConvertTime(args[1]) <= 0){
+			freqMult.value = Std.parseFloat(args[0]);
+		}
+		else{
+			tween.tween(freqMult, {value: Std.parseFloat(args[0])}, Events.eventConvertTime(args[1]), {ease: Events.easeNameToEase(args[2])});
+		}
+	}
+
+	function setWaveAmplitude(tag:String):Void{
+		tween.cancelTweensOf(ampMult);
+		var args = Events.getArgs(tag, ["1", "1b", "quadOut", "_same"]);
+		if(args[3] != "_same"){ ampMult.value = Std.parseFloat(args[3]); }
+		if(Events.eventConvertTime(args[1]) <= 0){
+			ampMult.value = Std.parseFloat(args[0]);
+		}
+		else{
+			tween.tween(ampMult, {value: Std.parseFloat(args[0])}, Events.eventConvertTime(args[1]), {ease: Events.easeNameToEase(args[2])});
+		}
 	}
 }

@@ -1,102 +1,187 @@
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
+import shaders.WiggleEffect;
+import shaders.WiggleEffectType;
 import shaders.DropShadowShader;
+import shaders.AdjustColorShader;
 
-class SchoolErect extends BaseStage
+class SchoolEvilErect extends BaseStage
 {
 
+	var farShader:WiggleEffect;
+	var schoolShader:WiggleEffect;
+	var closeShader:WiggleEffect;
+	var spikeShader:WiggleEffect;
+
 	var bfShader:DropShadowShader;
-	var dadShader:DropShadowShader;
 	var gfShader:DropShadowShader;
+
+	var speedMult = { value: 1 }
+	var freqMult = { value: 1 }
+	var ampMult = { value: 1 }
+
+	final FAR_WAVE_SPEED:Float = 2 * 0.8;
+	final FAR_WAVE_FREQ:Float = 4 * 0.4;
+	final FAR_WAVE_AMP:Float = 0.011;
+
+	final SCHOOL_WAVE_SPEED:Float = 2;
+	final SCHOOL_WAVE_FREQ:Float = 4;
+	final SCHOOL_WAVE_AMP:Float = 0.017;
+
+	final CLOSE_WAVE_SPEED:Float = 2;
+	final CLOSE_WAVE_FREQ:Float = 4;
+	final CLOSE_WAVE_AMP:Float = 0.007;
+
+	final SPIKE_WAVE_SPEED:Float = 2;
+	final SPIKE_WAVE_FREQ:Float = 4;
+	final SPIKE_WAVE_AMP:Float = 0.01;
 
 	public function new(){
 		super();
-
-		name = "schoolErect";
+		
+		name = "schoolEvil";
 		startingZoom = 1;
 		uiType = "Pixel";
 
-		var sky = new FlxSprite(-164, -84).loadGraphic(Paths.image("week6/weeb/erect/sky"));
-		sky.scale.set(6, 6);
-		sky.updateHitbox();
-		sky.scrollFactor.set(0.2, 0.2);
-		addToBackground(sky);
+		farShader = new WiggleEffect();
+		farShader.effectType = WiggleEffectType.DREAMY;
+		farShader.waveSpeed = FAR_WAVE_SPEED;
+		farShader.waveFrequency = FAR_WAVE_FREQ;
+		farShader.waveAmplitude = FAR_WAVE_AMP;
 
-		var farBackTrees = new FlxSprite(-242, -86).loadGraphic(Paths.image("week6/weeb/erect/farBackTrees"));
-		farBackTrees.scale.set(6, 6);
-		farBackTrees.updateHitbox();
-		farBackTrees.scrollFactor.set(0.5, 0.5);
-		addToBackground(farBackTrees);
+		schoolShader = new WiggleEffect();
+		schoolShader.effectType = WiggleEffectType.DREAMY;
+		schoolShader.waveSpeed = SCHOOL_WAVE_SPEED;
+		schoolShader.waveFrequency = SCHOOL_WAVE_FREQ;
+		schoolShader.waveAmplitude = SCHOOL_WAVE_AMP;
 
-		var school = new FlxSprite(-200, -36).loadGraphic(Paths.image("week6/weeb/erect/school"));
+		closeShader = new WiggleEffect();
+		closeShader.effectType = WiggleEffectType.DREAMY;
+		closeShader.waveSpeed = CLOSE_WAVE_SPEED;
+		closeShader.waveFrequency = CLOSE_WAVE_FREQ;
+		closeShader.waveAmplitude = CLOSE_WAVE_AMP;
+
+		spikeShader = new WiggleEffect();
+		spikeShader.effectType = WiggleEffectType.DREAMY;
+		spikeShader.waveSpeed = SPIKE_WAVE_SPEED;
+		spikeShader.waveFrequency = SPIKE_WAVE_FREQ;
+		spikeShader.waveAmplitude = SPIKE_WAVE_AMP;
+
+		var backSpikes:FlxSprite = new FlxSprite(-842, -180).loadGraphic(Paths.image("week6/weeb/erect/evil/weebBackSpikes"));
+		backSpikes.scrollFactor.set(0.5, 0.5);
+		backSpikes.scale.set(6, 6);
+		backSpikes.updateHitbox();
+		backSpikes.shader = farShader.shader;
+		addToBackground(backSpikes);
+
+		var school:FlxSprite = new FlxSprite(-816, -38).loadGraphic(Paths.image("week6/weeb/erect/evil/weebSchool"));
+		school.scrollFactor.set(0.75, 0.75);
 		school.scale.set(6, 6);
 		school.updateHitbox();
-		school.scrollFactor.set(0.75, 0.75);
+		school.shader = schoolShader.shader;
 		addToBackground(school);
+		
+		var spike:FlxSprite = new FlxSprite(1416, 464).loadGraphic(Paths.image("week6/weeb/erect/evil/backSpike"));
+		spike.scrollFactor.set(0.85, 0.85);
+		spike.scale.set(6, 6);
+		spike.updateHitbox();
+		spike.shader = spikeShader.shader;
+		addToBackground(spike);
 
-		var ground = new FlxSprite(-200, 0).loadGraphic(Paths.image("week6/weeb/erect/ground"));
+		var ground:FlxSprite = new FlxSprite(-662, 6).loadGraphic(Paths.image("week6/weeb/erect/evil/weebStreet"));
 		ground.scale.set(6, 6);
 		ground.updateHitbox();
+		ground.shader = closeShader.shader;
 		addToBackground(ground);
 
-		var backTrees = new FlxSprite(-200, 0).loadGraphic(Paths.image("week6/weeb/erect/backTrees"));
-		backTrees.scale.set(6, 6);
-		backTrees.updateHitbox();
-		addToBackground(backTrees);
+		dadStart.set(400, 924);
+		bfStart.set(1139, 908);
+		gfStart.set(840, 766);
 
-		var fgTrees = new FlxSprite(-818, -1098);
-		fgTrees.frames = Paths.getPackerAtlas("week6/weeb/erect/weebTrees");
-		fgTrees.scale.set(6, 6);
-		fgTrees.updateHitbox();
-		fgTrees.animation.add('treeLoop', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], 12);
-		fgTrees.animation.play('treeLoop');
-		addToBackground(fgTrees);
-
-		var leaves = new FlxSprite(-200, 0);
-		leaves.frames = Paths.getSparrowAtlas("week6/weeb/erect/petals");
-		leaves.scale.set(6, 6);
-		leaves.updateHitbox();
-		leaves.scrollFactor.set(1, 1);
-		leaves.animation.addByPrefix('leaves', 'PETALS ALL', 24, true);
-		leaves.animation.play('leaves');
-		addToMiddle(leaves);
-
-		dadStart.set(306, 900);
-		bfStart.set(1168, 900);
-		gfStart.set(724, 763);
-
-		bfCameraOffset.set(-180, 0);
-		dadCameraOffset.set(12, 0);
+		bfCameraOffset.set(-96, 24);
 
 		bfShader = new DropShadowShader();
-		bfShader.setAdjustColor(-66, -10, 24, -23);
-    	bfShader.color = 0xFF52351D;
-		bfShader.angle = 90;
+		bfShader.setAdjustColor(-70, -25, -15, 0);
+    	bfShader.color = 0xFF771122;
+		bfShader.angle = 115;
 		bfShader.antialiasAmt = 0;
 		bfShader.usePixelPerfect = true;
-		bfShader.distance = 5;
+		bfShader.distance = 3;
 		bfShader.attachCharacter(boyfriend);
 		boyfriend.applyShader(bfShader);
-
-		dadShader = new DropShadowShader();
-		dadShader.setAdjustColor(-66, -10, 24, -23);
-    	dadShader.color = 0xFF52351D;
-		dadShader.angle = 90;
-		dadShader.antialiasAmt = 0;
-		dadShader.usePixelPerfect = true;
-		dadShader.distance = 5;
-		dadShader.attachCharacter(dad);
-		dad.applyShader(dadShader);
-
+		
 		gfShader = new DropShadowShader();
-		gfShader.setAdjustColor(-42, -10, 5, -25);
-    	gfShader.color = 0xFF52351D;
-		gfShader.angle = 90;
+		gfShader.setAdjustColor(-70, -25, -15, 0);
+    	gfShader.color = 0xFF771122;
+		gfShader.angle = 225;
 		gfShader.antialiasAmt = 0;
 		gfShader.usePixelPerfect = true;
 		gfShader.distance = 3;
 		gfShader.attachCharacter(gf);
 		gf.applyShader(gfShader);
+
+		addEvent("schoolEvil-setWaveSpeed", setWaveSpeed);
+		addEvent("schoolEvil-setWaveFrequency", setWaveFrequency);
+		addEvent("schoolEvil-setWaveAmplitude", setWaveAmplitude);
+	}
+
+	function update(elapsed:Float){
+		farShader.waveSpeed = FAR_WAVE_SPEED * speedMult.value;
+		farShader.waveFrequency = FAR_WAVE_FREQ * freqMult.value;
+		farShader.waveAmplitude = FAR_WAVE_AMP * ampMult.value;
+
+		schoolShader.waveSpeed = SCHOOL_WAVE_SPEED * speedMult.value;
+		schoolShader.waveFrequency = SCHOOL_WAVE_FREQ * freqMult.value;
+		schoolShader.waveAmplitude = SCHOOL_WAVE_AMP * ampMult.value;
+
+		closeShader.waveSpeed = CLOSE_WAVE_SPEED * speedMult.value;
+		closeShader.waveFrequency = CLOSE_WAVE_FREQ * freqMult.value;
+		closeShader.waveAmplitude = CLOSE_WAVE_AMP * ampMult.value;
+
+		spikeShader.waveSpeed = SPIKE_WAVE_SPEED * speedMult.value;
+		spikeShader.waveFrequency = SPIKE_WAVE_FREQ * freqMult.value;
+		spikeShader.waveAmplitude = SPIKE_WAVE_AMP * ampMult.value;
+		
+		farShader.update(elapsed);
+		schoolShader.update(elapsed);
+		closeShader.update(elapsed);
+		spikeShader.update(elapsed);
+	}
+
+	function setWaveSpeed(tag:String):Void{
+		tween.cancelTweensOf(speedMult);
+		var args = Events.getArgs(tag, ["1", "1b", "quadOut", "_same"]);
+		if(args[3] != "_same"){ speedMult.value = Std.parseFloat(args[3]); }
+		if(Events.eventConvertTime(args[1]) <= 0){
+			speedMult.value = Std.parseFloat(args[0]);
+		}
+		else{
+			tween.tween(speedMult, {value: Std.parseFloat(args[0])}, Events.eventConvertTime(args[1]), {ease: Events.easeNameToEase(args[2])});
+		}
+	}
+
+	function setWaveFrequency(tag:String):Void{
+		tween.cancelTweensOf(freqMult);
+		var args = Events.getArgs(tag, ["1", "1b", "quadOut", "_same"]);
+		if(args[3] != "_same"){ freqMult.value = Std.parseFloat(args[3]); }
+		if(Events.eventConvertTime(args[1]) <= 0){
+			freqMult.value = Std.parseFloat(args[0]);
+		}
+		else{
+			tween.tween(freqMult, {value: Std.parseFloat(args[0])}, Events.eventConvertTime(args[1]), {ease: Events.easeNameToEase(args[2])});
+		}
+	}
+
+	function setWaveAmplitude(tag:String):Void{
+		tween.cancelTweensOf(ampMult);
+		var args = Events.getArgs(tag, ["1", "1b", "quadOut", "_same"]);
+		if(args[3] != "_same"){ ampMult.value = Std.parseFloat(args[3]); }
+		if(Events.eventConvertTime(args[1]) <= 0){
+			ampMult.value = Std.parseFloat(args[0]);
+		}
+		else{
+			tween.tween(ampMult, {value: Std.parseFloat(args[0])}, Events.eventConvertTime(args[1]), {ease: Events.easeNameToEase(args[2])});
+		}
 	}
 }

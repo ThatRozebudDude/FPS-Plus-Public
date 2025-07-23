@@ -200,6 +200,8 @@ class StressPicoIntro extends ScriptedCutscene
 		playstate.customTransIn = new InstantTransition();
 		playstate.camOverlay.fade(0xFF000000, 0);
 
+		cutsceneAudio = Utils.createPausedSound(Paths.sound("week7/picoStressCutscene"));
+
 		addEvent(0, 					setup);
 		addEvent(startOffset, 			startCutscene);
 		addEvent(startOffset + 150/24, 	camera1);
@@ -258,7 +260,7 @@ class StressPicoIntro extends ScriptedCutscene
 		speakerFront.playAnim("anim");
 		speakerBack.playAnim("anim");
 
-		cutsceneAudio = playstate.playSound(Paths.sound("week7/picoStressCutscene"));
+		cutsceneAudio.play();
 
 		playstate.camChangeZoom(0.7, 150/24);
 		playstate.camOverlay.stopFX();
@@ -324,11 +326,11 @@ class StressPicoIntro extends ScriptedCutscene
 		removeGeneric(gunshot);
 		removeGeneric(lovelyLittleBricks);
 		
-		abot.destroy();
-		speakerCharacter.destroy();
-		pico.destroy();
-		gunshot.destroy();
-		lovelyLittleBricks.destroy();
+		//abot.destroy();
+		//speakerCharacter.destroy();
+		//pico.destroy();
+		//gunshot.destroy();
+		//lovelyLittleBricks.destroy();
 
 		speakerCamera.filters = [];
 		speakerCharacterCamera.filters = [];
@@ -349,7 +351,7 @@ class StressPicoIntro extends ScriptedCutscene
 	
 	function swapBackToGameplayTankman(){
 		removeGeneric(tankman);
-		tankman.destroy();
+		//tankman.destroy();
 		tankmanCamera.filters = [];
 		FlxG.cameras.remove(tankmanCamera, true);
 		dad.visible = true;

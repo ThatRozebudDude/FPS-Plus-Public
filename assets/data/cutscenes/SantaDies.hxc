@@ -7,6 +7,8 @@ class SantaDies extends ScriptedCutscene
 	var santa:AtlasSprite;
 	var parents:AtlasSprite;
 
+	var santaTalk:FlxSound;
+
 	public function new(args:Array<Dynamic>){
 		super(args);
 		
@@ -32,6 +34,8 @@ class SantaDies extends ScriptedCutscene
 		}
 		parents.shader = dad.getShader();
 
+		santaTalk = Utils.createPausedSound(Paths.sound("week5/santa_emotion"));
+
 		addEvent(0, setup);
 		addEvent(1/24, gfIdleLoop);
 	}
@@ -55,7 +59,7 @@ class SantaDies extends ScriptedCutscene
 		playstate.changeCamOffset(0, 0);
 		playstate.camHUD.visible = false;
 
-		FlxG.sound.play(Paths.sound("week5/santa_emotion"));
+		santaTalk.play();
 	}
 
 	function gfIdleLoop() {

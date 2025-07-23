@@ -15,7 +15,7 @@ class Script
 	/**
 	 * Called every frame in PlayState update.
 	 *
-	 * @param   elpased  The elapsed time between previous frames passed in by PlayState.
+	 * @param   elapsed  The elapsed time between previous frames passed in by PlayState.
 	 */
 	public function update(elapsed:Float){}
  
