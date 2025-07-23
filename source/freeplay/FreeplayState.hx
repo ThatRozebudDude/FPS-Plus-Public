@@ -60,6 +60,7 @@ class FreeplayState extends MusicBeatState
 	var arrowLeft:FlxSprite;
 	var arrowRight:FlxSprite;
 	var difficulty:FlxSprite;
+	var difficultyIndicator:DifficultyIndicator;
 	var categoryTitle:FlxBitmapText;
 	var miniArrowLeft:FlxSprite;
 	var miniArrowRight:FlxSprite;
@@ -467,6 +468,8 @@ class FreeplayState extends MusicBeatState
 		difficulty.offset.set(difficulty.width/2, difficulty.height/2);
 		difficulty.antialiasing = true;
 
+		difficultyIndicator = new DifficultyIndicator(168, 155);
+
 		categoryTitle = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
 		categoryTitle.text = categoryNames[curCategory];
 		categoryTitle.letterSpacing = -15;
@@ -560,6 +563,7 @@ class FreeplayState extends MusicBeatState
 		add(arrowLeft);
 		add(arrowRight);
 		add(difficulty);
+		add(difficultyIndicator);
 
 		add(miniArrowLeft);
 		add(miniArrowRight);
@@ -847,6 +851,8 @@ class FreeplayState extends MusicBeatState
 		}
 
 		difficulty.offset.set(difficulty.width/2, difficulty.height/2);
+
+		difficultyIndicator.setIndicator(diffNumberToDiffName(curDifficulty));
 	}
 
 
@@ -1005,15 +1011,19 @@ class FreeplayState extends MusicBeatState
 		if(filesInDir.contains(categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + ".json")){ allowedDifficulties.push(1); }
 		if(filesInDir.contains(categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase() + "-hard.json")){ allowedDifficulties.push(2); }
 
+		difficultyIndicator.setDifficulties(allowedDifficulties);
+		difficultyIndicator.x = 198 - (10*difficultyIndicator.count);
+
 		if(!allowedDifficulties.contains(curDifficulty)){
 			curDifficulty = 0;
 			changeDifficulty(allowedDifficulties[0], false);
 		}
 
 		updateDifficultyGraphic();
+		difficultyIndicator.setIndicator(diffNumberToDiffName(curDifficulty), false);
 	}
 
-	function diffNumberToDiffName(diff:Int):String{
+	public static function diffNumberToDiffName(diff:Int):String{
 		switch(diff){
 			case 0:
 				return "easy";
@@ -1129,6 +1139,7 @@ class FreeplayState extends MusicBeatState
 		arrowLeft.y -= 720;
 		arrowRight.y -= 720;
 		difficulty.y -= 720;
+		difficultyIndicator.y -= 720;
 		categoryTitle.y -= 720;
 		miniArrowRight.y -= 720;
 		miniArrowLeft.y -= 720;
@@ -1152,6 +1163,7 @@ class FreeplayState extends MusicBeatState
 		FlxTween.tween(arrowLeft, {y: arrowLeft.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
 		FlxTween.tween(arrowRight, {y: arrowRight.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
 		FlxTween.tween(difficulty, {y: difficulty.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
+		FlxTween.tween(difficultyIndicator, {y: difficultyIndicator.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
 		FlxTween.tween(categoryTitle, {y: categoryTitle.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime*2});
 		FlxTween.tween(miniArrowLeft, {y: miniArrowLeft.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
 		FlxTween.tween(miniArrowRight, {y: miniArrowRight.y+720}, transitionTime + FlxG.random.float(-randomVariation, randomVariation), {ease: transitionEase, startDelay: staggerTime});
@@ -1180,6 +1192,7 @@ class FreeplayState extends MusicBeatState
 		FlxTween.tween(arrowLeft, {y: arrowLeft.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
 		FlxTween.tween(arrowRight, {y: arrowRight.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
 		FlxTween.tween(difficulty, {y: difficulty.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*2});
+		FlxTween.tween(difficultyIndicator, {y: difficultyIndicator.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*2});
 		FlxTween.tween(categoryTitle, {y: categoryTitle.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*2});
 		FlxTween.tween(miniArrowLeft, {y: miniArrowLeft.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
 		FlxTween.tween(miniArrowRight, {y: miniArrowRight.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
@@ -1204,6 +1217,7 @@ class FreeplayState extends MusicBeatState
 		//FlxTween.tween(dj.backingCard, {y: dj.backingCard.y-100}, dropTime, {ease: dropEase, startDelay: 0.1});
 		//FlxTween.tween(cover, {y: cover.y-100}, dropTime, {ease: dropEase, startDelay: 0.1});
 		FlxTween.tween(difficulty, {y: difficulty.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(difficultyIndicator, {y: difficultyIndicator.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
 		FlxTween.tween(arrowLeft, {y: arrowLeft.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
 		FlxTween.tween(arrowRight, {y: arrowRight.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
 		FlxTween.tween(topBar, {y: topBar.y-300}, dropTime, {ease: dropEase, startDelay: 0.1});
@@ -1234,6 +1248,7 @@ class FreeplayState extends MusicBeatState
 		//dj.backingCard.y -= 100;
 		//cover.y -= 100;
 		difficulty.y -= 270;
+		difficultyIndicator.y -= 270;
 		arrowLeft.y -= 270;
 		arrowRight.y -= 270;
 		topBar.y -= 300;
@@ -1256,6 +1271,7 @@ class FreeplayState extends MusicBeatState
 		//FlxTween.tween(dj.backingCard, {y: dj.backingCard.y+100}, riseTime, {ease: riseEase, startDelay: 0.1});
 		//FlxTween.tween(cover, {y: cover.y+100}, riseTime, {ease: riseEase, startDelay: 0.1});
 		FlxTween.tween(difficulty, {y: difficulty.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(difficultyIndicator, {y: difficultyIndicator.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
 		FlxTween.tween(arrowLeft, {y: arrowLeft.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
 		FlxTween.tween(arrowRight, {y: arrowRight.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
 		FlxTween.tween(topBar, {y: topBar.y+300}, riseTime, {ease: riseEase, startDelay: 0.1});

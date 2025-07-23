@@ -1,6 +1,5 @@
 # Port 0.7.X Features
 
-- Freeplay difficulty indicators. (Maybe) (Also thank u fabs)
 - Replace offset calibration song with new official one. (Maybe, mine is kinda old, might do a custom mix or something.)
 - If I missed anything add it here I guess.
 
