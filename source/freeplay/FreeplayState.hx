@@ -719,6 +719,7 @@ class FreeplayState extends MusicBeatState
 			if(jsonMeta.artist != null)				{ meta.artist = jsonMeta.artist; }
 			if(jsonMeta.album != null)				{ meta.album = jsonMeta.album; }
 			if(jsonMeta.difficulties != null)		{ meta.difficulties = jsonMeta.difficulties; }
+			if(jsonMeta.difficultySet != null)		{ meta.difficultySet = jsonMeta.difficultySet; }
 			if(jsonMeta.dadBeats != null)			{ meta.dadBeats = jsonMeta.dadBeats; }
 			if(jsonMeta.bfBeats != null)			{ meta.bfBeats = jsonMeta.bfBeats; }
 			if(jsonMeta.compatableInsts != null)	{ meta.compatableInsts = jsonMeta.compatableInsts; }
@@ -726,7 +727,7 @@ class FreeplayState extends MusicBeatState
 		}
 
 		if(categories == null){ categories = ["All"]; }
-		var capsule:Capsule = new Capsule(_song, meta.name, _icon, meta.album, meta.difficulties, meta.compatableInsts, [dj.freeplaySkin, dj.capsuleSelectColor, dj.capsuleDeselectColor, dj.capsuleSelectOutlineColor, dj.capsuleDeselectOutlineColor]);
+		var capsule:Capsule = new Capsule(_song, meta.name, _icon, meta.album, meta.difficulties, meta.difficultySet, meta.compatableInsts, [dj.freeplaySkin, dj.capsuleSelectColor, dj.capsuleDeselectColor, dj.capsuleSelectOutlineColor, dj.capsuleDeselectOutlineColor]);
 		for(cat in categories){
 			createCategory(cat);
 			categoryMap[cat].push(capsule);
@@ -830,22 +831,19 @@ class FreeplayState extends MusicBeatState
 	}
 
 	function updateDifficultyGraphic():Void{
-		var prefix = "";
-		if(categoryMap[categoryNames[curCategory]][curSelected].song.endsWith("-Erect")){
-			prefix = "erect/";
+		var prefix = categoryMap[categoryNames[curCategory]][curSelected].difficultySet;
+
+		if(!Utils.exists(Paths.image("menu/freeplay/diff/" + prefix + "/" + diffNumberToDiffName(curDifficulty), true))){
+			prefix = "standard";
 		}
 
-		if(!Utils.exists(Paths.image("menu/freeplay/diff/" + prefix + diffNumberToDiffName(curDifficulty), true))){
-			prefix = "";
-		}
-
-		if(Utils.exists(Paths.xml("menu/freeplay/diff/" + prefix + diffNumberToDiffName(curDifficulty)))){
-			difficulty.frames = Paths.getSparrowAtlas("menu/freeplay/diff/" + prefix + diffNumberToDiffName(curDifficulty));
+		if(Utils.exists(Paths.xml("menu/freeplay/diff/" + prefix + "/" + diffNumberToDiffName(curDifficulty)))){
+			difficulty.frames = Paths.getSparrowAtlas("menu/freeplay/diff/" + prefix + "/" + diffNumberToDiffName(curDifficulty));
 			difficulty.animation.addByPrefix("idle", "", 24, true);
 			difficulty.animation.play("idle");
 		}
 		else{
-			difficulty.loadGraphic(Paths.image("menu/freeplay/diff/" + prefix + diffNumberToDiffName(curDifficulty)));
+			difficulty.loadGraphic(Paths.image("menu/freeplay/diff/" + prefix + "/" + diffNumberToDiffName(curDifficulty)));
 		}
 
 		difficulty.offset.set(difficulty.width/2, difficulty.height/2);

@@ -3,6 +3,7 @@
   "artist": "Saruky",
   "album": "ext1",
   "difficulties": [0, 6, 7],
+  "difficultySet": "erect",
   "compatableInsts": [],
   "mixName": "Original",
   "pauseMusic": "pause/918379_Love-Emoji_Loop"

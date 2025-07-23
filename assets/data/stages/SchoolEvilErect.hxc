@@ -40,7 +40,7 @@ class SchoolEvilErect extends BaseStage
 	public function new(){
 		super();
 		
-		name = "schoolEvil";
+		name = "schoolEvilErect";
 		startingZoom = 1;
 		uiType = "Pixel";
 
@@ -121,9 +121,9 @@ class SchoolEvilErect extends BaseStage
 		gfShader.attachCharacter(gf);
 		gf.applyShader(gfShader);
 
-		addEvent("shoolEvil-setWaveSpeed", setWaveSpeed);
-		addEvent("shoolEvil-setWaveFrequency", setWaveFrequency);
-		addEvent("shoolEvil-setWaveAmplitude", setWaveAmplitude);
+		addEvent("schoolEvil-setWaveSpeed", setWaveSpeed);
+		addEvent("schoolEvil-setWaveFrequency", setWaveFrequency);
+		addEvent("schoolEvil-setWaveAmplitude", setWaveAmplitude);
 	}
 
 	function update(elapsed:Float){
@@ -150,29 +150,38 @@ class SchoolEvilErect extends BaseStage
 	}
 
 	function setWaveSpeed(tag:String):Void{
-		var args = Events.getArgs(tag, ["1", "1b", "quadOut", "_same"]);
-		var startingValue = speedMult.value;
-		if(args[3] != "_same"){startingSpeed = Std.parseFloat(args[3])}
 		tween.cancelTweensOf(speedMult);
-		speedMult.value = startingValue;
-		tween.tween(speedMult, {value: Std.parseFloat(args[0])}, Events.eventConvertTime(args[1]), {ease: Events.easeNameToEase(args[2])});
+		var args = Events.getArgs(tag, ["1", "1b", "quadOut", "_same"]);
+		if(args[3] != "_same"){ speedMult.value = Std.parseFloat(args[3]); }
+		if(Events.eventConvertTime(args[1]) <= 0){
+			speedMult.value = Std.parseFloat(args[0]);
+		}
+		else{
+			tween.tween(speedMult, {value: Std.parseFloat(args[0])}, Events.eventConvertTime(args[1]), {ease: Events.easeNameToEase(args[2])});
+		}
 	}
 
 	function setWaveFrequency(tag:String):Void{
-		var args = Events.getArgs(tag, ["1", "1b", "quadOut", "_same"]);
-		var startingValue = freqMult.value;
-		if(args[3] != "_same"){startingSpeed = Std.parseFloat(args[3])}
 		tween.cancelTweensOf(freqMult);
-		freqMult.value = startingValue;
-		tween.tween(freqMult, {value: Std.parseFloat(args[0])}, Events.eventConvertTime(args[1]), {ease: Events.easeNameToEase(args[2])});
+		var args = Events.getArgs(tag, ["1", "1b", "quadOut", "_same"]);
+		if(args[3] != "_same"){ freqMult.value = Std.parseFloat(args[3]); }
+		if(Events.eventConvertTime(args[1]) <= 0){
+			freqMult.value = Std.parseFloat(args[0]);
+		}
+		else{
+			tween.tween(freqMult, {value: Std.parseFloat(args[0])}, Events.eventConvertTime(args[1]), {ease: Events.easeNameToEase(args[2])});
+		}
 	}
 
 	function setWaveAmplitude(tag:String):Void{
-		var args = Events.getArgs(tag, ["1", "1b", "quadOut", "_same"]);
-		var startingValue = ampMult.value;
-		if(args[3] != "_same"){startingSpeed = Std.parseFloat(args[3])}
 		tween.cancelTweensOf(ampMult);
-		ampMult.value = startingValue;
-		tween.tween(ampMult, {value: Std.parseFloat(args[0])}, Events.eventConvertTime(args[1]), {ease: Events.easeNameToEase(args[2])});
+		var args = Events.getArgs(tag, ["1", "1b", "quadOut", "_same"]);
+		if(args[3] != "_same"){ ampMult.value = Std.parseFloat(args[3]); }
+		if(Events.eventConvertTime(args[1]) <= 0){
+			ampMult.value = Std.parseFloat(args[0]);
+		}
+		else{
+			tween.tween(ampMult, {value: Std.parseFloat(args[0])}, Events.eventConvertTime(args[1]), {ease: Events.easeNameToEase(args[2])});
+		}
 	}
 }

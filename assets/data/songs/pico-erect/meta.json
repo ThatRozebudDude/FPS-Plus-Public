@@ -3,6 +3,7 @@
   "artist": "Kawai Sprite (ft. Saruky)",
   "album": "vol3",
   "difficulties": [0, 8, 9],
+  "difficultySet": "erect",
   "compatableInsts": [],
   "mixName": "Original",
   "pauseMusic": "pause/947670_hacker.07_Loop"

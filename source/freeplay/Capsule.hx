@@ -40,6 +40,7 @@ class Capsule extends FlxSpriteGroup
 	public var album:String;
 	public var highscoreData:Array<SongStats> = [];
 	public var difficulties:Array<Int> = [];
+	public var difficultySet:String;
 	public var skin:String;
 	public var variations:Array<String> = [];
 
@@ -52,12 +53,13 @@ class Capsule extends FlxSpriteGroup
 	var scrollOffset:Float = 0;
 	var scrollTween:FlxTween;
 
-	public function new(_song:String, _displayName:String, _icon:String, _album:String = "vol1", _difficulties:Array<Int>, _variations:Array<String>, _skinInfo:Array<Dynamic>) {
+	public function new(_song:String, _displayName:String, _icon:String, _album:String = "vol1", _difficulties:Array<Int>, _difficultySet:String, _variations:Array<String>, _skinInfo:Array<Dynamic>) {
 		super();
 
 		song = _song;
 		album = _album;
 		difficulties = _difficulties;
+		difficultySet = _difficultySet;
 		
 		variations.push(song);
 		if(_variations != null){

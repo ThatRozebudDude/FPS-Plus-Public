@@ -368,6 +368,7 @@ class PlayState extends MusicBeatState
 			if(jsonMeta.artist != null)				{ metadata.artist = jsonMeta.artist; }
 			if(jsonMeta.album != null)				{ metadata.album = jsonMeta.album; }
 			if(jsonMeta.difficulties != null)		{ metadata.difficulties = jsonMeta.difficulties; }
+			if(jsonMeta.difficultySet != null)		{ metadata.difficultySet = jsonMeta.difficultySet; }
 			if(jsonMeta.dadBeats != null)			{ metadata.dadBeats = jsonMeta.dadBeats; }
 			if(jsonMeta.bfBeats != null)			{ metadata.bfBeats = jsonMeta.bfBeats; }
 			if(jsonMeta.compatableInsts != null)	{ metadata.compatableInsts = jsonMeta.compatableInsts; }

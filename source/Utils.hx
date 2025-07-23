@@ -249,6 +249,7 @@ class Utils
 			artist: "",
 			album: "none",
 			difficulties: [0, 0, 0],
+			difficultySet: "standard",
 			dadBeats: [0, 2],
 			bfBeats: [1, 3],
 			compatableInsts: [],
