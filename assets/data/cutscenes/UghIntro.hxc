@@ -65,7 +65,6 @@ class UghIntro extends ScriptedCutscene
 	}
 
 	function ugh4() {
-		trace((Conductor.crochet / 1000) * 5);
 		bgm.fadeOut((Conductor.crochet / 1000) * 5, 0);
 		playstate.camChangeZoom(originalZoom, (Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
 		playstate.camHUD.visible = true;
