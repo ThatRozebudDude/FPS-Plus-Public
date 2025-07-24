@@ -52,12 +52,6 @@ class AutoOffsetState extends MusicBeatState
 		useDefaultTransIn = false;
 		customTransOut = new WeirdBounceOut(0.6);
 
-		//Cache the 3 2 1 go
-		FlxG.sound.cache(Paths.sound('intro3' + (easterEgg?"-pixel":"")));
-		FlxG.sound.cache(Paths.sound('intro2' + (easterEgg?"-pixel":"")));
-		FlxG.sound.cache(Paths.sound('intro1' + (easterEgg?"-pixel":"")));
-		FlxG.sound.cache(Paths.sound('introGo' + (easterEgg?"-pixel":"")));
-
 		//Easter egg check
 		switch(forceEasterEgg){
 			case 1:
@@ -67,18 +61,23 @@ class AutoOffsetState extends MusicBeatState
 		}
 
 		if(!easterEgg){
+			FlxG.sound.cache(Paths.sound("intro3"));
+			FlxG.sound.cache(Paths.sound("intro2"));
+			FlxG.sound.cache(Paths.sound("intro1"));
+			FlxG.sound.cache(Paths.sound("introGo"));
+
 			//Init BG
-			bg = new FlxSprite(0, 0).loadGraphic(Paths.image('fpsPlus/config/offset/offsetBG'));
+			bg = new FlxSprite(0, 0).loadGraphic(Paths.image("fpsPlus/config/offset/offsetBG"));
 			bg.antialiasing = true;
 			bg.active = true;
 			bg.screenCenter();
 			add(bg);
 
 			//Init Speakers
-			speakers.frames = Paths.getSparrowAtlas('fpsPlus/config/offset/speaker');
+			speakers.frames = Paths.getSparrowAtlas("fpsPlus/config/offset/speaker");
 			speakers.antialiasing = true;
-			speakers.animation.addByPrefix('idle', 'IDLE', 24, false);
-			speakers.animation.addByPrefix('bump', 'BUMP', 24, false);
+			speakers.animation.addByPrefix("idle", "IDLE", 24, false);
+			speakers.animation.addByPrefix("bump", "BUMP", 24, false);
 			speakers.animation.play("idle");
 			speakers.screenCenter();
 			//speakers.x -= speakers.width / 2;
@@ -89,8 +88,13 @@ class AutoOffsetState extends MusicBeatState
 		else{
 			Config.ee1 = true;
 
+			FlxG.sound.cache(Paths.sound("week6/intro3-pixel"));
+			FlxG.sound.cache(Paths.sound("week6/intro2-pixel"));
+			FlxG.sound.cache(Paths.sound("week6/intro1-pixel"));
+			FlxG.sound.cache(Paths.sound("week6/introGo-pixel"));
+
 			//Init BG
-			bg = new FlxSprite(0, 0).loadGraphic(Paths.image('fpsPlus/config/offset/offsetBG-pixel'));
+			bg = new FlxSprite(0, 0).loadGraphic(Paths.image("fpsPlus/config/offset/offsetBG-pixel"));
 			bg.antialiasing = false;
 			bg.active = true;
 			bg.setGraphicSize(Std.int(bg.width * 6));
@@ -99,10 +103,10 @@ class AutoOffsetState extends MusicBeatState
 			add(bg);
 
 			//Init Speakers
-			speakers = new FlxSprite(0, 0).loadGraphic(Paths.image('fpsPlus/config/offset/speaker-pixel'), true, 102, 52);
+			speakers = new FlxSprite(0, 0).loadGraphic(Paths.image("fpsPlus/config/offset/speaker-pixel"), true, 102, 52);
 			speakers.antialiasing = false;
-			speakers.animation.add('idle',  [0], 0, false);
-			speakers.animation.add('bump', [2, 2, 1, 0], 24, false);
+			speakers.animation.add("idle",  [0], 0, false);
+			speakers.animation.add("bump", [2, 2, 1, 0], 24, false);
 			speakers.animation.play("idle");
 			speakers.setGraphicSize(Std.int(speakers.width * 7));
 			speakers.updateHitbox();
@@ -210,24 +214,41 @@ class AutoOffsetState extends MusicBeatState
 	//Cues the 3, 2, 1, GO! sound effects
 	function countdown(){
 
-		FlxG.sound.play(Paths.sound('intro3' + (easterEgg?"-pixel":"")), 0.6);
+		if(easterEgg){
+			FlxG.sound.play(Paths.sound("week6/intro3-pixel"), 0.6);
+		}
+		else{
+			FlxG.sound.play(Paths.sound("intro3"), 0.6);
+		}
 		speakers.animation.play("bump", true);
 
-		new FlxTimer().start(0.6, function(tmr:FlxTimer)
-		{
-			FlxG.sound.play(Paths.sound('intro2' + (easterEgg?"-pixel":"")), 0.6);
+		new FlxTimer().start(0.6, function(tmr:FlxTimer){
+			if(easterEgg){
+				FlxG.sound.play(Paths.sound("week6/intro2-pixel"), 0.6);
+			}
+			else{
+				FlxG.sound.play(Paths.sound("intro2"), 0.6);
+			}
 			speakers.animation.play("bump", true);
 		});
 
-		new FlxTimer().start(1.2, function(tmr:FlxTimer)
-		{
-			FlxG.sound.play(Paths.sound('intro1' + (easterEgg?"-pixel":"")), 0.6);
+		new FlxTimer().start(1.2, function(tmr:FlxTimer){
+			if(easterEgg){
+				FlxG.sound.play(Paths.sound("week6/intro1-pixel"), 0.6);
+			}
+			else{
+				FlxG.sound.play(Paths.sound("intro1"), 0.6);
+			}
 			speakers.animation.play("bump", true);
 		});
 
-		new FlxTimer().start(1.8, function(tmr:FlxTimer)
-		{
-			FlxG.sound.play(Paths.sound('introGo' + (easterEgg?"-pixel":"")), 0.6);
+		new FlxTimer().start(1.8, function(tmr:FlxTimer){
+			if(easterEgg){
+				FlxG.sound.play(Paths.sound("week6/introGo-pixel"), 0.6);
+			}
+			else{
+				FlxG.sound.play(Paths.sound("introGo"), 0.6);
+			}
 			speakers.animation.play("bump", true);
 		});
 

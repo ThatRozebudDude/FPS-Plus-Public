@@ -895,7 +895,7 @@ class ConfigMenu extends FlxUIStateExt
 
 
 
-		var noteOffset = new ConfigOption("NOTE OFFSET", ""+offsetValue, "Adjust note timings.\nPress \"ENTER\" to start the offset calibration." + (Config.ee1?"\nHold \"SHIFT\" to force the pixel calibration.\nHold \"CTRL\" to force the normal calibration.":""));
+		var noteOffset = new ConfigOption("NOTE OFFSET", ""+offsetValue, "Adjust note timings.\nPress \"ENTER\" to start the offset calibration.");
 		noteOffset.extraData[0] = 0;
 		noteOffset.optionUpdate = function(){
 			if(pressRight && offsetValue < 500){
