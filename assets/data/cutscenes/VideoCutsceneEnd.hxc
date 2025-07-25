@@ -64,7 +64,6 @@ class VideoCutsceneEnd extends ScriptedCutscene
 
 	function videoStarted() {
 		black.visible = true;
-		playstate.camGame.filters = [];
 		playstate.camHUD.visible = false;
 	}
 

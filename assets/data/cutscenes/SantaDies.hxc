@@ -57,7 +57,7 @@ class SantaDies extends ScriptedCutscene
 		playstate.camFocusOpponent(-300, 40, 2.5, FlxEase.cubeInOut);
 		playstate.camChangeZoom(1, 2.5, FlxEase.cubeInOut);
 		playstate.changeCamOffset(0, 0);
-		playstate.camHUD.visible = false;
+		fadeOutHud();
 
 		santaTalk.play();
 	}

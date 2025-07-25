@@ -84,7 +84,7 @@ class StressIntro extends ScriptedCutscene
 
 		playstate.camFocusOpponent();
 		playstate.camChangeZoom(originalZoom * 1.15, 0);
-		playstate.camHUD.visible = false;
+		playstate.hudShader.alpha = 0;
 	}
 
 	function stress2() {
@@ -153,7 +153,6 @@ class StressIntro extends ScriptedCutscene
 		boyfriend.canAutoAnim = true;
 		gf.playAnim("idle", true);
 
-		playstate.camHUD.visible = true;
 		focusCameraBasedOnFirstSection();
 		next();
 	}

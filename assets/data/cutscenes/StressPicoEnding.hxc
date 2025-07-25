@@ -62,7 +62,7 @@ class StressPicoEnding extends ScriptedCutscene
 
 		FlxG.sound.play(Paths.sound("week7/picoEndCutscene"));
 
-		tween.tween(playstate.hudShader, {alpha: 0}, 0.3);
+		fadeOutHud();
 
 		playstate.camMove(FlxMath.lerp(playstate.getOpponentFocusPosition().x, playstate.getBfFocusPostion().x, 0.5), FlxMath.lerp(playstate.getOpponentFocusPosition().y, playstate.getBfFocusPostion().y, 0.5), 1.5, FlxEase.quadInOut);
 		playstate.camChangeZoom(playstate.stage.startingZoom, 1.5, FlxEase.quadInOut);

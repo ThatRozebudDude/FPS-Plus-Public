@@ -71,7 +71,7 @@ class TwoHotEnding extends ScriptedCutscene
 		dad.canAutoAnim = false;
 		playstate.camMove(centerPos.x, centerPos.y, 2, FlxEase.quadInOut);
 		playstate.camChangeZoom(0.7, 2, FlxEase.quadInOut);
-		playstate.camHUD.visible = false;
+		fadeOutHud();
 	}
 
 	function neneIdleLoop() {

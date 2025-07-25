@@ -203,8 +203,7 @@ class ScriptedCutscene extends FlxBasic
 				PlayState.instance.instantStart();
 			}
 			if(doCamFadeIn){
-				playstate.hudShader.alpha = 0;
-				tween.tween(playstate.hudShader, {alpha: 1}, 0.3);
+				fadeInHud();
 			}
 		}  
 	}
@@ -213,6 +212,18 @@ class ScriptedCutscene extends FlxBasic
 		if(_ease == null){_ease = FlxEase.expoOut;}
 		if(PlayState.SONG.notes[0].mustHitSection){ PlayState.instance.camFocusBF(0, 0, _time, _ease); }
 		else{ PlayState.instance.camFocusOpponent(0, 0, _time, _ease); }
+	}
+
+	public function fadeInHud():Void{
+		tween.cancelTweensOf(playstate.hudShader);
+		playstate.hudShader.alpha = 0;
+		tween.tween(playstate.hudShader, {alpha: 1}, 0.3);
+	}
+
+	public function fadeOutHud():Void{
+		tween.cancelTweensOf(playstate.hudShader);
+		playstate.hudShader.alpha = 1;
+		tween.tween(playstate.hudShader, {alpha: 0}, 0.3);
 	}
 
 	function get_started():Bool{ return __started; }

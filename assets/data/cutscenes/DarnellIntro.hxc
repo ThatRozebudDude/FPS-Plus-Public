@@ -56,7 +56,7 @@ class DarnellIntro extends ScriptedCutscene
 	function first() {
 		cutsceneAudio.play();
 
-		playstate.camHUD.visible = false;
+		playstate.hudShader.alpha = 0;
 		playstate.camGame.fade(0xFF000000, 2, true);
 
 		addToCharacterLayer(picoIntro);
@@ -73,8 +73,7 @@ class DarnellIntro extends ScriptedCutscene
 	}
 
 	function startSong() {
-		playstate.startCountdown();
-		playstate.camHUD.visible = true;
+		next();
 		playstate.camChangeZoom(originalZoom, 2, FlxEase.sineInOut);
 		playstate.camMove(darnellPos.x, darnellPos.y, 2, FlxEase.sineInOut, "dad");
 	}

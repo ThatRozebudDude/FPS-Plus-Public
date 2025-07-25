@@ -14,8 +14,6 @@ class VideoCutscene extends ScriptedCutscene
 	var doZoomOut:Bool;
 	var instantlyMoveCamera:Bool;
 
-	var prevCamFilters:Array<Null<openfl.filters.BitmapFilter>>;
-
 	public function new(args:Array<Dynamic>){
 		super(args);
 		
@@ -29,6 +27,7 @@ class VideoCutscene extends ScriptedCutscene
 		black.updateHitbox();
 		black.scrollFactor.set();
 		black.visible = true;
+		black.cameras = [playstate.camOverlay];
 
 		video = new VideoHandler();
 		video.scrollFactor.set();
@@ -52,18 +51,14 @@ class VideoCutscene extends ScriptedCutscene
 	function setup() {
 		playstate.inVideoCutscene = true;
 
-		prevCamFilters = playstate.camGame.filters;
-		playstate.camGame.filters = [];
-
 		black.scale.x = black.scale.x / playstate.defaultCamZoom;
 		black.scale.y = black.scale.y / playstate.defaultCamZoom;
 
 		video.playMP4(Paths.video(path), function(){
 			videoOver = true;
 
-			playstate.startCountdown();
+			next();
 			playstate.inVideoCutscene = false;
-			playstate.camGame.filters = prevCamFilters;
 
 			removeGeneric(video);
 			playstate.tweenManager.tween(black, {alpha: 0}, 0.4, {ease: FlxEase.quadInOut, onComplete: function(t){
