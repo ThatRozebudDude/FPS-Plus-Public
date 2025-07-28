@@ -143,10 +143,9 @@ class Utils
 		return Assets.getText(path);
 	}
 
-	public static function clamp(v:Float, min:Float, max:Float):Float {
-		if(v < min) { v = min; }
-		if(v > max) { v = max; }
-		return v;
+	@:noCompletion
+	public static inline function clamp(v:Float, min:Float, max:Float):Float {
+		return FlxMath.bound(v, min, max);
 	}
 
 	public static function worldToLocal(object:FlxObject, x:Float, y:Float):FlxPoint{

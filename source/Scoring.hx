@@ -1,6 +1,6 @@
 package;
 
-import haxe.display.Position.Range;
+import flixel.math.FlxMath;
 
 class Scoring
 {
@@ -56,7 +56,7 @@ class Scoring
 
 	public static function calculateAccuracy(sickCount:Int, goodCount:Int, badCount:Int, shitCount:Int, missCount:Int):Float{
 		var total:Float = (sickCount) + (goodCount) + (badCount) + (shitCount) + (missCount);
-		return (total <= 0) ? 0 : Utils.clamp((((sickCount + goodCount) - missCount) / total) * 100, 0, 100);
+		return (total <= 0) ? 0 : FlxMath.bound((((sickCount + goodCount) - missCount) / total) * 100, 0, 100);
 	}
 
 }

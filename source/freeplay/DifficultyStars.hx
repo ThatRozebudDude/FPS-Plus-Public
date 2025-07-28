@@ -1,13 +1,12 @@
 package freeplay;
 
-import transition.data.FadeIn;
-import flixel.sound.FlxSound;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.group.FlxSpriteGroup;
+import flixel.math.FlxMath;
 
 class DifficultyStars extends FlxSpriteGroup
 {
@@ -62,7 +61,7 @@ class DifficultyStars extends FlxSpriteGroup
 	}
 
 	public function setNumber(value:Int):Void{
-		value = Std.int(Utils.clamp(value, 0, 20));
+		value = Std.int(FlxMath.bound(value, 0, 20));
 
 		for(x in flames){ x.visible = false; }
 
