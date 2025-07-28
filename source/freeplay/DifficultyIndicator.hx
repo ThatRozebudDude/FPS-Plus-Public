@@ -45,7 +45,7 @@ class DifficultyIndicator extends FlxSpriteGroup
 			else{
 				FlxTween.cancelTweensOf(dots[i]);
 				if(doTween){
-					FlxTween.color(dots[i], 0.5, dots[i].color, 0xFF41374D, {ease: FlxEase.quintOut});
+					FlxTween.color(dots[i], 0.4, dots[i].color, 0xFF41374D, {ease: FlxEase.quintOut});
 				}
 				else{
 					dots[i].color = 0xFF41374D;

@@ -1047,6 +1047,7 @@ class FreeplayState extends MusicBeatState
 			switchState(new PlayState());
 			FlxG.sound.music.fadeOut(0.5);
 		});
+		FlxTween.tween(difficultyIndicator, {alpha: 0}, 0.06);
 	}
 
 	function songAccept():Void{
