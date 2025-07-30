@@ -55,7 +55,6 @@ class BaseTransition extends FlxSpriteGroup{
 				Utils.gc();
 			});
 
-			Utils.gc(false);
 			FlxG.switchState(state);
 		}
 		else{ //State intro animation.
