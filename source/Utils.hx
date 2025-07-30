@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxBasic;
 import flixel.sound.FlxSound;
 import caching.AudioCache;
 import flixel.FlxG;
@@ -218,7 +219,7 @@ class Utils
 
 	//Flixel 5.9.0 changed how animation callbacks are called so destroying an object in one of them will cause a null object reference. This is a fix for that.
 	//Sets up an object to be destroyed after the update loop is finished being processed.
-	public static inline function destroyWhenAvailable(obj:FlxObject):Void{
+	public static inline function destroyWhenAvailable(obj:FlxBasic):Void{
 		FlxG.signals.postUpdate.addOnce(function(){ obj.destroy(); });
 	}
 

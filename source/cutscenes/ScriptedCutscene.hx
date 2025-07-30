@@ -27,6 +27,9 @@ class ScriptedCutscene extends FlxBasic
 			if(events.length > 0){
 				totalTime += elapsed;
 			}
+			else{
+				Utils.destroyWhenAvailable(this);
+			}
 			
 			for(event in events){
 				if(event[0] > totalTime){ break; }

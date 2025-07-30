@@ -234,6 +234,12 @@ class StressPicoIntro extends ScriptedCutscene
 		speakerCharacterShader.curZoom = speakerCharacterCamera.zoom;
 		frontShader.curZoom = frontCamera.zoom;
 		behindShader.curZoom = behindCamera.zoom;
+
+		tankmanShader.updateViewportSize();
+		picoShader.updateViewportSize();
+		speakerCharacterShader.updateViewportSize();
+		frontShader.updateViewportSize();
+		behindShader.updateViewportSize();
 	}
 
 	function setup(){
@@ -326,11 +332,11 @@ class StressPicoIntro extends ScriptedCutscene
 		removeGeneric(gunshot);
 		removeGeneric(lovelyLittleBricks);
 		
-		//abot.destroy();
-		//speakerCharacter.destroy();
-		//pico.destroy();
-		//gunshot.destroy();
-		//lovelyLittleBricks.destroy();
+		abot.destroy();
+		speakerCharacter.destroy();
+		pico.destroy();
+		gunshot.destroy();
+		lovelyLittleBricks.destroy();
 
 		speakerCamera.filters = [];
 		speakerCharacterCamera.filters = [];

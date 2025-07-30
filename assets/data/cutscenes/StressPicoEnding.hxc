@@ -50,6 +50,7 @@ class StressPicoEnding extends ScriptedCutscene
 		super.update(elapsed);
 		cutsceneCamera.zoom = playstate.camGame.zoom;
 		tankmanShader.curZoom = cutsceneCamera.zoom;
+		tankmanShader.updateViewportSize();
 	}
 
 	function setup() {

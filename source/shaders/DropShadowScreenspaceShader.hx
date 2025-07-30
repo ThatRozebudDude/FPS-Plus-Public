@@ -1,24 +1,34 @@
 package shaders;
 
+import openfl.system.Capabilities;
+import flixel.FlxG;
+import openfl.Lib;
+
 /*
   A screenspace version of the DropShadowShader.. currently the only way to use this effect with
   FlxAnimate :(
  */
 class DropShadowScreenspaceShader extends DropShadowShader
 {
-  /*
-    The current zoom of the camera. Needed to figure out how much to multiply the drop shadow size.
-   */
-  public var curZoom(default, set):Float;
+	//The current zoom of the camera. Needed to figure out how much to multiply the drop shadow size.
+	public var curZoom(default, set):Float;
 
-  function set_curZoom(val:Float):Float
-  {
-    curZoom = val;
-    zoom.value = [val];
-    return val;
-  }
+	public function updateViewportSize():Void{
+		if(!FlxG.fullscreen){
+			viewportSize.value = [Lib.current.stage.stageWidth, Lib.current.stage.stageHeight];
+		}
+		else{
+			viewportSize.value = [Capabilities.screenResolutionX, Capabilities.screenResolutionY];
+		}
+	}
 
-  @:glFragmentSource('
+	function set_curZoom(val:Float):Float{
+		curZoom = val;
+		zoom.value = [val];
+		return val;
+	}
+
+	@:glFragmentSource('
       #pragma header
 
       // This shader aims to mostly recreate how Adobe Animate/Flash handles drop shadows, but its main use here is for rim lighting.
@@ -29,6 +39,8 @@ class DropShadowScreenspaceShader extends DropShadowShader
       // Hue rotation stuff is from here: https://www.w3.org/TR/filter-effects/#feColorMatrixElement
 
       // equals (frame.left, frame.top, frame.right, frame.bottom)
+	  const vec2 EXPECTED_RESOLUTION = vec2(1280.0, 720.0);
+
       uniform vec4 uFrameBounds;
 
       uniform float ang;
@@ -51,6 +63,7 @@ class DropShadowScreenspaceShader extends DropShadowShader
       uniform float contrast;
 
       uniform float zoom;
+      uniform vec2 viewportSize;
 
       uniform float AA_STAGES;
 
@@ -192,10 +205,25 @@ class DropShadowScreenspaceShader extends DropShadowShader
         // the distance the dropshadow moves needs to be correctly scaled based on the texture size
         vec2 imageRatio = vec2(1.0/openfl_TextureSize.x, 1.0/openfl_TextureSize.y);
 
+		//Get the proper viewport size. Doing the math in the shader because GPUs are fast or something.
+		vec2 correctedViewport = vec2(EXPECTED_RESOLUTION.x, EXPECTED_RESOLUTION.y);
+		if(viewportSize.x/EXPECTED_RESOLUTION.x < viewportSize.y/EXPECTED_RESOLUTION.y){
+			correctedViewport.x = viewportSize.x;
+			correctedViewport.y = (viewportSize.x/EXPECTED_RESOLUTION.x) * EXPECTED_RESOLUTION.y;
+		}
+		else if(viewportSize.x/EXPECTED_RESOLUTION.x > viewportSize.y/EXPECTED_RESOLUTION.y){
+			correctedViewport.x = (viewportSize.y/EXPECTED_RESOLUTION.y) * EXPECTED_RESOLUTION.x;
+			correctedViewport.y = viewportSize.y;
+		}
+		else{
+			correctedViewport.x = (viewportSize.x/EXPECTED_RESOLUTION.x) * EXPECTED_RESOLUTION.x;
+			correctedViewport.y = (viewportSize.y/EXPECTED_RESOLUTION.y) * EXPECTED_RESOLUTION.y;
+		}
+
         // check the pixel in the direction and distance specified
 		float hMult = attachedSpriteFlipX ? -1.0 : 1.0;
 		float vMult = attachedSpriteFlipY ? -1.0 : 1.0;
-		vec2 checkedPixel = vec2(finalUv.x + ((dist*zoom) * (cos(ang + (angOffset * hMult * vMult)) * hMult) * imageRatio.x), finalUv.y - ((dist*zoom) * (sin(ang + (angOffset * hMult * vMult)) * vMult) * imageRatio.y));
+		vec2 checkedPixel = vec2(finalUv.x + ((dist*zoom*(correctedViewport.x/EXPECTED_RESOLUTION.x)) * (cos(ang + (angOffset * hMult * vMult)) * hMult) * imageRatio.x), finalUv.y - ((dist*zoom*(correctedViewport.y/EXPECTED_RESOLUTION.y)) * (sin(ang + (angOffset * hMult * vMult)) * vMult) * imageRatio.y));
 
         // multiplier for the intensity of the drop shadow
         float dropShadowAmount = 0.0;
@@ -227,28 +255,30 @@ class DropShadowScreenspaceShader extends DropShadowShader
       }
 
     ')
-  override public function new()
-  {
-    super();
 
-    angle = 90;
-    strength = 1;
-    distance = 15;
-    threshold = 0.1;
+	override public function new(){
+		super();
 
-    baseHue = 0;
-    baseSaturation = 0;
-    baseBrightness = 0;
-    baseContrast = 0;
+		angle = 90;
+		strength = 1;
+		distance = 15;
+		threshold = 0.1;
 
-    useAltMask = false;
+		baseHue = 0;
+		baseSaturation = 0;
+		baseBrightness = 0;
+		baseContrast = 0;
 
-    color = 0xFFDFEF3C;
+		useAltMask = false;
 
-    antialiasAmt = 2;
+		color = 0xFFDFEF3C;
 
-    curZoom = 1;
+		antialiasAmt = 2;
 
-    angOffset.value = [0];
-  }
+		curZoom = 1;
+
+		angOffset.value = [0];
+
+		updateViewportSize();
+	}
 }
