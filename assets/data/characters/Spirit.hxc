@@ -26,7 +26,7 @@ class Spirit extends CharacterInfoBase
 	}
 
 	function create(character:Character):Void{
-		trail = new DeltaTrail(character.getSprite(), null, 7, 3 / 60, 0.4);
+		trail = new DeltaTrail(character.getSprite(), null, 7, 3 / 60, 0.5);
 		trail.blend = BlendMode.ADD;
 		trail.color = 0xFF741722;
 		addToCharacter(trail);
