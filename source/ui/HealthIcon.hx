@@ -15,12 +15,8 @@ class HealthIcon extends FlxSprite
 	public var yOffset:Float; //This one is normal tho :]
 
 	public var defualtIconScale:Float = 1;
-	public var iconScale:Float = 1;
-	public var iconSize:Float;
 	public var isPlayer:Bool = false;
 	public var character:String = "face";
-
-	private var tween:FlxTween;
 
 	static final defaultOffsets:Array<Float> = [10, -10];
 
@@ -32,36 +28,32 @@ class HealthIcon extends FlxSprite
 
 		setIconCharacter(_character);
 
-		iconSize = width;
-
 		id = _id;
 		
 		scrollFactor.set();
-
-		tween = FlxTween.tween(this, {}, 0);
 	}
 
 	override function update(elapsed:Float){
 
 		super.update(elapsed);
-		setGraphicSize(iconSize * iconScale);
-		updateHitbox();
 
 		if (sprTracker != null){
 			setPosition(sprTracker.x + sprTracker.width + 10, sprTracker.y - 30);
 		}
 	}
 
-	public function bop(_scale:Float, _time:Float, ?_ease:Null<flixel.tweens.EaseFunction>){
+	public function bop(_scale:Float, _time:Float, ?_ease:Null<flixel.tweens.EaseFunction>, ?_manager:Null<FlxTweenManager>){
 
 		if(_ease == null){ _ease = FlxEase.linear; }
-		tween.cancel();
-		iconScale = _scale * defualtIconScale;
+		if(_manager == null){ _manager = FlxTween.globalManager; }
+
+		_manager.cancelTweensOf(scale);
+		scale.set(_scale * defualtIconScale, _scale * defualtIconScale);
 		if(_time > 0){
-			tween = FlxTween.tween(this, {iconScale: this.defualtIconScale}, _time, {ease: _ease});
+			_manager.tween(scale, {x: defualtIconScale, y: defualtIconScale}, _time, {ease: _ease});
 		}
 		else{
-			iconScale = defualtIconScale;
+			scale.set(defualtIconScale, defualtIconScale);
 		}
 
 	}
@@ -113,8 +105,14 @@ class HealthIcon extends FlxSprite
 			defualtIconScale = (iconJson.scale != null) ? iconJson.scale : 1;
 		}
 
-		iconScale = defualtIconScale;
-		iconSize = width;
+		if(isPlayer){
+			origin.set(0, frameHeight/2);
+		}
+		else{
+			origin.set(frameWidth, frameHeight/2);
+		}
+
+		scale.set(defualtIconScale, defualtIconScale);
 	}
 
 }

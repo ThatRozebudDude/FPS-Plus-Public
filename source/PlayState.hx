@@ -2650,8 +2650,8 @@ class PlayState extends MusicBeatState
 		}
 
 		if (curBeat % iconBopFrequency == 0){
-			iconP1.bop(defaultIconBopScale, defaultIconBopTime, defaultIconBopEase);
-			iconP2.bop(defaultIconBopScale, defaultIconBopTime, defaultIconBopEase);
+			iconP1.bop(defaultIconBopScale, defaultIconBopTime, defaultIconBopEase, tweenManager);
+			iconP2.bop(defaultIconBopScale, defaultIconBopTime, defaultIconBopEase, tweenManager);
 		}
 		
 		if (curBeat % gfBopFrequency == 0){

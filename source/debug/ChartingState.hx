@@ -1531,8 +1531,14 @@ class ChartingState extends MusicBeatState
 			leftIcon.defualtIconScale = leftIcon.defualtIconScale * 0.5;
 			rightIcon.defualtIconScale = rightIcon.defualtIconScale * 0.5;
 
+			leftIcon.centerOrigin();
+			rightIcon.centerOrigin();
+
 			leftIcon.bop(1, 0);
 			rightIcon.bop(1, 0);
+
+			leftIcon.updateHitbox();
+			rightIcon.updateHitbox();
 		}
 
 		if (_song.notes[curSection].mustHitSection){
