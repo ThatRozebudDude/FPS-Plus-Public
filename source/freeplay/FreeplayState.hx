@@ -409,16 +409,16 @@ class FreeplayState extends MusicBeatState
 		topBar.scale.set(1280, (topBar.y * Utils.sign(topBar.y)) + 64);
 		topBar.updateHitbox();
 
-		freeplayText = new FlxTextExt(16, 16, 0, "FREEPLAY", 32);
+		freeplayText = new FlxTextExt(16, 15, 0, "FREEPLAY", 32);
 		freeplayText.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE);
 
-		changeCharacterText = new FlxTextExt(16, 16, 0, "[BUTTON] to Change Character", 32);
-		changeCharacterText.setFormat(Paths.font("vcr"), 32, 0xFF7F7F7F);
+		changeCharacterText = new FlxTextExt(16, 19, 0, "[BUTTON] to Change Character", 32);
+		changeCharacterText.setFormat(Paths.font("5by7"), 32, 0xFF7F7F7F);
 		changeCharacterText.screenCenter(X);
 		changeCharacterText.visible = false;
 
-		changeTabText = new FlxTextExt(16, 16, 0, "[BUTTON] & [BUTTON] to Change Tabs", 32);
-		changeTabText.setFormat(Paths.font("vcr"), 32, 0xFF7F7F7F);
+		changeTabText = new FlxTextExt(16, 19, 0, "[BUTTON] & [BUTTON] to Change Tabs", 32);
+		changeTabText.setFormat(Paths.font("5by7"), 32, 0xFF7F7F7F);
 		changeTabText.screenCenter(X);
 		changeTabText.visible = false;
 
