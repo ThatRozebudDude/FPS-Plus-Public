@@ -8,8 +8,6 @@ using StringTools;
 
 class Config
 {
-	public static var configList(get, default):Array<String>;
-
 	@isConfig public static var offset:Float = 0.0;
 	@isConfig public static var healthMultiplier:Float = 1.0;
 	@isConfig public static var healthDrainMultiplier:Float = 1.0;
@@ -35,6 +33,8 @@ class Config
 
 	@isConfig public static var ee1:Bool = false;
 	@isConfig public static var ee2:Bool = false;
+
+	static var configList(get, default):Array<String>;
 
 	public static function load():Void{
 		SaveManager.global();
