@@ -1,5 +1,7 @@
 package restricted;
 
+import haxe.rtti.Meta;
+
 //Static helper functions that aren't exposed to users with scripting.
 class RestrictedUtils
 {
@@ -9,4 +11,12 @@ class RestrictedUtils
 		return Reflect.callMethod(null, Reflect.getProperty(from, func), args);
 	}
 
+	public static inline function hasMetadata(cls:Class<Dynamic>, variable:String, meta:String):Bool{
+		var classFields = Meta.getStatics(cls);
+		if (!Reflect.hasField(classFields, variable)){
+			return false;
+		}
+
+		return Reflect.hasField(Reflect.field(classFields, variable), meta);
+	}
 }

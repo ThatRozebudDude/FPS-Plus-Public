@@ -2,7 +2,7 @@ package config;
 
 import flixel.FlxG;
 import openfl.Lib;
-import haxe.rtti.Meta;
+import restricted.RestrictedUtils;
 
 using StringTools;
 
@@ -76,14 +76,13 @@ class Config
 
 		configList = [];
 
-		var classFields = Meta.getStatics(Config);
-
-		for (field in Reflect.fields(classFields)){
-			if (Reflect.hasField(Reflect.field(classFields, field), "isConfig")){
+		for (field in Type.getClassFields(Config)){
+			if (RestrictedUtils.hasMetadata(Config, field, "isConfig")){
 				configList.push(field);
 			}
 		}
 
+		trace(configList);
 		return configList;
 	}
 
