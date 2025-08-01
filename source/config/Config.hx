@@ -82,7 +82,6 @@ class Config
 			}
 		}
 
-		trace(configList);
 		return configList;
 	}
 
