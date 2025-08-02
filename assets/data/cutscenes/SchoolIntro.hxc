@@ -109,12 +109,12 @@ class SchoolIntro extends ScriptedCutscene
 				FlxG.sound.play(Paths.sound('week6/ANGRY_TEXT_BOX'));
 			case "thorns":
 				addGeneric(red);
-				cutsceneMusic = FlxG.sound.play(Paths.music("week6/LunchboxScary"), 0);
+				cutsceneMusic = FlxG.sound.play(Paths.music("week6/LunchboxScary"), 0, true);
 				cutsceneMusic.fadeIn(1, 0, 0.8);
 
 			case "senpai-pico":
 				playstate.camGame.filters.push(fadeInShaderFilter);
-				cutsceneMusic = FlxG.sound.play(Paths.music("week6/Lunchbox"), 0);
+				cutsceneMusic = FlxG.sound.play(Paths.music("week6/Lunchbox"), 0, true);
 				cutsceneMusic.fadeIn(1, 0, 0.8);
 				dialogueBox.onDialogueChange.add(function(box)
 				{
