@@ -174,7 +174,6 @@ class Capsule extends FlxSpriteGroup
 		//add(debugDot2);
 
 		deslect();
-
 	}
 
 	override function update(elapsed:Float):Void{
@@ -292,8 +291,9 @@ class Capsule extends FlxSpriteGroup
 		return (270 + (60 * (Math.sin(index+1)))) + 80;
 	}
 
+	final CAPSULE_HEIGHT:Float = 106; //capsule.height * capsuleScale was inconsistent between bf and pico capsule so I'm manually defining it.
 	public function intendedY(index:Int):Float {
-		return (((index+1) * ((capsule.height * capsuleScale) + 10)) + 120) + 18 - (index < -1 ? 100 : 0);
+		return (((index+1) * (CAPSULE_HEIGHT + 10)) + 120) + 18 - (index < -1 ? 100 : 0);
 	}
 
 	inline function getSparrowPathWithSkin(path:String):flixel.graphics.frames.FlxAtlasFrames{
