@@ -53,7 +53,7 @@ class Character extends FlxSpriteGroup
 	public var characterColor:Null<FlxColor> = null;
 
 	public var missSounds:Array<String> = ["missnote1", "missnote2", "missnote3"];
-	public var missSoundVolume:Float = 0.2;
+	public var missSoundVolume:Float = 0.4;
 
 	public var curAnim:String = "";
 
