@@ -33,7 +33,7 @@ class LimoErect extends BaseStage
 		name = "limoErect";
 		startingZoom = 0.9;
 
-		var skyBG:FlxSprite = new FlxSprite(-220, -80).loadGraphic(Paths.image("week4/limo/erect/limoSunset"));
+		var skyBG:FlxSprite = new FlxSprite(-220, -170).loadGraphic(Paths.image("week4/limo/erect/limoSunset"));
 		skyBG.scrollFactor.set(0.1, 0.1);
 		skyBG.scale.set(0.9, 0.9);
 		skyBG.updateHitbox();

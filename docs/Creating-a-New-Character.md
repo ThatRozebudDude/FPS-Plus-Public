@@ -88,8 +88,15 @@ That is all you really need to know to set up a basic character, however there a
 - `focusOffset`: An FlxPoint that adds an offset from the center of a character when the camera focuses on them. The `x` value is multipled by -1 when on the player's side.
 - `deathOffset`: An FlxPoint that adds an offset from the center of a character when the camera moves towards them on the death screen.
 - `functions`: A set of functions that you can define that will be called at certain times. There will be more information about these in the **Advanced Character Scripting** section.
+- `characterPropertyOverrides`: An object containing overrides to default character behaviors such as looping the sing animation on hold notes or returning to the end of the idle animation instead of the begining when releasing notes.
+	- `loopAnimOnHold`: Boolean that determines whether animations repeatedly loop when hitting a hold note.
+	- `holdLoopWait`: Boolean that determines whether hold animations wait a certain amount of time before being allowed to loop.
+	- `useIdleEnd`: Boolean that determines whether the character will go to the begining or the end of their idle when ending a note animation.
+	- `preventShortIdle`: Boolean that determines whether the character can play their idle if they are able to hit another note shortly.
+	- `preventShortSing`: Boolean that determines whether the character can play sing animations shortly after hitting another note.
+	- `shortSingTolerence`: Float that determines the time required between hitting notes (in milliseconds) to play another sing animation.
 
-You can also use the function `addExtraData(key, data)` to add addition info that isn't part of the base character info class. The data is `Dynamic` so the keys aren't all going to refer to the same type. Here are the different keys you can use:
+You can also use the function `addExtraData(key, data)` to add addition info that isn't part of the base character info class. The data is `Dynamic` so the keys aren't all going to refer to the same type. Here are some of the different keys you can use:
 
 - `stepsUntilRelease`: The minimum number of steps a character will hold a note for. Most characters have 4 by default but Dad has 6.1.
 - `scale`: An array of 2 numbers that change the `x` and `y` scale of the character. Useful for pixel art.
@@ -99,6 +106,10 @@ You can also use the function `addExtraData(key, data)` to add addition info tha
 - `deathSong`: The path to the song that plays when you die.
 - `deathSongEnd`: The path to the audio that plays when you retry from the death screen.
 - `worldPopupOffset`: An array of 2 numbers that change the `x` and `y` offset of the combo graphics if the player has them set to appear in the world instead of on the HUD.
+- `missSounds`: An array of paths containing all of the sounds that will play when you miss a note. The sound if selected randomly from this array.
+- `missSoundVolume`: The volume that the miss sounds will play in the range of 0 to 1.
+
+These are just keys that are specific to the `Character` class. You can add whatever data you want and read it in scripts with `character.characterInfo.info.extraData.get("key")`. If you're checking a key that not all characters will have set you should check if the key exists with `character.characterInfo.info.extraData.exists("key")` or check if the value isn't `null` with `character.characterInfo.info.extraData.get("key") != null`.
 
 ## Animation Chains
 
@@ -146,6 +157,8 @@ The character info has a field called `functions` which is an object containing 
 - `noteMiss(character, direction, countedMiss)`: This is run when exiting `PlayState`.
     - `direction`: The direction that the player missed in as an integer.
     - `countedMiss`: A boolean that will be `true` if the miss was counted or `false` if it wasn't (for things like wrong taps).
+- `applyShader(character, shader)`: This replaces the default `applyShader()` logic with custom logic. You can use `character.defaultApplyShaderBehavior()` if you want to incorporate the default logic into part of the new logic.
+	- `shader`: The FlxShader that is trying to be applied to the character.
 
 You can also use one of the following functions to add or remove sprites to either the Character object or directly to the current state or substate:
 

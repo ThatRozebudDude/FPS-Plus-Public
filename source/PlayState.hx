@@ -305,6 +305,7 @@ class PlayState extends MusicBeatState
 	var endCutscenePlayOnce:Bool = false;
 
 	public var managedSounds:Array<FlxSound> = [];
+	var missNoteSound:FlxSound;
 
 	public var scripts:Map<String, Script> = new Map<String, Script>();
 
@@ -2463,7 +2464,7 @@ class PlayState extends MusicBeatState
 			songStats.score -= scoreAdjust;
 			
 			if(playAudio && boyfriend.missSounds.length > 0){
-				playSound(Paths.sound(boyfriend.missSounds[FlxG.random.int(0, boyfriend.missSounds.length-1)]), boyfriend.missSoundVolume);
+				playMissSound();
 			}
 			
 			forceMissNextNote = false;
@@ -2493,6 +2494,19 @@ class PlayState extends MusicBeatState
 		noteMiss(direction, defaultNoteMiss, Scoring.WRONG_TAP_DAMAGE_AMOUNT, true, false, false, Scoring.WRONG_PRESS_PENALTY);
 		setBoyfriendInvuln(4/60);
 		forceMissNextNote = forceMissNextNoteState;
+	}
+
+	function playMissSound():Void{
+		if(missNoteSound == null){
+			missNoteSound = new FlxSound();
+			missNoteSound.autoDestroy = false;
+			FlxG.sound.list.add(missNoteSound);
+			managedSounds.push(missNoteSound);
+		}
+		if(missNoteSound.playing){ missNoteSound.stop(); }
+		missNoteSound.loadEmbedded(Paths.sound(boyfriend.missSounds[FlxG.random.int(0, boyfriend.missSounds.length-1)]), false);
+		missNoteSound.volume = boyfriend.missSoundVolume;
+		missNoteSound.play();
 	}
 
 	function badNoteCheck(direction:Int = -1){

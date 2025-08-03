@@ -125,7 +125,7 @@ class Philly extends BaseStage
 
 	function trainStart():Void{
 		trainMoving = true;
-		trainSound = playstate.playSound(Paths.sound("week3/train_passes"));
+		trainSound = playstate.playSound(Paths.sound("week3/train_passes"), 0.5);
 	}
 
 	function updateTrainPos():Void{
