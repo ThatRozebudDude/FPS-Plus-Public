@@ -84,7 +84,7 @@ class DialogueBox extends FlxSpriteGroup
 
 		this.data = data;
 
-		if (data.skin != null){
+		if(data.skin != null){
 			if(Utils.exists(Paths.json(data.skin, "data/uiSkins/dialogueBox"))){
 				skin = Json.parse(Utils.getText(Paths.json(data.skin, "data/uiSkins/dialogueBox")));
 			}
@@ -102,9 +102,9 @@ class DialogueBox extends FlxSpriteGroup
 		bgAlphaValue = _bgAlphaValue;
 
 		// Add characters
-		for (conv in data.dialogue){
-			for (p in conv.portraits){
-				if (!dialoguePortraits.exists(p)){
+		for(conv in data.dialogue){
+			for(p in conv.portraits){
+				if(!dialoguePortraits.exists(p)){
 					final portrait = new DialoguePortrait(p);
 
 					dialoguePortraits.set(p, portrait);
@@ -122,7 +122,7 @@ class DialogueBox extends FlxSpriteGroup
 		box.antialiasing = skin.antialiasing;
 		
 		box.frames = Paths.getSparrowAtlas(skin.path);
-		for (anim in skin.animations){
+		for(anim in skin.animations){
 			box.animation.addByPrefix(anim.name, anim.prefix, anim.fps, anim.loop);
 			offsetMap.set(anim.name, FlxPoint.get(anim.offset.x, anim.offset.y));
 			flipMap.set(anim.name, anim.flipX);
@@ -133,10 +133,11 @@ class DialogueBox extends FlxSpriteGroup
 		dialogueText = new FlxTypeText(skin.text.position.x, skin.text.position.y, Std.int(box.width * 0.7), "", Std.int(skin.text.size));
 		dialogueText.font = Paths.font(skin.text.font.split(".")[0], skin.text.font.split(".")[1]);
 		dialogueText.color = FlxColor.fromString(skin.text.color);
-		dialogueText.sounds = [FlxG.sound.load(Paths.sound(skin.sounds.speak), 0.6)];
+		if(skin.sounds.speak != null){
+			dialogueText.sounds = [FlxG.sound.load(Paths.sound(skin.sounds.speak), 0.6)];
+		}
 
-		if (skin.text.shadow != null)
-		{
+		if(skin.text.shadow != null){
 			dialogueText.borderStyle = SHADOW_XY(2, 2);
 			dialogueText.borderSize = 2;
 			dialogueText.borderColor = FlxColor.fromString(skin.text.shadow);
@@ -175,23 +176,24 @@ class DialogueBox extends FlxSpriteGroup
 
 		// replay dialogue animations if next character is not last character
 		// compare string representation because memory addresses n shit or whatever
-		if (curDisplayedPortraits.toString() != data.dialogue[curLine].portraits.toString()){
-			if (skin.sounds.open != null)
+		if(curDisplayedPortraits.toString() != data.dialogue[curLine].portraits.toString()){
+			if(skin.sounds.open != null){
 				FlxG.sound.play(Paths.sound(skin.sounds.open), 0.6);
+			}
 
 			boxPlayAnim(data.dialogue[curLine].box + "Open");
 			box.animation.onFinish.addOnce(function(name:String){
 				boxPlayAnim(data.dialogue[curLine].box);
 			});
 
-			for (portrait in curDisplayedPortraits){
-				if (!data.dialogue[curLine].portraits.contains(portrait)){
+			for(portrait in curDisplayedPortraits){
+				if(!data.dialogue[curLine].portraits.contains(portrait)){
 					hidePortrait(dialoguePortraits.get(portrait));
 				}
 			}
 			
-			for (portrait in data.dialogue[curLine].portraits){
-				if (!curDisplayedPortraits.contains(portrait)){
+			for(portrait in data.dialogue[curLine].portraits){
+				if(!curDisplayedPortraits.contains(portrait)){
 					showPortrait(dialoguePortraits.get(portrait));
 					onPortraitAppear.dispatch(portrait);
 				}
@@ -216,8 +218,7 @@ class DialogueBox extends FlxSpriteGroup
 		FlxTween.completeTweensOf(bg);
 		FlxTween.tween(bg, {alpha: 0}, 0.8, {ease: FlxEase.cubeOut});
 
-		for (key => portrait in dialoguePortraits)
-		{
+		for(key => portrait in dialoguePortraits){
 			hidePortrait(portrait);
 			onPortraitHide.dispatch(key);
 		}
@@ -229,30 +230,34 @@ class DialogueBox extends FlxSpriteGroup
 	public function boxPlayAnim(animation:String){
 		box.animation.play(animation, true);
 
-		if (offsetMap.exists(animation))
+		if(offsetMap.exists(animation)){
 			box.offset = offsetMap.get(animation);
-		if (flipMap.exists(animation))
+		}
+		if(flipMap.exists(animation)){
 			box.flipX = flipMap.get(animation);
+		}
 	}
 
 	override function update(elapsed:Float){
 		super.update(elapsed);
 
-		if ((FlxG.keys.justPressed.ANY || FlxG.gamepads.anyJustPressed(ANY)) && !(FlxG.keys.anyJustPressed(FlxG.sound.volumeDownKeys) || FlxG.keys.anyJustPressed(FlxG.sound.volumeUpKeys)) && !finishedDialogue){
+		if((FlxG.keys.justPressed.ANY || FlxG.gamepads.anyJustPressed(ANY)) && !(FlxG.keys.anyJustPressed(FlxG.sound.volumeDownKeys) || FlxG.keys.anyJustPressed(FlxG.sound.volumeUpKeys)) && !finishedDialogue){
 			//if dialogue are still playing, skip it
-			if (!finishedLine){
+			if(!finishedLine){
 				dialogueText.skip();
 				finishedLine = true;
 			}
 			//Go to next Dialogue
-			else if (finishedLine){
-				FlxG.sound.play(Paths.sound(skin.sounds.close), 0.6);
+			else if(finishedLine){
+				if(skin.sounds.close != null){
+					FlxG.sound.play(Paths.sound(skin.sounds.close), 0.6);
+				}
 
-				if (curLine <= data.dialogue.length - 2)
-				{
+				if(curLine <= data.dialogue.length - 2){
 					curLine += 1;
 					continueDialogue();
-				} else {
+				}
+				else{
 					finishedDialogue = true;
 					finishDialogue();
 				}
