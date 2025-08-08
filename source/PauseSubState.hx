@@ -70,7 +70,10 @@ class PauseSubState extends MusicBeatSubstate
 
 		FlxG.sound.list.add(pauseMusic);
 
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		var bg:FlxSprite = new FlxSprite().makeGraphic(1, 1, 0xFF000000);
+		bg.scale.set(FlxG.width + 2, FlxG.height + 2);
+		bg.updateHitbox();
+		bg.screenCenter(XY);
 		bg.alpha = 0.6;
 		bg.scrollFactor.set();
 		add(bg);

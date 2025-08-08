@@ -404,6 +404,7 @@ class FreeplayState extends MusicBeatState
 		cover = new FlxSprite(1280).loadGraphic(getImagePathWithSkin('menu/freeplay/covers/dad'));
 		cover.x -= cover.width;
 		cover.antialiasing = true;
+		cover.scale.set(1.01, 1.01);
 
 		topBar = new FlxSprite(0, -120).makeGraphic(1, 1, 0xFF000000);
 		topBar.scale.set(1280, (topBar.y * Utils.sign(topBar.y)) + 64);
