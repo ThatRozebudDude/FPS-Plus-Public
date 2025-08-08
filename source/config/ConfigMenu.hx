@@ -1,5 +1,6 @@
 package config;
 
+import openfl.events.Event;
 import flixel.addons.display.FlxGridOverlay;
 import shaders.ColorGradientShader;
 import openfl.utils.Assets;
@@ -119,6 +120,7 @@ class ConfigMenu extends FlxUIStateExt
 	final showMissesTypes:Array<String> = ["off", "on", "combo breaks"];
 	var autoPauseValue:Bool;
 	var flashingLightsValue:Bool;
+	var fullscreenValue:Bool;
 
 	var pressUp:Bool = false;
 	var pressDown:Bool = false;
@@ -134,6 +136,8 @@ class ConfigMenu extends FlxUIStateExt
 	override function create(){
 
 		Config.setFramerate(fpsCapInSettings);
+
+		FlxG.stage.addEventListener(Event.EXIT_FRAME, fullscreenPressedEvent);
 
 		if(exitTo == null){
 			exitTo = MainMenuState;
@@ -640,6 +644,7 @@ class ConfigMenu extends FlxUIStateExt
 	}
 
 	function exit():Void{
+		FlxG.stage.removeEventListener(Event.EXIT_FRAME, fullscreenPressedEvent);
 		writeToConfig();
 		exiting = true;
 		if(!USE_MENU_MUSIC || exitTo != MainMenuState){
@@ -682,6 +687,7 @@ class ConfigMenu extends FlxUIStateExt
 		Config.showMisses = showMissesValue;
 		Config.autoPause = autoPauseValue;
 		Config.flashingLights = flashingLightsValue;
+		Config.fullscreen = fullscreenValue;
 		Config.write();
 	}
 
@@ -750,13 +756,12 @@ class ConfigMenu extends FlxUIStateExt
 		showMissesValue = Config.showMisses;
 		autoPauseValue = Config.autoPause;
 		flashingLightsValue = Config.flashingLights;
+		fullscreenValue = Config.fullscreen;
 
 		framerateValue = allowedFramerates.indexOf(Config.framerate);
 		if(framerateValue == -1){
 			framerateValue = allowedFramerates.length - 1;
 		}
-
-		//VIDEO
 
 		var fpsCap = new ConfigOption("FRAMERATE", #if desktop (allowedFramerates[framerateValue] == 999 ? "uncapped" : ""+allowedFramerates[framerateValue]) #else "disabled" #end, #if desktop "Uncaps the framerate during gameplay.\n(Some menus will limit framerate but gameplay will always be at the specified framerate.)" #else "Disabled on Web builds." #end);
 		fpsCap.optionUpdate = function(){
@@ -888,12 +893,6 @@ class ConfigMenu extends FlxUIStateExt
 			}
 			captionsStuff.setting = genericOnOff[showCaptionsValue?0:1];
 		};
-
-
-
-		//INPUT
-
-
 
 		var noteOffset = new ConfigOption("NOTE OFFSET", ""+offsetValue, "Adjust note timings.\nPress \"ENTER\" to start the offset calibration.");
 		noteOffset.extraData[0] = 0;
@@ -1032,35 +1031,6 @@ class ConfigMenu extends FlxUIStateExt
 			}
 			useGPU.setting = genericOnOff[useGPUValue?0:1];
 		}
-
-
-		//MISC
-
-
-
-		/*var accuracyDisplay = new ConfigOption("ACCURACY DISPLAY", accuracyType, "What type of accuracy calculation you want to use. Simple is just notes hit / total notes. Complex also factors in how early or late a note was.");
-		accuracyDisplay.optionUpdate = function(){
-			if (pressRight){
-				FlxG.sound.play(Paths.sound('scrollMenu'));
-				accuracyTypeInt += 1;
-			}
-				
-			if (pressLeft)
-			{
-				FlxG.sound.play(Paths.sound('scrollMenu'));
-				accuracyTypeInt -= 1;
-			}
-				
-			if (accuracyTypeInt > 2)
-				accuracyTypeInt = 0;
-			if (accuracyTypeInt < 0)
-				accuracyTypeInt = 2;
-					
-			accuracyType = accuracyTypes[accuracyTypeInt];
-			
-			accuracyDisplay.setting = accuracyType;
-		};*/
-
 
 
 		var showAccuracyDisplay = new ConfigOption("SHOW ACCURACY", genericOnOff[showAccuracyValue?0:1], "Shows the accuracy on the in-game HUD.");
@@ -1275,18 +1245,6 @@ class ConfigMenu extends FlxUIStateExt
 		};
 
 
-
-		/*var showComboBreaks = new ConfigOption("SHOW COMBO BREAKS", genericOnOff[showComboBreaksValue?0:1], "Show combo breaks instead of misses.\nMisses only happen when you actually miss a note.\nCombo breaks can happen in other instances like dropping hold notes.");
-		showComboBreaks.optionUpdate = function(){
-			if (pressRight || pressLeft || pressAccept) {
-				FlxG.sound.play(Paths.sound('scrollMenu'));
-				showComboBreaksValue = !showComboBreaksValue;
-			}
-			showComboBreaks.setting = genericOnOff[showComboBreaksValue?0:1];
-		}*/
-
-
-
 		var showMissesSetting = new ConfigOption("SHOW MISSES", showMissesTypes[showMissesValue], "TEMP");
 		showMissesSetting.extraData[0] = "Misses are not shown on the in-game HUD.";
 		showMissesSetting.extraData[1] = "Misses are shown on the in-game HUD.";
@@ -1332,10 +1290,20 @@ class ConfigMenu extends FlxUIStateExt
 			flashingLightsSettings.setting = genericOnOff[flashingLightsValue?0:1];
 		};
 
+		fullscreenSettings = new ConfigOption("FULLSCREEN", genericOnOff[fullscreenValue?0:1], "Determines whether the game runs in a window or takes up the whole screen.\nIf enabled the game will start in fullscreen.");
+		fullscreenSettings.optionUpdate = function(){
+			if (pressRight || pressLeft){
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				fullscreenValue = !fullscreenValue;
+			}
+
+			fullscreenSettings.setting = genericOnOff[fullscreenValue?0:1];
+		};
+
 
 		configOptions = [
 							[keyBinds, ghostTap, noteOffset, scrollSpeed],
-							[fpsCap, bgDim, useGPU, showFPS, cacheSettings],
+							[fpsCap, fullscreenSettings, bgDim, useGPU, showFPS, cacheSettings],
 							[downscroll, centeredNotes, noteSplash, noteGlow, showMissesSetting, showAccuracyDisplay, comboDisplay],
 							[extraCamStuff, camBopStuff, captionsStuff, flashingLightsSettings, autoPauseSettings, hpGain, hpDrain]
 						];
@@ -1353,6 +1321,16 @@ class ConfigMenu extends FlxUIStateExt
 		startInSubMenu = curSelected;
 		savedListPos = curListPosition;
 		savedListOffset = curListStartOffset;
+	}
+
+	var fullscreenSettings:ConfigOption;
+
+	function fullscreenPressedEvent(event:Event):Void{
+		if(Binds.justPressed("fullscreen")){
+			fullscreenValue = Config.fullscreen;
+			fullscreenSettings.setting = genericOnOff[fullscreenValue?0:1];
+			textUpdate();
+		}
 	}
 
 }

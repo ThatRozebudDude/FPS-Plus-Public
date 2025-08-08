@@ -30,13 +30,6 @@ class Binds
 				saveControls();
 			}
 		}
-
-		FlxG.stage.addEventListener(Event.EXIT_FRAME, (event:Event) -> {
-			if (justPressed("fullscreen")) {
-				FlxG.fullscreen = !FlxG.fullscreen;
-			}
-		});
-
 	}
 
 	public static function generateDefaultControls():KeybindMap{

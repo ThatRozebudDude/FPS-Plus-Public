@@ -1,5 +1,6 @@
 package config;
 
+import openfl.events.Event;
 import flixel.FlxG;
 import openfl.Lib;
 import restricted.RestrictedUtils;
@@ -30,6 +31,7 @@ class Config
 	@configParam public static var showMisses:Int = 1;
 	@configParam public static var autoPause:Bool = true;
 	@configParam public static var flashingLights:Bool = true;
+	@configParam public static var fullscreen:Bool = false;
 
 	@configParam public static var ee1:Bool = false;
 	@configParam public static var ee2:Bool = false;
@@ -47,7 +49,17 @@ class Config
 			}
 		}
 
+		FlxG.stage.addEventListener(Event.EXIT_FRAME, (event:Event) -> {
+			if(Binds.justPressed("fullscreen")) {
+				fullscreen = !fullscreen;
+				FlxG.fullscreen = fullscreen;
+				write();
+			}
+		});
+
 		Lib.application.window.onClose.add(write);
+
+		FlxG.fullscreen = fullscreen;
 	}
 	
 	public static function write():Void{
