@@ -425,20 +425,20 @@ class FreeplayState extends MusicBeatState
 
 		updateChangeCharacterText(controllerMode);
 
-		highscoreSprite = new FlxSprite(860, 70);
+		highscoreSprite = new FlxSprite(860, 74);
 		highscoreSprite.frames = getSparrowPathWithSkin("menu/freeplay/highscore");
 		highscoreSprite.animation.addByPrefix("loop", "", 24, true);
 		highscoreSprite.animation.play("loop");
 		highscoreSprite.antialiasing = true;
 
-		clearPercentSprite = new FlxSprite(1165, 65).loadGraphic(getImagePathWithSkin('menu/freeplay/clearBox'));
+		clearPercentSprite = new FlxSprite(1165, 71).loadGraphic(getImagePathWithSkin('menu/freeplay/clearBox'));
 		clearPercentSprite.antialiasing = true;
 
 		scoreDisplay = new DigitDisplay(915, 120, getImageStringWithSkin("menu/freeplay/digital_numbers"), 7, 0.4, -25);
 		scoreDisplay.setDigitOffset("1", 20);
 		scoreDisplay.ease = FlxEase.cubeOut;
 
-		percentDisplay = new DigitDisplay(1154, 87, getImageStringWithSkin("menu/freeplay/clearText"), 3, 1, 3, 0, true);
+		percentDisplay = new DigitDisplay(1154, 93, getImageStringWithSkin("menu/freeplay/clearText"), 3, 1, 3, 0, true);
 		percentDisplay.setDigitOffset("1", -8);
 		percentDisplay.ease = FlxEase.quadOut;
 
