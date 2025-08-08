@@ -5,7 +5,6 @@ import shaders.WiggleEffect;
 import shaders.WiggleEffectType;
 import shaders.DropShadowShader;
 import shaders.AdjustColorShader;
-import events.Events;
 
 class SchoolEvilErect extends BaseStage
 {

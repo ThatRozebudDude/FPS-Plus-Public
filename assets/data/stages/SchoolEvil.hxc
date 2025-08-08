@@ -3,7 +3,6 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import shaders.WiggleEffect;
 import shaders.WiggleEffectType;
-import events.Events;
 
 class SchoolEvil extends BaseStage
 {
