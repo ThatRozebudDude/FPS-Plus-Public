@@ -24,8 +24,7 @@ class StrangeExpandIn extends BaseTransition{
 
         time = _time;
 
-        blockThing = new FlxSprite().makeGraphic(FlxG.width + PADDING, FlxG.height, FlxColor.BLACK);
-		blockThing.screenCenter(XY);
+        blockThing = new FlxSprite(PADDING/2, PADDING/2).makeGraphic(FlxG.width + PADDING, FlxG.height + PADDING, FlxColor.BLACK);
         add(blockThing);
 
     }
