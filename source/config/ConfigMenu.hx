@@ -26,8 +26,8 @@ using StringTools;
 class ConfigMenu extends FlxUIStateExt
 {
 
-	public static var USE_LAYERED_MUSIC:Bool = true;	//If you're not using a layered options theme, set this to false.
-	public static var USE_MENU_MUSIC:Bool = false;		//Set this to true if you want to use the menu theme instead of a unique options song. Overrides USE_LAYERED_MUSIC.
+	public static final USE_LAYERED_MUSIC:Bool = true;	//If you're not using a layered options theme, set this to false.
+	public static final USE_MENU_MUSIC:Bool = false;	//Set this to true if you want to use the menu theme instead of a unique options song. Overrides USE_LAYERED_MUSIC.
 
 	public static var exitTo:Class<Dynamic>;
 	public static var startSong = true;
