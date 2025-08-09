@@ -14,7 +14,7 @@ class FadeIn extends BaseTransition{
 	var blockThing:FlxSprite;
 	var time:Float;
 
-	final PADDING:Int = 2;
+	final PADDING:Int = 10;
 
 	override public function new(_time:Float, ?_color:FlxColor = FlxColor.BLACK){
 		

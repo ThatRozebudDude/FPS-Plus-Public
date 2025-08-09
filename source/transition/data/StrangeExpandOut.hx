@@ -16,7 +16,7 @@ class StrangeExpandOut extends BaseTransition{
 	var wait:Float;
 	var time2:Float;
 
-	final PADDING:Int = 2;
+	final PADDING:Int = 10;
 
 	override public function new(_time:Float, _wait:Float, _time2:Float){
 		

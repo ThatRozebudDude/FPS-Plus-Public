@@ -17,7 +17,7 @@ class ScreenWipeInFlipped extends BaseTransition{
 	var time:Float;
 	var ease:Null<EaseFunction>;
 
-	final PADDING:Int = 2;
+	final PADDING:Int = 10;
 
 	override public function new(_time:Float, ?_ease:Null<EaseFunction>){
 		
