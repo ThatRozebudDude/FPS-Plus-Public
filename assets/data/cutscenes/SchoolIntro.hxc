@@ -70,6 +70,9 @@ class SchoolIntro extends ScriptedCutscene
 				}
 			});
 		});
+		dialogueBox.onDialogueChange.add(function(box){
+			Utils.gc(false);
+		});
 		dialogueBox.cameras = [playstate.camHUD];
 		addGeneric(dialogueBox);
 
@@ -116,14 +119,14 @@ class SchoolIntro extends ScriptedCutscene
 				playstate.camGame.filters.push(fadeInShaderFilter);
 				cutsceneMusic = FlxG.sound.play(Paths.music("week6/Lunchbox"), 0, true);
 				cutsceneMusic.fadeIn(1, 0, 0.8);
-				dialogueBox.onDialogueChange.add(function(box)
-				{
+				dialogueBox.onDialogueChange.add(function(box){
 					switch(box.curLine){
 						case 1:
 							cutsceneMusic.fadeOut(0.2, 0);
 						case 7:
 							cutsceneMusic.fadeIn(1, 0, 0.8);
 					}
+
 				});
 			case "roses-pico":
 				playstate.camGame.filters.push(fadeInShaderFilter);
