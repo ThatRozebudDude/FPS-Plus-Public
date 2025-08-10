@@ -53,8 +53,6 @@ class Startup extends FlxUIStateExt
 
 	var cacheStart:Bool = false;
 
-	public static var thing = false;
-
 	public static var hasEe2:Bool;
 
 	override function create()
