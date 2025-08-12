@@ -55,13 +55,10 @@ class TitleScreen extends MusicBeatState
 
 		useDefaultTransIn = false;
 
-		camBackground = new FlxCamera();
-		camBackground.width *= 2;
-		camBackground.x -= 640;
+		camBackground = new FlxCamera(-50, 0, 1280 + 100, 720);
 		camBackground.angle = -6.26;
 
 		camMain = new FlxCamera();
-		camMain.bgColor.alpha = 0;
 		camMain.bgColor.alpha = 0;
 
 		FlxG.cameras.reset();

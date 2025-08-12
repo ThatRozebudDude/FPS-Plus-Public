@@ -16,15 +16,13 @@ class StrangeExpandIn extends BaseTransition{
 	var blockThing:FlxSprite;
 	var time:Float;
 
-	final PADDING:Int = 10;
-
 	override public function new(_time:Float){
 		
 		super();
 
 		time = _time;
 
-		blockThing = new FlxSprite(PADDING/2, PADDING/2).makeGraphic(FlxG.width + PADDING, FlxG.height + PADDING, FlxColor.BLACK);
+		blockThing = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(blockThing);
 
 	}

@@ -17,8 +17,6 @@ class ScreenWipeIn extends BaseTransition{
 	var time:Float;
 	var ease:Null<EaseFunction>;
 
-	final PADDING:Int = 10;
-
 	override public function new(_time:Float, ?_ease:Null<EaseFunction>){
 		
 		super();
@@ -32,8 +30,7 @@ class ScreenWipeIn extends BaseTransition{
 			ease = _ease;
 		}
 
-		blockThing = FlxGradient.createGradientFlxSprite(FlxG.width + PADDING, FlxG.height*2, [0x00000000, FlxColor.BLACK, FlxColor.BLACK]);
-		blockThing.screenCenter(X);
+		blockThing = FlxGradient.createGradientFlxSprite(FlxG.width, FlxG.height*2, [0x00000000, FlxColor.BLACK, FlxColor.BLACK]);
 		blockThing.y -= blockThing.height/2;
 		add(blockThing);
 

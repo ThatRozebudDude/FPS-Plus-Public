@@ -8,8 +8,11 @@ import scripts.ScriptedState;
 import polymod.hscript._internal.PolymodScriptClass;
 
 import cpp.vm.Gc;
+import openfl.display.BitmapData;
 import openfl.system.System;
+import flixel.FlxCamera;
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.ui.FlxUIState;
 import restricted.RestrictedUtils;
@@ -31,14 +34,32 @@ class FlxUIStateExt extends FlxUIState
 	public var customTransIn:BaseTransition = null;
 	public var customTransOut:BaseTransition = null;
 
-	override function create()
-	{
+	override function create(){
 		if(customTransIn != null){
 			CustomTransition.transition(customTransIn, null);
 		}
 		else if(useDefaultTransIn){
 			CustomTransition.transition(Type.createInstance(defaultTransIn, defaultTransInArgs), null);
 		}
+
+		//This creates a camera and a cover sprite that gets automatically added to a state that will hide anything outside the normal camera bounds.
+		//Not noticable most of the time but Flixel can extend cameras out by 1 pixel when the game isn't at it's native resolution can it can create a weird pixel gap.
+		//Also useful to hide stuff outside the frame on rotated cameras since those won't be clipped to the game resolution and show up when the game is maximized.
+		var coverCamera:FlxCamera = new FlxCamera(((FlxG.width*2)-FlxG.width)/-2, ((FlxG.height*2)-FlxG.height)/-2, FlxG.width*2, FlxG.height*2);
+		coverCamera.bgColor.alpha = 0;
+		FlxG.cameras.add(coverCamera, false);
+
+		//3x3 black image with transparent hole in the center. 
+		var coverBitmap:BitmapData = new BitmapData(3, 3, true, 0xFF000000);
+		coverBitmap.setPixel32(1, 1, 0x00000000);
+		
+		var coverSprite:FlxSprite = new FlxSprite().loadGraphic(coverBitmap);
+		coverSprite.scale.set(1280, 720);
+		coverSprite.x = (coverCamera.width - coverSprite.width) / 2;
+		coverSprite.y = (coverCamera.height - coverSprite.height) / 2;
+		coverSprite.cameras = [coverCamera];
+		add(coverSprite);
+		
 		super.create();
 	}
 
