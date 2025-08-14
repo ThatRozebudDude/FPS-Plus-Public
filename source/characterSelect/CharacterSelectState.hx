@@ -68,6 +68,8 @@ class CharacterSelectState extends MusicBeatState
 
 	var cursorMoveSoundLockout:Float = 0;
 
+	var finalTimer:FlxTimer;
+
 	static var persistentCharacter:String = "bf";
 
 	public function new() {
@@ -371,6 +373,12 @@ class CharacterSelectState extends MusicBeatState
 			reverseCount++;
 			FlxTween.cancelTweensOf(FlxG.sound.music);
 			FlxTween.tween(FlxG.sound.music, {pitch: 1}, reverseTime, {ease: FlxEase.quadIn});
+			if(finalTimer != null){
+				FlxG.sound.music.fadeIn(0.05, FlxG.sound.music.volume, characterSelectSongVolume);
+				finalTimer.cancel();
+				finalTimer.destroy();
+				finalTimer = null;
+			}
 			reverseTime = 0;
 			characterGrid.showNormalCursor();
 			characterGrid.reverseIcon(curGridPosition);
@@ -472,10 +480,11 @@ class CharacterSelectState extends MusicBeatState
 		FlxTween.tween(FlxG.sound.music, {pitch: 0.5}, 0.8, {ease: FlxEase.quadOut, onComplete: function(t){
 			if(reverseCheck == reverseCount){
 				FlxG.sound.music.fadeOut(0.05);
-				canReverse = false;
-				persistentCharacter = curCharacter;
-				FreeplayState.djCharacter = characters.get(curCharacter).freeplayClass;
-				new FlxTimer().start(0.3, function(t) {
+				finalTimer = new FlxTimer().start(0.3, function(t) {
+					canReverse = false;
+					persistentCharacter = curCharacter;
+					FreeplayState.djCharacter = characters.get(curCharacter).freeplayClass;
+
 					switchState(new FreeplayState(fromCharacterSelect));
 					FlxTween.tween(camFollow, {y: camFollow.y - 150}, 0.8, {ease: FlxEase.backIn});
 					FlxTween.tween(titleBar, {y: titleBar.y + 80}, 0.8, {ease: FlxEase.backIn});
