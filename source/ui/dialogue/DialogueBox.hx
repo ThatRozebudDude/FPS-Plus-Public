@@ -210,6 +210,7 @@ class DialogueBox extends FlxSpriteGroup
 		};
 
 		onDialogueChange.dispatch(this);
+		Utils.gc(false);
 	}
 
 	public function finishDialogue(){
@@ -225,6 +226,7 @@ class DialogueBox extends FlxSpriteGroup
 
 		onDialogueEnd.dispatch(this);
 		// new FlxTimer().start(1, function(tmr:FlxTimer){onDialogueEnd.dispatch();});
+		Utils.gc(false);
 	}
 
 	public function boxPlayAnim(animation:String){

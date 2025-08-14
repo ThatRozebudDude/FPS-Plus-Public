@@ -70,9 +70,6 @@ class SchoolIntro extends ScriptedCutscene
 				}
 			});
 		});
-		dialogueBox.onDialogueChange.add(function(box){
-			Utils.gc(false);
-		});
 		dialogueBox.cameras = [playstate.camHUD];
 		addGeneric(dialogueBox);
 
