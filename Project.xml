@@ -34,8 +34,10 @@
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
-	<app path="export/${buildType}" unless="32bit"/>
-	<app path="export/32bit" if="32bit"/>
+	<app path="export/${buildType}" unless="32bit ENABLE_TRACY"/>
+	<app path="export/${buildType}-tracy" unless="32bit" if="ENABLE_TRACY"/>
+	<app path="export/32bit/${buildType}" if="32bit" unless="ENABLE_TRACY"/>
+	<app path="export/32bit/${buildType}-tracy" if="32bit ENABLE_TRACY"/>
 
 	<classpath name="source" />
 
@@ -92,6 +94,17 @@
 
 	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
+	
+	<haxedef name="lime_disable_assets_version" />
+
+	<haxedef name="HXCPP_TELEMETRY" if="ENABLE_TRACY" />
+	<haxedef name="HXCPP_TRACY" if="ENABLE_TRACY" />
+	<haxedef name="HXCPP_TRACY_MEMORY" if="ENABLE_TRACY" />
+	<haxedef name="HXCPP_TRACY_ON_DEMAND" if="ENABLE_TRACY" />
+	<haxedef name="HXCPP_STACK_LINE" if="ENABLE_TRACY" />
+	<haxedef name="HXCPP_CHECK_POINTER" if="ENABLE_TRACY" />
+	<haxedef name="HXCPP_STACK_TRACE" if="ENABLE_TRACY" />
+	<haxedef name="absolute-paths" if="ENABLE_TRACY" />
 
 	<!-- _________________________________ Custom _______________________________ -->
 

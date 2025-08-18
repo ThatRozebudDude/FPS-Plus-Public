@@ -60,6 +60,10 @@ class Startup extends FlxUIStateExt
 
 		//results.ResultsState.enableDebugControls = true;
 
+		#if ENABLE_TRACY
+		cpp.vm.tracy.TracyProfiler.setThreadName("main");
+		#end
+
 		SaveManager.global();
 
 		FlxG.mouse.visible = false;
