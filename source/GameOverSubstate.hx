@@ -78,7 +78,7 @@ class GameOverSubstate extends MusicBeatSubstate
 	override function update(elapsed:Float){
 		super.update(elapsed);
 
-		if (Binds.justPressed("menuAccept") && !isEnding){
+		if(Binds.justPressed("menuAccept") && !isEnding){
 			endBullshit();
 		}
 
@@ -125,6 +125,9 @@ class GameOverSubstate extends MusicBeatSubstate
 		FlxG.sound.music.stop();
 		if(bf.deathSongEnd != null){
 			FlxG.sound.play(Paths.music(bf.deathSongEnd));
+		}
+		if(PlayState.instance.instSong != null){
+			PlayState.overrideInsturmental = PlayState.instance.instSong;
 		}
 		PlayState.instance.stage.gameOverEnd();
 		for(script in PlayState.instance.scripts){ script.gameOverEnd(); }
