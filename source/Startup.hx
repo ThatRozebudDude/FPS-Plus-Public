@@ -103,16 +103,15 @@ class Startup extends FlxUIStateExt
 		splash = new AtlasSprite(0, 0, Paths.getTextureAtlas("fpsPlus/splash"));
 		splash.antialiasing = true;
 
-		var labels = [];
-		for(tempLabel in splash.anim.getFrameLabels()){ labels.push(tempLabel.name); }
+		splashHasSoundTrigger = splash.anim.findFrameLabelIndices("Trigger Sound").length > 0;
 
 		splash.addAnimationByLabel("start", "Start", 24, false);
-		if(labels.contains("Trigger Sound")){
+		if(splashHasSoundTrigger){
 			splash.addAnimationByLabel("soundTrigger", "Trigger Sound", 24, false);
-			splashHasSoundTrigger = true;
 		}
 		splash.addAnimationByLabel("end", "End", 24, false);
 		splash.animationEndCallback = splashState;
+		splash.useCanvasOffset = true;
 		add(splash);
 
 		CacheReload.buildPreloadList();

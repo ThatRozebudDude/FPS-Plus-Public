@@ -70,7 +70,7 @@
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
 	<haxelib name="compiletime" />
-	<haxelib name="flxanimate" />
+	<haxelib name="flixel-animate" />
 	<haxelib name="hxvlc" if="desktop" />
 	<haxelib name="funkin.vis" />
 	<haxelib name="grig.audio" />

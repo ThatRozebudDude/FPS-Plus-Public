@@ -900,7 +900,7 @@ class Character extends FlxSpriteGroup
 			return character.animation.curAnim.curFrame;
 		}
 		else{ //Code for atlas characters
-			return atlasCharacter.anim.curFrame - atlasCharacter.animInfoMap.get(curAnim).startFrame;
+			return atlasCharacter.anim.curAnim.curFrame - atlasCharacter.animInfoMap.get(curAnim).startFrame;
 		}
 	}
 
@@ -909,7 +909,7 @@ class Character extends FlxSpriteGroup
 			character.animation.curAnim.curFrame = frameNumber;
 		}
 		else{ //Code for atlas characters
-			atlasCharacter.anim.curFrame = atlasCharacter.animInfoMap.get(curAnim).startFrame + frameNumber;
+			atlasCharacter.anim.curAnim.curFrame = atlasCharacter.animInfoMap.get(curAnim).startFrame + frameNumber;
 		}
 	}
 
@@ -918,7 +918,7 @@ class Character extends FlxSpriteGroup
 			return character.animation.curAnim.frameRate;
 		}
 		else{ //Code for atlas characters
-			return atlasCharacter.anim.framerate;
+			return atlasCharacter.anim.curAnim.frameRate;
 		}
 	}
 
@@ -927,7 +927,7 @@ class Character extends FlxSpriteGroup
 			return character.animation.curAnim.finished;
 		}
 		else{ //Code for atlas characters
-			return !atlasCharacter.anim.isPlaying;
+			return atlasCharacter.finishedAnim;
 		}
 	}
 
