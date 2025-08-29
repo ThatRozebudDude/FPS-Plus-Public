@@ -2,7 +2,6 @@ package modding;
 
 import transition.CustomTransition;
 import transition.data.InstantTransition;
-import caching.*;
 import openfl.Assets;
 import haxe.Json;
 import flixel.FlxG;
@@ -13,7 +12,7 @@ using StringTools;
 class PolymodHandler
 {
 
-	public static final API_VERSION:Array<Int> = [1, 6, 0];
+	public static final API_VERSION:Array<Int> = [1, 7, 0];
 	public static final API_VERSION_STRING:String = API_VERSION[0]+"."+API_VERSION[1]+"."+API_VERSION[2];
 
 	public static final ASSETS_FOLDER:String =
@@ -31,6 +30,9 @@ class PolymodHandler
 	
 	public static var loadedModDirs:Array<String>;
 	public static var loadedModMetadata:Array<ModMetadata>;
+
+	static var uidToFolder:Map<String, String>;
+	static var modMetadata:Map<String, Dynamic>;
 
 	public static function init():Void{
 		buildImports();
@@ -160,6 +162,8 @@ class PolymodHandler
 		//Do version handling
 		//For some reason, the version rule didnt't actually seem to be preventing mods from loading(?) so I'll manually check to cull the mods from the list.
 		malformedMods = new Map<String, ModError>();
+		uidToFolder = new Map<String, String>();
+		modMetadata = new Map<String, Dynamic>();
 
 		for(mod in loadedModDirs){
 			if(!sys.FileSystem.exists("mods/" + mod + "/meta.json")){
@@ -198,6 +202,11 @@ class PolymodHandler
 				trace("COULD NOT LOAD MOD \"" + mod + "\": API_VERSION_TOO_NEW");
 				continue;
 			}
+
+			if(json.uid != null){
+				uidToFolder.set(json.uid, mod);
+			}
+			modMetadata.set(mod, json);
 		}
 
 		loadedModDirs = loadedModDirs.filter(function(mod){ return !malformedMods.exists(mod); });
@@ -386,6 +395,27 @@ class PolymodHandler
 		result.push('README.md');
 
 		return result;
+	}
+
+	public static function getModFolderFromUid(uid:String):String{
+		if(uidToFolder.exists(uid)){
+			return uidToFolder.get(uid);
+		}
+		return null;
+	}
+
+	public static function getModMetaFromUid(uid:String):Dynamic{
+		if(uidToFolder.exists(uid)){
+			return getModMetaFromFolder(uidToFolder.get(uid));
+		}
+		return null;
+	}
+
+	public static function getModMetaFromFolder(folder:String):Dynamic{
+		if(modMetadata.exists(folder)){
+			return modMetadata.get(folder);
+		}
+		return null;
 	}
 }
 
