@@ -159,7 +159,6 @@ class AtlasSprite extends FlxAnimate
 		var animInfo:AtlasAnimInfo = animInfoMap.get(curAnim);
 
 		if(useCanvasOffset){
-			trace(anim.getDefaultTimeline().getBoundsOrigin());
 			offset.set(-anim.getDefaultTimeline().getBoundsOrigin().x, -anim.getDefaultTimeline().getBoundsOrigin().y);
 		}
 
