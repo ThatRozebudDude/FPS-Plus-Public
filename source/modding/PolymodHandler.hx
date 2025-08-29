@@ -179,7 +179,7 @@ class PolymodHandler
 				continue;
 			}
 
-			var modAPIVersion:Array<Int> = [Std.parseInt(json.api_version.split(".")[0]), Std.parseInt(json.api_version.split(".")[1]), Std.parseInt(json.api_version.split(".")[2])];
+			var modAPIVersion:Array<Int> = getSeparatedVersionNumber(json.api_version);
 			if(json.uid == null && modAPIVersion[1] >= 4){
 				malformedMods.set(mod, MISSING_UID);
 				trace("COULD NOT LOAD MOD \"" + mod + "\": MISSING_UID");
@@ -416,6 +416,10 @@ class PolymodHandler
 			return modMetadata.get(folder);
 		}
 		return null;
+	}
+
+	inline public static function getSeparatedVersionNumber(version:String):Array<Int>{
+		return [Std.parseInt(version.split(".")[0]), Std.parseInt(version.split(".")[1]), Std.parseInt(version.split(".")[2])];
 	}
 }
 
