@@ -1,5 +1,6 @@
 package modding;
 
+import sys.FileSystem;
 import transition.CustomTransition;
 import transition.data.InstantTransition;
 import openfl.Assets;
@@ -397,6 +398,7 @@ class PolymodHandler
 		return result;
 	}
 
+	//Use a mod's UID to look up what folder it's in. Useful to make sure you have the right folder in case the user renamed it.
 	public static function getModFolderFromUid(uid:String):String{
 		if(uidToFolder.exists(uid)){
 			return uidToFolder.get(uid);
@@ -420,6 +422,16 @@ class PolymodHandler
 
 	inline public static function getSeparatedVersionNumber(version:String):Array<Int>{
 		return [Std.parseInt(version.split(".")[0]), Std.parseInt(version.split(".")[1]), Std.parseInt(version.split(".")[2])];
+	}
+	
+	//Checks through the loaded mods to see what mod a file is from. Returns `null` if it's not a mod file.
+	public static function getAssetModFolder(path:String):String{
+		for(mod in loadedModDirs){
+			if(FileSystem.exists('mods/$mod/' + path.split("assets/")[1])){
+				return mod;
+			}
+		}
+		return null;
 	}
 }
 

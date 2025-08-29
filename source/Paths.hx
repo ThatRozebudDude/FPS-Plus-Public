@@ -7,6 +7,7 @@ import sys.FileSystem;
 import caching.*;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.FlxGraphic;
+import modding.PolymodHandler;
 
 using StringTools;
 
@@ -82,8 +83,17 @@ class Paths
 		return FlxAtlasFrames.fromSpriteSheetPacker(image(key), text(textFile, "images"));
 	}
 
-	inline static public function getTextureAtlas(key:String){
-		return 'assets/images/$key';
+	inline static public function getTextureAtlas(key:String):TextureAtlasData{
+		var _path:String = 'assets/images/$key';
+		var _old:Bool = false;
+		//Checks if the file is from a mod and if it is it checks if the Mod API version is 1.6.0 or older and automatically sets the sprite to use the old positioning system.
+		if(Assets.exists(_path + "/spritemap1.png")){
+			var fromMod:String = PolymodHandler.getAssetModFolder(_path + "/spritemap1.png");
+			if(fromMod != null){
+				_old = PolymodHandler.getSeparatedVersionNumber(PolymodHandler.getModMetaFromFolder(fromMod).api_version)[1] <= 6;
+			}
+		}
+		return {path: _path, old: _old};
 	}
 
 	//Stolen from Psych Engine hehehhehe
@@ -115,4 +125,9 @@ class Paths
 		return file(key, "data/shaders", extension);
 	}
 
+}
+
+typedef TextureAtlasData = {
+	var path:String;
+	var old:Bool;
 }

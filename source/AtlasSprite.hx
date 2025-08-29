@@ -8,6 +8,7 @@ import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.FlxGraphic;
 import flixel.math.FlxRect;
+import Paths.TextureAtlasData;
 
 typedef AtlasAnimInfo = {
 	startFrame:Int,
@@ -33,18 +34,18 @@ class AtlasSprite extends FlxAnimate
 
 	public var useCanvasOffset:Bool = true;
 
-	public function new(?_x:Float, ?_y:Float, _path:String, ?_settings:FlxAnimateSettings) {
-		super(_x, _y, _path, _settings);
+	public function new(?_x:Float, ?_y:Float, ?_path:TextureAtlasData, ?_settings:FlxAnimateSettings) {
+		super(_x, _y, null, null);
 		if(_path != null){
-			anim.addByTimeline("___full", anim.getDefaultTimeline(), 24, false);
-			anim.onFrameChange.add(animCallback);
+			loadAtlas(_path, _settings);
 		}
 	}
 
-	public function loadAtlas(_path:String, ?_settings:FlxAnimateSettings){
-		frames = FlxAnimateFrames.fromAnimate(_path, null, null, null, false, _settings);
+	public function loadAtlas(_path:TextureAtlasData, ?_settings:FlxAnimateSettings){
+		frames = FlxAnimateFrames.fromAnimate(_path.path, null, null, null, false, _settings);
 		anim.addByTimeline("___full", anim.getDefaultTimeline(), 24, false);
 		anim.onFrameChange.add(animCallback);
+		if(_path.old){ useCanvasOffset = true; }
 	}
 
 	public function addAnimationByLabel(name:String, label:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
