@@ -7,7 +7,6 @@ import scripts.ScriptableState;
 import scripts.ScriptedState;
 import polymod.hscript._internal.PolymodScriptClass;
 
-import cpp.vm.Gc;
 import openfl.display.BitmapData;
 import openfl.system.System;
 import flixel.FlxCamera;

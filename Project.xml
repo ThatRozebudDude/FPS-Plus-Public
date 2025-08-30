@@ -17,6 +17,9 @@
 
 	<!--Allows all of Flixel to be used by scripts at runtime instead of only what was imported in the code.-->
 	<compilerflag name="--macro" value="include('flixel', true, [ 'flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.system.macros.*' ])" />
+	
+	<!--Not working boo hoo.-->
+	<!--compilerflag name="-/-macro" value="addMetadata('@:build(AtlasSprite.FlxAnimateFramesMacro.changeGetGraphic())', 'animate.FlxAnimateFrames')" /-->
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 

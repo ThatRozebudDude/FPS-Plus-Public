@@ -32,7 +32,7 @@ class AtlasSprite extends FlxAnimate
 	var loopTimer:Float = -1;
 	var loopTime:Float = -1;
 
-	public var useCanvasOffset:Bool = true;
+	public var useCanvasOffset:Bool = false;
 
 	public function new(?_x:Float, ?_y:Float, ?_path:TextureAtlasData, ?_settings:FlxAnimateSettings) {
 		super(_x, _y, null, null);
@@ -215,3 +215,44 @@ class AtlasSprite extends FlxAnimate
 		super.update(elapsed);
 	}
 }
+
+/*
+static function getGraphic(path:String):FlxGraphic{
+		trace("we do this instead");
+		if(ImageCache.exists(path)){
+			return ImageCache.get(path).graphic;
+		}
+		else{
+			return ImageCache.loadLocal(path).graphic;
+		}
+	}
+*/
+
+//Not working but maybe i can get it to work later? idk.
+#if !display
+#if macro
+class FlxAnimateFramesMacro
+{
+	//Override the FlxAnimateFrames `getGraphic()` function to use my image caching stuff instead of Flixel's normal bitmap cache.
+	public static macro function changeGetGraphic():Array<haxe.macro.Expr.Field>{
+		var fields = haxe.macro.Context.getBuildFields();
+		for(field in fields){
+			if(field.name == "getGraphic"){
+				var originalExpression = f.expr;
+				f.expr = macro {
+					trace("we do this instead");
+					if(ImageCache.exists(path)){
+						return ImageCache.get(path).graphic;
+					}
+					else{
+						return ImageCache.loadLocal(path).graphic;
+					}
+				};
+				trace("Modified animate.FlxAnimateFrames.getGraphic()");
+			}
+		}
+		return fields;
+	}
+}
+#end
+#end
