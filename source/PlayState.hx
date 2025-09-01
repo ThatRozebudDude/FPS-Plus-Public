@@ -1715,15 +1715,16 @@ class PlayState extends MusicBeatState
 		}
 
 		if(!startingSong){
-			for(i in eventList){
-				var eventTime = i[0] + Config.offset;
+			for(event in eventList){
+				var prefix = event[1].split(";")[0];
+				var eventTime = event[0] + (Events.ignoreOffset.contains(prefix) ? 0 : Config.offset);
 				if(eventTime < 0) { eventTime = 0; }
 				if(eventTime > Conductor.songPosition){
 					break;
 				}
 				else{
-					executeEvent(i[1]);
-					eventList.remove(i);
+					executeEvent(event[1]);
+					eventList.remove(event);
 				}
 			}
 		}
