@@ -14,10 +14,13 @@ class Events
 	public static var preEvents:Map<String, (String)->Void>;
 	public static var eventsMeta:Map<String, String>;
 
+	public static var ignoreOffset:Array<String>;
+
 	public static function initEvents():Void{
 		events = new Map<String, (String)->Void>();
 		preEvents = new Map<String, (String)->Void>();
 		eventsMeta = new Map<String, String>();
+		ignoreOffset = [];
 
 		for(x in ScriptableEvents.listScriptClasses()){
 			var eventClass:Events = ScriptableEvents.init(x);
@@ -30,13 +33,25 @@ class Events
 	*/
 	public function defineEvents():Void{}
 
-	function addEvent(prefix:String, processFunction:(String)->Void, metaDescription:String = null, preprocessFunction:(String)->Void = null):Void{
+	/**
+	 * Adds an event that will be processed once the cutscene is started.
+	 *
+	 * @param   prefix				The event tag prefix used to call the event. Basically the event's name.
+	 * @param   processFunction		The function that is run when the event is triggered. It get's passed the whole event tag as it's parameter.
+	 * @param   metaDescription		The description of the function that will appear in the chart editor.
+	 * @param   preprocessFunction	A function that is run at the start of PlayState. Useful if you need to have something already loaded for the event. It get's passed the whole event tag as it's parameter.
+	 * @param   ignoreNoteOffset	Whether the event should ignore the user's note offset. This should only really be used if the event needs to sync with the audio of a song.
+	 */
+	function addEvent(prefix:String, processFunction:(String)->Void, metaDescription:String = null, preprocessFunction:(String)->Void = null, ignoreNoteOffset:Bool = false):Void{
 		events.set(prefix, processFunction);
 		if(metaDescription != null){
 			eventsMeta.set(prefix, metaDescription);
 		}
 		if(preprocessFunction != null){
 			preEvents.set(prefix, preprocessFunction);
+		}
+		if(ignoreNoteOffset){
+			ignoreOffset.push(prefix);
 		}
 	}
 
