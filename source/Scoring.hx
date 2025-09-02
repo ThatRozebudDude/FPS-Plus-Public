@@ -16,6 +16,7 @@ class Scoring
 	public static final HOLD_DROP_INITAL_DAMAGE:Float = (3 / 100) * 2;
 	public static final HOLD_DROP_DMAMGE_PER_NOTE:Float = (2 / 100) * 2;
 
+	public static final PERFECT_SCORE_THRESHOLD:Float = 5.0;
 	public static final MAX_NOTE_SCORE:Int = 500;
 	public static final MIN_NOTE_SCORE:Int = 9;
 	public static final HOLD_SCORE_PER_SECOND:Int = 250;
@@ -33,7 +34,7 @@ class Scoring
 		var slope = 0.080;
 		var offset = 54.99;
 
-		if(rateNote(absTiming) == "sick"){
+		if(absTiming < PERFECT_SCORE_THRESHOLD){
 			return MAX_NOTE_SCORE;
 		}
 	  

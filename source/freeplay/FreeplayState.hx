@@ -1265,7 +1265,7 @@ class FreeplayState extends MusicBeatState
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 
 		FlxTween.cancelTweensOf(resetScoreColorDummy.color);
-		FlxTween.color(resetScoreColorDummy, 0.5, 0xFFFFDD00, 0xFFFFFFFF, {type: PINGPONG});
+		FlxTween.color(resetScoreColorDummy, 0.5, 0xFFFFEE00, 0xFFFFFFFF, {type: PINGPONG});
 	}
 
 	function closeResetScorePopup():Void{
