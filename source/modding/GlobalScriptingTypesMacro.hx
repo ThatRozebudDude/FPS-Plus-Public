@@ -345,6 +345,24 @@ class GlobalScriptingTypesMacro
 			pos: pos,
 		});
 
+		fieldsToAdd.push({
+			name: "isInPlayState",
+			access: [Access.APublic],
+			kind: FieldType.FProp("get", "null", (macro:Bool)), 
+			pos: pos,
+		});
+
+		fieldsToAdd.push({
+			name: "get_isInPlayState",
+			access: [Access.APrivate, Access.AInline],
+			kind: FieldType.FFun({ 
+				expr: macro return PlayState.isInPlayState(),
+				ret: (macro:Bool),
+				args:[]
+			}),
+			pos: pos,
+		});
+
 		for(field in fieldsToAdd){ fields.push(field); }
 
 		return fields;

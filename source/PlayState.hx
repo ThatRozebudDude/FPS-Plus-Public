@@ -3173,6 +3173,10 @@ class PlayState extends MusicBeatState
 		if(_overrideInstrumental != null)	{ PlayState.overrideInsturmental = _overrideInstrumental; }
 	}
 
+	inline public static function isInPlayState():Bool{
+		return Type.getClass(FlxG.state) == PlayState;
+	}
+
 }
 
 enum abstract VocalType(Int) {
