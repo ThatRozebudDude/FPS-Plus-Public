@@ -53,8 +53,8 @@ class Highscore
 		setScore(formatSong(_song, _diff), proposedStats, forceSave);
 	}
 
-	public static function saveWeekScore(_week:String = "week1", _score:Int = 0, _accurracy:Float = 0, _diff:Int = 1, _rank:Rank = none):Void{
-		saveScore(_week, _score, _accurracy, _diff, _rank);
+	public static function saveWeekScore(_week:String = "week1", _score:Int = 0, _accurracy:Float = 0, _diff:Int = 1, _rank:Rank = none, forceSave:Bool = false):Void{
+		saveScore(_week, _score, _accurracy, _diff, _rank, forceSave);
 	}
 
 	static function setScore(_song:String, _stats:SongStats, forceSave:Bool = false):Void{
