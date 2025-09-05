@@ -33,7 +33,7 @@ import yaml.util.ObjectMap;
 class Utils
 {
 
-	public static final resultsTextCharacters = "AaBbCcDdEeFfGgHhiIJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz:1234567890.-'[]()";
+	public static final resultsTextCharacters = "AaBbCcDdEeFfGgHhiIJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz:1234567890.-'[]()!?";
 
 	public static function getTextInLines(path:String):Array<String>{
 		var daList:Array<String> = getText(path).trim().split('\n');

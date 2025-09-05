@@ -29,34 +29,36 @@ class Highscore
 
 	static final forceResetScores:Bool = false;
 
-	public static function saveScore(_song:String, _score:Int = 0, _accurracy:Float = 0, _diff:Int = 1, _rank:Rank = none):Void{
+	public static function saveScore(_song:String, _score:Int = 0, _accurracy:Float = 0, _diff:Int = 1, _rank:Rank = none, forceSave:Bool = false):Void{
 		var proposedStats:SongStats = {
 			score: _score,
 			accuracy: _accurracy,
 			rank: _rank
 		};
 
-		var currentStats = getScore(_song, _diff);
+		if(!forceSave){
+			var currentStats = getScore(_song, _diff);
 
-		if (proposedStats.score < currentStats.score){
-			proposedStats.score = currentStats.score;
-		}
-		if (proposedStats.accuracy < currentStats.accuracy){
-			proposedStats.accuracy = currentStats.accuracy;
-		}
-		if (rankToInt(proposedStats.rank) < rankToInt(currentStats.rank)){
-			proposedStats.rank = currentStats.rank;
+			if (proposedStats.score < currentStats.score){
+				proposedStats.score = currentStats.score;
+			}
+			if (proposedStats.accuracy < currentStats.accuracy){
+				proposedStats.accuracy = currentStats.accuracy;
+			}
+			if (rankToInt(proposedStats.rank) < rankToInt(currentStats.rank)){
+				proposedStats.rank = currentStats.rank;
+			}
 		}
 			
-		setScore(formatSong(_song, _diff), proposedStats);
+		setScore(formatSong(_song, _diff), proposedStats, forceSave);
 	}
 
-	public static function saveWeekScore(_week:String = "week1", _score:Int = 0, _accurracy:Float = 0, _diff:Int = 1, _rank:Rank = none):Void{
-		saveScore(_week, _score, _accurracy, _diff, _rank);
+	public static function saveWeekScore(_week:String = "week1", _score:Int = 0, _accurracy:Float = 0, _diff:Int = 1, _rank:Rank = none, forceSave:Bool = false):Void{
+		saveScore(_week, _score, _accurracy, _diff, _rank, forceSave);
 	}
 
-	static function setScore(_song:String, _stats:SongStats):Void{
-		if(_stats.score == 0 && _stats.accuracy == 0 && _stats.rank == none){ return; }
+	static function setScore(_song:String, _stats:SongStats, forceSave:Bool = false):Void{
+		if(_stats.score == 0 && _stats.accuracy == 0 && _stats.rank == none && !forceSave){ return; }
 
 		// Reminder that I don't need to format this song, it should come formatted!
 		SaveManager.scores();

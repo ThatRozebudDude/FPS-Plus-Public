@@ -9,9 +9,12 @@ import title.*;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.graphics.frames.FlxBitmapFont;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxGroup;
 import flixel.math.FlxMath;
+import flixel.math.FlxPoint;
+import flixel.text.FlxBitmapText;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
@@ -28,19 +31,9 @@ class StoryMenuState extends MusicBeatState
 	var scoreText:FlxText;
 
 	public static var fromPlayState:Bool = false;
-
-	//public static var weekData:Array<Array<String>> = [];
 	
 	static var curDifficulty:Int = 1;
 
-	//public static var weekUnlocked:Array<Bool> = [];
-
-	//public static var weekCharacters = [];
-
-	//public static var weekNames:Array<String> = [];
-	//public static var weekNamesShort:Array<String> = [];
-
-	//public static var weekList:Array<String> = [];
 	public static var weekList:Array<StoryWeek> = [];
 
 	var txtWeekTitle:FlxText;
@@ -62,6 +55,15 @@ class StoryMenuState extends MusicBeatState
 	var sprDifficulty:FlxSprite;
 	var leftArrow:FlxSprite;
 	var rightArrow:FlxSprite;
+
+	var selectingMode:String = "week";
+
+	var resetScoreBox:FlxSprite;
+	var resetScoreText:FlxBitmapText;
+	var resetScoreYes:FlxBitmapText;
+	var resetScoreNo:FlxBitmapText;
+	var resetScoreState:Bool = false;
+	var resetScoreColorDummy:FlxSprite = new FlxSprite();
 
 	public function new(?stickerIntro:Bool = false) {
 		super();
@@ -94,12 +96,16 @@ class StoryMenuState extends MusicBeatState
 		rankText.screenCenter(X);
 
 		ui_tex = Paths.getSparrowAtlas('menu/story/campaign_menu_UI_assets');
-		yellowBG = new FlxSprite(0, 56).makeGraphic(FlxG.width, 400, 0xFFFFFFFF); //not so yellow now, huh...
+		yellowBG = new FlxSprite(0, 56).makeGraphic(1, 1, 0xFFFFFFFF); //not so yellow now, huh...
+		yellowBG.scale.set(FlxG.width, 400);
+		yellowBG.updateHitbox();
 
 		grpWeekText = new FlxTypedGroup<MenuItem>();
 		add(grpWeekText);
 
-		var blackBarThingie:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, 56, FlxColor.BLACK);
+		var blackBarThingie:FlxSprite = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
+		blackBarThingie.scale.set(FlxG.width, 56);
+		blackBarThingie.updateHitbox();
 		add(blackBarThingie);
 
 		grpWeekCharacters = new FlxTypedGroup<MenuCharacter>();
@@ -243,6 +249,43 @@ class StoryMenuState extends MusicBeatState
 
 		fromPlayState = false;
 
+		resetScoreBox = new FlxSprite(0, 256 - 75).makeGraphic(480, 150, 0xFF000000);
+		resetScoreBox.antialiasing = true;
+		resetScoreBox.screenCenter(X);
+		resetScoreBox.visible = false;
+
+		resetScoreText = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
+		resetScoreText.text = "Reset Score?";
+		resetScoreText.letterSpacing = -15;
+		resetScoreText.antialiasing = true;
+		resetScoreText.blend = ADD;
+		resetScoreText.setPosition(resetScoreBox.getMidpoint().x, resetScoreBox.y + 17);
+		resetScoreText.x -= resetScoreText.width/2;
+		resetScoreText.visible = false;
+
+		resetScoreYes = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
+		resetScoreYes.text = "Yes";
+		resetScoreYes.letterSpacing = -15;
+		resetScoreYes.antialiasing = true;
+		resetScoreYes.blend = ADD;
+		resetScoreYes.setPosition(resetScoreBox.getMidpoint().x - (resetScoreBox.width/4), resetScoreBox.y + 86);
+		resetScoreYes.x -= resetScoreYes.width/2;
+		resetScoreYes.visible = false;
+
+		resetScoreNo = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
+		resetScoreNo.text = "No";
+		resetScoreNo.letterSpacing = -15;
+		resetScoreNo.antialiasing = true;
+		resetScoreNo.blend = ADD;
+		resetScoreNo.setPosition(resetScoreBox.getMidpoint().x + (resetScoreBox.width/4), resetScoreBox.y + 86);
+		resetScoreNo.x -= resetScoreNo.width/2;
+		resetScoreNo.visible = false;
+
+		add(resetScoreBox);
+		add(resetScoreText);
+		add(resetScoreYes);
+		add(resetScoreNo);
+
 		super.create();
 	}
 
@@ -274,50 +317,99 @@ class StoryMenuState extends MusicBeatState
 			lock.y = grpWeekText.members[lock.ID].y;
 		});
 
-		if (!movedBack){
-			if (!selectedWeek){
-				if(Binds.justPressed("menuUp")){
-					changeWeek(-1);
-					changeDifficulty(0, false);
+		switch(selectingMode){
+			case "week":
+				if (!movedBack){
+					if (!selectedWeek){
+						if(Binds.justPressed("menuUp")){
+							changeWeek(-1);
+							changeDifficulty(0, false);
+						}
+						else if(Binds.justPressed("menuDown")){
+							changeWeek(1);
+							changeDifficulty(0, false);
+						}
+		
+						if (Binds.pressed("menuRight")){
+							rightArrow.animation.play('press');
+						}
+						else{
+							rightArrow.animation.play('idle');
+						}
+		
+						if(Binds.pressed("menuLeft")){
+							leftArrow.animation.play('press');
+						}
+						else{
+							leftArrow.animation.play('idle');
+						}
+		
+						if(Binds.justPressed("menuRight")){
+							changeDifficulty(1);
+							FlxG.sound.play(Paths.sound('scrollMenu'));
+						}
+		
+						if(Binds.justPressed("menuLeft")){
+							changeDifficulty(-1);
+							FlxG.sound.play(Paths.sound('scrollMenu'));
+						}
+					}
+		
+					if (Binds.justPressed("menuAccept")){
+						selectWeek();
+					}
+					else if(Binds.justPressed("menuResetScore")){
+						openResetScorePopup();
+					}
 				}
-				else if(Binds.justPressed("menuDown")){
-					changeWeek(1);
-					changeDifficulty(0, false);
+		
+				if (Binds.justPressed("menuBack") && !movedBack && !selectedWeek)
+				{
+					FlxG.sound.play(Paths.sound('cancelMenu'));
+					movedBack = true;
+					switchState(new MainMenuState());
 				}
 
-				if (Binds.pressed("menuRight")){
-					rightArrow.animation.play('press');
+			case "resetScore":
+				if(Binds.justPressed("menuLeft") || Binds.justPressed("menuRight")){
+					resetScoreState = !resetScoreState;
+					FlxG.sound.play(Paths.sound('scrollMenu'));
+					if(resetScoreState){
+						FlxTween.cancelTweensOf(resetScoreYes.scale);
+						resetScoreYes.scale.set(1.3, 1.3);
+						FlxTween.tween(resetScoreYes.scale, {x: 1, y: 1}, 1/4, {ease: FlxEase.quartOut});
+					}
+					else{
+						FlxTween.cancelTweensOf(resetScoreNo.scale);
+						resetScoreNo.scale.set(1.3, 1.3);
+						FlxTween.tween(resetScoreNo.scale, {x: 1, y: 1}, 1/4, {ease: FlxEase.quartOut});
+					}
+				}
+
+				if(resetScoreState){
+					resetScoreYes.color = resetScoreColorDummy.color;
+					resetScoreNo.color = 0xFF7F7F7F;
 				}
 				else{
-					rightArrow.animation.play('idle');
+					resetScoreNo.color = resetScoreColorDummy.color;
+					resetScoreYes.color = 0xFF7F7F7F;
 				}
 
-				if(Binds.pressed("menuLeft")){
-					leftArrow.animation.play('press');
+				if(Binds.justPressed("menuAccept") && resetScoreState){
+					for(i in 0...3){
+						if(Highscore.getWeekScore(weekList[curWeek].id, i).score > 0){
+							Highscore.saveWeekScore(weekList[curWeek].id, 0, 0, i, none, true);
+						}
+					}
+					intendedScore = 0;
+					closeResetScorePopup();
+					FlxG.sound.play(Paths.sound('confirmMenu'));
 				}
-				else{
-					leftArrow.animation.play('idle');
+				else if(Binds.justPressed("menuBack") || (Binds.justPressed("menuAccept") && !resetScoreState)){
+					closeResetScorePopup();
+					FlxG.sound.play(Paths.sound('cancelMenu'));
 				}
 
-				if(Binds.justPressed("menuRight")){
-					changeDifficulty(1);
-				}
-
-				if(Binds.justPressed("menuLeft")){
-					changeDifficulty(-1);
-				}
-			}
-
-			if (Binds.justPressed("menuAccept")){
-				selectWeek();
-			}
-		}
-
-		if (Binds.justPressed("menuBack") && !movedBack && !selectedWeek)
-		{
-			FlxG.sound.play(Paths.sound('cancelMenu'));
-			movedBack = true;
-			switchState(new MainMenuState());
 		}
 
 		if (Binds.justPressed("polymodReload") && !movedBack){
@@ -508,6 +600,59 @@ class StoryMenuState extends MusicBeatState
 		txtTracklist.screenCenter(X);
 		txtTracklist.x -= FlxG.width * 0.35;
 		intendedScore = Highscore.getWeekScore(weekList[curWeek].id, curDifficulty).score;
+	}
+
+	function openResetScorePopup():Void{
+		selectingMode = "resetScore";
+		resetScoreBox.visible = true;
+		resetScoreText.visible = true;
+		resetScoreYes.visible = true;
+		resetScoreNo.visible = true;
+		resetScoreState = false;
+
+		FlxTween.cancelTweensOf(resetScoreBox);
+		FlxTween.cancelTweensOf(resetScoreBox.scale);
+		FlxTween.cancelTweensOf(resetScoreText);
+		FlxTween.cancelTweensOf(resetScoreYes);
+		FlxTween.cancelTweensOf(resetScoreNo);
+
+		resetScoreBox.alpha = 0.6;
+		resetScoreBox.scale.set(1.05, 0.9);
+		resetScoreText.alpha = 0.6;
+		resetScoreYes.alpha = 0.6;
+		resetScoreNo.alpha = 0.6;
+		
+		FlxTween.tween(resetScoreBox, {alpha: 1}, 0.4, {ease: FlxEase.expoOut});
+		FlxTween.tween(resetScoreBox.scale, {x: 1, y: 1}, 0.6, {ease: FlxEase.elasticOut});
+		FlxTween.tween(resetScoreText, {alpha: 1}, 0.4, {ease: FlxEase.expoOut});
+		FlxTween.tween(resetScoreYes, {alpha: 1}, 0.4, {ease: FlxEase.expoOut});
+		FlxTween.tween(resetScoreNo, {alpha: 1}, 0.4, {ease: FlxEase.expoOut});
+
+		FlxG.sound.play(Paths.sound('scrollMenu'));
+
+		FlxTween.cancelTweensOf(resetScoreColorDummy.color);
+		FlxTween.color(resetScoreColorDummy, 0.5, 0xFFFFEE00, 0xFFFFFFFF, {type: PINGPONG});
+	}
+
+	function closeResetScorePopup():Void{
+		selectingMode = "week";
+
+		FlxTween.cancelTweensOf(resetScoreBox);
+		FlxTween.cancelTweensOf(resetScoreBox.scale);
+		FlxTween.cancelTweensOf(resetScoreText);
+		FlxTween.cancelTweensOf(resetScoreYes);
+		FlxTween.cancelTweensOf(resetScoreNo);
+		
+		FlxTween.tween(resetScoreBox, {alpha: 0.4}, 2/24, {ease: FlxEase.quadOut});
+		//FlxTween.tween(resetScoreBox.scale, {x: 1, y: 1}, 0.6, {ease: FlxEase.elasticOut});
+		FlxTween.tween(resetScoreYes, {alpha: 0.4}, 2/24, {ease: FlxEase.expoOut});
+		FlxTween.tween(resetScoreNo, {alpha: 0.4}, 2/24, {ease: FlxEase.expoOut});
+		FlxTween.tween(resetScoreText, {alpha: 0.4}, 2/24, {ease: FlxEase.expoOut, onComplete: function(t){
+			resetScoreBox.visible = false;
+			resetScoreText.visible = false;
+			resetScoreYes.visible = false;
+			resetScoreNo.visible = false;
+		}});
 	}
 }
 

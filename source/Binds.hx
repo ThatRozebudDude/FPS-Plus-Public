@@ -175,6 +175,15 @@ class Binds
 		r.set("menuChangeCharacter", k);
 
 		var k:Keybind = {
+			name: "Reset Score",
+			category: "Menu",
+			binds: [R],
+			controllerBinds: [BACK],
+			local: false
+		};
+		r.set("menuResetScore", k);
+
+		var k:Keybind = {
 			name: "Fullscreen",
 			category: "Menu",
 			binds: [F11],

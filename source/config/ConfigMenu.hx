@@ -1,5 +1,6 @@
 package config;
 
+import Highscore.SongStats;
 import openfl.events.Event;
 import flixel.addons.display.FlxGridOverlay;
 import shaders.ColorGradientShader;
@@ -53,6 +54,9 @@ class ConfigMenu extends FlxUIStateExt
 	var exiting:Bool = false;
 
 	var invertedTitleColorShader = new ColorGradientShader(0xFFFFFFFF, 0xFF000000);
+
+	var selectionColor:FlxColor = 0xFFFFEE00;
+	final selectionColors:Array<FlxColor> = [0xFFFFEE00, 0xFFFFBB00, 0xFF6600, 0xFFFF0000];
 
 	final iconOffsets:Array<Float> = [-1000, -500, 0, 500, 1000];
 	final iconScales:Array<Float> = [0.4, 0.7, 1, 0.7, 0.4];
@@ -438,9 +442,15 @@ class ConfigMenu extends FlxUIStateExt
 					if(pressDown){
 						if(curListStartOffset + curListPosition < configOptions[curSelected].length-1){
 							if(curListPosition == 5){
+								if(configOptions[curSelected][curListStartOffset + curListPosition].optionDeselect != null){
+									configOptions[curSelected][curListStartOffset + curListPosition].optionDeselect();
+								}
 								curListStartOffset++;
 							}
 							else{
+								if(configOptions[curSelected][curListStartOffset + curListPosition].optionDeselect != null){
+									configOptions[curSelected][curListStartOffset + curListPosition].optionDeselect();
+								}
 								curListPosition++;
 							}
 							FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -449,9 +459,15 @@ class ConfigMenu extends FlxUIStateExt
 					else if(pressUp){
 						if(curListStartOffset + curListPosition > 0){
 							if(curListPosition == 0){
+								if(configOptions[curSelected][curListStartOffset + curListPosition].optionDeselect != null){
+									configOptions[curSelected][curListStartOffset + curListPosition].optionDeselect();
+								}
 								curListStartOffset--;
 							}
 							else{
+								if(configOptions[curSelected][curListStartOffset + curListPosition].optionDeselect != null){
+									configOptions[curSelected][curListStartOffset + curListPosition].optionDeselect();
+								}
 								curListPosition--;
 							}
 							FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -468,6 +484,9 @@ class ConfigMenu extends FlxUIStateExt
 					if(state != "transitioning"){
 						if(pressBack){
 							FlxG.sound.play(Paths.sound('cancelMenu'));
+							if(configOptions[curSelected][curListStartOffset + curListPosition].optionDeselect != null){
+								configOptions[curSelected][curListStartOffset + curListPosition].optionDeselect();
+							}
 							closeSubMenu();
 						}
 					}
@@ -716,11 +735,16 @@ class ConfigMenu extends FlxUIStateExt
 		optionValues[index].text = configOptions[curSelected][optionPosition].setting;
 
 		if(index == curListPosition){
-			optionNames[index].color = 0xFFFFFF00;
-			optionValues[index].color = 0xFFFFFF00;
+			optionNames[index].color = selectionColor;
+			optionValues[index].color = selectionColor;
 			descText.text = configOptions[curSelected][optionPosition].description + "\n\n";
 			if(optionValues[index].text.length > 0){
-				optionValues[index].text = "< " + optionValues[index].text + " >\n\n";
+				if(!configOptions[curSelected][optionPosition].ignoreSettingFormatting){
+					optionValues[index].text = "< " + optionValues[index].text + " >\n\n";
+				}
+				else{
+					optionValues[index].text = optionValues[index].text + "\n\n";
+				}
 			}
 		}
 		else{
@@ -728,7 +752,7 @@ class ConfigMenu extends FlxUIStateExt
 			optionValues[index].color = 0xFFFFFFFF;
 		}
 
-		if(optionValues[index].text == ""){
+		if(optionValues[index].text == "" && !configOptions[curSelected][optionPosition].ignoreSettingFormatting){
 			optionValues[index].text = "---\n\n";
 		}
 	}
@@ -1301,9 +1325,46 @@ class ConfigMenu extends FlxUIStateExt
 			fullscreenSettings.setting = genericOnOff[fullscreenValue?0:1];
 		};
 
+		var resetAllScoresSettings = new ConfigOption("[RESET ALL SCORES]", "", "Reset all of your scores.");
+		resetAllScoresSettings.extraData[0] = 0;
+		resetAllScoresSettings.optionUpdate = function(){
+			if(pressAccept){
+				if(resetAllScoresSettings.extraData[0] == 0){
+					FlxG.sound.play(Paths.sound('scrollMenu'));
+					resetAllScoresSettings.extraData[0] = 1;
+					resetAllScoresSettings.setting = "Are you sure?";
+					resetAllScoresSettings.ignoreSettingFormatting = true;
+					selectionColor = selectionColors[1];
+				}
+				else if(resetAllScoresSettings.extraData[0] == 1){
+					FlxG.sound.play(Paths.sound('scrollMenu'));
+					resetAllScoresSettings.extraData[0] = 2;
+					resetAllScoresSettings.setting = "Really?";
+					selectionColor = selectionColors[2];
+				}
+				else if(resetAllScoresSettings.extraData[0] == 2){
+					FlxG.sound.play(Paths.sound('confirmMenu'));
+					resetAllScoresSettings.extraData[0] = 0;
+					resetAllScoresSettings.setting = "It is done.";
+					selectionColor = selectionColors[3];
+					SaveManager.scores();
+					Highscore.songScores = new Map<String, SongStats>();
+					FlxG.save.data.songScores = Highscore.songScores;
+					SaveManager.flush();
+					SaveManager.previousSave();
+				}
+			}
+		};
+		resetAllScoresSettings.optionDeselect = function(){
+			resetAllScoresSettings.extraData[0] = 0;
+			resetAllScoresSettings.setting = "";
+			resetAllScoresSettings.ignoreSettingFormatting = false;
+			selectionColor = selectionColors[0];
+		};
+
 
 		configOptions = [
-							[keyBinds, ghostTap, noteOffset, scrollSpeed],
+							[keyBinds, ghostTap, noteOffset, scrollSpeed, resetAllScoresSettings],
 							[fpsCap, fullscreenSettings, bgDim, useGPU, showFPS, cacheSettings],
 							[downscroll, centeredNotes, noteSplash, noteGlow, showMissesSetting, showAccuracyDisplay, comboDisplay],
 							[extraCamStuff, camBopStuff, captionsStuff, flashingLightsSettings, autoPauseSettings, hpGain, hpDrain]

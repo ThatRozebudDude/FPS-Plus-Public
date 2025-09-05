@@ -78,7 +78,7 @@ class OtisSpeaker extends CharacterInfoBase
 			}
 		}
 
-		if(!character.debugMode){
+		if(isInPlayState){
 			if(playstate.camFocus == "dad" && abotLookDir){
 				abotLookDir = !abotLookDir;
 				abot.lookLeft();

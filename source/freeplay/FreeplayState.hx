@@ -50,6 +50,7 @@ class FreeplayState extends MusicBeatState
 	var freeplayText:FlxText;
 	var changeCharacterText:FlxText;
 	var changeTabText:FlxText;
+	var resetScoreHintText:FlxText;
 	var highscoreSprite:FlxSprite;
 	var clearPercentSprite:FlxSprite;
 	var scoreDisplay:DigitDisplay;
@@ -77,6 +78,13 @@ class FreeplayState extends MusicBeatState
 	var variationArrowLeft:FlxSprite;
 	var variationArrowRight:FlxSprite;
 	var variationName:FlxBitmapText;
+
+	var resetScoreBox:FlxSprite;
+	var resetScoreText:FlxBitmapText;
+	var resetScoreYes:FlxBitmapText;
+	var resetScoreNo:FlxBitmapText;
+	var resetScoreState:Bool = false;
+	var resetScoreColorDummy:FlxSprite = new FlxSprite();
 
 	var capsuleGroup:FlxTypedSpriteGroup<Capsule> = new FlxTypedSpriteGroup<Capsule>();
 
@@ -263,6 +271,9 @@ class FreeplayState extends MusicBeatState
 							songAccept();
 						}
 					}
+					else if(Binds.justPressed("menuResetScore")){
+						openResetScorePopup();
+					}
 			
 					for(i in 0...categoryMap[categoryNames[curCategory]].length){
 						updateCapsulePosition(i);
@@ -344,6 +355,50 @@ class FreeplayState extends MusicBeatState
 			
 					if(Binds.pressed("menuRight")){ variationArrowRight.scale.set(1.6, 1.6); }
 					else{ variationArrowRight.scale.set(2, 2); }
+
+				case "resetScore":
+					if(Binds.justPressed("menuLeft") || Binds.justPressed("menuRight")){
+						resetScoreState = !resetScoreState;
+						FlxG.sound.play(Paths.sound('scrollMenu'));
+						if(resetScoreState){
+							FlxTween.cancelTweensOf(resetScoreYes.scale);
+							resetScoreYes.scale.set(1.3, 1.3);
+							FlxTween.tween(resetScoreYes.scale, {x: 1, y: 1}, 1/4, {ease: FlxEase.quartOut});
+						}
+						else{
+							FlxTween.cancelTweensOf(resetScoreNo.scale);
+							resetScoreNo.scale.set(1.3, 1.3);
+							FlxTween.tween(resetScoreNo.scale, {x: 1, y: 1}, 1/4, {ease: FlxEase.quartOut});
+						}
+					}
+
+					if(resetScoreState){
+						resetScoreYes.color = resetScoreColorDummy.color;
+						resetScoreNo.color = 0xFF7F7F7F;
+					}
+					else{
+						resetScoreNo.color = resetScoreColorDummy.color;
+						resetScoreYes.color = 0xFF7F7F7F;
+					}
+
+					if(Binds.justPressed("menuAccept") && resetScoreState){
+						for(i in 0...3){
+							if(Highscore.songScores.exists(Highscore.formatSong(categoryMap[categoryNames[curCategory]][curSelected].song, i))){
+								Highscore.saveScore(categoryMap[categoryNames[curCategory]][curSelected].song, 0, 0, i, none, true);
+								categoryMap[categoryNames[curCategory]][curSelected].highscoreData[i] = {score: 0, accuracy: 0, rank: none};
+							}
+						}
+						for(capsule in capsuleGroup){
+							capsule.showRank(curDifficulty);
+						}
+						updateScore();
+						closeResetScorePopup();
+						FlxG.sound.play(Paths.sound('confirmMenu'));
+					}
+					else if(Binds.justPressed("menuBack") || (Binds.justPressed("menuAccept") && !resetScoreState)){
+						closeResetScorePopup();
+						FlxG.sound.play(Paths.sound('cancelMenu'));
+					}
 			}
 		}
 
@@ -421,6 +476,11 @@ class FreeplayState extends MusicBeatState
 		changeTabText.setFormat(Paths.font("5by7"), 32, 0xFF7F7F7F);
 		changeTabText.screenCenter(X);
 		changeTabText.visible = false;
+
+		resetScoreHintText = new FlxTextExt(16, 19, 0, "[BUTTON] to Reset Your Score", 32);
+		resetScoreHintText.setFormat(Paths.font("5by7"), 32, 0xFF7F7F7F);
+		resetScoreHintText.screenCenter(X);
+		resetScoreHintText.visible = false;
 
 		updateChangeCharacterText(controllerMode);
 
@@ -526,6 +586,38 @@ class FreeplayState extends MusicBeatState
 		variationName.setPosition(variationBox.getMidpoint().x, variationBox.getMidpoint().y - 23);
 		variationName.x -= variationName.width/2;
 		variationName.visible = false;
+		
+		resetScoreBox = new FlxSprite().makeGraphic(480, 150, 0xFF000000);
+		resetScoreBox.antialiasing = true;
+		resetScoreBox.screenCenter();
+		resetScoreBox.visible = false;
+
+		resetScoreText = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
+		resetScoreText.text = "Reset Score?";
+		resetScoreText.letterSpacing = -15;
+		resetScoreText.antialiasing = true;
+		resetScoreText.blend = ADD;
+		resetScoreText.setPosition(resetScoreBox.getMidpoint().x, resetScoreBox.y + 17);
+		resetScoreText.x -= resetScoreText.width/2;
+		resetScoreText.visible = false;
+
+		resetScoreYes = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
+		resetScoreYes.text = "Yes";
+		resetScoreYes.letterSpacing = -15;
+		resetScoreYes.antialiasing = true;
+		resetScoreYes.blend = ADD;
+		resetScoreYes.setPosition(resetScoreBox.getMidpoint().x - (resetScoreBox.width/4), resetScoreBox.y + 86);
+		resetScoreYes.x -= resetScoreYes.width/2;
+		resetScoreYes.visible = false;
+
+		resetScoreNo = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
+		resetScoreNo.text = "No";
+		resetScoreNo.letterSpacing = -15;
+		resetScoreNo.antialiasing = true;
+		resetScoreNo.blend = ADD;
+		resetScoreNo.setPosition(resetScoreBox.getMidpoint().x + (resetScoreBox.width/4), resetScoreBox.y + 86);
+		resetScoreNo.x -= resetScoreNo.width/2;
+		resetScoreNo.visible = false;
 
 		switch(introAnimType){
 			case fromMainMenu | fromCharacterSelect:
@@ -573,6 +665,7 @@ class FreeplayState extends MusicBeatState
 		add(freeplayText);
 		add(changeCharacterText);
 		add(changeTabText);
+		add(resetScoreHintText);
 
 		addCapsules();
 
@@ -580,6 +673,11 @@ class FreeplayState extends MusicBeatState
 		add(variationName);
 		add(variationArrowLeft);
 		add(variationArrowRight);
+		
+		add(resetScoreBox);
+		add(resetScoreText);
+		add(resetScoreYes);
+		add(resetScoreNo);
 
 		calcAvailableDifficulties();
 		updateScore();
@@ -693,6 +791,9 @@ class FreeplayState extends MusicBeatState
 		
 		changeTabText.alpha = 0;
 		FlxTween.tween(changeTabText, {alpha: 1}, 2, {ease: FlxEase.sineInOut, type: PINGPONG});
+		
+		resetScoreHintText.alpha = 0;
+		FlxTween.tween(resetScoreHintText, {alpha: 1}, 2, {ease: FlxEase.sineInOut, type: PINGPONG});
 
 		backCardGroup.add(dj.backingCard);
 
@@ -959,6 +1060,15 @@ class FreeplayState extends MusicBeatState
 			}
 			changeCharacterText.screenCenter(X);
 			
+			if(Binds.binds.get("menuResetScore").binds.length > 0){
+				var key = Binds.binds.get("menuResetScore").binds[0];
+				resetScoreHintText.text = "[" + Utils.keyToString(key) + "] to Reset Your Score";
+			}
+			else{
+				resetScoreHintText.text = "Reset Score not bound!";
+			}
+			resetScoreHintText.screenCenter(X);
+			
 			if(Binds.binds.get("menuCycleLeft").binds.length > 0 && Binds.binds.get("menuCycleRight").binds.length > 0){
 				var keyLeft = Binds.binds.get("menuCycleLeft").binds[0];
 				var keyRight = Binds.binds.get("menuCycleRight").binds[0];
@@ -979,6 +1089,15 @@ class FreeplayState extends MusicBeatState
 			}
 			changeCharacterText.screenCenter(X);
 
+			if(Binds.binds.get("menuResetScore").controllerBinds.length > 0){
+				var key = Binds.binds.get("menuResetScore").controllerBinds[0];
+				resetScoreHintText.text = "[" + Utils.controllerButtonToString(key) + "] to Reset Your Score";
+			}
+			else{
+				resetScoreHintText.text = "Reset Score not bound!";
+			}
+			resetScoreHintText.screenCenter(X);
+
 			if(Binds.binds.get("menuCycleLeft").controllerBinds.length > 0 && Binds.binds.get("menuCycleRight").controllerBinds.length > 0){
 				var keyLeft = Binds.binds.get("menuCycleLeft").controllerBinds[0];
 				var keyRight = Binds.binds.get("menuCycleRight").controllerBinds[0];
@@ -992,14 +1111,20 @@ class FreeplayState extends MusicBeatState
 	}
 
 	function progressTextCycle(){
-		textCycleCount = (textCycleCount + 1) % 4;
+		textCycleCount = (textCycleCount + 1) % 6;
 		switch(textCycleCount){
 			case 0 | 1:
 				changeCharacterText.visible = true;
 				changeTabText.visible = false;
+				resetScoreHintText.visible = false;
 			case 2 | 3:
 				changeCharacterText.visible = false;
 				changeTabText.visible = true;
+				resetScoreHintText.visible = false;
+			case 4 | 5:
+				changeCharacterText.visible = false;
+				changeTabText.visible = false;
+				resetScoreHintText.visible = true;
 		}
 	}
 
@@ -1108,6 +1233,59 @@ class FreeplayState extends MusicBeatState
 			variationArrowLeft.visible = false;
 			variationArrowRight.visible = false;
 			variationName.visible = false;
+		}});
+	}
+
+	function openResetScorePopup():Void{
+		selectingMode = "resetScore";
+		resetScoreBox.visible = true;
+		resetScoreText.visible = true;
+		resetScoreYes.visible = true;
+		resetScoreNo.visible = true;
+		resetScoreState = false;
+
+		FlxTween.cancelTweensOf(resetScoreBox);
+		FlxTween.cancelTweensOf(resetScoreBox.scale);
+		FlxTween.cancelTweensOf(resetScoreText);
+		FlxTween.cancelTweensOf(resetScoreYes);
+		FlxTween.cancelTweensOf(resetScoreNo);
+
+		resetScoreBox.alpha = 0.6;
+		resetScoreBox.scale.set(1.05, 0.9);
+		resetScoreText.alpha = 0.6;
+		resetScoreYes.alpha = 0.6;
+		resetScoreNo.alpha = 0.6;
+		
+		FlxTween.tween(resetScoreBox, {alpha: 1}, 0.4, {ease: FlxEase.expoOut});
+		FlxTween.tween(resetScoreBox.scale, {x: 1, y: 1}, 0.6, {ease: FlxEase.elasticOut});
+		FlxTween.tween(resetScoreText, {alpha: 1}, 0.4, {ease: FlxEase.expoOut});
+		FlxTween.tween(resetScoreYes, {alpha: 1}, 0.4, {ease: FlxEase.expoOut});
+		FlxTween.tween(resetScoreNo, {alpha: 1}, 0.4, {ease: FlxEase.expoOut});
+
+		FlxG.sound.play(Paths.sound('scrollMenu'));
+
+		FlxTween.cancelTweensOf(resetScoreColorDummy.color);
+		FlxTween.color(resetScoreColorDummy, 0.5, 0xFFFFEE00, 0xFFFFFFFF, {type: PINGPONG});
+	}
+
+	function closeResetScorePopup():Void{
+		selectingMode = "song";
+
+		FlxTween.cancelTweensOf(resetScoreBox);
+		FlxTween.cancelTweensOf(resetScoreBox.scale);
+		FlxTween.cancelTweensOf(resetScoreText);
+		FlxTween.cancelTweensOf(resetScoreYes);
+		FlxTween.cancelTweensOf(resetScoreNo);
+		
+		FlxTween.tween(resetScoreBox, {alpha: 0.4}, 2/24, {ease: FlxEase.quadOut});
+		//FlxTween.tween(resetScoreBox.scale, {x: 1, y: 1}, 0.6, {ease: FlxEase.elasticOut});
+		FlxTween.tween(resetScoreYes, {alpha: 0.4}, 2/24, {ease: FlxEase.expoOut});
+		FlxTween.tween(resetScoreNo, {alpha: 0.4}, 2/24, {ease: FlxEase.expoOut});
+		FlxTween.tween(resetScoreText, {alpha: 0.4}, 2/24, {ease: FlxEase.expoOut, onComplete: function(t){
+			resetScoreBox.visible = false;
+			resetScoreText.visible = false;
+			resetScoreYes.visible = false;
+			resetScoreNo.visible = false;
 		}});
 	}
 
