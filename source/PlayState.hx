@@ -748,8 +748,8 @@ class PlayState extends MusicBeatState
 		if(Utils.exists(Paths.text("globalScripts", "data/scripts"))){
 			var globalScriptsText:String = Utils.getText(Paths.text("globalScripts", "data/scripts"));
 			globalScripts = globalScriptsText.split("\n");
-			for(script in globalScripts){
-				script = script.trim();
+			for(i in 0...globalScripts.length){
+				globalScripts[i] = globalScripts[i].trim();
 			}
 		}
 

@@ -12,6 +12,7 @@ import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
+import flixel.ui.FlxBar;
 import openfl.system.System;
 import caching.*;
 import modding.*;
@@ -56,7 +57,10 @@ class CacheReload extends FlxState
 
 	//var splash:FlxSprite;
 	//var dummy:FlxSprite;
-	var loadingText:FlxText;
+	var loadingBar:FlxBar;
+
+	var currentLoaded:Int = 0;
+	var loadTotal:Int = 0;
 
 	var charactersCached:Bool;
 	var startCachingCharacters:Bool = false;
@@ -90,13 +94,22 @@ class CacheReload extends FlxState
 
 		Utils.gc();
 
-		var text = new FlxText(0, 0, 1280, "LOADING ASSETS...", 64);
-		text.scrollFactor.set(0, 0);
-		text.setFormat(Paths.font("vcr"), 64, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		text.borderSize = 3;
-		text.borderQuality = 1;
-		text.screenCenter(XY);
-		add(text);
+		loadTotal = (!charactersCached ? CacheReload.characterPreloadList.length : 0) + (!graphicsCached ? CacheReload.graphicsPreloadList.length : 0);
+
+		if(loadTotal > 0){
+			var text = new FlxText(0, 0, 1280, "LOADING ASSETS", 64);
+			text.scrollFactor.set(0, 0);
+			text.setFormat(Paths.font("vcr"), 64, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			text.borderSize = 3;
+			text.borderQuality = 1;
+			text.screenCenter(XY);
+			add(text);
+
+			loadingBar = new FlxBar(0, 420, LEFT_TO_RIGHT, 600, 24, this, 'currentLoaded', 0, loadTotal);
+			loadingBar.createFilledBar(0xFF333333, 0xFFFFFFFF);
+			loadingBar.screenCenter(X);
+			add(loadingBar);
+		}
 
 		preload();
 		cacheStart = true;
@@ -123,6 +136,7 @@ class CacheReload extends FlxState
 			else{
 				cacheCharacter(charI);
 				charI++;
+				currentLoaded++;
 			}
 		}
 
@@ -136,6 +150,7 @@ class CacheReload extends FlxState
 			else{
 				cacheGraphic(gfxI);
 				gfxI++;
+				currentLoaded++;
 			}
 		}
 		

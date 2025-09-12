@@ -69,21 +69,21 @@ class CacheSettings extends FlxUIStateExt
 
 		titleText = new FlxTextExt(0, 125, 1280, "CACHE SETTINGS\n", 72);
 		titleText.scrollFactor.set(0, 0);
-		titleText.setFormat(font, 72, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		titleText.setFormat(font, 72, 0xFFFFFFFF, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		titleText.borderSize = 4;
 		titleText.borderQuality = 1;
 		add(titleText);
 
 		settingText = new FlxTextExt(0, 300, 1280, "", 72);
 		settingText.scrollFactor.set(0, 0);
-		settingText.setFormat(font, 72, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		settingText.setFormat(font, 72, 0xFFFFFFFF, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		settingText.borderSize = 4;
 		settingText.borderQuality = 1;
 		add(settingText);
 
 		warning = new FlxTextExt(0, 540, 1120, warningText[curSelected], 32);
 		warning.scrollFactor.set(0, 0);
-		warning.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		warning.setFormat(Paths.font("vcr"), 32, 0xFFFFFFFF, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		warning.borderSize = 3;
 		warning.borderQuality = 1;
 		warning.screenCenter(X);
@@ -105,7 +105,7 @@ class CacheSettings extends FlxUIStateExt
 
 		var backText = new FlxTextExt(5, FlxG.height - 21, 0, backBindsString + " - Back to Menu", 16);
 		backText.scrollFactor.set();
-		backText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		backText.setFormat("VCR OSD Mono", 16, 0xFFFFFFFF, LEFT, FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		add(backText);
 
 		CacheConfig.check();
@@ -176,7 +176,7 @@ class CacheSettings extends FlxUIStateExt
 			var sectionEnd = settingText.text.length - 1;
 
 			if(i == curSelected){
-				settingText.addFormat(new FlxTextFormat(0xFFFFFF00), sectionStart, sectionEnd);
+				settingText.addFormat(new FlxTextFormat(0xFFFFEE00), sectionStart, sectionEnd);
 			}
 
 		}

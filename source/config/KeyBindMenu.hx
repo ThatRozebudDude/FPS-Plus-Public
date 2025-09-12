@@ -93,12 +93,12 @@ class KeyBindMenu extends FlxUIStateExt
 		controlText.antialiasing = true;
 		add(controlText);
 
-		controlBox = new FlxSprite(65, 0).makeGraphic(1150, 400, FlxColor.WHITE);
+		controlBox = new FlxSprite(65, 0).makeGraphic(1150, 400, 0xFFFFFFFF);
 		controlBox.y = (720 - 65) - controlBox.height;
 		controlBox.alpha = 0.4;
 		add(controlBox);
 
-		selectionBox = new FlxSprite(65, controlBox.y).makeGraphic(1150, 100, FlxColor.WHITE);
+		selectionBox = new FlxSprite(65, controlBox.y).makeGraphic(1150, 100, 0xFFFFFFFF);
 		selectionBox.alpha = 0.4;
 		add(selectionBox);
 
@@ -106,7 +106,7 @@ class KeyBindMenu extends FlxUIStateExt
 			var text:FlxTextExt = new FlxTextExt();
 
 			var text = new FlxTextExt(controlBox.x + 10, controlBox.y + (100 * i) + 10, 1130, "", 80);
-			text.setFormat(Paths.font("Funkin-Bold", "otf"), text.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			text.setFormat(Paths.font("Funkin-Bold", "otf"), text.textField.defaultTextFormat.size, 0xFFFFFFFF, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, 0xFF000000);
 			text.borderSize = 5;
 			text.borderQuality = 1;
 			add(text);
@@ -115,7 +115,7 @@ class KeyBindMenu extends FlxUIStateExt
 		}
 
 		selectionTimerText = new FlxTextExt(controlBox.x + 10, controlBox.y + 10, 1130, "", 80);
-		selectionTimerText.setFormat(Paths.font("Funkin-Bold", "otf"), selectionTimerText.textField.defaultTextFormat.size, FlxColor.BLACK, FlxTextAlign.RIGHT);
+		selectionTimerText.setFormat(Paths.font("Funkin-Bold", "otf"), selectionTimerText.textField.defaultTextFormat.size, 0xFF000000, FlxTextAlign.RIGHT);
 		selectionTimerText.visible = false;
 		add(selectionTimerText);
 
@@ -123,7 +123,7 @@ class KeyBindMenu extends FlxUIStateExt
 		add(bindSprites);
 
 		infoText = new FlxTextExt(5, FlxG.height - 21, 0, generateInfoString(), 16);
-		infoText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		infoText.setFormat("VCR OSD Mono", 16, 0xFFFFFFFF, LEFT, FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		add(infoText);
 
 		generateCategories();
@@ -329,11 +329,11 @@ class KeyBindMenu extends FlxUIStateExt
 				bindText[i].text += "\n\n";
 				if(categoryNameIndecies.contains(index)){
 					bindText[i].alignment = FlxTextAlign.CENTER;
-					bindText[i].color = FlxColor.YELLOW;
+					bindText[i].color = 0xFFFFEE00;
 				}
 				else{
 					bindText[i].alignment = FlxTextAlign.LEFT;
-					bindText[i].color = FlxColor.WHITE;
+					bindText[i].color = 0xFFFFFFFF;
 				}
 	
 				var bindPos = controlBox.x + controlBox.width - 10;
@@ -362,7 +362,7 @@ class KeyBindMenu extends FlxUIStateExt
 			else{
 				bindText[i].text = "PRESS ANY KEY\n\n";
 				bindText[i].alignment = FlxTextAlign.LEFT;
-				bindText[i].color = FlxColor.WHITE;
+				bindText[i].color = 0xFFFFFFFF;
 				selectionTimerText.y = controlBox.y + (100 * i) + 10;
 			}
 		}
