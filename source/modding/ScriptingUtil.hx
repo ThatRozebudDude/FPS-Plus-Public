@@ -145,13 +145,13 @@ class FlxTextBorderStyle
 
 class FlxAxes
 {
-	public static var NONE:FlxAxes = FlxAxes.NONE;
-	public static var X:FlxAxes = FlxAxes.X;
-	public static var XY:FlxAxes = FlxAxes.XY;
-	public static var Y:FlxAxes = FlxAxes.Y;
+	public static var NONE:flixel.util.FlxAxes = flixel.util.FlxAxes.NONE;
+	public static var X:flixel.util.FlxAxes = flixel.util.FlxAxes.X;
+	public static var XY:flixel.util.FlxAxes = flixel.util.FlxAxes.XY;
+	public static var Y:flixel.util.FlxAxes = flixel.util.FlxAxes.Y;
 
-	public static function fromBools(x:Bool, y:Bool):FlxAxes { return FlxAxes.fromBools(x, y); }
-	public static function fromString(axes:String):FlxAxes { return FlxAxes.fromString(axes); }
+	public static function fromBools(x:Bool, y:Bool):flixel.util.FlxAxes { return flixel.util.FlxAxes.fromBools(x, y); }
+	public static function fromString(axes:String):flixel.util.FlxAxes { return flixel.util.FlxAxes.fromString(axes); }
 }
 
 class ScriptRank
