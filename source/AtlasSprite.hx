@@ -32,8 +32,6 @@ class AtlasSprite extends FlxAnimate
 	var loopTimer:Float = -1;
 	var loopTime:Float = -1;
 
-	public var useCanvasOffset:Bool = false;
-
 	public function new(?_x:Float, ?_y:Float, ?_path:TextureAtlasData, ?_settings:FlxAnimateSettings) {
 		super(_x, _y, null, null);
 		if(_path != null){
@@ -45,7 +43,7 @@ class AtlasSprite extends FlxAnimate
 		frames = FlxAnimateFrames.fromAnimate(_path.path, null, null, null, false, _settings);
 		anim.addByTimeline("___full", anim.getDefaultTimeline(), 24, false);
 		anim.onFrameChange.add(animCallback);
-		if(_path.old){ useCanvasOffset = true; }
+		if(_path.old){ applyStageMatrix = true; }
 	}
 
 	public function addAnimationByLabel(name:String, label:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
@@ -158,10 +156,6 @@ class AtlasSprite extends FlxAnimate
 
 	function animCallback(name:String, index:Int, frame:Int):Void{
 		var animInfo:AtlasAnimInfo = animInfoMap.get(curAnim);
-
-		if(useCanvasOffset){
-			offset.set(-anim.getDefaultTimeline().getBoundsOrigin().x, -anim.getDefaultTimeline().getBoundsOrigin().y);
-		}
 
 		if(frameCallback != null){ frameCallback(curAnim, frame - animInfo.startFrame, frame); }
 

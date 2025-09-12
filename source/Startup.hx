@@ -111,7 +111,7 @@ class Startup extends FlxUIStateExt
 		}
 		splash.addAnimationByLabel("end", "End", 24, false);
 		splash.animationEndCallback = splashState;
-		splash.useCanvasOffset = true;
+		splash.applyStageMatrix = true;
 		add(splash);
 
 		CacheReload.buildPreloadList();
