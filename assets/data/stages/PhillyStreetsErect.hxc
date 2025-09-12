@@ -47,7 +47,7 @@ class PhillyStreetsErect extends BaseStage
 		name = "phillyStreetsErect";
 		startingZoom = 0.75;
 
-		var scrollingSky = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/phillySkybox"), ScriptingUtil.axisX);
+		var scrollingSky = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/phillySkybox"), FlxAxes.X);
 		scrollingSky.setPosition(-650, -375);
 		scrollingSky.scrollFactor.set(0.1, 0.1);
 		scrollingSky.scale.set(0.65, 0.65);
@@ -65,7 +65,7 @@ class PhillyStreetsErect extends BaseStage
 		phillyForegroundCity.antialiasing = true;
 		addToBackground(phillyForegroundCity);
 
-		mist5 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistMid"), ScriptingUtil.axisX);
+		mist5 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistMid"), FlxAxes.X);
 		mist5.setPosition(-650, -100);
 		mist5.scrollFactor.set(0.5, 0.5);
    		mist5.blend = BlendMode.ADD;
@@ -123,7 +123,7 @@ class PhillyStreetsErect extends BaseStage
 		phillyCars.animation.addByPrefix("car4", "car4", 0, false);
 		addToBackground(phillyCars);
 
-		mist4 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistBack"), ScriptingUtil.axisX);
+		mist4 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistBack"), FlxAxes.X);
 		mist4.setPosition(-650, -100);
 		mist4.scrollFactor.set(0.8, 0.8);
    		mist4.blend = BlendMode.ADD;
@@ -162,7 +162,7 @@ class PhillyStreetsErect extends BaseStage
 		grey2.alpha = 0.8;
 		addToBackground(grey2);
 
-		mist3 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistMid"), ScriptingUtil.axisX);
+		mist3 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistMid"), FlxAxes.X);
 		mist3.setPosition(-650, -100);
 		mist3.scrollFactor.set(0.95, 0.95);
    		mist3.blend = BlendMode.ADD;
@@ -180,7 +180,7 @@ class PhillyStreetsErect extends BaseStage
 		dimSprite.scale.set(1280/.5, 720/.5);
 		dimSprite.updateHitbox();
 		//dimSprite.setPosition(-1280/2, -720/2);
-		//dimSprite.screenCenter(ScriptingUtil.axisXY);
+		//dimSprite.screenCenter(FlxAxes.XY);
 		ScriptingUtil.screenCenter(dimSprite);
 		dimSprite.scrollFactor.set();
 		dimSprite.alpha = 0;
@@ -212,7 +212,7 @@ class PhillyStreetsErect extends BaseStage
 		}
 		addToForeground(kickedCan);
 
-		mist1 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistMid"), ScriptingUtil.axisX);
+		mist1 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistMid"), FlxAxes.X);
 		mist1.setPosition(-650, -100);
 		mist1.scrollFactor.set(1.1, 1.1);
 		mist1.blend = BlendMode.ADD;
@@ -221,7 +221,7 @@ class PhillyStreetsErect extends BaseStage
 		mist1.velocity.x = 150;
 		addToForeground(mist1);
 
-		mist0 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistMid"), ScriptingUtil.axisX);
+		mist0 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistMid"), FlxAxes.X);
 		mist0.setPosition(-650, -100);
 		mist0.scrollFactor.set(1.2, 1.2);
 		mist0.blend = BlendMode.ADD;
@@ -230,7 +230,7 @@ class PhillyStreetsErect extends BaseStage
 		mist0.velocity.x = 172;
 		addToForeground(mist0);
 
-		mist2 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistBack"), ScriptingUtil.axisX);
+		mist2 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistBack"), FlxAxes.X);
 		mist2.setPosition(-650, -100);
 		mist2.scrollFactor.set(1.2, 1.2);
 		mist2.blend = BlendMode.ADD;

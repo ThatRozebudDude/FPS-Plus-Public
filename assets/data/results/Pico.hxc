@@ -25,7 +25,7 @@ class PicoResults extends ResultsCharacter
 		lossText = 		["BLAMMED", "TARGET ESCAPED", "MISSION FAILED", "NO PAY", "COULDN'T KEEP UP", "TOUGH SHIT"];
 
 		switch(rank){
-			case ScriptingUtil.rankGold:
+			case Rank.gold:
 				pico = new AtlasSprite(385-100, 82-40, Paths.getTextureAtlas("menu/results/characters/pico/perfect"));
 				pico.visible = false;
 				pico.addAnimationByFrame("anim", 0, null, 24, true, 91);
@@ -34,7 +34,7 @@ class PicoResults extends ResultsCharacter
 
 				FlxG.sound.cache(Paths.music("results/pico/perfect-loop"));
 				
-			case ScriptingUtil.rankPerfect:
+			case Rank.perfect:
 				pico = new AtlasSprite(385-100, 82-40, Paths.getTextureAtlas("menu/results/characters/pico/perfect"));
 				pico.visible = false;
 				pico.addAnimationByFrame("anim", 0, null, 24, true, 91);
@@ -43,7 +43,7 @@ class PicoResults extends ResultsCharacter
 
 				FlxG.sound.cache(Paths.music("results/pico/perfect-loop")); 
 
-			case ScriptingUtil.rankExcellent:
+			case Rank.excellent:
 				pico = new AtlasSprite(350+160, 25+85, Paths.getTextureAtlas("menu/results/characters/pico/excellent"));
 				pico.visible = false;
 				pico.addAnimationByFrame("anim", 0, null, 24, true, 32);
@@ -52,7 +52,7 @@ class PicoResults extends ResultsCharacter
 
 				FlxG.sound.cache(Paths.music("results/pico/excellent-loop")); 
 
-			case ScriptingUtil.rankLoss:
+			case Rank.loss:
 				pico = new AtlasSprite(-185, -125, Paths.getTextureAtlas("menu/results/characters/pico/loss"));
 				pico.visible = false;
 				pico.addAnimationByFrame("anim", 0, null, 24, true, 0);
@@ -90,7 +90,7 @@ class PicoResults extends ResultsCharacter
 
 	override function playAnim():Void{
 		switch(rank){
-			case ScriptingUtil.rankGreat:
+			case Rank.great:
 				if(FlxG.random.bool(5))			{ pico.playAnim("intro-fat", true); }
 				else if(FlxG.random.bool(20))	{ pico.playAnim("intro-cass", true); }
 				else							{ pico.playAnim("intro", true); }
@@ -101,7 +101,7 @@ class PicoResults extends ResultsCharacter
 					}
 				}
 
-			case ScriptingUtil.rankGood:
+			case Rank.good:
 				if(FlxG.random.bool(5))			{ pico.playAnim("intro-fat", true); }
 				else if(FlxG.random.bool(20))	{ pico.playAnim("intro-cass", true); }
 				else							{ pico.playAnim("intro", true); }
@@ -112,7 +112,7 @@ class PicoResults extends ResultsCharacter
 					}
 				}
 
-			case ScriptingUtil.rankLoss:
+			case Rank.loss:
 				pico.playAnim("anim", true);
 				pico.visible = true;
 				pico.y += 720;
@@ -162,25 +162,25 @@ class PicoResults extends ResultsCharacter
 
 	override function playSong():Void{
 		switch(rank){
-			case ScriptingUtil.rankGold:
+			case Rank.gold:
 				FlxG.sound.playMusic(Paths.music("results/pico/perfect-intro"), 1, true);
 				FlxG.sound.music.onComplete = function() {
 					FlxG.sound.playMusic(Paths.music("results/pico/perfect-loop"), 1, true); 
 				}
 
-			case ScriptingUtil.rankPerfect:
+			case Rank.perfect:
 				FlxG.sound.playMusic(Paths.music("results/pico/perfect-intro"), 1, true);
 				FlxG.sound.music.onComplete = function() {
 					FlxG.sound.playMusic(Paths.music("results/pico/perfect-loop"), 1, true); 
 				}
 
-			case ScriptingUtil.rankExcellent:
+			case Rank.excellent:
 				FlxG.sound.playMusic(Paths.music("results/pico/excellent-intro"), 1, true);
 				FlxG.sound.music.onComplete = function() {
 					FlxG.sound.playMusic(Paths.music("results/pico/excellent-loop"), 1, true); 
 				}
 
-			case ScriptingUtil.rankLoss:
+			case Rank.loss:
 				FlxG.sound.playMusic(Paths.music("results/pico/shit-intro"), 1, true); 
 				FlxG.sound.music.onComplete = function() {
 					FlxG.sound.playMusic(Paths.music("results/pico/shit-loop"), 1, true); 

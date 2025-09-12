@@ -38,7 +38,7 @@ class PhillyStreets extends BaseStage
 		name = "phillyStreets";
 		startingZoom = 0.75;
 
-		var scrollingSky = new FlxBackdrop(Paths.image("weekend1/phillyStreets/phillySkybox"), ScriptingUtil.axisX);
+		var scrollingSky = new FlxBackdrop(Paths.image("weekend1/phillyStreets/phillySkybox"), FlxAxes.X);
 		scrollingSky.setPosition(-650, -375);
 		scrollingSky.scrollFactor.set(0.1, 0.1);
 		scrollingSky.scale.set(0.65, 0.65);
@@ -129,7 +129,7 @@ class PhillyStreets extends BaseStage
 		dimSprite.scale.set(1280/.5, 720/.5);
 		dimSprite.updateHitbox();
 		//dimSprite.setPosition(-1280/2, -720/2);
-		//dimSprite.screenCenter(ScriptingUtil.axisXY);
+		//dimSprite.screenCenter(FlxAxes.XY);
 		ScriptingUtil.screenCenter(dimSprite);
 		dimSprite.scrollFactor.set();
 		dimSprite.alpha = 0;

@@ -140,7 +140,7 @@ class PicoFreeplay extends DJCharacter
 		bg.antialiasing = true;
 		backingCard.add(bg);
 
-		scrollBack = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/lowerLoop'), ScriptingUtil.axisX, 20);
+		scrollBack = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/lowerLoop'), FlxAxes.X, 20);
 		scrollBack.setPosition(0, 200);
 		scrollBack.flipX = true;
 		scrollBack.alpha = 0.39;
@@ -148,7 +148,7 @@ class PicoFreeplay extends DJCharacter
 		scrollBack.antialiasing = true;
 		backingCard.add(scrollBack);
 
-		scrollLower = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/lowerLoop'), ScriptingUtil.axisX, 20);
+		scrollLower = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/lowerLoop'), FlxAxes.X, 20);
 		scrollLower.setPosition(0, 406);
 		scrollLower.velocity.x = -110;
 		scrollLower.antialiasing = true;
@@ -160,7 +160,7 @@ class PicoFreeplay extends DJCharacter
 		bar.alpha = 0.4;
 		backingCard.add(bar);
 
-		scrollTop = new FlxBackdrop(null, ScriptingUtil.axisX, 20);
+		scrollTop = new FlxBackdrop(null, FlxAxes.X, 20);
 		scrollTop.setPosition(0, 80);
 		scrollTop.velocity.x = -220;
 		scrollTop.antialiasing = true;
@@ -173,7 +173,7 @@ class PicoFreeplay extends DJCharacter
 		scrollTop.animation.play('base');
 		backingCard.add(scrollTop);
 
-		scrollMiddle = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/middleLoop'), ScriptingUtil.axisX, 15);
+		scrollMiddle = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/middleLoop'), FlxAxes.X, 15);
 		scrollMiddle.setPosition(0, 346);
 		scrollMiddle.velocity.x = 220;
 		scrollMiddle.antialiasing = true;

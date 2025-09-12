@@ -49,7 +49,7 @@ class LimoErect extends BaseStage
 		shootingStar.visible = false;
 		addToBackground(shootingStar);
 
-		mist5 = new FlxBackdrop(Paths.image("week4/limo/erect/mistMid"), ScriptingUtil.axisX);
+		mist5 = new FlxBackdrop(Paths.image("week4/limo/erect/mistMid"), FlxAxes.X);
 		mist5.setPosition(-650, -400);
 		mist5.scrollFactor.set(0.2, 0.2);
    		mist5.blend = BlendMode.ADD;
@@ -76,7 +76,7 @@ class LimoErect extends BaseStage
 			addToBackground(dancer);
 		}
 
-		mist4 = new FlxBackdrop(Paths.image("week4/limo/erect/mistBack"), ScriptingUtil.axisX);
+		mist4 = new FlxBackdrop(Paths.image("week4/limo/erect/mistBack"), FlxAxes.X);
 		mist4.setPosition(-650, -380);
 		mist4.scrollFactor.set(0.6, 0.6);
 		mist4.blend = BlendMode.ADD;
@@ -86,7 +86,7 @@ class LimoErect extends BaseStage
 		mist4.scale.set(1.5, 1.5);
 		addToBackground(mist4);
 
-		mist3 = new FlxBackdrop(Paths.image("week4/limo/erect/mistMid"), ScriptingUtil.axisX);
+		mist3 = new FlxBackdrop(Paths.image("week4/limo/erect/mistMid"), FlxAxes.X);
 		mist3.setPosition(-650, -100);
 		mist3.scrollFactor.set(0.8, 0.8);
    		mist3.blend = BlendMode.ADD;
@@ -108,7 +108,7 @@ class LimoErect extends BaseStage
 		limo.antialiasing = true;
 		addToMiddle(limo);
 
-		mist1 = new FlxBackdrop(Paths.image("week4/limo/erect/mistMid"), ScriptingUtil.axisX);
+		mist1 = new FlxBackdrop(Paths.image("week4/limo/erect/mistMid"), FlxAxes.X);
 		mist1.setPosition(-650, -100);
 		mist1.scrollFactor.set(1.1, 1.1);
 		mist1.blend = BlendMode.ADD;
@@ -117,7 +117,7 @@ class LimoErect extends BaseStage
 		mist1.velocity.x = 1700;
 		addToForeground(mist1);
 
-		mist2 = new FlxBackdrop(Paths.image("week4/limo/erect/mistBack"), ScriptingUtil.axisX);
+		mist2 = new FlxBackdrop(Paths.image("week4/limo/erect/mistBack"), FlxAxes.X);
 		mist2.setPosition(-650, -100);
 		mist2.scrollFactor.set(1.2, 1.2);
 		mist2.blend = BlendMode.ADD;

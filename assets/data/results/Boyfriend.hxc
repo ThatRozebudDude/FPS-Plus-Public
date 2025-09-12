@@ -27,7 +27,7 @@ class BoyfriendResults extends ResultsCharacter
 		lossText = 		["LOSS", "YOU'RE A FAILURE", "BE ASHAMED", "WHAT WAS THAT", "HORRIBLE", "TRY AGAIN"];
 
 		switch(rank){
-			case ScriptingUtil.rankGold:
+			case Rank.gold:
 				bfPerfect = new AtlasSprite(1342, 370, Paths.getTextureAtlas("menu/results/characters/bf/perfect"));
 				bfPerfect.visible = false;
 				bfPerfect.addAnimationByFrame("anim", 0, null, 24, true, 137);
@@ -41,7 +41,7 @@ class BoyfriendResults extends ResultsCharacter
 				add(bfPerfect);
 				add(hearts);
 
-			case ScriptingUtil.rankPerfect:
+			case Rank.perfect:
 				bfPerfect = new AtlasSprite(1342, 370, Paths.getTextureAtlas("menu/results/characters/bf/perfect"));
 				bfPerfect.visible = false;
 				bfPerfect.addAnimationByFrame("anim", 0, null, 24, true, 137);
@@ -55,7 +55,7 @@ class BoyfriendResults extends ResultsCharacter
 				add(bfPerfect);
 				add(hearts);
 
-			case ScriptingUtil.rankExcellent:
+			case Rank.excellent:
 				bfExcellent = new AtlasSprite(1329, 429, Paths.getTextureAtlas("menu/results/characters/bf/excellent"));
 				bfExcellent.visible = false;
 				bfExcellent.addAnimationByFrame("anim", 0, null, 24, true, 28);
@@ -63,7 +63,7 @@ class BoyfriendResults extends ResultsCharacter
 
 				add(bfExcellent);
 
-			case ScriptingUtil.rankGreat:
+			case Rank.great:
 				gfGreat = new AtlasSprite(802, 331, Paths.getTextureAtlas("menu/results/characters/bf/great/gf"));
 				gfGreat.visible = false;
 				gfGreat.scale.set(0.93, 0.93);
@@ -79,7 +79,7 @@ class BoyfriendResults extends ResultsCharacter
 				add(gfGreat);
 				add(bfGreat);
 
-			case ScriptingUtil.rankLoss:
+			case Rank.loss:
 				bfLoss = new AtlasSprite(0, 20, Paths.getTextureAtlas("menu/results/characters/bf/loss"));
 				bfLoss.visible = false;
 				bfLoss.addAnimationByLabel("intro", "Intro", 24, false);
@@ -121,7 +121,7 @@ class BoyfriendResults extends ResultsCharacter
 	override function playAnim():Void{
 		switch(rank){
 			//Can't use "|" in hscript swicth statements...
-			case ScriptingUtil.rankGold:
+			case Rank.gold:
 				bfPerfect.playAnim("anim", true);
 				bfPerfect.visible = true;
 				new FlxTimer().start((106/24), function(t):Void{
@@ -129,7 +129,7 @@ class BoyfriendResults extends ResultsCharacter
 					hearts.visible = true;
 				});
 
-			case ScriptingUtil.rankPerfect:
+			case Rank.perfect:
 				bfPerfect.playAnim("anim", true);
 				bfPerfect.visible = true;
 				new FlxTimer().start((106/24), function(t):Void{
@@ -137,11 +137,11 @@ class BoyfriendResults extends ResultsCharacter
 					hearts.visible = true;
 				});
 
-			case ScriptingUtil.rankExcellent:
+			case Rank.excellent:
 				bfExcellent.playAnim("anim", true);
 				bfExcellent.visible = true;
 
-			case ScriptingUtil.rankGreat:
+			case Rank.great:
 				bfGreat.playAnim("anim", true);
 				bfGreat.visible = true;
 				new FlxTimer().start((6/24), function(t):Void{
@@ -149,7 +149,7 @@ class BoyfriendResults extends ResultsCharacter
 					gfGreat.visible = true;
 				});
 
-			case ScriptingUtil.rankLoss:
+			case Rank.loss:
 				bfLoss.playAnim("intro", true);
 				bfLoss.visible = true;
 
@@ -169,16 +169,16 @@ class BoyfriendResults extends ResultsCharacter
 
 	override function playSong():Void{
 		switch(rank){
-			case ScriptingUtil.rankGold:
+			case Rank.gold:
 				FlxG.sound.playMusic(Paths.music("results/bf/perfect"), 1, true); 
 
-			case ScriptingUtil.rankPerfect:
+			case Rank.perfect:
 				FlxG.sound.playMusic(Paths.music("results/bf/perfect"), 1, true); 
 
-			case ScriptingUtil.rankExcellent:
+			case Rank.excellent:
 				FlxG.sound.playMusic(Paths.music("results/bf/excellent-loop"), 1, true); 
 
-			case ScriptingUtil.rankLoss:
+			case Rank.loss:
 				FlxG.sound.playMusic(Paths.music("results/bf/shit-intro"), 1, true);
 				FlxG.sound.music.onComplete = function() {
 					FlxG.sound.playMusic(Paths.music("results/bf/shit-loop"), 1, true); 

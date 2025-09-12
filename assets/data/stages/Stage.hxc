@@ -1,6 +1,4 @@
 import flixel.FlxSprite;
-import flixel.math.FlxPoint;
-import flixel.FlxObject;
 
 class Stage extends BaseStage
 {

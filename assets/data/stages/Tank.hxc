@@ -40,7 +40,7 @@ class Tank extends BaseStage
 		tankMountains.updateHitbox();
 		addToBackground(tankMountains);
 
-		var clouds = new FlxBackdrop(Paths.image("week7/stage/tankClouds"), ScriptingUtil.axisX);
+		var clouds = new FlxBackdrop(Paths.image("week7/stage/tankClouds"), FlxAxes.X);
 		clouds.setPosition(-1100, 20);
 		clouds.antialiasing = true;
 		clouds.scrollFactor.set(0.25, 0.25);

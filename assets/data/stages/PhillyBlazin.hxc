@@ -30,7 +30,7 @@ class PhillyBlazin extends BaseStage
 		name = "phillyBlazin";
 		startingZoom = 0.75;
 
-		var scrollingSky = new FlxBackdrop(Paths.image("weekend1/phillyBlazin/skyBlur"), ScriptingUtil.axisX);
+		var scrollingSky = new FlxBackdrop(Paths.image("weekend1/phillyBlazin/skyBlur"), FlxAxes.X);
 		scrollingSky.setPosition(-600, -175);
 		scrollingSky.scrollFactor.set();
 		scrollingSky.scale.set(1.75, 1.75);
@@ -39,7 +39,7 @@ class PhillyBlazin extends BaseStage
 		scrollingSky.antialiasing = true;
 		addToBackground(scrollingSky);
 
-		scrollingSkyAdd = new FlxBackdrop(Paths.image("weekend1/phillyBlazin/skyBlur"), ScriptingUtil.axisX);
+		scrollingSkyAdd = new FlxBackdrop(Paths.image("weekend1/phillyBlazin/skyBlur"), FlxAxes.X);
 		scrollingSkyAdd.setPosition(-600, -175);
 		scrollingSkyAdd.scrollFactor.set();
 		scrollingSkyAdd.scale.set(1.75, 1.75);

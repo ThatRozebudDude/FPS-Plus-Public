@@ -7,7 +7,6 @@ import flixel.input.gamepad.FlxGamepadInputID;
 import openfl.display.BlendMode as BaseBlendMode;
 import flixel.text.FlxText.FlxTextBorderStyle;
 import flixel.input.keyboard.FlxKey;
-import Highscore.Rank;
 import flixel.FlxG;
 import flixel.util.FlxAxes;
 import flixel.FlxObject;
@@ -17,12 +16,13 @@ import flixel.FlxBasic;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import sys.FileSystem;
 import flixel.util.FlxColor;
+import Highscore.Rank;
 
 using StringTools;
 
 class ScriptingUtil
 {
-	//FlxAxes aliases.
+	//These are deprecated, they are only being kept for backwards compatibility. It is recommended that you use FlxAxes.{axis} instead.
 	public static var axisNone(get, never):Int;
 	public static inline function get_axisNone()	{ return 0x00; }
 	public static var axisX(get, never):Int;
@@ -32,20 +32,21 @@ class ScriptingUtil
 	public static var axisXY(get, never):Int;
 	public static inline function get_axisXY()		{ return 0x10; }
 
+	//These are deprecated, they are only being kept for backwards compatibility. It is recommended that you use Rank.{rank} instead.
 	public static var rankNone(get, never):Rank;
-	public static inline function get_rankNone()		{ return none; }
+	public static inline function get_rankNone()		{ return Highscore.Rank.none; }
 	public static var rankLoss(get, never):Rank;
-	public static inline function get_rankLoss()		{ return loss; }
+	public static inline function get_rankLoss()		{ return Highscore.Rank.loss; }
 	public static var rankGood(get, never):Rank;
-	public static inline function get_rankGood()		{ return good; }
+	public static inline function get_rankGood()		{ return Highscore.Rank.good; }
 	public static var rankGreat(get, never):Rank;
-	public static inline function get_rankGreat()		{ return great; }
+	public static inline function get_rankGreat()		{ return Highscore.Rank.great; }
 	public static var rankExcellent(get, never):Rank;
-	public static inline function get_rankExcellent()	{ return excellent; }
+	public static inline function get_rankExcellent()	{ return Highscore.Rank.excellent; }
 	public static var rankPerfect(get, never):Rank;
-	public static inline function get_rankPerfect()		{ return perfect; }
+	public static inline function get_rankPerfect()		{ return Highscore.Rank.perfect; }
 	public static var rankGold(get, never):Rank;
-	public static inline function get_rankGold()		{ return gold; }
+	public static inline function get_rankGold()		{ return Highscore.Rank.gold; }
 
 	public static inline function makeFlxGroup():FlxTypedGroup<FlxBasic>				{ return new FlxTypedGroup<FlxBasic>(); }
 	public static inline function makeFlxSpriteGroup():FlxTypedSpriteGroup<FlxSprite>	{ return new FlxTypedSpriteGroup<FlxSprite>(); }
@@ -140,6 +141,28 @@ class FlxTextBorderStyle
 	public static var SHADOW = flixel.text.FlxText.FlxTextBorderStyle.SHADOW;
 	public static var OUTLINE = flixel.text.FlxText.FlxTextBorderStyle.OUTLINE;
 	public static var OUTLINE_FAST = flixel.text.FlxText.FlxTextBorderStyle.OUTLINE_FAST;
+}
+
+class FlxAxes
+{
+	public static var NONE:flixel.util.FlxAxes = flixel.util.FlxAxes.NONE;
+	public static var X:flixel.util.FlxAxes = flixel.util.FlxAxes.X;
+	public static var XY:flixel.util.FlxAxes = flixel.util.FlxAxes.XY;
+	public static var Y:flixel.util.FlxAxes = flixel.util.FlxAxes.Y;
+
+	public static function fromBools(x:Bool, y:Bool):flixel.util.FlxAxes { return flixel.util.FlxAxes.fromBools(x, y); }
+	public static function fromString(axes:String):flixel.util.FlxAxes { return flixel.util.FlxAxes.fromString(axes); }
+}
+
+class ScriptRank
+{
+	public static var none:Rank = 		Highscore.Rank.none;
+	public static var loss:Rank = 		Highscore.Rank.loss;
+	public static var good:Rank = 		Highscore.Rank.good;
+	public static var great:Rank = 		Highscore.Rank.great;
+	public static var excellent:Rank = 	Highscore.Rank.excellent;
+	public static var perfect:Rank = 	Highscore.Rank.perfect;
+	public static var gold:Rank = 		Highscore.Rank.gold;
 }
 
 class NativeJson
