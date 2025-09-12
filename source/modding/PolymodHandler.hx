@@ -288,6 +288,8 @@ class PolymodHandler
 		Polymod.addDefaultImport(modding.ScriptingUtil.BlendMode);
 		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTextBorderStyle);
 		Polymod.addDefaultImport(modding.ScriptingUtil.FlxTweenType);
+		Polymod.addDefaultImport(modding.ScriptingUtil.FlxAxes);
+		Polymod.addDefaultImport(modding.ScriptingUtil.ScriptRank, "Rank");
 		
 		Polymod.addDefaultImport(modding.ScriptingUtil.ScriptBinds, "Binds");
 		Polymod.addDefaultImport(modding.ScriptingUtil.ScriptConfig, "Config");
@@ -313,9 +315,6 @@ class PolymodHandler
 		Polymod.addDefaultImport(objects.ScriptableSpriteGroup.ScriptedSpriteGroup);
 
 		Polymod.addDefaultImport(scripts.ScriptedState);
-
-		Polymod.addDefaultImport(flixel.group.FlxGroup);
-		Polymod.addDefaultImport(flixel.group.FlxSpriteGroup);
 		
 		Polymod.addDefaultImport(flixel.system.FlxAssets.FlxShader);
 
@@ -328,14 +327,15 @@ class PolymodHandler
 		Polymod.addImportAlias("config.Config", modding.ScriptingUtil.ScriptConfig);
 		Polymod.addImportAlias("config.CacheConfig", modding.ScriptingUtil.ScriptCacheConfig);
 		Polymod.addImportAlias("modding.ModConfig", modding.ScriptingUtil.ScriptModConfig);
-
+		
 		Polymod.addImportAlias("lime.utils.Assets", Assets);
 		Polymod.addImportAlias("openfl.utils.Assets", Assets);
 		Polymod.addImportAlias("haxe.Json", modding.ScriptingUtil.NativeJson);
-
+		
 		Polymod.addImportAlias("flash.display.BlendMode", modding.ScriptingUtil.BlendMode);
 		Polymod.addImportAlias("openfl.display.BlendMode", modding.ScriptingUtil.BlendMode);
-
+		Polymod.addImportAlias("flixel.util.FlxAxes", modding.ScriptingUtil.FlxAxes);
+		
 		Polymod.addImportAlias("flixel.math.FlxPoint", flixel.math.FlxPoint.FlxBasePoint);
 
 		// `Sys`
