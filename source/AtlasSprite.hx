@@ -32,6 +32,9 @@ class AtlasSprite extends FlxAnimate
 	var loopTimer:Float = -1;
 	var loopTime:Float = -1;
 
+	//Will offset the sprite so that (0, 0) in the symbol in animation will be where the sprite is position at.
+	public var positionAtSymbolOrigin:Bool = false;
+
 	public function new(?_x:Float, ?_y:Float, ?_path:TextureAtlasData, ?_settings:FlxAnimateSettings) {
 		super(_x, _y, null, null);
 		if(_path != null){
@@ -43,7 +46,11 @@ class AtlasSprite extends FlxAnimate
 		frames = FlxAnimateFrames.fromAnimate(_path.path, null, null, null, false, _settings);
 		anim.addByTimeline("___full", anim.getDefaultTimeline(), 24, false);
 		anim.onFrameChange.add(animCallback);
-		if(_path.old){ applyStageMatrix = true; }
+		if(_path.old){ 
+			applyStageMatrix = true;
+			positionAtSymbolOrigin = true;
+		}
+		positionAtSymbolOrigin = true;
 	}
 
 	public function addAnimationByLabel(name:String, label:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
@@ -156,6 +163,10 @@ class AtlasSprite extends FlxAnimate
 
 	function animCallback(name:String, index:Int, frame:Int):Void{
 		var animInfo:AtlasAnimInfo = animInfoMap.get(curAnim);
+
+		if(positionAtSymbolOrigin){
+			offset.set(-anim.getDefaultTimeline().getBoundsOrigin(null, true).x, -anim.getDefaultTimeline().getBoundsOrigin(null, true).y);
+		}
 
 		if(frameCallback != null){ frameCallback(curAnim, frame - animInfo.startFrame, frame); }
 
