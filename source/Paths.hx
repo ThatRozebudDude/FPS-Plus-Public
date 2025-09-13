@@ -90,7 +90,7 @@ class Paths
 		if(Assets.exists(_path + "/spritemap1.png")){
 			var fromMod:String = PolymodHandler.getAssetModFolder(_path + "/spritemap1.png");
 			if(fromMod != null){
-				_old = PolymodHandler.getSeparatedVersionNumber(PolymodHandler.getModMetaFromFolder(fromMod).api_version)[1] <= 6;
+				_old = PolymodHandler.getSeparatedVersionNumber(PolymodHandler.getModMetaFromFolder(fromMod).api_version)[1] <= 7;
 			}
 		}
 		return {path: _path, old: _old};
