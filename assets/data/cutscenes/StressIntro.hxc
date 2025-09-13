@@ -22,6 +22,7 @@ class StressIntro extends ScriptedCutscene
 		super(args);
 		
 		tankman = new AtlasSprite(74, 324, Paths.getTextureAtlas("week7/cutscene/tankmanCutscene"));
+		tankman.applyStageMatrix = true;
 		tankman.antialiasing = true;
 		tankman.addAnimationByLabel("ugh1", "Ugh 1", 24, false);
 		tankman.addAnimationByLabel("ugh2", "Ugh 2", 24, false);
@@ -30,6 +31,7 @@ class StressIntro extends ScriptedCutscene
 		tankman.addAnimationByLabel("stress2", "Stress 2", 24, false);
 
 		picoSpeaker = new AtlasSprite(322-10, 3, Paths.getTextureAtlas("week7/cutscene/picoSpeakerCutscene"));
+		picoSpeaker.applyStageMatrix = true;
 		picoSpeaker.antialiasing = true;
 		picoSpeaker.addAnimationByLabel("fall", "Pico Fall", 24, false);
 		picoSpeaker.addAnimationByLabel("idle", "Idle", 24, true);

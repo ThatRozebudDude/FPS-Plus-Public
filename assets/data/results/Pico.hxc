@@ -27,6 +27,7 @@ class PicoResults extends ResultsCharacter
 		switch(rank){
 			case Rank.gold:
 				pico = new AtlasSprite(385-100, 82-40, Paths.getTextureAtlas("menu/results/characters/pico/perfect"));
+				pico.applyStageMatrix = true;
 				pico.visible = false;
 				pico.addAnimationByFrame("anim", 0, null, 24, true, 91);
 				pico.antialiasing = true;
@@ -36,6 +37,7 @@ class PicoResults extends ResultsCharacter
 				
 			case Rank.perfect:
 				pico = new AtlasSprite(385-100, 82-40, Paths.getTextureAtlas("menu/results/characters/pico/perfect"));
+				pico.applyStageMatrix = true;
 				pico.visible = false;
 				pico.addAnimationByFrame("anim", 0, null, 24, true, 91);
 				pico.antialiasing = true;
@@ -45,6 +47,7 @@ class PicoResults extends ResultsCharacter
 
 			case Rank.excellent:
 				pico = new AtlasSprite(350+160, 25+85, Paths.getTextureAtlas("menu/results/characters/pico/excellent"));
+				pico.applyStageMatrix = true;
 				pico.visible = false;
 				pico.addAnimationByFrame("anim", 0, null, 24, true, 32);
 				pico.antialiasing = true;
@@ -54,6 +57,7 @@ class PicoResults extends ResultsCharacter
 
 			case Rank.loss:
 				pico = new AtlasSprite(-185, -125, Paths.getTextureAtlas("menu/results/characters/pico/loss"));
+				pico.applyStageMatrix = true;
 				pico.visible = false;
 				pico.addAnimationByFrame("anim", 0, null, 24, true, 0);
 				pico.antialiasing = true;
@@ -62,6 +66,7 @@ class PicoResults extends ResultsCharacter
 
 			default:
 				pico = new AtlasSprite(350+160, 25+85, Paths.getTextureAtlas("menu/results/characters/pico/good"));
+				pico.applyStageMatrix = true;
 				pico.visible = false;
 				pico.addAnimationByLabel("intro", "intro", 24, false);
 				pico.addAnimationByLabel("loop", "loop", 24, true);

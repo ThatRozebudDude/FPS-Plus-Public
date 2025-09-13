@@ -15,6 +15,7 @@ class GunsIntro extends ScriptedCutscene
 		super(args);
 		
 		tankman = new AtlasSprite(74, 324, Paths.getTextureAtlas("week7/cutscene/tankmanCutscene"));
+		tankman.applyStageMatrix = true;
 		tankman.antialiasing = true;
 		tankman.addAnimationByLabel("ugh1", "Ugh 1", 24, false);
 		tankman.addAnimationByLabel("ugh2", "Ugh 2", 24, false);

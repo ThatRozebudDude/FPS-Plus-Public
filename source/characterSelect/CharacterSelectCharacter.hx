@@ -6,6 +6,8 @@ class CharacterSelectCharacter extends AtlasSprite
 
 	public function new() {
 		super(0, 0, null);
+		applyStageMatrix = true;
+		antialiasing = true;
 	}
 
 	public function setup():Void{}

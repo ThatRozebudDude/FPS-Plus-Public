@@ -196,6 +196,7 @@ class PhillyStreetsErect extends BaseStage
 		addToForeground(spraycanPile);
 
 		kickedCan = new AtlasSprite(spraycanPile.x - 430, spraycanPile.y - 840, Paths.getTextureAtlas("weekend1/spraycanAtlas"));
+		kickedCan.applyStageMatrix = true;
 		kickedCan.antialiasing = true;
 		kickedCan.visible = false;
 		kickedCan.shader = characterShader.shader;

@@ -43,10 +43,7 @@ class AtlasSprite extends FlxAnimate
 		frames = FlxAnimateFrames.fromAnimate(_path.path, null, null, null, false, _settings);
 		anim.addByTimeline("___full", anim.getDefaultTimeline(), 24, false);
 		anim.onFrameChange.add(animCallback);
-		if(_path.old){ 
-			applyStageMatrix = true;
-		}
-		applyStageMatrix = true;
+		if(_path.old){ applyStageMatrix = true; }
 	}
 
 	public function addAnimationByLabel(name:String, label:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
@@ -157,22 +154,22 @@ class AtlasSprite extends FlxAnimate
 		anim.play("___full", force, reverse, animInfoMap.get(name).startFrame + frameOffset);
 	}
 
-	function animCallback(name:String, index:Int, frame:Int):Void{
+	function animCallback(name:String, frame:Int, index:Int):Void{
 		var animInfo:AtlasAnimInfo = animInfoMap.get(curAnim);
 
 		if(frameCallback != null){ frameCallback(curAnim, frame - animInfo.startFrame, frame); }
 
 		if(frame >= (animInfo.startFrame + animInfo.length) - 1 || frame < animInfo.startFrame){
-			//anim.curAnim.curFrame = (animInfo.startFrame + animInfo.length) - 1;
+			//anim.curAnim.curFrame = (animInfo.startFrame + animInfo.length) - 1; //GET THIS TO DO SOMETHING IT CRASHES THE GAME AND DARNELL FLICKERS ONCE IN THE CHAIN ANIM
 			anim.pause();
 			finishedAnim = true;
-
-			if(animationEndCallback != null){ animationEndCallback(curAnim); }
 
 			if(animInfo.looped){
 				loopTimer = 0;
 				loopTime = 1/(animInfo.framerate);
 			}
+
+			if(animationEndCallback != null){ animationEndCallback(curAnim); }
 		}
 	}
 

@@ -191,6 +191,7 @@ class PicoFreeplay extends DJCharacter
 		backingCard.add(cardFlash);
 
 		confirmAtlas = new AtlasSprite(5, 55, Paths.getTextureAtlas("menu/freeplay/bgs/pico/pico-confirm"));
+		confirmAtlas.applyStageMatrix = true;
 		confirmAtlas.antialiasing = true;
 		confirmAtlas.addFullAnimation("confirm", 24, false);
 		confirmAtlas.visible = false;

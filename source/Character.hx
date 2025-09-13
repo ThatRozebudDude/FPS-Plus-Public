@@ -488,6 +488,10 @@ class Character extends FlxSpriteGroup
 						missSounds = data[0];
 					case "missSoundVolume":
 						missSoundVolume = data[0];
+					case "applyStageMatrix":
+						if(atlasCharacter != null){
+							atlasCharacter.applyStageMatrix = data[0];
+						}
 					default:
 						//Do nothing by default.
 				}

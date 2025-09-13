@@ -22,6 +22,7 @@ class ABot extends FlxTypedSpriteGroup<FlxSprite>
 		super(x, y);
 
 		system = new AtlasSprite(0, 0, Paths.getTextureAtlas("weekend1/abot/abotSystem"));
+		system.applyStageMatrix = true;
 		system.antialiasing = true;
 		system.addFullAnimation("bop", 24, false);
 
@@ -30,6 +31,7 @@ class ABot extends FlxTypedSpriteGroup<FlxSprite>
 		eyeBack.updateHitbox();
 
 		eyes = new AtlasSprite(-506, -494, Paths.getTextureAtlas("weekend1/abot/systemEyes"));
+		eyes.applyStageMatrix = true;
 		eyes.antialiasing = true;
 		eyes.addAnimationByFrame("lookLeft", 8, 6, 24);
 		eyes.addAnimationByFrame("lookRight", 22, 6, 24);

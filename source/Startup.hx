@@ -102,7 +102,7 @@ class Startup extends FlxUIStateExt
 
 		splash = new AtlasSprite(0, 0, Paths.getTextureAtlas("fpsPlus/splash"));
 		splash.antialiasing = true;
-
+		splash.applyStageMatrix = true;
 		splashHasSoundTrigger = splash.anim.findFrameLabelIndices("Trigger Sound").length > 0;
 
 		splash.addAnimationByLabel("start", "Start", 24, false);

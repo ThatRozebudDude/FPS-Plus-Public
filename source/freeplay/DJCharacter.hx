@@ -42,6 +42,7 @@ class DJCharacter extends AtlasSprite
 	public function new() {
 		super(0, 0, null);
 		antialiasing = true;
+		applyStageMatrix = true;
 
 		animationEndCallback = function(name) {
 			switch(name){

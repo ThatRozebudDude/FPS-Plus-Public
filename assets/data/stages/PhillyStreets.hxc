@@ -144,6 +144,7 @@ class PhillyStreets extends BaseStage
 		addToForeground(spraycanPile);
 
 		kickedCan = new AtlasSprite(spraycanPile.x - 430, spraycanPile.y - 840, Paths.getTextureAtlas("weekend1/spraycanAtlas"));
+		kickedCan.applyStageMatrix = true;
 		kickedCan.antialiasing = true;
 		kickedCan.visible = false;
 		kickedCan.addAnimationByLabel("start", "Can Start", 24, false);

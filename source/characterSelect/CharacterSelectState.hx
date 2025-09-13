@@ -164,6 +164,7 @@ class CharacterSelectState extends MusicBeatState
 		add(bg);
 	
 		var crowd:AtlasSprite = new AtlasSprite(0, 0, Paths.getTextureAtlas("menu/characterSelect/crowd"));
+		crowd.applyStageMatrix = true;
 		crowd.antialiasing = true;
 		crowd.scrollFactor.set(0.3, 0.3);
 		crowd.addFullAnimation("idle", 24, true);
@@ -183,6 +184,7 @@ class CharacterSelectState extends MusicBeatState
 		add(curtains);
 
 		titleBar = new AtlasSprite(0, 0, Paths.getTextureAtlas("menu/characterSelect/bar"));
+		titleBar.applyStageMatrix = true;
 		titleBar.antialiasing = true;
 		titleBar.scrollFactor.set();
 		titleBar.addFullAnimation("loop", 24, true);
@@ -204,6 +206,7 @@ class CharacterSelectState extends MusicBeatState
 		add(characterGroup);
 
 		speakers = new AtlasSprite(0, 0, Paths.getTextureAtlas("menu/characterSelect/charSelectSpeakers"));
+		speakers.applyStageMatrix = true;
 		speakers.antialiasing = true;
 		speakers.scrollFactor.set(1.8, 1.8);
 		speakers.addFullAnimation("bop", 24, false);

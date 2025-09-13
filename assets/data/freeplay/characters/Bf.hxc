@@ -163,6 +163,7 @@ class BoyfriendFreeplay extends DJCharacter
 		backingCard.add(cardGlowDark);
 
 		cardAcceptText = new AtlasSprite(640, 420, Paths.getTextureAtlas("menu/freeplay/bgs/bf/backing-text-yeah"));
+		cardAcceptText.applyStageMatrix = true;
 		cardAcceptText.antialiasing = true;
 		cardAcceptText.visible = false;
 		cardAcceptText.addFullAnimation("text", 24, false);

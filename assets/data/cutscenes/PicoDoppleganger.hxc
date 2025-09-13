@@ -23,6 +23,7 @@ class PicoDoppleganger extends ScriptedCutscene
 		originalZoom = playstate.defaultCamZoom;
 
 		opPico = new AtlasSprite(307, 800, Paths.getTextureAtlas("week3/philly/erect/pico_doppleganger"));
+		opPico.applyStageMatrix = true;
 		opPico.antialiasing = true;
 		opPico.addAnimationByLabel("shootOpponent", "shootOpponent", 24, false);
 		opPico.addAnimationByLabel("cigaretteOpponent", "cigaretteOpponent", 24, false);
@@ -30,6 +31,7 @@ class PicoDoppleganger extends ScriptedCutscene
 		opPico.shader = dad.getShader();
 
 		playerPico = new AtlasSprite(847, 787, Paths.getTextureAtlas("week3/philly/erect/pico_doppleganger"));
+		playerPico.applyStageMatrix = true;
 		playerPico.antialiasing = true;
 		playerPico.addAnimationByLabel("cigarettePlayer", "cigarettePlayer", 24, false);
 		playerPico.addAnimationByLabel("shootPlayer", "shootPlayer", 24, false);

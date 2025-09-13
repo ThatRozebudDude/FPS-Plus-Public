@@ -13,6 +13,7 @@ class SantaDies extends ScriptedCutscene
 		super(args);
 		
 		santa = new AtlasSprite(-452, 501, Paths.getTextureAtlas("week5/santa_speaks_assets"));
+		santa.applyStageMatrix = true;
 		santa.antialiasing = true;
 		santa.addFullAnimation("full", 24, false);
 		if(playstate.stage.name == "mallErect"){
@@ -20,6 +21,7 @@ class SantaDies extends ScriptedCutscene
 		}
 
 		parents = new AtlasSprite(-517, 503, Paths.getTextureAtlas("week5/parents_shoot_assets"));
+		parents.applyStageMatrix = true;
 		parents.antialiasing = true;
 		parents.addFullAnimation("full", 24, false);
 		parents.frameCallback = function(name:String, frame:Int, totalFrame:Int) {

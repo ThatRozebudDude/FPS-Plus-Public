@@ -86,8 +86,8 @@ class PhillyBlazin extends BaseStage
 
 		useStartPoints = false;
 		overrideGfStartPoints = true;
-		boyfriend.setPosition(1372, 411);
-		dad.setPosition(730, 377);
+		boyfriend.setPosition(292, 136);
+		dad.setPosition(514, 161);
 		gfStart.set(1353 + gfPosOffset.x, 1090 + gfPosOffset.y);
 
 		cameraMovementEnabled = false;

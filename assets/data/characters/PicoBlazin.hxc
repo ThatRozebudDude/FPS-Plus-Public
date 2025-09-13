@@ -15,7 +15,7 @@ class PicoBlazin extends CharacterInfoBase
 		info.deathCharacter = "PicoBlazin";
 		info.resultsCharacter = "PicoResults";
 		info.facesLeft = true;
-		info.deathOffset.set(-400, 0);
+		info.deathOffset.set(100, 200);
 
 		addByLabel('idle', offset(), "Idle", 24, loop(true));
 		addByLabel('punchHigh1', offset(), "Punch High 1", 24, loop(false));
@@ -62,7 +62,7 @@ class PicoBlazin extends CharacterInfoBase
 	function deathCreate(character:Character) {
 		isOnDeathScreen = true;
 
-		retrySprite = new FlxSprite(character.x - 1238, character.y + 31);
+		retrySprite = new FlxSprite(character.x - 158, character.y + 306);
 		retrySprite.frames = Paths.getSparrowAtlas("weekend1/picoBlazinDeathConfirm");
 		retrySprite.animation.addByPrefix("retry", "", 24, false);
 		retrySprite.antialiasing = true;
@@ -81,13 +81,13 @@ class PicoBlazin extends CharacterInfoBase
 		retrySprite.visible = true;
 		retrySprite.alpha = 0.6;
 
-		var mod = (FlxG.keys.anyPressed([SHIFT])) ? 20 : 1;
-		if(FlxG.keys.anyJustPressed([I, J, K, L])){
-			if(FlxG.keys.anyJustPressed([I])){ retrySprite.y -= mod; }
-			if(FlxG.keys.anyJustPressed([J])){ retrySprite.x -= mod; }
-			if(FlxG.keys.anyJustPressed([K])){ retrySprite.y += mod; }
-			if(FlxG.keys.anyJustPressed([L])){ retrySprite.x += mod; }
-			trace(character.getPosition() - retrySprite.getPosition());
+		var mod = (ScriptingUtil.anyPressed(["SHIFT"])) ? 20 : 1;
+		if(ScriptingUtil.anyJustPressed(["I", "J", "K", "L"])){
+			if(ScriptingUtil.anyJustPressed(["I"])){ retrySprite.y -= mod; }
+			if(ScriptingUtil.anyJustPressed(["J"])){ retrySprite.x -= mod; }
+			if(ScriptingUtil.anyJustPressed(["K"])){ retrySprite.y += mod; }
+			if(ScriptingUtil.anyJustPressed(["L"])){ retrySprite.x += mod; }
+			trace((character.x - retrySprite.getPosition().x) + "\t" + (character.y - retrySprite.getPosition().y));
 		}
 	}*/
 
