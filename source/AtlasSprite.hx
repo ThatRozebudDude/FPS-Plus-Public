@@ -139,6 +139,11 @@ class AtlasSprite extends FlxAnimate
 			return;
 		}
 
+		//Can't rely on normal force behavior so I have to recreate it.
+		if(!force && curAnim == name && !finishedAnim && anim.curAnim != null && anim.curAnim.reversed == reverse){
+			return;
+		}
+
 		curAnim = name;
 		loopTimer = -1;
 		loopTime = -1;
@@ -151,11 +156,14 @@ class AtlasSprite extends FlxAnimate
 		}
 
 		anim.getByName("___full").frameRate = animInfoMap.get(name).framerate;
-		anim.play("___full", force, reverse, animInfoMap.get(name).startFrame + frameOffset);
+		anim.play("___full", true, reverse, animInfoMap.get(name).startFrame + frameOffset);
 	}
 
 	function animCallback(name:String, frame:Int, index:Int):Void{
 		var animInfo:AtlasAnimInfo = animInfoMap.get(curAnim);
+
+		//Debug info about animation.
+		//trace(curAnim + "\t" + frame + "\t" + (frame - animInfo.startFrame) + "/" + animInfo.length + "\t" + index);
 
 		if(frameCallback != null){ frameCallback(curAnim, frame - animInfo.startFrame, frame); }
 
