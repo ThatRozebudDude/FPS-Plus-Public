@@ -1,7 +1,6 @@
 package;
 
 import flixel.math.FlxMatrix;
-import flixel.util.FlxTimer;
 import flxanimate.FlxAnimate;
 import flxanimate.frames.FlxAnimateFrames;
 import flxanimate.data.SpriteMapData;
@@ -32,8 +31,9 @@ class AtlasSprite extends FlxAnimate
 	private var largestRenderedWidth(default, set):Float = 0;
 	private var largestRenderedHeight(default, set):Float = 0;
 
-	var loopTimer:Float = -1;
-	var loopTime:Float = -1;
+	var loopCurrentAnim:Bool = false;
+	var animFinishTimer:Float = -1;
+	var animFinishTime:Float = -1;
 
 	public function new(?_x:Float, ?_y:Float, _path:String) {
 		super(_x, _y, _path);
@@ -171,19 +171,25 @@ class AtlasSprite extends FlxAnimate
 			return;
 		}
 
+		//Can't rely on normal force behavior so I have to recreate it.
+		if(!force && curAnim == name && !finishedAnim){
+			return;
+		}
+
 		curAnim = name;
-		loopTimer = -1;
-		loopTime = -1;
+		animFinishTimer = -1;
+		animFinishTime = -1;
 		if(!_partOfLoop){
 			finishedAnim = false;
 		}
+		loopCurrentAnim = animInfoMap.get(name).looped;
 
 		if(frameOffset >= animInfoMap.get(name).length){
 			frameOffset = animInfoMap.get(name).length - 1;
 		}
 
 		anim.framerate = animInfoMap.get(name).framerate;
-		anim.play("", force, reverse, animInfoMap.get(name).startFrame + frameOffset);
+		anim.play("", true, reverse, animInfoMap.get(name).startFrame + frameOffset);
 	}
 
 	function animCallback(frame:Int):Void{
@@ -194,13 +200,8 @@ class AtlasSprite extends FlxAnimate
 		if(frame >= (animInfo.startFrame + animInfo.length) - 1 || frame < animInfo.startFrame){
 			anim.curFrame = (animInfo.startFrame + animInfo.length) - 1;
 			anim.pause();
-			finishedAnim = true;
-			if(animationEndCallback != null){ animationEndCallback(curAnim); }
-
-			if(animInfo.looped){
-				loopTimer = 0;
-				loopTime = 1/(animInfo.framerate);
-			}
+			animFinishTimer = 0;
+			animFinishTime = 1/(animInfo.framerate);
 		}
 
 		//trace("w: " + width + "\th: " + height);
@@ -232,10 +233,16 @@ class AtlasSprite extends FlxAnimate
 		if(flipY){ offset.y = -height; }
 		else { offset.y = 0; }
 
-		if(loopTimer >= 0){
-			loopTimer += elapsed;
-			if(loopTimer >= loopTime){
-				playAnim(curAnim, true, false, animInfoMap.get(curAnim).loopFrame, true);
+		if(animFinishTimer >= 0){
+			animFinishTimer += elapsed;
+			if(animFinishTimer >= animFinishTime){
+				animFinishTimer = -1;
+				animFinishTime = -1;
+				finishedAnim = true;
+				if(loopCurrentAnim){
+					playAnim(curAnim, true, false, animInfoMap.get(curAnim).loopFrame, true);
+				}
+				if(animationEndCallback != null){ animationEndCallback(curAnim); }
 			}
 		}
 
