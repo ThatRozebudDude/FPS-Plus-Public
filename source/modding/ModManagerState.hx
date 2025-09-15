@@ -629,6 +629,15 @@ class ModManagerState extends FlxUIStateExt
 						info.apiVersion = json.api_version;
 						info.modVersion = json.mod_version;
 						info.uid = json.uid;
+					case MISSING_DEPENDECNIES(deps):
+						var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
+						if(json.title != null){ info.name = json.title; }
+						else{ info.name = dir; }
+						info.description = "Dependencies required to load this mod (" + deps.join(", ") + ") is missing. Please check that these has no errors and are loaded.";
+						info.icon = getModIcon(dir);
+						info.apiVersion = json.api_version;
+						info.modVersion = json.mod_version;
+						info.uid = json.uid;
 					default:
 				}
 
