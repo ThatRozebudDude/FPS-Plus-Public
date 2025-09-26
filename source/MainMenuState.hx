@@ -123,7 +123,8 @@ class MainMenuState extends MusicBeatState
 			menuItem.screenCenter(X);
 			menuItem.scrollFactor.set();
 
-			var jsonPath:String = "assets/data/mainMenu/items/" + menuItemJsonNames[i];
+			var jsonPath:String = Paths.json(menuItemJsonData[i].jsonName, "data/mainMenu/items");
+			trace(jsonPath);
 			var jsonSourceFolder:String = PolymodHandler.getAssetModFolder(jsonPath);
 			if(jsonSourceFolder != null){
 				menuItem.sourceUid = PolymodHandler.getModMetaFromFolder(jsonSourceFolder).uid;
@@ -169,7 +170,7 @@ class MainMenuState extends MusicBeatState
 		keyWarning.alpha = 0;
 		add(keyWarning);
 		
-		buttonModSourceText = new FlxTextExt(5, 5, 0, "From mod: MOD_UID", 16);
+		buttonModSourceText = new FlxTextExt(FlxG.width - 5, 5, 0, "From: MOD_UID", 16);
 		buttonModSourceText.scrollFactor.set();
 		buttonModSourceText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		buttonModSourceText.visible = false;
@@ -280,19 +281,20 @@ class MainMenuState extends MusicBeatState
 				add(versionText);
 				add(keyWarning);
 				add(buttonModSourceText);
-
-				if(menuItems[i].sourceUid != null){
-					buttonModSourceText.visible = true;
-					buttonModSourceText.text = "From Mod: " + menuItems[i].sourceUid;
-				}
-				else{
-					buttonModSourceText.visible = false;
-				}
 			}
 			else{ menuItems[i].animation.play("idle"); }
 			menuItems[i].updateHitbox();
 			menuItems[i].screenCenter(X);
 			menuItems[i].offset.y = menuItems[i].frameHeight/2;
+		}
+
+		if(menuItems[curSelected].sourceUid != null){
+			buttonModSourceText.visible = true;
+			buttonModSourceText.text = "From: " + menuItems[curSelected].sourceUid;
+			buttonModSourceText.x = (FlxG.width - 5) - buttonModSourceText.width;
+		}
+		else{
+			buttonModSourceText.visible = false;
 		}
 
 		if(menuItems.length > 1){
@@ -392,6 +394,7 @@ class MainMenuState extends MusicBeatState
 		for(item in menuItemJsonNames){ 
 			item = item.split(".json")[0];
 			var data = Json.parse(Utils.getText(Paths.json(item, "data/mainMenu/items")));
+			data.jsonName = item;
 			menuItemJsonData.push(data);
 		}
 		menuItemJsonData.sort(function(a, b):Int{
