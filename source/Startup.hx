@@ -89,6 +89,16 @@ class Startup extends FlxUIStateExt
 		Main.fpsDisplay.visible = Config.showFPS;
 		FlxG.autoPause = Config.autoPause;
 
+		//Should fix an issue with shader coordinates breaking when resizing the screen.
+		FlxG.signals.gameResized.add(function(width:Int, height:Int){
+			@:privateAccess{
+				for(camera in FlxG.cameras.list){
+					camera.flashSprite.__cacheBitmap = null;
+					camera.flashSprite.__cacheBitmapData = null;
+				}
+			}
+		});
+
 		FlxUIStateExt.defaultTransIn = ScreenWipeIn;
 		FlxUIStateExt.defaultTransInArgs = [0.6];
 		FlxUIStateExt.defaultTransOut = ScreenWipeOut;

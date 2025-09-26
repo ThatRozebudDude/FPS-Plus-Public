@@ -1,6 +1,5 @@
 package modding;
 
-import sys.FileSystem;
 import transition.CustomTransition;
 import transition.data.InstantTransition;
 import openfl.Assets;
@@ -423,11 +422,11 @@ class PolymodHandler
 	inline public static function getSeparatedVersionNumber(version:String):Array<Int>{
 		return [Std.parseInt(version.split(".")[0]), Std.parseInt(version.split(".")[1]), Std.parseInt(version.split(".")[2])];
 	}
-	
+
 	//Checks through the loaded mods to see what mod a file is from. Returns `null` if it's not a mod file.
 	public static function getAssetModFolder(path:String):String{
 		for(mod in loadedModDirs){
-			if(FileSystem.exists('mods/$mod/' + path.split("assets/")[1])){
+			if(sys.FileSystem.exists('mods/$mod/' + path.split("assets/")[1])){
 				return mod;
 			}
 		}
