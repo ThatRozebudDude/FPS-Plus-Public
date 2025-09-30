@@ -37,10 +37,12 @@ import flixel.addons.ui.FlxInputText;
 import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUICheckBox;
+import flixel.addons.ui.FlxUISlider;
 import flixel.addons.ui.FlxUIDropDownMenu;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
+import flixel.addons.ui.FlxUITooltip;
 import flixel.addons.ui.FlxUITooltip.FlxUITooltipStyle;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxGroup;
@@ -104,7 +106,7 @@ class ChartingState extends MusicBeatState
 	var opClick:FlxUICheckBox;
 	var gotoSectionStepper:FlxUINumericStepper;
 	var lilBuddiesBox:FlxUICheckBox;
-	var halfSpeedCheck:FlxUICheckBox;
+	var speedSlider:FlxUISlider;
 
 	var strumLine:FlxSprite;
 	var bullshitUI:FlxGroup;
@@ -156,6 +158,7 @@ class ChartingState extends MusicBeatState
 
 	var tempBpm:Float = 0;
 
+	var pitch:Float = 1.0;
 	var vocals:FlxSound;
 	var vocalsOther:FlxSound;
 
@@ -568,20 +571,18 @@ class ChartingState extends MusicBeatState
 			lilStage.visible = lilBuddiesBox.checked;
 		};
 	
-		halfSpeedCheck = new FlxUICheckBox(10, 180, null, null, "Half Speed", 100);
-		halfSpeedCheck.checked = false;
-		halfSpeedCheck.callback = function(){
-			if(halfSpeedCheck.checked){
-				FlxG.sound.music.pitch = 0.5;
-				vocals.pitch = 0.5;
-				vocalsOther.pitch = 0.5;
-			}
-			else{
-				FlxG.sound.music.pitch = 1;
-				vocals.pitch = 1;
-				vocalsOther.pitch = 1;
-			}
+		function updatePitch(v:Float)
+		{
+			FlxG.sound.music.pitch = pitch;
+			vocals.pitch = pitch;
+			vocalsOther.pitch = pitch;
 		}
+
+		speedSlider = new FlxUISlider(this, "pitch", 10.0, 190.0, 0.1, 3.0, 200, 15, 3, FlxColor.WHITE, FlxColor.BLACK);
+		speedSlider.value = pitch;
+		speedSlider.callback = updatePitch;
+		speedSlider.decimals = 1;
+		speedSlider.nameLabel.text = "Song Speed";
 	
 		var tab_group_tools = new FlxUI(null, UI_box);
 		tab_group_tools.name = "Tools";
@@ -594,7 +595,7 @@ class ChartingState extends MusicBeatState
 		tab_group_tools.add(bfClick);
 		tab_group_tools.add(opClick);
 		tab_group_tools.add(lilBuddiesBox);
-		tab_group_tools.add(halfSpeedCheck);
+		tab_group_tools.add(speedSlider);
 			
 	
 		UI_box.addGroup(tab_group_tools);
@@ -1713,6 +1714,8 @@ class ChartingState extends MusicBeatState
 					eventSymbol.alpha = 0.4;
 
 				eventSymbol.tag = tag;
+
+
 
 				curRenderedEvents.add(eventSymbol);
 			}
