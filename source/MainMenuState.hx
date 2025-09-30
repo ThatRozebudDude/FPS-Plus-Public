@@ -63,6 +63,8 @@ class MainMenuState extends MusicBeatState
 	var buildInfoText:FlxTextExt;
 	var keyWarning:FlxTextExt;
 	var canCancelWarning:Bool = true;
+	
+	var buttonModSourceText:FlxTextExt;
 
 	public static var fromFreeplay:Bool = false;
 
@@ -121,6 +123,12 @@ class MainMenuState extends MusicBeatState
 			menuItem.screenCenter(X);
 			menuItem.scrollFactor.set();
 
+			var jsonPath:String = Paths.json(menuItemJsonData[i].jsonName, "data/mainMenu/items");
+			var jsonSourceFolder:String = PolymodHandler.getAssetModFolder(jsonPath);
+			if(jsonSourceFolder != null){
+				menuItem.sourceUid = PolymodHandler.getModMetaFromFolder(jsonSourceFolder).uid;
+			}
+
 			menuItems.push(menuItem);
 			add(menuItem);
 		}
@@ -160,6 +168,12 @@ class MainMenuState extends MusicBeatState
 		keyWarning.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		keyWarning.alpha = 0;
 		add(keyWarning);
+		
+		buttonModSourceText = new FlxTextExt(FlxG.width - 5, 5, 0, "From: MOD_UID", 16);
+		buttonModSourceText.scrollFactor.set();
+		buttonModSourceText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		buttonModSourceText.visible = false;
+		add(buttonModSourceText);
 
 		FlxTween.tween(versionText, {y: versionText.y - 16}, 0.75, {ease: FlxEase.quintOut, startDelay: warningDelay});
 		FlxTween.tween(keyWarning, {alpha: 1, y: keyWarning.y - 16}, 0.75, {ease: FlxEase.quintOut, startDelay: warningDelay});
@@ -262,13 +276,24 @@ class MainMenuState extends MusicBeatState
 				}
 				remove(versionText, true);
 				remove(keyWarning, true);
+				remove(buttonModSourceText, true);
 				add(versionText);
 				add(keyWarning);
+				add(buttonModSourceText);
 			}
 			else{ menuItems[i].animation.play("idle"); }
 			menuItems[i].updateHitbox();
 			menuItems[i].screenCenter(X);
 			menuItems[i].offset.y = menuItems[i].frameHeight/2;
+		}
+
+		if(menuItems[curSelected].sourceUid != null){
+			buttonModSourceText.visible = true;
+			buttonModSourceText.text = "From: " + menuItems[curSelected].sourceUid;
+			buttonModSourceText.x = (FlxG.width - 5) - buttonModSourceText.width;
+		}
+		else{
+			buttonModSourceText.visible = false;
 		}
 
 		if(menuItems.length > 1){
@@ -331,7 +356,7 @@ class MainMenuState extends MusicBeatState
 				switchState(ScriptedState.init(button.action.state));
 				
 			case "playSong":
-				PlayState.setupSong(button.action.song, button.action.difficulty, false, "mainMenu", null);
+				PlayState.setupSong(button.action.song, button.action.difficulty, false, "mainMenu", button.action.instrumentalOverride);
 				ImageCache.forceClearOnTransition = true;
 				switchState(new PlayState());
 				if(FlxG.sound.music.playing){
@@ -368,6 +393,7 @@ class MainMenuState extends MusicBeatState
 		for(item in menuItemJsonNames){ 
 			item = item.split(".json")[0];
 			var data = Json.parse(Utils.getText(Paths.json(item, "data/mainMenu/items")));
+			data.jsonName = item;
 			menuItemJsonData.push(data);
 		}
 		menuItemJsonData.sort(function(a, b):Int{
@@ -389,6 +415,8 @@ class MainMenuButton extends FlxSprite
 		sound: null,
 		stopMusic: false
 	}
+
+	public var sourceUid:String = null;
 
 	public function new(params:Dynamic){
 		super();

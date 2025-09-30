@@ -205,127 +205,6 @@ class Bf extends CharacterInfoBase
 }
 ```
 
-And here is an example of a more complex character with Nene:
-
-```haxe
-import objects.ABot;
-import flixel.FlxG;
-
-class Nene extends CharacterInfoBase
-{
-
-	public function new(){
-		super();
-
-		includeInCharacterList = false;
-		includeInGfList = true;
-
-		info.name = "nene";
-		info.spritePath = "weekend1/Nene";
-		info.frameLoadType = setSparrow();
-		
-		info.iconName = "face";
-		info.focusOffset.set(0, 0);
-
-		addByIndices("danceLeft", offset(0, 0), "Idle", [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], "", 24, loop(false, 0));
-		addByIndices("danceRight", offset(0, 0), "Idle", [15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], "", 24, loop(false, 0));
-		addByPrefix("idleLoop", offset(0, 0), "Idle", 24, loop(true, 0));
-		addByIndices("sad", offset(0, 0), "Laugh", [0,1,2,3], "", 24, loop(false, 0));
-		addByPrefix("laugh", offset(0, 0), "Laugh", 24, loop(true, -6));
-		addByIndices("laughCutscene", offset(0, 0), "Laugh", [0,1,2,3,4,5,6,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11], "", 24, loop(false, 0));
-		addByPrefix("combo50", offset(-120, 53), "ComboCheer", 24, loop(false, 0));
-		addByIndices("combo200", offset(-40, -20), "ComboFawn", [0,1,2,3,4,5,6,4,5,6,4,5,6,4,5,6], "", 24, loop(false, 0));
-		addByPrefix("raiseKnife", offset(0, 51), "KnifeRaise", 24, loop(false, 0));
-		addByPrefix("idleKnife", offset(-98, 51), "KnifeIdle", 24, loop(false, 0));
-		addByIndices("lowerKnife", offset(135, 51), "KnifeLower", [0,1,2,3,4,5,6,7,8], "", 24, loop(false, 0));
-
-		addAnimChain("raiseKnife", "idleKnife");
-		addAnimChain("laughCutscene", "idleLoop");
-
-		info.idleSequence = ["danceLeft", "danceRight"];
-
-		info.functions.create = create;
-		info.functions.songStart = songStart;
-		info.functions.update = update;
-		info.functions.beat = beat;
-		info.functions.danceOverride = danceOverride;
-
-		addExtraData("reposition", [0, -165]);
-	}
-
-	var knifeRaised:Bool = false;
-	var blinkTime:Float = 0;
-
-	var abot:ABot;
-	var abotLookDir:Bool = false;
-
-	var BLINK_MIN:Float = 1;
-	var BLINK_MAX:Float = 3;
-
-	function create(character:Character):Void{
-		abot = new ABot(-134.5, 311);
-		abot.lookLeft();
-		addToCharacter(abot);
-	}
-
-	function update(character:Character, elapsed:Float):Void{
-		
-		if(character.curAnim == "idleKnife"){
-			blinkTime -= elapsed;
-
-			if(blinkTime <= 0){
-				character.playAnim("idleKnife", true);
-				blinkTime = FlxG.random.float(BLINK_MIN, BLINK_MAX);
-			}
-		}
-
-		if(!character.debugMode){
-			if(playstate.camFocus == "dad" && abotLookDir){
-				abotLookDir = !abotLookDir;
-				abot.lookLeft();
-			}
-			else if(playstate.camFocus == "bf" && !abotLookDir){
-				abotLookDir = !abotLookDir;
-				abot.lookRight();
-			}
-		}
-		
-	}
-
-	function beat(character:Character, beat:Int) {
-		abot.bop();
-
-		//raise knife on low health
-		if(PlayState.SONG.song.toLowerCase() != "blazin"){
-			if(PlayState.instance.health < 0.4 && !knifeRaised){
-				knifeRaised = true;
-				blinkTime = FlxG.random.float(BLINK_MIN, BLINK_MAX);
-				character.playAnim("raiseKnife", true);
-			} 
-			else if(PlayState.instance.health >= 0.4 && knifeRaised && (character.curAnim == "idleKnife" || character.curAnim == "sad")){
-				knifeRaised = false;
-				character.playAnim("lowerKnife", true);
-				character.idleSequenceIndex = 1;
-				character.danceLockout = true;
-			}
-		}
-
-	}
-
-	function danceOverride(character:Character):Void{
-		if(!knifeRaised){
-			character.defaultDanceBehavior();
-		}
-	}
-
-	function songStart(character:Character):Void{
-		abot.setAudioSource(FlxG.sound.music);
-		abot.startVisualizer();
-	}
-
-}
-```
-
 Here is the playable Pico class used in Weekend 1, which uses mutliple sparrow atlases from different locations:
 
 ```haxe
@@ -358,6 +237,182 @@ class PicoWeekend extends CharacterInfoBase
 		addByPrefix("reload", offset(70, -10), "Pico Reload", 24, loop(false, 0), false, false);
 		addByPrefix("hit", offset(-18, -8), "Pico Hit", 24, loop(true, -3), false, false);
 
+	}
+
+}
+```
+
+And here is an example of a more complex character with Nene:
+
+```haxe
+import objects.ABot;
+import flixel.FlxG;
+
+class Nene extends CharacterInfoBase
+{
+
+	public function new(){
+		super();
+
+		includeInCharacterList = false;
+		includeInGfList = true;
+
+		info.name = "nene";
+		info.spritePaths = ["weekend1/Nene", "weekend1/Nene_Hair_Blowing"];
+		info.frameLoadType = setMultiSparrow();
+		
+		info.iconName = "face";
+		info.focusOffset.set(0, 0);
+
+		addByIndices("danceLeft", offset(0, 0), "Idle", [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], "", 24, loop(false, 0));
+		addByIndices("danceRight", offset(0, 0), "Idle", [15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], "", 24, loop(false, 0));
+		addByPrefix("idleLoop", offset(0, 0), "Idle", 24, loop(true, 0));
+		addByIndices("sad", offset(0, 0), "Laugh", [0,1,2,3], "", 24, loop(false, 0));
+		addByPrefix("laugh", offset(0, 0), "Laugh", 24, loop(true, -6));
+		addByIndices("laughCutscene", offset(0, 0), "Laugh", [0,1,2,3,4,5,6,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11], "", 24, loop(false, 0));
+		addByPrefix("combo50", offset(-120, 53), "ComboCheer", 24, loop(false, 0));
+		addByIndices("combo200", offset(-40, -20), "ComboFawn", [0,1,2,3,4,5,6,4,5,6,4,5,6,4,5,6], "", 24, loop(false, 0));
+		addByPrefix("raiseKnife", offset(0, 51), "KnifeRaise", 24, loop(false, 0));
+		addByPrefix("idleKnife", offset(-98, 51), "KnifeIdle", 24, loop(false, 0));
+		addByIndices("lowerKnife", offset(135, 51), "KnifeLower", [0,1,2,3,4,5,6,7,8], "", 24, loop(false, 0));
+
+		addByIndices("hairBlowNormal", offset(), "HairBlow0", [0, 1, 2, 3], "", 24, loop(true));
+		addByIndices("hairFallNormal", offset(), "HairBlow0", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], "", 24, loop(false, 0));
+
+		addByIndices("hairBlowKnife", offset(-79, 51), "HairBlowKnife0", [0, 1, 2, 3], "", 24, loop(true));
+		addByIndices("hairFallKnife", offset(-79, 51), "HairBlowKnife0", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, loop(false, 0));
+
+		addAnimChain("raiseKnife", "idleKnife");
+		addAnimChain("laughCutscene", "idleLoop");
+
+		//Adds combo aliases.
+		for(i in 2...20){ addAnimAlias("combo" + (i * 50), "combo50"); }
+		for(i in 2...5){ addAnimAlias("combo" + (i * 200), "combo200"); }
+
+		info.idleSequence = ["danceLeft", "danceRight"];
+
+		info.functions.create = create;
+		info.functions.songStart = songStart;
+		info.functions.songEnd = songEnd;
+		info.functions.update = update;
+		info.functions.beat = beat;
+		info.functions.countdownBeat = countdownBeat;
+		info.functions.danceOverride = danceOverride;
+
+		addAction("hairBlow", hairBlow);
+		addAction("hairFall", hairFall);
+
+		addExtraData("reposition", [0, -165]);
+	}
+
+	var knifeRaised:Bool = false;
+	var blinkTime:Float = 0;
+
+	var abot:ABot;
+	var abotLookDir:Bool = false;
+
+	var BLINK_MIN:Float = 1;
+	var BLINK_MAX:Float = 3;
+
+	function create(character:Character):Void{
+		abot = new ABot(-134.5, 311);
+		abot.lookLeft();
+		addToCharacter(abot);
+	}
+
+	function update(character:Character, elapsed:Float):Void{
+		
+		if (ScriptingUtil.startsWith(character.curAnim, "hairFall") && character.curAnimFinished()){
+			if(!knifeRaised){
+				character.playAnim('danceRight');
+				character.idleSequenceIndex = 0;
+				character.danceLockout = true;
+			}
+			else{
+				character.playAnim('idleKnife');
+			}
+		}
+
+		if(character.curAnim == "idleKnife"){
+			blinkTime -= elapsed;
+
+			if(blinkTime <= 0){
+				character.playAnim("idleKnife", true);
+				blinkTime = FlxG.random.float(BLINK_MIN, BLINK_MAX);
+			}
+		}
+
+		if(isInPlayState){
+			if(playstate.camFocus == "dad" && abotLookDir){
+				abotLookDir = !abotLookDir;
+				abot.lookLeft();
+			}
+			else if(playstate.camFocus == "bf" && !abotLookDir){
+				abotLookDir = !abotLookDir;
+				abot.lookRight();
+			}
+		}
+		
+	}
+
+	function beat(character:Character, beat:Int) {
+		abot.bop();
+
+		//raise knife on low health
+		if(PlayState.SONG.song.toLowerCase() != "blazin" && !ScriptingUtil.startsWith(character.curAnim, "hair")){
+			if(PlayState.instance.health < 0.4 && !knifeRaised){
+				knifeRaised = true;
+				blinkTime = FlxG.random.float(BLINK_MIN, BLINK_MAX);
+				character.playAnim("raiseKnife", true);
+			} 
+			else if(PlayState.instance.health >= 0.4 && knifeRaised && (character.curAnim == "idleKnife" || character.curAnim == "sad")){
+				knifeRaised = false;
+				character.playAnim("lowerKnife", true);
+				character.idleSequenceIndex = 1;
+				character.danceLockout = true;
+			}
+		}
+
+	}
+
+	function countdownBeat(character:Character, beat:Int) {
+		abot.bop();
+	}
+
+	function danceOverride(character:Character):Void{
+		if(!knifeRaised && !ScriptingUtil.startsWith(character.curAnim, "hair")){
+			character.defaultDanceBehavior();
+		}
+	}
+
+	function songStart(character:Character):Void{
+		abot.setAudioSource(FlxG.sound.music);
+		abot.startVisualizer();
+	}
+
+	function songEnd(character:Character):Void{
+		abot.visualizer.alpha = 0;
+		abot.visualizer.visible = false;
+	}
+
+	function hairBlow(character:Character):Void{
+		if((character.curAnim != "raiseKnife" && character.curAnim != "lowerKnife")){
+			if(!knifeRaised){
+				character.playAnim("hairBlowNormal");
+			}
+			else{
+				character.playAnim("hairBlowKnife");
+			}
+		}
+	}
+	
+	function hairFall(character:Character):Void{
+		if(!knifeRaised){
+			character.playAnim("hairFallNormal");
+		}
+		else{
+			character.playAnim("hairFallKnife");
+		}
 	}
 
 }
