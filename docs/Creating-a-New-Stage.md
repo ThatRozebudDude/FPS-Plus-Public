@@ -109,10 +109,10 @@ import flixel.FlxSprite;
 class Stage extends BaseStage
 {
 
-    public function new(){
+	public function new(){
 		super();
 
-        name = "stage";
+		name = "stage";
 		startingZoom = 1.1;
 
 		var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image("week1/stageback"));
@@ -136,7 +136,7 @@ class Stage extends BaseStage
 		stageCurtains.scrollFactor.set(1.3, 1.3);
 		stageCurtains.active = false;
 		addToBackground(stageCurtains);
-    }
+	}
 }
 ```
 
@@ -159,7 +159,6 @@ class Philly extends BaseStage
 	var phillyTrain:FlxSprite;
 
 	var trainSound:FlxSound;
-	var unpauseSoundCheck:Bool = false;
 
 	var trainMoving:Bool = false;
 	var trainFrameTiming:Float = 0;
@@ -173,64 +172,63 @@ class Philly extends BaseStage
 	var windowColorIndex:Int = -1;
 	var windowColors:Array<FlxColor> = [0x31A2FD, 0x31FD8C, 0xFB33F5, 0xFD4531, 0xFBA633];
 
-    public function new(){
+	public function new(){
 		super();
 
-        name = "philly";
+		name = "philly";
 		startingZoom = 1.1;
 
-		var bg:FlxSprite = new FlxSprite(-100, -20).loadGraphic(Paths.image('week3/philly/sky'));
+		var bg:FlxSprite = new FlxSprite(-100, -20).loadGraphic(Paths.image("week3/philly/sky"));
 		bg.antialiasing = true;
 		bg.scrollFactor.set(0.1, 0.1);
 		addToBackground(bg);
 
-		var city:FlxSprite = new FlxSprite(-81, 52).loadGraphic(Paths.image('week3/philly/city'));
+		var city:FlxSprite = new FlxSprite(-255, 45).loadGraphic(Paths.image("week3/philly/city"));
 		city.scrollFactor.set(0.3, 0.3);
-		city.setGraphicSize(Std.int(city.width * 0.85));
+		city.scale.set(0.9, 0.9);
 		city.updateHitbox();
 		city.antialiasing = true;
 		addToBackground(city);
 
-		phillyCityLights = new FlxSprite(city.x + (71 * 0.85), city.y - (52 * 0.85)).loadGraphic(Paths.image("week3/philly/windowWhite"));
+		phillyCityLights = new FlxSprite(city.x, city.y).loadGraphic(Paths.image("week3/philly/windowWhite"));
 		phillyCityLights.scrollFactor.set(0.3, 0.3);
-		phillyCityLights.setGraphicSize(Std.int(phillyCityLights.width * 0.85));
+		phillyCityLights.scale.set(0.9, 0.9);
 		phillyCityLights.updateHitbox();
 		phillyCityLights.antialiasing = true;
 		addToBackground(phillyCityLights);
 
 		phillyCityLightsGlow = new FlxSprite(phillyCityLights.x, phillyCityLights.y).loadGraphic(Paths.image("week3/philly/windowWhiteGlow"));
 		phillyCityLightsGlow.scrollFactor.set(0.3, 0.3);
-		phillyCityLightsGlow.setGraphicSize(Std.int(phillyCityLightsGlow.width * 0.85));
+		phillyCityLightsGlow.scale.set(0.9, 0.9);
 		phillyCityLightsGlow.updateHitbox();
 		phillyCityLightsGlow.antialiasing = true;
-		phillyCityLightsGlow.blend = ScriptingUtil.add;
+		phillyCityLightsGlow.blend = BlendMode.ADD;
 		phillyCityLightsGlow.alpha = 0;
 		addToBackground(phillyCityLightsGlow);
 
 		changeLightColor();
 
-		var streetBehind:FlxSprite = new FlxSprite(178, 50+97).loadGraphic(Paths.image('week3/philly/behindTrain'));
+		var streetBehind:FlxSprite = new FlxSprite(-299, 144).loadGraphic(Paths.image("week3/philly/behindTrain"));
 		streetBehind.antialiasing = true;
 		addToBackground(streetBehind);
 
-		phillyTrain = new FlxSprite(2000, 360).loadGraphic(Paths.image('week3/philly/train'));
+		phillyTrain = new FlxSprite(2000, 360).loadGraphic(Paths.image("week3/philly/train"));
 		phillyTrain.antialiasing = true;
 		phillyTrain.visible = false;
 		addToBackground(phillyTrain);
 
-		trainSound = new FlxSound().loadEmbedded(Paths.sound('week3/train_passes'));
-		FlxG.sound.list.add(trainSound);
+		trainSound = new FlxSound();
 
-		var street:FlxSprite = new FlxSprite(streetBehind.x-341, streetBehind.y-93).loadGraphic(Paths.image('week3/philly/street'));
+		var street:FlxSprite = new FlxSprite(-299, 144).loadGraphic(Paths.image("week3/philly/street"));
 		street.antialiasing = true;
 		addToBackground(street);
 
 		dadStart.set(450, 875);
 		bfStart.x += 50;
 
-		dadCameraOffset.set(-50, 0);
+		dadCameraOffset.set(162, 0);
 		bfCameraOffset.set(-100, 0);
-    }
+	}
 
 	public override function update(elapsed:Float){
 		super.update(elapsed);
@@ -260,20 +258,6 @@ class Philly extends BaseStage
 		}
 	}
 
-	public override function pause() {
-		if(trainSound.playing){
-			unpauseSoundCheck = true;
-			trainSound.pause();
-		}
-	}
-
-	public override function unpause() {
-		if(unpauseSoundCheck){
-			unpauseSoundCheck = false;
-			trainSound.play(false);
-		}
-	}
-
 	function changeLightColor(){
 		windowColorIndex = FlxG.random.int(0, 4, [windowColorIndex]);
 		phillyCityLights.color = windowColors[windowColorIndex];
@@ -285,13 +269,13 @@ class Philly extends BaseStage
 
 	function trainStart():Void{
 		trainMoving = true;
-		trainSound.play(true);
+		trainSound = playstate.playSound(Paths.sound("week3/train_passes"), 0.5);
 	}
 
 	function updateTrainPos():Void{
 		if (trainSound.time >= 4700){
 			startedMoving = true;
-			gf.playAnim('hairBlow');
+			gf.doAction("hairBlow");
 			phillyTrain.visible = true;
 		}
 
@@ -314,7 +298,7 @@ class Philly extends BaseStage
 	}
 
 	function trainReset():Void{
-		gf.playAnim('hairFall');
+		gf.doAction("hairFall");
 		phillyTrain.x = FlxG.width + 200;
 		trainMoving = false;
 		trainCars = 8;

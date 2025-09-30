@@ -124,7 +124,6 @@ class MainMenuState extends MusicBeatState
 			menuItem.scrollFactor.set();
 
 			var jsonPath:String = Paths.json(menuItemJsonData[i].jsonName, "data/mainMenu/items");
-			trace(jsonPath);
 			var jsonSourceFolder:String = PolymodHandler.getAssetModFolder(jsonPath);
 			if(jsonSourceFolder != null){
 				menuItem.sourceUid = PolymodHandler.getModMetaFromFolder(jsonSourceFolder).uid;

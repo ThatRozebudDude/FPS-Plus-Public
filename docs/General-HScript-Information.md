@@ -6,16 +6,11 @@ Additionally, the scripted class *are not namespaced*, meaning if you define the
 
 ## ScriptingUtil
 
-HScript also does not support `enum` or `abstract` types (at least not using the abstract name for them), however there is a `ScriptingUtil` class that provides shortcuts to use some of these types.
+`ScriptingUtil` is a class that has a variety of helpful functions that can be useful in scripts or allow you to access some functionality that either doesn't work or could possibly be janky in scripts. It gets new features added to it somewhat often so I recommend [looking through the file](https://github.com/ThatRozebudDude/FPS-Plus-Public/blob/master/source/modding/ScriptingUtil.hx).
 
-- You can use `ScriptingUtil.axis{axisType}` for FlxAxes directions.
-- You can use `ScriptingUtil.rank{rankType}` for song rankings.
+## Redefinitions
 
-There are also other useful functions for certain things that I found did not work or behaved strangely. I recommend taking a look through the class to see what you are able to do with it in more detail.
-
-## Blend Modes
-
-Normally you cannot use blend mode names with HScript as they are an `abstract enum`, however, in FPS Plus if you import `openfl.display.BlendMode` you can use `BlendMode.{blendMode}` to use that blend mode the same way you would normal. You must include `BlendMode` at the begining so you can just do `ADD`, you'd need to use `BlendMode.ADD`. You can also use `FlxTextBorderStyle` the same way you use blend modes, including needing the class name before the type and everything, however, this is automatically imported.
+Normally certain thing like `BlendMode` or `FlxTextBorderStyle` may not work or don't always work properly with hscript. FPS Plus provides redefinitions of certain classes or typedefs to allow for proper use. For example instead of importing `openfl.display.BlendMode` and using `ADD` you can just use `BlendMode.ADD` without an import and it will work properly.
 
 ## Aliases
 
@@ -42,5 +37,7 @@ All of the scripted class (except for scripted states) contain helper variables 
 - `down`: Can be used when refering to note directions. Alias for `1`.
 - `up`: Can be used when refering to note directions. Alias for `2`.
 - `right`: Can be used when refering to note directions. Alias for `3`.
+#
+- `isInPlayState`: Is `true` if you are in PlayState and `false`.
 
 Note that for variables like `boyfriend` or `dad` you cannot directly set these, you need to use the full variable like `playstate.boyfriend` to set it to a new character object for example.
