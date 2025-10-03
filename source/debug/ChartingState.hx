@@ -37,7 +37,6 @@ import flixel.addons.ui.FlxInputText;
 import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUICheckBox;
-import flixel.addons.ui.FlxUISlider;
 import flixel.addons.ui.FlxUIDropDownMenu;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
@@ -106,7 +105,7 @@ class ChartingState extends MusicBeatState
 	var opClick:FlxUICheckBox;
 	var gotoSectionStepper:FlxUINumericStepper;
 	var lilBuddiesBox:FlxUICheckBox;
-	var speedSlider:FlxUISlider;
+	var pitchStepper:FlxUINumericStepper;
 
 	var strumLine:FlxSprite;
 	var bullshitUI:FlxGroup;
@@ -573,16 +572,16 @@ class ChartingState extends MusicBeatState
 	
 		function updatePitch(v:Float)
 		{
+			pitch = v;
 			FlxG.sound.music.pitch = pitch;
 			vocals.pitch = pitch;
 			vocalsOther.pitch = pitch;
 		}
 
-		speedSlider = new FlxUISlider(this, "pitch", 10.0, 190.0, 0.1, 3.0, 200, 15, 3, FlxColor.WHITE, FlxColor.BLACK);
-		speedSlider.value = pitch;
-		speedSlider.callback = updatePitch;
-		speedSlider.decimals = 1;
-		speedSlider.nameLabel.text = "Song Speed";
+		var speedLabel = new FlxText(10, 180, 0, "Song Pitch");
+
+		pitchStepper = new FlxUINumericStepper(10, 196, 0.05, 1.0, 0.1, 3.0, 2);
+		pitchStepper.name = "pitch";
 	
 		var tab_group_tools = new FlxUI(null, UI_box);
 		tab_group_tools.name = "Tools";
@@ -595,7 +594,8 @@ class ChartingState extends MusicBeatState
 		tab_group_tools.add(bfClick);
 		tab_group_tools.add(opClick);
 		tab_group_tools.add(lilBuddiesBox);
-		tab_group_tools.add(speedSlider);
+		tab_group_tools.add(speedLabel);
+		tab_group_tools.add(pitchStepper);
 			
 	
 		UI_box.addGroup(tab_group_tools);
@@ -919,6 +919,12 @@ class ChartingState extends MusicBeatState
 				if(_song.notes[curSection].changeBPM){ Conductor.mapBPMChanges(_song); }
 				updateGrid();
 				autosaveSong();
+			}
+			else if (wname == 'pitch'){
+				pitch = nums.value;
+				FlxG.sound.music.pitch = pitch;
+				vocals.pitch = pitch;
+				vocalsOther.pitch = pitch;
 			}
 		}
 	}
