@@ -319,12 +319,16 @@ class ChartingState extends MusicBeatState
 			};
 		}
 
-		if (PlayState.EVENTS != null)
+		if (PlayState.EVENTS != null){
 			_events = PlayState.EVENTS;
+		}
 		else{
 			_events = {
 				events: []
 			};
+			if(Utils.exists("assets/data/songs/" + PlayState.SONG.song.toLowerCase() + "/events.json")){
+				_events = Song.parseEventJSON(Utils.getText(Paths.json(PlayState.SONG.song.toLowerCase() + "/events")));
+			}
 		}
 
 		for(i in _events.events){
