@@ -35,6 +35,8 @@ import flixel.text.FlxText;
 import extensions.flixel.FlxTextExt;
 import caching.*;
 
+import debug.ChartingState;
+
 using StringTools;
 
 @:hscriptClass
@@ -427,6 +429,22 @@ class FreeplayState extends MusicBeatState
 
 		if(Binds.justPressed("polymodReload")){
 			PolymodHandler.reload();
+		}
+
+		if (Binds.justPressed("chartEditor"))
+		{
+			var formattedSong:String = Highscore.formatSong(categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase(), curDifficulty);
+			PlayState.SONG = Song.loadFromJson(formattedSong, categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase());
+			PlayState.isStoryMode = false;
+			PlayState.storyDifficulty = curDifficulty;
+			PlayState.loadEvents = true;
+			PlayState.returnLocation = "freeplay";
+			new FlxTimer().start(0.5, function(t){
+				ImageCache.forceClearOnTransition = true;
+				FlxG.sound.music.fadeOut(0.5);
+				switchState(new ChartingState(), false);
+			});
+			FlxTween.tween(difficultyIndicator, {alpha: 0}, 0.06);
 		}
 
 		super.update(elapsed);

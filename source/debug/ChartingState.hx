@@ -925,6 +925,8 @@ class ChartingState extends MusicBeatState
 				FlxG.sound.music.pitch = pitch;
 				vocals.pitch = pitch;
 				vocalsOther.pitch = pitch;
+				vocals.time = FlxG.sound.music.time;
+				vocalsOther.time = FlxG.sound.music.time;
 			}
 		}
 	}
