@@ -639,6 +639,7 @@ class ModManagerState extends FlxUIStateExt
 				var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
 				var modAPIVersion:Array<Int> = [Std.parseInt(json.api_version.split(".")[0]), Std.parseInt(json.api_version.split(".")[1]), Std.parseInt(json.api_version.split(".")[2])];
 				if(json.title != null){ info.name = json.title; }
+				else if(json.uid != null){ info.name = json.uid; }
 				else{ info.name = dir; }
 				if(json.description != null){ info.description = json.description; }
 				else{ info.description = "No description."; }

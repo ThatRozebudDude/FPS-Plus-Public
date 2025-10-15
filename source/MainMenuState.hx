@@ -126,7 +126,10 @@ class MainMenuState extends MusicBeatState
 			var jsonPath:String = Paths.json(menuItemJsonData[i].jsonName, "data/mainMenu/items");
 			var jsonSourceFolder:String = PolymodHandler.getAssetModFolder(jsonPath);
 			if(jsonSourceFolder != null){
-				menuItem.sourceUid = PolymodHandler.getModMetaFromFolder(jsonSourceFolder).uid;
+				var json = PolymodHandler.getModMetaFromFolder(jsonSourceFolder);
+				if(json.title != null){ menuItem.source = json.title; }
+				else if(json.uid != null){ menuItem.source = json.uid; }
+				else { menuItem.source = jsonSourceFolder; }
 			}
 
 			menuItems.push(menuItem);
@@ -287,9 +290,9 @@ class MainMenuState extends MusicBeatState
 			menuItems[i].offset.y = menuItems[i].frameHeight/2;
 		}
 
-		if(menuItems[curSelected].sourceUid != null){
+		if(menuItems[curSelected].source != null){
 			buttonModSourceText.visible = true;
-			buttonModSourceText.text = "From: " + menuItems[curSelected].sourceUid;
+			buttonModSourceText.text = "From: " + menuItems[curSelected].source;
 			buttonModSourceText.x = (FlxG.width - 5) - buttonModSourceText.width;
 		}
 		else{
@@ -416,7 +419,7 @@ class MainMenuButton extends FlxSprite
 		stopMusic: false
 	}
 
-	public var sourceUid:String = null;
+	public var source:String = null;
 
 	public function new(params:Dynamic){
 		super();
