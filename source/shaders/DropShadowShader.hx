@@ -220,9 +220,7 @@ class DropShadowShader extends FlxShader
 	 */
 	public function updateFrameInfo(frame:FlxFrame)
 	{
-		// NOTE: uv.width is actually the right pos and uv.height is the bottom pos
-		var uv = cast(frame.uv, FlxRect); //FlxUVRect breaks this for some reason so I must cast to FlxRect. Sad...
-		uFrameBounds.value = [uv.x, uv.y, uv.width, uv.height];
+		uFrameBounds.value = [frame.uv.left, frame.uv.top, frame.uv.right, frame.uv.bottom];
 
 		// if a frame is rotated the shader will look completely wrong lol
 		angOffset.value = [frame.angle * FlxAngle.TO_RAD];

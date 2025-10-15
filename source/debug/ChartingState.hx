@@ -41,6 +41,7 @@ import flixel.addons.ui.FlxUIDropDownMenu;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
+import flixel.addons.ui.FlxUITooltip;
 import flixel.addons.ui.FlxUITooltip.FlxUITooltipStyle;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxGroup;
@@ -104,7 +105,7 @@ class ChartingState extends MusicBeatState
 	var opClick:FlxUICheckBox;
 	var gotoSectionStepper:FlxUINumericStepper;
 	var lilBuddiesBox:FlxUICheckBox;
-	var halfSpeedCheck:FlxUICheckBox;
+	var pitchStepper:FlxUINumericStepper;
 
 	var strumLine:FlxSprite;
 	var bullshitUI:FlxGroup;
@@ -156,6 +157,7 @@ class ChartingState extends MusicBeatState
 
 	var tempBpm:Float = 0;
 
+	var pitch:Float = 1.0;
 	var vocals:FlxSound;
 	var vocalsOther:FlxSound;
 
@@ -317,12 +319,16 @@ class ChartingState extends MusicBeatState
 			};
 		}
 
-		if (PlayState.EVENTS != null)
+		if (PlayState.EVENTS != null){
 			_events = PlayState.EVENTS;
+		}
 		else{
 			_events = {
 				events: []
 			};
+			if(Utils.exists("assets/data/songs/" + PlayState.SONG.song.toLowerCase() + "/events.json")){
+				_events = Song.parseEventJSON(Utils.getText(Paths.json(PlayState.SONG.song.toLowerCase() + "/events")));
+			}
 		}
 
 		for(i in _events.events){
@@ -568,20 +574,18 @@ class ChartingState extends MusicBeatState
 			lilStage.visible = lilBuddiesBox.checked;
 		};
 	
-		halfSpeedCheck = new FlxUICheckBox(10, 180, null, null, "Half Speed", 100);
-		halfSpeedCheck.checked = false;
-		halfSpeedCheck.callback = function(){
-			if(halfSpeedCheck.checked){
-				FlxG.sound.music.pitch = 0.5;
-				vocals.pitch = 0.5;
-				vocalsOther.pitch = 0.5;
-			}
-			else{
-				FlxG.sound.music.pitch = 1;
-				vocals.pitch = 1;
-				vocalsOther.pitch = 1;
-			}
+		function updatePitch(v:Float)
+		{
+			pitch = v;
+			FlxG.sound.music.pitch = pitch;
+			vocals.pitch = pitch;
+			vocalsOther.pitch = pitch;
 		}
+
+		var speedLabel = new FlxText(10, 180, 0, "Song Pitch");
+
+		pitchStepper = new FlxUINumericStepper(10, 196, 0.05, 1.0, 0.1, 3.0, 2);
+		pitchStepper.name = "pitch";
 	
 		var tab_group_tools = new FlxUI(null, UI_box);
 		tab_group_tools.name = "Tools";
@@ -594,7 +598,8 @@ class ChartingState extends MusicBeatState
 		tab_group_tools.add(bfClick);
 		tab_group_tools.add(opClick);
 		tab_group_tools.add(lilBuddiesBox);
-		tab_group_tools.add(halfSpeedCheck);
+		tab_group_tools.add(speedLabel);
+		tab_group_tools.add(pitchStepper);
 			
 	
 		UI_box.addGroup(tab_group_tools);
@@ -918,6 +923,14 @@ class ChartingState extends MusicBeatState
 				if(_song.notes[curSection].changeBPM){ Conductor.mapBPMChanges(_song); }
 				updateGrid();
 				autosaveSong();
+			}
+			else if (wname == 'pitch'){
+				pitch = nums.value;
+				FlxG.sound.music.pitch = pitch;
+				vocals.pitch = pitch;
+				vocalsOther.pitch = pitch;
+				vocals.time = FlxG.sound.music.time;
+				vocalsOther.time = FlxG.sound.music.time;
 			}
 		}
 	}
@@ -1713,6 +1726,8 @@ class ChartingState extends MusicBeatState
 					eventSymbol.alpha = 0.4;
 
 				eventSymbol.tag = tag;
+
+
 
 				curRenderedEvents.add(eventSymbol);
 			}
