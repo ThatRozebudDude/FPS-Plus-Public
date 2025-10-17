@@ -122,6 +122,7 @@ class FreeplayState extends MusicBeatState
 	var camFollow:FlxObject;
 	var camTarget:FlxPoint = new FlxPoint();
 	var versionText:FlxTextExt;
+	var updateText:FlxTextExt;
 
 	var introAnimType:IntroAnimType;
 
@@ -823,6 +824,19 @@ class FreeplayState extends MusicBeatState
 		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		versionText.cameras = [camMenu];
 		add(versionText);
+
+		updateText = new FlxTextExt(5, versionText.y - 16, 0, "", 16);
+		updateText.scrollFactor.set();
+		updateText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		updateText.cameras = [camMenu];
+		add(updateText);
+
+		if(MainMenuState.showUpdateButton >= 1){
+			updateText.text = "Out of date! Update " + MainMenuState.updateVersion + " available!";
+		}
+		else if (MainMenuState.showUpdateButton <= -1){
+			updateText.text = "Could not check for updates.";
+		}
 
 		if(MainMenuState.SHOW_BUILD_INFO){
 			versionText.text = "FPS Plus: v" + MainMenuState.VERSION + " " + MainMenuState.NONFINAL_TAG + " | Mod API: v" + PolymodHandler.API_VERSION_STRING;

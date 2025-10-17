@@ -125,6 +125,7 @@ class ConfigMenu extends FlxUIStateExt
 	var autoPauseValue:Bool;
 	var flashingLightsValue:Bool;
 	var fullscreenValue:Bool;
+	var checkForUpdatesValue:Bool;
 
 	var pressUp:Bool = false;
 	var pressDown:Bool = false;
@@ -707,6 +708,7 @@ class ConfigMenu extends FlxUIStateExt
 		Config.autoPause = autoPauseValue;
 		Config.flashingLights = flashingLightsValue;
 		Config.fullscreen = fullscreenValue;
+		Config.checkForUpdates = checkForUpdatesValue;
 		Config.write();
 	}
 
@@ -781,6 +783,7 @@ class ConfigMenu extends FlxUIStateExt
 		autoPauseValue = Config.autoPause;
 		flashingLightsValue = Config.flashingLights;
 		fullscreenValue = Config.fullscreen;
+		checkForUpdatesValue = Config.checkForUpdates;
 
 		framerateValue = allowedFramerates.indexOf(Config.framerate);
 		if(framerateValue == -1){
@@ -1362,11 +1365,20 @@ class ConfigMenu extends FlxUIStateExt
 			selectionColor = selectionColors[0];
 		};
 
+		var checkForUpdatesSetting = new ConfigOption("CHECK FOR UPDATES", genericOnOff[checkForUpdatesValue?0:1], "Alerts you if there is an update available and adds a button to the menu that opens the game's releases page on GitHub.");
+		checkForUpdatesSetting.optionUpdate = function(){
+			if (pressRight || pressLeft || pressAccept) {
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				checkForUpdatesValue = !checkForUpdatesValue;
+			}
+			checkForUpdatesSetting.setting = genericOnOff[checkForUpdatesValue?0:1];
+		}
+
 
 		configOptions = [
 							[keyBinds, ghostTap, noteOffset, scrollSpeed, resetAllScoresSettings],
 							[fpsCap, fullscreenSettings, bgDim, useGPU, showFPS, cacheSettings],
-							[downscroll, centeredNotes, noteSplash, noteGlow, showMissesSetting, showAccuracyDisplay, comboDisplay],
+							[downscroll, centeredNotes, noteSplash, noteGlow, showMissesSetting, showAccuracyDisplay, comboDisplay, checkForUpdatesSetting],
 							[extraCamStuff, camBopStuff, captionsStuff, flashingLightsSettings, autoPauseSettings, hpGain, hpDrain]
 						];
 
