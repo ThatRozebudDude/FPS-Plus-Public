@@ -82,7 +82,6 @@ class MainMenuState extends MusicBeatState
 
 	override function create(){
 
-		//Only check for updates once.
 		var c = UpdateCheck.check();
 		showUpdateButton = c.result;
 		updateVersion = c.version;
@@ -454,7 +453,7 @@ class MainMenuState extends MusicBeatState
 		//Add update button to the end of the list.
 		if(showUpdateButton >= 1){
 			menuItemJsonData.push({
-				graphic: "menu/main/credits", //Temp graphic until i make a graphic for it
+				graphic: "menu/main/update",
 				action:{
 					type: "openGithubReleases"
 				},
@@ -522,7 +521,7 @@ class UpdateCheck
 		var r:Int = 0;
 		var v:String = "";
 
-		if(Config.checkForUpdates && !MainMenuState.SHOW_BUILD_INFO){ //Only check if the user wants to and you aren't running a dev build.
+		if(Config.checkForUpdates /*&& !MainMenuState.SHOW_BUILD_INFO*/){ //Only check if the user wants to and you aren't running a dev build.
 			if(chachedResult == null){
 				var http = new Http("https://raw.githubusercontent.com/ThatRozebudDude/FPS-Plus-Public/master/latest");
 				http.onData = function(data:String) {

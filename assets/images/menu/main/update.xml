@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Funkin Packer v0.1.3 DEV https://neeeoo.github.io/funkin-packer/
+-->
+<TextureAtlas imagePath="updateButton.png" width="497" height="786" spritePadding="1" borderPadding="1">
+	<SubTexture name="idle0000" x="1" y="671" width="437" height="114" frameX="0" frameY="-1" frameWidth="438" frameHeight="116"/>
+	<SubTexture name="idle0001" x="1" y="671" width="437" height="114" frameX="0" frameY="-1" frameWidth="438" frameHeight="116"/>
+	<SubTexture name="idle0002" x="1" y="671" width="437" height="114" frameX="0" frameY="-1" frameWidth="438" frameHeight="116"/>
+	<SubTexture name="idle0003" x="1" y="438" width="438" height="116" frameX="0" frameY="0" frameWidth="438" frameHeight="116"/>
+	<SubTexture name="idle0004" x="1" y="438" width="438" height="116" frameX="0" frameY="0" frameWidth="438" frameHeight="116"/>
+	<SubTexture name="idle0005" x="1" y="438" width="438" height="116" frameX="0" frameY="0" frameWidth="438" frameHeight="116"/>
+	<SubTexture name="idle0006" x="1" y="555" width="437" height="115" frameX="0" frameY="0" frameWidth="438" frameHeight="116"/>
+	<SubTexture name="idle0007" x="1" y="555" width="437" height="115" frameX="0" frameY="0" frameWidth="438" frameHeight="116"/>
+	<SubTexture name="idle0008" x="1" y="555" width="437" height="115" frameX="0" frameY="0" frameWidth="438" frameHeight="116"/>
+	<SubTexture name="selected0000" x="1" y="293" width="495" height="144" frameX="0" frameY="-1" frameWidth="496" frameHeight="145"/>
+	<SubTexture name="selected0001" x="1" y="1" width="495" height="145" frameX="0" frameY="0" frameWidth="496" frameHeight="145"/>
+	<SubTexture name="selected0002" x="1" y="147" width="495" height="145" frameX="0" frameY="0" frameWidth="496" frameHeight="145"/>
+</TextureAtlas>
