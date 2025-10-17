@@ -1486,6 +1486,7 @@ class FreeplayState extends MusicBeatState
 		FlxTween.tween(freeplayText, {y: freeplayText.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
 		FlxTween.tween(changeCharacterText, {y: changeCharacterText.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
 		FlxTween.tween(changeTabText, {y: changeTabText.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
+		FlxTween.tween(resetScoreHintText, {y: resetScoreHintText.y-720}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*3});
 		FlxTween.tween(highscoreSprite, {x: highscoreSprite.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*2});
 		FlxTween.tween(clearPercentSprite, {x: clearPercentSprite.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*1});
 		FlxTween.tween(scoreDisplay, {x: scoreDisplay.x+1280}, transitionTimeExit + FlxG.random.float(-randomVariationExit, randomVariationExit), {ease: transitionEaseExit, startDelay: staggerTimeExit*0});
@@ -1527,6 +1528,7 @@ class FreeplayState extends MusicBeatState
 		FlxTween.tween(freeplayText, {y: freeplayText.y-300}, dropTime, {ease: dropEase, startDelay: 0.1});
 		FlxTween.tween(changeCharacterText, {y: changeCharacterText.y-300}, dropTime, {ease: dropEase, startDelay: 0.1});
 		FlxTween.tween(changeTabText, {y: changeTabText.y-300}, dropTime, {ease: dropEase, startDelay: 0.1});
+		FlxTween.tween(resetScoreHintText, {y: resetScoreHintText.y-300}, dropTime, {ease: dropEase, startDelay: 0.1});
 		FlxTween.tween(categoryTitle, {y: categoryTitle.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
 		FlxTween.tween(miniArrowLeft, {y: miniArrowLeft.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
 		FlxTween.tween(miniArrowRight, {y: miniArrowRight.y-270}, dropTime, {ease: dropEase, startDelay: 0.1});
@@ -1558,6 +1560,7 @@ class FreeplayState extends MusicBeatState
 		freeplayText.y -= 300;
 		changeCharacterText.y -= 300;
 		changeTabText.y -= 300;
+		resetScoreHintText.y -= 300;
 		categoryTitle.y -= 270;
 		miniArrowLeft.y -= 270;
 		miniArrowRight.y -= 270;
@@ -1581,6 +1584,7 @@ class FreeplayState extends MusicBeatState
 		FlxTween.tween(freeplayText, {y: freeplayText.y+300}, riseTime, {ease: riseEase, startDelay: 0.1});
 		FlxTween.tween(changeCharacterText, {y: changeCharacterText.y+300}, riseTime, {ease: riseEase, startDelay: 0.1});
 		FlxTween.tween(changeTabText, {y: changeTabText.y+300}, riseTime, {ease: riseEase, startDelay: 0.1});
+		FlxTween.tween(resetScoreHintText, {y: resetScoreHintText.y+300}, riseTime, {ease: riseEase, startDelay: 0.1});
 		FlxTween.tween(categoryTitle, {y: categoryTitle.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
 		FlxTween.tween(miniArrowLeft, {y: miniArrowLeft.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
 		FlxTween.tween(miniArrowRight, {y: miniArrowRight.y+270}, riseTime, {ease: riseEase, startDelay: 0.1});
