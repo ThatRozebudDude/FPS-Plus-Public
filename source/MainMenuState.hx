@@ -521,7 +521,7 @@ class UpdateCheck
 		var r:Int = 0;
 		var v:String = "";
 
-		if(Config.checkForUpdates /*&& !MainMenuState.SHOW_BUILD_INFO*/){ //Only check if the user wants to and you aren't running a dev build.
+		if(Config.checkForUpdates && !MainMenuState.SHOW_BUILD_INFO){ //Only check if the user wants to and you aren't running a dev build.
 			if(chachedResult == null){
 				var http = new Http("https://raw.githubusercontent.com/ThatRozebudDude/FPS-Plus-Public/master/latest");
 				http.onData = function(data:String) {
