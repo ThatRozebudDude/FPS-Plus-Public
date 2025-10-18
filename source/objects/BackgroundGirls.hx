@@ -8,7 +8,7 @@ class BackgroundGirls extends FlxSprite
 	public function new(x:Float, y:Float){
 		super(x, y);
 
-		// BG fangirls dissuaded
+		antialiasing = false;
 		frames = Paths.getSparrowAtlas("week6/weeb/bgFreaks");
 
 		animation.addByIndices('danceLeft', 'BG girls group', Utils.numberArray(14), "", 24, false);

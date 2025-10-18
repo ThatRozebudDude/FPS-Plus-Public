@@ -6,6 +6,7 @@ import modding.PolymodHandler;
 import flixel.system.scaleModes.RatioScaleMode;
 import flixel.FlxG;
 import flixel.FlxGame;
+import flixel.FlxSprite;
 import openfl.display.Sprite;
 import debug.*;
 import openfl.display.InteractiveObject;
@@ -23,6 +24,7 @@ class Main extends Sprite
 		super();
 
 		PolymodHandler.init();
+		FlxSprite.defaultAntialiasing = true;
 
 		#if !debug
 		LogStyle.ERROR.openConsole = false;

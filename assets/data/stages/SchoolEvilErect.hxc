@@ -69,6 +69,7 @@ class SchoolEvilErect extends BaseStage
 		spikeShader.waveAmplitude = SPIKE_WAVE_AMP;
 
 		var backSpikes:FlxSprite = new FlxSprite(-842, -180).loadGraphic(Paths.image("week6/weeb/erect/evil/weebBackSpikes"));
+		backSpikes.antialiasing = false;
 		backSpikes.scrollFactor.set(0.5, 0.5);
 		backSpikes.scale.set(6, 6);
 		backSpikes.updateHitbox();
@@ -76,6 +77,7 @@ class SchoolEvilErect extends BaseStage
 		addToBackground(backSpikes);
 
 		var school:FlxSprite = new FlxSprite(-816, -38).loadGraphic(Paths.image("week6/weeb/erect/evil/weebSchool"));
+		school.antialiasing = false;
 		school.scrollFactor.set(0.75, 0.75);
 		school.scale.set(6, 6);
 		school.updateHitbox();
@@ -83,6 +85,7 @@ class SchoolEvilErect extends BaseStage
 		addToBackground(school);
 		
 		var spike:FlxSprite = new FlxSprite(1416, 464).loadGraphic(Paths.image("week6/weeb/erect/evil/backSpike"));
+		spike.antialiasing = false;
 		spike.scrollFactor.set(0.85, 0.85);
 		spike.scale.set(6, 6);
 		spike.updateHitbox();
@@ -90,6 +93,7 @@ class SchoolEvilErect extends BaseStage
 		addToBackground(spike);
 
 		var ground:FlxSprite = new FlxSprite(-662, 6).loadGraphic(Paths.image("week6/weeb/erect/evil/weebStreet"));
+		ground.antialiasing = false;
 		ground.scale.set(6, 6);
 		ground.updateHitbox();
 		ground.shader = closeShader.shader;

@@ -53,6 +53,7 @@ class SchoolEvil extends BaseStage
 		closeShader.waveAmplitude = CLOSE_WAVE_AMP;
 
 		var backTrees:FlxSprite = new FlxSprite(-842, -80).loadGraphic(Paths.image("week6/weeb/evil/weebBackTrees"));
+		backTrees.antialiasing = false;
 		backTrees.scrollFactor.set(0.5, 0.5);
 		backTrees.scale.set(6, 6);
 		backTrees.updateHitbox();
@@ -60,6 +61,7 @@ class SchoolEvil extends BaseStage
 		addToBackground(backTrees);
 
 		var school:FlxSprite = new FlxSprite(-816, -38).loadGraphic(Paths.image("week6/weeb/evil/weebSchool"));
+		school.antialiasing = false;
 		school.scrollFactor.set(0.75, 0.75);
 		school.scale.set(6, 6);
 		school.updateHitbox();
@@ -67,12 +69,14 @@ class SchoolEvil extends BaseStage
 		addToBackground(school);
 
 		var ground:FlxSprite = new FlxSprite(-662, 6).loadGraphic(Paths.image("week6/weeb/evil/weebStreet"));
+		ground.antialiasing = false;
 		ground.scale.set(6, 6);
 		ground.updateHitbox();
 		ground.shader = closeShader.shader;
 		addToBackground(ground);
 
 		var trees:FlxSprite = new FlxSprite(-662, 6).loadGraphic(Paths.image("week6/weeb/evil/weebTrees"));
+		trees.antialiasing = false;
 		trees.scale.set(6, 6);
 		trees.updateHitbox();
 		trees.shader = closeShader.shader;

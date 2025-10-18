@@ -133,6 +133,7 @@ class Capsule extends FlxSpriteGroup
 		icon.origin.set(0, 0);
 		icon.scale.set(2, 2);
 		icon.visible = !noIcon;
+		icon.antialiasing = false;
 
 		rank = new FlxSprite(358, 27);
 		rank.frames = Paths.getSparrowAtlas("menu/freeplay/rankbadges");
