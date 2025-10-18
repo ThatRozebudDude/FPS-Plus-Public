@@ -67,7 +67,6 @@ class StickerOut extends BaseTransition{
 			var stickerSprite = new FlxSprite(stickerInfo[currentIndex].pos.x, stickerInfo[currentIndex].pos.y).loadGraphic(stickerInfo[currentIndex].image);
 			stickerSprite.centerOffsets();
 			stickerSprite.angle = stickerInfo[currentIndex].angle;
-			stickerSprite.antialiasing = true;
 			add(stickerSprite);
 
 			if(i == randomTick-1){

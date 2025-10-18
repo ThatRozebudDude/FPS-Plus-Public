@@ -524,7 +524,6 @@ class FreeplayState extends MusicBeatState
 		
 		bg = new FlxSprite().loadGraphic(Paths.image('menu/freeplay/leftSlide'));
 		bg.color = 0xFFFFCCCC;
-		bg.antialiasing = true;
 
 		flash = new FlxSprite().makeGraphic(1, 1, 0xFFFFFFFF);
 		flash.scale.set(1280, 720);
@@ -534,7 +533,6 @@ class FreeplayState extends MusicBeatState
 
 		cover = new FlxSprite(1280).loadGraphic(getImagePathWithSkin('menu/freeplay/covers/dad'));
 		cover.x -= cover.width;
-		cover.antialiasing = true;
 
 		topBar = new FlxSprite(0, -120).makeGraphic(1, 1, 0xFF000000);
 		topBar.scale.set(1280, (topBar.y * Utils.sign(topBar.y)) + 64);
@@ -564,10 +562,8 @@ class FreeplayState extends MusicBeatState
 		highscoreSprite.frames = getSparrowPathWithSkin("menu/freeplay/highscore");
 		highscoreSprite.animation.addByPrefix("loop", "", 24, true);
 		highscoreSprite.animation.play("loop");
-		highscoreSprite.antialiasing = true;
 
 		clearPercentSprite = new FlxSprite(1165, 71).loadGraphic(getImagePathWithSkin('menu/freeplay/clearBox'));
-		clearPercentSprite.antialiasing = true;
 
 		scoreDisplay = new DigitDisplay(915, 120, getImageStringWithSkin("menu/freeplay/digital_numbers"), 7, 0.4, -25);
 		scoreDisplay.setDigitOffset("1", 20);
@@ -580,29 +576,24 @@ class FreeplayState extends MusicBeatState
 		albumDummy = new FlxObject(950, 285, 1, 1);
 		albumDummy.angle = 10;
 		album = new FlxSprite(albumDummy.x, albumDummy.y).loadGraphic(Paths.image("menu/freeplay/album/vol1/album"));
-		album.antialiasing = true;
 		album.angle = albumDummy.angle;
 		
 		albumTitle = new FlxSprite(album.x - 5, album.y + 205).loadGraphic(Paths.image("menu/freeplay/album/vol1/title"));
-		albumTitle.antialiasing = true;
 		albumTitle.shader = albumTitleShader.shader;
 
 		arrowLeft = new FlxSprite(20, 70);
 		arrowLeft.frames = getSparrowPathWithSkin("menu/freeplay/freeplaySelector");
 		arrowLeft.animation.addByPrefix("loop", "arrow pointer loop", 24, true);
 		arrowLeft.animation.play("loop");
-		arrowLeft.antialiasing = true;
 
 		arrowRight = new FlxSprite(325, 70);
 		arrowRight.frames = getSparrowPathWithSkin("menu/freeplay/freeplaySelector");
 		arrowRight.animation.addByPrefix("loop", "arrow pointer loop", 24, true);
 		arrowRight.animation.play("loop");
 		arrowRight.flipX = true;
-		arrowRight.antialiasing = true;
 
 		difficulty = new FlxSprite(197, 115).loadGraphic(getImagePathWithSkin("menu/freeplay/diff/" + diffNumberToDiffName(curDifficulty)));
 		difficulty.offset.set(difficulty.width/2, difficulty.height/2);
-		difficulty.antialiasing = true;
 
 		difficultyIndicator = new DifficultyIndicator(168, 155);
 
@@ -611,7 +602,6 @@ class FreeplayState extends MusicBeatState
 		categoryTitle.letterSpacing = -15;
 		categoryTitle.screenCenter(X);
 		categoryTitle.y = 85;
-		categoryTitle.antialiasing = true;
 
 		miniArrowLeft = new FlxSprite(categoryTitle.x, categoryTitle.y + categoryTitle.height/2).loadGraphic(getImagePathWithSkin("menu/freeplay/miniArrow"));
 		miniArrowLeft.x -= miniArrowLeft.width;
@@ -619,18 +609,15 @@ class FreeplayState extends MusicBeatState
 		miniArrowLeft.y -= 7;
 		miniArrowLeft.x -= 20;
 		miniArrowLeft.flipX = true;
-		miniArrowLeft.antialiasing = true;
 
 		miniArrowRight = new FlxSprite(categoryTitle.x + categoryTitle.width, categoryTitle.y + categoryTitle.height/2).loadGraphic(getImagePathWithSkin("menu/freeplay/miniArrow"));
 		miniArrowRight.y -= miniArrowRight.height/2;
 		miniArrowRight.x += 20;
 		miniArrowRight.y -= 7;
-		miniArrowRight.antialiasing = true;
 
 		difficultyStars = new DifficultyStars(953, 237);
 
 		variationBox = new FlxSprite().makeGraphic(480, 150, 0xFF000000);
-		variationBox.antialiasing = true;
 		variationBox.screenCenter();
 		variationBox.visible = false;
 
@@ -640,7 +627,6 @@ class FreeplayState extends MusicBeatState
 		variationArrowLeft.y -= variationArrowLeft.height/2;
 		variationArrowLeft.x += 15;
 		variationArrowLeft.flipX = true;
-		variationArrowLeft.antialiasing = true;
 		variationArrowLeft.blend = ADD;
 		variationArrowLeft.visible = false;
 
@@ -650,28 +636,24 @@ class FreeplayState extends MusicBeatState
 		variationArrowRight.y -= variationArrowRight.height/2;
 		variationArrowRight.x -= variationArrowRight.width;
 		variationArrowRight.x -= 15;
-		variationArrowRight.antialiasing = true;
 		variationArrowRight.blend = ADD;
 		variationArrowRight.visible = false;
 
 		variationName = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
 		variationName.text = "Original";
 		variationName.letterSpacing = -15;
-		variationName.antialiasing = true;
 		variationName.blend = ADD;
 		variationName.setPosition(variationBox.getMidpoint().x, variationBox.getMidpoint().y - 23);
 		variationName.x -= variationName.width/2;
 		variationName.visible = false;
 		
 		resetScoreBox = new FlxSprite().makeGraphic(480, 150, 0xFF000000);
-		resetScoreBox.antialiasing = true;
 		resetScoreBox.screenCenter();
 		resetScoreBox.visible = false;
 
 		resetScoreText = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
 		resetScoreText.text = "Reset Score?";
 		resetScoreText.letterSpacing = -15;
-		resetScoreText.antialiasing = true;
 		resetScoreText.blend = ADD;
 		resetScoreText.setPosition(resetScoreBox.getMidpoint().x, resetScoreBox.y + 17);
 		resetScoreText.x -= resetScoreText.width/2;
@@ -680,7 +662,6 @@ class FreeplayState extends MusicBeatState
 		resetScoreYes = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
 		resetScoreYes.text = "Yes";
 		resetScoreYes.letterSpacing = -15;
-		resetScoreYes.antialiasing = true;
 		resetScoreYes.blend = ADD;
 		resetScoreYes.setPosition(resetScoreBox.getMidpoint().x - (resetScoreBox.width/4), resetScoreBox.y + 86);
 		resetScoreYes.x -= resetScoreYes.width/2;
@@ -689,7 +670,6 @@ class FreeplayState extends MusicBeatState
 		resetScoreNo = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
 		resetScoreNo.text = "No";
 		resetScoreNo.letterSpacing = -15;
-		resetScoreNo.antialiasing = true;
 		resetScoreNo.blend = ADD;
 		resetScoreNo.setPosition(resetScoreBox.getMidpoint().x + (resetScoreBox.width/4), resetScoreBox.y + 86);
 		resetScoreNo.x -= resetScoreNo.width/2;
@@ -778,7 +758,6 @@ class FreeplayState extends MusicBeatState
 		bg.setGraphicSize(Std.int(bg.width * 1.18));
 		bg.updateHitbox();
 		bg.screenCenter();
-		bg.antialiasing = true;
 		bg.cameras = [camMenu];
 		add(bg);
 

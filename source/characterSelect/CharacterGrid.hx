@@ -52,33 +52,28 @@ class CharacterGrid extends FlxSpriteGroup
 		}
 
 		cursorFarBack = new FlxSprite().loadGraphic(Paths.image("menu/characterSelect/charSelector"));
-		cursorFarBack.antialiasing = true;
 		cursorFarBack.color = 0xFF3C74F7;
 		cursorFarBack.blend = ADD;
 		add(cursorFarBack);
 
 		cursorBack = new FlxSprite().loadGraphic(Paths.image("menu/characterSelect/charSelector"));
-		cursorBack.antialiasing = true;
 		cursorBack.color = 0xFF3EBBFF;
 		cursorBack.blend = ADD;
 		add(cursorBack);
 
 		cursor = new FlxSprite().loadGraphic(Paths.image("menu/characterSelect/charSelector"));
-		cursor.antialiasing = true;
 		add(cursor);
 		FlxTween.color(cursor, 0.2, 0xFFFFFF00, 0xFFFFCF00, {type: PINGPONG});
 
 		cursorConfrim = new FlxSprite();
 		cursorConfrim.frames = Paths.getSparrowAtlas("menu/characterSelect/charSelectorConfirm");
 		cursorConfrim.animation.addByPrefix("shake", "", 24, false);
-		cursorConfrim.antialiasing = true;
 		cursorConfrim.visible = false;
 		add(cursorConfrim);
 
 		cursorDeny = new FlxSprite();
 		cursorDeny.frames = Paths.getSparrowAtlas("menu/characterSelect/charSelectorDenied");
 		cursorDeny.animation.addByPrefix("shake", "", 24, false);
-		cursorDeny.antialiasing = true;
 		cursorDeny.visible = false;
 		add(cursorDeny);
 
@@ -90,7 +85,6 @@ class CharacterGrid extends FlxSpriteGroup
 				if(iconGrid[gx][gy] != ""){
 					testGraphic = new FlxSprite(40, 40);
 					testGraphic.frames = Paths.getSparrowAtlas("menu/characterSelect/characters/" + iconGrid[gx][gy] + "/icon");
-					testGraphic.antialiasing = true;
 					testGraphic.animation.addByPrefix("hold", "", 0, false);
 					testGraphic.animation.addByPrefix("play", "", 24, false);
 					testGraphic.animation.play("hold");
@@ -100,7 +94,6 @@ class CharacterGrid extends FlxSpriteGroup
 				}
 				else{
 					testGraphic = new FlxSprite(40, 40).loadGraphic(Paths.image("menu/characterSelect/lock"));
-					testGraphic.antialiasing = true;
 					testGraphic.x -= testGraphic.width/2;
 					testGraphic.y -= testGraphic.height/2;
 					var lockShader = new HueShader((15 * gx) + (30 * gy));

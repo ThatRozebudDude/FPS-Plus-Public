@@ -26,7 +26,6 @@ class StickerIn extends BaseTransition{
 				var stickerSprite = new FlxSprite(StickerOut.stickerInfo[i].pos.x, StickerOut.stickerInfo[i].pos.y).loadGraphic(StickerOut.stickerInfo[i].image);
 				stickerSprite.centerOffsets();
 				stickerSprite.angle = StickerOut.stickerInfo[i].angle;
-				stickerSprite.antialiasing = true;
 				add(stickerSprite);
 
 				if(i == StickerOut.stickerInfo.length-1){

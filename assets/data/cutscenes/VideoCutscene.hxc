@@ -31,7 +31,6 @@ class VideoCutscene extends ScriptedCutscene
 
 		video = new VideoHandler();
 		video.scrollFactor.set();
-		video.antialiasing = true;
 		video.visible = true;
 		video.cameras = [playstate.camOverlay];
 

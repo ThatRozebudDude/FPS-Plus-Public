@@ -23,7 +23,6 @@ class StressPicoEnding extends ScriptedCutscene
 		FlxG.cameras.insert(cutsceneCamera, FlxG.cameras.list.indexOf(playstate.camGame) + 1, false);
 		
 		tankmanCutscene = new AtlasSprite(749, 521, Paths.getTextureAtlas("week7/cutscene/picoStressEnding"));
-		tankmanCutscene.antialiasing = true;
 		tankmanCutscene.cameras = [cutsceneCamera];
 		tankmanCutscene.addFullAnimation("full", 24, false);
 

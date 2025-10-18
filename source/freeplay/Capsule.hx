@@ -90,7 +90,6 @@ class Capsule extends FlxSpriteGroup
 		capsule.animation.addByPrefix("deslected", "mp3 capsule w backing NOT SELECTED", 24, true);
 		capsule.origin.set(0, 0);
 		capsule.scale.set(capsuleScale, capsuleScale);
-		capsule.antialiasing = true;
 		
 		capsule.animation.onFrameChange.add(function(name:String, frameNumber:Int, frameIndex:Int){
 			switch(name){
@@ -104,7 +103,6 @@ class Capsule extends FlxSpriteGroup
 		text = new FlxTextExt(95, 34, 0, _displayName, 32);
 		text.setFormat(Paths.font("5by7"), 32, selectColor, LEFT, FlxTextBorderStyle.OUTLINE, selectBorderColor);
 		text.borderSize = 1;
-		text.antialiasing = true;
 		scrollTween = FlxTween.tween(this, {}, 0);
 
 		//var debugDot:FlxSprite = new FlxSprite(text.x, text.y).makeGraphic(2, 2, 0xFFFFAAFF);
@@ -144,7 +142,6 @@ class Capsule extends FlxSpriteGroup
 		rank.animation.addByPrefix("perfect", "PERFECT", 24, false);
 		rank.animation.addByPrefix("gold", "GOLD", 24, false);
 		rank.animation.play("loss");
-		rank.antialiasing = true;
 		rank.blend = BlendMode.ADD;
 		rank.visible = false;
 
@@ -166,7 +163,6 @@ class Capsule extends FlxSpriteGroup
 			});
 		});
 		sparkle.scale.set(0.75, 0.75);
-		sparkle.antialiasing = true;
 		sparkle.alpha = 0;
 		sparkle.blend = BlendMode.ADD;
 

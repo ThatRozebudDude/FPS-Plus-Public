@@ -106,7 +106,6 @@ class StressPicoIntro extends ScriptedCutscene
 		abot.lookLeft();
 
 		lovelyLittleBricks = new FlxSprite(465, 760).loadGraphic(Paths.image("week7/stage/erect/bricksGround"));
-		lovelyLittleBricks.antialiasing = true;
 		lovelyLittleBricks.flipX = true;
 		lovelyLittleBricks.scale.set(1.15, 1.15);
 		lovelyLittleBricks.updateHitbox();
@@ -114,26 +113,22 @@ class StressPicoIntro extends ScriptedCutscene
 
 		gunshot = new FlxSprite(-215, 543);
 		gunshot.frames = Paths.getSparrowAtlas("week7/cutscene/picoStress/gunshot");
-		gunshot.antialiasing = true;
 		gunshot.visible = false;
 		gunshot.animation.addByPrefix("anim", "", 24, false);
 		gunshot.cameras = [gunshotCamera];
 		gunshot.animation.onFinish.add(gunshotAnimationEnd);
 		
 		tankman = new AtlasSprite(-136, 316, Paths.getTextureAtlas("week7/cutscene/picoStress/tankman"));
-		tankman.antialiasing = true;
 		tankman.addFullAnimation("anim", 24, false);
 		tankman.addFullAnimation("animFastForTest", 800, false);
 		tankman.cameras = [tankmanCamera];
 
 		pico = new AtlasSprite(782, 470, Paths.getTextureAtlas("week7/cutscene/picoStress/pico"));
-		pico.antialiasing = true;
 		pico.addFullAnimation("anim", 24, false);
 		pico.addFullAnimation("animFastForTest", 800, false);
 		pico.cameras = [picoCamera];
 
 		speakerFront = new AtlasSprite(288 + 25, 205 -25, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerFront"));
-		speakerFront.antialiasing = true;
 		speakerFront.addFullAnimation("anim", 24, false);
 		speakerFront.cameras = [frontCamera];
 		speakerFront.animationEndCallback = function(name:String){
@@ -144,13 +139,11 @@ class StressPicoIntro extends ScriptedCutscene
 		}
 
 		speakerCharacter = new AtlasSprite(287 + 25, -712 -25, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerCharacter"));
-		speakerCharacter.antialiasing = true;
 		speakerCharacter.addFullAnimation("anim", 24, false);
 		speakerCharacter.addFullAnimation("animFastForTest", 800, false);
 		speakerCharacter.cameras = [speakerCharacterCamera];
 		
 		speakerBack = new AtlasSprite(206 + 25, 105 -25, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerBack"));
-		speakerBack.antialiasing = true;
 		speakerBack.addFullAnimation("anim", 24, false);
 		speakerBack.cameras = [behindCamera];
 		speakerBack.animationEndCallback = function(name:String){

@@ -28,27 +28,22 @@ class SpookyMansionErect extends BaseStage
 
 		var trees:FlxSprite = new FlxSprite(200, 50);
 		trees.frames = Paths.getSparrowAtlas("week2/stage/erect/bgtrees");
-		trees.antialiasing = true;
 		trees.scrollFactor.set(0.8, 0.8);
 		trees.animation.addByPrefix("idle", "bgtrees", 5, true);
 		trees.animation.play("idle");
 		addToBackground(trees);
 
 		var bgDark:FlxSprite = new FlxSprite(-560, -220).loadGraphic(Paths.image("week2/stage/erect/bgDark"));
-		bgDark.antialiasing = true;
 		addToBackground(bgDark);
 
 		bgFlash = new FlxSprite(-560, -220).loadGraphic(Paths.image("week2/stage/erect/bgLight"));
-		bgFlash.antialiasing = true;
 		bgFlash.alpha = 0;
 		addToBackground(bgFlash);
 
 		var stairsDark:FlxSprite = new FlxSprite(966, -225).loadGraphic(Paths.image("week2/stage/erect/stairsDark"));
-		stairsDark.antialiasing = true;
 		addToForeground(stairsDark);
 
 		stairsFlash = new FlxSprite(966, -225).loadGraphic(Paths.image("week2/stage/erect/stairsLight"));
-		stairsFlash.antialiasing = true;
 		stairsFlash.alpha = 0;
 		addToForeground(stairsFlash);
 

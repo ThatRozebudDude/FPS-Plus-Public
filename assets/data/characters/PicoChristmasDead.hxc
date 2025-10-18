@@ -42,12 +42,10 @@ class PicoChristmasDead extends CharacterInfoBase
 		retryButton.animation.addByPrefix("confirm", "Retry Text Confirm", 24, false);
 		retryButton.animation.play("loop");
 		retryButton.centerOffsets();
-		retryButton.antialiasing = true;
 		retryButton.visible = false;
 
 		nene = new FlxSprite(playstate.gf.getScreenPosition().x + 135, playstate.gf.getScreenPosition().y - 20);
 		nene.frames = Paths.getSparrowAtlas("week5/neneChristmasKnife");
-		nene.antialiasing = true;
 		nene.animation.addByPrefix("throw", "knife toss", 24, false);
 		nene.animation.play("throw");
 		nene.animation.finishCallback = function(name:String){

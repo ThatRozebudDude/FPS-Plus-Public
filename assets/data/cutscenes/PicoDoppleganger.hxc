@@ -23,14 +23,12 @@ class PicoDoppleganger extends ScriptedCutscene
 		originalZoom = playstate.defaultCamZoom;
 
 		opPico = new AtlasSprite(307, 800, Paths.getTextureAtlas("week3/philly/erect/pico_doppleganger"));
-		opPico.antialiasing = true;
 		opPico.addAnimationByLabel("shootOpponent", "shootOpponent", 24, false);
 		opPico.addAnimationByLabel("cigaretteOpponent", "cigaretteOpponent", 24, false);
 		opPico.addAnimationByLabel("explodeOpponent", "explodeOpponent", 24, false);
 		opPico.shader = dad.getShader();
 
 		playerPico = new AtlasSprite(847, 787, Paths.getTextureAtlas("week3/philly/erect/pico_doppleganger"));
-		playerPico.antialiasing = true;
 		playerPico.addAnimationByLabel("cigarettePlayer", "cigarettePlayer", 24, false);
 		playerPico.addAnimationByLabel("shootPlayer", "shootPlayer", 24, false);
 		playerPico.addAnimationByLabel("explodePlayer", "explodePlayer", 24, false);
@@ -38,7 +36,6 @@ class PicoDoppleganger extends ScriptedCutscene
 
 		cigarette = new FlxSprite(0, 0);
 		cigarette.frames = Paths.getSparrowAtlas("week3/philly/erect/cigarette");
-		cigarette.antialiasing = true;
 		cigarette.animation.addByPrefix('cigarette spit', 'cigarette spit', 24, false);
 		cigarette.visible = false;
 

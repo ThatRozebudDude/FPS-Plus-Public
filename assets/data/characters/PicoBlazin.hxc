@@ -65,7 +65,6 @@ class PicoBlazin extends CharacterInfoBase
 		retrySprite = new FlxSprite(character.x - 1238, character.y + 31);
 		retrySprite.frames = Paths.getSparrowAtlas("weekend1/picoBlazinDeathConfirm");
 		retrySprite.animation.addByPrefix("retry", "", 24, false);
-		retrySprite.antialiasing = true;
 		retrySprite.scale.set(1.75, 1.75);
 		retrySprite.updateHitbox();
 		retrySprite.visible = false;

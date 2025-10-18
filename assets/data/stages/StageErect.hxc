@@ -16,13 +16,11 @@ class StageErect extends BaseStage
 		startingZoom = 0.87;
 
 		var backDark:FlxSprite = new FlxSprite(729, -170).loadGraphic(Paths.image("week1/erect/backDark"));
-		backDark.antialiasing = true;
 		backDark.active = false;
 		addToBackground(backDark);
 
 		var crowd:FlxSprite = new FlxSprite(682, 290);
 		crowd.frames = Paths.getSparrowAtlas("week1/erect/crowd");
-		crowd.antialiasing = true;
 		crowd.scrollFactor.set(0.8, 0.8);
 		crowd.animation.addByPrefix("idle", "", 12, true);
 		crowd.animation.play("idle");
@@ -30,49 +28,41 @@ class StageErect extends BaseStage
 		addToBackground(crowd);
 
 		var brightLightSmall:FlxSprite = new FlxSprite(967, -103).loadGraphic(Paths.image("week1/erect/brightLightSmall"));
-		brightLightSmall.antialiasing = true;
 		brightLightSmall.blend = BlendMode.ADD;
 		brightLightSmall.scrollFactor.set(1.2, 1.2);
 		brightLightSmall.active = false;
 		addToBackground(brightLightSmall);
 
 		var bg:FlxSprite = new FlxSprite(-765, -247).loadGraphic(Paths.image("week1/erect/bg"));
-		bg.antialiasing = true;
 		bg.active = false;
 		addToBackground(bg);
 
 		var server:FlxSprite = new FlxSprite(-991, 205).loadGraphic(Paths.image("week1/erect/server"));
-		server.antialiasing = true;
 		server.active = false;
 		addToBackground(server);
 
 		var lightgreen:FlxSprite = new FlxSprite(-171, 242).loadGraphic(Paths.image("week1/erect/lightgreen"));
-		lightgreen.antialiasing = true;
 		lightgreen.blend = BlendMode.ADD;
 		lightgreen.active = false;
 		addToBackground(lightgreen);
 
 		var lightred:FlxSprite = new FlxSprite(-101, 560).loadGraphic(Paths.image("week1/erect/lightred"));
-		lightred.antialiasing = true;
 		lightred.blend = BlendMode.ADD;
 		lightred.active = false;
 		addToBackground(lightred);
 
 		var orangeLight:FlxSprite = new FlxSprite(189, -195).loadGraphic(Paths.image("week1/erect/orangeLight"));
-		orangeLight.antialiasing = true;
 		orangeLight.scale.set(1, 1.2);
 		orangeLight.blend = BlendMode.ADD;
 		orangeLight.active = false;
 		addToBackground(orangeLight);
 
 		var lights:FlxSprite = new FlxSprite(-847, -245).loadGraphic(Paths.image("week1/erect/lights"));
-		lights.antialiasing = true;
 		lights.scrollFactor.set(1.2, 1.2);
 		lights.active = false;
 		addToForeground(lights);
 		
 		var lightAbove:FlxSprite = new FlxSprite(804, -117).loadGraphic(Paths.image("week1/erect/lightAbove"));
-		lightAbove.antialiasing = true;
 		lightAbove.blend = BlendMode.ADD;
 		lightAbove.active = false;
 		addToForeground(lightAbove);

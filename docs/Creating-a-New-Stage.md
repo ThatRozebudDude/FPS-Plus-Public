@@ -116,7 +116,6 @@ class Stage extends BaseStage
 		startingZoom = 1.1;
 
 		var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image("week1/stageback"));
-		bg.antialiasing = true;
 		bg.scrollFactor.set(0.9, 0.9);
 		bg.active = false;
 		addToBackground(bg);
@@ -124,7 +123,6 @@ class Stage extends BaseStage
 		var stageFront:FlxSprite = new FlxSprite(-650, 600).loadGraphic(Paths.image("week1/stagefront"));
 		stageFront.scale.set(1.1, 1.1);
 		stageFront.updateHitbox();
-		stageFront.antialiasing = true;
 		stageFront.scrollFactor.set(0.9, 0.9);
 		stageFront.active = false;
 		addToBackground(stageFront);
@@ -132,7 +130,6 @@ class Stage extends BaseStage
 		var stageCurtains:FlxSprite = new FlxSprite(-500, -300).loadGraphic(Paths.image("week1/stagecurtains"));
 		stageCurtains.scale.set(0.9, 0.9);
 		stageCurtains.updateHitbox();
-		stageCurtains.antialiasing = true;
 		stageCurtains.scrollFactor.set(1.3, 1.3);
 		stageCurtains.active = false;
 		addToBackground(stageCurtains);
@@ -179,7 +176,6 @@ class Philly extends BaseStage
 		startingZoom = 1.1;
 
 		var bg:FlxSprite = new FlxSprite(-100, -20).loadGraphic(Paths.image("week3/philly/sky"));
-		bg.antialiasing = true;
 		bg.scrollFactor.set(0.1, 0.1);
 		addToBackground(bg);
 
@@ -187,21 +183,18 @@ class Philly extends BaseStage
 		city.scrollFactor.set(0.3, 0.3);
 		city.scale.set(0.9, 0.9);
 		city.updateHitbox();
-		city.antialiasing = true;
 		addToBackground(city);
 
 		phillyCityLights = new FlxSprite(city.x, city.y).loadGraphic(Paths.image("week3/philly/windowWhite"));
 		phillyCityLights.scrollFactor.set(0.3, 0.3);
 		phillyCityLights.scale.set(0.9, 0.9);
 		phillyCityLights.updateHitbox();
-		phillyCityLights.antialiasing = true;
 		addToBackground(phillyCityLights);
 
 		phillyCityLightsGlow = new FlxSprite(phillyCityLights.x, phillyCityLights.y).loadGraphic(Paths.image("week3/philly/windowWhiteGlow"));
 		phillyCityLightsGlow.scrollFactor.set(0.3, 0.3);
 		phillyCityLightsGlow.scale.set(0.9, 0.9);
 		phillyCityLightsGlow.updateHitbox();
-		phillyCityLightsGlow.antialiasing = true;
 		phillyCityLightsGlow.blend = BlendMode.ADD;
 		phillyCityLightsGlow.alpha = 0;
 		addToBackground(phillyCityLightsGlow);
@@ -209,18 +202,15 @@ class Philly extends BaseStage
 		changeLightColor();
 
 		var streetBehind:FlxSprite = new FlxSprite(-299, 144).loadGraphic(Paths.image("week3/philly/behindTrain"));
-		streetBehind.antialiasing = true;
 		addToBackground(streetBehind);
 
 		phillyTrain = new FlxSprite(2000, 360).loadGraphic(Paths.image("week3/philly/train"));
-		phillyTrain.antialiasing = true;
 		phillyTrain.visible = false;
 		addToBackground(phillyTrain);
 
 		trainSound = new FlxSound();
 
 		var street:FlxSprite = new FlxSprite(-299, 144).loadGraphic(Paths.image("week3/philly/street"));
-		street.antialiasing = true;
 		addToBackground(street);
 
 		dadStart.set(450, 875);

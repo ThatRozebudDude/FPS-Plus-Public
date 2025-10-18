@@ -111,7 +111,6 @@ class Startup extends FlxUIStateExt
 		hasEe2 = Utils.exists(Paths.inst("Lil-Buddies"));
 
 		splash = new AtlasSprite(0, 0, Paths.getTextureAtlas("fpsPlus/splash"));
-		splash.antialiasing = true;
 
 		var labels = [];
 		for(tempLabel in splash.anim.getFrameLabels()){ labels.push(tempLabel.name); }

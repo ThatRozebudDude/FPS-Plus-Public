@@ -141,46 +141,38 @@ class BoyfriendFreeplay extends DJCharacter
 		addScrollingText();
 
 		var bg = new FlxSprite().loadGraphic(Paths.image("menu/freeplay/bgs/bf/cardBg"));
-		bg.antialiasing = true;
 		backingCard.add(bg);
 
 		backingCard.add(scrollingText);
 		
 		cardAcceptBg = Utils.makeColoredSprite(528, 720, 0xFF171831);
-		cardAcceptBg.antialiasing = true;
 		cardAcceptBg.visible = false;
 		backingCard.add(cardAcceptBg);
 
 		cardGlowBright = new FlxSprite(-30, 240).loadGraphic(Paths.image('menu/freeplay/bgs/bf/confirmGlowBright'));
-		cardGlowBright.antialiasing = true;
 		cardGlowBright.alpha = 0;
 		cardGlowBright.blend = BlendMode.ADD;
 		backingCard.add(cardGlowBright);
 
 		cardGlowDark = new FlxSprite(cardGlowBright.x, cardGlowBright.y).loadGraphic(Paths.image('menu/freeplay/bgs/bf/confirmGlowDark'));
-		cardGlowDark.antialiasing = true;
 		cardGlowDark.alpha = 0;
 		backingCard.add(cardGlowDark);
 
 		cardAcceptText = new AtlasSprite(640, 420, Paths.getTextureAtlas("menu/freeplay/bgs/bf/backing-text-yeah"));
-		cardAcceptText.antialiasing = true;
 		cardAcceptText.visible = false;
 		cardAcceptText.addFullAnimation("text", 24, false);
 		backingCard.add(cardAcceptText);
 
 		cardAcceptTextGlow = new FlxSprite(-8, 165).loadGraphic(Paths.image("menu/freeplay/bgs/bf/glowingText"));
-		cardAcceptTextGlow.antialiasing = true;
 		cardAcceptTextGlow.visible = false;
 		cardAcceptTextGlow.blend = BlendMode.ADD;
 		backingCard.add(cardAcceptTextGlow);
 
 		cardPinkFlash = Utils.makeColoredSprite(528, 720, 0xFFFFD0D5);
-		cardPinkFlash.antialiasing = true;
 		cardPinkFlash.alpha = 0;
 		backingCard.add(cardPinkFlash);
 
 		cardFlash = Utils.makeColoredSprite(528, 720, 0xFFFEF8A5);
-		cardFlash.antialiasing = true;
 		cardFlash.blend = BlendMode.ADD;
 		cardFlash.alpha = 0;
 		backingCard.add(cardFlash);

@@ -153,7 +153,6 @@ class ConfigMenuOld extends FlxUIStateExt
 		bg.setGraphicSize(Std.int(bg.width * 1.18));
 		bg.updateHitbox();
 		bg.screenCenter();
-		bg.antialiasing = true;
 		bg.color = 0xFF5C6CA5;
 
 		optionTitle = new FlxSprite(0, 40);
@@ -161,7 +160,6 @@ class ConfigMenuOld extends FlxUIStateExt
 		optionTitle.animation.addByPrefix('selected', "selected", 24);
 		optionTitle.animation.play('selected');
 		optionTitle.scrollFactor.set();
-		optionTitle.antialiasing = true;
 		optionTitle.updateHitbox();
 		optionTitle.screenCenter(X);
 
@@ -175,7 +173,6 @@ class ConfigMenuOld extends FlxUIStateExt
 		splatter.frames = Paths.getSparrowAtlas("fpsPlus/config/splatter");
 		splatter.animation.addByPrefix("boil", "", 24);
 		splatter.animation.play("boil");
-		splatter.antialiasing = true;
 		topLevelMenuGroup.add(splatter);
 
 		add(subMenuGroup);
@@ -189,7 +186,6 @@ class ConfigMenuOld extends FlxUIStateExt
 			icon.frames = iconTexture;
 			icon.animation.addByPrefix("boil", options[i] + "Icon", 24);
 			icon.animation.play("boil");
-			icon.antialiasing = true;
 			icon.screenCenter(Y);
 			icon.x = optionPostions[i] * 1280;
 			icon.x -= icon.frameWidth/2;
@@ -201,7 +197,6 @@ class ConfigMenuOld extends FlxUIStateExt
 			text.animation.addByIndices('active', options[i] + "Text", [0, 1, 2], "", 24, true);
 			text.animation.addByIndices('inactive', options[i] + "Text", [3, 6, 9], "", 8, true);
 			text.animation.play("inactive");
-			text.antialiasing = true;
 			text.x = Utils.oldGetGraphicMidpoint(icon).x;
 			text.y = 3/4 * 720;
 			text.x -= text.frameWidth/2;

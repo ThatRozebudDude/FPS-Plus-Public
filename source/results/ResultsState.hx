@@ -198,14 +198,12 @@ class ResultsState extends FlxUIStateExt
 
 		var blackTopBar:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menu/results/topBarBlack"));
 		blackTopBar.y = -blackTopBar.height;
-		blackTopBar.antialiasing = true;
 		FlxTween.tween(blackTopBar, {y: 0}, 7/24, {ease: FlxEase.quartOut, startDelay: 3/24});
 
 		var soundSystem:FlxSprite = new FlxSprite(-15, -180);
 		soundSystem.frames = Paths.getSparrowAtlas("menu/results/soundSystem");
 		soundSystem.animation.addByPrefix("", "", 24, false);
 		soundSystem.visible = false;
-		soundSystem.antialiasing = true;
 		new FlxTimer().start(8/24, function(t){
 			soundSystem.animation.play("");
 			soundSystem.visible = true;
@@ -214,7 +212,6 @@ class ResultsState extends FlxUIStateExt
 		resultsTitle = new FlxSprite(-200, -10);
 		resultsTitle.frames = Paths.getSparrowAtlas("menu/results/results");
 		resultsTitle.animation.addByPrefix("", "", 24, false);
-		resultsTitle.antialiasing = true;
 		resultsTitle.visible = false;
 		new FlxTimer().start(6/24, function(t){
 			resultsTitle.visible = true;
@@ -224,7 +221,6 @@ class ResultsState extends FlxUIStateExt
 		ratingsStuff = new FlxSprite(-135, 135);
 		ratingsStuff.frames = Paths.getSparrowAtlas("menu/results/ratingsPopin");
 		ratingsStuff.animation.addByPrefix("", "", 24, false);
-		ratingsStuff.antialiasing = true;
 		ratingsStuff.visible = false;
 		new FlxTimer().start(21/24, function(t){
 			ratingsStuff.visible = true;
@@ -234,7 +230,6 @@ class ResultsState extends FlxUIStateExt
 		scoreStuff = new FlxSprite(-180, 515);
 		scoreStuff.frames = Paths.getSparrowAtlas("menu/results/scorePopin");
 		scoreStuff.animation.addByPrefix("", "", 24, false);
-		scoreStuff.antialiasing = true;
 		scoreStuff.visible = false;
 		new FlxTimer().start(36/24, function(t){
 			scoreStuff.visible = true;
@@ -245,7 +240,6 @@ class ResultsState extends FlxUIStateExt
 		highscoreNew.frames = Paths.getSparrowAtlas("menu/results/highscoreNew");
 		highscoreNew.animation.addByPrefix("", "highscoreAnim", 24, false);
 		highscoreNew.visible = false;
-		highscoreNew.antialiasing = true;
 		highscoreNew.animation.onFinish.add(function(name) {
 			highscoreNew.animation.play("", true, false, highscoreNew.animation.curAnim.numFrames - 12);
 		});
@@ -335,13 +329,11 @@ class ResultsState extends FlxUIStateExt
 
 		clearPercentSymbol = new FlxSprite(clearPercentCounter.x + 80, clearPercentCounter.y + clearPercentCounter.height).loadGraphic(Paths.image("menu/results/clearPercentSymbol"));
 		clearPercentSymbol.y -= clearPercentSymbol.height;
-		clearPercentSymbol.antialiasing = true;
 		clearPercentSymbol.visible = false;
 		clearPercentSymbol.shader = clearShader.shader;
 
 		clearPercentText = new FlxSprite(clearPercentCounter.x + 80, clearPercentCounter.y + clearPercentCounter.height).loadGraphic(Paths.image("menu/results/clearPercentText"));
 		clearPercentText.y -= clearPercentSymbol.height;
-		clearPercentText.antialiasing = true;
 		clearPercentText.visible = false;
 		clearPercentText.shader = clearShader.shader;
 
@@ -382,12 +374,10 @@ class ResultsState extends FlxUIStateExt
 
 			var tempText = new FlxText(0, 0, 0, textArray[textIndex] + " ");
 			tempText.setFormat(Paths.font("5by7"), 50, 0xFFFFFFFF);
-			tempText.antialiasing = true;
 
 			var scrolling:FlxBackdrop = ScrollingText.createScrollingText(50, 100 + (135 * (i+1) / 2) + 10, tempText);
 			//scrolling.velocity.x = FlxG.random.int(5, 9);
 			scrolling.velocity.x = (i % 2 == 0) ? -8 : 8;
-			scrolling.antialiasing = true;
 			scrolling.color = character.scrollingTextColor;
 			
 			scrollingTextGroup.add(scrolling);
@@ -400,19 +390,16 @@ class ResultsState extends FlxUIStateExt
 
 		var tempRankText = new FlxTextExt(0, 0, 0, rankName);
 		tempRankText.setFormat(Paths.font("5by7"), 100, 0xFFFFFFFF);
-		tempRankText.antialiasing = true;
 		tempRankText.leading = 10;
 
 		scrollingRankName = ScrollingText.createScrollingText(1280 - tempRankText.width, 0, tempRankText, Y);
 		scrollingRankName.velocity.y = 30;
-		scrollingRankName.antialiasing = true;
 		scrollingRankName.visible = false;
 		scrollingRankName.spacing.y = 57;
 
 		bitmapSongName = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
 		bitmapSongName.text = songNameText;
 		bitmapSongName.letterSpacing = -15;
-		bitmapSongName.antialiasing = true;
 		bitmapSongName.setPosition(550 + 50, 120 + 50);
 		bitmapSongName.cameras = [camTitle];
 		bitmapSongName.y -= 300;

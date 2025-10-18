@@ -1710,8 +1710,6 @@ class ChartingState extends MusicBeatState
 					eventSymbol.loadGraphic(Paths.image("chartEditor/event/genericEvent"));
 				#end
 
-				//eventSymbol.antialiasing = true;
-
 				eventSymbol.setGraphicSize(40, 40);
 				eventSymbol.updateHitbox();
 				eventSymbol.x = Math.floor((slot + 8) * GRID_SIZE);

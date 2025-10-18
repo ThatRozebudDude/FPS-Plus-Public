@@ -36,7 +36,6 @@ class PhillyBlazin extends BaseStage
 		scrollingSky.scale.set(1.75, 1.75);
 		scrollingSky.updateHitbox();
 		scrollingSky.velocity.x = -35;
-		scrollingSky.antialiasing = true;
 		addToBackground(scrollingSky);
 
 		scrollingSkyAdd = new FlxBackdrop(Paths.image("weekend1/phillyBlazin/skyBlur"), FlxAxes.X);
@@ -45,7 +44,6 @@ class PhillyBlazin extends BaseStage
 		scrollingSkyAdd.scale.set(1.75, 1.75);
 		scrollingSkyAdd.updateHitbox();
 		scrollingSkyAdd.velocity.x = -35;
-		scrollingSkyAdd.antialiasing = true;
 		scrollingSkyAdd.blend = BlendMode.ADD;
 		scrollingSkyAdd.visible = false;
 		addToBackground(scrollingSkyAdd);
@@ -57,21 +55,18 @@ class PhillyBlazin extends BaseStage
 		lightning.scale.set(1.75, 1.75);
 		lightning.visible = false;
 		lightning.updateHitbox();
-		lightning.antialiasing = true;
 		addToBackground(lightning);
 
 		var streetBlur = new FlxSprite(-600 + 152, -175 + 70).loadGraphic(Paths.image("weekend1/phillyBlazin/streetBlur"));
 		streetBlur.scrollFactor.set(0.2, 0.2);
 		streetBlur.scale.set(1.75, 1.75);
 		streetBlur.updateHitbox();
-		streetBlur.antialiasing = true;
 		addToBackground(streetBlur);
 
 		streetBlurMultiply = new FlxSprite(-600 + 152, -175 + 70).loadGraphic(Paths.image("weekend1/phillyBlazin/streetBlur"));
 		streetBlurMultiply.scrollFactor.set(0.2, 0.2);
 		streetBlurMultiply.scale.set(1.75, 1.75);
 		streetBlurMultiply.updateHitbox();
-		streetBlurMultiply.antialiasing = true;
 		streetBlurMultiply.blend = BlendMode.MULTIPLY;
 		streetBlurMultiply.visible = false;
 		addToBackground(streetBlurMultiply);

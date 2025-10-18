@@ -37,13 +37,11 @@ class LimoErect extends BaseStage
 		skyBG.scrollFactor.set(0.1, 0.1);
 		skyBG.scale.set(0.9, 0.9);
 		skyBG.updateHitbox();
-		skyBG.antialiasing = true;
 		addToBackground(skyBG);
 
 		shootingStar = new FlxSprite(200, 0);
 		shootingStar.frames = Paths.getSparrowAtlas("week4/limo/erect/shooting star");
 		shootingStar.scrollFactor.set(0.12, 0.12);
-		shootingStar.antialiasing = true;
 		shootingStar.animation.addByPrefix("star", "shooting star", 24, false);
 		shootingStar.animation.play("star", true);
 		shootingStar.visible = false;
@@ -64,7 +62,6 @@ class LimoErect extends BaseStage
 		bgLimo.animation.addByPrefix("drive", "background limo blue", 24);
 		bgLimo.animation.play("drive");
 		bgLimo.scrollFactor.set(0.4, 0.4);
-		bgLimo.antialiasing = true;
 		addToBackground(bgLimo);
 
 		for (i in 0...5)
@@ -97,7 +94,6 @@ class LimoErect extends BaseStage
 		addToBackground(mist3);
 
 		fastCar = new FlxSprite(-300, 160).loadGraphic(Paths.image("week4/limo/fastCarLol"));
-		fastCar.antialiasing = true;
 		fastCar.shader = characterShader.shader;
 		addToBackground(fastCar);
 
@@ -105,7 +101,6 @@ class LimoErect extends BaseStage
 		limo.frames = Paths.getSparrowAtlas("week4/limo/erect/limoDrive");
 		limo.animation.addByPrefix("drive", "Limo stage", 24);
 		limo.animation.play("drive");
-		limo.antialiasing = true;
 		addToMiddle(limo);
 
 		mist1 = new FlxBackdrop(Paths.image("week4/limo/erect/mistMid"), FlxAxes.X);

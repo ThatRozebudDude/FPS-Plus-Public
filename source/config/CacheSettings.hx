@@ -63,7 +63,6 @@ class CacheSettings extends FlxUIStateExt
 		bg.setGraphicSize(Std.int(bg.width * 1.18));
 		bg.updateHitbox();
 		bg.screenCenter();
-		bg.antialiasing = true;
 		bg.color = bgColor;
 		add(bg);
 

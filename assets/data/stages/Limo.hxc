@@ -23,7 +23,6 @@ class Limo extends BaseStage
 
 		var skyBG:FlxSprite = new FlxSprite(-120, -50).loadGraphic(Paths.image("week4/limo/limoSunset"));
 		skyBG.scrollFactor.set(0.1, 0.1);
-		skyBG.antialiasing = true;
 		addToBackground(skyBG);
 
 		var bgLimo:FlxSprite = new FlxSprite(-200, 480);
@@ -31,7 +30,6 @@ class Limo extends BaseStage
 		bgLimo.animation.addByPrefix("drive", "background limo pink", 24);
 		bgLimo.animation.play("drive");
 		bgLimo.scrollFactor.set(0.4, 0.4);
-		bgLimo.antialiasing = true;
 		addToBackground(bgLimo);
 
 		for (i in 0...5){
@@ -42,14 +40,12 @@ class Limo extends BaseStage
 		}
 		
 		fastCar = new FlxSprite(-300, 160).loadGraphic(Paths.image("week4/limo/fastCarLol"));
-		fastCar.antialiasing = true;
 		addToBackground(fastCar);
 
 		limo = new FlxSprite(-120, 550);
 		limo.frames = Paths.getSparrowAtlas("week4/limo/limoDrive");
 		limo.animation.addByPrefix("drive", "Limo stage", 24);
 		limo.animation.play("drive");
-		limo.antialiasing = true;
 		addToMiddle(limo);
 
 		resetFastCar();
