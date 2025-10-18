@@ -12,7 +12,7 @@ using StringTools;
 class PolymodHandler
 {
 
-	public static final API_VERSION:Array<Int> = [1, 7, 0];
+	public static final API_VERSION:Array<Int> = [1, 8, 0];
 	public static final API_VERSION_STRING:String = API_VERSION[0]+"."+API_VERSION[1]+"."+API_VERSION[2];
 
 	public static final ASSETS_FOLDER:String =
@@ -337,6 +337,8 @@ class PolymodHandler
 		Polymod.addImportAlias("flixel.util.FlxAxes", modding.ScriptingUtil.FlxAxes);
 		
 		Polymod.addImportAlias("flixel.math.FlxPoint", flixel.math.FlxPoint.FlxBasePoint);
+
+		Polymod.addImportAlias("flixel.text.FlxText", extensions.flixel.FlxTextExt);
 
 		// `Sys`
 		// Sys.command() can run malicious processes

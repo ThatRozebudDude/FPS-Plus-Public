@@ -1,5 +1,6 @@
 package extensions.flixel;
 
+import openfl.text.AntiAliasType;
 import flixel.math.FlxAngle;
 import flixel.math.FlxMath;
 import openfl.display.BitmapData;
@@ -15,11 +16,12 @@ class FlxTextExt extends FlxText
 
 	public function new(X:Float = 0, Y:Float = 0, FieldWidth:Float = 0, ?Text:String, Size:Int = 8, EmbeddedFont:Bool = true) {
 		super(X, Y, FieldWidth, Text, Size, EmbeddedFont);
+		textField.sharpness = 100;
+		textField.antiAliasType = NORMAL;
 		antialiasing = true;
 	}
 
 	override function applyBorderStyle():Void{
-
 		if (!borderStyle.match(OUTLINE))
 			return super.applyBorderStyle();
 
@@ -39,7 +41,6 @@ class FlxTextExt extends FlxText
 		var outlineExpandDelta:Float = outlineExpandDistance;
 
 		while(true){
-
 			var breakAfterThing:Bool = false;
 			
 			if(outlineExpandDelta > borderSize){
@@ -57,12 +58,10 @@ class FlxTextExt extends FlxText
 			}
 
 			outlineExpandDelta += outlineExpandDistance;
-
 		}
 	}
 
 	inline function copyTextAtAngle(angle:Float, distance:Float = 1):Void{
-
 		var newX = distance * cos(angle);
 		var newY = distance * sin(angle);
 
@@ -74,7 +73,6 @@ class FlxTextExt extends FlxText
 
 	//my lookup table :face_holding_back_tears:
 	inline function cos(a:Float):Float{
-
 		switch(a){
 			case 0 | 360:
 				return 1;
@@ -95,14 +93,11 @@ class FlxTextExt extends FlxText
 			case 180:
 				return -1;
 			default:
-				//trace("not in table");
 				return FlxMath.fastCos(angle * FlxAngle.TO_RAD);
 		}
-
 	}
 
 	inline function sin(a:Float):Float{
-
 		switch(a){
 			case 0 | 180 | 360:
 				return 0;
@@ -123,19 +118,21 @@ class FlxTextExt extends FlxText
 			case 270:
 				return -1;
 			default:
-				//trace("not in table");
 				return FlxMath.fastSin(angle * FlxAngle.TO_RAD);
 		}
-
 	}
 
-	function set_leading(value:Null<Int>):Null<Int> {
+	function set_leading(value:Null<Int>):Null<Int>{
 		_defaultFormat.leading = value;
 		updateDefaultFormat();
 		return value;
 	}
 
-	inline function get_leading():Null<Int> {
+	inline function get_leading():Null<Int>{
 		return _defaultFormat.leading;
+	}
+
+	override function set_antialiasing(value:Bool):Bool{
+		return antialiasing = value;
 	}
 }
