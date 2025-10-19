@@ -6,7 +6,6 @@ class PixelScoreText extends Script
 		playstate.scoreTxt.textField.sharpness = 400;
 		playstate.scoreTxt.antialiasing = false;
 		playstate.scoreTxt.borderSize = 2;
-		playstate.scoreTxt.y += 2;
 	}
 
 }
