@@ -13,6 +13,11 @@ class Script
 	public function create(){}
 
 	/**
+	* Called after the script is created. Can be used to check if other scripts or certain stage elements exist that wouldn't have before `create()`.
+	*/
+	public function postCreate(){}
+
+	/**
 	 * Called every frame in PlayState update.
 	 *
 	 * @param   elapsed  The elapsed time between previous frames passed in by PlayState.
@@ -90,25 +95,25 @@ class Script
 	  */
 	public function noteMiss(direction:Int, countedMiss:Bool){}
 
-	inline function addToBackground(x:FlxBasic)			{ PlayState.instance.backgroundLayer.add(x); }
-	inline function removeFromBackground(x:FlxBasic)	{ PlayState.instance.backgroundLayer.remove(x); }
-	inline function addToGf(x:FlxBasic)					{ PlayState.instance.gfLayer.add(x); }
-	inline function removeFromGf(x:FlxBasic)			{ PlayState.instance.gfLayer.remove(x); }
-	inline function addToMiddle(x:FlxBasic)				{ PlayState.instance.middleLayer.add(x); }
-	inline function removeFromMiddle(x:FlxBasic)		{ PlayState.instance.middleLayer.remove(x); }
-	inline function addToCharacter(x:FlxBasic)			{ PlayState.instance.characterLayer.add(x); }
-	inline function removeFromCharacter(x:FlxBasic)		{ PlayState.instance.characterLayer.remove(x); }
-	inline function addToForeground(x:FlxBasic)			{ PlayState.instance.foregroundLayer.add(x); }
-	inline function removeFromForeground(x:FlxBasic)	{ PlayState.instance.foregroundLayer.remove(x); }
-	inline function addToOverlay(x:FlxBasic)			{ PlayState.instance.overlayLayer.add(x); }
-	inline function removeFromOverlay(x:FlxBasic)		{ PlayState.instance.overlayLayer.remove(x); }
-	inline function addToHud(x:FlxBasic)				{ PlayState.instance.hudLayer.add(x); }
-	inline function removeHud(x:FlxBasic)				{ PlayState.instance.hudLayer.remove(x); }
+	function addToBackground(x:FlxBasic)		{ PlayState.instance.backgroundLayer.add(x); }
+	function removeFromBackground(x:FlxBasic)	{ PlayState.instance.backgroundLayer.remove(x); }
+	function addToGf(x:FlxBasic)				{ PlayState.instance.gfLayer.add(x); }
+	function removeFromGf(x:FlxBasic)			{ PlayState.instance.gfLayer.remove(x); }
+	function addToMiddle(x:FlxBasic)			{ PlayState.instance.middleLayer.add(x); }
+	function removeFromMiddle(x:FlxBasic)		{ PlayState.instance.middleLayer.remove(x); }
+	function addToCharacter(x:FlxBasic)			{ PlayState.instance.characterLayer.add(x); }
+	function removeFromCharacter(x:FlxBasic)	{ PlayState.instance.characterLayer.remove(x); }
+	function addToForeground(x:FlxBasic)		{ PlayState.instance.foregroundLayer.add(x); }
+	function removeFromForeground(x:FlxBasic)	{ PlayState.instance.foregroundLayer.remove(x); }
+	function addToOverlay(x:FlxBasic)			{ PlayState.instance.overlayLayer.add(x); }
+	function removeFromOverlay(x:FlxBasic)		{ PlayState.instance.overlayLayer.remove(x); }
+	function addToHud(x:FlxBasic)				{ PlayState.instance.hudLayer.add(x); }
+	function removeHud(x:FlxBasic)				{ PlayState.instance.hudLayer.remove(x); }
 
-	inline function addGeneric(x:FlxBasic)				{ FlxG.state.add(x); }
-	inline function removeGeneric(x:FlxBasic)			{ FlxG.state.remove(x); }
-	inline function addGenericSubstate(x:FlxBasic)		{ FlxG.state.subState.add(x); }
-	inline function removeGenericSubstate(x:FlxBasic)	{ FlxG.state.subState.remove(x); }
+	function addGeneric(x:FlxBasic)				{ FlxG.state.add(x); }
+	function removeGeneric(x:FlxBasic)			{ FlxG.state.remove(x); }
+	function addGenericSubstate(x:FlxBasic)		{ FlxG.state.subState.add(x); }
+	function removeGenericSubstate(x:FlxBasic)	{ FlxG.state.subState.remove(x); }
 
 	public function toString():String{ return "Script"; }
 }

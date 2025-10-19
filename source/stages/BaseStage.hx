@@ -1,6 +1,7 @@
 package stages;
 
 //import flixel.FlxBasic;
+import scripts.Script;
 import note.Note;
 import flixel.tweens.FlxTween.FlxTweenManager;
 import flixel.FlxBasic;
@@ -13,8 +14,8 @@ import flixel.math.FlxPoint;
 	@author Rozebud
 **/
 
-@:build(modding.GlobalScriptingTypesMacro.build())
-class BaseStage
+//@:build(modding.GlobalScriptingTypesMacro.build()) //Not needed since it inherits from Script.
+class BaseStage extends Script
 {
 
 	public var name:String;
@@ -26,7 +27,9 @@ class BaseStage
 	public var instantStart:Bool = false;
 
 	public var backgroundElements:Array<Dynamic> = [];
+	public var gfElements:Array<Dynamic> = [];
 	public var middleElements:Array<Dynamic> = [];
+	public var characterElements:Array<Dynamic> = [];
 	public var foregroundElements:Array<Dynamic> = [];
 	public var overlayElements:Array<Dynamic> = [];
 	public var hudElements:Array<Dynamic> = [];
@@ -55,51 +58,6 @@ class BaseStage
 	public var staticGfCamera:FlxPoint = new FlxPoint(751.5, 458.5);
 
 	public function new(){}
-
-	/**
-	 * Adds an object to `backgroundElements` to be added to PlayState.
-	 *
-	 * @param	x	The object to add. Should be any type that can be added to a state.
-	 */
-	public function addToBackground(x:FlxBasic){
-		backgroundElements.push(x);
-	}
-
-	/**
-	 * Adds an object to `middleElements` to be added to PlayState.
-	 *
-	 * @param	x	The object to add. Should be any type that can be added to a state.
-	 */
-	public function addToMiddle(x:FlxBasic){
-		middleElements.push(x);
-	}
-
-	/**
-	 * Adds an object to `foregroundElements` to be added to PlayState.
-	 *
-	 * @param	x	The object to add. Should be any type that can be added to a state.
-	 */
-	public function addToForeground(x:FlxBasic){
-		foregroundElements.push(x);
-	}
-
-	/**
-	 * Adds an object to `overlayElements` to be added to PlayState.
-	 *
-	 * @param	x	The object to add. Should be any type that can be added to a state.
-	 */
-	 public function addToOverlay(x:FlxBasic){
-		overlayElements.push(x);
-	}
-	
-	/**
-	 * Adds an object to `hudElements` to be added to PlayState.
-	 *
-	 * @param	x	The object to add. Should be any type that can be added to a state.
-	 */
-	public function addToHud(x:FlxBasic){
-		hudElements.push(x);
-	}
 
 	/**
 	 * Adds arbitrary info to the stage that can be read in PlayState.
@@ -144,116 +102,63 @@ class BaseStage
 	 */
 	public function destroyAll(){
 		for(x in backgroundElements){ x.destroy(); }
+		for(x in gfElements){ x.destroy(); }
 		for(x in middleElements){ x.destroy(); }
+		for(x in characterElements){ x.destroy(); }
 		for(x in foregroundElements){ x.destroy(); }
 		for(x in overlayElements){ x.destroy(); }
 		for(x in hudElements){ x.destroy(); }
+		backgroundElements = [];
+		gfElements = [];
+		middleElements = [];
+		characterElements = [];
+		foregroundElements = [];
+		overlayElements = [];
+		hudElements = [];
 	}
 
 	/**
-	 * Called after PlayState.create() is done.
-	 */
-	public function postCreate(){}
-
-	/**
-	 * Called every frame in PlayState update.
-	 * Don't forget to call `super.update(elasped)` or the update group won't be updated.
+	 * Called every frame in PlayState update before the normal update function to update everything in the update group.
+	 * You probably shouldn't override this in a script.
 	 *
 	 * @param	elapsed		The elapsed time between previous frames passed in by PlayState.
 	 */
-	public function update(elapsed:Float){
+	public function updateTheUpdateGroup(elapsed:Float){
 		for(obj in updateGroup){
 			obj.update(elapsed);
 		}
 	}
 
-	/**
-	 * Called every beat hit in PlayState.
-	 *
-	 * @param	curBeat		The current song beat passed in by PlayState.
-	 */
-	public function beat(curBeat:Int){}
+	override function addToBackground(x:FlxBasic)		{ if(PlayState.isInPlayState()){ PlayState.instance.backgroundLayer.add(x); } 	backgroundElements.push(x); }
+	override function removeFromBackground(x:FlxBasic)	{ if(PlayState.isInPlayState()){ PlayState.instance.backgroundLayer.remove(x); } 	backgroundElements.remove(x); }
+	override function addToGf(x:FlxBasic)				{ if(PlayState.isInPlayState()){ PlayState.instance.gfLayer.add(x); } 			gfElements.push(x); }
+	override function removeFromGf(x:FlxBasic)			{ if(PlayState.isInPlayState()){ PlayState.instance.gfLayer.remove(x); } 			gfElements.remove(x); }
+	override function addToMiddle(x:FlxBasic)			{ if(PlayState.isInPlayState()){ PlayState.instance.middleLayer.add(x); } 		middleElements.push(x); }
+	override function removeFromMiddle(x:FlxBasic)		{ if(PlayState.isInPlayState()){ PlayState.instance.middleLayer.remove(x); } 		middleElements.remove(x); }
+	override function addToCharacter(x:FlxBasic)		{ if(PlayState.isInPlayState()){ PlayState.instance.characterLayer.add(x); } 		characterElements.push(x); }
+	override function removeFromCharacter(x:FlxBasic)	{ if(PlayState.isInPlayState()){ PlayState.instance.characterLayer.remove(x); } 	characterElements.remove(x); }
+	override function addToForeground(x:FlxBasic)		{ if(PlayState.isInPlayState()){ PlayState.instance.foregroundLayer.add(x); } 	foregroundElements.push(x); }
+	override function removeFromForeground(x:FlxBasic)	{ if(PlayState.isInPlayState()){ PlayState.instance.foregroundLayer.remove(x); } 	foregroundElements.remove(x); }
+	override function addToOverlay(x:FlxBasic)			{ if(PlayState.isInPlayState()){ PlayState.instance.overlayLayer.add(x); } 		overlayElements.push(x); }
+	override function removeFromOverlay(x:FlxBasic)		{ if(PlayState.isInPlayState()){ PlayState.instance.overlayLayer.remove(x); } 	overlayElements.remove(x); }
+	override function addToHud(x:FlxBasic)				{ if(PlayState.isInPlayState()){ PlayState.instance.hudLayer.add(x); } 			hudElements.push(x); }
+	override function removeHud(x:FlxBasic)				{ if(PlayState.isInPlayState()){ PlayState.instance.hudLayer.remove(x); } 		hudElements.remove(x); }
 
-	/**
-	 * Called every beat during the countdown.
-	 *
-	 * @param	curBeat		The current song beat passed in by PlayState.
-	 */
-	public function countdownBeat(curBeat:Int){}
+	//Included for backwards compatibility.
+	inline function addToBackgroundLive(x:FlxBasic)			{ addToBackground(x); }
+	inline function removeFromBackgroundLive(x:FlxBasic)	{ removeFromBackground(x); }
+	inline function addToGfLive(x:FlxBasic)					{ addToGf(x); }
+	inline function removeFromGfLive(x:FlxBasic)			{ removeFromGf(x); }
+	inline function addToMiddleLive(x:FlxBasic)				{ addToMiddle(x); }
+	inline function removeFromMiddleLive(x:FlxBasic)		{ removeFromMiddle(x); }
+	inline function addToCharacterLive(x:FlxBasic)			{ addToCharacter(x); }
+	inline function removeFromCharacterLive(x:FlxBasic)		{ removeFromCharacter(x); }
+	inline function addToForegroundLive(x:FlxBasic)			{ addToForeground(x); }
+	inline function removeFromForegroundLive(x:FlxBasic)	{ removeFromForeground(x); }
+	inline function addToOverlayLive(x:FlxBasic)			{ addToOverlay(x); }
+	inline function removeFromOverlayLive(x:FlxBasic)		{ removeFromOverlay(x); }
+	inline function addToHudLive(x:FlxBasic)				{ addToHud(x); }
+	inline function removeHudLive(x:FlxBasic)				{ removeHud(x); }
 
-	/**
-	 * Called every step hit in PlayState.
-	 *
-	 * @param	curStep	The current song step passed in by PlayState.
-	 */
-	public function step(curStep:Int){}
-
-	/**
-	 * Called once the song starts.
-	 */
-	public function songStart(){}
-
-	/**
-	 * Called once the song end.
-	 */
-	public function songEnd(){}
-
-	/**
-	 * Called when the game is paused.
-	 */
-	public function pause(){}
-
-	/**
-	 * Called when the game is unpaused.
-	 */
-	public function unpause(){}
-
-	/**
-	 * Called when the game over state is started.
-	 */
-	public function gameOverStart(){}
-
-	/**
-	 * Called when the starting the game over loop animation.
-	 */
-	public function gameOverLoop(){}
-
-	/**
-	 * Called when the game over retry is confirmed.
-	 */
-	public function gameOverEnd(){}
-
-	/**
-	 * Called when the leaving PlayState.
-	 */
-	public function exit(){}
-
-	/**
-	 * Called when a character hits a note.
-	 */
-	public function noteHit(character:Character, note:Note){}
-
-	/**
-	 * Called when you miss a note. `countedMiss` will be `true` when the miss adds to your miss count and `false` when it just plays the miss animation while not adding to your miss count.
-	 */
-	public function noteMiss(direction:Int, countedMiss:Bool){}
-
-	//It is only recommended that you only use this if you have to add objects dynamically.
-	//For normal stage elements you should just add them to the groups in the init() and toggle their visibility.
-	inline function addToBackgroundLive(x:FlxBasic)			{ PlayState.instance.backgroundLayer.add(x); }
-	inline function removeFromBackgroundLive(x:FlxBasic)	{ PlayState.instance.backgroundLayer.remove(x); }
-	inline function addToGfLive(x:FlxBasic)					{ PlayState.instance.gfLayer.add(x); }
-	inline function removeFromGfLive(x:FlxBasic)			{ PlayState.instance.gfLayer.remove(x); }
-	inline function addToMiddleLive(x:FlxBasic)				{ PlayState.instance.middleLayer.add(x); }
-	inline function removeFromMiddleLive(x:FlxBasic)		{ PlayState.instance.middleLayer.remove(x); }
-	inline function addToCharacterLive(x:FlxBasic)			{ PlayState.instance.characterLayer.add(x); }
-	inline function removeFromCharacterLive(x:FlxBasic)		{ PlayState.instance.characterLayer.remove(x); }
-	inline function addToForegroundLive(x:FlxBasic)			{ PlayState.instance.foregroundLayer.add(x); }
-	inline function removeFromForegroundLive(x:FlxBasic)	{ PlayState.instance.foregroundLayer.remove(x); }
-	inline function addToOverlayLive(x:FlxBasic)			{ PlayState.instance.overlayLayer.add(x); }
-	inline function removeFromOverlayLive(x:FlxBasic)		{ PlayState.instance.overlayLayer.remove(x); }
-	inline function addToHudLive(x:FlxBasic)				{ PlayState.instance.hudLayer.add(x); }
-	inline function removeHudLive(x:FlxBasic)				{ PlayState.instance.hudLayer.remove(x); }
-
-	public function toString():String{ return "Stage: " + name; }
+	override public function toString():String{ return "Stage: " + name; }
 }

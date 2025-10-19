@@ -71,7 +71,6 @@ class GameOverSubstate extends MusicBeatSubstate
 			FlxG.sound.play(Paths.sound(bf.deathSound));
 		}
 		
-		PlayState.instance.stage.gameOverStart();
 		for(script in PlayState.instance.scripts){ script.gameOverStart(); }
 	}
 
@@ -99,7 +98,6 @@ class GameOverSubstate extends MusicBeatSubstate
 				FlxG.sound.playMusic(Paths.music(bf.deathSong));
 			}
 
-			PlayState.instance.stage.gameOverLoop();
 			for(script in PlayState.instance.scripts){ script.gameOverLoop(); }
 		}
 
@@ -129,7 +127,6 @@ class GameOverSubstate extends MusicBeatSubstate
 		if(PlayState.instance.instSong != null){
 			PlayState.overrideInsturmental = PlayState.instance.instSong;
 		}
-		PlayState.instance.stage.gameOverEnd();
 		for(script in PlayState.instance.scripts){ script.gameOverEnd(); }
 		new FlxTimer().start(0.4, function(tmr:FlxTimer){
 			camGameOver.fade(FlxColor.BLACK, 1.2, false, function(){
