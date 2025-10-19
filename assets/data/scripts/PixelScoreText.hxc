@@ -1,0 +1,12 @@
+class PixelScoreText extends Script
+{
+
+	override public function create(){
+		playstate.scoreTxt.textField.antiAliasType = 0;
+		playstate.scoreTxt.textField.sharpness = 400;
+		playstate.scoreTxt.antialiasing = false;
+		playstate.scoreTxt.borderSize = 2;
+		playstate.scoreTxt.y += 2;
+	}
+
+}

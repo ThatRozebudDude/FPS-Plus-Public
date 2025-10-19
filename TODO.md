@@ -1,5 +1,3 @@
-- Create graphic for update button.
-
 # Possible Future Version Features
 
 - Localiztion files.

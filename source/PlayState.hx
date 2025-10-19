@@ -664,9 +664,10 @@ class PlayState extends MusicBeatState
 		healthBar.createFilledBar(dad.characterColor, boyfriend.characterColor);
 		// healthBar
 		
-		scoreTxt = new FlxTextExt(healthBarBG.x - 105, (FlxG.height * 0.9) + 36, 800, "", 22);
-		scoreTxt.setFormat(Paths.font("vcr"), 22, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt = new FlxTextExt(0, 687, 800, "", 20);
+		scoreTxt.setFormat(Paths.font("vcr"), 20, 0xFFFFFFFF, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		scoreTxt.scrollFactor.set();
+		scoreTxt.screenCenter(X);
 
 		iconP1 = new HealthIcon(boyfriend.iconName, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2) + iconP1.yOffset;
