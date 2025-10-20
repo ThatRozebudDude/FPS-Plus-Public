@@ -8,7 +8,6 @@ import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxSprite;
 import openfl.display.Sprite;
-import debug.*;
 import openfl.display.InteractiveObject;
 
 class Main extends Sprite

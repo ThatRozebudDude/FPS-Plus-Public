@@ -35,7 +35,7 @@ import flixel.text.FlxText;
 import extensions.flixel.FlxTextExt;
 import caching.*;
 
-import debug.ChartingState;
+import editors.ChartingState;
 
 using StringTools;
 

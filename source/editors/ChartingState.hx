@@ -1,4 +1,4 @@
-package debug;
+package editors;
 
 import openfl.display.Sprite;
 import caching.*;

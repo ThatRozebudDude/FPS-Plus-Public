@@ -4,7 +4,7 @@ import thx.Path;
 import shaders.*;
 import ui.*;
 import config.*;
-import debug.*;
+import editors.*;
 import title.*;
 import transition.data.*;
 import stages.*;
@@ -1691,13 +1691,13 @@ class PlayState extends MusicBeatState
 			sectionStart = false;
 
 			if(FlxG.keys.pressed.SHIFT){
-				switchState(new AnimationDebug(SONG.player1), false);
+				switchState(new AnimationEditor(SONG.player1), false);
 			}
 			else if(FlxG.keys.pressed.CONTROL){
-				switchState(new AnimationDebug(gfCheck), false);
+				switchState(new AnimationEditor(gfCheck), false);
 			}
 			else{
-				switchState(new AnimationDebug(SONG.player2), false);
+				switchState(new AnimationEditor(SONG.player2), false);
 			}
 		}
 

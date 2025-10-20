@@ -281,7 +281,6 @@ class PolymodHandler
 
 		Polymod.addDefaultImport(note.Note);
 		Polymod.addDefaultImport(shaders.RuntimeShader);
-		Polymod.addDefaultImport(debug.ChartingState);
 		
 		Polymod.addDefaultImport(modding.ScriptingUtil);
 		Polymod.addDefaultImport(modding.ReflectUtil);
@@ -339,6 +338,9 @@ class PolymodHandler
 		Polymod.addImportAlias("flixel.math.FlxPoint", flixel.math.FlxPoint.FlxBasePoint);
 
 		Polymod.addImportAlias("flixel.text.FlxText", extensions.flixel.FlxTextExt);
+
+		Polymod.addImportAlias("debug.ChartingState", editors.ChartingState);
+		Polymod.addImportAlias("debug.AnimationDebug", editors.AnimationEditor);
 
 		// `Sys`
 		// Sys.command() can run malicious processes
