@@ -191,6 +191,7 @@ class ChartingState extends MusicBeatState
 
 		lilStage = new FlxSprite(32, 432).loadGraphic(Paths.image("chartEditor/lilStage"));
 		lilStage.scrollFactor.set();
+		lilStage.antialiasing = false;
 		add(lilStage);
 
 		lilBf = new FlxSprite(32, 432).loadGraphic(Paths.image("chartEditor/lilBf"), true, 300, 256);
@@ -205,6 +206,7 @@ class ChartingState extends MusicBeatState
 			lilBf.animation.play(name, true, false, lilBf.animation.getByName(name).numFrames - 2);
 		});
 		lilBf.scrollFactor.set();
+		lilBf.antialiasing = false;
 		add(lilBf);
 
 		lilOpp = new FlxSprite(32, 432).loadGraphic(Paths.image("chartEditor/lilOpp"), true, 300, 256);
@@ -218,6 +220,7 @@ class ChartingState extends MusicBeatState
 			lilOpp.animation.play(name, true, false, lilOpp.animation.getByName(name).numFrames - 2);
 		});
 		lilOpp.scrollFactor.set();
+		lilOpp.antialiasing = false;
 		add(lilOpp);
 
 		lastSection = 0;
@@ -1713,6 +1716,7 @@ class ChartingState extends MusicBeatState
 				eventSymbol.setGraphicSize(40, 40);
 				eventSymbol.updateHitbox();
 				eventSymbol.x = Math.floor((slot + 8) * GRID_SIZE);
+				eventSymbol.antialiasing = false;
 
 				eventSymbol.y = (getYfromStrum((strumTime - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSection].lengthInSteps)));
 				eventSymbol.y += GRID_SIZE * 16 * secOffset;

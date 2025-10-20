@@ -48,6 +48,7 @@ class Chart extends BaseStage
 		addToBackground(blackBGThing);
 
 		var lilStage = new FlxSprite(32, 432).loadGraphic(Paths.image("chartEditor/lilStage"));
+		lilStage.antialiasing = false;
 		addToBackground(lilStage);
 
 		gf.visible = false;

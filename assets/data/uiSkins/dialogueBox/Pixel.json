@@ -5,6 +5,7 @@
         "font": "pixel.otf",
         "size": 32,
         "color": "0x3F2021",
+        "antialiasing": false,
         "shadow": "0xD89494"
     },
     "sounds": {
