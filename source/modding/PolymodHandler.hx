@@ -273,7 +273,7 @@ class PolymodHandler
 		Polymod.addDefaultImport(MusicBeatState);
 		Polymod.addDefaultImport(MusicBeatSubstate);
 		Polymod.addDefaultImport(Paths);
-		Polymod.addDefaultImport(PauseSubState);
+		Polymod.addDefaultImport(PauseSubstate);
 		Polymod.addDefaultImport(PlayState);
 		Polymod.addDefaultImport(Scoring);
 		Polymod.addDefaultImport(Utils);

@@ -1611,7 +1611,7 @@ class PlayState extends MusicBeatState
 
 		if (Binds.justPressed("pause") && startedCountdown && canPause){
 			paused = true;
-			openSubState(new PauseSubState());
+			openSubState(new PauseSubstate());
 		}
 
 		if (Binds.justPressed("chartEditor") && !isStoryMode){

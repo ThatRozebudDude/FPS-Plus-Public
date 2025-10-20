@@ -105,10 +105,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			Conductor.songPosition = FlxG.sound.music.time;
 		}
 
-		/*if(FlxG.keys.anyJustPressed([BACKSLASH])){
-			camGameOver.bgColor.alpha = 127;
-			cameraPanDelayTimer.destroy();
-		}*/
+		for(script in PlayState.instance.scripts){ script.gameOverUpdate(elapsed); }
 	}
 
 	override function beatHit(){

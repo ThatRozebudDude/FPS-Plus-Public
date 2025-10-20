@@ -59,6 +59,13 @@ class Script
 	 * Called when the game is paused.
 	 */
 	public function pause(){}
+
+	/**
+	 * Called every frame in PauseSubstate update.
+	 *
+	 * @param   elapsed  The elapsed time between previous frames passed in by PlayState.
+	 */
+	public function pauseUpdate(elapsed:Float){}
  
 	/**
 	 * Called when the game is unpaused.
@@ -79,6 +86,13 @@ class Script
 	 * Called when the game over retry is confirmed.
 	 */
 	public function gameOverEnd(){}
+
+	/**
+	 * Called every frame in GameOverSubstate update.
+	 *
+	 * @param   elapsed  The elapsed time between previous frames passed in by PlayState.
+	 */
+	public function gameOverUpdate(elapsed:Float){}
  
 	/**
 	 * Called when the leaving PlayState.

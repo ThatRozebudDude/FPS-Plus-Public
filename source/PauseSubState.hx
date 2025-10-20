@@ -15,7 +15,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.sound.FlxSound;
 import flixel.util.FlxColor;
 
-class PauseSubState extends MusicBeatSubstate
+class PauseSubstate extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
@@ -212,6 +212,8 @@ class PauseSubState extends MusicBeatSubstate
 				}
 			}
 		}
+
+		for(script in PlayState.instance.scripts){ script.pauseUpdate(elapsed); }
 
 		//This is to work around a flixel issue that makes the controller input state reset on state/sub-state change. idk why it happens
 		if(!allowControllerPress && Binds.justReleasedControllerOnly("pause")){

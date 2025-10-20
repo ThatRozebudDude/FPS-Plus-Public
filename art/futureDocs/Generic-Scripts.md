@@ -20,7 +20,7 @@ Similarly to stages, there are a variety of functions you can override that will
 
 - `create()`: This is run when the script is created after `PlayState` is created.
 - `postCreate()`: This is run after all other scripts have run their `create()` function. Can be used to check if other scripts or certain stage elements exist that wouldn't have before `create()`.
-- `update(elapsed)`: This is run every frame.
+- `update(elapsed)`: This is run every frame in `PlayState`.
     - `elapsed`: The time in seconds between this frame and the previous frame.
 - `beat(curBeat)`: This is run every song beat.
     - `curBeat`: The current beat of the song as an integer.
@@ -31,10 +31,14 @@ Similarly to stages, there are a variety of functions you can override that will
 - `songStart()`: This is run once the song starts playing.
 - `songEnd()`: This is run once the song finishes playing.
 - `pause()`: This is run whenever the game is paused.
+- `pauseUpdate(elapsed)`: This is run every frame in `PauseSubstate`.
+	- `elapsed`: The time in seconds between this frame and the previous frame.
 - `unpause()`: This is run whenever the game is unpaused.
 - `gameOverStart()`: This is run when the death screen is started.
 - `gameOverLoop()`: This is run when the death screen starts the character's looping animation.
 - `gameOverEnd()`: This is run when you continue from the death screen.
+- `gameOverUpdate(elapsed)`: This is run every frame in `GameOverSubstate`.
+	- `elapsed`: The time in seconds between this frame and the previous frame.
 - `exit()`: This is run when exiting `PlayState`.
 - `noteHit(character, note)`: This is run when a character hits a note.
     - `character`: The character object that hit the note. Will either be `boyfriend` or `dad`.
