@@ -1,5 +1,6 @@
 package freeplay;
 
+import flixel.util.FlxSort;
 import modding.PolymodHandler;
 import flixel.group.FlxSpriteGroup;
 import openfl.filters.ShaderFilter;
@@ -126,6 +127,8 @@ class FreeplayState extends MusicBeatState
 
 	var introAnimType:IntroAnimType;
 
+	var resetMenuSelection:Bool = false;
+
 	static var controllerMode:Bool = false;
 
 	private var camMenu:FlxCamera;
@@ -145,13 +148,14 @@ class FreeplayState extends MusicBeatState
 	static final  randomVariationExit:Float = 0.03;
 	static final  transitionEaseExit:flixel.tweens.EaseFunction = FlxEase.cubeIn;
 
-	public function new(?_introAnimType:IntroAnimType = fromSongExit, ?camFollowPos:FlxPoint = null) {
+	public function new(?_introAnimType:IntroAnimType = fromSongExit, ?camFollowPos:FlxPoint = null, _resetMenuSelection:Bool = false) {
 		super();
 		introAnimType = _introAnimType;
 		if(camFollowPos == null){
 			camFollowPos = new FlxPoint();
 		}
 		camFollow = new FlxObject(camFollowPos.x, camFollowPos.y, 1, 1);
+		resetMenuSelection = _resetMenuSelection;
 	}
 
 	override function create(){
@@ -206,6 +210,11 @@ class FreeplayState extends MusicBeatState
 		fakeMainMenuSetup();
 
 		createSongList();
+
+		if(resetMenuSelection){
+			curCategory = 0;
+			setCurSelectedToBeginingOfList();
+		}
 
 		super.create();
 	} 
@@ -355,9 +364,6 @@ class FreeplayState extends MusicBeatState
 		
 						new FlxTimer().start(0.25, function(t) {
 							toCharSelectAnimation();
-							curSelected = 1;
-							curCategory = 0;
-		
 							new FlxTimer().start(0.1, function(t) {
 								fadeShader.fadeVal = 1;
 								FlxTween.tween(fadeShader, {fadeVal: 0}, dropTime);
@@ -910,11 +916,7 @@ class FreeplayState extends MusicBeatState
 	function createCategory(name:String):Void{
 		if(!categoryMap.exists(name)){
 			categoryNames.push(name);
-
-			var randomCapsule = new Capsule("", "Random", "none", "none", [0, 1, 2], [0, 0, 0], "standard", [], [dj.freeplaySkin, dj.capsuleSelectColor, dj.capsuleDeselectColor, dj.capsuleSelectOutlineColor, dj.capsuleDeselectOutlineColor]);
-			randomCapsule.randomCapsule = true;
-			
-			categoryMap.set(name, [randomCapsule]);
+			categoryMap.set(name, []);
 		}
 	}
 
@@ -1068,7 +1070,7 @@ class FreeplayState extends MusicBeatState
 		miniArrowRight.x = categoryTitle.x + categoryTitle.width;
 		miniArrowLeft.x += 20;
 
-		curSelected = 1;
+		setCurSelectedToBeginingOfList();
 
 		updateDifficulties();
 		updateScore();
@@ -1710,6 +1712,25 @@ class FreeplayState extends MusicBeatState
 		for(song in freeplaySongs){
 			addSong(song[0], song[1], song[2]);
 		}
+
+		for(catName => category in categoryMap){
+			if(category.length > 1){
+				var availableDifficulties:Array<Int> = [];
+				for(i in 0...category.length){
+					for(diff in category[i].availableDifficulties){
+						availableDifficulties.push(diff);
+						availableDifficulties = Utils.removeDuplicates(availableDifficulties);
+						availableDifficulties.sort(function(a, b){ return FlxSort.byValues(FlxSort.ASCENDING, a, b); });
+					}
+					if(availableDifficulties.length >= 3){
+						break;
+					}
+				}
+				var randomCapsule = new Capsule("", "Random", "none", "none", availableDifficulties, [0, 0, 0], ((catName == "ERECT") ? "erect" : "standard"), [], [dj.freeplaySkin, dj.capsuleSelectColor, dj.capsuleDeselectColor, dj.capsuleSelectOutlineColor, dj.capsuleDeselectOutlineColor]);
+				randomCapsule.randomCapsule = true;
+				category.unshift(randomCapsule);
+			}
+		}
 		
 	}
 
@@ -1728,6 +1749,13 @@ class FreeplayState extends MusicBeatState
 		}
 
 		return r;
+	}
+
+	function setCurSelectedToBeginingOfList():Void{
+		curSelected = 0;
+		if(categoryMap[categoryNames[curCategory]].length >= 2){
+			curSelected = 1;
+		}
 	}
 }
 

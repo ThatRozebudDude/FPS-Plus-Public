@@ -374,9 +374,7 @@ class MainMenuState extends MusicBeatState
 
 			case "freeplay":
 				customTransOut = new InstantTransition();
-				FreeplayState.curSelected = 1;
-				FreeplayState.curCategory = 0;
-				switchState(new FreeplayState(fromMainMenu, camFollow.getPosition()));
+				switchState(new FreeplayState(fromMainMenu, camFollow.getPosition(), true));
 
 			case "modManager":
 				switchState(new ModManagerState(), false);

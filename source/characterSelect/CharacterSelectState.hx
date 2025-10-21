@@ -472,7 +472,7 @@ class CharacterSelectState extends MusicBeatState
 					persistentCharacter = curCharacter;
 					FreeplayState.djCharacter = characters.get(curCharacter).freeplayClass;
 
-					switchState(new FreeplayState(fromCharacterSelect));
+					switchState(new FreeplayState(fromCharacterSelect, null, true));
 					FlxTween.tween(camFollow, {y: camFollow.y - 150}, 0.8, {ease: FlxEase.backIn});
 					FlxTween.tween(titleBar, {y: titleBar.y + 80}, 0.8, {ease: FlxEase.backIn});
 					FlxTween.tween(characterTitle, {y: characterTitle.y + 80}, 0.8, {ease: FlxEase.backIn});
