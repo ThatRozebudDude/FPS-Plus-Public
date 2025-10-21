@@ -15,11 +15,11 @@ import flixel.tweens.FlxEase;
 using StringTools;
 
 typedef DialogueSkin = {
-    var path:String;
+	var path:String;
 	var text:DialogueTextData;
 	var sounds:Dynamic;
-    var antialiasing:Null<Bool>;
-    var scale:Float;
+	var antialiasing:Null<Bool>;
+	var scale:Float;
 	var position:Dynamic;
 	var animations:Array<DialogueAnimation>;
 }
