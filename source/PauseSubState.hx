@@ -17,22 +17,27 @@ import flixel.util.FlxColor;
 
 class PauseSubState extends MusicBeatSubState
 {
-	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = ['Resume', 'Restart Song', "Options", 'Exit to menu'];
+	public static var instance:PauseSubState;
+
+	public var menuGroup:FlxTypedGroup<Alphabet>;
+
+	var menuItems:Array<String> = ["Resume", "Restart Song", "Options", "Exit to menu"];
 	var curSelected:Int = 0;
 	var becomeUseless:Bool = false;
 
-	var pauseMusic:FlxSound;
+	public var pauseMusic:FlxSound;
 
 	var allowControllerPress:Bool = false;
 
-	var camPause:FlxCamera;
+	public var camPause:FlxCamera;
 
-	var songName:FlxTextExt;
-	var songArtist:FlxTextExt;
+	public var songName:FlxTextExt;
+	public var songArtist:FlxTextExt;
 
 	override function create():Void{
+
+		instance = this;
 
 		Config.setFramerate(144);
 
@@ -78,14 +83,14 @@ class PauseSubState extends MusicBeatSubState
 		bg.scrollFactor.set();
 		add(bg);
 
-		grpMenuShit = new FlxTypedGroup<Alphabet>();
-		add(grpMenuShit);
+		menuGroup = new FlxTypedGroup<Alphabet>();
+		add(menuGroup);
 
 		for (i in 0...menuItems.length){
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, menuItems[i], true, false);
 			songText.targetY = i;
 			songText.isMenuItem = true;
-			grpMenuShit.add(songText);
+			menuGroup.add(songText);
 		}
 
 		if(PlayState.instance.metadata != null){
@@ -113,7 +118,7 @@ class PauseSubState extends MusicBeatSubState
 
 		changeSelection();
 
-		FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+		FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
 
 		for(script in PlayState.instance.scripts){ script.pause(); }
 
@@ -129,11 +134,11 @@ class PauseSubState extends MusicBeatSubState
 		if(!becomeUseless){
 			if (Binds.justPressed("menuUp")){
 				changeSelection(-1);
-				FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+				FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
 			}
 			if (Binds.justPressed("menuDown")){
 				changeSelection(1);
-				FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+				FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
 			}
 	
 			if (Binds.justPressed("menuBack")){
@@ -153,7 +158,7 @@ class PauseSubState extends MusicBeatSubState
 				{
 					case "Resume":
 						unpause();
-						FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+						FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
 						
 					case "Restart Song":
 						PlayState.instance.tweenManager.clear();
@@ -164,7 +169,7 @@ class PauseSubState extends MusicBeatSubState
 							PlayState.overrideInsturmental = PlayState.instance.instSong;
 						}
 						pauseMusic.fadeOut(0.5, 0);
-						FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+						FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
 	
 					case "Restart Section":
 						PlayState.instance.tweenManager.clear();
@@ -174,7 +179,7 @@ class PauseSubState extends MusicBeatSubState
 							PlayState.overrideInsturmental = PlayState.instance.instSong;
 						}
 						pauseMusic.fadeOut(0.5, 0);
-						FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+						FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
 	
 					case "Chart Editor":
 						PlayState.instance.tweenManager.clear();
@@ -183,14 +188,14 @@ class PauseSubState extends MusicBeatSubState
 							PlayState.overrideInsturmental = PlayState.instance.instSong;
 						}
 						pauseMusic.fadeOut(0.5, 0);
-						FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+						FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
 						
 					case "Skip Song":
 						PlayState.instance.preventScoreSaving = true;
 						PlayState.instance.tweenManager.clear();
 						PlayState.instance.endSong();
 						pauseMusic.fadeOut(0.5, 0);
-						FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+						FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
 						
 					case "Options":
 						PlayState.instance.tweenManager.clear();
@@ -198,7 +203,7 @@ class PauseSubState extends MusicBeatSubState
 						ConfigMenu.exitTo = PlayState;
 						PlayState.replayStartCutscene = false;
 						pauseMusic.fadeOut(0.5, 0);
-						FlxG.sound.play(Paths.sound('scrollMenu'), 0.8);
+						FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
 						if(PlayState.instance.instSong != null){
 							PlayState.overrideInsturmental = PlayState.instance.instSong;
 						}
@@ -208,7 +213,7 @@ class PauseSubState extends MusicBeatSubState
 						PlayState.sectionStart = false;
 						PlayState.instance.returnToMenu();
 						pauseMusic.fadeOut(0.5, 0);
-						FlxG.sound.play(Paths.sound('cancelMenu'), 0.8);
+						FlxG.sound.play(Paths.sound("cancelMenu"), 0.8);
 				}
 			}
 		}
@@ -248,7 +253,7 @@ class PauseSubState extends MusicBeatSubState
 
 		var bullShit:Int = 0;
 
-		for (item in grpMenuShit.members){
+		for (item in menuGroup.members){
 			item.targetY = bullShit - curSelected;
 			bullShit++;
 

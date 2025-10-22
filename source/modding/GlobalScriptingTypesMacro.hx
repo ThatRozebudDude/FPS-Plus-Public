@@ -128,6 +128,24 @@ class GlobalScriptingTypesMacro
 			}),
 			pos: pos,
 		});
+
+		fieldsToAdd.push({
+			name: "pauseMenu",
+			access: [Access.APublic],
+			kind: FieldType.FProp("get", "null", (macro:PauseSubState)), 
+			pos: pos,
+		});
+
+		fieldsToAdd.push({
+			name: "get_pauseMenu",
+			access: [Access.APrivate, Access.AInline],
+			kind: FieldType.FFun({ 
+				expr: macro return PauseSubState.instance,
+				ret: (macro:PauseSubState),
+				args:[]
+			}),
+			pos: pos,
+		});
 		
 		fieldsToAdd.push({
 			name: "gameover",
