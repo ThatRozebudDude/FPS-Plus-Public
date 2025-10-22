@@ -267,11 +267,11 @@ class PolymodHandler
 		Polymod.addDefaultImport(AtlasSprite);
 		Polymod.addDefaultImport(Character);
 		Polymod.addDefaultImport(Conductor);
-		Polymod.addDefaultImport(GameOverSubstate);
+		Polymod.addDefaultImport(GameOverSubState);
 		Polymod.addDefaultImport(Highscore);
 		Polymod.addDefaultImport(MainMenuState);
 		Polymod.addDefaultImport(MusicBeatState);
-		Polymod.addDefaultImport(MusicBeatSubstate);
+		Polymod.addDefaultImport(MusicBeatSubState);
 		Polymod.addDefaultImport(Paths);
 		Polymod.addDefaultImport(PauseSubState);
 		Polymod.addDefaultImport(PlayState);

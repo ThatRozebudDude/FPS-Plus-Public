@@ -31,13 +31,13 @@ Similarly to stages, there are a variety of functions you can override that will
 - `songStart()`: This is run once the song starts playing.
 - `songEnd()`: This is run once the song finishes playing.
 - `pause()`: This is run whenever the game is paused.
-- `pauseUpdate(elapsed)`: This is run every frame in `PauseSubstate`.
+- `pauseUpdate(elapsed)`: This is run every frame in `PauseSubState`.
 	- `elapsed`: The time in seconds between this frame and the previous frame.
 - `unpause()`: This is run whenever the game is unpaused.
 - `gameOverStart()`: This is run when the death screen is started.
 - `gameOverLoop()`: This is run when the death screen starts the character's looping animation.
 - `gameOverEnd()`: This is run when you continue from the death screen.
-- `gameOverUpdate(elapsed)`: This is run every frame in `GameOverSubstate`.
+- `gameOverUpdate(elapsed)`: This is run every frame in `GameOverSubState`.
 	- `elapsed`: The time in seconds between this frame and the previous frame.
 - `exit()`: This is run when exiting `PlayState`.
 - `noteHit(character, note)`: This is run when a character hits a note.
@@ -49,7 +49,7 @@ Similarly to stages, there are a variety of functions you can override that will
 
 ## Adding Objects
 
-Also similar to stages, you can use `addTo{Layer}()` and `removeFrom{Layer}()` where `{Layer}` is either `Background`, `Gf`, `Middle`, `Character`, `Foreground`, `Overlay`, or `Hud` to add objects to those layer groups. You can also use `addGeneric()` and `removeGeneric()` to just add an object to `PlayState`, or you can use `addGenericSubstate()` and `addGenericSubstate()` to add an object to whatever substate is currently open.
+Also similar to stages, you can use `addTo{Layer}()` and `removeFrom{Layer}()` where `{Layer}` is either `Background`, `Gf`, `Middle`, `Character`, `Foreground`, `Overlay`, or `Hud` to add objects to those layer groups. You can also use `addGeneric()` and `removeGeneric()` to just add an object to `PlayState`, or you can use `addGenericSubstate()` and `removeGenericSubstate()` to add an object to whatever substate is currently open.
 
 ## Accessing Scripts From Other Places
 

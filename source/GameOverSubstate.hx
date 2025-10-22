@@ -11,7 +11,7 @@ import flixel.util.FlxTimer;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 
-class GameOverSubstate extends MusicBeatSubstate
+class GameOverSubState extends MusicBeatSubState
 {
 	public var bf:Character;
 	public var camFollow:FlxObject;
@@ -24,7 +24,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	public var camGameOver:FlxCamera;
 
-	public static var instance:GameOverSubstate;
+	public static var instance:GameOverSubState;
 
 	public function new(_x:Float, _y:Float, camX:Float, camY:Float, camZoom:Float, character:String){
 		super();

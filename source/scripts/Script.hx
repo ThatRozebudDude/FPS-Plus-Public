@@ -61,7 +61,7 @@ class Script
 	public function pause(){}
 
 	/**
-	 * Called every frame in PauseSubstate update.
+	 * Called every frame in PauseSubState update.
 	 *
 	 * @param   elapsed  The elapsed time between previous frames passed in by PlayState.
 	 */
@@ -88,7 +88,7 @@ class Script
 	public function gameOverEnd(){}
 
 	/**
-	 * Called every frame in GameOverSubstate update.
+	 * Called every frame in GameOverSubState update.
 	 *
 	 * @param   elapsed  The elapsed time between previous frames passed in by PlayState.
 	 */

@@ -149,7 +149,7 @@ The character info has a field called `functions` which is an object containing 
 - `animationEnd(character, animation)`: This is run after an animation is finished playing.
     - `animation`: The name of the current animation that is playing as a string.
 - `deathCreate(character)`: This is run after the character is created but before they are added on the death screen.
-- `deathAdd(character)`: This is run after the character is added to `GameOverSubstate`.
+- `deathAdd(character)`: This is run after the character is added to `GameOverSubState`.
 - `songStart(character)`: This is run once the song starts playing.
 - `songEnd(character)`: This is run once the song finishes playing.
 - `noteHit(character, note)`: This is run when a character hits a note.

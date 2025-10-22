@@ -22,7 +22,7 @@ All of the scripted class (except for scripted states) contain helper variables 
 - `playstate`: The current instance of `PlayState`. Alias for `PlayState.instance`.
 - `tween`: The `PlayState` tween manager. Use this when making tweens in `PlayState` so that they pause when they're supposed to. Alias for `PlayState.instance.tweenManager`.
 - `data`: A `Dynamic` map in `PlayState` that can store any type of data. Alias for `PlayState.instance.arbitraryData`.
-- `gameover`: The current instance of `GameOverSubstate`. Alias for `GameOverSubstate.instance`.
+- `gameover`: The current instance of `GameOverSubState`. Alias for `GameOverSubState.instance`.
 - `resultsScreen`: The current instance of `ResultsState`. Alias for `results.ResultsState.instance`.
 #
 - `withDance`: Used to access an abstract enum. Alias for `AttachedAction.withDance`.

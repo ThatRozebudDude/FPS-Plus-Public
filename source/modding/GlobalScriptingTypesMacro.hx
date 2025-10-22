@@ -132,7 +132,7 @@ class GlobalScriptingTypesMacro
 		fieldsToAdd.push({
 			name: "gameover",
 			access: [Access.APublic],
-			kind: FieldType.FProp("get", "null", (macro:GameOverSubstate)), 
+			kind: FieldType.FProp("get", "null", (macro:GameOverSubState)), 
 			pos: pos,
 		});
 
@@ -140,8 +140,8 @@ class GlobalScriptingTypesMacro
 			name: "get_gameover",
 			access: [Access.APrivate, Access.AInline],
 			kind: FieldType.FFun({ 
-				expr: macro return GameOverSubstate.instance,
-				ret: (macro:GameOverSubstate),
+				expr: macro return GameOverSubState.instance,
+				ret: (macro:GameOverSubState),
 				args:[]
 			}),
 			pos: pos,
