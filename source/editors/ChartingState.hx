@@ -585,7 +585,7 @@ class ChartingState extends MusicBeatState
 			vocalsOther.pitch = pitch;
 		}
 
-		var speedLabel = new FlxText(10, 180, 0, "Song Pitch");
+		var speedLabel = new FlxText(10, 180, 0, "Song Playback Speed");
 
 		pitchStepper = new FlxUINumericStepper(10, 196, 0.05, 1.0, 0.1, 3.0, 2);
 		pitchStepper.name = "pitch";
