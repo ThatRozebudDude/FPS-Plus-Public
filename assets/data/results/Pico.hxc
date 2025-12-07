@@ -30,7 +30,6 @@ class PicoResults extends ResultsCharacter
 				pico.applyStageMatrix = true;
 				pico.visible = false;
 				pico.addAnimationByFrame("anim", 0, null, 24, true, 91);
-				pico.antialiasing = true;
 				pico.scale.set(0.88, 0.88);
 
 				FlxG.sound.cache(Paths.music("results/pico/perfect-loop"));
@@ -40,7 +39,6 @@ class PicoResults extends ResultsCharacter
 				pico.applyStageMatrix = true;
 				pico.visible = false;
 				pico.addAnimationByFrame("anim", 0, null, 24, true, 91);
-				pico.antialiasing = true;
 				pico.scale.set(0.88, 0.88);
 
 				FlxG.sound.cache(Paths.music("results/pico/perfect-loop")); 
@@ -50,7 +48,6 @@ class PicoResults extends ResultsCharacter
 				pico.applyStageMatrix = true;
 				pico.visible = false;
 				pico.addAnimationByFrame("anim", 0, null, 24, true, 32);
-				pico.antialiasing = true;
 				pico.scale.set(1.25, 1.25);
 
 				FlxG.sound.cache(Paths.music("results/pico/excellent-loop")); 
@@ -60,7 +57,6 @@ class PicoResults extends ResultsCharacter
 				pico.applyStageMatrix = true;
 				pico.visible = false;
 				pico.addAnimationByFrame("anim", 0, null, 24, true, 0);
-				pico.antialiasing = true;
 
 				FlxG.sound.cache(Paths.music("results/pico/shit-loop")); 
 
@@ -72,7 +68,6 @@ class PicoResults extends ResultsCharacter
 				pico.addAnimationByLabel("loop", "loop", 24, true);
 				pico.addAnimationByLabel("intro-cass", "intro cass", 24, false);
 				pico.addAnimationByLabel("intro-fat", "intro fat gf", 24, false);
-				pico.antialiasing = true;
 				pico.scale.set(1.25, 1.25);
 
 				whiteFlash = new FlxSprite().makeGraphic(1280, 720, 0x33FFFFFF);

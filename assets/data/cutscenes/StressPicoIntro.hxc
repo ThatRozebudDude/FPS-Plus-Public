@@ -106,7 +106,6 @@ class StressPicoIntro extends ScriptedCutscene
 		abot.lookLeft();
 
 		lovelyLittleBricks = new FlxSprite(465, 760).loadGraphic(Paths.image("week7/stage/erect/bricksGround"));
-		lovelyLittleBricks.antialiasing = true;
 		lovelyLittleBricks.flipX = true;
 		lovelyLittleBricks.scale.set(1.15, 1.15);
 		lovelyLittleBricks.updateHitbox();
@@ -114,7 +113,6 @@ class StressPicoIntro extends ScriptedCutscene
 
 		gunshot = new FlxSprite(-215, 543);
 		gunshot.frames = Paths.getSparrowAtlas("week7/cutscene/picoStress/gunshot");
-		gunshot.antialiasing = true;
 		gunshot.visible = false;
 		gunshot.animation.addByPrefix("anim", "", 24, false);
 		gunshot.cameras = [gunshotCamera];

@@ -1,5 +1,6 @@
 package;
 
+import haxe.Http;
 import flixel.math.FlxMath;
 import scripts.ScriptableState;
 import scripts.ScriptedState;
@@ -39,7 +40,6 @@ class MainMenuState extends MusicBeatState
 	public static var scrolledAmount:Int = 0;
 	var menuItemDistanceFinal:Float = MENU_ITEM_DISTANCE;
 	
-	public static var menuItemJsonNames:Array<String>;
 	public static var menuItemJsonData:Array<Dynamic>;
 
 	public static var previousMenuItemCount:Int = -1;
@@ -62,6 +62,7 @@ class MainMenuState extends MusicBeatState
 	var versionText:FlxTextExt;
 	var buildInfoText:FlxTextExt;
 	var keyWarning:FlxTextExt;
+	var updateText:FlxTextExt;
 	var canCancelWarning:Bool = true;
 	
 	var buttonModSourceText:FlxTextExt;
@@ -71,13 +72,19 @@ class MainMenuState extends MusicBeatState
 	public static final lerpSpeed:Float = 0.0042;
 	final warningDelay:Float = 15;
 
-	inline public static final VERSION:String = "8.2.0";
+	inline public static final VERSION:String = "8.3.0";
 	inline public static final NONFINAL_TAG:String = "(Non-Release Build)";
-	inline public static final SHOW_BUILD_INFO:Bool = true; //Set this to false when making a release build.
-
+	inline public static final SHOW_BUILD_INFO:Bool = #if final false #else true #end;
+	
 	public static var buildDate:String = "";
+	public static var showUpdateButton:Int = 0;
+	public static var updateVersion:String = "";
 
 	override function create(){
+
+		var c = UpdateCheck.check();
+		showUpdateButton = c.result;
+		updateVersion = c.version;
 
 		Config.setFramerate(144);
 
@@ -97,7 +104,6 @@ class MainMenuState extends MusicBeatState
 		bg.setGraphicSize(Std.int(bg.width * 1.18));
 		bg.updateHitbox();
 		bg.screenCenter();
-		bg.antialiasing = true;
 		add(bg);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
@@ -109,7 +115,6 @@ class MainMenuState extends MusicBeatState
 		magenta.updateHitbox();
 		magenta.screenCenter();
 		magenta.visible = false;
-		magenta.antialiasing = true;
 		add(magenta);
 		// magenta.scrollFactor.set();
 		
@@ -152,6 +157,17 @@ class MainMenuState extends MusicBeatState
 		versionText.scrollFactor.set();
 		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 
+		updateText = new FlxTextExt(5, versionText.y - 16, 0, "", 16);
+		updateText.scrollFactor.set();
+		updateText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+
+		if(showUpdateButton >= 1){
+			updateText.text = "Out of date! Update " + updateVersion + " available!";
+		}
+		else if (showUpdateButton <= -1){
+			updateText.text = "Could not check for updates.";
+		}
+
 		if(SHOW_BUILD_INFO){
 			versionText.text = "FPS Plus: v" + VERSION + " " + NONFINAL_TAG + " | Mod API: v" + PolymodHandler.API_VERSION_STRING;
 
@@ -165,6 +181,7 @@ class MainMenuState extends MusicBeatState
 		}
 
 		add(versionText);
+		add(updateText);
 
 		keyWarning = new FlxTextExt(5, FlxG.height - 21 + 16, 0, "If your controls aren't working, try pressing CTRL + BACKSPACE to reset them.", 16);
 		keyWarning.scrollFactor.set();
@@ -180,6 +197,7 @@ class MainMenuState extends MusicBeatState
 
 		FlxTween.tween(versionText, {y: versionText.y - 16}, 0.75, {ease: FlxEase.quintOut, startDelay: warningDelay});
 		FlxTween.tween(keyWarning, {alpha: 1, y: keyWarning.y - 16}, 0.75, {ease: FlxEase.quintOut, startDelay: warningDelay});
+		FlxTween.tween(updateText, {alpha: 1, y: updateText.y - 16}, 0.75, {ease: FlxEase.quintOut, startDelay: warningDelay});
 
 		new FlxTimer().start(warningDelay, function(t){
 			canCancelWarning = false;
@@ -192,17 +210,20 @@ class MainMenuState extends MusicBeatState
 		super.create();
 	}
 
-	var selectedSomethin:Bool = false;
+	var selectedSomething:Bool = false;
 
 	override function update(elapsed:Float){
+
+		Conductor.songPosition = FlxG.sound.music.time;
 
 		if(canCancelWarning && (Binds.justPressed("menuUp") || Binds.justPressed("menuDown")) || Binds.justPressed("menuAccept")){
 			canCancelWarning = false;
 			FlxTween.cancelTweensOf(versionText);
 			FlxTween.cancelTweensOf(keyWarning);
+			FlxTween.cancelTweensOf(updateText);
 		}
 	
-		if (!selectedSomethin){
+		if (!selectedSomething){
 			if (Binds.justPressed("menuUp")){
 				FlxG.sound.play(Paths.sound("scrollMenu"));
 				changeItem(-1);
@@ -217,13 +238,13 @@ class MainMenuState extends MusicBeatState
 				FlxG.sound.play(Paths.sound("cancelMenu"));
 			}
 			else if (Binds.justPressed("menuBack") && !FlxG.keys.pressed.CONTROL){
-				selectedSomethin = true;
+				selectedSomething = true;
 				switchState(new TitleScreen());
 				FlxG.sound.play(Paths.sound("cancelMenu"));
 			}
 
 			if (Binds.justPressed("menuAccept")){
-				selectedSomethin = true;
+				selectedSomething = true;
 				doButtonTransition(menuItems[curSelected]);
 			}
 		}
@@ -249,6 +270,15 @@ class MainMenuState extends MusicBeatState
 		}
 
 		super.update(elapsed);
+	}
+
+	override function beatHit():Void{
+		if(showUpdateButton >= 1){
+			updateText.color = [0xFFFFFFFF, 0xFF98DFFC][curBeat % 2];
+		}
+		else if (showUpdateButton <= -1){
+			updateText.color = [0xFFFFFFFF, 0xFFFF8A8A][curBeat % 2];
+		}
 	}
 
 	function changeItem(huh:Int = 0){
@@ -344,9 +374,7 @@ class MainMenuState extends MusicBeatState
 
 			case "freeplay":
 				customTransOut = new InstantTransition();
-				FreeplayState.curSelected = 0;
-				FreeplayState.curCategory = 0;
-				switchState(new FreeplayState(fromMainMenu, camFollow.getPosition()));
+				switchState(new FreeplayState(fromMainMenu, camFollow.getPosition(), true));
 
 			case "modManager":
 				switchState(new ModManagerState(), false);
@@ -366,6 +394,21 @@ class MainMenuState extends MusicBeatState
 					FlxG.sound.music.fadeOut(0.3);
 				}
 
+			case "openGithubReleases":
+				UpdateCheck.openGithubReleases();
+				if(!button.transition.instant){
+					for(i in 0...menuItems.length){
+						if (i != curSelected){
+							FlxTween.cancelTweensOf(menuItems[i]);
+							FlxTween.tween(menuItems[i], {alpha: 1}, 0.4, {ease: FlxEase.quadOut});
+						}
+					}
+				}
+				if(!FlxG.sound.music.playing){	
+					playMenuMusic();
+				}
+				selectedSomething = false;
+
 			default:
 				if(!button.transition.instant){
 					for(i in 0...menuItems.length){
@@ -378,7 +421,7 @@ class MainMenuState extends MusicBeatState
 				if(!FlxG.sound.music.playing){	
 					playMenuMusic();
 				}
-				selectedSomethin = false;
+				selectedSomething = false;
 				trace("Unrecognized action type.");
 		}
 	}
@@ -390,7 +433,7 @@ class MainMenuState extends MusicBeatState
 	}
 
 	public static function getMenuItems():Void{
-		menuItemJsonNames = Utils.readDirectory("assets/data/mainMenu/items");
+		var menuItemJsonNames:Array<String> = Utils.readDirectory("assets/data/mainMenu/items");
 		menuItemJsonNames = menuItemJsonNames.filter(function(element){ return element.endsWith(".json"); });
 		menuItemJsonData = [];
 		for(item in menuItemJsonNames){ 
@@ -402,6 +445,22 @@ class MainMenuState extends MusicBeatState
 		menuItemJsonData.sort(function(a, b):Int{
 			return ((a.sort != null) ? a.sort : 0) - ((b.sort != null) ? b.sort : 0);
 		});
+
+		//Add update button to the end of the list.
+		if(showUpdateButton >= 1){
+			menuItemJsonData.push({
+				graphic: "menu/main/update",
+				action:{
+					type: "openGithubReleases"
+				},
+				transition:{
+					instant: true,
+					sound: null,
+					stopMusic: false
+				},
+				sort: -1
+			});
+		}
 	}
 }
 
@@ -444,6 +503,59 @@ class MainMenuButton extends FlxSprite
 		animation.play("idle");
 
 		antialiasing = true;
+	}
+
+}
+
+class UpdateCheck
+{
+
+	//So you only have to check successfully once.
+	static var chachedResult:Dynamic = null;
+
+	public static function check():Dynamic{
+		var r:Int = 0;
+		var v:String = "";
+
+		if(Config.checkForUpdates && !MainMenuState.SHOW_BUILD_INFO){ //Only check if the user wants to and you aren't running a dev build.
+			if(chachedResult == null){
+				var http = new Http("https://raw.githubusercontent.com/ThatRozebudDude/FPS-Plus-Public/master/latest");
+				http.onData = function(data:String) {
+					v = data.split("\n")[0].trim();
+					r = (MainMenuState.VERSION != v) ? 1 : 0;
+					chachedResult = {result: r, version: v};
+					trace("Latest Version: " + data + "\tCurrent Version: " + MainMenuState.VERSION);
+	
+					http.onData = null;
+					http.onError = null;
+					http = null;
+				}
+				http.onError = function(error:String) {
+					trace("Error checking version: " + error);
+					r = -1;
+	
+					http.onData = null;
+					http.onError = null;
+					http = null;
+				}
+				http.request();
+			}
+			else{
+				trace("Using cached result: " + chachedResult);
+				r = chachedResult.result;
+				v = chachedResult.version;
+			}
+		}
+
+		return {result: r, version: v};
+	}
+
+	inline public static function openGithubReleases():Void{
+		#if linux
+		Sys.command('/usr/bin/xdg-open', ["https://github.com/ThatRozebudDude/FPS-Plus-Public/releases"]);
+		#else
+		FlxG.openURL("https://github.com/ThatRozebudDude/FPS-Plus-Public/releases");
+		#end
 	}
 
 }

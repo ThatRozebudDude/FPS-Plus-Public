@@ -69,46 +69,38 @@ class TitleScreen extends MusicBeatState
 		var bgBfTop = new FlxBackdrop(Paths.image("fpsPlus/title/backgroundBf"), X);
 		bgBfTop.y = 365 - bgBfTop.height;
 		bgBfTop.velocity.x = bgScrollSpeed;
-		bgBfTop.antialiasing = true;
 		bgBfTop.alpha = 0.5;
 		bgBfTop.cameras = [camBackground];
 
 		var bgBfBottom = new FlxBackdrop(Paths.image("fpsPlus/title/backgroundBf"), X);
 		bgBfBottom.y = 355;
 		bgBfBottom.velocity.x = bgScrollSpeed * -1;
-		bgBfBottom.antialiasing = true;
 		bgBfBottom.alpha = 0.5;
 		bgBfBottom.cameras = [camBackground];
 
 		logoBl = new FlxSprite(-175, -125);
 		logoBl.frames = Paths.getSparrowAtlas("logoBumpin");
-		logoBl.antialiasing = true;
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
 		logoBl.animation.play('bump');
 		logoBl.scale.set(0.85, 0.85);
 		logoBl.angle = camBackground.angle;
 
 		var glow:FlxSprite = new FlxSprite().loadGraphic(Paths.image('fpsPlus/title/glow'));
-		glow.antialiasing = true;
 
 		var topBar:FlxSprite = new FlxSprite().loadGraphic(Paths.image('fpsPlus/title/barTop'));
-		topBar.antialiasing = true;
 		
 		var bottomBar:FlxSprite = new FlxSprite().loadGraphic(Paths.image('fpsPlus/title/barBottom'));
-		bottomBar.antialiasing = true;
 
 		gfDance = new FlxSprite(462, 15);
 		gfDance.frames = Paths.getSparrowAtlas("fpsPlus/title/gf");
 		gfDance.animation.addByIndices('danceLeft', 'GF Dancing Beat instance 1', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfDance.animation.addByIndices('danceRight', 'GF Dancing Beat instance 1', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		gfDance.animation.play("danceRight", true, false, 14);
-		gfDance.antialiasing = true;
 
 		titleText = new FlxSprite(139, FlxG.height * 0.8);
 		titleText.frames = Paths.getSparrowAtlas("titleEnter");
 		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
 		titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
-		titleText.antialiasing = true;
 		titleText.animation.play('idle');
 		titleText.updateHitbox();
 		/*titleText.angle = camBackground.angle;

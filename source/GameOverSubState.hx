@@ -11,7 +11,7 @@ import flixel.util.FlxTimer;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 
-class GameOverSubstate extends MusicBeatSubstate
+class GameOverSubState extends MusicBeatSubState
 {
 	public var bf:Character;
 	public var camFollow:FlxObject;
@@ -24,7 +24,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	public var camGameOver:FlxCamera;
 
-	public static var instance:GameOverSubstate;
+	public static var instance:GameOverSubState;
 
 	public function new(_x:Float, _y:Float, camX:Float, camY:Float, camZoom:Float, character:String){
 		super();
@@ -71,7 +71,6 @@ class GameOverSubstate extends MusicBeatSubstate
 			FlxG.sound.play(Paths.sound(bf.deathSound));
 		}
 		
-		PlayState.instance.stage.gameOverStart();
 		for(script in PlayState.instance.scripts){ script.gameOverStart(); }
 	}
 
@@ -99,7 +98,6 @@ class GameOverSubstate extends MusicBeatSubstate
 				FlxG.sound.playMusic(Paths.music(bf.deathSong));
 			}
 
-			PlayState.instance.stage.gameOverLoop();
 			for(script in PlayState.instance.scripts){ script.gameOverLoop(); }
 		}
 
@@ -107,10 +105,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			Conductor.songPosition = FlxG.sound.music.time;
 		}
 
-		/*if(FlxG.keys.anyJustPressed([BACKSLASH])){
-			camGameOver.bgColor.alpha = 127;
-			cameraPanDelayTimer.destroy();
-		}*/
+		for(script in PlayState.instance.scripts){ script.gameOverUpdate(elapsed); }
 	}
 
 	override function beatHit(){
@@ -129,7 +124,6 @@ class GameOverSubstate extends MusicBeatSubstate
 		if(PlayState.instance.instSong != null){
 			PlayState.overrideInsturmental = PlayState.instance.instSong;
 		}
-		PlayState.instance.stage.gameOverEnd();
 		for(script in PlayState.instance.scripts){ script.gameOverEnd(); }
 		new FlxTimer().start(0.4, function(tmr:FlxTimer){
 			camGameOver.fade(FlxColor.BLACK, 1.2, false, function(){

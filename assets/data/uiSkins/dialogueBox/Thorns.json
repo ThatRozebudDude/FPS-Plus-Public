@@ -4,7 +4,8 @@
         "position": {"x": 196, "y": 480},
         "font": "pixel.otf",
         "size": 32,
-        "color": "0xFFFFFF"
+        "color": "0xFFFFFF",
+		"antialiasing": false
     },
     "sounds": {
         "open": null,

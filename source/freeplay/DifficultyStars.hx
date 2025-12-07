@@ -28,7 +28,6 @@ class DifficultyStars extends FlxSpriteGroup
 			star.animation.add("blue", [1], 0, false);
 			star.animation.add("off", [2], 0, false);
 			star.animation.play("off");
-			star.antialiasing = true;
 			stars.push(star);
 
 			var randomFpsStart = FlxG.random.int(18, 30, [prevRandomFpsStart]);
@@ -42,7 +41,6 @@ class DifficultyStars extends FlxSpriteGroup
 			flame.animation.addByIndices("loop", "fire loop full instance 1", [2, 3, 4, 5, 6, 7, 8, 9], "", randomFpsLoop, true);
 			flame.animation.play("loop");
 			flame.visible = false;
-			flame.antialiasing = true;
 			flame.origin.set(60, 150);
 			flame.scale.set(0.8, 0.8);
 			flame.animation.onFinish.add(function(name){

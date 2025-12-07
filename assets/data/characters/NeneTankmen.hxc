@@ -68,7 +68,6 @@ class NeneTankmen extends CharacterInfoBase
 	function create(character:Character):Void{
 		speakerGuysBack = new FlxSprite(-210, 180);
 		speakerGuysBack.frames = Paths.getSparrowAtlas("week7/speakerGuys");
-		speakerGuysBack.antialiasing = true;
 		speakerGuysBack.animation.addByPrefix("bop", "speaker guys bottom", 24 , false);
 		addToCharacter(speakerGuysBack);
 
@@ -80,7 +79,6 @@ class NeneTankmen extends CharacterInfoBase
 	function postCreate(character:Character):Void{
 		speakerGuysFront = new FlxSprite(-227, 62);
 		speakerGuysFront.frames = Paths.getSparrowAtlas("week7/speakerGuys");
-		speakerGuysFront.antialiasing = true;
 		speakerGuysFront.animation.addByPrefix("bop", "speaker guys top", 24 , false);
 		addToCharacter(speakerGuysFront);
 	}

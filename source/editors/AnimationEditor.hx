@@ -1,4 +1,4 @@
-package debug;
+package editors;
 
 import extensions.flixel.FlxTextExt;
 import caching.ImageCache;
@@ -23,7 +23,7 @@ using StringTools;
 /**
 	*DEBUG MODE
  */
-class AnimationDebug extends FlxState
+class AnimationEditor extends FlxState
 {
 	var dad:Character;
 	var dadBG:Character;
@@ -150,13 +150,24 @@ class AnimationDebug extends FlxState
 	}
 
 	override function update(elapsed:Float):Void{
+		var upP = FlxG.keys.anyJustPressed([UP]);
+		var rightP = FlxG.keys.anyJustPressed([RIGHT]);
+		var downP = FlxG.keys.anyJustPressed([DOWN]);
+		var leftP = FlxG.keys.anyJustPressed([LEFT]);
+
+		var holdShift = FlxG.keys.pressed.SHIFT;
+		var multiplier = 1;
+		if (holdShift){
+			multiplier = 10;
+		}
+
 		currentAnimText.text = dad.curAnim;
 
 		if (FlxG.keys.pressed.E){
-			FlxG.camera.zoom += zoomSpeed * FlxG.camera.zoom;
+			FlxG.camera.zoom += zoomSpeed * FlxG.camera.zoom * multiplier;
 		}
 		if (FlxG.keys.pressed.Q){	
-			FlxG.camera.zoom -= zoomSpeed * FlxG.camera.zoom;
+			FlxG.camera.zoom -= zoomSpeed * FlxG.camera.zoom * multiplier;
 		}
 
 		if(FlxG.keys.pressed.CONTROL && FlxG.keys.justPressed.C){
@@ -210,17 +221,6 @@ class AnimationDebug extends FlxState
 			FlxG.switchState(new PlayState());
 		}
 
-		var upP = FlxG.keys.anyJustPressed([UP]);
-		var rightP = FlxG.keys.anyJustPressed([RIGHT]);
-		var downP = FlxG.keys.anyJustPressed([DOWN]);
-		var leftP = FlxG.keys.anyJustPressed([LEFT]);
-
-		var holdShift = FlxG.keys.pressed.SHIFT;
-		var multiplier = 1;
-		if (holdShift){
-			multiplier = 10;
-		}
-
 		if (upP || rightP || downP || leftP){
 			//updateTexts();
 			if (upP){
@@ -268,7 +268,7 @@ class AnimationDebug extends FlxState
 
 		if(Binds.justPressed("polymodReload")){
 			PolymodHandler.reload(false);
-			FlxG.switchState(new AnimationDebug(daAnim, (daAnim == bgChar) ? null : bgChar));
+			FlxG.switchState(new AnimationEditor(daAnim, (daAnim == bgChar) ? null : bgChar));
 		}
 
 		super.update(elapsed);

@@ -43,50 +43,41 @@ class PhillyStreets extends BaseStage
 		scrollingSky.scrollFactor.set(0.1, 0.1);
 		scrollingSky.scale.set(0.65, 0.65);
 		scrollingSky.velocity.x = -22;
-		scrollingSky.antialiasing = true;
 		addToBackground(scrollingSky);
 
 		var phillySkyline = new FlxSprite(-545, -273).loadGraphic(Paths.image("weekend1/phillyStreets/phillySkyline"));
 		phillySkyline.scrollFactor.set(0.2, 0.2);
-		phillySkyline.antialiasing = true;
 		addToBackground(phillySkyline);
 
 		var phillyForegroundCity = new FlxSprite(625, 94).loadGraphic(Paths.image("weekend1/phillyStreets/phillyForegroundCity"));
 		phillyForegroundCity.scrollFactor.set(0.3, 0.3);
-		phillyForegroundCity.antialiasing = true;
 		addToBackground(phillyForegroundCity);
 
 		var phillyHighwayLights = new FlxSprite(284-400, 305).loadGraphic(Paths.image("weekend1/phillyStreets/phillyHighwayLights"));
 		phillyHighwayLights.scrollFactor.set(0.7, 1);
-		phillyHighwayLights.antialiasing = true;
 		addToBackground(phillyHighwayLights);
 
 		var phillyHighwayLights_lightmap = new FlxSprite(284-400, 305).loadGraphic(Paths.image("weekend1/phillyStreets/phillyHighwayLights_lightmap"));
 		phillyHighwayLights_lightmap.scrollFactor.set(0.7, 1);
-		phillyHighwayLights_lightmap.antialiasing = true;
 		phillyHighwayLights_lightmap.blend = BlendMode.ADD;
 		phillyHighwayLights_lightmap.alpha = 0.6;
 		addToBackground(phillyHighwayLights_lightmap);
 
 		var phillyHighway = new FlxSprite(139-400, 209).loadGraphic(Paths.image("weekend1/phillyStreets/phillyHighway"));
 		phillyHighway.scrollFactor.set(0.7, 1);
-		phillyHighway.antialiasing = true;
 		addToBackground(phillyHighway);
 
 		var phillyConstruction = new FlxSprite(1800, 364).loadGraphic(Paths.image("weekend1/phillyStreets/phillyConstruction"));
 		phillyConstruction.scrollFactor.set(0.7, 1);
-		phillyConstruction.antialiasing = true;
 		addToBackground(phillyConstruction);
 
 		var phillySmog = new FlxSprite(-6, 245).loadGraphic(Paths.image("weekend1/phillyStreets/phillySmog"));
 		phillySmog.scrollFactor.set(0.8, 1);
-		phillySmog.antialiasing = true;
 		addToBackground(phillySmog);
 		
 		phillyCarsBack = new FlxSprite(1748, 818);
 		phillyCarsBack.frames = Paths.getSparrowAtlas("weekend1/phillyStreets/phillyCars");
 		phillyCarsBack.scrollFactor.set(0.9, 1);
-		phillyCarsBack.antialiasing = true;
 		phillyCarsBack.flipX = true;
 		phillyCarsBack.animation.addByPrefix("car1", "car1", 0, false);
 		phillyCarsBack.animation.addByPrefix("car2", "car2", 0, false);
@@ -97,7 +88,6 @@ class PhillyStreets extends BaseStage
 		phillyCars = new FlxSprite(1748, 818);
 		phillyCars.frames = Paths.getSparrowAtlas("weekend1/phillyStreets/phillyCars");
 		phillyCars.scrollFactor.set(0.9, 1);
-		phillyCars.antialiasing = true;
 		phillyCars.animation.addByPrefix("car1", "car1", 0, false);
 		phillyCars.animation.addByPrefix("car2", "car2", 0, false);
 		phillyCars.animation.addByPrefix("car3", "car3", 0, false);
@@ -107,7 +97,6 @@ class PhillyStreets extends BaseStage
 		phillyTraffic = new FlxSprite(1840, 608);
 		phillyTraffic.frames = Paths.getSparrowAtlas("weekend1/phillyStreets/phillyTraffic");
 		phillyTraffic.scrollFactor.set(0.9, 1);
-		phillyTraffic.antialiasing = true;
 		phillyTraffic.animation.addByPrefix("togreen", "redtogreen", 24, false);
 		phillyTraffic.animation.addByPrefix("tored", "greentored", 24, false);
 		addToBackground(phillyTraffic);
@@ -116,13 +105,11 @@ class PhillyStreets extends BaseStage
 
 		var phillyTraffic_lightmap = new FlxSprite(1840, 608).loadGraphic(Paths.image("weekend1/phillyStreets/phillyTraffic_lightmap"));
 		phillyTraffic_lightmap.scrollFactor.set(0.9, 1);
-		phillyTraffic_lightmap.antialiasing = true;
 		phillyTraffic_lightmap.blend = BlendMode.ADD;
 		phillyTraffic_lightmap.alpha = 0.6;
 		addToBackground(phillyTraffic_lightmap);
 
 		var phillyForeground = new FlxSprite(88, 317).loadGraphic(Paths.image("weekend1/phillyStreets/phillyForeground"));
-		phillyForeground.antialiasing = true;
 		addToBackground(phillyForeground);
 		
 		dimSprite = new FlxSprite().makeGraphic(1, 1, 0xFF000000);
@@ -140,7 +127,6 @@ class PhillyStreets extends BaseStage
 		addToMiddle(characterGlow);
 
 		var spraycanPile = new FlxSprite(920, 1045).loadGraphic(Paths.image("weekend1/phillyStreets/SpraycanPile"));
-		spraycanPile.antialiasing = true;
 		addToForeground(spraycanPile);
 
 		kickedCan = new AtlasSprite(spraycanPile.x - 430, spraycanPile.y - 840, Paths.getTextureAtlas("weekend1/spraycanAtlas"));
@@ -168,7 +154,6 @@ class PhillyStreets extends BaseStage
 
 		canExplosion = new FlxSprite(1500, 400);
 		canExplosion.frames = Paths.getSparrowAtlas("weekend1/spraypaintExplosionEZ");
-		canExplosion.antialiasing = true;
 		canExplosion.visible = false;
 		canExplosion.animation.addByPrefix("explode", "", 24, false);
 		canExplosion.animation.onFinish.add(function(name:String){
@@ -284,7 +269,7 @@ class PhillyStreets extends BaseStage
 
 	public function createBullet(tag:String):Void{
 		var bullet = new PicoBullet(boyfriend.x + 159, boyfriend.y + 127);
-		addToForegroundLive(bullet);
+		addToForeground(bullet);
 	}
 
 	//car code basically just taken from base game, ily fabs

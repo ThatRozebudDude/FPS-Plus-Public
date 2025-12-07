@@ -56,7 +56,6 @@ class OtisSpeaker extends CharacterInfoBase
 	function postCreate(character:Character):Void{
 		gunshots = new FlxSprite();
 		gunshots.frames = Paths.getSparrowAtlas("week7/otisGunshots");
-		gunshots.antialiasing = true;
 		gunshots.visible = false;
 		gunshots.alpha = 0;
 		gunshots.animation.addByPrefix("shoot1", "shoot back0", 24 , false);

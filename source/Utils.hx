@@ -119,7 +119,7 @@ class Utils
 
 	/*
 	*	Lerp that calls `fpsAdjust` on the ratio.
-	*	This function is exactly the correct way to do this but I'm leaving it here for backwards compatibility.
+	*	This function isn't exactly the correct way to do this but I'm leaving it here for backwards compatibility.
 	*/
 	public static inline function fpsAdjustedLerpOld(a:Float, b:Float, ratio:Float):Float{
 		return FlxMath.lerp(a, b, clamp(fpsAdjust(ratio), 0, 1));

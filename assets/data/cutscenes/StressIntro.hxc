@@ -45,7 +45,6 @@ class StressIntro extends ScriptedCutscene
 
 		gfSummon = new FlxSprite(-10, -374);
 		gfSummon.frames = Paths.getSparrowAtlas("week7/cutscene/gfCutscene");
-		gfSummon.antialiasing = true;
 		gfSummon.animation.addByPrefix("summon", "", 24, false);
 		gfSummon.visible = false;
 		//gfSummon.scrollFactor.set(0.95, 0.95);

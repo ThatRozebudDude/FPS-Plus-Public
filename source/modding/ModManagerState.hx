@@ -99,23 +99,12 @@ class ModManagerState extends FlxUIStateExt
 		
 		selectionBg = new FlxSprite(listStart.x + 4, listStart.y + 4).loadGraphic(Paths.image("menu/modMenu/selector"));
 		selectionBg.color = selectorColor;
-		selectionBg.antialiasing = true;
 		
 		selectionConfig = new FlxSprite(521, 160).loadGraphic(Paths.image("menu/modMenu/selectorConfig"));
 		selectionConfig.color = selectorColor;
-		selectionConfig.antialiasing = true;
 		selectionConfig.alpha = 0;
 
-		/*var iconTest = new FlxSprite(listStart.x + 10, listStart.y + 10).loadGraphic(Paths.image("menu/modMenu/defaultModIcon"));
-		iconTest.antialiasing = true;
-
-		var textTest = new FlxTextExt(listStart.x + 100, listStart.y + 50, 290, "Test Mod Name", 36);
-		textTest.setFormat(Paths.font("Funkin-Bold", "otf"), 36, 0xFFFFFFFF, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, 0xFF000000);
-		textTest.y -= textTest.height/2;
-		textTest.borderSize = 2;*/
-
 		bigInfoIcon = new FlxSprite(infoStart.x + 10, infoStart.y + 10).loadGraphic(Paths.image("menu/modMenu/defaultModIcon"));
-		bigInfoIcon.antialiasing = true;
 
 		bigInfoName = new FlxTextExt(infoStart.x + 100, infoStart.y + 50, 590, "Test Mod Name", 48);
 		bigInfoName.setFormat(Paths.font("Funkin-Bold", "otf"), 48, 0xFFFFFFFF, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, 0xFF000000);
@@ -152,7 +141,6 @@ class ModManagerState extends FlxUIStateExt
 		var enableDisableButtonTween:flixel.tweens.misc.ColorTween;
 		enableDisableButton = new ModManagerButton(bottomStart.x + 60, bottomStart.y + 5);
 		enableDisableButton.loadGraphic(Paths.image("menu/modMenu/enableDisableButton"), true, 240, 80);
-		enableDisableButton.antialiasing = true;
 		enableDisableButton.animation.add("selected", [2], 0, false);
 		enableDisableButton.animation.add("deselected", [0], 0, false);
 		enableDisableButton.animation.add("selected-disabled", [3], 0, false);
@@ -174,7 +162,6 @@ class ModManagerState extends FlxUIStateExt
 		var moveUpButtonTween:flixel.tweens.misc.ColorTween;
 		moveUpButton = new ModManagerButton(bottomStart.x + 60 + 245, bottomStart.y + 5);
 		moveUpButton.loadGraphic(Paths.image("menu/modMenu/moveUpButton"), true, 80, 80);
-		moveUpButton.antialiasing = true;
 		moveUpButton.animation.add("selected", [1], 0, false);
 		moveUpButton.animation.add("deselected", [0], 0, false);
 		moveUpButton.pressFunction = function(){
@@ -196,7 +183,6 @@ class ModManagerState extends FlxUIStateExt
 		var moveDownButtonTween:flixel.tweens.misc.ColorTween;
 		moveDownButton = new ModManagerButton(bottomStart.x + 60 + 245 + 85, bottomStart.y + 5);
 		moveDownButton.loadGraphic(Paths.image("menu/modMenu/moveDownButton"), true, 80, 80);
-		moveDownButton.antialiasing = true;
 		moveDownButton.animation.add("selected", [1], 0, false);
 		moveDownButton.animation.add("deselected", [0], 0, false);
 		moveDownButton.pressFunction = function(){
@@ -218,7 +204,6 @@ class ModManagerState extends FlxUIStateExt
 		var configButtonTween:flixel.tweens.misc.ColorTween;
 		configButton = new ModManagerButton(bottomStart.x + 60 + 245 + 85 + 85, bottomStart.y + 5);
 		configButton.loadGraphic(Paths.image("menu/modMenu/configButton"), true, 80, 80);
-		configButton.antialiasing = true;
 		configButton.animation.add("selected", [1], 0, false);
 		configButton.animation.add("deselected", [0], 0, false);
 		configButton.pressFunction = function(){
@@ -235,7 +220,6 @@ class ModManagerState extends FlxUIStateExt
 
 		reloadButton = new ModManagerButton(bottomStart.x + 60 + 245 + 85 + 85 + 85, bottomStart.y + 5);
 		reloadButton.loadGraphic(Paths.image("menu/modMenu/reloadButton"), true, 80, 80);
-		reloadButton.antialiasing = true;
 		reloadButton.animation.add("selected", [1], 0, false);
 		reloadButton.animation.add("deselected", [0], 0, false);
 		reloadButton.pressFunction = function(){
@@ -252,7 +236,6 @@ class ModManagerState extends FlxUIStateExt
 
 		openFolderButton = new ModManagerButton(bottomStart.x + 60 + 245 + 85 + 85 + 85 + 85, bottomStart.y + 5);
 		openFolderButton.loadGraphic(Paths.image("menu/modMenu/folderButton"), true, 80, 80);
-		openFolderButton.antialiasing = true;
 		openFolderButton.animation.add("selected", [1], 0, false);
 		openFolderButton.animation.add("deselected", [0], 0, false);
 		openFolderButton.pressFunction = function(){
@@ -495,7 +478,6 @@ class ModManagerState extends FlxUIStateExt
 		bigInfoName.text += "\n\n";
 
 		bigInfoIcon.loadGraphic(modList[curSelectedMod].icon);
-		bigInfoIcon.antialiasing = true;
 		bigInfoIcon.setGraphicSize(80, 80);
 		bigInfoIcon.updateHitbox();
 
@@ -515,7 +497,6 @@ class ModManagerState extends FlxUIStateExt
 		bigInfoName.text += "\n\n";
 
 		bigInfoIcon.loadGraphic(Paths.image("menu/modMenu/noModIcon"));
-		bigInfoIcon.antialiasing = true;
 		bigInfoIcon.setGraphicSize(80, 80);
 		bigInfoIcon.updateHitbox();
 
@@ -684,7 +665,6 @@ class ModManagerState extends FlxUIStateExt
 			var modIcon = new FlxSprite(listStart.x + 10, listStart.y + 10 + (100 * i)).loadGraphic(modList[i + listStartIndex].icon);
 			modIcon.setGraphicSize(80, 80);
 			modIcon.updateHitbox();
-			modIcon.antialiasing = true;
 
 			var modName = new FlxTextExt(listStart.x + 100, listStart.y + 50 + (100 * i), 290, modList[i + listStartIndex].name, 36);
 			modName.setFormat(Paths.font("Funkin-Bold", "otf"), 36, 0xFFFFFFFF, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, 0xFF000000);

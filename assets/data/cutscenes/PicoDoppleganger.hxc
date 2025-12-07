@@ -40,7 +40,6 @@ class PicoDoppleganger extends ScriptedCutscene
 
 		cigarette = new FlxSprite(0, 0);
 		cigarette.frames = Paths.getSparrowAtlas("week3/philly/erect/cigarette");
-		cigarette.antialiasing = true;
 		cigarette.animation.addByPrefix('cigarette spit', 'cigarette spit', 24, false);
 		cigarette.visible = false;
 

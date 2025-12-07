@@ -15,6 +15,7 @@ class BuddiesPico extends BaseStage
 		startingZoom = 2.8;
 
 		var lilStage = new FlxSprite(0, -34).loadGraphic(Paths.image("fpsPlus/lil/stageP"));
+		lilStage.antialiasing = false;
 		addToBackground(lilStage);
 
 		gf.visible = false;

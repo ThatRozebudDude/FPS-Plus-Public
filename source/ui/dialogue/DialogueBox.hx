@@ -15,11 +15,11 @@ import flixel.tweens.FlxEase;
 using StringTools;
 
 typedef DialogueSkin = {
-    var path:String;
+	var path:String;
 	var text:DialogueTextData;
 	var sounds:Dynamic;
-    var antialiasing:Bool;
-    var scale:Float;
+	var antialiasing:Null<Bool>;
+	var scale:Float;
 	var position:Dynamic;
 	var animations:Array<DialogueAnimation>;
 }
@@ -37,6 +37,7 @@ typedef DialogueTextData = {
 	var font:String;
 	var size:Float;
 	var color:String;
+	var antialiasing:Null<Bool>;
 	var shadow:String;
 	var position:Dynamic;
 }
@@ -119,6 +120,7 @@ class DialogueBox extends FlxSpriteGroup
 		box = new FlxSprite();
 		box.setPosition(skin.position.x, skin.position.y);
 		box.scale.set(skin.scale, skin.scale);
+		if(skin.antialiasing == null){ skin.antialiasing = true; }
 		box.antialiasing = skin.antialiasing;
 		
 		box.frames = Paths.getSparrowAtlas(skin.path);
@@ -142,7 +144,9 @@ class DialogueBox extends FlxSpriteGroup
 			dialogueText.borderSize = 2;
 			dialogueText.borderColor = FlxColor.fromString(skin.text.shadow);
 		}
-		//dialogueText.showCursor = true;
+
+		if(skin.text.antialiasing == null){ skin.text.antialiasing = true; }
+		dialogueText.antialiasing = skin.text.antialiasing;
 	}
 
 	// made function dynamic to make able to override functions like dialogueBox.showPortrait = function(s)

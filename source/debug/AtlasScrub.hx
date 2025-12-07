@@ -30,7 +30,6 @@ class AtlasScrub extends FlxState
 		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("menu/results/characters/pico/resultsGOOD"));
 		atlas.addFullAnimation("full", 0, false);
 		//atlas.addFullAnimation("full24", 24, false);
-		atlas.antialiasing = true;
 		atlas.screenCenter();
 		atlas.playAnim("full");
 		add(atlas);

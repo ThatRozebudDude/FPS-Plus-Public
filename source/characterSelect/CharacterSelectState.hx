@@ -159,7 +159,6 @@ class CharacterSelectState extends MusicBeatState
 		startSong();
 
 		var bg:FlxSprite = new FlxSprite(-153, -140).loadGraphic(Paths.image("menu/characterSelect/charSelectBG"));
-		bg.antialiasing = true;
 		bg.scrollFactor.set(0.1, 0.1);
 		add(bg);
 	
@@ -173,13 +172,11 @@ class CharacterSelectState extends MusicBeatState
 	
 		var stageSpr:FlxSprite = new FlxSprite(-40, 391);
 		stageSpr.frames = Paths.getSparrowAtlas("menu/characterSelect/charSelectStage");
-		stageSpr.antialiasing = true;
 		stageSpr.animation.addByPrefix("idle", "stage full instance 1", 24, true);
 		stageSpr.animation.play("idle");
 		add(stageSpr);
 	
 		var curtains:FlxSprite = new FlxSprite(-47, -49).loadGraphic(Paths.image("menu/characterSelect/curtains"));
-		curtains.antialiasing = true;
 		curtains.scrollFactor.set(1.4, 1.4);
 		add(curtains);
 
@@ -196,11 +193,9 @@ class CharacterSelectState extends MusicBeatState
 		FlxTween.tween(titleBar, {y: titleBar.y - 80}, 1.3, {ease: FlxEase.expoOut});
 
 		var charLight:FlxSprite = new FlxSprite(800, 250).loadGraphic(Paths.image('menu/characterSelect/charLight'));
-		charLight.antialiasing = true;
 		add(charLight);
 
 		var charLightGF:FlxSprite = new FlxSprite(180, 240).loadGraphic(Paths.image('menu/characterSelect/charLight'));
-		charLightGF.antialiasing = true;
 		add(charLightGF);
 
 		add(characterGroup);
@@ -214,12 +209,10 @@ class CharacterSelectState extends MusicBeatState
 		add(speakers);
 
 		var fgBlur:FlxSprite = new FlxSprite(-125, 170).loadGraphic(Paths.image('menu/characterSelect/foregroundBlur'));
-		fgBlur.antialiasing = true;
 		fgBlur.blend = MULTIPLY;
 		add(fgBlur);
 
 		dipshitDarkBack = new FlxSprite(426, -13).loadGraphic(Paths.image('menu/characterSelect/dipshitDarkBack'));
-		dipshitDarkBack.antialiasing = true;
 		dipshitDarkBack.scrollFactor.set();
 		dipshitDarkBack.y += 200;
 		dipshitDarkBack.alpha = 0.5;
@@ -230,7 +223,6 @@ class CharacterSelectState extends MusicBeatState
 		dipshitBlur.frames = Paths.getSparrowAtlas("menu/characterSelect/dipshitBlur");
 		dipshitBlur.animation.addByPrefix('idle', "CHOOSE vertical offset instance 1", 24, true);
 		dipshitBlur.blend = ADD;
-		dipshitBlur.antialiasing = true;
 		dipshitBlur.scrollFactor.set();
 		dipshitBlur.animation.play("idle");
 		dipshitBlur.y += 220;
@@ -241,7 +233,6 @@ class CharacterSelectState extends MusicBeatState
 		dipshitBacking.frames = Paths.getSparrowAtlas("menu/characterSelect/dipshitBacking");
 		dipshitBacking.animation.addByPrefix('idle', "CHOOSE horizontal offset instance 1", 24, true);
 		dipshitBacking.blend = ADD;
-		dipshitBacking.antialiasing = true;
 		dipshitBacking.scrollFactor.set();
 		dipshitBacking.animation.play("idle");
 		dipshitBacking.y += 210;
@@ -249,7 +240,6 @@ class CharacterSelectState extends MusicBeatState
 		add(dipshitBacking);
 
 		chooseDipshit = new FlxSprite(426, -13).loadGraphic(Paths.image('menu/characterSelect/chooseDipshit'));
-		chooseDipshit.antialiasing = true;
 		chooseDipshit.scrollFactor.set();
 		chooseDipshit.y += 200;
 		FlxTween.tween(chooseDipshit, {y: chooseDipshit.y - 200}, 1, {ease: FlxEase.expoOut});
@@ -488,7 +478,7 @@ class CharacterSelectState extends MusicBeatState
 					persistentCharacter = curCharacter;
 					FreeplayState.djCharacter = characters.get(curCharacter).freeplayClass;
 
-					switchState(new FreeplayState(fromCharacterSelect));
+					switchState(new FreeplayState(fromCharacterSelect, null, true));
 					FlxTween.tween(camFollow, {y: camFollow.y - 150}, 0.8, {ease: FlxEase.backIn});
 					FlxTween.tween(titleBar, {y: titleBar.y + 80}, 0.8, {ease: FlxEase.backIn});
 					FlxTween.tween(characterTitle, {y: characterTitle.y + 80}, 0.8, {ease: FlxEase.backIn});
@@ -516,13 +506,11 @@ class CharacterSelectState extends MusicBeatState
 		if(partnerClass != null){
 			partner = ScriptableCharacterSelectCharacter.init(partnerClass);
 			partner.setup();
-			partner.antialiasing = true;
 		}
 
 		//player cant be null because what would be the fucking point
 		var player:CharacterSelectCharacter = ScriptableCharacterSelectCharacter.init(playerClass);
 		player.setup();
-		player.antialiasing = true;
 
 		characters.set(name, {
 			player: player,
@@ -618,7 +606,6 @@ class CharacterSelectState extends MusicBeatState
 			characterTitle.loadGraphic(Paths.image("menu/characterSelect/characters/locked/title"));
 		}
 
-		characterTitle.antialiasing = true;
 		characterTitle.scale.set(0.75, 0.75);
 		characterTitle.updateHitbox();
 

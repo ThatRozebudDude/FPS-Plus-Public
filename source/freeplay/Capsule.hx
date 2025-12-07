@@ -39,6 +39,7 @@ class Capsule extends FlxSpriteGroup
 	public var song:String;
 	public var album:String;
 	public var highscoreData:Array<SongStats> = [];
+	public var availableDifficulties:Array<Int>;
 	public var difficulties:Array<Int> = [];
 	public var difficultySet:String;
 	public var skin:String;
@@ -52,12 +53,15 @@ class Capsule extends FlxSpriteGroup
 
 	var scrollOffset:Float = 0;
 	var scrollTween:FlxTween;
+	
+	public var randomCapsule:Bool = false;
 
-	public function new(_song:String, _displayName:String, _icon:String, _album:String = "vol1", _difficulties:Array<Int>, _difficultySet:String, _variations:Array<String>, _skinInfo:Array<Dynamic>) {
+	public function new(_song:String, _displayName:String, _icon:String, _album:String = "vol1", _availableDifficulties:Array<Int>, _difficulties:Array<Int>, _difficultySet:String, _variations:Array<String>, _skinInfo:Array<Dynamic>) {
 		super();
 
 		song = _song;
 		album = _album;
+		availableDifficulties = _availableDifficulties;
 		difficulties = _difficulties;
 		difficultySet = _difficultySet;
 		
@@ -86,7 +90,6 @@ class Capsule extends FlxSpriteGroup
 		capsule.animation.addByPrefix("deslected", "mp3 capsule w backing NOT SELECTED", 24, true);
 		capsule.origin.set(0, 0);
 		capsule.scale.set(capsuleScale, capsuleScale);
-		capsule.antialiasing = true;
 		
 		capsule.animation.onFrameChange.add(function(name:String, frameNumber:Int, frameIndex:Int){
 			switch(name){
@@ -100,7 +103,6 @@ class Capsule extends FlxSpriteGroup
 		text = new FlxTextExt(95, 34, 0, _displayName, 32);
 		text.setFormat(Paths.font("5by7"), 32, selectColor, LEFT, FlxTextBorderStyle.OUTLINE, selectBorderColor);
 		text.borderSize = 1;
-		text.antialiasing = true;
 		scrollTween = FlxTween.tween(this, {}, 0);
 
 		//var debugDot:FlxSprite = new FlxSprite(text.x, text.y).makeGraphic(2, 2, 0xFFFFAAFF);
@@ -129,6 +131,7 @@ class Capsule extends FlxSpriteGroup
 		icon.origin.set(0, 0);
 		icon.scale.set(2, 2);
 		icon.visible = !noIcon;
+		icon.antialiasing = false;
 
 		rank = new FlxSprite(358, 27);
 		rank.frames = Paths.getSparrowAtlas("menu/freeplay/rankbadges");
@@ -139,7 +142,6 @@ class Capsule extends FlxSpriteGroup
 		rank.animation.addByPrefix("perfect", "PERFECT", 24, false);
 		rank.animation.addByPrefix("gold", "GOLD", 24, false);
 		rank.animation.play("loss");
-		rank.antialiasing = true;
 		rank.blend = BlendMode.ADD;
 		rank.visible = false;
 
@@ -161,7 +163,6 @@ class Capsule extends FlxSpriteGroup
 			});
 		});
 		sparkle.scale.set(0.75, 0.75);
-		sparkle.antialiasing = true;
 		sparkle.alpha = 0;
 		sparkle.blend = BlendMode.ADD;
 

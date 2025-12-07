@@ -4,7 +4,8 @@
         "position": {"x": 130, "y": 500},
         "font": "funkin.otf",
         "size": 62,
-        "color": "0x000000"
+        "color": "0x000000",
+        "antialiasing": true
     },
     "sounds": {
         "open": null,

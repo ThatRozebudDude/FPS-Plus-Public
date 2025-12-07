@@ -12,17 +12,17 @@ using StringTools;
 class PolymodHandler
 {
 
-	public static final API_VERSION:Array<Int> = [1, 7, 0];
+	public static final API_VERSION:Array<Int> = [1, 8, 0];
 	public static final API_VERSION_STRING:String = API_VERSION[0]+"."+API_VERSION[1]+"."+API_VERSION[2];
 
 	public static final ASSETS_FOLDER:String =
-    #if (REDIRECT_ASSETS_FOLDER && macos)
-    "../../../../../../../assets"
-    #elseif REDIRECT_ASSETS_FOLDER
-    "../../../../assets"
-    #else
-    "assets"
-    #end;
+	#if (REDIRECT_ASSETS_FOLDER && macos)
+	"../../../../../../../assets"
+	#elseif REDIRECT_ASSETS_FOLDER
+	"../../../../assets"
+	#else
+	"assets"
+	#end;
 	
 	public static var allModDirs:Array<String>;
 	public static var disabledModDirs:Array<String>;
@@ -267,11 +267,11 @@ class PolymodHandler
 		Polymod.addDefaultImport(AtlasSprite);
 		Polymod.addDefaultImport(Character);
 		Polymod.addDefaultImport(Conductor);
-		Polymod.addDefaultImport(GameOverSubstate);
+		Polymod.addDefaultImport(GameOverSubState);
 		Polymod.addDefaultImport(Highscore);
 		Polymod.addDefaultImport(MainMenuState);
 		Polymod.addDefaultImport(MusicBeatState);
-		Polymod.addDefaultImport(MusicBeatSubstate);
+		Polymod.addDefaultImport(MusicBeatSubState);
 		Polymod.addDefaultImport(Paths);
 		Polymod.addDefaultImport(PauseSubState);
 		Polymod.addDefaultImport(PlayState);
@@ -281,7 +281,6 @@ class PolymodHandler
 
 		Polymod.addDefaultImport(note.Note);
 		Polymod.addDefaultImport(shaders.RuntimeShader);
-		Polymod.addDefaultImport(debug.ChartingState);
 		
 		Polymod.addDefaultImport(modding.ScriptingUtil);
 		Polymod.addDefaultImport(modding.ReflectUtil);
@@ -337,6 +336,11 @@ class PolymodHandler
 		Polymod.addImportAlias("flixel.util.FlxAxes", modding.ScriptingUtil.FlxAxes);
 		
 		Polymod.addImportAlias("flixel.math.FlxPoint", flixel.math.FlxPoint.FlxBasePoint);
+
+		Polymod.addImportAlias("flixel.text.FlxText", extensions.flixel.FlxTextExt);
+
+		Polymod.addImportAlias("debug.ChartingState", editors.ChartingState);
+		Polymod.addImportAlias("debug.AnimationDebug", editors.AnimationEditor);
 
 		// `Sys`
 		// Sys.command() can run malicious processes

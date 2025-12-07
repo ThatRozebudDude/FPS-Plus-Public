@@ -125,6 +125,7 @@ class ConfigMenu extends FlxUIStateExt
 	var autoPauseValue:Bool;
 	var flashingLightsValue:Bool;
 	var fullscreenValue:Bool;
+	var checkForUpdatesValue:Bool;
 
 	var pressUp:Bool = false;
 	var pressDown:Bool = false;
@@ -178,14 +179,12 @@ class ConfigMenu extends FlxUIStateExt
 		bg.setGraphicSize(Std.int(bg.width * 1.18));
 		bg.updateHitbox();
 		bg.screenCenter();
-		bg.antialiasing = true;
 		bg.color = 0xFF5C6CA5;
 
 		optionTitle = new FlxSprite(0, 100);
 		optionTitle.frames = Paths.getSparrowAtlas("menu/main/options");
 		optionTitle.animation.addByPrefix('selected', "selected", 24);
 		optionTitle.animation.play('selected');
-		optionTitle.antialiasing = true;
 		optionTitle.updateHitbox();
 		optionTitle.screenCenter(X);
 		optionTitle.y -= optionTitle.height/2;
@@ -204,7 +203,6 @@ class ConfigMenu extends FlxUIStateExt
 			categoryTitle.animation.addByPrefix(option, option, 24, true);
 		}
 		categoryTitle.visible = false;
-		categoryTitle.antialiasing = true;
 
 		grid = new FlxSprite(30, 225).loadGraphic(FlxGridOverlay.createGrid(1220, 60, 1220, 60 * 6, true, 0x7F000000, 0x60000000));
 
@@ -215,12 +213,10 @@ class ConfigMenu extends FlxUIStateExt
 		subMenuGroup.add(grid);
 
 		subMenuUpArrow = new FlxSprite(0, grid.y - 11).loadGraphic(Paths.image("menu/config/smallArrow"));
-		subMenuUpArrow.antialiasing = true;
 		subMenuUpArrow.y -= subMenuUpArrow.height;
 		subMenuUpArrow.screenCenter(X);
 
 		subMenuDownArrow = new FlxSprite(0, grid.y + grid.height + 11).loadGraphic(Paths.image("menu/config/smallArrow"));
-		subMenuDownArrow.antialiasing = true;
 		subMenuDownArrow.flipY = true;
 		subMenuDownArrow.screenCenter(X);
 
@@ -229,23 +225,19 @@ class ConfigMenu extends FlxUIStateExt
 
 		nextCategoryIcon = new FlxSprite(1280 - 190, 100);
 		nextCategoryIcon.frames = categoryIconFrames;
-		nextCategoryIcon.antialiasing = true;
 		nextCategoryIcon.scale.set(0.5, 0.5);
 		for(option in options){ nextCategoryIcon.animation.addByPrefix(option, option, 24, true); }
 
 		prevCategoryIcon = new FlxSprite(190, 100);
 		prevCategoryIcon.frames = categoryIconFrames;
-		prevCategoryIcon.antialiasing = true;
 		prevCategoryIcon.scale.set(0.5, 0.5);
 		for(option in options){ prevCategoryIcon.animation.addByPrefix(option, option, 24, true); }
 
 		nextCategoryArrow = new FlxSprite(1280 - 50, 100).loadGraphic(Paths.image("menu/config/arrow"));
-		nextCategoryArrow.antialiasing = true;
 		nextCategoryArrow.x -= nextCategoryArrow.width/2;
 		nextCategoryArrow.y -= nextCategoryArrow.height/2;
 
 		prevCategoryArrow = new FlxSprite(50, 100).loadGraphic(Paths.image("menu/config/arrow"));
-		prevCategoryArrow.antialiasing = true;
 		prevCategoryArrow.flipX = true;
 		prevCategoryArrow.x -= prevCategoryArrow.width/2;
 		prevCategoryArrow.y -= prevCategoryArrow.height/2;
@@ -277,7 +269,6 @@ class ConfigMenu extends FlxUIStateExt
 			var icon = new FlxSprite();
 			icon.frames = categoryIconFrames;
 			for(option in options){ icon.animation.addByPrefix(option, option, 24, true); }
-			icon.antialiasing = true;
 			icon.screenCenter(X);
 			icon.x += iconOffsets[i];
 			icon.scale.set(iconScales[i], iconScales[i]);
@@ -287,7 +278,6 @@ class ConfigMenu extends FlxUIStateExt
 			var title = new FlxSprite();
 			title.frames = categoryFrames;
 			for(option in options){ title.animation.addByPrefix(option, option, 24, true); }
-			title.antialiasing = true;
 			title.screenCenter(X);
 			title.x += iconOffsets[i];
 			title.y = 620 - title.height/2;
@@ -707,6 +697,7 @@ class ConfigMenu extends FlxUIStateExt
 		Config.autoPause = autoPauseValue;
 		Config.flashingLights = flashingLightsValue;
 		Config.fullscreen = fullscreenValue;
+		Config.checkForUpdates = checkForUpdatesValue;
 		Config.write();
 	}
 
@@ -781,6 +772,7 @@ class ConfigMenu extends FlxUIStateExt
 		autoPauseValue = Config.autoPause;
 		flashingLightsValue = Config.flashingLights;
 		fullscreenValue = Config.fullscreen;
+		checkForUpdatesValue = Config.checkForUpdates;
 
 		framerateValue = allowedFramerates.indexOf(Config.framerate);
 		if(framerateValue == -1){
@@ -1362,11 +1354,20 @@ class ConfigMenu extends FlxUIStateExt
 			selectionColor = selectionColors[0];
 		};
 
+		var checkForUpdatesSetting = new ConfigOption("CHECK FOR UPDATES", genericOnOff[checkForUpdatesValue?0:1], "Alerts you if there is an update available and adds a button to the menu that opens the game's releases page on GitHub.");
+		checkForUpdatesSetting.optionUpdate = function(){
+			if (pressRight || pressLeft || pressAccept) {
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				checkForUpdatesValue = !checkForUpdatesValue;
+			}
+			checkForUpdatesSetting.setting = genericOnOff[checkForUpdatesValue?0:1];
+		}
+
 
 		configOptions = [
 							[keyBinds, ghostTap, noteOffset, scrollSpeed, resetAllScoresSettings],
 							[fpsCap, fullscreenSettings, bgDim, useGPU, showFPS, cacheSettings],
-							[downscroll, centeredNotes, noteSplash, noteGlow, showMissesSetting, showAccuracyDisplay, comboDisplay],
+							[downscroll, centeredNotes, noteSplash, noteGlow, showMissesSetting, showAccuracyDisplay, comboDisplay, checkForUpdatesSetting],
 							[extraCamStuff, camBopStuff, captionsStuff, flashingLightsSettings, autoPauseSettings, hpGain, hpDrain]
 						];
 

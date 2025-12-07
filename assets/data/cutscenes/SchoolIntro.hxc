@@ -43,6 +43,7 @@ class SchoolIntro extends ScriptedCutscene
 		senpaiEvil.updateHitbox();
 		senpaiEvil.screenCenter();
 		senpaiEvil.scrollFactor.set();
+		senpaiEvil.antialiasing = false;
 		senpaiEvil.x += 275;
 
 		if(PlayState.SONG.song.toLowerCase() == "senpai" || PlayState.SONG.song.toLowerCase() == "senpai-pico" || PlayState.SONG.song.toLowerCase() == "roses-pico"){

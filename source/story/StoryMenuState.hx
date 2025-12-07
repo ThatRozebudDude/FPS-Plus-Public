@@ -177,7 +177,6 @@ class StoryMenuState extends MusicBeatState
 
 			weekThing.screenCenter(X);
 			weekThing.x += weekThing.positionOffset.x;
-			weekThing.antialiasing = true;
 			// weekThing.updateHitbox();
 
 			// Needs an offset thingie
@@ -187,7 +186,6 @@ class StoryMenuState extends MusicBeatState
 				lock.animation.addByPrefix('lock', 'lock');
 				lock.animation.play('lock');
 				lock.ID = i;
-				lock.antialiasing = true;
 				grpLocks.add(lock);
 			}*/
 		}
@@ -250,14 +248,12 @@ class StoryMenuState extends MusicBeatState
 		fromPlayState = false;
 
 		resetScoreBox = new FlxSprite(0, 256 - 75).makeGraphic(480, 150, 0xFF000000);
-		resetScoreBox.antialiasing = true;
 		resetScoreBox.screenCenter(X);
 		resetScoreBox.visible = false;
 
 		resetScoreText = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
 		resetScoreText.text = "Reset Score?";
 		resetScoreText.letterSpacing = -15;
-		resetScoreText.antialiasing = true;
 		resetScoreText.blend = ADD;
 		resetScoreText.setPosition(resetScoreBox.getMidpoint().x, resetScoreBox.y + 17);
 		resetScoreText.x -= resetScoreText.width/2;
@@ -266,7 +262,6 @@ class StoryMenuState extends MusicBeatState
 		resetScoreYes = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
 		resetScoreYes.text = "Yes";
 		resetScoreYes.letterSpacing = -15;
-		resetScoreYes.antialiasing = true;
 		resetScoreYes.blend = ADD;
 		resetScoreYes.setPosition(resetScoreBox.getMidpoint().x - (resetScoreBox.width/4), resetScoreBox.y + 86);
 		resetScoreYes.x -= resetScoreYes.width/2;
@@ -275,7 +270,6 @@ class StoryMenuState extends MusicBeatState
 		resetScoreNo = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
 		resetScoreNo.text = "No";
 		resetScoreNo.letterSpacing = -15;
-		resetScoreNo.antialiasing = true;
 		resetScoreNo.blend = ADD;
 		resetScoreNo.setPosition(resetScoreBox.getMidpoint().x + (resetScoreBox.width/4), resetScoreBox.y + 86);
 		resetScoreNo.x -= resetScoreNo.width/2;

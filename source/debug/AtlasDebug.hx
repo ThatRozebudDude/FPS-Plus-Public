@@ -32,7 +32,6 @@ class AtlasDebug extends FlxState
 		character.addAnimationByLabel("singLEFT", "Sing Left", 24);
 		character.addAnimationByLabel("singRIGHT", "Sing Right", 24);
 		character.addAnimationByLabel("idleWeird", "Idle", 24, true, 5);
-		character.antialiasing = true;
 		character.screenCenter();
 		character.playAnim("idle");
 		add(character);

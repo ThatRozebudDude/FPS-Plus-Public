@@ -68,14 +68,12 @@ class AutoOffsetState extends MusicBeatState
 
 			//Init BG
 			bg = new FlxSprite(0, 0).loadGraphic(Paths.image("fpsPlus/config/offset/offsetBG"));
-			bg.antialiasing = true;
 			bg.active = true;
 			bg.screenCenter();
 			add(bg);
 
 			//Init Speakers
 			speakers.frames = Paths.getSparrowAtlas("fpsPlus/config/offset/speaker");
-			speakers.antialiasing = true;
 			speakers.animation.addByPrefix("idle", "IDLE", 24, false);
 			speakers.animation.addByPrefix("bump", "BUMP", 24, false);
 			speakers.animation.play("idle");

@@ -137,7 +137,6 @@ class PicoFreeplay extends DJCharacter
 	function setupCard():Void{
 		
 		var bg = Utils.makeColoredSprite(528, 720, 0xFF98A2F3);
-		bg.antialiasing = true;
 		backingCard.add(bg);
 
 		scrollBack = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/lowerLoop'), FlxAxes.X, 20);
@@ -145,17 +144,14 @@ class PicoFreeplay extends DJCharacter
 		scrollBack.flipX = true;
 		scrollBack.alpha = 0.39;
 		scrollBack.velocity.x = 110;
-		scrollBack.antialiasing = true;
 		backingCard.add(scrollBack);
 
 		scrollLower = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/lowerLoop'), FlxAxes.X, 20);
 		scrollLower.setPosition(0, 406);
 		scrollLower.velocity.x = -110;
-		scrollLower.antialiasing = true;
 		backingCard.add(scrollLower);
 
 		var bar = new FlxSprite().loadGraphic(Paths.image("menu/freeplay/bgs/pico/blueBar"));
-		bar.antialiasing = true;
 		bar.blend = BlendMode.MULTIPLY;
 		bar.alpha = 0.4;
 		backingCard.add(bar);
@@ -163,7 +159,6 @@ class PicoFreeplay extends DJCharacter
 		scrollTop = new FlxBackdrop(null, FlxAxes.X, 20);
 		scrollTop.setPosition(0, 80);
 		scrollTop.velocity.x = -220;
-		scrollTop.antialiasing = true;
 		scrollTop.frames = Paths.getSparrowAtlas('menu/freeplay/bgs/pico/topLoop');
 		scrollTop.animation.addByPrefix('uzi', 'uzi info', 24, false);
 		scrollTop.animation.addByPrefix('sniper', 'sniper info', 24, false);
@@ -176,16 +171,13 @@ class PicoFreeplay extends DJCharacter
 		scrollMiddle = new FlxBackdrop(Paths.image('menu/freeplay/bgs/pico/middleLoop'), FlxAxes.X, 15);
 		scrollMiddle.setPosition(0, 346);
 		scrollMiddle.velocity.x = 220;
-		scrollMiddle.antialiasing = true;
 		backingCard.add(scrollMiddle);
 
 		cardGlow = new FlxSprite().loadGraphic(Paths.image("menu/freeplay/bgs/pico/glow"));
-		cardGlow.antialiasing = true;
 		cardGlow.color = 0xFFB7E5FF;
 		backingCard.add(cardGlow);
 
 		cardFlash = Utils.makeColoredSprite(528, 720, 0xFF87C9FF);
-		cardFlash.antialiasing = true;
 		cardFlash.blend = BlendMode.ADD;
 		cardFlash.alpha = 0;
 		backingCard.add(cardFlash);

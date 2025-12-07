@@ -34,7 +34,6 @@ class SparrowScrub extends FlxState
 		sparrow = new FlxSprite();
 		sparrow.frames = Paths.getSparrowAtlas("week2/spooky_kids_assets");
 		sparrow.animation.addByPrefix("full", "Idle", 0, false);
-		sparrow.antialiasing = true;
 		//sparrow.screenCenter();
 		sparrow.animation.play("full");
 		add(sparrow);

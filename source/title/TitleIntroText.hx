@@ -57,7 +57,6 @@ class TitleIntroText extends MusicBeatState
 		ngSpr.setGraphicSize(Std.int(ngSpr.width * 0.8));
 		ngSpr.updateHitbox();
 		ngSpr.screenCenter(X);
-		ngSpr.antialiasing = true;
 
 		MainMenuState.playMenuMusic();
 	}

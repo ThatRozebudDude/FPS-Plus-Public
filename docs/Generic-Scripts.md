@@ -44,7 +44,7 @@ Similarly to stages, there are a variety of functions you can override that will
 
 ## Adding Objects
 
-Also similar to stages, you can use `addTo{Layer}()` and `removeFrom{Layer}()` where `{Layer}` is either `Background`, `Gf`, `Middle`, `Character`, `Foreground`, `Overlay`, or `Hud` to add objects to those layer groups. You can also use `addGeneric()` and `removeGeneric()` to just add an object to `PlayState`, or you can use `addGenericSubstate()` and `addGenericSubstate()` to add an object to whatever substate is currently open.
+Also similar to stages, you can use `addTo{Layer}()` and `removeFrom{Layer}()` where `{Layer}` is either `Background`, `Gf`, `Middle`, `Character`, `Foreground`, `Overlay`, or `Hud` to add objects to those layer groups. You can also use `addGeneric()` and `removeGeneric()` to just add an object to `PlayState`, or you can use `addGenericSubstate()` and `removeGenericSubstate()` to add an object to whatever substate is currently open.
 
 ## Accessing Scripts From Other Places
 

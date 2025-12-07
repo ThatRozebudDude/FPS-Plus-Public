@@ -47,7 +47,6 @@ class SpookyMansion extends BaseStage
 
 		light = new FlxSprite(shadows.x + 539, shadows.y + 748);
 		light.frames = Paths.getSparrowAtlas("week2/stage/windowLightWhite");
-		light.antialiasing = true;
 		light.animation.addByPrefix("flash", "Window Light Flash", 24, false);
 		light.animation.play("flash", true, false, 29);
 		light.color = windowLightColor;
@@ -55,13 +54,11 @@ class SpookyMansion extends BaseStage
 		addToBackground(light);
 
 		shadows.loadGraphic(Paths.image("week2/stage/shadowsWhite"));
-		shadows.antialiasing = true;
 		shadows.color = shadowColor;
 		addToBackground(shadows);
 
 		window = new FlxSprite(shadows.x + 434, shadows.y + 161);
 		window.frames = Paths.getSparrowAtlas("week2/stage/window");
-		window.antialiasing = true;
 		window.animation.addByPrefix("flash", "Window Flash", 24, false);
 		window.animation.play("flash", true, false, 29);
 		addToBackground(window);

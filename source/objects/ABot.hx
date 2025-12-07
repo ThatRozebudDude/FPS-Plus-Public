@@ -38,7 +38,6 @@ class ABot extends FlxTypedSpriteGroup<FlxSprite>
 		//8, 22
 
 		bg = new FlxSprite(147, 31).loadGraphic(Paths.image("weekend1/abot/stereoBG"));
-		bg.antialiasing = true;
 
 		visualizer = new ABotVisualizer(null);
 		visualizer.setPosition(203, 88);

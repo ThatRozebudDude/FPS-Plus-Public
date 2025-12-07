@@ -16,7 +16,6 @@ class Chart extends BaseStage
 		if(PlayState.fceForLilBuddies){
 			startingZoom = 1;
 			var chartBg = new FlxSprite().loadGraphic(ChartingState.screenshotBitmap);
-			chartBg.antialiasing = true;
 
 			if(chartBg.width != 1280 || chartBg.height != 720){
 				if(chartBg.width/1280 < chartBg.height/720){
@@ -49,6 +48,7 @@ class Chart extends BaseStage
 		addToBackground(blackBGThing);
 
 		var lilStage = new FlxSprite(32, 432).loadGraphic(Paths.image("chartEditor/lilStage"));
+		lilStage.antialiasing = false;
 		addToBackground(lilStage);
 
 		gf.visible = false;

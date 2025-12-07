@@ -81,7 +81,6 @@ class KeyBindMenu extends FlxUIStateExt
 		bg.setGraphicSize(Std.int(bg.width * 1.18));
 		bg.updateHitbox();
 		bg.screenCenter();
-		bg.antialiasing = true;
 		bg.color = 0xFF9766BE;
 		add(bg);
 
@@ -90,7 +89,6 @@ class KeyBindMenu extends FlxUIStateExt
 		controlText.animation.addByPrefix("boil", "", 24);
 		controlText.animation.play("boil");
 		controlText.screenCenter(X);
-		controlText.antialiasing = true;
 		add(controlText);
 
 		controlBox = new FlxSprite(65, 0).makeGraphic(1150, 400, 0xFFFFFFFF);

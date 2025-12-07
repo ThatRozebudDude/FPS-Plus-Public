@@ -27,14 +27,12 @@ class Tank extends BaseStage
 		startingZoom = 0.9;
 
 		var sky:FlxSprite = new FlxSprite(-2000, -400).loadGraphic(Paths.image("week7/stage/tankSky"));
-		sky.antialiasing = true;
 		sky.scrollFactor.set(0, 0);
 		sky.scale.set(4, 1);
 		sky.updateHitbox();
 		addToBackground(sky);
 
 		var tankMountains:FlxSprite = new FlxSprite(-500, -35).loadGraphic(Paths.image("week7/stage/tankMountains"));
-		tankMountains.antialiasing = true;
 		tankMountains.scrollFactor.set(0.2, 0.2);
 		tankMountains.scale.set(1.2, 1.2);
 		tankMountains.updateHitbox();
@@ -42,20 +40,17 @@ class Tank extends BaseStage
 
 		var clouds = new FlxBackdrop(Paths.image("week7/stage/tankClouds"), FlxAxes.X);
 		clouds.setPosition(-1100, 20);
-		clouds.antialiasing = true;
 		clouds.scrollFactor.set(0.25, 0.25);
 		clouds.velocity.x = 8;
 		addToBackground(clouds);
 
 		var tankBuildings:FlxSprite = new FlxSprite(-260, -35).loadGraphic(Paths.image("week7/stage/tankBuildings"));
-		tankBuildings.antialiasing = true;
 		tankBuildings.scrollFactor.set(0.3, 0.3);
 		tankBuildings.scale.set(1.1, 1.1);
 		tankBuildings.updateHitbox();
 		addToBackground(tankBuildings);
 
 		var tankRuins:FlxSprite = new FlxSprite(-200, 150).loadGraphic(Paths.image("week7/stage/tankRuins"));
-		tankRuins.antialiasing = true;
 		tankRuins.scrollFactor.set(0.35, 0.35);
 		tankRuins.scale.set(1.1, 1.1);
 		tankRuins.updateHitbox();
@@ -63,7 +58,6 @@ class Tank extends BaseStage
 
 		var smokeLeft:FlxSprite = new FlxSprite(-380, -40);
 		smokeLeft.frames = Paths.getSparrowAtlas("week7/stage/smokeLeft");
-		smokeLeft.antialiasing = true;
 		smokeLeft.scrollFactor.set(0.4, 0.4);
 		smokeLeft.animation.addByPrefix("smoke", "SmokeBlurLeft", 24, true);
 		smokeLeft.animation.play("smoke", true);
@@ -71,7 +65,6 @@ class Tank extends BaseStage
 
 		var smokeRight:FlxSprite = new FlxSprite(1050, -35);
 		smokeRight.frames = Paths.getSparrowAtlas("week7/stage/smokeRight");
-		smokeRight.antialiasing = true;
 		smokeRight.scrollFactor.set(0.4, 0.4);
 		smokeRight.animation.addByPrefix("smoke", "SmokeRight", 24, true);
 		smokeRight.animation.play("smoke", true);
@@ -79,7 +72,6 @@ class Tank extends BaseStage
 
 		tankWatchtower = new FlxSprite(-35, 110);
 		tankWatchtower.frames = Paths.getSparrowAtlas("week7/stage/tankWatchtower");
-		tankWatchtower.antialiasing = true;
 		tankWatchtower.scrollFactor.set(0.5, 0.5);
 		tankWatchtower.scale.set(0.85, 0.85);
 		tankWatchtower.updateHitbox();
@@ -89,7 +81,6 @@ class Tank extends BaseStage
 		
 		tankRolling = new FlxSprite(300, 300);
 		tankRolling.frames = Paths.getSparrowAtlas("week7/stage/tankRolling");
-		tankRolling.antialiasing = true;
 		tankRolling.scrollFactor.set(0.5, 0.5);
 		tankRolling.animation.addByPrefix("roll", "BG tank w lighting", 24, true);
 		tankRolling.animation.play("roll", true);
@@ -99,13 +90,11 @@ class Tank extends BaseStage
 		addToBackground(tankmanRun);
 
 		var tankGround:FlxSprite = new FlxSprite(-420, -150).loadGraphic(Paths.image("week7/stage/tankGround"));
-		tankGround.antialiasing = true;
 		tankGround.scale.set(1.15, 1.15);
 		tankGround.updateHitbox();
 		addToBackground(tankGround);
 
 		var lovelyLittleBricks = new FlxSprite(438, 715).loadGraphic(Paths.image("week7/stage/bricksGround"));
-		lovelyLittleBricks.antialiasing = true;
 		lovelyLittleBricks.scale.set(1.15, 1.15);
 		lovelyLittleBricks.updateHitbox();
 		addToMiddle(lovelyLittleBricks);
@@ -115,7 +104,6 @@ class Tank extends BaseStage
 
 		var fgTank0:FlxSprite = new FlxSprite(-500, 650);
 		fgTank0.frames = Paths.getSparrowAtlas("week7/stage/tank0");
-		fgTank0.antialiasing = true;
 		fgTank0.scrollFactor.set(1.7, 1.5);
 		fgTank0.animation.addByPrefix("dance", "fg", 24, false);
 		fgTank0.animation.play("dance", true);
@@ -123,7 +111,6 @@ class Tank extends BaseStage
 
 		var fgTank1:FlxSprite = new FlxSprite(-300, 970);
 		fgTank1.frames = Paths.getSparrowAtlas("week7/stage/tank1");
-		fgTank1.antialiasing = true;
 		fgTank1.scrollFactor.set(2, 1.7);
 		fgTank1.animation.addByPrefix("dance", "fg", 24, false);
 		fgTank1.animation.play("dance", true);
@@ -131,7 +118,6 @@ class Tank extends BaseStage
 
 		var fgTank2:FlxSprite = new FlxSprite(450, 940);
 		fgTank2.frames = Paths.getSparrowAtlas("week7/stage/tank2");
-		fgTank2.antialiasing = true;
 		fgTank2.scrollFactor.set(1.5, 1.5);
 		fgTank2.animation.addByPrefix("dance", "foreground", 24, false);
 		fgTank2.animation.play("dance", true);
@@ -139,7 +125,6 @@ class Tank extends BaseStage
 
 		var fgTank5:FlxSprite = new FlxSprite(1620, 700);
 		fgTank5.frames = Paths.getSparrowAtlas("week7/stage/tank5");
-		fgTank5.antialiasing = true;
 		fgTank5.scrollFactor.set(1.5, 1.5);
 		fgTank5.animation.addByPrefix("dance", "fg", 24, false);
 		fgTank5.animation.play("dance", true);
@@ -147,7 +132,6 @@ class Tank extends BaseStage
 
 		var fgTank4:FlxSprite = new FlxSprite(1300, 900);
 		fgTank4.frames = Paths.getSparrowAtlas("week7/stage/tank4");
-		fgTank4.antialiasing = true;
 		fgTank4.scrollFactor.set(1.5, 1.5);
 		fgTank4.animation.addByPrefix("dance", "fg", 24, false);
 		fgTank4.animation.play("dance", true);
@@ -155,7 +139,6 @@ class Tank extends BaseStage
 
 		var fgTank3:FlxSprite = new FlxSprite(1300, 1225);
 		fgTank3.frames = Paths.getSparrowAtlas("week7/stage/tank3");
-		fgTank3.antialiasing = true;
 		fgTank3.scrollFactor.set(3.5, 2.5);
 		fgTank3.animation.addByPrefix("dance", "fg", 24, false);
 		fgTank3.animation.play("dance", true);

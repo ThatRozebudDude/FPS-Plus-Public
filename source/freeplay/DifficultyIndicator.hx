@@ -21,7 +21,6 @@ class DifficultyIndicator extends FlxSpriteGroup
 
 		for(i in 0...3){
 			var dot = new FlxSprite(20 * i, 0).loadGraphic(Paths.image("menu/freeplay/difficultyIndicator"));
-			dot.antialiasing = true;
 			dots.push(dot);
 			add(dot);
 		}

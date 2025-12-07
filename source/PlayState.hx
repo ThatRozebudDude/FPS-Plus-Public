@@ -4,7 +4,7 @@ import thx.Path;
 import shaders.*;
 import ui.*;
 import config.*;
-import debug.*;
+import editors.*;
 import title.*;
 import transition.data.*;
 import stages.*;
@@ -448,6 +448,75 @@ class PlayState extends MusicBeatState
 			FlxG.sound.cache(Paths.sound(missSound));
 		}
 
+		/*
+			Moving the onAdd to PlayState since the old way I did it relied on update being called at least once which meant
+			it wasn't really an "on add" it was more of a "first update" and it was causing a few issues (namely the camera
+			position at the begining of Tutorial wasn't correct becuase the move happened after the camera position was set)
+		*/
+
+		backgroundLayer.memberAdded.add(function(obj:FlxBasic) {
+			if(Type.getClass(obj) == Character){
+				var char = cast(obj, Character);
+				if(!char.debugMode && char.characterInfo.info.functions.add != null){
+					char.characterInfo.info.functions.add(char);
+				}
+			}
+		});
+
+		gfLayer.memberAdded.add(function(obj:FlxBasic) {
+			if(Type.getClass(obj) == Character){
+				var char = cast(obj, Character);
+				if(!char.debugMode && char.characterInfo.info.functions.add != null){
+					char.characterInfo.info.functions.add(char);
+				}
+			}
+		});
+
+		middleLayer.memberAdded.add(function(obj:FlxBasic) {
+			if(Type.getClass(obj) == Character){
+				var char = cast(obj, Character);
+				if(!char.debugMode && char.characterInfo.info.functions.add != null){
+					char.characterInfo.info.functions.add(char);
+				}
+			}
+		});
+
+		characterLayer.memberAdded.add(function(obj:FlxBasic) {
+			if(Type.getClass(obj) == Character){
+				var char = cast(obj, Character);
+				if(!char.debugMode && char.characterInfo.info.functions.add != null){
+					char.characterInfo.info.functions.add(char);
+				}
+			}
+		});
+
+		foregroundLayer.memberAdded.add(function(obj:FlxBasic) {
+			if(Type.getClass(obj) == Character){
+				var char = cast(obj, Character);
+				if(!char.debugMode && char.characterInfo.info.functions.add != null){
+					char.characterInfo.info.functions.add(char);
+				}
+			}
+		});
+
+		hudLayer.memberAdded.add(function(obj:FlxBasic) {
+			if(Type.getClass(obj) == Character){
+				var char = cast(obj, Character);
+				if(!char.debugMode && char.characterInfo.info.functions.add != null){
+					char.characterInfo.info.functions.add(char);
+				}
+			}
+		});
+
+		overlayLayer.memberAdded.add(function(obj:FlxBasic) {
+			if(Type.getClass(obj) == Character){
+				var char = cast(obj, Character);
+				if(!char.debugMode && char.characterInfo.info.functions.add != null){
+					char.characterInfo.info.functions.add(char);
+				}
+			}
+		});
+
 		var stageCheck:String = "EmptyStage";
 		if (SONG.stage != null) { stageCheck = SONG.stage; }
 
@@ -456,6 +525,10 @@ class PlayState extends MusicBeatState
 		}
 		else{
 			stage = new BaseStage();
+		}
+
+		if(stage.extraCameraMovementAmount != null){
+			camOffsetAmount = stage.extraCameraMovementAmount;
 		}
 
 		curStage = stage.name;
@@ -505,55 +578,9 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-
-		/*
-			Moving the onAdd to PlayState since the old way I did it relied on update being called at least once which meant
-			it wasn't really an "on add" it was more of a "first update" and it was causing a few issues (namely the camera
-			position at the begining of Tutorial wasn't correct becuase the move happened after the camera position was set)
-		*/
-
-		characterLayer.memberAdded.add(function(obj:FlxBasic) {
-			var char = cast(obj, Character);
-			if(!char.debugMode && char.characterInfo.info.functions.add != null){
-				char.characterInfo.info.functions.add(char);
-			}
-		});
-
-		gfLayer.memberAdded.add(function(obj:FlxBasic) {
-			var char = cast(obj, Character);
-			if(!char.debugMode && char.characterInfo.info.functions.add != null){
-				char.characterInfo.info.functions.add(char);
-			}
-		});
-		
-		if(stage.extraCameraMovementAmount != null){
-			camOffsetAmount = stage.extraCameraMovementAmount;
-		}
-
-		for(i in 0...stage.backgroundElements.length){
-			backgroundLayer.add(stage.backgroundElements[i]);
-		}
-
 		gfLayer.add(gf);
-
-		for(i in 0...stage.middleElements.length){
-			middleLayer.add(stage.middleElements[i]);
-		}
-		
 		characterLayer.add(dad);
 		characterLayer.add(boyfriend);
-
-		for(i in 0...stage.foregroundElements.length){
-			foregroundLayer.add(stage.foregroundElements[i]);
-		}
-		
-		for(i in 0...stage.hudElements.length){
-			hudLayer.add(stage.hudElements[i]);
-		}
-		
-		for(i in 0...stage.overlayElements.length){
-			overlayLayer.add(stage.overlayElements[i]);
-		}
 
 		add(backgroundLayer);
 		add(gfLayer);
@@ -563,9 +590,6 @@ class PlayState extends MusicBeatState
 
 		add(overlayLayer);
 		overlayLayer.cameras = [camOverlay];
-
-		characterLayer.memberAdded.removeAll();
-		gfLayer.memberAdded.removeAll();
 
 		var camPos:FlxPoint = new FlxPoint(FlxMath.lerp(getOpponentFocusPosition().x, getBfFocusPostion().x, 0.5), FlxMath.lerp(getOpponentFocusPosition().y, getBfFocusPostion().y, 0.5));
 
@@ -657,18 +681,17 @@ class PlayState extends MusicBeatState
 		healthBarBG = new FlxSprite(0, Config.downscroll ? FlxG.height * 0.1 : FlxG.height * 0.875).loadGraphic(Paths.image("ui/healthBar"));
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
-		healthBarBG.antialiasing = true;
 		add(healthBarBG);
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this, 'healthLerp', 0, 2);
 		healthBar.scrollFactor.set();
 		healthBar.createFilledBar(dad.characterColor, boyfriend.characterColor);
-		healthBar.antialiasing = true;
 		// healthBar
 		
-		scoreTxt = new FlxTextExt(healthBarBG.x - 105, (FlxG.height * 0.9) + 36, 800, "", 22);
-		scoreTxt.setFormat(Paths.font("vcr"), 22, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt = new FlxTextExt(0, 687, 800, "", 20);
+		scoreTxt.setFormat(Paths.font("vcr"), 20, 0xFFFFFFFF, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		scoreTxt.scrollFactor.set();
+		scoreTxt.screenCenter(X);
 
 		iconP1 = new HealthIcon(boyfriend.iconName, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2) + iconP1.yOffset;
@@ -795,8 +818,10 @@ class PlayState extends MusicBeatState
 			preventScoreSaving = true;
 		}
 		
-		stage.postCreate();
+		scripts.set("___STAGE_SCRIPT___", stage);
+
 		for(script in scripts){ script.create(); }
+		for(script in scripts){ script.postCreate(); }
 		
 		cutsceneCheck();
 
@@ -885,7 +910,6 @@ class PlayState extends MusicBeatState
 		var countdownSkinName:String = uiSkinNames.countdown;
 		var countdownSkin:CountdownSkinBase = new CountdownSkinBase(countdownSkinName);
 
-		stage.countdownBeat(-1);
 		for(script in scripts){ script.countdownBeat(-1); }
 
 		if(boyfriend.characterInfo.info.functions.countdownBeat != null){
@@ -1008,7 +1032,6 @@ class PlayState extends MusicBeatState
 			}
 
 			if(swagCounter < 4){
-				stage.countdownBeat(swagCounter);
 				for(script in scripts){ script.countdownBeat(swagCounter); }
 
 				if(boyfriend.characterInfo.info.functions.countdownBeat != null){
@@ -1078,7 +1101,6 @@ class PlayState extends MusicBeatState
 		if(gf.characterInfo.info.functions.songStart != null){
 			gf.characterInfo.info.functions.songStart(gf);
 		}
-		stage.songStart();
 		for(script in scripts){ script.songStart(); }
 
 		countSteps = true;
@@ -1584,7 +1606,7 @@ class PlayState extends MusicBeatState
 			previouslyTrackedSongStats = Reflect.copy(songStats);
 		}
 
-		stage.update(elapsed);
+		stage.updateTheUpdateGroup(elapsed);
 		for(script in scripts){ script.update(elapsed); }
 
 		if (Binds.justPressed("pause") && startedCountdown && canPause){
@@ -1669,13 +1691,13 @@ class PlayState extends MusicBeatState
 			sectionStart = false;
 
 			if(FlxG.keys.pressed.SHIFT){
-				switchState(new AnimationDebug(SONG.player1), false);
+				switchState(new AnimationEditor(SONG.player1), false);
 			}
 			else if(FlxG.keys.pressed.CONTROL){
-				switchState(new AnimationDebug(gfCheck), false);
+				switchState(new AnimationEditor(gfCheck), false);
 			}
 			else{
-				switchState(new AnimationDebug(SONG.player2), false);
+				switchState(new AnimationEditor(SONG.player2), false);
 			}
 		}
 
@@ -1829,7 +1851,7 @@ class PlayState extends MusicBeatState
 
 		camGame.filters = [];
 
-		openSubState(new GameOverSubstate(boyfriend.getSprite().getScreenPosition().x, boyfriend.getSprite().getScreenPosition().y, camFollowFinal.getScreenPosition().x, camFollowFinal.getScreenPosition().y, defaultCamZoom, character));
+		openSubState(new GameOverSubState(boyfriend.getSprite().getScreenPosition().x, boyfriend.getSprite().getScreenPosition().y, camFollowFinal.getScreenPosition().x, camFollowFinal.getScreenPosition().y, defaultCamZoom, character));
 		sectionStart = false;
 	}
 
@@ -1944,7 +1966,6 @@ class PlayState extends MusicBeatState
 				if(dad.characterInfo.info.functions.noteHit != null){
 					dad.characterInfo.info.functions.noteHit(dad, daNote);
 				}
-				stage.noteHit(dad, daNote);
 				for(script in scripts){ script.noteHit(dad, daNote); }
 					
 
@@ -1986,7 +2007,6 @@ class PlayState extends MusicBeatState
 		if(gf.characterInfo.info.functions.songEnd != null){
 			gf.characterInfo.info.functions.songEnd(gf);
 		}
-		stage.songEnd();
 		for(script in scripts){ script.songEnd(); }
 
 		if(endCutscene != null){
@@ -2483,7 +2503,6 @@ class PlayState extends MusicBeatState
 			if(boyfriend.characterInfo.info.functions.noteMiss != null){
 				boyfriend.characterInfo.info.functions.noteMiss(boyfriend, direction, countMiss);
 			}
-			stage.noteMiss(direction, countMiss);
 			for(script in scripts){ script.noteMiss(direction, countMiss); }
 
 		}
@@ -2587,7 +2606,6 @@ class PlayState extends MusicBeatState
 			if(boyfriend.characterInfo.info.functions.noteHit != null){
 				boyfriend.characterInfo.info.functions.noteHit(boyfriend, note);
 			}
-			stage.noteHit(boyfriend, note);
 			for(script in scripts){ script.noteHit(boyfriend, note); }
 
 			if(!note.isSustainNote){
@@ -2636,7 +2654,6 @@ class PlayState extends MusicBeatState
 		boyfriend.step(curStep);
 		dad.step(curStep);
 		gf.step(curStep);
-		stage.step(curStep);
 		notes.forEachAlive(function(note){ note.step(curStep); });
 		for(script in scripts){ script.step(curStep); }
 
@@ -2680,7 +2697,6 @@ class PlayState extends MusicBeatState
 		boyfriend.beat(curBeat);
 		dad.beat(curBeat);
 		gf.beat(curBeat);
-		stage.beat(curBeat);
 		notes.forEachAlive(function(note){ note.beat(curBeat); });
 		for(script in scripts){ script.beat(curBeat); }
 
@@ -3126,7 +3142,6 @@ class PlayState extends MusicBeatState
 	}
 
 	function preStateChange():Void{
-		stage.exit();
 		for(script in scripts){ script.exit(); }
 		Conductor.resetBPMChanges();
 		fromChartEditor = false;

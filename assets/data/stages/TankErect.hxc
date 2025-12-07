@@ -37,14 +37,12 @@ class TankErect extends BaseStage
 		startingZoom = 0.7;
 
 		var bg = new FlxSprite(-985, -805).loadGraphic(Paths.image("week7/stage/erect/bg"));
-		bg.antialiasing = true;
 		bg.scale.set(1.15, 1.15);
 		bg.updateHitbox();
 		addToBackground(bg);
 
 		sniper = new FlxSprite(-127, 349);
 		sniper.frames = Paths.getSparrowAtlas("week7/stage/erect/sniper");
-		sniper.antialiasing = true;
 		sniper.scale.set(1.15, 1.15);
 		sniper.updateHitbox();
 		sniper.animation.addByPrefix("idle", "Tankmanidlebaked instance 1", 24, false);
@@ -54,7 +52,6 @@ class TankErect extends BaseStage
 
 		guy = new FlxSprite(1398, 407);
 		guy.frames = Paths.getSparrowAtlas("week7/stage/erect/guy");
-		guy.antialiasing = true;
 		guy.scale.set(1.15, 1.15);
 		guy.updateHitbox();
 		guy.animation.addByPrefix("idle", "BLTank2 instance 1", 24, false);
@@ -62,7 +59,6 @@ class TankErect extends BaseStage
 		addToBackground(guy);
 
 		var lovelyLittleBricks = new FlxSprite(465, 760).loadGraphic(Paths.image("week7/stage/erect/bricksGround"));
-		lovelyLittleBricks.antialiasing = true;
 		lovelyLittleBricks.flipX = true;
 		lovelyLittleBricks.scale.set(1.15, 1.15);
 		lovelyLittleBricks.updateHitbox();
@@ -70,7 +66,6 @@ class TankErect extends BaseStage
 		
 		neneKnife = new FlxSprite(950, 500);
 		neneKnife.frames = Paths.getSparrowAtlas("week7/neneKnifeThrow");
-		neneKnife.antialiasing = true;
 		neneKnife.visible = false;
 		neneKnife.animation.addByPrefix("spin", "", 30, true);
 		neneKnife.animation.play("spin");
