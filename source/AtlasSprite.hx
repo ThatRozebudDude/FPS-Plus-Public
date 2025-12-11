@@ -44,7 +44,10 @@ class AtlasSprite extends FlxAnimate
 		frames = FlxAnimateFrames.fromAnimate(_path.path, null, null, null, false, _settings);
 		anim.addByTimeline("___full", anim.getDefaultTimeline(), 24, false);
 		anim.onFrameChange.add(animCallback);
-		if(_path.old){ applyStageMatrix = true; }
+		if(_path.old){
+			applyStageMatrix = true;
+			trace(origin);
+		}
 	}
 
 	public function addAnimationByLabel(name:String, label:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
@@ -219,44 +222,3 @@ class AtlasSprite extends FlxAnimate
 		super.update(elapsed);
 	}
 }
-
-/*
-static function getGraphic(path:String):FlxGraphic{
-		trace("we do this instead");
-		if(ImageCache.exists(path)){
-			return ImageCache.get(path).graphic;
-		}
-		else{
-			return ImageCache.loadLocal(path).graphic;
-		}
-	}
-*/
-
-//Not working but maybe i can get it to work later? idk.
-#if !display
-#if macro
-class FlxAnimateFramesMacro
-{
-	//Override the FlxAnimateFrames `getGraphic()` function to use my image caching stuff instead of Flixel's normal bitmap cache.
-	public static macro function changeGetGraphic():Array<haxe.macro.Expr.Field>{
-		var fields = haxe.macro.Context.getBuildFields();
-		for(field in fields){
-			if(field.name == "getGraphic"){
-				var originalExpression = f.expr;
-				f.expr = macro {
-					trace("we do this instead");
-					if(ImageCache.exists(path)){
-						return ImageCache.get(path).graphic;
-					}
-					else{
-						return ImageCache.loadLocal(path).graphic;
-					}
-				};
-				trace("Modified animate.FlxAnimateFrames.getGraphic()");
-			}
-		}
-		return fields;
-	}
-}
-#end
-#end
