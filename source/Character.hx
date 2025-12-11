@@ -422,6 +422,7 @@ class Character extends FlxSpriteGroup
 				character.frames = Paths.getPackerAtlas(characterInfo.info.spritePath);
 			case atlas:
 				atlasCharacter = new AtlasSprite(0, 0, Paths.getTextureAtlas(characterInfo.info.spritePath));
+				atlasCharacter.useRenderTexture = true; //Turn on useRenderTexture on by default for characters.
 		}
 
 		for(x in characterInfo.info.anims){
@@ -485,12 +486,16 @@ class Character extends FlxSpriteGroup
 					case "worldPopupOffset":
 						worldPopupOffset.set(data[0], data[1]);
 					case "missSounds":
-						missSounds = data[0];
+						missSounds = data;
 					case "missSoundVolume":
-						missSoundVolume = data[0];
+						missSoundVolume = data;
 					case "applyStageMatrix":
 						if(atlasCharacter != null){
-							atlasCharacter.applyStageMatrix = data[0];
+							atlasCharacter.applyStageMatrix = data;
+						}
+					case "useRenderTexture":
+						if(atlasCharacter != null){
+							atlasCharacter.useRenderTexture = data;
 						}
 					default:
 						//Do nothing by default.

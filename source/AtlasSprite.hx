@@ -46,7 +46,6 @@ class AtlasSprite extends FlxAnimate
 		anim.onFrameChange.add(animCallback);
 		if(_path.old){
 			applyStageMatrix = true;
-			trace(origin);
 		}
 	}
 
