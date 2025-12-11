@@ -1,14 +1,26 @@
 package;
 
+import animate.FlxAnimateAssets;
+import animate.FlxAnimateJson;
+import animate.internal.SymbolItem;
+import animate.internal.Timeline;
+import animate.internal.elements.SymbolInstance;
 import flixel.math.FlxMatrix;
 import flixel.util.FlxTimer;
+import flixel.util.FlxColor;
 import animate.FlxAnimate;
 import animate.FlxAnimateFrames;
 import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.FlxGraphic;
 import flixel.math.FlxRect;
+import flixel.math.FlxMatrix;
+import flixel.math.FlxPoint;
 import Paths.TextureAtlasData;
+import haxe.io.Path;
+import haxe.Json;
+
+using StringTools;
 
 typedef AtlasAnimInfo = {
 	startFrame:Int,
@@ -41,7 +53,7 @@ class AtlasSprite extends FlxAnimate
 	}
 
 	public function loadAtlas(_path:TextureAtlasData, ?_settings:FlxAnimateSettings){
-		frames = FlxAnimateFrames.fromAnimate(_path.path, null, null, null, false, _settings);
+		frames = loadAndCache(_path.path, false, _settings);
 		anim.addByTimeline("___full", anim.getDefaultTimeline(), 24, false);
 		anim.onFrameChange.add(animCallback);
 		if(_path.old){
@@ -220,4 +232,182 @@ class AtlasSprite extends FlxAnimate
 
 		super.update(elapsed);
 	}
+
+	//Combines FlxAnimateFrames.fromAnimate(), FlxAnimateFrames._fromAnimatePath(), and FlxAnimateFrames._fromAnimateInput() in a way that uses the FPS Plus image cache instead of Flixel's built in bitmap cache.
+	static function loadAndCache(animate:String, ?unique:Bool = false, ?settings:FlxAnimateSettings):FlxAnimateFrames{
+		
+
+
+		//This is the fromAnimate() part.
+
+
+
+		@:privateAccess
+		if (!unique && FlxAnimateFrames._cachedAtlases.exists(animate)){
+			var cachedAtlas = FlxAnimateFrames._cachedAtlases.get(animate);
+			var isAtlasDestroyed = false;
+
+			// Check if the atlas is complete
+			// For most cases this shouldnt be an issue but theres a ton of people who make their
+			// own flixel caching systems that dont work nice with this.
+			// For anyone out there listening, if theres a better option, PLEASE help, this is crap
+			// - maru
+			for (spritemap in cast(cachedAtlas.parent, FlxAnimateSpritemapCollection).spritemaps){
+				if (#if (flixel >= "5.6.0") spritemap.isDestroyed #else spritemap.shader == null #end){
+					isAtlasDestroyed = true;
+					break;
+				}
+			}
+
+			// Another check for individual frames (may have combined frames from a Sparrow)
+			if (!isAtlasDestroyed){
+				for (frame in cachedAtlas.frames){
+					if (frame == null || frame.parent == null || frame.frame == null){
+						isAtlasDestroyed = true;
+						break;
+					}
+				}
+			}
+
+			// Destroy previously cached atlas if incomplete, and create a new instance
+			if (isAtlasDestroyed){
+				FlxG.log.warn('Texture Atlas with the key "$animate" was previously cached, but incomplete. Was it incorrectly destroyed?');
+				cachedAtlas.destroy();
+				FlxAnimateFrames._cachedAtlases.remove(animate);
+			}
+			else{
+				return cachedAtlas;
+			}
+		}
+
+
+
+		//This is the _fromAnimatePath() part.
+
+
+
+		var hasAnimation:Bool = FlxAnimateAssets.exists(animate + "/Animation.json", TEXT);
+		if (!hasAnimation){
+			FlxG.log.warn('No Animation.json file was found for path "$animate".');
+			return null;
+		}
+		
+		@:privateAccess
+		var animation = FlxAnimateFrames.getTextFromPath(animate + "/Animation.json");
+		var isInlined = !FlxAnimateAssets.exists(animate + "/metadata.json", TEXT);
+		var libraryList:Null<Array<String>> = null;
+		var spritemaps:Array<SpritemapInput> = [];
+		@:privateAccess
+		var metadata:Null<String> = isInlined ? null : FlxAnimateFrames.getTextFromPath(animate + "/metadata.json");
+
+		@:privateAccess
+		if (!isInlined){
+			var list = FlxAnimateFrames.listWithFilter(animate + "/LIBRARY", (str) -> str.endsWith(".json"), true);
+			libraryList = list.map((str) -> {
+				str = str.split("/LIBRARY/").pop();
+				return Path.withoutExtension(str);
+			});
+		}
+
+		// Load all spritemaps
+		@:privateAccess
+		var spritemapList = FlxAnimateFrames.listWithFilter(animate, (file) -> file.startsWith("spritemap"), false);
+		var jsonList = spritemapList.filter((file) -> file.endsWith(".json"));
+
+		for (sm in jsonList){
+			var id = sm.split("spritemap")[1].split(".")[0];
+			var imageFile = spritemapList.filter((file) -> file.startsWith('spritemap$id') && !file.endsWith(".json"))[0];
+
+			var imagePath = animate + "/" + imageFile;
+			imagePath = imagePath.split(".png")[0].split("assets/images/")[1];
+
+			@:privateAccess
+			spritemaps.push({
+				source: Paths.image(imagePath),
+				json: FlxAnimateFrames.getTextFromPath('$animate/$sm')
+			});
+		}
+
+		if (spritemaps.length <= 0){
+			FlxG.log.warn('No spritemaps were found for key "$animate". Is the texture atlas incomplete?');
+			return null;
+		}
+
+
+		
+		//This is the _fromAnimateInput() part.
+
+
+
+		var animData:AnimationJson = null;
+		try{
+			animData = Json.parse(animation);
+		}
+		catch (e){
+			FlxG.log.warn('Couldnt load Animation.json with input "$animation". Is the texture atlas missing?');
+			return null;
+		}
+
+		if (spritemaps == null || spritemaps.length <= 0){
+			FlxG.log.warn('No spritemaps were added for key "$animate".');
+			return null;
+		}
+
+		var frames = new FlxAnimateFrames(null);
+		@:privateAccess{
+			frames.path = animate;
+			frames._symbolDictionary = animData.SD;
+			frames._isInlined = isInlined;
+			frames._libraryList = libraryList;
+			frames._settings = settings;
+		}
+
+		var spritemapCollection = new FlxAnimateSpritemapCollection(frames);
+		frames.parent = spritemapCollection;
+
+		// Load all spritemaps
+		for (sm in spritemaps){
+			var atlas = new FlxAtlasFrames(sm.source);
+			var spritemap:SpritemapJson = Json.parse(sm.json);
+
+			for (sprite in spritemap.ATLAS.SPRITES){
+				var sprite = sprite.SPRITE;
+				var rect = FlxRect.get(sprite.x, sprite.y, sprite.w, sprite.h);
+				var size = FlxPoint.get(sprite.w, sprite.h);
+				atlas.addAtlasFrame(rect, size, FlxPoint.get(), sprite.name, sprite.rotated ? ANGLE_NEG_90 : ANGLE_0);
+			}
+
+			frames.addAtlas(atlas);
+			spritemapCollection.addSpritemap(sm.source);
+		}
+
+		var metadata:MetadataJson = (metadata == null) ? animData.MD : Json.parse(metadata);
+
+		frames.frameRate = metadata.FRT;
+		frames.timeline = new Timeline(animData.AN.TL, frames, animData.AN.SN);
+		@:privateAccess
+		frames.dictionary.set(frames.timeline.name, new SymbolItem(frames.timeline)); // Add main symbol to the library too
+
+		// stage background color
+		var w = metadata.W;
+		var h = metadata.H;
+		frames.stageRect = (w > 0 && h > 0) ? FlxRect.get(0, 0, w, h) : FlxRect.get(0, 0, 1280, 720);
+		frames.stageColor = FlxColor.fromString(metadata.BGC);
+
+		// stage instance of the main symbol
+		var stageInstance:Null<SymbolInstanceJson> = animData.AN.STI;
+		frames.matrix = (stageInstance != null) ? stageInstance.MX.toMatrix() : new FlxMatrix();
+
+		// clear the temp data crap
+		@:privateAccess{
+			frames._symbolDictionary = null;
+			frames._libraryList = [];
+			frames._settings = null;
+
+			FlxAnimateFrames._cachedAtlases.set(animate, frames);
+		}
+		
+		return frames;
+	}
+
 }
