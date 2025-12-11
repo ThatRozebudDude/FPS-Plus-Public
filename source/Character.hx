@@ -485,9 +485,9 @@ class Character extends FlxSpriteGroup
 					case "worldPopupOffset":
 						worldPopupOffset.set(data[0], data[1]);
 					case "missSounds":
-						missSounds = data[0];
+						missSounds = data;
 					case "missSoundVolume":
-						missSoundVolume = data[0];
+						missSoundVolume = data;
 					default:
 						//Do nothing by default.
 				}
