@@ -7,7 +7,7 @@ import flixel.tweens.FlxEase;
 import flixel.FlxCamera;
 import flixel.FlxCameraFollowStyle;
 import openfl.filters.ShaderFilter;
-import shaders.DropShadowScreenspaceShader;
+import shaders.DropShadowShader;
 import objects.ABot;
 import transition.data.InstantTransition;
 
@@ -27,19 +27,11 @@ class StressPicoIntro extends ScriptedCutscene
 	var cutsceneAudio:FlxSound;
 	var startOffset:Float = 0.5;
 
-	var tankmanCamera:FlxCamera;
-	var picoCamera:FlxCamera;
-	var speakerCharacterCamera:FlxCamera;
-	var speakerCamera:FlxCamera;
-	var frontCamera:FlxCamera;
-	var behindCamera:FlxCamera;
-	var gunshotCamera:FlxCamera;
-
-	var	tankmanShader:DropShadowScreenspaceShader;
-	var	picoShader:DropShadowScreenspaceShader;
-	var	speakerCharacterShader:DropShadowScreenspaceShader;
-	var	frontShader:DropShadowScreenspaceShader;
-	var	behindShader:DropShadowScreenspaceShader;
+	var	tankmanShader:DropShadowShader;
+	var	picoShader:DropShadowShader;
+	var	speakerCharacterShader:DropShadowShader;
+	var	frontShader:DropShadowShader;
+	var	behindShader:DropShadowShader;
 
 	var originalZoom:Float;
 	var camStartPoint:FlxPoint;
@@ -48,156 +40,109 @@ class StressPicoIntro extends ScriptedCutscene
 		super(args);
 
 		FlxG.sound.cache(Paths.sound("week7/picoStressCutscene"));
-
-		tankmanCamera = new FlxCamera();
-		tankmanCamera.bgColor = 0x00000000;
-		tankmanCamera.zoom = playstate.camGame.zoom;
-		tankmanCamera.follow(playstate.camFollowFinal, FlxCameraFollowStyle.LOCKON);
-		tankmanCamera.focusOn(playstate.camFollowFinal.getPosition());
-		
-		picoCamera = new FlxCamera();
-		picoCamera.bgColor = 0x00000000;
-		picoCamera.zoom = playstate.camGame.zoom;
-		picoCamera.follow(playstate.camFollowFinal, FlxCameraFollowStyle.LOCKON);
-		picoCamera.focusOn(playstate.camFollowFinal.getPosition());
-
-		speakerCharacterCamera = new FlxCamera();
-		speakerCharacterCamera.bgColor = 0x00000000;
-		speakerCharacterCamera.zoom = playstate.camGame.zoom;
-		speakerCharacterCamera.follow(playstate.camFollowFinal, FlxCameraFollowStyle.LOCKON);
-		speakerCharacterCamera.focusOn(playstate.camFollowFinal.getPosition());
-
-		speakerCamera = new FlxCamera();
-		speakerCamera.bgColor = 0x00000000;
-		speakerCamera.zoom = playstate.camGame.zoom;
-		speakerCamera.follow(playstate.camFollowFinal, FlxCameraFollowStyle.LOCKON);
-		speakerCamera.focusOn(playstate.camFollowFinal.getPosition());
-
-		frontCamera = new FlxCamera();
-		frontCamera.bgColor = 0x00000000;
-		frontCamera.zoom = playstate.camGame.zoom;
-		frontCamera.follow(playstate.camFollowFinal, FlxCameraFollowStyle.LOCKON);
-		frontCamera.focusOn(playstate.camFollowFinal.getPosition());
-		
-		behindCamera = new FlxCamera();
-		behindCamera.bgColor = 0x00000000;
-		behindCamera.zoom = playstate.camGame.zoom;
-		behindCamera.follow(playstate.camFollowFinal, FlxCameraFollowStyle.LOCKON);
-		behindCamera.focusOn(playstate.camFollowFinal.getPosition());
-		
-		gunshotCamera = new FlxCamera();
-		gunshotCamera.bgColor = 0x00000000;
-		gunshotCamera.zoom = playstate.camGame.zoom;
-		gunshotCamera.follow(playstate.camFollowFinal, FlxCameraFollowStyle.LOCKON);
-		gunshotCamera.focusOn(playstate.camFollowFinal.getPosition());
-
 		camStartPoint = playstate.camFollowFinal.getPosition();
 
-		FlxG.cameras.insert(behindCamera, 			FlxG.cameras.list.indexOf(playstate.camGame) + 1, false);
-		FlxG.cameras.insert(speakerCamera, 			FlxG.cameras.list.indexOf(playstate.camGame) + 2, false);
-		FlxG.cameras.insert(speakerCharacterCamera, FlxG.cameras.list.indexOf(playstate.camGame) + 3, false);
-		FlxG.cameras.insert(frontCamera, 			FlxG.cameras.list.indexOf(playstate.camGame) + 4, false);
-		FlxG.cameras.insert(tankmanCamera, 			FlxG.cameras.list.indexOf(playstate.camGame) + 5, false);
-		FlxG.cameras.insert(picoCamera, 			FlxG.cameras.list.indexOf(playstate.camGame) + 6, false);
-		FlxG.cameras.insert(gunshotCamera, 			FlxG.cameras.list.indexOf(playstate.camGame) + 7, false);
+		//Shaders
+
+		tankmanShader = new DropShadowShader();
+		tankmanShader.setAdjustColor(-46, -38, -25, -20);
+		tankmanShader.color = 0xFFDFEF3C;
+		tankmanShader.angle = 45;
+		tankmanShader.threshold = 0.3;
+
+		picoShader = new DropShadowShader();
+		picoShader.setAdjustColor(-46, -38, -25, -20);
+    	picoShader.color = 0xFFDFEF3C;
+		picoShader.angle = 90;
+
+		speakerCharacterShader = new DropShadowShader();
+		speakerCharacterShader.setAdjustColor(-46, -38, -25, -20);
+    	speakerCharacterShader.color = 0xFFDFEF3C;
+		speakerCharacterShader.angle = 90;
+		
+		frontShader = new DropShadowShader();
+		frontShader.setAdjustColor(-46, -38, -25, -20);
+    	frontShader.color = 0xFFDFEF3C;
+		frontShader.angle = 90;
+		frontShader.threshold = 0.4;
+
+		behindShader = new DropShadowShader();
+		behindShader.setAdjustColor(-46, -38, -25, -20);
+    	behindShader.color = 0xFFDFEF3C;
+		behindShader.angle = 90;
+		behindShader.threshold = 0.4;
+
+		//Sprites
 		
 		abot = new ABot(412 + 25, 470 - 25);
-		abot.cameras = [speakerCamera];
+		abot.applyShader(speakerCharacterShader);
 		abot.lookLeft();
 
 		lovelyLittleBricks = new FlxSprite(465, 760).loadGraphic(Paths.image("week7/stage/erect/bricksGround"));
 		lovelyLittleBricks.flipX = true;
 		lovelyLittleBricks.scale.set(1.15, 1.15);
 		lovelyLittleBricks.updateHitbox();
-		lovelyLittleBricks.cameras = [speakerCamera];
 
 		gunshot = new FlxSprite(-215, 543);
 		gunshot.frames = Paths.getSparrowAtlas("week7/cutscene/picoStress/gunshot");
 		gunshot.visible = false;
 		gunshot.animation.addByPrefix("anim", "", 24, false);
-		gunshot.cameras = [gunshotCamera];
 		gunshot.animation.onFinish.add(gunshotAnimationEnd);
 		
 		tankman = new AtlasSprite(-136, 316, Paths.getTextureAtlas("week7/cutscene/picoStress/tankman"));
 		tankman.applyStageMatrix = true;
-		tankman.antialiasing = true;
+		tankman.useRenderTexture = true;
 		tankman.addFullAnimation("anim", 24, false);
-		tankman.addFullAnimation("animFastForTest", 800, false);
-		tankman.cameras = [tankmanCamera];
+		tankman.shader = tankmanShader;
+		tankman.frameCallback = function(name:String, frame:Int, index:Int){
+			tankmanShader.updateFrameInfoSimple(tankman.frameWidth, tankman.frameHeight, 0);
+		}
 
 		pico = new AtlasSprite(782, 470, Paths.getTextureAtlas("week7/cutscene/picoStress/pico"));
 		pico.applyStageMatrix = true;
-		pico.antialiasing = true;
+		pico.useRenderTexture = true;
 		pico.addFullAnimation("anim", 24, false);
-		pico.addFullAnimation("animFastForTest", 800, false);
-		pico.cameras = [picoCamera];
+		pico.shader = picoShader;
+		pico.frameCallback = function(name:String, frame:Int, index:Int){
+			picoShader.updateFrameInfoSimple(pico.frameWidth, pico.frameHeight, 0);
+		}
 
 		speakerFront = new AtlasSprite(288 + 25, 205 -25, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerFront"));
 		speakerFront.applyStageMatrix = true;
-		speakerFront.antialiasing = true;
+		speakerFront.useRenderTexture = true;
 		speakerFront.addFullAnimation("anim", 24, false);
-		speakerFront.cameras = [frontCamera];
+		speakerFront.shader = frontShader;
+		speakerFront.frameCallback = function(name:String, frame:Int, index:Int){
+			frontShader.updateFrameInfoSimple(speakerFront.frameWidth, speakerFront.frameHeight, 0);
+		}
 		speakerFront.animationEndCallback = function(name:String){
 			removeGeneric(speakerFront);
-			frontCamera.filters = [];
-			FlxG.cameras.remove(frontCamera, true);
 			Utils.destroyWhenAvailable(speakerFront);
-		}
+		};
 
 		speakerCharacter = new AtlasSprite(287 + 25, -712 -25, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerCharacter"));
 		speakerCharacter.applyStageMatrix = true;
-		speakerCharacter.antialiasing = true;
+		speakerCharacter.useRenderTexture = true;
 		speakerCharacter.addFullAnimation("anim", 24, false);
-		speakerCharacter.addFullAnimation("animFastForTest", 800, false);
-		speakerCharacter.cameras = [speakerCharacterCamera];
+		speakerCharacter.shader = speakerCharacterShader;
+		speakerCharacter.frameCallback = function(name:String, frame:Int, index:Int){
+			speakerCharacterShader.updateFrameInfoSimple(speakerCharacter.frameWidth, speakerCharacter.frameHeight, 0);
+		}
 		
 		speakerBack = new AtlasSprite(206 + 25, 105 -25, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerBack"));
 		speakerBack.applyStageMatrix = true;
-		speakerBack.antialiasing = true;
+		speakerBack.useRenderTexture = true;
 		speakerBack.addFullAnimation("anim", 24, false);
-		speakerBack.cameras = [behindCamera];
+		speakerBack.shader = behindShader;
+		speakerBack.frameCallback = function(name:String, frame:Int, index:Int){
+			behindShader.updateFrameInfoSimple(speakerBack.frameWidth, speakerBack.frameHeight, 0);
+		}
 		speakerBack.animationEndCallback = function(name:String){
 			removeGeneric(speakerBack);
-			behindCamera.filters = [];
-			FlxG.cameras.remove(behindCamera, true);
 			Utils.destroyWhenAvailable(speakerBack);
-		}
+		};
 
-		tankmanShader = new DropShadowScreenspaceShader();
-		tankmanShader.setAdjustColor(-46, -38, -25, -20);
-		tankmanShader.color = 0xFFDFEF3C;
-		tankmanShader.angle = 45;
-		tankmanShader.threshold = 0.3;
 
-		picoShader = new DropShadowScreenspaceShader();
-		picoShader.setAdjustColor(-46, -38, -25, -20);
-    	picoShader.color = 0xFFDFEF3C;
-		picoShader.angle = 90;
-
-		speakerCharacterShader = new DropShadowScreenspaceShader();
-		speakerCharacterShader.setAdjustColor(-46, -38, -25, -20);
-    	speakerCharacterShader.color = 0xFFDFEF3C;
-		speakerCharacterShader.angle = 90;
-		
-		frontShader = new DropShadowScreenspaceShader();
-		frontShader.setAdjustColor(-46, -38, -25, -20);
-    	frontShader.color = 0xFFDFEF3C;
-		frontShader.angle = 90;
-		frontShader.threshold = 0.4;
-
-		behindShader = new DropShadowScreenspaceShader();
-		behindShader.setAdjustColor(-46, -38, -25, -20);
-    	behindShader.color = 0xFFDFEF3C;
-		behindShader.angle = 90;
-		behindShader.threshold = 0.4;
-
-		tankmanCamera.filters = [new ShaderFilter(tankmanShader)];
-		picoCamera.filters = [new ShaderFilter(picoShader)];
-		speakerCharacterCamera.filters = [new ShaderFilter(speakerCharacterShader)];
-		frontCamera.filters = [new ShaderFilter(frontShader)];
-		behindCamera.filters = [new ShaderFilter(behindShader)];
-
-		abot.applyShader(speakerCharacterShader);
 
 		originalZoom = playstate.defaultCamZoom;
 		playstate.customTransIn = new InstantTransition();
@@ -205,6 +150,8 @@ class StressPicoIntro extends ScriptedCutscene
 
 		cutsceneAudio = Utils.createPausedSound(Paths.sound("week7/picoStressCutscene"));
 
+		//Events
+		
 		addEvent(0, 					setup);
 		addEvent(startOffset, 			startCutscene);
 		addEvent(startOffset + 150/24, 	camera1);
@@ -224,25 +171,6 @@ class StressPicoIntro extends ScriptedCutscene
 
 	override function update(elapsed:Float){
 		super.update(elapsed);
-		tankmanCamera.zoom = playstate.camGame.zoom;
-		speakerCharacterCamera.zoom = playstate.camGame.zoom;
-		speakerCamera.zoom = playstate.camGame.zoom;
-		behindCamera.zoom = playstate.camGame.zoom;
-		frontCamera.zoom = playstate.camGame.zoom;
-		picoCamera.zoom = playstate.camGame.zoom;
-		gunshotCamera.zoom = playstate.camGame.zoom;
-
-		tankmanShader.curZoom = tankmanCamera.zoom;
-		picoShader.curZoom = picoCamera.zoom;
-		speakerCharacterShader.curZoom = speakerCharacterCamera.zoom;
-		frontShader.curZoom = frontCamera.zoom;
-		behindShader.curZoom = behindCamera.zoom;
-
-		tankmanShader.updateViewportSize();
-		picoShader.updateViewportSize();
-		speakerCharacterShader.updateViewportSize();
-		frontShader.updateViewportSize();
-		behindShader.updateViewportSize();
 	}
 
 	function setup(){
@@ -341,14 +269,6 @@ class StressPicoIntro extends ScriptedCutscene
 		gunshot.destroy();
 		lovelyLittleBricks.destroy();
 
-		speakerCamera.filters = [];
-		speakerCharacterCamera.filters = [];
-		picoCamera.filters = [];
-
-		FlxG.cameras.remove(speakerCamera, true);
-		FlxG.cameras.remove(speakerCharacterCamera, true);
-		FlxG.cameras.remove(picoCamera, true);
-
 		gf.visible = true;
 		boyfriend.visible = true;
 
@@ -361,8 +281,6 @@ class StressPicoIntro extends ScriptedCutscene
 	function swapBackToGameplayTankman(){
 		removeGeneric(tankman);
 		//tankman.destroy();
-		tankmanCamera.filters = [];
-		FlxG.cameras.remove(tankmanCamera, true);
 		dad.visible = true;
 	}
 

@@ -3,42 +3,32 @@ import flixel.FlxG;
 import flixel.tweens.FlxEase;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
-import flixel.FlxCamera;
-import flixel.FlxCameraFollowStyle;
 import openfl.filters.ShaderFilter;
-import shaders.DropShadowScreenspaceShader;
+import shaders.DropShadowShader;
 
 class StressPicoEnding extends ScriptedCutscene
 {
 	var tankmanCutscene:AtlasSprite;
-	var	tankmanShader:DropShadowScreenspaceShader;
+	var	tankmanShader:DropShadowShader;
 	var cutsceneAudio:FlxSound;
-	var cutsceneCamera:FlxCamera;
 
 	public function new(args:Array<Dynamic>){
 		super(args);
 
-		cutsceneCamera = new FlxCamera();
-		cutsceneCamera.bgColor = 0x00000000;
-		FlxG.cameras.insert(cutsceneCamera, FlxG.cameras.list.indexOf(playstate.camGame) + 1, false);
-		
-		tankmanCutscene = new AtlasSprite(749, 521, Paths.getTextureAtlas("week7/cutscene/picoStressEnding"));
-		tankmanCutscene.applyStageMatrix = true;
-		tankmanCutscene.antialiasing = true;
-		tankmanCutscene.cameras = [cutsceneCamera];
-		tankmanCutscene.addFullAnimation("full", 24, false);
-
-		cutsceneCamera.follow(playstate.camFollowFinal, FlxCameraFollowStyle.LOCKON);
-		cutsceneCamera.zoom = playstate.camGame.zoom;
-		cutsceneCamera.focusOn(playstate.camFollowFinal.getPosition());
-
-		tankmanShader = new DropShadowScreenspaceShader();
+		tankmanShader = new DropShadowShader();
 		tankmanShader.setAdjustColor(-46, -38, -25, -20);
 		tankmanShader.color = 0xFFDFEF3C;
 		tankmanShader.angle = 45;
 		tankmanShader.threshold = 0.3;
-
-		cutsceneCamera.filters = [new ShaderFilter(tankmanShader)];
+		
+		tankmanCutscene = new AtlasSprite(749, 521, Paths.getTextureAtlas("week7/cutscene/picoStressEnding"));
+		tankmanCutscene.applyStageMatrix = true;
+		tankmanCutscene.useRenderTexture = true;
+		tankmanCutscene.addFullAnimation("full", 24, false);
+		tankmanCutscene.shader = tankmanShader;
+		tankmanCutscene.frameCallback = function(name:String, frame:Int, index:Int){
+			tankmanShader.updateFrameInfoSimple(tankmanCutscene.frameWidth, tankmanCutscene.frameHeight, 0);
+		}
 
 		addEvent(0, setup);
 		addEvent(7.3, laugh);
@@ -49,9 +39,6 @@ class StressPicoEnding extends ScriptedCutscene
 
 	override function update(elapsed:Float) {
 		super.update(elapsed);
-		cutsceneCamera.zoom = playstate.camGame.zoom;
-		tankmanShader.curZoom = cutsceneCamera.zoom;
-		tankmanShader.updateViewportSize();
 	}
 
 	function setup() {

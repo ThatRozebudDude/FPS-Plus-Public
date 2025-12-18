@@ -53,7 +53,8 @@ class AtlasSprite extends FlxAnimate
 	}
 
 	public function loadAtlas(_path:TextureAtlasData, ?_settings:FlxAnimateSettings){
-		frames = loadAndCache(_path.path, false, _settings);
+		//frames = loadAndCache(_path.path, false, _settings); //Cache stuff is broken for now. Sad.
+		frames = FlxAnimateFrames.fromAnimate(_path.path, null, null, null, false, _settings);
 		anim.addByTimeline("___full", anim.getDefaultTimeline(), 24, false);
 		anim.onFrameChange.add(animCallback);
 		if(_path.old){

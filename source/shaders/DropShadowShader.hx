@@ -120,87 +120,75 @@ class DropShadowShader extends FlxShader
 	/*
 		Sets all 4 adjust color values.
 	 */
-	public function setAdjustColor(b:Float, h:Float, c:Float, s:Float)
-	{
+	public function setAdjustColor(b:Float, h:Float, c:Float, s:Float){
 		baseBrightness = b;
 		baseHue = h;
 		baseContrast = c;
 		baseSaturation = s;
 	}
 
-	function set_baseHue(val:Float):Float
-	{
+	function set_baseHue(val:Float):Float{
 		baseHue = val;
 		hue.value = [val];
 		return val;
 	}
 
-	function set_baseSaturation(val:Float):Float
-	{
+	function set_baseSaturation(val:Float):Float{
 		baseSaturation = val;
 		saturation.value = [val];
 		return val;
 	}
 
-	function set_baseBrightness(val:Float):Float
-	{
+	function set_baseBrightness(val:Float):Float{
 		baseBrightness = val;
 		brightness.value = [val];
 		return val;
 	}
 
-	function set_baseContrast(val:Float):Float
-	{
+	function set_baseContrast(val:Float):Float{
 		baseContrast = val;
 		contrast.value = [val];
 		return val;
 	}
 
-	function set_threshold(val:Float):Float
-	{
+	function set_threshold(val:Float):Float{
 		threshold = val;
 		thr.value = [val];
 		return val;
 	}
 
-	function set_antialiasAmt(val:Float):Float
-	{
+	function set_antialiasAmt(val:Float):Float{
 		antialiasAmt = val;
 		AA_STAGES.value = [val];
 		return val;
 	}
 
-	function set_color(col:FlxColor):FlxColor
-	{
+	function set_color(col:FlxColor):FlxColor{
 		color = col;
 		dropColor.value = [color.red / 255, color.green / 255, color.blue / 255];
 
 		return color;
 	}
 
-	function set_angle(val:Float):Float
-	{
+	function set_angle(val:Float):Float{
 		angle = val;
 		ang.value = [angle * FlxAngle.TO_RAD];
 		return angle;
 	}
 
-	function set_distance(val:Float):Float
-	{
+	function set_distance(val:Float):Float{
 		distance = val;
 		dist.value = [val];
 		return val;
 	}
 
-	function set_strength(val:Float):Float
-	{
+	function set_strength(val:Float):Float{
 		strength = val;
 		str.value = [val];
 		return val;
 	}
 
-	function set_attachedSprite(spr:FlxSprite):FlxSprite
-	{
+	function set_attachedSprite(spr:FlxSprite):FlxSprite{
 		attachedSprite = spr;
 		updateFrameInfo(attachedSprite.frame);
 		return spr;
@@ -210,16 +198,14 @@ class DropShadowShader extends FlxShader
 		Loads an image for the mask.
 		While you *could* directly set the value of the mask, this function works for both HTML5 and desktop targets.
 	 */
-	public function loadAltMask(maskGraphic:FlxGraphic)
-	{
+	public function loadAltMask(maskGraphic:FlxGraphic){
 		altMaskImage = maskGraphic.bitmap;
 	}
 
 	/*
 		Updates the frame bounds and angle offset of the sprite for the shader.
 	 */
-	public function updateFrameInfo(frame:FlxFrame)
-	{
+	public function updateFrameInfo(frame:FlxFrame){
 		uFrameBounds.value = [frame.uv.left, frame.uv.top, frame.uv.right, frame.uv.bottom];
 
 		// if a frame is rotated the shader will look completely wrong lol
@@ -232,19 +218,43 @@ class DropShadowShader extends FlxShader
 		}
 	}
 
+	public function updateFrameInfoSimple(width:Float, height:Float, angle:Float){
+		uFrameBounds.value = [0, 0, width, height];
+		angOffset.value = [angle * FlxAngle.TO_RAD];
+		if (attachedSprite != null){
+			attachedSpriteFlipX.value = [attachedSprite.flipX];
+			attachedSpriteFlipY.value = [attachedSprite.flipY];
+		}
+	}
+
 	//Automatically sets up a character to have it's sprite attached to the shader and to update the frame UVs.
 	public function attachCharacter(character:Character):Void{
 		attachedSprite = character.getSprite();
-		updateFrameInfo(character.getSprite().frame);
-		character.onAnimationFrame.add(function(name:String, frame:Int, index:Int){
+
+		if(!character.isAtlas){
 			updateFrameInfo(character.getSprite().frame);
+		}
+		else{
+			updateFrameInfoSimple(character.getFrameWidth(), character.getFrameHeight(), 0);
+		}
+
+		character.onAnimationFrame.add(function(name:String, frame:Int, index:Int){
+			if(!character.isAtlas){
+				updateFrameInfo(character.getSprite().frame);
+			}
+			else{
+				updateFrameInfoSimple(character.getFrameWidth(), character.getFrameHeight(), 0);
+			}
+
 			if(character.characterInfo.info.extraData.get("dropShadowMaskAnimationList") != null){
 				useAltMask = character.characterInfo.info.extraData.get("dropShadowMaskAnimationList").contains(name);
 			}
 		});
+
 		if(character.characterInfo.info.extraData.get("dropShadowThreshold") != null){
 			threshold = character.characterInfo.info.extraData.get("dropShadowThreshold");
 		}
+
 		if(character.characterInfo.info.extraData.get("dropShadowMask") != null){
 			loadAltMask(Paths.image(character.characterInfo.info.extraData.get("dropShadowMask")));
 			maskThreshold = character.characterInfo.info.extraData.get("dropShadowMaskThreshold");
@@ -252,22 +262,19 @@ class DropShadowShader extends FlxShader
 		}
 	}
 
-	function set_altMaskImage(_bitmapData:BitmapData):BitmapData
-	{
+	function set_altMaskImage(_bitmapData:BitmapData):BitmapData{
 		altMask.input = _bitmapData;
 
 		return _bitmapData;
 	}
 
-	function set_maskThreshold(val:Float):Float
-	{
+	function set_maskThreshold(val:Float):Float{
 		maskThreshold = val;
 		thr2.value = [val];
 		return val;
 	}
 
-	function set_useAltMask(val:Bool):Bool
-	{
+	function set_useAltMask(val:Bool):Bool{
 		useAltMask = val;
 		useMask.value = [val];
 		return val;

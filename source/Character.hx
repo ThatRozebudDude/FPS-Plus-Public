@@ -68,6 +68,8 @@ class Character extends FlxSpriteGroup
 
 	public var worldPopupOffset:FlxPoint = new FlxPoint();
 
+	public var isAtlas(get, never):Bool;
+
 	var character:FlxSprite;
 	var atlasCharacter:AtlasSprite;
 	public var characterInfo:CharacterInfoBase;
@@ -974,6 +976,10 @@ class Character extends FlxSpriteGroup
 			return atlasCharacter.shader;
 		}
 		return null;
+	}
+
+	public function get_isAtlas():Bool{
+		return characterInfo.info.frameLoadType == atlas;
 	}
 
 }
