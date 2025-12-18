@@ -16,9 +16,9 @@ import flixel.graphics.FlxGraphic;
 import flixel.math.FlxRect;
 import flixel.math.FlxMatrix;
 import flixel.math.FlxPoint;
-import Paths.TextureAtlasData;
 import haxe.io.Path;
 import haxe.Json;
+import modding.PolymodHandler;
 
 using StringTools;
 
@@ -45,20 +45,24 @@ class AtlasSprite extends FlxAnimate
 	var animFinishTimer:Float = -1;
 	var animFinishTime:Float = -1;
 
-	public function new(?_x:Float, ?_y:Float, ?_path:TextureAtlasData, ?_settings:FlxAnimateSettings) {
+	public function new(?_x:Float, ?_y:Float, ?_path:String, ?_settings:FlxAnimateSettings) {
 		super(_x, _y, null, null);
 		if(_path != null){
 			loadAtlas(_path, _settings);
 		}
 	}
 
-	public function loadAtlas(_path:TextureAtlasData, ?_settings:FlxAnimateSettings){
+	public function loadAtlas(_path:String, ?_settings:FlxAnimateSettings){
 		//frames = loadAndCache(_path.path, false, _settings); //Cache stuff is broken for now. Sad.
-		frames = FlxAnimateFrames.fromAnimate(_path.path, null, null, null, false, _settings);
+		frames = FlxAnimateFrames.fromAnimate(_path, null, null, null, false, _settings);
 		anim.addByTimeline("___full", anim.getDefaultTimeline(), 24, false);
 		anim.onFrameChange.add(animCallback);
-		if(_path.old){
-			applyStageMatrix = true;
+
+		if(Assets.exists(_path + "/spritemap1.png")){
+			var fromMod:String = PolymodHandler.getAssetModFolder(_path + "/spritemap1.png");
+			if(fromMod != null && PolymodHandler.getSeparatedVersionNumber(PolymodHandler.getModMetaFromFolder(fromMod).api_version)[1] <= 7){ //API version that old atlas stuff uses.
+				applyStageMatrix = true;
+			}
 		}
 	}
 
