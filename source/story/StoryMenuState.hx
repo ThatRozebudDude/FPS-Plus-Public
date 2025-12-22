@@ -296,9 +296,9 @@ class StoryMenuState extends MusicBeatState
 
 	override function update(elapsed:Float){
 		// scoreText.setFormat('VCR OSD Mono', 32);
-		lerpScore = Math.floor(Utils.fpsAdjustedLerp(lerpScore, intendedScore, 0.21, 144, true));
+		lerpScore = Utils.fpsAdjustedLerp(lerpScore, intendedScore, 0.21, 144, true);
 
-		scoreText.text = "WEEK SCORE:" + lerpScore;
+		scoreText.text = "WEEK SCORE:" + Math.round(lerpScore);
 
 		txtWeekTitle.text = weekList[curWeek].name.toUpperCase();
 		txtWeekTitle.x = FlxG.width - (txtWeekTitle.width + 10);
@@ -524,7 +524,7 @@ class StoryMenuState extends MusicBeatState
 		}
 	}
 
-	var lerpScore:Int = 0;
+	var lerpScore:Float = 0;
 	var intendedScore:Int = 0;
 
 	function changeWeek(change:Int = 0):Void
