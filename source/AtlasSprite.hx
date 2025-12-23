@@ -4,9 +4,6 @@ import animate.FlxAnimateAssets;
 import animate.FlxAnimateJson;
 import animate.internal.SymbolItem;
 import animate.internal.Timeline;
-import animate.internal.elements.SymbolInstance;
-import flixel.math.FlxMatrix;
-import flixel.util.FlxTimer;
 import flixel.util.FlxColor;
 import animate.FlxAnimate;
 import animate.FlxAnimateFrames;
@@ -19,6 +16,7 @@ import flixel.math.FlxPoint;
 import haxe.io.Path;
 import haxe.Json;
 import modding.PolymodHandler;
+import openfl.display.BitmapData;
 
 using StringTools;
 
@@ -32,7 +30,6 @@ typedef AtlasAnimInfo = {
 
 class AtlasSprite extends FlxAnimate
 {
-
 	public var animInfoMap:Map<String, AtlasAnimInfo> = new Map<String, AtlasAnimInfo>();
 
 	public var curAnim:String;
@@ -53,11 +50,13 @@ class AtlasSprite extends FlxAnimate
 	}
 
 	public function loadAtlas(_path:String, ?_settings:FlxAnimateSettings){
-		//frames = loadAndCache(_path.path, false, _settings); //Cache stuff is broken for now. Sad.
-		frames = FlxAnimateFrames.fromAnimate(_path, null, null, null, false, _settings);
+		frames = loadAndCache(_path, false, _settings);
+		//frames = FlxAnimateFrames.fromAnimate(_path, null, null, null, false, _settings); //Normal frame loading stuff. Uses FlxG.bitmap.add(), really bad for memory usage.
+		
 		anim.addByTimeline("___full", anim.getDefaultTimeline(), 24, false);
 		anim.onFrameChange.add(animCallback);
 
+		//Auto setup stage matrix stuff to provide backwards compatibility with older mods.
 		if(Assets.exists(_path + "/spritemap1.png")){
 			var fromMod:String = PolymodHandler.getAssetModFolder(_path + "/spritemap1.png");
 			if(fromMod != null && PolymodHandler.getSeparatedVersionNumber(PolymodHandler.getModMetaFromFolder(fromMod).api_version)[1] <= 7){ //API version that old atlas stuff uses.
@@ -247,7 +246,7 @@ class AtlasSprite extends FlxAnimate
 
 
 
-		@:privateAccess
+		/*@:privateAccess
 		if (!unique && FlxAnimateFrames._cachedAtlases.exists(animate)){
 			var cachedAtlas = FlxAnimateFrames._cachedAtlases.get(animate);
 			var isAtlasDestroyed = false;
@@ -283,7 +282,7 @@ class AtlasSprite extends FlxAnimate
 			else{
 				return cachedAtlas;
 			}
-		}
+		}*/
 
 
 
@@ -372,7 +371,9 @@ class AtlasSprite extends FlxAnimate
 
 		// Load all spritemaps
 		for (sm in spritemaps){
-			var atlas = new FlxAtlasFrames(sm.source);
+			@:privateAccess
+			var graphic = FlxGraphic.fromBitmapData(cast(sm.source, FlxGraphic).bitmap.clone());
+			var atlas = new FlxAtlasFrames(graphic);
 			var spritemap:SpritemapJson = Json.parse(sm.json);
 
 			for (sprite in spritemap.ATLAS.SPRITES){
@@ -383,7 +384,7 @@ class AtlasSprite extends FlxAnimate
 			}
 
 			frames.addAtlas(atlas);
-			spritemapCollection.addSpritemap(sm.source);
+			spritemapCollection.addSpritemap(graphic);
 		}
 
 		var metadata:MetadataJson = (metadata == null) ? animData.MD : Json.parse(metadata);
@@ -409,7 +410,7 @@ class AtlasSprite extends FlxAnimate
 			frames._libraryList = [];
 			frames._settings = null;
 
-			FlxAnimateFrames._cachedAtlases.set(animate, frames);
+			//FlxAnimateFrames._cachedAtlases.set(animate, frames);
 		}
 		
 		return frames;
