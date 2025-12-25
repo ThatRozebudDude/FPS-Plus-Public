@@ -24,7 +24,7 @@ class Startup extends FlxUIStateExt
 {
 
 	var nextState:FlxState = new TitleVideo();
-	//var nextState:FlxState = new debug.AtlasScrub();
+	//var nextState:FlxState = new debug.AtlasScale();
 	//var nextState:FlxState = new results.ResultsState(null, "Results Test", "PicoResults");
 
 	var splashHasSoundTrigger:Bool = false;

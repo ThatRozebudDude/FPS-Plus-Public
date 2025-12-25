@@ -1,7 +1,6 @@
 package debug;
 
 import flixel.FlxG;
-import flxanimate.FlxAnimate;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.display.FlxGridOverlay;
