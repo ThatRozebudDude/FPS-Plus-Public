@@ -69,6 +69,7 @@ class AtlasSprite extends FlxAnimate
 				isOld = true;
 				applyStageMatrix = true;
 				origin.set(-timeline.getBoundsOrigin().x, -timeline.getBoundsOrigin().y); //Scales from the origin of the symbol instead of the center of the sprite.
+				trace(_path + " is old.");
 			}
 		}
 	}
@@ -234,10 +235,10 @@ class AtlasSprite extends FlxAnimate
 			if(animFinishTimer >= animFinishTime){
 				animFinishTimer = -1;
 				animFinishTime = -1;
-				finishedAnim = true;
 				if(loopCurrentAnim){
 					playAnim(curAnim, true, false, animInfoMap.get(curAnim).loopFrame, true);
 				}
+				else{ finishedAnim = true; }
 				if(animationEndCallback != null){ animationEndCallback(curAnim); }
 			}
 		}

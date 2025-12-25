@@ -16,6 +16,10 @@ class AtlasScale extends FlxState
 	var atlas:AtlasSprite;
 	var camFollow:FlxObject;
 
+	var pos:FlxSprite;
+	var origin:FlxSprite;
+	var bounds:FlxSprite;
+
 	var atlasScale:Float = 0.5;
 
 	public function new() {
@@ -29,20 +33,24 @@ class AtlasScale extends FlxState
 		gridBG.screenCenter(XY);
 		add(gridBG);
 
-		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("weekend1/picoBlazin"));
-		//atlas.applyStageMatrix = true;
-		atlas.origin.set(-atlas.timeline.getBoundsOrigin().x, -atlas.timeline.getBoundsOrigin().y);
+		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("week3/picoAtlas"));
 		atlas.addFullAnimation("full", 24, true);
-		atlas.screenCenter();
+		//atlas.screenCenter();
 		atlas.playAnim("full");
 		trace(atlas.timeline.getBoundsOrigin());
 		trace("Width: " + atlas.width + ", Height: " + atlas.height);
+
+		bounds = new FlxSprite(atlas.x, atlas.y).makeGraphic(1, 1, 0xFF000000);
+		bounds.origin.set(0, 0);
+		bounds.scale.set(atlas.width, atlas.height);
+		bounds.alpha = 0.4;
+
+		pos = new FlxSprite(atlas.x, atlas.y).makeGraphic(24, 24, 0xFFFF0000);
+		origin = new FlxSprite(atlas.x + atlas.origin.x, atlas.y + atlas.origin.y).makeGraphic(24, 24, 0xFF00FF00);
+		
+		add(bounds);
 		add(atlas);
-
-		var pos = new FlxSprite(atlas.x, atlas.y).makeGraphic(24, 24, 0xFFFF0000);
 		add(pos);
-
-		var origin = new FlxSprite(atlas.x + atlas.origin.x, atlas.y + atlas.origin.y).makeGraphic(24, 24, 0xFF00FF00);
 		add(origin);
 
 		camFollow = new FlxObject(0, 0, 2, 2);
@@ -61,27 +69,50 @@ class AtlasScale extends FlxState
 	
 	override function update(elapsed:Float) {
 
-		atlas.scale.set(atlasScale, atlasScale);
+		pos.setPosition(atlas.x, atlas.y);
+		origin.setPosition(atlas.x + atlas.origin.x, atlas.y + atlas.origin.y);
 
-		if (FlxG.keys.pressed.W)
+		if(!FlxG.keys.pressed.O){
+			atlas.scale.set(atlasScale, atlasScale);
+		}
+		else{
+			atlas.scale.set(1, 1);
+		}
+
+		if(FlxG.keys.pressed.P){
+			atlas.flipX = true;
+		}
+		else{
+			atlas.flipX = false;
+		}
+
+		if (FlxG.keys.pressed.W){
 			camFollow.velocity.y = -1 * moveSpeed / FlxG.camera.zoom;
-		else if (FlxG.keys.pressed.S)
+		}
+		else if (FlxG.keys.pressed.S){
 			camFollow.velocity.y = moveSpeed / FlxG.camera.zoom;
-		else
+		}
+		else{
 			camFollow.velocity.y = 0;
+		}
 
-		if (FlxG.keys.pressed.A)
+		if (FlxG.keys.pressed.A){
 			camFollow.velocity.x = -1 * moveSpeed / FlxG.camera.zoom;
-		else if (FlxG.keys.pressed.D)
+		}
+		else if (FlxG.keys.pressed.D){\
 			camFollow.velocity.x = moveSpeed / FlxG.camera.zoom;
-		else
+		}
+		else{
 			camFollow.velocity.x = 0;
+		}
 		
 
-		if (FlxG.keys.pressed.E)
+		if (FlxG.keys.pressed.E){
 			FlxG.camera.zoom += zoomSpeed * FlxG.camera.zoom;
-		if (FlxG.keys.pressed.Q)
+		}
+		if (FlxG.keys.pressed.Q){
 			FlxG.camera.zoom -= zoomSpeed * FlxG.camera.zoom;
+		}
 
 		super.update(elapsed);
 	}
