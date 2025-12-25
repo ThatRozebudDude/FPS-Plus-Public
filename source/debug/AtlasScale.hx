@@ -33,10 +33,11 @@ class AtlasScale extends FlxState
 		gridBG.screenCenter(XY);
 		add(gridBG);
 
-		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("week3/picoAtlas"));
+		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("weekend1/picoBlazin"));
 		atlas.addFullAnimation("full", 24, true);
-		//atlas.screenCenter();
 		atlas.playAnim("full");
+		atlas.applyStageMatrix = true;
+		atlas.origin.set(-atlas.timeline.getBoundsOrigin().x, -atlas.timeline.getBoundsOrigin().y);
 		trace(atlas.timeline.getBoundsOrigin());
 		trace("Width: " + atlas.width + ", Height: " + atlas.height);
 
@@ -99,7 +100,7 @@ class AtlasScale extends FlxState
 		if (FlxG.keys.pressed.A){
 			camFollow.velocity.x = -1 * moveSpeed / FlxG.camera.zoom;
 		}
-		else if (FlxG.keys.pressed.D){\
+		else if (FlxG.keys.pressed.D){
 			camFollow.velocity.x = moveSpeed / FlxG.camera.zoom;
 		}
 		else{

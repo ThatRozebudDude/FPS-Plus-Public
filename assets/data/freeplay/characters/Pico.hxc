@@ -183,7 +183,13 @@ class PicoFreeplay extends DJCharacter
 		backingCard.add(cardFlash);
 
 		confirmAtlas = new AtlasSprite(-120, 55, Paths.getTextureAtlas("menu/freeplay/bgs/pico/pico-confirm"));
-		confirmAtlas.scale.set(1.1, 1.1);
+		confirmAtlas.scaleElement(confirmAtlas.getFirstElement("backplate flat blue"), 2, 100);
+		confirmAtlas.scaleElement(confirmAtlas.getFirstElement("pink back"), 2, 100);
+		confirmAtlas.scaleElement(confirmAtlas.getFirstElement("black flash"), 2, 100);
+		confirmAtlas.scaleElement(confirmAtlas.getFirstElement("white flash"), 2, 100);
+		confirmAtlas.scaleElement(confirmAtlas.getFirstElement("blue flash"), 2, 100);
+		confirmAtlas.scaleElement(confirmAtlas.getFirstElement("blue flash 2"), 2, 100);
+		confirmAtlas.scaleElement(confirmAtlas.getFirstElement("pink flash"), 2, 100);
 		confirmAtlas.antialiasing = true;
 		confirmAtlas.addFullAnimation("confirm", 24, false);
 		confirmAtlas.visible = false;

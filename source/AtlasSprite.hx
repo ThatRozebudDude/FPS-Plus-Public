@@ -1,5 +1,7 @@
 package;
 
+import animate.internal.elements.SymbolInstance;
+import animate.internal.elements.Element;
 import animate.FlxAnimateAssets;
 import animate.FlxAnimateJson;
 import animate.internal.SymbolItem;
@@ -202,6 +204,68 @@ class AtlasSprite extends FlxAnimate
 			animFinishTimer = 0;
 			animFinishTime = 1/(animInfo.framerate);
 		}
+	}
+
+	//Taken from base game's FunkinSprite.
+	/**
+	* Returns the first element of a symbol in the atlas.
+	* @param symbol The symbol to get elements from.
+	* @return The first element of the symbol. WARNING: Can be null.
+	*/
+	public function getFirstElement(symbol:String):Null<Element>{
+		var symbolElements:Array<Element> = getSymbolElements(symbol);
+		return symbolElements.length > 0 ? symbolElements[0] : null;
+	}
+
+	//Taken from base game's FunkinSprite.
+	/**
+	* Returns the elements of a symbol in the atlas.
+	* @param symbol The symbol to get elements from.
+	*/
+	public function getSymbolElements(symbol:String):Array<Element>{
+		var symbolInstance:Null<SymbolItem> = this.library.getSymbol(symbol);
+
+		if(symbolInstance == null){
+			throw 'Symbol not found in atlas: ${symbol}';
+			return [];
+		}
+
+		var elements:Array<Element> = symbolInstance.timeline.getElementsAtIndex(0);
+
+		if (elements?.length == 0){
+			trace('WARNING: No Atlas Elements found for "$symbol" symbol.');
+		}
+
+		return elements ?? [];
+	}
+  
+	//Taken from base game's FunkinSprite.
+	/**
+	* Scales an element by a certain multiplier.
+	* @param element The element to scale.
+	* @param scale The scale multiplier.
+	* @param positionOffset The offset to apply to `tx` and `ty` after scaling.
+	* (Or in other words, the position of the element.)
+	*/
+	public function scaleElement(element:Element, scale:Float, positionOffset:Float = 0, scaleEverything:Bool = false):Void{
+		var elementMatrix:FlxMatrix = element.matrix;
+
+		if (scaleEverything){
+			elementMatrix.scale(scale, scale);
+			return;
+		}
+
+		var symbolInstance:SymbolInstance = element.parentFrame.convertToSymbol(0, 1);
+		var transformPoint:FlxPoint = symbolInstance.transformationPoint;
+
+		elementMatrix.a += scale;
+		elementMatrix.d += scale;
+
+		elementMatrix.tx -= transformPoint.x * scale;
+		elementMatrix.ty -= transformPoint.y * scale;
+
+		elementMatrix.tx -= positionOffset;
+		elementMatrix.ty -= positionOffset;
 	}
 
 	public function pause():Void{
