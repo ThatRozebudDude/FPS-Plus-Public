@@ -1,5 +1,7 @@
 package debug;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.FlxObject;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -8,12 +10,13 @@ import flixel.addons.display.FlxGridOverlay;
 
 using StringTools;
 
-class AtlasScrub extends FlxState
+class AtlasScale extends FlxState
 {
 
 	var atlas:AtlasSprite;
 	var camFollow:FlxObject;
-	var curFrame:Int = 0;
+
+	var atlasScale:Float = 0.5;
 
 	public function new() {
 		super();
@@ -26,18 +29,25 @@ class AtlasScrub extends FlxState
 		gridBG.screenCenter(XY);
 		add(gridBG);
 
-		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("menu/results/characters/pico/resultsGOOD"));
-		atlas.addFullAnimation("full", 0, false);
-		//atlas.addFullAnimation("full24", 24, false);
+		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("weekend1/picoBlazin"));
+		atlas.addFullAnimation("full", 24, true);
 		atlas.screenCenter();
 		atlas.playAnim("full");
 		add(atlas);
+
+		var pos = new FlxSprite(atlas.x, atlas.y).makeGraphic(24, 24, 0xFFFF0000);
+		add(pos);
+
+		var origin = new FlxSprite(atlas.x + atlas.origin.x, atlas.y + atlas.origin.y).makeGraphic(24, 24, 0xFF00FF00);
+		add(origin);
 
 		camFollow = new FlxObject(0, 0, 2, 2);
 		camFollow.screenCenter();
 		add(camFollow);
 
 		FlxG.camera.follow(camFollow);
+
+		FlxTween.tween(this, {atlasScale: 2}, 2, {type: PINGPONG, ease: FlxEase.quadInOut});
 
 		super.create();
 	}
@@ -47,31 +57,7 @@ class AtlasScrub extends FlxState
 	
 	override function update(elapsed:Float) {
 
-		var amount:Int = 1;
-		
-		if (FlxG.keys.pressed.SHIFT){
-			amount = 10;
-		}
-
-		if (FlxG.keys.justPressed.LEFT){
-			curFrame -= amount;
-			if(curFrame < 0) {curFrame = 0;}
-			atlas.playAnim("full", true, false, curFrame);
-			trace(curFrame);
-		}
-
-		if (FlxG.keys.justPressed.RIGHT){
-			curFrame += amount;
-			if(curFrame > atlas.anim.length - 1) {curFrame = atlas.anim.length - 1;}
-			atlas.playAnim("full", true, false, curFrame);
-			trace(curFrame);
-		}
-
-		if (FlxG.keys.justPressed.R){
-			curFrame = 0;
-			atlas.playAnim("full", true, false, curFrame);
-			trace(curFrame);
-		}
+		atlas.scale.set(atlasScale, atlasScale);
 
 		if (FlxG.keys.pressed.W)
 			camFollow.velocity.y = -1 * moveSpeed / FlxG.camera.zoom;
@@ -92,16 +78,8 @@ class AtlasScrub extends FlxState
 			FlxG.camera.zoom += zoomSpeed * FlxG.camera.zoom;
 		if (FlxG.keys.pressed.Q)
 			FlxG.camera.zoom -= zoomSpeed * FlxG.camera.zoom;
-		
-		if (FlxG.keys.justPressed.TAB)
-			showLabels();
 
 		super.update(elapsed);
 	}
 
-	function showLabels():Void{
-		for(label in atlas.anim.getFrameLabels()){
-			trace("label: " + label.name + "\tindex: " + label.index + "\tduration: " + label.duration);
-		}
-	}
 }

@@ -34,8 +34,7 @@ class NoteHoldCoverDebug extends FlxState
 		infoText = new FlxText(24, 24, 0, "", 16);
 		add(infoText);
 		
-		NoteHoldCover.coverPath = "week6/weeb/pixelUI/noteHoldCovers-pixel";
-		cover = new NoteHoldCover(box, 0);
+		cover = new NoteHoldCover(box, 0, "Default");
 		add(cover);
 
 		super.create();

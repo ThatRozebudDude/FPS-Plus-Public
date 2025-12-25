@@ -23,7 +23,7 @@ class CutsceneDebug extends FlxState
 	var cutsceneTest:ScriptedCutscene;
 
 	override function create() {
-		cutsceneTest = new ScriptedCutscene();
+		cutsceneTest = new ScriptedCutscene([]);
 		cutsceneTest.addEvent(0, event1);
 		cutsceneTest.addEvent(1, event2);
 		cutsceneTest.addEvent(3, event3);
