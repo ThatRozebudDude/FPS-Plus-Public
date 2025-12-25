@@ -2,24 +2,18 @@ package;
 
 import note.NoteType;
 import events.Events;
-import sys.FileSystem;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
-import openfl.media.Sound;
 import title.*;
 import config.*;
 import transition.data.*;
 
 import flixel.FlxState;
-import lime.utils.Assets;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
-import openfl.system.System;
-//import openfl.utils.Future;
-//import flixel.addons.util.FlxAsyncLoop;
 import extensions.flixel.FlxUIStateExt;
 import caching.*;
 import modding.*;
