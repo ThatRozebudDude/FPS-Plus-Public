@@ -42,6 +42,12 @@ class AtlasSprite extends FlxAnimate
 	var animFinishTimer:Float = -1;
 	var animFinishTime:Float = -1;
 
+	//This is set when the atlas is loaded from a mod that is from a version before the change to flixel-animate.
+	var isOld:Bool = false;
+
+	//Debug thing, will be removed before final merge to master.
+	static var forceEveryAtlasToLoadAsOld:Bool = false;
+
 	public function new(?_x:Float, ?_y:Float, ?_path:String, ?_settings:FlxAnimateSettings) {
 		super(_x, _y, null, null);
 		if(_path != null){
@@ -59,8 +65,10 @@ class AtlasSprite extends FlxAnimate
 		//Auto setup stage matrix stuff to provide backwards compatibility with older mods.
 		if(Assets.exists(_path + "/spritemap1.png")){
 			var fromMod:String = PolymodHandler.getAssetModFolder(_path + "/spritemap1.png");
-			if(fromMod != null && PolymodHandler.getSeparatedVersionNumber(PolymodHandler.getModMetaFromFolder(fromMod).api_version)[1] <= 7){ //API version that old atlas stuff uses.
+			if((fromMod != null && PolymodHandler.getSeparatedVersionNumber(PolymodHandler.getModMetaFromFolder(fromMod).api_version)[1] <= 7) || forceEveryAtlasToLoadAsOld){ //API version that old atlas stuff uses.
+				isOld = true;
 				applyStageMatrix = true;
+				origin.set(-timeline.getBoundsOrigin().x, -timeline.getBoundsOrigin().y); //Scales from the origin of the symbol instead of the center of the sprite.
 			}
 		}
 	}

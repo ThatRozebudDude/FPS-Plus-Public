@@ -30,9 +30,13 @@ class AtlasScale extends FlxState
 		add(gridBG);
 
 		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("weekend1/picoBlazin"));
+		//atlas.applyStageMatrix = true;
+		atlas.origin.set(-atlas.timeline.getBoundsOrigin().x, -atlas.timeline.getBoundsOrigin().y);
 		atlas.addFullAnimation("full", 24, true);
 		atlas.screenCenter();
 		atlas.playAnim("full");
+		trace(atlas.timeline.getBoundsOrigin());
+		trace("Width: " + atlas.width + ", Height: " + atlas.height);
 		add(atlas);
 
 		var pos = new FlxSprite(atlas.x, atlas.y).makeGraphic(24, 24, 0xFFFF0000);
