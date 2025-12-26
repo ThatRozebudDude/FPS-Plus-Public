@@ -35,8 +35,6 @@ class Startup extends FlxUIStateExt
 	var currentLoaded:Int = 0;
 	var loadTotal:Int = 0;
 								
-	//List of character graphics and some other stuff.
-	//Just in case it want to do something with it later.
 	var charactersCached:Bool;
 	var startCachingCharacters:Bool = false;
 	var charI:Int = 0;

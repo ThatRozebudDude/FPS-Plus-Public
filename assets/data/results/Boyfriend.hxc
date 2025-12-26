@@ -19,12 +19,12 @@ class BoyfriendResults extends ResultsCharacter
 	var bfLoss:AtlasSprite;
 
 	override function setup():Void{
-		goldText = 		["PERFECT", "CAN'T GET MUCH BETTER", "UNTOUCHABLE", "NOTHING BUT THE BEST", "FLAWLESS", "AAA+++ TRIPLE ULTRA DELUXE"];
+		goldText = 		["PERFECT", "CAN'T GET MUCH BETTER", "UNTOUCHABLE", "NOTHING BUT THE BEST", "FLAWLESS", "AAA+++ TRIPLE ULTRA DELUXE", "JUST LIKE DJ"];
 		perfectText = 	["PERFECT", "TOP NOTCH", "CAN'T MISS", "YOU DID IT", "SICK"];
 		excellentText = ["EXCELLENT", "YOU DID IT", "AMAZING EXECUTION", "HIT THOSE NOTES", "AWESOME"];
 		greatText =		["GREAT", "GREAT JOB", "NICE JOB", "WELL DONE", "KEEP IT UP"];
 		goodText = 		["GOOD", "ACCEPTABLE", "NOT BAD", "WELL DONE", "KEEP IT UP"];
-		lossText = 		["LOSS", "YOU'RE A FAILURE", "BE ASHAMED", "WHAT WAS THAT", "HORRIBLE", "TRY AGAIN"];
+		lossText = 		["LOSS", "YOU'RE A FAILURE", "BE ASHAMED", "WHAT WAS THAT", "HORRIBLE", "TRY AGAIN"], "AIN'T GOT WHAT IT TAKES";
 
 		switch(rank){
 			case Rank.gold:
@@ -63,13 +63,13 @@ class BoyfriendResults extends ResultsCharacter
 				add(bfExcellent);
 
 			case Rank.great:
-				gfGreat = new AtlasSprite(802, 331, Paths.getTextureAtlas("menu/results/characters/bf/great/gf"));
+				gfGreat = new AtlasSprite(798, 325, Paths.getTextureAtlas("menu/results/characters/bf/great/gf"));
 				gfGreat.applyStageMatrix = true;
 				gfGreat.visible = false;
 				gfGreat.scale.set(0.93, 0.93);
 				gfGreat.addAnimationByFrame("anim", 0, null, 24, true, 9);
 
-				bfGreat = new AtlasSprite(929, 363, Paths.getTextureAtlas("menu/results/characters/bf/great/bf"));
+				bfGreat = new AtlasSprite(924, 372, Paths.getTextureAtlas("menu/results/characters/bf/great/bf"));
 				bfGreat.applyStageMatrix = true;
 				bfGreat.visible = false;
 				bfGreat.scale.set(0.93, 0.93);
