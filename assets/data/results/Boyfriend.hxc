@@ -24,7 +24,7 @@ class BoyfriendResults extends ResultsCharacter
 		excellentText = ["EXCELLENT", "YOU DID IT", "AMAZING EXECUTION", "HIT THOSE NOTES", "AWESOME"];
 		greatText =		["GREAT", "GREAT JOB", "NICE JOB", "WELL DONE", "KEEP IT UP"];
 		goodText = 		["GOOD", "ACCEPTABLE", "NOT BAD", "WELL DONE", "KEEP IT UP"];
-		lossText = 		["LOSS", "YOU'RE A FAILURE", "BE ASHAMED", "WHAT WAS THAT", "HORRIBLE", "TRY AGAIN"], "AIN'T GOT WHAT IT TAKES";
+		lossText = 		["LOSS", "YOU'RE A FAILURE", "BE ASHAMED", "WHAT WAS THAT", "HORRIBLE", "TRY AGAIN", "AIN'T GOT WHAT IT TAKES"];
 
 		switch(rank){
 			case Rank.gold:
