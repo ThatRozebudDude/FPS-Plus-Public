@@ -21,14 +21,12 @@ class StressIntro extends ScriptedCutscene
 	public function new(args:Array<Dynamic>){
 		super(args);
 		
-		tankman = new AtlasSprite(74, 324, Paths.getTextureAtlas("week7/cutscene/tankmanCutscene"));
-		tankman.applyStageMatrix = true;
-		tankman.antialiasing = true;
+		tankman = new AtlasSprite(-20, 272, Paths.getTextureAtlas("week7/cutscene/tankmanCutscene"));
 		tankman.addAnimationByLabel("ugh1", "Ugh 1", 24, false);
 		tankman.addAnimationByLabel("ugh2", "Ugh 2", 24, false);
 		tankman.addAnimationByLabel("guns", "Guns", 24, false);
-		tankman.addAnimationByLabel("stress1", "Stress 1", 24, false);
-		tankman.addAnimationByLabel("stress2", "Stress 2", 24, false);
+		tankman.addAnimationByLabel("stress1", "Stress 2", 24, false);
+		tankman.addAnimationByLabel("stress2", "Stress 1", 24, false);
 
 		picoSpeaker = new AtlasSprite(322-10, 3, Paths.getTextureAtlas("week7/cutscene/picoSpeakerCutscene"));
 		picoSpeaker.applyStageMatrix = true;
@@ -143,11 +141,6 @@ class StressIntro extends ScriptedCutscene
 		removeFromGfLayer(gfSpeaker);
 		removeFromGfLayer(picoSpeaker);
 		removeFromGfLayer(gfSummon);
-
-		//tankman.destroy();
-		//gfSpeaker.destroy();
-		//picoSpeaker.destroy();
-		//gfSummon.destroy();
 
 		gf.visible = true;
 		dad.visible = true;
