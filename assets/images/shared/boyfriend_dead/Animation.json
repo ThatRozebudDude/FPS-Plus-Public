@@ -1,0 +1,64 @@
+{
+"AN":{
+"N":"BoyFriend_Assets_ADJUST new",
+"SN":"_EXPORT/_DEATH/_ATLAS",
+"TL":{
+"L":[
+{
+"LN":"Layer_1",
+"FR":[
+{
+"N":"Death Start",
+"I":0,
+"DU":58,
+"E":[]
+},{
+"N":"Death Loop",
+"I":58,
+"DU":34,
+"E":[]
+},{
+"N":"Death Confirm",
+"I":92,
+"DU":34,
+"E":[]
+}
+]},{
+"LN":"Layer_3",
+"FR":[
+{
+"I":0,
+"DU":58,
+"E":[
+{"SI":{
+"SN":"_EXPORT/_DEATH/BF dies",
+"FF":0,
+"ST":"G",
+"TRP":{"x":548.15,"y":885.1},
+"LP":"LP",
+"MX":[1,0,0,1,275.8,-654.1]
+}}]},{
+"I":58,
+"DU":34,
+"E":[
+{"SI":{
+"SN":"_EXPORT/_DEATH/BF Dead Loop",
+"FF":0,
+"ST":"G",
+"TRP":{"x":512.55,"y":62.05},
+"LP":"LP",
+"MX":[1,0,0,1,275.8,-654.1]
+}}]},{
+"I":92,
+"DU":34,
+"E":[
+{"SI":{
+"SN":"_EXPORT/_DEATH/BF Dead confirm",
+"FF":0,
+"ST":"G",
+"TRP":{"x":530.4,"y":544.5},
+"LP":"LP",
+"MX":[1,0,0,1,275.8,-654.1]
+}}]}
+]}
+]}}}

@@ -5,23 +5,28 @@ class BfCar extends CharacterInfoBase
 		super();
 
 		info.name = "bf-car";
-		info.spritePath = "week4/bfCar";
-		info.frameLoadType = setSparrow();
+		info.spritePath = "week4/boyfriend_car";
+		info.frameLoadType = setAtlas();
 		
 		info.iconName = "bf";
 		info.facesLeft = true;
-		info.focusOffset.set(100, -100);
+		info.focusOffset.set(130, -65);
 
-		addByPrefix("idle", offset(), "BF idle dance", 24, loop(true, -4));
-		addByPrefix("singUP", offset(-42, 31), "BF NOTE UP0", 24, loop(true, -4));
-		addByPrefix("singLEFT", offset(9, -7), "BF NOTE LEFT0", 24, loop(true, -4));
-		addByPrefix("singRIGHT", offset(-44, -6), "BF NOTE RIGHT0", 24, loop(true, -4));
-		addByPrefix("singDOWN", offset(-22, -50), "BF NOTE DOWN0", 24, loop(true, -4));
-		addByPrefix("singUPmiss", offset(-37, 29), "BF NOTE UP MISS", 24, loop(true, -4));
-		addByPrefix("singLEFTmiss", offset(9, 19), "BF NOTE LEFT MISS", 24, loop(true, -4));
-		addByPrefix("singRIGHTmiss", offset(-38, 21), "BF NOTE RIGHT MISS", 24, loop(true, -4));
-		addByPrefix("singDOWNmiss", offset(-25, -20), "BF NOTE DOWN MISS", 24, loop(true, -4));
-		addByPrefix("hey", offset(1, 5), "BF HEY", 24, loop(true, -4));
+		addByLabel("idle", offset(), "Idle", 24, loop(true, -4));
+
+		addByLabel("singUP", offset(), "Sing Up", 24, loop(true, -4));
+		addByLabel("singLEFT", offset(), "Sing Left", 24, loop(true, -4));
+		addByLabel("singRIGHT", offset(), "Sing Right", 24, loop(true, -4));
+		addByLabel("singDOWN", offset(), "Sing Down", 24, loop(true, -4));
+
+		addByLabel("singUPmiss", offset(), "Miss Up", 24, loop(true, -4));
+		addByLabel("singLEFTmiss", offset(), "Miss Left", 24, loop(true, -4));
+		addByLabel("singRIGHTmiss", offset(), "Miss Right", 24, loop(true, -4));
+		addByLabel("singDOWNmiss", offset(), "Miss Down", 24, loop(true, -4));
+
+		addByLabel("hey", offset(), "Cheer", 24, loop(true, -4));
+
+		addExtraData("reposition", [25, 5]);
 	}
 
 }

@@ -7,16 +7,16 @@ class BfDead extends CharacterInfoBase
 		includeInCharacterList = false;
 
 		info.name = "bf";
-		info.spritePath = "BOYFRIEND_DEAD";
-		info.frameLoadType = setSparrow();
+		info.spritePath = "shared/boyfriend_dead";
+		info.frameLoadType = setAtlas();
 		
 		info.iconName = "bf";
 		info.facesLeft = true;
-		info.focusOffset.set(100, -120);
-
-		addByPrefix('firstDeath', offset(27, 6), "BF dies", 24, loop(false));
-		addByPrefix('deathLoop', offset(27, 0), "BF Dead Loop", 24, loop(true));
-		addByPrefix('deathConfirm', offset(27, 64), "BF Dead confirm", 24, loop(false));
+		info.deathOffset.set(-30, 70);
+		
+		addByLabel("firstDeath", offset(), "Death Start", 24, loop(false));
+		addByLabel("deathLoop", offset(), "Death Loop", 24, loop(true));
+		addByLabel("deathConfirm", offset(), "Death Confirm", 24, loop(false));
 	}
 
 }

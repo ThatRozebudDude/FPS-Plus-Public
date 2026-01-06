@@ -36,13 +36,11 @@ class AtlasSprite extends FlxAnimate
 
 	public var curAnim:String;
 	public var finishedAnim:Bool = true;
+	public var isLooping:Bool = false;
 
 	public var frameCallback:(String, Int, Int)->Void;
 	public var animationEndCallback:String->Void;
 
-	var loopCurrentAnim:Bool = false;
-	var animFinishTimer:Float = -1;
-	var animFinishTime:Float = -1;
 	var didAnimFinishCheck:Bool = false;
 
 	//This is set when the atlas is loaded from a mod that is from a version before the change to flixel-animate.
@@ -63,7 +61,8 @@ class AtlasSprite extends FlxAnimate
 		//frames = FlxAnimateFrames.fromAnimate(_path, null, null, null, false, _settings); //Normal frame loading stuff. Uses FlxG.bitmap.add(), really bad for memory usage.
 		
 		anim.addByTimeline("___full", anim.getDefaultTimeline(), 24, false);
-		anim.onFrameChange.add(animCallback);
+		anim.onFrameChange.add(onFrameChange);
+		anim.onFinish.add(onFinish);
 
 		//Auto setup stage matrix stuff to provide backwards compatibility with older mods.
 		if(Assets.exists(_path + "/spritemap1.png")){
@@ -183,12 +182,10 @@ class AtlasSprite extends FlxAnimate
 		didAnimFinishCheck = false;
 
 		curAnim = name;
-		animFinishTimer = -1;
-		animFinishTime = -1;
 		if(!_partOfLoop){
 			finishedAnim = false;
+			isLooping = false;
 		}
-		loopCurrentAnim = animInfoMap.get(name).looped;
 
 		if(frameOffset >= animInfoMap.get(name).length){
 			frameOffset = animInfoMap.get(name).length - 1;
@@ -198,18 +195,31 @@ class AtlasSprite extends FlxAnimate
 		anim.play("___full", true, reverse, animInfoMap.get(name).startFrame + frameOffset);
 	}
 
-	function animCallback(name:String, frame:Int, index:Int):Void{
+	function onFrameChange(name:String, frame:Int, index:Int):Void{
 		var animInfo:AtlasAnimInfo = animInfoMap.get(curAnim);
 
 		if(frameCallback != null){ frameCallback(curAnim, frame - animInfo.startFrame, frame); }
 
-		if((frame >= (animInfo.startFrame + animInfo.length) - 1 || frame < animInfo.startFrame) && !didAnimFinishCheck){
-			didAnimFinishCheck = true; //Prevents the anim.play from causing an infiite loop.
-			anim.play("___full", true, false, (animInfo.startFrame + animInfo.length) - 1); //Prevents the game from potentially showing the next frame of animation if the game lags right before the animation ends.
-			anim.pause();
-			animFinishTimer = 0;
-			animFinishTime = 1/(animInfo.framerate);
+		if((frame >= (animInfo.startFrame + animInfo.length) || frame < animInfo.startFrame) && !didAnimFinishCheck){
+			animationEndBehavior(animInfo);
 		}
+	}
+	
+	function onFinish(name:String):Void{
+		animationEndBehavior(animInfoMap.get(curAnim));
+	}
+
+	private function animationEndBehavior(animInfo:AtlasAnimInfo){
+		didAnimFinishCheck = true; //Prevents the anim.play from causing an infinite loop.
+		anim.play("___full", true, false, (animInfo.startFrame + animInfo.length) - 1); //Prevents the game from potentially showing the next frame of animation if the game lags right before the animation ends.
+		anim.pause();
+
+		if(animInfo.looped){
+			_playAnim(curAnim, true, false, animInfo.loopFrame, true);
+			isLooping = true;
+		}
+		else{ finishedAnim = true; }
+		if(animationEndCallback != null){ animationEndCallback(curAnim); }
 	}
 
 	//Taken from base game's FunkinSprite.
@@ -293,27 +303,6 @@ class AtlasSprite extends FlxAnimate
 	}
 
 	override function update(elapsed:Float):Void{
-
-		//if(flipX){ offset.x = -width; }
-		//else { offset.x = 0; }
-
-		//if(flipY){ offset.y = -height; }
-		//else { offset.y = 0; }
-
-		if(animFinishTimer >= 0){
-			animFinishTimer += elapsed;
-			didAnimFinishCheck = false;
-			if(animFinishTimer >= animFinishTime){
-				animFinishTimer = -1;
-				animFinishTime = -1;
-				if(loopCurrentAnim){
-					_playAnim(curAnim, true, false, animInfoMap.get(curAnim).loopFrame, true);
-				}
-				else{ finishedAnim = true; }
-				if(animationEndCallback != null){ animationEndCallback(curAnim); }
-			}
-		}
-
 		super.update(elapsed);
 	}
 
