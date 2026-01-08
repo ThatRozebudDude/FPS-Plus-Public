@@ -8,16 +8,23 @@ class GfCar extends CharacterInfoBase
 		includeInGfList = true;
 
 		info.name = "gf-car";
-		info.spritePath = "week4/gfCar";
-		info.frameLoadType = setSparrow();
+		info.spritePath = "shared/girlfriend";
+		info.frameLoadType = setAtlas();
 		
 		info.iconName = "gf";
-		info.focusOffset.set();
+		info.focusOffset.set(16, 12);
 
-		addByIndices('danceLeft', offset(), 'GF Dancing Beat Hair blowing CAR', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, loop(false));
-		addByIndices('danceRight', offset(), 'GF Dancing Beat Hair blowing CAR', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, loop(false));
+		addByLabel("danceLeft", offset(), "Idle Left Car", 24, loop(true, -4));
+		addByLabel("danceRight", offset(), "Idle Right Car", 24, loop(true, -4));
+		addByLabel("cheer", offset(), "Cheer Car", 24, loop(true, -4));
+		addByLabel("sad", offset(), "Sad Car", 24, loop(true, -4));
+
+		//Adds a combo alias every 50 notes.
+		for(i in 1...20){ addAnimAlias("combo" + (i * 50), "cheer"); }
 
 		info.idleSequence = ["danceLeft", "danceRight"];
+
+		addExtraData("reposition", [-16, 0]);
 	}
 
 }

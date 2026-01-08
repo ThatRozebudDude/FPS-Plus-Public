@@ -12,7 +12,7 @@ class BfDark extends CharacterInfoBase
 		
 		info.iconName = "bf";
 		info.facesLeft = true;
-		info.focusOffset.set(130, -85);
+		info.focusOffset.set(130, -84);
 
 		addByLabel("idle", offset(), "Idle", 24, loop(false));
 
@@ -36,8 +36,8 @@ class BfDark extends CharacterInfoBase
 		addAction("flashOff", flashOff);
 		addAction("flashFade", flashFade);
 
-		addExtraData("useRenderTexture", false);
-		addExtraData("reposition", [25, 5]);
+		addExtraData("useRenderTexture", false); //Required to use the texture mix shader on a texture atlas like this.
+		addExtraData("reposition", [32, 5]);
 	}
 
 	var flashShader:TextureMixShader = new TextureMixShader(Paths.image("shared/boyfriend/spritemap1"));

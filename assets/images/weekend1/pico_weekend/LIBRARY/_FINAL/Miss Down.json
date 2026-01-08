@@ -1,0 +1,40 @@
+{"L":[
+{
+"LN":"piuco_down_purple_loop_Layer",
+"FR":[
+{
+"I":0,
+"DU":1,
+"E":[
+{"SI":{
+"SN":"_FINAL/Sing Down",
+"FF":0,
+"ST":"G",
+"TRP":{"x":275.75,"y":219.85},
+"LP":"PO",
+"MX":[1,0,0,1,0,0]
+}}]},{
+"I":1,
+"DU":2,
+"E":[
+{"SI":{
+"SN":"piuco down purple loop",
+"FF":0,
+"ST":"G",
+"TRP":{"x":276.95,"y":428.9},
+"LP":"LP",
+"MX":[0.991,0,0,1.014,2.35,-6.1]
+}}]},{
+"I":3,
+"DU":4,
+"E":[
+{"SI":{
+"SN":"piuco down purple loop",
+"FF":2,
+"ST":"G",
+"TRP":{"x":0,"y":0},
+"LP":"LP",
+"MX":[1,0,0,1,0,0]
+}}]}
+]}
+]}

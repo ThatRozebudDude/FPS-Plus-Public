@@ -10,7 +10,7 @@ class BfCar extends CharacterInfoBase
 		
 		info.iconName = "bf";
 		info.facesLeft = true;
-		info.focusOffset.set(130, -65);
+		info.focusOffset.set(130, -64);
 
 		addByLabel("idle", offset(), "Idle", 24, loop(true, -4));
 
@@ -26,7 +26,7 @@ class BfCar extends CharacterInfoBase
 
 		addByLabel("hey", offset(), "Cheer", 24, loop(true, -4));
 
-		addExtraData("reposition", [25, 5]);
+		addExtraData("reposition", [32, 5]);
 	}
 
 }

@@ -1,0 +1,40 @@
+{"L":[
+{
+"LN":"pico_miss_left_purple_Layer",
+"FR":[
+{
+"I":0,
+"DU":1,
+"E":[
+{"SI":{
+"SN":"_FINAL/Sing Right",
+"FF":0,
+"ST":"G",
+"TRP":{"x":238.9,"y":246.2},
+"LP":"PO",
+"MX":[1,0,0,1,0,0]
+}}]},{
+"I":1,
+"DU":2,
+"E":[
+{"SI":{
+"SN":"pico miss left purple",
+"FF":0,
+"ST":"G",
+"TRP":{"x":247,"y":491.95},
+"LP":"LP",
+"MX":[1,0,0.017,1,-8.5,0]
+}}]},{
+"I":3,
+"DU":4,
+"E":[
+{"SI":{
+"SN":"pico miss left purple",
+"FF":2,
+"ST":"G",
+"TRP":{"x":0,"y":0},
+"LP":"LP",
+"MX":[1,0,0,1,0,0]
+}}]}
+]}
+]}

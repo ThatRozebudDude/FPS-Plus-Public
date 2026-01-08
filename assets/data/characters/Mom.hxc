@@ -5,18 +5,19 @@ class Mom extends CharacterInfoBase
 		super();
 
 		info.name = "mom";
-		info.spritePath = "week4/Mom_Assets";
-		info.frameLoadType = setSparrow();
+		info.spritePath = "week4/mom";
+		info.frameLoadType = setAtlas();
 		
 		info.iconName = "mom";
-		info.focusOffset.set(150, 0);
+		info.focusOffset.set(189, -74);
 
-		addByPrefix('idle', offset(), "Mom Idle", 24, loop(true, -4));
-		addByPrefix('singUP', offset(-1, 81), "Mom Up Pose", 24, loop(true, -4));
-		addByPrefix('singDOWN', offset(20, -157), "MOM DOWN POSE", 24, loop(true, -4));
-		addByPrefix('singLEFT', offset(250, -23), 'Mom Left Pose', 24, loop(true, -4));
-		addByPrefix('singRIGHT', offset(21, -54), 'Mom Pose Left', 24, loop(true, -4));
+		addByLabel("idle", offset(), "Idle", 24, loop(true, -4));
+		addByLabel("singUP", offset(), "Sing Up", 24, loop(true, -4));
+		addByLabel("singDOWN", offset(), "Sing Down", 24, loop(true, -4));
+		addByLabel("singLEFT", offset(), "Sing Left", 24, loop(true, -4));
+		addByLabel("singRIGHT", offset(), "Sing Right", 24, loop(true, -4));
 
+		addExtraData("reposition", [-27, 17]);
 	}
 
 }

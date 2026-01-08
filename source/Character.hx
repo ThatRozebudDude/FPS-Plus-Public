@@ -57,8 +57,6 @@ class Character extends FlxSpriteGroup
 
 	public var curAnim:String = "";
 
-	var facesLeft:Bool = false;
-
 	public var idleSequence:Array<String> = ["idle"];
 	public var idleSequenceIndex:Int = 0;
 
@@ -69,6 +67,7 @@ class Character extends FlxSpriteGroup
 	public var worldPopupOffset:FlxPoint = new FlxPoint();
 
 	public var isAtlas(get, never):Bool;
+	public var isFacingDefaultDirection(get, never):Bool;
 
 	var character:FlxSprite;
 	var atlasCharacter:AtlasSprite;
@@ -107,7 +106,7 @@ class Character extends FlxSpriteGroup
 
 		createCharacterFromInfo(charClass);
 
-		if (((facesLeft && !isPlayer) || (!facesLeft && isPlayer)) && !debugMode){
+		if(!isFacingDefaultDirection && !debugMode){
 			setFlipX(true);
 			swapLeftAndRightAnimations();
 		}
@@ -400,7 +399,6 @@ class Character extends FlxSpriteGroup
 		iconName = characterInfo.info.iconName;
 		deathCharacter = characterInfo.info.deathCharacter;
 		characterColor = characterInfo.info.healthColor;
-		facesLeft = characterInfo.info.facesLeft;
 		idleSequence = characterInfo.info.idleSequence;
 		focusOffset = characterInfo.info.focusOffset;
 		deathOffset = characterInfo.info.deathOffset;
@@ -603,11 +601,13 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function reposition():Void{
-		x += repositionPoint.x;
+		var reposX = repositionPoint.x * (!isFacingDefaultDirection ? -1 : 1);
+
+		x += reposX;
 		y += repositionPoint.y;
 
 		for(member in members){
-			member.x += repositionPoint.x;
+			member.x += reposX;
 			member.y += repositionPoint.y;
 		}
 
@@ -980,6 +980,10 @@ class Character extends FlxSpriteGroup
 
 	public function get_isAtlas():Bool{
 		return characterInfo.info.frameLoadType == atlas;
+	}
+	
+	public function get_isFacingDefaultDirection():Bool{
+		return !(characterInfo.info.facesLeft && !isPlayer) && !(!characterInfo.info.facesLeft && isPlayer);
 	}
 
 }
