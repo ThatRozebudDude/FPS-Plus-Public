@@ -196,7 +196,6 @@ class PhillyStreets extends BaseStage
 		addEvent("phillyStreets-canShot", canShot);
 		addEvent("phillyStreets-playerGlow", createCharacterGlow);
 		addEvent("phillyStreets-createBullet", createBullet);
-		addEvent("phillyStreets-canExplosion", createBullet);
 	}
 
 	override function songStart() {
@@ -268,7 +267,7 @@ class PhillyStreets extends BaseStage
 	}
 
 	public function createBullet(tag:String):Void{
-		var bullet = new PicoBullet(boyfriend.x + 159, boyfriend.y + 127);
+		var bullet = new PicoBullet(2083, 880);
 		addToForeground(bullet);
 	}
 

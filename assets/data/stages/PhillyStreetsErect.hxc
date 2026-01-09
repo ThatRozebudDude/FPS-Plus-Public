@@ -362,7 +362,7 @@ class PhillyStreetsErect extends BaseStage
 	}
 
 	public function createBullet(tag:String):Void{
-		var bullet = new PicoBullet(boyfriend.x + 159, boyfriend.y + 127);
+		var bullet = new PicoBullet(2083, 880);
 		addToForeground(bullet);
 	}
 

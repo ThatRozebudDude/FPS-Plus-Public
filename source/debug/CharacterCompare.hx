@@ -34,12 +34,16 @@ class CharacterCompare extends FlxState
 		gridBG.scrollFactor.set(0.5, 0.5);
 		gridBG.screenCenter(XY);
 
-		topCharacter = new Character(300, 300, "MomCar", true);
+		topCharacter = new Character(300, 300, "PicoWeekend", true);
 		topCharacter.setPosition(topCharacter.x - ((topCharacter.getFrameWidth() * topCharacter.getScale().x)/2), topCharacter.y - (topCharacter.getFrameHeight() * topCharacter.getScale().y));
 		topCharacter.reposition();
-		bottomCharacter = new Character(300, 300, "MomCarOld", true);
+		bottomCharacter = new Character(300, 300, "PicoWeekendOld", true);
 		bottomCharacter.setPosition(bottomCharacter.x - ((bottomCharacter.getFrameWidth() * bottomCharacter.getScale().x)/2), bottomCharacter.y - (bottomCharacter.getFrameHeight() * bottomCharacter.getScale().y));
 		bottomCharacter.reposition();
+
+		if(!topCharacter.characterInfo.info.extraData.exists("repositionFlipped")){
+			topCharacter.characterInfo.info.extraData.set("repositionFlipped", [topCharacter.repositionPoint.x * -1, topCharacter.repositionPoint.y]);
+		}
 
 		originalPoint = new FlxPoint(topCharacter.x, topCharacter.y);
 
@@ -181,6 +185,7 @@ class CharacterCompare extends FlxState
 			var newY = (topCharacter.y - originalPoint.y);
 			trace("");
 			trace("repos  : " + (topCharacter.repositionPoint.x + newX) + ", " + (topCharacter.repositionPoint.y + newY));
+			trace("reposFl: " + (topCharacter.characterInfo.info.extraData.get("repositionFlipped")[0] + newX) + ", " + (topCharacter.characterInfo.info.extraData.get("repositionFlipped")[1] + newY));
 			trace("cam pos: " + (topCharacter.focusOffset.x * (topCharacter.isPlayer ? -1 : 1)) + ", " + (topCharacter.focusOffset.y));
 			trace("");
 		}

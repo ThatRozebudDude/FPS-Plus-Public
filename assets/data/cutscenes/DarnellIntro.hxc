@@ -27,7 +27,7 @@ class DarnellIntro extends ScriptedCutscene
 		originalZoom = playstate.defaultCamZoom;
 		beatTime = Conductor.getBeatTimeFromBpm(168);
 
-		picoIntro = new Character(boyfriend.x, boyfriend.y, "PicoCutscene", true);
+		picoIntro = new Character(1924, 753, "PicoCutscene", true);
 		picoIntro.characterInfo.info.functions.animationEnd = function(character:Character, anim:String) {
 			if(anim == "shoot"){
 				boyfriend.visible = true;

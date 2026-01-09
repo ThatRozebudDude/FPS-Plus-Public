@@ -602,13 +602,19 @@ class Character extends FlxSpriteGroup
 
 	public function reposition():Void{
 		var reposX = repositionPoint.x * (!isFacingDefaultDirection ? -1 : 1);
+		var reposY = repositionPoint.y;
+
+		if(characterInfo.info.extraData.exists("repositionFlipped") && !isFacingDefaultDirection){
+			reposX = characterInfo.info.extraData.get("repositionFlipped")[0];
+			reposY = characterInfo.info.extraData.get("repositionFlipped")[1];
+		}
 
 		x += reposX;
-		y += repositionPoint.y;
+		y += reposY;
 
 		for(member in members){
 			member.x += reposX;
-			member.y += repositionPoint.y;
+			member.y += reposY;
 		}
 
 		updateCharacterPostion();

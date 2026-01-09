@@ -307,7 +307,7 @@ class AtlasSprite extends FlxAnimate
 	}
 
 	//Combines FlxAnimateFrames.fromAnimate(), FlxAnimateFrames._fromAnimatePath(), and FlxAnimateFrames._fromAnimateInput() in a way that uses the FPS Plus image cache instead of Flixel's built in bitmap cache.
-	static function loadAndCache(animate:String, ?unique:Bool = false, ?settings:FlxAnimateSettings):FlxAnimateFrames{
+	public static function loadAndCache(animate:String, ?unique:Bool = false, ?settings:FlxAnimateSettings):FlxAnimateFrames{
 		
 
 

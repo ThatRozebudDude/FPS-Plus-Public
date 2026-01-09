@@ -5,28 +5,32 @@ class PicoWeekend extends CharacterInfoBase
 		super();
 
 		info.name = "pico";
-		info.spritePaths = ["week3/Pico_FNF_assetss", "weekend1/pico_weekend1"];
-		info.frameLoadType = setMultiSparrow();
+		info.spritePath = "weekend1/pico_weekend";
+		info.frameLoadType = setAtlas();
 		
 		info.iconName = "pico";
 		info.facesLeft = true;
 		info.deathCharacter = "PicoDead";
 		info.resultsCharacter = "PicoResults";
-		info.focusOffset.set(100, -100);
+		info.focusOffset.set(-15, 7);
 
-		addByPrefix("idle", offset(0, 0), "Idle", 24, loop(false, 0), false, false);
-		addByPrefix("singUP", offset(20, 29), "Sing Up", 24, loop(false, 0), false, false);
-		addByPrefix("singDOWN", offset(92, -77), "Sing Down", 24, loop(false, 0), false, false);
-		addByPrefix("singLEFT", offset(86, -11), "Sing Left", 24, loop(false, 0), false, false);
-		addByPrefix("singRIGHT", offset(-46, 1), "Sing Right", 24, loop(false, 0), false, false);
-		addByPrefix("singRIGHTmiss", offset(-40, 49), "Miss Right", 24, loop(true, -4), false, false);
-		addByPrefix("singLEFTmiss", offset(82, 27), "Miss Left", 24, loop(true, -4), false, false);
-		addByPrefix("singUPmiss", offset(26, 67), "Miss Up", 24, loop(true, -4), false, false);
-		addByPrefix("singDOWNmiss", offset(86, -37), "Miss Down", 24, loop(true, -4), false, false);
-		addByPrefix("shoot", offset(342, 230), "Pico Shoot", 24, loop(false, 0), false, false);
-		addByPrefix("reload", offset(70, -10), "Pico Reload", 24, loop(false, 0), false, false);
-		addByPrefix("hit", offset(-18, -8), "Pico Hit", 24, loop(true, -3), false, false);
+		addByLabel("idle", offset(), "Idle", 24, loop(false, 0), false, false);
 
+		addByLabel("singUP", offset(), "Sing Up", 24, loop(false, 0), false, false);
+		addByLabel("singDOWN", offset(), "Sing Down", 24, loop(false, 0), false, false);
+		addByLabel("singLEFT", offset(), "Sing Left", 24, loop(false, 0), false, false);
+		addByLabel("singRIGHT", offset(), "Sing Right", 24, loop(false, 0), false, false);
+
+		addByLabel("singRIGHTmiss", offset(), "Miss Right", 24, loop(true, -4), false, false);
+		addByLabel("singLEFTmiss", offset(), "Miss Left", 24, loop(true, -4), false, false);
+		addByLabel("singUPmiss", offset(), "Miss Up", 24, loop(true, -4), false, false);
+		addByLabel("singDOWNmiss", offset(), "Miss Down", 24, loop(true, -4), false, false);
+
+		addByLabel("shoot", offset(), "Shoot", 24, loop(false), false, false);
+		addByLabel("reload", offset(), "Reload", 24, loop(false), false, false);
+		addByLabel("hit", offset(), "Can Hit", 24, loop(true, -3), false, false);
+
+		addExtraData("reposition", [-115, 17]);
 	}
 
 }

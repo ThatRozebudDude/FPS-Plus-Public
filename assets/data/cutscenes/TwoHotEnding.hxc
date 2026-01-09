@@ -17,7 +17,7 @@ class TwoHotEnding extends ScriptedCutscene
 	public function new(args:Array<Dynamic>){
 		super(args);
 		
-		picoSprite = new Character(boyfriend.x, boyfriend.y, "PicoCutscene", true);
+		picoSprite = new Character(1924, 753, "PicoCutscene", true);
 		picoSprite.visible = false;
 
 		black = new FlxSprite().makeGraphic(1, 1, 0xFF000000);
