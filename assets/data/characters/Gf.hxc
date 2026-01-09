@@ -78,7 +78,7 @@ class Gf extends CharacterInfoBase
 		if(inHairBlow){ return; }
 		inHairBlow = true;
 		character.animSet = "hairBlow";
-		character.dance();
+		character.playAnim(character.curAnim, true, false, character.curAnimFrame());
 	}
 	
 	function hairFall(character:Character):Void{
