@@ -832,7 +832,7 @@ class PlayState extends MusicBeatState
 		//trace("in cutsceneCheck");
 		if(startCutscene != null && (startCutscenePlayOnce ? replayStartCutscene : true)){
 			if(!stage.instantStart){ countdownPreload(); }
-			add(startCutscene);
+			//add(startCutscene);
 			inCutscene = true;
 			startCutscene.start();
 		}
@@ -1599,15 +1599,20 @@ class PlayState extends MusicBeatState
 		updateAccuracy();
 
 		if(songStats.score != previouslyTrackedSongStats.score || 
-		   songStats.accuracy != previouslyTrackedSongStats.accuracy || 
-		   songStats.missCount != previouslyTrackedSongStats.missCount || 
-		   songStats.comboBreakCount != previouslyTrackedSongStats.comboBreakCount){
+			songStats.accuracy != previouslyTrackedSongStats.accuracy || 
+			songStats.missCount != previouslyTrackedSongStats.missCount || 
+			songStats.comboBreakCount != previouslyTrackedSongStats.comboBreakCount){
 			updateScoreText();
 			previouslyTrackedSongStats = Reflect.copy(songStats);
 		}
 
 		stage.updateTheUpdateGroup(elapsed);
 		for(script in scripts){ script.update(elapsed); }
+		//For some reason adding the cutscenes doesn't auto run update on them? IDK why but this works I guess.
+		if(inCutscene){
+			if(!inEndingCutscene){ startCutscene.update(elapsed); }
+			else{ endCutscene.update(elapsed); }
+		}
 
 		if (Binds.justPressed("pause") && startedCountdown && canPause){
 			paused = true;
@@ -2010,7 +2015,7 @@ class PlayState extends MusicBeatState
 		for(script in scripts){ script.songEnd(); }
 
 		if(endCutscene != null){
-			add(endCutscene);
+			//add(endCutscene);
 			inCutscene = true;
 			inEndingCutscene = true;
 			endCutscene.start();

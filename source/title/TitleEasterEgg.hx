@@ -52,6 +52,7 @@ class TitleEasterEgg extends MusicBeatState
 		dj.animation.play("idle", true);
 		dj.screenCenter(XY);
 		dj.scale.set(2, 2);
+		dj.antialiasing = false;
 
 		var tempText = new FlxText(0, 0, 0, "LOOK AT HIM GO ");
 		tempText.setFormat(Paths.font("5by7"), 80, 0xFFFFFFFF);

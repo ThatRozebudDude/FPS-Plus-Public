@@ -1,9 +1,6 @@
 package;
 
-import openfl.utils.AssetCache;
-import openfl.Assets;
 import flixel.input.gamepad.FlxGamepadInputID;
-import openfl.events.Event;
 import flixel.FlxG;
 import flixel.input.keyboard.FlxKey;
 
