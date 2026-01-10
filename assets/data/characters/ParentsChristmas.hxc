@@ -5,21 +5,25 @@ class ParentsChristmas extends CharacterInfoBase
 		super();
 
 		info.name = "parents-christmas";
-		info.spritePath = "week5/mom_dad_christmas_assets";
-		info.frameLoadType = setSparrow();
+		info.spritePath = "week5/parents_christmas";
+		info.frameLoadType = setAtlas();
 		
 		info.iconName = "parents";
+		info.focusOffset.set(111, -84);
 
-		addByPrefix('idle', offset(), 'Parent Christmas Idle', 24, loop(true, -4));
-		addByPrefix('singUP', offset(-47, 24), 'Parent Up Note Dad', 24, loop(true, -4));
-		addByPrefix('singDOWN', offset(-31, -29), 'Parent Down Note Dad', 24, loop(true, -4));
-		addByPrefix('singLEFT', offset(-30, 16), 'Parent Left Note Dad', 24, loop(true, -4));
-		addByPrefix('singRIGHT', offset(-1, -23), 'Parent Right Note Dad', 24, loop(true, -4));
+		addByLabel("idle", offset(), "Idle", 24, loop(true, -4));
 
-		addByPrefix('singUP-alt', offset(-47, 24), 'Parent Up Note Mom', 24, loop(true, -4));
-		addByPrefix('singDOWN-alt', offset(-30, -27), 'Parent Down Note Mom', 24, loop(true, -4));
-		addByPrefix('singLEFT-alt', offset(-30, 15), 'Parent Left Note Mom', 24, loop(true, -4));
-		addByPrefix('singRIGHT-alt', offset(-1, -24), 'Parent Right Note Mom', 24, loop(true, -4));
+		addByLabel("singUP", offset(), "Dad Up", 24, loop(true, -4));
+		addByLabel("singDOWN", offset(), "Dad Down", 24, loop(true, -4));
+		addByLabel("singLEFT", offset(), "Dad Left", 24, loop(true, -4));
+		addByLabel("singRIGHT", offset(), "Dad Right", 24, loop(true, -4));
+
+		addByLabel("singUP-alt", offset(), "Mom Up", 24, loop(true, -4));
+		addByLabel("singDOWN-alt", offset(), "Mom Down", 24, loop(true, -4));
+		addByLabel("singLEFT-alt", offset(), "Mom Left", 24, loop(true, -4));
+		addByLabel("singRIGHT-alt", offset(), "Mom Right", 24, loop(true, -4));
+
+		addExtraData("reposition", [39, 3]);
 
 	}
 

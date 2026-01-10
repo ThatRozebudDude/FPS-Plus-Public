@@ -1,0 +1,56 @@
+{"L":[
+{
+"LN":"Layer 4",
+"FR":[
+{
+"I":0,
+"DU":12,
+"E":[]
+}
+]},{
+"LN":"Layer 2",
+"FR":[
+{
+"I":0,
+"DU":12,
+"E":[
+{"SI":{
+"SN":"Working/monster face default",
+"FF":0,
+"ST":"G",
+"TRP":{"x":141,"y":129.6},
+"LP":"LP",
+"MX":[1,0,0,1,53.25,46.7]
+}}]}
+]},{
+"LN":"Layer 3",
+"FR":[
+{
+"I":0,
+"DU":12,
+"E":[
+{"SI":{
+"SN":"Working/face stretch default",
+"FF":0,
+"ST":"G",
+"TRP":{"x":145.85,"y":75.95},
+"LP":"LP",
+"MX":[1,0,0,1,32.55,2.75]
+}}]}
+]},{
+"LN":"Layer 1",
+"FR":[
+{
+"I":0,
+"DU":12,
+"E":[
+{"SI":{
+"SN":"Working/monster default head shape",
+"FF":0,
+"ST":"G",
+"TRP":{"x":145.55,"y":101.3},
+"LP":"LP",
+"MX":[1,0,0,1,0,0]
+}}]}
+]}
+]}

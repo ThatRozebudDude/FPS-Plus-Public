@@ -1610,8 +1610,14 @@ class PlayState extends MusicBeatState
 		for(script in scripts){ script.update(elapsed); }
 		//For some reason adding the cutscenes doesn't auto run update on them? IDK why but this works I guess.
 		if(inCutscene){
-			if(!inEndingCutscene){ startCutscene.update(elapsed); }
-			else{ endCutscene.update(elapsed); }
+			if(!inEndingCutscene){
+				if(startCutscene != null){ startCutscene.update(elapsed); }
+				else{ inCutscene = false; }
+			}
+			else{
+				if(endCutscene != null){ endCutscene.update(elapsed); }
+				else{ inCutscene = false; }
+			}
 		}
 
 		if (Binds.justPressed("pause") && startedCountdown && canPause){

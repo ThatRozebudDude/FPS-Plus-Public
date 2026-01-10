@@ -1,6 +1,4 @@
 2hot reload glow
-Parents christmas re-export
-Monster Re-export
 Redo Game Over to not use screenspace and use actual position.
 
 (Maybe) Find out why some atlas stuff doesn't play, might be a library issue.
