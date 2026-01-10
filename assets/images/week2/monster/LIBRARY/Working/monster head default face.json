@@ -30,12 +30,12 @@
 "DU":12,
 "E":[
 {"SI":{
-"SN":"Working/face stretch default",
+"SN":"Working/head combined",
 "FF":0,
 "ST":"G",
-"TRP":{"x":145.85,"y":75.95},
+"TRP":{"x":145.55,"y":101.3},
 "LP":"LP",
-"MX":[1,0,0,1,32.55,2.75]
+"MX":[1,0,0,1,0,0]
 }}]}
 ]},{
 "LN":"Layer 1",
@@ -43,14 +43,7 @@
 {
 "I":0,
 "DU":12,
-"E":[
-{"SI":{
-"SN":"Working/monster default head shape",
-"FF":0,
-"ST":"G",
-"TRP":{"x":145.55,"y":101.3},
-"LP":"LP",
-"MX":[1,0,0,1,0,0]
-}}]}
+"E":[]
+}
 ]}
 ]}
