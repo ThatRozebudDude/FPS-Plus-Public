@@ -16,6 +16,8 @@ class VideoCutsceneEnd extends ScriptedCutscene
 	public function new(args:Array<Dynamic>){
 		super(args);
 
+		destroyOnEnd = false;
+
 		path = args[0];
 		skipable = args[1];
 
@@ -55,6 +57,7 @@ class VideoCutsceneEnd extends ScriptedCutscene
 			videoOver = true;
 			playstate.customTransOut = new InstantTransition();
 			playstate.endSong();
+			active = false;
 		}, false);
 
 		addGeneric(black);

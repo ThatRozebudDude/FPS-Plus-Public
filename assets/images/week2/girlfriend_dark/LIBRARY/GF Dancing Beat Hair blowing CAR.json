@@ -610,7 +610,7 @@
 "E":[
 {"SI":{
 "SN":"gf hair blowing",
-"FF":2,
+"FF":0,
 "ST":"G",
 "TRP":{"x":323,"y":-164.2},
 "LP":"LP",
@@ -632,7 +632,7 @@
 "E":[
 {"SI":{
 "SN":"gf hair blowing",
-"FF":1,
+"FF":3,
 "ST":"G",
 "TRP":{"x":341,"y":-173.2},
 "LP":"LP",
@@ -665,7 +665,7 @@
 "E":[
 {"SI":{
 "SN":"gf hair blowing",
-"FF":2,
+"FF":0,
 "ST":"G",
 "TRP":{"x":363.95,"y":-160.2},
 "LP":"LP",
@@ -687,7 +687,7 @@
 "E":[
 {"SI":{
 "SN":"gf hair blowing",
-"FF":1,
+"FF":0,
 "ST":"G",
 "TRP":{"x":357.95,"y":-160.2},
 "LP":"LP",
@@ -709,7 +709,7 @@
 "E":[
 {"SI":{
 "SN":"gf hair blowing",
-"FF":2,
+"FF":3,
 "ST":"G",
 "TRP":{"x":348.95,"y":-172.2},
 "LP":"LP",
@@ -720,7 +720,7 @@
 "E":[
 {"SI":{
 "SN":"gf hair blowing",
-"FF":1,
+"FF":2,
 "ST":"G",
 "TRP":{"x":345.95,"y":-173.2},
 "LP":"LP",
@@ -731,7 +731,7 @@
 "E":[
 {"SI":{
 "SN":"gf hair blowing",
-"FF":2,
+"FF":1,
 "ST":"G",
 "TRP":{"x":350.95,"y":-172.2},
 "LP":"LP",

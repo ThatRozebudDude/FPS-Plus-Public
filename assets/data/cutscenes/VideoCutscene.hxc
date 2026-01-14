@@ -16,6 +16,8 @@ class VideoCutscene extends ScriptedCutscene
 
 	public function new(args:Array<Dynamic>){
 		super(args);
+
+		destroyOnEnd = false;
 		
 		path = args[0];
 		skipable = args[1];
@@ -72,6 +74,8 @@ class VideoCutscene extends ScriptedCutscene
 				if(PlayState.SONG.notes[0].mustHitSection){ playstate.camFocusBF(); }
 				else{ playstate.camFocusOpponent(); }
 			}
+
+			active = false;
 		}, false);
 
 		addGeneric(black);

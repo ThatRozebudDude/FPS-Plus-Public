@@ -17,6 +17,7 @@ class Gf extends CharacterInfoBase
 
 		addByLabel("danceLeft", offset(), "Idle Left", 24, loop(false));
 		addByLabel("danceRight", offset(), "Idle Right", 24, loop(false));
+		addByStartingAtLabel("idleLoop", offset(), "Idle Left", 30, 24, loop(true));
 
 		addByLabel("singLEFT", offset(), "Sing Left", 24, loop(false));
 		addByLabel("singRIGHT", offset(), "Sing Right", 24, loop(false));

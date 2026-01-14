@@ -11,7 +11,16 @@ import flixel.FlxBasic;
 class ScriptedCutscene extends FlxBasic
 {
 
+	/*
+	 *	The amount of time elapsed since the cutscene started playing.
+	 */
 	public var totalTime:Float = 0;
+
+	/*
+	 *	Automatically destroys the cutscene object after all events are finished.
+	 *	Can be disabled for stuff like video events where you want to be able to keep checking to skip after the video event happened.
+	 */
+	public var destroyOnEnd:Bool = true;
 
 	public var started(get, never):Bool;
 	var __started:Bool = false;
@@ -28,7 +37,9 @@ class ScriptedCutscene extends FlxBasic
 				totalTime += elapsed;
 			}
 			else{
-				Utils.destroyWhenAvailable(this);
+				if(destroyOnEnd){
+					Utils.destroyWhenAvailable(this);
+				}
 			}
 			
 			for(event in events){

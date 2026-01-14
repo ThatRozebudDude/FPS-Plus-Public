@@ -59,6 +59,8 @@ class FlxUIStateExt extends FlxUIState
 		coverSprite.antialiasing = false;
 		coverSprite.cameras = [coverCamera];
 		add(coverSprite);
+
+		FlxG.signals.postUpdate.addOnce(function(){Utils.gc();});
 		
 		super.create();
 	}
