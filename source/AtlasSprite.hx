@@ -1,5 +1,7 @@
 package;
 
+import flixel.util.FlxSort;
+import Utils.OrderedMap;
 import animate.internal.elements.SymbolInstance;
 import animate.internal.elements.Element;
 import animate.FlxAnimateAssets;
@@ -30,6 +32,11 @@ typedef AtlasAnimInfo = {
 	loopFrame:Null<Int>
 }
 
+typedef FrameLabelInfo = {
+	labels:Array<String>,
+	index:Int
+}
+
 class AtlasSprite extends FlxAnimate
 {
 	public var animInfoMap:Map<String, AtlasAnimInfo> = new Map<String, AtlasAnimInfo>();
@@ -41,13 +48,12 @@ class AtlasSprite extends FlxAnimate
 	public var frameCallback:(String, Int, Int)->Void;
 	public var animationEndCallback:String->Void;
 
-	var didAnimFinishCheck:Bool = false;
+	private var didAnimFinishCheck:Bool = false;
 
-	//This is set when the atlas is loaded from a mod that is from a version before the change to flixel-animate.
-	var isOld:Bool = false;
+	private var isOld:Bool = false; //This is set when the atlas is loaded from a mod that is from a version before the change to flixel-animate.
+	private var frameLabelInfo:Array<FrameLabelInfo>; //Used to get length between labels for old label animation adding.
 
-	//Debug thing, will be removed before final merge to master.
-	static var forceEveryAtlasToLoadAsOld:Bool = false;
+	static var forceEveryAtlasToLoadAsOld:Bool = false; //Debug thing, will be removed before final merge to master.
 
 	public function new(?_x:Float, ?_y:Float, ?_path:String, ?_settings:FlxAnimateSettings) {
 		super(_x, _y, null, null);
@@ -69,14 +75,73 @@ class AtlasSprite extends FlxAnimate
 			var fromMod:String = PolymodHandler.getAssetModFolder(_path + "/spritemap1.png");
 			if((fromMod != null && PolymodHandler.getSeparatedVersionNumber(PolymodHandler.getModMetaFromFolder(fromMod).api_version)[1] <= 7) || forceEveryAtlasToLoadAsOld){ //API version that old atlas stuff uses.
 				isOld = true;
+
 				applyStageMatrix = true;
 				origin.set(-timeline.getBoundsOrigin().x, -timeline.getBoundsOrigin().y); //Scales from the origin of the symbol instead of the center of the sprite.
-				trace(_path + " is old.");
+
+				frameLabelInfo = [];
+				populateFrameLabelInfo();
+				//trace(_path + " is old.");
 			}
 		}
 	}
 
+	function populateFrameLabelInfo():Void{
+		var addedIndecies:Array<Int> = [];
+		for(layer in anim.getDefaultTimeline().layers){
+			for(frame in layer.frames){
+				var frameName = frame.name.rtrim();
+				if(frameName != ""){
+					if(addedIndecies.contains(frame.index)){
+						for(x in frameLabelInfo){
+							if(x.index == frame.index){
+								x.labels.push(frameName);
+							}
+						}
+					}
+					else{
+						frameLabelInfo.push({labels: [frameName], index: frame.index});
+					}
+				}
+			}
+		}
+		frameLabelInfo.sort(function(a,b){
+			return FlxSort.byValues(FlxSort.ASCENDING, a.index, b.index);
+		});
+		//trace(frameLabelInfo);
+	}
+
+	function getLabelFrameIndex(label:String):Int{
+		for(info in frameLabelInfo){
+			if(info.labels.contains(label)){
+				return info.index;
+			}
+		}
+		return -1;
+	}
+	
+	function getLabelInfoIndex(label:String):Int{
+		for(i in 0...frameLabelInfo.length){
+			if(frameLabelInfo[i].labels.contains(label)){
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	public function addAnimationByLabel(name:String, label:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
+		//Emulates the old method of label animation adding where it's based on distance between labels instead of label frame duration.
+		if(isOld){
+			var labelIndex = getLabelInfoIndex(label);
+			if(labelIndex == -1){
+				trace("LABEL " + label + " NOT FOUND, ABORTING ANIM ADD");
+				return;
+			}
+			var length:Int = (labelIndex < frameLabelInfo.length-1) ? frameLabelInfo[labelIndex+1].index - frameLabelInfo[labelIndex].index : anim.getByName("___full").frames.length - frameLabelInfo[labelIndex].index;
+			addAnimationStartingAtLabel(name, label, length, framerate, looped, loopFrame);
+			return;
+		}
+
 		var foundFrames = anim.findFrameLabelIndices(label);
 		if(foundFrames.length <= 0){
 			trace("LABEL " + label + " NOT FOUND, ABORTING ANIM ADD");
