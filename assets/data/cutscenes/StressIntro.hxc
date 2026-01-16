@@ -21,7 +21,7 @@ class StressIntro extends ScriptedCutscene
 	public function new(args:Array<Dynamic>){
 		super(args);
 		
-		tankman = new AtlasSprite(-20, 272, Paths.getTextureAtlas("week7/cutscene/tankmanCutscene"));
+		tankman = new AtlasSprite(-20, 272, Paths.getTextureAtlas("week7/cutscene/tankman"));
 		tankman.addAnimationByLabel("ugh1", "Ugh 1", 24, false);
 		tankman.addAnimationByLabel("ugh2", "Ugh 2", 24, false);
 		tankman.addAnimationByLabel("guns", "Guns", 24, false);
@@ -39,7 +39,7 @@ class StressIntro extends ScriptedCutscene
 		picoSpeaker.visible = false;
 
 		gfSummon = new FlxSprite(-10, -374);
-		gfSummon.frames = Paths.getSparrowAtlas("week7/cutscene/gfCutscene");
+		gfSummon.frames = Paths.getSparrowAtlas("week7/cutscene/gfStressSummon");
 		gfSummon.animation.addByPrefix("summon", "", 24, false);
 		gfSummon.visible = false;
 
