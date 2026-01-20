@@ -12,11 +12,11 @@ class SenpaiAngry extends CharacterInfoBase
 		info.antialiasing = false;
 		info.focusOffset.set(212, -20);
 
-		addByPrefix('idle', offset(), 'Angry Senpai Idle', 24, loop(false));
-		addByPrefix('singUP', offset(1, 6), 'Angry Senpai UP NOTE', 24, loop(false));
-		addByPrefix('singLEFT', offset(4, 1), 'Angry Senpai LEFT NOTE', 24, loop(false));
-		addByPrefix('singRIGHT', offset(), 'Angry Senpai RIGHT NOTE', 24, loop(false));
-		addByPrefix('singDOWN', offset(1, 1), 'Angry Senpai DOWN NOTE', 24, loop(false));
+		addByPrefix("idle", offset(), "Angry Senpai Idle", 24, loop(false));
+		addByPrefix("singUP", offset(1, 6), "Angry Senpai UP NOTE", 24, loop(false));
+		addByPrefix("singLEFT", offset(4, 1), "Angry Senpai LEFT NOTE", 24, loop(false));
+		addByPrefix("singRIGHT", offset(), "Angry Senpai RIGHT NOTE", 24, loop(false));
+		addByPrefix("singDOWN", offset(1, 1), "Angry Senpai DOWN NOTE", 24, loop(false));
 
 		addExtraData("scale", 6);
 		addExtraData("reposition", [0, 102]);

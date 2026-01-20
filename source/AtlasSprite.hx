@@ -81,7 +81,6 @@ class AtlasSprite extends FlxAnimate
 
 				frameLabelInfo = [];
 				populateFrameLabelInfo();
-				//trace(_path + " is old.");
 			}
 		}
 	}
@@ -367,8 +366,12 @@ class AtlasSprite extends FlxAnimate
 		return super.set_flipY(Value);
 	}
 
-	override function update(elapsed:Float):Void{
+	override public function update(elapsed:Float):Void{
 		super.update(elapsed);
+	}
+
+	override public function draw():Void{
+		super.draw();
 	}
 
 	//Combines FlxAnimateFrames.fromAnimate(), FlxAnimateFrames._fromAnimatePath(), and FlxAnimateFrames._fromAnimateInput() in a way that uses the FPS Plus image cache instead of Flixel's built in bitmap cache.

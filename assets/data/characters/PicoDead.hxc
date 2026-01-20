@@ -17,9 +17,9 @@ class PicoDead extends CharacterInfoBase
 		info.facesLeft = true;
 		info.deathOffset.set(-200, -200);
 
-		addByIndices('firstDeath', offset(225, 125), "Pico Death Stab", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47], "", 24, loop(false));
-		addByIndices('deathLoop', offset(225, 125), "Pico Death Stab", [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63], "", 24, loop(true));
-		addByIndices('deathConfirm', offset(225, 125), "Pico Death Stab", [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63], "", 24, loop(true));
+		addByIndices("firstDeath", offset(225, 125), "Pico Death Stab", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47], "", 24, loop(false));
+		addByIndices("deathLoop", offset(225, 125), "Pico Death Stab", [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63], "", 24, loop(true));
+		addByIndices("deathConfirm", offset(225, 125), "Pico Death Stab", [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63], "", 24, loop(true));
 
 		info.functions.create = deathCreate;
 		info.functions.deathAdd = deathAdd;
@@ -44,7 +44,7 @@ class PicoDead extends CharacterInfoBase
 		retryButton.centerOffsets();
 		retryButton.visible = false;
 
-		nene = new FlxSprite(playstate.gf.getScreenPosition().x + 135, playstate.gf.getScreenPosition().y - 20);
+		nene = new FlxSprite(playstate.gf.x + 135, playstate.gf.y - 20);
 		nene.frames = Paths.getSparrowAtlas("weekend1/NeneKnifeToss");
 		nene.animation.addByPrefix("throw", "knife toss", 24, false);
 		nene.animation.play("throw");
@@ -67,7 +67,7 @@ class PicoDead extends CharacterInfoBase
 		if(FlxG.keys.anyJustPressed([W, A, S, D])){ 
 			nene.animation.play("throw", true);
 			nene.visible = true;
-			trace(nene.getPosition() - playstate.gf.getScreenPosition());
+			trace(nene.getPosition() - playstate.gf.getPosition());
 		}
 	}*/
 

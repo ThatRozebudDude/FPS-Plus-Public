@@ -54,6 +54,7 @@ class GameOverSubState extends MusicBeatSubState
 		super.create();
 
 		bf = new Character(bfX, bfY, bfChar, true);
+		bf.repositionDeath();
 		if(bf.characterInfo.info.functions.deathCreate != null){
 			bf.characterInfo.info.functions.deathCreate(bf);
 		}
@@ -61,10 +62,10 @@ class GameOverSubState extends MusicBeatSubState
 		if(bf.characterInfo.info.functions.deathAdd != null){
 			bf.characterInfo.info.functions.deathAdd(bf);
 		}
-		bf.playAnim('firstDeath', true);
+		bf.playAnim("firstDeath", true);
 
 		cameraPanDelayTimer = new FlxTimer().start(bf.deathDelay, function(t) {
-			FlxTween.tween(camFollow, {x: bf.getGraphicMidpoint().x + bf.deathOffset.x, y: bf.getGraphicMidpoint().y + bf.deathOffset.y}, 3, {ease: FlxEase.expoOut});
+			FlxTween.tween(camFollow, {x: bf.getMidpoint().x + bf.deathOffset.x, y: bf.getMidpoint().y + bf.deathOffset.y}, 3, {ease: FlxEase.expoOut});
 		});
 
 		if(bf.deathSound != null){
@@ -84,15 +85,15 @@ class GameOverSubState extends MusicBeatSubState
 		if (Binds.justPressed("menuBack") && !isEnding){
 			FlxG.sound.music.stop();
 			isEnding = true;
-			FlxG.sound.play(Paths.sound('cancelMenu'));
+			FlxG.sound.play(Paths.sound("cancelMenu"));
 
 			PlayState.instance.returnToMenu();
 
 			camGameOver.fade(FlxColor.BLACK, 0.1, false);	
 		}
 
-		if (bf.curAnim == 'firstDeath' && bf.curAnimFinished() && !isEnding){
-			bf.playAnim('deathLoop');
+		if (bf.curAnim == "firstDeath" && bf.curAnimFinished() && !isEnding){
+			bf.playAnim("deathLoop");
 
 			if(bf.deathSong != null){
 				FlxG.sound.playMusic(Paths.music(bf.deathSong));
@@ -116,7 +117,7 @@ class GameOverSubState extends MusicBeatSubState
 
 	function endBullshit():Void{
 		isEnding = true;
-		bf.playAnim('deathConfirm', true);
+		bf.playAnim("deathConfirm", true);
 		FlxG.sound.music.stop();
 		if(bf.deathSongEnd != null){
 			FlxG.sound.play(Paths.music(bf.deathSongEnd));

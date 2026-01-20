@@ -12,11 +12,13 @@ class BfDead extends CharacterInfoBase
 		
 		info.iconName = "bf";
 		info.facesLeft = true;
-		info.deathOffset.set(-30, 70);
+		info.deathOffset.set(0, 25);
 		
 		addByLabel("firstDeath", offset(), "Death Start", 24, loop(false));
 		addByLabel("deathLoop", offset(), "Death Loop", 24, loop(true));
 		addByLabel("deathConfirm", offset(), "Death Confirm", 24, loop(false));
+
+		addExtraData("repositionDeath", [-28, -15]);
 	}
 
 }

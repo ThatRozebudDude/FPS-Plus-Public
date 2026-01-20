@@ -17,19 +17,19 @@ class PicoPixel extends CharacterInfoBase
 		info.focusOffset.set(100, -100);
 		info.resultsCharacter = "PicoResults";
 
-		addByPrefix('idle', offset(), 'idle', 24, loop(false));
-		addByPrefix('singUP', offset(), 'up0', 24, loop(false));
-		addByPrefix('singLEFT', offset(), 'left0', 24, loop(false));
-		addByPrefix('singRIGHT', offset(), 'right0', 24, loop(false));
-		addByPrefix('singDOWN', offset(), 'down0', 24, loop(false));
-		addByPrefix('singUPmiss', offset(), 'upmiss', 24, loop(false));
-		addByPrefix('singLEFTmiss', offset(), 'leftmiss', 24, loop(false));
-		addByPrefix('singRIGHTmiss', offset(), 'rightmiss', 24, loop(false));
-		addByPrefix('singDOWNmiss', offset(), 'downmiss', 24, loop(false));
+		addByPrefix("idle", offset(), "idle", 24, loop(false));
+		addByPrefix("singUP", offset(), "up0", 24, loop(false));
+		addByPrefix("singLEFT", offset(), "left0", 24, loop(false));
+		addByPrefix("singRIGHT", offset(), "right0", 24, loop(false));
+		addByPrefix("singDOWN", offset(), "down0", 24, loop(false));
+		addByPrefix("singUPmiss", offset(), "upmiss", 24, loop(false));
+		addByPrefix("singLEFTmiss", offset(), "leftmiss", 24, loop(false));
+		addByPrefix("singRIGHTmiss", offset(), "rightmiss", 24, loop(false));
+		addByPrefix("singDOWNmiss", offset(), "downmiss", 24, loop(false));
 
-		addByPrefix('firstDeath', offset(), "firstDeath", 24, loop(false));
-		addByPrefix('deathLoop', offset(), "deathLoop", 24, loop(true));
-		addByPrefix('deathConfirm', offset(), "deathConfirm", 24, loop(false));
+		addByPrefix("firstDeath", offset(), "firstDeath", 24, loop(false));
+		addByPrefix("deathLoop", offset(), "deathLoop", 24, loop(true));
+		addByPrefix("deathConfirm", offset(), "deathConfirm", 24, loop(false));
 
 		info.functions.deathCreate = deathCreate;
 
@@ -45,7 +45,7 @@ class PicoPixel extends CharacterInfoBase
 	var nene:FlxSprite;
 
 	function deathCreate(character:Character):Void{
-		nene = new FlxSprite(playstate.gf.getScreenPosition().x + 120, playstate.gf.getScreenPosition().y + 18);
+		nene = new FlxSprite(playstate.gf.x + 120, playstate.gf.y + 18);
 		nene.frames = Paths.getSparrowAtlas("week6/nenePixelKnifeToss");
 		nene.antialiasing = false;
 		nene.scale.set(6, 6);

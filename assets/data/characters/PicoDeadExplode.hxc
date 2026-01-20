@@ -16,9 +16,9 @@ class PicoDeadExplode extends CharacterInfoBase
 		info.facesLeft = true;  
 		info.deathOffset.set(-541, -344);
 
-		addByLabel('firstDeath', offset(665, 350), "intro", 24, loop(false));
-		addByLabel('deathLoop', offset(665, 350), "Loop Start", 24, loop(true));
-		addByLabel('deathConfirm', offset(665, 350), "Confirm", 24, loop(false));
+		addByLabel("firstDeath", offset(665, 350), "intro", 24, loop(false));
+		addByLabel("deathLoop", offset(665, 350), "Loop Start", 24, loop(true));
+		addByLabel("deathConfirm", offset(665, 350), "Confirm", 24, loop(false));
 
 		addExtraData("deathDelay", 0.125);
 		addExtraData("deathSound", "gameOver/fnf_loss_sfx-pico-explode");

@@ -29,7 +29,6 @@ class Character extends FlxSpriteGroup
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	private var originalAnimOffsets:Map<String, Array<Dynamic>>;
 	private var animLoopPoints:Map<String, Int>;
-	public var repositionPoint:FlxPoint = new FlxPoint();
 	public var debugMode:Bool = false;
 	public var noLogic:Bool = false;
 
@@ -422,7 +421,8 @@ class Character extends FlxSpriteGroup
 				character.frames = Paths.getPackerAtlas(characterInfo.info.spritePath);
 			case atlas:
 				atlasCharacter = new AtlasSprite(0, 0, Paths.getTextureAtlas(characterInfo.info.spritePath));
-				atlasCharacter.useRenderTexture = true; //Turn on useRenderTexture on by default for characters.
+				@:privateAccess
+				atlasCharacter.useRenderTexture = true && !atlasCharacter.isOld; //Turn on useRenderTexture on by default for characters (except for backwards compatibility).
 		}
 
 		for(x in characterInfo.info.anims){
@@ -473,8 +473,6 @@ class Character extends FlxSpriteGroup
 						stepsUntilRelease = data;
 					case "scale":
 						changeCharacterScale(data);
-					case "reposition":
-						repositionPoint.set(data[0], data[1]);
 					case "deathDelay":
 						deathDelay = data;
 					case "deathSound":
@@ -601,12 +599,37 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function reposition():Void{
-		var reposX = repositionPoint.x * (!isFacingDefaultDirection ? -1 : 1);
-		var reposY = repositionPoint.y;
+		var reposX:Float = 0;
+		var reposY:Float = 0;
+
+		if(characterInfo.info.extraData.exists("reposition")){
+			reposX = characterInfo.info.extraData.get("reposition")[0] * (!isFacingDefaultDirection ? -1 : 1);
+			reposY = characterInfo.info.extraData.get("reposition")[1];
+		}
 
 		if(characterInfo.info.extraData.exists("repositionFlipped") && !isFacingDefaultDirection){
 			reposX = characterInfo.info.extraData.get("repositionFlipped")[0];
 			reposY = characterInfo.info.extraData.get("repositionFlipped")[1];
+		}
+
+		x += reposX;
+		y += reposY;
+
+		for(member in members){
+			member.x += reposX;
+			member.y += reposY;
+		}
+
+		updateCharacterPostion();
+	}
+
+	public function repositionDeath():Void{
+		var reposX:Float = 0;
+		var reposY:Float = 0;
+
+		if(characterInfo.info.extraData.exists("repositionDeath")){
+			reposX = characterInfo.info.extraData.get("repositionDeath")[0];
+			reposY = characterInfo.info.extraData.get("repositionDeath")[1];
 		}
 
 		x += reposX;

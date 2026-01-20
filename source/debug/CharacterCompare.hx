@@ -23,6 +23,13 @@ class CharacterCompare extends FlxState
 
 	var camFollow:FlxObject;
 	var originalPoint:FlxPoint;
+
+	var topCharOriginalPos:FlxPoint;
+
+	var adjustOffsetMode:Bool = false;
+	var offsetDiff:FlxPoint = new FlxPoint();
+
+	final DO_REPOSITION:Bool = false;
 	
 	public function new() {
 		super();
@@ -34,15 +41,24 @@ class CharacterCompare extends FlxState
 		gridBG.scrollFactor.set(0.5, 0.5);
 		gridBG.screenCenter(XY);
 
-		topCharacter = new Character(300, 300, "ParentsChristmas", false);
-		topCharacter.setPosition(topCharacter.x - ((topCharacter.getFrameWidth() * topCharacter.getScale().x)/2), topCharacter.y - (topCharacter.getFrameHeight() * topCharacter.getScale().y));
-		topCharacter.reposition();
-		bottomCharacter = new Character(300, 300, "ParentsChristmasOld", false);
-		bottomCharacter.setPosition(bottomCharacter.x - ((bottomCharacter.getFrameWidth() * bottomCharacter.getScale().x)/2), bottomCharacter.y - (bottomCharacter.getFrameHeight() * bottomCharacter.getScale().y));
-		bottomCharacter.reposition();
+		topCharacter = new Character(300, 300, "BfDead", true);
+		bottomCharacter = new Character(300, 300, "Bf", true);
+
+		if(DO_REPOSITION){
+			topCharacter.setPosition(topCharacter.x - ((topCharacter.getFrameWidth() * topCharacter.getScale().x)/2), topCharacter.y - (topCharacter.getFrameHeight() * topCharacter.getScale().y));
+			topCharacter.reposition();
+			bottomCharacter.setPosition(bottomCharacter.x - ((bottomCharacter.getFrameWidth() * bottomCharacter.getScale().x)/2), bottomCharacter.y - (bottomCharacter.getFrameHeight() * bottomCharacter.getScale().y));
+			bottomCharacter.reposition();
+		}
+
+		topCharOriginalPos = topCharacter.getPosition();
+
+		if(!topCharacter.characterInfo.info.extraData.exists("reposition")){
+			topCharacter.characterInfo.info.extraData.set("reposition", [0, 0]);
+		}
 
 		if(!topCharacter.characterInfo.info.extraData.exists("repositionFlipped")){
-			topCharacter.characterInfo.info.extraData.set("repositionFlipped", [topCharacter.repositionPoint.x * -1, topCharacter.repositionPoint.y]);
+			topCharacter.characterInfo.info.extraData.set("repositionFlipped", [topCharacter.characterInfo.info.extraData.get("reposition")[0] * -1, topCharacter.characterInfo.info.extraData.get("reposition")[1]]);
 		}
 
 		originalPoint = new FlxPoint(topCharacter.x, topCharacter.y);
@@ -126,35 +142,89 @@ class CharacterCompare extends FlxState
 			FlxG.camera.zoom -= zoomSpeed * FlxG.camera.zoom;
 		}
 
+		if (FlxG.keys.justPressed.B){
+			adjustOffsetMode = !adjustOffsetMode;
+			trace("offset adjust mode: " + adjustOffsetMode);
+		}
+
+		if (FlxG.keys.justPressed.R){
+			topCharacter.playAnim(topCharacter.curAnim, true);
+			bottomCharacter.playAnim(bottomCharacter.curAnim, true);
+		}
+
 		var moveThing:Float = (FlxG.keys.pressed.SHIFT) ? 10 : 1;
 
-		if (FlxG.keys.justPressed.UP){
-			topCharacter.y -= moveThing;
-			topCharacterCamPoint.setPosition(topCharacter.getMidpoint().x + topCharacter.focusOffset.x, topCharacter.getMidpoint().y + topCharacter.focusOffset.y);
-
-			trace("pos diff: " + (topCharacter.x - originalPoint.x) + ", " + (topCharacter.y - originalPoint.y));
-			trace("cam diff: " + (bottomCharacterCamPoint.x - topCharacterCamPoint.x) + ", " + (bottomCharacterCamPoint.y - topCharacterCamPoint.y));
+		if(!adjustOffsetMode){
+			if (FlxG.keys.justPressed.UP){
+				topCharacter.y -= moveThing;
+				topCharacterCamPoint.setPosition(topCharacter.getMidpoint().x + topCharacter.focusOffset.x, topCharacter.getMidpoint().y + topCharacter.focusOffset.y);
+	
+				trace("pos diff: " + (topCharacter.x - originalPoint.x) + ", " + (topCharacter.y - originalPoint.y));
+				trace("cam diff: " + (bottomCharacterCamPoint.x - topCharacterCamPoint.x) + ", " + (bottomCharacterCamPoint.y - topCharacterCamPoint.y));
+			}
+			if (FlxG.keys.justPressed.DOWN){
+				topCharacter.y += moveThing;
+				topCharacterCamPoint.setPosition(topCharacter.getMidpoint().x + topCharacter.focusOffset.x, topCharacter.getMidpoint().y + topCharacter.focusOffset.y);
+	
+				trace("pos diff: " + (topCharacter.x - originalPoint.x) + ", " + (topCharacter.y - originalPoint.y));
+				trace("cam diff: " + (bottomCharacterCamPoint.x - topCharacterCamPoint.x) + ", " + (bottomCharacterCamPoint.y - topCharacterCamPoint.y));
+			}
+			if (FlxG.keys.justPressed.LEFT){
+				topCharacter.x -= moveThing;
+				topCharacterCamPoint.setPosition(topCharacter.getMidpoint().x + topCharacter.focusOffset.x, topCharacter.getMidpoint().y + topCharacter.focusOffset.y);
+	
+				trace("pos diff: " + (topCharacter.x - originalPoint.x) + ", " + (topCharacter.y - originalPoint.y));
+				trace("cam diff: " + (bottomCharacterCamPoint.x - topCharacterCamPoint.x) + ", " + (bottomCharacterCamPoint.y - topCharacterCamPoint.y));
+			}
+			if (FlxG.keys.justPressed.RIGHT){
+				topCharacter.x += moveThing;
+				topCharacterCamPoint.setPosition(topCharacter.getMidpoint().x + topCharacter.focusOffset.x, topCharacter.getMidpoint().y + topCharacter.focusOffset.y);
+	
+				trace("pos diff: " + (topCharacter.x - originalPoint.x) + ", " + (topCharacter.y - originalPoint.y));
+				trace("cam diff: " + (bottomCharacterCamPoint.x - topCharacterCamPoint.x) + ", " + (bottomCharacterCamPoint.y - topCharacterCamPoint.y));
+			}
 		}
-		if (FlxG.keys.justPressed.DOWN){
-			topCharacter.y += moveThing;
-			topCharacterCamPoint.setPosition(topCharacter.getMidpoint().x + topCharacter.focusOffset.x, topCharacter.getMidpoint().y + topCharacter.focusOffset.y);
+		else{
+			if (FlxG.keys.justPressed.UP){
+				for(k => v in topCharacter.animOffsets){
+					v[1] += moveThing;
+				}
+				offsetDiff.y += moveThing;
+				@:privateAccess
+				topCharacter.changeOffsets();
+				
+				trace("off diff: " + (offsetDiff.x) + ", " + (offsetDiff.y));
+			}
+			if (FlxG.keys.justPressed.DOWN){
+				for(k => v in topCharacter.animOffsets){
+					v[1] -= moveThing;
+				}
+				offsetDiff.y -= moveThing;
+				@:privateAccess
+				topCharacter.changeOffsets();
+				
+				trace("off diff: " + (offsetDiff.x) + ", " + (offsetDiff.y));
+			}
+			if (FlxG.keys.justPressed.LEFT){
+				for(k => v in topCharacter.animOffsets){
+					v[0] += moveThing;
+				}
+				offsetDiff.x += moveThing;
+				@:privateAccess
+				topCharacter.changeOffsets();
+				
+				trace("off diff: " + (offsetDiff.x) + ", " + (offsetDiff.y));
+			}
+			if (FlxG.keys.justPressed.RIGHT){
+				for(k => v in topCharacter.animOffsets){
+					v[0] -= moveThing;
+				}
+				offsetDiff.x -= moveThing;
+				@:privateAccess
+				topCharacter.changeOffsets();
 
-			trace("pos diff: " + (topCharacter.x - originalPoint.x) + ", " + (topCharacter.y - originalPoint.y));
-			trace("cam diff: " + (bottomCharacterCamPoint.x - topCharacterCamPoint.x) + ", " + (bottomCharacterCamPoint.y - topCharacterCamPoint.y));
-		}
-		if (FlxG.keys.justPressed.LEFT){
-			topCharacter.x -= moveThing;
-			topCharacterCamPoint.setPosition(topCharacter.getMidpoint().x + topCharacter.focusOffset.x, topCharacter.getMidpoint().y + topCharacter.focusOffset.y);
-
-			trace("pos diff: " + (topCharacter.x - originalPoint.x) + ", " + (topCharacter.y - originalPoint.y));
-			trace("cam diff: " + (bottomCharacterCamPoint.x - topCharacterCamPoint.x) + ", " + (bottomCharacterCamPoint.y - topCharacterCamPoint.y));
-		}
-		if (FlxG.keys.justPressed.RIGHT){
-			topCharacter.x += moveThing;
-			topCharacterCamPoint.setPosition(topCharacter.getMidpoint().x + topCharacter.focusOffset.x, topCharacter.getMidpoint().y + topCharacter.focusOffset.y);
-
-			trace("pos diff: " + (topCharacter.x - originalPoint.x) + ", " + (topCharacter.y - originalPoint.y));
-			trace("cam diff: " + (bottomCharacterCamPoint.x - topCharacterCamPoint.x) + ", " + (bottomCharacterCamPoint.y - topCharacterCamPoint.y));
+				trace("off diff: " + (offsetDiff.x) + ", " + (offsetDiff.y));
+			}
 		}
 
 		if (FlxG.keys.justPressed.I){
@@ -184,9 +254,11 @@ class CharacterCompare extends FlxState
 			var newX = (topCharacter.x - originalPoint.x);
 			var newY = (topCharacter.y - originalPoint.y);
 			trace("");
-			trace("repos  : " + (topCharacter.repositionPoint.x + newX) + ", " + (topCharacter.repositionPoint.y + newY));
+			trace("repos  : " + (topCharacter.characterInfo.info.extraData.get("reposition")[0] + newX) + ", " + (topCharacter.characterInfo.info.extraData.get("reposition")[1] + newY));
 			trace("reposFl: " + (topCharacter.characterInfo.info.extraData.get("repositionFlipped")[0] + newX) + ", " + (topCharacter.characterInfo.info.extraData.get("repositionFlipped")[1] + newY));
 			trace("cam pos: " + (topCharacter.focusOffset.x * (topCharacter.isPlayer ? -1 : 1)) + ", " + (topCharacter.focusOffset.y));
+			trace("off dif: " + (offsetDiff.x) + ", " + (offsetDiff.y));
+			trace("pos dif: " + (topCharacter.x - topCharOriginalPos.x) + ", " + (topCharacter.y - topCharOriginalPos.y));
 			trace("");
 		}
 

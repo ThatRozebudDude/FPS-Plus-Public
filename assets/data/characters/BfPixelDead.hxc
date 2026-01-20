@@ -14,9 +14,9 @@ class BfPixelDead extends CharacterInfoBase
 		info.facesLeft = true;
 		info.antialiasing = false;
 
-		addByPrefix('firstDeath', offset(), "BF Dies pixel", 24, loop(false));
-		addByPrefix('deathLoop', offset(-6), "Retry Loop", 24, loop(true));
-		addByPrefix('deathConfirm', offset(-6), "RETRY CONFIRM", 24, loop(false));
+		addByPrefix("firstDeath", offset(), "BF Dies pixel", 24, loop(false));
+		addByPrefix("deathLoop", offset(-6), "Retry Loop", 24, loop(true));
+		addByPrefix("deathConfirm", offset(-6), "RETRY CONFIRM", 24, loop(false));
 
 		addExtraData("scale", 6);
 		addExtraData("deathSound", "gameOver/fnf_loss_sfx-pixel");

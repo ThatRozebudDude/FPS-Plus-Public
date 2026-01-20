@@ -28,9 +28,9 @@ class PicoLil extends CharacterInfoBase
 		add("singUPmiss", 		offset(),	[9, 21, 21, 22, 22], 	24, loop(true, -4));
 		add("singRIGHTmiss", 	offset(),	[12, 24, 24, 25, 25], 	24, loop(true, -4));
 
-		add('firstDeath', 	offset(), [23, 26, 23, 26, 23, 26, 23, 26, 23, 26, 23, 26, 23, 26, 23, 26], 	12, loop(false));
-		add('deathLoop', 	offset(), [23, 26], 															12, loop(true));
-		add('deathConfirm', offset(), [0, 1], 																12, loop(true));
+		add("firstDeath", 	offset(), [23, 26, 23, 26, 23, 26, 23, 26, 23, 26, 23, 26, 23, 26, 23, 26], 	12, loop(false));
+		add("deathLoop", 	offset(), [23, 26], 															12, loop(true));
+		add("deathConfirm", offset(), [0, 1], 																12, loop(true));
 
 		addExtraData("deathSound", "gameOver/fnf_loss_sfx-pico");
 		addExtraData("deathSong", "gameOver/gameOver-pico");

@@ -14,15 +14,15 @@ class BfPixel extends CharacterInfoBase
 		info.antialiasing = false;
 		info.focusOffset.set(100, -100);
 
-		addByPrefix('idle', offset(), 'BF IDLE', 24, loop(false));
-		addByPrefix('singUP', offset(-1), 'BF UP NOTE', 24, loop(false));
-		addByPrefix('singLEFT', offset(-2), 'BF LEFT NOTE', 24, loop(false));
-		addByPrefix('singRIGHT', offset(), 'BF RIGHT NOTE', 24, loop(false));
-		addByPrefix('singDOWN', offset(), 'BF DOWN NOTE', 24, loop(false));
-		addByPrefix('singUPmiss', offset(-1), 'BF UP MISS', 24, loop(false));
-		addByPrefix('singLEFTmiss', offset(-2), 'BF LEFT MISS', 24, loop(false));
-		addByPrefix('singRIGHTmiss', offset(), 'BF RIGHT MISS', 24, loop(false));
-		addByPrefix('singDOWNmiss', offset(), 'BF DOWN MISS', 24, loop(false));
+		addByPrefix("idle", offset(), "BF IDLE", 24, loop(false));
+		addByPrefix("singUP", offset(-1), "BF UP NOTE", 24, loop(false));
+		addByPrefix("singLEFT", offset(-2), "BF LEFT NOTE", 24, loop(false));
+		addByPrefix("singRIGHT", offset(), "BF RIGHT NOTE", 24, loop(false));
+		addByPrefix("singDOWN", offset(), "BF DOWN NOTE", 24, loop(false));
+		addByPrefix("singUPmiss", offset(-1), "BF UP MISS", 24, loop(false));
+		addByPrefix("singLEFTmiss", offset(-2), "BF LEFT MISS", 24, loop(false));
+		addByPrefix("singRIGHTmiss", offset(), "BF RIGHT MISS", 24, loop(false));
+		addByPrefix("singDOWNmiss", offset(), "BF DOWN MISS", 24, loop(false));
 
 		addExtraData("scale", 6);
 

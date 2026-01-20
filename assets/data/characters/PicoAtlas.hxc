@@ -13,15 +13,15 @@ class PicoAtlas extends CharacterInfoBase
 		info.focusOffset.set(100, -100);
 		info.resultsCharacter = "PicoResults";
 
-		addByLabel('idle', offset(), "Idle", 24, loop(false));
-		addByLabel('singUP', offset(), 'Sing Up', 24, loop(false));
-		addByLabel('singDOWN', offset(), 'Sing Down', 24, loop(false));
-		addByLabel('singLEFT', offset(), 'Sing Left', 24, loop(false));
-		addByLabel('singRIGHT', offset(), 'Sing Right', 24, loop(false));
-		addByLabel('singRIGHTmiss', offset(), 'Miss Right', 24, loop(true, -4));
-		addByLabel('singLEFTmiss', offset(), 'Miss Left', 24, loop(true, -4));
-		addByLabel('singUPmiss', offset(), 'Miss Up', 24, loop(true, -4));
-		addByLabel('singDOWNmiss', offset(), 'Miss Down', 24, loop(true, -4));
+		addByLabel("idle", offset(), "Idle", 24, loop(false));
+		addByLabel("singUP", offset(), "Sing Up", 24, loop(false));
+		addByLabel("singDOWN", offset(), "Sing Down", 24, loop(false));
+		addByLabel("singLEFT", offset(), "Sing Left", 24, loop(false));
+		addByLabel("singRIGHT", offset(), "Sing Right", 24, loop(false));
+		addByLabel("singRIGHTmiss", offset(), "Miss Right", 24, loop(true, -4));
+		addByLabel("singLEFTmiss", offset(), "Miss Left", 24, loop(true, -4));
+		addByLabel("singUPmiss", offset(), "Miss Up", 24, loop(true, -4));
+		addByLabel("singDOWNmiss", offset(), "Miss Down", 24, loop(true, -4));
 
 	}
 

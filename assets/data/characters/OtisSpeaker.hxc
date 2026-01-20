@@ -19,13 +19,13 @@ class OtisSpeaker extends CharacterInfoBase
 		info.iconName = "face";
 		info.focusOffset.set();
 
-		addByPrefix('idle', offset(), "otis idle0", 24, loop(false));
-		addByPrefix('idle-loop', offset(), "otis idle0", 24, loop(true));
+		addByPrefix("idle", offset(), "otis idle0", 24, loop(false));
+		addByPrefix("idle-loop", offset(), "otis idle0", 24, loop(true));
 
-		addByPrefix('shoot1', offset(0, 13), "shoot back0", 24, loop(false));
-		addByPrefix('shoot2', offset(-35, 21), "shoot back low0", 24, loop(false));
-		addByPrefix('shoot3', offset(238, 96), "shoot forward0", 24, loop(false));
-		addByPrefix('shoot4', offset(260, 23), "shoot forward low0", 24, loop(false));
+		addByPrefix("shoot1", offset(0, 13), "shoot back0", 24, loop(false));
+		addByPrefix("shoot2", offset(-35, 21), "shoot back low0", 24, loop(false));
+		addByPrefix("shoot3", offset(238, 96), "shoot forward0", 24, loop(false));
+		addByPrefix("shoot4", offset(260, 23), "shoot forward low0", 24, loop(false));
 
 		info.idleSequence = [];
 
@@ -70,8 +70,8 @@ class OtisSpeaker extends CharacterInfoBase
 	function update(character:Character, elapsed:Float):Void{
 		if(TankmenBG.animationNotes.length > 0){
 			if(Conductor.songPosition > TankmenBG.animationNotes[0][0]){
-				character.playAnim('shoot' + (TankmenBG.animationNotes[0][1] + 1), true);
-				gunshots.animation.play('shoot' + (TankmenBG.animationNotes[0][1] + 1), true);
+				character.playAnim("shoot" + (TankmenBG.animationNotes[0][1] + 1), true);
+				gunshots.animation.play("shoot" + (TankmenBG.animationNotes[0][1] + 1), true);
 				gunshots.setPosition(character.x + gunshotPositions[TankmenBG.animationNotes[0][1]][0], character.y + gunshotPositions[TankmenBG.animationNotes[0][1]][1]);
 				TankmenBG.animationNotes.shift();
 			}
