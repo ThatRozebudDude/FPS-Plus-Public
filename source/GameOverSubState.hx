@@ -1,5 +1,6 @@
 package;
 
+import flixel.sound.FlxSound;
 import flixel.FlxCamera;
 import openfl.events.KeyboardEvent;
 import flixel.FlxG;
@@ -116,20 +117,23 @@ class GameOverSubState extends MusicBeatSubState
 	var isEnding:Bool = false;
 
 	function endBullshit():Void{
+		var songEnd:FlxSound;
+
 		isEnding = true;
 		bf.playAnim("deathConfirm", true);
 		FlxG.sound.music.stop();
 		if(bf.deathSongEnd != null){
-			FlxG.sound.play(Paths.music(bf.deathSongEnd));
+			songEnd = FlxG.sound.play(Paths.music(bf.deathSongEnd));
 		}
 		if(PlayState.instance.instSong != null){
 			PlayState.overrideInsturmental = PlayState.instance.instSong;
 		}
 		for(script in PlayState.instance.scripts){ script.gameOverEnd(); }
-		new FlxTimer().start(0.4, function(tmr:FlxTimer){
-			camGameOver.fade(FlxColor.BLACK, 1.2, false, function(){
+		new FlxTimer().start(0.6, function(tmr:FlxTimer){
+			camGameOver.fade(FlxColor.BLACK, 1, false, function(){
 				PlayState.replayStartCutscene = false;
 				PlayState.instance.switchState(new PlayState());
+				if(songEnd != null && songEnd.playing){ songEnd.fadeOut(0.5); }
 			});
 		});
 	}

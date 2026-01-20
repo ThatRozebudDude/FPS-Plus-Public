@@ -1,5 +1,6 @@
 package;
 
+import flixel.sound.FlxSound;
 import note.NoteType;
 import events.Events;
 import flixel.tweens.FlxTween;
@@ -29,6 +30,7 @@ class Startup extends FlxUIStateExt
 
 	var splashHasSoundTrigger:Bool = false;
 	var splash:AtlasSprite;
+	var splashSound:FlxSound;
 	var loadingBar:FlxBar;
 	var loadingText:FlxText;
 
@@ -112,7 +114,7 @@ class Startup extends FlxUIStateExt
 			splash.addAnimationByLabel("soundTrigger", "Trigger Sound", 24, false);
 		}
 		splash.addAnimationByLabel("end", "End", 24, false);
-		splash.animationEndCallback = splashState;
+		splash.animationEndCallback = splashAnimEnd;
 		add(splash);
 
 		CacheReload.buildPreloadList();
@@ -238,10 +240,10 @@ class Startup extends FlxUIStateExt
 		#end
 	}
 
-	function splashState(anim:String):Void{
+	function splashAnimEnd(anim:String):Void{
 		switch(anim){
 			case "start":
-				FlxG.sound.play(Paths.sound("splashSound"));
+				splashSound = FlxG.sound.play(Paths.sound("splashSound"));
 				if(splashHasSoundTrigger){
 					splash.playAnim("soundTrigger");
 				}
@@ -253,6 +255,7 @@ class Startup extends FlxUIStateExt
 				startCache();
 
 			case "end":
+				if(splashSound != null && splashSound.playing){ splashSound.fadeOut(0.3); }
 				ImageCache.localCache.clear();
 				Utils.gc();
 				customTransOut = new FadeOut(0.3);
