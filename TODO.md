@@ -1,7 +1,5 @@
 2hot reload glow
-Redo Game Over to not use screenspace and use actual position.
-
-(Maybe) Find out why some atlas stuff doesn't play, might be a library issue.
+delete all old sprite
 
 # Possible Future Version Features
 

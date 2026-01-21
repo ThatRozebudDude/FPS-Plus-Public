@@ -63,4 +63,10 @@ class DifficultyIndicator extends FlxSpriteGroup
 		count = diffList.length;
 	}
 
+	public function cancelAllTweens():Void{
+		for(i in 0...dots.length){
+			FlxTween.cancelTweensOf(dots[i]);
+		}
+	}
+
 }

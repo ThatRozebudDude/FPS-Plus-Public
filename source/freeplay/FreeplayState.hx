@@ -318,6 +318,7 @@ class FreeplayState extends MusicBeatState
 						ImageCache.forceClearOnTransition = true;
 						FlxG.sound.music.fadeOut(0.5);
 						switchState(new ChartingState(), false);
+						difficultyIndicator.cancelAllTweens();
 						FlxTween.tween(difficultyIndicator, {alpha: 0}, 0.06);
 					}
 			
@@ -1281,6 +1282,7 @@ class FreeplayState extends MusicBeatState
 			switchState(new PlayState());
 			FlxG.sound.music.fadeOut(0.5);
 		});
+		difficultyIndicator.cancelAllTweens();
 		FlxTween.tween(difficultyIndicator, {alpha: 0}, 0.06);
 	}
 
