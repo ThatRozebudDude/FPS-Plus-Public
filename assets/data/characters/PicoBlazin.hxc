@@ -1,5 +1,3 @@
-import flixel.FlxSprite;
-
 class PicoBlazin extends CharacterInfoBase
 {
 
@@ -22,81 +20,25 @@ class PicoBlazin extends CharacterInfoBase
 		addByLabel("punchLow1", offset(), "Punch Low 1", 24, loop(false));
 		addByLabel("punchLow2", offset(), "Punch Low 2", 24, loop(false));
 		addByLabel("uppercutPrep", offset(), "Uppercut Prep", 24, loop(false));
-		addByLabel("uppercutPunch", offset(), "Uppercut Punch", 24, loop(false));
-		addByLabel("uppercutPunchLoop", offset(), "Uppercut Punch Loop", 24, loop(true));
+		addByLabel("uppercutPunch", offset(), "Uppercut Punch", 24, loop(true, -3));
 		addByLabel("block", offset(), "Block", 24, loop(false));
 		addByLabel("dodge", offset(), "Dodge", 24, loop(false));
 		addByLabel("hitHigh", offset(), "Hit High", 24, loop(false));
 		addByLabel("hitLow", offset(), "Hit Low", 24, loop(false));
 		addByLabel("uppercutHit", offset(), "Uppercut Hit", 24, loop(false));
-		addByStartingAtLabel("hitSpin", offset(), "Hit Spin", 3, 24, loop(true));
+		addByLabel("hitSpin", offset(), "Hit Spin", 24, loop(true));
 		addByLabel("fakeHit", offset(), "Fake Hit", 24, loop(false));
-		addByLabel("taunt", offset(), "Taunt", 24, loop(false));
-		addByLabel("tauntLaughLoop", offset(), "Taunt Laugh Loop", 24, loop(true));
+		addByLabel("taunt", offset(), "Taunt", 24, loop(true, -6));
 
-		addByLabel("firstDeath", offset(), "Low Death Intro", 24, loop(false));
-		addByLabel("deathLoop", offset(), "Low Death Loop", 24, loop(true));
-		addByLabel("deathConfirm", offset(), "Low Death Confirm", 24, loop(false));
-
-		addAnimChain("uppercutPunch", "uppercutPunchLoop");
-		addAnimChain("taunt", "tauntLaughLoop");
+		addByLabel("firstDeath", offset(), "Death Intro", 24, loop(false));
+		addByLabel("deathLoop", offset(), "Death Loop", 24, loop(true));
+		addByLabel("deathConfirm", offset(), "Death Confirm", 24, loop(false));
 
 		addExtraData("scale", 1.75);
 		addExtraData("worldPopupOffset", [1657, 658]);
-		addExtraData("deathDelay", 0.125);
+		addExtraData("deathDelay", 0.25);
 		addExtraData("deathSound", "gameOver/fnf_loss_sfx-pico-gutpunch");
 		addExtraData("deathSong", "gameOver/gameOver-pico");
 		addExtraData("deathSongEnd", "gameOver/gameOverEnd-pico");
-
-		info.functions.deathCreate = deathCreate;
-		info.functions.deathAdd = deathAdd;
-		info.functions.playAnim = playAnim;
-		//info.functions.update = updateDebug;
 	}
-
-	var isOnDeathScreen:Bool = false;
-
-	var retrySprite:FlxSprite;
-
-	function deathCreate(character:Character) {
-		isOnDeathScreen = true;
-
-		retrySprite = new FlxSprite(character.x - 158, character.y + 306);
-		retrySprite.frames = Paths.getSparrowAtlas("weekend1/picoBlazinDeathConfirm");
-		retrySprite.animation.addByPrefix("retry", "", 24, false);
-		retrySprite.scale.set(1.75, 1.75);
-		retrySprite.updateHitbox();
-		retrySprite.visible = false;
-	}
-
-	function deathAdd(character:Character) {
-		addToSubstate(retrySprite);
-	}
-
-	/*function updateDebug(character:Character, elasped:Float) {
-		if(!isOnDeathScreen) return;
-
-		retrySprite.visible = true;
-		retrySprite.alpha = 0.6;
-
-		var mod = (ScriptingUtil.anyPressed(["SHIFT"])) ? 20 : 1;
-		if(ScriptingUtil.anyJustPressed(["I", "J", "K", "L"])){
-			if(ScriptingUtil.anyJustPressed(["I"])){ retrySprite.y -= mod; }
-			if(ScriptingUtil.anyJustPressed(["J"])){ retrySprite.x -= mod; }
-			if(ScriptingUtil.anyJustPressed(["K"])){ retrySprite.y += mod; }
-			if(ScriptingUtil.anyJustPressed(["L"])){ retrySprite.x += mod; }
-			trace((character.x - retrySprite.getPosition().x) + "\t" + (character.y - retrySprite.getPosition().y));
-		}
-	}*/
-
-	function playAnim(character:Character, anim:String) {
-		if(!isOnDeathScreen) return;
-		
-		if(anim == "deathConfirm") {
-			retrySprite.animation.play("retry", true);
-			retrySprite.visible = true;
-			character.visible = false;
-		}
-	}
-
 }
