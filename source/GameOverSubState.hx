@@ -55,7 +55,6 @@ class GameOverSubState extends MusicBeatSubState
 		super.create();
 
 		bf = new Character(bfX, bfY, bfChar, true);
-		bf.repositionDeath();
 		if(bf.characterInfo.info.functions.deathCreate != null){
 			bf.characterInfo.info.functions.deathCreate(bf);
 		}
@@ -63,6 +62,7 @@ class GameOverSubState extends MusicBeatSubState
 		if(bf.characterInfo.info.functions.deathAdd != null){
 			bf.characterInfo.info.functions.deathAdd(bf);
 		}
+		bf.repositionDeath();
 		bf.playAnim("firstDeath", true);
 
 		cameraPanDelayTimer = new FlxTimer().start(bf.deathDelay, function(t) {

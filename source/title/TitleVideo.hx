@@ -29,7 +29,7 @@ class TitleVideo extends FlxState
 
 			video = new VideoHandler();
 
-			video.playMP4(Paths.video('klaskiiTitle'), function(){
+			video.playMP4(Paths.video("klaskiiTitle"), function(){
 				next();
 				#if web
 					VideoHandler.MAX_FPS = oldFPS;

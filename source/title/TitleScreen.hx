@@ -79,29 +79,29 @@ class TitleScreen extends MusicBeatState
 		bgBfBottom.cameras = [camBackground];
 
 		logoBl = new FlxSprite(-175, -125);
-		logoBl.frames = Paths.getSparrowAtlas("logoBumpin");
-		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
-		logoBl.animation.play('bump');
+		logoBl.frames = Paths.getSparrowAtlas("fpsPlus/title/logoBumpin");
+		logoBl.animation.addByPrefix("bump", "logo bumpin", 24);
+		logoBl.animation.play("bump");
 		logoBl.scale.set(0.85, 0.85);
 		logoBl.angle = camBackground.angle;
 
-		var glow:FlxSprite = new FlxSprite().loadGraphic(Paths.image('fpsPlus/title/glow'));
+		var glow:FlxSprite = new FlxSprite().loadGraphic(Paths.image("fpsPlus/title/glow"));
 
-		var topBar:FlxSprite = new FlxSprite().loadGraphic(Paths.image('fpsPlus/title/barTop'));
+		var topBar:FlxSprite = new FlxSprite().loadGraphic(Paths.image("fpsPlus/title/barTop"));
 		
-		var bottomBar:FlxSprite = new FlxSprite().loadGraphic(Paths.image('fpsPlus/title/barBottom'));
+		var bottomBar:FlxSprite = new FlxSprite().loadGraphic(Paths.image("fpsPlus/title/barBottom"));
 
 		gfDance = new FlxSprite(462, 15);
 		gfDance.frames = Paths.getSparrowAtlas("fpsPlus/title/gf");
-		gfDance.animation.addByIndices('danceLeft', 'GF Dancing Beat instance 1', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-		gfDance.animation.addByIndices('danceRight', 'GF Dancing Beat instance 1', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+		gfDance.animation.addByIndices("danceLeft", "GF Dancing Beat instance 1", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
+		gfDance.animation.addByIndices("danceRight", "GF Dancing Beat instance 1", [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		gfDance.animation.play("danceRight", true, false, 14);
 
 		titleText = new FlxSprite(139, FlxG.height * 0.8);
-		titleText.frames = Paths.getSparrowAtlas("titleEnter");
-		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
-		titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
-		titleText.animation.play('idle');
+		titleText.frames = Paths.getSparrowAtlas("fpsPlus/title/titleEnter");
+		titleText.animation.addByPrefix("idle", "Press Enter to Begin", 24);
+		titleText.animation.addByPrefix("press", "ENTER PRESSED", 24);
+		titleText.animation.play("idle");
 		titleText.updateHitbox();
 		/*titleText.angle = camBackground.angle;
 		titleText.x += 120;
@@ -151,7 +151,7 @@ class TitleScreen extends MusicBeatState
 		FlxG.mouse.visible = false;
 
 		Conductor.songPosition = FlxG.sound.music.time;
-			// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
+			// FlxG.watch.addQuick("amp", FlxG.sound.music.amplitude);
 
 		var pressedEnter:Bool = (!allowControllerPress ? Binds.justPressedKeyboardOnly("menuAccept") : Binds.justPressed("menuAccept"));
 
@@ -162,13 +162,13 @@ class TitleScreen extends MusicBeatState
 
 		if (pressedEnter && !transitioning)
 		{
-			titleText.animation.play('press');
+			titleText.animation.play("press");
 
 			if(Config.flashingLights){
 				camMain.stopFX();
 				camMain.flash(FlxColor.WHITE, 1);
 			}
-			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+			FlxG.sound.play(Paths.sound("confirmMenu"), 0.7);
 
 			transitioning = true;
 			// FlxG.sound.music.stop();
@@ -215,7 +215,7 @@ class TitleScreen extends MusicBeatState
 	{
 		super.beatHit();
 
-		logoBl.animation.play('bump', true);
+		logoBl.animation.play("bump", true);
 		
 
 		//i want the option
@@ -224,10 +224,10 @@ class TitleScreen extends MusicBeatState
 			danceLeft = !danceLeft;
 
 			if (danceLeft){
-				gfDance.animation.play('danceRight', true);
+				gfDance.animation.play("danceRight", true);
 			}
 			else{
-				gfDance.animation.play('danceLeft', true);
+				gfDance.animation.play("danceLeft", true);
 			}
 		}
 	}

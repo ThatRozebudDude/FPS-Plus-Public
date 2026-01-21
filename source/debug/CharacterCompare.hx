@@ -41,8 +41,8 @@ class CharacterCompare extends FlxState
 		gridBG.scrollFactor.set(0.5, 0.5);
 		gridBG.screenCenter(XY);
 
-		topCharacter = new Character(300, 300, "BfDead", true);
-		bottomCharacter = new Character(300, 300, "Bf", true);
+		topCharacter = new Character(300, 300, "PicoDeadExplode", true);
+		bottomCharacter = new Character(300, 300, "PicoWeekend", true);
 
 		if(DO_REPOSITION){
 			topCharacter.setPosition(topCharacter.x - ((topCharacter.getFrameWidth() * topCharacter.getScale().x)/2), topCharacter.y - (topCharacter.getFrameHeight() * topCharacter.getScale().y));

@@ -1,6 +1,6 @@
 import flixel.FlxSprite;
 
-class PicoDead extends CharacterInfoBase
+class PicoWeekendDead extends CharacterInfoBase
 {
 
 	public function new(){
@@ -24,9 +24,8 @@ class PicoDead extends CharacterInfoBase
 		info.functions.deathAdd = deathAdd;
 		info.functions.frame = frame;
 		info.functions.playAnim = playAnim;
-		//info.functions.update = debugUpdate;
 		
-		addExtraData("repositionDeath", [-102, -26]);
+		addExtraData("repositionDeath", [-132, -144]);
 		addExtraData("deathSound", "gameOver/fnf_loss_sfx-pico");
 		addExtraData("deathSong", "gameOver/gameOver-pico");
 		addExtraData("deathSongEnd", "gameOver/gameOverEnd-pico");
@@ -58,18 +57,6 @@ class PicoDead extends CharacterInfoBase
 	function deathAdd(character:Character):Void{
 		addToCharacter(retryButton);
 	}
-
-	/*function debugUpdate(character:Character, elapsed:Float):Void{
-		var amount:Float = 1;
-		if(ScriptingUtil.anyPressed(["SHIFT"])){ amount = 10;}
-		if(ScriptingUtil.anyJustPressed(["W"])){ retryButton.y -= amount; }
-		if(ScriptingUtil.anyJustPressed(["S"])){ retryButton.y += amount; }
-		if(ScriptingUtil.anyJustPressed(["A"])){ retryButton.x -= amount; }
-		if(ScriptingUtil.anyJustPressed(["D"])){ retryButton.x += amount; }
-		if(ScriptingUtil.anyJustPressed(["W", "A", "S", "D"])){ 
-			trace((retryButton.getPosition().x - character.getPosition().x) + "\t" + (retryButton.getPosition().y - character.getPosition().y));
-		}
-	}*/
 
 	function frame(character:Character, anim:String, frame:Int):Void{
 		if(retryButton != null && anim == "firstDeath" && frame == 35){

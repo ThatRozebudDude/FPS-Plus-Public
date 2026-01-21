@@ -17,6 +17,8 @@ class PicoDoppleganger extends ScriptedCutscene
 	public function new(args:Array<Dynamic>){
 		super(args);
 
+		destroyOnEnd = false;
+
 		playerCigarette = FlxG.random.bool(50);
 		fuckingDie = FlxG.random.bool(8);
 

@@ -39,7 +39,7 @@ class CacheReload extends FlxState
 	];
 
 	public static final defaultGraphicsPreloadList:Array<String> = [
-		"logoBumpin", "titleEnter", "fpsPlus/title/*", 
+		"fpsPlus/title/*", 
 		"week1/stageback", "week1/stagefront", "week1/stagecurtains",
 		"week2/stage/*",
 		"week3/philly/*",

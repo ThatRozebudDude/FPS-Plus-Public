@@ -51,7 +51,7 @@ class TitleIntroText extends MusicBeatState
 		//blackScreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		//credGroup.add(blackScreen);
 
-		ngSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('newgrounds_logo'));
+		ngSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image("fpsPlus/title/newgrounds_logo"));
 		add(ngSpr);
 		ngSpr.visible = false;
 		ngSpr.setGraphicSize(Std.int(ngSpr.width * 0.8));
@@ -65,12 +65,12 @@ class TitleIntroText extends MusicBeatState
 	{
 		var fullText:String = Utils.getText(Paths.text("introText"));
 
-		var firstArray:Array<String> = fullText.split('\n');
+		var firstArray:Array<String> = fullText.split("\n");
 		var swagGoodArray:Array<Array<String>> = [];
 
 		for (i in firstArray)
 		{
-			swagGoodArray.push(i.split('--'));
+			swagGoodArray.push(i.split("--"));
 		}
 
 		return swagGoodArray;
@@ -81,7 +81,7 @@ class TitleIntroText extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		Conductor.songPosition = FlxG.sound.music.time;
-		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
+		// FlxG.watch.addQuick("amp", FlxG.sound.music.amplitude);
 
 		if (FlxG.keys.justPressed.F)
 		{
@@ -150,17 +150,17 @@ class TitleIntroText extends MusicBeatState
 		switch (curBeat)
 		{
 			case 1:
-				createCoolText(['ninjamuffin99', 'phantomArcade', 'kawaisprite', 'evilsk8er', 'Rozebud']);
+				createCoolText(["ninjamuffin99", "phantomArcade", "kawaisprite", "evilsk8er", "Rozebud"]);
 			case 3:
 				deleteCoolText();
-				addMoreText('present');
+				addMoreText("present");
 			case 5:
 				deleteCoolText();
-				addMoreText('In association');
+				addMoreText("In association");
 			case 6:
-				addMoreText('with');
+				addMoreText("with");
 			case 7:
-				addMoreText('newgrounds');
+				addMoreText("newgrounds");
 				ngSpr.visible = true;
 			case 8:
 				deleteCoolText();
@@ -171,13 +171,13 @@ class TitleIntroText extends MusicBeatState
 				addMoreText(curWacky[1]);
 			case 12:
 				deleteCoolText();
-				addMoreText('Friday');
+				addMoreText("Friday");
 			case 13:
-				addMoreText('Night');
+				addMoreText("Night");
 			case 14:
-				addMoreText('Funkin');
+				addMoreText("Funkin");
 			case 15:
-				addMoreText('FPS PLUS');
+				addMoreText("FPS PLUS");
 			case 16:
 				skipIntro();
 		}

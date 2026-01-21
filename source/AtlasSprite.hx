@@ -435,7 +435,7 @@ class AtlasSprite extends FlxAnimate
 		
 		@:privateAccess
 		var animation = FlxAnimateFrames.getTextFromPath(animate + "/Animation.json");
-		var isInlined = !FlxAnimateAssets.exists(animate + "/metadata.json", TEXT);
+		var isInlined = !Utils.readDirectory(animate).contains("metadata.json");
 		var libraryList:Null<Array<String>> = null;
 		var spritemaps:Array<SpritemapInput> = [];
 		@:privateAccess

@@ -1,5 +1,3 @@
-import flixel.FlxG;
-
 class PicoDeadExplode extends CharacterInfoBase
 {
 
@@ -14,12 +12,13 @@ class PicoDeadExplode extends CharacterInfoBase
 		
 		info.iconName = "pico";
 		info.facesLeft = true;  
-		info.deathOffset.set(-541, -344);
+		info.deathOffset.set(-110, 370);
 
-		addByLabel("firstDeath", offset(665, 350), "intro", 24, loop(false));
-		addByLabel("deathLoop", offset(665, 350), "Loop Start", 24, loop(true));
-		addByLabel("deathConfirm", offset(665, 350), "Confirm", 24, loop(false));
+		addByLabel("firstDeath", offset(), "Intro", 24, loop(false));
+		addByLabel("deathLoop", offset(), "Loop Start", 24, loop(true));
+		addByLabel("deathConfirm", offset(), "Confirm", 24, loop(false));
 
+		addExtraData("repositionDeath", [-121, -849]);
 		addExtraData("deathDelay", 0.125);
 		addExtraData("deathSound", "gameOver/fnf_loss_sfx-pico-explode");
 		addExtraData("deathSong", "gameOver/gameOver-pico");
