@@ -35,7 +35,7 @@ class CacheReload extends FlxState
 		"week6/senpai", "week6/spirit",
 		"week7/tankmanCaptain",
 		"weekend1/darnell",
-		"weekend1/Nene", "weekend1/abot/*"
+		"shared/Nene", "shared/abot/*"
 	];
 
 	public static final defaultGraphicsPreloadList:Array<String> = [

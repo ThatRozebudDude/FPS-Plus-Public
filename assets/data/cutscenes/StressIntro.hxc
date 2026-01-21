@@ -25,8 +25,8 @@ class StressIntro extends ScriptedCutscene
 		tankman.addAnimationByLabel("ugh1", "Ugh 1", 24, false);
 		tankman.addAnimationByLabel("ugh2", "Ugh 2", 24, false);
 		tankman.addAnimationByLabel("guns", "Guns", 24, false);
-		tankman.addAnimationByLabel("stress1", "Stress 2", 24, false);
-		tankman.addAnimationByLabel("stress2", "Stress 1", 24, false);
+		tankman.addAnimationByLabel("stress1", "Stress 1", 24, false);
+		tankman.addAnimationByLabel("stress2", "Stress 2", 24, false);
 
 		picoSpeaker = new AtlasSprite(-540, -320, Paths.getTextureAtlas("week7/cutscene/picoSpeakerCutscene"));
 		picoSpeaker.addAnimationByLabel("fall", "Pico Fall", 24, false);

@@ -11,7 +11,7 @@ class Nene extends CharacterInfoBase
 		includeInGfList = true;
 
 		info.name = "nene";
-		info.spritePaths = ["weekend1/Nene", "weekend1/Nene_Hair_Blowing"];
+		info.spritePaths = ["shared/Nene", "shared/Nene_Hair_Blowing"];
 		info.frameLoadType = setMultiSparrow();
 		
 		info.iconName = "face";

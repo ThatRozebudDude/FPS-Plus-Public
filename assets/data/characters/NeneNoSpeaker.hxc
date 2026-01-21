@@ -11,7 +11,7 @@ class NeneNoSpeaker extends CharacterInfoBase
 		includeInGfList = false;
 
 		info.name = "nene";
-		info.spritePath = "weekend1/Nene";
+		info.spritePath = "shared/Nene";
 		info.frameLoadType = setSparrow();
 		
 		info.iconName = "face";

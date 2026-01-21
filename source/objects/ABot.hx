@@ -21,7 +21,7 @@ class ABot extends FlxTypedSpriteGroup<FlxSprite>
 	public function new(x:Float, y:Float) {
 		super(x, y);
 
-		system = new AtlasSprite(0, 0, Paths.getTextureAtlas("weekend1/abot/abotSystem"));
+		system = new AtlasSprite(0, 0, Paths.getTextureAtlas("shared/abot/abotSystem"));
 		system.applyStageMatrix = true;
 		system.antialiasing = true;
 		system.addFullAnimation("bop", 24, false);
@@ -30,14 +30,14 @@ class ABot extends FlxTypedSpriteGroup<FlxSprite>
 		eyeBack.scale.set(120, 50);
 		eyeBack.updateHitbox();
 
-		eyes = new AtlasSprite(-506, -494, Paths.getTextureAtlas("weekend1/abot/systemEyes"));
+		eyes = new AtlasSprite(-506, -494, Paths.getTextureAtlas("shared/abot/systemEyes"));
 		eyes.applyStageMatrix = true;
 		eyes.antialiasing = true;
 		eyes.addAnimationByFrame("lookLeft", 8, 6, 24);
 		eyes.addAnimationByFrame("lookRight", 22, 6, 24);
 		//8, 22
 
-		bg = new FlxSprite(147, 31).loadGraphic(Paths.image("weekend1/abot/stereoBG"));
+		bg = new FlxSprite(147, 31).loadGraphic(Paths.image("shared/abot/stereoBG"));
 
 		visualizer = new ABotVisualizer(null);
 		visualizer.setPosition(203, 88);

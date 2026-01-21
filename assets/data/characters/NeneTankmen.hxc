@@ -13,7 +13,7 @@ class NeneTankmen extends CharacterInfoBase
 		includeInGfList = true;
 
 		info.name = "nene-tankmen";
-		info.spritePath = "weekend1/Nene";
+		info.spritePath = "shared/Nene";
 		info.frameLoadType = setSparrow();
 		
 		info.iconName = "face";

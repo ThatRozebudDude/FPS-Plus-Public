@@ -9,7 +9,7 @@ class PicoWeekendDead extends CharacterInfoBase
 		includeInCharacterList = false;
 
 		info.name = "pico-dead";
-		info.spritePath = "weekend1/pico_death";
+		info.spritePath = "shared/pico_death";
 		info.frameLoadType = setSparrow();
 		
 		info.iconName = "pico";
@@ -36,7 +36,7 @@ class PicoWeekendDead extends CharacterInfoBase
 
 	function deathCreate(character:Character):Void{
 		retryButton = new FlxSprite(150, -160);
-		retryButton.frames = Paths.getSparrowAtlas("weekend1/Pico_Death_Retry");
+		retryButton.frames = Paths.getSparrowAtlas("shared/Pico_Death_Retry");
 		retryButton.animation.addByPrefix("loop", "Retry Text Loop", 24);
 		retryButton.animation.addByPrefix("confirm", "Retry Text Confirm", 24, false);
 		retryButton.animation.play("loop");
@@ -44,7 +44,7 @@ class PicoWeekendDead extends CharacterInfoBase
 		retryButton.visible = false;
 
 		nene = new FlxSprite(playstate.gf.x + 135, playstate.gf.y);
-		nene.frames = Paths.getSparrowAtlas("weekend1/NeneKnifeToss");
+		nene.frames = Paths.getSparrowAtlas("shared/NeneKnifeToss");
 		nene.animation.addByPrefix("throw", "knife toss", 24, false);
 		nene.animation.play("throw");
 		nene.animation.finishCallback = function(name:String){
