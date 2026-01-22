@@ -2,7 +2,7 @@
     "song": {
         "speed": "2.1",
         "stage": "TankErect",
-        "player1": "PicoPlayer",
+        "player1": "Pico",
         "player2": "Tankman",
         "gf": "NeneTankmen",
         "song": "Guns-Pico",

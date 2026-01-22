@@ -24,18 +24,20 @@ class CacheReload extends FlxState
 
 	public static var doGraphics = true;
 
+	//Trying to stick to stuff that you will see in story mode for default cache stuff.
+	
 	public static final defaultCharacterPreloadList:Array<String> = [
-		"BOYFRIEND", "BOYFRIEND_DEAD", "week4/bfCar", "week5/bfChristmas", "week6/bfPixel", "week6/bfPixelsDEAD", "week7/bfAndGF", "week7/bfHoldingGF-DEAD",
-		"GF_assets", "week4/gfCar", "week5/gfChristmas", "week6/gfPixel", "week7/gfTankmen",
-		"week1/DADDY_DEAREST", 
-		"week2/spooky_kids_assets", "week2/Monster_Assets",
-		"week3/Pico_FNF_assetss", "week7/picoSpeaker", "weekend1/pico_weekend1",  "weekend1/pico_death",  "weekend1/Pico_Death_Retry",  "weekend1/Pico_Intro",  "weekend1/picoBlazinDeathConfirm", 
-		"week4/Mom_Assets", "week4/momCar",
-		"week5/mom_dad_christmas_assets", "week5/monsterChristmas",
+		"shared/boyfriend/*", "shared/boyfrien_dead/*", "week4/boyfriend_car/*", "week5/boyfriend_christmas/*", "week6/bfPixel", "week6/bfPixelsDEAD", "week7/bfAndGF", "week7/bfHoldingGF-DEAD",
+		"shared/girlfriend/*", "week5/girlfriend_christmas/*", "week6/gfPixel", "week7/gfTankmen",
+		"week1/dad/*", 
+		"week2/spooky_kids_assets", "week2/monster/*",
+		"shared/pico/*", "shared/pico_dead/*", "shared/Pico_Death_Retry", "week7/picoSpeaker", "weekend1/pico_weekend/*",  "weekend1/picoExplosionDeath/*",  "weekend1/Pico_Intro",  "weekend1/picoBlazin/*",
+		"week4/mom/*",
+		"week5/parents_christmas/*",
 		"week6/senpai", "week6/spirit",
 		"week7/tankmanCaptain",
-		"weekend1/darnell",
-		"shared/Nene", "shared/abot/*"
+		"weekend1/darnell/*",
+		"shared/Nene", "shared/abot/*", "shared/NeneKnifeToss"
 	];
 
 	public static final defaultGraphicsPreloadList:Array<String> = [

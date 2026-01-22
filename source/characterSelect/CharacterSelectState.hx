@@ -99,9 +99,6 @@ class CharacterSelectState extends MusicBeatState
 		FlxG.camera.filters = [new ShaderFilter(fadeShader.shader)];
 
 		addCharacter("locked", "LockedPlayerCharacterSelect", null, null, [-1, -1]);
-		
-		//addCharacter("bf", "BfPlayer", "GfPartner", "Boyfriend", [1, 1]);
-		//addCharacter("pico", "PicoPlayer", "NenePartner", "Pico", [0, 1]);
 
 		var usedPositions:Array<Array<Int>> = [];
 

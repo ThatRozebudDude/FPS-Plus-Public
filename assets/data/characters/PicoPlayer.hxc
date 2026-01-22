@@ -1,8 +1,12 @@
+//Character is here for backwards compatibility but hidden from the character list. Just use Pico instead as they now share all their assets.
 class PicoPlayer extends CharacterInfoBase
 {
 
 	public function new(){
 		super();
+
+		includeInCharacterList = false;
+		includeInGfList = false;
 
 		info.name = "pico";
 		info.spritePath = "shared/pico";

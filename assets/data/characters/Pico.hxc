@@ -5,24 +5,41 @@ class Pico extends CharacterInfoBase
 		super();
 
 		info.name = "pico";
-		info.spritePath = "week3/Pico_FNF_assetss";
-		info.frameLoadType = setSparrow();
+		info.spritePath = "shared/pico";
+		info.frameLoadType = setAtlas();
 		
 		info.iconName = "pico";
 		info.facesLeft = true;
-		info.focusOffset.set(100, -100);
+		info.deathCharacter = "PicoDead";
 		info.resultsCharacter = "PicoResults";
+		info.focusOffset.set(76, -78);
 
-		addByPrefix("idle", offset(), "Idle", 24, loop(false));
-		addByPrefix("singUP", offset(20, 29), "Sing Up", 24, loop(false));
-		addByPrefix("singDOWN", offset(92, -77), "Sing Down", 24, loop(false));
-		addByPrefix("singLEFT", offset(86, -11), "Sing Left", 24, loop(false));
-		addByPrefix("singRIGHT", offset(-46, 1), "Sing Right", 24, loop(false));
-		addByPrefix("singRIGHTmiss", offset(-40, 49), "Miss Right", 24, loop(true, -4));
-		addByPrefix("singLEFTmiss", offset(82, 27), "Miss Left", 24, loop(true, -4));
-		addByPrefix("singUPmiss", offset(26, 67), "Miss Up", 24, loop(true, -4));
-		addByPrefix("singDOWNmiss", offset(86, -37), "Miss Down", 24, loop(true, -4));
+		addByLabel("idle", offset(), "Idle", 24, loop(false, 0), false, false);
 
+		addByLabel("singUP", offset(), "Sing Up", 24, loop(false, 0), false, false);
+		addByLabel("singDOWN", offset(), "Sing Down", 24, loop(false, 0), false, false);
+		addByLabel("singLEFT", offset(), "Sing Left", 24, loop(false, 0), false, false);
+		addByLabel("singRIGHT", offset(), "Sing Right", 24, loop(false, 0), false, false);
+
+		addByLabel("singRIGHTmiss", offset(), "Miss Right", 24, loop(true, -4), false, false);
+		addByLabel("singLEFTmiss", offset(), "Miss Left", 24, loop(true, -4), false, false);
+		addByLabel("singUPmiss", offset(), "Miss Up", 24, loop(true, -4), false, false);
+		addByLabel("singDOWNmiss", offset(), "Miss Down", 24, loop(true, -4), false, false);
+
+		addByLabel("singUP-censor", offset(), "Censor Up", 24, loop(true, -4), false, false);
+		addByLabel("singDOWN-censor", offset(), "Censor Down", 24, loop(true, -4), false, false);
+		addByLabel("singLEFT-censor", offset(), "Censor Left", 24, loop(true, -4), false, false);
+		addByLabel("singRIGHT-censor", offset(), "Censor Right", 24, loop(true, -4), false, false);
+
+		addByLabel("burp", offset(), "Burp", 24, loop(false, 0), false, false);
+		addByLabel("burpBig", offset(), "Big Burp", 24, loop(false, 0), false, false);
+		addByLabel("shit", offset(), "Shit", 24, loop(false, 0), false, false);
+		addByLabel("shit-censor", offset(), "Censor Shit", 24, loop(false, 0), false, false);
+
+		addByLabel("hey", offset(), "Cheer", 24, loop(false, 0), false, false);
+		addByLabel("cheer", offset(), "Yeah", 24, loop(false, 0), false, false);
+
+		addExtraData("reposition", [-24, 21]);
 	}
 
 }
