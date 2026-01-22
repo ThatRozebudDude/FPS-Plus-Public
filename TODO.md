@@ -1,4 +1,3 @@
-2hot reload glow
 delete all old sprite
 
 # Possible Future Version Features

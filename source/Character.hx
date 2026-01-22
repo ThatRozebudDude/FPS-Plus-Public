@@ -1006,6 +1006,15 @@ class Character extends FlxSpriteGroup
 		}
 		return null;
 	}
+	
+	public function pause():Void{
+		if(character != null){ //Code for sheet characters
+			character.animation.pause();
+		}
+		else if(atlasCharacter != null){ //Code for atlas characters
+			atlasCharacter.anim.pause();
+		}
+	}
 
 	public function get_isAtlas():Bool{
 		return characterInfo.info.frameLoadType == atlas;

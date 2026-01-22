@@ -18,7 +18,7 @@ class PhillyStreets extends BaseStage
 	var dimSprite:FlxSprite;
 	var kickedCan:AtlasSprite;
 	var canExplosion:FlxSprite;
-	var characterGlow:FlxSprite;
+	var characterGlow:Character;
 
 	var phillyTraffic:FlxSprite;
 	var phillyCars:FlxSprite;
@@ -122,7 +122,12 @@ class PhillyStreets extends BaseStage
 		dimSprite.alpha = 0;
 		addToBackground(dimSprite);
 
-		characterGlow = new FlxSprite();
+		characterGlow = new Character(0, 0, boyfriend.charClass, boyfriend.isPlayer, boyfriend.isGirlfriend);
+		characterGlow.noLogic = true;
+		if(characterGlow.characterInfo.info.extraData.exists("phillyStreets-characterGlowOriginOffset")){
+			characterGlow.getSprite().origin.x += characterGlow.characterInfo.info.extraData.get("phillyStreets-characterGlowOriginOffset")[0];
+			characterGlow.getSprite().origin.y += characterGlow.characterInfo.info.extraData.get("phillyStreets-characterGlowOriginOffset")[1];
+		}
 		characterGlow.visible = false;
 		addToMiddle(characterGlow);
 
@@ -198,6 +203,13 @@ class PhillyStreets extends BaseStage
 		addEvent("phillyStreets-createBullet", createBullet);
 	}
 
+	override function postCreate():Void{
+		characterGlow.setPosition(boyfriend.x, boyfriend.y);
+		if(boyfriend.getSprite().shader != null){
+			characterGlow.applyShader(boyfriend.getSprite().shader);
+		}
+	}
+
 	override function songStart() {
 		tween.tween(rainShader, {uIntensity: rainInensityEnd}, FlxG.sound.music.length/1000);
 	}
@@ -255,10 +267,10 @@ class PhillyStreets extends BaseStage
 		tween.cancelTweensOf(characterGlow);
 		tween.cancelTweensOf(characterGlow.scale);
 
-		characterGlow.loadGraphicFromSprite(boyfriend.getSprite());
-		characterGlow.setPosition(boyfriend.getSprite().x, boyfriend.getSprite().y);
+		characterGlow.playAnim(boyfriend.curAnim, true, false, boyfriend.curAnimFrame());
+		characterGlow.pause();
+
 		characterGlow.scale.set(boyfriend.getScale().x, boyfriend.getScale().y);
-		characterGlow.antialiasing = boyfriend.getAntialising();
 		characterGlow.visible = true;
 		characterGlow.alpha = 0.3;
 

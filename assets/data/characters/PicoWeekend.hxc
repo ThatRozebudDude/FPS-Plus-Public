@@ -31,6 +31,7 @@ class PicoWeekend extends CharacterInfoBase
 		addByLabel("hit", offset(), "Can Hit", 24, loop(true, -3), false, false);
 
 		addExtraData("reposition", [-115, 17]);
+		addExtraData("phillyStreets-characterGlowOriginOffset", [0, 100]);
 	}
 
 }

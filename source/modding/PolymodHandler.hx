@@ -42,7 +42,7 @@ class PolymodHandler
 		//scriptableClassCheck();
 	}
 
-	public static function reload(?restartState:Bool = true):Void{
+	public static function reload(restartState:Bool = true):Void{
 		reloadScripts();
 		//scriptableClassCheck();
 		if(restartState){ //Using CustomTransition since the transition is what handles the cache stuff. This is what FlxUIStateExt uses in it's switchState function.
