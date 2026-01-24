@@ -22,10 +22,10 @@ class PicoHoldingNene extends CharacterInfoBase
 		addByLabel("singLEFT", offset(), "Sing Left", 24, loop(false, 0), false, false);
 		addByLabel("singRIGHT", offset(), "Sing Right", 24, loop(false, 0), false, false);
 
-		addByLabel("singRIGHTmiss", offset(), "Miss Right", 24, loop(false, 0), false, false);
-		addByLabel("singLEFTmiss", offset(), "Miss Left", 24, loop(false, 0), false, false);
-		addByLabel("singUPmiss", offset(), "Miss Up", 24, loop(false, 0), false, false);
-		addByLabel("singDOWNmiss", offset(), "Miss Down", 24, loop(false, 0), false, false);
+		addByLabel("singRIGHTmiss", offset(), "Miss Right", 24, loop(true, -4), false, false);
+		addByLabel("singLEFTmiss", offset(), "Miss Left", 24, loop(true, -4), false, false);
+		addByLabel("singUPmiss", offset(), "Miss Up", 24, loop(true, -4), false, false);
+		addByLabel("singDOWNmiss", offset(), "Miss Down", 24, loop(true, -4), false, false);
 
 		addByLabel("knifeToss", offset(), "Knife Throw", 24, loop(false), false, false);
 		addByLabel("laughEnd", offset(), "Laugh", 24, loop(true, -8), false, false);
