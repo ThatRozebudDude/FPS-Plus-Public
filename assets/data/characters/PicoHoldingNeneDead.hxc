@@ -7,16 +7,18 @@ class PicoHoldingNeneDead extends CharacterInfoBase
 		includeInCharacterList = false;
 
 		info.name = "pico-holding-nene-dead";
-		info.spritePath = "week7/picoAndNene-DEAD";
+		info.spritePath = "week7/pico_and_nene_dead";
 		info.frameLoadType = setAtlas();
 		
 		info.iconName = "pico";
 		info.facesLeft = true;
+		info.deathOffset.set(180, -60);
 
-		addByFrame("firstDeath", offset(), 0, 33, 24, loop(false));
-		addByFrame("deathLoop", offset(), 33, 22, 24, loop(true, 0));
-		addByFrame("deathConfirm", offset(), 68, 64, 24, loop(true, -8));
+		addByLabel("firstDeath", offset(), "Death Start", 24, loop(false));
+		addByLabel("deathLoop", offset(), "Death Loop", 24, loop(true, 0));
+		addByLabel("deathConfirm", offset(), "Death Confirm", 24, loop(true, -6));
 
+		addExtraData("repositionDeath", [-542, -1]);
 		addExtraData("deathSound", "gameOver/fnf_loss_sfx-pico-and-nene");
 		addExtraData("deathSong", "gameOver/gameOver-pico");
 		addExtraData("deathSongEnd", "gameOver/gameOverEnd-pico");

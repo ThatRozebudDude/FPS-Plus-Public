@@ -53,8 +53,6 @@ class AtlasSprite extends FlxAnimate
 	private var isOld:Bool = false; //This is set when the atlas is loaded from a mod that is from a version before the change to flixel-animate.
 	private var frameLabelInfo:Array<FrameLabelInfo>; //Used to get length between labels for old label animation adding.
 
-	static var forceEveryAtlasToLoadAsOld:Bool = false; //Debug thing, will be removed before final merge to master.
-
 	public function new(?_x:Float, ?_y:Float, ?_path:String, ?_settings:FlxAnimateSettings) {
 		super(_x, _y, null, null);
 		if(_path != null){
@@ -73,7 +71,7 @@ class AtlasSprite extends FlxAnimate
 		//Auto setup stage matrix stuff to provide backwards compatibility with older mods.
 		if(Assets.exists(_path + "/spritemap1.png")){
 			var fromMod:String = PolymodHandler.getAssetModFolder(_path + "/spritemap1.png");
-			if((fromMod != null && PolymodHandler.getSeparatedVersionNumber(PolymodHandler.getModMetaFromFolder(fromMod).api_version)[1] <= 7) || forceEveryAtlasToLoadAsOld){ //API version that old atlas stuff uses.
+			if((fromMod != null && PolymodHandler.getSeparatedVersionNumber(PolymodHandler.getModMetaFromFolder(fromMod).api_version)[1] <= 7)){ //API version that old atlas stuff uses.
 				isOld = true;
 
 				applyStageMatrix = true;

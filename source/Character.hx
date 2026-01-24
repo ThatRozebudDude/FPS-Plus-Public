@@ -428,16 +428,40 @@ class Character extends FlxSpriteGroup
 		for(x in characterInfo.info.anims){
 			switch(x.type){
 				case frames:
+					if(isAtlas){
+						trace("Cannot add \"" + x.name + "\", wrong frame load type.");
+						continue;
+					}
 					character.animation.add(x.name, x.data.frames, x.data.framerate, false, x.data.flipX, x.data.flipY);
 				case prefix:
+					if(isAtlas){
+						trace("Cannot add \"" + x.name + "\", wrong frame load type.");
+						continue;
+					}
 					character.animation.addByPrefix(x.name, x.data.prefix, x.data.framerate, false, x.data.flipX, x.data.flipY);
 				case indices:
+					if(isAtlas){
+						trace("Cannot add \"" + x.name + "\", wrong frame load type.");
+						continue;
+					}
 					character.animation.addByIndices(x.name, x.data.prefix, x.data.frames, x.data.postfix, x.data.framerate, false, x.data.flipX, x.data.flipY);
 				case label:
+					if(!isAtlas){
+						trace("Cannot add \"" + x.name + "\", wrong frame load type.");
+						continue;
+					}
 					atlasCharacter.addAnimationByLabel(x.name, x.data.prefix, x.data.framerate, x.data.loop.looped, x.data.loop.loopPoint);
 				case start:
+					if(!isAtlas){
+						trace("Cannot add \"" + x.name + "\", wrong frame load type.");
+						continue;
+					}
 					atlasCharacter.addAnimationByFrame(x.name, x.data.frames[0], x.data.frames[1], x.data.framerate, x.data.loop.looped, x.data.loop.loopPoint);
 				case startAtLabel:
+					if(!isAtlas){
+						trace("Cannot add \"" + x.name + "\", wrong frame load type.");
+						continue;
+					}
 					atlasCharacter.addAnimationStartingAtLabel(x.name, x.data.prefix, x.data.frames[0], x.data.framerate, x.data.loop.looped, x.data.loop.loopPoint);
 			}
 

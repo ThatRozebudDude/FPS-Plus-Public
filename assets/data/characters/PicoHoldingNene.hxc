@@ -5,30 +5,32 @@ class PicoHoldingNene extends CharacterInfoBase
 		super();
 
 		info.name = "pico-holding-nene";
-		info.spritePath = "week7/picoAndNene";
-		info.frameLoadType = setSparrow();
+		info.spritePath = "week7/pico_and_nene";
+		info.frameLoadType = setAtlas();
 		
 		info.iconName = "pico";
 		info.facesLeft = true;
 		info.deathCharacter = "PicoHoldingNeneDead";
 		info.resultsCharacter = "PicoResults";
-		info.focusOffset.set(100, -100);
+		info.focusOffset.set(132, -118);
 
-		addByPrefix("idle", offset(0, 0), "Pico Idle Dance", 24, loop(false, 0), false, false);
-		addByIndices("idle-loop", offset(0, 0), "Pico Idle Dance", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 11, 11], "", 24, loop(true, 0), false, false);
+		addByLabel("idle", offset(), "Idle", 24, loop(false, 0), false, false);
+		addByLabel("idle-loop", offset(), "Idle", 24, loop(true, 0), false, false);
 
-		addByPrefix("singUP", offset(56, 3), "pico Up note0", 24, loop(false, 0), false, false);
-		addByPrefix("singDOWN", offset(93, -70), "Pico Down Note0", 24, loop(false, 0), false, false);
-		addByPrefix("singLEFT", offset(27, -16), "Pico NOTE LEFT0", 24, loop(false, 0), false, false);
-		addByPrefix("singRIGHT", offset(-48, -20), "Pico Note Right0", 24, loop(false, 0), false, false);
+		addByLabel("singUP", offset(), "Sing Up", 24, loop(false, 0), false, false);
+		addByLabel("singDOWN", offset(), "Sing Down", 24, loop(false, 0), false, false);
+		addByLabel("singLEFT", offset(), "Sing Left", 24, loop(false, 0), false, false);
+		addByLabel("singRIGHT", offset(), "Sing Right", 24, loop(false, 0), false, false);
 
-		addByPrefix("singRIGHTmiss", offset(-45, -19), "note miss right pico nene0", 24, loop(true, -4), false, false);
-		addByPrefix("singLEFTmiss", offset(28, -11), "note miss left pico nene0", 24, loop(true, -4), false, false);
-		addByPrefix("singUPmiss", offset(60, 2), "note miss up piconene0", 24, loop(true, -4), false, false);
-		addByPrefix("singDOWNmiss", offset(95, -74), "note miss down pico nene0", 24, loop(true, -4), false, false);
+		addByLabel("singRIGHTmiss", offset(), "Miss Right", 24, loop(false, 0), false, false);
+		addByLabel("singLEFTmiss", offset(), "Miss Left", 24, loop(false, 0), false, false);
+		addByLabel("singUPmiss", offset(), "Miss Up", 24, loop(false, 0), false, false);
+		addByLabel("singDOWNmiss", offset(), "Miss Down", 24, loop(false, 0), false, false);
 
-		addByPrefix("knifeToss", offset(14, 26), "pico nene knife toss0", 24, loop(false), false, false);
-		addByPrefix("laughEnd", offset(5, 7), "pico nene laughing full0", 24, loop(false), false, false);
+		addByLabel("knifeToss", offset(), "Knife Throw", 24, loop(false), false, false);
+		addByLabel("laughEnd", offset(), "Laugh", 24, loop(true, -8), false, false);
+
+		addExtraData("reposition", [65, 28]);
 	}
 
 }

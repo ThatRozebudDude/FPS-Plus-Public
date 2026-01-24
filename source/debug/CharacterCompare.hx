@@ -29,7 +29,7 @@ class CharacterCompare extends FlxState
 	var adjustOffsetMode:Bool = false;
 	var offsetDiff:FlxPoint = new FlxPoint();
 
-	final DO_REPOSITION:Bool = true;
+	final DO_REPOSITION:Bool = false;
 	
 	public function new() {
 		super();
@@ -41,8 +41,8 @@ class CharacterCompare extends FlxState
 		gridBG.scrollFactor.set(0.5, 0.5);
 		gridBG.screenCenter(XY);
 
-		topCharacter = new Character(300, 300, "Darnell", false);
-		bottomCharacter = new Character(300, 300, "DarnellOld", false);
+		topCharacter = new Character(300, 300, "PicoHoldingNeneDead", true);
+		bottomCharacter = new Character(300, 300, "PicoHoldingNene", true);
 
 		if(DO_REPOSITION){
 			topCharacter.setPosition(topCharacter.x - ((topCharacter.getFrameWidth() * topCharacter.getScale().x)/2), topCharacter.y - (topCharacter.getFrameHeight() * topCharacter.getScale().y));
@@ -150,6 +150,11 @@ class CharacterCompare extends FlxState
 		if (FlxG.keys.justPressed.R){
 			topCharacter.playAnim(topCharacter.curAnim, true);
 			bottomCharacter.playAnim(bottomCharacter.curAnim, true);
+		}
+		
+		if (FlxG.keys.justPressed.T){
+			camFollow.x = topCharacterCamPoint.x;
+			camFollow.y = topCharacterCamPoint.y;
 		}
 
 		var moveThing:Float = (FlxG.keys.pressed.SHIFT) ? 10 : 1;
