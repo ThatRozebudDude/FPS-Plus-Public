@@ -27,7 +27,7 @@ class CacheReload extends FlxState
 	//Trying to stick to stuff that you will see in story mode for default cache stuff.
 	
 	public static final defaultCharacterPreloadList:Array<String> = [
-		"shared/boyfriend/*", "shared/boyfrien_dead/*", "week4/boyfriend_car/*", "week5/boyfriend_christmas/*", "week6/bfPixel", "week6/bfPixelsDEAD", "week7/bfAndGF", "week7/bfHoldingGF-DEAD",
+		"shared/boyfriend/*", "shared/boyfrien_dead/*", "week4/boyfriend_car/*", "week5/boyfriend_christmas/*", "week6/bfPixel", "week6/bfPixelsDEAD", "week7/bf_and_gf/*", "week7/bf_and_gf_dead/*",
 		"shared/girlfriend/*", "week5/girlfriend_christmas/*", "week6/gfPixel", "week7/gfTankmen",
 		"week1/dad/*", 
 		"week2/spooky_kids_assets", "week2/monster/*",
