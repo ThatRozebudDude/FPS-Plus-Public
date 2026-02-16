@@ -5,7 +5,8 @@
   "difficulties": [3, 4, 5],
   "bfBeats": [],
   "dadBeats": [],
-  "compatableInsts": [],
+  "compatibleInsts": ["#blazin"],
+  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
   "mixName": "Original",
   "pauseMusic": "pause/breakfast-pico"
 }

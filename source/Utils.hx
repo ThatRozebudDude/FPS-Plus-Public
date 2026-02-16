@@ -252,7 +252,7 @@ class Utils
 			difficultySet: "standard",
 			dadBeats: [0, 2],
 			bfBeats: [1, 3],
-			compatableInsts: [],
+			compatibleInsts: [],
 			mixName: "Original",
 			pauseMusic: "pause/breakfast"
 		}

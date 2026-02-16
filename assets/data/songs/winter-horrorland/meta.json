@@ -3,7 +3,8 @@
   "artist": "Basset (ft. Kawai Sprite)",
   "album": "monster",
   "difficulties": [1, 1, 2],
-  "compatableInsts": [],
+  "compatibleInsts": ["#winter-horrorland"],
+  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
   "mixName": "Original",
   "pauseMusic": "pause/911825_woah_Loop"
 }

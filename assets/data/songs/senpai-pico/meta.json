@@ -15,7 +15,8 @@
         0,
         2
     ],
-    "compatableInsts": ["Senpai"],
+    "compatibleInsts": ["#senpai"],
+	"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
     "mixName": "Pico Mix",
     "pauseMusic": "pause/breakfast-pixel"
 }

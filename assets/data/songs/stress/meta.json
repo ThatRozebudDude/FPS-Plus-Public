@@ -3,7 +3,8 @@
   "artist": "Kawai Sprite",
   "album": "vol2",
   "difficulties": [2, 3, 5],
-  "compatableInsts": ["Stress-Pico"],
+  "compatibleInsts": ["#stress"],
+  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
   "mixName": "Original",
   "pauseMusic": "week7/distorto"
 }

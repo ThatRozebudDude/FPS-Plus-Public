@@ -15,7 +15,8 @@
         0,
         2
     ],
-	"compatableInsts": ["Cocoa"],
+	"compatibleInsts": ["#cocoa"],
+	"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
 	"mixName": "Pico Mix",
 	"pauseMusic": "pause/918379_Love-Emoji_Loop"
 }

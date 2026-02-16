@@ -3,7 +3,8 @@
   "artist": "Rozebud",
   "album": "lil",
   "difficulties": [0, 0, 6],
-  "compatableInsts": ["Lil-Buddies"],
+  "compatibleInsts": ["#lil-buddies"],
+  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
   "mixName": "Pico Mix",
   "pauseMusic": "pause/1100059_skippingrecord_Loop"
 }

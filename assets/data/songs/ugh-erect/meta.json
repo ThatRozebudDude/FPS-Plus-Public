@@ -16,7 +16,8 @@
         0,
         2
     ],
-	"compatableInsts": [],
+	"compatibleInsts": ["#ugh-erect"],
+	"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
 	"mixName": "Original",
     "pauseMusic": "week7/distorto"
 }

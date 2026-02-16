@@ -5,7 +5,8 @@
   "difficulties": [0, 8, 9],
   "difficultySet": "erect",
   "dadBeats": [0, 1, 2, 3],
-  "compatableInsts": [],
+  "compatibleInsts": ["#south-erect"],
+  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
   "mixName": "Original",
   "pauseMusic": "pause/911825_woah_Loop"
 }

@@ -4,7 +4,8 @@
   "album": "lil",
   "difficulties": [0, 0, 20],
   "difficultySet": "erect",
-  "compatableInsts": [],
+  "compatibleInsts": ["#lil-buddies-erect"],
+  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
   "mixName": "Original",
   "pauseMusic": "pause/1100059_skippingrecord_Loop"
 }

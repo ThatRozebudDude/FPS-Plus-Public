@@ -67,7 +67,35 @@ class Capsule extends FlxSpriteGroup
 		
 		variations.push(song);
 		if(_variations != null){
+			_variations = Utils.removeDuplicates(_variations);
+
+			//Turn tags into an array of song names and adds them to the variation list.
+			var joinList:Array<Array<String>> = [];
 			for(v in _variations){
+				if(v.startsWith("#")){
+					var tag:String = v.substring(1);
+					if(Utils.exists("data/tags/compatible_instrumentals/"+tag+".json")){
+						var tagJson = Json.parse(Utils.getText(Paths.json(tag, "data/tags/compatible_instrumentals")));
+						tagJson.values = Utils.removeDuplicates(tagJson.values, [["#"+tag]]);
+						joinList.push(tagJson.values);
+					}
+					else{ trace("Tag #" + tag + " does not exist!"); }
+				}
+				else{
+					joinList.push([v]);
+				}
+			}
+
+			var finalVariations:Array<String> = [];
+			for(l in joinList){
+				finalVariations = finalVariations.concat(l);
+			}
+			
+			while(finalVariations.contains(song)){
+				finalVariations.remove(song);
+			}
+
+			for(v in finalVariations){
 				variations.push(v);
 			}
 		}

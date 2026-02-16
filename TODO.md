@@ -3,7 +3,6 @@
 # Possible Future Version Features
 
 - Localiztion files.
-- Minecraft like tags for song remix selection.
 
 # Known Bugs
 

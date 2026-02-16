@@ -15,7 +15,8 @@
         0,
         2
     ],
-	"compatableInsts": [],
+	"compatibleInsts": [],
+	"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
 	"mixName": "BF Mix",
 	"pauseMusic": "pause/breakfast-pico"
 }

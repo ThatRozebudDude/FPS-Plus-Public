@@ -19,6 +19,7 @@
         2,
         3
     ],
-    "compatableInsts": ["Bopeebo"],
+    "compatibleInsts": ["#bopeebo"],
+	"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
     "mixName": "Pico Mix"
 }

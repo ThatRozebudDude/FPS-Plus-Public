@@ -15,7 +15,8 @@
         0,
         2
     ],
-	"compatableInsts": ["Roses-Alt"],
+	"compatibleInsts": [],
+	"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
 	"mixName": "Pico Mix",
 	"pauseMusic": "pause/breakfast-pixel"
 }
