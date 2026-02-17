@@ -68,11 +68,13 @@ class HealthIcon extends FlxSprite
 			//Please do not use heathIcon.
 			if(Utils.exists(Paths.file("ui/heathIcons/" + icon, "images", "png"))){
 				subDir = "heathIcons";
-				continue;
-			}
+			}else{
 			#end
 			trace("No icon exists at ui/healthIcons/" + character + ".png, defaulting to face.");
 			icon = "face";
+			#if BACKWARD_COMPATIBILITY
+			}
+			#end
 		}
 
 		this.character = icon;
