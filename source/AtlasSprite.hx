@@ -68,6 +68,7 @@ class AtlasSprite extends FlxAnimate
 		anim.onFrameChange.add(onFrameChange);
 		anim.onFinish.add(onFinish);
 
+		#if BACKWARD_COMPATIBILITY
 		//Auto setup stage matrix stuff to provide backwards compatibility with older mods.
 		if(Assets.exists(_path + "/spritemap1.png")){
 			var fromMod:String = PolymodHandler.getAssetModFolder(_path + "/spritemap1.png");
@@ -81,6 +82,7 @@ class AtlasSprite extends FlxAnimate
 				populateFrameLabelInfo();
 			}
 		}
+		#end
 	}
 
 	function populateFrameLabelInfo():Void{

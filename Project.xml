@@ -79,6 +79,11 @@
 	<haxelib name="grig.audio" />
 	<haxelib name="polymod" />
 
+	<!-- _______________________________ Defines ______________________________ -->
+
+	<!--Comment it out if you don't need backward compatibility for mods.-->
+	<define name="BACKWARD_COMPATIBILITY" />
+
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
 	<!--Essentially, this forces the local .haxelib folder to act as "global" and is a solid fix for the hxvlc issue.-->

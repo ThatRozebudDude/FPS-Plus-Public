@@ -904,12 +904,13 @@ class FreeplayState extends MusicBeatState
 			if(jsonMeta.bfBeats != null)			{ meta.bfBeats = jsonMeta.bfBeats; }
 
 			if(jsonMeta.compatibleInsts != null)	{ meta.compatibleInsts = jsonMeta.compatibleInsts; }
-			//Backwards compat stuff.
+			#if BACKWARD_COMPATIBILITY
 			if(jsonMeta.compatableInsts != null)	{
 				if(jsonMeta.compatableInsts.length > 1 || !jsonMeta.compatableInsts.contains("Included for backwards compatibility purposes and to prevent crashes."))
 				jsonMeta.compatableInsts.remove("Included for backwards compatibility purposes and to prevent crashes."); //Remove note from list.
 				meta.compatibleInsts = meta.compatibleInsts.concat(jsonMeta.compatableInsts);
 			}
+			#end
 
 			if(jsonMeta.mixName != null)			{ meta.mixName = jsonMeta.mixName; }
 		}

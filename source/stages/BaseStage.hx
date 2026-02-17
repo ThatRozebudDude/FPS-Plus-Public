@@ -144,6 +144,7 @@ class BaseStage extends Script
 	override function addToHud(x:FlxBasic)				{ if(PlayState.isInPlayState()){ PlayState.instance.hudLayer.add(x); } 			hudElements.push(x); }
 	override function removeHud(x:FlxBasic)				{ if(PlayState.isInPlayState()){ PlayState.instance.hudLayer.remove(x); } 		hudElements.remove(x); }
 
+	#if BACKWARD_COMPATIBILITY
 	//Included for backwards compatibility.
 	inline function addToBackgroundLive(x:FlxBasic)			{ addToBackground(x); }
 	inline function removeFromBackgroundLive(x:FlxBasic)	{ removeFromBackground(x); }
@@ -159,6 +160,7 @@ class BaseStage extends Script
 	inline function removeFromOverlayLive(x:FlxBasic)		{ removeFromOverlay(x); }
 	inline function addToHudLive(x:FlxBasic)				{ addToHud(x); }
 	inline function removeHudLive(x:FlxBasic)				{ removeHud(x); }
+	#end
 
 	override public function toString():String{ return "Stage: " + name; }
 }

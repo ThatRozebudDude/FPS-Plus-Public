@@ -62,14 +62,17 @@ class HealthIcon extends FlxSprite
 		var icon = character;
 		var subDir = "healthIcons"; //Doing this to make it backwards compatible because I am stupid.
 
-		//Accidentally called the healthIcon folder "heathIcon" and released the modding API with that so I'm making it backwards compatible with the typo (and also the Foolhardy example mod). 
-		//Please do not use heathIcon.
 		if(!Utils.exists(Paths.file("ui/healthIcons/" + icon, "images", "png"))){
-			if(!Utils.exists(Paths.file("ui/heathIcons/" + icon, "images", "png"))){
-				trace("No icon exists at ui/healthIcons/" + character + ".png, defaulting to face.");
-				icon = "face";
+			#if BACKWARD_COMPATIBILITY
+			//Accidentally called the healthIcon folder "heathIcon" and released the modding API with that so I'm making it backwards compatible with the typo (and also the Foolhardy example mod). 
+			//Please do not use heathIcon.
+			if(Utils.exists(Paths.file("ui/heathIcons/" + icon, "images", "png"))){
+				subDir = "heathIcons";
+				continue;
 			}
-			else{ subDir = "heathIcons"; }
+			#end
+			trace("No icon exists at ui/healthIcons/" + character + ".png, defaulting to face.");
+			icon = "face";
 		}
 
 		this.character = icon;
