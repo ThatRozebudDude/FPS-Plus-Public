@@ -278,7 +278,9 @@ class AtlasSprite extends FlxAnimate
 	}
 	
 	function onFinish(name:String):Void{
-		animationEndBehavior(animInfoMap.get(curAnim));
+		if(!didAnimFinishCheck){
+			animationEndBehavior(animInfoMap.get(curAnim));
+		}
 	}
 
 	private function animationEndBehavior(animInfo:AtlasAnimInfo){
