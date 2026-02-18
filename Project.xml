@@ -81,7 +81,7 @@
 
 	<!-- _______________________________ Defines ______________________________ -->
 
-	<!--Comment it out if you don't need backward compatibility for mods.-->
+	<!--Enables backwards compatibility features for older mod versions. Can be commented out if you don't need to include mod backwards compatibility or mod compatibility at all.-->
 	<define name="BACKWARD_COMPATIBILITY" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->

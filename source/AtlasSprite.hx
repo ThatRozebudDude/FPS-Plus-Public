@@ -32,10 +32,12 @@ typedef AtlasAnimInfo = {
 	loopFrame:Null<Int>
 }
 
+#if BACKWARD_COMPATIBILITY
 typedef FrameLabelInfo = {
 	labels:Array<String>,
 	index:Int
 }
+#end
 
 class AtlasSprite extends FlxAnimate
 {
@@ -50,8 +52,10 @@ class AtlasSprite extends FlxAnimate
 
 	private var didAnimFinishCheck:Bool = false;
 
+	#if BACKWARD_COMPATIBILITY
 	private var isOld:Bool = false; //This is set when the atlas is loaded from a mod that is from a version before the change to flixel-animate.
 	private var frameLabelInfo:Array<FrameLabelInfo>; //Used to get length between labels for old label animation adding.
+	#end
 
 	public function new(?_x:Float, ?_y:Float, ?_path:String, ?_settings:FlxAnimateSettings) {
 		super(_x, _y, null, null);
@@ -85,6 +89,7 @@ class AtlasSprite extends FlxAnimate
 		#end
 	}
 
+	#if BACKWARD_COMPATIBILITY
 	function populateFrameLabelInfo():Void{
 		var addedIndecies:Array<Int> = [];
 		for(layer in anim.getDefaultTimeline().layers){
@@ -127,8 +132,10 @@ class AtlasSprite extends FlxAnimate
 		}
 		return -1;
 	}
+	#end
 
 	public function addAnimationByLabel(name:String, label:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
+		#if BACKWARD_COMPATIBILITY
 		//Emulates the old method of label animation adding where it's based on distance between labels instead of label frame duration.
 		if(isOld){
 			var labelIndex = getLabelInfoIndex(label);
@@ -140,6 +147,7 @@ class AtlasSprite extends FlxAnimate
 			addAnimationStartingAtLabel(name, label, length, framerate, looped, loopFrame);
 			return;
 		}
+		#end
 
 		var foundFrames = anim.findFrameLabelIndices(label);
 		if(foundFrames.length <= 0){

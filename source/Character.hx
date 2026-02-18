@@ -422,7 +422,7 @@ class Character extends FlxSpriteGroup
 			case atlas:
 				atlasCharacter = new AtlasSprite(0, 0, Paths.getTextureAtlas(characterInfo.info.spritePath));
 				@:privateAccess
-				atlasCharacter.useRenderTexture = true && !atlasCharacter.isOld; //Turn on useRenderTexture on by default for characters (except for backwards compatibility).
+				atlasCharacter.useRenderTexture = true #if BACKWARD_COMPATIBILITY && !atlasCharacter.isOld #end; //Turn on useRenderTexture on by default for characters (except for backwards compatibility).
 		}
 
 		for(x in characterInfo.info.anims){
