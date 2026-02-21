@@ -22,6 +22,7 @@ using StringTools;
 
 class ScriptingUtil
 {
+	#if BACKWARD_COMPATIBILITY
 	//These are deprecated, they are only being kept for backwards compatibility. It is recommended that you use FlxAxes.{axis} instead.
 	public static var axisNone(get, never):Int;
 	public static inline function get_axisNone()	{ return 0x00; }
@@ -47,6 +48,7 @@ class ScriptingUtil
 	public static inline function get_rankPerfect()		{ return Highscore.Rank.perfect; }
 	public static var rankGold(get, never):Rank;
 	public static inline function get_rankGold()		{ return Highscore.Rank.gold; }
+	#end
 
 	public static inline function makeFlxGroup():FlxTypedGroup<FlxBasic>				{ return new FlxTypedGroup<FlxBasic>(); }
 	public static inline function makeFlxSpriteGroup():FlxTypedSpriteGroup<FlxSprite>	{ return new FlxTypedSpriteGroup<FlxSprite>(); }
@@ -267,16 +269,19 @@ class ScriptBinds
 
 class ScriptCacheConfig
 {
-	public static var music(get, never):Null<Bool>;
 	public static var characters(get, never):Null<Bool>;
 	public static var graphics(get, never):Null<Bool>;
-
+	
 	public static inline function get_characters() { return CacheConfig.characters; }
 	public static inline function get_graphics() { return CacheConfig.graphics; }
+	
+	#if BACKWARD_COMPATIBILITY
+	public static var music(get, never):Null<Bool>;
 	public static inline function get_music() {
 		trace("Music caching is no longer supported. This function will always return false for backwards compatibility and should be removed from scripts if possible.");
 		return false;
 	}
+	#end
 
 	public static function check():Void	{ trace("CacheConfig.check() is not available in scripts."); }
 }
