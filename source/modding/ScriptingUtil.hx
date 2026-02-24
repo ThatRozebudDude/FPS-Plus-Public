@@ -195,7 +195,7 @@ class ScriptConfig
 	public static var showComboBreaks(get, never):Bool;
 	public static var showFPS(get, never):Bool;
 	public static var useGPU(get, never):Bool;
-	public static var extraCamMovement(get, never):Bool;
+	public static var extraCamMovement(get, never):Int;
 	public static var camBopAmount(get, never):Int;
 	public static var showCaptions(get, never):Bool;
 	public static var showAccuracy(get, never):Bool;
@@ -220,7 +220,7 @@ class ScriptConfig
 	public static function get_showComboBreaks():Bool { return Config.showComboBreaks; }
 	public static function get_showFPS():Bool { return Config.showFPS; }
 	public static function get_useGPU():Bool { return Config.useGPU; }
-	public static function get_extraCamMovement():Bool { return Config.extraCamMovement; }
+	public static function get_extraCamMovement():Int { return Config.extraCamMovement; }
 	public static function get_camBopAmount():Int { return Config.camBopAmount; }
 	public static function get_showCaptions():Bool { return Config.showCaptions; }
 	public static function get_showAccuracy():Bool { return Config.showAccuracy; }

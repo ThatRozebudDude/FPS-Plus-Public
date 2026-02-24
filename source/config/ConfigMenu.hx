@@ -115,7 +115,7 @@ class ConfigMenu extends FlxUIStateExt
 	var showComboBreaksValue:Bool;
 	var showFPSValue:Bool;
 	var useGPUValue:Bool;
-	var extraCamMovementValue:Bool;
+	var extraCamMovementValue:Int;
 	var camBopAmountValue:Int;
 	final camBopAmountTypes:Array<String> = ["on", "reduced", "off"];
 	var showCaptionsValue:Bool;
@@ -867,13 +867,23 @@ class ConfigMenu extends FlxUIStateExt
 
 
 
-		var extraCamStuff = new ConfigOption("DYNAMIC CAMERA", genericOnOff[extraCamMovementValue?0:1] , "Moves the camera in the direction of hit notes.");
+		var extraCamStuff = new ConfigOption("DYNAMIC CAMERA", camBopAmountTypes[extraCamMovementValue], "Moves the camera when hitting notes.\nReduced cuts the movement in half.");
 		extraCamStuff.optionUpdate = function(){
-			if (pressRight || pressLeft || pressAccept) {
+			if (pressRight) {
 				FlxG.sound.play(Paths.sound('scrollMenu'));
-				extraCamMovementValue = !extraCamMovementValue;
+				extraCamMovementValue += 1;
 			}
-			extraCamStuff.setting = genericOnOff[extraCamMovementValue?0:1];
+			else if(pressLeft){
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				extraCamMovementValue -= 1;
+			}
+
+			if (extraCamMovementValue > 2)
+				extraCamMovementValue = 0;
+			if (extraCamMovementValue < 0)
+				extraCamMovementValue = 2;
+
+			extraCamStuff.setting = camBopAmountTypes[extraCamMovementValue];
 		};
 
 

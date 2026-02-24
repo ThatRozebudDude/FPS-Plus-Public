@@ -3002,7 +3002,13 @@ class PlayState extends MusicBeatState
 	public function changeCamOffset(_x:Float, _y:Float, ?_time:Null<Float>, ?_ease:Null<flixel.tweens.EaseFunction>){
 
 		//Don't allow for extra camera offsets if it's disabled in the config.
-		if(!Config.extraCamMovement){ return; }
+		if(Config.extraCamMovement == 2){ return; }
+
+		//Reduce extra cam motion if the user has the setting set to reduced.
+		if(Config.extraCamMovement == 1){
+			_x = _x/2;
+			_y = _y/2;
+		}
 
 		if(_time == null){ _time = defaultCameraOffsetTime; }
 		if(_ease == null){ _ease = defaultCameraOffsetEase; }

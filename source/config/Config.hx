@@ -4,51 +4,54 @@ import openfl.events.Event;
 import flixel.FlxG;
 import openfl.Lib;
 import restricted.RestrictedUtils;
+import haxe.rtti.Meta;
 
 using StringTools;
 
+typedef ConfigInfo = {
+	key:String,
+	field:String
+}
+
+/* HOW TO USE `@configParam`
+ * Any field that has the metadata `@configParam` will be automatically added to the game's save data.
+ * The argument is the key that will be used in the save data, i.e. `@configParam("key") public static var value:Int = 0;` will save to `key` in the save and be accessible with `Config.value` in the code.
+ */
+
 class Config
 {
-	@configParam public static var offset:Float = 0.0;
-	@configParam public static var healthMultiplier:Float = 1.0;
-	@configParam public static var healthDrainMultiplier:Float = 1.0;
-	@configParam public static var comboType:Int = 1;
-	@configParam public static var downscroll:Bool = false;
-	@configParam public static var noteGlow:Bool = true;
-	@configParam public static var ghostTapType:Int = 0;
-	@configParam public static var framerate:Int = 999;
-	@configParam public static var bgDim:Int = 0;
-	@configParam public static var noteSplashType:Int = 1;
-	@configParam public static var centeredNotes:Bool = false;
-	@configParam public static var scrollSpeedOverride:Float = -1;
-	@configParam public static var showComboBreaks:Bool = false;
-	@configParam public static var showFPS:Bool = false;
-	@configParam public static var useGPU:Bool = true;
-	@configParam public static var extraCamMovement:Bool = true;
-	@configParam public static var camBopAmount:Int = 0;
-	@configParam public static var showCaptions:Bool = true;
-	@configParam public static var showAccuracy:Bool = true;
-	@configParam public static var showMisses:Int = 1;
-	@configParam public static var autoPause:Bool = true;
-	@configParam public static var flashingLights:Bool = true;
-	@configParam public static var fullscreen:Bool = false;
-	@configParam public static var checkForUpdates:Bool = true;
+	@configParam("offset")					public static var offset:Float = 0.0;
+	@configParam("healthMultiplier")		public static var healthMultiplier:Float = 1.0;
+	@configParam("healthDrainMultiplier")	public static var healthDrainMultiplier:Float = 1.0;
+	@configParam("comboType")				public static var comboType:Int = 1;
+	@configParam("downscroll")				public static var downscroll:Bool = false;
+	@configParam("noteGlow")				public static var noteGlow:Bool = true;
+	@configParam("ghostTapType")			public static var ghostTapType:Int = 0;
+	@configParam("framerate")				public static var framerate:Int = 999;
+	@configParam("bgDim")					public static var bgDim:Int = 0;
+	@configParam("noteSplashType")			public static var noteSplashType:Int = 1;
+	@configParam("centeredNotes")			public static var centeredNotes:Bool = false;
+	@configParam("scrollSpeedOverride")		public static var scrollSpeedOverride:Float = -1;
+	@configParam("showComboBreaks")			public static var showComboBreaks:Bool = false;
+	@configParam("showFPS")					public static var showFPS:Bool = false;
+	@configParam("useGPU")					public static var useGPU:Bool = true;
+	@configParam("extraCamMovement_2")		public static var extraCamMovement:Int = 0;
+	@configParam("camBopAmount")			public static var camBopAmount:Int = 0;
+	@configParam("showCaptions")			public static var showCaptions:Bool = true;
+	@configParam("showAccuracy")			public static var showAccuracy:Bool = true;
+	@configParam("showMisses")				public static var showMisses:Int = 1;
+	@configParam("autoPause")				public static var autoPause:Bool = true;
+	@configParam("flashingLights")			public static var flashingLights:Bool = true;
+	@configParam("fullscreen")				public static var fullscreen:Bool = false;
+	@configParam("checkForUpdates")			public static var checkForUpdates:Bool = true;
 
-	@configParam public static var ee1:Bool = false;
-	@configParam public static var ee2:Bool = false;
+	@configParam("ee1")						public static var ee1:Bool = false;
+	@configParam("ee2")						public static var ee2:Bool = false;
 
-	static var configList(get, default):Array<String>;
+	static var configList(get, default):Array<ConfigInfo>;
 
 	public static function load():Void{
-		SaveManager.global();
-
-		if(FlxG.save.data != null){
-			for(field in configList){
-				if(Reflect.hasField(FlxG.save.data, field)){
-					Reflect.setProperty(Config, field, Reflect.field(FlxG.save.data, field));
-				}
-			}
-		}
+		loadSaveData();
 
 		FlxG.stage.addEventListener(Event.EXIT_FRAME, (event:Event) -> {
 			if(Binds.justPressed("fullscreen")) {
@@ -62,12 +65,36 @@ class Config
 
 		FlxG.fullscreen = fullscreen;
 	}
+
+	public static function loadSaveData():Void{
+		SaveManager.global();
+
+		if(FlxG.save.data != null){
+			//Section for upgrading config settings from older versions to newer versions.
+			if(FlxG.save.data.extraCamMovement != null && FlxG.save.data.extraCamMovement_2 == null){
+				trace("[Config] Fixing extraCamMovement");
+				if(FlxG.save.data.extraCamMovement){
+					FlxG.save.data.extraCamMovement_2 = 0;
+				}
+				else{
+					FlxG.save.data.extraCamMovement_2 = 2;
+				}
+			}
+
+			//Load save data to Config fields.
+			for(info in configList){
+				if(Reflect.hasField(FlxG.save.data, info.key)){
+					Reflect.setProperty(Config, info.field, Reflect.field(FlxG.save.data, info.key));
+				}
+			}
+		}
+	}
 	
 	public static function write():Void{
 		SaveManager.global();
 
-		for(field in configList){
-			Reflect.setField(FlxG.save.data, field, Reflect.getProperty(Config, field));
+		for(info in configList){
+			Reflect.setField(FlxG.save.data, info.key, Reflect.getProperty(Config, info.field));
 		}
 		
 		SaveManager.previousSave();
@@ -81,16 +108,21 @@ class Config
 		FlxG.drawFramerate = fps;
 	}
 
-	static function get_configList():Array<String>{
+	static function get_configList():Array<ConfigInfo>{
 		if(configList != null){ // Preventing excessive Reflect calls
 			return configList;
 		}
 
 		configList = [];
+		final statics = Meta.getStatics(Config);
 
 		for(field in Type.getClassFields(Config)){
 			if(RestrictedUtils.hasMetadata(Config, field, "configParam")){
-				configList.push(field);
+				var info = {
+					key: Reflect.field(statics, field).configParam[0],
+					field: field
+				};
+				configList.push(info);
 			}
 		}
 
