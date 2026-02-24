@@ -77,19 +77,24 @@ class AtlasSprite extends FlxAnimate
 		if(Assets.exists(_path + "/spritemap1.png")){
 			var fromMod:String = PolymodHandler.getAssetModFolder(_path + "/spritemap1.png");
 			if((fromMod != null && PolymodHandler.getSeparatedVersionNumber(PolymodHandler.getModMetaFromFolder(fromMod).api_version)[1] <= 7)){ //API version that old atlas stuff uses.
-				isOld = true;
-
-				applyStageMatrix = true;
-				origin.set(-timeline.getBoundsOrigin().x, -timeline.getBoundsOrigin().y); //Scales from the origin of the symbol instead of the center of the sprite.
-
-				frameLabelInfo = [];
-				populateFrameLabelInfo();
+				setupOldAtlas(_path);
 			}
 		}
 		#end
 	}
 
 	#if BACKWARD_COMPATIBILITY
+	function setupOldAtlas(_path:String):Void{
+		trace(_path + " is old!");
+		isOld = true;
+
+		applyStageMatrix = true;
+		origin.set(-timeline.getBoundsOrigin().x, -timeline.getBoundsOrigin().y); //Scales from the origin of the symbol instead of the center of the sprite.
+
+		frameLabelInfo = [];
+		populateFrameLabelInfo();
+	}
+
 	function populateFrameLabelInfo():Void{
 		var addedIndecies:Array<Int> = [];
 		for(layer in anim.getDefaultTimeline().layers){
@@ -133,6 +138,14 @@ class AtlasSprite extends FlxAnimate
 		return -1;
 	}
 	#end
+
+	public function getFrameWidth():Int{
+		return frameWidth;
+	}
+
+	public function getFrameHeight():Int{
+		return frameHeight;
+	}
 
 	public function addAnimationByLabel(name:String, label:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
 		#if BACKWARD_COMPATIBILITY
@@ -566,3 +579,169 @@ class AtlasSprite extends FlxAnimate
 	}
 
 }
+
+/*
+ *	Special version of AtlasSprite for characters.
+ *	Currently all it does is allow old atlas sprites to get the old frame width and height by creating an old FlxAnimate object, saving the dimensions, and deleting it.
+ *	Kinda hacky but it should only matter for old mods so it's fine.
+ */
+class CharacterAtlasSprite extends AtlasSprite
+{
+	#if BACKWARD_COMPATIBILITY
+	private var oldFrameDimensions:Array<Int>; //Used to store the old initial frame width and height for positioning old atlas characters.
+	#end
+
+	#if BACKWARD_COMPATIBILITY
+	override function setupOldAtlas(_path:String):Void{
+		super.setupOldAtlas(_path);
+
+		var oldAtlasForBounds = new LegacyAtlasSprite(0, 0, _path);
+		//oldAtlasForBounds.draw();
+		oldFrameDimensions = [oldAtlasForBounds.frameWidth, oldAtlasForBounds.frameHeight];
+		oldAtlasForBounds.destroy();
+		//trace(oldFrameDimensions + "\tvs\t" + frameWidth + ", " + frameHeight);
+	}
+	#end
+
+	override public function getFrameWidth():Int{
+		#if BACKWARD_COMPATIBILITY
+		if(isOld){ return oldFrameDimensions[0]; }
+		#end
+		return frameWidth;
+	}
+
+	override public function getFrameHeight():Int{
+		#if BACKWARD_COMPATIBILITY
+		if(isOld){ return oldFrameDimensions[1]; }
+		#end
+		return frameHeight;
+	}
+}
+
+#if BACKWARD_COMPATIBILITY
+/*
+ *	Basic version of the old FlxAnimate that uses GPU caching.
+ *	Only used for getting bounds of old atlas stuff for characters.
+ *	If there is a better way to do this please let me know.
+ */
+class LegacyAtlasSprite extends flxanimate.FlxAnimate
+{
+
+	public function new(?_x:Float, ?_y:Float, _path:String) {
+		super(_x, _y, _path);
+	}
+
+	override function loadAtlas(atlasDirectory:String) {
+		//super.loadAtlas(Path);
+		//baseWidth = pixels.width/2;
+		//baseHeight = pixels.height/2;
+		//width = baseWidth;
+		//height = baseHeight;
+		//draw();
+		//Override loadAtlas with a copy so the graphic can be handled by the GPU caching stuff.
+		var p = haxe.io.Path.removeTrailingSlashes(haxe.io.Path.normalize(atlasDirectory));
+		if (!Assets.exists('$atlasDirectory/Animation.json') && haxe.io.Path.extension(atlasDirectory) != "zip"){
+			FlxG.log.error('Animation file not found in specified path: "${atlasDirectory}", have you written the correct path?');
+			return;
+		}
+		if(!Assets.exists('$atlasDirectory/metadata.json')){
+			loadSeparateAtlas(atlasSetting(atlasDirectory), fromTextureAtlas(atlasDirectory));
+		}
+		else{
+			loadSeparateAtlas(null, fromTextureAtlas(atlasDirectory));	
+			anim._loadExAtlas(atlasDirectory);
+		}
+	}
+
+	//Copy some static functions from FlxAnimateFrames to support GPU caching stuff.
+	public static function fromTextureAtlas(Path:String):flxanimate.frames.FlxAnimateFrames{
+		var frames:flxanimate.frames.FlxAnimateFrames = new flxanimate.frames.FlxAnimateFrames();
+		
+		var texts = Assets.list(TEXT).filter((text) -> StringTools.startsWith(text, '$Path/sprite'));
+		
+		var texts = [];
+		var isDone = false;
+		
+		if(Assets.exists('$Path/spritemap.json')){
+			texts.push('$Path/spritemap.json');
+			isDone = true;
+		}
+		
+		var i = 1;
+		while (!isDone){
+			if(Assets.exists('$Path/spritemap$i.json')){
+				texts.push('$Path/spritemap$i.json');
+			}
+			else{
+				isDone = true;
+			}
+
+			i++;
+		}
+		
+		for (text in texts){
+			var spritemapFrames = fromSpriteMap(text, Paths.image(text.split("assets/images/")[1].split(".json")[0]));
+		
+			if(spritemapFrames != null){
+				frames.addAtlas(spritemapFrames);
+			}
+		}
+		
+		if (frames.frames == []){
+			FlxG.log.error("the Frames parsing couldn't parse any of the frames, it's completely empty! \n Maybe you misspelled the Path?");
+			return null;
+		}
+	
+		return frames;
+	}
+
+	public static function fromSpriteMap(Path:flxanimate.data.SpriteMapData.FlxSpriteMap, ?Image:FlxGraphic):FlxAtlasFrames{
+		if (Path == null){
+			return null;
+		}
+	
+		var json:flxanimate.data.SpriteMapData.AnimateAtlas = null;
+	
+		if (Path is String){
+			var str:String = haxe.io.Path.normalize(cast(Path, String));
+			var text = (StringTools.contains(str, "/")) ? Assets.getText(str) : str;
+			json = haxe.Json.parse(text.split(String.fromCharCode(0xFEFF)).join(""));
+		}
+		else{
+			json = Path;
+		}
+
+		if (json == null){
+			return null;
+		}
+	
+		var f = findImage(Image);
+	
+		if (f.crash == true){
+			return null;
+		}
+		else if (f.frames != null){
+			return f.frames;
+		}
+	
+		var frames = new FlxAtlasFrames(f.graphic);
+	
+		for (sprite in json.ATLAS.SPRITES){
+			var limb = sprite.SPRITE;
+			var rect = FlxRect.get(limb.x, limb.y, limb.w, limb.h);
+			if (limb.rotated){
+				rect.setSize(rect.height, rect.width);
+			}
+	
+			flxanimate.frames.FlxAnimateFrames.sliceFrame(limb.name, limb.rotated, rect, frames);
+		}
+	
+		return frames;
+	}
+
+	public static function findImage(Image:FlxGraphic):{crash:Bool, ?graphic:FlxGraphic, ?frames:FlxAtlasFrames}{
+		var frames:FlxAtlasFrames = FlxAtlasFrames.findFrame(Image);
+		return {crash: false, graphic: Image, frames: frames};
+	}
+}
+#end

@@ -21,6 +21,13 @@
 			"version": "2.6.4"
 		},
 		{
+			"name": "flxanimate",
+			"type": "git",
+			"dir": null,
+			"ref": "b8970d2e4d875c743abe28e356a15413b1774d94",
+			"url": "https://github.com/Dot-Stuff/flxanimate"
+		},
+		{
 			"name": "flixel-animate",
 			"type": "git",
 			"dir": null,
