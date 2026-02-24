@@ -23,7 +23,7 @@ class Events
 		ignoreOffset = [];
 
 		for(x in ScriptableEvents.listScriptClasses()){
-			var eventClass:Events = ScriptableEvents.init(x);
+			var eventClass:Events = ScriptableEvents.scriptInit(x);
 			eventClass.defineEvents();
 		}
 	}

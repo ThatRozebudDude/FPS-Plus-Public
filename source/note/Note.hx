@@ -93,7 +93,7 @@ class Note extends FlxSprite
 		}
 
 		if(!ScriptableNoteSkin.listScriptClasses().contains(noteSkinClassName)){ noteSkinClassName = "DefaultNoteSkin"; }
-		noteSkin = ScriptableNoteSkin.init(noteSkinClassName);
+		noteSkin = ScriptableNoteSkin.scriptInit(noteSkinClassName);
 
 		var defaultPath:String = noteSkin.info.path;
 		var defaultPaths:Array<String> = noteSkin.info.paths;

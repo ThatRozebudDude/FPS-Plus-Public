@@ -179,7 +179,7 @@ class ResultsState extends FlxUIStateExt
 		//if(characterClass == null){ characterClass = results.characters.Boyfriend; }
 		//character = Type.createInstance(characterClass, [rank]);
 		if(!ScriptableResultsCharacter.listScriptClasses().contains(characterString)){ characterString = "BoyfriendResults"; }
-		character = ScriptableResultsCharacter.init(characterString, rank);
+		character = ScriptableResultsCharacter.scriptInit(characterString, rank);
 		character.setup();
 		character.cameras = [camCharacter];
 

@@ -85,7 +85,7 @@ class AnimationEditor extends FlxState
 
 		dad = new Character(0, 0, daAnim, false, false, true);
 
-		charInfo = ScriptableCharacter.init(dad.charClass);
+		charInfo = ScriptableCharacter.scriptInit(dad.charClass);
 		if(charInfo.info.extraData != null){
 			for(type => data in charInfo.info.extraData){
 				switch(type){

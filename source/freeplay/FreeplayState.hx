@@ -201,7 +201,7 @@ class FreeplayState extends MusicBeatState
 		if(!ScriptableDJCharacter.listScriptClasses().contains(djCharacter)){
 			djCharacter = "BoyfriendFreeplay";
 		}
-		dj = ScriptableDJCharacter.init(djCharacter);
+		dj = ScriptableDJCharacter.scriptInit(djCharacter);
 		dj.setup();
 		dj.introFinish = djIntroFinish;
 		dj.cameras = [camFreeplay];

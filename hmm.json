@@ -47,13 +47,6 @@
 			"url": "https://gitlab.com/haxe-grig/grig.audio.git"
 		},
 		{
-			"name": "hscript",
-			"type": "git",
-			"dir": null,
-			"ref": "dcc6f822e0866ca4fda300ed23e99559260f7bf5",
-			"url": "https://github.com/FunkinCrew/hscript"
-		},
-		{
 			"name": "hxvlc",
 			"type": "haxelib",
 			"version": "2.2.5"
@@ -100,8 +93,8 @@
 			"name": "polymod",
 			"type": "git",
 			"dir": null,
-			"ref": "47d9a2775e3fd8f6dd17d6f4b99b8798709da435",
-			"url": "https://github.com/larsiusprime/polymod"
+			"ref": "d8f036378c4ff472f1922ad623b8800b6a061c1a",
+			"url": "https://github.com/FunkinCrew/polymod"
 		},
 		{
 			"name": "thx.core",

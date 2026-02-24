@@ -1531,8 +1531,8 @@ class ChartingState extends MusicBeatState
 			var leftChar:characters.CharacterInfoBase;
 			var rightChar:characters.CharacterInfoBase;
 
-			leftChar = ScriptableCharacter.init(player2DropDown.selectedLabel);
-			rightChar = ScriptableCharacter.init(player1DropDown.selectedLabel);
+			leftChar = ScriptableCharacter.scriptInit(player2DropDown.selectedLabel);
+			rightChar = ScriptableCharacter.scriptInit(player1DropDown.selectedLabel);
 
 			leftIcon.setIconCharacter(leftChar.info.iconName);
 			rightIcon.setIconCharacter(rightChar.info.iconName);
@@ -2171,7 +2171,7 @@ class ChartingState extends MusicBeatState
 		stageList = [];
 
 		for(x in ScriptableCharacter.listScriptClasses()){
-			var getScriptInfo:CharacterInfoBase = ScriptableCharacter.init(x);
+			var getScriptInfo:CharacterInfoBase = ScriptableCharacter.scriptInit(x);
 			if(getScriptInfo.includeInCharacterList){ charactersList.push(x); }
 			if(getScriptInfo.includeInGfList){ gfList.push(x); }
 		}

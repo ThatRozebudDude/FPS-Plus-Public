@@ -521,7 +521,7 @@ class PlayState extends MusicBeatState
 		if (SONG.stage != null) { stageCheck = SONG.stage; }
 
 		if(ScriptableStage.listScriptClasses().contains(stageCheck)){
-			stage = ScriptableStage.init(stageCheck);
+			stage = ScriptableStage.scriptInit(stageCheck);
 		}
 		else{
 			stage = new BaseStage();
@@ -746,7 +746,7 @@ class PlayState extends MusicBeatState
 					if(cutsceneJson.startCutscene.playOnce != null) {startCutscenePlayOnce = cutsceneJson.startCutscene.playOnce;}
 					//startCutscene = Type.createInstance(startCutsceneClass, startCutsceneArgs);
 					if((startCutscenePlayOnce ? replayStartCutscene : true)){
-						startCutscene = ScriptableCutscene.init(cutsceneJson.startCutscene.name, startCutsceneArgs);
+						startCutscene = ScriptableCutscene.scriptInit(cutsceneJson.startCutscene.name, startCutsceneArgs);
 					}
 				}
 			}
@@ -761,7 +761,7 @@ class PlayState extends MusicBeatState
 					if(cutsceneJson.endCutscene.args != null) {endCutsceneArgs = cutsceneJson.endCutscene.args;}
 					if(cutsceneJson.endCutscene.playOnce != null) {endCutscenePlayOnce = cutsceneJson.endCutscene.playOnce;}
 					//endCutscene = Type.createInstance(endCutsceneClass, endCutsceneArgs);
-					endCutscene = ScriptableCutscene.init(cutsceneJson.endCutscene.name, endCutsceneArgs);
+					endCutscene = ScriptableCutscene.scriptInit(cutsceneJson.endCutscene.name, endCutsceneArgs);
 				}
 			}
 			//trace(endCutscene);
@@ -802,7 +802,7 @@ class PlayState extends MusicBeatState
 
 		for(script in scriptList){
 			if(ScriptableScript.listScriptClasses().contains(script)){
-				var scriptToAdd:Script = ScriptableScript.init(script);
+				var scriptToAdd:Script = ScriptableScript.scriptInit(script);
 				scripts.set(script, scriptToAdd);
 			}
 		}

@@ -501,12 +501,12 @@ class CharacterSelectState extends MusicBeatState
 	function addCharacter(name:String, playerClass:String, partnerClass:String, freeplayClass:String, position:Array<Int>):Void{
 		var partner:CharacterSelectCharacter = null;
 		if(partnerClass != null){
-			partner = ScriptableCharacterSelectCharacter.init(partnerClass);
+			partner = ScriptableCharacterSelectCharacter.scriptInit(partnerClass);
 			partner.setup();
 		}
 
 		//player cant be null because what would be the fucking point
-		var player:CharacterSelectCharacter = ScriptableCharacterSelectCharacter.init(playerClass);
+		var player:CharacterSelectCharacter = ScriptableCharacterSelectCharacter.scriptInit(playerClass);
 		player.setup();
 
 		characters.set(name, {

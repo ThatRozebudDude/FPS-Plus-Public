@@ -28,7 +28,7 @@ class NoteType
 		for(x in ScriptableNoteType.listScriptClasses()){
 			typeGroups.set(x, []);
 
-			var noteTypeClass:NoteType = ScriptableNoteType.init(x);
+			var noteTypeClass:NoteType = ScriptableNoteType.scriptInit(x);
 			noteTypeClass.defineTypes();
 
 			for(k => v in noteTypeClass.localTypes){
