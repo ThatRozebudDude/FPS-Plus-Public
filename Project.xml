@@ -66,11 +66,6 @@
 	
 	<!-- alsoft.ini is OpenAL settings to make the game sound higher quality and more like how the actual audio assets were intended to sound. -->
 	<assets path="alsoft.ini"/>
-	<!-- _______________________________ Defines ______________________________ -->
-
-	<!--Enables backwards compatibility features for older mod versions. Can be commented out if you don't need to include mod backwards compatibility or mod compatibility at all.-->
-	<define name="BACKWARD_COMPATIBILITY" />
-
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
@@ -78,11 +73,15 @@
 	<haxelib name="flixel-ui" />
 	<haxelib name="compiletime" />
 	<haxelib name="flixel-animate" />
-	<haxelib name="flxanimate" if="BACKWARD_COMPATIBILITY"/>
 	<haxelib name="hxvlc" if="desktop" />
 	<haxelib name="funkin.vis" />
 	<haxelib name="grig.audio" />
 	<haxelib name="polymod" />
+
+	<!-- _______________________________ Defines ______________________________ -->
+
+	<!--Enables backwards compatibility features for older mod versions. Can be commented out if you don't need to include mod backwards compatibility or mod compatibility at all.-->
+	<define name="BACKWARD_COMPATIBILITY" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 

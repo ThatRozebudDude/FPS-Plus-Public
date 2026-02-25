@@ -1,6 +1,5 @@
 package;
 
-import AtlasSprite.CharacterAtlasSprite;
 import characters.ScriptableCharacter;
 import flixel.system.FlxAssets.FlxShader;
 import flixel.util.FlxSignal;
@@ -421,7 +420,7 @@ class Character extends FlxSpriteGroup
 				character = new FlxSprite();
 				character.frames = Paths.getPackerAtlas(characterInfo.info.spritePath);
 			case atlas:
-				atlasCharacter = new CharacterAtlasSprite(0, 0, Paths.getTextureAtlas(characterInfo.info.spritePath));
+				atlasCharacter = new AtlasSprite(0, 0, Paths.getTextureAtlas(characterInfo.info.spritePath));
 				@:privateAccess
 				atlasCharacter.useRenderTexture = true #if BACKWARD_COMPATIBILITY && !atlasCharacter.isOld #end; //Turn on useRenderTexture on by default for characters (except for backwards compatibility).
 		}
@@ -906,7 +905,7 @@ class Character extends FlxSpriteGroup
 			return character.frameWidth;
 		}
 		else{ //Code for atlas characters
-			return atlasCharacter.getFrameWidth();
+			return atlasCharacter.frameWidth;
 		}
 	}
 
@@ -915,7 +914,7 @@ class Character extends FlxSpriteGroup
 			return character.frameHeight;
 		}
 		else{ //Code for atlas characters
-			return atlasCharacter.getFrameHeight();
+			return atlasCharacter.frameHeight;
 		}
 	}
 
