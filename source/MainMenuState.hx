@@ -62,7 +62,7 @@ class MainMenuState extends MusicBeatState
 	var versionText:FlxTextExt;
 	var buildInfoText:FlxTextExt;
 	var keyWarning:FlxTextExt;
-	var updateText:FlxTextExt;
+	#if UPDATE_CHECKING var updateText:FlxTextExt; #end
 	var canCancelWarning:Bool = true;
 	
 	var buttonModSourceText:FlxTextExt;
@@ -77,14 +77,18 @@ class MainMenuState extends MusicBeatState
 	inline public static final SHOW_BUILD_INFO:Bool = #if final false #else true #end;
 	
 	public static var buildDate:String = "";
+	#if UPDATE_CHECKING
 	public static var showUpdateButton:Int = 0;
 	public static var updateVersion:String = "";
+	#end
 
 	override function create(){
 
+		#if UPDATE_CHECKING
 		var c = UpdateCheck.check();
 		showUpdateButton = c.result;
 		updateVersion = c.version;
+		#end
 
 		Config.setFramerate(144);
 
@@ -157,6 +161,7 @@ class MainMenuState extends MusicBeatState
 		versionText.scrollFactor.set();
 		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 
+		#if UPDATE_CHECKING
 		updateText = new FlxTextExt(5, versionText.y - 16, 0, "", 16);
 		updateText.scrollFactor.set();
 		updateText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -167,6 +172,7 @@ class MainMenuState extends MusicBeatState
 		else if (showUpdateButton <= -1){
 			updateText.text = "Could not check for updates.";
 		}
+		#end
 
 		if(SHOW_BUILD_INFO){
 			versionText.text = "FPS Plus: v" + VERSION + " " + NONFINAL_TAG + " | Mod API: v" + PolymodHandler.API_VERSION_STRING;
@@ -181,7 +187,7 @@ class MainMenuState extends MusicBeatState
 		}
 
 		add(versionText);
-		add(updateText);
+		#if UPDATE_CHECKING add(updateText); #end
 
 		keyWarning = new FlxTextExt(5, FlxG.height - 21 + 16, 0, "If your controls aren't working, try pressing CTRL + BACKSPACE to reset them.", 16);
 		keyWarning.scrollFactor.set();
@@ -197,7 +203,7 @@ class MainMenuState extends MusicBeatState
 
 		FlxTween.tween(versionText, {y: versionText.y - 16}, 0.75, {ease: FlxEase.quintOut, startDelay: warningDelay});
 		FlxTween.tween(keyWarning, {alpha: 1, y: keyWarning.y - 16}, 0.75, {ease: FlxEase.quintOut, startDelay: warningDelay});
-		FlxTween.tween(updateText, {alpha: 1, y: updateText.y - 16}, 0.75, {ease: FlxEase.quintOut, startDelay: warningDelay});
+		#if UPDATE_CHECKING FlxTween.tween(updateText, {alpha: 1, y: updateText.y - 16}, 0.75, {ease: FlxEase.quintOut, startDelay: warningDelay}); #end
 
 		new FlxTimer().start(warningDelay, function(t){
 			canCancelWarning = false;
@@ -220,7 +226,7 @@ class MainMenuState extends MusicBeatState
 			canCancelWarning = false;
 			FlxTween.cancelTweensOf(versionText);
 			FlxTween.cancelTweensOf(keyWarning);
-			FlxTween.cancelTweensOf(updateText);
+			#if UPDATE_CHECKING FlxTween.cancelTweensOf(updateText); #end
 		}
 	
 		if (!selectedSomething){
@@ -273,12 +279,14 @@ class MainMenuState extends MusicBeatState
 	}
 
 	override function beatHit():Void{
+		#if UPDATE_CHECKING
 		if(showUpdateButton >= 1){
 			updateText.color = [0xFFFFFFFF, 0xFF98DFFC][curBeat % 2];
 		}
 		else if (showUpdateButton <= -1){
 			updateText.color = [0xFFFFFFFF, 0xFFFF8A8A][curBeat % 2];
 		}
+		#end
 	}
 
 	function changeItem(huh:Int = 0){
@@ -394,6 +402,7 @@ class MainMenuState extends MusicBeatState
 					FlxG.sound.music.fadeOut(0.3);
 				}
 
+			#if UPDATE_CHECKING
 			case "openGithubReleases":
 				UpdateCheck.openGithubReleases();
 				if(!button.transition.instant){
@@ -408,6 +417,7 @@ class MainMenuState extends MusicBeatState
 					playMenuMusic();
 				}
 				selectedSomething = false;
+			#end
 
 			default:
 				if(!button.transition.instant){
@@ -446,6 +456,7 @@ class MainMenuState extends MusicBeatState
 			return ((a.sort != null) ? a.sort : 0) - ((b.sort != null) ? b.sort : 0);
 		});
 
+		#if UPDATE_CHECKING
 		//Add update button to the end of the list.
 		if(showUpdateButton >= 1){
 			menuItemJsonData.push({
@@ -461,6 +472,7 @@ class MainMenuState extends MusicBeatState
 				sort: -1
 			});
 		}
+		#end
 	}
 }
 
@@ -507,6 +519,7 @@ class MainMenuButton extends FlxSprite
 
 }
 
+#if UPDATE_CHECKING
 class UpdateCheck
 {
 
@@ -519,7 +532,7 @@ class UpdateCheck
 
 		if(Config.checkForUpdates && !MainMenuState.SHOW_BUILD_INFO){ //Only check if the user wants to and you aren't running a dev build.
 			if(chachedResult == null){
-				var http = new Http("https://raw.githubusercontent.com/ThatRozebudDude/FPS-Plus-Public/master/latest");
+				var http = new Http("https://raw.githubusercontent.com/ThatRozebudDude/FPS-Plus-Update-Checking/main/latest");
 				http.onData = function(data:String) {
 					v = data.split("\n")[0].trim();
 					r = (MainMenuState.VERSION != v) ? 1 : 0;
@@ -559,3 +572,4 @@ class UpdateCheck
 	}
 
 }
+#end

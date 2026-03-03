@@ -203,7 +203,7 @@ class ScriptConfig
 	public static var autoPause(get, never):Bool;
 	public static var flashingLights(get, never):Bool;
 	public static var fullscreen(get, never):Bool;
-	public static var checkForUpdates(get, never):Bool;
+	#if UPDATE_CHECKING public static var checkForUpdates(get, never):Bool; #end
 	
 	public static function get_offset():Float { return Config.offset; }
 	public static function get_healthMultiplier():Float { return Config.healthMultiplier; }
@@ -228,7 +228,7 @@ class ScriptConfig
 	public static function get_autoPause():Bool { return Config.autoPause; }
 	public static function get_flashingLights():Bool { return Config.flashingLights; }
 	public static function get_fullscreen():Bool { return Config.fullscreen; }
-	public static function get_checkForUpdates():Bool { return Config.checkForUpdates; }
+	#if UPDATE_CHECKING public static function get_checkForUpdates():Bool { return Config.checkForUpdates; } #end
 
 	public static function setFramerate(cap:Int, ?useValueInsteadOfSave:Int = -1):Void { Config.setFramerate(cap, useValueInsteadOfSave); }
 

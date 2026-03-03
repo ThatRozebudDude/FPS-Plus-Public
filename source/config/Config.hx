@@ -43,7 +43,7 @@ class Config
 	@configParam("autoPause")				public static var autoPause:Bool = true;
 	@configParam("flashingLights")			public static var flashingLights:Bool = true;
 	@configParam("fullscreen")				public static var fullscreen:Bool = false;
-	@configParam("checkForUpdates")			public static var checkForUpdates:Bool = true;
+	#if UPDATE_CHECKING @configParam("checkForUpdates") public static var checkForUpdates:Bool = true; #end
 
 	@configParam("ee1")						public static var ee1:Bool = false;
 	@configParam("ee2")						public static var ee2:Bool = false;

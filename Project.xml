@@ -83,6 +83,9 @@
 	<!--Enables backwards compatibility features for older mod versions. Can be commented out if you don't need to include mod backwards compatibility or mod compatibility at all.-->
 	<define name="BACKWARD_COMPATIBILITY" />
 
+	<!--Enables update checking features. This will check if the version matches a file in the FPS Plus repo. Should be removed or altered if you're modding from source.-->
+	<define name="UPDATE_CHECKING" />
+
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
 	<!--Essentially, this forces the local .haxelib folder to act as "global" and is a solid fix for the hxvlc issue.-->
