@@ -241,7 +241,7 @@ class PlayState extends MusicBeatState
 	private var eventList:Array<Dynamic> = [];
 
 	public var comboUI:ComboPopup;
-	public static final minCombo:Int = 10;
+	public var minCombo:Int = 10;
 	public var comboUiGroup:FlxTypedGroup<ComboPopup>;
 
 	public var stage:BaseStage;
@@ -2179,10 +2179,10 @@ class PlayState extends MusicBeatState
 				comboBreak();
 		}
 
-		comboUI.ratingPopup(rating);
+		ratingPopup(rating);
 
 		if(combo >= minCombo)
-			comboUI.comboPopup(combo);
+			comboPopup(combo);
 
 	}
 
@@ -3078,10 +3078,22 @@ class PlayState extends MusicBeatState
 
 	}
 
+	public dynamic function ratingPopup(rating:String):Void{
+		comboUI.ratingPopup(rating);
+	}
+
+	public dynamic function comboPopup(number:Int):Void{
+		comboUI.comboPopup(number);
+	}
+
+	public dynamic function breakPopup():Void{
+		comboUI.breakPopup();
+	}
+	
 	function comboBreak():Void{
 		if (combo > minCombo){
 			gf.danceLockout = gf.playAnim("sad");
-			comboUI.breakPopup();
+			breakPopup();
 		}
 		if(combo > 0){ songStats.comboBreakCount++; }
 		combo = 0;

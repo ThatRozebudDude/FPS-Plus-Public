@@ -70,7 +70,7 @@ An example of a song list would be the following:
 }
 ```
 
-If you want to add a song to an already existing freeplay song list you need to `merge` the data into the `json`. Create a file called `songList-{listSuffix}.json` in `data/freeplay/songList/`. Inside the file you should add the following:
+If you want to add a song to an already existing freeplay song list you need to `merge` the data into the `json`. Create a file called `songList-{listSuffix}.json` in `data/freeplay/`. Inside the file you should add the following:
 
 ```json
 [
