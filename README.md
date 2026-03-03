@@ -52,3 +52,6 @@ Run `lime test PLATFORM` or `lime build PLATFORM` to compile the game.
 - [KadeDev](https://twitter.com/kade0912) - *Rest in Peace* (Engine not the guy lol)
 - [ShadowMario](https://twitter.com/Shadow_Mario_) - Showing support for FPS Plus on Twitter. (Also sometimes I adapt Psych code, *shhhh...*)
 - [Ethab Taxi](https://twitter.com/EthabTaxi) - He's just sorta chillin'.
+
+## Update Checking
+[Here's the repository that the game checks for updates.](https://github.com/ThatRozebudDude/FPS-Plus-Update-Checking)
