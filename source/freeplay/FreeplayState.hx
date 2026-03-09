@@ -1679,6 +1679,7 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 
+		#if BACKWARD_COMPATIBILITY
 		//Support deprecated format because I am very benevolent.
 		if(Utils.exists(Paths.text("songList-" + dj.listSuffix, "data/freeplay"))){
 			var deprecatedText:Array<String> = Utils.getTextInLines(Paths.text("songList-" + dj.listSuffix, "data/freeplay"));
@@ -1718,6 +1719,7 @@ class FreeplayState extends MusicBeatState
 				}
 			}
 		}
+		#end
 
 		for(cat in freeplayCategories){
 			createCategory(cat);
