@@ -1,4 +1,4 @@
-Generic scripts are classes that don't belong to a specific stage or character but can be added to specific songs to run or added globally to every song. You can use these do make things like UI elements that you want to add to your songs or more advanced mechanics that you want to use in multiple songs.
+Generic scripts are classes that don't belong to a specific stage or character but can be added to specific songs to run or added globally to every song. You can use these do make things like UI elements that you want to add to your songs or more advanced mechanics that you want to use in multiple songs. Scripts are executed in the order they are defined, specifically they use the scripts defined in the song's `scripts.json` in order followed by the global scripts in order. You can only load one instance of a script in a song.
 
 ## Creating the Class File
 
