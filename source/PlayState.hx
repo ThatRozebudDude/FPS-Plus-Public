@@ -52,7 +52,7 @@ import scripts.Script;
 import modding.PolymodHandler;
 import openfl.filters.ShaderFilter;
 import story.StoryMenuState;
-import Utils.OrderedMap;
+import data.OrderedMap;
 import thx.Path;
 
 using StringTools;
@@ -821,8 +821,8 @@ class PlayState extends MusicBeatState
 			preventScoreSaving = true;
 		}
 
-		for(script in scripts.values){ script.create(); }
-		for(script in scripts.values){ script.postCreate(); }
+		for(script in scripts){ script.create(); }
+		for(script in scripts){ script.postCreate(); }
 		
 		cutsceneCheck();
 
@@ -911,7 +911,7 @@ class PlayState extends MusicBeatState
 		var countdownSkinName:String = uiSkinNames.countdown;
 		var countdownSkin:CountdownSkinBase = new CountdownSkinBase(countdownSkinName);
 
-		for(script in scripts.values){ script.countdownBeat(-1); }
+		for(script in scripts){ script.countdownBeat(-1); }
 
 		if(boyfriend.characterInfo.info.functions.countdownBeat != null){
 			boyfriend.characterInfo.info.functions.countdownBeat(boyfriend, -1);
@@ -1033,7 +1033,7 @@ class PlayState extends MusicBeatState
 			}
 
 			if(swagCounter < 4){
-				for(script in scripts.values){ script.countdownBeat(swagCounter); }
+				for(script in scripts){ script.countdownBeat(swagCounter); }
 
 				if(boyfriend.characterInfo.info.functions.countdownBeat != null){
 					boyfriend.characterInfo.info.functions.countdownBeat(boyfriend, swagCounter);
@@ -1102,7 +1102,7 @@ class PlayState extends MusicBeatState
 		if(gf.characterInfo.info.functions.songStart != null){
 			gf.characterInfo.info.functions.songStart(gf);
 		}
-		for(script in scripts.values){ script.songStart(); }
+		for(script in scripts){ script.songStart(); }
 
 		countSteps = true;
 	}
@@ -1608,7 +1608,7 @@ class PlayState extends MusicBeatState
 		}
 
 		stage.updateTheUpdateGroup(elapsed);
-		for(script in scripts.values){ script.update(elapsed); }
+		for(script in scripts){ script.update(elapsed); }
 
 		if (Binds.justPressed("pause") && startedCountdown && canPause){
 			paused = true;
@@ -1967,7 +1967,7 @@ class PlayState extends MusicBeatState
 				if(dad.characterInfo.info.functions.noteHit != null){
 					dad.characterInfo.info.functions.noteHit(dad, daNote);
 				}
-				for(script in scripts.values){ script.noteHit(dad, daNote); }
+				for(script in scripts){ script.noteHit(dad, daNote); }
 					
 
 				if(!daNote.isSustainNote){
@@ -2008,7 +2008,7 @@ class PlayState extends MusicBeatState
 		if(gf.characterInfo.info.functions.songEnd != null){
 			gf.characterInfo.info.functions.songEnd(gf);
 		}
-		for(script in scripts.values){ script.songEnd(); }
+		for(script in scripts){ script.songEnd(); }
 
 		if(endCutscene != null){
 			add(endCutscene);
@@ -2504,7 +2504,7 @@ class PlayState extends MusicBeatState
 			if(boyfriend.characterInfo.info.functions.noteMiss != null){
 				boyfriend.characterInfo.info.functions.noteMiss(boyfriend, direction, countMiss);
 			}
-			for(script in scripts.values){ script.noteMiss(direction, countMiss); }
+			for(script in scripts){ script.noteMiss(direction, countMiss); }
 
 		}
 
@@ -2607,7 +2607,7 @@ class PlayState extends MusicBeatState
 			if(boyfriend.characterInfo.info.functions.noteHit != null){
 				boyfriend.characterInfo.info.functions.noteHit(boyfriend, note);
 			}
-			for(script in scripts.values){ script.noteHit(boyfriend, note); }
+			for(script in scripts){ script.noteHit(boyfriend, note); }
 
 			if(!note.isSustainNote){
 				note.destroy();
@@ -2656,7 +2656,7 @@ class PlayState extends MusicBeatState
 		dad.step(curStep);
 		gf.step(curStep);
 		notes.forEachAlive(function(note){ note.step(curStep); });
-		for(script in scripts.values){ script.step(curStep); }
+		for(script in scripts){ script.step(curStep); }
 
 		//trace("STEP: " + curStep);
 	}
@@ -2699,7 +2699,7 @@ class PlayState extends MusicBeatState
 		dad.beat(curBeat);
 		gf.beat(curBeat);
 		notes.forEachAlive(function(note){ note.beat(curBeat); });
-		for(script in scripts.values){ script.beat(curBeat); }
+		for(script in scripts){ script.beat(curBeat); }
 
 		managedSounds = managedSounds.filter(function(sound:FlxSound):Bool{
 			return sound != null;
@@ -3161,7 +3161,7 @@ class PlayState extends MusicBeatState
 	}
 
 	function preStateChange():Void{
-		for(script in scripts.values){ script.exit(); }
+		for(script in scripts){ script.exit(); }
 		Conductor.resetBPMChanges();
 		fromChartEditor = false;
 		fceForLilBuddies = false;
