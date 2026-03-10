@@ -426,5 +426,9 @@ class OrderedMap<K, V>{
 			values.remove(values[index]);
 		}
 	}
+	
+	public function exists(key:K):Bool{
+		return keys.contains(key);
+	}
 
 }

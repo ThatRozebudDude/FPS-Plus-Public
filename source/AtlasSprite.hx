@@ -1,7 +1,6 @@
 package;
 
 import flixel.util.FlxSort;
-import Utils.OrderedMap;
 import animate.internal.elements.SymbolInstance;
 import animate.internal.elements.Element;
 import animate.FlxAnimateAssets;

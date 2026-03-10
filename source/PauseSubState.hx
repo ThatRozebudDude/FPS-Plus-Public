@@ -120,7 +120,7 @@ class PauseSubState extends MusicBeatSubState
 
 		FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
 
-		for(script in PlayState.instance.scripts){ script.pause(); }
+		for(script in PlayState.instance.scripts.values){ script.pause(); }
 
 		super.create();
 
@@ -218,7 +218,7 @@ class PauseSubState extends MusicBeatSubState
 			}
 		}
 
-		for(script in PlayState.instance.scripts){ script.pauseUpdate(elapsed); }
+		for(script in PlayState.instance.scripts.values){ script.pauseUpdate(elapsed); }
 
 		//This is to work around a flixel issue that makes the controller input state reset on state/sub-state change. idk why it happens
 		if(!allowControllerPress && Binds.justReleasedControllerOnly("pause")){
@@ -229,7 +229,7 @@ class PauseSubState extends MusicBeatSubState
 	function unpause(){
 		Config.setFramerate(999);
 		FlxG.cameras.remove(camPause, true);
-		for(script in PlayState.instance.scripts){ script.unpause(); }
+		for(script in PlayState.instance.scripts.values){ script.unpause(); }
 		close();
 	}
 
