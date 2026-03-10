@@ -800,10 +800,14 @@ class PlayState extends MusicBeatState
 
 		//trace(scriptList);
 
+		//Store the name's separately so that they can load in a predictable order.
+		var scriptNames:Array<String> = ["___STAGE_SCRIPT___"];
+
 		for(script in scriptList){
 			if(ScriptableScript.listScriptClasses().contains(script)){
 				var scriptToAdd:Script = ScriptableScript.scriptInit(script);
 				scripts.set(script, scriptToAdd);
+				scriptNames.push(script);
 			}
 		}
 
@@ -820,8 +824,8 @@ class PlayState extends MusicBeatState
 		
 		scripts.set("___STAGE_SCRIPT___", stage);
 
-		for(script in scripts){ script.create(); }
-		for(script in scripts){ script.postCreate(); }
+		for(script in scriptNames){ scripts.get(script).create(); }
+		for(script in scriptNames){ scripts.get(script).postCreate(); }
 		
 		cutsceneCheck();
 
