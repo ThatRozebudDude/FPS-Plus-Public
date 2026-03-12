@@ -7,7 +7,7 @@ art/ignore
 
 # Ignore IDE and library stuff
 .haxelib/
-.vscode/
+.vscode/tasks.json
 art/scripts/__pycache__
 art/moddingDocs
 dump/
