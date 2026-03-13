@@ -1,5 +1,6 @@
 package;
 
+import lime.app.Application;
 import flixel.system.debug.log.LogStyle;
 import extensions.openfl.display.FPSExt;
 import modding.PolymodHandler;
@@ -43,7 +44,7 @@ class Main extends Sprite
 		fpsDisplay = new FPSExt(3, 3, 0xFFFFFF);
 		fpsDisplay.visible = true;
 
-		addChild(new FlxGame(0, 0, Startup, 60, 60, true));
+		addChild(new FlxGame(Application.current.window.width, Application.current.window.height, Startup, 60, 60, true));
 		addChild(fpsDisplay);
 
 		//On web builds, video tends to lag quite a bit, so this just helps it run a bit faster.
