@@ -16,7 +16,7 @@
 	<compilerflag name="--macro" value="include('transition', true)" />
 
 	<!--Allows all of Flixel to be used by scripts at runtime instead of only what was imported in the code.-->
-	<compilerflag name="--macro" value="include('flixel', true, [ 'flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.system.macros.*' ])" />
+	<compilerflag name="--macro" value="include('flixel', true, [ 'flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.system.macros.*', 'flixel.addons.tile.FlxRayCastTilemap' ])" />
 	
 	<!--Remove all debug test states unless compiling in debug mode since they aren't needed for release builds.-->
 	<compilerflag name="--macro" value="exclude('debug', true)" unless="debug"/>
