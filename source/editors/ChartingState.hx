@@ -33,12 +33,11 @@ import Song.SwagSong;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
-import flixel.addons.ui.FlxInputText;
+import flixel.text.FlxInputText;
 import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIDropDownMenu;
-import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
 import flixel.addons.ui.FlxUITooltip;
@@ -133,17 +132,17 @@ class ChartingState extends MusicBeatState
 	var _song:SwagSong;
 	var _events:SongEvents;
 
-	var typingShit:FlxUIInputText;
-	var noteType:FlxUIInputText;
+	var typingShit:FlxInputText;
+	var noteType:FlxInputText;
 	var noteTypeDrop:FlxUIDropDownMenuScrollable;
 	var noteTypesArray:Array<String> = [""];
 	var noteTypeGroupsDrop:FlxUIDropDownMenuScrollable;
 	var noteTypeGroupsArray:Array<String> = ["All Note Types"];
 
-	var textBoxArray:Array<FlxUIInputText> = [];
+	var textBoxArray:Array<FlxInputText> = [];
 	var anyTextHasFocus:Bool = false;
 
-	var eventTagName:FlxUIInputText;
+	var eventTagName:FlxInputText;
 	var eventTagDrop:FlxUIDropDownMenuScrollable;
 	var eventTagPrefixDrop:FlxUIDropDownMenuScrollable;
 	var eventDescription:FlxUIText;
@@ -414,7 +413,7 @@ class ChartingState extends MusicBeatState
 
 	function addSongUI():Void{
 
-		typingShit = new FlxUIInputText(10, 10, 70, _song.song, 8);
+		typingShit = new FlxInputText(10, 10, 70, _song.song, 8);
 		textBoxArray.push(typingShit);
 
 		var saveButton:FlxButton = new FlxButton(110, 8, "Save", function(){
@@ -720,7 +719,7 @@ class ChartingState extends MusicBeatState
 		tab_group_note = new FlxUI(null, UI_box);
 		tab_group_note.name = 'Note';
 
-		noteType = new FlxUIInputText(10, 30, 160, "", 8);
+		noteType = new FlxInputText(10, 30, 160, "", 8);
 		textBoxArray.push(noteType);
 
 		var noteTagText = new FlxUIText(10, noteType.y - 20, 0, "Note Tag");
@@ -757,7 +756,7 @@ class ChartingState extends MusicBeatState
 
 	function addEventUI():Void{
 
-		eventTagName = new FlxUIInputText(10, 70, 160, "", 8);
+		eventTagName = new FlxInputText(10, 70, 160, "", 8);
 		textBoxArray.push(eventTagName);
 
 		eventTagDrop = new FlxUIDropDownMenuScrollable(10, 110, FlxUIDropDownMenu.makeStrIdLabelArray(eventTagList, true), function(tag:String){

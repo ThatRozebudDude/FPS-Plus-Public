@@ -105,7 +105,7 @@ class ConfigMenu extends FlxUIStateExt
 	var glowValue:Bool;
 	var randomTapValue:Int;
 	final randomTapTypes:Array<String> = ["never", "not singing", "always"];
-	final allowedFramerates:Array<Int> = [60, 120, 144, 240, 999];
+	final allowedFramerates:Array<Int> = [60, 120, 144, 240, 360, 480, 999];
 	var framerateValue:Int;
 	var dimValue:Int;
 	var noteSplashValue:Int;
