@@ -121,7 +121,7 @@ class CharacterAnimationEvents extends Events
 			case "bf":
 				if (boyfriend.charClass == args[1]){ return; }
 
-				var newCharacter = new Character(boyfriend.x - boyfriend.repositionPoint.x, boyfriend.y - boyfriend.repositionPoint.y, args[1], true);
+				var newCharacter = new Character(boyfriend.x, boyfriend.y, args[1], true);
 				playstate.iconP1.setIconCharacter(newCharacter.iconName);
 
 				if((playstate.stage.useStartPoints && !playstate.stage.overrideBfStartPoints) || (!playstate.stage.useStartPoints && playstate.stage.overrideBfStartPoints)){
@@ -139,14 +139,10 @@ class CharacterAnimationEvents extends Events
 				playstate.characterLayer.replace(playstate.boyfriend, newCharacter);
 				playstate.boyfriend = newCharacter;
 
-				if(boyfriend.characterInfo.info.functions.add != null){
-					boyfriend.characterInfo.info.functions.add(boyfriend);
-				}
-
 			case "dad":
 				if (dad.charClass == args[1]){ return; }
 
-				var newCharacter = new Character(dad.x - dad.repositionPoint.x, dad.y - dad.repositionPoint.y, args[1]);
+				var newCharacter = new Character(dad.x, dad.y, args[1]);
 				playstate.iconP2.setIconCharacter(newCharacter.iconName);
 
 				if((playstate.stage.useStartPoints && !playstate.stage.overrideDadStartPoints) || (!playstate.stage.useStartPoints && playstate.stage.overrideDadStartPoints)){
@@ -164,14 +160,10 @@ class CharacterAnimationEvents extends Events
 				playstate.characterLayer.replace(playstate.dad, newCharacter);
 				playstate.dad = newCharacter;
 
-				if(dad.characterInfo.info.functions.add != null){
-					dad.characterInfo.info.functions.add(dad);
-				}
-
 			case "gf":
 				if (gf.charClass == args[1]){ return; }
 
-				var newCharacter = new Character(gf.x - gf.repositionPoint.x, gf.y - gf.repositionPoint.y, args[1], false, true);
+				var newCharacter = new Character(gf.x, gf.y, args[1], false, true);
 
 				if((playstate.stage.useStartPoints && !playstate.stage.overrideGfStartPoints) || (!playstate.stage.useStartPoints && playstate.stage.overrideGfStartPoints)){
 					newCharacter.setPosition(playstate.stage.gfStart.x - ((newCharacter.getFrameWidth() * newCharacter.getScale().x)/2), playstate.stage.gfStart.y - (newCharacter.getFrameHeight() * newCharacter.getScale().y));
@@ -187,10 +179,6 @@ class CharacterAnimationEvents extends Events
 
 				playstate.gfLayer.replace(playstate.gf, newCharacter);
 				playstate.gf = newCharacter;
-
-				if(gf.characterInfo.info.functions.add != null){
-					gf.characterInfo.info.functions.add(gf);
-				}
 		}
 
 		playstate.healthBar.createFilledBar(dad.characterColor, boyfriend.characterColor);
