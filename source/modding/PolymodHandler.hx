@@ -1,5 +1,6 @@
 package modding;
 
+import config.CacheReload;
 import transition.CustomTransition;
 import transition.data.InstantTransition;
 import openfl.Assets;
@@ -36,9 +37,7 @@ class PolymodHandler
 
 	public static function init():Void{
 		buildImports();
-
 		reInit();
-
 		//scriptableClassCheck();
 	}
 
@@ -69,6 +68,9 @@ class PolymodHandler
 		Polymod.clearCache();
 
 		reloadScripts();
+
+		Utils.clearCachedAssetList();
+		CacheReload.buildPreloadList();
 	}
 
 	public static function buildModDirectories():Void{

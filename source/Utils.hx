@@ -191,15 +191,20 @@ class Utils
 		return files;
 	}
 
-	public static inline function listEveryFileInFolder(folder:String, postfix:String){
+	private static var cachedAssetsList:Array<String>;
+	public static inline function listEveryFileInFolder(folder:String, postfix:String):Array<String>{
 		var last:Array<String> = [];
-		var assets = Assets.list();
-		for (file in assets){
+		if(cachedAssetsList == null){ cachedAssetsList = Assets.list(); }
+		for (file in cachedAssetsList){
 			if (file.startsWith('assets/$folder/') && file.endsWith(postfix)){
 				last.push(file.split('assets/$folder/')[1]);
 			}
 		}
 		return last;
+	}
+
+	public static inline function clearCachedAssetList():Void{
+		cachedAssetsList = null;
 	}
 
 	//Removes duplicate items from an array. Can additionally supply extra arrays to check from.

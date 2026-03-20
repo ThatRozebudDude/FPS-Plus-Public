@@ -117,8 +117,6 @@ class Startup extends FlxUIStateExt
 		splash.animationEndCallback = splashAnimEnd;
 		add(splash);
 
-		CacheReload.buildPreloadList();
-
 		loadTotal = (!charactersCached ? CacheReload.characterPreloadList.length : 0) + (!graphicsCached ? CacheReload.graphicsPreloadList.length : 0);
 
 		if(loadTotal > 0){
