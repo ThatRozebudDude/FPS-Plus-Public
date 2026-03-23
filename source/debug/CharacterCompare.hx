@@ -30,8 +30,13 @@ class CharacterCompare extends FlxState
 	var offsetDiff:FlxPoint = new FlxPoint();
 
 	final DO_REPOSITION:Bool = false;
+
+	var topCharClass:String;
+	var bottomCharClass:String;
 	
-	public function new() {
+	public function new(_topCharClass:String, _bottomCharClass:String) {
+		topCharClass = _topCharClass;
+		bottomCharClass = _bottomCharClass;
 		super();
 	}
 
@@ -41,8 +46,8 @@ class CharacterCompare extends FlxState
 		gridBG.scrollFactor.set(0.5, 0.5);
 		gridBG.screenCenter(XY);
 
-		topCharacter = new Character(300, 300, "PicoHoldingNeneDead", true);
-		bottomCharacter = new Character(300, 300, "PicoHoldingNene", true);
+		topCharacter = new Character(300, 300, topCharClass, true);
+		bottomCharacter = new Character(300, 300, bottomCharClass, true);
 
 		if(DO_REPOSITION){
 			topCharacter.setPosition(topCharacter.x - ((topCharacter.getFrameWidth() * topCharacter.getScale().x)/2), topCharacter.y - (topCharacter.getFrameHeight() * topCharacter.getScale().y));
