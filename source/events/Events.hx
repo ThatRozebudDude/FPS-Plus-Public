@@ -193,5 +193,13 @@ class Events
 		return (v.toLowerCase() == "true");
 	}
 
+	public static inline function parseInt(v:String):Int{
+		return Std.parseInt(v);
+	}
+
+	public static inline function parseFloat(v:String):Float{
+		return Std.parseFloat(v);
+	}
+
 	public function toString():String{ return "Events"; }
 }

@@ -67,10 +67,10 @@ class HudEvents extends Events
 		var time = Events.eventConvertTime(args[1]);
 
 		if(time > 0){
-			tween.tween(playstate, {scrollSpeedMultiplier: Std.parseFloat(args[0])}, time, {ease: Events.easeNameToEase(args[3])});
+			tween.tween(playstate, {scrollSpeedMultiplier: Events.parseFloat(args[0])}, time, {ease: Events.easeNameToEase(args[3])});
 		}
 		else{
-			playstate.scrollSpeedMultiplier = Std.parseFloat(args[0]);
+			playstate.scrollSpeedMultiplier = Events.parseFloat(args[0]);
 		}
 	}
 	

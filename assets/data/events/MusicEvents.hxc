@@ -65,7 +65,7 @@ class MusicEvents extends Events
 
 	function playSound(tag:String):Void{
 		var args = Events.getArgs(tag, ["", "1"]);
-		playstate.playSound(Paths.sound(args[0]), Std.parseFloat(args[1]));
+		playstate.playSound(Paths.sound(args[0]), Events.parseFloat(args[1]));
 	}
 
 
