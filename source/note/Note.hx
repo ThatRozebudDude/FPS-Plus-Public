@@ -13,13 +13,14 @@ class Note extends FlxSprite
 	public var strumTime:Float = 0;
 
 	public var mustPress:Bool = false;
-	public var noteData:Int = 0;
+	public var direction:Int = 0;
 	public var canBeHit:Bool = false;
 	public var inRange:Bool = false;
 	public var tooLate:Bool = false;
 	public var wasGoodHit:Bool = false;
 	public var prevNote:Note;
 	public var type:String = "";
+	public var typePrefix:String = "";
 
 	public var didTooLateAction:Bool = false;
 
@@ -40,7 +41,7 @@ class Note extends FlxSprite
 	public var yOffset:Float = 0;
 
 	public var hitCallback:(Note, Character)->Void = null;
-	public var missCallback:(Int, Character)->Void = null;
+	public var missCallback:Dynamic = null;
 
 	var noteSkin:NoteSkinBase;
 	public var canGlow:Bool;
@@ -56,15 +57,18 @@ class Note extends FlxSprite
 	inline public static final BLUE_NOTE:Int = 1;
 	inline public static final RED_NOTE:Int = 3;
 
-	public function new(_strumTime:Float, _noteData:Int, _type:String, ?_editor = false, ?_prevNote:Note, ?_sustainNote:Bool = false){
+	public function new(_strumTime:Float, _direction:Int, _type:String, ?_editor = false, ?_prevNote:Note, ?_sustainNote:Bool = false){
 		
 		super();
 
-		if (_type != null)
+		if(_type != null){
 			type = _type;
+			typePrefix = type.split(";")[0];
+		}
 
-		if (_prevNote == null)
+		if(_prevNote == null){
 			_prevNote = this;
+		}
 
 		prevNote = _prevNote;
 		isSustainNote = _sustainNote;
@@ -84,12 +88,12 @@ class Note extends FlxSprite
 			strumTime = _strumTime;
 		}
 
-		noteData = _noteData;
+		direction = _direction;
 
 		var noteSkinClassName:String = PlayState.uiSkinNames.note;
 
-		if(NoteType.typeSkins.exists(type)){
-			noteSkinClassName = NoteType.typeSkins.get(type);
+		if(NoteType.typeSkins.exists(typePrefix)){
+			noteSkinClassName = NoteType.typeSkins.get(typePrefix);
 		}
 
 		if(!ScriptableNoteSkin.listScriptClasses().contains(noteSkinClassName)){ noteSkinClassName = "DefaultNoteSkin"; }
@@ -107,9 +111,9 @@ class Note extends FlxSprite
 		var paths = defaultPaths;
 		var frameLoadType = defaultLoadType;
 		if(!isSustainNote){
-			if(noteSkin.info.noteInfoList[noteData].pathOverride != null){ path = noteSkin.info.noteInfoList[noteData].pathOverride; }
-			if(noteSkin.info.noteInfoList[noteData].pathsOverride != null){ paths = noteSkin.info.noteInfoList[noteData].pathsOverride; }
-			if(noteSkin.info.noteInfoList[noteData].frameLoadTypeOverride != null){ frameLoadType = noteSkin.info.noteInfoList[noteData].frameLoadTypeOverride; }
+			if(noteSkin.info.noteInfoList[direction].pathOverride != null){ path = noteSkin.info.noteInfoList[direction].pathOverride; }
+			if(noteSkin.info.noteInfoList[direction].pathsOverride != null){ paths = noteSkin.info.noteInfoList[direction].pathsOverride; }
+			if(noteSkin.info.noteInfoList[direction].frameLoadTypeOverride != null){ frameLoadType = noteSkin.info.noteInfoList[direction].frameLoadTypeOverride; }
 			switch(frameLoadType){
 				case sparrow:
 					frames = Paths.getSparrowAtlas(path);
@@ -122,25 +126,25 @@ class Note extends FlxSprite
 				default:
 					trace("not supported, sorry :[");
 			}
-			switch(noteSkin.info.noteInfoList[noteData].scrollAnim.type){
+			switch(noteSkin.info.noteInfoList[direction].scrollAnim.type){
 				case prefix:
-					animation.addByPrefix("scroll", noteSkin.info.noteInfoList[noteData].scrollAnim.data.prefix, noteSkin.info.noteInfoList[noteData].scrollAnim.data.framerate, true, noteSkin.info.noteInfoList[noteData].scrollAnim.data.flipX, noteSkin.info.noteInfoList[noteData].scrollAnim.data.flipY);
+					animation.addByPrefix("scroll", noteSkin.info.noteInfoList[direction].scrollAnim.data.prefix, noteSkin.info.noteInfoList[direction].scrollAnim.data.framerate, true, noteSkin.info.noteInfoList[direction].scrollAnim.data.flipX, noteSkin.info.noteInfoList[direction].scrollAnim.data.flipY);
 				case frame:
-					animation.add("scroll", noteSkin.info.noteInfoList[noteData].scrollAnim.data.frames, noteSkin.info.noteInfoList[noteData].scrollAnim.data.framerate, true, noteSkin.info.noteInfoList[noteData].scrollAnim.data.flipX, noteSkin.info.noteInfoList[noteData].scrollAnim.data.flipY);
+					animation.add("scroll", noteSkin.info.noteInfoList[direction].scrollAnim.data.frames, noteSkin.info.noteInfoList[direction].scrollAnim.data.framerate, true, noteSkin.info.noteInfoList[direction].scrollAnim.data.flipX, noteSkin.info.noteInfoList[direction].scrollAnim.data.flipY);
 			}
 			if(canGlow){
-				switch(noteSkin.info.noteInfoList[noteData].glowAnim.type){
+				switch(noteSkin.info.noteInfoList[direction].glowAnim.type){
 					case prefix:
-						animation.addByPrefix("glow", noteSkin.info.noteInfoList[noteData].glowAnim.data.prefix, noteSkin.info.noteInfoList[noteData].glowAnim.data.framerate, true, noteSkin.info.noteInfoList[noteData].glowAnim.data.flipX, noteSkin.info.noteInfoList[noteData].glowAnim.data.flipY);
+						animation.addByPrefix("glow", noteSkin.info.noteInfoList[direction].glowAnim.data.prefix, noteSkin.info.noteInfoList[direction].glowAnim.data.framerate, true, noteSkin.info.noteInfoList[direction].glowAnim.data.flipX, noteSkin.info.noteInfoList[direction].glowAnim.data.flipY);
 					case frame:
-						animation.add("glow", noteSkin.info.noteInfoList[noteData].glowAnim.data.frames, noteSkin.info.noteInfoList[noteData].glowAnim.data.framerate, true, noteSkin.info.noteInfoList[noteData].glowAnim.data.flipX, noteSkin.info.noteInfoList[noteData].glowAnim.data.flipY);
+						animation.add("glow", noteSkin.info.noteInfoList[direction].glowAnim.data.frames, noteSkin.info.noteInfoList[direction].glowAnim.data.framerate, true, noteSkin.info.noteInfoList[direction].glowAnim.data.flipX, noteSkin.info.noteInfoList[direction].glowAnim.data.flipY);
 				}
 			}
 		}
 		else{
-			if(noteSkin.info.sustainInfoList[noteData].pathOverride != null){ path = noteSkin.info.sustainInfoList[noteData].pathOverride; }
-			if(noteSkin.info.sustainInfoList[noteData].pathsOverride != null){ paths = noteSkin.info.sustainInfoList[noteData].pathsOverride; }
-			if(noteSkin.info.sustainInfoList[noteData].frameLoadTypeOverride != null){ frameLoadType = noteSkin.info.sustainInfoList[noteData].frameLoadTypeOverride; }
+			if(noteSkin.info.sustainInfoList[direction].pathOverride != null){ path = noteSkin.info.sustainInfoList[direction].pathOverride; }
+			if(noteSkin.info.sustainInfoList[direction].pathsOverride != null){ paths = noteSkin.info.sustainInfoList[direction].pathsOverride; }
+			if(noteSkin.info.sustainInfoList[direction].frameLoadTypeOverride != null){ frameLoadType = noteSkin.info.sustainInfoList[direction].frameLoadTypeOverride; }
 			switch(frameLoadType){
 				case sparrow:
 					frames = Paths.getSparrowAtlas(path);
@@ -153,17 +157,17 @@ class Note extends FlxSprite
 				default:
 					trace("not supported, sorry :[");
 			}
-			switch(noteSkin.info.sustainInfoList[noteData].holdAnim.type){
+			switch(noteSkin.info.sustainInfoList[direction].holdAnim.type){
 				case prefix:
-					animation.addByPrefix("hold", noteSkin.info.sustainInfoList[noteData].holdAnim.data.prefix, noteSkin.info.sustainInfoList[noteData].holdAnim.data.framerate, true, noteSkin.info.sustainInfoList[noteData].holdAnim.data.flipX, noteSkin.info.sustainInfoList[noteData].holdAnim.data.flipY);
+					animation.addByPrefix("hold", noteSkin.info.sustainInfoList[direction].holdAnim.data.prefix, noteSkin.info.sustainInfoList[direction].holdAnim.data.framerate, true, noteSkin.info.sustainInfoList[direction].holdAnim.data.flipX, noteSkin.info.sustainInfoList[direction].holdAnim.data.flipY);
 				case frame:
-					animation.add("hold", noteSkin.info.sustainInfoList[noteData].holdAnim.data.frames, noteSkin.info.sustainInfoList[noteData].holdAnim.data.framerate, true, noteSkin.info.sustainInfoList[noteData].holdAnim.data.flipX, noteSkin.info.sustainInfoList[noteData].holdAnim.data.flipY);
+					animation.add("hold", noteSkin.info.sustainInfoList[direction].holdAnim.data.frames, noteSkin.info.sustainInfoList[direction].holdAnim.data.framerate, true, noteSkin.info.sustainInfoList[direction].holdAnim.data.flipX, noteSkin.info.sustainInfoList[direction].holdAnim.data.flipY);
 			}
-			switch(noteSkin.info.sustainInfoList[noteData].endAnim.type){
+			switch(noteSkin.info.sustainInfoList[direction].endAnim.type){
 				case prefix:
-					animation.addByPrefix("holdEnd", noteSkin.info.sustainInfoList[noteData].endAnim.data.prefix, noteSkin.info.sustainInfoList[noteData].endAnim.data.framerate, true, noteSkin.info.sustainInfoList[noteData].endAnim.data.flipX, noteSkin.info.sustainInfoList[noteData].endAnim.data.flipY);
+					animation.addByPrefix("holdEnd", noteSkin.info.sustainInfoList[direction].endAnim.data.prefix, noteSkin.info.sustainInfoList[direction].endAnim.data.framerate, true, noteSkin.info.sustainInfoList[direction].endAnim.data.flipX, noteSkin.info.sustainInfoList[direction].endAnim.data.flipY);
 				case frame:
-					animation.add("holdEnd", noteSkin.info.sustainInfoList[noteData].endAnim.data.frames, noteSkin.info.sustainInfoList[noteData].endAnim.data.framerate, true, noteSkin.info.sustainInfoList[noteData].endAnim.data.flipX, noteSkin.info.sustainInfoList[noteData].endAnim.data.flipY);
+					animation.add("holdEnd", noteSkin.info.sustainInfoList[direction].endAnim.data.frames, noteSkin.info.sustainInfoList[direction].endAnim.data.framerate, true, noteSkin.info.sustainInfoList[direction].endAnim.data.flipX, noteSkin.info.sustainInfoList[direction].endAnim.data.flipY);
 			}
 		}
 

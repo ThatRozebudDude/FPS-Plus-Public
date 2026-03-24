@@ -5,74 +5,156 @@ class PlayAnimNotes extends NoteType
 {
 
 	override function defineTypes():Void{
+		addNoteType("playAnim", playAnimHit, playAnimMiss);
+		addSustainType("playAnim", playAnimHit, playAnimMiss);
 
-		//Boyfriend Anims
+
+		
 		addNoteType("hey", heyHit, null);
+		addSustainType("hey", noSustainAnimation, null);
+		
+		addNoteType("week-2-cheer", cheerHit, null);
+		addSustainType("week-2-cheer", noSustainAnimation, null);
 
-		//Tankman Anims
+
+
 		addNoteType("ugh", ughHit, null);
-		addNoteType("argh", arghHit, null);
+		addSustainType("ugh", noSustainAnimation, null);
 
-		//Playable Pico Anims
+		addNoteType("argh", arghHit, null);
+		addSustainType("argh", noSustainAnimation, null);
+
+
+		
 		addNoteType("shit", shitHit, null);
+		addSustainType("shit", noSustainAnimation, null);
+		
 		addNoteType("shit-censor", shitCensorHit, null);
+		addSustainType("shit-censor", noSustainAnimation, null);
+
 		addNoteType("burp", burpHit, null);
+		addSustainType("burp", noSustainAnimation, null);
+
 		addNoteType("burpBig", burpBigHit, null);
+		addSustainType("burpBig", noSustainAnimation, null);
+	}
+
+
+
+	function playAnimHit(note:Note, character:Character){
+		var args = Events.getArgs(note.type, ["", "", "true"]);
+		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
+			if(args[0] != ""){ character.singAnim(args[0], true); }
+			else{ playstate.defaultNoteHit(note, character); }
+		}
+		if(Events.parseBool(args[2])){
+			playstate.getExtraCamMovement(note);
+		}
+	}
+
+	function playAnimMiss(note:Note, character:Character){
+		var args = Events.getArgs(note.type, ["", "", "true"]);
+		if(character.canAutoAnim){
+			if(args[1] != ""){ character.singAnim(args[1], true); }
+			else{ playstate.defaultNoteMiss(note, character); }
+		}
+		if(Events.parseBool(args[2])){
+			playstate.getExtraCamMovement(note);
+		}
+	}
+
+
+
+	function noSustainAnimation(note:Note, character:Character){
+		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
+			character.holdTimer = 0;
+		}
 	}
 
 
 
 	function heyHit(note:Note, character:Character){
+		var args = Events.getArgs(note.type, ["true"]);
 		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 			character.singAnim("hey", true);
 		}
-		playstate.getExtraCamMovement(note);
+		if(Events.parseBool(args[0])){
+			playstate.getExtraCamMovement(note);
+		}
+	}
+
+	function cheerHit(note:Note, character:Character){
+		var args = Events.getArgs(note.type, ["true"]);
+		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
+			character.singAnim("cheer", true);
+		}
+		if(Events.parseBool(args[0])){
+			playstate.getExtraCamMovement(note);
+		}
 	}
 
 
 
 	function ughHit(note:Note, character:Character){
+		var args = Events.getArgs(note.type, ["true"]);
 		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 			character.singAnim("ugh", true);
 		}
-		playstate.getExtraCamMovement(note);
+		if(Events.parseBool(args[0])){
+			playstate.getExtraCamMovement(note);
+		}
 	}
 	
 	function arghHit(note:Note, character:Character){
+		var args = Events.getArgs(note.type, ["true"]);
 		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 			character.singAnim("argh", true);
 		}
-		playstate.getExtraCamMovement(note);
+		if(Events.parseBool(args[0])){
+			playstate.getExtraCamMovement(note);
+		}
 	}
 
 
 
 	function shitHit(note:Note, character:Character){
+		var args = Events.getArgs(note.type, ["true"]);
 		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 			character.singAnim("shit", true);
 		}
-		playstate.getExtraCamMovement(note);
+		if(Events.parseBool(args[0])){
+			playstate.getExtraCamMovement(note);
+		}
 	}
 
 	function shitCensorHit(note:Note, character:Character){
+		var args = Events.getArgs(note.type, ["true"]);
 		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 			character.singAnim("shit-censor", true);
 		}
-		playstate.getExtraCamMovement(note);
+		if(Events.parseBool(args[0])){
+			playstate.getExtraCamMovement(note);
+		}
 	}
 
 	function burpHit(note:Note, character:Character){
+		var args = Events.getArgs(note.type, ["true"]);
 		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 			character.singAnim("burp", true);
 		}
-		playstate.getExtraCamMovement(note);
+		if(Events.parseBool(args[0])){
+			playstate.getExtraCamMovement(note);
+		}
 	}
 
 	function burpBigHit(note:Note, character:Character){
+		var args = Events.getArgs(note.type, ["true"]);
 		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 			character.singAnim("burpBig", true);
 		}
-		playstate.getExtraCamMovement(note);
+		if(Events.parseBool(args[0])){
+			playstate.getExtraCamMovement(note);
+		}
 	}
 
 }

@@ -12,32 +12,32 @@ class DarnellNotes extends NoteType
 		addNoteType("weekend-1-firegun", firegunHit, firegunMiss);
 	}
 
-	function lightcanHit (note:Note, character:Character){
+	function lightcanHit(note:Note, character:Character){
 		if(character.canAutoAnim){
-			character.playAnim('lightCan', true);
+			character.playAnim("lightCan", true);
 		}
 		playstate.playSound(Paths.sound("weekend1/Darnell_Lighter"));
 	}
 
-	function kickcanHit (note:Note, character:Character){
+	function kickcanHit(note:Note, character:Character){
 		if(character.canAutoAnim){
-			character.playAnim('kickUp', true);
+			character.playAnim("kickUp", true);
 		}
 		playstate.playSound(Paths.sound("weekend1/Kick_Can_UP"));
 		playstate.executeEvent("phillyStreets-canKick");
 	}
 
-	function kneecanHit (note:Note, character:Character){
+	function kneecanHit(note:Note, character:Character){
 		if(character.canAutoAnim){
-			character.playAnim('kneeForward', true);
+			character.playAnim("kneeForward", true);
 		}
 		playstate.playSound(Paths.sound("weekend1/Kick_Can_FORWARD"));
 		playstate.executeEvent("phillyStreets-canKickForward");
 	}
 
-	function cockgunHit (note:Note, character:Character){
+	function cockgunHit(note:Note, character:Character){
 		if(character.canAutoAnim){
-			character.playAnim('reload', true);
+			character.playAnim("reload", true);
 		}
 		playstate.getExtraCamMovement(note);
 		playstate.playSound(Paths.sound("weekend1/Gun_Prep"));
@@ -45,9 +45,9 @@ class DarnellNotes extends NoteType
 		playstate.executeEvent("phillyStreets-createBullet");
 	}
 
-	function firegunHit (note:Note, character:Character){
+	function firegunHit(note:Note, character:Character){
 		if(character.canAutoAnim){
-			character.playAnim('shoot', true);
+			character.playAnim("shoot", true);
 		}
 		character.danceLockout = true;
 		playstate.getExtraCamMovement(note);
@@ -58,9 +58,9 @@ class DarnellNotes extends NoteType
 		playstate.camChangeZoom(0.85, (Conductor.crochet/1000) * 2, FlxEase.expoOut);
 	}
 
-	function firegunMiss (direction:Int, character:Character){
+	function firegunMiss(note:Note, character:Character){
 		if(character.canAutoAnim){
-			boyfriend.danceLockout = character.playAnim('hit', true);
+			boyfriend.danceLockout = character.playAnim("hit", true);
 		}
 		playstate.playSound(Paths.sound("weekend1/Pico_Bonk"));
 		playstate.executeEvent("phillyStreets-canHit");
@@ -73,8 +73,8 @@ class DarnellNotes extends NoteType
 		}
 	}
 
-	function cockgunMiss (direction:Int, character:Character){
-		playstate.defaultNoteMiss(direction, character);
+	function cockgunMiss(note:Note, character:Character){
+		playstate.defaultNoteMiss(note, character);
 		playstate.forceMissNextNote = true;
 	}
 

@@ -47,10 +47,10 @@ class BlazinNotes extends NoteType
 
 	function punchlowHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('punchLow' + alternating(), true);
+			boyfriend.playAnim("punchLow" + alternating(), true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('hitLow', true);
+			dad.playAnim("hitLow", true);
 		}
 		playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
 		playstate.setBfOnTop();
@@ -59,10 +59,10 @@ class BlazinNotes extends NoteType
 
 	function punchlowblockedHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('punchLow' + alternating(), true);
+			boyfriend.playAnim("punchLow" + alternating(), true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('block', true);
+			dad.playAnim("block", true);
 		}
 		playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
 		playstate.setBfOnTop();
@@ -71,10 +71,10 @@ class BlazinNotes extends NoteType
 
 	function punchlowdodgedHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('punchLow' + alternating(), true);
+			boyfriend.playAnim("punchLow" + alternating(), true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('dodge', true);
+			dad.playAnim("dodge", true);
 		}
 		playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
 		playstate.setBfOnTop();
@@ -82,10 +82,10 @@ class BlazinNotes extends NoteType
 
 	function punchlowspinHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('punchLow' + alternating(), true);
+			boyfriend.playAnim("punchLow" + alternating(), true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('hitSpin', true);
+			dad.playAnim("hitSpin", true);
 		}
 		playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
 		playstate.setBfOnTop();
@@ -94,10 +94,10 @@ class BlazinNotes extends NoteType
 
 	function punchhighHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('punchHigh' + alternating(), true);
+			boyfriend.playAnim("punchHigh" + alternating(), true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('hitHigh', true);
+			dad.playAnim("hitHigh", true);
 		}
 		playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0);
 		playstate.setBfOnTop();
@@ -106,10 +106,10 @@ class BlazinNotes extends NoteType
 
 	function punchhighblockedHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('punchHigh' + alternating(), true);
+			boyfriend.playAnim("punchHigh" + alternating(), true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('block', true);
+			dad.playAnim("block", true);
 		}
 		playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0);
 		playstate.setBfOnTop();
@@ -118,10 +118,10 @@ class BlazinNotes extends NoteType
 
 	function punchhighdodgedHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('punchHigh' + alternating(), true);
+			boyfriend.playAnim("punchHigh" + alternating(), true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('dodge', true);
+			dad.playAnim("dodge", true);
 		}
 		playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0);
 		playstate.setBfOnTop();
@@ -129,10 +129,10 @@ class BlazinNotes extends NoteType
 
 	function punchhighspinHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('punchHigh' + alternating(), true);
+			boyfriend.playAnim("punchHigh" + alternating(), true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('hitSpin', true);
+			dad.playAnim("hitSpin", true);
 		}
 		playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0);
 		playstate.setBfOnTop();
@@ -141,10 +141,10 @@ class BlazinNotes extends NoteType
 
 	function blockhighHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('block', true);
+			boyfriend.playAnim("block", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
 		playstate.setOppOnTop();
@@ -153,10 +153,10 @@ class BlazinNotes extends NoteType
 
 	function blocklowHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('block', true);
+			boyfriend.playAnim("block", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchLow' + alternating(), true);
+			dad.playAnim("punchLow" + alternating(), true);
 		}
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
 		playstate.setOppOnTop();
@@ -165,10 +165,10 @@ class BlazinNotes extends NoteType
 
 	function blockspinHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('block', true);
+			boyfriend.playAnim("block", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
 		playstate.setOppOnTop();
@@ -177,10 +177,10 @@ class BlazinNotes extends NoteType
 
 	function dodgehighHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('dodge', true);
+			boyfriend.playAnim("dodge", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
 		playstate.setOppOnTop();
@@ -188,10 +188,10 @@ class BlazinNotes extends NoteType
 
 	function dodgelowHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('dodge', true);
+			boyfriend.playAnim("dodge", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchLow' + alternating(), true);
+			dad.playAnim("punchLow" + alternating(), true);
 		}
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
 		playstate.setOppOnTop();
@@ -199,10 +199,10 @@ class BlazinNotes extends NoteType
 
 	function dodgespinHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('dodge', true);
+			boyfriend.playAnim("dodge", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
 		playstate.setOppOnTop();
@@ -210,10 +210,10 @@ class BlazinNotes extends NoteType
 
 	function hithighHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitHigh', true);
+			boyfriend.playAnim("hitHigh", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
 		playstate.setOppOnTop();
@@ -222,10 +222,10 @@ class BlazinNotes extends NoteType
 
 	function hitlowHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitLow', true);
+			boyfriend.playAnim("hitLow", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchLow' + alternating(), true);
+			dad.playAnim("punchLow" + alternating(), true);
 		}
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
 		playstate.setOppOnTop();
@@ -234,10 +234,10 @@ class BlazinNotes extends NoteType
 
 	function hitspinHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitSpin', true);
+			boyfriend.playAnim("hitSpin", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
 		playstate.setOppOnTop();
@@ -246,7 +246,7 @@ class BlazinNotes extends NoteType
 
 	function picouppercutprepHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('uppercutPrep', true);
+			boyfriend.playAnim("uppercutPrep", true);
 		}
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 1 * playstate.camOffsetAmount);
 		playstate.setBfOnTop();
@@ -254,10 +254,10 @@ class BlazinNotes extends NoteType
 
 	function picouppercutHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('uppercutPunch', true);
+			boyfriend.playAnim("uppercutPunch", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('uppercutHit', true);
+			dad.playAnim("uppercutHit", true);
 		}
 		playstate.changeCamOffset(0, -1 * playstate.camOffsetAmount);
 		playstate.setBfOnTop();
@@ -266,7 +266,7 @@ class BlazinNotes extends NoteType
 
 	function darnelluppercutprepHit(note:Note, character:Character){
 		if(dad.canAutoAnim){
-			dad.playAnim('uppercutPrep', true);
+			dad.playAnim("uppercutPrep", true);
 		}
 		playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 1 * playstate.camOffsetAmount);
 		playstate.setOppOnTop();
@@ -274,10 +274,10 @@ class BlazinNotes extends NoteType
 
 	function darnelluppercutHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('uppercutHit', true);
+			boyfriend.playAnim("uppercutHit", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('uppercutPunch', true);
+			dad.playAnim("uppercutPunch", true);
 		}
 		playstate.changeCamOffset(0, -1 * playstate.camOffsetAmount);
 		playstate.setOppOnTop();
@@ -286,10 +286,10 @@ class BlazinNotes extends NoteType
 
 	function idleHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('idle', true);
+			boyfriend.playAnim("idle", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('idle', true);
+			dad.playAnim("idle", true);
 		}
 		playstate.changeCamOffset(0, 0);
 		playstate.setBfOnTop();
@@ -297,10 +297,10 @@ class BlazinNotes extends NoteType
 
 	function fakeoutHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('fakeHit', true);
+			boyfriend.playAnim("fakeHit", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('cringe', true);
+			dad.playAnim("cringe", true);
 		}
 		playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0);
 		playstate.setBfOnTop();
@@ -308,291 +308,291 @@ class BlazinNotes extends NoteType
 
 	function tauntHit(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('taunt', true);
+			boyfriend.playAnim("taunt", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('pissed', true);
+			dad.playAnim("pissed", true);
 		}
 		playstate.changeCamOffset(0, 0);
 		playstate.setBfOnTop();
 	}
 
-	function punchlowMiss(direction:Int, character:Character){
+	function punchlowMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitLow', true);
+			boyfriend.playAnim("hitLow", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchLow' + alternating(), true);
+			dad.playAnim("punchLow" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
 	}
 
-	function punchlowblockedMiss(direction:Int, character:Character){
+	function punchlowblockedMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitLow', true);
+			boyfriend.playAnim("hitLow", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchLow' + alternating(), true);
+			dad.playAnim("punchLow" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
 	}
 
-	function punchlowdodgedMiss(direction:Int, character:Character){
+	function punchlowdodgedMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitLow', true);
+			boyfriend.playAnim("hitLow", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchLow' + alternating(), true);
+			dad.playAnim("punchLow" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
 	}
 
-	function punchlowspinMiss(direction:Int, character:Character){
+	function punchlowspinMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitSpin', true);
+			boyfriend.playAnim("hitSpin", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchLow' + alternating(), true);
+			dad.playAnim("punchLow" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
 	}
 
-	function punchhighMiss(direction:Int, character:Character){
+	function punchhighMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitHigh', true);
+			boyfriend.playAnim("hitHigh", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
 	}
 
-	function punchhighblockedMiss(direction:Int, character:Character){
+	function punchhighblockedMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitHigh', true);
+			boyfriend.playAnim("hitHigh", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
 	}
 
-	function punchhighdodgedMiss(direction:Int, character:Character){
+	function punchhighdodgedMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitHigh', true);
+			boyfriend.playAnim("hitHigh", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
 	}
 
-	function punchhighspinMiss(direction:Int, character:Character){
+	function punchhighspinMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitSpin', true);
+			boyfriend.playAnim("hitSpin", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
 	}
 
-	function blockhighMiss(direction:Int, character:Character){
+	function blockhighMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitHigh', true);
+			boyfriend.playAnim("hitHigh", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
 	}
 
-	function blocklowMiss(direction:Int, character:Character){
+	function blocklowMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitLow', true);
+			boyfriend.playAnim("hitLow", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchLow' + alternating(), true);
+			dad.playAnim("punchLow" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
 	}
 
-	function blockspinMiss(direction:Int, character:Character){
+	function blockspinMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitSpin', true);
+			boyfriend.playAnim("hitSpin", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
 	}
 
-	function dodgehighMiss(direction:Int, character:Character){
+	function dodgehighMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitHigh', true);
+			boyfriend.playAnim("hitHigh", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
 	}
 
-	function dodgelowMiss(direction:Int, character:Character){
+	function dodgelowMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitLow', true);
+			boyfriend.playAnim("hitLow", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchLow' + alternating(), true);
+			dad.playAnim("punchLow" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
 	}
 
-	function dodgespinMiss(direction:Int, character:Character){
+	function dodgespinMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitSpin', true);
+			boyfriend.playAnim("hitSpin", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
 	}
 
-	function hithighMiss(direction:Int, character:Character){
+	function hithighMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitHigh', true);
+			boyfriend.playAnim("hitHigh", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
 	}
 
-	function hitlowMiss(direction:Int, character:Character){
+	function hitlowMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitLow', true);
+			boyfriend.playAnim("hitLow", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchLow' + alternating(), true);
+			dad.playAnim("punchLow" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
 	}
 
-	function hitspinMiss(direction:Int, character:Character){
+	function hitspinMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitSpin', true);
+			boyfriend.playAnim("hitSpin", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
 	}
 
-	function picouppercutprepMiss(direction:Int, character:Character){
+	function picouppercutprepMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitLow', true);
+			boyfriend.playAnim("hitLow", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchLow' + alternating(), true);
+			dad.playAnim("punchLow" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0.5 * playstate.camOffsetAmount);
 	}
 
-	function picouppercutMiss(direction:Int, character:Character){
+	function picouppercutMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitSpin', true);
+			boyfriend.playAnim("hitSpin", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);
 		playstate.changeCamOffset(1 * playstate.camOffsetAmount, 0);
 	}
 
-	function darnelluppercutprepMiss(direction:Int, character:Character){
+	function darnelluppercutprepMiss(note:Note, character:Character){
 		if(dad.canAutoAnim){
-			dad.playAnim('uppercutPrep', true);
+			dad.playAnim("uppercutPrep", true);
 		}
 		playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 1 * playstate.camOffsetAmount);
 		playstate.setOppOnTop();
 	}
 
-	function darnelluppercutMiss(direction:Int, character:Character){
+	function darnelluppercutMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('uppercutHit', true);
+			boyfriend.playAnim("uppercutHit", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('uppercutPunch', true);
+			dad.playAnim("uppercutPunch", true);
 		}
 		playstate.changeCamOffset(0, -1 * playstate.camOffsetAmount);
 		playstate.setOppOnTop();
 		playstate.camShake(0.005, 1/30, 0.25);
 	}
 
-	function idleMiss(direction:Int, character:Character){
+	function idleMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('idle', true);
+			boyfriend.playAnim("idle", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('idle', true);
+			dad.playAnim("idle", true);
 		}
 		playstate.changeCamOffset(0, 0);
 		playstate.setBfOnTop();
 	}
 
-	function fakeoutMiss(direction:Int, character:Character){
+	function fakeoutMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('punchHigh' + alternating(), true);
+			boyfriend.playAnim("punchHigh" + alternating(), true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('dodge', true);
+			dad.playAnim("dodge", true);
 		}
 		playstate.setBfOnTop();
 		playstate.changeCamOffset(-1 * playstate.camOffsetAmount, 0);
 	}
 
-	function tauntMiss(direction:Int, character:Character){
+	function tauntMiss(note:Note, character:Character){
 		if(boyfriend.canAutoAnim){
-			boyfriend.playAnim('hitSpin', true);
+			boyfriend.playAnim("hitSpin", true);
 		}
 		if(dad.canAutoAnim){
-			dad.playAnim('punchHigh' + alternating(), true);
+			dad.playAnim("punchHigh" + alternating(), true);
 		}
 		playstate.setOppOnTop();
 		playstate.camShake(0.0025, 1/30, 0.15);

@@ -5,11 +5,30 @@ class AnimSetNotes extends NoteType
 {
 
 	override function defineTypes():Void{
-		addNoteType("alt", altHit, null);
-		addNoteType("censor", censorHit, null);
+		addNoteType("animSet", animSetHit, animSetMiss);
+		addSustainType("animSet", animSetHit, animSetMiss);
 
+		addNoteType("alt", altHit, null);
 		addSustainType("alt", altHit, null);
+		
+		addNoteType("censor", censorHit, null);
 		addSustainType("censor", censorHit, null);
+	}
+
+	function animSetHit(note:Note, character:Character){
+		var args = Events.getArgs(note.type, [""]);
+		var prevAnimSet = character.animSet;
+		character.animSet = args[0];
+		playstate.defaultNoteHit(note, character);
+		character.animSet = prevAnimSet;
+	}
+
+	function animSetMiss(note:Note, character:Character){
+		var args = Events.getArgs(note.type, [""]);
+		var prevAnimSet = character.animSet;
+		character.animSet = args[0];
+		playstate.defaultNoteMiss(note, character);
+		character.animSet = prevAnimSet;
 	}
 
 	function altHit(note:Note, character:Character){
