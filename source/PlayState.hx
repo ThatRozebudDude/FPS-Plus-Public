@@ -2688,7 +2688,7 @@ class PlayState extends MusicBeatState
 			iconP2.bop(defaultIconBopScale, defaultIconBopTime, defaultIconBopEase, tweenManager);
 		}
 		
-		if (curBeat % gfBopFrequency == 0){
+		if (curBeat % gfBopFrequency == 0 && gf.canAutoAnim){
 			gf.dance();
 		}
 
