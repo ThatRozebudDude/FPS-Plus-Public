@@ -53,12 +53,12 @@ def processEvents(data, bpm):
                 if type(event["v"]) is not int:
                     if "ease" in event["v"]:
                         if not event["v"]["ease"] == "CLASSIC":
-                            tag[0] += ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"])
+                            tag[0] += ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"]) + str(event["v"]["easeDir"])
 
                 print(event["e"] + "\t->\t" + tag[0])
 
             case "ZoomCamera":
-                tag[0] += "camZoom;" + str(event["v"]["zoom"]) + ";" + str(event["v"]["duration"]) + "s;" + event["v"]["ease"]
+                tag[0] += "camZoom;" + str(event["v"]["zoom"]) + ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"]) + str(event["v"]["easeDir"])
 
                 if "mode" in event["v"]:
                     if event["v"]["mode"] == "stage":

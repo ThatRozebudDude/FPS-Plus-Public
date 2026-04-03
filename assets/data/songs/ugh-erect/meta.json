@@ -4,10 +4,9 @@
     "album": "vol4",
     "difficulties": [
         0,
-        9,
-        10
+        8,
+        9
     ],
-	"difficultySet": "erect",
     "bfBeats": [
         1,
         3
@@ -15,9 +14,5 @@
     "dadBeats": [
         0,
         2
-    ],
-	"compatibleInsts": ["#ugh-erect"],
-	"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-	"mixName": "Original",
-    "pauseMusic": "week7/distorto"
+    ]
 }
