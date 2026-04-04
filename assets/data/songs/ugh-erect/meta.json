@@ -14,5 +14,10 @@
     "dadBeats": [
         0,
         2
-    ]
+    ],
+	"difficultySet": "erect",
+	"compatibleInsts": ["#ugh-erect"],
+	"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
+	"mixName": "Original",
+    "pauseMusic": "week7/distorto"
 }
