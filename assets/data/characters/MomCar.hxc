@@ -4,11 +4,11 @@ class MomCar extends CharacterInfoBase
 	public function new(){
 		super();
 
-		info.name = "mom";
+		info.name = "mom-car";
 		info.spritePath = "week4/mom";
 		info.frameLoadType = setAtlas();
 		
-		info.iconName = "mom-car";
+		info.iconName = "mom";
 		info.focusOffset.set(216, -60);
 
 		addByLabel("idle", offset(), "Idle Hair Blowing", 24, loop(true, -4));
