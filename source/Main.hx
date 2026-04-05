@@ -23,6 +23,7 @@ class Main extends Sprite
 		super();
 
 		PolymodHandler.init();
+		hxvlc.util.Handle.init([]); // initializes LibVLC
 		FlxSprite.defaultAntialiasing = true;
 
 		#if !debug
