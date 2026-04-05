@@ -62,6 +62,7 @@ class Startup extends FlxUIStateExt
 
 		FlxG.mouse.visible = false;
 		FlxG.sound.muteKeys = null;
+		FlxG.fixedTimestep = false;
 
 		Config.load();
 
@@ -82,7 +83,7 @@ class Startup extends FlxUIStateExt
 
 		Main.fpsDisplay.visible = Config.showFPS;
 		FlxG.autoPause = Config.autoPause;
-
+		
 		//Should fix an issue with shader coordinates breaking when resizing the screen.
 		FlxG.signals.gameResized.add(function(width:Int, height:Int){
 			@:privateAccess{
