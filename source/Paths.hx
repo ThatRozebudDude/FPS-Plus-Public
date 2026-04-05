@@ -104,8 +104,8 @@ class Paths
 		return parentFrames;
 	}
 
-	inline static public function video(key:String){
-		return file(key, "videos", "mp4");
+	inline static public function video(key:String, ?extension:String= "mp4"){
+		return file(key, "videos", extension);
 	}
 	
 	inline static public function font(key:String, ?extension:String = "ttf"){
