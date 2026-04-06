@@ -8,6 +8,8 @@ class Binds
 {
 
 	public static var binds:KeybindMap;
+	
+	static var controllerLockout:Int = 0;
 
 	public static function init():Void{
 
@@ -27,6 +29,16 @@ class Binds
 				saveControls();
 			}
 		}
+
+		FlxG.signals.postUpdate.add(function(){
+			if(controllerLockout > 0){
+				controllerLockout--;
+			}
+		});
+
+		FlxG.signals.preStateSwitch.add(function(){
+			lockControllerInputs();
+		});
 	}
 
 	public static function generateDefaultControls():KeybindMap{
@@ -341,7 +353,7 @@ class Binds
 			r = FlxG.gamepads.anyPressed(x);
 			if(r){ break; }
 		}
-		return r;
+		return r && (controllerLockout == 0);
 	}
 
 	inline public static function justPressedControllerOnly(input:String):Bool{
@@ -351,7 +363,7 @@ class Binds
 			if(r){
 				break; }
 		}
-		return r;
+		return r && (controllerLockout == 0);
 	}
 
 	inline public static function justReleasedControllerOnly(input:String):Bool{
@@ -360,7 +372,11 @@ class Binds
 			r = FlxG.gamepads.anyJustReleased(x);
 			if(r){ break; }
 		}
-		return r;
+		return r && (controllerLockout == 0);
+	}
+
+	inline public static function lockControllerInputs(v:Int = 1):Void{
+		controllerLockout = v;
 	}
 	
 }

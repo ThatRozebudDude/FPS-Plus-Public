@@ -28,8 +28,6 @@ class PauseSubState extends MusicBeatSubState
 
 	public var pauseMusic:FlxSound;
 
-	var allowControllerPress:Bool = false;
-
 	public var camPause:FlxCamera;
 
 	public var songName:FlxTextExt;
@@ -146,7 +144,7 @@ class PauseSubState extends MusicBeatSubState
 				unpause();
 			}
 	
-			if (!allowControllerPress ? Binds.justPressedKeyboardOnly("menuAccept") : Binds.justPressed("menuAccept")){
+			if (Binds.justPressed("menuAccept")){
 	
 				PlayState.instance.tweenManager.active = true;
 	
@@ -219,11 +217,6 @@ class PauseSubState extends MusicBeatSubState
 		}
 
 		for(script in PlayState.instance.scripts){ script.pauseUpdate(elapsed); }
-
-		//This is to work around a flixel issue that makes the controller input state reset on state/sub-state change. idk why it happens
-		if(!allowControllerPress && Binds.justReleasedControllerOnly("pause")){
-			allowControllerPress = true;
-		}
 	}
 
 	function unpause(){

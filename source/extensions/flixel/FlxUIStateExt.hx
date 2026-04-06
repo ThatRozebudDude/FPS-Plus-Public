@@ -1,5 +1,6 @@
 package extensions.flixel;
 
+import flixel.FlxSubState;
 import transition.*;
 import transition.data.*;
 
@@ -96,5 +97,10 @@ class FlxUIStateExt extends FlxUIState
 			CustomTransition.transition(new InstantTransition(), _state);
 			return;
 		}
+	}
+
+	override function openSubState(SubState:FlxSubState):Void{
+		Binds.lockControllerInputs(2);
+		super.openSubState(SubState);
 	}
 }

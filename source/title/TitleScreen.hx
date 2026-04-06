@@ -43,8 +43,6 @@ class TitleScreen extends MusicBeatState
 
 	final bgScrollSpeed = 20;
 
-	var allowControllerPress:Bool = false;
-
 	var inputIndex:Int = 0;
 	var inputSequence:Array<String> = ["menuUp", "menuUp", "menuDown", "menuDown", "menuLeft", "menuRight", "menuLeft", "menuRight"];
 	var inputTime:Float = 0;
@@ -153,7 +151,7 @@ class TitleScreen extends MusicBeatState
 		Conductor.songPosition = FlxG.sound.music.time;
 			// FlxG.watch.addQuick("amp", FlxG.sound.music.amplitude);
 
-		var pressedEnter:Bool = (!allowControllerPress ? Binds.justPressedKeyboardOnly("menuAccept") : Binds.justPressed("menuAccept"));
+		var pressedEnter:Bool = (Binds.justPressed("menuAccept"));
 
 		if(!transitioning && Binds.justPressed("menuBack")){
 			Config.write();
@@ -202,10 +200,6 @@ class TitleScreen extends MusicBeatState
 			transitioning = true;
 			customTransOut = new InstantTransition();
 			switchState(new TitleEasterEgg());
-		}
-
-		if(!allowControllerPress && Binds.justReleasedControllerOnly("menuAccept")){
-			allowControllerPress = true;
 		}
 
 		super.update(elapsed);
