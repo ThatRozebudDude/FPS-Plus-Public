@@ -16,7 +16,7 @@
 	<compilerflag name="--macro" value="include('transition', true)" />
 
 	<!--Allows all of Flixel to be used by scripts at runtime instead of only what was imported in the code.-->
-	<compilerflag name="--macro" value="include('flixel', true, [ 'flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.system.macros.*' ])" />
+	<compilerflag name="--macro" value="include('flixel', true, [ 'flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.system.macros.*', 'flixel.addons.tile.FlxRayCastTilemap' ])" />
 	
 	<!--Remove all debug test states unless compiling in debug mode since they aren't needed for release builds.-->
 	<compilerflag name="--macro" value="exclude('debug', true)" unless="debug"/>
@@ -64,8 +64,6 @@
 	-->
 	<assets path="assets/fonts" embed='true' />
 	
-	<!-- alsoft.ini is OpenAL settings to make the game sound higher quality and more like how the actual audio assets were intended to sound. -->
-	<assets path="alsoft.ini"/>
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
@@ -77,6 +75,7 @@
 	<haxelib name="funkin.vis" />
 	<haxelib name="grig.audio" />
 	<haxelib name="polymod" />
+	<haxelib name="hxcpp-debug-server" if="debug"/>
 
 	<!-- _______________________________ Defines ______________________________ -->
 
@@ -104,6 +103,8 @@
 
 	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
+
+	<haxedef name="analyzer-optimize" unless="debug" />
 	
 	<haxedef name="lime_disable_assets_version" />
 

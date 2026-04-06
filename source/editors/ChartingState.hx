@@ -1678,20 +1678,22 @@ class ChartingState extends MusicBeatState
 					}
 				}
 
-				if(!foundIcon){
-					for(icon in eventIconList){
-						if(tag == icon){
-							eventSymbol.loadGraphic(loadAndCacheEventGraphic(icon));
-							customIcon = true;
-							foundIcon = true;
-							break;
-						}
-						else if(tag.startsWith(icon)){
-							eventSymbol.loadGraphic(loadAndCacheEventGraphic(icon));
-							customIcon = true;
-							foundIcon = true;
-							break;
-						}
+				for(icon in eventIconList){
+					if(foundIcon){ break; }
+					else if(tag == icon && !foundIcon){
+						eventSymbol.loadGraphic(loadAndCacheEventGraphic(icon));
+						customIcon = true;
+						foundIcon = true;
+						break;
+					}
+				}
+				for(icon in eventIconList){
+					if(foundIcon){ break; }
+					else if(tag.startsWith(icon)){
+						eventSymbol.loadGraphic(loadAndCacheEventGraphic(icon));
+						customIcon = true;
+						foundIcon = true;
+						break;
 					}
 				}
 

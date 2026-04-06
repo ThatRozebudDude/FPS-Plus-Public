@@ -50,20 +50,31 @@ class Config
 
 	static var configList(get, default):Array<ConfigInfo>;
 
+	public static final ALLOWED_FRAMERATE_VALUES:Array<Int> = [60, 120, 144, 240, 360, 480, 999];
+
+	public static var initialized:Bool = false;
+
 	public static function load():Void{
 		loadSaveData();
 
-		FlxG.stage.addEventListener(Event.EXIT_FRAME, (event:Event) -> {
-			if(Binds.justPressed("fullscreen")) {
-				fullscreen = !fullscreen;
-				FlxG.fullscreen = fullscreen;
-				write();
+		openfl.Lib.current.stage.addEventListener(openfl.events.KeyboardEvent.KEY_DOWN, (e:openfl.events.KeyboardEvent) -> {
+			for(key in Binds.binds.get("fullscreen").binds){
+				if (e.keyCode == key){
+					fullscreen = !fullscreen;
+					FlxG.fullscreen = fullscreen;
+					//write();
+				}
 			}
 		});
 
-		Lib.application.window.onClose.add(write);
-
 		FlxG.fullscreen = fullscreen;
+
+		var framerateValue:Int = ALLOWED_FRAMERATE_VALUES.indexOf(framerate);
+		if(framerateValue == -1){
+			framerate = ALLOWED_FRAMERATE_VALUES[ALLOWED_FRAMERATE_VALUES.length-1];
+		}
+
+		initialized = true;
 	}
 
 	public static function loadSaveData():Void{
@@ -103,7 +114,8 @@ class Config
 	public static function setFramerate(cap:Int, ?useValueInsteadOfSave:Int = -1):Void{
 		var fps:Int = framerate;
 		if(useValueInsteadOfSave > -1){ fps = useValueInsteadOfSave; }
-		if(fps > cap) { fps = cap; }
+		if(fps == 999 && cap == 999){ fps = 0; }
+		else{ fps = (fps > cap) ? cap : fps; }
 		FlxG.updateFramerate = fps;
 		FlxG.drawFramerate = fps;
 	}

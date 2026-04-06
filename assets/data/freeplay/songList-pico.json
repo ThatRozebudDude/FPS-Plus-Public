@@ -90,7 +90,8 @@
 		{
 			"song": "Darnell",
 			"icon": "darnell",
-			"categories": ["ALL", "Weekend 1"]
+			"categories": ["ALL", "Weekend 1"],
+			"rightLink": "Darnell-Erect"
 		},
 		{
 			"song": "Lit-Up",
@@ -110,7 +111,8 @@
 		{
 			"song": "Darnell-Erect",
 			"icon": "darnell",
-			"categories": ["ERECT", "Weekend 1"]
+			"categories": ["ERECT", "Weekend 1"],
+			"leftLink": "Darnell"
 		},
 		{
 			"song": "Lil-Buddies-Pico",
