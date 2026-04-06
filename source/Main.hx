@@ -44,7 +44,7 @@ class Main extends Sprite
 		fpsDisplay = new FPSExt(3, 3, 0xFFFFFF);
 		fpsDisplay.visible = true;
 
-		var game:FlxGame = new FlxGame(0, 0, Startup, 60, 60, true);
+		var game:FlxGame = new FlxGame(1280, 720, Startup, 60, 60, true);
 
 		@:privateAccess
 		game._customSoundTray = ui.FunkinSoundTray;
