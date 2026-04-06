@@ -246,13 +246,26 @@ class PolymodHandler
 
 	static function onPolymodError(error:PolymodError):Void{
 		// Perform an action based on the error code.
-		switch (error.code){
+		/*switch (error.code){ //Future for polymod stuff.
 			case MOD_MISSING_ICON:
 				
 			default:
 				// Log the message based on its severity.
 				switch (error.severity){
 					case INFO | DEBUG:
+						//does nothing lol
+					case WARNING | ERROR:
+						trace(error.message, null);
+				}
+		}*/
+
+		switch (error.code){
+			case MISSING_ICON:
+				
+			default:
+				// Log the message based on its severity.
+				switch (error.severity){
+					case NOTICE:
 						//does nothing lol
 					case WARNING | ERROR:
 						trace(error.message, null);
