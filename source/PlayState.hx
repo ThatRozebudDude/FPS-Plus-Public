@@ -2342,6 +2342,18 @@ class PlayState extends MusicBeatState
 		// clear the array as we don't need it anymore
 		hittableNotes.resize(0);
 		hittableNotes = null;
+
+		// can't forget about peak -rudy
+		/*THE FUNNY 4AM CODE! [bro what was i doin????]
+		trace((leftHold?(leftPress?"^":"|"):(leftRelease?"^":" "))+(downHold?(downPress?"^":"|"):(downRelease?"^":" "))+(upHold?(upPress?"^":"|"):(upRelease?"^":" "))+(rightHold?(rightPress?"^":"|"):(rightRelease?"^":" ")));
+		I should probably remove this from the code because it literally serves no purpose, but I'm gonna keep it in because I think it's funny.
+		It just sorta prints 4 lines in the console that look like the arrows being pressed. Looks something like this:
+		====
+		^  | 
+		| ^|
+		| |^
+		^ |
+		====*/
 	}
 
 	function badNoteCheck(direction:Int = -1) {
