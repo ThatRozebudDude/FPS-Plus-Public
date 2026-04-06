@@ -377,11 +377,6 @@ class PlayState extends MusicBeatState
 			if(jsonMeta.mixName != null)			{ metadata.mixName = jsonMeta.mixName; }
 			if(jsonMeta.pauseMusic != null)			{ metadata.pauseMusic = jsonMeta.pauseMusic; }
 		}
-		
-		for(i in EVENTS.events){
-			eventList.push([i[1], i[3], i[2]]);
-			preprocessEvent(i[3]);
-		}
 
 		eventList.sort(sortByEventStuff);
 
@@ -821,6 +816,11 @@ class PlayState extends MusicBeatState
 
 		for(script in scripts){ script.create(); }
 		for(script in scripts){ script.postCreate(); }
+
+		for(i in EVENTS.events){
+			eventList.push([i[1], i[3], i[2]]);
+			preprocessEvent(i[3]);
+		}
 		
 		cutsceneCheck();
 

@@ -21,27 +21,32 @@
 		{
 			"song": "Bopeebo",
 			"icon": "dad",
-			"categories": ["ALL", "Week 1"]
+			"categories": ["ALL", "Week 1"],
+			"rightLink": "Bopeebo-Erect"
 		},
 		{
 			"song": "Fresh",
 			"icon": "dad",
-			"categories": ["ALL", "Week 1"]
+			"categories": ["ALL", "Week 1"],
+			"rightLink": "Fresh-Erect"
 		},
 		{
 			"song": "Dadbattle",
 			"icon": "dad",
-			"categories": ["ALL", "Week 1"]
+			"categories": ["ALL", "Week 1"],
+			"rightLink": "Dadbattle-Erect"
 		},
 		{
 			"song": "Spookeez",
 			"icon": "spooky",
-			"categories": ["ALL", "Week 2"]
+			"categories": ["ALL", "Week 2"],
+			"rightLink": "Spookeez-Erect"
 		},
 		{
 			"song": "South",
 			"icon": "spooky",
-			"categories": ["ALL", "Week 2"]
+			"categories": ["ALL", "Week 2"],
+			"rightLink": "South-Erect"
 		},
 		{
 			"song": "Monster",
@@ -51,27 +56,32 @@
 		{
 			"song": "Pico",
 			"icon": "pico",
-			"categories": ["ALL", "Week 3"]
+			"categories": ["ALL", "Week 3"],
+			"rightLink": "Pico-Erect"
 		},
 		{
 			"song": "Philly",
 			"icon": "pico",
-			"categories": ["ALL", "Week 3"]
+			"categories": ["ALL", "Week 3"],
+			"rightLink": "Philly-Erect"
 		},
 		{
 			"song": "Blammed",
 			"icon": "pico",
-			"categories": ["ALL", "Week 3"]
+			"categories": ["ALL", "Week 3"],
+			"rightLink": "Blammed-Erect"
 		},
 		{
 			"song": "Satin-Panties",
 			"icon": "mom",
-			"categories": ["ALL", "Week 4"]
+			"categories": ["ALL", "Week 4"],
+			"rightLink": "Satin-Panties-Erect"
 		},
 		{
 			"song": "High",
 			"icon": "mom",
-			"categories": ["ALL", "Week 4"]
+			"categories": ["ALL", "Week 4"],
+			"rightLink": "High-Erect"
 		},
 		{
 			"song": "Milf",
@@ -81,12 +91,14 @@
 		{
 			"song": "Cocoa",
 			"icon": "parents-christmas",
-			"categories": ["ALL", "Week 5"]
+			"categories": ["ALL", "Week 5"],
+			"rightLink": "Cocoa-Erect"
 		},
 		{
 			"song": "Eggnog",
 			"icon": "parents-christmas",
-			"categories": ["ALL", "Week 5"]
+			"categories": ["ALL", "Week 5"],
+			"rightLink": "Eggnog-Erect"
 		},
 		{
 			"song": "Winter-Horrorland",
@@ -96,22 +108,26 @@
 		{
 			"song": "Senpai",
 			"icon": "senpai",
-			"categories": ["ALL", "Week 6"]
+			"categories": ["ALL", "Week 6"],
+			"rightLink": "Senpai-Erect"
 		},
 		{
 			"song": "Roses",
 			"icon": "senpai",
-			"categories": ["ALL", "Week 6"]
+			"categories": ["ALL", "Week 6"],
+			"rightLink": "Roses-Erect"
 		},
 		{
 			"song": "Thorns",
 			"icon": "spirit",
-			"categories": ["ALL", "Week 6"]
+			"categories": ["ALL", "Week 6"],
+			"rightLink": "Thorns-Erect"
 		},
 		{
 			"song": "Ugh",
 			"icon": "tankman",
-			"categories": ["ALL", "Week 7"]
+			"categories": ["ALL", "Week 7"],
+			"rightLink": "Ugh-Erect"
 		},
 		{
 			"song": "Guns",
@@ -136,92 +152,110 @@
 		{
 			"song": "Bopeebo-Erect",
 			"icon": "dad",
-			"categories": ["ERECT", "Week 1"]
+			"categories": ["ERECT", "Week 1"],
+			"leftLink": "Bopeebo"
 		},
 		{
 			"song": "Fresh-Erect",
 			"icon": "dad",
-			"categories": ["ERECT", "Week 1"]
+			"categories": ["ERECT", "Week 1"],
+			"leftLink": "Fresh"
 		},
 		{
 			"song": "Dadbattle-Erect",
 			"icon": "dad",
-			"categories": ["ERECT", "Week 1"]
+			"categories": ["ERECT", "Week 1"],
+			"leftLink": "Dadbattle"
 		},
 		{
 			"song": "Spookeez-Erect",
 			"icon": "spooky",
-			"categories": ["ERECT", "Week 2"]
+			"categories": ["ERECT", "Week 2"],
+			"leftLink": "Spookeez"
 		},
 		{
 			"song": "South-Erect",
 			"icon": "spooky",
-			"categories": ["ERECT", "Week 2"]
+			"categories": ["ERECT", "Week 2"],
+			"leftLink": "South"
 		},
 		{
 			"song": "Pico-Erect",
 			"icon": "pico",
-			"categories": ["ERECT", "Week 3"]
+			"categories": ["ERECT", "Week 3"],
+			"leftLink": "Pico"
 		},
 		{
 			"song": "Philly-Erect",
 			"icon": "pico",
-			"categories": ["ERECT", "Week 3"]
+			"categories": ["ERECT", "Week 3"],
+			"leftLink": "Philly"
 		},
 		{
 			"song": "Blammed-Erect",
 			"icon": "pico",
-			"categories": ["ERECT", "Week 3"]
+			"categories": ["ERECT", "Week 3"],
+			"leftLink": "Blammed"
 		},
 		{
 			"song": "Satin-Panties-Erect",
 			"icon": "mom",
-			"categories": ["ERECT", "Week 4"]
+			"categories": ["ERECT", "Week 4"],
+			"leftLink": "Satin-Panties"
 		},
 		{
 			"song": "High-Erect",
 			"icon": "mom",
-			"categories": ["ERECT", "Week 4"]
+			"categories": ["ERECT", "Week 4"],
+			"leftLink": "High"
 		},
 		{
 			"song": "Cocoa-Erect",
 			"icon": "parents-christmas",
-			"categories": ["ERECT", "Week 5"]
+			"categories": ["ERECT", "Week 5"],
+			"leftLink": "Cocoa"
 		},
 		{
 			"song": "Eggnog-Erect",
 			"icon": "parents-christmas",
-			"categories": ["ERECT", "Week 5"]
+			"categories": ["ERECT", "Week 5"],
+			"leftLink": "Eggnog"
 		},
 		{
 			"song": "Senpai-Erect",
 			"icon": "senpai",
-			"categories": ["ERECT", "Week 6"]
+			"categories": ["ERECT", "Week 6"],
+			"leftLink": "Senpai"
 		},
 		{
 			"song": "Roses-Erect",
 			"icon": "senpai",
-			"categories": ["ERECT", "Week 6"]
+			"categories": ["ERECT", "Week 6"],
+			"leftLink": "Roses"
 		},
 		{
 			"song": "Thorns-Erect",
 			"icon": "spirit",
-			"categories": ["ERECT", "Week 6"]
+			"categories": ["ERECT", "Week 6"],
+			"leftLink": "Thorns"
 		},
 		{
 			"song": "Ugh-Erect",
 			"icon": "tankman",
-			"categories": ["ERECT", "Week 7"]
+			"categories": ["ERECT", "Week 7"],
+			"leftLink": "Ugh"
 		},
 		{
 			"song": "Lil-Buddies",
 			"icon": "bf",
-			"categories": ["Secret"]
+			"categories": ["Secret"],
+			"rightLink": "Lil-Buddies-Erect"
 		},
 		{
 			"song": "Lil-Buddies-Erect",
 			"icon": "bf",
-			"categories": ["Secret"]
+			"categories": ["Secret"],
+			"leftLink": "Lil-Buddies"
 		}
 	]
 }

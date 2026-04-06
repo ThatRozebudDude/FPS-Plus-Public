@@ -1,10 +1,10 @@
 package;
 
+import config.Config;
+import openfl.Lib;
 import flixel.system.debug.log.LogStyle;
 import extensions.openfl.display.FPSExt;
 import modding.PolymodHandler;
-import flixel.system.scaleModes.RatioScaleMode;
-import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxSprite;
 import openfl.display.Sprite;
@@ -44,12 +44,24 @@ class Main extends Sprite
 		fpsDisplay = new FPSExt(3, 3, 0xFFFFFF);
 		fpsDisplay.visible = true;
 
-		addChild(new FlxGame(0, 0, Startup, 60, 60, true));
+		var game:FlxGame = new FlxGame(0, 0, Startup, 60, 60, true);
+
+		@:privateAccess
+		game._customSoundTray = ui.FunkinSoundTray;
+
+		addChild(game);
 		addChild(fpsDisplay);
 
-		//On web builds, video tends to lag quite a bit, so this just helps it run a bit faster.
 		#if web
 		VideoHandler.MAX_FPS = 30;
+		#end
+
+		#if sys
+		Lib.current.stage.window.onClose.add(function(){
+			if(Config.initialized){ Config.write(); }
+			hxvlc.util.Handle.dispose();
+			Sys.exit(0);
+		});
 		#end
 
 		trace("-=Args=-");

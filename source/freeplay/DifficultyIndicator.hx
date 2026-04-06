@@ -15,6 +15,8 @@ class DifficultyIndicator extends FlxSpriteGroup
 	public var count:Int = 0;
 	var dots:Array<FlxSprite> = [];
 	var difficultyToIndexMap:Map<String, Int> = new Map<String, Int>();
+	var leftLinkIndicator:FlxSprite;
+	var rightLinkIndicator:FlxSprite;
 	
 	public function new(_x:Float, _y:Float) {
 		super(_x, _y);
@@ -24,6 +26,13 @@ class DifficultyIndicator extends FlxSpriteGroup
 			dots.push(dot);
 			add(dot);
 		}
+
+		leftLinkIndicator = new FlxSprite(-20, -1).loadGraphic(Paths.image("menu/freeplay/linkIndicator"));
+		leftLinkIndicator.flipX = true;
+		add(leftLinkIndicator);
+		
+		rightLinkIndicator = new FlxSprite(60, -1).loadGraphic(Paths.image("menu/freeplay/linkIndicator"));
+		add(rightLinkIndicator);
 
 		count = 3;
 	}
@@ -53,7 +62,7 @@ class DifficultyIndicator extends FlxSpriteGroup
 		}
 	}
 
-	public function setDifficulties(diffList:Array<Int>):Void{
+	public function setDifficulties(diffList:Array<Int>, hasLeftLink:Bool = false, hasRightLink:Bool = false):Void{
 		difficultyToIndexMap.clear();
 		for(dot in dots){ dot.visible = false; }
 		for(i in 0...diffList.length){
@@ -61,6 +70,10 @@ class DifficultyIndicator extends FlxSpriteGroup
 			dots[i].visible = true;
 		}
 		count = diffList.length;
+		
+		leftLinkIndicator.visible = hasLeftLink;
+		rightLinkIndicator.x = x + (count*20);
+		rightLinkIndicator.visible = hasRightLink;
 	}
 
 	public function cancelAllTweens():Void{

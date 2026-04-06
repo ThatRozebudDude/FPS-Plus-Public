@@ -56,6 +56,7 @@ class PolymodHandler
 			modRoot: "./mods/",
 			dirs: loadedModDirs,
 			useScriptedClasses: true,
+			loadScriptsAsync: #if html5 true #else false #end,
 			errorCallback: onPolymodError,
 			ignoredFiles: buildIgnoreList(),
 			frameworkParams: {
@@ -246,16 +247,14 @@ class PolymodHandler
 	static function onPolymodError(error:PolymodError):Void{
 		// Perform an action based on the error code.
 		switch (error.code){
-			case MISSING_ICON:
+			case MOD_MISSING_ICON:
 				
 			default:
 				// Log the message based on its severity.
 				switch (error.severity){
-					case NOTICE:
+					case INFO | DEBUG:
 						//does nothing lol
-					case WARNING:
-						trace(error.message, null);
-					case ERROR:
+					case WARNING | ERROR:
 						trace(error.message, null);
 				}
 		}

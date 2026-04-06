@@ -44,6 +44,8 @@ class Capsule extends FlxSpriteGroup
 	public var difficultySet:String;
 	public var skin:String;
 	public var variations:Array<String> = [];
+	public var leftLink:String = null;
+	public var rightLink:String = null;
 
 	public var targetPos:FlxPoint = new FlxPoint();
 	public var xPositionOffset:Float = 0;
@@ -56,7 +58,7 @@ class Capsule extends FlxSpriteGroup
 	
 	public var randomCapsule:Bool = false;
 
-	public function new(_song:String, _displayName:String, _icon:String, _album:String = "vol1", _availableDifficulties:Array<Int>, _difficulties:Array<Int>, _difficultySet:String, _variations:Array<String>, _skinInfo:Array<Dynamic>) {
+	public function new(_song:String, _displayName:String, _icon:String, _album:String = "vol1", _availableDifficulties:Array<Int>, _difficulties:Array<Int>, _difficultySet:String, _variations:Array<String>, _skinInfo:Array<Dynamic>, ?_leftLink:String = null, ?_rightLink:String = null) {
 		super();
 
 		song = _song;
@@ -64,6 +66,9 @@ class Capsule extends FlxSpriteGroup
 		availableDifficulties = _availableDifficulties;
 		difficulties = _difficulties;
 		difficultySet = _difficultySet;
+
+		leftLink = _leftLink;
+		rightLink = _rightLink;
 		
 		variations.push(song);
 		if(_variations != null){
