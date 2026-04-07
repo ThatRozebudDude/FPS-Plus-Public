@@ -7,6 +7,7 @@ import openfl.Assets;
 import haxe.Json;
 import flixel.FlxG;
 import polymod.Polymod;
+import utils.ClassMacro;
 
 using StringTools;
 
@@ -374,7 +375,7 @@ class PolymodHandler
 
 		// `Unserializer`
 		// Unserializer.DEFAULT_RESOLVER.resolveClass() can access blacklisted packages
-		Polymod.blacklistImport("Unserializer");
+		Polymod.blacklistImport("haxe.Unserializer");
 
 		// `lime.system.CFFI`
 		// Can load and execute compiled binaries.
@@ -394,6 +395,13 @@ class PolymodHandler
 		Polymod.blacklistImport("openfl.utils.Assets");
 		Polymod.blacklistImport("openfl.Lib");
 		Polymod.blacklistImport("openfl.system.ApplicationDomain");
+		Polymod.blacklistImport("openfl.net.SharedObject");
+
+		Polymod.blacklistImport("lime.utils.AssetLibrary");
+
+		Polymod.blacklistImport("lime.system.System");
+
+		Polymod.blacklistImport("openfl.desktop.NativeProcess");
 
 		// `openfl.desktop.NativeProcess`
 		// Can load native processes on the host operating system.
@@ -401,16 +409,55 @@ class PolymodHandler
 
 		//Restricted stuff from FPS Plus
 		Polymod.blacklistImport("restricted.RestrictedUtils");
+
+		// `flixel.util.FlxSave`
+		// resolveFlixelClasses() can access blacklisted packages
+		Polymod.blacklistStaticFields(flixel.util.FlxSave, ["resolveFlixelClasses"]);
+
+		// Disallow direct manipulation of save data.
+		Polymod.blacklistStaticFields(flixel.FlxG, ["save"]);
+
+		// `haxe.Unserializer`
+		// Just to be double-sure, lets blacklist some fields of the Unserializer to make it harder to use if you DO get one.
+		Polymod.blacklistStaticFields(haxe.Unserializer, ["run"]);
+		Polymod.blacklistInstanceFields(haxe.Unserializer, ["unserialize"]);
+
+		Polymod.blacklistInstanceFields(openfl.net.Socket, ["readObject"]);
+		Polymod.blacklistInstanceFields(openfl.utils.ByteArray.ByteArrayData, ["readObject"]);
+
+		// `polymod.*`
+		// Contains functions which may allow for un-blacklisting other modules.
+		for(cls in ClassMacro.listClassesInPackage("polymod")){
+			if (cls == null) continue;
+			var className:String = Type.getClassName(cls);
+			Polymod.blacklistImport(className);
+		}
+
+		// `hscript.*
+		// Contains functions which may allow for interpreting unsanitized strings.
+		for(cls in ClassMacro.listClassesInPackage("hscript")){
+			if (cls == null) continue;
+			var className:String = Type.getClassName(cls);
+			Polymod.blacklistImport(className);
+		}
+
+		// `sys.*`
+		// Access to system utilities such as the file system.
+		for(cls in ClassMacro.listClassesInPackage("sys")){
+			if (cls == null) continue;
+			var className:String = Type.getClassName(cls);
+			Polymod.blacklistImport(className);
+		}
 	}
 
 	static function buildIgnoreList():Array<String>{
 		var result = Polymod.getDefaultIgnoreList();
 
-		result.push('.vscode');
-		result.push('.git');
-		result.push('.gitignore');
-		result.push('.gitattributes');
-		result.push('README.md');
+		result.push(".vscode");
+		result.push(".git");
+		result.push(".gitignore");
+		result.push(".gitattributes");
+		result.push("README.md");
 
 		return result;
 	}
