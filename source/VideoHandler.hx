@@ -265,7 +265,7 @@ class VideoHandler extends FlxSprite
 				bitmap.volume = 0;
 			}
 			else{
-				bitmap.volume = Std.int(FlxG.sound.volume * volume * 100);
+				bitmap.volume = FlxG.sound.volume * volume;
 			}
 
 		}
