@@ -1320,7 +1320,7 @@ class ConfigMenu extends FlxUIStateExt
 			if (pressRight || pressLeft){
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				fullscreenValue = !fullscreenValue;
-				FlxG.fullscreen = fullscreenValue;
+				openfl.Lib.application.window.fullscreen = fullscreenValue;
 			}
 
 			fullscreenSettings.setting = genericOnOff[fullscreenValue?0:1];

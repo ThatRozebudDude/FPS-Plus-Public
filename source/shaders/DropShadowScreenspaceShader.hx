@@ -14,7 +14,7 @@ class DropShadowScreenspaceShader extends DropShadowShader
 	public var curZoom(default, set):Float;
 
 	public function updateViewportSize():Void{
-		if(!FlxG.fullscreen){
+		if(!openfl.Lib.application.window.fullscreen){
 			viewportSize.value = [Lib.current.stage.stageWidth, Lib.current.stage.stageHeight];
 		}
 		else{

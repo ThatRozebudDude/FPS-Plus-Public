@@ -61,13 +61,12 @@ class Config
 			for(key in Binds.binds.get("fullscreen").binds){
 				if (e.keyCode == key){
 					fullscreen = !fullscreen;
-					FlxG.fullscreen = fullscreen;
-					//write();
+					openfl.Lib.application.window.fullscreen = fullscreen;
 				}
 			}
 		});
 
-		FlxG.fullscreen = fullscreen;
+		openfl.Lib.application.window.fullscreen = fullscreen;
 
 		var framerateValue:Int = ALLOWED_FRAMERATE_VALUES.indexOf(framerate);
 		if(framerateValue == -1){

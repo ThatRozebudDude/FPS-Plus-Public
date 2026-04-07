@@ -24,6 +24,9 @@
 	<!--Remove all debug test states unless compiling in debug mode since they aren't needed for release builds.-->
 	<compilerflag name="--macro" value="exclude('debug', true)" unless="debug"/>
 
+	
+	<compilerflag name="--macro" value="exclude('old', true)"/>
+
 	<!-- ____________________________ Window Settings ___________________________ -->
 
 	<!--These window settings apply to all targets-->
