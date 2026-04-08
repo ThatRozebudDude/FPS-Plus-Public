@@ -71,7 +71,7 @@ class FlxCameraExt extends FlxCamera
 
 	var clampedScale:Float = Math.max(1, Lib.current.stage.window.scale);
 
-	override public function new(x:Int = 0, y:Int = 0, width:Int = 0, height:Int = 0, zoom:Float = 0){
+	override public function new(x:Float = 0, y:Float = 0, width:Int = 0, height:Int = 0, zoom:Float = 0){
 		super(x, y, width, height, zoom);
 
 		_backgroundFrame = new FlxFrame(new FlxGraphic('', null));

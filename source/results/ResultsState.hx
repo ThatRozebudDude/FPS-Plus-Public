@@ -27,7 +27,7 @@ import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxGame;
-import flixel.FlxCamera;
+import extensions.flixel.FlxCameraExt;
 import extensions.flixel.FlxUIStateExt;
 import modding.PolymodHandler;
 
@@ -38,11 +38,11 @@ class ResultsState extends FlxUIStateExt
 	public static var instance:ResultsState;
 	public static var enableDebugControls:Bool = false;
 
-	public var camBg:FlxCamera;
-	public var camScroll:FlxCamera;
-	public var camCharacter:FlxCamera;
-	public var camTitle:FlxCamera;
-	public var camUi:FlxCamera;
+	public var camBg:FlxCameraExt;
+	public var camScroll:FlxCameraExt;
+	public var camCharacter:FlxCameraExt;
+	public var camTitle:FlxCameraExt;
+	public var camUi:FlxCameraExt;
 
 	public var character:ResultsCharacter;
 
@@ -146,24 +146,24 @@ class ResultsState extends FlxUIStateExt
 
 		persistentUpdate = persistentDraw = true;
 
-		camBg = new FlxCamera();
+		camBg = new FlxCameraExt();
 		camBg.filters = [];
 
-		camScroll = new FlxCamera(-50, -50, 1280 + 100, 720 + 100);
+		camScroll = new FlxCameraExt(-50, -50, 1280 + 100, 720 + 100);
 		camScroll.bgColor = FlxColor.TRANSPARENT;
 		camScroll.angle = -3.8;
 		camScroll.filters = [];
 
-		camCharacter = new FlxCamera();
+		camCharacter = new FlxCameraExt();
 		camCharacter.bgColor = FlxColor.TRANSPARENT;
 		camCharacter.filters = [];
 
-		camTitle = new FlxCamera(-50, -50, 1280 + 100, 720 + 100);
+		camTitle = new FlxCameraExt(-50, -50, 1280 + 100, 720 + 100);
 		camTitle.bgColor = FlxColor.TRANSPARENT;
 		camTitle.angle = -3.8;
 		camTitle.filters = [];
 
-		camUi = new FlxCamera();
+		camUi = new FlxCameraExt();
 		camUi.bgColor = FlxColor.TRANSPARENT;
 		camUi.filters = [];
 

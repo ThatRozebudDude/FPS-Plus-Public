@@ -1,7 +1,7 @@
 package;
 
 import flixel.sound.FlxSound;
-import flixel.FlxCamera;
+import extensions.flixel.FlxCameraExt;
 import openfl.events.KeyboardEvent;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -23,7 +23,7 @@ class GameOverSubState extends MusicBeatSubState
 	var bfY:Float;
 	var bfChar:String;
 
-	public var camGameOver:FlxCamera;
+	public var camGameOver:FlxCameraExt;
 
 	public static var instance:GameOverSubState;
 
@@ -32,7 +32,7 @@ class GameOverSubState extends MusicBeatSubState
 
 		instance = this;
 
-		camGameOver = new FlxCamera();
+		camGameOver = new FlxCameraExt();
 		camGameOver.zoom = camZoom;
 		camGameOver.filters = [];
 		FlxG.cameras.add(camGameOver, false);

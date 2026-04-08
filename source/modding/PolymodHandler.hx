@@ -353,6 +353,7 @@ class PolymodHandler
 		Polymod.addImportAlias("flixel.math.FlxPoint", flixel.math.FlxPoint.FlxBasePoint);
 
 		Polymod.addImportAlias("flixel.text.FlxText", extensions.flixel.FlxTextExt);
+		Polymod.addImportAlias("flixel.FlxCamera", extensions.flixel.FlxCameraExt);
 
 		Polymod.addImportAlias("debug.ChartingState", editors.ChartingState);
 		Polymod.addImportAlias("debug.AnimationDebug", editors.AnimationEditor);

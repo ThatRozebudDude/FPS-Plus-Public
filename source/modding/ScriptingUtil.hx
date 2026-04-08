@@ -126,6 +126,43 @@ class BlendMode
 	public static var SCREEN = BaseBlendMode.SCREEN;
 	public static var SHADER = BaseBlendMode.SHADER;
 	public static var SUBTRACT = BaseBlendMode.SUBTRACT;
+	public static var COLORDODGE = BaseBlendMode.COLORDODGE;
+	public static var COLORBURN = BaseBlendMode.COLORBURN;
+	public static var SOFTLIGHT = BaseBlendMode.SOFTLIGHT;
+	public static var EXCLUSION = BaseBlendMode.EXCLUSION;
+	public static var HUE = BaseBlendMode.HUE;
+	public static var SATURATION = BaseBlendMode.SATURATION;
+	public static var COLOR = BaseBlendMode.COLOR;
+	public static var LUMINOSITY = BaseBlendMode.LUMINOSITY;
+
+	public static function fromString(value:String):BaseBlendMode{
+		return switch (value){
+			case "add": BaseBlendMode.ADD;
+			case "alpha": BaseBlendMode.ALPHA;
+			case "darken": BaseBlendMode.DARKEN;
+			case "difference": BaseBlendMode.DIFFERENCE;
+			case "erase": BaseBlendMode.ERASE;
+			case "hardlight": BaseBlendMode.HARDLIGHT;
+			case "invert": BaseBlendMode.INVERT;
+			case "layer": BaseBlendMode.LAYER;
+			case "lighten": BaseBlendMode.LIGHTEN;
+			case "multiply": BaseBlendMode.MULTIPLY;
+			case "normal": BaseBlendMode.NORMAL;
+			case "overlay": BaseBlendMode.OVERLAY;
+			case "screen": BaseBlendMode.SCREEN;
+			case "shader": BaseBlendMode.SHADER;
+			case "subtract": BaseBlendMode.SUBTRACT;
+			case "colordodge": BaseBlendMode.COLORDODGE;
+			case "colorburn": BaseBlendMode.COLORBURN;
+			case "softlight": BaseBlendMode.SOFTLIGHT;
+			case "exclusion": BaseBlendMode.EXCLUSION;
+			case "hue": BaseBlendMode.HUE;
+			case "saturation": BaseBlendMode.SATURATION;
+			case "color": BaseBlendMode.COLOR;
+			case "luminosity": BaseBlendMode.LUMINOSITY;
+			default: null;
+		}
+	}
 }
 
 class FlxTweenType

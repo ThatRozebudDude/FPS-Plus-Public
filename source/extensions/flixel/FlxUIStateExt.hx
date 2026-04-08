@@ -10,7 +10,7 @@ import polymod.hscript._internal.PolymodScriptClass;
 
 import openfl.display.BitmapData;
 import openfl.system.System;
-import flixel.FlxCamera;
+import extensions.flixel.FlxCameraExt;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -45,7 +45,7 @@ class FlxUIStateExt extends FlxUIState
 		//This creates a camera and a cover sprite that gets automatically added to a state that will hide anything outside the normal camera bounds.
 		//Not noticable most of the time but Flixel can extend cameras out by 1 pixel when the game isn't at it's native resolution can it can create a weird pixel gap.
 		//Also useful to hide stuff outside the frame on rotated cameras since those won't be clipped to the game resolution and show up when the game is maximized.
-		var coverCamera:FlxCamera = new FlxCamera(((FlxG.width*2)-FlxG.width)/-2, ((FlxG.height*2)-FlxG.height)/-2, FlxG.width*2, FlxG.height*2);
+		var coverCamera:FlxCameraExt = new FlxCameraExt(((FlxG.width*2)-FlxG.width)/-2, ((FlxG.height*2)-FlxG.height)/-2, FlxG.width*2, FlxG.height*2);
 		coverCamera.bgColor.alpha = 0;
 		FlxG.cameras.add(coverCamera, false);
 

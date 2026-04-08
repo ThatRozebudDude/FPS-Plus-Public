@@ -6,6 +6,7 @@ import flixel.system.debug.log.LogStyle;
 import extensions.openfl.display.FPSExt;
 import modding.PolymodHandler;
 import flixel.FlxGame;
+import flixel.FlxG;
 import flixel.FlxSprite;
 import openfl.display.Sprite;
 import openfl.display.InteractiveObject;
@@ -43,6 +44,8 @@ class Main extends Sprite
 
 		fpsDisplay = new FPSExt(3, 3, 0xFFFFFF);
 		fpsDisplay.visible = true;
+
+		untyped FlxG.cameras = new extensions.flixel.system.frondEnds.CameraFrontEndExt();
 
 		var game:FlxGame = new FlxGame(1280, 720, Startup, 60, 60, true);
 

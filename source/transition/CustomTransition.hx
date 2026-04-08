@@ -3,7 +3,7 @@ package transition;
 import extensions.flixel.FlxUIStateExt;
 import flixel.FlxState;
 import flixel.FlxG;
-import flixel.FlxCamera;
+import extensions.flixel.FlxCameraExt;
 import transition.data.*;
 
 /**
@@ -25,7 +25,7 @@ class CustomTransition{
 	**/
 	public static function transition(transitionData:BaseTransition, ?state:FlxState = null):Void{
 
-		var transitionCamera = new FlxCamera();
+		var transitionCamera = new FlxCameraExt();
 		transitionCamera.bgColor.alpha = 0;
 		FlxG.cameras.add(transitionCamera, false);
 		

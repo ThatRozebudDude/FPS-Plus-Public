@@ -4,7 +4,7 @@ import modding.PolymodHandler;
 import transition.data.InstantTransition;
 import config.Config;
 import flixel.addons.display.FlxBackdrop;
-import flixel.FlxCamera;
+import extensions.flixel.FlxCameraExt;
 import openfl.system.System;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -38,8 +38,8 @@ class ScriptedTitleScreen extends TitleScreen implements polymod.hscript.HScript
 
 class TitleScreen extends MusicBeatState
 {
-	var camBackground:FlxCamera;
-	var camMain:FlxCamera;
+	var camBackground:FlxCameraExt;
+	var camMain:FlxCameraExt;
 
 	final bgScrollSpeed = 20;
 
@@ -53,10 +53,10 @@ class TitleScreen extends MusicBeatState
 
 		useDefaultTransIn = false;
 
-		camBackground = new FlxCamera(-50, 0, 1280 + 100, 720);
+		camBackground = new FlxCameraExt(-50, 0, 1280 + 100, 720);
 		camBackground.angle = -6.26;
 
-		camMain = new FlxCamera();
+		camMain = new FlxCameraExt();
 		camMain.bgColor.alpha = 0;
 
 		FlxG.cameras.reset();

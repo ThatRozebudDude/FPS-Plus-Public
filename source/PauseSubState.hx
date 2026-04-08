@@ -5,7 +5,7 @@ import flixel.tweens.FlxEase;
 import extensions.flixel.FlxTextExt;
 import haxe.Json;
 import flixel.text.FlxText;
-import flixel.FlxCamera;
+import extensions.flixel.FlxCameraExt;
 import editors.ChartingState;
 import flixel.tweens.FlxTween;
 import config.*;
@@ -28,7 +28,7 @@ class PauseSubState extends MusicBeatSubState
 
 	public var pauseMusic:FlxSound;
 
-	public var camPause:FlxCamera;
+	public var camPause:FlxCameraExt;
 
 	public var songName:FlxTextExt;
 	public var songArtist:FlxTextExt;
@@ -41,7 +41,7 @@ class PauseSubState extends MusicBeatSubState
 
 		PlayState.instance.tweenManager.active = false;
 
-		camPause = new FlxCamera();
+		camPause = new FlxCameraExt();
 		camPause.bgColor.alpha = 0;
 		camPause.filters = [];
 		FlxG.cameras.add(camPause, false);

@@ -4,8 +4,6 @@ import flixel.sound.FlxSound;
 import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
-import flixel.FlxCamera;
-import flixel.FlxCameraFollowStyle;
 import openfl.filters.ShaderFilter;
 import shaders.DropShadowShader;
 import objects.ABot;

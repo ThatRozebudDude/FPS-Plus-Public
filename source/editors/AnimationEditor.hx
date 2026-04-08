@@ -8,7 +8,7 @@ import characters.CharacterInfoBase;
 import config.Config;
 import openfl.desktop.ClipboardFormats;
 import openfl.desktop.Clipboard;
-import flixel.FlxCamera;
+import extensions.flixel.FlxCameraExt;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -43,8 +43,8 @@ class AnimationEditor extends FlxState
 	var bgMirrorFront:Bool = false;
 	var camFollow:FlxObject;
 
-	private var camHUD:FlxCamera;
-	private var camGame:FlxCamera;
+	private var camHUD:FlxCameraExt;
+	private var camGame:FlxCameraExt;
 
 	final zoomSpeed:Float = 0.005;
 	final moveSpeed:Float = 400;
@@ -68,8 +68,8 @@ class AnimationEditor extends FlxState
 
 		Config.setFramerate(144);
 
-		camGame = new FlxCamera();
-		camHUD = new FlxCamera();
+		camGame = new FlxCameraExt();
+		camHUD = new FlxCameraExt();
 		camHUD.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);

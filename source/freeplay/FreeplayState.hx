@@ -17,7 +17,7 @@ import MainMenuState.MainMenuButton;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.addons.display.FlxBackdrop;
 import flixel.util.FlxTimer;
-import flixel.FlxCamera;
+import extensions.flixel.FlxCameraExt;
 import flixel.math.FlxPoint;
 import config.*;
 import characterSelect.CharacterSelectState;
@@ -131,8 +131,8 @@ class FreeplayState extends MusicBeatState
 
 	static var controllerMode:Bool = false;
 
-	private var camMenu:FlxCamera;
-	private var camFreeplay:FlxCamera;
+	private var camMenu:FlxCameraExt;
+	private var camFreeplay:FlxCameraExt;
 
 	var fadeShader:BlueFadeShader = new BlueFadeShader(1);
 	
@@ -173,10 +173,10 @@ class FreeplayState extends MusicBeatState
 			FlxG.sound.play(Paths.sound('confirmMenu'));
 		}
 
-		camMenu = new FlxCamera();
+		camMenu = new FlxCameraExt();
 		camMenu.filters = [];
 
-		camFreeplay = new FlxCamera();
+		camFreeplay = new FlxCameraExt();
 		camFreeplay.bgColor.alpha = 0;
 		camFreeplay.filters = [new ShaderFilter(fadeShader.shader)];
 
