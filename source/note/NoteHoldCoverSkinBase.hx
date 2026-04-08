@@ -23,6 +23,7 @@ typedef NoteHoldCoverSkinInfo = {
 	var alpha:Float;
 	var antialiasing:Bool;
 	var scale:Float;
+	var blend:String;
 }
 
 class NoteHoldCoverSkinBase
@@ -35,6 +36,7 @@ class NoteHoldCoverSkinBase
 		alpha: 1,
 		antialiasing: true,
 		scale: 1,
+		blend: "normal",
 		anims: [
 			{
 				start: null,
@@ -67,6 +69,7 @@ class NoteHoldCoverSkinBase
 		if(skinJson.alpha != null){ info.alpha = skinJson.alpha; }
 		if(skinJson.antialiasing != null){ info.antialiasing = skinJson.antialiasing; }
 		if(skinJson.scale != null){ info.scale = skinJson.scale; }
+		if(skinJson.blend != null){ info.blend = skinJson.blend; }
 
 		addStartAnim(0, skinJson.animations.left.start.prefix, skinJson.animations.left.start.framerateRange, skinJson.animations.left.start.offset, skinJson.animations.left.start.positionOffset);
 		addHoldAnim(0, skinJson.animations.left.hold.prefix, skinJson.animations.left.hold.framerateRange, skinJson.animations.left.hold.offset, skinJson.animations.left.hold.positionOffset);

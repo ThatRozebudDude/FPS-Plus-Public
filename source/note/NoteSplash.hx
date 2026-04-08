@@ -72,6 +72,7 @@ class NoteSplash extends FlxSprite{
 		animation.play("splash");
 
 		alpha = skinInfo.info.alpha;
+		blend = skinInfo.info.blend;
 
 		setGraphicSize(Std.int(width * skinInfo.info.scale));
 		updateHitbox();

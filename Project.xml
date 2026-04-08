@@ -24,7 +24,7 @@
 	<!--Remove all debug test states unless compiling in debug mode since they aren't needed for release builds.-->
 	<compilerflag name="--macro" value="exclude('debug', true)" unless="debug"/>
 
-	
+	<!--Remove all old stuff that I wanted to keep in the code because it is not used.-->
 	<compilerflag name="--macro" value="exclude('old', true)"/>
 
 	<!-- ____________________________ Window Settings ___________________________ -->

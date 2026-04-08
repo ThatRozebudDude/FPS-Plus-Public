@@ -55,6 +55,7 @@ class NoteHoldCover extends FlxSprite{
 		offset.set(skin.info.offset[0], skin.info.offset[1]);
 		posOffset.set(skin.info.positionOffset[0], skin.info.positionOffset[1]);
 		splashAlpha = skin.info.alpha;
+		blend = skin.info.blend;
 	}
 
 	override function update(elapsed:Float) {

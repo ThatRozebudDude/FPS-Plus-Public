@@ -19,6 +19,7 @@ typedef NoteSplashSkinInfo = {
 	var alpha:Float;
 	var antialiasing:Bool;
 	var scale:Float;
+	var blend:String;
 }
 
 class NoteSplashSkinBase
@@ -29,6 +30,7 @@ class NoteSplashSkinBase
 		anims: [
 			[], [], [], []
 		],
+		blend: "normal",
 		randomRotation: true,
 		limitedRotationAngles: false,
 		alpha: 1,
@@ -44,6 +46,7 @@ class NoteSplashSkinBase
 		if(skinJson.alpha != null){ info.alpha = skinJson.alpha; }
 		if(skinJson.antialiasing != null){ info.antialiasing = skinJson.antialiasing; }
 		if(skinJson.scale != null){ info.scale = skinJson.scale; }
+		if(skinJson.blend != null){ info.blend = skinJson.blend; }
 
 		var leftAnims:Array<Dynamic> = skinJson.animations.left;
 		var downAnims:Array<Dynamic> = skinJson.animations.down;
