@@ -29,7 +29,7 @@ import openfl.system.System;
 import Section.SwagSection;
 import Song.SwagSong;
 import Song.SongEvents;
-import flixel.FlxCamera;
+import extensions.flixel.FlxCameraExt;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -228,9 +228,9 @@ class PlayState extends MusicBeatState
 
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
-	public var camHUD:FlxCamera;
-	public var camGame:FlxCamera;
-	public var camOverlay:FlxCamera;
+	public var camHUD:FlxCameraExt;
+	public var camGame:FlxCameraExt;
+	public var camOverlay:FlxCameraExt;
 	private var camGameZoomAdjust:Float = 0;
 
 	public var defaultIconBopScale:Float = 1.2;
@@ -396,14 +396,14 @@ class PlayState extends MusicBeatState
 		
 		canHit = !(Config.ghostTapType > 0);
 
-		camGame = new FlxCamera();
+		camGame = new FlxCameraExt();
 		camGame.filters = [];
 
-		camOverlay = new FlxCamera();
+		camOverlay = new FlxCameraExt();
 		camOverlay.bgColor.alpha = 0;
 		camOverlay.filters = [];
 
-		camHUD = new FlxCamera();
+		camHUD = new FlxCameraExt();
 		camHUD.bgColor.alpha = 0;
 		camHUD.filters = [new ShaderFilter(hudShader.shader)];
 
