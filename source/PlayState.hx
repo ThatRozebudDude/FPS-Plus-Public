@@ -2431,7 +2431,7 @@ class PlayState extends MusicBeatState
 		notes.forEachAlive(function(daNote:Note){
 			if(!playerNotesInRange[daNote.direction] && daNote.inRange && daNote.mustPress){ playerNotesInRange[daNote.direction] = true; }
 
-			if (!forceMissNextNote && !daNote.wasGoodHit && daNote.mustPress && daNote.strumTime < Conductor.songPosition + Conductor.safeZoneOffset * (!daNote.isSustainNote ? 0.125 : (daNote.prevNote.wasGoodHit ? 1 : 0))){
+			if (!forceMissNextNote && !daNote.wasGoodHit && daNote.mustPress && daNote.strumTime < Conductor.songPosition + (!daNote.isSustainNote ? Scoring.PERFECT_SCORE_THRESHOLD : Conductor.safeZoneOffset * (daNote.prevNote.wasGoodHit ? 1 : 0))){
 				hitNotes.push(daNote);
 			}
 		});
