@@ -16,8 +16,8 @@ import animate.internal.RenderTexture;
 
 import shaders.CustomBlendShader;
 
-// Extension that uses shaders to support additional blend modes on devices that do not support Khronos extensions.
-// Based on V-Slice's FunkinCamera.
+//Extension that uses shaders to support additional blend modes on devices that do not support Khronos extensions.
+//Based on V-Slice's FunkinCamera.
 
 @:access(openfl.display.DisplayObject)
 @:access(openfl.display.BitmapData)
@@ -79,10 +79,7 @@ class FlxCameraExt extends FlxCamera
 
 		_blendShader = new CustomBlendShader();
 
-		// On some displays, the DPI can be less than 1, which causes the blend shader to look bad
-		// We just clamp the scale to 1 to avoid this!
 		clampedScale = Math.max(1, Lib.current.stage.window.scale);
-		trace(clampedScale);
 
 		_backgroundRenderTexture = new RenderTexture(this.width, this.height);
 		_blendRenderTexture = new RenderTexture(this.width, this.height);
@@ -131,7 +128,7 @@ class FlxCameraExt extends FlxCamera
 
 			_backgroundRenderTexture.render();
 
-			// Resize the frame so it always fills the screen
+			//resize the frame so it always fills the screen
 			_cameraMatrix.identity();
 			_cameraMatrix.scale(1 / (this.scaleX * clampedScale), 1 / (this.scaleY * clampedScale));
 			_cameraMatrix.translate(((width - width / this.scaleX) * 0.5), ((height - height / this.scaleY) * 0.5));
