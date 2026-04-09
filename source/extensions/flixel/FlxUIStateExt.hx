@@ -79,8 +79,7 @@ class FlxUIStateExt extends FlxUIState
 			//Extended States
 			else if(PolymodScriptClass.listScriptClassesExtending(statePath).length > 0){
 				var scriptClassPath = statePath.replace(stateName, "Scripted" + stateName);
-				_state = RestrictedUtils.callStaticGeneratedMethod(Type.resolveClass(scriptClassPath), "init", [RestrictedUtils.callStaticGeneratedMethod(Type.resolveClass(scriptClassPath), "listScriptClasses")[0]]);
-				Reflect.setProperty(_state, "_stateName", "Scripted" + stateName);
+				_state = RestrictedUtils.callStaticGeneratedMethod(Type.resolveClass(scriptClassPath), "scriptInit", [RestrictedUtils.callStaticGeneratedMethod(Type.resolveClass(scriptClassPath), "listScriptClasses")[0]]);
 			}
 
 		}
