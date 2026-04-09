@@ -19,7 +19,6 @@ class LilBuddiesIntro extends ScriptedCutscene
 		playstate.instantStart();
 
 		playstate.healthBar.alpha = 0;
-		playstate.healthBarBG.alpha = 0;
 		playstate.iconP1.alpha = 0;
 		playstate.iconP2.alpha = 0;
 		playstate.scoreTxt.alpha = 0;
@@ -39,7 +38,6 @@ class LilBuddiesIntro extends ScriptedCutscene
 		playstate.camChangeZoom(2.8, Conductor.crochet / 1000 * 16, FlxEase.quadInOut, function(t){
 			playstate.autoZoom = true;
 			tween.tween(playstate.healthBar, {alpha: 1}, hudElementsFadeInTime);
-			tween.tween(playstate.healthBarBG, {alpha: 1}, hudElementsFadeInTime);
 			tween.tween(playstate.iconP1, {alpha: 1}, hudElementsFadeInTime);
 			tween.tween(playstate.iconP2, {alpha: 1}, hudElementsFadeInTime);
 			tween.tween(playstate.scoreTxt, {alpha: 1}, hudElementsFadeInTime);

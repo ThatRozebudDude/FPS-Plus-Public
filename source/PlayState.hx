@@ -220,8 +220,8 @@ class PlayState extends MusicBeatState
 	public var combo:Int = 0;
 	public var totalPlayed:Int = 0;
 
-	public var healthBarBG:FlxSprite;
-	public var healthBar:FlxBar;
+	public var healthBar:FlxSprite;
+	public var healthBarShader:SplitBarShader;
 
 	public var generatedMusic:Bool = false;
 	public var startingSong:Bool = true;
@@ -672,15 +672,11 @@ class PlayState extends MusicBeatState
 			add(meta);
 		}
 
-		healthBarBG = new FlxSprite(0, Config.downscroll ? FlxG.height * 0.1 : FlxG.height * 0.875).loadGraphic(Paths.image("ui/healthBar"));
-		healthBarBG.screenCenter(X);
-		healthBarBG.scrollFactor.set();
-		add(healthBarBG);
-
-		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this, 'healthLerp', 0, 2);
+		healthBar = new FlxSprite(0, (Config.downscroll ? FlxG.height * 0.1 : FlxG.height * 0.875)-1).loadGraphic(Paths.image("ui/healthBar"));
 		healthBar.scrollFactor.set();
-		healthBar.createFilledBar(dad.characterColor, boyfriend.characterColor);
-		// healthBar
+		healthBar.screenCenter(X);
+		healthBarShader = new SplitBarShader(boyfriend.characterColor, dad.characterColor, 0.5, 5);
+		healthBar.shader = healthBarShader.shader;
 		
 		scoreTxt = new FlxTextExt(0, 687, 800, "", 20);
 		scoreTxt.setFormat(Paths.font("vcr"), 20, 0xFFFFFFFF, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, 0xFF000000);
@@ -708,14 +704,12 @@ class PlayState extends MusicBeatState
 		enemyCovers.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
-		healthBarBG.cameras = [camHUD];
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		ccText.cameras = [camHUD];
 
 		healthBar.visible = false;
-		healthBarBG.visible = false;
 		iconP1.visible = false;
 		iconP2.visible = false;
 		scoreTxt.visible = false;
@@ -893,7 +887,6 @@ class PlayState extends MusicBeatState
 		inCutscene = false;
 
 		healthBar.visible = true;
-		healthBarBG.visible = true;
 		iconP1.visible = true;
 		iconP2.visible = true;
 		scoreTxt.visible = true;
@@ -1055,7 +1048,6 @@ class PlayState extends MusicBeatState
 		inCutscene = false;
 
 		healthBar.visible = true;
-		healthBarBG.visible = true;
 		iconP1.visible = true;
 		iconP2.visible = true;
 		scoreTxt.visible = true;
@@ -1656,12 +1648,6 @@ class PlayState extends MusicBeatState
 			trace(getGfFocusPosition());
 		}*/
 
-		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconP1.xOffset);
-		iconP1.y = healthBar.y - (iconP1.height / 2) + iconP1.yOffset;
-		
-		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconP2.xOffset);
-		iconP2.y = healthBar.y - (iconP2.height / 2) + iconP2.yOffset;
-
 		if (health > 2){
 			health = 2;
 		}
@@ -1669,15 +1655,23 @@ class PlayState extends MusicBeatState
 		if(healthLerp != health){
 			//Designed to be roughly equivalent to Utils.fpsAdjustedLerp(healthLerp, health, 0.07, 600),
 			//which is roughly equivalent to Utils.fpsAdjustedLerpOld(healthLerp, health, 0.7) at the performance I got when I implemented with smoother health bar.
-			healthLerp = Utils.fpsAdjustedLerp(healthLerp, health, 0.516, 60, true, 0.0001);
+			healthLerp = Utils.fpsAdjustedLerp(healthLerp, health, 0.516, 60, true);
 		}
 
+		healthBarShader.setPercentBasedOnHealth(healthLerp);
+
+		iconP1.x = healthBar.x + healthBarShader.borderSize + ((healthBar.width-(healthBarShader.borderSize*2)) * (1 - (healthLerp / 2))) - (iconP1.xOffset);
+		iconP1.y = healthBar.y + (healthBar.height/2) - (iconP1.height / 2) + iconP1.yOffset;
+		
+		iconP2.x = healthBar.x + healthBarShader.borderSize + ((healthBar.width-(healthBarShader.borderSize*2)) * (1 - (healthLerp / 2))) - (iconP2.width - iconP2.xOffset);
+		iconP2.y = healthBar.y + (healthBar.height/2) - (iconP2.height / 2) + iconP2.yOffset;
+
 		//Health Icons
-		if (healthBar.percent < 20){
+		if (healthLerp < 0.4){
 			iconP1.animation.curAnim.curFrame = 1;
 			iconP2.animation.curAnim.curFrame = 2;
 		}
-		else if (healthBar.percent > 80){
+		else if (healthLerp > 1.6){
 			iconP1.animation.curAnim.curFrame = 2;
 			iconP2.animation.curAnim.curFrame = 1;
 		}
