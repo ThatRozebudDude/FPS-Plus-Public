@@ -278,7 +278,7 @@ class PhillyStreetsErect extends BaseStage
 		addEvent("phillyStreetsErect-setRainSpeed", setRainSpeed);
 	}
 
-	override function postCreate():Void{
+	override function create():Void{
 		characterGlow.setPosition(boyfriend.x, boyfriend.y);
 		if(boyfriend.getSprite().shader != null){
 			characterGlow.applyShader(boyfriend.getSprite().shader);

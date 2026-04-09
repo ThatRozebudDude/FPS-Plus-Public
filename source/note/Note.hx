@@ -179,8 +179,7 @@ class Note extends FlxSprite
 
 		// trace(prevNote);
 
-		if (isSustainNote && prevNote != null)
-		{
+		if(isSustainNote && prevNote != null){
 			alpha = 0.6;
 
 			xOffset += width / 2;
@@ -196,7 +195,7 @@ class Note extends FlxSprite
 
 			yOffset = noteSkin.info.offset.y;
 
-			if (prevNote.isSustainNote){
+			if(prevNote.isSustainNote){
 				prevNote.isSustainEnd = false;
 				prevNote.animation.play("hold");
 				prevNote.updateHoldLength();
@@ -234,7 +233,7 @@ class Note extends FlxSprite
 				}
 				
 			}
-			else {
+			else{
 				canBeHit = (strumTime <= Conductor.songPosition);
 			}
 

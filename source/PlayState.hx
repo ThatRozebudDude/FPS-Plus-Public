@@ -815,7 +815,6 @@ class PlayState extends MusicBeatState
 		}
 
 		for(script in scripts){ script.create(); }
-		for(script in scripts){ script.postCreate(); }
 
 		for(i in EVENTS.events){
 			eventList.push([i[1], i[3], i[2]]);
@@ -825,6 +824,8 @@ class PlayState extends MusicBeatState
 		cutsceneCheck();
 
 		super.create();
+
+		for(script in scripts){ script.postCreate(); }
 	}
 
 	function cutsceneCheck():Void{
