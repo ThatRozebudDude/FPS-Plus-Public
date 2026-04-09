@@ -81,7 +81,7 @@ class Startup extends FlxUIStateExt
 		//trace(NoteType.types);
 		//trace(NoteType.sustainTypes);
 
-		Main.fpsDisplay.visible = Config.showFPS;
+		Main.fpsDisplay.alpha = Config.showFPS ? 1 : 0;
 		FlxG.autoPause = Config.autoPause;
 		
 		//Should fix an issue with shader coordinates breaking when resizing the screen.

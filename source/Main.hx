@@ -44,6 +44,7 @@ class Main extends Sprite
 
 		fpsDisplay = new FPSExt(3, 3, 0xFFFFFF);
 		fpsDisplay.visible = true;
+		fpsDisplay.alpha = 1;
 
 		untyped FlxG.cameras = new extensions.flixel.system.frondEnds.CameraFrontEndExt();
 

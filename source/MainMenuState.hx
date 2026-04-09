@@ -279,6 +279,8 @@ class MainMenuState extends MusicBeatState
 	}
 
 	override function beatHit():Void{
+		super.beatHit();
+
 		#if UPDATE_CHECKING
 		if(showUpdateButton >= 1){
 			updateText.color = [0xFFFFFFFF, 0xFF98DFFC][curBeat % 2];

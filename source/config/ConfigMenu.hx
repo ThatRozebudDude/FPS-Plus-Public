@@ -1043,7 +1043,7 @@ class ConfigMenu extends FlxUIStateExt
 			if (pressRight || pressLeft || pressAccept) {
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				showFPSValue = !showFPSValue;
-				Main.fpsDisplay.visible = showFPSValue;
+				Main.fpsDisplay.alpha = showFPSValue ? 1 : 0;
 			}
 			showFPS.setting = genericOnOff[showFPSValue?0:1];
 		}
