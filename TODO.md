@@ -1,14 +1,12 @@
-# Needs Fixing Before Release
+# Needs Fixing Before Next Release
 
-Fullscreen bind sometimes crashes the game maybe???
-Fix lag at begining of songs.
-Fix Polymod macro issue <- THIS ONE IS IMPORTANT IF YOU CAN FIX THIS OR HAVE ANY IDEAS PLEASE LET ME KNOW (also if you are having this issue you just need to add a trace or something into Polymod.hx to force it to recompile and run the macro.)
+- Fullscreen bind sometimes crashes the game maybe???
+- Fix lag at begining of songs.
+
+# Needs Fixing Before Implementing
+
+- Fix Polymod macro issue <- THIS ONE IS IMPORTANT IF YOU CAN FIX THIS OR HAVE ANY IDEAS PLEASE LET ME KNOW (also if you are having this issue you just need to add a trace or something into Polymod.hx to force it to recompile and run the macro.)
 
 # Possible Future Version Features
 
 - Localiztion files.
-
-# Known Bugs
-
-- Chart editor transition to Lil' Buddies is broken.
-	- Maybe remove it? IDK if people care about it + it could annoy someone who is charting...
