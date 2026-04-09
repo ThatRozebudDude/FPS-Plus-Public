@@ -23,7 +23,7 @@ class ScriptedState extends FlxUIStateExt
 	}
 
 	public static function init(stateString:String){
-		var r = RestrictedUtils.callStaticGeneratedMethod(ScriptableState, "init", [stateString]);
+		var r = RestrictedUtils.callStaticGeneratedMethod(ScriptableState, "scriptInit", [stateString]);
 		Reflect.setProperty(r, "_stateName", stateString);
 		return r;
 	}
