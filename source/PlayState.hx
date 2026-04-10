@@ -1062,17 +1062,20 @@ class PlayState extends MusicBeatState
 	function startSong():Void{
 		startingSong = false;
 
-		//if (!paused)
-		if(instSong != null){
-			FlxG.sound.playMusic(Paths.inst(instSong), 1, false);
-		}
-		else{
-			FlxG.sound.playMusic(Paths.inst(SONG.song), 1, false);
-		}
-
+		FlxG.sound.music.time = 0;
+		FlxG.sound.music.volume = 1;
+		FlxG.sound.music.play();
 		FlxG.sound.music.onComplete = endSongCutsceneCheck;
+
+		vocals.time = 0;
+		vocals.volume = 1;
 		vocals.play();
-		if(vocalType == splitVocalTrack){ vocalsOther.play(); }
+
+		if(vocalType == splitVocalTrack){
+			vocalsOther.time = 0;
+			vocalsOther.volume = 1;
+			vocalsOther.play();
+		}
 
 		Conductor.songPosition = 0;
 
@@ -1105,20 +1108,35 @@ class PlayState extends MusicBeatState
 
 		curSong = songData.song;
 
+		FlxG.sound.music = new FlxSound().loadEmbedded(Paths.inst(instSong != null ? instSong : SONG.song), false, false);
+		FlxG.sound.music.volume = 0;
+		FlxG.sound.music.persist = true;
+		FlxG.sound.defaultMusicGroup.add(FlxG.sound.music);
+		FlxG.sound.music.play().pause(); //Starting audio playback can cause a noticable stutter on lower end machines so this gets it out of the way before starting the song.
+
 		switch(vocalType){
 			case splitVocalTrack:
 				vocals = new FlxSound().loadEmbedded(Paths.voices(curSong, "Player"));
+				vocals.volume = 0;
 				vocals.onComplete = function(){ vocals.volume = 0; }
+
 				vocalsOther = new FlxSound().loadEmbedded(Paths.voices(curSong, "Opponent"));
+				vocalsOther.volume = 0;
 				vocalsOther.onComplete = function(){ vocalsOther.volume = 0; }
+				vocalsOther.play().pause();
 				FlxG.sound.list.add(vocalsOther);
+
 			case combinedVocalTrack:
 				vocals = new FlxSound().loadEmbedded(Paths.voices(curSong));
 				vocals.onComplete = function(){ vocals.volume = 0; }
+				vocals.volume = 0;
+				
 			case noVocalTrack:
 				vocals = new FlxSound();
+				vocals.volume = 0;
 		}
 
+		vocals.play().pause();
 		FlxG.sound.list.add(vocals);
 
 		notes = new FlxTypedGroup<Note>();
@@ -3114,12 +3132,7 @@ class PlayState extends MusicBeatState
 	}
 
 	function songPreload():Void {
-		if(instSong != null){
-			FlxG.sound.cache(Paths.inst(instSong));
-		}
-		else{
-			FlxG.sound.cache(Paths.inst(SONG.song));
-		}
+		FlxG.sound.cache(Paths.inst(instSong != null ? instSong : SONG.song));
 		
 		if(Utils.exists(Paths.voices(SONG.song, "Player"))){
 			FlxG.sound.cache(Paths.voices(SONG.song, "Player"));

@@ -1,7 +1,6 @@
 # Needs Fixing Before Next Release
 
 - Fullscreen bind sometimes crashes the game maybe???
-- Fix lag at begining of songs.
 
 # Needs Fixing Before Implementing
 
