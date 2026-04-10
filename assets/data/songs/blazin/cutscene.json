@@ -1,5 +1,5 @@
 {
-  "startCutscene": "null",
+  "startCutscene": null,
   "endCutscene": {
     "name": "VideoCutsceneEnd",
     "args": [

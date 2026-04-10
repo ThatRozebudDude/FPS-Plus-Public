@@ -724,37 +724,29 @@ class PlayState extends MusicBeatState
 		if(Utils.exists("assets/data/songs/" + SONG.song.toLowerCase() + "/cutscene.json") && !fromChartEditor){
 			trace("song has cutscene info");
 			var cutsceneJson = Json.parse(Utils.getText("assets/data/songs/" + SONG.song.toLowerCase() + "/cutscene.json"));
-			//trace(cutsceneJson);
 			if(Type.typeof(cutsceneJson.startCutscene) == TObject){
 				if(cutsceneJson.startCutscene.storyOnly != null) {startCutsceneStoryOnly = cutsceneJson.startCutscene.storyOnly;}
 				if((!startCutsceneStoryOnly || (startCutsceneStoryOnly && isStoryMode)) ){
-					//var startCutsceneClass = Type.resolveClass("cutscenes.data." + cutsceneJson.startCutscene.name);
 					var startCutsceneArgs = [];
 					if(cutsceneJson.startCutscene.args != null) {startCutsceneArgs = cutsceneJson.startCutscene.args;}
 					if(cutsceneJson.startCutscene.playOnce != null) {startCutscenePlayOnce = cutsceneJson.startCutscene.playOnce;}
-					//startCutscene = Type.createInstance(startCutsceneClass, startCutsceneArgs);
 					if((startCutscenePlayOnce ? replayStartCutscene : true)){
 						startCutscene = ScriptableCutscene.scriptInit(cutsceneJson.startCutscene.name, startCutsceneArgs);
 					}
 				}
 			}
-			//trace(startCutscene);
-			//trace(startCutsceneStoryOnly);
 
 			if(Type.typeof(cutsceneJson.endCutscene) == TObject){
 				if(cutsceneJson.endCutscene.storyOnly != null) {endCutsceneStoryOnly = cutsceneJson.endCutscene.storyOnly;}
 				if((!endCutsceneStoryOnly || (endCutsceneStoryOnly && isStoryMode)) ){
-					//var endCutsceneClass = Type.resolveClass("cutscenes.data." + cutsceneJson.endCutscene.name);
 					var endCutsceneArgs = [];
 					if(cutsceneJson.endCutscene.args != null) {endCutsceneArgs = cutsceneJson.endCutscene.args;}
 					if(cutsceneJson.endCutscene.playOnce != null) {endCutscenePlayOnce = cutsceneJson.endCutscene.playOnce;}
-					//endCutscene = Type.createInstance(endCutsceneClass, endCutsceneArgs);
 					endCutscene = ScriptableCutscene.scriptInit(cutsceneJson.endCutscene.name, endCutsceneArgs);
 				}
 			}
-			//trace(endCutscene);
-			//trace(endCutsceneStoryOnly);
 		}
+
 		var globalScripts:Array<String> = [];
 		if(Utils.exists(Paths.text("globalScripts", "data/scripts"))){
 			var globalScriptsText:String = Utils.getText(Paths.text("globalScripts", "data/scripts"));
@@ -763,8 +755,6 @@ class PlayState extends MusicBeatState
 				globalScripts[i] = globalScripts[i].trim();
 			}
 		}
-
-		//trace(globalScripts);
 
 		var scriptList:Array<String> = [];
 		if(Utils.exists(Paths.json("scripts", "data/songs/" + SONG.song.toLowerCase()))){
@@ -785,9 +775,7 @@ class PlayState extends MusicBeatState
 		while(scriptList.contains("")){
 			scriptList.remove("");
 		}
-
-		//trace(scriptList);
-
+		
 		scripts.set("___STAGE_SCRIPT___", stage);
 
 		for(script in scriptList){
