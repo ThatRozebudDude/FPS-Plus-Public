@@ -14,7 +14,6 @@ class SpookyMansionErect extends BaseStage
 	var lightningStrikeBeat:Int = 0;
 	var lightningStrikeOffset:Int = 8;
 	var allowLightning:Bool = true;
-	var trackBeat:Int = 0;
 
 	public function new(){
 		super();
@@ -51,13 +50,11 @@ class SpookyMansionErect extends BaseStage
 		dadStart.set(382, 831);
 		gfStart.set(821.5, 780);
 
-		addEvent("spookyErect-toggleLightning", toggleLightning);
-		addEvent("spookyErect-forceLightning", lightningEvent);
+		addEvent("spookyMansion-toggleLightning", toggleLightning);
+		addEvent("spookyMansion-forceLightning", lightningEvent);
 	}
 
 	public override function beat(curBeat:Int){
-		trackBeat = curBeat;
-
 		if (FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningStrikeOffset && allowLightning){
 			doLightningStrike(true, curBeat);
 		}
@@ -68,19 +65,15 @@ class SpookyMansionErect extends BaseStage
 	}
 
 	function lightningEvent(tag:String):Void{
-		doLightningStrike(true, trackBeat);
+		var args = Events.getArgs(tag, ["true"]);
+		doLightningStrike(Events.parseBool(args[0]), playstate.curBeat);
 	}
 
 	function doLightningStrike(playSound:Bool, beat:Int):Void{
-
-		//if (getBoyfriend() == null || getGirlfriend() == null || getDad() == null)
-			//return;
-
 		if (playSound){
 			playstate.playSound(Paths.sound("week2/thunder_" + FlxG.random.int(1, 2)));
 		}
 
-		// getNamedProp("halloweenBG").animation.play("lightning");
 		bgFlash.alpha = 1;
 		stairsFlash.alpha = 1;
 

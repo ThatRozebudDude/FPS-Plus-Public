@@ -22,6 +22,7 @@ class SpookyMansion extends BaseStage
 
 	var lightningStrikeBeat:Int = 0;
 	var lightningOffset:Int = 8;
+	var allowLightning:Bool = true;
 
 	var wallColor:FlxColor = 0xFF32325A;
 	var wallFlashColors:Array<FlxColor> = [0xFF4D4D75, 0xFF12123D, 0xFF090937];
@@ -65,16 +66,25 @@ class SpookyMansion extends BaseStage
 
 		dadStart.set(346, 849);
 		bfCameraOffset.set(0, -40);
+
+		addEvent("spookyMansion-toggleLightning", toggleLightning);
+		addEvent("spookyMansion-forceLightning", lightningStrikeEvent);
 	}
 
 	public override function beat(curBeat:Int){
-		if (FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset){
-			lightningStrikeShit(curBeat);
+		if (FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset && allowLightning){
+			lightningStrike(curBeat, true);
 		}
 	}
 
-	function lightningStrikeShit(curBeat:Int):Void{
-		playstate.playSound(Paths.sound("week2/thunder_" + FlxG.random.int(1, 2)));
+	function toggleLightning(tag:String):Void{
+		allowLightning = !allowLightning;
+	}
+
+	function lightningStrike(curBeat:Int, playSound:Bool = true):Void{
+		if(playSound){
+			playstate.playSound(Paths.sound("week2/thunder_" + FlxG.random.int(1, 2)));
+		}
 
 		light.animation.play("flash");
 		window.animation.play("flash");
@@ -84,6 +94,11 @@ class SpookyMansion extends BaseStage
 
 		boyfriend.danceLockout = boyfriend.playAnim("scared", true);
 		gf.danceLockout = gf.playAnim("scared", true);
+	}
+	
+	function lightningStrikeEvent(tag:String):Void{
+		var args = Events.getArgs(tag, ["true"]);
+		lightningStrike(playstate.curBeat, Events.parseBool(args[0]));
 	}
 
 	function floorLightCallback(anim:String, frame:Int, index:Int):Void{

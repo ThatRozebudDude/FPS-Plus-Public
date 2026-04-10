@@ -5,8 +5,8 @@ import flixel.FlxSubState;
 
 class MusicBeatSubState extends FlxSubState
 {
-	private var curStep:Int = 0;
-	private var curBeat:Int = 0;
+	public var curStep:Int = 0;
+	public var curBeat:Int = 0;
 
 	private var trackedStep:Int = -1;
 	private var trackedBeat:Int = -1;

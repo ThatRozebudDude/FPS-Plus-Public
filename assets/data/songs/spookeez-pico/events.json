@@ -20,6 +20,12 @@
 				"camBopFreq;2"
 			],
 			[
+				1,
+				1600,
+				0,
+				"spookyMansion-forceLightning;false"
+			],
+			[
 				3,
 				6300,
 				0,

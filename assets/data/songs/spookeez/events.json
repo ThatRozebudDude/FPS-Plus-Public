@@ -2,6 +2,12 @@
 	"events": {
 		"events": [
 			[
+				1,
+				1600,
+				0,
+				"spookyMansion-forceLightning;false"
+			],
+			[
 				9,
 				15550,
 				1,
