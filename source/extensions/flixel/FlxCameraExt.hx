@@ -73,24 +73,26 @@ class FlxCameraExt extends FlxCamera
 
 	override public function new(x:Float = 0, y:Float = 0, width:Int = 0, height:Int = 0, zoom:Float = 0){
 		super(x, y, width, height, zoom);
+ 			
+		//Only set up blend shader stuff if Khronos extension isn't available.
+		if(!hasKhronosExtension){
+			_backgroundFrame = new FlxFrame(new FlxGraphic('', null));
+			_backgroundFrame.frame = new FlxRect();
 
-		_backgroundFrame = new FlxFrame(new FlxGraphic('', null));
-		_backgroundFrame.frame = new FlxRect();
+			_blendShader = new CustomBlendShader();
 
-		_blendShader = new CustomBlendShader();
+			clampedScale = Math.max(1, Lib.current.stage.window.scale);
 
-		clampedScale = Math.max(1, Lib.current.stage.window.scale);
+			_backgroundRenderTexture = new RenderTexture(this.width, this.height);
+			_blendRenderTexture = new RenderTexture(this.width, this.height);
 
-		_backgroundRenderTexture = new RenderTexture(this.width, this.height);
-		_blendRenderTexture = new RenderTexture(this.width, this.height);
-
-		_cameraMatrix = new FlxMatrix();
-		_cameraTexture = new BitmapData(Std.int(this.width * clampedScale), Std.int(this.height * clampedScale));
+			_cameraMatrix = new FlxMatrix();
+			_cameraTexture = new BitmapData(Std.int(this.width * clampedScale), Std.int(this.height * clampedScale));
+		}
 	}
 
 	override function drawPixels(?frame:FlxFrame, ?pixels:BitmapData, matrix:FlxMatrix, ?transform:ColorTransform, ?blend:BlendMode, ?smoothing:Bool = false, ?shader:FlxShader):Void{
-		if (KHR_BLEND_MODES.contains(blend) && !hasKhronosExtension)
-		{
+		if(KHR_BLEND_MODES.contains(blend) && !hasKhronosExtension){
 			drawCameraScreen(_cameraTexture, this);
 
 			_backgroundFrame.frame.set(0, 0, this.width, this.height);
@@ -148,7 +150,7 @@ class FlxCameraExt extends FlxCamera
 
 		matrix.setTo(1 / pivotX, 0, 0, 1 / pivotY, camera.flashSprite.x / pivotX, camera.flashSprite.y / pivotY);
 
-		if (clearBitmap){
+		if(clearBitmap){
 			bitmap.__fillRect(bitmap.rect, 0, true);
 		}
 
@@ -168,7 +170,7 @@ class FlxCameraExt extends FlxCamera
 		renderer.__worldColorTransform.__invert();
 		renderer.__setRenderTarget(bitmap);
 
-		if (drawFlashSprite){
+		if(drawFlashSprite){
 			bitmap.__drawGL(camera.flashSprite, renderer);
 		}
 		else{
@@ -176,6 +178,16 @@ class FlxCameraExt extends FlxCamera
 		}
 
 		return bitmap;
+	}
+
+	override function destroy():Void{
+		super.destroy();
+
+		if(!hasKhronosExtension){
+			_blendRenderTexture.destroy();
+			_backgroundRenderTexture.destroy();
+			_cameraTexture.dispose();
+		}
 	}
 	
 }
