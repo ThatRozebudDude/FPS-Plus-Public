@@ -86,8 +86,6 @@ class FlxUIStateExt extends FlxUIState
 
 		}
 
-		//Utils.gc(false);
-
 		//Transition stuff.
 		if(customTransOut != null){
 			CustomTransition.transition(customTransOut, _state);

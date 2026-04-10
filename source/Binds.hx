@@ -36,6 +36,7 @@ class Binds
 			}
 		});
 
+		//Briefly prevents controller input for a frame when switching states to prevent re-registering a press.
 		FlxG.signals.preStateSwitch.add(function(){
 			lockControllerInputs();
 		});
