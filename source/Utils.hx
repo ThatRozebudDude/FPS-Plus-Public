@@ -244,6 +244,10 @@ class Utils
 
 	public static function createPausedSound(EmbeddedSound:String, Looped:Bool = false, AutoDestroy:Bool = false, ?OnComplete:Null<() -> Void>):FlxSound{
 		var sound = new FlxSound().loadEmbedded(EmbeddedSound, Looped, AutoDestroy, OnComplete);
+		sound.volume = 0;
+		sound.play().pause();
+		sound.volume = 1;
+		sound.time = 0;
 		FlxG.sound.list.add(sound);
 		return sound;
 	}
