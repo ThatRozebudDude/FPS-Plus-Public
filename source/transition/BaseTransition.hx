@@ -41,7 +41,6 @@ class BaseTransition extends FlxSpriteGroup{
 		FlxUIStateExt.inTransition = false;
 
 		if(state != null){ //State exit animation.
-			//FlxG.signals.postStateSwitch.addOnce(Utils.gc);
 			FlxG.signals.preStateCreate.addOnce(function(state){
 				if(!ImageCache.forceClearOnTransition){
 					ImageCache.destroyByCount();

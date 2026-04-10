@@ -34,6 +34,8 @@ class FlxUIStateExt extends FlxUIState
 	public var customTransIn:BaseTransition = null;
 	public var customTransOut:BaseTransition = null;
 
+	private var gcTimer:Int = 0;
+
 	override function create(){
 		if(customTransIn != null){
 			CustomTransition.transition(customTransIn, null);
@@ -61,7 +63,7 @@ class FlxUIStateExt extends FlxUIState
 		coverSprite.cameras = [coverCamera];
 		add(coverSprite);
 
-		FlxG.signals.postUpdate.addOnce(function(){Utils.gc();});
+		FlxG.signals.postUpdate.add(gcCount);
 		
 		super.create();
 	}
@@ -84,7 +86,7 @@ class FlxUIStateExt extends FlxUIState
 
 		}
 
-		Utils.gc();
+		//Utils.gc(false);
 
 		//Transition stuff.
 		if(customTransOut != null){
@@ -103,5 +105,14 @@ class FlxUIStateExt extends FlxUIState
 	override function openSubState(SubState:FlxSubState):Void{
 		Binds.lockControllerInputs(2);
 		super.openSubState(SubState);
+	}
+
+	//For some reason doing a post update signal doesn't do garbage collection correctly so this delays it by 1 frame.
+	private function gcCount():Void{
+		if(gcTimer == 1){
+			Utils.gc();
+			FlxG.signals.postUpdate.remove(gcCount);
+		}
+		gcTimer++;
 	}
 }
