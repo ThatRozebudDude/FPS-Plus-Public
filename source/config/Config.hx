@@ -53,15 +53,25 @@ class Config
 	public static final ALLOWED_FRAMERATE_VALUES:Array<Int> = [60, 120, 144, 240, 360, 480, 999];
 
 	public static var initialized:Bool = false;
+	public static var fullscreenDown:Bool = false;
 
 	public static function load():Void{
 		loadSaveData();
 
 		openfl.Lib.current.stage.addEventListener(openfl.events.KeyboardEvent.KEY_DOWN, (e:openfl.events.KeyboardEvent) -> {
 			for(key in Binds.binds.get("fullscreen").binds){
-				if (e.keyCode == key){
+				if (e.keyCode == key && !fullscreenDown){
+					fullscreenDown = true;
 					fullscreen = !fullscreen;
 					openfl.Lib.application.window.fullscreen = fullscreen;
+				}
+			}
+		});
+
+		openfl.Lib.current.stage.addEventListener(openfl.events.KeyboardEvent.KEY_UP, (e:openfl.events.KeyboardEvent) -> {
+			for(key in Binds.binds.get("fullscreen").binds){
+				if (e.keyCode == key && fullscreenDown){
+					fullscreenDown = false;
 				}
 			}
 		});
