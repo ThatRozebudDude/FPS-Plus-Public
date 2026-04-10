@@ -199,7 +199,7 @@ class PhillyStreetsErect extends BaseStage
 			if(name == "hit" || name == "shot"){
 				kickedCan.visible = false;
 			}
-		}
+		};
 		addToForeground(kickedCan);
 
 		mist1 = new FlxBackdrop(Paths.image("weekend1/phillyStreets/erect/mistMid"), FlxAxes.X);

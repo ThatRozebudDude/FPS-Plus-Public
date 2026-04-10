@@ -58,7 +58,7 @@ class PicoFreeplay extends DJCharacter
 					playAnim("idle", true);
 					skipNextIdle = true;
 			}
-		}
+		};
 
 		setupCard();
 		super.setup();

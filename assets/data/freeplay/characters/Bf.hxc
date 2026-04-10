@@ -58,7 +58,7 @@ class BoyfriendFreeplay extends DJCharacter
 				case "idle2start":
 					playAnim("idle2loop", true);
 			}
-		}
+		};
 
 		var soundData = Utils.readDirectory("assets/sounds/freeplay/cartoons/");
 		for(i in 0...soundData.length){ soundData[i] = soundData[i].split(".ogg")[0]; }
@@ -77,7 +77,7 @@ class BoyfriendFreeplay extends DJCharacter
 						FlxG.sound.play(Paths.sound("freeplay/remoteClick"), 0.7, false);
 					}
 			}
-		}
+		};
 
 		super.setup();
 		setupCard();

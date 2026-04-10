@@ -94,7 +94,7 @@ class StressPicoIntro extends ScriptedCutscene
 		tankman.shader = tankmanShader;
 		tankman.frameCallback = function(name:String, frame:Int, index:Int){
 			tankmanShader.updateFrameInfoSimple(tankman.frameWidth, tankman.frameHeight, 0);
-		}
+		};
 
 		pico = new AtlasSprite(782, 470, Paths.getTextureAtlas("week7/cutscene/picoStress/pico"));
 		pico.applyStageMatrix = true;
@@ -103,7 +103,7 @@ class StressPicoIntro extends ScriptedCutscene
 		pico.shader = picoShader;
 		pico.frameCallback = function(name:String, frame:Int, index:Int){
 			picoShader.updateFrameInfoSimple(pico.frameWidth, pico.frameHeight, 0);
-		}
+		};
 
 		speakerFront = new AtlasSprite(288 + 25, 205 -25, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerFront"));
 		speakerFront.applyStageMatrix = true;
@@ -112,7 +112,7 @@ class StressPicoIntro extends ScriptedCutscene
 		speakerFront.shader = frontShader;
 		speakerFront.frameCallback = function(name:String, frame:Int, index:Int){
 			frontShader.updateFrameInfoSimple(speakerFront.frameWidth, speakerFront.frameHeight, 0);
-		}
+		};
 		speakerFront.animationEndCallback = function(name:String){
 			removeGeneric(speakerFront);
 			Utils.destroyWhenAvailable(speakerFront);
@@ -125,7 +125,7 @@ class StressPicoIntro extends ScriptedCutscene
 		speakerCharacter.shader = speakerCharacterShader;
 		speakerCharacter.frameCallback = function(name:String, frame:Int, index:Int){
 			speakerCharacterShader.updateFrameInfoSimple(speakerCharacter.frameWidth, speakerCharacter.frameHeight, 0);
-		}
+		};
 		
 		speakerBack = new AtlasSprite(206 + 25, 105 -25, Paths.getTextureAtlas("week7/cutscene/picoStress/speakerBack"));
 		speakerBack.applyStageMatrix = true;
@@ -134,7 +134,7 @@ class StressPicoIntro extends ScriptedCutscene
 		speakerBack.shader = behindShader;
 		speakerBack.frameCallback = function(name:String, frame:Int, index:Int){
 			behindShader.updateFrameInfoSimple(speakerBack.frameWidth, speakerBack.frameHeight, 0);
-		}
+		};
 		speakerBack.animationEndCallback = function(name:String){
 			removeGeneric(speakerBack);
 			Utils.destroyWhenAvailable(speakerBack);

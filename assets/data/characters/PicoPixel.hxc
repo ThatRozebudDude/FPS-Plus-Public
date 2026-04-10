@@ -54,7 +54,7 @@ class PicoPixel extends CharacterInfoBase
 		nene.animation.play("throw");
 		nene.animation.finishCallback = function(name:String){
 			nene.visible = false;
-		}
+		};
 
 		addToSubstate(nene);
 	}

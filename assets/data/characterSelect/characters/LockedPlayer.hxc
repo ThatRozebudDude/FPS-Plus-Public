@@ -13,7 +13,7 @@ class LockedPlayerCharacterSelect extends CharacterSelectCharacter
 				case "enter":
 					playAnim("idle", true);
 			}
-		}
+		};
 	}
 
 	override function playEnter():Void{

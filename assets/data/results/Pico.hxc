@@ -98,7 +98,7 @@ class PicoResults extends ResultsCharacter
 					if(name != "loop"){
 						pico.playAnim("loop", true);
 					}
-				}
+				};
 
 			case Rank.good:
 				if(FlxG.random.bool(5))			{ pico.playAnim("intro-fat", true); }
@@ -109,7 +109,7 @@ class PicoResults extends ResultsCharacter
 					if(name != "loop"){
 						pico.playAnim("loop", true);
 					}
-				}
+				};
 
 			case Rank.loss:
 				pico.playAnim("anim", true);

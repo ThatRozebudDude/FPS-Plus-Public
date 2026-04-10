@@ -154,7 +154,7 @@ class PhillyStreets extends BaseStage
 				canExplosion.animation.play("explode", true);
 				playstate.playSound(Paths.sound("weekend1/canExplodeSfx"));
 			}
-		}
+		};
 		addToForeground(kickedCan);
 
 		canExplosion = new FlxSprite(1500, 400);

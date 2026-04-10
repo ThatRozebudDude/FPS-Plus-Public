@@ -28,7 +28,7 @@ class StressPicoEnding extends ScriptedCutscene
 		tankmanCutscene.shader = tankmanShader;
 		tankmanCutscene.frameCallback = function(name:String, frame:Int, index:Int){
 			tankmanShader.updateFrameInfoSimple(tankmanCutscene.frameWidth, tankmanCutscene.frameHeight, 0);
-		}
+		};
 
 		addEvent(0, setup);
 		addEvent(7.3, laugh);

@@ -51,7 +51,7 @@ class DJCharacter extends AtlasSprite
 					skipNextIdle = true;
 					playAnim("idle", true);
 			}
-		}
+		};
 	}
 
 	public function setup():Void{

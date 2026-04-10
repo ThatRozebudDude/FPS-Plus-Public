@@ -16,6 +16,8 @@ class GfCar extends CharacterInfoBase
 
 		addByLabel("danceLeft", offset(), "Idle Left Car", 24, loop(true, -4));
 		addByLabel("danceRight", offset(), "Idle Right Car", 24, loop(true, -4));
+		addByStartingAtLabel("idleLoop", offset(), "Idle Left Car", 30, 24, loop(true));
+
 		addByLabel("cheer", offset(), "Cheer Car", 24, loop(true, -4));
 		addByLabel("sad", offset(), "Sad Car", 24, loop(true, -4));
 

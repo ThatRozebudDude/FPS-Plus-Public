@@ -18,6 +18,8 @@ class GfDark extends CharacterInfoBase
 
 		addByLabel("danceLeft", offset(), "Idle Left", 24, loop(false));
 		addByLabel("danceRight", offset(), "Idle Right", 24, loop(false));
+		addByStartingAtLabel("idleLoop", offset(), "Idle Left", 30, 24, loop(true));
+		
 		addByLabel("cheer", offset(), "Cheer", 24, loop(false));
 		addByLabel("sad", offset(), "Sad", 24, loop(true, -8));
 		addByLabel("scared", offset(), "Scared", 24, loop(true));
