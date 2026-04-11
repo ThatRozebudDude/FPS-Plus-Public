@@ -78,98 +78,13 @@ class Events
 		return r;
 	}
 
-	//For converting event properties to easing functions. Please let me know if there is a better way.
-	public static inline function easeNameToEase(ease:String):Null<flixel.tweens.EaseFunction>{
-		var r;
-		switch(ease){
-			default:
-				r = FlxEase.linear;
-
-			case "quadIn":
-				r = FlxEase.quadIn;
-			case "quadOut":
-				r = FlxEase.quadOut;
-			case "quadInOut":
-				r = FlxEase.quadInOut;
-
-			case "cubeIn":
-				r = FlxEase.cubeIn;
-			case "cubeOut":
-				r = FlxEase.cubeOut;
-			case "cubeInOut":
-				r = FlxEase.cubeInOut;
-
-			case "quartIn":
-				r = FlxEase.quartIn;
-			case "quartOut":
-				r = FlxEase.quartOut;
-			case "quartInOut":
-				r = FlxEase.quartInOut;
-
-			case "quintIn":
-				r = FlxEase.quintIn;
-			case "quintOut":
-				r = FlxEase.quintOut;
-			case "quintInOut":
-				r = FlxEase.quintInOut;
-
-			case "smoothStepIn":
-				r = FlxEase.smoothStepIn;
-			case "smoothStepOut":
-				r = FlxEase.smoothStepOut;
-			case "smoothStepInOut":
-				r = FlxEase.smoothStepInOut;
-
-			case "smootherStepIn":
-				r = FlxEase.smootherStepIn;
-			case "smootherStepOut":
-				r = FlxEase.smootherStepOut;
-			case "smootherStepInOut":
-				r = FlxEase.smootherStepInOut;
-
-			case "sineIn":
-				r = FlxEase.sineIn;
-			case "sineOut":
-				r = FlxEase.sineOut;
-			case "sineInOut":
-				r = FlxEase.sineInOut;
-
-			case "bounceIn":
-				r = FlxEase.bounceIn;
-			case "bounceOut":
-				r = FlxEase.bounceOut;
-			case "bounceInOut":
-				r = FlxEase.bounceInOut;
-
-			case "circIn":
-				r = FlxEase.circIn;
-			case "circOut":
-				r = FlxEase.circOut;
-			case "circInOut":
-				r = FlxEase.circInOut;
-
-			case "expoIn":
-				r = FlxEase.expoIn;
-			case "expoOut":
-				r = FlxEase.expoOut;
-			case "expoInOut":
-				r = FlxEase.expoInOut;
-
-			case "backIn":
-				r = FlxEase.backIn;
-			case "backOut":
-				r = FlxEase.backOut;
-			case "backInOut":
-				r = FlxEase.backInOut;
-
-			case "elasticIn":
-				r = FlxEase.elasticIn;
-			case "elasticOut":
-				r = FlxEase.elasticOut;
-			case "elasticInOut":
-				r = FlxEase.elasticInOut;
+	//For converting event properties to easing functions.
+	private static var __easeCache:Map<String, EaseFunction> = [];
+	public static inline function easeNameToEase(ease:String):Null<EaseFunction>{
+		if (!__easeCache.exists(ease) && Reflect.hasField(FlxEase, ease)){
+			__easeCache.set(ease, Reflect.field(FlxEase, ease));
 		}
-		return r;
+		return __easeCache.get(ease) ?? FlxEase.linear;
 	}
 
 	//Coverts event properties to time. If value ends in "b" the number is treated as a beat duration, if the value ends in "s" the number is treated as a step duration, otherwise it's just time in seconds.
