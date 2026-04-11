@@ -85,48 +85,6 @@ class TankErect extends BaseStage
 		bfCameraOffset.set(-200, 0);
 		dadCameraOffset.set(200, 0);
 
-		if(gf.curCharacter == "otis-speaker" && PlayState.SONG.song.toLowerCase() == "stress-pico"){
-			TankmenBG.loadMappedAnims("picospeaker", "stress-pico");
-
-			var tempTankman:TankmenBG = new TankmenBG(20, 2000, true);
-			tempTankman.strumTime = 10;
-			tempTankman.resetShit(20, 2000, true);
-			tankmanRun.add(tempTankman);
-
-			for (i in 0...TankmenBG.animationNotes.length){
-				if (FlxG.random.bool(16)){
-					var tankman:TankmenBG = tankmanRun.recycle(TankmenBG);
-					// new TankmenBG(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
-					tankman.strumTime = TankmenBG.animationNotes[i][0];
-					tankman.resetShit(500, 230 + FlxG.random.int(50, 80), TankmenBG.animationNotes[i][1] >= 2);
-					tankmanRun.add(tankman);
-					
-					var tankmanRunShader = new DropShadowShader();
-					tankmanRunShader.setAdjustColor(-46, -38, -25, -20);
-					tankmanRunShader.color = 0xFFDFEF3C;
-					tankmanRunShader.angle = tankman.goingRight ? 45 : 135;
-					tankmanRunShader.threshold = 0.4;
-					tankmanRunShader.attachedSprite = tankman;
-					tankman.shader = tankmanRunShader;
-					tankman.animation.callback = function(name:String, frameNumber:Int, frameIndex:Int){
-						tankmanRunShader.updateFrameInfo(tankman.frame);
-					};
-
-					
-					updateFunctions.push(function(){
-						if(tankman.alive && tankman.visible){
-							if(tankman.goingRight){
-								tankmanRunShader.angle = (Math.atan2(-(leftLightPoint.y - tankman.getMidpoint().y), leftLightPoint.x - tankman.getMidpoint().x)) * FlxAngle.TO_DEG;
-							}
-							else{
-								tankmanRunShader.angle = (Math.atan2(-(rightLightPoint.y - tankman.getMidpoint().y), rightLightPoint.x - tankman.getMidpoint().x)) * FlxAngle.TO_DEG;
-							}
-						}
-					});
-				}
-			}
-		}
-
 		bfShader = new DropShadowShader();
 		bfShader.setAdjustColor(-46, -38, -25, -20);
     	bfShader.color = 0xFFDFEF3C;
@@ -163,6 +121,50 @@ class TankErect extends BaseStage
 
 		addEvent("tankErect-throwKnife", throwKnife);
 		addEvent("tankErect-hideKnife", hideKnife);
+	}
+
+	public override function postCreate(){
+		if(gf.characterInfo.info.extraData.exists("isStressCharacter") && data.exists("STRESS_SONG")){
+			TankmenBG.loadMappedAnims("picospeaker", PlayState.SONG.song.toLowerCase());
+
+			var tempTankman:TankmenBG = new TankmenBG(20, 2000, true);
+			tempTankman.strumTime = 10;
+			tempTankman.resetShit(20, 2000, true);
+			tankmanRun.add(tempTankman);
+
+			for(i in 0...TankmenBG.animationNotes.length){
+				if(FlxG.random.bool(10)){
+					var tankman:TankmenBG = tankmanRun.recycle(TankmenBG);
+					// new TankmenBG(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
+					tankman.strumTime = TankmenBG.animationNotes[i][0];
+					tankman.resetShit(500, 230 + FlxG.random.int(50, 80), TankmenBG.animationNotes[i][1] >= 2);
+					tankmanRun.add(tankman);
+					
+					var tankmanRunShader = new DropShadowShader();
+					tankmanRunShader.setAdjustColor(-46, -38, -25, -20);
+					tankmanRunShader.color = 0xFFDFEF3C;
+					tankmanRunShader.angle = tankman.goingRight ? 45 : 135;
+					tankmanRunShader.threshold = 0.4;
+					tankmanRunShader.attachedSprite = tankman;
+					tankman.shader = tankmanRunShader;
+					tankman.animation.callback = function(name:String, frameNumber:Int, frameIndex:Int){
+						tankmanRunShader.updateFrameInfo(tankman.frame);
+					};
+
+					
+					updateFunctions.push(function(){
+						if(tankman.alive && tankman.visible){
+							if(tankman.goingRight){
+								tankmanRunShader.angle = (Math.atan2(-(leftLightPoint.y - tankman.getMidpoint().y), leftLightPoint.x - tankman.getMidpoint().x)) * FlxAngle.TO_DEG;
+							}
+							else{
+								tankmanRunShader.angle = (Math.atan2(-(rightLightPoint.y - tankman.getMidpoint().y), rightLightPoint.x - tankman.getMidpoint().x)) * FlxAngle.TO_DEG;
+							}
+						}
+					});
+				}
+			}
+		}
 	}
 
 	public override function update(elapsed:Float){

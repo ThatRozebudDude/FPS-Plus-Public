@@ -1,12 +1,11 @@
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import objects.BackgroundGirls;
 
 class School extends BaseStage
 {
 
-	var bgGirls:BackgroundGirls;
+	var bgGirls:SchoolGirls;
 
 	public function new(){
 		super();
@@ -57,7 +56,7 @@ class School extends BaseStage
 		fgTrees.animation.play('treeLoop');
 		addToBackground(fgTrees);
 
-		bgGirls = new BackgroundGirls(-98, 204);
+		bgGirls = new SchoolGirls(-98, 204);
 		if (PlayState.SONG.player2 == "SenpaiAngry"){ bgGirls.getScared(); }
 		bgGirls.scale.set(6, 6);
 		bgGirls.updateHitbox();

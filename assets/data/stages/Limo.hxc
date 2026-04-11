@@ -4,13 +4,12 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import objects.BackgroundDancer;
 
 class Limo extends BaseStage
 {
 
 	var limo:FlxSprite;
-	var grpLimoDancers:Array<BackgroundDancer> = [];
+	var grpLimoDancers:Array<LimoDancer> = [];
 	var fastCar:FlxSprite;
 
 	var fastCarCanDrive:Bool = true;
@@ -33,7 +32,7 @@ class Limo extends BaseStage
 		addToBackground(bgLimo);
 
 		for (i in 0...5){
-			var dancer:BackgroundDancer = new BackgroundDancer((370 * i) + 130, bgLimo.y - 400);
+			var dancer:LimoDancer = new LimoDancer((370 * i) + 130, bgLimo.y - 400);
 			dancer.scrollFactor.set(0.4, 0.4);
 			grpLimoDancers.push(dancer);
 			addToBackground(dancer);
@@ -55,6 +54,12 @@ class Limo extends BaseStage
 		gfStart.set(787, 779);
 
 		bfCameraOffset.set(-200, 0);
+	}
+
+	public override function countdownBeat(curBeat:Float){
+		for(dancer in grpLimoDancers){
+			dancer.dance();
+		}
 	}
 
 	public override function beat(curBeat:Float){

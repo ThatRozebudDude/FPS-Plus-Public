@@ -247,7 +247,7 @@ class PolymodHandler
 
 	static function onPolymodError(error:PolymodError):Void{
 		// Perform an action based on the error code.
-		/*switch (error.code){ //Future for polymod stuff.
+		switch (error.code){ //Future for polymod stuff.
 			case MOD_MISSING_ICON:
 				
 			default:
@@ -258,9 +258,9 @@ class PolymodHandler
 					case WARNING | ERROR:
 						trace(error.message, null);
 				}
-		}*/
+		}
 
-		switch (error.code){
+		/*switch (error.code){
 			case MISSING_ICON:
 				
 			default:
@@ -271,7 +271,7 @@ class PolymodHandler
 					case WARNING | ERROR:
 						trace(error.message, null);
 				}
-		}
+		}*/
 	}
 
 	static function buildImports():Void{
@@ -291,6 +291,7 @@ class PolymodHandler
 		Polymod.addDefaultImport(PauseSubState);
 		Polymod.addDefaultImport(PlayState);
 		Polymod.addDefaultImport(Scoring);
+		Polymod.addDefaultImport(Song);
 		Polymod.addDefaultImport(Utils);
 		Polymod.addDefaultImport(VideoHandler);
 
@@ -327,6 +328,7 @@ class PolymodHandler
 		Polymod.addDefaultImport(objects.ScriptableSprite.ScriptedSprite);
 		Polymod.addDefaultImport(objects.ScriptableAtlasSprite.ScriptedAtlasSprite);
 		Polymod.addDefaultImport(objects.ScriptableSpriteGroup.ScriptedSpriteGroup);
+		Polymod.addDefaultImport(objects.ScriptableOpenFLSprite.ScriptedOpenFLSprite);
 
 		Polymod.addDefaultImport(scripts.ScriptedState);
 		

@@ -1,0 +1,42 @@
+import flixel.FlxG;
+
+class BulletCasing extends ScriptedSprite
+{
+	public function new(_x:Float = 0, _y:Float = 0){
+		super(_x, _y);
+
+		frames = Paths.getSparrowAtlas("weekend1/PicoBullet");
+		animation.addByPrefix("idle", "Bullet", 24, true);
+		animation.addByPrefix("pop", "Pop", 24, false);
+		animation.play("pop");
+		animation.onFrameChange.add(onFrameChange);
+	}
+
+	function onFrameChange(name:String, frame:Int, index:Int):Void{
+		if(name == "pop" && frame == 40){
+			startRoll();
+		}
+	}
+
+	function startRoll():Void{
+		this.animation.callback = null; //Save performance.
+
+		//Get the end position of the bullet dynamically.
+		this.x = this.x + this.frame.offset.x - 1;
+		this.y = this.y + this.frame.offset.y + 1;
+	
+		this.angle = 125.1; //Copied from FLA
+	
+		//Okay this is the neat part, we can set the velocity and angular acceleration to make it roll without editing update().
+		var randomFactorA = FlxG.random.float(3, 10);
+		var randomFactorB = FlxG.random.float(1.0, 2.0);
+		this.velocity.x = 20 * randomFactorB;
+		this.drag.x = randomFactorA * randomFactorB;
+	
+		this.angularVelocity = 100;
+		//Calculated to ensure angular acceleration is maintained through the whole roll.
+		this.angularDrag = (this.drag.x / this.velocity.x) * 100;
+	
+		animation.play("idle");
+	}
+}

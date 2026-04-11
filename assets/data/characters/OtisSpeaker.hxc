@@ -39,6 +39,7 @@ class OtisSpeaker extends CharacterInfoBase
 		info.functions.applyShader = applyShader;
 
 		addExtraData("reposition", [-30, -275]);
+		addExtraData("isStressCharacter", true);
 	}
 
 	var abot:ABot;

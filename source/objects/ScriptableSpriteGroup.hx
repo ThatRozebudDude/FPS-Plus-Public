@@ -6,4 +6,4 @@ import flixel.group.FlxSpriteGroup;
 class ScriptedSpriteGroup extends FlxSpriteGroup{}
 
 @:hscriptClass
-class ScriptableSpriteGroup extends FlxSpriteGroup implements polymod.hscript.HScriptedClass{}
+class ScriptableSpriteGroup extends ScriptedSpriteGroup implements polymod.hscript.HScriptedClass{}

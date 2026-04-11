@@ -149,9 +149,11 @@ class Tank extends BaseStage
 		dadStart.set(196, 898);
 		bfStart.set(1015.5, 862);
 		gfStart.set(655.5, 730);
+	}
 
-		if(gf.curCharacter == "pico-speaker" && PlayState.SONG.song.toLowerCase() == "stress"){
-			TankmenBG.loadMappedAnims("picospeaker", "stress");
+	public override function postCreate(){
+		if(gf.characterInfo.info.extraData.exists("isStressCharacter") && data.exists("STRESS_SONG")){
+			TankmenBG.loadMappedAnims("picospeaker", PlayState.SONG.song.toLowerCase());
 
 			var tempTankman:TankmenBG = new TankmenBG(20, 500, true);
 			tempTankman.strumTime = 10;
@@ -159,7 +161,7 @@ class Tank extends BaseStage
 			tankmanRun.add(tempTankman);
 
 			for (i in 0...TankmenBG.animationNotes.length){
-				if (FlxG.random.bool(16)){
+				if (FlxG.random.bool(10)){
 					var tankman:TankmenBG = tankmanRun.recycle(TankmenBG);
 					// new TankmenBG(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
 					tankman.strumTime = TankmenBG.animationNotes[i][0];
@@ -170,9 +172,8 @@ class Tank extends BaseStage
 				}
 			}
 		}
-
 	}
-
+	
 	public override function update(elapsed:Float){
 		super.update(elapsed);
 		moveTank();

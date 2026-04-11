@@ -8,7 +8,6 @@ import flixel.addons.display.FlxBackdrop;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-import objects.PicoBullet;
 import StringTools;
 
 class PhillyStreetsErect extends BaseStage
@@ -273,7 +272,8 @@ class PhillyStreetsErect extends BaseStage
 		addEvent("phillyStreets-canHit", canHit);
 		addEvent("phillyStreets-canShot", canShot);
 		addEvent("phillyStreets-playerGlow", createCharacterGlow);
-		addEvent("phillyStreets-createBullet", createBullet);
+
+		addEvent("pico-createBullet", createBullet);
 
 		addEvent("phillyStreetsErect-setRainSpeed", setRainSpeed);
 	}
@@ -374,7 +374,7 @@ class PhillyStreetsErect extends BaseStage
 	}
 
 	public function createBullet(tag:String):Void{
-		var bullet = new PicoBullet(2083, 880);
+		var bullet = new BulletCasing(2083, 880);
 		addToForeground(bullet);
 	}
 

@@ -29,6 +29,7 @@ class PicoSpeaker extends CharacterInfoBase
 		info.functions.countdownBeat = countdownBeat;
 
 		addExtraData("reposition", [7, 8]);
+		addExtraData("isStressCharacter", true);
 	}
 
 	function update(character:Character, elapsed:Float):Void{
