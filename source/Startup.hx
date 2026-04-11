@@ -92,6 +92,7 @@ class Startup extends FlxUIStateExt
 					camera.flashSprite.__cacheBitmapData = null;
 				}
 			}
+			Utils.gc();
 		});
 
 		FlxUIStateExt.defaultTransIn = ScreenWipeIn;
