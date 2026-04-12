@@ -1,3 +1,5 @@
+import characters.ScriptableCharacter;
+
 class CharacterAnimationEvents extends Events
 {
 	override function defineEvents() {
@@ -117,6 +119,12 @@ class CharacterAnimationEvents extends Events
 
 	function changeCharacter(tag:String):Void{
 		var args = Events.getArgs(tag, ["bf", "Bf", "true"]);
+
+		if(!ScriptableCharacter.listScriptClasses().contains(args[1])){
+			trace("Invalid character: " + args[1]);
+			return;
+		}
+
 		switch(args[0].toLowerCase()){
 			case "bf":
 				if (boyfriend.charClass == args[1]){ return; }
@@ -181,8 +189,8 @@ class CharacterAnimationEvents extends Events
 				playstate.gf = newCharacter;
 		}
 
-		playstate.healthBar.createFilledBar(dad.characterColor, boyfriend.characterColor);
-		playstate.healthBar.updateFilledBar();
+		playstate.healthBarShader.leftColor = dad.characterColor;
+		playstate.healthBarShader.rightColor = boyfriend.characterColor;
 	}
 
 	function changeCharacterPreprocess(tag:String):Void{
