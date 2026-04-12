@@ -1,7 +1,5 @@
 package events;
 
-import PlayState.VocalType;
-import flixel.tweens.FlxTween.FlxTweenManager;
 import flixel.tweens.FlxEase;
 
 using StringTools;
@@ -59,7 +57,7 @@ class Events
 	* Splits the event tag at each `;` to get the event arguments.
 	*/
 	public static function getArgs(fullEventTag:String, ?defaultArgs:Array<String>):Array<String>{
-		var r = [];
+		var r:Array<String> = [];
 
 		var args = fullEventTag.split(";");
 		for(i in 0...args.length){
@@ -80,7 +78,7 @@ class Events
 
 	//For converting event properties to easing functions.
 	public static inline function parseEase(ease:String):Null<flixel.tweens.EaseFunction>{
-		var r;
+		var r:Null<flixel.tweens.EaseFunction>;
 		switch(ease){
 			default:
 				r = FlxEase.linear;
@@ -181,7 +179,7 @@ class Events
 
 	//Coverts event properties to time. If value ends in "b" the number is treated as a beat duration, if the value ends in "s" the number is treated as a step duration, otherwise it's just time in seconds.
 	public static inline function parseTime(v:String):Float{
-		var r;
+		var r:Float;
 		if(v.endsWith("b")){
 			v = v.split("b")[0];
 			r = (Conductor.crochet * Std.parseFloat(v) / 1000);
@@ -204,7 +202,7 @@ class Events
 	#end
 
 	public static inline function parseBool(v:String):Bool{
-		return (v.toLowerCase() == "true");
+		return (v.toLowerCase().trim().startsWith("t"));
 	}
 
 	public static inline function parseInt(v:String):Int{
