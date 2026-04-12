@@ -3,15 +3,17 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
+import flixel.util.FlxSort;
 import shaders.DropShadowShader;
 import shaders.AdjustColorShader;
-import objects.TankmenBG;
 
 class TankErect extends BaseStage
 {
 
+	var doTankmenRunning:Bool = false;
 	var tankmanRun:FlxGroup;
-	var updateFunctions:Array<Void->Void> = [];
+	var tankmanRunNotes:Array<Dynamic> = [];
+	final tankmenCreationWindow:Float = 2000; //ms
 
 	var leftLightPoint = new FlxPoint(280, 200);
 	var rightLightPoint = new FlxPoint(1350, 200);
@@ -125,52 +127,17 @@ class TankErect extends BaseStage
 
 	public override function postCreate(){
 		if(gf.characterInfo.info.extraData.exists("isStressCharacter") && data.exists("STRESS_SONG")){
-			TankmenBG.loadMappedAnims("picospeaker", PlayState.SONG.song.toLowerCase());
-
-			var tempTankman:TankmenBG = new TankmenBG(20, 2000, true);
-			tempTankman.strumTime = 10;
-			tempTankman.resetShit(20, 2000, true);
-			tankmanRun.add(tempTankman);
-
-			for(i in 0...TankmenBG.animationNotes.length){
-				if(FlxG.random.bool(10)){
-					var tankman:TankmenBG = tankmanRun.recycle(TankmenBG);
-					// new TankmenBG(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
-					tankman.strumTime = TankmenBG.animationNotes[i][0];
-					tankman.resetShit(500, 230 + FlxG.random.int(50, 80), TankmenBG.animationNotes[i][1] >= 2);
-					tankmanRun.add(tankman);
-					
-					var tankmanRunShader = new DropShadowShader();
-					tankmanRunShader.setAdjustColor(-46, -38, -25, -20);
-					tankmanRunShader.color = 0xFFDFEF3C;
-					tankmanRunShader.angle = tankman.goingRight ? 45 : 135;
-					tankmanRunShader.threshold = 0.4;
-					tankmanRunShader.attachedSprite = tankman;
-					tankman.shader = tankmanRunShader;
-					tankman.animation.callback = function(name:String, frameNumber:Int, frameIndex:Int){
-						tankmanRunShader.updateFrameInfo(tankman.frame);
-					};
-
-					
-					updateFunctions.push(function(){
-						if(tankman.alive && tankman.visible){
-							if(tankman.goingRight){
-								tankmanRunShader.angle = (Math.atan2(-(leftLightPoint.y - tankman.getMidpoint().y), leftLightPoint.x - tankman.getMidpoint().x)) * FlxAngle.TO_DEG;
-							}
-							else{
-								tankmanRunShader.angle = (Math.atan2(-(rightLightPoint.y - tankman.getMidpoint().y), rightLightPoint.x - tankman.getMidpoint().x)) * FlxAngle.TO_DEG;
-							}
-						}
-					});
-				}
-			}
+			doTankmenRunning = true;
+			loadMappedAnims("picospeaker", PlayState.SONG.song.toLowerCase());
+			gf.characterInfo.info.extraData.set("isStressCharacter", tankmanRunNotes.copy());
+			Paths.image("week7/stage/tankmanKilled1"); //Preload tankman running graphic.
+			createNextTankmenBatch(0);
 		}
 	}
 
 	public override function update(elapsed:Float){
 		super.update(elapsed);
 		if(neneKnife.visible){ neneKnifeTracking.velocity.y += neneKnifeGravity * elapsed; }
-		for(func in updateFunctions){ func(); }
 	}
 
 	public override function beat(curBeat:Int){
@@ -179,6 +146,10 @@ class TankErect extends BaseStage
 			if(sniper.animation.curAnim.name != "sip" || sniper.animation.curAnim.finished){
 				sniper.animation.play(FlxG.random.bool(2) ? "sip" : "idle", true);
 			}
+		}
+
+		if(doTankmenRunning){
+			createNextTankmenBatch(Conductor.songPosition);
 		}
 	}
 
@@ -214,6 +185,44 @@ class TankErect extends BaseStage
 	public function hideKnife(tag:String):Void{
 		neneKnife.visible = false;
 		neneKnifeTracking.velocity.set(0, 0);
+	}
+
+	function loadMappedAnims(fileName:String, song:String){
+		var json = Song.loadFromJson(fileName, song);
+		var notes = json.notes;
+		tankmanRunNotes = [];
+	
+		for(section in notes){
+			for(noteData in section.sectionNotes){
+				tankmanRunNotes.push(noteData);
+			}
+		}
+	
+		tankmanRunNotes.sort(function(a, b):Int{ return FlxSort.byValues(-1, a[0], b[0]); });
+	}
+
+	function createNextTankmenBatch(songPosition:Float):Void{
+		var shiftAmount:Int = 0;
+		for(i in 0...tankmanRunNotes.length){
+			if(tankmanRunNotes[i][0] > songPosition + tankmenCreationWindow){ continue; }
+			if(FlxG.random.bool(10)){
+				var tankman:TankmenRunning = new TankmenRunning(500, 230 + FlxG.random.int(50, 80), tankmanRunNotes[i][0], tankmanRunNotes[i][1] > 1);
+				tankmanRun.add(tankman);
+
+				var tankmanRunShader = new DropShadowShader();
+				tankmanRunShader.setAdjustColor(-46, -38, -25, -20);
+				tankmanRunShader.color = 0xFFDFEF3C;
+				tankmanRunShader.angle = tankman.flipX ? 45 : 135;
+				tankmanRunShader.threshold = 0.4;
+				tankmanRunShader.attachedSprite = tankman;
+				tankman.shader = tankmanRunShader;
+				tankman.animation.callback = function(name:String, frameNumber:Int, frameIndex:Int){
+					tankmanRunShader.updateFrameInfo(tankman.frame);
+				};
+			}
+			shiftAmount++;
+		}
+		for(i in 0...shiftAmount){ tankmanRunNotes.shift(); }
 	}
 
 }

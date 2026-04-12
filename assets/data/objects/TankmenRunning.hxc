@@ -1,0 +1,57 @@
+import flixel.FlxG;
+
+class TankmenRunning extends ScriptedSprite
+{
+	public var strumTime:Float = 0;
+	public var tankSpeed:Float = 0.875;
+	public var endingOffset:Float;
+
+	public function new(_x:Float, _y:Float, _strumTime:Float, _isGoingRight:Bool){
+		super(_x, _y);
+
+		strumTime = _strumTime;
+		endingOffset = FlxG.random.float(50, 200);
+		tankSpeed = (FlxG.random.float(0.6, 1) / 0.8);
+		flipX = _isGoingRight;
+
+		frames = Paths.getSparrowAtlas("week7/stage/tankmanKilled1");
+		antialiasing = true;
+		animation.addByPrefix("run", "tankman running", 24, true);
+		animation.addByPrefix("shot1", "John Shot 1", 24, false);
+		animation.addByPrefix("shot2", "John Shot 2", 24, false);
+
+		animation.play("run");
+		animation.curAnim.curFrame = FlxG.random.int(0, animation.curAnim.numFrames - 1);
+
+		updateHitbox();
+	}
+
+	override function update(elapsed:Float){
+		super.update(elapsed);
+
+		visible = !(x >= FlxG.width * 2 || x <= FlxG.width * -2);
+
+		if(animation.curAnim.name == "run"){
+			if(flipX){
+				var endDirection:Float  = (FlxG.width * 0.02) - endingOffset;
+				x = (endDirection + (Conductor.songPosition - strumTime) * (tankSpeed * scale.x));
+			}
+			else{
+				var endDirection:Float = (FlxG.width * 0.74) + endingOffset;
+				x = (endDirection - (Conductor.songPosition - strumTime) * (tankSpeed * scale.x));
+			}
+		}
+
+		if(!visible){ return; }
+
+		if(Conductor.songPosition > strumTime && !ScriptingUtil.startsWith(animation.curAnim.name, "shot")){
+			animation.play("shot" + FlxG.random.int(1, 2));
+			offset.y = 150;
+			if(flipX){ offset.x = 300; }
+		}
+
+		if(ScriptingUtil.startsWith(animation.curAnim.name, "shot") && animation.curAnim.curFrame >= animation.curAnim.frames.length - 1){
+			destroy();
+		}
+	}
+}

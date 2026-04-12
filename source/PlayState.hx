@@ -808,6 +808,16 @@ class PlayState extends MusicBeatState
 		super.create();
 
 		for(script in scripts){ script.postCreate(); }
+
+		if(boyfriend.characterInfo.info.functions.postScript != null){
+			boyfriend.characterInfo.info.functions.postScript(boyfriend);
+		}
+		if(dad.characterInfo.info.functions.postScript != null){
+			dad.characterInfo.info.functions.postScript(dad);
+		}
+		if(gf.characterInfo.info.functions.postScript != null){
+			gf.characterInfo.info.functions.postScript(gf);
+		}
 	}
 
 	function cutsceneCheck():Void{

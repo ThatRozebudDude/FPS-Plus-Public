@@ -4,11 +4,15 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import flixel.addons.display.FlxBackdrop;
-import objects.TankmenBG;
+import flixel.util.FlxSort;
 
 class Tank extends BaseStage
 {
+	var doTankmenRunning:Bool = false;
 	var tankmanRun:FlxGroup;
+	var tankmanRunNotes:Array<Dynamic> = [];
+	final tankmenCreationWindow:Float = 2000; //ms
+
 	var tankWatchtower:FlxSprite;
 	var tankRolling:FlxSprite;
 
@@ -153,24 +157,11 @@ class Tank extends BaseStage
 
 	public override function postCreate(){
 		if(gf.characterInfo.info.extraData.exists("isStressCharacter") && data.exists("STRESS_SONG")){
-			TankmenBG.loadMappedAnims("picospeaker", PlayState.SONG.song.toLowerCase());
-
-			var tempTankman:TankmenBG = new TankmenBG(20, 500, true);
-			tempTankman.strumTime = 10;
-			tempTankman.resetShit(20, 900, true);
-			tankmanRun.add(tempTankman);
-
-			for (i in 0...TankmenBG.animationNotes.length){
-				if (FlxG.random.bool(10)){
-					var tankman:TankmenBG = tankmanRun.recycle(TankmenBG);
-					// new TankmenBG(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
-					tankman.strumTime = TankmenBG.animationNotes[i][0];
-					tankman.resetShit(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
-					tankman.scale.set(0.8, 0.8);
-					tankman.updateHitbox();
-					tankmanRun.add(tankman);
-				}
-			}
+			doTankmenRunning = true;
+			loadMappedAnims("picospeaker", PlayState.SONG.song.toLowerCase());
+			gf.characterInfo.info.extraData.set("isStressCharacter", tankmanRunNotes.copy());
+			Paths.image("week7/stage/tankmanKilled1"); //Preload tankman running graphic.
+			createNextTankmenBatch(0);
 		}
 	}
 	
@@ -190,6 +181,10 @@ class Tank extends BaseStage
 		if(curBeat % 2 == 0){
 			for(bopper in boppers){ bopper.animation.play("dance", true); }
 			tankWatchtower.animation.play("idle", true);
+		}
+
+		if(doTankmenRunning){
+			createNextTankmenBatch(Conductor.songPosition);
 		}
 	}
 
@@ -211,6 +206,35 @@ class Tank extends BaseStage
 				FlxG.sound.music.fadeIn(2.5, 0.2, 1);
 			}
 		});
+	}
+
+	function loadMappedAnims(fileName:String, song:String){
+		var json = Song.loadFromJson(fileName, song);
+		var notes = json.notes;
+		tankmanRunNotes = [];
+	
+		for(section in notes){
+			for(noteData in section.sectionNotes){
+				tankmanRunNotes.push(noteData);
+			}
+		}
+	
+		tankmanRunNotes.sort(function(a, b):Int{ return FlxSort.byValues(-1, a[0], b[0]); });
+	}
+
+	function createNextTankmenBatch(songPosition:Float):Void{
+		var shiftAmount:Int = 0;
+		for(i in 0...tankmanRunNotes.length){
+			if(tankmanRunNotes[i][0] > songPosition + tankmenCreationWindow){ break; }
+			if(FlxG.random.bool(10)){
+				var tankman:TankmenRunning = new TankmenRunning(500, 200 + FlxG.random.int(50, 100), tankmanRunNotes[i][0], tankmanRunNotes[i][1] > 1);
+				tankman.scale.set(0.8, 0.8);
+				tankman.updateHitbox();
+				tankmanRun.add(tankman);
+			}
+			shiftAmount++;
+		}
+		for(i in 0...shiftAmount){ tankmanRunNotes.shift(); }
 	}
 
 }

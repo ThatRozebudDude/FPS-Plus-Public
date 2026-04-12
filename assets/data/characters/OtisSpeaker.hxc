@@ -1,6 +1,5 @@
 import flixel.FlxG;
 import flixel.FlxSprite;
-import objects.TankmenBG;
 import objects.ABot;
 
 class OtisSpeaker extends CharacterInfoBase
@@ -31,6 +30,7 @@ class OtisSpeaker extends CharacterInfoBase
 
 		info.functions.create = create;
 		info.functions.postCreate = postCreate;
+		info.functions.postScript = postScript;
 		info.functions.update = update;
 		info.functions.beat = beat;
 		info.functions.countdownBeat = countdownBeat;
@@ -39,7 +39,7 @@ class OtisSpeaker extends CharacterInfoBase
 		info.functions.applyShader = applyShader;
 
 		addExtraData("reposition", [-30, -275]);
-		addExtraData("isStressCharacter", true);
+		addExtraData("isStressCharacter", null);
 	}
 
 	var abot:ABot;
@@ -68,13 +68,15 @@ class OtisSpeaker extends CharacterInfoBase
 		addToCharacter(gunshots);
 	}
 
+	var animationNotes:Array<Dynamic> = [];
+
 	function update(character:Character, elapsed:Float):Void{
-		if(TankmenBG.animationNotes.length > 0){
-			if(Conductor.songPosition > TankmenBG.animationNotes[0][0]){
-				character.playAnim("shoot" + (TankmenBG.animationNotes[0][1] + 1), true);
-				gunshots.animation.play("shoot" + (TankmenBG.animationNotes[0][1] + 1), true);
-				gunshots.setPosition(character.x + gunshotPositions[TankmenBG.animationNotes[0][1]][0], character.y + gunshotPositions[TankmenBG.animationNotes[0][1]][1]);
-				TankmenBG.animationNotes.shift();
+		if(animationNotes.length > 0){
+			if(Conductor.songPosition > animationNotes[0][0]){
+				character.playAnim("shoot" + (animationNotes[0][1] + 1), true);
+				gunshots.animation.play("shoot" + (animationNotes[0][1] + 1), true);
+				gunshots.setPosition(character.x + gunshotPositions[animationNotes[0][1]][0], character.y + gunshotPositions[animationNotes[0][1]][1]);
+				animationNotes.shift();
 			}
 		}
 
@@ -109,6 +111,15 @@ class OtisSpeaker extends CharacterInfoBase
 	function songEnd(character:Character):Void{
 		abot.visualizer.alpha = 0;
 		abot.visualizer.visible = false;
+	}
+
+	function postScript(character:Character){
+		if(info.extraData.get("isStressCharacter") != null){
+			animationNotes = info.extraData.get("isStressCharacter");
+		}
+		else{
+			character.idleSequence = ["idle"];
+		}
 	}
 
 	function applyShader(character:Character, shader:FlxShader){

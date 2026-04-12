@@ -60,8 +60,9 @@ typedef CharacterPropertyOverrides = {
 }
 
 typedef CharacterFunctions = {
-	var create:(Character)->Void;					//This function is run after the Character new() function is complete.
-	var postCreate:(Character)->Void;				//This function is run after the Character new() function is complete.
+	var create:(Character)->Void;					//This function is run after the character is created but before they are added to the Character object.
+	var postCreate:(Character)->Void;				//This function is run after the character is created and after they are added to the Character object.
+	var postScript:(Character)->Void;				//This function is run after the all scripts have been initialized and have run create() and postCreate().
 	var update:(Character, Float)->Void;			//This function is run every frame. Float is elapsed.
 	var dance:(Character)->Void;					//This function is run after default dance behavior.
 	var danceOverride:(Character)->Void;			//This function replaces the default dance behavior.
@@ -136,6 +137,7 @@ class CharacterInfoBase
 		functions: {
 			create: null,
 			postCreate: null,
+			postScript: null,
 			update: null,
 			dance: null,
 			danceOverride: null,

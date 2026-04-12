@@ -1,5 +1,4 @@
 import flixel.FlxG;
-import objects.TankmenBG;
 
 class PicoSpeaker extends CharacterInfoBase
 {
@@ -25,27 +24,28 @@ class PicoSpeaker extends CharacterInfoBase
 
 		info.idleSequence = [];
 
+		info.functions.postScript = postScript;
 		info.functions.update = update;
 		info.functions.countdownBeat = countdownBeat;
 
 		addExtraData("reposition", [7, 8]);
-		addExtraData("isStressCharacter", true);
+		addExtraData("isStressCharacter", null);
 	}
 
-	function update(character:Character, elapsed:Float):Void{
-		if (TankmenBG.animationNotes.length > 0){
-			if (Conductor.songPosition > TankmenBG.animationNotes[0][0]){
-				//trace('played shoot anim' + TankmenBG.animationNotes[0][1]);
+	var animationNotes:Array<Dynamic> = [];
 
+	function update(character:Character, elapsed:Float):Void{
+		if(animationNotes.length > 0){
+			if(Conductor.songPosition > animationNotes[0][0]){
 				var shootAnim:Int = 1;
 
-				if (TankmenBG.animationNotes[0][1] >= 2)
+				if (animationNotes[0][1] >= 2)
 					shootAnim = 3;
 
 				shootAnim += FlxG.random.int(0, 1);
 
 				character.playAnim('shoot' + shootAnim, true);
-				TankmenBG.animationNotes.shift();
+				animationNotes.shift();
 			}
 		}
 	}
@@ -53,6 +53,15 @@ class PicoSpeaker extends CharacterInfoBase
 	function countdownBeat(character:Character, beat:Int) {
 		if(beat % 2 == 0){
 			character.playAnim("idle", true);
+		}
+	}
+
+	function postScript(character:Character){
+		if(info.extraData.get("isStressCharacter") != null){
+			animationNotes = info.extraData.get("isStressCharacter");
+		}
+		else{
+			character.idleSequence = ["idle"];
 		}
 	}
 
