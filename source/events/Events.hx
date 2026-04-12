@@ -78,8 +78,8 @@ class Events
 		return r;
 	}
 
-	//For converting event properties to easing functions. Please let me know if there is a better way.
-	public static inline function easeNameToEase(ease:String):Null<flixel.tweens.EaseFunction>{
+	//For converting event properties to easing functions.
+	public static inline function parseEase(ease:String):Null<flixel.tweens.EaseFunction>{
 		var r;
 		switch(ease){
 			default:
@@ -172,8 +172,15 @@ class Events
 		return r;
 	}
 
+	#if BACKWARD_COMPATIBILITY
+	@:noCompletion
+	public static inline function easeNameToEase(ease:String):Null<flixel.tweens.EaseFunction>{
+		return parseEase(ease);
+	}
+	#end
+
 	//Coverts event properties to time. If value ends in "b" the number is treated as a beat duration, if the value ends in "s" the number is treated as a step duration, otherwise it's just time in seconds.
-	public static inline function eventConvertTime(v:String):Float{
+	public static inline function parseTime(v:String):Float{
 		var r;
 		if(v.endsWith("b")){
 			v = v.split("b")[0];
@@ -188,6 +195,13 @@ class Events
 		}
 		return r;
 	}
+
+	#if BACKWARD_COMPATIBILITY
+	@:noCompletion
+	public static inline function eventConvertTime(v:String):Float{
+		return parseTime(v);
+	}
+	#end
 
 	public static inline function parseBool(v:String):Bool{
 		return (v.toLowerCase() == "true");

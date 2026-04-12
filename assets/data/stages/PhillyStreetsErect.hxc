@@ -355,7 +355,7 @@ class PhillyStreetsErect extends BaseStage
 
 	function setRainSpeed(tag:String):Void{
 		var args = Events.getArgs(tag, ["0.75", "4b", "quadInOut"]);
-		tween.tween(rainShader, {timeScale: Std.parseFloat(args[0])}, Events.eventConvertTime(args[1]), {ease: Events.easeNameToEase(args[2])});
+		tween.tween(rainShader, {timeScale: Std.parseFloat(args[0])}, Events.parseTime(args[1]), {ease: Events.parseEase(args[2])});
 	}
 
 	public function createCharacterGlow(tag:String):Void{

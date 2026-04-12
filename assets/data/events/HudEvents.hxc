@@ -43,8 +43,8 @@ class HudEvents extends Events
 		//trace(playerNotePositions);
 
 		for(arrow in playstate.playerStrums.members){
-			if(Events.eventConvertTime(args[0]) > 0){
-				tween.tween(arrow, {x: opponentNotePositions[arrow.ID][0], y: opponentNotePositions[arrow.ID][1]}, Events.eventConvertTime(args[0]), {ease: Events.easeNameToEase(args[1])});
+			if(Events.parseTime(args[0]) > 0){
+				tween.tween(arrow, {x: opponentNotePositions[arrow.ID][0], y: opponentNotePositions[arrow.ID][1]}, Events.parseTime(args[0]), {ease: Events.parseEase(args[1])});
 			}
 			else{
 				arrow.x = opponentNotePositions[arrow.ID][0];
@@ -52,8 +52,8 @@ class HudEvents extends Events
 			}
 		}
 		for(arrow in playstate.enemyStrums.members){
-			if(Events.eventConvertTime(args[0]) > 0){
-				tween.tween(arrow, {x: playerNotePositions[arrow.ID][0], y: playerNotePositions[arrow.ID][1]}, Events.eventConvertTime(args[0]), {ease: Events.easeNameToEase(args[1])});
+			if(Events.parseTime(args[0]) > 0){
+				tween.tween(arrow, {x: playerNotePositions[arrow.ID][0], y: playerNotePositions[arrow.ID][1]}, Events.parseTime(args[0]), {ease: Events.parseEase(args[1])});
 			}
 			else{
 				arrow.x = playerNotePositions[arrow.ID][0];
@@ -64,10 +64,10 @@ class HudEvents extends Events
 
 	function scrollSpeedMultiplier(tag:String):Void{
 		var args = Events.getArgs(tag, ["1", "0", "linear"]);
-		var time = Events.eventConvertTime(args[1]);
+		var time = Events.parseTime(args[1]);
 
 		if(time > 0){
-			tween.tween(playstate, {scrollSpeedMultiplier: Events.parseFloat(args[0])}, time, {ease: Events.easeNameToEase(args[3])});
+			tween.tween(playstate, {scrollSpeedMultiplier: Events.parseFloat(args[0])}, time, {ease: Events.parseEase(args[3])});
 		}
 		else{
 			playstate.scrollSpeedMultiplier = Events.parseFloat(args[0]);

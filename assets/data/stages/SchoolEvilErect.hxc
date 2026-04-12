@@ -157,11 +157,11 @@ class SchoolEvilErect extends BaseStage
 		tween.cancelTweensOf(speedMult);
 		var args = Events.getArgs(tag, ["1", "1b", "quadOut", "_same"]);
 		if(args[3] != "_same"){ speedMult.value = Std.parseFloat(args[3]); }
-		if(Events.eventConvertTime(args[1]) <= 0){
+		if(Events.parseTime(args[1]) <= 0){
 			speedMult.value = Std.parseFloat(args[0]);
 		}
 		else{
-			tween.tween(speedMult, {value: Std.parseFloat(args[0])}, Events.eventConvertTime(args[1]), {ease: Events.easeNameToEase(args[2])});
+			tween.tween(speedMult, {value: Std.parseFloat(args[0])}, Events.parseTime(args[1]), {ease: Events.parseEase(args[2])});
 		}
 	}
 
@@ -169,11 +169,11 @@ class SchoolEvilErect extends BaseStage
 		tween.cancelTweensOf(freqMult);
 		var args = Events.getArgs(tag, ["1", "1b", "quadOut", "_same"]);
 		if(args[3] != "_same"){ freqMult.value = Std.parseFloat(args[3]); }
-		if(Events.eventConvertTime(args[1]) <= 0){
+		if(Events.parseTime(args[1]) <= 0){
 			freqMult.value = Std.parseFloat(args[0]);
 		}
 		else{
-			tween.tween(freqMult, {value: Std.parseFloat(args[0])}, Events.eventConvertTime(args[1]), {ease: Events.easeNameToEase(args[2])});
+			tween.tween(freqMult, {value: Std.parseFloat(args[0])}, Events.parseTime(args[1]), {ease: Events.parseEase(args[2])});
 		}
 	}
 
@@ -181,11 +181,11 @@ class SchoolEvilErect extends BaseStage
 		tween.cancelTweensOf(ampMult);
 		var args = Events.getArgs(tag, ["1", "1b", "quadOut", "_same"]);
 		if(args[3] != "_same"){ ampMult.value = Std.parseFloat(args[3]); }
-		if(Events.eventConvertTime(args[1]) <= 0){
+		if(Events.parseTime(args[1]) <= 0){
 			ampMult.value = Std.parseFloat(args[0]);
 		}
 		else{
-			tween.tween(ampMult, {value: Std.parseFloat(args[0])}, Events.eventConvertTime(args[1]), {ease: Events.easeNameToEase(args[2])});
+			tween.tween(ampMult, {value: Std.parseFloat(args[0])}, Events.parseTime(args[1]), {ease: Events.parseEase(args[2])});
 		}
 	}
 }
