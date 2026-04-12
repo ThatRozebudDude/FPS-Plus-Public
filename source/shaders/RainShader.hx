@@ -53,7 +53,7 @@ class RainShader extends FlxBasic
 
 	function set_uRainColor(value:FlxColor):FlxColor {
 		uRainColor = value;
-		shader.uIntensity.value = [value.redFloat, value.greenFloat, value.blueFloat];
+		shader.uRainColor.value = [value.redFloat, value.greenFloat, value.blueFloat];
 		return value;
 	}
 }
