@@ -1,5 +1,6 @@
 package modding;
 
+import restricted.RestrictedUtils;
 import config.CacheReload;
 import transition.CustomTransition;
 import transition.data.InstantTransition;
@@ -76,6 +77,8 @@ class PolymodHandler
 	}
 
 	public static function buildModDirectories():Void{
+		RestrictedUtils.createDirectoryIfNonexistent("mods");
+
 		//Get disabled list. Create file if not already created.
 		var disabled:String;
 		if(sys.FileSystem.exists("mods/disabled")){

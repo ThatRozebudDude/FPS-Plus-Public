@@ -58,8 +58,6 @@
 	<assets path="assets/sounds" />
 	<assets path="assets/songs" />
 
-	<assets path="mods" />
-
 	<!-- Didn't delete it just because some mods could use it -->
 	<define name="PRELOAD_ALL" unless="web" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL" />

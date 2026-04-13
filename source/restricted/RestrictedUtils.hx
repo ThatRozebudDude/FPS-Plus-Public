@@ -19,4 +19,27 @@ class RestrictedUtils
 
 		return Reflect.hasField(Reflect.field(classFields, variable), meta);
 	}
+
+	public static function createDirectoryIfNonexistent(dir:String):Void{
+		if(!directoryExists(dir)){
+		#if sys
+		sys.FileSystem.createDirectory(dir);
+		#else
+		throw 'Directory creation is not supported on this platform.';
+		#end
+		}
+	}
+
+	public static function directoryExists(path:String):Bool{
+		#if sys
+		try{
+			return sys.FileSystem.isDirectory(path);
+		}
+		catch(e:Dynamic){
+			return false;
+		}
+		#else
+		throw 'Filesystem check is not supported on this platform.';
+		#end
+	}
 }
