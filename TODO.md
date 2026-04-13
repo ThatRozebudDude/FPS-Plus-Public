@@ -1,7 +1,6 @@
 # Needs Fixing Before Next Release
 
 - Fullscreen bind sometimes crashes the game maybe???
-- Fix abot vis
 
 # Needs Fixing Before Implementing
 

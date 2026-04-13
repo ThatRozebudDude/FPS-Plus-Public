@@ -387,7 +387,7 @@ class Nene extends CharacterInfoBase
 	}
 
 	function songStart(character:Character):Void{
-		abot.setAudioSource(playstate.instrumental);
+		abot.setAudioSource(FlxG.sound.music);
 		abot.startVisualizer();
 	}
 
