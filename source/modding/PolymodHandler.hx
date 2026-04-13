@@ -55,7 +55,7 @@ class PolymodHandler
 		buildModDirectories();
 
 		loadedModMetadata = Polymod.init({
-			modRoot: "./mods/",
+			modRoot: "mods",
 			dirs: loadedModDirs,
 			useScriptedClasses: true,
 			loadScriptsAsync: #if html5 true #else false #end,

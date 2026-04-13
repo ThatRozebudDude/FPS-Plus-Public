@@ -22,11 +22,11 @@ class RestrictedUtils
 
 	public static function createDirectoryIfNonexistent(dir:String):Void{
 		if(!directoryExists(dir)){
-		#if sys
-		sys.FileSystem.createDirectory(dir);
-		#else
-		throw 'Directory creation is not supported on this platform.';
-		#end
+			#if sys
+			sys.FileSystem.createDirectory(dir);
+			#else
+			throw 'Directory creation is not supported on this platform.';
+			#end
 		}
 	}
 
