@@ -133,6 +133,7 @@ class PlayState extends MusicBeatState
 	public var tweenManager:FlxTweenManager = new FlxTweenManager();
 
 	public var instSong:String = null;
+	public var instrumental:FlxSound;
 	public var vocals:FlxSound;
 	public var vocalsOther:FlxSound;
 	public var vocalType:VocalType = combinedVocalTrack;
@@ -342,6 +343,10 @@ class PlayState extends MusicBeatState
 		customTransOut = new ScreenWipeOut(0.6);
 
 		countSteps = false;
+
+		if(FlxG.sound.music != null && FlxG.sound.music.playing){
+			FlxG.sound.music.stop();
+		}
 
 		if(overrideInsturmental != ""){
 			instSong = overrideInsturmental;
@@ -1060,10 +1065,10 @@ class PlayState extends MusicBeatState
 	function startSong():Void{
 		startingSong = false;
 
-		FlxG.sound.music.time = 0;
-		FlxG.sound.music.volume = 1;
-		FlxG.sound.music.play();
-		FlxG.sound.music.onComplete = endSongCutsceneCheck;
+		instrumental.time = 0;
+		instrumental.volume = 1;
+		instrumental.play();
+		instrumental.onComplete = endSongCutsceneCheck;
 
 		vocals.time = 0;
 		vocals.volume = 1;
@@ -1078,7 +1083,7 @@ class PlayState extends MusicBeatState
 		Conductor.songPosition = 0;
 
 		if(sectionStart){
-			FlxG.sound.music.time = sectionStartTime;
+			instrumental.time = sectionStartTime;
 			Conductor.songPosition = sectionStartTime;
 			vocals.time = sectionStartTime;
 			if(vocalType == splitVocalTrack){ vocalsOther.time = sectionStartTime; }
@@ -1106,11 +1111,10 @@ class PlayState extends MusicBeatState
 
 		curSong = songData.song;
 
-		FlxG.sound.music = new FlxSound().loadEmbedded(Paths.inst(instSong != null ? instSong : SONG.song), false, false);
-		FlxG.sound.music.volume = 0;
-		FlxG.sound.music.persist = true;
-		FlxG.sound.defaultMusicGroup.add(FlxG.sound.music);
-		FlxG.sound.music.play().pause(); //Starting audio playback can cause a noticable stutter on lower end machines so this gets it out of the way before starting the song.
+		instrumental = new FlxSound().loadEmbedded(Paths.inst(instSong != null ? instSong : SONG.song), false, false);
+		instrumental.volume = 0;
+		FlxG.sound.list.add(instrumental);
+		instrumental.play().pause(); //Starting audio playback can cause a noticable stutter on lower end machines so this gets it out of the way before starting the song.
 
 		switch(vocalType){
 			case splitVocalTrack:
@@ -1511,9 +1515,8 @@ class PlayState extends MusicBeatState
 
 	function resyncVocals():Void {
 		vocals.pause();
-		//FlxG.sound.music.pause();
-		FlxG.sound.music.play();
-		Conductor.songPosition = FlxG.sound.music.time;
+		instrumental.play();
+		Conductor.songPosition = instrumental.time;
 		if (Conductor.songPosition <= vocals.length){
 			vocals.time = Conductor.songPosition;
 			vocals.play();
@@ -1532,16 +1535,16 @@ class PlayState extends MusicBeatState
 	}
 
 	public function pauseSongPlayback():Void {
-		if(FlxG.sound.music != null){
-			FlxG.sound.music.pause();
+		if(instrumental != null){
+			instrumental.pause();
 			vocals.pause();
 			if(vocalType == splitVocalTrack){ vocalsOther.pause(); }
 		}
 	}
 
 	public function resumeSongPlayback():Void {
-		if(FlxG.sound.music != null){
-			FlxG.sound.music.play();
+		if(instrumental != null){
+			instrumental.play();
 			vocals.play();
 			if(vocalType == splitVocalTrack){ vocalsOther.play(); }
 		}
@@ -1576,7 +1579,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if(resyncWindow < RESYNC_WINDOW_FINAL && FlxG.sound.music.playing && !startingSong){
+		if(resyncWindow < RESYNC_WINDOW_FINAL && instrumental.playing && !startingSong){
 			resyncWindow += (RESYNC_WINDOW_FINAL - RESYNC_WINDOW_INITIAL) * elapsed;
 			if(resyncWindow > RESYNC_WINDOW_FINAL){ resyncWindow = RESYNC_WINDOW_FINAL; }
 		}
@@ -1628,7 +1631,7 @@ class PlayState extends MusicBeatState
 				ChartingState.startSection = curSection;
 			}
 
-			FlxG.sound.music.pause();
+			instrumental.pause();
 
 			switchState(new ChartingState(), false);
 			sectionStart = false;
@@ -1639,13 +1642,13 @@ class PlayState extends MusicBeatState
 
 			canPause = false;
 
-			FlxG.sound.music.pause();
+			instrumental.pause();
 			vocals.pause();
 			if(vocalType == splitVocalTrack){ vocalsOther.pause(); }
 		}
 
 		if (Binds.justPressed("polymodReload") && !isStoryMode){
-			FlxG.sound.music.pause();
+			instrumental.pause();
 			vocals.pause();
 			if(vocalType == splitVocalTrack){ vocalsOther.pause(); }
 			if(instSong != null){ overrideInsturmental = instSong; }
@@ -1714,8 +1717,8 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if(songPlaybackSpeed != FlxG.sound.music.pitch){
-			FlxG.sound.music.pitch = songPlaybackSpeed;
+		if(songPlaybackSpeed != instrumental.pitch){
+			instrumental.pitch = songPlaybackSpeed;
 			vocals.pitch = songPlaybackSpeed;
 			if(vocalType == splitVocalTrack){ vocalsOther.pitch = songPlaybackSpeed; }
 		}
@@ -1729,11 +1732,11 @@ class PlayState extends MusicBeatState
 			}
 		}
 		else{
-			if(previousReportedSongTime != FlxG.sound.music.time){
-				Conductor.songPosition = FlxG.sound.music.time;
+			if(previousReportedSongTime != instrumental.time){
+				Conductor.songPosition = instrumental.time;
 				//Failsafe to make sure that the onComplete actually runs because sometimes it would just not run sometimes when I was doing stuff with the song playback speed.
-				if(Utils.inRange(previousReportedSongTime, FlxG.sound.music.length, 1000) && !Utils.inRange(Conductor.songPosition, FlxG.sound.music.length, 1000) && !songEnded){ FlxG.sound.music.onComplete(); }
-				previousReportedSongTime = FlxG.sound.music.time;
+				if(Utils.inRange(previousReportedSongTime, instrumental.length, 1000) && !Utils.inRange(Conductor.songPosition, instrumental.length, 1000) && !songEnded){ instrumental.onComplete(); }
+				previousReportedSongTime = instrumental.time;
 			}
 			else{
 				Conductor.songPosition += FlxG.elapsed * 1000 * songPlaybackSpeed;
@@ -1860,7 +1863,7 @@ class PlayState extends MusicBeatState
 
 		vocals.stop();
 		if(vocalType == splitVocalTrack){ vocalsOther.stop(); }
-		FlxG.sound.music.stop();
+		instrumental.stop();
 
 		camGame.filters = [];
 
@@ -2036,8 +2039,8 @@ class PlayState extends MusicBeatState
 		songEnded = true;
 		canPause = false;
 		endingSong = true;
-		FlxG.sound.music.volume = 0;
-		FlxG.sound.music.pause();
+		instrumental.volume = 0;
+		instrumental.pause();
 		vocals.volume = 0;
 		vocals.pause();
 		if(vocalType == splitVocalTrack) { 
@@ -2100,7 +2103,7 @@ class PlayState extends MusicBeatState
 					difficulty = '-hard';
 
 				PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
-				FlxG.sound.music.stop();
+				instrumental.stop();
 
 				ImageCache.refreshLocal();
 				switchState(new PlayState());
@@ -2633,12 +2636,12 @@ class PlayState extends MusicBeatState
 
 		super.stepHit();
 
-		if((Math.abs(FlxG.sound.music.time - (Conductor.songPosition)) > (resyncWindow * songPlaybackSpeed) || (vocalType != noVocalTrack && Math.abs(vocals.time - (Conductor.songPosition)) > (resyncWindow * songPlaybackSpeed))) && FlxG.sound.music.playing){
+		if((Math.abs(instrumental.time - (Conductor.songPosition)) > (resyncWindow * songPlaybackSpeed) || (vocalType != noVocalTrack && Math.abs(vocals.time - (Conductor.songPosition)) > (resyncWindow * songPlaybackSpeed))) && instrumental.playing){
 			resyncVocals();
 		}
 
 		if(vocalType == splitVocalTrack){
-			if((Math.abs(vocalsOther.time - (Conductor.songPosition)) > (resyncWindow * songPlaybackSpeed)) && FlxG.sound.music.playing){
+			if((Math.abs(vocalsOther.time - (Conductor.songPosition)) > (resyncWindow * songPlaybackSpeed)) && instrumental.playing){
 				resyncVocals();
 			}
 		}

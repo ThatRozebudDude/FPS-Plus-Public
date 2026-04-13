@@ -16,11 +16,11 @@ class MusicEvents extends Events
 	}
 
 	function muteInst(tag:String):Void{
-		FlxG.sound.music.volume = 0;
+		playstate.instrumental.volume = 0;
 	}
 
 	function playInst(tag:String):Void{
-		FlxG.sound.music.volume = 1;
+		playstate.instrumental.volume = 1;
 	}
 
 	function muteVocals(tag:String):Void{

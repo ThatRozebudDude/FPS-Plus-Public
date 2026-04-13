@@ -119,7 +119,7 @@ class NenePixel extends CharacterInfoBase
 	}
 
 	function songStart(character:Character):Void{
-		abot.setAudioSource(FlxG.sound.music);
+		abot.setAudioSource(playstate.instrumental);
 		abot.startVisualizer();
 	}
 
