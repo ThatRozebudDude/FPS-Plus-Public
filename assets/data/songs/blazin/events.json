@@ -11,7 +11,7 @@
 				28,
 				37333.3333333333,
 				1,
-				"phillyBlazin-slowRain"
+				"phillyStreets-setRainSpeed;0.07;2.5;quadOut"
 			],
 			[
 				88,
@@ -23,13 +23,13 @@
 				88,
 				117333.333333333,
 				1,
-				"phillyBlazin-slowRain"
+				"phillyStreets-setRainSpeed;0.07;2.5;quadOut"
 			],
 			[
 				31,
 				42500,
 				0,
-				"phillyBlazin-normalRain"
+				"phillyStreets-setRainSpeed;1;1b;quadIn"
 			],
 			[
 				26,

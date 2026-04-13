@@ -383,8 +383,6 @@ class PlayState extends MusicBeatState
 			if(jsonMeta.pauseMusic != null)			{ metadata.pauseMusic = jsonMeta.pauseMusic; }
 		}
 
-		eventList.sort(sortByEventStuff);
-
 		inCutscene = false;
 
 		songPreload();
@@ -807,6 +805,8 @@ class PlayState extends MusicBeatState
 			eventList.push([i[1], i[3], i[2]]);
 			preprocessEvent(i[3]);
 		}
+
+		eventList.sort(sortByEventStuff);
 		
 		cutsceneCheck();
 

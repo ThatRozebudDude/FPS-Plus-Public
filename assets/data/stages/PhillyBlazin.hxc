@@ -5,6 +5,7 @@ import shaders.RainShader;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.addons.display.FlxBackdrop;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
@@ -12,6 +13,8 @@ import flixel.math.FlxPoint;
 class PhillyBlazin extends BaseStage
 {
 	var rainShader:RainShader;
+	var intensityTween:FlxTween;
+	var speedTween:FlxTween;
 
 	var scrollingSkyAdd:FlxSprite;
 	var streetBlurMultiply:FlxSprite;
@@ -29,6 +32,9 @@ class PhillyBlazin extends BaseStage
 
 		name = "phillyBlazin";
 		startingZoom = 0.75;
+
+		intensityTween = FlxTween.tween(this, {}, 0);
+		speedTween = FlxTween.tween(this, {}, 0);
 
 		var scrollingSky = new FlxBackdrop(Paths.image("weekend1/phillyBlazin/skyBlur"), FlxAxes.X);
 		scrollingSky.setPosition(-600, -175);
@@ -102,9 +108,10 @@ class PhillyBlazin extends BaseStage
 		addExtraData("forceCenteredNotes",  true);
 
 		addEvent("phillyBlazin-lightning", lightningStrike);
-		addEvent("phillyBlazin-slowRain", slowRain);
-		addEvent("phillyBlazin-normalRain", normalRain);
 		addEvent("phillyBlazin-toggleLightning", toggleLightning);
+
+		addEvent("phillyStreets-setRainIntensity", setRainIntensity);
+		addEvent("phillyStreets-setRainSpeed", setRainSpeed);
 	}
 
 	override function update(elapsed:Float) {
@@ -118,23 +125,6 @@ class PhillyBlazin extends BaseStage
 			lightningStrike();
 			lightningTimer = FlxG.random.float(7, 15);
 		}
-
-		/*var mod = (FlxG.keys.anyPressed([SHIFT])) ? 20 : 1;
-		if(FlxG.keys.anyJustPressed([I, J, K, L])){
-			if(FlxG.keys.anyJustPressed([I])){ boyfriend.y -= mod; }
-			if(FlxG.keys.anyJustPressed([J])){ boyfriend.x -= mod; }
-			if(FlxG.keys.anyJustPressed([K])){ boyfriend.y += mod; }
-			if(FlxG.keys.anyJustPressed([L])){ boyfriend.x += mod; }
-			trace(boyfriend.getPosition());
-		}
-
-		if(FlxG.keys.anyJustPressed([W, A, S, D])){
-			if(FlxG.keys.anyJustPressed([W])){ dad.y -= mod; }
-			if(FlxG.keys.anyJustPressed([A])){ dad.x -= mod; }
-			if(FlxG.keys.anyJustPressed([S])){ dad.y += mod; }
-			if(FlxG.keys.anyJustPressed([D])){ dad.x += mod; }
-			trace(dad.getPosition());
-		}*/
 	}
 
 	var LIGHTNING_FULL_DURATION = 1.5;
@@ -182,15 +172,31 @@ class PhillyBlazin extends BaseStage
 		lightning.visible = false;
 	}
 
-	function slowRain(tag:String):Void{
-		tween.tween(rainShader, {timeScale: 0.07}, 2.5, {ease: FlxEase.quadOut});
-	}
-
-	function normalRain(tag:String):Void{
-		tween.tween(rainShader, {timeScale: 1}, Conductor.crochet/1000, {ease: FlxEase.quadIn});
-	}
-
 	function toggleLightning(tag:String):Void{
 		lightningActive = !lightningActive;
+	}
+
+	function setRainIntensity(tag:String):Void{
+		var args = Events.getArgs(tag, ["0", "4b", "quadInOut"]);
+		intensityTween.cancel();
+		var tweenTime = Events.eventConvertTime(args[1]);
+		if(tweenTime <= 0){
+			rainShader.uIntensity = Std.parseFloat(args[0]);
+		}
+		else{
+			intensityTween = tween.tween(rainShader, {uIntensity: Std.parseFloat(args[0])}, tweenTime, {ease: Events.easeNameToEase(args[2])});
+		}
+	}
+
+	function setRainSpeed(tag:String):Void{
+		var args = Events.getArgs(tag, ["1", "4b", "quadInOut"]);
+		speedTween.cancel();
+		var tweenTime = Events.eventConvertTime(args[1]);
+		if(tweenTime <= 0){
+			rainShader.timeScale = Std.parseFloat(args[0]);
+		}
+		else{
+			speedTween = tween.tween(rainShader, {timeScale: Std.parseFloat(args[0])}, tweenTime, {ease: Events.easeNameToEase(args[2])});
+		}
 	}
 }
