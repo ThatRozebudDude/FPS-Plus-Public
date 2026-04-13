@@ -24,27 +24,16 @@ class PicoResults extends ResultsCharacter
 		lossText = 		["BLAMMED", "TARGET ESCAPED", "MISSION FAILED", "NO PAY", "COULDN'T KEEP UP", "TOUGH SHIT", "ZERO STARS"];
 
 		switch(rank){
-			case Rank.gold:
-				pico = new AtlasSprite(258, 58, Paths.getTextureAtlas("menu/results/characters/pico/perfect"));
-				pico.applyStageMatrix = true;
+			case Rank.perfect, Rank.gold:
+				pico = new AtlasSprite(-200, -219, Paths.getTextureAtlas("menu/results/characters/pico/perfect"));
 				pico.visible = false;
 				pico.addAnimationByFrame("anim", 0, null, 24, true, 91);
 				pico.scale.set(0.88, 0.88);
 
 				FlxG.sound.cache(Paths.music("results/pico/perfect-loop"));
-				
-			case Rank.perfect:
-				pico = new AtlasSprite(258, 58, Paths.getTextureAtlas("menu/results/characters/pico/perfect"));
-				pico.applyStageMatrix = true;
-				pico.visible = false;
-				pico.addAnimationByFrame("anim", 0, null, 24, true, 91);
-				pico.scale.set(0.88, 0.88);
-
-				FlxG.sound.cache(Paths.music("results/pico/perfect-loop")); 
 
 			case Rank.excellent:
-				pico = new AtlasSprite(433, 86, Paths.getTextureAtlas("menu/results/characters/pico/excellent"));
-				pico.applyStageMatrix = true;
+				pico = new AtlasSprite(-495, -232, Paths.getTextureAtlas("menu/results/characters/pico/excellent"));
 				pico.visible = false;
 				pico.addAnimationByFrame("anim", 0, null, 24, true, 32);
 				pico.scale.set(1.25, 1.25);
@@ -52,16 +41,14 @@ class PicoResults extends ResultsCharacter
 				FlxG.sound.cache(Paths.music("results/pico/excellent-loop")); 
 
 			case Rank.loss:
-				pico = new AtlasSprite(-185, -125, Paths.getTextureAtlas("menu/results/characters/pico/loss"));
-				pico.applyStageMatrix = true;
+				pico = new AtlasSprite(-40, 35, Paths.getTextureAtlas("menu/results/characters/pico/loss"));
 				pico.visible = false;
 				pico.addAnimationByFrame("anim", 0, null, 24, true, 0);
 
 				FlxG.sound.cache(Paths.music("results/pico/shit-loop")); 
 
 			default:
-				pico = new AtlasSprite(440, 60, Paths.getTextureAtlas("menu/results/characters/pico/good"));
-				pico.applyStageMatrix = true;
+				pico = new AtlasSprite(-178, -135, Paths.getTextureAtlas("menu/results/characters/pico/good"));
 				pico.visible = false;
 				pico.addAnimationByLabel("intro", "intro", 24, false);
 				pico.addAnimationByLabel("loop", "loop", 24, true);
@@ -89,18 +76,7 @@ class PicoResults extends ResultsCharacter
 
 	override function playAnim():Void{
 		switch(rank){
-			case Rank.great:
-				if(FlxG.random.bool(5))			{ pico.playAnim("intro-fat", true); }
-				else if(FlxG.random.bool(20))	{ pico.playAnim("intro-cass", true); }
-				else							{ pico.playAnim("intro", true); }
-				pico.visible = true;
-				pico.animationEndCallback = function(name){
-					if(name != "loop"){
-						pico.playAnim("loop", true);
-					}
-				};
-
-			case Rank.good:
+			case Rank.good, Rank.great:
 				if(FlxG.random.bool(5))			{ pico.playAnim("intro-fat", true); }
 				else if(FlxG.random.bool(20))	{ pico.playAnim("intro-cass", true); }
 				else							{ pico.playAnim("intro", true); }
@@ -161,13 +137,7 @@ class PicoResults extends ResultsCharacter
 
 	override function playSong():Void{
 		switch(rank){
-			case Rank.gold:
-				FlxG.sound.playMusic(Paths.music("results/pico/perfect-intro"), 1, true);
-				FlxG.sound.music.onComplete = function() {
-					FlxG.sound.playMusic(Paths.music("results/pico/perfect-loop"), 1, true); 
-				}
-
-			case Rank.perfect:
+			case Rank.perfect, Rank.gold:
 				FlxG.sound.playMusic(Paths.music("results/pico/perfect-intro"), 1, true);
 				FlxG.sound.music.onComplete = function() {
 					FlxG.sound.playMusic(Paths.music("results/pico/perfect-loop"), 1, true); 

@@ -27,27 +27,12 @@ class BoyfriendResults extends ResultsCharacter
 		lossText = 		["LOSS", "YOU'RE A FAILURE", "BE ASHAMED", "WHAT WAS THAT", "HORRIBLE", "TRY AGAIN", "AIN'T GOT WHAT IT TAKES"];
 
 		switch(rank){
-			case Rank.gold:
-				bfPerfect = new AtlasSprite(1342, 370, Paths.getTextureAtlas("menu/results/characters/bf/perfect"));
-				bfPerfect.applyStageMatrix = true;
+			case Rank.perfect, Rank.gold:
+				bfPerfect = new AtlasSprite(403, -315, Paths.getTextureAtlas("menu/results/characters/bf/perfect"));
 				bfPerfect.visible = false;
 				bfPerfect.addAnimationByFrame("anim", 0, null, 24, true, 137);
 
-				hearts = new AtlasSprite(1342, 370, Paths.getTextureAtlas("menu/results/characters/bf/perfect/hearts"));
-				hearts.visible = false;
-				hearts.addAnimationByFrame("anim", 0, null, 24, true, 43);
-
-				add(bfPerfect);
-				add(hearts);
-
-			case Rank.perfect:
-				bfPerfect = new AtlasSprite(1342, 370, Paths.getTextureAtlas("menu/results/characters/bf/perfect"));
-				bfPerfect.applyStageMatrix = true;
-				bfPerfect.visible = false;
-				bfPerfect.addAnimationByFrame("anim", 0, null, 24, true, 137);
-
-				hearts = new AtlasSprite(1342, 370, Paths.getTextureAtlas("menu/results/characters/bf/perfect/hearts"));
-				hearts.applyStageMatrix = true;
+				hearts = new AtlasSprite(630, 275, Paths.getTextureAtlas("menu/results/characters/bf/perfect/hearts"));
 				hearts.visible = false;
 				hearts.addAnimationByFrame("anim", 0, null, 24, true, 43);
 
@@ -55,22 +40,19 @@ class BoyfriendResults extends ResultsCharacter
 				add(hearts);
 
 			case Rank.excellent:
-				bfExcellent = new AtlasSprite(1329, 429, Paths.getTextureAtlas("menu/results/characters/bf/excellent"));
-				bfExcellent.applyStageMatrix = true;
+				bfExcellent = new AtlasSprite(560, -410, Paths.getTextureAtlas("menu/results/characters/bf/excellent"));
 				bfExcellent.visible = false;
 				bfExcellent.addAnimationByFrame("anim", 0, null, 24, true, 28);
 
 				add(bfExcellent);
 
 			case Rank.great:
-				gfGreat = new AtlasSprite(798, 325, Paths.getTextureAtlas("menu/results/characters/bf/great/gf"));
-				gfGreat.applyStageMatrix = true;
+				gfGreat = new AtlasSprite(563, -123, Paths.getTextureAtlas("menu/results/characters/bf/great/gf"));
 				gfGreat.visible = false;
 				gfGreat.scale.set(0.93, 0.93);
 				gfGreat.addAnimationByFrame("anim", 0, null, 24, true, 9);
 
-				bfGreat = new AtlasSprite(924, 372, Paths.getTextureAtlas("menu/results/characters/bf/great/bf"));
-				bfGreat.applyStageMatrix = true;
+				bfGreat = new AtlasSprite(655, -247, Paths.getTextureAtlas("menu/results/characters/bf/great/bf"));
 				bfGreat.visible = false;
 				bfGreat.scale.set(0.93, 0.93);
 				bfGreat.addAnimationByFrame("anim", 0, null, 24, true, 15);
@@ -79,8 +61,7 @@ class BoyfriendResults extends ResultsCharacter
 				add(bfGreat);
 
 			case Rank.loss:
-				bfLoss = new AtlasSprite(0, 20, Paths.getTextureAtlas("menu/results/characters/bf/loss"));
-				bfLoss.applyStageMatrix = true;
+				bfLoss = new AtlasSprite(570, -390, Paths.getTextureAtlas("menu/results/characters/bf/loss"));
 				bfLoss.visible = false;
 				bfLoss.addAnimationByLabel("intro", "Intro", 24, false);
 				bfLoss.addAnimationByLabel("loop", "Loop Start", 24, true);
@@ -117,16 +98,7 @@ class BoyfriendResults extends ResultsCharacter
 
 	override function playAnim():Void{
 		switch(rank){
-			//Can't use "|" in hscript swicth statements...
-			case Rank.gold:
-				bfPerfect.playAnim("anim", true);
-				bfPerfect.visible = true;
-				new FlxTimer().start((106/24), function(t):Void{
-					hearts.playAnim("anim", true);
-					hearts.visible = true;
-				});
-
-			case Rank.perfect:
+			case Rank.perfect, Rank.gold:
 				bfPerfect.playAnim("anim", true);
 				bfPerfect.visible = true;
 				new FlxTimer().start((106/24), function(t):Void{
@@ -166,10 +138,7 @@ class BoyfriendResults extends ResultsCharacter
 
 	override function playSong():Void{
 		switch(rank){
-			case Rank.gold:
-				FlxG.sound.playMusic(Paths.music("results/bf/perfect"), 1, true); 
-
-			case Rank.perfect:
+			case Rank.perfect, Rank.gold:
 				FlxG.sound.playMusic(Paths.music("results/bf/perfect"), 1, true); 
 
 			case Rank.excellent:
