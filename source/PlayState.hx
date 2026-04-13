@@ -1649,7 +1649,10 @@ class PlayState extends MusicBeatState
 			vocals.pause();
 			if(vocalType == splitVocalTrack){ vocalsOther.pause(); }
 			if(instSong != null){ overrideInsturmental = instSong; }
-			PolymodHandler.reload();
+			PolymodHandler.reload(false);
+			customTransOut = new InstantTransition();
+			ImageCache.refreshLocal();
+			switchState(new PlayState());
 		}
 
 		/*if(FlxG.keys.anyJustPressed([P])){
@@ -2005,7 +2008,6 @@ class PlayState extends MusicBeatState
 	}
 
 	function endSongCutsceneCheck():Void{
-		//trace("in cutsceneCheck");
 		stopMusic();
 
 		if(boyfriend.characterInfo.info.functions.songEnd != null){
@@ -2046,7 +2048,6 @@ class PlayState extends MusicBeatState
 	}
 
 	public function endSong():Void{
-		
 		inEndingCutscene = false;
 
 		if(!songEnded){ stopMusic(); }
@@ -2068,21 +2069,13 @@ class PlayState extends MusicBeatState
 				weekStats.missCount += songStats.missCount;
 				weekStats.comboBreakCount += songStats.comboBreakCount;
 			}
-
 			//CODE FOR ENDING A WEEK
-			if (storyPlaylist.length <= 0)
-			{
-
+			if(storyPlaylist.length <= 0){
 				StoryMenuState.fromPlayState = true;
-				//returnToMenu();
 				sectionStart = false;
-
-				// if ()
-				//StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
 
 				weekStats.accuracy / StoryMenuState.weekList[storyWeek].songs.length;
 
-				//Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
 				var songSaveStuff:SaveInfo = null;
 				if(!preventScoreSaving){
 					songSaveStuff = {
@@ -2095,13 +2088,9 @@ class PlayState extends MusicBeatState
 
 				ImageCache.forceClearOnTransition = true;
 				switchState(new ResultsState(weekStats, weekName, boyfriend.characterInfo.info.resultsCharacter, songSaveStuff, StoryMenuState.weekList[storyWeek].stickerSet));
-
-				//FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
-				//FlxG.save.flush();
 			}
 			//CODE FOR CONTINUING A WEEK
 			else{
-
 				var difficulty:String = "";
 
 				if (storyDifficulty == 0)
@@ -2113,10 +2102,8 @@ class PlayState extends MusicBeatState
 				PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
 				FlxG.sound.music.stop();
 
+				ImageCache.refreshLocal();
 				switchState(new PlayState());
-
-				//transIn = FlxTransitionableState.defaultTransIn;
-				//transOut = FlxTransitionableState.defaultTransOut;
 			}
 		}
 		//CODE FOR ENDING A FREEPLAY SONG
@@ -3143,28 +3130,34 @@ class PlayState extends MusicBeatState
 		else{
 			vocalType = noVocalTrack;
 		}
-	}
-
-	override function switchState(_state:FlxState, ?_allowScriptedStates:Bool = true):Void{
-		if(Utils.exists(Paths.voices(SONG.song, "Player"))){
-			Assets.cache.removeSound(Paths.voices(SONG.song, "Player"));
-			Assets.cache.removeSound(Paths.voices(SONG.song, "Opponent"));
-		}
-		else if(Utils.exists(Paths.voices(SONG.song))){
-			Assets.cache.removeSound(Paths.voices(SONG.song));
-		}
-
-		if(instSong != null){
-			Assets.cache.removeSound(Paths.inst(instSong));
-		}
-		else{
-			Assets.cache.removeSound(Paths.inst(SONG.song));
-		}
 
 		var pauseSongName = "pause/breakfast";
 		if(metadata != null){ pauseSongName = metadata.pauseMusic; }
-		Assets.cache.removeSound(Paths.music(pauseSongName));
+		FlxG.sound.cache(Paths.music(pauseSongName));
+	}
 
+	override function switchState(_state:FlxState, ?_allowScriptedStates:Bool = true):Void{
+		stopMusic();
+		FlxG.signals.postStateSwitch.addOnce(function(){
+			if(Utils.exists(Paths.voices(SONG.song, "Player"))){
+				Assets.cache.removeSound(Paths.voices(SONG.song, "Player"));
+				Assets.cache.removeSound(Paths.voices(SONG.song, "Opponent"));
+			}
+			else if(Utils.exists(Paths.voices(SONG.song))){
+				Assets.cache.removeSound(Paths.voices(SONG.song));
+			}
+	
+			if(instSong != null){
+				Assets.cache.removeSound(Paths.inst(instSong));
+			}
+			else{
+				Assets.cache.removeSound(Paths.inst(SONG.song));
+			}
+	
+			var pauseSongName = "pause/breakfast";
+			if(metadata != null){ pauseSongName = metadata.pauseMusic; }
+			Assets.cache.removeSound(Paths.music(pauseSongName));
+		});
 		super.switchState(_state);
 	}
 

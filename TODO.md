@@ -1,6 +1,7 @@
 # Needs Fixing Before Next Release
 
 - Fullscreen bind sometimes crashes the game maybe???
+- There is some sort of memory leak going on with PlayState (I think it's PlayState) I need to figure it out if anyone can figure it out I would appreciate that thanks.
 
 # Needs Fixing Before Implementing
 
