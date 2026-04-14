@@ -1,5 +1,6 @@
 # Needs Fixing Before Next Release
 
+- Make main menu icons space better with less buttons.
 - Fullscreen bind sometimes crashes the game maybe???
 
 # Needs Fixing Before Implementing

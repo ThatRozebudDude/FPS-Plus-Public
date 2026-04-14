@@ -491,7 +491,7 @@ class ModManagerState extends FlxUIStateExt
 	}
 
 	function showbigInfoNoMods():Void{
-		bigInfoName.text = "No Mods Installed";
+		bigInfoName.text = #if MOD_SUPPORT "No Mods Installed" #else "Mod Support Disabled" #end;
 		bigInfoName.setPosition(infoStart.x + 100, infoStart.y + 50);
 		bigInfoName.y -= bigInfoName.height/2;
 		bigInfoName.text += "\n\n";
@@ -500,7 +500,11 @@ class ModManagerState extends FlxUIStateExt
 		bigInfoIcon.setGraphicSize(80, 80);
 		bigInfoIcon.updateHitbox();
 
+		#if MOD_SUPPORT
 		bigInfoDescription.text = "There are currently no mods installed in the mods folder. To install a mod download an FPS Plus compatable mod and drag it into the mods folder in your FPS Plus install then hit the refresh button in the mod manager or re-launch the game.\n\n";
+		#else
+		bigInfoDescription.text = "This build of FPS Plus does not have mod support. You shouldn't even be here.";
+		#end
 
 		bigInfoVersion.text = "";
 	}
@@ -536,7 +540,7 @@ class ModManagerState extends FlxUIStateExt
 		modList = [];
 		hasMods = true;
 
-		if(PolymodHandler.allModDirs.length <= 0){
+		if(PolymodHandler.allModDirs.length <= 0 || #if MOD_SUPPORT false #else true #end){
 			hasMods = false;
 			curSelectedMod = 0;
 			listStartIndex = 0;
