@@ -19,12 +19,12 @@ class ModConfig
 
 		for(dir in PolymodHandler.allModDirs){
 			if(!PolymodHandler.malformedMods.exists(dir)){
-				if(!FileSystem.exists("mods/" + dir + "/config.json")){
+				if(!FileSystem.exists(PolymodHandler.MODS_FOLDER + "/" + dir + "/config.json")){
 					continue;
 				}
 				
-				var meta = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
-				var json = Json.parse(File.getContent("mods/" + dir + "/config.json"));
+				var meta = Json.parse(File.getContent(PolymodHandler.MODS_FOLDER + "/" + dir + "/meta.json"));
+				var json = Json.parse(File.getContent(PolymodHandler.MODS_FOLDER + "/" + dir + "/config.json"));
 
 				var modAPIVersion:Array<Int> = [Std.parseInt(meta.api_version.split(".")[0]), Std.parseInt(meta.api_version.split(".")[1]), Std.parseInt(meta.api_version.split(".")[2])];
 				if(meta.uid == null || modAPIVersion[1] < 4){

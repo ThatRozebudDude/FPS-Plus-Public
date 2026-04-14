@@ -26,6 +26,13 @@ class PolymodHandler
 	#else
 	"assets"
 	#end;
+
+	public static final MODS_FOLDER:String =
+	#if MOD_SUPPORT
+	"mods"
+	#else
+	"manifest"
+	#end;
 	
 	public static var allModDirs:Array<String>;
 	public static var disabledModDirs:Array<String>;
@@ -55,7 +62,7 @@ class PolymodHandler
 		buildModDirectories();
 
 		loadedModMetadata = Polymod.init({
-			modRoot: "mods",
+			modRoot: MODS_FOLDER,
 			dirs: loadedModDirs,
 			useScriptedClasses: true,
 			loadScriptsAsync: #if html5 true #else false #end,
@@ -77,16 +84,17 @@ class PolymodHandler
 	}
 
 	public static function buildModDirectories():Void{
-		RestrictedUtils.createDirectoryIfNonexistent("mods");
+		#if MOD_SUPPORT
+		RestrictedUtils.createDirectoryIfNonexistent(MODS_FOLDER);
 
 		//Get disabled list. Create file if not already created.
 		var disabled:String;
-		if(sys.FileSystem.exists("mods/disabled")){
-			disabled = sys.io.File.getContent("mods/disabled");
+		if(sys.FileSystem.exists(MODS_FOLDER + "/disabled")){
+			disabled = sys.io.File.getContent(MODS_FOLDER + "/disabled");
 		}
 		else{
 			disabled = "";
-			sys.io.File.saveContent("mods/disabled", "");
+			sys.io.File.saveContent(MODS_FOLDER + "/disabled", "");
 			trace("\"disable\" not found, creating");
 		}
 
@@ -99,23 +107,23 @@ class PolymodHandler
 		//trace("Disabled Mod List: " + disabledModDirs);
 		
 		//Get all directories in the mods folder.
-		allModDirs = sys.FileSystem.readDirectory("mods/");
+		allModDirs = sys.FileSystem.readDirectory(MODS_FOLDER + "/");
 		if(allModDirs == null){ allModDirs = []; }
 
 		//trace("Mod Directories: " + allModDirs);
 
 		//Remove all non-folder entries.
-		allModDirs = allModDirs.filter(function(path){ return sys.FileSystem.isDirectory("mods/" + path); });
+		allModDirs = allModDirs.filter(function(path){ return sys.FileSystem.isDirectory(MODS_FOLDER + "/" + path); });
 
 		//trace("Culled Mod Directories: " + allModDirs);
 
 		var order:String;
-		if(sys.FileSystem.exists("mods/order")){
-			order = sys.io.File.getContent("mods/order");
+		if(sys.FileSystem.exists(MODS_FOLDER + "/order")){
+			order = sys.io.File.getContent(MODS_FOLDER + "/order");
 		}
 		else{
 			order = "";
-			sys.io.File.saveContent("mods/order", "");
+			sys.io.File.saveContent(MODS_FOLDER + "/order", "");
 			trace("\"order\" not found, creating");
 		}
 
@@ -153,7 +161,7 @@ class PolymodHandler
 
 		var write:String = "";
 		for(dir in allModDirs){ write += dir+"\n"; }
-		sys.io.File.saveContent("mods/order", write);
+		sys.io.File.saveContent(MODS_FOLDER + "/order", write);
 
 		loadedModDirs = [];
 
@@ -173,13 +181,13 @@ class PolymodHandler
 		modMetadata = new Map<String, Dynamic>();
 
 		for(mod in loadedModDirs){
-			if(!sys.FileSystem.exists("mods/" + mod + "/meta.json")){
+			if(!sys.FileSystem.exists(MODS_FOLDER + "/" + mod + "/meta.json")){
 				malformedMods.set(mod, MISSING_META_JSON);
 				trace("COULD NOT LOAD MOD \"" + mod + "\": MISSING_META_JSON");
 				continue;
 			}
 
-			var json = Json.parse(sys.io.File.getContent("mods/" + mod + "/meta.json"));
+			var json = Json.parse(sys.io.File.getContent(MODS_FOLDER + "/" + mod + "/meta.json"));
 			if(json.api_version == null || json.mod_version == null){
 				malformedMods.set(mod, MISSING_VERSION_FIELDS);
 				trace("COULD NOT LOAD MOD \"" + mod + "\": MISSING_VERSION_FIELDS");
@@ -217,8 +225,13 @@ class PolymodHandler
 		}
 
 		loadedModDirs = loadedModDirs.filter(function(mod){ return !malformedMods.exists(mod); });
-
-		//trace("Final Mod Directories: " + loadedModDirs);
+		#else
+		allModDirs = [];
+		disabledModDirs = [];
+		malformedMods = new Map<String, ModError>();
+		loadedModDirs = [];
+		loadedModMetadata = [];
+		#end
 	}
 
 	static function reloadScripts():Void{
@@ -497,7 +510,7 @@ class PolymodHandler
 	//Checks through the loaded mods to see what mod a file is from. Returns `null` if it's not a mod file.
 	public static function getAssetModFolder(path:String):String{
 		for(mod in loadedModDirs){
-			if(sys.FileSystem.exists('mods/$mod/' + path.split("assets/")[1])){
+			if(sys.FileSystem.exists(MODS_FOLDER + '/$mod/' + path.split("assets/")[1])){
 				return mod;
 			}
 		}

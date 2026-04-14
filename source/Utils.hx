@@ -179,8 +179,8 @@ class Utils
 
 		if(FileSystem.exists(path)){files = FileSystem.readDirectory(path);}
 		for (mod in PolymodHandler.loadedModDirs){
-			if (FileSystem.exists('mods/$mod/' + path.split("assets/")[1])){
-				var modfile = FileSystem.readDirectory('mods/$mod/' + path.split("assets/")[1]);
+			if (FileSystem.exists(PolymodHandler.MODS_FOLDER + '/$mod/' + path.split("assets/")[1])){
+				var modfile = FileSystem.readDirectory(PolymodHandler.MODS_FOLDER + '/$mod/' + path.split("assets/")[1]);
 				for (file in modfile){
 					if (!files.contains(file)){
 						files.push(file);

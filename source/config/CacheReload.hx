@@ -194,7 +194,7 @@ class CacheReload extends FlxState
 		graphicsPreloadList = defaultGraphicsPreloadList;
 
 		for(mod in PolymodHandler.loadedModDirs){
-			var meta = haxe.Json.parse(sys.io.File.getContent("mods/" + mod + "/meta.json"));
+			var meta = haxe.Json.parse(sys.io.File.getContent(PolymodHandler.MODS_FOLDER + "/" + mod + "/meta.json"));
 			if(meta.preload != null && meta.preload.characters != null){
 				characterPreloadList = characterPreloadList.concat(meta.preload.characters);
 			}

@@ -241,7 +241,7 @@ class ModManagerState extends FlxUIStateExt
 		openFolderButton.pressFunction = function(){
 			FlxG.sound.play(Paths.sound("scrollMenu"));
 			//Currently this is Windows only, if anyone wants to add opening mod folder support for other OSes be my guest.
-			Sys.command("explorer.exe /n, /e, \"" + Sys.getCwd().substring(0, Sys.getCwd().length-1) + "\\mods\"");
+			Sys.command("explorer.exe /n, /e, \"" + Sys.getCwd().substring(0, Sys.getCwd().length-1) + "\\" + PolymodHandler.MODS_FOLDER + "\"");
 		};
 
 		menuButtons = [enableDisableButton, moveUpButton, moveDownButton, configButton, reloadButton, openFolderButton];
@@ -526,8 +526,8 @@ class ModManagerState extends FlxUIStateExt
 	}
 
 	function getModIcon(mod:String):BitmapData{
-		if(FileSystem.exists("mods/" + mod + "/icon.png")){
-			return BitmapData.fromFile("mods/" + mod + "/icon.png");
+		if(FileSystem.exists(PolymodHandler.MODS_FOLDER + "/" + mod + "/icon.png")){
+			return BitmapData.fromFile(PolymodHandler.MODS_FOLDER + "/" + mod + "/icon.png");
 		}
 		return BitmapData.fromFile(Paths.image("menu/modMenu/defaultModIcon", true));
 	}
@@ -584,7 +584,7 @@ class ModManagerState extends FlxUIStateExt
 						if(json.uid != null){ info.uid = json.uid; }
 						else{ info.uid = "None"; }
 					case MISSING_UID:
-						var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
+						var json = Json.parse(File.getContent(PolymodHandler.MODS_FOLDER + "/" + dir + "/meta.json"));
 						if(json.title != null){ info.name = json.title; }
 						else{ info.name = dir; }
 						info.description = "This mod is missing a \"uid\" field in the meta.json file. This is required for all mods on API version 1.4.0 and onwards.";
@@ -593,7 +593,7 @@ class ModManagerState extends FlxUIStateExt
 						info.modVersion = json.mod_version;
 						info.uid = "None";
 					case API_VERSION_TOO_OLD:
-						var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
+						var json = Json.parse(File.getContent(PolymodHandler.MODS_FOLDER + "/" + dir + "/meta.json"));
 						if(json.title != null){ info.name = json.title; }
 						else{ info.name = dir; }
 						info.description = "This mod was made for an older version of FPS Plus that uses a version of the modding API that is no longer supported.";
@@ -602,7 +602,7 @@ class ModManagerState extends FlxUIStateExt
 						info.modVersion = json.mod_version;
 						info.uid = json.uid;
 					case API_VERSION_TOO_NEW:
-						var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
+						var json = Json.parse(File.getContent(PolymodHandler.MODS_FOLDER + "/" + dir + "/meta.json"));
 						if(json.title != null){ info.name = json.title; }
 						else{ info.name = dir; }
 						info.description = "This mod was made for an API version higher than what this version of FPS Plus supports. You may need to update your version of FPS Plus or the API version is set incorrectly for the mod.";
@@ -617,7 +617,7 @@ class ModManagerState extends FlxUIStateExt
 				info.malformed = true;
 			}
 			else{
-				var json = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
+				var json = Json.parse(File.getContent(PolymodHandler.MODS_FOLDER + "/" + dir + "/meta.json"));
 				var modAPIVersion:Array<Int> = [Std.parseInt(json.api_version.split(".")[0]), Std.parseInt(json.api_version.split(".")[1]), Std.parseInt(json.api_version.split(".")[2])];
 				if(json.title != null){ info.name = json.title; }
 				else if(json.uid != null){ info.name = json.uid; }
@@ -690,12 +690,12 @@ class ModManagerState extends FlxUIStateExt
 	}
 	
 	function buildModConfig(dir:String):Array<ConfigOption>{
-		if(!FileSystem.exists("mods/" + dir + "/config.json")){
+		if(!FileSystem.exists(PolymodHandler.MODS_FOLDER + "/" + dir + "/config.json")){
 			return null;
 		}
 
-		var meta = Json.parse(File.getContent("mods/" + dir + "/meta.json"));
-		var json = Json.parse(File.getContent("mods/" + dir + "/config.json"));
+		var meta = Json.parse(File.getContent(PolymodHandler.MODS_FOLDER + "/" + dir + "/meta.json"));
+		var json = Json.parse(File.getContent(PolymodHandler.MODS_FOLDER + "/" + dir + "/config.json"));
 
 		var r:Array<ConfigOption> = [];
 
@@ -896,13 +896,13 @@ class ModManagerState extends FlxUIStateExt
 		for(mod in PolymodHandler.disabledModDirs){
 			write += mod+"\n";
 		}
-		sys.io.File.saveContent("mods/disabled", write);
+		sys.io.File.saveContent(PolymodHandler.MODS_FOLDER + "/disabled", write);
 
 		write = "";
 		for(mod in PolymodHandler.allModDirs){
 			write += mod+"\n";
 		}
-		sys.io.File.saveContent("mods/order", write);
+		sys.io.File.saveContent(PolymodHandler.MODS_FOLDER + "/order", write);
 
 		trace(PolymodHandler.disabledModDirs);
 		trace(PolymodHandler.allModDirs);

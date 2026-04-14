@@ -90,6 +90,9 @@
 	<!--Enables update checking features. This will check if the version matches a file in the FPS Plus repo. Should be removed or altered if you're modding from source.-->
 	<define name="UPDATE_CHECKING" />
 
+	<!--Enables mod support through Polymod. If disabled polymod will still be used but no external mods will be allowed to load.-->
+	<define name="MOD_SUPPORT" />
+
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
 	<!--Essentially, this forces the local .haxelib folder to act as "global" and is a solid fix for the hxvlc issue.-->
