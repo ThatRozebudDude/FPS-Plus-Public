@@ -502,7 +502,7 @@ class FreeplayState extends MusicBeatState
 		
 		camFollow.x = Utils.fpsAdjustedLerp(camFollow.x, camTarget.x, MainMenuState.lerpSpeed, 144);
 		camFollow.y = Utils.fpsAdjustedLerp(camFollow.y, camTarget.y, MainMenuState.lerpSpeed, 144);
-		MainMenuState.menuItemPosition = Utils.fpsAdjustedLerp(MainMenuState.menuItemPosition, MainMenuState.MENU_ITEM_TOP_OFFSET - (menuItemDistanceFinal * MainMenuState.scrolledAmount), 0.14);
+		MainMenuState.menuItemPosition = Utils.fpsAdjustedLerp(MainMenuState.menuItemPosition, MainMenuState.menuItemTopOffsetFinal - (menuItemDistanceFinal * MainMenuState.scrolledAmount), 0.14);
 
 		for(item in menuItems){
 			item.y = MainMenuState.menuItemPosition + item.listPositionOffset;
@@ -849,7 +849,7 @@ class FreeplayState extends MusicBeatState
 			MainMenuState.scrolledAmount = 0;
 			if(MainMenuState.curSelected < MainMenuState.scrolledAmount){ MainMenuState.scrolledAmount = MainMenuState.curSelected; }
 			else if(MainMenuState.curSelected > MainMenuState.scrolledAmount + 3){ MainMenuState.scrolledAmount = MainMenuState.curSelected - 3; }
-			MainMenuState.menuItemPosition = MainMenuState.MENU_ITEM_TOP_OFFSET - (menuItemDistanceFinal * MainMenuState.scrolledAmount);
+			MainMenuState.menuItemPosition = MainMenuState.menuItemTopOffsetFinal - (menuItemDistanceFinal * MainMenuState.scrolledAmount);
 		}
 	}
 
@@ -881,7 +881,7 @@ class FreeplayState extends MusicBeatState
 		MainMenuState.scrolledAmount = 0;
 		if(MainMenuState.curSelected < MainMenuState.scrolledAmount){ MainMenuState.scrolledAmount = MainMenuState.curSelected; }
 		else if(MainMenuState.curSelected > MainMenuState.scrolledAmount + 3){ MainMenuState.scrolledAmount = MainMenuState.curSelected - 3; }
-		MainMenuState.menuItemPosition = MainMenuState.MENU_ITEM_TOP_OFFSET - (menuItemDistanceFinal * MainMenuState.scrolledAmount);
+		MainMenuState.menuItemPosition = MainMenuState.menuItemTopOffsetFinal - (menuItemDistanceFinal * MainMenuState.scrolledAmount);
 	}
 	
 	function startFreeplaySong():Void{

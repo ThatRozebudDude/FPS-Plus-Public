@@ -31,7 +31,7 @@ class PolymodHandler
 	#if MOD_SUPPORT
 	"mods"
 	#else
-	"manifest"
+	""
 	#end;
 	
 	public static var allModDirs:Array<String>;

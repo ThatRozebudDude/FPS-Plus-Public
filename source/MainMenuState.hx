@@ -52,6 +52,7 @@ class MainMenuState extends MusicBeatState
 	
 	var menuItems:Array<MainMenuButton> = [];
 	public static var menuItemPosition:Float = MENU_ITEM_TOP_OFFSET;
+	public static var menuItemTopOffsetFinal:Float = MENU_ITEM_TOP_OFFSET;
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
@@ -125,6 +126,10 @@ class MainMenuState extends MusicBeatState
 		getMenuItems();
 
 		menuItemDistanceFinal = (menuItemJsonData.length < 5) ? MENU_ITEM_DISTANCE : MENU_ITEM_DISTANCE_EXPANDED;
+
+		if(menuItemJsonData.length < 4){
+			menuItemTopOffsetFinal = MENU_ITEM_TOP_OFFSET + (((4-menuItemJsonData.length)*menuItemDistanceFinal)/2);
+		}
 
 		for(i in 0...menuItemJsonData.length){
 			var menuItem:MainMenuButton = new MainMenuButton(menuItemJsonData[i]);
@@ -262,12 +267,12 @@ class MainMenuState extends MusicBeatState
 		if(!instantCamFollow){
 			camFollow.x = Utils.fpsAdjustedLerp(camFollow.x, camTarget.x, lerpSpeed, 144);
 			camFollow.y = Utils.fpsAdjustedLerp(camFollow.y, camTarget.y, lerpSpeed, 144);
-			menuItemPosition = Utils.fpsAdjustedLerp(menuItemPosition, MENU_ITEM_TOP_OFFSET - (menuItemDistanceFinal * scrolledAmount), 0.14);
+			menuItemPosition = Utils.fpsAdjustedLerp(menuItemPosition, menuItemTopOffsetFinal - (menuItemDistanceFinal * scrolledAmount), 0.14);
 		}
 		else{
 			camFollow.x = camTarget.x;
 			camFollow.y = camTarget.y;
-			menuItemPosition = MENU_ITEM_TOP_OFFSET - (menuItemDistanceFinal * scrolledAmount);
+			menuItemPosition = menuItemTopOffsetFinal - (menuItemDistanceFinal * scrolledAmount);
 			instantCamFollow = false;
 		}
 
