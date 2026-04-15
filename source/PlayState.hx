@@ -2479,7 +2479,7 @@ class PlayState extends MusicBeatState
 			
 			if(countMiss){
 				songStats.missCount++;
-				if(Main.flippymode) { System.exit(0); }
+				if(Main.launchArguments.flippy_mode) { System.exit(0); }
 			}
 			
 			songStats.score -= scoreAdjust;

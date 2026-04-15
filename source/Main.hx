@@ -16,12 +16,21 @@ class Main extends Sprite
 
 	public static var fpsDisplay:InteractiveObject;
 
-	public static var novid:Bool = false;
-	public static var flippymode:Bool = false;
+	public static var launchArguments:LaunchArguments = {
+		no_vid: false,
+		flippy_mode: false,
+		no_mods: false,
+	}
 
 	public function new()
 	{
 		super();
+
+		#if sys
+		launchArguments.no_vid = Sys.args().contains("-no_vid");
+		launchArguments.flippy_mode = Sys.args().contains("-flippy_mode");
+		launchArguments.no_mods = Sys.args().contains("-no_mods") || #if MOD_SUPPORT false #else true #end;
+		#end
 
 		PolymodHandler.init();
 		hxvlc.util.Handle.init([]); // initializes LibVLC
@@ -34,11 +43,6 @@ class Main extends Sprite
 
 		LogStyle.WARNING.openConsole = false;
 		LogStyle.WARNING.errorSound = null;
-
-		#if sys
-		novid = Sys.args().contains("-novid");
-		flippymode = Sys.args().contains("-flippymode");
-		#end
 
 		SaveManager.global();
 
@@ -68,9 +72,12 @@ class Main extends Sprite
 		});
 		#end
 
-		trace("-=Args=-");
-		trace("novid: " + novid);
-		trace("flippymode: " + flippymode);
-
+		trace("launchArguments: " + launchArguments);
 	}
+}
+
+typedef LaunchArguments = {
+	var no_vid:Bool;
+	var flippy_mode:Bool;
+	var no_mods:Bool;
 }

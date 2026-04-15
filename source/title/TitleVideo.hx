@@ -24,7 +24,7 @@ class TitleVideo extends FlxUIStateExt
 
 		super.create();
 
-		if(!Main.novid){
+		if(!Main.launchArguments.no_vid){
 			VideoHandler.MAX_FPS = 60;
 
 			video = new VideoHandler();

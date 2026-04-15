@@ -457,11 +457,12 @@ class MainMenuState extends MusicBeatState
 			item = item.split(".json")[0];
 			var data = Json.parse(Utils.getText(Paths.json(item, "data/mainMenu/items")));
 			data.jsonName = item;
-			#if MOD_SUPPORT
-			menuItemJsonData.push(data);
-			#else
-			if(data.action.type != "modManager"){ menuItemJsonData.push(data); }
-			#end
+			if(!Main.launchArguments.no_mods){
+				menuItemJsonData.push(data);
+			}
+			else{
+				if(data.action.type != "modManager"){ menuItemJsonData.push(data); }
+			}
 		}
 		menuItemJsonData.sort(function(a, b):Int{
 			return ((a.sort != null) ? a.sort : 0) - ((b.sort != null) ? b.sort : 0);
