@@ -74,7 +74,7 @@ class MainMenuState extends MusicBeatState
 	final warningDelay:Float = 15;
 
 	inline public static final VERSION:String = "9.0.0";
-	inline public static final NONFINAL_TAG:String = "(Non-Release Build)";
+	inline public static final VERSION_TAG:String = #if final "" #else "Non-Release Build" #end;
 	inline public static final SHOW_BUILD_INFO:Bool = #if final false #else true #end;
 	
 	public static var buildDate:String = "";
@@ -162,7 +162,7 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow);
 
-		versionText = new FlxTextExt(5, FlxG.height - 21, 0, "FPS Plus: v" + VERSION + " | Mod API: v" + PolymodHandler.API_VERSION_STRING, 16);
+		versionText = new FlxTextExt(5, FlxG.height - 21, 0, "FPS Plus: v" + VERSION + (VERSION_TAG.length > 0 ? " (" + VERSION_TAG + ")" : "") + " | Mod API: v" + PolymodHandler.API_VERSION_STRING, 16);
 		versionText.scrollFactor.set();
 		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 
@@ -180,8 +180,6 @@ class MainMenuState extends MusicBeatState
 		#end
 
 		if(SHOW_BUILD_INFO){
-			versionText.text = "FPS Plus: v" + VERSION + " " + NONFINAL_TAG + " | Mod API: v" + PolymodHandler.API_VERSION_STRING;
-
 			buildDate = CompileTime.buildDateString();
 
 			buildInfoText = new FlxTextExt(1280 - 5, FlxG.height - 37, 0, "Build Date: " + buildDate + "\n" + GitCommit.getGitBranch() +  " (" + GitCommit.getGitCommitHash() + ")", 16);
