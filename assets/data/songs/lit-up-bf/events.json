@@ -623,7 +623,7 @@
 				71,
 				96818.1818181818,
 				3,
-				"phillyStreets-setRainIntensity;0;3b;cubeInOut"
+				"phillyStreets-setRainIntensity;0;3b;linear"
 			],
 			[
 				71,
@@ -647,7 +647,7 @@
 				72,
 				98181.8181818182,
 				3,
-				"phillyStreets-setRainIntensity;0.19;3b;quartOut"
+				"phillyStreets-setRainIntensity;0.19;4b;cubeOut"
 			],
 			[
 				72,
