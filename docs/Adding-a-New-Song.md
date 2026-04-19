@@ -16,7 +16,7 @@ You can also create a `meta.json` file that contains extra details about the son
 - `difficulties`: An array of 3 numbers from 0 to 20 that show the difficulty of each song's difficulty in order of `[Easy, Normal, Hard]`.
 - `dadBeats`: An array that can contain the numbers `[0, 1, 2, or 3]` that determine what beats to play the opponent's idle on.
 - `bfBeats`: An array that can contain the numbers `[0, 1, 2, or 3]` that determine what beats to play the player's idle on.
-- `compatableInsts`: An array of song names that can have their instrumental played as a song variation in Freeplay.
+- `compatibleInsts`: An array of song names that can have their instrumental played as a song variation in Freeplay.
 - `mixName`: The name of the song variation.
 - `pauseMusic`: The path to the song that will be played on the pause screen. *Not in current pre-release.*
 
@@ -70,7 +70,7 @@ An example of a song list would be the following:
 }
 ```
 
-If you want to add a song to an already existing freeplay song list you need to `merge` the data into the `json`. Create a file called `songList-{listSuffix}.json` in `data/freeplay/songList/`. Inside the file you should add the following:
+If you want to add a song to an already existing freeplay song list you need to `merge` the data into the `json`. Create a file called `songList-{listSuffix}.json` in `data/freeplay/`. Inside the file you should add the following:
 
 ```json
 [
@@ -90,12 +90,21 @@ The object in the `"value"` field is the same as the object that you put in the 
 
 ## Creating a Song Variation
 
-In FPS Plus, songs that are remixes of other songs can have their instrumentals selected to be played with the original vocals provided they have the same BPM and song structure. If you want to have variations in your custom songs all you need to do is add the variation's song name to the `compatableInsts` array in your song's `meta.json` file. If you want to add your song as a variation of a pre-existing song you will need to merge your song's name into the other song's `meta.json` file.
+In FPS Plus, songs that are remixes of other songs can have their instrumentals selected to be played with the original vocals provided they have the same BPM and song structure. If you want to have variations in your custom songs all you need to do is add the variation's song name to the `compatibleInsts` array in your song's `meta.json` file. If you want to add your song as a variation of a pre-existing song you will need to merge your song's name into the other song's `meta.json` file.
 
 To do this first create a file called `meta.json` in `merge/data/songs/{song you want add the variation to}/`. Inside the file you should add the following:
 ```json
 [
-	{"op": "add", "path": "/compatableInsts/-", "value": "Song-Name"}
+	{"op": "add", "path": "/compatibleInsts/-", "value": "Song-Name"}
 ]
 ```
 Where `Song-Name` is replaced with the name of your song. This should be the same name used in the `songs/` folder that contains your instrumental and vocal tracks.
+
+You can also use a compatible instrumental tag. To add a tag to the list prefix the name with a `#` then put the name of the tag. The tag will be located in `data/tags/compatible_instrumentals/{tag name}.json`. Tags are useful since you can reuse them for multiple songs and can allow for your songs to include remixes from other mods without needing to explicitly support other mods. You can also merge data into tags the same way you can merge into a song's `compatibleInst` field. To do this first create a file called `{tag name}.json` in `merge/data/tags/compatible_instrumentals/`. Inside the file you should add the following:
+```json
+[
+	{"op": "add", "path": "/values/-", "value": "Song-Name"}
+]
+```
+
+The game provides a tag for every base game song included in the game even if it doesn't have a variation.

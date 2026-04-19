@@ -16,9 +16,7 @@ There are more properties than these however they will be discussed in the other
 
 ## Adding Objects to the Stage
 
-To add objects to the stage you need to create the object/sprite how you would normally in Haxe and then use `addTo{Layer}()` where `{Layer}` is either `Background`, `Middle`, `Foreground`, `Overlay`, or `Hud`, in the constructor to have the game add the object to that specific layer once the stage is created.
-
-You can also directly add and remove objects to the different stage layers directly with `addTo{Layer}Live()` and `removeFrom{Layer}Live()`. This is the only way to add new objects to the stage after it has been created. However, I don't recommend doing this unless it is required for whatever you are doing. This is because adding and loading objects to the stage may cause people's game to lag depending on how much needs to be loaded. For stages that change throughout I recommend adding everything at the begining and toggling its visibility. This is designed more for objects like the bullet casings from 2hot.
+To add objects to the stage you need to create the object/sprite how you would normally in Haxe and then use `addTo{Layer}()` where `{Layer}` is either `Background`, `Gf`, `Middle`, `Character`, `Foreground`, `Overlay`, or `Hud`.
 
 This is the layer order and what specifically each layer does:
 
@@ -73,31 +71,7 @@ You can add stage specific events that can be charted in the Chart Editor but on
 - `prefix`: A string that will match to the begining of the event before any arguments.
 - `function`: A `Void` function that takes a `String` as an argument. The argument is the event tag. You can use `Events.getArgs(tag)` to automatically separate the arguments out of the tag into a string array for easier interpretation.
 
-Additionally, you can override different functions similarly to a generic script that get automatically called by `PlayState`:
-
-- `postCreate()`: This is run after the stage and `PlayState` is finished being created.
-- `update(elapsed)`: This is run every frame. Don't forget to call `super.update(elapsed)` to make sure the stage's update loop is still called.
-    - `elapsed`: The time in seconds between this frame and the previous frame.
-- `beat(curBeat)`: This is run every song beat.
-    - `curBeat`: The current beat of the song as an integer.
-- `countdownBeat(curBeat)`: This is run every beat of the intro countdown.
-    - `curBeat`: The current part of the countdown as an integer.
-- `step(curStep)`: This is run every step of the song.
-    - `curStep`: The current step of the song as an integer.
-- `songStart()`: This is run once the song starts playing.
-- `songEnd()`: This is run once the song finishes playing.
-- `pause()`: This is run whenever the game is paused.
-- `unpause()`: This is run whenever the game is unpaused.
-- `gameOverStart()`: This is run when the death screen is started.
-- `gameOverLoop()`: This is run when the death screen starts the character's looping animation.
-- `gameOverEnd()`: This is run when you continue from the death screen.
-- `exit()`: This is run when exiting `PlayState`.
-- `noteHit(character, note)`: This is run when a character hits a note.
-    - `character`: The character object that hit the note. Will either be `boyfriend` or `dad`.
-    - `note`: The note object that was just hit.
-- `noteMiss(direction, countedMiss)`: This is run when exiting `PlayState`.
-    - `direction`: The direction that the player missed in as an integer.
-    - `countedMiss`: A boolean that will be `true` if the miss was counted or `false` if it wasn't (for things like wrong taps).
+Additionally, since stages are an extension of scripts you can override different functions that will get automatically called by `PlayState`. If you want to check out the full list of functions look [here](https://github.com/ThatRozebudDude/FPS-Plus-Public/wiki/Generic-Scripts#functions).
 
 ## Examples
 

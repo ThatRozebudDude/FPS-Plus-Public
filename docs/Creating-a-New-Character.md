@@ -129,6 +129,7 @@ The character info has a field called `functions` which is an object containing 
 
 - `create(character)`: This is run after the character is created but before they are added to the Character object.
 - `postCreate(character)`: This is run after the character is created and after they are added to the Character object.
+- `postScript(character)`: This is run after the all scripts have been initialized and have run `create()` and `postCreate()`.
 - `add(character)`: This is run after the character is added to `PlayState`.
 - `update(character, elapsed)`: This is run every frame.
     - `elapsed`: The time in seconds from the previous frame to this frame as a float.

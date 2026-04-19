@@ -14,7 +14,7 @@ To add a note type you need to call one of the following functions inside of `de
         - `note`: The `Note` object that was just hit.
         - `character`: The `Character` object that just hit the note.
     - `missFunction(direction, character)`: The function that is run when the note is missed. *(Optional)* If `null` it will use the default miss function.
-        - `direction`: The note direction that was just missed as an integer.
+        - `note`: The `Note` object that was just missed.
         - `character`: The `Character` object that just missed the note.
 
 - `addSustainType(name, hitFunction, missFunction)`: Same as `addNoteType()` but this applies to sustain parts instead of full note hits.
@@ -28,6 +28,16 @@ You are not limited to defining one note type per class so you can put similar n
 
 Writing a custom hit or miss function works the same as any other type of script and you have access to all the scripting tools you would normally have.
 
+### Arguments
+
+Much like Events, you can pass arguments into a note type by adding them after the name of the note type, separated by semicolons. To parse out the arguments you can use `Events.getArgs(tag, defaultArguments)` to return an array of strings with the provided arguments and default arguments if they are omitted. Ex:
+
+```haxe
+var args = Events.getArgs(note.type, ["", "", "true"]);
+```
+
+This will return `["", "", "true"]` if no arguments are provided and would return `["hey", "cheer", "false"]` if the provided tag was `playAnim;hey;cheer;false`. All arguments are strings, you can use `Events.parseInt()`, `Events.parseFloat()`, `Events.parseBool()`, `Events.parseTime()`, or `Events.parseEase()` to convert to other types.
+
 ### Custom Animations
 
 When writing a custom hit or miss function the character will not automatically animate. You can use the following functions to use the default hit or miss behavior:
@@ -35,8 +45,8 @@ When writing a custom hit or miss function the character will not automatically 
 - `playstate.defaultNoteHit(note, character)`
     - `note`: The `Note` object that was just hit.
     - `character`: The `Character` object that just hit the note.
-- `playstate.defaultNoteMiss(direction, character)`
-    - `direction`: The note direction that was just missed as an integer.
+- `playstate.defaultNoteMiss(note, character)`
+    - `note`: The `Note` object that was just missed. This can also be a direction as an integer.
     - `character`: The `Character` object that just missed the note.
 
 If you want to make the character play a specific animation, it is recommended that you wrap the animation part of the code with this:
@@ -51,7 +61,7 @@ This makes sure that the animation will only play when the game would normally l
 
 ### Adjusting Health
 
-By default, the player's health will be automatically adjust how it normally would with a default note. To change the player's health you can set the variable `healthAdjust` to a specific value in the hit or miss function. After the function is run it is automatically set back to `null`. `healthAdjust` is not dependant on whether it is a hit or miss so a positive value will always add health and a negative value will always remove health. Remember that the player's health is a value from `0` to `2` so setting `healthAdjust` to something like `1` would add 50% health and setting `healthAdjust` to something like `-0.5` would remove 25% health. `healthAdjust` only works with the player character.
+By default, the player's health will be automatically adjust how it normally would with a default note. To change the player's health you can set the variable `healthAdjust` to a specific value in the hit or miss function. After the function is run it is automatically set back to `null`. `healthAdjust` is not dependant on whether it is a hit or miss so a positive value will always add health and a negative value will always remove health. Remember that the player's health is a value from `0` to `2` so setting `healthAdjust` to `1` would add 50% health and setting `healthAdjust` to `-0.5` would remove 25% health. `healthAdjust` only works with the player character.
 
 ### Dynamic Camera Movement
 
@@ -91,7 +101,7 @@ class DarnellNotes extends NoteType
         addNoteType("weekend-1-firegun", firegunHit, firegunMiss);
     }
 
-    function firegunHit (note:Note, character:Character){
+    function firegunHit(note:Note, character:Character){
         if(character.canAutoAnim){
             character.playAnim('shoot', true);
         }
@@ -104,7 +114,7 @@ class DarnellNotes extends NoteType
         playstate.camChangeZoom(0.85, (Conductor.crochet/1000) * 2, FlxEase.expoOut);
     }
 
-    function firegunMiss (direction:Int, character:Character){
+    function firegunMiss(note:Note, character:Character){
         if(character.canAutoAnim){
             character.playAnim('hit', true);
         }

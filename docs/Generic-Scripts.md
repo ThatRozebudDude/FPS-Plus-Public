@@ -1,4 +1,4 @@
-Generic scripts are classes that don't belong to a specific stage or character but can be added to specific songs to run or added globally to every song. You can use these do make things like UI elements that you want to add to your songs or more advanced mechanics that you want to use in multiple songs.
+Generic scripts are classes that don't belong to a specific stage or character but can be added to specific songs to run or added globally to every song. You can use these do make things like UI elements that you want to add to your songs or more advanced mechanics that you want to use in multiple songs. Scripts are executed in the order they are defined, specifically they use the scripts defined in the song's `scripts.json` in order followed by the global scripts in order. You can only load one instance of a script in a song.
 
 ## Creating the Class File
 
@@ -19,7 +19,8 @@ To make a script run in every song you have to append it to the global scripts l
 Similarly to stages, there are a variety of functions you can override that will be automatically called at specific times:
 
 - `create()`: This is run when the script is created after `PlayState` is created.
-- `update(elapsed)`: This is run every frame.
+- `postCreate()`: This is run after all other scripts have run their `create()` function. Can be used to check if other scripts or certain stage elements exist that wouldn't have before `create()`.
+- `update(elapsed)`: This is run every frame in `PlayState`.
     - `elapsed`: The time in seconds between this frame and the previous frame.
 - `beat(curBeat)`: This is run every song beat.
     - `curBeat`: The current beat of the song as an integer.
@@ -30,10 +31,14 @@ Similarly to stages, there are a variety of functions you can override that will
 - `songStart()`: This is run once the song starts playing.
 - `songEnd()`: This is run once the song finishes playing.
 - `pause()`: This is run whenever the game is paused.
+- `pauseUpdate(elapsed)`: This is run every frame in `PauseSubState`.
+	- `elapsed`: The time in seconds between this frame and the previous frame.
 - `unpause()`: This is run whenever the game is unpaused.
 - `gameOverStart()`: This is run when the death screen is started.
 - `gameOverLoop()`: This is run when the death screen starts the character's looping animation.
 - `gameOverEnd()`: This is run when you continue from the death screen.
+- `gameOverUpdate(elapsed)`: This is run every frame in `GameOverSubState`.
+	- `elapsed`: The time in seconds between this frame and the previous frame.
 - `exit()`: This is run when exiting `PlayState`.
 - `noteHit(character, note)`: This is run when a character hits a note.
     - `character`: The character object that hit the note. Will either be `boyfriend` or `dad`.
