@@ -28,7 +28,8 @@ typedef AtlasAnimInfo = {
 	length:Int,
 	framerate:Float,
 	looped:Bool,
-	loopFrame:Null<Int>
+	loopFrame:Null<Int>,
+	symbolName:String
 }
 
 #if BACKWARD_COMPATIBILITY
@@ -166,7 +167,8 @@ class AtlasSprite extends FlxAnimate
 			length: foundFrames.length,
 			framerate: framerate,
 			looped: looped,
-			loopFrame: loopFrame
+			loopFrame: loopFrame,
+			symbolName: null
 		});
 	}
 
@@ -186,7 +188,8 @@ class AtlasSprite extends FlxAnimate
 			length: length,
 			framerate: framerate,
 			looped: looped,
-			loopFrame: loopFrame
+			loopFrame: loopFrame,
+			symbolName: null
 		});
 	}
 
@@ -212,7 +215,8 @@ class AtlasSprite extends FlxAnimate
 			length: length,
 			framerate: framerate,
 			looped: looped,
-			loopFrame: loopFrame
+			loopFrame: loopFrame,
+			symbolName: null
 		});
 	}
 
@@ -229,7 +233,36 @@ class AtlasSprite extends FlxAnimate
 			length: anim.getByName("___full").frames.length,
 			framerate: framerate,
 			looped: looped,
-			loopFrame: loopFrame
+			loopFrame: loopFrame,
+			symbolName: null
+		});
+	}
+
+	public function addAnimationBySymbol(name:String, symbolName:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null) {
+		if(!anim.exists("___symbol_" + symbolName)){
+			if(library.existsSymbol(symbolName)){
+				anim.addBySymbol("___symbol_" + symbolName, symbolName, framerate, false);
+			}
+			else{
+				trace("SYMBOL " + symbolName + " NOT FOUND, ABORTING ANIM ADD");
+				return;
+			}
+		}
+
+		if(looped && loopFrame == null){
+			loopFrame = 0;
+		}
+		else if(looped && loopFrame < 0){
+			loopFrame = anim.getByName("___symbol_" + symbolName).frames.length + loopFrame;
+		}
+
+		animInfoMap.set(name, {
+			startFrame: 0,
+			length: anim.getByName("___symbol_" + symbolName).frames.length,
+			framerate: framerate,
+			looped: looped,
+			loopFrame: loopFrame,
+			symbolName: symbolName
 		});
 	}
 
@@ -245,6 +278,8 @@ class AtlasSprite extends FlxAnimate
 			return;
 		}
 
+		var animInfo:AtlasAnimInfo = animInfoMap.get(name);
+
 		//Can't rely on normal force behavior so I have to recreate it.
 		if(!force && curAnim == name && !finishedAnim && anim.curAnim != null && anim.curAnim.reversed == reverse){
 			return;
@@ -258,12 +293,18 @@ class AtlasSprite extends FlxAnimate
 			isLooping = false;
 		}
 
-		if(frameOffset >= animInfoMap.get(name).length){
-			frameOffset = animInfoMap.get(name).length - 1;
+		if(frameOffset >= animInfo.length){
+			frameOffset = animInfo.length - 1;
 		}
 
-		anim.getByName("___full").frameRate = animInfoMap.get(name).framerate;
-		anim.play("___full", true, reverse, animInfoMap.get(name).startFrame + frameOffset);
+		if(animInfo.symbolName == null){
+			anim.getByName("___full").frameRate = animInfo.framerate;
+			anim.play("___full", true, reverse, animInfo.startFrame + frameOffset);
+		}
+		else{
+			anim.getByName("___symbol_" + animInfo.symbolName).frameRate = animInfo.framerate;
+			anim.play("___symbol_" + animInfo.symbolName, true, reverse, animInfo.startFrame + frameOffset);
+		}
 	}
 
 	function onFrameChange(name:String, frame:Int, index:Int):Void{
@@ -284,7 +325,7 @@ class AtlasSprite extends FlxAnimate
 
 	private function animationEndBehavior(animInfo:AtlasAnimInfo){
 		didAnimFinishCheck = true; //Prevents the anim.play from causing an infinite loop.
-		anim.play("___full", true, false, (animInfo.startFrame + animInfo.length) - 1); //Prevents the game from potentially showing the next frame of animation if the game lags right before the animation ends.
+		anim.play(anim.curAnim.name, true, false, (animInfo.startFrame + animInfo.length) - 1); //Prevents the game from potentially showing the next frame of animation if the game lags right before the animation ends.
 		anim.pause();
 
 		if(animInfo.looped){

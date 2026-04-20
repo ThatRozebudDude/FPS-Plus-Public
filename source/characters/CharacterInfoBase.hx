@@ -18,6 +18,7 @@ enum AnimType {
 	label;
 	start;
 	startAtLabel;
+	symbol;
 }
 
 enum FrameLoadType {
@@ -207,7 +208,6 @@ class CharacterInfoBase
 	 * @param	_flipY		Whether the frames should be flipped vertically.
 	 */
 	function add(_name:String, _offset:Array<Float>, _frames:Array<Int>, _frameRate:Float = 30.0, _looped:LoopData = null, _flipX:Bool = false, _flipY:Bool = false):Void{
-
 		if(_looped == null){
 			_looped = loop(true);
 		}
@@ -242,7 +242,6 @@ class CharacterInfoBase
 	 * @param	_flipY		Whether the frames should be flipped vertically.
 	 */
 	function addByPrefix(_name:String, _offset:Array<Float>, _prefix:String, _frameRate:Float = 30.0, _looped:LoopData = null, _flipX:Bool = false, _flipY:Bool = false):Void{
-
 		if(_looped == null){
 			_looped = loop(true);
 		}
@@ -279,7 +278,6 @@ class CharacterInfoBase
 	 * @param	_flipY		Whether the frames should be flipped vertically.
 	 */
 	function addByIndices(_name:String, _offset:Array<Float>, _prefix:String, _indices:Array<Int>, _postfix:String, _frameRate:Float = 30, _looped:LoopData = null, _flipX:Bool = false, _flipY:Bool = false):Void{
-
 		if(_looped == null){
 			_looped = loop(true);
 		}
@@ -313,7 +311,6 @@ class CharacterInfoBase
 	 * @param	_looped		Whether or not the animation loops and what frame it loops on. Use `loop()` to generate the data.
 	 */
 	function addByLabel(_name:String, _offset:Array<Float>, _label:String, _frameRate:Float = 30.0, _looped:LoopData = null):Void{
-
 		if(_looped == null){
 			_looped = loop(true);
 		}
@@ -348,7 +345,6 @@ class CharacterInfoBase
 	 * @param	_looped		Whether or not the animation loops and what frame it loops on. Use `loop()` to generate the data.
 	 */
 	 function addByFrame(_name:String, _offset:Array<Float>, _start:Int, _length:Int, _frameRate:Float = 30.0, _looped:LoopData = null):Void{
-
 		if(_looped == null){
 			_looped = loop(true);
 		}
@@ -383,7 +379,6 @@ class CharacterInfoBase
 	 * @param	_looped		Whether or not the animation loops and what frame it loops on. Use `loop()` to generate the data.
 	 */
 	 function addByStartingAtLabel(_name:String, _offset:Array<Float>, _label:String, _length:Int, _frameRate:Float = 30.0, _looped:LoopData = null):Void{
-
 		if(_looped == null){
 			_looped = loop(true);
 		}
@@ -401,6 +396,39 @@ class CharacterInfoBase
 		var animInfo:AnimInfo = {
 			name: _name,
 			type: startAtLabel,
+			data: animData
+		}
+		info.anims.push(animInfo);
+	}
+
+	/**
+	 * Adds a new animation to the sprite.
+	 * Texture Atlas sprites only!
+	 *
+	 * @param	_name		What this animation should be called (e.g. `"run"`).
+	 * @param	_offset		The visual offset of the animation. Use `offset()` to generate the data.
+	 * @param	_symbol		The frame number that the animation starts on. (Zero indexed).
+	 * @param	_frameRate	The speed in frames per second that the animation should play at (e.g. `40` fps).
+	 * @param	_looped		Whether or not the animation loops and what frame it loops on. Use `loop()` to generate the data.
+	 */
+	 function addBySymbol(_name:String, _offset:Array<Float>, _symbol:String, _frameRate:Float = 30.0, _looped:LoopData = null):Void{
+		if(_looped == null){
+			_looped = loop(true);
+		}
+
+		var animData:AnimData = {
+			prefix: _symbol,
+			frames: null,
+			postfix: null,
+			framerate: _frameRate,
+			loop: _looped,
+			flipX: false,
+			flipY: false,
+			offset: _offset
+		}
+		var animInfo:AnimInfo = {
+			name: _name,
+			type: symbol,
 			data: animData
 		}
 		info.anims.push(animInfo);

@@ -292,6 +292,8 @@ class AnimationEditor extends FlxState
 					r += "addByFrame(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), " + x.data.frames[0] + ", " + x.data.frames[1] + ", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "));\n";
 				case startAtLabel:
 					r += "addByStartingAtLabel(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.frames[0] + ", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "));\n";
+				case symbol:
+					r += "addBySymbol(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "));\n";
 			}
 		}
 

@@ -73,7 +73,7 @@ class MainMenuState extends MusicBeatState
 	public static final lerpSpeed:Float = 0.0042;
 	final warningDelay:Float = 15;
 
-	inline public static final VERSION:String = "9.0.0";
+	inline public static final VERSION:String = "9.1.0";
 	inline public static final VERSION_TAG:String = #if final "" #else "Non-Release Build" #end;
 	inline public static final SHOW_BUILD_INFO:Bool = #if final false #else true #end;
 	

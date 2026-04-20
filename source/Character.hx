@@ -463,6 +463,12 @@ class Character extends FlxSpriteGroup
 						continue;
 					}
 					atlasCharacter.addAnimationStartingAtLabel(x.name, x.data.prefix, x.data.frames[0], x.data.framerate, x.data.loop.looped, x.data.loop.loopPoint);
+				case symbol:
+					if(!isAtlas){
+						trace("Cannot add \"" + x.name + "\", wrong frame load type.");
+						continue;
+					}
+					atlasCharacter.addAnimationBySymbol(x.name, x.data.prefix, x.data.framerate, x.data.loop.looped, x.data.loop.loopPoint);
 			}
 
 			if(characterInfo.info.frameLoadType != atlas){
