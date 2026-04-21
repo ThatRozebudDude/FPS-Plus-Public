@@ -5,36 +5,36 @@ class BlazinNotes extends NoteType
 {
 
 	override function defineTypes():Void{
-		addNoteType("weekend-1-punchlow", punchlowHit, punchlowMiss);
-		addNoteType("weekend-1-punchlowblocked", punchlowblockedHit, punchlowblockedMiss);
-		addNoteType("weekend-1-punchlowdodged", punchlowdodgedHit, punchlowdodgedMiss);
-		addNoteType("weekend-1-punchlowspin", punchlowspinHit, punchlowspinMiss);
+		registerNoteType({prefix: "weekend-1-punchlow", noteHit: punchlowHit, noteMiss: punchlowMiss});
+		registerNoteType({prefix: "weekend-1-punchlowblocked", noteHit: punchlowblockedHit, noteMiss: punchlowblockedMiss});
+		registerNoteType({prefix: "weekend-1-punchlowdodged", noteHit: punchlowdodgedHit, noteMiss: punchlowdodgedMiss});
+		registerNoteType({prefix: "weekend-1-punchlowspin", noteHit: punchlowspinHit, noteMiss: punchlowspinMiss});
 
-		addNoteType("weekend-1-punchhigh", punchhighHit, punchhighMiss);
-		addNoteType("weekend-1-punchhighblocked", punchhighblockedHit, punchhighblockedMiss);
-		addNoteType("weekend-1-punchhighdodged", punchhighdodgedHit, punchhighdodgedMiss);
-		addNoteType("weekend-1-punchhighspin", punchhighspinHit, punchhighspinMiss);
+		registerNoteType({prefix: "weekend-1-punchhigh", noteHit: punchhighHit, noteMiss: punchhighMiss});
+		registerNoteType({prefix: "weekend-1-punchhighblocked", noteHit: punchhighblockedHit, noteMiss: punchhighblockedMiss});
+		registerNoteType({prefix: "weekend-1-punchhighdodged", noteHit: punchhighdodgedHit, noteMiss: punchhighdodgedMiss});
+		registerNoteType({prefix: "weekend-1-punchhighspin", noteHit: punchhighspinHit, noteMiss: punchhighspinMiss});
 		
-		addNoteType("weekend-1-blockhigh", blockhighHit, blockhighMiss);
-		addNoteType("weekend-1-blocklow", blocklowHit, blocklowMiss);
-		addNoteType("weekend-1-blockspin", blockspinHit, blockspinMiss);
+		registerNoteType({prefix: "weekend-1-blockhigh", noteHit: blockhighHit, noteMiss: blockhighMiss});
+		registerNoteType({prefix: "weekend-1-blocklow", noteHit: blocklowHit, noteMiss: blocklowMiss});
+		registerNoteType({prefix: "weekend-1-blockspin", noteHit: blockspinHit, noteMiss: blockspinMiss});
 
-		addNoteType("weekend-1-dodgehigh", dodgehighHit, dodgehighMiss);
-		addNoteType("weekend-1-dodgelow", dodgelowHit, dodgelowMiss);
-		addNoteType("weekend-1-dodgespin", dodgespinHit, dodgespinMiss);
+		registerNoteType({prefix: "weekend-1-dodgehigh", noteHit: dodgehighHit, noteMiss: dodgehighMiss});
+		registerNoteType({prefix: "weekend-1-dodgelow", noteHit: dodgelowHit, noteMiss: dodgelowMiss});
+		registerNoteType({prefix: "weekend-1-dodgespin", noteHit: dodgespinHit, noteMiss: dodgespinMiss});
 
-		addNoteType("weekend-1-hithigh", hithighHit, hithighMiss);
-		addNoteType("weekend-1-hitlow", hitlowHit, hitlowMiss);
-		addNoteType("weekend-1-hitspin", hitspinHit, hitspinMiss);
+		registerNoteType({prefix: "weekend-1-hithigh", noteHit: hithighHit, noteMiss: hithighMiss});
+		registerNoteType({prefix: "weekend-1-hitlow", noteHit: hitlowHit, noteMiss: hitlowMiss});
+		registerNoteType({prefix: "weekend-1-hitspin", noteHit: hitspinHit, noteMiss: hitspinMiss});
 
-		addNoteType("weekend-1-picouppercutprep", picouppercutprepHit, picouppercutprepMiss);
-		addNoteType("weekend-1-picouppercut", picouppercutHit, picouppercutMiss);
-		addNoteType("weekend-1-darnelluppercutprep", darnelluppercutprepHit, darnelluppercutprepMiss);
-		addNoteType("weekend-1-darnelluppercut", darnelluppercutHit, darnelluppercutMiss);
+		registerNoteType({prefix: "weekend-1-picouppercutprep", noteHit: picouppercutprepHit, noteMiss: picouppercutprepMiss});
+		registerNoteType({prefix: "weekend-1-picouppercut", noteHit: picouppercutHit, noteMiss: picouppercutMiss});
+		registerNoteType({prefix: "weekend-1-darnelluppercutprep", noteHit: darnelluppercutprepHit, noteMiss: darnelluppercutprepMiss});
+		registerNoteType({prefix: "weekend-1-darnelluppercut", noteHit: darnelluppercutHit, noteMiss: darnelluppercutMiss});
 
-		addNoteType("weekend-1-idle", idleHit, idleMiss);
-		addNoteType("weekend-1-fakeout", fakeoutHit, fakeoutMiss);
-		addNoteType("weekend-1-taunt", tauntHit, tauntMiss);
+		registerNoteType({prefix: "weekend-1-idle", noteHit: idleHit, noteMiss: idleMiss});
+		registerNoteType({prefix: "weekend-1-fakeout", noteHit: fakeoutHit, noteMiss: fakeoutMiss});
+		registerNoteType({prefix: "weekend-1-taunt", noteHit: tauntHit, noteMiss: tauntMiss});
 	}
 
 	function alternating():Int{

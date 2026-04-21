@@ -92,8 +92,8 @@ class Note extends FlxSprite
 
 		var noteSkinClassName:String = PlayState.uiSkinNames.note;
 
-		if(NoteType.typeSkins.exists(typePrefix)){
-			noteSkinClassName = NoteType.typeSkins.get(typePrefix);
+		if(NoteType.types.exists(typePrefix)){
+			noteSkinClassName = NoteType.types.get(typePrefix).skin;
 		}
 
 		if(!ScriptableNoteSkin.listScriptClasses().contains(noteSkinClassName)){ noteSkinClassName = "DefaultNoteSkin"; }

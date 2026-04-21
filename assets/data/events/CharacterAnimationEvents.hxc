@@ -3,23 +3,23 @@ import characters.ScriptableCharacter;
 class CharacterAnimationEvents extends Events
 {
 	override function defineEvents() {
-		addEvent("playAnim", playAnim, PLAY_ANIM_DESC);
-		addEvent("singAnim", singAnim, SING_ANIM_DESC);
-		addEvent("setAnimSet", setAnimSet, SET_ANIM_SET_DESC);
+		registerEvent({prefix: "playAnim", eventFunction: playAnim, description: PLAY_ANIM_DESC});
+		registerEvent({prefix: "singAnim", eventFunction: singAnim, description: SING_ANIM_DESC});
+		registerEvent({prefix: "setAnimSet", eventFunction: setAnimSet, description: SET_ANIM_SET_DESC});
 
-		addEvent("gfBopFreq", gfBopFreq, GF_BOP_FREQ_DESC);
-		addEvent("iconBopFreq", iconBopFreq, ICON_BOP_FREQ_DESC);
+		registerEvent({prefix: "gfBopFreq", eventFunction: gfBopFreq, description: GF_BOP_FREQ_DESC});
+		registerEvent({prefix: "iconBopFreq", eventFunction: iconBopFreq, description: ICON_BOP_FREQ_DESC});
 
-		addEvent("bfBop", bfBop, BF_BOP_DESC);
-		addEvent("dadBop", dadBop, DAD_BOP_DESC);
+		registerEvent({prefix: "bfBop", eventFunction: bfBop, description: BF_BOP_DESC});
+		registerEvent({prefix: "dadBop", eventFunction: dadBop, description: DAD_BOP_DESC});
 
-		addEvent("bfAnimLockToggle", bfAnimLockToggle, BF_ANIM_LOCK_TOGGLE_DESC);
-		addEvent("dadAnimLockToggle", dadAnimLockToggle, DAD_ANIM_LOCK_TOGGLE_DESC);
-		addEvent("gfAnimLockToggle", gfAnimLockToggle, GF_ANIM_LOCK_TOGGLE_DESC);
+		registerEvent({prefix: "bfAnimLockToggle", eventFunction: bfAnimLockToggle, description: BF_ANIM_LOCK_TOGGLE_DESC});
+		registerEvent({prefix: "dadAnimLockToggle", eventFunction: dadAnimLockToggle, description: DAD_ANIM_LOCK_TOGGLE_DESC});
+		registerEvent({prefix: "gfAnimLockToggle", eventFunction: gfAnimLockToggle, description: GF_ANIM_LOCK_TOGGLE_DESC});
 
-		addEvent("changeCharacter", changeCharacter, CHANGE_CHARACTER_DESC, changeCharacterPreprocess);
+		registerEvent({prefix: "changeCharacter", eventFunction: changeCharacter, preprocessFunction: changeCharacterPreprocess, description: CHANGE_CHARACTER_DESC});
 
-		addEvent("swapCharacters", swapCharacters, SWAP_CHARACTER_DESC);
+		registerEvent({prefix: "swapCharacters", eventFunction: swapCharacters, description: SWAP_CHARACTER_DESC});
 	}
 
 	function playAnim(tag:String):Void{

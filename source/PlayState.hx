@@ -12,6 +12,7 @@ import cutscenes.*;
 import cutscenes.data.*;
 import events.*;
 import note.*;
+import note.NoteType.NoteTypeDefinition;
 import caching.*;
 
 import flixel.FlxBasic;
@@ -1254,13 +1255,13 @@ class PlayState extends MusicBeatState
 		generatedMusic = true;
 	}
 
-	function sortByShit(Obj1:Note, Obj2:Note):Int{
-		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.strumTime, Obj2.strumTime);
+	function sortByShit(obj1:Note, obj2:Note):Int{
+		return FlxSort.byValues(FlxSort.ASCENDING, obj1.strumTime, obj2.strumTime);
 	}
 
-	function sortByEventStuff(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int{
-		var r:Int = FlxSort.byValues(FlxSort.ASCENDING, Obj1[0], Obj2[0]);
-		return (r != 0) ? r : FlxSort.byValues(FlxSort.ASCENDING, Obj1[2], Obj2[2]);
+	function sortByEventStuff(obj1:Array<Dynamic>, obj2:Array<Dynamic>):Int{
+		var r:Int = FlxSort.byValues(FlxSort.ASCENDING, obj1[0] + (Events.ignoreOffsets.contains(obj1[1].split(";")[0]) ? 0 : Config.offset), obj2[0] + (Events.ignoreOffsets.contains(obj2[1].split(";")[0]) ? 0 : Config.offset));
+		return (r != 0) ? r : FlxSort.byValues(FlxSort.ASCENDING, obj1[2], obj2[2]);
 	}
 
 	//player 1 is player, player 0 is opponent
@@ -1752,7 +1753,7 @@ class PlayState extends MusicBeatState
 		if(!startingSong){
 			for(event in eventList){
 				var prefix = event[1].split(";")[0];
-				var eventTime = event[0] + (Events.ignoreOffset.contains(prefix) ? 0 : Config.offset);
+				var eventTime = event[0] + (Events.ignoreOffsets.contains(prefix) ? 0 : Config.offset);
 				if(eventTime < 0) { eventTime = 0; }
 				if(eventTime > Conductor.songPosition){
 					break;
@@ -2710,7 +2711,7 @@ class PlayState extends MusicBeatState
 		var prefix = tag.split(";")[0];
 
 		if(Events.events.exists(prefix)){
-			Events.events.get(prefix)(tag);
+			Events.events.get(prefix).eventFunction(tag);
 		}
 		else if(stage.events.exists(prefix)){
 			stage.events.get(prefix)(tag);
@@ -2722,8 +2723,8 @@ class PlayState extends MusicBeatState
 
 	public function preprocessEvent(tag:String):Void{
 		var prefix = tag.split(";")[0];
-		if(Events.preEvents.exists(prefix)){
-			Events.preEvents.get(prefix)(tag);
+		if(Events.events.exists(prefix) && Events.events.get(prefix).preprocessFunction != null){
+			Events.events.get(prefix).preprocessFunction(tag);
 		}
 	}
 
@@ -2765,10 +2766,10 @@ class PlayState extends MusicBeatState
 
 		if(!note.isSustainNote){ //Normal notes
 			if(NoteType.types.exists(note.typePrefix)){
-				var callbacks = NoteType.types.get(note.typePrefix);
-				if(callbacks[0] != null){ note.hitCallback = callbacks[0]; }
+				var noteType:NoteTypeDefinition = NoteType.types.get(note.typePrefix);
+				if(noteType.noteHit != null){ note.hitCallback = noteType.noteHit; }
 				else{ note.hitCallback = defaultNoteHit; }
-				if(callbacks[1] != null){ note.missCallback = callbacks[1]; }
+				if(noteType.noteMiss != null){ note.missCallback = noteType.noteMiss; }
 				else{ note.missCallback = defaultNoteMiss; }
 			}
 			else{
@@ -2777,11 +2778,11 @@ class PlayState extends MusicBeatState
 			}
 		}
 		else{ //sustain notes
-			if(NoteType.sustainTypes.exists(note.typePrefix)){
-				var callbacks = NoteType.sustainTypes.get(note.typePrefix);
-				if(callbacks[0] != null){ note.hitCallback = callbacks[0]; }
+			if(NoteType.types.exists(note.typePrefix)){
+				var noteType:NoteTypeDefinition = NoteType.types.get(note.typePrefix);
+				if(noteType.sustainHit != null){ note.hitCallback = noteType.sustainHit; }
 				else{ note.hitCallback = defaultNoteHit; }
-				if(callbacks[1] != null){ note.missCallback = callbacks[1]; }
+				if(noteType.sustainMiss != null){ note.missCallback = noteType.sustainMiss; }
 				else{ note.missCallback = defaultNoteMiss; }
 			}
 			else{

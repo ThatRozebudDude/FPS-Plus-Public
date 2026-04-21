@@ -1381,8 +1381,8 @@ class ChartingState extends MusicBeatState
 	}
 
 	function updateEventDescription():Void{
-		if(Events.eventsMeta.exists(eventTagName.text.split(";")[0])){
-			var descText = Events.eventsMeta.get(eventTagName.text.split(";")[0]);
+		if(Events.events.exists(eventTagName.text.split(";")[0]) && Events.events.get(eventTagName.text.split(";")[0]).description != null){
+			var descText = Events.events.get(eventTagName.text.split(";")[0]).description;
 			if(eventDescription.text == descText){ return; }
 			eventDescription.text = descText;
 		}

@@ -5,38 +5,16 @@ class PlayAnimNotes extends NoteType
 {
 
 	override function defineTypes():Void{
-		addNoteType("playAnim", playAnimHit, playAnimMiss);
-		addSustainType("playAnim", playAnimHit, playAnimMiss);
-
-
+		registerNoteType({prefix: "playAnim", noteHit: playAnimHit, noteMiss: playAnimMiss, sustainHit: playAnimHit, sustainMiss: playAnimMiss});
 		
-		addNoteType("hey", heyHit, null);
-		addSustainType("hey", noSustainAnimation, null);
-		
-		addNoteType("week-2-cheer", cheerHit, null);
-		addSustainType("week-2-cheer", noSustainAnimation, null);
-
-
-
-		addNoteType("ugh", ughHit, null);
-		addSustainType("ugh", noSustainAnimation, null);
-
-		addNoteType("argh", arghHit, null);
-		addSustainType("argh", noSustainAnimation, null);
-
-
-		
-		addNoteType("shit", shitHit, null);
-		addSustainType("shit", noSustainAnimation, null);
-		
-		addNoteType("shit-censor", shitCensorHit, null);
-		addSustainType("shit-censor", noSustainAnimation, null);
-
-		addNoteType("burp", burpHit, null);
-		addSustainType("burp", noSustainAnimation, null);
-
-		addNoteType("burpBig", burpBigHit, null);
-		addSustainType("burpBig", noSustainAnimation, null);
+		registerNoteType({prefix: "hey", noteHit: playAnimHit, sustainHit: noSustainAnimation});
+		registerNoteType({prefix: "week-2-cheer", noteHit: cheerHit, sustainHit: noSustainAnimation});
+		registerNoteType({prefix: "ugh", noteHit: ughHit, sustainHit: noSustainAnimation});
+		registerNoteType({prefix: "argh", noteHit: arghHit, sustainHit: noSustainAnimation});
+		registerNoteType({prefix: "shit", noteHit: shitHit, sustainHit: noSustainAnimation});
+		registerNoteType({prefix: "shit-censor", noteHit: shitCensorHit, sustainHit: noSustainAnimation});
+		registerNoteType({prefix: "burp", noteHit: burpHit, sustainHit: noSustainAnimation});
+		registerNoteType({prefix: "burpBig", noteHit: burpBigHit, sustainHit: noSustainAnimation});
 	}
 
 

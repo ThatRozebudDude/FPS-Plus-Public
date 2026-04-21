@@ -1,35 +1,34 @@
 package note;
 
-import flixel.util.typeLimit.OneOfTwo;
-import flixel.tweens.FlxTween.FlxTweenManager;
 import note.*;
+
+typedef NoteTypeDefinition = {
+	var prefix:String;
+	var noteHit:(Note, Character)->Void;
+	var noteMiss:(Note, Character)->Void;
+	var sustainHit:(Note, Character)->Void;
+	var sustainMiss:(Note, Character)->Void;
+	var skin:String;
+}
 
 @:build(modding.GlobalScriptingTypesMacro.build())
 class NoteType
 {
-
-	public static var types:Map<String, Array<Dynamic>>;
-	public static var sustainTypes:Map<String, Array<Dynamic>>;
-	public static var typeSkins:Map<String, String>;
-
+	public static var types:Map<String, NoteTypeDefinition>;
 	public static var typeGroups:Map<String, Array<String>>;
 
-	public var localTypes:Map<String, Array<Dynamic>> = new Map<String, Array<Dynamic>>();
-	public var localSustainTypes:Map<String, Array<Dynamic>> = new Map<String, Array<Dynamic>>();
-	public var localTypeSkins:Map<String, String> = new Map<String, String>();
+	public var localTypes:Map<String, NoteTypeDefinition> = new Map<String, NoteTypeDefinition>();
 
 	public static function initTypes():Void{
-		types = new Map<String, Array<Dynamic>>();
-		sustainTypes = new Map<String, Array<Dynamic>>();
-		typeSkins = new Map<String, String>();
+		types = new Map<String, NoteTypeDefinition>();
 		typeGroups = new Map<String, Array<String>>();
 
 		typeGroups.set("All Note Types", []);
 
-		for(x in ScriptableNoteType.listScriptClasses()){
-			typeGroups.set(x, []);
+		for(scriptName in ScriptableNoteType.listScriptClasses()){
+			typeGroups.set(scriptName, []);
 
-			var noteTypeClass:NoteType = ScriptableNoteType.scriptInit(x);
+			var noteTypeClass:NoteType = ScriptableNoteType.scriptInit(scriptName);
 			noteTypeClass.defineTypes();
 
 			for(k => v in noteTypeClass.localTypes){
@@ -37,23 +36,26 @@ class NoteType
 				if(!typeGroups.get("All Note Types").contains(k)){
 					typeGroups.get("All Note Types").push(k);
 				}
-				if(!typeGroups.get(x).contains(k)){
-					typeGroups.get(x).push(k);
+				if(!typeGroups.get(scriptName).contains(k)){
+					typeGroups.get(scriptName).push(k);
 				}
-			}
-			for(k => v in noteTypeClass.localSustainTypes){
-				sustainTypes.set(k, v);
-				if(!typeGroups.get("All Note Types").contains(k)){
-					typeGroups.get("All Note Types").push(k);
-				}
-				if(!typeGroups.get(x).contains(k)){
-					typeGroups.get(x).push(k);
-				}
-			}
-			for(k => v in noteTypeClass.localTypeSkins){
-				typeSkins.set(k, v);
 			}
 		}
+	}
+
+	function registerNoteType(definition:Dynamic):Void{
+		var def:NoteTypeDefinition = generateNoteTypeDefinition();
+
+		if(definition.prefix != null) {def.prefix = definition.prefix;}
+		else{ trace("NoteType has no prefix"); return; }
+
+		if(definition.noteHit != null) {def.noteHit = definition.noteHit;}
+		if(definition.noteMiss != null) {def.noteMiss = definition.noteMiss;}
+		if(definition.sustainHit != null) {def.sustainHit = definition.sustainHit;}
+		if(definition.sustainMiss != null) {def.sustainMiss = definition.sustainMiss;}
+		if(definition.skin != null) {def.skin = definition.skin;}
+
+		localTypes.set(def.prefix, def);
 	}
 
 	/**
@@ -61,17 +63,36 @@ class NoteType
 	*/
 	function defineTypes():Void{}
 
+	#if BACKWARD_COMPATIBILITY
 	function addNoteType(name:String, hitFunction:(Note, Character)->Void, missFunction:(Note, Character)->Void):Void{
-		localTypes.set(name, [hitFunction, missFunction]);
+		if(!localTypes.exists(name)){
+			var def:NoteTypeDefinition = generateNoteTypeDefinition();
+			def.prefix = name;
+			localTypes.set(name, def);
+		}
+		if(hitFunction != null){ localTypes.get(name).noteHit = hitFunction; }
+		if(missFunction != null){ localTypes.get(name).noteMiss = missFunction; }
 	}
 
 	function addSustainType(name:String, hitFunction:(Note, Character)->Void, missFunction:(Note, Character)->Void):Void{
-		localSustainTypes.set(name, [hitFunction, missFunction]);
+		if(!localTypes.exists(name)){
+			var def:NoteTypeDefinition = generateNoteTypeDefinition();
+			def.prefix = name;
+			localTypes.set(name, def);
+		}
+		if(hitFunction != null){ localTypes.get(name).sustainHit = hitFunction; }
+		if(missFunction != null){ localTypes.get(name).sustainMiss = missFunction; }
 	}
 
 	function addTypeSkin(name:String, noteSkinName:String):Void{
-		localTypeSkins.set(name, noteSkinName);
+		if(!localTypes.exists(name)){
+			var def:NoteTypeDefinition = generateNoteTypeDefinition();
+			def.prefix = name;
+			localTypes.set(name, def);
+		}
+		if(noteSkinName != null){ localTypes.get(name).skin = noteSkinName; }
 	}
+	#end
 
 	@:isVar var healthAdjust(never,set):Float;
 	@:noCompletion inline function set_healthAdjust(v:Float):Float{ 
@@ -83,5 +104,18 @@ class NoteType
 	function shouldPlayAnimation(note:Note, character:Character):Bool{
 		return PlayState.characterShouldPlayAnimation(note, character);
 	}
+
+	static function generateNoteTypeDefinition():NoteTypeDefinition{
+		return 
+		{
+			prefix: null,
+			noteHit: null,
+			noteMiss: null,
+			sustainHit: null,
+			sustainMiss: null,
+			skin: null
+		};
+	}
+
 	public function toString():String{ return "NoteType"; }
 }

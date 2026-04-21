@@ -76,10 +76,9 @@ class Startup extends FlxUIStateExt
 		
 		//debug.ChartingState.loadLists();
 
-		NoteType.initTypes();
-		Events.initEvents();
+		//NoteType.initTypes();
+		//Events.initEvents();
 		//trace(NoteType.types);
-		//trace(NoteType.sustainTypes);
 
 		Main.fpsDisplay.alpha = Config.showFPS ? 1 : 0;
 		FlxG.autoPause = Config.autoPause;

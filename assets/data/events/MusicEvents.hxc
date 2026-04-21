@@ -4,15 +4,15 @@ class MusicEvents extends Events
 {
 
 	override function defineEvents() {
-		addEvent("muteInst", muteInst, MUTE_INST_DESC, null, true);
-		addEvent("playInst", playInst, PLAY_INST_DESC, null, true);
+		registerEvent({prefix: "muteInst", eventFunction: muteInst, ignoreOffset: true, description: MUTE_INST_DESC});
+		registerEvent({prefix: "playInst", eventFunction: playInst, ignoreOffset: true, description: PLAY_INST_DESC});
 
-		addEvent("muteVocals", muteVocals, MUTE_VOCALS_DESC, null, true);
-		addEvent("playVocals", playVocals, PLAY_VOCALS_DESC, null, true);
+		registerEvent({prefix: "muteVocals", eventFunction: muteVocals, ignoreOffset: true, description: MUTE_VOCALS_DESC});
+		registerEvent({prefix: "playVocals", eventFunction: playVocals, ignoreOffset: true, description: PLAY_VOCALS_DESC});
 
-		addEvent("toggleVocalVolumeLock", toggleVocalVolumeLock, TOGGLE_VOCAL_VOLUME_LOCK_DESC, null, true);
+		registerEvent({prefix: "toggleVocalVolumeLock", eventFunction: toggleVocalVolumeLock, ignoreOffset: true, description: TOGGLE_VOCAL_VOLUME_LOCK_DESC});
 
-		addEvent("playSound", playSound, PLAY_SOUND_DESC, null, true);
+		registerEvent({prefix: "playSound", eventFunction: playSound, ignoreOffset: true, description: PLAY_SOUND_DESC});
 	}
 
 	function muteInst(tag:String):Void{

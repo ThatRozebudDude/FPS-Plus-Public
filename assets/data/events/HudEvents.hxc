@@ -2,11 +2,11 @@ class HudEvents extends Events
 {
 
 	override function defineEvents() {
-		addEvent("setHudSkin", setHudSkin, SET_HUD_SKIN_DESC);
-		addEvent("hudVisible", hudVisible, HUD_VISIBLE_DESC);
-		addEvent("showSongMeta", showSongMeta, SHOW_SONG_META_DESC);
-		addEvent("swapNoteSides", swapNoteSides, SWAP_NOTE_SIDES_DESC);
-		addEvent("scrollSpeedMultiplier", scrollSpeedMultiplier, SCROLL_SPEED_MULTIPLIER_DESC);
+		registerEvent({prefix: "setHudSkin", eventFunction: setHudSkin, description: SET_HUD_SKIN_DESC});
+		registerEvent({prefix: "hudVisible", eventFunction: hudVisible, description: HUD_VISIBLE_DESC});
+		registerEvent({prefix: "showSongMeta", eventFunction: showSongMeta, description: SHOW_SONG_META_DESC});
+		registerEvent({prefix: "swapNoteSides", eventFunction: swapNoteSides, description: SWAP_NOTE_SIDES_DESC});
+		registerEvent({prefix: "scrollSpeedMultiplier", eventFunction: scrollSpeedMultiplier, description: SCROLL_SPEED_MULTIPLIER_DESC});
 	}
 
 	function setHudSkin(tag:String):Void{

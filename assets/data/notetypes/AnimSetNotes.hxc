@@ -5,14 +5,10 @@ class AnimSetNotes extends NoteType
 {
 
 	override function defineTypes():Void{
-		addNoteType("animSet", animSetHit, animSetMiss);
-		addSustainType("animSet", animSetHit, animSetMiss);
-
-		addNoteType("alt", altHit, null);
-		addSustainType("alt", altHit, null);
+		registerNoteType({prefix: "animSet", noteHit: animSetHit, noteMiss: animSetMiss, sustainHit: animSetHit, sustainMiss: animSetMiss});
 		
-		addNoteType("censor", censorHit, null);
-		addSustainType("censor", censorHit, null);
+		registerNoteType({prefix: "alt", noteHit: altHit, sustainHit: altHit});
+		registerNoteType({prefix: "censor", noteHit: censorHit, sustainHit: censorHit});
 	}
 
 	function animSetHit(note:Note, character:Character){

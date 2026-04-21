@@ -4,26 +4,49 @@ import flixel.tweens.FlxEase;
 
 using StringTools;
 
+typedef EventDefinition = {
+	var prefix:String;
+	var eventFunction:(String)->Void;
+	var preprocessFunction:(String)->Void;
+	var description:String;
+	var ignoreOffset:Bool;
+}
+
 @:build(modding.GlobalScriptingTypesMacro.build())
 class Events
 {
 
-	public static var events:Map<String, (String)->Void>;
-	public static var preEvents:Map<String, (String)->Void>;
-	public static var eventsMeta:Map<String, String>;
-
-	public static var ignoreOffset:Array<String>;
+	public static var events:Map<String, EventDefinition>;
+	public static var ignoreOffsets:Array<String>; //Use an array for checking this since it's faster than a null check and 2 map accesses.
 
 	public static function initEvents():Void{
-		events = new Map<String, (String)->Void>();
-		preEvents = new Map<String, (String)->Void>();
-		eventsMeta = new Map<String, String>();
-		ignoreOffset = [];
+		events = new Map<String, EventDefinition>();
+		ignoreOffsets = [];
 
-		for(x in ScriptableEvents.listScriptClasses()){
-			var eventClass:Events = ScriptableEvents.scriptInit(x);
+		for(scriptName in ScriptableEvents.listScriptClasses()){
+			var eventClass:Events = ScriptableEvents.scriptInit(scriptName);
 			eventClass.defineEvents();
 		}
+
+		for(event in events){
+			if(event.ignoreOffset){
+				ignoreOffsets.push(event.prefix);
+			}
+		}
+	}
+
+	function registerEvent(definition:Dynamic):Void{
+		var def:EventDefinition = generateEventDefinition();
+
+		if(definition.prefix != null) {def.prefix = definition.prefix;}
+		else{ trace("Event has no prefix"); return; }
+
+		if(definition.eventFunction != null) {def.eventFunction = definition.eventFunction;}
+		if(definition.preprocessFunction != null) {def.preprocessFunction = definition.preprocessFunction;}
+		if(definition.description != null) {def.description = definition.description;}
+		if(definition.ignoreOffset != null) {def.ignoreOffset = definition.ignoreOffset;}
+
+		events.set(def.prefix, def);
 	}
 
 	/**
@@ -31,6 +54,7 @@ class Events
 	*/
 	public function defineEvents():Void{}
 
+	#if BACKWARD_COMPATIBILITY
 	/**
 	 * Adds an event that will be processed once the cutscene is started.
 	 *
@@ -41,16 +65,26 @@ class Events
 	 * @param   ignoreNoteOffset	Whether the event should ignore the user's note offset. This should only really be used if the event needs to sync with the audio of a song.
 	 */
 	function addEvent(prefix:String, processFunction:(String)->Void, metaDescription:String = null, preprocessFunction:(String)->Void = null, ignoreNoteOffset:Bool = false):Void{
-		events.set(prefix, processFunction);
-		if(metaDescription != null){
-			eventsMeta.set(prefix, metaDescription);
-		}
-		if(preprocessFunction != null){
-			preEvents.set(prefix, preprocessFunction);
-		}
-		if(ignoreNoteOffset){
-			ignoreOffset.push(prefix);
-		}
+		var def:EventDefinition = generateEventDefinition();
+		def.prefix = prefix;
+		def.eventFunction = processFunction;
+		if(metaDescription != null){ def.description = metaDescription; }
+		if(preprocessFunction != null){ def.preprocessFunction = preprocessFunction; }
+		if(ignoreNoteOffset){ def.ignoreOffset = ignoreNoteOffset; }
+
+		events.set(def.prefix, def);
+	}
+	#end
+
+	static function generateEventDefinition():EventDefinition{
+		return 
+		{
+			prefix: null,
+			eventFunction: null,
+			preprocessFunction: null,
+			description: null,
+			ignoreOffset: false
+		};
 	}
 
 	/**

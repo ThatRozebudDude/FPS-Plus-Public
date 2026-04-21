@@ -5,32 +5,32 @@ class CameraEvents extends Events
 {
 
 	override function defineEvents() {
-		addEvent("camMove", camMove, CAM_MOVE_DESC);
-		addEvent("camZoom", camZoom, CAM_ZOOM_DESC);
+		registerEvent({prefix: "camMove", eventFunction: camMove, description: CAM_MOVE_DESC});
+		registerEvent({prefix: "camZoom", eventFunction: camZoom, description: CAM_ZOOM_DESC});
 		
-		addEvent("flash", flash, FLASH_DESC);
-		addEvent("flashHud", flashHud, FLASH_HUD_DESC);
-		addEvent("fadeOut", fadeOut, FADE_OUT_DESC);
-		addEvent("fadeOutHud", fadeOutHud, FADE_OUT_HUD_DESC);
+		registerEvent({prefix: "flash", eventFunction: flash, description: FLASH_DESC});
+		registerEvent({prefix: "flashHud", eventFunction: flashHud, description: FLASH_HUD_DESC});
+		registerEvent({prefix: "fadeOut", eventFunction: fadeOut, description: FADE_OUT_DESC});
+		registerEvent({prefix: "fadeOutHud", eventFunction: fadeOutHud, description: FADE_OUT_HUD_DESC});
 		
-		addEvent("camShake", camShake, CAM_SHAKE_DESC);
-		addEvent("startCamShake", startCamShake, CAM_SHAKE_START_DESC);
-		addEvent("endCamShake", endCamShake, CAM_SHAKE_END_DESC);
+		registerEvent({prefix: "camShake", eventFunction: camShake, description: CAM_SHAKE_DESC});
+		registerEvent({prefix: "startCamShake", eventFunction: startCamShake, description: CAM_SHAKE_START_DESC});
+		registerEvent({prefix: "endCamShake", eventFunction: endCamShake, description: CAM_SHAKE_END_DESC});
 		
-		addEvent("camFocusBf", camFocusBf, CAM_FOCUS_BF_DESC);
-		addEvent("camFocusDad", camFocusDad, CAM_FOCUS_DAD_DESC);
-		addEvent("camFocusGf", camFocusGf, CAM_FOCUS_GF_DESC);
-		addEvent("camFocusCenter", camFocusCenter, CAM_FOCUS_CENTER_DESC);
+		registerEvent({prefix: "camFocusBf", eventFunction: camFocusBf, description: CAM_FOCUS_BF_DESC});
+		registerEvent({prefix: "camFocusDad", eventFunction: camFocusDad, description: CAM_FOCUS_DAD_DESC});
+		registerEvent({prefix: "camFocusGf", eventFunction: camFocusGf, description: CAM_FOCUS_GF_DESC});
+		registerEvent({prefix: "camFocusCenter", eventFunction: camFocusCenter, description: CAM_FOCUS_CENTER_DESC});
 		
-		addEvent("toggleCamBop", toggleCamBop, TOGGLE_CAM_BOP_DESC);
-		addEvent("toggleCamMovement", toggleCamMovement, TOGGLE_CAM_MOVEMENT_DESC);
+		registerEvent({prefix: "toggleCamBop", eventFunction: toggleCamBop, description: TOGGLE_CAM_BOP_DESC});
+		registerEvent({prefix: "toggleCamMovement", eventFunction: toggleCamMovement, description: TOGGLE_CAM_MOVEMENT_DESC});
 		
-		addEvent("camBop", camBop, CAM_BOP_DESC);
-		addEvent("camBopBig", camBopBig, CAM_BOP_BIG_DESC);
-		addEvent("camBopFreq", camBopFreq, CAM_BOP_FREQ_DESC);
-		addEvent("camBopIntensity", camBopIntensity, CAM_BOP_INTENSITY_DESC);
+		registerEvent({prefix: "camBop", eventFunction: camBop, description: CAM_BOP_DESC});
+		registerEvent({prefix: "camBopBig", eventFunction: camBopBig, description: CAM_BOP_BIG_DESC});
+		registerEvent({prefix: "camBopFreq", eventFunction: camBopFreq, description: CAM_BOP_FREQ_DESC});
+		registerEvent({prefix: "camBopIntensity", eventFunction: camBopIntensity, description: CAM_BOP_INTENSITY_DESC});
 		
-		addEvent("setDynamicCamAmount", setDynamicCamAmount, SET_DYNAMIC_CAM_AMOUNT_DESC);
+		registerEvent({prefix: "setDynamicCamAmount", eventFunction: setDynamicCamAmount, description: SET_DYNAMIC_CAM_AMOUNT_DESC});
 	}
 
 	function camMove(tag:String):Void{

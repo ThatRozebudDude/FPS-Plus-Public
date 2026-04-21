@@ -5,11 +5,11 @@ class DarnellNotes extends NoteType
 {
 
 	override function defineTypes():Void{
-		addNoteType("weekend-1-lightcan", lightcanHit, null);
-		addNoteType("weekend-1-kickcan", kickcanHit, null);
-		addNoteType("weekend-1-kneecan", kneecanHit, null);
-		addNoteType("weekend-1-cockgun", cockgunHit, cockgunMiss);
-		addNoteType("weekend-1-firegun", firegunHit, firegunMiss);
+		registerNoteType({prefix: "weekend-1-lightcan", noteHit: lightcanHit});
+		registerNoteType({prefix: "weekend-1-kickcan", noteHit: kickcanHit});
+		registerNoteType({prefix: "weekend-1-kneecan", noteHit: kneecanHit});
+		registerNoteType({prefix: "weekend-1-cockgun", noteHit: cockgunHit, noteMiss: cockgunMiss});
+		registerNoteType({prefix: "weekend-1-firegun", noteHit: firegunHit, noteMiss: firegunMiss});
 	}
 
 	function lightcanHit(note:Note, character:Character){
