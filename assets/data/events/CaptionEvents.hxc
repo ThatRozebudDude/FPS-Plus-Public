@@ -18,6 +18,6 @@ class CaptionEvents extends Events
 
 	
 	//Event descriptions. Not required but it helps with charting.
-	var CC_DESC:String = "Shows captions.\n\nArgs:\n    String: Text in the caption";
-	var CC_HIDE_DESC:String = "Hides the currently displayed captions.";
+	final CC_DESC:String = "Shows captions.\n\nArgs:\n    String: Text in the caption";
+	final CC_HIDE_DESC:String = "Hides the currently displayed captions.";
 }

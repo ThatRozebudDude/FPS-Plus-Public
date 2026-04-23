@@ -77,9 +77,9 @@ class HudEvents extends Events
 
 
 	//Event descriptions. Not required but it helps with charting.
-	var SET_HUD_SKIN_DESC:String = "Changes the HUD note skin.\n\nArgs:\n    String: Skin name";
-	var HUD_VISIBLE_DESC:String = "Sets the visibility of the HUD.\n\nArgs:\n    Bool: HUD visibility";
-	var SHOW_SONG_META_DESC:String = "Shows the song name and artist.";
-	var SWAP_NOTE_SIDES_DESC:String = "Swaps player and opponent note sides.\nDoes nothing if the strumline is centered.\n\nArgs:\n    Time: Tween time\n    Ease: Tween ease";
-	var SCROLL_SPEED_MULTIPLIER_DESC:String = "Adjusts the modifier for the note scroll speed.\n\nArgs:\n    Float: Multiplier\n    Time: Tween time\n    Ease: Tween ease";
+	final SET_HUD_SKIN_DESC:String = "Changes the HUD note skin.\n\nArgs:\n    String: Skin name";
+	final HUD_VISIBLE_DESC:String = "Sets the visibility of the HUD.\n\nArgs:\n    Bool: HUD visibility";
+	final SHOW_SONG_META_DESC:String = "Shows the song name and artist.";
+	final SWAP_NOTE_SIDES_DESC:String = "Swaps player and opponent note sides.\nDoes nothing if the strumline is centered.\n\nArgs:\n    Time: Tween time\n    Ease: Tween ease";
+	final SCROLL_SPEED_MULTIPLIER_DESC:String = "Adjusts the modifier for the note scroll speed.\n\nArgs:\n    Float: Multiplier\n    Time: Tween time\n    Ease: Tween ease";
 }
