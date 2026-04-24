@@ -27,9 +27,6 @@ class Character extends FlxSpriteGroup
 	public static final SHORT_SING_TOLERENCE:Float = 20;	//Millisecond tolerence for PREVENT_SHORT_SING detection.
 
 	public static var characterInfos:Map<String, CharacterInfoBase>;
-	#if BACKWARD_COMPATIBILITY
-	static var hideInfos:Array<String>;
-	#end
 
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	private var originalAnimOffsets:Map<String, Array<Dynamic>>;
@@ -94,26 +91,18 @@ class Character extends FlxSpriteGroup
 
 	public static function initCharacters():Void{
 		characterInfos = new Map<String, CharacterInfoBase>();
-		hideInfos = [];
 		
 		for(scriptName in ScriptableCharacter.listScriptClasses()){
 			var info:CharacterInfoBase = ScriptableCharacter.scriptInit(scriptName);
-			trace([scriptName, info.info.name]);
-			characterInfos.set(info.info.name, info);
-			#if BACKWARD_COMPATIBILITY
 			var className = scriptName.split(".")[scriptName.split(".").length - 1];
 			characterInfos.set(className, info);
-			hideInfos.push(className);
-			#end
 		}
 	}
 
 	public static function listCharacters():Array<String>{
 		var result:Array<String> = [];
 		for (name => info in characterInfos){
-			if (!hideInfos.contains(name)){
-				result.push(name);
-			}
+			result.push(name);
 		}
 
 		return result;
