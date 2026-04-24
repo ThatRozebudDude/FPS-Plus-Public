@@ -24,8 +24,8 @@ using StringTools;
 class Startup extends FlxUIStateExt
 {
 
-	var nextState:FlxState = new TitleVideo();
-	//var nextState:FlxState = new debug.CharacterCompare("", "");
+	//var nextState:FlxState = new TitleVideo();
+	var nextState:FlxState = new editors.chart.ChartingState();
 	//var nextState:FlxState = new results.ResultsState(null, "Results Test", "PicoResults");
 
 	var splashHasSoundTrigger:Bool = false;

@@ -1175,7 +1175,7 @@ class ChartingState extends MusicBeatState
 			}
 		
 			if(FlxG.keys.pressed.CONTROL && FlxG.keys.justPressed.Z){
-
+				
 			}
 		
 			if (FlxG.mouse.x > gridBG.x
