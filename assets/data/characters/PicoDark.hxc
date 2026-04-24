@@ -1,3 +1,5 @@
+package characters;
+
 import shaders.TextureMixShader;
 
 class PicoDark extends CharacterInfoBase
@@ -6,7 +8,7 @@ class PicoDark extends CharacterInfoBase
 	public function new(){
 		super();
 
-		info.name = "pico";
+		info.name = "pico-dark";
 		info.spritePath = "week2/pico_dark";
 		info.frameLoadType = setAtlas();
 		

@@ -1,3 +1,5 @@
+package characters;
+
 import shaders.TextureMixShader;
 import objects.ABot;
 import flixel.FlxG;
@@ -11,7 +13,7 @@ class NeneDark extends CharacterInfoBase
 		includeInCharacterList = false;
 		includeInGfList = true;
 
-		info.name = "nene";
+		info.name = "nene-dark";
 		info.spritePath = "week2/nene_dark";
 		info.frameLoadType = setSparrow();
 		

@@ -1,3 +1,5 @@
+package characters;
+
 import objects.ABot;
 import flixel.FlxG;
 
@@ -10,7 +12,7 @@ class NeneNoSpeaker extends CharacterInfoBase
 		includeInCharacterList = false;
 		includeInGfList = false;
 
-		info.name = "nene";
+		info.name = "nene-no-speaker";
 		info.spritePath = "shared/Nene";
 		info.frameLoadType = setSparrow();
 		

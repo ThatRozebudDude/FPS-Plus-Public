@@ -1,10 +1,12 @@
+package characters;
+
 class TankmanBloody extends CharacterInfoBase
 {
 
 	public function new(){
 		super();
 
-		info.name = "tankman";
+		info.name = "tankman-bloody";
 		info.spritePaths = ["week7/tankmanCaptain", "week7/tankmanCaptainBloody"];
 		info.frameLoadType = setMultiSparrow();
 		

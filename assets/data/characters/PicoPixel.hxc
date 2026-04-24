@@ -1,3 +1,5 @@
+package characters;
+
 import flixel.FlxSprite;
 
 class PicoPixel extends CharacterInfoBase

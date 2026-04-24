@@ -1,4 +1,6 @@
 //Character is here for backwards compatibility but hidden from the character list. Just use Pico instead as they now share all their assets.
+package characters;
+
 class PicoPlayer extends CharacterInfoBase
 {
 
@@ -8,7 +10,7 @@ class PicoPlayer extends CharacterInfoBase
 		includeInCharacterList = false;
 		includeInGfList = false;
 
-		info.name = "pico";
+		info.name = "pico-player";
 		info.spritePath = "shared/pico";
 		info.frameLoadType = setAtlas();
 		

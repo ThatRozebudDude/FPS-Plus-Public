@@ -1,3 +1,5 @@
+package characters;
+
 import flixel.FlxSprite;
 
 class PicoWeekendDead extends CharacterInfoBase
@@ -8,7 +10,7 @@ class PicoWeekendDead extends CharacterInfoBase
 
 		includeInCharacterList = false;
 
-		info.name = "pico-dead";
+		info.name = "pico-weekend-dead";
 		info.spritePath = "shared/pico_dead";
 		info.frameLoadType = setAtlas();
 		

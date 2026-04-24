@@ -1,3 +1,5 @@
+package characters;
+
 import objects.DeltaTrail;
 
 class Spirit extends CharacterInfoBase

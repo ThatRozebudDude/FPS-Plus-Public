@@ -1,10 +1,12 @@
+package characters;
+
 class PicoWeekend extends CharacterInfoBase
 {
 
 	public function new(){
 		super();
 
-		info.name = "pico";
+		info.name = "pico-weekend";
 		info.spritePath = "weekend1/pico_weekend";
 		info.frameLoadType = setAtlas();
 		

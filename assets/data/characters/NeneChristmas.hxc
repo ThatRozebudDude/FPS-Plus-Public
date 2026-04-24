@@ -1,3 +1,5 @@
+package characters;
+
 import objects.ABot;
 import flixel.FlxG;
 
@@ -10,7 +12,7 @@ class NeneChristmas extends CharacterInfoBase
 		includeInCharacterList = false;
 		includeInGfList = true;
 
-		info.name = "nene";
+		info.name = "nene-christmas";
 		info.spritePath = "week5/neneChristmas";
 		info.frameLoadType = setSparrow();
 		
