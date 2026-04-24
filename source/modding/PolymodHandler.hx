@@ -236,6 +236,7 @@ class PolymodHandler
 		Polymod.registerAllScriptClasses();
 		note.NoteType.initTypes();
 		events.Events.initEvents();
+		Character.initCharacters();
 	}
 
 	/*static function scriptableClassCheck():Void{

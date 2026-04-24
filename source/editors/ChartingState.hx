@@ -6,7 +6,6 @@ import stages.ScriptableStage;
 import note.NoteType;
 import characters.CharacterInfoBase;
 import modding.PolymodHandler;
-import characters.ScriptableCharacter;
 import events.Events;
 import sys.FileSystem;
 import ui.HealthIcon;
@@ -1533,8 +1532,8 @@ class ChartingState extends MusicBeatState
 			var leftChar:characters.CharacterInfoBase;
 			var rightChar:characters.CharacterInfoBase;
 
-			leftChar = ScriptableCharacter.scriptInit(player2DropDown.selectedLabel);
-			rightChar = ScriptableCharacter.scriptInit(player1DropDown.selectedLabel);
+			leftChar = Character.getCharacterInfo(player2DropDown.selectedLabel);
+			rightChar = Character.getCharacterInfo(player1DropDown.selectedLabel);
 
 			leftIcon.setIconCharacter(leftChar.info.iconName);
 			rightIcon.setIconCharacter(rightChar.info.iconName);
@@ -2173,8 +2172,8 @@ class ChartingState extends MusicBeatState
 		gfList = [];
 		stageList = [];
 
-		for(x in ScriptableCharacter.listScriptClasses()){
-			var getScriptInfo:CharacterInfoBase = ScriptableCharacter.scriptInit(x);
+		for(x in Character.listCharacters()){
+			var getScriptInfo:CharacterInfoBase = Character.getCharacterInfo(x);
 			if(getScriptInfo.includeInCharacterList){ charactersList.push(x); }
 			if(getScriptInfo.includeInGfList){ gfList.push(x); }
 		}

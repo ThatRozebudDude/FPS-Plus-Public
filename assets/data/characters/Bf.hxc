@@ -1,3 +1,5 @@
+package characters;
+
 class Bf extends CharacterInfoBase
 {
 

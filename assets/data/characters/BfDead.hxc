@@ -1,3 +1,5 @@
+package characters;
+
 class BfDead extends CharacterInfoBase
 {
 
@@ -6,7 +8,7 @@ class BfDead extends CharacterInfoBase
 
 		includeInCharacterList = false;
 
-		info.name = "bf";
+		info.name = "bf-dead";
 		info.spritePath = "shared/boyfriend_dead";
 		info.frameLoadType = setAtlas();
 		

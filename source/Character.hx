@@ -5,7 +5,7 @@ import flixel.system.FlxAssets.FlxShader;
 import flixel.util.FlxSignal;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
-import characters.CharacterInfoBase;
+import characters.*;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -25,6 +25,11 @@ class Character extends FlxSpriteGroup
 	public static final PREVENT_SHORT_IDLE:Bool = true;		//Prevents characters from quickly playing a few frames of their idles inbetween hitting notes. Default is true for FPS Plus, false for base game.
 	public static final PREVENT_SHORT_SING:Bool = true;		//Prevents characters from quickly playing a few frames of their sing animation when hitting multiple notes. Default is true for FPS Plus, false for base game.
 	public static final SHORT_SING_TOLERENCE:Float = 20;	//Millisecond tolerence for PREVENT_SHORT_SING detection.
+
+	public static var characterInfos:Map<String, CharacterInfoBase>;
+	#if BACKWARD_COMPATIBILITY
+	static var hideInfos:Array<String>;
+	#end
 
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	private var originalAnimOffsets:Map<String, Array<Dynamic>>;
@@ -63,7 +68,7 @@ class Character extends FlxSpriteGroup
 	public var deathOffset:FlxPoint;
 	public var deathDelay:Float = 0.5;
 
-	public var worldPopupOffset:FlxPoint = new FlxPoint();
+	public var worldPopupOffset:FlxPoint = FlxPoint.get();
 
 	public var isAtlas(get, never):Bool;
 	public var isFacingDefaultDirection(get, never):Bool;
@@ -72,7 +77,7 @@ class Character extends FlxSpriteGroup
 	var atlasCharacter:AtlasSprite;
 	public var characterInfo:CharacterInfoBase;
 
-	var curOffset = new FlxPoint();
+	var curOffset = FlxPoint.get();
 
 	//var added:Bool = false;
 
@@ -86,6 +91,42 @@ class Character extends FlxSpriteGroup
 
 	public var onAnimationFrame:FlxTypedSignal<(String, Int, Int) -> Void> = new FlxTypedSignal();
 	public var onAnimationFinish:FlxTypedSignal<(String) -> Void> = new FlxTypedSignal();
+
+	public static function initCharacters():Void{
+		characterInfos = new Map<String, CharacterInfoBase>();
+		hideInfos = [];
+		
+		for(scriptName in ScriptableCharacter.listScriptClasses()){
+			var info:CharacterInfoBase = ScriptableCharacter.scriptInit(scriptName);
+			trace([scriptName, info.info.name]);
+			characterInfos.set(info.info.name, info);
+			#if BACKWARD_COMPATIBILITY
+			var className = scriptName.split(".")[scriptName.split(".").length - 1];
+			characterInfos.set(className, info);
+			hideInfos.push(className);
+			#end
+		}
+	}
+
+	public static function listCharacters():Array<String>{
+		var result:Array<String> = [];
+		for (name => info in characterInfos){
+			if (!hideInfos.contains(name)){
+				result.push(name);
+			}
+		}
+
+		return result;
+	}
+
+	public static function getCharacterInfo(character:String):CharacterInfoBase
+	{
+		if (!characterInfos.exists(character)){
+			character = "bf";
+		}
+
+		return characterInfos.get(character);
+	}
 
 	public function new(x:Float, y:Float, ?_character:String = "Bf", ?_isPlayer:Bool = false, ?_isGirlfriend:Bool = false, ?_enableDebug:Bool = false){
 
@@ -101,9 +142,7 @@ class Character extends FlxSpriteGroup
 
 		antialiasing = true;
 
-		charClass = _character;
-
-		createCharacterFromInfo(charClass);
+		createCharacterFromInfo(_character);
 
 		if(!isFacingDefaultDirection && !debugMode){
 			setFlipX(true);
@@ -386,21 +425,19 @@ class Character extends FlxSpriteGroup
 
 	function createCharacterFromInfo(name:String):Void{
 
-		if(!ScriptableCharacter.listScriptClasses().contains(name)){ name = "Bf"; }
-		characterInfo = ScriptableCharacter.scriptInit(name);
+		characterInfo = getCharacterInfo(name);
 
 		characterInfo.characterReference = this;
 
 		//trace(characterInfo.info);
-		if(characterInfo.info.name != ""){ curCharacter = characterInfo.info.name; }
-		else{ curCharacter = name.toLowerCase(); }
+		curCharacter = characterInfo.info.name;
 			
 		iconName = characterInfo.info.iconName;
 		deathCharacter = characterInfo.info.deathCharacter;
 		characterColor = characterInfo.info.healthColor;
 		idleSequence = characterInfo.info.idleSequence;
-		focusOffset = characterInfo.info.focusOffset;
-		deathOffset = characterInfo.info.deathOffset;
+		focusOffset = characterInfo.info.focusOffset.clone();
+		deathOffset = characterInfo.info.deathOffset.clone();
 
 		if(isPlayer){ focusOffset.x *= -1; }
 
@@ -554,7 +591,7 @@ class Character extends FlxSpriteGroup
 		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
 			character.scale.set(_scaleX, _scaleY);
 			character.updateHitbox();
-			var offsetBase = new FlxPoint(offset.x, offset.y);
+			var offsetBase = FlxPoint.get(offset.x, offset.y);
 			for(name => pos in animOffsets){
 				addOffset(name, offsetBase.x + (originalAnimOffsets.get(name)[0] * _scaleX), offsetBase.y + (originalAnimOffsets.get(name)[1] * _scaleY));
 			}
@@ -562,7 +599,7 @@ class Character extends FlxSpriteGroup
 		else{ //Code for atlas characters
 			atlasCharacter.scale.set(_scaleX, _scaleY);
 			atlasCharacter.updateHitbox();
-			var offsetBase = new FlxPoint(offset.x, offset.y);
+			var offsetBase = FlxPoint.get(offset.x, offset.y);
 			for(name => pos in animOffsets){
 				addOffset(name, offsetBase.x + (originalAnimOffsets.get(name)[0] * _scaleX), offsetBase.y + (originalAnimOffsets.get(name)[1] * _scaleY));
 			}
@@ -1052,6 +1089,17 @@ class Character extends FlxSpriteGroup
 	
 	public function get_isFacingDefaultDirection():Bool{
 		return !(characterInfo.info.facesLeft && !isPlayer) && !(!characterInfo.info.facesLeft && isPlayer);
+	}
+
+	public override function destroy()
+	{
+		focusOffset.put();
+		deathOffset.put();
+		worldPopupOffset.put();
+
+		curOffset.put();
+
+		super.destroy();
 	}
 
 }

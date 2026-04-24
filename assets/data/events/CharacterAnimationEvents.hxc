@@ -120,7 +120,7 @@ class CharacterAnimationEvents extends Events
 	function changeCharacter(tag:String):Void{
 		var args = Events.getArgs(tag, ["bf", "Bf", "true"]);
 
-		if(!ScriptableCharacter.listScriptClasses().contains(args[1])){
+		if(!Character.characterInfos.exists(args[1])){
 			trace("Invalid character: " + args[1]);
 			return;
 		}
