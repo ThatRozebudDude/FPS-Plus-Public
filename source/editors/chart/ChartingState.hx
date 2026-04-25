@@ -1,5 +1,10 @@
 package editors.chart;
 
+import editors.ui.*;
+import flixel.sound.FlxSound;
+import flixel.text.FlxText.FlxTextAlign;
+import flixel.text.FlxBitmapFont;
+import flixel.text.FlxBitmapText;
 import flixel.util.FlxSort;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.tweens.FlxEase;
@@ -8,12 +13,8 @@ import flixel.tweens.FlxTween;
 import ui.HealthIcon;
 import extensions.flixel.FlxTextExt;
 import flixel.math.FlxMath;
-import editors.ui.UIColors;
 import flixel.util.FlxColor;
 import flixel.FlxObject;
-import editors.ui.Hotbar;
-import editors.ui.Panel;
-import editors.ui.Box;
 import flixel.math.FlxRect;
 import flixel.addons.display.FlxSliceSprite;
 import flixel.addons.display.FlxBackdrop;
@@ -48,22 +49,25 @@ class ChartingState extends MusicBeatState
 	public static inline final TEXT_UPDATE_RATE:Float = 1/24;
 
 	var notes:FlxTypedGroup<ChartingNote>;
+	
+	var vocals:FlxSound;
+	var vocalsOther:FlxSound;
 
 	var panel:Panel;
 	var hotbar:Hotbar;
 
 	var timeBox:Box;
-	var timeBoxLeftText:FlxTextExt;
-	var timeBoxRightText:FlxTextExt;
+	var timeBoxLeftText:FlxBitmapText;
+	var timeBoxRightText:FlxBitmapText;
 	var timeBoxShowTimecode:Bool = true;
 
 	var beatBox:Box;
-	var beatBoxLeftText:FlxTextExt;
-	var beatBoxRightText:FlxTextExt;
+	var beatBoxLeftText:FlxBitmapText;
+	var beatBoxRightText:FlxBitmapText;
 	
 	var stepBox:Box;
-	var stepBoxLeftText:FlxTextExt;
-	var stepBoxRightText:FlxTextExt;
+	var stepBoxLeftText:FlxBitmapText;
+	var stepBoxRightText:FlxBitmapText;
 	
 	var textUpdateTimer:Float = 0;
 
@@ -83,7 +87,23 @@ class ChartingState extends MusicBeatState
 		Config.setFramerate(120);
 		FlxG.mouse.visible = true;
 
-		FlxG.sound.playMusic(Paths.inst("Fresh"), 0, false);
+		final songName:String = "Fresh";
+
+		if(Utils.exists(Paths.voices(songName, "Player"))){
+			vocals = Utils.createPausedSound(Paths.voices(songName, "Player"));
+			vocalsOther = Utils.createPausedSound(Paths.voices(songName, "Opponent"));
+			
+		}
+		else if(Utils.exists(Paths.voices(songName))){
+			vocals = Utils.createPausedSound(Paths.voices(songName));
+			vocalsOther = new FlxSound();
+		}
+		else{
+			vocals = new FlxSound();
+			vocalsOther = new FlxSound();
+		}
+
+		FlxG.sound.playMusic(Paths.inst(songName), 0, false);
 		FlxG.sound.music.pause();
 		FlxG.sound.music.time = 0;
 		FlxG.sound.music.volume = 1;
@@ -92,6 +112,7 @@ class ChartingState extends MusicBeatState
 		Conductor.changeBPM(120);
 
 		notes = new FlxTypedGroup<ChartingNote>();
+		Paths.image("ui/notes/NOTE_assets");
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menu/menuDesat"));
 		bg.screenCenter();
@@ -133,6 +154,13 @@ class ChartingState extends MusicBeatState
 
 			grids.push(gridParts);
 		}
+
+		var gridsBarSeperator:FlxBackdrop = new FlxBackdrop(Utils.makeColoredSprite(1, 1, 0xFF8C8C8C).graphic, Y, 0, (GRID_SIZE * 4) - 1);
+		gridsBarSeperator.x = GRID_POSITION - GRID_SPACING;
+		gridsBarSeperator.y -= 2;
+		gridsBarSeperator.color = BACKGROUND_COLOR;
+		gridsBarSeperator.scale.set((GRID_COUNT * GRID_SIZE * 4) + (GRID_SPACING * (GRID_COUNT + 1)), 4);
+		gridsBarSeperator.updateHitbox();
 
 		var gridsTopCover:FlxSprite = Utils.makeColoredSprite((GRID_COUNT * GRID_SIZE * 4) + (GRID_SPACING * (GRID_COUNT + 1)), (GRID_COUNT * GRID_SIZE * 8), 0xFF8C8C8C);
 		gridsTopCover.x = GRID_POSITION - GRID_SPACING;
@@ -181,43 +209,39 @@ class ChartingState extends MusicBeatState
 		timeBox.scrollFactor.set(0, 0);
 		timeBox.onClick.add(function(){
 			timeBoxShowTimecode = !timeBoxShowTimecode;
-			FlxTween.color(null, 1, UIColors.SELECTED_COLOR, UIColors.FILL_COLOR, {ease: FlxEase.cubeOut, onUpdate: function(tween:FlxTween){
+			FlxTween.color(null, 0.75, UIColors.SELECTED_COLOR, UIColors.FILL_COLOR, {ease: FlxEase.quadOut, onUpdate: function(tween:FlxTween){
 				timeBox.fillColor = cast(tween, ColorTween).color;
 			}});
 		});
-		timeBoxLeftText = new FlxTextExt(timeBox.x + PLAYBACK_INFO_PADDING, timeBox.getMidpoint().y + 1, timeBox.width - (PLAYBACK_INFO_PADDING * 2), "Time:", 18);
-		timeBoxLeftText.setFormat(Paths.font("cascadia"), timeBoxLeftText.textField.defaultTextFormat.size, UIColors.FILL_TEXT_COLOR, LEFT);
+		timeBoxLeftText = new FlxBitmapText(timeBox.x + PLAYBACK_INFO_PADDING, timeBox.getMidpoint().y + 1, "Time:", FlxBitmapFont.fromAngelCode(Paths.image("fpsPlus/editors/shared/cascadia"), Paths.file("fpsPlus/editors/shared/cascadia", "images", "fnt")));
 		timeBoxLeftText.y -= timeBoxLeftText.height/2;
 		timeBoxLeftText.scrollFactor.set(0, 0);
-		timeBoxRightText = new FlxTextExt(timeBox.x + PLAYBACK_INFO_PADDING, timeBox.getMidpoint().y + 1, timeBox.width - (PLAYBACK_INFO_PADDING * 2), "0/0", 18);
-		timeBoxRightText.setFormat(Paths.font("cascadia"), timeBoxLeftText.textField.defaultTextFormat.size, UIColors.FILL_TEXT_COLOR, RIGHT);
+		timeBoxRightText = new FlxBitmapText(timeBox.x + PLAYBACK_INFO_PADDING, timeBox.getMidpoint().y + 1, "00000000000000000", FlxBitmapFont.fromAngelCode(Paths.image("fpsPlus/editors/shared/cascadia"), Paths.file("fpsPlus/editors/shared/cascadia", "images", "fnt")));
 		timeBoxRightText.y -= timeBoxLeftText.height/2;
 		timeBoxRightText.scrollFactor.set(0, 0);
 
 		beatBox = new Box(timeBox.x + timeBox.width - Box.BORDER_SIZE, panel.y + panel.height - Box.BORDER_SIZE, 120, 30);
 		beatBox.scrollFactor.set(0, 0);
-		beatBoxLeftText = new FlxTextExt(beatBox.x + PLAYBACK_INFO_PADDING, beatBox.getMidpoint().y + 1, beatBox.width - (PLAYBACK_INFO_PADDING * 2), "Beat:", 18);
-		beatBoxLeftText.setFormat(Paths.font("cascadia"), beatBoxLeftText.textField.defaultTextFormat.size, UIColors.FILL_TEXT_COLOR, LEFT);
-		beatBoxLeftText.y -= beatBoxLeftText.height/2;
+		beatBoxLeftText = new FlxBitmapText(beatBox.x + PLAYBACK_INFO_PADDING, beatBox.getMidpoint().y + 1, "Beat:", FlxBitmapFont.fromAngelCode(Paths.image("fpsPlus/editors/shared/cascadia"), Paths.file("fpsPlus/editors/shared/cascadia", "images", "fnt")));
+		beatBoxLeftText.y -= timeBoxLeftText.height/2;
 		beatBoxLeftText.scrollFactor.set(0, 0);
-		beatBoxRightText = new FlxTextExt(beatBox.x + PLAYBACK_INFO_PADDING, beatBox.getMidpoint().y + 1, beatBox.width - (PLAYBACK_INFO_PADDING * 2), "0", 18);
-		beatBoxRightText.setFormat(Paths.font("cascadia"), beatBoxLeftText.textField.defaultTextFormat.size, UIColors.FILL_TEXT_COLOR, RIGHT);
-		beatBoxRightText.y -= beatBoxLeftText.height/2;
+		beatBoxRightText = new FlxBitmapText(beatBox.x + PLAYBACK_INFO_PADDING, beatBox.getMidpoint().y + 1, "00000000000000000", FlxBitmapFont.fromAngelCode(Paths.image("fpsPlus/editors/shared/cascadia"), Paths.file("fpsPlus/editors/shared/cascadia", "images", "fnt")));
+		beatBoxRightText.y -= timeBoxLeftText.height/2;
 		beatBoxRightText.scrollFactor.set(0, 0);
 
 		stepBox = new Box(beatBox.x + beatBox.width - Box.BORDER_SIZE, panel.y + panel.height - Box.BORDER_SIZE, 120, 30);
 		stepBox.scrollFactor.set(0, 0);
-		stepBoxLeftText = new FlxTextExt(stepBox.x + PLAYBACK_INFO_PADDING, stepBox.getMidpoint().y + 1, stepBox.width - (PLAYBACK_INFO_PADDING * 2), "Step:", 18);
-		stepBoxLeftText.setFormat(Paths.font("cascadia"), stepBoxLeftText.textField.defaultTextFormat.size, UIColors.FILL_TEXT_COLOR, LEFT);
-		stepBoxLeftText.y -= stepBoxLeftText.height/2;
+		stepBoxLeftText = new FlxBitmapText(stepBox.x + PLAYBACK_INFO_PADDING, stepBox.getMidpoint().y + 1, "Step:", FlxBitmapFont.fromAngelCode(Paths.image("fpsPlus/editors/shared/cascadia"), Paths.file("fpsPlus/editors/shared/cascadia", "images", "fnt")));
+		stepBoxLeftText.y -= timeBoxLeftText.height/2;
 		stepBoxLeftText.scrollFactor.set(0, 0);
-		stepBoxRightText = new FlxTextExt(stepBox.x + PLAYBACK_INFO_PADDING, stepBox.getMidpoint().y + 1, stepBox.width - (PLAYBACK_INFO_PADDING * 2), "0", 18);
-		stepBoxRightText.setFormat(Paths.font("cascadia"), stepBoxLeftText.textField.defaultTextFormat.size, UIColors.FILL_TEXT_COLOR, RIGHT);
-		stepBoxRightText.y -= stepBoxLeftText.height/2;
+		stepBoxRightText = new FlxBitmapText(stepBox.x + PLAYBACK_INFO_PADDING, stepBox.getMidpoint().y + 1, "00000000000000000", FlxBitmapFont.fromAngelCode(Paths.image("fpsPlus/editors/shared/cascadia"), Paths.file("fpsPlus/editors/shared/cascadia", "images", "fnt")));
+		stepBoxRightText.y -= timeBoxLeftText.height/2;
 		stepBoxRightText.scrollFactor.set(0, 0);
 
-		var testSprite:FlxSprite = new FlxSprite(5, 5).loadGraphic(Paths.image("menu/modMenu/defaultModIcon"));
-		panel.addToTab("Song", testSprite);
+		updateText();
+
+		var testToggle:Toggle = new Toggle(5, 5, false, "Test Toggle");
+		panel.addToTab("Song", testToggle);
 
 		add(bg);
 		add(gridsUnderlay);
@@ -229,6 +253,7 @@ class ChartingState extends MusicBeatState
 
 		add(gridCursor);
 
+		add(gridsBarSeperator);
 		add(notes);
 		
 		for(gridParts in grids){
@@ -297,14 +322,24 @@ class ChartingState extends MusicBeatState
 			gridCursor.visible = true;
 			var gridLane:Int = Math.floor((FlxG.mouse.x - grids[gridCursorIndex].grid.x) / GRID_SIZE);
 			gridCursor.x = grids[gridCursorIndex].grid.x + gridLane * GRID_SIZE;
-			gridCursor.y = Math.floor(FlxG.mouse.y / GRID_SIZE) * GRID_SIZE;
+
+			if(FlxG.keys.anyPressed([SHIFT])){
+				gridCursor.y = FlxG.mouse.y;
+			}
+			else if(FlxG.keys.anyPressed([CONTROL])){
+				gridCursor.y = Math.floor(FlxG.mouse.y / (GRID_SIZE / 2)) * (GRID_SIZE / 2);
+			}
+			else{
+				gridCursor.y = Math.floor(FlxG.mouse.y / GRID_SIZE) * GRID_SIZE;
+			}
+
 
 			if(gridCursorIndex < 2){ //Placing notes.
 				if(FlxG.mouse.justPressed){
 					addNote(getSongPositionFromY(gridCursor.y), gridLane, gridCursorIndex == 1);
 				}
 				else if(FlxG.mouse.justPressedRight){
-					removeNotesInProximity(getSongPositionFromY(gridCursor.y), gridLane, gridCursorIndex == 1);
+					removeNotesInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridLane, gridCursorIndex == 1, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
 				}
 			}
 			else{ //Placing events.
@@ -317,25 +352,25 @@ class ChartingState extends MusicBeatState
 		//Play/pause music.
 		if(FlxG.keys.anyJustPressed([SPACE])){
 			if(!FlxG.sound.music.playing){
-				FlxG.sound.music.play();
+				playMusic();
 			}
 			else{
-				FlxG.sound.music.pause();
+				pauseMusic();
 			}
 		}
 
 		//Scroll with W and S
 		if(FlxG.keys.anyPressed([W, S])){
+			pauseMusic();
 			final scrollAmount:Float = (FlxG.keys.anyPressed([SHIFT]) ? 2500 : 1000) * FlxG.elapsed;
-			FlxG.sound.music.pause();
 			FlxG.sound.music.time += ((FlxG.keys.anyPressed([W]) ? -1 : 0) + (FlxG.keys.anyPressed([S]) ? 1 : 0)) * scrollAmount;
 			musicBoundsCheck();
 		}
 
 		//Scroll through the song with mouse wheel.
 		if(FlxG.mouse.wheel != 0){
+			pauseMusic();
 			final wheelSpin = FlxG.mouse.wheel;
-			FlxG.sound.music.pause();
 			FlxG.sound.music.time = Math.round(FlxG.sound.music.time / (Conductor.stepCrochet/2)) * (Conductor.stepCrochet/2); //Snap to nearest half step.
 			FlxG.sound.music.time -= (wheelSpin * Conductor.stepCrochet * 0.5);
 			musicBoundsCheck();
@@ -359,21 +394,7 @@ class ChartingState extends MusicBeatState
 
 		textUpdateTimer += elapsed;
 		if(textUpdateTimer >= TEXT_UPDATE_RATE){
-			var textToUpdate:String = Math.floor(Conductor.songPosition/1000) + "/" + Math.floor(FlxG.sound.music.length/1000);
-			if(timeBoxShowTimecode){
-				textToUpdate = convertSecondsToTime(Conductor.songPosition/1000);
-			}
-			if(textToUpdate != timeBoxRightText.text){
-				timeBoxRightText.text = textToUpdate;
-			}
-			var textToUpdate:String = ""+curBeat;
-			if(textToUpdate != beatBoxRightText.text){
-				beatBoxRightText.text = textToUpdate;
-			}
-			var textToUpdate:String = ""+curStep;
-			if(textToUpdate != stepBoxRightText.text){
-				stepBoxRightText.text = textToUpdate;
-			}
+			updateText();
 			textUpdateTimer = 0;
 		}
 	};
@@ -408,11 +429,11 @@ class ChartingState extends MusicBeatState
 		return r;
 	}
 
-	function removeNotesInProximity(strumTime:Float, direction:Int, player:Bool){
+	function removeNotesInProximity(strumTime:Float, direction:Int, player:Bool, region:Float = 5){
 		var removeList:Array<ChartingNote> = [];
 		for(note in notes.members){
 			if(note.player == player && note.direction == direction){
-				if(Utils.inRange(note.time, strumTime, 5)){
+				if(Utils.inRange(note.time, strumTime, region)){
 					removeList.push(note);
 				}
 			}
@@ -424,10 +445,52 @@ class ChartingState extends MusicBeatState
 		}
 	}
 
+	function updateText():Void{
+		var textToUpdate:String = Math.floor(Conductor.songPosition/1000) + "/" + Math.floor(FlxG.sound.music.length/1000);
+		if(timeBoxShowTimecode){
+			textToUpdate = convertSecondsToTime(Conductor.songPosition/1000);
+		}
+		if(fixRightAlignText(textToUpdate) != timeBoxRightText.text){
+			timeBoxRightText.text = fixRightAlignText(textToUpdate);
+			timeBoxRightText.x = timeBox.x + timeBox.width + PLAYBACK_INFO_PADDING - timeBoxRightText.width;
+		}
+		var textToUpdate:String = ""+curBeat;
+		if(fixRightAlignText(textToUpdate) != beatBoxRightText.text){
+			beatBoxRightText.text = fixRightAlignText(textToUpdate);
+			beatBoxRightText.x = beatBox.x + beatBox.width + PLAYBACK_INFO_PADDING - beatBoxRightText.width;
+		}
+		var textToUpdate:String = ""+curStep;
+		if(fixRightAlignText(textToUpdate) != stepBoxRightText.text){
+			stepBoxRightText.text = fixRightAlignText(textToUpdate);
+			stepBoxRightText.x = stepBox.x + stepBox.width + PLAYBACK_INFO_PADDING - stepBoxRightText.width;
+		}
+	}
+
+	inline function pauseMusic():Void{
+		FlxG.sound.music.pause();
+		vocals.pause();
+		vocalsOther.pause();
+	}
+
+	inline function playMusic():Void{
+		vocals.time = FlxG.sound.music.time;
+		vocalsOther.time = FlxG.sound.music.time;
+		FlxG.sound.music.play();
+		vocals.play();
+		vocalsOther.play();
+	}
+
+	//To fix weird text alignment issues I made ~ invisible and use it as a padding character. Yay.
+	inline function fixRightAlignText(string:String):String{
+		return string + "~";
+	}
+
+	//TODO: Make it support BPM changes.
 	function getSongPositionFromY(yPos:Float):Float{
 		return (yPos / GRID_SIZE) * Conductor.stepCrochet;
 	}
 
+	//TODO: Make it support BPM changes.
 	function getYFromSongPosition(songPosition:Float):Float{
 		return (songPosition / Conductor.stepCrochet) * GRID_SIZE;
 	}

@@ -36,7 +36,7 @@ class Box extends FlxSliceSprite
 	}
 
 	override public function update(elapsed:Float):Void{
-		if(FlxG.mouse.overlaps(this)){
+		if(FlxG.mouse.overlaps(this) && visible){
 			if(FlxG.mouse.justPressed){ onClick.dispatch(); }
 			if(FlxG.mouse.justPressedRight){ onRightClick.dispatch(); }
 			if(FlxG.mouse.justPressedMiddle){ onMiddleClick.dispatch(); }

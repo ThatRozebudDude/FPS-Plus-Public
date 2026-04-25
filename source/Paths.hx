@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.typeLimit.OneOfTwo;
 #if sys
 import sys.FileSystem;
 #end
@@ -25,15 +26,15 @@ class Paths
 
 	inline static public function image(key:String, forcePath:Bool = false):Dynamic{
 		var data:String = file(key, "images", "png");
-
 		if(forcePath || !Utils.exists(data)) { return data; }
+		return getGraphicFromCache(data);
+	}
 
+	inline static private function getGraphicFromCache(data:String):FlxGraphic{
 		if(ImageCache.exists(data)){
 			return ImageCache.get(data).graphic;
 		}
-		else{
-			return ImageCache.loadLocal(data).graphic;
-		}
+		return ImageCache.loadLocal(data).graphic;
 	}
 
 	inline static public function xml(key:String, ?location:String = "images"){
@@ -108,8 +109,10 @@ class Paths
 		return file(key, "videos", extension);
 	}
 	
-	inline static public function font(key:String, ?extension:String = "ttf"){
-		return file(key, "fonts", extension);
+	inline static public function font(key:String, ?extension:String = "ttf"):Dynamic{
+		var data:String = file(key, "fonts", extension);
+		if(extension == "png"){ return getGraphicFromCache(data); }
+		return data;
 	}
 
 	inline static public function shader(key:String, ?extension:String = "frag"){
