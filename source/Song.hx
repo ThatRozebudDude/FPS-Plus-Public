@@ -42,6 +42,12 @@ class Song
 	public static function parseJSONshit(rawJson:String):SwagSong
 	{
 		var swagShit:SwagSong = cast Json.parse(rawJson).song;
+
+		#if BACKWARD_COMPATIBILITY
+		swagShit.player1 = Character.getCharacterInfo(swagShit.player1).info.name;
+		swagShit.player2 = Character.getCharacterInfo(swagShit.player2).info.name;
+		#end
+
 		return swagShit;
 	}
 	public static function parseEventJSON(rawJson:String):SongEvents

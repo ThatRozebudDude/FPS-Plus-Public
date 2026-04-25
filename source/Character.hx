@@ -28,7 +28,7 @@ class Character extends FlxSpriteGroup
 
 	public static var characterInfos:Map<String, CharacterInfoBase>;
 	#if BACKWARD_COMPATIBILITY
-	static var hideInfos:Array<String>;
+	static var infoRedirects:Map<String, String>;
 	#end
 
 	public var animOffsets:Map<String, Array<Dynamic>>;
@@ -94,16 +94,14 @@ class Character extends FlxSpriteGroup
 
 	public static function initCharacters():Void{
 		characterInfos = new Map<String, CharacterInfoBase>();
-		hideInfos = [];
+		infoRedirects = new Map<String, String>();
 		
 		for(scriptName in ScriptableCharacter.listScriptClasses()){
 			var info:CharacterInfoBase = ScriptableCharacter.scriptInit(scriptName);
-			trace([scriptName, info.info.name]);
 			characterInfos.set(info.info.name, info);
 			#if BACKWARD_COMPATIBILITY
 			var className = scriptName.split(".")[scriptName.split(".").length - 1];
-			characterInfos.set(className, info);
-			hideInfos.push(className);
+			infoRedirects.set(className, info.info.name);
 			#end
 		}
 	}
@@ -111,9 +109,7 @@ class Character extends FlxSpriteGroup
 	public static function listCharacters():Array<String>{
 		var result:Array<String> = [];
 		for (name => info in characterInfos){
-			if (!hideInfos.contains(name)){
-				result.push(name);
-			}
+			result.push(name);
 		}
 
 		return result;
@@ -122,7 +118,12 @@ class Character extends FlxSpriteGroup
 	public static function getCharacterInfo(character:String):CharacterInfoBase
 	{
 		if (!characterInfos.exists(character)){
-			character = "bf";
+			if (infoRedirects.exists(character)){
+				character = infoRedirects.get(character);
+			}
+			else{
+				character = "bf";
+			}
 		}
 
 		return characterInfos.get(character);
