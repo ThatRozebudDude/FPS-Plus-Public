@@ -314,7 +314,7 @@ class ChartingState extends MusicBeatState
 				bpm: 150,
 				player1: 'bf',
 				player2: 'dad',
-				stage: 'stage',
+				stage: 'Stage',
 				gf: 'gf',
 				speed: 1
 			};
@@ -440,10 +440,10 @@ class ChartingState extends MusicBeatState
 				song: song_name,
 				notes: [],
 				bpm: 120.0,
-				player1: 'Bf',
-				player2: 'Dad',
+				player1: 'bf',
+				player2: 'dad',
 				stage: 'Stage',
-				gf: 'Gf',
+				gf: 'gf',
 				speed: 1
 			};
 
