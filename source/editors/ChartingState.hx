@@ -312,10 +312,10 @@ class ChartingState extends MusicBeatState
 				song: 'Test',
 				notes: [],
 				bpm: 150,
-				player1: 'bf',
-				player2: 'dad',
+				player1: 'Bf',
+				player2: 'Dad',
 				stage: 'Stage',
-				gf: 'gf',
+				gf: 'Gf',
 				speed: 1
 			};
 		}
@@ -440,10 +440,10 @@ class ChartingState extends MusicBeatState
 				song: song_name,
 				notes: [],
 				bpm: 120.0,
-				player1: 'bf',
-				player2: 'dad',
+				player1: 'Bf',
+				player2: 'Dad',
 				stage: 'Stage',
-				gf: 'gf',
+				gf: 'Gf',
 				speed: 1
 			};
 
