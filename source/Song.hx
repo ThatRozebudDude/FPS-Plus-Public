@@ -46,6 +46,7 @@ class Song
 		#if BACKWARD_COMPATIBILITY
 		swagShit.player1 = Character.getCharacterInfo(swagShit.player1).info.name;
 		swagShit.player2 = Character.getCharacterInfo(swagShit.player2).info.name;
+		swagShit.gf = Character.getCharacterInfo(swagShit.gf).info.name;
 		#end
 
 		return swagShit;

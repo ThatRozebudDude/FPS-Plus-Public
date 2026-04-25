@@ -27,9 +27,7 @@ class Character extends FlxSpriteGroup
 	public static final SHORT_SING_TOLERENCE:Float = 20;	//Millisecond tolerence for PREVENT_SHORT_SING detection.
 
 	public static var characterInfos:Map<String, CharacterInfoBase>;
-	#if BACKWARD_COMPATIBILITY
 	static var infoRedirects:Map<String, String>;
-	#end
 
 	public var animOffsets:Map<String, Array<Dynamic>>;
 	private var originalAnimOffsets:Map<String, Array<Dynamic>>;
