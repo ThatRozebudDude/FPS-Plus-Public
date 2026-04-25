@@ -92,15 +92,10 @@ class Character extends FlxSpriteGroup
 
 	public static function initCharacters():Void{
 		characterInfos = new Map<String, CharacterInfoBase>();
-		infoRedirects = new Map<String, String>();
 		
 		for(scriptName in ScriptableCharacter.listScriptClasses()){
-			var info:CharacterInfoBase = ScriptableCharacter.scriptInit(scriptName);
-			characterInfos.set(info.info.name, info);
-			#if BACKWARD_COMPATIBILITY
 			var className = scriptName.split(".")[scriptName.split(".").length - 1];
-			infoRedirects.set(className, info.info.name);
-			#end
+			characterInfos.set(className, ScriptableCharacter.scriptInit(scriptName));
 		}
 	}
 
@@ -116,12 +111,7 @@ class Character extends FlxSpriteGroup
 	public static function getCharacterInfo(character:String):CharacterInfoBase
 	{
 		if (!characterInfos.exists(character)){
-			if (infoRedirects.exists(character)){
-				character = infoRedirects.get(character);
-			}
-			else{
-				character = "bf";
-			}
+			character = "bf";
 		}
 
 		return characterInfos.get(character);
