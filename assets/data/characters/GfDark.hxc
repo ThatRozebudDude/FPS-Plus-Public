@@ -1,3 +1,5 @@
+package characters;
+
 import shaders.TextureMixShader;
 
 class GfDark extends CharacterInfoBase

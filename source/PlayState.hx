@@ -519,9 +519,14 @@ class PlayState extends MusicBeatState
 		var stageCheck:String = "EmptyStage";
 		if (SONG.stage != null) { stageCheck = SONG.stage; }
 
-		if(ScriptableStage.listScriptClasses().contains(stageCheck)){
+		if(ScriptableStage.listScriptClasses().contains("stages."+stageCheck)){
+			stage = ScriptableStage.scriptInit("stages."+stageCheck);
+		}
+		#if BACKWARD_COMPATIBILITY
+		else if(ScriptableStage.listScriptClasses().contains(stageCheck)){
 			stage = ScriptableStage.scriptInit(stageCheck);
 		}
+		#end
 		else{
 			stage = new BaseStage();
 		}
@@ -543,7 +548,12 @@ class PlayState extends MusicBeatState
 		if(Utils.exists(Paths.json(stage.uiType, "data/uiSkins"))){
 			var skinJson = Json.parse(Utils.getText(Paths.json(stage.uiType, "data/uiSkins")));
 
-			if(skinJson.note != null && ScriptableNoteSkin.listScriptClasses().contains(skinJson.note)){ uiSkinNames.note = skinJson.note; }
+			if(skinJson.note != null){
+				if(ScriptableNoteSkin.listScriptClasses().contains("noteskins."+skinJson.note)){ uiSkinNames.note = skinJson.note; }
+				#if BACKWARD_COMPATIBILITY
+				else if(ScriptableNoteSkin.listScriptClasses().contains(skinJson.note)){ uiSkinNames.note = skinJson.note; }
+				#end
+			}
 			if(skinJson.comboPopup != null && Utils.exists(Paths.json(skinJson.comboPopup, "data/uiSkins/comboPopup"))){ uiSkinNames.comboPopup = skinJson.comboPopup; }
 			if(skinJson.countdown != null && Utils.exists(Paths.json(skinJson.countdown, "data/uiSkins/countdown"))){ uiSkinNames.countdown = skinJson.countdown; }
 			if(skinJson.playerNotes != null && Utils.exists(Paths.json(skinJson.playerNotes, "data/uiSkins/hudNote"))){ uiSkinNames.playerNotes = skinJson.playerNotes; }
@@ -734,7 +744,11 @@ class PlayState extends MusicBeatState
 					if(cutsceneJson.startCutscene.args != null) {startCutsceneArgs = cutsceneJson.startCutscene.args;}
 					if(cutsceneJson.startCutscene.playOnce != null) {startCutscenePlayOnce = cutsceneJson.startCutscene.playOnce;}
 					if((startCutscenePlayOnce ? replayStartCutscene : true)){
-						startCutscene = ScriptableCutscene.scriptInit(cutsceneJson.startCutscene.name, startCutsceneArgs);
+						var cutsceneClassName:String = cutsceneJson.startCutscene.name;
+						if(ScriptableCutscene.listScriptClasses().contains("cutscenes."+cutsceneClassName)){
+							cutsceneClassName = "cutscenes."+cutsceneClassName;
+						}
+						startCutscene = ScriptableCutscene.scriptInit(cutsceneClassName, startCutsceneArgs);
 					}
 				}
 			}
@@ -745,7 +759,11 @@ class PlayState extends MusicBeatState
 					var endCutsceneArgs = [];
 					if(cutsceneJson.endCutscene.args != null) {endCutsceneArgs = cutsceneJson.endCutscene.args;}
 					if(cutsceneJson.endCutscene.playOnce != null) {endCutscenePlayOnce = cutsceneJson.endCutscene.playOnce;}
-					endCutscene = ScriptableCutscene.scriptInit(cutsceneJson.endCutscene.name, endCutsceneArgs);
+					var cutsceneClassName:String = cutsceneJson.endCutscene.name;
+					if(ScriptableCutscene.listScriptClasses().contains("cutscenes."+cutsceneClassName)){
+						cutsceneClassName = "cutscenes."+cutsceneClassName;
+					}
+					endCutscene = ScriptableCutscene.scriptInit(cutsceneClassName, endCutsceneArgs);
 				}
 			}
 		}
@@ -782,10 +800,16 @@ class PlayState extends MusicBeatState
 		scripts.set("___STAGE_SCRIPT___", stage);
 
 		for(script in scriptList){
-			if(ScriptableScript.listScriptClasses().contains(script)){
+			if(ScriptableScript.listScriptClasses().contains("scripts."+script)){
+				var scriptToAdd:Script = ScriptableScript.scriptInit("scripts."+script);
+				scripts.set(script, scriptToAdd);
+			}
+			#if BACKWARD_COMPATIBILITY
+			else if(ScriptableScript.listScriptClasses().contains(script)){
 				var scriptToAdd:Script = ScriptableScript.scriptInit(script);
 				scripts.set(script, scriptToAdd);
 			}
+			#end
 		}
 
 		var bgDim = new FlxSprite(1280 / -2, 720 / -2).makeGraphic(1, 1, FlxColor.BLACK);

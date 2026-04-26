@@ -1,3 +1,5 @@
+package stages;
+
 import shaders.AdjustColorShader;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;

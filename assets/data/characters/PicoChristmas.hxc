@@ -1,3 +1,5 @@
+package characters;
+
 class PicoChristmas extends CharacterInfoBase
 {
 
@@ -11,7 +13,7 @@ class PicoChristmas extends CharacterInfoBase
 		info.iconName = "pico";
 		info.facesLeft = true;
 		info.deathCharacter = "PicoChristmasDead";
-		info.resultsCharacter = "PicoResults";
+		info.resultsCharacter = "Pico";
 		info.focusOffset.set(63, -113);
 
 		addByLabel("idle", offset(), "Idle", 24, loop(false, 0), false, false);

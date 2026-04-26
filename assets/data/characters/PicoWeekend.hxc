@@ -1,3 +1,5 @@
+package characters;
+
 class PicoWeekend extends CharacterInfoBase
 {
 
@@ -11,7 +13,7 @@ class PicoWeekend extends CharacterInfoBase
 		info.iconName = "pico";
 		info.facesLeft = true;
 		info.deathCharacter = "PicoWeekendDead";
-		info.resultsCharacter = "PicoResults";
+		info.resultsCharacter = "Pico";
 		info.focusOffset.set(-15, 7);
 
 		addByLabel("idle", offset(), "Idle", 24, loop(false, 0), false, false);

@@ -1,3 +1,5 @@
+package characters;
+
 import flixel.FlxG;
 
 class PicoSpeaker extends CharacterInfoBase

@@ -1533,8 +1533,22 @@ class ChartingState extends MusicBeatState
 			var leftChar:characters.CharacterInfoBase;
 			var rightChar:characters.CharacterInfoBase;
 
-			leftChar = ScriptableCharacter.scriptInit(player2DropDown.selectedLabel);
-			rightChar = ScriptableCharacter.scriptInit(player1DropDown.selectedLabel);
+			var leftCharClassName:String = "characters."+player2DropDown.selectedLabel;
+			#if BACKWARD_COMPATIBILITY
+			if(!ScriptableCharacter.listScriptClasses().contains(leftCharClassName)){
+				leftCharClassName = player2DropDown.selectedLabel;
+			}
+			#end
+
+			var rightCharClassName:String = "characters."+player1DropDown.selectedLabel;
+			#if BACKWARD_COMPATIBILITY
+			if(!ScriptableCharacter.listScriptClasses().contains(leftCharClassName)){
+				rightCharClassName = player1DropDown.selectedLabel;
+			}
+			#end
+
+			leftChar = ScriptableCharacter.scriptInit(leftCharClassName);
+			rightChar = ScriptableCharacter.scriptInit(rightCharClassName);
 
 			leftIcon.setIconCharacter(leftChar.info.iconName);
 			rightIcon.setIconCharacter(rightChar.info.iconName);
@@ -2173,14 +2187,22 @@ class ChartingState extends MusicBeatState
 		gfList = [];
 		stageList = [];
 
-		for(x in ScriptableCharacter.listScriptClasses()){
-			var getScriptInfo:CharacterInfoBase = ScriptableCharacter.scriptInit(x);
-			if(getScriptInfo.includeInCharacterList){ charactersList.push(x); }
-			if(getScriptInfo.includeInGfList){ gfList.push(x); }
+		for(className in ScriptableCharacter.listScriptClasses()){
+			var pushedName:String = className;
+			if(className.contains("characters.")){
+				pushedName = className.split("characters.")[1];
+			}
+			var getScriptInfo:CharacterInfoBase = ScriptableCharacter.scriptInit(className);
+			if(getScriptInfo.includeInCharacterList){ charactersList.push(pushedName); }
+			if(getScriptInfo.includeInGfList){ gfList.push(pushedName); }
 		}
 
-		for(x in ScriptableStage.listScriptClasses()){
-			stageList.push(x);
+		for(className in ScriptableStage.listScriptClasses()){
+			var pushedName:String = className;
+			if(className.contains("stages.")){
+				pushedName = className.split("stages.")[1];
+			}
+			stageList.push(pushedName);
 		}
 
 		//makes them be in alphabetical order

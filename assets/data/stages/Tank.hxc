@@ -1,3 +1,5 @@
+package stages;
+
 import flixel.math.FlxAngle;
 import flixel.FlxG;
 import flixel.FlxSprite;

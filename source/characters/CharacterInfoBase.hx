@@ -126,7 +126,7 @@ class CharacterInfoBase
 		frameLoadType: sparrow,
 		iconName: "face",
 		deathCharacter: "BfDead",
-		resultsCharacter: "BoyfriendResults",
+		resultsCharacter: "Boyfriend",
 		healthColor: null,
 		facesLeft: false,
 		antialiasing: true,

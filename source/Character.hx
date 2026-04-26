@@ -385,9 +385,16 @@ class Character extends FlxSpriteGroup
 	}
 
 	function createCharacterFromInfo(name:String):Void{
-
-		if(!ScriptableCharacter.listScriptClasses().contains(name)){ name = "Bf"; }
-		characterInfo = ScriptableCharacter.scriptInit(name);
+		var className:String = "characters.Bf";
+		if(ScriptableCharacter.listScriptClasses().contains("characters."+name)){
+			className = "characters."+name;
+		}
+		#if BACKWARD_COMPATIBILITY
+		else if(ScriptableCharacter.listScriptClasses().contains(name)){
+			className = name;
+		}
+		#end
+		characterInfo = ScriptableCharacter.scriptInit(className);
 
 		characterInfo.characterReference = this;
 

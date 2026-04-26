@@ -1,4 +1,6 @@
-class NenePartnerCharacterSelect extends CharacterSelectCharacter
+package characterSelect;
+
+class NenePartner extends CharacterSelectCharacter
 {
 
 	var idleIndex:Int = 0;

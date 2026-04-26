@@ -1,3 +1,5 @@
+package characters;
+
 class PicoLil extends CharacterInfoBase
 {
 
@@ -11,7 +13,7 @@ class PicoLil extends CharacterInfoBase
 		info.iconName = "pico-lil";
 		info.facesLeft = true;
 		info.antialiasing = false;
-		info.resultsCharacter = "PicoResults";
+		info.resultsCharacter = "Pico";
 
 		info.deathCharacter = "PicoLil";
 		info.deathOffset.set(53, 41);

@@ -98,7 +98,7 @@ class CharacterSelectState extends MusicBeatState
 		FlxG.camera.follow(camFollowFinal, LOCKON);
 		FlxG.camera.filters = [new ShaderFilter(fadeShader.shader)];
 
-		addCharacter("locked", "LockedPlayerCharacterSelect", null, null, [-1, -1]);
+		addCharacter("locked", "LockedPlayer", null, null, [-1, -1]);
 
 		var usedPositions:Array<Array<Int>> = [];
 
@@ -501,12 +501,27 @@ class CharacterSelectState extends MusicBeatState
 	function addCharacter(name:String, playerClass:String, partnerClass:String, freeplayClass:String, position:Array<Int>):Void{
 		var partner:CharacterSelectCharacter = null;
 		if(partnerClass != null){
-			partner = ScriptableCharacterSelectCharacter.scriptInit(partnerClass);
+			if(ScriptableCharacterSelectCharacter.listScriptClasses().contains("characterSelect."+partnerClass)){
+				partner = ScriptableCharacterSelectCharacter.scriptInit("characterSelect."+partnerClass);
+			}
+			#if BACKWARD_COMPATIBILITY
+			else{
+				partner = ScriptableCharacterSelectCharacter.scriptInit(partnerClass);
+			}
+			#end
 			partner.setup();
 		}
 
 		//player cant be null because what would be the fucking point
-		var player:CharacterSelectCharacter = ScriptableCharacterSelectCharacter.scriptInit(playerClass);
+		var player:CharacterSelectCharacter = null;
+		if(ScriptableCharacterSelectCharacter.listScriptClasses().contains("characterSelect."+playerClass)){
+			player = ScriptableCharacterSelectCharacter.scriptInit("characterSelect."+playerClass);
+		}
+		#if BACKWARD_COMPATIBILITY
+		else{
+			player = ScriptableCharacterSelectCharacter.scriptInit(playerClass);
+		}
+		#end
 		player.setup();
 
 		characters.set(name, {

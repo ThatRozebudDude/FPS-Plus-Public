@@ -1,4 +1,6 @@
-class BfPlayerCharacterSelect extends CharacterSelectCharacter
+package characterSelect;
+
+class BfPlayer extends CharacterSelectCharacter
 {
 
 	override function setup():Void{

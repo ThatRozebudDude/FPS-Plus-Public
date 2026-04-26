@@ -1,3 +1,5 @@
+package stages;
+
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import flixel.sound.FlxSound;

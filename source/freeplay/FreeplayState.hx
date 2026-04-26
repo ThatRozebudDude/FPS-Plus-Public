@@ -107,7 +107,7 @@ class FreeplayState extends MusicBeatState
 	var textCycleCount:Int = 0;
 	var categoryLockOutSoItStopsBreaking:Float = 0;
 
-	public static var djCharacter:String = "BoyfriendFreeplay";
+	public static var djCharacter:String = "Boyfriend";
 
 	var prevScore:Int;
 	var prevAccuracy:Int;
@@ -198,10 +198,16 @@ class FreeplayState extends MusicBeatState
 		}
 
 		//DJ STUFF
-		if(!ScriptableDJCharacter.listScriptClasses().contains(djCharacter)){
-			djCharacter = "BoyfriendFreeplay";
+		var djChar:String = "freeplay.Boyfriend";
+		if(ScriptableDJCharacter.listScriptClasses().contains("freeplay."+djCharacter)){
+			djChar = "freeplay."+djCharacter;
 		}
-		dj = ScriptableDJCharacter.scriptInit(djCharacter);
+		#if BACKWARD_COMPATIBILITY
+		if(ScriptableDJCharacter.listScriptClasses().contains(djCharacter)){
+			djChar = djCharacter;
+		}
+		#end
+		dj = ScriptableDJCharacter.scriptInit(djChar);
 		dj.setup();
 		dj.introFinish = djIntroFinish;
 		dj.cameras = [camFreeplay];

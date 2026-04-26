@@ -1,3 +1,5 @@
+package stages;
+
 import flixel.sound.FlxSound;
 import flixel.util.FlxTimer;
 import flixel.FlxG;

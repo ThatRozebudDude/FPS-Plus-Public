@@ -1,3 +1,5 @@
+package stages;
+
 import shaders.AdjustColorShader;
 import openfl.filters.ShaderFilter;
 import shaders.RainShader;
