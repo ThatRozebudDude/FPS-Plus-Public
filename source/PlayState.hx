@@ -35,6 +35,8 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
+import openfl.events.KeyboardEvent;
+import flixel.input.keyboard.FlxKey;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
@@ -159,26 +161,6 @@ class PlayState extends MusicBeatState
 	//Wacky input stuff=========================
 
 	//private var skipListener:Bool = false;
-
-	private var upTime:Int = 0;
-	private var downTime:Int = 0;
-	private var leftTime:Int = 0;
-	private var rightTime:Int = 0;
-
-	private var upPress:Bool = false;
-	private var downPress:Bool = false;
-	private var leftPress:Bool = false;
-	private var rightPress:Bool = false;
-	
-	private var upRelease:Bool = false;
-	private var downRelease:Bool = false;
-	private var leftRelease:Bool = false;
-	private var rightRelease:Bool = false;
-
-	private var upHold:Bool = false;
-	private var downHold:Bool = false;
-	private var leftHold:Bool = false;
-	private var rightHold:Bool = false;
 
 	//End of wacky input stuff===================
 
@@ -635,6 +617,9 @@ class PlayState extends MusicBeatState
 		generateComboPopup();
 
 		add(comboUiGroup);
+
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, inputs);
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, release);
 
 		Conductor.songPosition = -5000;
 
@@ -1535,6 +1520,13 @@ class PlayState extends MusicBeatState
 		super.closeSubState();
 	}
 
+	override function destroy() {
+		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, inputs);
+		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, release);
+
+		super.destroy();
+	}
+
 	function resyncVocals():Void {
 		vocals.pause();
 		FlxG.sound.music.play();
@@ -1606,8 +1598,6 @@ class PlayState extends MusicBeatState
 			if(resyncWindow > RESYNC_WINDOW_FINAL){ resyncWindow = RESYNC_WINDOW_FINAL; }
 		}
 
-		keyCheck();
-
 		for(i in 0...releaseTimes.length){
 			if(releaseTimes[i] != -1){
 				releaseTimes[i] += elapsed;
@@ -1616,12 +1606,8 @@ class PlayState extends MusicBeatState
 		}
 
 		if (!inCutscene && !endingSong){
-		 	if(!autoplay){
-		 		keyShit();
-			}
-		 	else{
-				keyShitAuto();
-		 	}
+		 	if (autoplay) keyShitAuto();
+			else sustainInputs();
 		}
 		
 		if(FlxG.keys.pressed.SHIFT && FlxG.keys.justPressed.TAB && !isStoryMode){
@@ -1856,15 +1842,6 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.ONE)
 			endSongCutsceneCheck();
 		#end
-		
-		leftPress = false;
-		leftRelease = false;
-		downPress = false;
-		downRelease = false;
-		upPress = false;
-		upRelease = false;
-		rightPress = false;
-		rightRelease = false;
 
 		for(i in 0...releaseTimes.length){
 			if(releaseTimes[i] >= releaseBufferTime){
@@ -2241,40 +2218,155 @@ class PlayState extends MusicBeatState
 
 	}
 
-	private function keyCheck():Void{
+	function sustainInputs() {
+		if (autoplay || paused) return;
+		
+		if (keysHeld.contains(true)) {
+			notes.forEachAlive(function(daNote:Note) {
+				
+				if (daNote.canBeHit && daNote.mustPress && daNote.isSustainNote && !daNote.wasGoodHit) {
+					//boyfriend.holdTimer = 0;
 
-		upTime = Binds.pressed("gameplayUp") ? upTime + 1 : 0;
-		downTime = Binds.pressed("gameplayDown") ? downTime + 1 : 0;
-		leftTime = Binds.pressed("gameplayLeft") ? leftTime + 1 : 0;
-		rightTime = Binds.pressed("gameplayRight") ? rightTime + 1 : 0;
+					goodNoteHit(daNote);
+				}
 
-		upPress = upTime == 1;
-		downPress = downTime == 1;
-		leftPress = leftTime == 1;
-		rightPress = rightTime == 1;
+				//Guitar Hero Type Held Notes
+				if(daNote.isSustainNote && daNote.mustPress){
 
-		upRelease = upHold && upTime == 0;
-		downRelease = downHold && downTime == 0;
-		leftRelease = leftHold && leftTime == 0;
-		rightRelease = rightHold && rightTime == 0;
+					//This is for all subsequent released notes.
+					if(daNote.prevNote.tooLate && !daNote.prevNote.wasGoodHit){
+						daNote.tooLate = true;
+						daNote.destroy();
+						noteMiss(daNote, daNote.missCallback, Scoring.HOLD_DROP_DMAMGE_PER_NOTE * (daNote.isFake ? 0 : 1), false, false, true, Std.int(Scoring.HOLD_DROP_PENALTY_PER_SECOND * (Conductor.stepCrochet/1000)));
+						//updateAccuracyOld();
+					}
 
-		upHold = upTime > 0;
-		downHold = downTime > 0;
-		leftHold = leftTime > 0;
-		rightHold = rightTime > 0;
+					//This is for the first released note.
+					if(daNote.prevNote.wasGoodHit && !daNote.wasGoodHit){
 
-		if(leftRelease){ releaseTimes[0] = 0; }
-		else if(leftPress){ releaseTimes[0] = -1; }
+						if(releaseTimes[daNote.direction] >= releaseBufferTime){
+							noteMiss(daNote, daNote.missCallback, Scoring.HOLD_DROP_INITAL_DAMAGE, true, false, true, Std.int(Scoring.HOLD_DROP_INITIAL_PENALTY_PER_SECOND * (Conductor.stepCrochet/1000)));
+							if(canChangeVocalVolume){ vocals.volume = 0; }
+							daNote.tooLate = true;
+							daNote.destroy();
+							boyfriend.holdTimer = 0;
+							//updateAccuracyOld();
 
-		if(downRelease){ releaseTimes[1] = 0; }
-		else if(downPress){ releaseTimes[1] = -1; }
+							playerCovers.forEach(function(cover:NoteHoldCover) {
+								if (Math.abs(daNote.direction) == cover.noteDirection) {
+									cover.end(false);
+								}
+							});
 
-		if(upRelease){ releaseTimes[2] = 0; }
-		else if(upPress){ releaseTimes[2] = -1; }
+							var recursiveNote = daNote;
+							while(recursiveNote.prevNote != null && recursiveNote.prevNote.exists && recursiveNote.prevNote.isSustainNote){
+								recursiveNote.prevNote.visible = false;
+								recursiveNote = recursiveNote.prevNote;
+							}
+						}
+						
+					}
+				}
+			});
+		}
 
-		if(rightRelease){ releaseTimes[3] = 0; }
-		else if(rightPress){ releaseTimes[3] = -1; }
+		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !keysHeld.contains(true) && boyfriend.canAutoAnim && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
+			if (boyfriend.isSinging){
+				if((boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd != null ? boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd : Character.USE_IDLE_END)){ 
+					boyfriend.idleEnd(); 
+				}
+				else{ 
+					boyfriend.dance(); 
+					boyfriend.danceLockout = true;
+				}
+			}	
+		}
 
+		// don't have access to an id 
+		// so we have to iterate over every strum
+		playerStrums.forEach(function(spr:FlxSprite) {
+			var held:Bool = keysHeld[spr.ID];
+			if (held && spr.animation.curAnim.name != 'confirm') {
+				spr.animation.play('pressed');
+			}
+
+			if (!held) {
+				spr.animation.play('static');
+			}
+		});
+
+		playerNotesInRange = [false, false, false, false];
+	}
+
+	var keysHeld:Array<Bool> = [for (i in 0...4) false];
+	var keysToCheck:Array<String> = [
+		'gameplayLeft',
+		'gameplayDown',
+		'gameplayUp',
+		'gameplayRight'
+	];
+	function inputs(event:KeyboardEvent):Void {
+		if (autoplay || paused) return;
+
+		var key:Int = getKeyFromEvent(event.keyCode);
+		if (key == -1 || keysHeld[key]) return;
+
+		keysHeld[key] = true;
+		releaseTimes[key] = -1;
+		
+		var hittableNotes:Array<Note> = [];
+
+		// get each note that's in the hit range
+		notes.forEachAlive(function(note:Note) {
+			if (note == null) return;
+
+			// if the note is not on our strumline, ignore it
+			if (!note.mustPress) return;
+
+			// if it's a sustain piece, ignore it
+			if (note.isSustainNote) return;
+
+			// if it's not on the same lane, ignore it
+			if (note.direction != key) return;
+
+			if (note.inRange) {
+				if (!playerNotesInRange[note.direction]) {
+					playerNotesInRange[note.direction] = true;
+				}
+			} else return;
+
+			if (note.wasGoodHit) return;
+
+			// this note meets the criteria of being hit
+			// so we push it
+			hittableNotes.push(note);
+
+			if (Config.ghostTapType == 1) {
+				setCanMiss();
+			}
+		});
+
+		// if there's no notes grabbed, assume it was a ghost tap
+		if (hittableNotes.length == 0) {
+			playerStrums.members[key].animation.play('pressed', true);
+			badNoteCheck(key);
+			return;
+		}
+
+		// sort all of them from closest to farthest
+		hittableNotes.sort((a, b) -> FlxSort.byValues(FlxSort.ASCENDING, a.strumTime, b.strumTime));
+
+		// get the first available note
+		var noteToHit:Note = hittableNotes[0];
+
+		// hit the note
+		goodNoteHit(noteToHit);
+
+		// clear the array as we don't need it anymore
+		hittableNotes.resize(0);
+		hittableNotes = null;
+
+		// can't forget about peak -rudy
 		/*THE FUNNY 4AM CODE! [bro what was i doin????]
 		trace((leftHold?(leftPress?"^":"|"):(leftRelease?"^":" "))+(downHold?(downPress?"^":"|"):(downRelease?"^":" "))+(upHold?(upPress?"^":"|"):(upRelease?"^":" "))+(rightHold?(rightPress?"^":"|"):(rightRelease?"^":" ")));
 		I should probably remove this from the code because it literally serves no purpose, but I'm gonna keep it in because I think it's funny.
@@ -2285,10 +2377,42 @@ class PlayState extends MusicBeatState
 		| |^
 		^ |
 		====*/
-
 	}
 
-	private function keyShit():Void{
+	function badNoteCheck(direction:Int = -1) {
+		if (Config.ghostTapType != 0 && !canHit) return;
+		if (invuln) return;
+
+		// no point in running this if you don't have a key/lane to blame it on
+		if (direction == -1) return;
+
+		noteMissWrongPress(direction); 
+	}
+
+	function release(event:KeyboardEvent):Void {
+		if (autoplay) return;
+
+		var key:Int = getKeyFromEvent(event.keyCode);
+		if (key == -1) return;
+
+		keysHeld[key] = false;
+		releaseTimes[key] = 0;
+		playerStrums.members[key].animation.play('static', true);
+	}
+
+	@:noDebug @:pure function getKeyFromEvent(key:FlxKey):Int {
+		if (key == NONE) return -1;
+
+		for (i in 0...keysToCheck.length) {
+			for (possibleKey in Binds.binds.get(keysToCheck[i]).binds) {
+				if (key == possibleKey) return i;
+			}
+		}
+
+		return -1;
+	}
+
+/*	private function keyShit():Void{
 
 		var controlArray:Array<Bool> = [leftPress, downPress, upPress, rightPress];
 
@@ -2332,118 +2456,7 @@ class PlayState extends MusicBeatState
 				badNoteCheck();
 			}
 		}
-		
-		notes.forEachAlive(function(daNote:Note) {
-			if ((upHold || rightHold || downHold || leftHold) && generatedMusic){
-				if (daNote.canBeHit && daNote.mustPress && daNote.isSustainNote && !daNote.wasGoodHit)
-				{
-
-					//boyfriend.holdTimer = 0;
-
-					switch (daNote.direction)
-					{
-						// NOTES YOU ARE HOLDING
-						case 2:
-							if (upHold)
-								goodNoteHit(daNote);
-						case 3:
-							if (rightHold)
-								goodNoteHit(daNote);
-						case 1:
-							if (downHold)
-								goodNoteHit(daNote);
-						case 0:
-							if (leftHold)
-								goodNoteHit(daNote);
-					}
-				}
-			}
-
-			//Guitar Hero Type Held Notes
-			if(daNote.isSustainNote && daNote.mustPress){
-
-				//This is for all subsequent released notes.
-				if(daNote.prevNote.tooLate && !daNote.prevNote.wasGoodHit){
-					daNote.tooLate = true;
-					daNote.destroy();
-					noteMiss(daNote, daNote.missCallback, Scoring.HOLD_DROP_DMAMGE_PER_NOTE * (daNote.isFake ? 0 : 1), false, false, true, Std.int(Scoring.HOLD_DROP_PENALTY_PER_SECOND * (Conductor.stepCrochet/1000)));
-					//updateAccuracyOld();
-				}
-
-				//This is for the first released note.
-				if(daNote.prevNote.wasGoodHit && !daNote.wasGoodHit){
-
-					if(releaseTimes[daNote.direction] >= releaseBufferTime){
-						noteMiss(daNote, daNote.missCallback, Scoring.HOLD_DROP_INITAL_DAMAGE, true, false, true, Std.int(Scoring.HOLD_DROP_INITIAL_PENALTY_PER_SECOND * (Conductor.stepCrochet/1000)));
-						if(canChangeVocalVolume){ vocals.volume = 0; }
-						daNote.tooLate = true;
-						daNote.destroy();
-						boyfriend.holdTimer = 0;
-						//updateAccuracyOld();
-
-						playerCovers.forEach(function(cover:NoteHoldCover) {
-							if (Math.abs(daNote.direction) == cover.noteDirection) {
-								cover.end(false);
-							}
-						});
-
-						var recursiveNote = daNote;
-						while(recursiveNote.prevNote != null && recursiveNote.prevNote.exists && recursiveNote.prevNote.isSustainNote){
-							recursiveNote.prevNote.visible = false;
-							recursiveNote = recursiveNote.prevNote;
-						}
-					}
-					
-				}
-			}
-		});
-
-		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
-			if (boyfriend.isSinging){
-				if((boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd != null ? boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd : Character.USE_IDLE_END)){ 
-					boyfriend.idleEnd(); 
-				}
-				else{ 
-					boyfriend.dance(); 
-					boyfriend.danceLockout = true;
-				}
-			}	
-		}
-
-		playerStrums.forEach(function(spr:FlxSprite){
-			switch (spr.ID){
-				case 2:
-					if (upPress && spr.animation.curAnim.name != 'confirm'){
-						spr.animation.play('pressed');
-					}
-					if (!upHold){
-						spr.animation.play('static');
-					}
-				case 3:
-					if (rightPress && spr.animation.curAnim.name != 'confirm'){
-						spr.animation.play('pressed');
-					}
-					if (!rightHold){
-						spr.animation.play('static');
-					}
-				case 1:
-					if (downPress && spr.animation.curAnim.name != 'confirm'){
-						spr.animation.play('pressed');
-					}
-					if (!downHold){
-						spr.animation.play('static');
-					}
-				case 0:
-					if (leftPress && spr.animation.curAnim.name != 'confirm'){
-						spr.animation.play('pressed');
-					}
-					if (!leftHold){
-						spr.animation.play('static');
-					}
-			}
-
-		});
-	}
+	}*/
 
 	private function keyShitAuto():Void{
 
@@ -2459,7 +2472,7 @@ class PlayState extends MusicBeatState
 			}
 		});
 
-		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
+		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !keysHeld.contains(true) && boyfriend.canAutoAnim && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
 			if (boyfriend.isSinging){
 				if((boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd != null ? boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd : Character.USE_IDLE_END)){ 
 					boyfriend.idleEnd(); 
@@ -2472,17 +2485,8 @@ class PlayState extends MusicBeatState
 		}
 
 		for(x in hitNotes){
-
-			//boyfriend.holdTimer = 0;
-
+			//boyfriend.holdTimer = 0;\
 			goodNoteHit(x);
-			
-			playerStrums.forEach(function(spr:FlxSprite){
-				if (Math.abs(x.direction) == spr.ID){
-					spr.animation.play('confirm', true);
-				}
-			});
-
 		}
 
 	}
@@ -2552,19 +2556,6 @@ class PlayState extends MusicBeatState
 		missNoteSound.play();
 	}
 
-	function badNoteCheck(direction:Int = -1){
-		if((Config.ghostTapType == 0 || canHit) && !invuln){
-			if (leftPress && (direction == -1 || direction == 0))
-				noteMissWrongPress(0);
-			else if (upPress && (direction == -1 || direction == 2))
-				noteMissWrongPress(2);
-			else if (rightPress && (direction == -1 || direction == 3))
-				noteMissWrongPress(3);
-			else if (downPress && (direction == -1 || direction == 1))
-				noteMissWrongPress(1);
-		}
-	}
-
 	function setBoyfriendInvuln(time:Float = 5/60){
 		if(time > invulnTime){
 			invulnTime = time;
@@ -2582,7 +2573,6 @@ class PlayState extends MusicBeatState
 
 	function goodNoteHit(note:Note):Void{
 		if (!note.wasGoodHit){
-
 			if(note.isFake){
 				note.wasGoodHit = true;
 				if(note.prevNote == null || !note.prevNote.isSustainNote){
@@ -2617,11 +2607,7 @@ class PlayState extends MusicBeatState
 				healthAdjustOverride = null;
 			}
 
-			playerStrums.forEach(function(spr:FlxSprite) {
-				if (Math.abs(note.direction) == spr.ID) {
-					spr.animation.play('confirm', true);
-				}
-			});
+			playerStrums.members[note.direction].animation.play('confirm', true);
 
 			note.wasGoodHit = true;
 			if(canChangeVocalVolume){ vocals.volume = 1; }
