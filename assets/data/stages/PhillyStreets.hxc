@@ -1,3 +1,5 @@
+package stages;
+
 import openfl.filters.ShaderFilter;
 import shaders.RainShader;
 import flixel.util.FlxTimer;

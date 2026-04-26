@@ -1,6 +1,5 @@
 package note;
 
-import note.noteSkins.*;
 import config.*;
 
 import flixel.FlxSprite;
@@ -96,7 +95,14 @@ class Note extends FlxSprite
 			noteSkinClassName = NoteType.types.get(typePrefix).skin;
 		}
 
-		if(!ScriptableNoteSkin.listScriptClasses().contains(noteSkinClassName)){ noteSkinClassName = "DefaultNoteSkin"; }
+		if(ScriptableNoteSkin.listScriptClasses().contains("noteskins."+noteSkinClassName)){
+			noteSkinClassName = "noteskins."+noteSkinClassName;
+		}
+		#if BACKWARD_COMPATIBILITY
+		else if(ScriptableNoteSkin.listScriptClasses().contains(noteSkinClassName)){}
+		#end
+		else{ noteSkinClassName = "noteskins.DefaultNoteSkin"; }
+
 		noteSkin = ScriptableNoteSkin.scriptInit(noteSkinClassName);
 
 		var defaultPath:String = noteSkin.info.path;

@@ -1,3 +1,5 @@
+package notetypes;
+
 import flixel.tweens.FlxEase;
 import flixel.FlxG;
 

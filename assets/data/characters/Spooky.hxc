@@ -1,3 +1,5 @@
+package characters;
+
 class Spooky extends CharacterInfoBase
 {
 

@@ -1,3 +1,5 @@
+package stages;
+
 import shaders.AdjustColorShader;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;

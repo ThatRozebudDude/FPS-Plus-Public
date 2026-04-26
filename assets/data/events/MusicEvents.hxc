@@ -1,3 +1,5 @@
+package events;
+
 import flixel.FlxG;
 
 class MusicEvents extends Events

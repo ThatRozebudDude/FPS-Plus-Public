@@ -1,3 +1,5 @@
+package cutscenes;
+
 class ExecuteEvents extends ScriptedCutscene
 {
 

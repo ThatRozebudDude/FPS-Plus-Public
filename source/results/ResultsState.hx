@@ -175,10 +175,13 @@ class ResultsState extends FlxUIStateExt
 		FlxG.cameras.setDefaultDrawTarget(camUi, true);
 		this.camera = camUi;
 
-		//var characterClass = Type.resolveClass("results.characters." + characterString);
-		//if(characterClass == null){ characterClass = results.characters.Boyfriend; }
-		//character = Type.createInstance(characterClass, [rank]);
-		if(!ScriptableResultsCharacter.listScriptClasses().contains(characterString)){ characterString = "BoyfriendResults"; }
+		if(ScriptableResultsCharacter.listScriptClasses().contains("results."+characterString)){
+			characterString = "results."+characterString;
+		}
+		#if BACKWARD_COMPATIBILITY
+		else if(ScriptableResultsCharacter.listScriptClasses().contains(characterString)){}
+		#end
+		else{ characterString = "Boyfriend"; }
 		character = ScriptableResultsCharacter.scriptInit(characterString, rank);
 		character.setup();
 		character.cameras = [camCharacter];

@@ -1,3 +1,5 @@
+package freeplay;
+
 import flixel.math.FlxMath;
 import flixel.addons.display.FlxBackdrop;
 import flixel.tweens.FlxEase;
@@ -8,7 +10,7 @@ import flixel.FlxG;
 import sys.FileSystem;
 import flixel.sound.FlxSound;
 
-class PicoFreeplay extends DJCharacter
+class Pico extends DJCharacter
 {
 	var cardFlash:FlxSprite;
 	var cardGlow:FlxSprite;

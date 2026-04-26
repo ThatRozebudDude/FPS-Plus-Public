@@ -1,3 +1,5 @@
+package characters;
+
 import flixel.FlxSprite;
 
 class PicoPixel extends CharacterInfoBase
@@ -15,7 +17,7 @@ class PicoPixel extends CharacterInfoBase
 		info.deathCharacter = "PicoPixel";
 		info.antialiasing = false;
 		info.focusOffset.set(100, -100);
-		info.resultsCharacter = "PicoResults";
+		info.resultsCharacter = "Pico";
 
 		addByPrefix("idle", offset(), "idle", 24, loop(false));
 		addByPrefix("singUP", offset(), "up0", 24, loop(false));

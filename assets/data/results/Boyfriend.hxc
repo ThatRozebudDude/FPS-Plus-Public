@@ -1,8 +1,10 @@
+package results;
+
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import flixel.FlxSprite;
 
-class BoyfriendResults extends ResultsCharacter
+class Boyfriend extends ResultsCharacter
 {
 
 	var bfPerfect:AtlasSprite;

@@ -1,3 +1,5 @@
+package characters;
+
 import shaders.TextureMixShader;
 
 class PicoDark extends CharacterInfoBase
@@ -13,7 +15,7 @@ class PicoDark extends CharacterInfoBase
 		info.iconName = "pico";
 		info.facesLeft = true;
 		info.deathCharacter = "PicoDead";
-		info.resultsCharacter = "PicoResults";
+		info.resultsCharacter = "Pico";
 		info.focusOffset.set(76, -78);
 
 		addByLabel("idle", offset(), "Idle", 24, loop(false, 0), false, false);

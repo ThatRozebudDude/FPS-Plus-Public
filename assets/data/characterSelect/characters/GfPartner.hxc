@@ -1,4 +1,6 @@
-class GfPartnerCharacterSelect extends CharacterSelectCharacter
+package characterSelect;
+
+class GfPartner extends CharacterSelectCharacter
 {
 
 	var idleIndex:Int = 0;

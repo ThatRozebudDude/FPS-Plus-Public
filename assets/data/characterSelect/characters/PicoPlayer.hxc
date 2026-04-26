@@ -1,4 +1,6 @@
-class PicoPlayerCharacterSelect extends CharacterSelectCharacter
+package characterSelect;
+
+class PicoPlayer extends CharacterSelectCharacter
 {
 
 	override function setup():Void{

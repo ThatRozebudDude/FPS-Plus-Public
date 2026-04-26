@@ -1,3 +1,5 @@
+package events;
+
 import characters.ScriptableCharacter;
 
 class CharacterAnimationEvents extends Events

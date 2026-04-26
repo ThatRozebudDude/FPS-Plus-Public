@@ -1,10 +1,12 @@
+package results;
+
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import flixel.FlxSprite;
 
-class PicoResults extends ResultsCharacter
+class Pico extends ResultsCharacter
 {
 
 	var pico:AtlasSprite;

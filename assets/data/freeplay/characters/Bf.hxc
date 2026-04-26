@@ -1,3 +1,5 @@
+package freeplay;
+
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
@@ -12,7 +14,7 @@ import sys.FileSystem;
 import flixel.sound.FlxSound;
 import freeplay.ScrollingText;
 
-class BoyfriendFreeplay extends DJCharacter
+class Boyfriend extends DJCharacter
 {
 	var sound:FlxSound = new FlxSound();
 	var soundData:Array<Dynamic> = [];

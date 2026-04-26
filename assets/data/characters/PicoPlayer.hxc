@@ -1,3 +1,5 @@
+package characters;
+
 //Character is here for backwards compatibility but hidden from the character list. Just use Pico instead as they now share all their assets.
 class PicoPlayer extends CharacterInfoBase
 {
@@ -15,7 +17,7 @@ class PicoPlayer extends CharacterInfoBase
 		info.iconName = "pico";
 		info.facesLeft = true;
 		info.deathCharacter = "PicoDead";
-		info.resultsCharacter = "PicoResults";
+		info.resultsCharacter = "Pico";
 		info.focusOffset.set(76, -78);
 
 		addByLabel("idle", offset(), "Idle", 24, loop(false, 0), false, false);

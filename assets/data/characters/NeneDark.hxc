@@ -1,3 +1,5 @@
+package characters;
+
 import shaders.TextureMixShader;
 import objects.ABot;
 import flixel.FlxG;

@@ -1,3 +1,5 @@
+package scripts;
+
 class PixelScoreText extends Script
 {
 

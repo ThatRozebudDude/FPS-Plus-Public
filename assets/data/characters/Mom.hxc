@@ -1,3 +1,5 @@
+package characters;
+
 class Mom extends CharacterInfoBase
 {
 

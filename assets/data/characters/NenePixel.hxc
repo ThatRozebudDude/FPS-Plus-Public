@@ -1,3 +1,5 @@
+package characters;
+
 import objects.ABotPixel;
 import flixel.FlxG;
 

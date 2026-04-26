@@ -1,3 +1,5 @@
+package events;
+
 class HudEvents extends Events
 {
 
