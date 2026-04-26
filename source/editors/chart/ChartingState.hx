@@ -241,7 +241,17 @@ class ChartingState extends MusicBeatState
 		updateText();
 
 		var testToggle:Toggle = new Toggle(5, 5, false, "Test Toggle");
+		testToggle.onToggle.add(function(state:Bool){
+			trace(state);
+		});
+
+		var testButton:Button = new Button(5, testToggle.y + testToggle.height + 5, 120, "Button");
+		testButton.onPress.add(function(){
+			trace("pressed");
+		});
+
 		panel.addToTab("Song", testToggle);
+		panel.addToTab("Song", testButton);
 
 		add(bg);
 		add(gridsUnderlay);
