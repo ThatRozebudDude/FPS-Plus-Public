@@ -250,8 +250,11 @@ class ChartingState extends MusicBeatState
 			trace("pressed");
 		});
 
+		var testDropdown:Dropdown = new Dropdown(5, testButton.y + testButton.height + 5, 180, ["Bf", "Dad", "Gf", "Pico"], "Bf", "Test Dropdown");
+
 		panel.addToTab("Song", testToggle);
 		panel.addToTab("Song", testButton);
+		panel.addToTab("Song", testDropdown);
 
 		add(bg);
 		add(gridsUnderlay);

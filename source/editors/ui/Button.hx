@@ -21,8 +21,6 @@ using StringTools;
 class Button extends FlxTypedSpriteGroup<FlxSprite>
 {
 
-	static inline final LABEL_PADDING:Float = 5;
-
 	var box:Box;
 	var label:FlxBitmapText;
 
