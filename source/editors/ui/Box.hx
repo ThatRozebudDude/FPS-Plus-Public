@@ -6,7 +6,6 @@ import flixel.util.FlxSignal;
 import flixel.math.FlxRect;
 import flixel.addons.display.FlxSliceSprite;
 import flixel.FlxG;
-import flixel.FlxSprite;
 
 using StringTools;
 
@@ -19,6 +18,9 @@ class Box extends FlxSliceSprite
 	public var fillColor(default, set):FlxColor;
 	public var borderColor(default, set):FlxColor;
 
+	public var mouseOverlaps:Bool = false;
+	public var onOverlap:FlxSignal = new FlxSignal();
+	public var onOverlapStop:FlxSignal = new FlxSignal();
 	public var onClick:FlxSignal = new FlxSignal();
 	public var onRightClick:FlxSignal = new FlxSignal();
 	public var onMiddleClick:FlxSignal = new FlxSignal();
@@ -37,9 +39,19 @@ class Box extends FlxSliceSprite
 
 	override public function update(elapsed:Float):Void{
 		if(FlxG.mouse.overlaps(this) && visible){
+			if(!mouseOverlaps){
+				mouseOverlaps = true;
+				onOverlap.dispatch();
+			}
 			if(FlxG.mouse.justPressed){ onClick.dispatch(); }
 			if(FlxG.mouse.justPressedRight){ onRightClick.dispatch(); }
 			if(FlxG.mouse.justPressedMiddle){ onMiddleClick.dispatch(); }
+		}
+		else{
+			if(mouseOverlaps){
+				mouseOverlaps = false;
+				onOverlapStop.dispatch();
+			}
 		}
 		super.update(elapsed);
 	}

@@ -1,7 +1,7 @@
 - Editor UI Components
-	- Dropdown
 	- Stepper
 	- Text Input (Scary)
+	- Custom Cursor (Maybe)
 
 - New Chart Format
 	- No more sections.

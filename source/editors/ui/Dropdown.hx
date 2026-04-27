@@ -1,41 +1,39 @@
 package editors.ui;
 
-import flixel.graphics.frames.FlxBitmapFont;
-import flixel.text.FlxBitmapText;
-import flixel.util.FlxAxes;
-import flixel.util.FlxDirection;
-import flixel.util.FlxDirectionFlags;
-import extensions.flixel.FlxTextExt;
+import flixel.math.FlxMath;
 import editors.ui.Box;
-import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
-import flixel.util.FlxColor;
-import shaders.UIBoxShader;
 import flixel.util.FlxSignal;
-import flixel.math.FlxRect;
-import flixel.addons.display.FlxSliceSprite;
 import flixel.FlxG;
 import flixel.FlxSprite;
 
 using StringTools;
 
-class Dropdown extends FlxTypedSpriteGroup<FlxSprite>
+//TODO: Make dropdown appear in front of other components.
+
+class Dropdown extends UIElement
 {
 
 	static inline final LABEL_PADDING:Float = 5;
+	static inline final MAX_DROPDOWN_COUNT:Int = 10;
 
 	var box:Box;
-	var boxLabel:FlxBitmapText;
+	var boxLabel:UIText;
 
-	var dropdownBox:Box;
+	var dropdownSymbolBox:Box;
 	var dropdownSymbol:FlxSprite;
 
-	var label:FlxBitmapText;
+	var label:UIText;
 
 	var values:Array<String>;
 	var currentIndex:Int = 0;
 
-	public var selectedValue:String;
+	var dropdownOpened:Bool = false;
+	var dropdownOverlapIndex:Int = -1;
+	var dropdownStartIndex:Int = 0;
+	var dropdownBoxes:Array<Box> = [];
+	var dropdownLabels:Array<UIText> = [];
 
+	public var selectedValue:String;
 	public var onSelect:FlxTypedSignal<String->Void> = new FlxTypedSignal<String->Void>();
 
 	public function new(_x:Float, _y:Float, _width:Float, _values:Array<String>, ?_defaultValue:String = null, _label:String = ""){
@@ -45,25 +43,125 @@ class Dropdown extends FlxTypedSpriteGroup<FlxSprite>
 		if(currentIndex < 0){ currentIndex = 0; }
 
 		box = new Box(0, 0, _width, 24);
+		box.onClick.add(function(){
+			if(!dropdownOpened && manager.allowInteraction && manager.focused == null){ openDropdown(); }
+		});
 
-		dropdownBox = new Box(box.x + box.width - 24, 0, 24, 24);
-		dropdownBox.fillColor = UIColors.INTERACTION_COLOR;
+		for(i in 0...Std.int(Math.min(values.length, MAX_DROPDOWN_COUNT))){
+			var dropdownBox:Box = new Box(0, (box.height - Box.BORDER_SIZE) * (i+1), _width, 24);
+			dropdownBox.fillColor = UIColors.INTERACTION_COLOR;
 
-		dropdownSymbol = new FlxSprite(dropdownBox.x, dropdownBox.y).loadGraphic(Paths.image("fpsPlus/editors/shared/dropdownSymbol"));
+			var dropdownLabel:UIText = new UIText(dropdownBox.x + LABEL_PADDING, dropdownBox.y + (dropdownBox.height/2), values[i]);
+			dropdownLabel.y -= dropdownLabel.height/2;
+			dropdownLabel.color = UIColors.INTERACTION_TEXT_COLOR;
+
+			dropdownBox.onOverlap.add(function(){ dropdownOverlapIndex = i; });
+
+			dropdownBoxes.push(dropdownBox);
+			dropdownLabels.push(dropdownLabel);
+		}
+
+		dropdownSymbolBox = new Box(box.x + box.width - 24, 0, 24, 24);
+		dropdownSymbolBox.fillColor = UIColors.INTERACTION_COLOR;
+
+		dropdownSymbol = new FlxSprite(dropdownSymbolBox.x, dropdownSymbolBox.y).loadGraphic(Paths.image("fpsPlus/editors/shared/dropdownSymbol"));
+		dropdownSymbol.scale.set(0.5, 0.5);
+		dropdownSymbol.updateHitbox();
 		dropdownSymbol.color = UIColors.INTERACTION_TEXT_COLOR;
 
-		label = new FlxBitmapText(box.width + LABEL_PADDING, box.height/2, _label, FlxBitmapFont.fromAngelCode(Paths.image("fpsPlus/editors/shared/cascadia"), Paths.file("fpsPlus/editors/shared/cascadia", "images", "fnt")));
+		label = new UIText(box.width + LABEL_PADDING, (box.height/2), _label);
 		label.y -= label.height/2;
 		label.color = UIColors.FILL_TEXT_COLOR;
+		
+		boxLabel = new UIText(box.x + LABEL_PADDING, (box.height/2), values[currentIndex]);
+		boxLabel.y -= label.height/2;
+		boxLabel.color = UIColors.FILL_TEXT_COLOR;
 
+		for(box in dropdownBoxes){ add(box); }
+		for(label in dropdownLabels){ add(label); }
 		add(box);
-		add(dropdownBox);
+		add(boxLabel);
+		add(dropdownSymbolBox);
 		add(dropdownSymbol);
 		add(label);
+
+		closeDropdown();
+
+		elementWidth = box.width;
+		elementHeight = box.height;
 	}
 
 	override public function update(elapsed:Float):Void{
+		var anyBoxOverlaps:Bool = false;
+		for(dropdownBox in dropdownBoxes){
+			anyBoxOverlaps = anyBoxOverlaps || dropdownBox.mouseOverlaps;
+		}
+		dropdownOverlapIndex = anyBoxOverlaps ? dropdownOverlapIndex : -1;
+
+		for(i in 0...dropdownBoxes.length){
+			if(dropdownOpened){
+				dropdownBoxes[i].visible = true;
+				dropdownLabels[i].visible = true;
+				if(i == dropdownOverlapIndex){
+					dropdownBoxes[i].fillColor = UIColors.SELECTED_COLOR;
+					dropdownLabels[i].color = UIColors.SELECTED_TEXT_COLOR;
+				}
+				else{
+					dropdownBoxes[i].fillColor = UIColors.INTERACTION_COLOR;
+					dropdownLabels[i].color = UIColors.INTERACTION_TEXT_COLOR;
+				}
+			}
+			else{
+				dropdownBoxes[i].visible = false;
+				dropdownLabels[i].visible = false;
+			}
+		}
+
+		if(values.length > MAX_DROPDOWN_COUNT && dropdownOpened){
+			if(FlxG.mouse.wheel != 0){
+				dropdownStartIndex -= FlxG.mouse.wheel;
+				dropdownStartIndex = Std.int(FlxMath.bound(dropdownStartIndex, 0, Math.max(0, values.length - MAX_DROPDOWN_COUNT)));
+				updateDropdownText();
+			}
+		}
+
+		if(FlxG.mouse.justPressed && dropdownOpened && manager.allowInteraction){
+			if(anyBoxOverlaps){
+				currentIndex = dropdownStartIndex + dropdownOverlapIndex;
+				boxLabel.text = values[currentIndex];
+				onSelect.dispatch(values[currentIndex]);
+				closeDropdown();
+			}
+			else{
+				closeDropdown();
+			}
+		}
+
 		super.update(elapsed);
 	}
+
+	function openDropdown():Void{
+		dropdownOpened = true;
+		dropdownStartIndex = 0;
+		dropdownSymbol.flipY = true;
+		updateDropdownText();
+		manager.focused = this;
+	}
+
+	function closeDropdown():Void{
+		dropdownOpened = false;
+		dropdownSymbol.flipY = false;
+		dropdownOverlapIndex = -1;
+		if(this == manager.focused){ manager.clearFocused(); }
+	}
 	
+	function updateDropdownText():Void{
+		for(i in 0...dropdownLabels.length){
+			dropdownLabels[i].text = values[dropdownStartIndex + i];
+		}
+	}
+
+	override function unfocus():Void{
+		closeDropdown();
+	}
 }

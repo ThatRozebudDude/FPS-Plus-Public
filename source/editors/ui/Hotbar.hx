@@ -1,17 +1,8 @@
 package editors.ui;
 
 import flixel.util.FlxAxes;
-import flixel.util.FlxDirection;
-import flixel.util.FlxDirectionFlags;
-import extensions.flixel.FlxTextExt;
 import editors.ui.Box;
-import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
-import flixel.util.FlxColor;
-import shaders.UIBoxShader;
 import flixel.util.FlxSignal;
-import flixel.math.FlxRect;
-import flixel.addons.display.FlxSliceSprite;
-import flixel.FlxG;
 import flixel.FlxSprite;
 
 using StringTools;
@@ -21,7 +12,7 @@ typedef HotbarSlot = {
 	var graphic:FlxSprite;
 }
 
-class Hotbar extends FlxTypedSpriteGroup<FlxSprite>
+class Hotbar extends UIElement
 {
 
 	public var slots:Array<HotbarSlot> = [];
@@ -50,6 +41,9 @@ class Hotbar extends FlxTypedSpriteGroup<FlxSprite>
 		}
 
 		selectSlot(0);
+
+		elementWidth = width;
+		elementHeight = height;
 	}
 
 	override public function update(elapsed:Float):Void{

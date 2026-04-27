@@ -1,28 +1,16 @@
 package editors.ui;
 
-import flixel.graphics.frames.FlxBitmapFont;
-import flixel.text.FlxBitmapText;
-import flixel.util.FlxAxes;
-import flixel.util.FlxDirection;
-import flixel.util.FlxDirectionFlags;
-import extensions.flixel.FlxTextExt;
 import editors.ui.Box;
-import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
-import flixel.util.FlxColor;
-import shaders.UIBoxShader;
 import flixel.util.FlxSignal;
-import flixel.math.FlxRect;
-import flixel.addons.display.FlxSliceSprite;
 import flixel.FlxG;
-import flixel.FlxSprite;
 
 using StringTools;
 
-class Button extends FlxTypedSpriteGroup<FlxSprite>
+class Button extends UIElement
 {
 
 	var box:Box;
-	var label:FlxBitmapText;
+	var label:UIText;
 
 	public var pressed:Bool = false;
 
@@ -32,15 +20,18 @@ class Button extends FlxTypedSpriteGroup<FlxSprite>
 		super(_x, _y);
 
 		box = new Box(0, 0, _width, 24);
-		box.onClick.add(function(){ buttonPressed(); });
+		box.onClick.add(function(){ if(manager.allowInteraction && manager.focused == null){ buttonPressed(); } });
 
-		label = new FlxBitmapText(box.width/2, box.height/2, _label, FlxBitmapFont.fromAngelCode(Paths.image("fpsPlus/editors/shared/cascadia"), Paths.file("fpsPlus/editors/shared/cascadia", "images", "fnt")));
+		label = new UIText(box.width/2, (box.height/2), _label);
 		label.x -= label.width/2;
 		label.y -= label.height/2;
 		label.color = UIColors.FILL_TEXT_COLOR;
 
 		add(box);
 		add(label);
+
+		elementWidth = box.width;
+		elementHeight = box.height;
 	}
 
 	override public function update(elapsed:Float):Void{

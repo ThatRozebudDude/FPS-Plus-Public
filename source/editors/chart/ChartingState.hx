@@ -53,21 +53,22 @@ class ChartingState extends MusicBeatState
 	var vocals:FlxSound;
 	var vocalsOther:FlxSound;
 
+	var allowGridScroll:Bool = true;
 	var panel:Panel;
 	var hotbar:Hotbar;
 
 	var timeBox:Box;
-	var timeBoxLeftText:FlxBitmapText;
-	var timeBoxRightText:FlxBitmapText;
+	var timeBoxLeftText:UIText;
+	var timeBoxRightText:UIText;
 	var timeBoxShowTimecode:Bool = true;
 
 	var beatBox:Box;
-	var beatBoxLeftText:FlxBitmapText;
-	var beatBoxRightText:FlxBitmapText;
+	var beatBoxLeftText:UIText;
+	var beatBoxRightText:UIText;
 	
 	var stepBox:Box;
-	var stepBoxLeftText:FlxBitmapText;
-	var stepBoxRightText:FlxBitmapText;
+	var stepBoxLeftText:UIText;
+	var stepBoxRightText:UIText;
 	
 	var textUpdateTimer:Float = 0;
 
@@ -200,6 +201,8 @@ class ChartingState extends MusicBeatState
 		toolbarDropShadow.scrollFactor.set(0, 0);
 
 		panel = new Panel(835, 40, 400, 612, ["Song", "Notes", "Events", "Tools"], 40);
+		panel.onOverlap.add(function(){ allowGridScroll = false; });
+		panel.onOverlapStop.add(function(){ allowGridScroll = true; });
 		panel.scrollFactor.set(0, 0);
 
 		hotbar = new Hotbar(0, 60, 60, 60, 10, Y);
@@ -213,28 +216,28 @@ class ChartingState extends MusicBeatState
 				timeBox.fillColor = cast(tween, ColorTween).color;
 			}});
 		});
-		timeBoxLeftText = new FlxBitmapText(timeBox.x + PLAYBACK_INFO_PADDING, timeBox.getMidpoint().y + 1, "Time:", FlxBitmapFont.fromAngelCode(Paths.image("fpsPlus/editors/shared/cascadia"), Paths.file("fpsPlus/editors/shared/cascadia", "images", "fnt")));
+		timeBoxLeftText = new UIText(timeBox.x + PLAYBACK_INFO_PADDING, timeBox.getMidpoint().y, "Time:");
 		timeBoxLeftText.y -= timeBoxLeftText.height/2;
 		timeBoxLeftText.scrollFactor.set(0, 0);
-		timeBoxRightText = new FlxBitmapText(timeBox.x + PLAYBACK_INFO_PADDING, timeBox.getMidpoint().y + 1, "00000000000000000", FlxBitmapFont.fromAngelCode(Paths.image("fpsPlus/editors/shared/cascadia"), Paths.file("fpsPlus/editors/shared/cascadia", "images", "fnt")));
+		timeBoxRightText = new UIText(timeBox.x + PLAYBACK_INFO_PADDING, timeBox.getMidpoint().y, "");
 		timeBoxRightText.y -= timeBoxLeftText.height/2;
 		timeBoxRightText.scrollFactor.set(0, 0);
 
 		beatBox = new Box(timeBox.x + timeBox.width - Box.BORDER_SIZE, panel.y + panel.height - Box.BORDER_SIZE, 120, 30);
 		beatBox.scrollFactor.set(0, 0);
-		beatBoxLeftText = new FlxBitmapText(beatBox.x + PLAYBACK_INFO_PADDING, beatBox.getMidpoint().y + 1, "Beat:", FlxBitmapFont.fromAngelCode(Paths.image("fpsPlus/editors/shared/cascadia"), Paths.file("fpsPlus/editors/shared/cascadia", "images", "fnt")));
+		beatBoxLeftText = new UIText(beatBox.x + PLAYBACK_INFO_PADDING, beatBox.getMidpoint().y, "Beat:");
 		beatBoxLeftText.y -= timeBoxLeftText.height/2;
 		beatBoxLeftText.scrollFactor.set(0, 0);
-		beatBoxRightText = new FlxBitmapText(beatBox.x + PLAYBACK_INFO_PADDING, beatBox.getMidpoint().y + 1, "00000000000000000", FlxBitmapFont.fromAngelCode(Paths.image("fpsPlus/editors/shared/cascadia"), Paths.file("fpsPlus/editors/shared/cascadia", "images", "fnt")));
+		beatBoxRightText = new UIText(beatBox.x + PLAYBACK_INFO_PADDING, beatBox.getMidpoint().y, "");
 		beatBoxRightText.y -= timeBoxLeftText.height/2;
 		beatBoxRightText.scrollFactor.set(0, 0);
 
 		stepBox = new Box(beatBox.x + beatBox.width - Box.BORDER_SIZE, panel.y + panel.height - Box.BORDER_SIZE, 120, 30);
 		stepBox.scrollFactor.set(0, 0);
-		stepBoxLeftText = new FlxBitmapText(stepBox.x + PLAYBACK_INFO_PADDING, stepBox.getMidpoint().y + 1, "Step:", FlxBitmapFont.fromAngelCode(Paths.image("fpsPlus/editors/shared/cascadia"), Paths.file("fpsPlus/editors/shared/cascadia", "images", "fnt")));
+		stepBoxLeftText = new UIText(stepBox.x + PLAYBACK_INFO_PADDING, stepBox.getMidpoint().y, "Step:");
 		stepBoxLeftText.y -= timeBoxLeftText.height/2;
 		stepBoxLeftText.scrollFactor.set(0, 0);
-		stepBoxRightText = new FlxBitmapText(stepBox.x + PLAYBACK_INFO_PADDING, stepBox.getMidpoint().y + 1, "00000000000000000", FlxBitmapFont.fromAngelCode(Paths.image("fpsPlus/editors/shared/cascadia"), Paths.file("fpsPlus/editors/shared/cascadia", "images", "fnt")));
+		stepBoxRightText = new UIText(stepBox.x + PLAYBACK_INFO_PADDING, stepBox.getMidpoint().y, "");
 		stepBoxRightText.y -= timeBoxLeftText.height/2;
 		stepBoxRightText.scrollFactor.set(0, 0);
 
@@ -245,16 +248,19 @@ class ChartingState extends MusicBeatState
 			trace(state);
 		});
 
-		var testButton:Button = new Button(5, testToggle.y + testToggle.height + 5, 120, "Button");
+		var testButton:Button = new Button(5, testToggle.y + testToggle.elementHeight + 5, 120, "Button");
 		testButton.onPress.add(function(){
 			trace("pressed");
 		});
 
-		var testDropdown:Dropdown = new Dropdown(5, testButton.y + testButton.height + 5, 180, ["Bf", "Dad", "Gf", "Pico"], "Bf", "Test Dropdown");
+		var testDropdown:Dropdown = new Dropdown(5, testButton.y + testButton.elementHeight + 5, 180, ["Bf", "Dad", "Gf", "Pico", "Pico2", "Pico3", "Pico4", "Pico5", "Pico6", "Pico7", "Pico8", "Pico9", "Pico10"], "Bf", "Test Dropdown");
+
+		var testDropdown2:Dropdown = new Dropdown(5, testDropdown.y + testDropdown.elementHeight + 5, 180, ["Bf", "Dad", "Gf", "Pico"], "Dad", "Test Dropdown 2");
 
 		panel.addToTab("Song", testToggle);
 		panel.addToTab("Song", testButton);
 		panel.addToTab("Song", testDropdown);
+		panel.addToTab("Song", testDropdown2);
 
 		add(bg);
 		add(gridsUnderlay);
@@ -373,7 +379,7 @@ class ChartingState extends MusicBeatState
 		}
 
 		//Scroll with W and S
-		if(FlxG.keys.anyPressed([W, S])){
+		if(FlxG.keys.anyPressed([W, S]) && allowGridScroll){
 			pauseMusic();
 			final scrollAmount:Float = (FlxG.keys.anyPressed([SHIFT]) ? 2500 : 1000) * FlxG.elapsed;
 			FlxG.sound.music.time += ((FlxG.keys.anyPressed([W]) ? -1 : 0) + (FlxG.keys.anyPressed([S]) ? 1 : 0)) * scrollAmount;
@@ -381,7 +387,7 @@ class ChartingState extends MusicBeatState
 		}
 
 		//Scroll through the song with mouse wheel.
-		if(FlxG.mouse.wheel != 0){
+		if(FlxG.mouse.wheel != 0 && allowGridScroll){
 			pauseMusic();
 			final wheelSpin = FlxG.mouse.wheel;
 			FlxG.sound.music.time = Math.round(FlxG.sound.music.time / (Conductor.stepCrochet/2)) * (Conductor.stepCrochet/2); //Snap to nearest half step.

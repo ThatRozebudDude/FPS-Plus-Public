@@ -1,14 +1,9 @@
 package editors.ui;
 
-import extensions.flixel.FlxTextExt;
+import editors.ui.UIManager;
 import editors.ui.Box;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
-import flixel.util.FlxColor;
-import shaders.UIBoxShader;
 import flixel.util.FlxSignal;
-import flixel.math.FlxRect;
-import flixel.addons.display.FlxSliceSprite;
-import flixel.FlxG;
 import flixel.FlxSprite;
 
 using StringTools;
@@ -16,25 +11,31 @@ using StringTools;
 typedef PanelTab = {
 	var name:String;
 	var tab:Box;
-	var title:FlxTextExt;
+	var title:UIText;
 	var group:FlxTypedSpriteGroup<FlxSprite>;
+	var manager:UIManager;
 }
 
-class Panel extends FlxTypedSpriteGroup<FlxSprite>
+class Panel extends UIElement
 {
 
 	var panelBackground:Box;
 	public var tabs:Array<PanelTab> = [];
 	public var selectedTab:Int = 0;
 
+	public var onOverlap:FlxSignal = new FlxSignal();
+	public var onOverlapStop:FlxSignal = new FlxSignal();
+
 	public function new(_x:Float, _y:Float, _width:Float, _height:Float, _tabs:Array<String>, _tabHeight:Float){
 		super(_x, _y);
 		if(_tabs.length < 1){ _tabs = [""]; }
 
 		panelBackground = new Box(0, _tabHeight - Box.BORDER_SIZE, _width, _height - (_tabHeight - Box.BORDER_SIZE));
+		panelBackground.onOverlap.add(function(){ onOverlap.dispatch(); });
+		panelBackground.onOverlapStop.add(function(){ onOverlapStop.dispatch(); });
 
 		for(i in 0..._tabs.length){
-			var panelTab:PanelTab = {name: _tabs[i], tab: null, title: null, group: null};
+			var panelTab:PanelTab = {name: _tabs[i], tab: null, title: null, group: null, manager: new UIManager()};
 
 			panelTab.tab = new Box(((_width/4)*i) - (Box.BORDER_SIZE * i/(_tabs.length-1)), 0, (_width/4)+Box.BORDER_SIZE, _tabHeight);
 			panelTab.tab.onClick.add(function(){ changeTab(i); });
@@ -42,10 +43,15 @@ class Panel extends FlxTypedSpriteGroup<FlxSprite>
 			panelTab.group = new FlxTypedSpriteGroup<FlxSprite>(Box.BORDER_SIZE, _tabHeight);
 			panelTab.group.visible = false;
 			
-			panelTab.title = new FlxTextExt(panelTab.tab.getMidpoint().x, panelTab.tab.getMidpoint().y + 1, (_width/4), panelTab.name, 20);
-			panelTab.title.setFormat(Paths.font("cascadia"), panelTab.title.textField.defaultTextFormat.size, UIColors.FILL_TEXT_COLOR, CENTER);
+			panelTab.title = new UIText(panelTab.tab.getMidpoint().x, panelTab.tab.getMidpoint().y, panelTab.name, 0.6);
 			panelTab.title.y -= panelTab.title.height/2;
 			panelTab.title.x -= panelTab.title.width/2;
+
+			panelTab.manager.onFocusSwitch.add(function(element:UIElement){
+				if(element == null){ return; }
+				panelTab.group.remove(element, true);
+				panelTab.group.add(element);
+			});
 
 			tabs.push(panelTab);
 		}
@@ -58,16 +64,20 @@ class Panel extends FlxTypedSpriteGroup<FlxSprite>
 		}
 
 		changeTab(0);
+
+		elementWidth = panelBackground.width;
+		elementHeight = panelBackground.y - y + panelBackground.width;
 	}
 
 	override public function update(elapsed:Float):Void{
 		super.update(elapsed);
 	}
 
-	public function addToTab(tabName:String, obj:FlxSprite):Void{
+	public function addToTab(tabName:String, obj:UIElement):Void{
 		for(tab in tabs){
 			if(tab.name == tabName){
 				tab.group.add(obj);
+				obj.manager = tab.manager;
 				return;
 			}
 		}

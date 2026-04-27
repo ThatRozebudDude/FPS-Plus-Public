@@ -1,31 +1,19 @@
 package editors.ui;
 
-import flixel.graphics.frames.FlxBitmapFont;
-import flixel.text.FlxBitmapText;
-import flixel.util.FlxAxes;
-import flixel.util.FlxDirection;
-import flixel.util.FlxDirectionFlags;
-import extensions.flixel.FlxTextExt;
 import editors.ui.Box;
-import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
-import flixel.util.FlxColor;
-import shaders.UIBoxShader;
 import flixel.util.FlxSignal;
-import flixel.math.FlxRect;
-import flixel.addons.display.FlxSliceSprite;
-import flixel.FlxG;
 import flixel.FlxSprite;
 
 using StringTools;
 
-class Toggle extends FlxTypedSpriteGroup<FlxSprite>
+class Toggle extends UIElement
 {
 
 	static inline final LABEL_PADDING:Float = 5;
 
 	var box:Box;
 	var symbol:FlxSprite;
-	var label:FlxBitmapText;
+	var label:UIText;
 
 	public var state:Bool = false;
 
@@ -37,14 +25,16 @@ class Toggle extends FlxTypedSpriteGroup<FlxSprite>
 
 		box = new Box(0, 0, 24, 24);
 		box.onClick.add(function(){
-			setState(!state);
+			if(manager.allowInteraction && manager.focused == null){ setState(!state); }
 		});
 
-		symbol = new FlxSprite().loadGraphic(Paths.image("fpsPlus/editors/shared/checkBoxSymbol"), true, 24, 24);
+		symbol = new FlxSprite().loadGraphic(Paths.image("fpsPlus/editors/shared/checkBoxSymbol"), true, 48, 48);
 		symbol.animation.add("x", [0], 0, false);
 		symbol.animation.add("check", [1], 0, false);
+		symbol.scale.set(0.5, 0.5);
+		symbol.updateHitbox();
 
-		label = new FlxBitmapText(box.width + LABEL_PADDING, box.height/2, _label, FlxBitmapFont.fromAngelCode(Paths.image("fpsPlus/editors/shared/cascadia"), Paths.file("fpsPlus/editors/shared/cascadia", "images", "fnt")));
+		label = new UIText(box.width + LABEL_PADDING, (box.height/2), _label);
 		label.y -= label.height/2;
 		label.color = UIColors.FILL_TEXT_COLOR;
 
@@ -53,6 +43,9 @@ class Toggle extends FlxTypedSpriteGroup<FlxSprite>
 		add(label);
 
 		setState(state);
+
+		elementWidth = box.width;
+		elementHeight = box.height;
 	}
 
 	override public function update(elapsed:Float):Void{

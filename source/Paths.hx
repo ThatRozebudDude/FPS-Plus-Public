@@ -110,9 +110,7 @@ class Paths
 	}
 	
 	inline static public function font(key:String, ?extension:String = "ttf"):Dynamic{
-		var data:String = file(key, "fonts", extension);
-		if(extension == "png"){ return getGraphicFromCache(data); }
-		return data;
+		return file(key, "fonts", extension);
 	}
 
 	inline static public function shader(key:String, ?extension:String = "frag"){
