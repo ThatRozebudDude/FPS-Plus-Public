@@ -8,8 +8,6 @@ import flixel.FlxSprite;
 
 using StringTools;
 
-//TODO: Make dropdown appear in front of other components.
-
 class Dropdown extends UIElement
 {
 

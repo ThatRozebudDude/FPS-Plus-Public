@@ -243,24 +243,10 @@ class ChartingState extends MusicBeatState
 
 		updateText();
 
-		var testToggle:Toggle = new Toggle(5, 5, false, "Test Toggle");
-		testToggle.onToggle.add(function(state:Bool){
-			trace(state);
-		});
-
-		var testButton:Button = new Button(5, testToggle.y + testToggle.elementHeight + 5, 120, "Button");
-		testButton.onPress.add(function(){
-			trace("pressed");
-		});
-
-		var testDropdown:Dropdown = new Dropdown(5, testButton.y + testButton.elementHeight + 5, 180, ["Bf", "Dad", "Gf", "Pico", "Pico2", "Pico3", "Pico4", "Pico5", "Pico6", "Pico7", "Pico8", "Pico9", "Pico10"], "Bf", "Test Dropdown");
-
-		var testDropdown2:Dropdown = new Dropdown(5, testDropdown.y + testDropdown.elementHeight + 5, 180, ["Bf", "Dad", "Gf", "Pico"], "Dad", "Test Dropdown 2");
-
-		panel.addToTab("Song", testToggle);
-		panel.addToTab("Song", testButton);
-		panel.addToTab("Song", testDropdown);
-		panel.addToTab("Song", testDropdown2);
+		setupSongTab();
+		setupNotesTab();
+		setupEventsTab();
+		setupToolsTab();
 
 		add(bg);
 		add(gridsUnderlay);
@@ -312,6 +298,70 @@ class ChartingState extends MusicBeatState
 		add(camFollow);
 
 		super.create();
+	}
+
+	function setupSongTab():Void{
+		var testToggle:Toggle = new Toggle(5, 5, false, "Test Toggle");
+		testToggle.onToggle.add(function(state:Bool){
+			trace(state);
+		});
+
+		var testButton:Button = new Button(5, testToggle.y + testToggle.elementHeight + 5, 120, "Button");
+		testButton.onPress.add(function(){
+			trace("pressed");
+		});
+
+		var testDropdown:Dropdown = new Dropdown(5, testButton.y + testButton.elementHeight + 5, 180, ["Bf", "Dad", "Gf", "Pico", "Pico2", "Pico3", "Pico4", "Pico5", "Pico6", "Pico7", "Pico8", "Pico9", "Pico10"], "Bf", "Test Dropdown");
+
+		var testDropdown2:Dropdown = new Dropdown(5, testDropdown.y + testDropdown.elementHeight + 5, 180, ["Bf", "Dad", "Gf", "Pico"], "Dad", "Test Dropdown 2");
+
+		var testStepper:Stepper = new Stepper(5, testDropdown2.y + testDropdown2.elementHeight + 5, 180, 120, 1, 1, null, true, "Test Stepper");
+
+		panel.addToTab("Song", testToggle);
+		panel.addToTab("Song", testButton);
+		panel.addToTab("Song", testDropdown);
+		panel.addToTab("Song", testDropdown2);
+		panel.addToTab("Song", testStepper);
+	}
+
+	function setupNotesTab():Void{
+		var testToggle:Toggle = new Toggle(5, 5, false, "Note Toggle");
+		testToggle.onToggle.add(function(state:Bool){
+			trace(state);
+		});
+
+		panel.addToTab("Notes", testToggle);
+	}
+	
+	function setupEventsTab():Void{
+		var testToggle:Toggle = new Toggle(5, 5, false, "Event Toggle");
+		testToggle.onToggle.add(function(state:Bool){
+			trace(state);
+		});
+
+		panel.addToTab("Events", testToggle);
+	}
+
+	function setupToolsTab():Void{
+		var testToggle:Toggle = new Toggle(5, 5, false, "Tools Toggle");
+		testToggle.onToggle.add(function(state:Bool){
+			trace(state);
+		});
+
+		var testSprite:FlxSprite = new FlxSprite(70, 70).loadGraphic(Paths.image("menu/modMenu/defaultModIcon"));
+
+		var character:Character = new Character(100, 190, "Bf", true, false);
+		character.changeCharacterScale(0.5, 0.5);
+
+		var danceButton:Button = new Button(100, 200, 160, "Go Boy Go");
+		danceButton.onPress.add(function(){
+			character.dance();
+		});
+		
+		panel.addToTab("Tools", testToggle);
+		panel.addToTab("Tools", testSprite);
+		panel.addToTab("Tools", danceButton);
+		panel.addToTab("Tools", character);
 	}
 
 	override public function update(elapsed:Float):Void{

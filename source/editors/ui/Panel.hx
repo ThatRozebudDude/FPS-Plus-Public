@@ -1,5 +1,6 @@
 package editors.ui;
 
+import flixel.FlxG;
 import editors.ui.UIManager;
 import editors.ui.Box;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
@@ -70,14 +71,29 @@ class Panel extends UIElement
 	}
 
 	override public function update(elapsed:Float):Void{
+		disableNonActiveTabs();
 		super.update(elapsed);
 	}
 
-	public function addToTab(tabName:String, obj:UIElement):Void{
+	override function destroy() {
+		super.destroy();
+	}
+
+	function disableNonActiveTabs():Void{
+		for(i in 0...tabs.length){
+			if(i != selectedTab){
+				tabs[i].manager.allowInteraction = false;
+			}
+		}
+	}
+
+	public function addToTab(tabName:String, obj:FlxSprite):Void{
 		for(tab in tabs){
 			if(tab.name == tabName){
 				tab.group.add(obj);
-				obj.manager = tab.manager;
+				if(obj is UIElement){
+					cast(obj, UIElement).manager = tab.manager;
+				}
 				return;
 			}
 		}
