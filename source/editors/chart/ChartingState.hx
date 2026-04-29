@@ -317,9 +317,16 @@ class ChartingState extends MusicBeatState
 
 		var testStepper:Stepper = new Stepper(5, testDropdown2.y + testDropdown2.elementHeight + 5, 144, 120, 1, 1, null, true, "Test Stepper");
 
-		var testTextInput:TextInput = new TextInput(5, testStepper.y + testStepper.elementHeight + 5, 144, "Fresh", "Test Text Input");
+		var testStepper2:Stepper = new Stepper(5, testStepper.y + testStepper.elementHeight + 5, 144, 80, 0.5, 70, 90, false, "Test Stepper 2");
+
+		var testTextInput:TextInput = new TextInput(5, testStepper2.y + testStepper2.elementHeight + 5, 144, "Fresh", "Test Text Input");
 		testTextInput.onValueChanged.add(function(v:String){
 			trace("value changed to " + v);
+		});
+		
+		var testTextInput2:TextInput = new TextInput(5, testTextInput.y + testTextInput.elementHeight + 5, 144, "Text", "Test Text Input 2");
+		testTextInput2.onValueChanged.add(function(v:String){
+			trace("value changed 2  " + v);
 		});
 
 		panel.addToTab("Song", testToggle);
@@ -327,7 +334,9 @@ class ChartingState extends MusicBeatState
 		panel.addToTab("Song", testDropdown);
 		panel.addToTab("Song", testDropdown2);
 		panel.addToTab("Song", testStepper);
+		panel.addToTab("Song", testStepper2);
 		panel.addToTab("Song", testTextInput);
+		panel.addToTab("Song", testTextInput2);
 	}
 
 	function setupNotesTab():Void{

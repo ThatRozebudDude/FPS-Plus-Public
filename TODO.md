@@ -1,7 +1,9 @@
 - Editor UI Components
-	- Stepper
-	- Text Input (Scary)
 	- Custom Cursor (Maybe)
+	- Text Input QOL
+		- Selectable Text in Text Input (Maybe)
+			- Stuff like selecting a region of text and deleting it all at once.
+		- Make volume keys not work when inputting text.
 
 - New Chart Format
 	- No more sections.

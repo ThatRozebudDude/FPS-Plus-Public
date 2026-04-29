@@ -141,14 +141,18 @@ class Dropdown extends UIElement
 	function openDropdown():Void{
 		dropdownOpened = true;
 		dropdownStartIndex = 0;
+		dropdownSymbolBox.fillColor = UIColors.INTERACTION_COLOR;
 		dropdownSymbol.flipY = true;
+		dropdownSymbol.color = UIColors.INTERACTION_TEXT_COLOR;
 		updateDropdownText();
 		manager.focused = this;
 	}
 
 	function closeDropdown():Void{
 		dropdownOpened = false;
+		dropdownSymbolBox.fillColor = UIColors.INTERACTION_COLOR;
 		dropdownSymbol.flipY = false;
+		dropdownSymbol.color = UIColors.INTERACTION_TEXT_COLOR;
 		dropdownOverlapIndex = -1;
 		if(this == manager.focused){ manager.clearFocused(); }
 	}

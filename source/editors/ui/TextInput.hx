@@ -1,5 +1,6 @@
 package editors.ui;
 
+import flixel.math.FlxRect;
 import flixel.math.FlxMath;
 import editors.ui.Box;
 import flixel.util.FlxSignal;
@@ -8,7 +9,7 @@ import flixel.FlxSprite;
 
 using StringTools;
 
-//TODO: make text scroll in the box and clip to the box bounds
+//TODO: Make it so using volume binds doesn't cause the volume to change when inputting text.
 
 class TextInput extends UIElement
 {
@@ -20,12 +21,15 @@ class TextInput extends UIElement
 	static inline final KEY_ENTER:Int = 13;
 	static inline final KEY_BACKSPACE:Int = 8;
 	static inline final KEY_DELETE:Int = 46;
+	static inline final KEY_LEFT:Int = 37;
+	static inline final KEY_RIGHT:Int = 39;
 
 	//Because of bitmap font thank you FlxText memory.
-	static inline final ALLOWED_CHARACTERS:String = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!;%:?*_+-=.,/|\"'@#$^&(){}[] ";
+	static inline final DEFAULT_ALLOWED_CHARACTERS:String = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!;%:?*_+-=.,/|\"'@#$^&(){}[] ";
 	
 	var box:Box;
 	var inputText:UIText;
+	var textShift:Int = 0;
 
 	var caret:FlxSprite;
 	var caretTimer:Float = 0;
@@ -38,8 +42,11 @@ class TextInput extends UIElement
 	var inputtingText:Bool = false;
 	var inputString:String;
 	var inputIndex:Int = 0;
+	public var allowedCharacters:String = DEFAULT_ALLOWED_CHARACTERS;
 
 	public var onValueChanged:FlxTypedSignal<String->Void> = new FlxTypedSignal<String->Void>();
+
+	public var allowTyping(default, set):Bool = true;
 
 	public function new(_x:Float, _y:Float, _width:Float, _initialValue:String, _label:String = ""){
 		super(_x, _y);
@@ -48,12 +55,13 @@ class TextInput extends UIElement
 		box = new Box(0, 0, _width, 24);
 		box.fillColor = UIColors.INTERACTION_COLOR;
 		box.onClick.add(function(){
-			if(!inputtingText && manager.allowInteraction && manager.focused == null){
+			if(!inputtingText && manager.allowInteraction && manager.focused == null && allowTyping){
 				startTextInput();
 			}
 			else if(inputtingText){
 				inputIndex = Math.round(FlxMath.bound((FlxG.mouse.viewX - inputText.x)/UIText.X_ADVANCE, 0, inputString.length));
-				resetCaret(true);
+				updateCaretPosition();
+				resetCaret();
 			}
 		});
 
@@ -75,14 +83,14 @@ class TextInput extends UIElement
 		add(caret);
 		add(label);
 
+		openfl.Lib.current.stage.addEventListener(openfl.events.KeyboardEvent.KEY_DOWN, keyPress);
+
 		elementWidth = box.width;
 		elementHeight = box.height;
-
-		openfl.Lib.current.stage.addEventListener(openfl.events.KeyboardEvent.KEY_DOWN, keyPress);
 	}
 
 	override public function update(elapsed:Float):Void{
-		if((FlxG.mouse.justPressed || FlxG.keys.anyJustPressed([ENTER])) && inputtingText && manager.allowInteraction && (!box.mouseOverlaps || FlxG.keys.anyJustPressed([ENTER]))){
+		if(FlxG.mouse.justPressed && inputtingText && manager.allowInteraction && !box.mouseOverlaps){
 			stopTextInput();
 		}
 
@@ -93,23 +101,27 @@ class TextInput extends UIElement
 				caret.alpha = 1 - caret.alpha;
 			}
 			inputText.text = inputString;
-
-			if(FlxG.keys.anyJustPressed([LEFT])){
-				inputIndex--;
-				if(inputIndex < 0){ inputIndex = 0; }
-				caret.alpha = 1;
-				caretTimer = 0;
-			}
-
-			if(FlxG.keys.anyJustPressed([RIGHT])){
-				inputIndex++;
-				if(inputIndex > inputString.length){ inputIndex = inputString.length; }
-				caret.alpha = 1;
-				caretTimer = 0;
-			}
+		}
+		else{
+			inputText.text = value;
 		}
 
-		updateCaretPositon();
+		updateTextPosition();
+		updateCaretPosition();
+
+		while(caret.x > box.x + box.width - Box.BORDER_SIZE){
+			textShift++;
+			updateTextPosition();
+			updateCaretPosition();
+		}
+		while(caret.x < box.x + Box.BORDER_SIZE){
+			textShift--;
+			updateTextPosition();
+			updateCaretPosition();
+		}
+
+		var rectPos = Utils.worldToLocal(inputText, box.x + Box.BORDER_SIZE, box.y + Box.BORDER_SIZE);
+		inputText.clipRect = new FlxRect(rectPos.x/inputText.scale.x, rectPos.y/inputText.scale.x, (box.width - Box.BORDER_SIZE*2)/inputText.scale.x, (box.height - Box.BORDER_SIZE*2)/inputText.scale.y);
 
 		super.update(elapsed);
 	}
@@ -119,7 +131,11 @@ class TextInput extends UIElement
 		super.destroy();
 	}
 
-	inline function updateCaretPositon():Void{
+	inline function updateTextPosition():Void{
+		inputText.x = box.x + LABEL_PADDING - (UIText.X_ADVANCE * textShift);
+	}
+
+	inline function updateCaretPosition():Void{
 		caret.x = inputText.x + (inputIndex * UIText.X_ADVANCE);
 	}
 
@@ -129,49 +145,72 @@ class TextInput extends UIElement
 	}
 
 	function startTextInput():Void{
-		trace("starting text input");
 		inputtingText = true;
 		manager.focused = this;
-		resetCaret(true);
+		resetCaret();
 		inputString = value;
 		inputIndex = value.length;
-		updateCaretPositon();
+		updateCaretPosition();
 	}
 
 	function stopTextInput():Void{
-		trace("stopping text input");
 		inputtingText = false;
 		manager.clearFocused();
 		value = inputString;
-		inputText.text = value;
 		onValueChanged.dispatch(value);
 		resetCaret(false);
 	}
 
+	public function set_allowTyping(v:Bool):Bool{
+		allowTyping = v;
+		if(allowTyping){
+			box.fillColor = UIColors.INTERACTION_COLOR;
+			inputText.color = UIColors.INTERACTION_TEXT_COLOR;
+		}
+		else{
+			box.fillColor = UIColors.FILL_COLOR;
+			inputText.color = UIColors.FILL_TEXT_COLOR;
+		}
+		return v;
+	}
+
 	function keyPress(e:openfl.events.KeyboardEvent):Void{
-		if(!inputtingText) { return; }
-		if(e.charCode <= 0){ return; }
+		if(!inputtingText){ return; }
+		if(e.keyCode <= 0){ return; }
 		//trace(e.keyCode + "\t" + e.charCode + "\t" + String.fromCharCode(e.charCode));
 		switch(e.keyCode){
 			case KEY_ENTER:
+				stopTextInput();
 			case KEY_BACKSPACE:
 				if(inputIndex == 0){ return; }
 				var start:String = inputString.substring(0, inputIndex-1);
 				var end:String = inputIndex == inputString.length ? "" : inputString.substring(inputIndex);
 				inputString = start + end;
 				inputIndex--;
+				if(textShift > 0){ textShift--; }
+				resetCaret();
 			case KEY_DELETE:
 				if(inputIndex == inputString.length){ return; }
 				var start:String = inputString.substring(0, inputIndex);
 				var end:String = inputString.substring(inputIndex+1);
 				inputString = start + end;
+				resetCaret();
+			case KEY_LEFT:
+				inputIndex--;
+				if(inputIndex < 0){ inputIndex = 0; }
+				resetCaret();
+			case KEY_RIGHT:
+				inputIndex++;
+				if(inputIndex > inputString.length){ inputIndex = inputString.length; }
+				resetCaret();
 			default:
 				var char:String = String.fromCharCode(e.charCode);
-				if(!ALLOWED_CHARACTERS.contains(char)){ return; }
+				if(!allowedCharacters.contains(char)){ return; }
 				var start:String = inputString.substring(0, inputIndex);
 				var end:String = inputIndex == inputString.length ? "" : inputString.substring(inputIndex);
 				inputString = start + char + end;
 				inputIndex++;
+				resetCaret();
 		}
 	}
 }

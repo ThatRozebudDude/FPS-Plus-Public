@@ -8,15 +8,12 @@ import flixel.FlxSprite;
 
 using StringTools;
 
-//TODO: add text input for this
-
 class Stepper extends UIElement
 {
 
 	static inline final LABEL_PADDING:Float = 5;
 	
-	var box:Box;
-	var numberLabel:UIText;
+	var textInput:TextInput;
 
 	var plusBox:Box;
 	var plusSymbol:FlxSprite;
@@ -31,8 +28,6 @@ class Stepper extends UIElement
 	var min:Null<Float> = null;
 	var max:Null<Float> = null;
 
-	var allowTyping:Bool = true;
-
 	public var onValueChanged:FlxTypedSignal<Float->Void> = new FlxTypedSignal<Float->Void>();
 
 	public function new(_x:Float, _y:Float, _width:Float, _initialValue:Float, _stepSize:Float, _min:Null<Float> = null, _max:Null<Float> = null, _allowTyping:Bool = true, _label:String = ""){
@@ -41,20 +36,25 @@ class Stepper extends UIElement
 		stepSize = _stepSize;
 		min = _min;
 		max = _max;
-		allowTyping = _allowTyping;
 
-		box = new Box(0, 0, _width, 24);
-		box.fillColor = UIColors.INTERACTION_COLOR;
+		textInput = new TextInput(0, 0, _width - 44, ""+value);
+		textInput.allowTyping = _allowTyping;
+		textInput.allowedCharacters = "0123456789.";
+		textInput.onValueChanged.add(function(v:String){
+			var parsed:Float = Std.parseFloat(v);
+			if(!Math.isNaN(parsed)){
+				value = Std.parseFloat(v);
+				value = FlxMath.bound(value, min, max);
+			}
+			updateNumberLabel();
+		});
 
-		numberLabel = new UIText(LABEL_PADDING, (box.height/2), ""+value);
-		numberLabel.y -= numberLabel.height/2;
-		numberLabel.color = UIColors.INTERACTION_TEXT_COLOR;
-
-		plusBox = new Box(box.x + box.width - 24, 0, 24, 24);
+		plusBox = new Box(textInput.x + _width - 24, 0, 24, 24);
 		plusBox.fillColor = UIColors.INTERACTION_COLOR;
 		plusBox.onClick.add(function(){
 			if(manager.allowInteraction && manager.focused == null){ 
 				value += stepSize;
+				value = FlxMath.bound(value, min, max);
 				updateNumberLabel();
 				plusBox.fillColor = UIColors.SELECTED_COLOR;
 				plusSymbol.color = UIColors.SELECTED_TEXT_COLOR;
@@ -67,6 +67,7 @@ class Stepper extends UIElement
 		minusBox.onClick.add(function(){
 			if(manager.allowInteraction && manager.focused == null){ 
 				value -= stepSize;
+				value = FlxMath.bound(value, min, max);
 				updateNumberLabel();
 				minusBox.fillColor = UIColors.SELECTED_COLOR;
 				minusSymbol.color = UIColors.SELECTED_TEXT_COLOR;
@@ -86,20 +87,19 @@ class Stepper extends UIElement
 		minusSymbol.animation.play("minus");
 		minusSymbol.color = UIColors.INTERACTION_TEXT_COLOR;
 
-		label = new UIText(box.width + LABEL_PADDING, (box.height/2), _label);
+		label = new UIText(textInput.x + _width + LABEL_PADDING, (textInput.height/2), _label);
 		label.y -= label.height/2;
 		label.color = UIColors.FILL_TEXT_COLOR;
 
-		add(box);
-		add(numberLabel);
+		add(textInput);
 		add(plusBox);
 		add(minusBox);
 		add(plusSymbol);
 		add(minusSymbol);
 		add(label);
 
-		elementWidth = box.width;
-		elementHeight = box.height;
+		elementWidth = _width;
+		elementHeight = textInput.height;
 	}
 
 	override public function update(elapsed:Float):Void{
@@ -112,8 +112,13 @@ class Stepper extends UIElement
 		super.update(elapsed);
 	}
 
+	override function set_manager(v:UIManager):UIManager{
+		if(textInput != null){ textInput.manager = v; }
+		return super.set_manager(v);
+	}
+
 	function updateNumberLabel():Void{
-		numberLabel.text = ""+value;
+		textInput.value = ""+value;
 	}
 
 }

@@ -7,7 +7,7 @@ class UIElement	extends FlxTypedSpriteGroup<FlxSprite>
 {
 	public var elementWidth:Float;
 	public var elementHeight:Float;
-	public var manager:UIManager;
+	public var manager(default, set):UIManager;
 
 	public function new(_x:Float = 0.0, _y:Float = 0.0, _maxSize:Int = 0){
 		super(_x, _y, _maxSize);
@@ -16,4 +16,9 @@ class UIElement	extends FlxTypedSpriteGroup<FlxSprite>
 
 	public function focus():Void{}
 	public function unfocus():Void{}
+	
+	public function set_manager(v:UIManager):UIManager{
+		manager = v;
+		return manager;
+	}
 }
