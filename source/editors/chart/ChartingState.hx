@@ -306,22 +306,25 @@ class ChartingState extends MusicBeatState
 			trace(state);
 		});
 
-		var testButton:Button = new Button(5, testToggle.y + testToggle.elementHeight + 5, 120, "Button");
+		var testButton:Button = new Button(5, testToggle.y + testToggle.elementHeight + 5, 144, "Button");
 		testButton.onPress.add(function(){
 			trace("pressed");
 		});
 
-		var testDropdown:Dropdown = new Dropdown(5, testButton.y + testButton.elementHeight + 5, 180, ["Bf", "Dad", "Gf", "Pico", "Pico2", "Pico3", "Pico4", "Pico5", "Pico6", "Pico7", "Pico8", "Pico9", "Pico10"], "Bf", "Test Dropdown");
+		var testDropdown:Dropdown = new Dropdown(5, testButton.y + testButton.elementHeight + 5, 144, ["Bf", "Dad", "Gf", "Pico", "Pico2", "Pico3", "Pico4", "Pico5", "Pico6", "Pico7", "Pico8", "Pico9", "Pico10"], "Bf", "Test Dropdown");
 
-		var testDropdown2:Dropdown = new Dropdown(5, testDropdown.y + testDropdown.elementHeight + 5, 180, ["Bf", "Dad", "Gf", "Pico"], "Dad", "Test Dropdown 2");
+		var testDropdown2:Dropdown = new Dropdown(5, testDropdown.y + testDropdown.elementHeight + 5, 144, ["Bf", "Dad", "Gf", "Pico"], "Dad", "Test Dropdown 2");
 
-		var testStepper:Stepper = new Stepper(5, testDropdown2.y + testDropdown2.elementHeight + 5, 180, 120, 1, 1, null, true, "Test Stepper");
+		var testStepper:Stepper = new Stepper(5, testDropdown2.y + testDropdown2.elementHeight + 5, 144, 120, 1, 1, null, true, "Test Stepper");
+
+		var testTextInput:TextInput = new TextInput(5, testStepper.y + testStepper.elementHeight + 5, 144, "Fresh", "Test Text Input");
 
 		panel.addToTab("Song", testToggle);
 		panel.addToTab("Song", testButton);
 		panel.addToTab("Song", testDropdown);
 		panel.addToTab("Song", testDropdown2);
 		panel.addToTab("Song", testStepper);
+		panel.addToTab("Song", testTextInput);
 	}
 
 	function setupNotesTab():Void{

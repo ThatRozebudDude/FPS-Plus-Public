@@ -38,7 +38,7 @@ class Box extends FlxSliceSprite
 	}
 
 	override public function update(elapsed:Float):Void{
-		if(FlxG.mouse.overlaps(this) && visible){
+		if(FlxG.mouse.overlaps(this) && visible && isMouseOverCenter()){
 			if(!mouseOverlaps){
 				mouseOverlaps = true;
 				onOverlap.dispatch();
@@ -66,6 +66,10 @@ class Box extends FlxSliceSprite
 		borderColor = v;
 		boxShader.borderColor = borderColor;
 		return borderColor;
+	}
+
+	inline function isMouseOverCenter():Bool{
+		return FlxG.mouse.viewX >= x + BORDER_SIZE && FlxG.mouse.viewX < x + width - BORDER_SIZE && FlxG.mouse.viewY >= y + BORDER_SIZE && FlxG.mouse.viewY < y + height - BORDER_SIZE;
 	}
 	
 }

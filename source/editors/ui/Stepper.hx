@@ -8,6 +8,8 @@ import flixel.FlxSprite;
 
 using StringTools;
 
+//TODO: add text input for this
+
 class Stepper extends UIElement
 {
 
@@ -31,6 +33,8 @@ class Stepper extends UIElement
 
 	var allowTyping:Bool = true;
 
+	public var onValueChanged:FlxTypedSignal<Float->Void> = new FlxTypedSignal<Float->Void>();
+
 	public function new(_x:Float, _y:Float, _width:Float, _initialValue:Float, _stepSize:Float, _min:Null<Float> = null, _max:Null<Float> = null, _allowTyping:Bool = true, _label:String = ""){
 		super(_x, _y);
 		value = _initialValue;
@@ -41,9 +45,6 @@ class Stepper extends UIElement
 
 		box = new Box(0, 0, _width, 24);
 		box.fillColor = UIColors.INTERACTION_COLOR;
-		box.onClick.add(function(){
-			if(manager.allowInteraction && manager.focused == null){  }
-		});
 
 		numberLabel = new UIText(LABEL_PADDING, (box.height/2), ""+value);
 		numberLabel.y -= numberLabel.height/2;
@@ -51,9 +52,27 @@ class Stepper extends UIElement
 
 		plusBox = new Box(box.x + box.width - 24, 0, 24, 24);
 		plusBox.fillColor = UIColors.INTERACTION_COLOR;
+		plusBox.onClick.add(function(){
+			if(manager.allowInteraction && manager.focused == null){ 
+				value += stepSize;
+				updateNumberLabel();
+				plusBox.fillColor = UIColors.SELECTED_COLOR;
+				plusSymbol.color = UIColors.SELECTED_TEXT_COLOR;
+				onValueChanged.dispatch(value);
+			}
+		});
 
 		minusBox = new Box(plusBox.x + Box.BORDER_SIZE - 24, 0, 24, 24);
 		minusBox.fillColor = UIColors.INTERACTION_COLOR;
+		minusBox.onClick.add(function(){
+			if(manager.allowInteraction && manager.focused == null){ 
+				value -= stepSize;
+				updateNumberLabel();
+				minusBox.fillColor = UIColors.SELECTED_COLOR;
+				minusSymbol.color = UIColors.SELECTED_TEXT_COLOR;
+				onValueChanged.dispatch(value);
+			}
+		});
 
 		plusSymbol = new FlxSprite(plusBox.x, plusBox.y).loadGraphic(Paths.image("fpsPlus/editors/shared/stepperSymbol"), true, 24, 24);
 		plusSymbol.antialiasing = false;
@@ -84,7 +103,17 @@ class Stepper extends UIElement
 	}
 
 	override public function update(elapsed:Float):Void{
+		if(FlxG.mouse.released){
+			plusBox.fillColor = UIColors.INTERACTION_COLOR;
+			minusBox.fillColor = UIColors.INTERACTION_COLOR;
+			plusSymbol.color = UIColors.INTERACTION_TEXT_COLOR;
+			minusSymbol.color = UIColors.INTERACTION_TEXT_COLOR;
+		}
 		super.update(elapsed);
+	}
+
+	function updateNumberLabel():Void{
+		numberLabel.text = ""+value;
 	}
 
 }
