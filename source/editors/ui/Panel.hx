@@ -115,5 +115,14 @@ class Panel extends UIElement
 			}
 		}
 	}
+
+	public function isAnythingFocused():Bool{
+		for(tab in tabs){
+			if(tab.manager.focused != null){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 }

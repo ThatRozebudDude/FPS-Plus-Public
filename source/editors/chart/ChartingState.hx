@@ -318,6 +318,9 @@ class ChartingState extends MusicBeatState
 		var testStepper:Stepper = new Stepper(5, testDropdown2.y + testDropdown2.elementHeight + 5, 144, 120, 1, 1, null, true, "Test Stepper");
 
 		var testTextInput:TextInput = new TextInput(5, testStepper.y + testStepper.elementHeight + 5, 144, "Fresh", "Test Text Input");
+		testTextInput.onValueChanged.add(function(v:String){
+			trace("value changed to " + v);
+		});
 
 		panel.addToTab("Song", testToggle);
 		panel.addToTab("Song", testButton);
@@ -407,22 +410,22 @@ class ChartingState extends MusicBeatState
 
 
 			if(gridCursorIndex < 2){ //Placing notes.
-				if(FlxG.mouse.justPressed){
+				if(FlxG.mouse.justPressed && !panel.isAnythingFocused()){
 					addNote(getSongPositionFromY(gridCursor.y), gridLane, gridCursorIndex == 1);
 				}
-				else if(FlxG.mouse.justPressedRight){
+				else if(FlxG.mouse.justPressedRight && !panel.isAnythingFocused()){
 					removeNotesInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridLane, gridCursorIndex == 1, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
 				}
 			}
 			else{ //Placing events.
-				if(FlxG.mouse.justPressed){
+				if(FlxG.mouse.justPressed && !panel.isAnythingFocused()){
 					trace("Event\t" + getSongPositionFromY(gridCursor.y));
 				}
 			}
 		}
 
 		//Play/pause music.
-		if(FlxG.keys.anyJustPressed([SPACE])){
+		if(FlxG.keys.anyJustPressed([SPACE]) && !panel.isAnythingFocused()){
 			if(!FlxG.sound.music.playing){
 				playMusic();
 			}
@@ -432,7 +435,7 @@ class ChartingState extends MusicBeatState
 		}
 
 		//Scroll with W and S
-		if(FlxG.keys.anyPressed([W, S]) && allowGridScroll){
+		if(FlxG.keys.anyPressed([W, S]) && allowGridScroll && !panel.isAnythingFocused()){
 			pauseMusic();
 			final scrollAmount:Float = (FlxG.keys.anyPressed([SHIFT]) ? 2500 : 1000) * FlxG.elapsed;
 			FlxG.sound.music.time += ((FlxG.keys.anyPressed([W]) ? -1 : 0) + (FlxG.keys.anyPressed([S]) ? 1 : 0)) * scrollAmount;
@@ -440,7 +443,7 @@ class ChartingState extends MusicBeatState
 		}
 
 		//Scroll through the song with mouse wheel.
-		if(FlxG.mouse.wheel != 0 && allowGridScroll){
+		if(FlxG.mouse.wheel != 0 && allowGridScroll && !panel.isAnythingFocused()){
 			pauseMusic();
 			final wheelSpin = FlxG.mouse.wheel;
 			FlxG.sound.music.time = Math.round(FlxG.sound.music.time / (Conductor.stepCrochet/2)) * (Conductor.stepCrochet/2); //Snap to nearest half step.
@@ -448,19 +451,7 @@ class ChartingState extends MusicBeatState
 			musicBoundsCheck();
 		}
 
-		//Hotbar shortcuts.
-		if(FlxG.keys.anyJustPressed([ONE]))		{ hotbar.selectSlot(0); }
-		if(FlxG.keys.anyJustPressed([TWO]))		{ hotbar.selectSlot(1); }
-		if(FlxG.keys.anyJustPressed([THREE]))	{ hotbar.selectSlot(2); }
-		if(FlxG.keys.anyJustPressed([FOUR]))	{ hotbar.selectSlot(3); }
-		if(FlxG.keys.anyJustPressed([FIVE]))	{ hotbar.selectSlot(4); }
-		if(FlxG.keys.anyJustPressed([SIX]))		{ hotbar.selectSlot(5); }
-		if(FlxG.keys.anyJustPressed([SEVEN]))	{ hotbar.selectSlot(6); }
-		if(FlxG.keys.anyJustPressed([EIGHT]))	{ hotbar.selectSlot(7); }
-		if(FlxG.keys.anyJustPressed([NINE]))	{ hotbar.selectSlot(8); }
-		if(FlxG.keys.anyJustPressed([ZERO]))	{ hotbar.selectSlot(9); }
-
-		if(FlxG.keys.anyJustPressed([TAB]))	{ panel.changeTab((panel.selectedTab + 1) % panel.tabs.length); }
+		if(!panel.isAnythingFocused()){ checkShortcuts(); }
 
 		super.update(elapsed);
 
@@ -477,6 +468,42 @@ class ChartingState extends MusicBeatState
 
 	override function stepHit():Void{
 		super.stepHit();
+	}
+
+	function checkShortcuts():Void{
+		//Hotbar select.
+		if(FlxG.keys.anyJustPressed([ONE]))		{ hotbar.selectSlot(0); }
+		if(FlxG.keys.anyJustPressed([TWO]))		{ hotbar.selectSlot(1); }
+		if(FlxG.keys.anyJustPressed([THREE]))	{ hotbar.selectSlot(2); }
+		if(FlxG.keys.anyJustPressed([FOUR]))	{ hotbar.selectSlot(3); }
+		if(FlxG.keys.anyJustPressed([FIVE]))	{ hotbar.selectSlot(4); }
+		if(FlxG.keys.anyJustPressed([SIX]))		{ hotbar.selectSlot(5); }
+		if(FlxG.keys.anyJustPressed([SEVEN]))	{ hotbar.selectSlot(6); }
+		if(FlxG.keys.anyJustPressed([EIGHT]))	{ hotbar.selectSlot(7); }
+		if(FlxG.keys.anyJustPressed([NINE]))	{ hotbar.selectSlot(8); }
+		if(FlxG.keys.anyJustPressed([ZERO]))	{ hotbar.selectSlot(9); }
+
+		//Cycle panel tabs.
+		if(FlxG.keys.anyJustPressed([TAB]))		{ panel.changeTab((panel.selectedTab + 1) % panel.tabs.length); }
+
+		//Undo Redo
+		if(FlxG.keys.anyJustPressed([Z]) && FlxG.keys.anyPressed([CONTROL])){
+			//gulp
+		}
+		else if(FlxG.keys.anyJustPressed([Y]) && FlxG.keys.anyPressed([CONTROL])){
+			//gulp
+		}
+
+		//Copy Cut Paste
+		if(FlxG.keys.anyJustPressed([C]) && FlxG.keys.anyPressed([CONTROL])){
+			//do later
+		}
+		else if(FlxG.keys.anyJustPressed([X]) && FlxG.keys.anyPressed([CONTROL])){
+			//do later
+		}
+		else if(FlxG.keys.anyJustPressed([V]) && FlxG.keys.anyPressed([CONTROL])){
+			//do later
+		}
 	}
 
 	function addNote(strumTime:Float, direction:Int, player:Bool):Void{
