@@ -84,6 +84,9 @@ class ChartingState extends MusicBeatState
 
 	var previousReportedSongTime:Float = 0;
 
+	var placedNoteHold:Bool = false;
+	var selectedNotes:Array<ChartingNote> = [];
+
 	override function create():Void{
 		Config.setFramerate(120);
 		FlxG.mouse.visible = true;
@@ -433,6 +436,14 @@ class ChartingState extends MusicBeatState
 			}
 		}
 
+		if(placedNoteHold && !FlxG.mouse.released && selectedNotes.length > 0){
+			var sustainLegth:Int = FlxMath.maxInt(Math.floor((gridCursor.y - selectedNotes[0].y) / GRID_SIZE), 0);
+			if(selectedNotes[0].sustainLength != sustainLegth){ selectedNotes[0].sustainLength = sustainLegth; }
+		}
+		else{
+			placedNoteHold = false;
+		}
+
 		//Play/pause music.
 		if(FlxG.keys.anyJustPressed([SPACE]) && !panel.isAnythingFocused()){
 			if(!FlxG.sound.music.playing){
@@ -461,6 +472,15 @@ class ChartingState extends MusicBeatState
 		}
 
 		if(!panel.isAnythingFocused()){ checkShortcuts(); }
+
+		for(note in notes){
+			if(selectedNotes.contains(note)){
+				note.select();
+			}
+			else{
+				note.deselect();
+			}
+		}
 
 		super.update(elapsed);
 
@@ -513,17 +533,38 @@ class ChartingState extends MusicBeatState
 		else if(FlxG.keys.anyJustPressed([V]) && FlxG.keys.anyPressed([CONTROL])){
 			//do later
 		}
+
+		//Adjust Sustain Length
+		if(FlxG.keys.anyJustPressed([E])){
+			for(note in selectedNotes){
+				var sustainLength:Int = note.sustainLength;
+				sustainLength = FlxMath.maxInt(sustainLength+1, 0);
+				note.sustainLength = sustainLength;
+			}
+		}
+		else if(FlxG.keys.anyJustPressed([Q])){
+			for(note in selectedNotes){
+				var sustainLength:Int = note.sustainLength;
+				sustainLength = FlxMath.maxInt(sustainLength-1, 0);
+				note.sustainLength = sustainLength;
+			}
+		}
 	}
 
 	function addNote(strumTime:Float, direction:Int, player:Bool):Void{
+		selectedNotes = [];
 		removeNotesInProximity(strumTime, direction, player);
 
 		var newNote:ChartingNote = new ChartingNote(gridCursor.x, gridCursor.y, direction, strumTime, player);
-		newNote.sustainLength = FlxG.random.int(0, 3);
+		newNote.select();
 		notes.add(newNote);
-		trace("adding " + newNote.time);
-
+		
 		notes.members.sort(sortNotes);
+		selectedNotes = [newNote];
+
+		placedNoteHold = true;
+		
+		trace("adding " + newNote.time);
 	}
 
 	function sortNotes(a:ChartingNote, b:ChartingNote):Int{
@@ -548,6 +589,7 @@ class ChartingState extends MusicBeatState
 			}
 		}
 		for(note in removeList){
+			if(selectedNotes.contains(note)){ selectedNotes.remove(note); }
 			trace("removing " + note.time);
 			notes.remove(note, true);
 			note.destroy();

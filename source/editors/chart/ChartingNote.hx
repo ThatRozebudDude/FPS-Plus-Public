@@ -50,6 +50,7 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		sustainBody.setGraphicSize(SUSTAIN_GRAPHIC_WIDTH, (ChartingState.GRID_SIZE + ChartingState.GRID_SIZE/2)+1);
 		sustainBody.updateHitbox();
 		sustainBody.visible = false;
+		sustainBody.antialiasing = false;
 
 		sustainEnd = new FlxSprite(ChartingState.GRID_SIZE/2 - SUSTAIN_GRAPHIC_WIDTH/2, ChartingState.GRID_SIZE*2);
 		sustainEnd.frames = noteFrames;
@@ -85,6 +86,14 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 
 
 		return sustainLength;
+	}
+
+	public function select():Void{
+		note.animation.play(direction+"-selected", true);
+	}
+
+	public function deselect():Void{
+		note.animation.play(""+direction, true);
 	}
 
 }
