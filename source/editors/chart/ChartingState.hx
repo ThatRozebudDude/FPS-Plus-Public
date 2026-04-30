@@ -519,6 +519,7 @@ class ChartingState extends MusicBeatState
 		removeNotesInProximity(strumTime, direction, player);
 
 		var newNote:ChartingNote = new ChartingNote(gridCursor.x, gridCursor.y, direction, strumTime, player);
+		newNote.sustainLength = FlxG.random.int(0, 3);
 		notes.add(newNote);
 		trace("adding " + newNote.time);
 
