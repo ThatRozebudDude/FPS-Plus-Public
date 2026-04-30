@@ -19,6 +19,7 @@ typedef ChartMeta = {
 typedef NoteDefinition = {
 	var time:Float;
 	var direction:Int;
+	var length:Int;
 	var tag:String;
 	var player:Bool;
 }

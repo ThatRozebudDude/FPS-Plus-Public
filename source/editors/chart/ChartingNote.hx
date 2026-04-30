@@ -1,5 +1,6 @@
 package editors.chart;
 
+import Chart.NoteDefinition;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.FlxSprite;
 
@@ -12,17 +13,19 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 	public var time:Float = 0;
 	public var player:Bool = false;
 	public var sustainLength(default, set):Int = 0; //Length in steps.
+	public var tag:String = "";
 
 	var note:FlxSprite;
 	var sustainBody:FlxSprite;
 	var sustainEnd:FlxSprite;
 
-	public function new(_x:Float, _y:Float, _direction:Int, _time:Float, _player:Bool){
+	public function new(_x:Float, _y:Float, _direction:Int, _time:Float, _player:Bool, _tag:String){
 		super(_x, _y);
 
 		direction = _direction;
 		time = _time;
 		player = _player;
+		tag = _tag;
 
 		var noteFrames = Paths.getSparrowAtlas("ui/notes/NOTE_assets");
 		
@@ -94,6 +97,16 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 
 	public function deselect():Void{
 		note.animation.play(""+direction, true);
+	}
+
+	public inline function generateNoteDefiniton():NoteDefinition{
+		return {
+			time: time,
+			direction: direction,
+			length: sustainLength,
+			tag: tag,
+			player: player
+		};
 	}
 
 }

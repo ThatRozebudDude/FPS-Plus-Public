@@ -1,5 +1,7 @@
 package editors.chart;
 
+import modding.ScriptingUtil.BlendMode;
+import Chart.NoteDefinition;
 import editors.ui.*;
 import flixel.sound.FlxSound;
 import flixel.text.FlxText.FlxTextAlign;
@@ -87,6 +89,10 @@ class ChartingState extends MusicBeatState
 	var placedNoteHold:Bool = false;
 	var selectedNotes:Array<ChartingNote> = [];
 
+	var selectionBoxOpen:Bool = false;
+	var copiedNoteData:Array<NoteDefinition> = [];
+	var selectionBox:Box;
+
 	override function create():Void{
 		Config.setFramerate(120);
 		FlxG.mouse.visible = true;
@@ -158,6 +164,13 @@ class ChartingState extends MusicBeatState
 
 			grids.push(gridParts);
 		}
+
+		selectionBox = new Box(GRID_POSITION, 0, GRID_SIZE * 4, GRID_SIZE);
+		selectionBox.fillColor = UIColors.SELECTED_COLOR;
+		selectionBox.borderColor = 0xFF0078D7;
+		selectionBox.alpha = 0.3;
+		selectionBox.blend = BlendMode.MULTIPLY;
+		selectionBox.visible = false;
 
 		var gridsBarSeperator:FlxBackdrop = new FlxBackdrop(Utils.makeColoredSprite(1, 1, 0xFF8C8C8C).graphic, Y, 0, (GRID_SIZE * 4) - 1);
 		gridsBarSeperator.x = GRID_POSITION - GRID_SPACING;
@@ -263,6 +276,7 @@ class ChartingState extends MusicBeatState
 
 		add(gridsBarSeperator);
 		add(notes);
+		add(selectionBox);
 		
 		for(gridParts in grids){
 			add(gridParts.topFade);
@@ -444,6 +458,27 @@ class ChartingState extends MusicBeatState
 			placedNoteHold = false;
 		}
 
+		if(!selectionBoxOpen && FlxG.mouse.justPressedMiddle){
+			selectionBoxOpen = true;
+			selectionBox.y = FlxG.mouse.y;
+			selectionBox.visible = true;
+		}
+		else if(selectionBoxOpen && FlxG.mouse.justReleasedMiddle){
+			selectionBoxOpen = false;
+			selectionBox.visible = false;
+			selectedNotes = [];
+			var selectionStartTime:Float = getSongPositionFromY(selectionBox.y);
+			var selectionEndTime:Float = getSongPositionFromY(selectionBox.y + selectionBox.height);
+			for(note in notes){
+				if(note.time > selectionEndTime){ break; }
+				else if(note.time >= selectionStartTime){ selectedNotes.push(note); }
+			}
+		}
+
+		if(selectionBoxOpen){
+			selectionBox.height = Math.max(1, FlxG.mouse.y - selectionBox.y);
+		}
+
 		//Play/pause music.
 		if(FlxG.keys.anyJustPressed([SPACE]) && !panel.isAnythingFocused()){
 			if(!FlxG.sound.music.playing){
@@ -500,6 +535,17 @@ class ChartingState extends MusicBeatState
 	}
 
 	function checkShortcuts():Void{
+		//To top of section/song.
+		if(FlxG.keys.anyJustPressed([R])){
+			if(FlxG.sound.music.playing){ pauseMusic(); }
+			if(FlxG.keys.anyPressed([CONTROL])){
+				FlxG.sound.music.time = 0;
+			}
+			else{
+				FlxG.sound.music.time = getSongPositionFromY(Math.floor(getYFromSongPosition(FlxG.sound.music.time) / (GRID_SIZE * 16)) * (GRID_SIZE * 16));
+			}
+		}
+
 		//Hotbar select.
 		if(FlxG.keys.anyJustPressed([ONE]))		{ hotbar.selectSlot(0); }
 		if(FlxG.keys.anyJustPressed([TWO]))		{ hotbar.selectSlot(1); }
@@ -555,7 +601,7 @@ class ChartingState extends MusicBeatState
 		selectedNotes = [];
 		removeNotesInProximity(strumTime, direction, player);
 
-		var newNote:ChartingNote = new ChartingNote(gridCursor.x, gridCursor.y, direction, strumTime, player);
+		var newNote:ChartingNote = new ChartingNote(gridCursor.x, gridCursor.y, direction, strumTime, player, "");
 		newNote.select();
 		notes.add(newNote);
 		
@@ -624,11 +670,15 @@ class ChartingState extends MusicBeatState
 	}
 
 	inline function playMusic():Void{
-		vocals.time = FlxG.sound.music.time;
-		vocalsOther.time = FlxG.sound.music.time;
+		syncMusic();
 		FlxG.sound.music.play();
 		vocals.play();
 		vocalsOther.play();
+	}
+
+	inline function syncMusic():Void{
+		vocals.time = FlxG.sound.music.time;
+		vocalsOther.time = FlxG.sound.music.time;
 	}
 
 	//To fix weird text alignment issues I made ~ invisible and use it as a padding character. Yay.
