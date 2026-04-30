@@ -58,6 +58,7 @@ class ChartingState extends MusicBeatState
 	var allowGridScroll:Bool = true;
 	var panel:Panel;
 	var hotbar:Hotbar;
+	var editorCursor:Cursor;
 
 	var timeBox:Box;
 	var timeBoxLeftText:UIText;
@@ -92,10 +93,11 @@ class ChartingState extends MusicBeatState
 	var selectionBoxOpen:Bool = false;
 	var copiedNoteData:Array<NoteDefinition> = [];
 	var selectionBox:Box;
+	var startingGrid:Int = -1;
 
 	override function create():Void{
 		Config.setFramerate(120);
-		FlxG.mouse.visible = true;
+		FlxG.mouse.visible = false;
 
 		final songName:String = "Fresh";
 
@@ -128,6 +130,8 @@ class ChartingState extends MusicBeatState
 		bg.screenCenter();
 		bg.color = BACKGROUND_COLOR;
 		bg.scrollFactor.set(0, 0);
+
+		editorCursor = new Cursor();
 
 		var gridsUnderlay:FlxSprite = Utils.makeColoredSprite((GRID_COUNT * GRID_SIZE * 4) + (GRID_SPACING * (GRID_COUNT + 1)), 720, 0xFF8C8C8C);
 		gridsUnderlay.x = GRID_POSITION - GRID_SPACING;
@@ -315,6 +319,8 @@ class ChartingState extends MusicBeatState
 		add(camFollow);
 
 		super.create();
+
+		add(editorCursor);
 	}
 
 	function setupSongTab():Void{
@@ -409,6 +415,13 @@ class ChartingState extends MusicBeatState
 
 		camFollow.y = getYFromSongPosition(Conductor.songPosition) + (720/2 - PLAYBACK_POSITION);
 
+		/*if(FlxG.keys.anyPressed([SHIFT])){
+			editorCursor.selection();
+		}
+		else{
+			editorCursor.idle();
+		}*/
+
 		//Check if the cursor is on a grid.
 		gridCursor.visible = false;
 		gridCursorIndex = -1;
@@ -420,14 +433,14 @@ class ChartingState extends MusicBeatState
 
 		//Update the grid cursor position and do note place checks.
 		if(gridCursorIndex >= 0){
-			gridCursor.visible = true;
+			gridCursor.visible = true && !FlxG.keys.anyPressed([SHIFT]);
 			var gridLane:Int = Math.floor((FlxG.mouse.x - grids[gridCursorIndex].grid.x) / GRID_SIZE);
 			gridCursor.x = grids[gridCursorIndex].grid.x + gridLane * GRID_SIZE;
 
-			if(FlxG.keys.anyPressed([SHIFT])){
+			/*if(FlxG.keys.anyPressed([SHIFT])){
 				gridCursor.y = FlxG.mouse.y;
-			}
-			else if(FlxG.keys.anyPressed([CONTROL])){
+			}*/
+			if(FlxG.keys.anyPressed([CONTROL])){
 				gridCursor.y = Math.floor(FlxG.mouse.y / (GRID_SIZE / 2)) * (GRID_SIZE / 2);
 			}
 			else{
@@ -436,10 +449,10 @@ class ChartingState extends MusicBeatState
 
 
 			if(gridCursorIndex < 2){ //Placing notes.
-				if(FlxG.mouse.justPressed && !panel.isAnythingFocused()){
+				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused()){
 					addNote(getSongPositionFromY(gridCursor.y), gridLane, gridCursorIndex == 1);
 				}
-				else if(FlxG.mouse.justPressedRight && !panel.isAnythingFocused()){
+				else if(FlxG.mouse.justPressedRight && !FlxG.keys.anyPressed([SHIFT])  && !panel.isAnythingFocused()){
 					removeNotesInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridLane, gridCursorIndex == 1, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
 				}
 			}
@@ -458,12 +471,14 @@ class ChartingState extends MusicBeatState
 			placedNoteHold = false;
 		}
 
-		if(!selectionBoxOpen && FlxG.mouse.justPressedMiddle){
+		if(!selectionBoxOpen && FlxG.mouse.justPressed && FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused() && gridCursorIndex >= 0){
 			selectionBoxOpen = true;
+			startingGrid = gridCursorIndex;
+			selectionBox.x = grids[gridCursorIndex].grid.x;
 			selectionBox.y = FlxG.mouse.y;
 			selectionBox.visible = true;
 		}
-		else if(selectionBoxOpen && FlxG.mouse.justReleasedMiddle){
+		else if(selectionBoxOpen && FlxG.mouse.justReleased){
 			selectionBoxOpen = false;
 			selectionBox.visible = false;
 			selectedNotes = [];
