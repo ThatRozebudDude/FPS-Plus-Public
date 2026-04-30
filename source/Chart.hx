@@ -2,13 +2,13 @@ package;
 
 typedef ChartFormat = {
 	var meta:ChartMeta;
-	var notes:Array<NoteValues>;
+	var notes:Array<NoteDefinition>;
 }
 
 typedef ChartMeta = {
 	var format:String;
 	var song:String;
-	var bpm:Float;
+	var bpm:Array<BPMDefinition>;
 	var player:String;
 	var opponent:String;
 	var speaker:String;
@@ -16,11 +16,17 @@ typedef ChartMeta = {
 	var scroll:Float;
 }
 
-typedef NoteValues = {
+typedef NoteDefinition = {
 	var time:Float;
 	var direction:Int;
 	var tag:String;
 	var player:Bool;
+}
+
+typedef BPMDefinition = {
+	var bpm:Float;
+	var time:Float;
+	var step:Int;
 }
 
 class Chart
