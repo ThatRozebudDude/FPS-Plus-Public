@@ -1610,11 +1610,9 @@ class PlayState extends MusicBeatState
 		}
 
 		if (Binds.justPressed("chartEditor") && !isStoryMode){
-			ChartingState.startPosition = Conductor.songPosition;
-
 			FlxG.sound.music.pause();
 
-			switchState(new ChartingState(), false);
+			switchState(new ChartingState(Conductor.songPosition), false);
 			sectionStart = false;
 
 			if(instSong != null){

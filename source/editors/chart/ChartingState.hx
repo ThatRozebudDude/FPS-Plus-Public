@@ -53,8 +53,11 @@ class ChartingState extends MusicBeatState
 
 	public static inline final TEXT_UPDATE_RATE:Float = 1/24;
 
+	public static inline final PANEL_SPACING:Float = 5;
+	public static inline final PANEL_EXTRA_SPACING:Float = 22;
+
 	public var chart:ChartFormat;
-	public static var startPosition:Float = 0;
+	var startPosition:Float = 0;
 
 	var notes:FlxTypedGroup<ChartingNote>;
 	
@@ -114,12 +117,17 @@ class ChartingState extends MusicBeatState
 	var lilGuy:Character;
 	var lilBf:Character;
 
+	override public function new(_startPosition:Float = 0){
+		super();
+		startPosition = Math.max(_startPosition, 0);
+	}
+
 	override function create():Void{
 		Config.setFramerate(120);
 		FlxG.mouse.visible = false;
 
-		if (PlayState.chart == null){
-			chart = Chart.getEmptyChart();
+		if(PlayState.chart == null){
+			PlayState.chart = Chart.getEmptyChart();
 		}
 
 		chart = PlayState.chart;
@@ -328,46 +336,22 @@ class ChartingState extends MusicBeatState
 	}
 
 	function setupSongTab():Void{
-		var testToggle:Toggle = new Toggle(5, 5, false, "Test Toggle");
-		testToggle.onToggle.add(function(state:Bool){
-			trace(state);
-		});
+		var songNameInput:TextInput = new TextInput(PANEL_SPACING, PANEL_SPACING, 192, chart.meta.song, "Song Name");
+		var baseBpmInput:Stepper = new Stepper(PANEL_SPACING, songNameInput.y + songNameInput.elementHeight + PANEL_SPACING, 120, chart.meta.bpm[0].bpm, 1, 1, null, true, "Song BPM");
 
-		var testButton:Button = new Button(5, testToggle.y + testToggle.elementHeight + 5, 144, "Button");
-		testButton.onPress.add(function(){
-			trace("pressed");
-		});
+		var opponentDropdown:Dropdown = new Dropdown(5, baseBpmInput.y + baseBpmInput.elementHeight + PANEL_EXTRA_SPACING, 192, ["Bf", "Dad", "Gf", "Pico"], "Dad", "Opponent");
+		var playerDropown:Dropdown = new Dropdown(5, opponentDropdown.y + opponentDropdown.elementHeight + PANEL_SPACING, 192, ["Bf", "Dad", "Gf", "Pico"], "Bf", "Player");
+		var speakerDropdown:Dropdown = new Dropdown(5, playerDropown.y + playerDropown.elementHeight + PANEL_SPACING, 192, ["Bf", "Dad", "Gf", "Pico"], "Gf", "Partner");
 
-		var testDropdown:Dropdown = new Dropdown(5, testButton.y + testButton.elementHeight + 5, 144, ["Bf", "Dad", "Gf", "Pico", "Pico2", "Pico3", "Pico4", "Pico5", "Pico6", "Pico7", "Pico8", "Pico9", "Pico10"], "Bf", "Test Dropdown");
-
-		var testDropdown2:Dropdown = new Dropdown(5, testDropdown.y + testDropdown.elementHeight + 5, 144, ["Bf", "Dad", "Gf", "Pico"], "Dad", "Test Dropdown 2");
-
-		var testStepper:Stepper = new Stepper(5, testDropdown2.y + testDropdown2.elementHeight + 5, 144, 120, 1, 1, null, true, "Test Stepper");
-
-		var testStepper2:Stepper = new Stepper(5, testStepper.y + testStepper.elementHeight + 5, 144, 80, 0.5, 70, 90, false, "Test Stepper 2");
-
-		var testTextInput:TextInput = new TextInput(5, testStepper2.y + testStepper2.elementHeight + 5, 144, "Fresh", "Test Text Input");
-		testTextInput.onValueChanged.add(function(v:String){
-			trace("value changed to " + v);
-		});
-		
-		var testTextInput2:TextInput = new TextInput(5, testTextInput.y + testTextInput.elementHeight + 5, 144, "Text", "Test Text Input 2");
-		testTextInput2.onValueChanged.add(function(v:String){
-			trace("value changed 2  " + v);
-		});
-
-		panel.addToTab("Song", testToggle);
-		panel.addToTab("Song", testButton);
-		panel.addToTab("Song", testDropdown);
-		panel.addToTab("Song", testDropdown2);
-		panel.addToTab("Song", testStepper);
-		panel.addToTab("Song", testStepper2);
-		panel.addToTab("Song", testTextInput);
-		panel.addToTab("Song", testTextInput2);
+		panel.addToTab("Song", songNameInput);
+		panel.addToTab("Song", baseBpmInput);
+		panel.addToTab("Song", opponentDropdown);
+		panel.addToTab("Song", playerDropown);
+		panel.addToTab("Song", speakerDropdown);
 	}
 
 	function setupNotesTab():Void{
-		var testToggle:Toggle = new Toggle(5, 5, false, "Note Toggle");
+		var testToggle:Toggle = new Toggle(PANEL_SPACING, PANEL_SPACING, false, "Note Toggle");
 		testToggle.onToggle.add(function(state:Bool){
 			trace(state);
 		});
@@ -376,28 +360,58 @@ class ChartingState extends MusicBeatState
 	}
 	
 	function setupEventsTab():Void{
-		var testToggle:Toggle = new Toggle(5, 5, false, "Event Toggle");
+		var testToggle:Toggle = new Toggle(PANEL_SPACING, PANEL_SPACING, false, "Test Toggle");
 		testToggle.onToggle.add(function(state:Bool){
 			trace(state);
 		});
 
+		var testButton:Button = new Button(PANEL_SPACING, testToggle.y + testToggle.elementHeight + PANEL_SPACING, 144, "Button");
+		testButton.onPress.add(function(){
+			trace("pressed");
+		});
+
+		var testDropdown:Dropdown = new Dropdown(PANEL_SPACING, testButton.y + testButton.elementHeight + PANEL_SPACING, 144, ["Bf", "Dad", "Gf", "Pico", "Pico2", "Pico3", "Pico4", "Pico5", "Pico6", "Pico7", "Pico8", "Pico9", "Pico10"], "Bf", "Test Dropdown");
+
+		var testDropdown2:Dropdown = new Dropdown(PANEL_SPACING, testDropdown.y + testDropdown.elementHeight + PANEL_SPACING, 144, ["Bf", "Dad", "Gf", "Pico"], "Dad", "Test Dropdown 2");
+
+		var testStepper:Stepper = new Stepper(PANEL_SPACING, testDropdown2.y + testDropdown2.elementHeight + PANEL_SPACING, 144, 120, 1, 1, null, true, "Test Stepper");
+
+		var testStepper2:Stepper = new Stepper(PANEL_SPACING, testStepper.y + testStepper.elementHeight + PANEL_SPACING, 144, 80, 0.5, 70, 90, false, "Test Stepper 2");
+
+		var testTextInput:TextInput = new TextInput(PANEL_SPACING, testStepper2.y + testStepper2.elementHeight + PANEL_SPACING, 144, "Fresh", "Test Text Input");
+		testTextInput.onValueChanged.add(function(v:String){
+			trace("value changed to " + v);
+		});
+		
+		var testTextInput2:TextInput = new TextInput(PANEL_SPACING, testTextInput.y + testTextInput.elementHeight + PANEL_SPACING, 144, "Text", "Test Text Input 2");
+		testTextInput2.onValueChanged.add(function(v:String){
+			trace("value changed 2  " + v);
+		});
+
 		panel.addToTab("Events", testToggle);
+		panel.addToTab("Events", testButton);
+		panel.addToTab("Events", testDropdown);
+		panel.addToTab("Events", testDropdown2);
+		panel.addToTab("Events", testStepper);
+		panel.addToTab("Events", testStepper2);
+		panel.addToTab("Events", testTextInput);
+		panel.addToTab("Events", testTextInput2);
 	}
 
 	function setupToolsTab():Void{
-		opponentHitSoundToggle = new Toggle(5, 5, false, "Opponent Hitsound");
-		playerHitSoundToggle = new Toggle(5, opponentHitSoundToggle.y + opponentHitSoundToggle.height + 5, false, "Player Hitsound");
+		opponentHitSoundToggle = new Toggle(PANEL_SPACING, PANEL_SPACING, false, "Opponent Hitsound");
+		playerHitSoundToggle = new Toggle(PANEL_SPACING, opponentHitSoundToggle.y + opponentHitSoundToggle.height + PANEL_SPACING, false, "Player Hitsound");
 		
-		var instrumentalToggle:Toggle = new Toggle(5, playerHitSoundToggle.y + playerHitSoundToggle.height + 22, true, "Instrumental");
+		var instrumentalToggle:Toggle = new Toggle(PANEL_SPACING, playerHitSoundToggle.y + playerHitSoundToggle.height + PANEL_EXTRA_SPACING, true, "Instrumental");
 		instrumentalToggle.onToggle.add(function(value:Bool){ FlxG.sound.music.volume = value ? 1 : 0; });
 
-		var playerVoxToggle:Toggle = new Toggle(5, instrumentalToggle.y + instrumentalToggle.height + 5, true, "Player Vocals");
+		var playerVoxToggle:Toggle = new Toggle(PANEL_SPACING, instrumentalToggle.y + instrumentalToggle.height + PANEL_SPACING, true, "Player Vocals");
 		playerVoxToggle.onToggle.add(function(value:Bool){ vocals.volume = value ? 1 : 0; });
 
-		var opponentVoxToggle:Toggle = new Toggle(5, playerVoxToggle.y + playerVoxToggle.height + 5, true, "Opponent Vocals");
+		var opponentVoxToggle:Toggle = new Toggle(PANEL_SPACING, playerVoxToggle.y + playerVoxToggle.height + PANEL_SPACING, true, "Opponent Vocals");
 		opponentVoxToggle.onToggle.add(function(value:Bool){ vocalsOther.volume = value ? 1 : 0; });
 
-		var playbackRate:Stepper = new Stepper(5, opponentVoxToggle.y + opponentVoxToggle.height + 22, 100, 1, 0.1, 0.1, 1, true, "Playback Rate");
+		var playbackRate:Stepper = new Stepper(PANEL_SPACING, opponentVoxToggle.y + opponentVoxToggle.height + PANEL_EXTRA_SPACING, 100, 1, 0.1, 0.1, 1, true, "Playback Rate");
 		playbackRate.onValueChanged.add(function(value:Float){
 			FlxG.sound.music.pitch = value;
 			vocals.pitch = value;
@@ -668,12 +682,14 @@ class ChartingState extends MusicBeatState
 		Conductor.resetBPMChanges();
 		Conductor.setBPMChanges(chart.meta.bpm);
 
-		notes.forEach((_) -> _.destroy());
+		notes.forEach(function(note:ChartingNote){
+			note.destroy();
+		});
 		notes.clear();
 
-		for (noteData in chart.notes){
-			var n = addNote(noteData.time, noteData.direction, noteData.player, noteData.tag);
-			n.sustainLength = noteData.length / (Conductor.getStepCrotchet(noteData.time) * 1000);
+		for(noteData in chart.notes){
+			var newNote = addNote(noteData.time, noteData.direction, noteData.player, noteData.tag);
+			newNote.sustainLength = noteData.length / (Conductor.getStepCrotchet(noteData.time) * 1000);
 		}
 	}
 
