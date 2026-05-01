@@ -34,8 +34,26 @@ typedef BPMDefinition = {
 	var step:Int;
 }
 
+typedef EventFormat = {
+	var meta:EventMeta;
+	var events:Array<EventDefiniton>;
+}
+
+typedef EventMeta = {
+	var format:String;
+}
+
+typedef EventDefiniton = {
+	var time:Float;
+	var lane:Int;
+	var tag:String;
+}
+
 class Chart
 {
+
+	public static inline final CURRENT_CHART_FORMAT:String = "fpsplus_1";
+
 	public static function fromSong(song:String, difficulty:String = "normal"):ChartFormat{
 		var path = Paths.json(difficulty.toLowerCase(), "data/songs/" + song.toLowerCase());
 		#if BACKWARD_COMPATIBILITY
@@ -63,7 +81,7 @@ class Chart
 		var chartJson:Dynamic = Json.parse(raw);
 
 		#if BACKWARD_COMPATIBILITY
-		if (chartJson.song.song != null){
+		if(chartJson.meta == null){
 			return convertLegacyChart(chartJson.song);
 		}
 		#end
@@ -86,10 +104,9 @@ class Chart
 		return chart;
 	}
 
-	public static function convertLegacyChart(legacyChart:LegacySong):ChartFormat
-	{
+	public static function convertLegacyChart(legacyChart:LegacySong):ChartFormat{
 		var chart:ChartFormat = getEmptyChart();
-		chart.meta.format = "fpsplus_legacy";
+		chart.meta.format = CURRENT_CHART_FORMAT;
 
 		chart.meta.song = legacyChart.song;
 		chart.meta.scroll = legacyChart.speed;
@@ -136,11 +153,10 @@ class Chart
 		return chart;
 	}
 
-	public static inline function getEmptyChart():ChartFormat
-	{
+	public static inline function getEmptyChart():ChartFormat{
 		return {
 			meta: {
-				format: "Unknown",
+				format: CURRENT_CHART_FORMAT,
 				song: "",
 				bpm: [{bpm: 100, time: 0, step: 0}],
 				
@@ -158,25 +174,26 @@ class Chart
 
 
 #if BACKWARD_COMPATIBILITY
-typedef LegacySong =
-{
+typedef LegacySong = {
 	var song:String;
 	var notes:Array<LegacySection>;
 	var bpm:Float;
 	var speed:Float;
-
 	var player1:String;
 	var player2:String;
 	var stage:String;
 	var gf:String;
 }
 
-typedef LegacySection =
-{
+typedef LegacySection = {
 	var sectionNotes:Array<Dynamic>;
 	var lengthInSteps:Int;
 	var mustHitSection:Bool;
 	var bpm:Float;
 	var changeBPM:Bool;
+}
+
+typedef LegacyEvents = {
+	var events:Array<Dynamic>;
 }
 #end
