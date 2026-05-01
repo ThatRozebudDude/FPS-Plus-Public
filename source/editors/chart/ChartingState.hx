@@ -1,5 +1,6 @@
 package editors.chart;
 
+import characters.ScriptableCharacter;
 import modding.ScriptingUtil.BlendMode;
 import Chart.NoteDefinition;
 import editors.ui.*;
@@ -54,6 +55,7 @@ class ChartingState extends MusicBeatState
 	
 	var vocals:FlxSound;
 	var vocalsOther:FlxSound;
+	var previousSongPosition:Float = 0;
 
 	var allowGridScroll:Bool = true;
 	var panel:Panel;
@@ -99,6 +101,13 @@ class ChartingState extends MusicBeatState
 
 	var copiedNoteData:Array<NoteDefinition> = [];
 	var copyingBoth:Bool = false;
+
+	var playerHitSoundToggle:Toggle;
+	var opponentHitSoundToggle:Toggle;
+
+	var lilBuddiesEnabled:Bool = false;
+	var lilGuy:Character;
+	var lilBf:Character;
 
 	override function create():Void{
 		Config.setFramerate(120);
@@ -386,25 +395,26 @@ class ChartingState extends MusicBeatState
 	}
 
 	function setupToolsTab():Void{
-		var testToggle:Toggle = new Toggle(5, 5, false, "Tools Toggle");
-		testToggle.onToggle.add(function(state:Bool){
-			trace(state);
-		});
+		opponentHitSoundToggle = new Toggle(5, 5, false, "Opponent Hitsound");
+		playerHitSoundToggle = new Toggle(5, opponentHitSoundToggle.y + opponentHitSoundToggle.height + 5, false, "Player Hitsound");
 
-		var testSprite:FlxSprite = new FlxSprite(70, 70).loadGraphic(Paths.image("menu/modMenu/defaultModIcon"));
-
-		var character:Character = new Character(100, 190, "Bf", true, false);
-		character.changeCharacterScale(0.5, 0.5);
-
-		var danceButton:Button = new Button(100, 200, 160, "Go Boy Go");
-		danceButton.onPress.add(function(){
-			character.dance();
-		});
+		panel.addToTab("Tools", opponentHitSoundToggle);
+		panel.addToTab("Tools", playerHitSoundToggle);
 		
-		panel.addToTab("Tools", testToggle);
-		panel.addToTab("Tools", testSprite);
-		panel.addToTab("Tools", danceButton);
-		panel.addToTab("Tools", character);
+		if(ScriptableCharacter.listScriptClasses().contains("characters.BfLil") && ScriptableCharacter.listScriptClasses().contains("characters.GuyLil")){
+			lilBuddiesEnabled = true;
+
+			var lilStage:FlxSprite = new FlxSprite(139, 314).loadGraphic(Paths.image("chartEditor/lilStage"));
+			lilStage.antialiasing = false;
+			lilGuy = new Character(139, 314, "GuyLil", false, false);
+			lilBf = new Character(139, 314, "BfLil", false, false);
+			lilBf.setFlipX(false);
+			lilBf.swapLeftAndRightAnimations();
+			
+			panel.addToTab("Tools", lilStage);
+			panel.addToTab("Tools", lilGuy);
+			panel.addToTab("Tools", lilBf);
+		}
 	}
 
 	override public function update(elapsed:Float):Void{
@@ -542,7 +552,7 @@ class ChartingState extends MusicBeatState
 		}
 
 		//Scroll with W and S
-		if(FlxG.keys.anyPressed([W, S]) && allowGridScroll && !panel.isAnythingFocused()){
+		if(FlxG.keys.anyPressed([W, S]) && !panel.isAnythingFocused()){
 			pauseMusic();
 			final scrollAmount:Float = (FlxG.keys.anyPressed([SHIFT]) ? 2500 : 1000) * FlxG.elapsed;
 			FlxG.sound.music.time += ((FlxG.keys.anyPressed([W]) ? -1 : 0) + (FlxG.keys.anyPressed([S]) ? 1 : 0)) * scrollAmount;
@@ -569,6 +579,28 @@ class ChartingState extends MusicBeatState
 			}
 		}
 
+		if(FlxG.sound.music.playing){
+			for(note in notes){
+				if(note.time >= previousSongPosition && note.time < Conductor.songPosition){
+					if((note.player && playerHitSoundToggle.state) || (!note.player && opponentHitSoundToggle.state)){
+						var tickSound:FlxSound = FlxG.sound.play(Paths.sound("tick"), 0.8);
+						tickSound.pan = (playerHitSoundToggle.state && opponentHitSoundToggle.state) ? 0.15 * (note.player ? 1 : -1) : 0;
+					}
+					var character:Character = note.player ? lilBf : lilGuy;
+					switch(note.direction){
+						case 0:
+							character.singAnim("singLEFT", true);
+						case 1:
+							character.singAnim("singDOWN", true);
+						case 2:
+							character.singAnim("singUP", true);
+						case 3:
+							character.singAnim("singRIGHT", true);
+					}
+				}
+			}
+		}
+
 		super.update(elapsed);
 
 		textUpdateTimer += elapsed;
@@ -576,6 +608,8 @@ class ChartingState extends MusicBeatState
 			updateText();
 			textUpdateTimer = 0;
 		}
+
+		previousSongPosition = Conductor.songPosition;
 	};
 
 	override function beatHit():Void{

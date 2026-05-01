@@ -137,7 +137,7 @@ class Character extends FlxSpriteGroup
 					holdTimer = 0;
 				}
 				
-				if (holdTimer >= Conductor.stepCrochet * stepsUntilRelease * 0.001 && canAutoAnim && ((characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? characterInfo.info.characterPropertyOverrides.preventShortIdle : PREVENT_SHORT_IDLE) ? !PlayState.instance.anyOpponentNoteInRange : true)){
+				if (holdTimer >= Conductor.stepCrochet * stepsUntilRelease * 0.001 && canAutoAnim && ((characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? characterInfo.info.characterPropertyOverrides.preventShortIdle : PREVENT_SHORT_IDLE) ? (PlayState.isInPlayState() ? !PlayState.instance.anyOpponentNoteInRange : true) : true)){
 					if((characterInfo.info.characterPropertyOverrides.useIdleEnd != null ? characterInfo.info.characterPropertyOverrides.useIdleEnd : USE_IDLE_END)){ 
 						idleEnd(); 
 					}
