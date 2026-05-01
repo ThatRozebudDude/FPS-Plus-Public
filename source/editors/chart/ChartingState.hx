@@ -397,9 +397,30 @@ class ChartingState extends MusicBeatState
 	function setupToolsTab():Void{
 		opponentHitSoundToggle = new Toggle(5, 5, false, "Opponent Hitsound");
 		playerHitSoundToggle = new Toggle(5, opponentHitSoundToggle.y + opponentHitSoundToggle.height + 5, false, "Player Hitsound");
+		
+		var instrumentalToggle:Toggle = new Toggle(5, playerHitSoundToggle.y + playerHitSoundToggle.height + 22, true, "Instrumental");
+		instrumentalToggle.onToggle.add(function(value:Bool){ FlxG.sound.music.volume = value ? 1 : 0; });
+
+		var playerVoxToggle:Toggle = new Toggle(5, instrumentalToggle.y + instrumentalToggle.height + 5, true, "Player Vocals");
+		playerVoxToggle.onToggle.add(function(value:Bool){ vocals.volume = value ? 1 : 0; });
+
+		var opponentVoxToggle:Toggle = new Toggle(5, playerVoxToggle.y + playerVoxToggle.height + 5, true, "Opponent Vocals");
+		opponentVoxToggle.onToggle.add(function(value:Bool){ vocalsOther.volume = value ? 1 : 0; });
+
+		var playbackRate:Stepper = new Stepper(5, opponentVoxToggle.y + opponentVoxToggle.height + 22, 100, 1, 0.1, 0.1, 1, true, "Playback Rate");
+		playbackRate.onValueChanged.add(function(value:Float){
+			FlxG.sound.music.pitch = value;
+			vocals.pitch = value;
+			vocalsOther.pitch = value;
+			syncMusic();
+		});
 
 		panel.addToTab("Tools", opponentHitSoundToggle);
 		panel.addToTab("Tools", playerHitSoundToggle);
+		panel.addToTab("Tools", instrumentalToggle);
+		panel.addToTab("Tools", playerVoxToggle);
+		panel.addToTab("Tools", opponentVoxToggle);
+		panel.addToTab("Tools", playbackRate);
 		
 		if(ScriptableCharacter.listScriptClasses().contains("characters.BfLil") && ScriptableCharacter.listScriptClasses().contains("characters.GuyLil")){
 			lilBuddiesEnabled = true;
@@ -418,6 +439,7 @@ class ChartingState extends MusicBeatState
 	}
 
 	override public function update(elapsed:Float):Void{
+		FlxG.mouse.visible = false;
 
 		//Update conductor.
 		if(previousReportedSongTime != FlxG.sound.music.time){
@@ -425,7 +447,7 @@ class ChartingState extends MusicBeatState
 			previousReportedSongTime = FlxG.sound.music.time;
 		}
 		else if(FlxG.sound.music.playing){
-			Conductor.songPosition += FlxG.elapsed * 1000;
+			Conductor.songPosition += FlxG.elapsed * 1000 * FlxG.sound.music.pitch;
 		}
 
 		camFollow.y = getYFromSongPosition(Conductor.songPosition) + (720/2 - PLAYBACK_POSITION);
@@ -586,16 +608,19 @@ class ChartingState extends MusicBeatState
 						var tickSound:FlxSound = FlxG.sound.play(Paths.sound("tick"), 0.8);
 						tickSound.pan = (playerHitSoundToggle.state && opponentHitSoundToggle.state) ? 0.15 * (note.player ? 1 : -1) : 0;
 					}
-					var character:Character = note.player ? lilBf : lilGuy;
-					switch(note.direction){
-						case 0:
-							character.singAnim("singLEFT", true);
-						case 1:
-							character.singAnim("singDOWN", true);
-						case 2:
-							character.singAnim("singUP", true);
-						case 3:
-							character.singAnim("singRIGHT", true);
+
+					if(lilBuddiesEnabled){
+						var character:Character = note.player ? lilBf : lilGuy;
+						switch(note.direction){
+							case 0:
+								character.singAnim("singLEFT", true);
+							case 1:
+								character.singAnim("singDOWN", true);
+							case 2:
+								character.singAnim("singUP", true);
+							case 3:
+								character.singAnim("singRIGHT", true);
+						}
 					}
 				}
 			}
