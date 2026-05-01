@@ -4,12 +4,13 @@ import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.util.FlxSignal;
 import flixel.util.FlxSort;
+import config.Config;
 import Chart.BPMDefinition;
 
 class Conductor extends FlxBasic
 {
 	public static var bpm:Float = 100;
-	public static var songPosition:Float;
+	public static var songPosition:Float = 0;
 	public static var lastSongPos:Float;
 	public static var offset:Float = 0;
 
@@ -37,28 +38,30 @@ class Conductor extends FlxBasic
 		FlxG.plugins.add(new Conductor());
 	}
 
+	public static function reset()
+	{
+		songPosition = 0;
+		step = beat = 0;
+		offset = Config.offset;
+	}
+
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
-		if (Conductor.bpmChanges.length < 1){
+		if (Conductor.bpmChanges.length < 1 || (songPosition + offset) < 0){
 			return;
 		}
 
 		var prevStep = Std.int(step);
 		var prevBeat = Std.int(beat);
 
-		if (prevStep == 0){
-			prevStep = -1;
-			prevBeat = -1;
-		}
-
 		beat = 0;
 		bpm = Conductor.bpmChanges[0].bpm;
 
 		var prevChange = Conductor.bpmChanges[0];
 		for(change in Conductor.bpmChanges){
-			if(songPosition >= change.time){
+			if((songPosition + offset) >= change.time){
 				beat += (change.time - prevChange.time) / (getCrotchet(prevChange.time) * 1000);
 				bpm = change.bpm;
 
@@ -66,7 +69,7 @@ class Conductor extends FlxBasic
 			}
 		}
 
-		beat += (songPosition - prevChange.time) / (getCrotchet(prevChange.time) * 1000);
+		beat += ((songPosition + offset) - prevChange.time) / (getCrotchet(prevChange.time) * 1000);
 		step = beat * 4;
 
 		if(Std.int(step) != prevStep){
@@ -79,6 +82,8 @@ class Conductor extends FlxBasic
 	}
 
 	public static function setBPMChanges(changes:Array<BPMDefinition>):Void{
+		reset();
+
 		bpmChanges = changes.copy();
 		bpmChanges.sort((a, b) -> FlxSort.byValues(FlxSort.ASCENDING, a.time, b.time));
 		trace("Set up BPM Changes: " + bpmChanges);
