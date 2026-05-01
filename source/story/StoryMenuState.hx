@@ -444,11 +444,8 @@ class StoryMenuState extends MusicBeatState
 					diffic = '-hard';
 			}
 
-			PlayState.storyDifficulty = curDifficulty;
-
-			PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
+			PlayState.setupSong(PlayState.storyPlaylist[0], curDifficulty, true, "story");
 			PlayState.storyWeek = curWeek;
-			PlayState.returnLocation = "story";
 
 			PlayState.weekStats = {
 				score: 0,

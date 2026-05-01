@@ -36,7 +36,7 @@ import flixel.text.FlxText;
 import extensions.flixel.FlxTextExt;
 import caching.*;
 
-import editors.ChartingState;
+import editors.chart.ChartingState;
 
 using StringTools;
 
@@ -314,13 +314,7 @@ class FreeplayState extends MusicBeatState
 					}
 					else if(Binds.justPressed("chartEditor")){
 						transitionOver = false;
-						var formattedSong:String = Highscore.formatSong(categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase(), curDifficulty);
-						PlayState.SONG = Song.loadFromJson(formattedSong, categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase());
-						PlayState.EVENTS = null;
-						PlayState.isStoryMode = false;
-						PlayState.storyDifficulty = curDifficulty;
-						PlayState.loadEvents = true;
-						PlayState.returnLocation = "freeplay";
+						PlayState.setupSong(categoryMap[categoryNames[curCategory]][curSelected].song, curDifficulty, false, "freeplay");
 						ImageCache.forceClearOnTransition = true;
 						FlxG.sound.music.fadeOut(0.5);
 						switchState(new ChartingState(), false);
@@ -1323,12 +1317,8 @@ class FreeplayState extends MusicBeatState
 	}
 
 	function startSong():Void{
-		var formattedSong:String = Highscore.formatSong(categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase(), curDifficulty);
-		PlayState.SONG = Song.loadFromJson(formattedSong, categoryMap[categoryNames[curCategory]][curSelected].song.toLowerCase());
-		PlayState.isStoryMode = false;
-		PlayState.storyDifficulty = curDifficulty;
-		PlayState.loadEvents = true;
-		PlayState.returnLocation = "freeplay";
+		PlayState.setupSong(categoryMap[categoryNames[curCategory]][curSelected].song, curDifficulty, false, "freeplay");
+		
 		new FlxTimer().start(1.5, function(t){
 			ImageCache.forceClearOnTransition = true;
 			switchState(new PlayState());

@@ -6,7 +6,7 @@ import extensions.flixel.FlxTextExt;
 import haxe.Json;
 import flixel.text.FlxText;
 import extensions.flixel.FlxCameraExt;
-import editors.ChartingState;
+import editors.chart.ChartingState;
 import flixel.tweens.FlxTween;
 import config.*;
 import flixel.FlxG;

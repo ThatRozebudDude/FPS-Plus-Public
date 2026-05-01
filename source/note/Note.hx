@@ -296,7 +296,7 @@ class Note extends FlxSprite
 		speed *= _speedMultiplier;
 
 		scale.y = graphicScale;
-		scale.y *= Conductor.stepCrochet / 100 * 1.485 * speed;
+		scale.y *= (Conductor.getStepCrotchet(strumTime) * 10) * 1.485 * speed;
 		scale.y *= noteSkin.info.holdScaleAdjust;
 		scale.y *= isFake ? 0.5 : 1;
 		updateHitbox();

@@ -12,7 +12,7 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 	public var direction:Int = 0;
 	public var time:Float = 0;
 	public var player:Bool = false;
-	public var sustainLength(default, set):Int = 0; //Length in steps.
+	public var sustainLength(default, set):Float = 0; //Length in steps.
 	public var tag:String = "";
 
 	var note:FlxSprite;
@@ -71,7 +71,7 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		add(note);
 	}
 
-	public function set_sustainLength(v:Int):Int{
+	public function set_sustainLength(v:Float):Float{
 		sustainLength = v;
 
 		if(sustainLength > 0){
@@ -99,11 +99,12 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		note.animation.play(""+direction, true);
 	}
 
+	//TODO: Make it support BPM changes.
 	public inline function generateNoteDefiniton():NoteDefinition{
 		return {
 			time: time,
 			direction: direction,
-			length: sustainLength,
+			length: sustainLength * (Conductor.getStepCrotchet(time) * 1000),
 			tag: tag,
 			player: player
 		};

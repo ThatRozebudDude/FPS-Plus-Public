@@ -61,9 +61,8 @@ import openfl.utils.ByteArray;
 
 using StringTools;
 
-class ChartingState extends MusicBeatState
+class ChartingStateOld extends MusicBeatState
 {
-
 	public static var screenshotBitmap:BitmapData = null;
 	public static var startSection:Int = 0;
 
@@ -453,7 +452,7 @@ class ChartingState extends MusicBeatState
 			};
 
 			ImageCache.refreshLocal();
-			switchState(new ChartingState());
+			switchState(new ChartingStateOld());
 		});
 
 		var stepperSpeed:FlxUINumericStepper = new FlxUINumericStepper(10, 70, 0.1, 1, 0.1, 25, 1);
@@ -1374,7 +1373,7 @@ class ChartingState extends MusicBeatState
 			FlxG.signals.preStateSwitch.addOnce(function() { PolymodHandler.reInit(); });
 			PolymodHandler.reload(false);
 			customTransOut = new InstantTransition();
-			switchState(new ChartingState());
+			switchState(new ChartingStateOld());
 		}
 
 		super.update(elapsed);
@@ -1920,14 +1919,14 @@ class ChartingState extends MusicBeatState
 			PlayState.SONG.gf = _song.gf;
 		}
 		ImageCache.refreshLocal();
-		switchState(new ChartingState());
+		switchState(new ChartingStateOld());
 	}
 
 	function loadAutosave():Void{
 		PlayState.SONG = Song.parseJSONshit(FlxG.save.data.autosave);
 		PlayState.EVENTS = Song.parseEventJSON(FlxG.save.data.autosaveEvents);
 		ImageCache.refreshLocal();
-		switchState(new ChartingState());
+		switchState(new ChartingStateOld());
 	}
 
 	function autosaveSong():Void{

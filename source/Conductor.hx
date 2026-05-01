@@ -1,22 +1,20 @@
 package;
 
-import Song.SwagSong;
+import flixel.FlxBasic;
+import flixel.FlxG;
+import flixel.util.FlxSignal;
+import flixel.util.FlxSort;
+import Chart.BPMDefinition;
 
-typedef BPMChangeEvent =
-{
-	var stepTime:Int;
-	var songTime:Float;
-	var bpm:Float;
-}
-
-class Conductor
+class Conductor extends FlxBasic
 {
 	public static var bpm:Float = 100;
-	public static var crochet:Float = ((60 / bpm) * 1000); // beats in milliseconds
-	public static var stepCrochet:Float = crochet / 4; // steps in milliseconds
 	public static var songPosition:Float;
 	public static var lastSongPos:Float;
 	public static var offset:Float = 0;
+
+	public static var step:Float = 0;
+	public static var beat:Float = 0;
 
 	//Reference variables
 	static inline final defaultSafeZoneOffset:Float = 160;
@@ -30,51 +28,166 @@ class Conductor
 	public static var badZone:Float = 90;
 	public static var goodZone:Float = 45;
 
-	public static var bpmChangeMap:Array<BPMChangeEvent> = [];
+	public static var onStepHit:FlxSignal = new FlxSignal();
+	public static var onBeatHit:FlxSignal = new FlxSignal();
 
-	public function new(){}
+	public static var bpmChanges:Array<BPMDefinition> = [];
 
-	public static function mapBPMChanges(song:SwagSong):Void{
-		bpmChangeMap = [];
+	public inline static function init():Void{
+		FlxG.plugins.add(new Conductor());
+	}
 
-		var event:BPMChangeEvent = {
-			stepTime: 0,
-			songTime: 0,
-			bpm: song.bpm
-		};
+	override public function update(elapsed:Float)
+	{
+		super.update(elapsed);
 
-		bpmChangeMap.push(event);
-
-		var curBPM:Float = song.bpm;
-		var totalSteps:Int = 0;
-		var totalPos:Float = 0;
-		for (i in 0...song.notes.length){
-			if(song.notes[i].changeBPM && song.notes[i].bpm != curBPM){
-				curBPM = song.notes[i].bpm;
-				var event:BPMChangeEvent = {
-					stepTime: totalSteps,
-					songTime: totalPos,
-					bpm: curBPM
-				};
-				bpmChangeMap.push(event);
-			}
-
-			var deltaSteps:Int = song.notes[i].lengthInSteps;
-			totalSteps += deltaSteps;
-			totalPos += ((60 / curBPM) * 1000 / 4) * deltaSteps;
+		if (Conductor.bpmChanges.length < 1){
+			return;
 		}
-		trace("Set up BPM Map: " + bpmChangeMap);
+
+		var prevStep = Std.int(step);
+		var prevBeat = Std.int(beat);
+
+		if (prevStep == 0){
+			prevStep = -1;
+			prevBeat = -1;
+		}
+
+		beat = 0;
+		bpm = Conductor.bpmChanges[0].bpm;
+
+		var prevChange = Conductor.bpmChanges[0];
+		for(change in Conductor.bpmChanges){
+			if(songPosition >= change.time){
+				beat += (change.time - prevChange.time) / (getCrotchet(prevChange.time) * 1000);
+				bpm = change.bpm;
+
+				prevChange = change;
+			}
+		}
+
+		beat += (songPosition - prevChange.time) / (getCrotchet(prevChange.time) * 1000);
+		step = beat * 4;
+
+		if(Std.int(step) != prevStep){
+			onStepHit.dispatch();
+		}
+		
+		if(Std.int(beat) != prevBeat){
+			onBeatHit.dispatch();
+		}
+	}
+
+	public static function setBPMChanges(changes:Array<BPMDefinition>):Void{
+		bpmChanges = changes.copy();
+		bpmChanges.sort((a, b) -> FlxSort.byValues(FlxSort.ASCENDING, a.time, b.time));
+		trace("Set up BPM Changes: " + bpmChanges);
 	}
 
 	inline public static function resetBPMChanges():Void{
-		bpmChangeMap = [];
-		trace("Clearing BPM Map");
+		bpmChanges = [{bpm: bpm, step: 0, time: 0}];
+		trace("Clearing BPM Changes");
 	}
 
-	public static function changeBPM(newBpm:Float):Void{
-		bpm = newBpm;
-		crochet = ((60 / bpm) * 1000);
-		stepCrochet = crochet / 4;
+	public static function getBPMDefine(?position:Float)
+	{
+		if (position == null){ position = songPosition; }
+
+		var result = bpmChanges[0];
+		for(define in Conductor.bpmChanges){
+			if(position >= define.time){
+				result = define;
+			}
+		}
+
+		return result;
+	}
+
+	public static function getCrotchet(?position:Float):Float{
+		return 60 / getBPMDefine(position).bpm;
+	}
+
+	public static function getStepCrotchet(?position:Float):Float{
+		return getCrotchet(position) / 4;
+	}
+
+	/**
+	 * Converts a step number to the corresponding time in milliseconds.
+	 * Accounts for BPM changes throughout the song.
+	 */
+	public static function getTimeFromStep(targetStep:Float):Float{
+		if(bpmChanges.length < 1) return 0;
+		
+		var time:Float = 0;
+		var currentStep:Float = 0;
+
+		for(i in 0...bpmChanges.length){
+			var prevChange = bpmChanges[i];
+			var nextChange = i + 1 < bpmChanges.length ? bpmChanges[i + 1] : null;
+
+			var stepDuration:Float;
+			if(nextChange != null){
+				stepDuration = (nextChange.time - prevChange.time) / (getStepCrotchet(prevChange.time) * 1000);
+			}
+			else{
+				stepDuration = targetStep - currentStep + 1;
+			}
+
+			var endStep = currentStep + stepDuration;
+
+			if(targetStep <= endStep){
+				var stepInSection = targetStep - currentStep;
+				time = prevChange.time + stepInSection * getStepCrotchet(prevChange.time) * 1000;
+				break;
+			}
+			else{
+				currentStep = endStep;
+				if(nextChange != null){
+					time = nextChange.time;
+				}
+			}
+		}
+
+		return time;
+	}
+
+	/**
+	 * Converts a time in milliseconds to the corresponding step number.
+	 * Accounts for BPM changes throughout the song.
+	 */
+	public static function getStepFromTime(targetTime:Float):Float{
+		if(bpmChanges.length < 1 || targetTime <= 0){
+			return 0;
+		}
+		
+		var currentStep:Float = 0;
+		var lastBPMChange = bpmChanges[bpmChanges.length - 1];
+		
+		for(i in 0...bpmChanges.length){
+			var prevChange = bpmChanges[i];
+			var nextChange = i + 1 < bpmChanges.length ? bpmChanges[i + 1] : null;
+			
+			if(nextChange != null){
+				// we are not at the last BPM change yet
+				if(targetTime < nextChange.time){
+					var timeInSection = targetTime - prevChange.time;
+					var stepInSection = timeInSection / (getStepCrotchet(prevChange.time) * 1000);
+					return currentStep + stepInSection;
+				}
+				else{
+					var sectionSteps = (nextChange.time - prevChange.time) / (getStepCrotchet(prevChange.time) * 1000);
+					currentStep += sectionSteps;
+				}
+			}
+			else{
+				// we are at the last BPM change
+				var timeInSection = targetTime - prevChange.time;
+				var stepInSection = timeInSection / (getStepCrotchet(prevChange.time) * 1000);
+				return currentStep + stepInSection;
+			}
+		}
+		
+		return currentStep;
 	}
 
 	/**
@@ -88,15 +201,21 @@ class Conductor
 		badZone = defaultBadZone * _factor;
 		goodZone = defaultGoodZone * _factor;
 	}
-
-	/**
-	 * Returns the time in seconds that a beat will last for at the specified BPM.
-	 *
-	 * @param `_bpm`	The BPM it will calculate the beat time for.
-	 */
-	public static inline function getBeatTimeFromBpm(_bpm:Float):Float{
-		return ((60 / _bpm));
+	
+	#if BACKWARD_COMPATIBILITY
+	public static var crochet(get, never):Float; // beats in milliseconds
+	static function get_crochet(){
+		return getCrotchet() * 1000;
 	}
+	public static var stepCrochet(get, never):Float; // steps in milliseconds
+	static function get_stepCrochet(){
+		return crochet / 4;
+	}
+	
+	public static function changeBPM(newBpm:Float):Void{
+		setBPMChanges([{bpm: newBpm, step: 0, time: 0}]);
+	}
+	#end
 
 }
 

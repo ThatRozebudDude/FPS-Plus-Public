@@ -2,6 +2,7 @@ package editors.chart;
 
 import characters.ScriptableCharacter;
 import modding.ScriptingUtil.BlendMode;
+import Chart.ChartFormat;
 import Chart.NoteDefinition;
 import editors.ui.*;
 import flixel.sound.FlxSound;
@@ -24,6 +25,7 @@ import flixel.addons.display.FlxBackdrop;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import config.*;
+import caching.*;
 
 using StringTools;
 
@@ -50,6 +52,9 @@ class ChartingState extends MusicBeatState
 	public static inline final GRID_OVERLAY_COLOR:FlxColor = 0xFFB4A3CC;
 
 	public static inline final TEXT_UPDATE_RATE:Float = 1/24;
+
+	public var chart:ChartFormat;
+	public static var startPosition:Float = 0;
 
 	var notes:FlxTypedGroup<ChartingNote>;
 	
@@ -88,7 +93,7 @@ class ChartingState extends MusicBeatState
 
 	var camFollow:FlxObject;
 
-	var previousReportedSongTime:Float = 0;
+	var previousReportedSongTime:Float = -1;
 
 	var placedNoteHold:Bool = false;
 	var selectedNotes:Array<ChartingNote> = [];
@@ -113,29 +118,11 @@ class ChartingState extends MusicBeatState
 		Config.setFramerate(120);
 		FlxG.mouse.visible = false;
 
-		final songName:String = "Fresh";
-
-		if(Utils.exists(Paths.voices(songName, "Player"))){
-			vocals = Utils.createPausedSound(Paths.voices(songName, "Player"));
-			vocalsOther = Utils.createPausedSound(Paths.voices(songName, "Opponent"));
-			
-		}
-		else if(Utils.exists(Paths.voices(songName))){
-			vocals = Utils.createPausedSound(Paths.voices(songName));
-			vocalsOther = new FlxSound();
-		}
-		else{
-			vocals = new FlxSound();
-			vocalsOther = new FlxSound();
+		if (PlayState.chart == null){
+			chart = Chart.getEmptyChart();
 		}
 
-		FlxG.sound.playMusic(Paths.inst(songName), 0, false);
-		FlxG.sound.music.pause();
-		FlxG.sound.music.time = 0;
-		FlxG.sound.music.volume = 1;
-
-		Conductor.resetBPMChanges();
-		Conductor.changeBPM(120);
+		chart = PlayState.chart;
 
 		notes = new FlxTypedGroup<ChartingNote>();
 		Paths.image("ui/notes/NOTE_assets");
@@ -274,6 +261,9 @@ class ChartingState extends MusicBeatState
 		stepBoxRightText = new UIText(stepBox.x + PLAYBACK_INFO_PADDING, stepBox.getMidpoint().y, "");
 		stepBoxRightText.y -= timeBoxLeftText.height/2;
 		stepBoxRightText.scrollFactor.set(0, 0);
+
+		loadChart();
+		FlxG.sound.music.time = startPosition;
 
 		updateText();
 
@@ -450,7 +440,7 @@ class ChartingState extends MusicBeatState
 			Conductor.songPosition += FlxG.elapsed * 1000 * FlxG.sound.music.pitch;
 		}
 
-		camFollow.y = getYFromSongPosition(Conductor.songPosition) + (720/2 - PLAYBACK_POSITION);
+		camFollow.y = Conductor.step * GRID_SIZE + (720/2 - PLAYBACK_POSITION);
 
 		/*if(FlxG.keys.anyPressed([SHIFT])){
 			editorCursor.selection();
@@ -505,8 +495,8 @@ class ChartingState extends MusicBeatState
 		}
 
 		if(placedNoteHold && !FlxG.mouse.released && selectedNotes.length > 0){
-			var sustainLegth:Int = FlxMath.maxInt(Math.floor((gridCursor.y - selectedNotes[0].y) / GRID_SIZE), 0);
-			if(selectedNotes[0].sustainLength != sustainLegth){ selectedNotes[0].sustainLength = sustainLegth; }
+			var sustainLength:Int = FlxMath.maxInt(Math.floor((gridCursor.y - selectedNotes[0].y) / GRID_SIZE), 0);
+			if(selectedNotes[0].sustainLength != sustainLength){ selectedNotes[0].sustainLength = sustainLength; }
 		}
 		else{
 			placedNoteHold = false;
@@ -590,6 +580,26 @@ class ChartingState extends MusicBeatState
 			musicBoundsCheck();
 		}
 
+		//Playtest song on PlayState.
+		if(FlxG.keys.anyJustPressed([ENTER]) && !panel.isAnythingFocused()){
+			pauseMusic();
+			PlayState.chart = chart;
+			PlayState.chart.notes = [];
+			notes.forEach((note) -> {
+				PlayState.chart.notes.push(note.generateNoteDefiniton());
+			});
+
+			if(FlxG.keys.pressed.CONTROL){
+				PlayState.sectionStart = true;
+				PlayState.sectionStartTime = FlxG.sound.music.time;
+			}
+
+			PlayState.loadEvents = false;
+			PlayState.fromChartEditor = true;
+			ImageCache.refreshLocal();
+			switchState(new PlayState());
+		}
+
 		if(!panel.isAnythingFocused()){ checkShortcuts(); }
 
 		for(note in notes){
@@ -636,6 +646,36 @@ class ChartingState extends MusicBeatState
 
 		previousSongPosition = Conductor.songPosition;
 	};
+
+	function loadChart():Void{
+		if(Utils.exists(Paths.voices(chart.meta.song, "Player"))){
+			vocals = Utils.createPausedSound(Paths.voices(chart.meta.song, "Player"));
+			vocalsOther = Utils.createPausedSound(Paths.voices(chart.meta.song, "Opponent"));
+		}
+		else if(Utils.exists(Paths.voices(chart.meta.song))){
+			vocals = Utils.createPausedSound(Paths.voices(chart.meta.song));
+			vocalsOther = new FlxSound();
+		}
+		else{
+			vocals = new FlxSound();
+			vocalsOther = new FlxSound();
+		}
+
+		FlxG.sound.playMusic(Paths.inst(chart.meta.song), 0, false);
+		FlxG.sound.music.pause();
+		FlxG.sound.music.volume = 1;
+
+		Conductor.resetBPMChanges();
+		Conductor.setBPMChanges(chart.meta.bpm);
+
+		notes.forEach((_) -> _.destroy());
+		notes.clear();
+
+		for (noteData in chart.notes){
+			var n = addNote(noteData.time, noteData.direction, noteData.player, noteData.tag);
+			n.sustainLength = noteData.length / (Conductor.getStepCrotchet(noteData.time) * 1000);
+		}
+	}
 
 	override function beatHit():Void{
 		super.beatHit();
@@ -738,24 +778,24 @@ class ChartingState extends MusicBeatState
 		//Adjust Sustain Length
 		if(FlxG.keys.anyJustPressed([E])){
 			for(note in selectedNotes){
-				var sustainLength:Int = note.sustainLength;
-				sustainLength = FlxMath.maxInt(sustainLength+1, 0);
+				var sustainLength:Float = note.sustainLength;
+				sustainLength = Math.max(sustainLength+1, 0);
 				note.sustainLength = sustainLength;
 			}
 		}
 		else if(FlxG.keys.anyJustPressed([Q])){
 			for(note in selectedNotes){
-				var sustainLength:Int = note.sustainLength;
-				sustainLength = FlxMath.maxInt(sustainLength-1, 0);
+				var sustainLength:Float = note.sustainLength;
+				sustainLength = Math.max(sustainLength-1, 0);
 				note.sustainLength = sustainLength;
 			}
 		}
 	}
 
-	function addNote(strumTime:Float, direction:Int, player:Bool):ChartingNote{
+	function addNote(strumTime:Float, direction:Int, player:Bool, tag:String = ""):ChartingNote{
 		removeNotesInProximity(strumTime, direction, player);
 
-		var newNote:ChartingNote = new ChartingNote(grids[player?1:0].grid.x + (GRID_SIZE * direction), getYFromSongPosition(strumTime), direction, strumTime, player, "");
+		var newNote:ChartingNote = new ChartingNote(grids[player?1:0].grid.x + (GRID_SIZE * direction), getYFromSongPosition(strumTime), direction, strumTime, player, tag);
 		notes.add(newNote);
 		notes.members.sort(sortNotes);
 		
@@ -835,14 +875,14 @@ class ChartingState extends MusicBeatState
 		return string + "~";
 	}
 
-	//TODO: Make it support BPM changes.
 	function getSongPositionFromY(yPos:Float):Float{
-		return (yPos / GRID_SIZE) * Conductor.stepCrochet;
+		var stepNum:Float = yPos / GRID_SIZE;
+		return Conductor.getTimeFromStep(stepNum);
 	}
 
-	//TODO: Make it support BPM changes.
 	function getYFromSongPosition(songPosition:Float):Float{
-		return (songPosition / Conductor.stepCrochet) * GRID_SIZE;
+		var stepNum = Conductor.getStepFromTime(songPosition);
+		return stepNum * GRID_SIZE;
 	}
 
 	function musicBoundsCheck():Void{
