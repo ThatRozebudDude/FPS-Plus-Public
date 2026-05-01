@@ -48,11 +48,11 @@ class SchoolIntro extends ScriptedCutscene
 		senpaiEvil.antialiasing = false;
 		senpaiEvil.x += 275;
 
-		if(PlayState.SONG.song.toLowerCase() == "senpai" || PlayState.SONG.song.toLowerCase() == "senpai-pico" || PlayState.SONG.song.toLowerCase() == "roses-pico"){
+		if(PlayState.chart.meta.song.toLowerCase() == "senpai" || PlayState.chart.meta.song.toLowerCase() == "senpai-pico" || PlayState.chart.meta.song.toLowerCase() == "roses-pico"){
 			playstate.customTransIn = new InstantTransition();
 		}
 
-		var dialogue = Json.parse(Utils.getText(Paths.json("dialogue", "data/songs/" + PlayState.SONG.song.toLowerCase())));
+		var dialogue = Json.parse(Utils.getText(Paths.json("dialogue", "data/songs/" + PlayState.chart.meta.song.toLowerCase())));
 
 		var dialogueBgColor = 0xFFB3DFD8;
 
@@ -85,7 +85,7 @@ class SchoolIntro extends ScriptedCutscene
 			blackAlpha -= BLACK_ALPHA_SUBTRACT;
 			addEvent(blackTime, blackLowerAlpha);
 		}
-		if(PlayState.SONG.song.toLowerCase() != "thorns"){
+		if(PlayState.chart.meta.song.toLowerCase() != "thorns"){
 			addEvent(blackTime + FADE_TICK, startDialogue);
 		}
 		else{
@@ -103,7 +103,7 @@ class SchoolIntro extends ScriptedCutscene
 	}
 
 	function setup() {
-		switch(PlayState.SONG.song.toLowerCase()){
+		switch(PlayState.chart.meta.song.toLowerCase()){
 			case "senpai":
 				playstate.camGame.filters.push(fadeInShaderFilter);
 				cutsceneMusic = FlxG.sound.play(Paths.music("week6/Lunchbox"), 0, true);

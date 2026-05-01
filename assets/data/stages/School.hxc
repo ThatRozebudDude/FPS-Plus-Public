@@ -59,7 +59,7 @@ class School extends BaseStage
 		addToBackground(fgTrees);
 
 		bgGirls = new SchoolGirls(-98, 204);
-		if (PlayState.SONG.player2 == "SenpaiAngry"){ bgGirls.getScared(); }
+		if(PlayState.chart.meta.opponent == "SenpaiAngry"){ bgGirls.getScared(); }
 		bgGirls.scale.set(6, 6);
 		bgGirls.updateHitbox();
 		addToBackground(bgGirls);

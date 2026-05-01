@@ -71,7 +71,7 @@ class DialogueBoxOld extends FlxSpriteGroup
 
 		box = new FlxSprite(-20, 45);
 
-		switch (PlayState.SONG.song.toLowerCase())
+		switch (PlayState.chart.meta.song.toLowerCase())
 		{
 			case 'senpai':
 				box.frames = Paths.getSparrowAtlas('week6/weeb/pixelUI/dialogueBox-pixel');
@@ -135,9 +135,9 @@ class DialogueBoxOld extends FlxSpriteGroup
 	override function update(elapsed:Float)
 	{
 		// HARD CODING CUZ IM STUPDI
-		if (PlayState.SONG.song.toLowerCase() == 'roses')
+		if (PlayState.chart.meta.song.toLowerCase() == 'roses')
 			portraitLeft.visible = false;
-		if (PlayState.SONG.song.toLowerCase() == 'thorns')
+		if (PlayState.chart.meta.song.toLowerCase() == 'thorns')
 		{
 			portraitLeft.color = FlxColor.BLACK;
 			swagDialogue.color = FlxColor.WHITE;
@@ -176,7 +176,7 @@ class DialogueBoxOld extends FlxSpriteGroup
 					{
 						isEnding = true;
 
-						if (PlayState.SONG.song.toLowerCase() == 'senpai' || PlayState.SONG.song.toLowerCase() == 'thorns')
+						if (PlayState.chart.meta.song.toLowerCase() == 'senpai' || PlayState.chart.meta.song.toLowerCase() == 'thorns')
 							FlxG.sound.music.fadeOut(2.2, 0);
 
 						new FlxTimer().start(0.2, function(tmr:FlxTimer)

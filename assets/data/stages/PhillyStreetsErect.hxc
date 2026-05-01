@@ -261,11 +261,11 @@ class PhillyStreetsErect extends BaseStage
 		playstate.camGame.filters = [new ShaderFilter(rainShader.shader)];
 		addToUpdate(rainShader);
 
-		if(ScriptingUtil.contains(PlayState.SONG.song.toLowerCase(), "darnell")){
+		if(ScriptingUtil.contains(PlayState.chart.meta.song.toLowerCase(), "darnell")){
 			rainShader.uIntensity = 0;
 			rainInensityEnd = 0.08;
 		}
-		else if(ScriptingUtil.contains(PlayState.SONG.song.toLowerCase(), "2hot")){
+		else if(ScriptingUtil.contains(PlayState.chart.meta.song.toLowerCase(), "2hot")){
 			rainShader.uIntensity = 0.16;
 			rainInensityEnd = 0.24;
 		}

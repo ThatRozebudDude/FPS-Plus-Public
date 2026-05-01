@@ -13,15 +13,16 @@ class Conductor extends FlxBasic
 	public static var songPosition:Float = 0;
 	public static var lastSongPos:Float;
 	public static var offset:Float = 0;
+	public static var countBeats:Bool = true;
 
 	public static var step:Float = 0;
 	public static var beat:Float = 0;
 
 	//Reference variables
-	static inline final defaultSafeZoneOffset:Float = 160;
-	static inline final defaultShitZone:Float = 135;
-	static inline final defaultBadZone:Float = 90;
-	static inline final defaultGoodZone:Float = 45;
+	static inline final DEFAULT_SAFE_ZONE:Float = 160;
+	static inline final DEFAULT_SHIT_ZONE:Float = 135;
+	static inline final DEFAULT_BAD_ZONE:Float = 90;
+	static inline final DEFAULT_GOOD_ZONE:Float = 45;
 
 	//Actual timing variables
 	public static var safeZoneOffset:Float = 160;
@@ -29,32 +30,35 @@ class Conductor extends FlxBasic
 	public static var badZone:Float = 90;
 	public static var goodZone:Float = 45;
 
+	public static var crochet(get, never):Float; // beats in milliseconds
+	public static var stepCrochet(get, never):Float; // steps in milliseconds
+
 	public static var onStepHit:FlxSignal = new FlxSignal();
 	public static var onBeatHit:FlxSignal = new FlxSignal();
 
 	public static var bpmChanges:Array<BPMDefinition> = [];
 
 	public inline static function init():Void{
-		FlxG.plugins.add(new Conductor());
+		FlxG.plugins.addPlugin(new Conductor());
 	}
 
-	public static function reset()
-	{
+	public static function reset(){
 		songPosition = 0;
-		step = beat = 0;
-		offset = Config.offset;
+		step = -1;
+		beat = -1;
+		offset = 0;
+		countBeats = true;
 	}
 
-	override public function update(elapsed:Float)
-	{
+	override public function update(elapsed:Float){
 		super.update(elapsed);
 
-		if (Conductor.bpmChanges.length < 1 || (songPosition + offset) < 0){
+		if (Conductor.bpmChanges.length < 1 || (songPosition + offset) < 0 || !countBeats){
 			return;
 		}
 
-		var prevStep = Std.int(step);
-		var prevBeat = Std.int(beat);
+		var prevStep = Math.floor(step);
+		var prevBeat = Math.floor(beat);
 
 		beat = 0;
 		bpm = Conductor.bpmChanges[0].bpm;
@@ -72,11 +76,11 @@ class Conductor extends FlxBasic
 		beat += ((songPosition + offset) - prevChange.time) / (getCrotchet(prevChange.time) * 1000);
 		step = beat * 4;
 
-		if(Std.int(step) != prevStep){
+		if(Math.floor(step) != prevStep){
 			onStepHit.dispatch();
 		}
 		
-		if(Std.int(beat) != prevBeat){
+		if(Math.floor(beat) != prevBeat){
 			onBeatHit.dispatch();
 		}
 	}
@@ -94,8 +98,7 @@ class Conductor extends FlxBasic
 		trace("Clearing BPM Changes");
 	}
 
-	public static function getBPMDefine(?position:Float)
-	{
+	public static function getBPMDefine(?position:Float){
 		if (position == null){ position = songPosition; }
 
 		var result = bpmChanges[0];
@@ -196,31 +199,28 @@ class Conductor extends FlxBasic
 	}
 
 	/**
-	 * Returns the time in seconds that a beat will last for at the specified BPM.
+	 * Recalculates the hit window for notes when the song adjusts it's playback speed.
 	 *
 	 * @param `_factor`	The multiplier to apply to the hit zone timings.
 	 */
 	public static function recalculateHitZones(_factor:Float):Void{
-		safeZoneOffset = defaultSafeZoneOffset * _factor;
-		shitZone = defaultShitZone * _factor;
-		badZone = defaultBadZone * _factor;
-		goodZone = defaultGoodZone * _factor;
+		safeZoneOffset = DEFAULT_SAFE_ZONE * _factor;
+		shitZone = DEFAULT_SHIT_ZONE * _factor;
+		badZone = DEFAULT_BAD_ZONE * _factor;
+		goodZone = DEFAULT_GOOD_ZONE * _factor;
 	}
 	
-	#if BACKWARD_COMPATIBILITY
-	public static var crochet(get, never):Float; // beats in milliseconds
 	static function get_crochet(){
 		return getCrotchet() * 1000;
 	}
-	public static var stepCrochet(get, never):Float; // steps in milliseconds
+	
 	static function get_stepCrochet(){
 		return crochet / 4;
 	}
 	
-	public static function changeBPM(newBpm:Float):Void{
+	public static inline function changeBPM(newBpm:Float):Void{
 		setBPMChanges([{bpm: newBpm, step: 0, time: 0}]);
 	}
-	#end
 
 }
 

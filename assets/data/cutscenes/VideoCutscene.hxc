@@ -73,8 +73,10 @@ class VideoCutscene extends ScriptedCutscene
 				playstate.camChangeZoom(playstate.defaultCamZoom/1.2, ((Conductor.crochet / 1000) * 5) - 0.1, FlxEase.quadOut);
 			}
 			if(instantlyMoveCamera){
-				if(PlayState.SONG.notes[0].mustHitSection){ playstate.camFocusBF(); }
-				else{ playstate.camFocusOpponent(); }
+				//if(PlayState.SONG.notes[0].mustHitSection){ playstate.camFocusBF(); }
+				//else{ playstate.camFocusOpponent(); }
+				//FIX LATER DO NOT LET ME FORGET
+				playstate.camFocusOpponent();
 			}
 
 			active = false;

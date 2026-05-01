@@ -289,7 +289,7 @@ class Note extends FlxSprite
 	public function updateHoldLength(_speedMultiplier:Float = 1){
 		if(!isSustainNote || isSustainEnd){ return; }
 
-		var speed = PlayState.SONG.speed;
+		var speed = PlayState.chart.meta.scroll;
 		if(Config.scrollSpeedOverride > 0){
 			speed = Config.scrollSpeedOverride;
 		}

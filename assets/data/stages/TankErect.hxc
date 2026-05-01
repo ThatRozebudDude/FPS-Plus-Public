@@ -130,7 +130,7 @@ class TankErect extends BaseStage
 	public override function postCreate(){
 		if(gf.characterInfo.info.extraData.exists("isStressCharacter") && data.exists("STRESS_SONG")){
 			doTankmenRunning = true;
-			loadMappedAnims("picospeaker", PlayState.SONG.song.toLowerCase());
+			loadMappedAnims("picospeaker", PlayState.chart.meta.song.toLowerCase());
 			gf.characterInfo.info.extraData.set("isStressCharacter", tankmanRunNotes.copy());
 			Paths.image("week7/stage/tankmanKilled1"); //Preload tankman running graphic.
 			createNextTankmenBatch(0);
@@ -156,7 +156,7 @@ class TankErect extends BaseStage
 	}
 
 	override function gameOverLoop() {
-		if(PlayState.SONG.song.toLowerCase() == "ugh-pico" || PlayState.SONG.song.toLowerCase() == "guns-pico" || PlayState.SONG.song.toLowerCase() == "stress-pico"){
+		if(PlayState.chart.meta.song.toLowerCase() == "ugh-pico" || PlayState.chart.meta.song.toLowerCase() == "guns-pico" || PlayState.chart.meta.song.toLowerCase() == "stress-pico"){
 			FlxG.sound.music.volume = 0.2;
 			FlxG.sound.play(Paths.sound("week7/jeffGameover-pico/jeffGameover-" + FlxG.random.int(1, 10)), 1, false, null, true, function(){
 				if(FlxG.sound.music.playing){

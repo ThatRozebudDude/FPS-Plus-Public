@@ -160,7 +160,7 @@ class Tank extends BaseStage
 	public override function postCreate(){
 		if(gf.characterInfo.info.extraData.exists("isStressCharacter") && data.exists("STRESS_SONG")){
 			doTankmenRunning = true;
-			loadMappedAnims("picospeaker", PlayState.SONG.song.toLowerCase());
+			loadMappedAnims("picospeaker", PlayState.chart.meta.song.toLowerCase());
 			gf.characterInfo.info.extraData.set("isStressCharacter", tankmanRunNotes.copy());
 			Paths.image("week7/stage/tankmanKilled1"); //Preload tankman running graphic.
 			createNextTankmenBatch(0);

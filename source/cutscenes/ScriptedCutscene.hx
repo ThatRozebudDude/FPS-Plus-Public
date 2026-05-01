@@ -224,8 +224,10 @@ class ScriptedCutscene extends FlxBasic
 
 	public function focusCameraBasedOnFirstSection(_time:Float = 1.9, _ease:Null<flixel.tweens.EaseFunction>):Void{
 		if(_ease == null){_ease = FlxEase.expoOut;}
-		if(PlayState.SONG.notes[0].mustHitSection){ PlayState.instance.camFocusBF(0, 0, _time, _ease); }
-		else{ PlayState.instance.camFocusOpponent(0, 0, _time, _ease); }
+		//if(PlayState.SONG.notes[0].mustHitSection){ PlayState.instance.camFocusBF(0, 0, _time, _ease); }
+		//else{ PlayState.instance.camFocusOpponent(0, 0, _time, _ease); }
+		//FIX LATER DO NOT LET ME FORGET
+		PlayState.instance.camFocusOpponent(0, 0, _time, _ease);
 	}
 
 	public function fadeInHud():Void{

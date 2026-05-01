@@ -327,8 +327,8 @@ class ChartingStateOld extends MusicBeatState
 			_events = {
 				events: []
 			};
-			if(Utils.exists("assets/data/songs/" + PlayState.SONG.song.toLowerCase() + "/events.json")){
-				_events = Song.parseEventJSON(Utils.getText(Paths.json(PlayState.SONG.song.toLowerCase() + "/events")));
+			if(Utils.exists("assets/data/songs/" + PlayState.chart.meta.song.toLowerCase() + "/events.json")){
+				_events = Song.parseEventJSON(Utils.getText(Paths.json(PlayState.chart.meta.song.toLowerCase() + "/events")));
 			}
 		}
 

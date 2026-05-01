@@ -89,7 +89,7 @@ class Chart
 	public static function convertLegacyChart(legacyChart:LegacySong):ChartFormat
 	{
 		var chart:ChartFormat = getEmptyChart();
-		chart.meta.format = "FPS+ Legacy (Auto Converted)";
+		chart.meta.format = "fpsplus_legacy";
 
 		chart.meta.song = legacyChart.song;
 		chart.meta.scroll = legacyChart.speed;

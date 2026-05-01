@@ -162,7 +162,7 @@ class FreeplayState extends MusicBeatState
 
 		Config.setFramerate(144);
 
-		countSteps = false;
+		Conductor.countBeats = false;
 
 		persistentUpdate = persistentDraw = true;
 
@@ -886,7 +886,7 @@ class FreeplayState extends MusicBeatState
 		FlxG.sound.playMusic(Paths.music(dj.freeplaySong), dj.freeplaySongVolume);
 		Conductor.changeBPM(dj.freeplaySongBpm);
 		Conductor.songPosition = 0;
-		countSteps = true;
+		Conductor.countBeats = true;
 	}
 
 	function addSong(definiton:FreeplaySongDefiniton):Void{

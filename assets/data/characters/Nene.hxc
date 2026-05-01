@@ -114,7 +114,7 @@ class Nene extends CharacterInfoBase
 		abot.bop();
 
 		//raise knife on low health
-		if(PlayState.SONG.song.toLowerCase() != "blazin" && !ScriptingUtil.startsWith(character.curAnim, "hair")){
+		if(PlayState.chart.meta.song.toLowerCase() != "blazin" && !ScriptingUtil.startsWith(character.curAnim, "hair")){
 			if(PlayState.instance.health < 0.4 && !knifeRaised){
 				knifeRaised = true;
 				blinkTime = FlxG.random.float(BLINK_MIN, BLINK_MAX);

@@ -107,7 +107,7 @@ class NeneDark extends CharacterInfoBase
 		abot.bop();
 
 		//raise knife on low health
-		if(PlayState.SONG.song.toLowerCase() != "blazin"){
+		if(PlayState.chart.meta.song.toLowerCase() != "blazin"){
 			if(PlayState.instance.health < 0.4 && !knifeRaised){
 				knifeRaised = true;
 				blinkTime = FlxG.random.float(BLINK_MIN, BLINK_MAX);

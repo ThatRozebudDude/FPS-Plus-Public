@@ -15,7 +15,7 @@ class DialogueCutscene extends ScriptedCutscene
 	}
 
 	function setup() {
-		var dialogue = Json.parse(Utils.getText(Paths.json("dialogue", "data/songs/" + PlayState.SONG.song.toLowerCase())));
+		var dialogue = Json.parse(Utils.getText(Paths.json("dialogue", "data/songs/" + PlayState.chart.meta.song.toLowerCase())));
 
 		var dialogueBox = new DialogueBox(dialogue);
 		dialogueBox.onDialogueEnd.add(function(d){

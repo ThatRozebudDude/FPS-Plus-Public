@@ -354,7 +354,7 @@ class PlayState extends MusicBeatState
 		customTransIn = new ScreenWipeIn(1.2);
 		customTransOut = new ScreenWipeOut(0.6);
 
-		countSteps = false;
+		Conductor.countBeats = false;
 
 		if(FlxG.sound.music != null && FlxG.sound.music.playing){
 			FlxG.sound.music.stop();
@@ -430,12 +430,13 @@ class PlayState extends MusicBeatState
 		persistentUpdate = false;
 		persistentDraw = true;
 
-		if (chart == null)
+		if(chart == null){
 			chart = Chart.getEmptyChart();
+		}
 
 		Conductor.setBPMChanges(chart.meta.bpm);
 		Conductor.recalculateHitZones(songPlaybackSpeed);
-		stateConductorOffset = -Config.offset;
+		Conductor.offset = -Config.offset;
 
 		gf = new Character(400, 130, chart.meta.speaker, false, true);
 		dad = new Character(100, 100, chart.meta.opponent);
@@ -1118,12 +1119,10 @@ class PlayState extends MusicBeatState
 		}
 		for(script in scripts){ script.songStart(); }
 
-		countSteps = true;
+		Conductor.countBeats = true;
 	}
 
 	private function generateSong():Void {
-		Conductor.changeBPM(chart.meta.bpm[0].bpm);
-
 		curSong = chart.meta.song;
 
 		FlxG.sound.playMusic(Paths.inst(instSong != null ? instSong : chart.meta.song), 0, false);
@@ -2009,7 +2008,7 @@ class PlayState extends MusicBeatState
 			vocalsOther.volume = 0; 
 			vocalsOther.pause();
 		}
-		countSteps = false;
+		Conductor.countBeats = false;
 	}
 
 	public function endSong():Void{
