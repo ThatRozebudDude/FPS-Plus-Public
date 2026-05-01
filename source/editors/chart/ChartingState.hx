@@ -77,7 +77,8 @@ class ChartingState extends MusicBeatState
 
 	var grids:Array<GridParts> = [];
 	var gridCursor:FlxSprite;
-	var gridCursorIndex:Int = 0;
+	var gridCursorIndex:Int = -1;
+	var lastGridCursorIndex:Int = -1;
 
 	var playerIcon:HealthIcon;
 	var opponentIcon:HealthIcon;
@@ -91,9 +92,13 @@ class ChartingState extends MusicBeatState
 	var selectedNotes:Array<ChartingNote> = [];
 
 	var selectionBoxOpen:Bool = false;
-	var copiedNoteData:Array<NoteDefinition> = [];
 	var selectionBox:Box;
+	var selectionStartY:Float = 0;
 	var startingGrid:Int = -1;
+	var selectingBoth:Bool = false;
+
+	var copiedNoteData:Array<NoteDefinition> = [];
+	var copyingBoth:Bool = false;
 
 	override function create():Void{
 		Config.setFramerate(120);
@@ -428,6 +433,7 @@ class ChartingState extends MusicBeatState
 		for(i in 0...grids.length){
 			if(FlxG.mouse.x >= grids[i].grid.x && FlxG.mouse.x < grids[i].grid.x + grids[i].grid.width){
 				gridCursorIndex = i;
+				lastGridCursorIndex = gridCursorIndex;
 			}
 		}
 
@@ -450,10 +456,13 @@ class ChartingState extends MusicBeatState
 
 			if(gridCursorIndex < 2){ //Placing notes.
 				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused()){
-					addNote(getSongPositionFromY(gridCursor.y), gridLane, gridCursorIndex == 1);
+					var newNote = addNote(getSongPositionFromY(gridCursor.y), gridLane, gridCursorIndex == 1);
+					selectedNotes = [newNote];
+					placedNoteHold = true;
 				}
 				else if(FlxG.mouse.justPressedRight && !FlxG.keys.anyPressed([SHIFT])  && !panel.isAnythingFocused()){
 					removeNotesInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridLane, gridCursorIndex == 1, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
+					selectedNotes = [];
 				}
 			}
 			else{ //Placing events.
@@ -474,24 +483,52 @@ class ChartingState extends MusicBeatState
 		if(!selectionBoxOpen && FlxG.mouse.justPressed && FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused() && gridCursorIndex >= 0){
 			selectionBoxOpen = true;
 			startingGrid = gridCursorIndex;
-			selectionBox.x = grids[gridCursorIndex].grid.x;
-			selectionBox.y = FlxG.mouse.y;
+			selectionBox.x = grids[startingGrid].grid.x;
+			selectionStartY = FlxG.mouse.y;
+			selectionBox.y = selectionStartY;
 			selectionBox.visible = true;
 		}
 		else if(selectionBoxOpen && FlxG.mouse.justReleased){
 			selectionBoxOpen = false;
 			selectionBox.visible = false;
 			selectedNotes = [];
-			var selectionStartTime:Float = getSongPositionFromY(selectionBox.y);
+			var selectionStartTime:Float = getSongPositionFromY(selectionBox.y - GRID_SIZE);
 			var selectionEndTime:Float = getSongPositionFromY(selectionBox.y + selectionBox.height);
-			for(note in notes){
-				if(note.time > selectionEndTime){ break; }
-				else if(note.time >= selectionStartTime){ selectedNotes.push(note); }
+			
+			if(startingGrid < 2){
+				for(note in notes){
+					if(note.time > selectionEndTime){ break; }
+					else if(note.time >= selectionStartTime){
+						if(selectingBoth || ((!note.player && startingGrid == 0) || (note.player && startingGrid == 1)))
+						selectedNotes.push(note);
+					}
+				}
+			}
+			else{
+				//Event stuff later.
 			}
 		}
 
 		if(selectionBoxOpen){
-			selectionBox.height = Math.max(1, FlxG.mouse.y - selectionBox.y);
+			var boxHeight:Float = FlxG.mouse.y - selectionStartY;
+			selectionBox.y = boxHeight >= 0 ? selectionStartY : FlxG.mouse.y;
+			selectionBox.height = Math.max(1, Math.abs(boxHeight));
+
+			if(startingGrid < 2){
+				if((startingGrid == 0 && lastGridCursorIndex > startingGrid) || lastGridCursorIndex < startingGrid){
+					selectingBoth = true;
+					selectionBox.x = GRID_POSITION;
+					selectionBox.width = GRID_SIZE * 8 + GRID_SPACING;
+				}
+				else{
+					selectingBoth = false;
+					selectionBox.x = grids[startingGrid].grid.x;
+					selectionBox.width = GRID_SIZE * 4;
+				}
+			}
+			else{
+				selectionBox.width = GRID_SIZE * 4;
+			}
 		}
 
 		//Play/pause music.
@@ -573,6 +610,14 @@ class ChartingState extends MusicBeatState
 		if(FlxG.keys.anyJustPressed([NINE]))	{ hotbar.selectSlot(8); }
 		if(FlxG.keys.anyJustPressed([ZERO]))	{ hotbar.selectSlot(9); }
 
+		//Delete selected notes.
+		if(FlxG.keys.anyJustPressed([DELETE])){
+			while(selectedNotes.length > 0){
+				removeNotesInProximity(selectedNotes[0].time, selectedNotes[0].direction, selectedNotes[0].player, 1);
+			}
+			selectedNotes = [];
+		}
+
 		//Cycle panel tabs.
 		if(FlxG.keys.anyJustPressed([TAB]))		{ panel.changeTab((panel.selectedTab + 1) % panel.tabs.length); }
 
@@ -586,13 +631,49 @@ class ChartingState extends MusicBeatState
 
 		//Copy Cut Paste
 		if(FlxG.keys.anyJustPressed([C]) && FlxG.keys.anyPressed([CONTROL])){
-			//do later
+			if(gridCursorIndex < 2){
+				var hasPlayer:Bool = false;
+				var hasOpponent:Bool = false;
+				copiedNoteData = [];
+				for(note in selectedNotes){
+					hasPlayer = hasPlayer || note.player;
+					hasOpponent = hasOpponent || !note.player;
+					copiedNoteData.push(note.generateNoteDefiniton());
+				}
+				var startTime = copiedNoteData[0].time;
+				for(data in copiedNoteData){
+					data.time -= startTime;
+				}
+				copyingBoth = hasPlayer && hasOpponent;
+			}
+			else{
+				//Event stuff later
+			}
 		}
 		else if(FlxG.keys.anyJustPressed([X]) && FlxG.keys.anyPressed([CONTROL])){
 			//do later
 		}
-		else if(FlxG.keys.anyJustPressed([V]) && FlxG.keys.anyPressed([CONTROL])){
-			//do later
+		else if(FlxG.keys.anyJustPressed([V]) && FlxG.keys.anyPressed([CONTROL]) && gridCursorIndex >= 0){
+			if(gridCursorIndex < 2){
+				if(copiedNoteData.length > 0){
+					selectedNotes = [];
+					for(noteData in copiedNoteData){
+						if(!copyingBoth){
+							var newNote = addNote(noteData.time + getSongPositionFromY(gridCursor.y), noteData.direction, gridCursorIndex == 1);
+							newNote.sustainLength = noteData.length;
+							selectedNotes.push(newNote);
+						}
+						else{
+							var newNote = addNote(noteData.time + getSongPositionFromY(gridCursor.y), noteData.direction, noteData.player);
+							newNote.sustainLength = noteData.length;
+							selectedNotes.push(newNote);
+						}
+					}
+				}
+			}
+			else{
+				//Event stuff later
+			}
 		}
 
 		//Adjust Sustain Length
@@ -612,20 +693,14 @@ class ChartingState extends MusicBeatState
 		}
 	}
 
-	function addNote(strumTime:Float, direction:Int, player:Bool):Void{
-		selectedNotes = [];
+	function addNote(strumTime:Float, direction:Int, player:Bool):ChartingNote{
 		removeNotesInProximity(strumTime, direction, player);
 
-		var newNote:ChartingNote = new ChartingNote(gridCursor.x, gridCursor.y, direction, strumTime, player, "");
-		newNote.select();
+		var newNote:ChartingNote = new ChartingNote(grids[player?1:0].grid.x + (GRID_SIZE * direction), getYFromSongPosition(strumTime), direction, strumTime, player, "");
 		notes.add(newNote);
-		
 		notes.members.sort(sortNotes);
-		selectedNotes = [newNote];
-
-		placedNoteHold = true;
 		
-		trace("adding " + newNote.time);
+		return newNote;
 	}
 
 	function sortNotes(a:ChartingNote, b:ChartingNote):Int{
