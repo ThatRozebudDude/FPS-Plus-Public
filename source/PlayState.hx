@@ -1165,9 +1165,8 @@ class PlayState extends MusicBeatState
 
 		var oldNote:Note = null;
 
-		for (noteData in chart.notes)
-		{
-			if (noteData.time < sectionStartTime){
+		for(noteData in chart.notes){
+			if(sectionStart && noteData.time < sectionStartTime){
 				continue;
 			}
 

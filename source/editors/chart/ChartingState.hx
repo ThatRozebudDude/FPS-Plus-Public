@@ -493,7 +493,6 @@ class ChartingState extends MusicBeatState
 				gridCursor.y = Math.floor(FlxG.mouse.y / GRID_SIZE) * GRID_SIZE;
 			}
 
-
 			if(gridCursorIndex < 2){ //Placing notes.
 				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused()){
 					var newNote = addNote(getSongPositionFromY(gridCursor.y), gridCursorLane, gridCursorIndex == 1);
@@ -508,6 +507,7 @@ class ChartingState extends MusicBeatState
 					if(!FlxG.keys.anyPressed([SHIFT])){ selectedNotes = []; }
 					var note:ChartingNote = getNoteUnderCursor();
 					if(note != null && !selectedNotes.contains(note)){ selectedNotes.push(note); }
+					else if(note != null && selectedNotes.contains(note)){ selectedNotes.remove(note); }
 				}
 			}
 			else{ //Placing events.
