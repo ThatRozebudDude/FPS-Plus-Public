@@ -77,7 +77,6 @@ class Chart
 
 	public static function fromRawJson(raw:String, ?song:String):ChartFormat{
 		var chart:ChartFormat = getEmptyChart();
-		
 		var chartJson:Dynamic = Json.parse(raw);
 
 		#if BACKWARD_COMPATIBILITY
@@ -86,20 +85,20 @@ class Chart
 		}
 		#end
 
-		if (chartJson.meta.format != null){ chart.meta.format = chartJson.meta.format; }
-		if (chartJson.meta.song != null){ chart.meta.song = chartJson.meta.song; }
-		else if (song != null){ chartJson.meta.song = song; }
-		if (chartJson.meta.bpm != null){ chart.meta.bpm = chartJson.meta.bpm; }
+		if(chartJson.meta.format != null)	{ chart.meta.format = chartJson.meta.format; }
+		if(chartJson.meta.song != null)		{ chart.meta.song = chartJson.meta.song; }
+		else if(song != null)				{ chartJson.meta.song = song; }
+		if(chartJson.meta.bpm != null)		{ chart.meta.bpm = chartJson.meta.bpm; }
 
-		if (chartJson.meta.player != null){ chart.meta.player = chartJson.meta.player; }
-		if (chartJson.meta.opponent != null){ chart.meta.opponent = chartJson.meta.opponent; }
-		if (chartJson.meta.speaker != null){ chart.meta.speaker = chartJson.meta.speaker; }
+		if(chartJson.meta.player != null)	{ chart.meta.player = chartJson.meta.player; }
+		if(chartJson.meta.opponent != null)	{ chart.meta.opponent = chartJson.meta.opponent; }
+		if(chartJson.meta.speaker != null)	{ chart.meta.speaker = chartJson.meta.speaker; }
 
-		if (chartJson.meta.stage != null){ chart.meta.stage = chartJson.meta.stage; }
+		if(chartJson.meta.stage != null)	{ chart.meta.stage = chartJson.meta.stage; }
 
-		if (chartJson.meta.scroll != null){ chart.meta.scroll = chartJson.meta.scroll; }
+		if(chartJson.meta.scroll != null)	{ chart.meta.scroll = chartJson.meta.scroll; }
 
-		if (chartJson.notes != null){ chart.notes = chartJson.meta.notes; }
+		if(chartJson.notes != null)			{ chart.notes = chartJson.meta.notes; }
 
 		return chart;
 	}

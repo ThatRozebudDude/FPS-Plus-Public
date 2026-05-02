@@ -89,6 +89,8 @@ class ChartingState extends MusicBeatState
 	var gridCursor:FlxSprite;
 	var gridCursorIndex:Int = -1;
 	var lastGridCursorIndex:Int = -1;
+	var gridCursorLane:Int = -1;
+	var lastGridCursorLane:Int = -1;
 
 	var playerIcon:HealthIcon;
 	var opponentIcon:HealthIcon;
@@ -474,10 +476,12 @@ class ChartingState extends MusicBeatState
 		}
 
 		//Update the grid cursor position and do note place checks.
+		gridCursorLane = -1;
 		if(gridCursorIndex >= 0){
-			gridCursor.visible = true && !FlxG.keys.anyPressed([SHIFT]);
-			var gridLane:Int = Math.floor((FlxG.mouse.x - grids[gridCursorIndex].grid.x) / GRID_SIZE);
-			gridCursor.x = grids[gridCursorIndex].grid.x + gridLane * GRID_SIZE;
+			gridCursor.visible = true && !selectionBoxOpen;
+			gridCursorLane = Math.floor((FlxG.mouse.x - grids[gridCursorIndex].grid.x) / GRID_SIZE);
+			lastGridCursorLane = gridCursorLane;
+			gridCursor.x = grids[gridCursorIndex].grid.x + gridCursorLane * GRID_SIZE;
 
 			/*if(FlxG.keys.anyPressed([SHIFT])){
 				gridCursor.y = FlxG.mouse.y;
@@ -492,13 +496,18 @@ class ChartingState extends MusicBeatState
 
 			if(gridCursorIndex < 2){ //Placing notes.
 				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused()){
-					var newNote = addNote(getSongPositionFromY(gridCursor.y), gridLane, gridCursorIndex == 1);
+					var newNote = addNote(getSongPositionFromY(gridCursor.y), gridCursorLane, gridCursorIndex == 1);
 					selectedNotes = [newNote];
 					placedNoteHold = true;
 				}
 				else if(FlxG.mouse.justPressedRight && !FlxG.keys.anyPressed([SHIFT])  && !panel.isAnythingFocused()){
-					removeNotesInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridLane, gridCursorIndex == 1, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
+					removeNotesInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridCursorLane, gridCursorIndex == 1, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
 					selectedNotes = [];
+				}
+				else if(FlxG.mouse.justPressedMiddle && !panel.isAnythingFocused()){
+					if(!FlxG.keys.anyPressed([SHIFT])){ selectedNotes = []; }
+					var note:ChartingNote = getNoteUnderCursor();
+					if(note != null && !selectedNotes.contains(note)){ selectedNotes.push(note); }
 				}
 			}
 			else{ //Placing events.
@@ -830,21 +839,34 @@ class ChartingState extends MusicBeatState
 		return r;
 	}
 
-	function removeNotesInProximity(strumTime:Float, direction:Int, player:Bool, region:Float = 5){
-		var removeList:Array<ChartingNote> = [];
+	function getNotesInRegion(strumTime:Float, direction:Null<Int>, player:Null<Bool>, region:Float = 5):Array<ChartingNote>{
+		var r:Array<ChartingNote> = [];
 		for(note in notes.members){
-			if(note.player == player && note.direction == direction){
-				if(Utils.inRange(note.time, strumTime, region)){
-					removeList.push(note);
-				}
+			if(note.time > strumTime + region){ break; }
+			if((player == null || note.player == player) && (direction == null || note.direction == direction)){
+				if(Utils.inRange(note.time, strumTime, region)){ r.push(note); }
 			}
 		}
+		return r;
+	}
+
+	function removeNotesInProximity(strumTime:Float, direction:Int, player:Bool, region:Float = 5):Void{
+		var removeList:Array<ChartingNote> = getNotesInRegion(strumTime, direction, player, region);
 		for(note in removeList){
 			if(selectedNotes.contains(note)){ selectedNotes.remove(note); }
 			trace("removing " + note.time);
 			notes.remove(note, true);
 			note.destroy();
 		}
+	}
+
+	function getNoteUnderCursor():ChartingNote{
+		var eligibleNotes:Array<ChartingNote> = getNotesInRegion(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridCursorLane, gridCursorIndex > 0, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
+		if(eligibleNotes.length == 0){ return null; }
+		eligibleNotes.sort(function(a:ChartingNote, b:ChartingNote):Int{
+			return Math.abs(a.time - getSongPositionFromY(FlxG.mouse.y)) < Math.abs(b.time - getSongPositionFromY(FlxG.mouse.y)) ? -1 : 1;
+		});
+		return eligibleNotes[0];
 	}
 
 	function updateText():Void{
