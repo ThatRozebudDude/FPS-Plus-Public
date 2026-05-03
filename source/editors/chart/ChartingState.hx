@@ -698,7 +698,7 @@ class ChartingState extends MusicBeatState
 
 		for(noteData in chart.notes){
 			var newNote = addNote(noteData.time, noteData.direction, noteData.player, noteData.tag);
-			newNote.sustainLength = noteData.length / (Conductor.getStepCrotchet(noteData.time) * 1000);
+			newNote.sustainLength = noteData.length;
 		}
 	}
 
@@ -756,26 +756,23 @@ class ChartingState extends MusicBeatState
 		//Copy Cut Paste
 		if(FlxG.keys.anyJustPressed([C]) && FlxG.keys.anyPressed([CONTROL])){
 			if(gridCursorIndex < 2){
-				var hasPlayer:Bool = false;
-				var hasOpponent:Bool = false;
-				copiedNoteData = [];
-				for(note in selectedNotes){
-					hasPlayer = hasPlayer || note.player;
-					hasOpponent = hasOpponent || !note.player;
-					copiedNoteData.push(note.generateNoteDefiniton());
-				}
-				var startTime = copiedNoteData[0].time;
-				for(data in copiedNoteData){
-					data.time -= startTime;
-				}
-				copyingBoth = hasPlayer && hasOpponent;
+				copyNotes();
 			}
 			else{
 				//Event stuff later
 			}
 		}
 		else if(FlxG.keys.anyJustPressed([X]) && FlxG.keys.anyPressed([CONTROL])){
-			//do later
+			if(gridCursorIndex < 2){
+				copyNotes();
+				while(selectedNotes.length > 0){
+					removeNotesInProximity(selectedNotes[0].time, selectedNotes[0].direction, selectedNotes[0].player, 1);
+				}
+				selectedNotes = [];
+			}
+			else{
+				//Event stuff later
+			}
 		}
 		else if(FlxG.keys.anyJustPressed([V]) && FlxG.keys.anyPressed([CONTROL]) && gridCursorIndex >= 0){
 			if(gridCursorIndex < 2){
@@ -803,15 +800,15 @@ class ChartingState extends MusicBeatState
 		//Adjust Sustain Length
 		if(FlxG.keys.anyJustPressed([E])){
 			for(note in selectedNotes){
-				var sustainLength:Float = note.sustainLength;
-				sustainLength = Math.max(sustainLength+1, 0);
+				var sustainLength:Int = note.sustainLength;
+				sustainLength = FlxMath.maxInt(sustainLength+1, 0);
 				note.sustainLength = sustainLength;
 			}
 		}
 		else if(FlxG.keys.anyJustPressed([Q])){
 			for(note in selectedNotes){
-				var sustainLength:Float = note.sustainLength;
-				sustainLength = Math.max(sustainLength-1, 0);
+				var sustainLength:Int = note.sustainLength;
+				sustainLength = FlxMath.maxInt(sustainLength-1, 0);
 				note.sustainLength = sustainLength;
 			}
 		}
@@ -867,6 +864,22 @@ class ChartingState extends MusicBeatState
 			return Math.abs(a.time - getSongPositionFromY(FlxG.mouse.y)) < Math.abs(b.time - getSongPositionFromY(FlxG.mouse.y)) ? -1 : 1;
 		});
 		return eligibleNotes[0];
+	}
+
+	function copyNotes():Void{
+		var hasPlayer:Bool = false;
+		var hasOpponent:Bool = false;
+		copiedNoteData = [];
+		for(note in selectedNotes){
+			hasPlayer = hasPlayer || note.player;
+			hasOpponent = hasOpponent || !note.player;
+			copiedNoteData.push(note.generateNoteDefiniton());
+		}
+		var startTime = copiedNoteData[0].time;
+		for(data in copiedNoteData){
+			data.time -= startTime;
+		}
+		copyingBoth = hasPlayer && hasOpponent;
 	}
 
 	function updateText():Void{
