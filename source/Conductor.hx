@@ -94,15 +94,16 @@ class Conductor extends FlxBasic
 	}
 
 	inline public static function resetBPMChanges():Void{
-		bpmChanges = [{bpm: bpm, step: 0, time: 0}];
+		bpmChanges = [{bpm: bpm, time: 0}];
 		trace("Clearing BPM Changes");
 	}
 
-	public static function getBPMDefine(?position:Float){
-		if (position == null){ position = songPosition; }
+	public static function getBPMDefine(?position:Float, ?bpmMap:Array<BPMDefinition>){
+		if(position == null){ position = songPosition; }
+		if(bpmMap == null)	{ bpmMap = bpmChanges; }
 
-		var result = bpmChanges[0];
-		for(define in Conductor.bpmChanges){
+		var result = bpmMap[0];
+		for(define in bpmMap){
 			if(position >= define.time){
 				result = define;
 			}
@@ -111,20 +112,20 @@ class Conductor extends FlxBasic
 		return result;
 	}
 
-	public static function getCrotchet(?position:Float):Float{
-		return 60 / getBPMDefine(position).bpm;
+	public static inline function getCrotchet(?position:Float, ?bpmMap:Array<BPMDefinition>):Float{
+		return 60 / getBPMDefine(position, bpmMap).bpm;
 	}
 
-	public static function getStepCrotchet(?position:Float):Float{
-		return getCrotchet(position) / 4;
+	public static inline function getStepCrotchet(?position:Float, ?bpmMap:Array<BPMDefinition>):Float{
+		return getCrotchet(position, bpmMap) / 4;
 	}
 
-	public static function getCrotchetMs(?position:Float):Float{
-		return getCrotchet(position) * 1000;
+	public static inline function getCrotchetMs(?position:Float, ?bpmMap:Array<BPMDefinition>):Float{
+		return getCrotchet(position, bpmMap) * 1000;
 	}
 
-	public static function getStepCrotchetMs(?position:Float):Float{
-		return getStepCrotchet(position) * 1000;
+	public static inline function getStepCrotchetMs(?position:Float, ?bpmMap:Array<BPMDefinition>):Float{
+		return getStepCrotchet(position, bpmMap) * 1000;
 	}
 
 	/**
@@ -227,7 +228,7 @@ class Conductor extends FlxBasic
 	}
 	
 	public static inline function changeBPM(newBpm:Float):Void{
-		setBPMChanges([{bpm: newBpm, step: 0, time: 0}]);
+		setBPMChanges([{bpm: newBpm, time: 0}]);
 	}
 
 }

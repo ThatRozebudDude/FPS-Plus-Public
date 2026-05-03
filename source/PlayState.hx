@@ -1175,8 +1175,7 @@ class PlayState extends MusicBeatState
 			swagNote.scrollFactor.set(0, 0);
 
 			oldNote = swagNote;
-
-			var susLength:Float = noteData.length / Conductor.getStepCrotchetMs(noteData.time);
+			
 			swagNote.mustPress = noteData.player;
 
 			if(swagNote.noteSplashOverride != null && !preloadSplashList.contains(swagNote.noteSplashOverride)){
@@ -1191,8 +1190,8 @@ class PlayState extends MusicBeatState
 				
 			unspawnNotes.push(swagNote);
 
-			if(Math.round(susLength) > 0){
-				for (susNote in 0...(Math.round(susLength) + 1)){
+			if(noteData.length > 0){
+				for(susNote in 0...(noteData.length + 1)){
 					var makeFake = false;
 					var timeAdd = 0.0;
 					if(susNote == 0){ 

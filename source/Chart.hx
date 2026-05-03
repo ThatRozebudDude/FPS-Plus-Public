@@ -23,7 +23,7 @@ typedef ChartMeta = {
 typedef NoteDefinition = {
 	var time:Float;
 	var direction:Int;
-	var length:Float;
+	var length:Int;
 	var tag:String;
 	var player:Bool;
 }
@@ -31,7 +31,6 @@ typedef NoteDefinition = {
 typedef BPMDefinition = {
 	var bpm:Float;
 	var time:Float;
-	var step:Int;
 }
 
 typedef EventFormat = {
@@ -122,6 +121,14 @@ class Chart
 		var curBPM:Float = legacyChart.bpm;
 
 		for (section in legacyChart.notes){
+			if (section.changeBPM == true){ // somehow changeBPM is null in some charts
+				chart.meta.bpm.push({bpm: section.bpm, time: secTime});
+				curBPM = section.bpm;
+			}
+
+			secTime += ((((60 / curBPM) * 1000) / 4) * section.lengthInSteps ?? 16);
+			secStep += section.lengthInSteps;
+
 			for (note in section.sectionNotes){
 				var player:Bool = true;
 				if ((!section.mustHitSection && note[1] < 4) || (section.mustHitSection && note[1] > 3)){
@@ -134,19 +141,11 @@ class Chart
 				chart.notes.push({
 					time: note[0],
 					direction: Std.int(note[1]) % 4,
-					length: note[2],
+					length: Math.round(note[2] / (((60/curBPM)/4)*1000)),
 					tag: tag,
 					player: player
 				});
 			}
-
-			if (section.changeBPM == true){ // somehow changeBPM is null in some charts
-				chart.meta.bpm.push({bpm: section.bpm, time: secTime, step: secStep});
-				curBPM = section.bpm;
-			}
-
-			secTime += ((((60 / curBPM) * 1000) / 4) * section.lengthInSteps ?? 16);
-			secStep += section.lengthInSteps;
 		}
 
 		return chart;
@@ -157,7 +156,7 @@ class Chart
 			meta: {
 				format: CURRENT_CHART_FORMAT,
 				song: "",
-				bpm: [{bpm: 100, time: 0, step: 0}],
+				bpm: [{bpm: 100, time: 0}],
 				
 				player: "Bf",
 				opponent: "Dad",
