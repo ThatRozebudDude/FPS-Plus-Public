@@ -70,7 +70,7 @@ class VideoCutscene extends ScriptedCutscene
 
 			if(doZoomOut){
 				playstate.camChangeZoom(playstate.defaultCamZoom * 1.2, 0, null);
-				playstate.camChangeZoom(playstate.defaultCamZoom/1.2, ((Conductor.crochet / 1000) * 5) - 0.1, FlxEase.quadOut);
+				playstate.camChangeZoom(playstate.defaultCamZoom/1.2, (Conductor.getCrotchet() * 5) - 0.1, FlxEase.quadOut);
 			}
 			if(instantlyMoveCamera){
 				//if(PlayState.SONG.notes[0].mustHitSection){ playstate.camFocusBF(); }

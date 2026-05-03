@@ -37,7 +37,7 @@ class LilBuddiesIntro extends ScriptedCutscene
 		playstate.autoZoom = false;
 		var hudElementsFadeInTime = 0.2;
 		
-		playstate.camChangeZoom(2.8, Conductor.crochet / 1000 * 16, FlxEase.quadInOut, function(t){
+		playstate.camChangeZoom(2.8, Conductor.getCrotchet() * 16, FlxEase.quadInOut, function(t){
 			playstate.autoZoom = true;
 			tween.tween(playstate.healthBar, {alpha: 1}, hudElementsFadeInTime);
 			tween.tween(playstate.iconP1, {alpha: 1}, hudElementsFadeInTime);
@@ -50,7 +50,7 @@ class LilBuddiesIntro extends ScriptedCutscene
 				tween.tween(x, {alpha: 1}, hudElementsFadeInTime);
 			}
 		});
-		playstate.camMove(155, 600, Conductor.crochet / 1000 * 16, FlxEase.quadOut, "center");
+		playstate.camMove(155, 600, Conductor.getCrotchet() * 16, FlxEase.quadOut, "center");
 	}
 
 	function noIntro():Void{

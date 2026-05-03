@@ -81,12 +81,12 @@ class TitleEasterEgg extends MusicBeatState
 			Conductor.songPosition = FlxG.sound.music.time;
 
 			if(Binds.justPressed("menuAccept")){
-				if((beatTime + Conductor.crochet*2) >= FlxG.sound.music.length){
+				if((beatTime + Conductor.getCrotchetMs()*2) >= FlxG.sound.music.length){
 					FlxG.sound.music.onComplete = null;
 					exit();
 				}
 				else{
-					FlxG.sound.music.time = beatTime + Conductor.crochet*2;
+					FlxG.sound.music.time = beatTime + Conductor.getCrotchetMs()*2;
 					beatTime = FlxG.sound.music.time;
 					djHit();
 				}
@@ -119,11 +119,11 @@ class TitleEasterEgg extends MusicBeatState
 
 		FlxTween.cancelTweensOf(topText.velocity);
 		topText.velocity.x = -velSet;
-		FlxTween.tween(topText.velocity, {x: -50}, Conductor.crochet/575, {ease: FlxEase.quadOut});
+		FlxTween.tween(topText.velocity, {x: -50}, Conductor.getCrotchetMs()/575, {ease: FlxEase.quadOut});
 
 		FlxTween.cancelTweensOf(bottomText.velocity);
 		bottomText.velocity.x = velSet;
-		FlxTween.tween(bottomText.velocity, {x: 50}, Conductor.crochet/575, {ease: FlxEase.quadOut});
+		FlxTween.tween(bottomText.velocity, {x: 50}, Conductor.getCrotchetMs()/575, {ease: FlxEase.quadOut});
 	}
 
 	function exit() {

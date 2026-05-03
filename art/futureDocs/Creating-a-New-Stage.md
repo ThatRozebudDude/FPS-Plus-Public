@@ -232,7 +232,7 @@ class Philly extends BaseStage
 		phillyCityLightsGlow.color = windowColors[windowColorIndex];
 		FlxTween.cancelTweensOf(phillyCityLightsGlow);
 		phillyCityLightsGlow.alpha = 0.9;
-		FlxTween.tween(phillyCityLightsGlow, {alpha: 0}, (Conductor.crochet/1000) * 3.5, {ease: FlxEase.quadOut});
+		FlxTween.tween(phillyCityLightsGlow, {alpha: 0}, Conductor.getCrotchet() * 3.5, {ease: FlxEase.quadOut});
 	}
 
 	function trainStart():Void{

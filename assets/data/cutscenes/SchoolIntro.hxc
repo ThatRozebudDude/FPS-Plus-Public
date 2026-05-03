@@ -69,7 +69,7 @@ class SchoolIntro extends ScriptedCutscene
 				next();
 				playstate.camGame.filters.remove(fadeInShaderFilter);
 				if(cutsceneMusic != null){
-					cutsceneMusic.fadeOut((Conductor.crochet / 1000) * 3, 0);
+					cutsceneMusic.fadeOut(Conductor.getCrotchet() * 3, 0);
 				}
 			});
 		});

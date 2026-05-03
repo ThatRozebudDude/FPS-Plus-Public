@@ -598,8 +598,8 @@ class ChartingState extends MusicBeatState
 		if(FlxG.mouse.wheel != 0 && allowGridScroll && !panel.isAnythingFocused()){
 			pauseMusic();
 			final wheelSpin = FlxG.mouse.wheel;
-			FlxG.sound.music.time = Math.round(FlxG.sound.music.time / (Conductor.stepCrochet/2)) * (Conductor.stepCrochet/2); //Snap to nearest half step.
-			FlxG.sound.music.time -= (wheelSpin * Conductor.stepCrochet * 0.5);
+			FlxG.sound.music.time = Math.round(FlxG.sound.music.time / (Conductor.getStepCrotchetMs()/2)) * (Conductor.getStepCrotchetMs()/2); //Snap to nearest half step.
+			FlxG.sound.music.time -= (wheelSpin * Conductor.getStepCrotchetMs() * 0.5);
 			musicBoundsCheck();
 		}
 
@@ -698,7 +698,7 @@ class ChartingState extends MusicBeatState
 
 		for(noteData in chart.notes){
 			var newNote = addNote(noteData.time, noteData.direction, noteData.player, noteData.tag);
-			newNote.sustainLength = noteData.length / (Conductor.getStepCrotchet(noteData.time) * 1000);
+			newNote.sustainLength = noteData.length / Conductor.getStepCrotchetMs(noteData.time);
 		}
 	}
 

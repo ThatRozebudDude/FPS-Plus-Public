@@ -216,11 +216,11 @@ class Events
 		var r:Float;
 		if(v.endsWith("b")){
 			v = v.split("b")[0];
-			r = (Conductor.crochet * Std.parseFloat(v) / 1000);
+			r = (Conductor.getCrotchet() * Std.parseFloat(v));
 		}
 		else if(v.endsWith("s")){
 			v = v.split("s")[0];
-			r = (Conductor.stepCrochet * Std.parseFloat(v) / 1000);
+			r = (Conductor.getStepCrotchet() * Std.parseFloat(v));
 		}
 		else{
 			r = Std.parseFloat(v);

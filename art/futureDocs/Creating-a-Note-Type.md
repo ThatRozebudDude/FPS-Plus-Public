@@ -111,7 +111,7 @@ class DarnellNotes extends NoteType
         playstate.executeEvent("phillyStreets-stageDarken");
         playstate.executeEvent("phillyStreets-canShot");
         playstate.camFocusBF();
-        playstate.camChangeZoom(0.85, (Conductor.crochet/1000) * 2, FlxEase.expoOut);
+        playstate.camChangeZoom(0.85, Conductor.getCrotchet() * 2, FlxEase.expoOut);
     }
 
     function firegunMiss(note:Note, character:Character){
@@ -121,7 +121,7 @@ class DarnellNotes extends NoteType
         FlxG.sound.play(Paths.sound("weekend1/Pico_Bonk"));
         playstate.executeEvent("phillyStreets-canHit");
         playstate.camFocusBF();
-        playstate.camChangeZoom(0.85, (Conductor.crochet/1000) * 2, FlxEase.expoOut);
+        playstate.camChangeZoom(0.85, Conductor.getCrotchet() * 2, FlxEase.expoOut);
         healthAdjust = 0;
         playstate.health -= 0.5;
         if(playstate.health <= 0){

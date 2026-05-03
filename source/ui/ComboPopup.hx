@@ -62,7 +62,7 @@ class ComboPopup extends FlxSpriteGroup
 				onComplete: function(tween:FlxTween){
 					digit.destroy();
 				},
-				startDelay: (Conductor.crochet/1000) //* 0.75
+				startDelay: Conductor.getCrotchet()
 			});
 
 			numbersToAdd.push(digit);
@@ -103,7 +103,7 @@ class ComboPopup extends FlxSpriteGroup
 			onComplete: function(tween:FlxTween){
 				ratingSprite.destroy();
 			},
-			startDelay: (Conductor.crochet/1000) //* 0.75
+			startDelay: Conductor.getCrotchet()
 		});
 		
 		if(limitSprites){
@@ -137,7 +137,7 @@ class ComboPopup extends FlxSpriteGroup
 			onComplete: function(tween:FlxTween){
 				breakSprite.destroy();
 			},
-			startDelay: (Conductor.crochet/1000) * 1.5
+			startDelay: Conductor.getCrotchet() * 1.5
 		});
 		
 		if(limitSprites){

@@ -119,6 +119,14 @@ class Conductor extends FlxBasic
 		return getCrotchet(position) / 4;
 	}
 
+	public static function getCrotchetMs(?position:Float):Float{
+		return getCrotchet(position) * 1000;
+	}
+
+	public static function getStepCrotchetMs(?position:Float):Float{
+		return getStepCrotchet(position) * 1000;
+	}
+
 	/**
 	 * Converts a step number to the corresponding time in milliseconds.
 	 * Accounts for BPM changes throughout the song.

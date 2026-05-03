@@ -35,7 +35,7 @@ class Character extends FlxSpriteGroup
 	public var isPlayer:Bool = false;
 	public var isGirlfriend:Bool = false;
 	public var curCharacter:String = "bf";
-	public var charClass:String = "Bf";
+	public var charClass:String = "characters.Bf";
 
 	public var holdTimer:Float = 0;
 	public var stepsUntilRelease:Float = 4;
@@ -101,9 +101,7 @@ class Character extends FlxSpriteGroup
 
 		antialiasing = true;
 
-		charClass = _character;
-
-		createCharacterFromInfo(charClass);
+		createCharacterFromInfo(_character);
 
 		if(!isFacingDefaultDirection && !debugMode){
 			setFlipX(true);
@@ -137,7 +135,7 @@ class Character extends FlxSpriteGroup
 					holdTimer = 0;
 				}
 				
-				if (holdTimer >= Conductor.stepCrochet * stepsUntilRelease * 0.001 && canAutoAnim && ((characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? characterInfo.info.characterPropertyOverrides.preventShortIdle : PREVENT_SHORT_IDLE) ? (PlayState.isInPlayState() ? !PlayState.instance.anyOpponentNoteInRange : true) : true)){
+				if (holdTimer >= Conductor.getStepCrotchet() * stepsUntilRelease && canAutoAnim && ((characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? characterInfo.info.characterPropertyOverrides.preventShortIdle : PREVENT_SHORT_IDLE) ? (PlayState.isInPlayState() ? !PlayState.instance.anyOpponentNoteInRange : true) : true)){
 					if((characterInfo.info.characterPropertyOverrides.useIdleEnd != null ? characterInfo.info.characterPropertyOverrides.useIdleEnd : USE_IDLE_END)){ 
 						idleEnd(); 
 					}
@@ -395,6 +393,7 @@ class Character extends FlxSpriteGroup
 		}
 		#end
 		characterInfo = ScriptableCharacter.scriptInit(className);
+		charClass = className;
 
 		characterInfo.characterReference = this;
 

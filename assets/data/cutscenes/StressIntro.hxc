@@ -129,7 +129,7 @@ class StressIntro extends ScriptedCutscene
 	}
 
 	function stressEnd() {
-		bgm.fadeOut((Conductor.crochet / 1000) * 5, 0);
+		bgm.fadeOut(Conductor.getCrotchet() * 5, 0);
 
 		picoSpeaker.visible = false;
 		tankman.visible = false;

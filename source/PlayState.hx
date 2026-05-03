@@ -919,7 +919,7 @@ class PlayState extends MusicBeatState
 
 		startedCountdown = true;
 		Conductor.songPosition = 0;
-		Conductor.songPosition -= Conductor.crochet * 5;
+		Conductor.songPosition -= Conductor.getCrotchetMs() * 5;
 
 		var swagCounter:Int = 0;
 
@@ -938,7 +938,7 @@ class PlayState extends MusicBeatState
 			gf.characterInfo.info.functions.countdownBeat(gf, -1);
 		}
 
-		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
+		startTimer = new FlxTimer().start(Conductor.getCrotchet(), function(tmr:FlxTimer)
 		{
 			if(swagCounter != 4) { gf.dance(); }
 
@@ -967,7 +967,7 @@ class PlayState extends MusicBeatState
 						countdownSprite.cameras = [camHUD];
 						add(countdownSprite);
 			
-						tweenManager.tween(countdownSprite, {y: countdownSprite.y += 100, alpha: 0}, Conductor.crochet / 1000, {ease: FlxEase.cubeInOut, onComplete: function(twn:FlxTween){
+						tweenManager.tween(countdownSprite, {y: countdownSprite.y += 100, alpha: 0}, Conductor.getCrotchet(), {ease: FlxEase.cubeInOut, onComplete: function(twn:FlxTween){
 								countdownSprite.destroy();
 							}
 						});
@@ -990,7 +990,7 @@ class PlayState extends MusicBeatState
 						countdownSprite.cameras = [camHUD];
 						add(countdownSprite);
 			
-						tweenManager.tween(countdownSprite, {y: countdownSprite.y += 100, alpha: 0}, Conductor.crochet / 1000, {ease: FlxEase.cubeInOut, onComplete: function(twn:FlxTween){
+						tweenManager.tween(countdownSprite, {y: countdownSprite.y += 100, alpha: 0}, Conductor.getCrotchet(), {ease: FlxEase.cubeInOut, onComplete: function(twn:FlxTween){
 								countdownSprite.destroy();
 							}
 						});
@@ -1013,7 +1013,7 @@ class PlayState extends MusicBeatState
 						countdownSprite.cameras = [camHUD];
 						add(countdownSprite);
 			
-						tweenManager.tween(countdownSprite, {y: countdownSprite.y += 100, alpha: 0}, Conductor.crochet / 1000, {ease: FlxEase.cubeInOut, onComplete: function(twn:FlxTween){
+						tweenManager.tween(countdownSprite, {y: countdownSprite.y += 100, alpha: 0}, Conductor.getCrotchet(), {ease: FlxEase.cubeInOut, onComplete: function(twn:FlxTween){
 								countdownSprite.destroy();
 							}
 						});
@@ -1036,7 +1036,7 @@ class PlayState extends MusicBeatState
 						countdownSprite.cameras = [camHUD];
 						add(countdownSprite);
 			
-						tweenManager.tween(countdownSprite, {y: countdownSprite.y += 100, alpha: 0}, Conductor.crochet / 1000, {ease: FlxEase.cubeInOut, onComplete: function(twn:FlxTween){
+						tweenManager.tween(countdownSprite, {y: countdownSprite.y += 100, alpha: 0}, Conductor.getCrotchet(), {ease: FlxEase.cubeInOut, onComplete: function(twn:FlxTween){
 								countdownSprite.destroy();
 							}
 						});
@@ -1176,7 +1176,7 @@ class PlayState extends MusicBeatState
 
 			oldNote = swagNote;
 
-			var susLength:Float = noteData.length / (Conductor.getStepCrotchet(noteData.time) * 1000);
+			var susLength:Float = noteData.length / Conductor.getStepCrotchetMs(noteData.time);
 			swagNote.mustPress = noteData.player;
 
 			if(swagNote.noteSplashOverride != null && !preloadSplashList.contains(swagNote.noteSplashOverride)){
@@ -1200,7 +1200,7 @@ class PlayState extends MusicBeatState
 						timeAdd = 0.1; 
 					}
 	
-					var sustainNote:Note = new Note(noteData.time + (Conductor.stepCrochet * susNote) + timeAdd, noteData.direction, noteData.tag, false, oldNote, true);
+					var sustainNote:Note = new Note(noteData.time + (Conductor.getStepCrotchetMs(noteData.time) * susNote) + timeAdd, noteData.direction, noteData.tag, false, oldNote, true);
 					sustainNote.isFake = makeFake;
 					sustainNote.scrollFactor.set();
 					sustainNote.mustPress = noteData.player;
@@ -2296,7 +2296,7 @@ class PlayState extends MusicBeatState
 				if(daNote.prevNote.tooLate && !daNote.prevNote.wasGoodHit){
 					daNote.tooLate = true;
 					daNote.destroy();
-					noteMiss(daNote, daNote.missCallback, Scoring.HOLD_DROP_DMAMGE_PER_NOTE * (daNote.isFake ? 0 : 1), false, false, true, Std.int(Scoring.HOLD_DROP_PENALTY_PER_SECOND * (Conductor.stepCrochet/1000)));
+					noteMiss(daNote, daNote.missCallback, Scoring.HOLD_DROP_DMAMGE_PER_NOTE * (daNote.isFake ? 0 : 1), false, false, true, Std.int(Scoring.HOLD_DROP_PENALTY_PER_SECOND * Conductor.getStepCrotchet()));
 					//updateAccuracyOld();
 				}
 
@@ -2304,7 +2304,7 @@ class PlayState extends MusicBeatState
 				if(daNote.prevNote.wasGoodHit && !daNote.wasGoodHit){
 
 					if(releaseTimes[daNote.direction] >= releaseBufferTime){
-						noteMiss(daNote, daNote.missCallback, Scoring.HOLD_DROP_INITAL_DAMAGE, true, false, true, Std.int(Scoring.HOLD_DROP_INITIAL_PENALTY_PER_SECOND * (Conductor.stepCrochet/1000)));
+						noteMiss(daNote, daNote.missCallback, Scoring.HOLD_DROP_INITAL_DAMAGE, true, false, true, Std.int(Scoring.HOLD_DROP_INITIAL_PENALTY_PER_SECOND * Conductor.getStepCrotchet()));
 						if(canChangeVocalVolume){ vocals.volume = 0; }
 						daNote.tooLate = true;
 						daNote.destroy();
@@ -2328,7 +2328,7 @@ class PlayState extends MusicBeatState
 			}
 		});
 
-		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
+		if (boyfriend.holdTimer > Conductor.getStepCrotchet() * boyfriend.stepsUntilRelease && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
 			if (boyfriend.isSinging){
 				if((boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd != null ? boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd : Character.USE_IDLE_END)){ 
 					boyfriend.idleEnd(); 
@@ -2389,7 +2389,7 @@ class PlayState extends MusicBeatState
 			}
 		});
 
-		if (boyfriend.holdTimer > Conductor.stepCrochet * boyfriend.stepsUntilRelease * 0.001 && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
+		if (boyfriend.holdTimer > Conductor.getStepCrotchet() * boyfriend.stepsUntilRelease && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
 			if (boyfriend.isSinging){
 				if((boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd != null ? boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd : Character.USE_IDLE_END)){ 
 					boyfriend.idleEnd(); 
@@ -2536,9 +2536,9 @@ class PlayState extends MusicBeatState
 			}
 			else{
 				if(healthAdjustOverride == null){
-					health += (Scoring.HOLD_HEAL_AMOUNT_PER_SECOND * (Conductor.stepCrochet/1000)) * Config.healthMultiplier;
+					health += (Scoring.HOLD_HEAL_AMOUNT_PER_SECOND * Conductor.getStepCrotchet()) * Config.healthMultiplier;
 				}
-				songStats.score += Std.int(Scoring.HOLD_SCORE_PER_SECOND * (Conductor.stepCrochet/1000));
+				songStats.score += Std.int(Scoring.HOLD_SCORE_PER_SECOND * Conductor.getStepCrotchet());
 				songStats.susCount++;
 			}
 

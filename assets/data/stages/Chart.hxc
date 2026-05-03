@@ -72,6 +72,6 @@ class Chart extends BaseStage
 	}
 
 	public override function songStart(){
-		tween.tween(chartBlackBG, {alpha: 1}, Conductor.crochet / 1000 * 16);
+		tween.tween(chartBlackBG, {alpha: 1}, Conductor.getCrotchet() / 1000 * 16);
 	}
 }

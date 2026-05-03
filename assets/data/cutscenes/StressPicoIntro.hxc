@@ -166,7 +166,7 @@ class StressPicoIntro extends ScriptedCutscene
 		addEvent(startOffset + 672/24, 	camera10);
 		addEvent(startOffset + 733/24, 	camera11);
 		addEvent(startOffset + 33.5, 	end);
-		addEvent(startOffset + 33.5 + (Conductor.crochet / 1000) * 5, swapBackToGameplayTankman);
+		addEvent(startOffset + 33.5 + Conductor.getCrotchet() * 5, swapBackToGameplayTankman);
 	}
 
 	override function update(elapsed:Float){
@@ -273,8 +273,8 @@ class StressPicoIntro extends ScriptedCutscene
 		boyfriend.visible = true;
 
 		playstate.camHUD.visible = true;
-		playstate.camChangeZoom(originalZoom, (Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
-		focusCameraBasedOnFirstSection((Conductor.crochet / 1000) * 5, FlxEase.quadInOut);
+		playstate.camChangeZoom(originalZoom, Conductor.getCrotchet() * 5, FlxEase.quadInOut);
+		focusCameraBasedOnFirstSection(Conductor.getCrotchet() * 5, FlxEase.quadInOut);
 		next();
 	}
 	

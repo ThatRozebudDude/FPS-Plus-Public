@@ -310,8 +310,8 @@ class PhillyStreets extends BaseStage
 		characterGlow.visible = true;
 		characterGlow.alpha = 0.3;
 
-		tween.tween(characterGlow.scale, {x: characterGlow.scale.x * 1.4, y: characterGlow.scale.y * 1.4}, (Conductor.crochet / 1000), {ease: FlxEase.quadOut});
-		tween.tween(characterGlow, {alpha: 0}, ((Conductor.crochet / 1000) / 2), {startDelay: ((Conductor.crochet / 1000) / 2)});
+		tween.tween(characterGlow.scale, {x: characterGlow.scale.x * 1.4, y: characterGlow.scale.y * 1.4}, Conductor.getCrotchet(), {ease: FlxEase.quadOut});
+		tween.tween(characterGlow, {alpha: 0}, (Conductor.getCrotchet() / 2), {startDelay: (Conductor.getCrotchet() / 2)});
 	}
 
 	public function createBullet(tag:String):Void{

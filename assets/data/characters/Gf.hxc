@@ -65,7 +65,7 @@ class Gf extends CharacterInfoBase
 			character.setPosition(PlayState.instance.gf.x, PlayState.instance.gf.y);
 			PlayState.instance.gf.visible = false;
 			if (PlayState.isStoryMode){
-				PlayState.instance.camChangeZoom(1.3, (Conductor.stepCrochet * 4 / 1000), FlxEase.elasticInOut);
+				PlayState.instance.camChangeZoom(1.3, Conductor.getCrotchet(), FlxEase.elasticInOut);
 			}
 		}
 	}
