@@ -1,5 +1,6 @@
 package;
 
+import Chart.EventDefinition;
 import shaders.*;
 import ui.*;
 import config.*;
@@ -30,6 +31,7 @@ import flixel.math.FlxRect;
 import openfl.system.System;
 import Section.SwagSection;
 import Chart.ChartFormat;
+import Chart.EventFormat;
 import Song.SongEvents;
 import extensions.flixel.FlxCameraExt;
 import flixel.FlxG;
@@ -64,7 +66,6 @@ class PlayState extends MusicBeatState
 
 	public static var instance:PlayState = null;
 
-	public static var curStage:String = '';
 	#if BACKWARD_COMPATIBILITY
 	public static var SONG(get, never):Dynamic;
 	static function get_SONG():Dynamic{
@@ -79,10 +80,16 @@ class PlayState extends MusicBeatState
 			gf: chart.meta.speaker
 		}
 	}
+
+	public static var EVENTS(get, never):Dynamic;
+	static function get_EVENTS():Dynamic{
+		return { events: [] }
+	}
 	#end
+
+	public static var curStage:String = "";
 	public static var chart:ChartFormat;
-	public static var EVENTS:SongEvents;
-	public static var loadEvents:Bool = true;
+	public static var events:EventFormat;
 	public static var isStoryMode:Bool = false;
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
@@ -253,7 +260,7 @@ class PlayState extends MusicBeatState
 
 	public var hudShader:AlphaShader = new AlphaShader(1);
 
-	private var eventList:Array<Dynamic> = [];
+	private var eventList:Array<EventDefinition> = [];
 
 	public var comboUI:ComboPopup;
 	public var minCombo:Int = 10;
@@ -363,20 +370,6 @@ class PlayState extends MusicBeatState
 		if(overrideInsturmental != ""){
 			instSong = overrideInsturmental;
 			overrideInsturmental = "";
-		}
-
-		if(loadEvents){
-			if(Utils.exists("assets/data/songs/" + chart.meta.song.toLowerCase() + "/events.json")){
-				trace("loaded events");
-				trace(Paths.json(chart.meta.song.toLowerCase() + "/events"));
-				EVENTS = Song.parseEventJSON(Utils.getText(Paths.json(chart.meta.song.toLowerCase() + "/events")));
-			}
-			else{
-				trace("No events found");
-				EVENTS = {
-					events: []
-				};
-			}
 		}
 
 		metadata = Utils.defaultSongMetadata(chart.meta.song.replace("-", " "));
@@ -821,12 +814,11 @@ class PlayState extends MusicBeatState
 
 		for(script in scripts){ script.create(); }
 
-		for(i in EVENTS.events){
-			eventList.push([i[1], i[3], i[2]]);
-			preprocessEvent(i[3]);
-		}
-
+		eventList = events.events.copy();
 		eventList.sort(sortByEventStuff);
+		for(event in eventList){
+			preprocessEvent(event.tag);
+		}
 		
 		cutsceneCheck();
 
@@ -1243,9 +1235,9 @@ class PlayState extends MusicBeatState
 		return FlxSort.byValues(FlxSort.ASCENDING, obj1.strumTime, obj2.strumTime);
 	}
 
-	function sortByEventStuff(obj1:Array<Dynamic>, obj2:Array<Dynamic>):Int{
-		var r:Int = FlxSort.byValues(FlxSort.ASCENDING, obj1[0] + (Events.ignoreOffsets.contains(obj1[1].split(";")[0]) ? 0 : Config.offset), obj2[0] + (Events.ignoreOffsets.contains(obj2[1].split(";")[0]) ? 0 : Config.offset));
-		return (r != 0) ? r : FlxSort.byValues(FlxSort.ASCENDING, obj1[2], obj2[2]);
+	function sortByEventStuff(obj1:EventDefinition, obj2:EventDefinition):Int{
+		var r:Int = FlxSort.byValues(FlxSort.ASCENDING, obj1.time + (Events.ignoreOffsets.contains(obj1.tag.split(";")[0]) ? 0 : Config.offset), obj2.time + (Events.ignoreOffsets.contains(obj2.tag.split(";")[0]) ? 0 : Config.offset));
+		return (r != 0) ? r : FlxSort.byValues(FlxSort.ASCENDING, obj1.lane, obj2.lane);
 	}
 
 	//player 1 is player, player 0 is opponent
@@ -1536,13 +1528,6 @@ class PlayState extends MusicBeatState
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 
-	function truncateFloat( number:Float, precision:Int):Float{
-		var num = number;
-		num = num * Math.pow(10, precision);
-		num = Math.round(num)/Math.pow(10, precision);
-		return num;
-	}
-
 
 	override public function update(elapsed:Float) {
 		if(invulnTime > 0){
@@ -1721,17 +1706,19 @@ class PlayState extends MusicBeatState
 		}
 
 		if(!startingSong){
+			var removeFromEvents:Array<EventDefinition> = [];
 			for(event in eventList){
-				var prefix = event[1].split(";")[0];
-				var eventTime = event[0] + (Events.ignoreOffsets.contains(prefix) ? 0 : Config.offset);
+				var prefix = event.tag.split(";")[0];
+				var eventTime = event.time + (Events.ignoreOffsets.contains(prefix) ? 0 : Config.offset);
 				if(eventTime < 0) { eventTime = 0; }
-				if(eventTime > Conductor.songPosition){
-					break;
-				}
+				if(eventTime > Conductor.songPosition){ break; }
 				else{
-					executeEvent(event[1]);
-					eventList.remove(event);
+					executeEvent(event.tag);
+					removeFromEvents.push(event);
 				}
+			}
+			for(event in removeFromEvents){
+				eventList.remove(event);
 			}
 		}
 
@@ -2051,15 +2038,7 @@ class PlayState extends MusicBeatState
 			}
 			//CODE FOR CONTINUING A WEEK
 			else{
-				var difficulty:String = "normal";
-
-				if (storyDifficulty == 0)
-					difficulty = 'easy';
-
-				if (storyDifficulty == 2)
-					difficulty = 'hard';
-
-				PlayState.chart = Chart.fromSong(PlayState.storyPlaylist[0], difficulty);
+				setupSong(PlayState.storyPlaylist[0], storyDifficulty);
 				FlxG.sound.music.stop();
 
 				ImageCache.refreshLocal();
@@ -2991,7 +2970,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if(Config.showAccuracy){
-			scoreTxt.text += " | Accuracy:" + truncateFloat(songStats.accuracy, 2) + "%";
+			scoreTxt.text += " | Accuracy:" + Utils.truncateFloat(songStats.accuracy, 2) + "%";
 		}
 
 	}
@@ -3116,12 +3095,17 @@ class PlayState extends MusicBeatState
 	}
 
 	public static function setupSong(_song:String, _difficuly:Int, ?_storyMode:Bool = false, ?_returnLocation:String = null, ?_overrideInstrumental:String = null):Void{
-		PlayState.chart = Chart.fromSong(_song, ["easy", "normal", "hard"][_difficuly]);
+		PlayState.chart = Chart.chartFromSong(_song, ["easy", "normal", "hard"][_difficuly]);
+		PlayState.events = Chart.eventsFromSong(_song);
 		PlayState.storyDifficulty = _difficuly;
-		PlayState.loadEvents = true;
 		PlayState.isStoryMode = _storyMode;
 		if(_returnLocation != null) 		{ PlayState.returnLocation = _returnLocation; }
 		if(_overrideInstrumental != null)	{ PlayState.overrideInsturmental = _overrideInstrumental; }
+	}
+
+	public static function setSong(_chart:ChartFormat, _events:EventFormat):Void{
+		PlayState.chart = _chart;
+		PlayState.events = _events;
 	}
 
 	inline public static function isInPlayState():Bool{

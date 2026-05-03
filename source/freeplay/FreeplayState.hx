@@ -1284,9 +1284,15 @@ class FreeplayState extends MusicBeatState
 		var r:Array<Int> = [];
 		var filesInDir = Utils.readDirectory("assets/data/songs/" + song.toLowerCase() + "/");
 
-		if(filesInDir.contains(song.toLowerCase() + "-easy.json")){ r.push(0); }
-		if(filesInDir.contains(song.toLowerCase() + ".json")){ r.push(1); }
-		if(filesInDir.contains(song.toLowerCase() + "-hard.json")){ r.push(2); }
+		if(filesInDir.contains("chart-easy.json"))	{ r.push(0); }
+		if(filesInDir.contains("chart-normal.json")){ r.push(1); }
+		if(filesInDir.contains("chart-hard.json"))	{ r.push(2); }
+		#if BACKWARD_COMPATIBILITY
+		if(filesInDir.contains(song.toLowerCase() + "-easy.json"))	{ r.push(0); }
+		if(filesInDir.contains(song.toLowerCase() + ".json"))		{ r.push(1); }
+		if(filesInDir.contains(song.toLowerCase() + "-hard.json"))	{ r.push(2); }
+		filesInDir = Utils.removeDuplicates(filesInDir);
+		#end
 
 		return r;
 	}

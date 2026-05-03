@@ -606,18 +606,14 @@ class ChartingState extends MusicBeatState
 		//Playtest song on PlayState.
 		if(FlxG.keys.anyJustPressed([ENTER]) && !panel.isAnythingFocused()){
 			pauseMusic();
-			PlayState.chart = chart;
-			PlayState.chart.notes = [];
-			notes.forEach((note) -> {
-				PlayState.chart.notes.push(note.generateNoteDefiniton());
-			});
-
+			generateChart();
+			
 			if(FlxG.keys.pressed.CONTROL){
 				PlayState.sectionStart = true;
 				PlayState.sectionStartTime = FlxG.sound.music.time;
 			}
 
-			PlayState.loadEvents = false;
+			PlayState.setSong(chart, PlayState.events);
 			PlayState.fromChartEditor = true;
 			ImageCache.refreshLocal();
 			switchState(new PlayState());
@@ -944,7 +940,7 @@ class ChartingState extends MusicBeatState
 	function convertSecondsToTime(time:Float):String{
 		var minutes:String = ""+Math.floor(time/60);
 		var seconds:String = ""+Math.floor(time%60);
-		var decimal:String = ""+truncateFloat(time - Math.floor(time), 2);
+		var decimal:String = ""+Utils.truncateFloat(time - Math.floor(time), 2);
 
 		if(decimal.contains(".")){
 			decimal = decimal.split(".")[1];
@@ -964,11 +960,11 @@ class ChartingState extends MusicBeatState
 		return r;
 	}
 
-	function truncateFloat( number:Float, precision:Int):Float{
-		var num = number;
-		num = num * Math.pow(10, precision);
-		num = Math.round(num)/Math.pow(10, precision);
-		return num;
+	function generateChart():Void{
+		chart.notes = [];
+		notes.forEach(function(note:ChartingNote){
+			chart.notes.push(note.generateNoteDefiniton());
+		});
 	}
 	
 }

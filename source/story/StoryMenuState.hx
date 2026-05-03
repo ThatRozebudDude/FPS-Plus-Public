@@ -434,16 +434,6 @@ class StoryMenuState extends MusicBeatState
 			PlayState.isStoryMode = true;
 			selectedWeek = true;
 
-			var diffic = "";
-
-			switch (curDifficulty)
-			{
-				case 0:
-					diffic = '-easy';
-				case 2:
-					diffic = '-hard';
-			}
-
 			PlayState.setupSong(PlayState.storyPlaylist[0], curDifficulty, true, "story");
 			PlayState.storyWeek = curWeek;
 
@@ -460,11 +450,10 @@ class StoryMenuState extends MusicBeatState
 				comboBreakCount: 0,
 			};
 
-			new FlxTimer().start(1, function(tmr:FlxTimer)
-			{
-				if (FlxG.sound.music != null)
+			new FlxTimer().start(1, function(tmr:FlxTimer){
+				if(FlxG.sound.music != null){
 					FlxG.sound.music.stop();
-				PlayState.loadEvents = true;
+				}
 				ImageCache.forceClearOnTransition = true;
 				switchState(new PlayState());
 			});

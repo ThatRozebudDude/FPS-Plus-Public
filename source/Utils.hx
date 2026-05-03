@@ -36,22 +36,15 @@ class Utils
 	public static final resultsTextCharacters = "AaBbCcDdEeFfGgHhiIJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz:1234567890.-'[]()!?";
 
 	public static function getTextInLines(path:String):Array<String>{
-		var daList:Array<String> = getText(path).trim().split('\n');
-
-		for (i in 0...daList.length){
-			daList[i] = daList[i].trim();
-		}
-
-		return daList;
+		var r:Array<String> = getText(path).trim().split('\n');
+		for (i in 0...r.length){ r[i] = r[i].trim(); }
+		return r;
 	}
 
 	public static function numberArray(max:Int, ?min = 0):Array<Int>{
-		var dumbArray:Array<Int> = [];
-		for (i in min...max)
-		{
-			dumbArray.push(i);
-		}
-		return dumbArray;
+		var r:Array<Int> = [];
+		for (i in min...max){ r.push(i); }
+		return r;
 	}
 
 	//find actual graphic mid point (for backwards compatanility with people who don't update flixel)
@@ -66,7 +59,6 @@ class Utils
 		#end
 	}
 
-	//the options menu requires the old one to work :[[[[[
 	public static inline function oldGetGraphicMidpoint(sprite:FlxSprite, ?point:FlxPoint):FlxPoint{
 		if (point == null){
 			point = FlxPoint.get();
@@ -155,6 +147,12 @@ class Utils
 
 	public static inline function sign(v:Float):Int {
 		return (v > 0 ? 1 : (v < 0 ? -1 : 0));
+	}
+	
+	public static function truncateFloat(number:Float, precision:Int):Float{
+		number = number * Math.pow(10, precision);
+		number = Math.round(number)/Math.pow(10, precision);
+		return number;
 	}
 
 	/**

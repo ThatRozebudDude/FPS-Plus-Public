@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.FlxSort;
 import haxe.Json;
 
 using StringTools;
@@ -35,14 +36,14 @@ typedef BPMDefinition = {
 
 typedef EventFormat = {
 	var meta:EventMeta;
-	var events:Array<EventDefiniton>;
+	var events:Array<EventDefinition>;
 }
 
 typedef EventMeta = {
 	var format:String;
 }
 
-typedef EventDefiniton = {
+typedef EventDefinition = {
 	var time:Float;
 	var lane:Int;
 	var tag:String;
@@ -53,8 +54,8 @@ class Chart
 
 	public static inline final CURRENT_CHART_FORMAT:String = "fpsplus_1";
 
-	public static function fromSong(song:String, difficulty:String = "normal"):ChartFormat{
-		var path = Paths.json(difficulty.toLowerCase(), "data/songs/" + song.toLowerCase());
+	public static function chartFromSong(song:String, difficulty:String = "normal"):ChartFormat{
+		var path = Paths.json("chart-" + difficulty.toLowerCase(), "data/songs/" + song.toLowerCase());
 		#if BACKWARD_COMPATIBILITY
 		if (!Utils.exists(path)){
 			path = Paths.json(song.toLowerCase() + (difficulty == "normal" ? "" : "-" + difficulty.toLowerCase()), "data/songs/" + song.toLowerCase());
@@ -62,7 +63,7 @@ class Chart
 		#end
 
 		if (!Utils.exists(path)){
-			trace("Chart of song: " + song + " difficulty: " + difficulty + " not found!");
+			trace("Chart for \"" + song + "\" with difficulty \"" + difficulty + "\" not found!");
 			return getEmptyChart();
 		}
 
@@ -71,10 +72,10 @@ class Chart
 			raw = raw.substr(0, raw.length - 1);
 		}
 
-		return fromRawJson(raw, song);
+		return chartFromRawJson(raw);
 	}
 
-	public static function fromRawJson(raw:String, ?song:String):ChartFormat{
+	public static function chartFromRawJson(raw:String):ChartFormat{
 		var chart:ChartFormat = getEmptyChart();
 		var chartJson:Dynamic = Json.parse(raw);
 
@@ -84,9 +85,10 @@ class Chart
 		}
 		#end
 
+		//This is where you'd do version upgrading with new formats in the future.
+
 		if(chartJson.meta.format != null)	{ chart.meta.format = chartJson.meta.format; }
 		if(chartJson.meta.song != null)		{ chart.meta.song = chartJson.meta.song; }
-		else if(song != null)				{ chartJson.meta.song = song; }
 		if(chartJson.meta.bpm != null)		{ chart.meta.bpm = chartJson.meta.bpm; }
 
 		if(chartJson.meta.player != null)	{ chart.meta.player = chartJson.meta.player; }
@@ -120,7 +122,7 @@ class Chart
 		var secStep:Int = 0;
 		var curBPM:Float = legacyChart.bpm;
 
-		for (section in legacyChart.notes){
+		for(section in legacyChart.notes){
 			if (section.changeBPM == true){ // somehow changeBPM is null in some charts
 				chart.meta.bpm.push({bpm: section.bpm, time: secTime});
 				curBPM = section.bpm;
@@ -129,7 +131,7 @@ class Chart
 			secTime += ((((60 / curBPM) * 1000) / 4) * section.lengthInSteps ?? 16);
 			secStep += section.lengthInSteps;
 
-			for (note in section.sectionNotes){
+			for(note in section.sectionNotes){
 				var player:Bool = true;
 				if ((!section.mustHitSection && note[1] < 4) || (section.mustHitSection && note[1] > 3)){
 					player = false;
@@ -166,6 +168,73 @@ class Chart
 				scroll: 1
 			},
 			notes: []
+		}
+	}
+
+	public static function eventsFromSong(song:String):EventFormat{
+		var path = Paths.json("events", "data/songs/" + song.toLowerCase());
+
+		if (!Utils.exists(path)){
+			trace("Events for \"" + song + "\" not found!");
+			return getEmptyEvents();
+		}
+
+		var raw = Utils.getText(path);
+		while (!raw.endsWith("}")){
+			raw = raw.substr(0, raw.length - 1);
+		}
+
+		return eventsFromRawJson(raw);
+	}
+
+	public static function eventsFromRawJson(raw:String):EventFormat{
+		var events:EventFormat = getEmptyEvents();
+		var eventsJson:Dynamic = Json.parse(raw);
+
+		#if BACKWARD_COMPATIBILITY
+		if(eventsJson.meta == null){
+			return convertLegacyEvents(eventsJson.events);
+		}
+		#end
+
+		//This is where you'd do version upgrading with new formats in the future.
+
+		if(eventsJson.meta.format != null)	{ events.meta.format = eventsJson.meta.format; }
+		if(eventsJson.notes != null)		{ events.events = eventsJson.meta.notes; }
+
+		return events;
+	}
+
+	public static function convertLegacyEvents(legacyEvents:LegacyEvents):EventFormat{
+		var events:EventFormat = getEmptyEvents();
+		events.meta.format = CURRENT_CHART_FORMAT;
+
+		for(event in legacyEvents.events){
+			events.events.push({
+				time: event[1],
+				lane: event[2],
+				tag: event[3]
+			});
+		}
+
+		events.events.sort(function(a:EventDefinition, b:EventDefinition):Int{
+			var r:Int = 0;
+			r = FlxSort.byValues(FlxSort.ASCENDING, a.time, b.time);
+			if(r == 0){
+				r = FlxSort.byValues(FlxSort.ASCENDING, a.lane, b.lane);
+			}
+			return r;
+		});
+
+		return events;
+	}
+
+	public static inline function getEmptyEvents():EventFormat{
+		return {
+			meta: {
+				format: CURRENT_CHART_FORMAT,
+			},
+			events: []
 		}
 	}
 }
