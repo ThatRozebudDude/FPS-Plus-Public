@@ -25,7 +25,6 @@ class CameraEvents extends Events
 		registerEvent({prefix: "camFocusCenter", eventFunction: camFocusCenter, description: CAM_FOCUS_CENTER_DESC});
 		
 		registerEvent({prefix: "toggleCamBop", eventFunction: toggleCamBop, description: TOGGLE_CAM_BOP_DESC});
-		registerEvent({prefix: "toggleCamMovement", eventFunction: toggleCamMovement, description: TOGGLE_CAM_MOVEMENT_DESC});
 		
 		registerEvent({prefix: "camBop", eventFunction: camBop, description: CAM_BOP_DESC});
 		registerEvent({prefix: "camBopBig", eventFunction: camBopBig, description: CAM_BOP_BIG_DESC});
@@ -64,10 +63,6 @@ class CameraEvents extends Events
 
 	function toggleCamBop(tag:String):Void{
 		playstate.autoCamBop = !playstate.autoCamBop;
-	}
-
-	function toggleCamMovement(tag:String):Void{
-		playstate.autoCam = !playstate.autoCam;
 	}
 	
 	function camBop(tag:String):Void{

@@ -1,0 +1,117 @@
+{
+	"events": [
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 0
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 4000
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 8000
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 12000
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 16000
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 20000
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 24000
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 28000
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 32000
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 36000
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 40000
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 44000
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 48000
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 52000
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 56000
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 60000
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 64000
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 68000
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 72000
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 76000
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 80000
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 84000
+		}
+	],
+	"meta": {
+		"format": "fpsplus_1"
+	}
+}

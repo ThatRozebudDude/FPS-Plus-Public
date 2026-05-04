@@ -1,630 +1,527 @@
 {
-	"events": {
-		"events": [
-			[
-				0,
-				0,
-				3,
-				"toggleCamMovement"
-			],
-			[
-				0,
-				0,
-				0,
-				"camFocusDad;0;0"
-			],
-			[
-				0,
-				46,
-				0,
-				"camZoom;1.05;32s;expoOut;true"
-			],
-			[
-				0,
-				93.1621621621634,
-				0,
-				"camBopFreq;1"
-			],
-			[
-				0,
-				1453.125,
-				1,
-				"dadAnimLockToggle"
-			],
-			[
-				1,
-				1500,
-				1,
-				"playAnim;dad;argh;false"
-			],
-			[
-				1,
-				1546,
-				0,
-				"camFocusBf;0;0"
-			],
-			[
-				1,
-				2156.25,
-				1,
-				"dadAnimLockToggle"
-			],
-			[
-				2,
-				3000,
-				0,
-				"camFocusDad;0;0"
-			],
-			[
-				3,
-				4500,
-				0,
-				"camFocusBf;0;0"
-			],
-			[
-				3,
-				5625,
-				1,
-				"playAnim;dad;ugh;false"
-			],
-			[
-				3,
-				5906.16216216216,
-				0,
-				"camBopFreq;2"
-			],
-			[
-				4,
-				6000,
-				0,
-				"camFocusDad;150;-10"
-			],
-			[
-				4,
-				6046,
-				0,
-				"camZoom;1;32s;expoOut;true"
-			],
-			[
-				6,
-				10312.1621621622,
-				0,
-				"camBopFreq;2"
-			],
-			[
-				6,
-				10453,
-				0,
-				"camFocusDad;0;0"
-			],
-			[
-				6,
-				10453.125,
-				1,
-				"dadAnimLockToggle"
-			],
-			[
-				7,
-				10500,
-				1,
-				"playAnim;dad;laugh;false"
-			],
-			[
-				7,
-				10546,
-				0,
-				"camZoom;1.05;32s;expoOut;true"
-			],
-			[
-				7,
-				11531.25,
-				1,
-				"dadAnimLockToggle"
-			],
-			[
-				7,
-				11625,
-				1,
-				"playAnim;dad;idle"
-			],
-			[
-				9,
-				13875,
-				0,
-				"camFocusDad;150;-10"
-			],
-			[
-				9,
-				13921,
-				0,
-				"camZoom;1;32s;expoOut;true"
-			],
-			[
-				9,
-				14859.1621621622,
-				0,
-				"camBopFreq;2"
-			],
-			[
-				10,
-				15000,
-				0,
-				"camFocusDad;0;0"
-			],
-			[
-				10,
-				15046,
-				0,
-				"camZoom;1.05;32s;expoOut;true"
-			],
-			[
-				11,
-				16875,
-				0,
-				"camFocusDad;150;-10"
-			],
-			[
-				11,
-				16921,
-				0,
-				"camZoom;1;32s;expoOut;true"
-			],
-			[
-				12,
-				18000,
-				0,
-				"camFocusBf;0;0"
-			],
-			[
-				12,
-				18046,
-				0,
-				"camZoom;1.05;32s;expoOut;true"
-			],
-			[
-				14,
-				21000,
-				0,
-				"camZoom;1.1;32s;expoOut;true"
-			],
-			[
-				16,
-				24000,
-				0,
-				"camFocusDad;0;0"
-			],
-			[
-				16,
-				24046,
-				0,
-				"camZoom;1.05;32s;expoOut;true"
-			],
-			[
-				20,
-				30375,
-				0,
-				"camFocusDad;150;-10"
-			],
-			[
-				20,
-				30421,
-				0,
-				"camZoom;1;32s;expoOut;true"
-			],
-			[
-				22,
-				33000,
-				0,
-				"camFocusBf;0;0"
-			],
-			[
-				22,
-				33046,
-				0,
-				"camZoom;1.05;32s;expoOut;true"
-			],
-			[
-				23,
-				35906.1621621622,
-				0,
-				"camBopFreq;1"
-			],
-			[
-				24,
-				36000,
-				0,
-				"camFocusDad;0;0"
-			],
-			[
-				24,
-				37453.125,
-				1,
-				"dadAnimLockToggle"
-			],
-			[
-				25,
-				37500,
-				1,
-				"playAnim;dad;ugh;false"
-			],
-			[
-				25,
-				37687,
-				0,
-				"camFocusDad;0;0"
-			],
-			[
-				25,
-				38062.5,
-				1,
-				"dadAnimLockToggle"
-			],
-			[
-				26,
-				39000,
-				0,
-				"camFocusDad;0;0"
-			],
-			[
-				28,
-				42000,
-				0,
-				"camFocusBf;0;0"
-			],
-			[
-				29,
-				43500,
-				0,
-				"camZoom;1.1;32s;expoOut;true"
-			],
-			[
-				29,
-				44625,
-				0,
-				"camZoom;1.05;32s;expoOut;true"
-			],
-			[
-				30,
-				45000,
-				0,
-				"camFocusDad;150;-10"
-			],
-			[
-				30,
-				45046,
-				0,
-				"camZoom;1;32s;expoOut;true"
-			],
-			[
-				31,
-				47625,
-				3,
-				"muteInst"
-			],
-			[
-				31,
-				47906.1621621622,
-				0,
-				"camBopFreq;2"
-			],
-			[
-				32,
-				48000,
-				0,
-				"camFocusDad;0;0"
-			],
-			[
-				32,
-				48000,
-				3,
-				"playInst"
-			],
-			[
-				32,
-				48046,
-				0,
-				"camZoom;1.04;32s;expoOut;true"
-			],
-			[
-				32,
-				48750,
-				0,
-				"camFocusCenter"
-			],
-			[
-				32,
-				48750,
-				1,
-				"camZoom;1.08;32s;expoOut;true"
-			],
-			[
-				32,
-				49031.25,
-				2,
-				"playVocals;bf"
-			],
-			[
-				32,
-				49031.25,
-				1,
-				"bfAnimLockToggle"
-			],
-			[
-				32,
-				49125,
-				1,
-				"playAnim;bf;burpBig"
-			],
-			[
-				32,
-				49125,
-				2,
-				"camFocusBf"
-			],
-			[
-				32,
-				49125,
-				0,
-				"camZoom;1.16;8s;expoOut;true"
-			],
-			[
-				32,
-				49125,
-				3,
-				"muteInst"
-			],
-			[
-				32,
-				49453,
-				0,
-				"camZoom;1.04;32s;expoOut;true"
-			],
-			[
-				33,
-				49500,
-				1,
-				"playAnim;dad;argh;false"
-			],
-			[
-				33,
-				49500,
-				0,
-				"camFocusCenter"
-			],
-			[
-				33,
-				49500,
-				3,
-				"playInst"
-			],
-			[
-				33,
-				50250,
-				1,
-				"playAnim;dad;beat it;false"
-			],
-			[
-				33,
-				50250,
-				2,
-				"camFocusDad;0;0"
-			],
-			[
-				33,
-				50250,
-				0,
-				"camZoom;1.1;16s;expoOut;true"
-			],
-			[
-				33,
-				50531.25,
-				1,
-				"bfAnimLockToggle"
-			],
-			[
-				33,
-				50625,
-				0,
-				"camFocusCenter"
-			],
-			[
-				33,
-				50625,
-				1,
-				"camZoom;1.16;16s;expoOut;true"
-			],
-			[
-				34,
-				51000,
-				0,
-				"camZoom;1.05;32s;expoOut;true"
-			],
-			[
-				34,
-				51000,
-				2,
-				"camFocusDad;0;0"
-			],
-			[
-				35,
-				53906.1621621622,
-				0,
-				"camBopFreq;1"
-			],
-			[
-				36,
-				54000,
-				0,
-				"camFocusDad;150;-10"
-			],
-			[
-				36,
-				54046,
-				0,
-				"camZoom;1;32s;expoOut;true"
-			],
-			[
-				36,
-				55406.1621621622,
-				0,
-				"camBopFreq;2"
-			],
-			[
-				37,
-				55500,
-				0,
-				"camFocusBf;0;0"
-			],
-			[
-				37,
-				55546,
-				0,
-				"camZoom;1.05;32s;expoOut;true"
-			],
-			[
-				38,
-				57000,
-				0,
-				"camZoom;1.1;32s;expoOut;true"
-			],
-			[
-				39,
-				58500,
-				0,
-				"camZoom;1.05;32s;expoOut;true"
-			],
-			[
-				39,
-				59906.1621621622,
-				0,
-				"camBopFreq;1"
-			],
-			[
-				40,
-				60000,
-				0,
-				"camFocusDad;150;-10"
-			],
-			[
-				40,
-				60046,
-				0,
-				"camZoom;1;32s;expoOut;true"
-			],
-			[
-				41,
-				62906.1621621622,
-				0,
-				"camBopFreq;2"
-			],
-			[
-				44,
-				66000,
-				0,
-				"camFocusBf;0;0"
-			],
-			[
-				44,
-				66046,
-				0,
-				"camZoom;1.05;32s;expoOut;true"
-			],
-			[
-				44,
-				66750,
-				0,
-				"camZoom;1;32s;expoOut;true"
-			],
-			[
-				45,
-				67500,
-				0,
-				"camZoom;1.04;32s;expoOut;true"
-			],
-			[
-				45,
-				68250,
-				0,
-				"camZoom;1.08;32s;expoOut;true"
-			],
-			[
-				46,
-				69000,
-				0,
-				"camZoom;1.12;32s;expoOut;true"
-			],
-			[
-				46,
-				69750,
-				0,
-				"camZoom;1.16;32s;expoOut;true"
-			],
-			[
-				47,
-				70500,
-				0,
-				"camZoom;1.25;32s;expoOut;true"
-			],
-			[
-				47,
-				71906.1621621622,
-				0,
-				"camBopFreq;1"
-			],
-			[
-				48,
-				72000,
-				0,
-				"camFocusDad;150;-10"
-			],
-			[
-				48,
-				72046,
-				0,
-				"camZoom;1;32s;expoOut;true"
-			],
-			[
-				51,
-				77625,
-				1,
-				"playAnim;dad;ugh;false"
-			],
-			[
-				52,
-				78000,
-				0,
-				"camFocusBf;0;0"
-			],
-			[
-				52,
-				78046,
-				0,
-				"camZoom;1.05;32s;expoOut;true"
-			],
-			[
-				53,
-				79500,
-				0,
-				"camZoom;1.1;32s;expoOut;true"
-			],
-			[
-				54,
-				81000,
-				0,
-				"camZoom;1.05;32s;expoOut;true"
-			],
-			[
-				55,
-				82500,
-				0,
-				"camZoom;1.1;32s;expoOut;true"
-			],
-			[
-				55,
-				83906.1621621622,
-				0,
-				"camBopFreq;1"
-			]
-		]
+	"events": [
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 0
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 46
+		},
+		{
+			"tag": "camBopFreq;1",
+			"lane": 0,
+			"time": 93.1621621621634
+		},
+		{
+			"tag": "dadAnimLockToggle",
+			"lane": 1,
+			"time": 1453.125
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 1500
+		},
+		{
+			"tag": "playAnim;dad;argh;false",
+			"lane": 1,
+			"time": 1500
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 1546
+		},
+		{
+			"tag": "dadAnimLockToggle",
+			"lane": 1,
+			"time": 2156.25
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 3000
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 4500
+		},
+		{
+			"tag": "playAnim;dad;ugh;false",
+			"lane": 1,
+			"time": 5625
+		},
+		{
+			"tag": "camBopFreq;2",
+			"lane": 0,
+			"time": 5906.16216216216
+		},
+		{
+			"tag": "camFocusDad;150;-10",
+			"lane": 0,
+			"time": 6000
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 6046
+		},
+		{
+			"tag": "camBopFreq;2",
+			"lane": 0,
+			"time": 10312.1621621622
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 10453
+		},
+		{
+			"tag": "dadAnimLockToggle",
+			"lane": 1,
+			"time": 10453.125
+		},
+		{
+			"tag": "playAnim;dad;laugh;false",
+			"lane": 1,
+			"time": 10500
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 10546
+		},
+		{
+			"tag": "dadAnimLockToggle",
+			"lane": 1,
+			"time": 11531.25
+		},
+		{
+			"tag": "playAnim;dad;idle",
+			"lane": 1,
+			"time": 11625
+		},
+		{
+			"tag": "camFocusDad;150;-10",
+			"lane": 0,
+			"time": 13875
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 13921
+		},
+		{
+			"tag": "camBopFreq;2",
+			"lane": 0,
+			"time": 14859.1621621622
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 15000
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 15046
+		},
+		{
+			"tag": "camFocusDad;150;-10",
+			"lane": 0,
+			"time": 16875
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 16921
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 18000
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 18046
+		},
+		{
+			"tag": "camZoom;1.1;32s;expoOut;true",
+			"lane": 0,
+			"time": 21000
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 24000
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 24046
+		},
+		{
+			"tag": "camFocusDad;150;-10",
+			"lane": 0,
+			"time": 30375
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 30421
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 33000
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 33046
+		},
+		{
+			"tag": "camBopFreq;1",
+			"lane": 0,
+			"time": 35906.1621621622
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 36000
+		},
+		{
+			"tag": "dadAnimLockToggle",
+			"lane": 1,
+			"time": 37453.125
+		},
+		{
+			"tag": "playAnim;dad;ugh;false",
+			"lane": 1,
+			"time": 37500
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 37687
+		},
+		{
+			"tag": "dadAnimLockToggle",
+			"lane": 1,
+			"time": 38062.5
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 39000
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 42000
+		},
+		{
+			"tag": "camZoom;1.1;32s;expoOut;true",
+			"lane": 0,
+			"time": 43500
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 44625
+		},
+		{
+			"tag": "camFocusDad;150;-10",
+			"lane": 0,
+			"time": 45000
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 45046
+		},
+		{
+			"tag": "muteInst",
+			"lane": 3,
+			"time": 47625
+		},
+		{
+			"tag": "camBopFreq;2",
+			"lane": 0,
+			"time": 47906.1621621622
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 48000
+		},
+		{
+			"tag": "playInst",
+			"lane": 3,
+			"time": 48000
+		},
+		{
+			"tag": "camZoom;1.04;32s;expoOut;true",
+			"lane": 0,
+			"time": 48046
+		},
+		{
+			"tag": "camFocusCenter",
+			"lane": 0,
+			"time": 48750
+		},
+		{
+			"tag": "camZoom;1.08;32s;expoOut;true",
+			"lane": 1,
+			"time": 48750
+		},
+		{
+			"tag": "bfAnimLockToggle",
+			"lane": 1,
+			"time": 49031.25
+		},
+		{
+			"tag": "playVocals;bf",
+			"lane": 2,
+			"time": 49031.25
+		},
+		{
+			"tag": "camZoom;1.16;8s;expoOut;true",
+			"lane": 0,
+			"time": 49125
+		},
+		{
+			"tag": "playAnim;bf;burpBig",
+			"lane": 1,
+			"time": 49125
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 2,
+			"time": 49125
+		},
+		{
+			"tag": "muteInst",
+			"lane": 3,
+			"time": 49125
+		},
+		{
+			"tag": "camZoom;1.04;32s;expoOut;true",
+			"lane": 0,
+			"time": 49453
+		},
+		{
+			"tag": "camFocusCenter",
+			"lane": 0,
+			"time": 49500
+		},
+		{
+			"tag": "playAnim;dad;argh;false",
+			"lane": 1,
+			"time": 49500
+		},
+		{
+			"tag": "playInst",
+			"lane": 3,
+			"time": 49500
+		},
+		{
+			"tag": "camZoom;1.1;16s;expoOut;true",
+			"lane": 0,
+			"time": 50250
+		},
+		{
+			"tag": "playAnim;dad;beat it;false",
+			"lane": 1,
+			"time": 50250
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 2,
+			"time": 50250
+		},
+		{
+			"tag": "bfAnimLockToggle",
+			"lane": 1,
+			"time": 50531.25
+		},
+		{
+			"tag": "camFocusCenter",
+			"lane": 0,
+			"time": 50625
+		},
+		{
+			"tag": "camZoom;1.16;16s;expoOut;true",
+			"lane": 1,
+			"time": 50625
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 51000
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 2,
+			"time": 51000
+		},
+		{
+			"tag": "camBopFreq;1",
+			"lane": 0,
+			"time": 53906.1621621622
+		},
+		{
+			"tag": "camFocusDad;150;-10",
+			"lane": 0,
+			"time": 54000
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 54046
+		},
+		{
+			"tag": "camBopFreq;2",
+			"lane": 0,
+			"time": 55406.1621621622
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 55500
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 55546
+		},
+		{
+			"tag": "camZoom;1.1;32s;expoOut;true",
+			"lane": 0,
+			"time": 57000
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 58500
+		},
+		{
+			"tag": "camBopFreq;1",
+			"lane": 0,
+			"time": 59906.1621621622
+		},
+		{
+			"tag": "camFocusDad;150;-10",
+			"lane": 0,
+			"time": 60000
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 60046
+		},
+		{
+			"tag": "camBopFreq;2",
+			"lane": 0,
+			"time": 62906.1621621622
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 66000
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 66046
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 66750
+		},
+		{
+			"tag": "camZoom;1.04;32s;expoOut;true",
+			"lane": 0,
+			"time": 67500
+		},
+		{
+			"tag": "camZoom;1.08;32s;expoOut;true",
+			"lane": 0,
+			"time": 68250
+		},
+		{
+			"tag": "camZoom;1.12;32s;expoOut;true",
+			"lane": 0,
+			"time": 69000
+		},
+		{
+			"tag": "camZoom;1.16;32s;expoOut;true",
+			"lane": 0,
+			"time": 69750
+		},
+		{
+			"tag": "camZoom;1.25;32s;expoOut;true",
+			"lane": 0,
+			"time": 70500
+		},
+		{
+			"tag": "camBopFreq;1",
+			"lane": 0,
+			"time": 71906.1621621622
+		},
+		{
+			"tag": "camFocusDad;150;-10",
+			"lane": 0,
+			"time": 72000
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 72046
+		},
+		{
+			"tag": "playAnim;dad;ugh;false",
+			"lane": 1,
+			"time": 77625
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 78000
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 78046
+		},
+		{
+			"tag": "camZoom;1.1;32s;expoOut;true",
+			"lane": 0,
+			"time": 79500
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 81000
+		},
+		{
+			"tag": "camZoom;1.1;32s;expoOut;true",
+			"lane": 0,
+			"time": 82500
+		},
+		{
+			"tag": "camBopFreq;1",
+			"lane": 0,
+			"time": 83906.1621621622
+		}
+	],
+	"meta": {
+		"format": "fpsplus_1"
 	}
 }

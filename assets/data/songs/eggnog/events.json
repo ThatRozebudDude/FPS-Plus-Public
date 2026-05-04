@@ -1,48 +1,142 @@
 {
-	"events": {
-		"events": [
-			[
-				10,
-				16000,
-				0,
-				"setAnimSet;dad;alt"
-			],
-			[
-				18,
-				28800,
-				0,
-				"setAnimSet;dad;"
-			],
-			[
-				26,
-				41600,
-				0,
-				"setAnimSet;dad;alt"
-			],
-			[
-				30,
-				48000,
-				0,
-				"setAnimSet;dad;"
-			],
-			[
-				38,
-				60800,
-				0,
-				"setAnimSet;dad;alt"
-			],
-			[
-				46,
-				73600,
-				0,
-				"setAnimSet;dad;"
-			],
-			[
-				54,
-				86400,
-				0,
-				"setAnimSet;dad;alt"
-			]
-		]
+	"events": [
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 0
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 9600
+		},
+		{
+			"tag": "setAnimSet;dad;alt",
+			"lane": 0,
+			"time": 16000
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 16000
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 22400
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 28800
+		},
+		{
+			"tag": "setAnimSet;dad;",
+			"lane": 0,
+			"time": 28800
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 35200
+		},
+		{
+			"tag": "setAnimSet;dad;alt",
+			"lane": 0,
+			"time": 41600
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 41600
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 43200
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 44800
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 46400
+		},
+		{
+			"tag": "setAnimSet;dad;",
+			"lane": 0,
+			"time": 48000
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 48000
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 54400
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 60800
+		},
+		{
+			"tag": "setAnimSet;dad;alt",
+			"lane": 0,
+			"time": 60800
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 64000
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 67200
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 70400
+		},
+		{
+			"tag": "setAnimSet;dad;",
+			"lane": 0,
+			"time": 73600
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 86400
+		},
+		{
+			"tag": "setAnimSet;dad;alt",
+			"lane": 0,
+			"time": 86400
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 88000
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 89600
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 91200
+		}
+	],
+	"meta": {
+		"format": "fpsplus_1"
 	}
 }

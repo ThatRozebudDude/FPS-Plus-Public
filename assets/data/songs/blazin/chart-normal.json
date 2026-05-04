@@ -1,0 +1,3001 @@
+{
+	"notes": [
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 0
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 333.333333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 500
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 666.666666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 833.333333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 1333.33333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 1666.66666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 2000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 2166.66666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 2333.33333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockspin",
+			"length": 0,
+			"player": true,
+			"time": 2666.66666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 3000
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 3166.66666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 3333.33333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 3500
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 4000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 4333.33333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 4666.66666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 4833.33333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 5000
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 5166.66666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 5333.33333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 5666.66666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 5833.33333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 6000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 6166.66666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 6666.66666666666
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 6833.33333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 7000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 7333.33333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 7500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 7666.66666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 8000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 8333.33333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 8500
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 8666.66666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 8833.33333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-dodgehigh",
+			"length": 0,
+			"player": true,
+			"time": 9333.33333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 9666.66666666666
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 10000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 10166.6666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-darnelluppercutprep",
+			"length": 0,
+			"player": false,
+			"time": 10333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-darnelluppercut",
+			"length": 0,
+			"player": false,
+			"time": 10666.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 11000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 11166.6666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 11500
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 12000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 12333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 12833.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 13000
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 13333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 13666.6666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 13833.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 14166.6666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 14666.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 15000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-hitlow",
+			"length": 0,
+			"player": false,
+			"time": 15041.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 15083.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 15500
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-picouppercutprep",
+			"length": 0,
+			"player": true,
+			"time": 15666.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-picouppercut",
+			"length": 0,
+			"player": true,
+			"time": 16000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 16333.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 16500
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 16833.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 17333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blocklow",
+			"length": 0,
+			"player": true,
+			"time": 17500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 17666.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 18166.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hitlow",
+			"length": 0,
+			"player": false,
+			"time": 18333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 18666.6666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 19000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 19166.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 19500
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 20000
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 20333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 20500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 20666.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 20833.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 21000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-darnelluppercutprep",
+			"length": 0,
+			"player": false,
+			"time": 21166.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-darnelluppercut",
+			"length": 0,
+			"player": false,
+			"time": 21333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 21666.6666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 21833.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 22166.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 22333.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 22666.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchlowspin",
+			"length": 0,
+			"player": true,
+			"time": 23000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 23500
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 23666.6666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 24000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 24333.3333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 24500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 24833.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 25333.3333333334
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 25666.6666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 26166.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 26333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-picouppercutprep",
+			"length": 0,
+			"player": true,
+			"time": 26500
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-picouppercut",
+			"length": 0,
+			"player": true,
+			"time": 26666.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 27000.0000000001
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 27166.6666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 27500.0000000001
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 27666.6666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 28000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 28333.3333333334
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 28833.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 29000
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 29125
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 29250
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 29333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 29500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 29666.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 29833.3333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 30166.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 30666.6666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-fakeout",
+			"length": 0,
+			"player": true,
+			"time": 31166.6666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-taunt",
+			"length": 0,
+			"player": true,
+			"time": 31666.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 32000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 32333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 32500
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 32666.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 32833.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 33333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 33500
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 33666.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 34000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 34166.6666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 34333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 34666.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 35000
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 35166.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 35333.3333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 35500
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 36000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 36333.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 36666.6666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 36833.3333333334
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 37000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 37166.6666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-idle",
+			"length": 0,
+			"player": false,
+			"time": 37666.6666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 42666.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 43000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 43166.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 43500
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 44000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 44166.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 44333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 44833.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 45000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 45333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 45666.6666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 45833.3333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 46166.6666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 46666.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 47000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 47500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 47666.6666666666
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 47833.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlowblocked",
+			"length": 0,
+			"player": true,
+			"time": 48000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 48333.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 48500
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 48583.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 48833.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 49000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 49333.3333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 49666.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 50166.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-hitlow",
+			"length": 0,
+			"player": false,
+			"time": 50333.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 50666.6666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 51000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgehigh",
+			"length": 0,
+			"player": true,
+			"time": 51166.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 51500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 52000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 52333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 52833.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 53000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hitlow",
+			"length": 0,
+			"player": false,
+			"time": 53166.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 53333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hitlow",
+			"length": 0,
+			"player": false,
+			"time": 53375
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 53416.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hitlow",
+			"length": 0,
+			"player": false,
+			"time": 53458.3333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 53666.6666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 53833.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 54166.6666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 54666.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 54833.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 55000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 55250
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 55500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowspin",
+			"length": 0,
+			"player": true,
+			"time": 55666.6666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 56000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 56333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 56500
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 56833.3333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 57083.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 57333.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 57583.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 57666.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 58166.6666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 58333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 58416.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 58500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 58666.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": true,
+			"time": 58833.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 59000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 59166.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 59333.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 59500
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 59666.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-fakeout",
+			"length": 0,
+			"player": true,
+			"time": 60000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-taunt",
+			"length": 0,
+			"player": true,
+			"time": 60333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 60833.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-hitlow",
+			"length": 0,
+			"player": false,
+			"time": 61000
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 61333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 61666.6666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 61833.3333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 62166.6666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 62666.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 63000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 63500
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-hitlow",
+			"length": 0,
+			"player": false,
+			"time": 63666.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 63833.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 64000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 64083.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 64333.3333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 64500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 64833.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 65333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 65500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 65666.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgehigh",
+			"length": 0,
+			"player": true,
+			"time": 65916.6666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-picouppercutprep",
+			"length": 0,
+			"player": true,
+			"time": 66166.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-picouppercut",
+			"length": 0,
+			"player": true,
+			"time": 66333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 66666.6666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 67000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 67166.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 67500
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 67750
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 68000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 68250
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighspin",
+			"length": 0,
+			"player": true,
+			"time": 68333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 68666.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 68833.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 69000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-dodgehigh",
+			"length": 0,
+			"player": true,
+			"time": 69166.6666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlowblocked",
+			"length": 0,
+			"player": true,
+			"time": 69333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 69666.6666666666
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 69833.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 69916.6666666666
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 70166.6666666666
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 70333.3333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 70666.6666666666
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 71000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 71500
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-hitlow",
+			"length": 0,
+			"player": false,
+			"time": 71666.6666666666
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 72000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 72333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgehigh",
+			"length": 0,
+			"player": true,
+			"time": 72500
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 72833.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 73333.3333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 73666.6666666666
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 74166.6666666666
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 74333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hitlow",
+			"length": 0,
+			"player": false,
+			"time": 74500
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 74666.6666666666
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hitlow",
+			"length": 0,
+			"player": false,
+			"time": 74708.3333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 74750
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hitlow",
+			"length": 0,
+			"player": false,
+			"time": 74791.6666666666
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 75000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 75166.6666666666
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 75500
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 76000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 76166.6666666666
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 76333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 76583.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 76833.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowspin",
+			"length": 0,
+			"player": true,
+			"time": 77000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 77333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 77666.6666666666
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 77833.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 78166.6666666666
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 78416.6666666666
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 78666.6666666666
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 78916.6666666666
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 79000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 79500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 79666.6666666666
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 79833.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 80000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": true,
+			"time": 80166.6666666666
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 80333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 80500
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 80666.6666666666
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 80833.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 81000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-fakeout",
+			"length": 0,
+			"player": true,
+			"time": 81333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-taunt",
+			"length": 0,
+			"player": true,
+			"time": 81666.6666666666
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 82166.6666666666
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-hitlow",
+			"length": 0,
+			"player": false,
+			"time": 82333.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 82666.6666666666
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 83000
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 83166.6666666666
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 83500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 84000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 84333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 84833.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-hitlow",
+			"length": 0,
+			"player": false,
+			"time": 85000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 85166.6666666666
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 85333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 85416.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 85666.6666666666
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 85833.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 86166.6666666666
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 86666.6666666666
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 86833.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 87000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgehigh",
+			"length": 0,
+			"player": true,
+			"time": 87250
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-picouppercutprep",
+			"length": 0,
+			"player": true,
+			"time": 87500
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-picouppercut",
+			"length": 0,
+			"player": true,
+			"time": 87666.6666666666
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 88000
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 88333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 88500
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 88833.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 89083.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 89333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 89583.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighspin",
+			"length": 0,
+			"player": true,
+			"time": 89666.6666666666
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 90000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 90166.6666666666
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 90333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 90416.6666666666
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-darnelluppercutprep",
+			"length": 0,
+			"player": false,
+			"time": 90500
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-darnelluppercut",
+			"length": 0,
+			"player": false,
+			"time": 90666.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 91000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 91166.6666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 91500
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 92000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 92333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 92833.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 93000
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 93333.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 93666.6666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 93833.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 94166.6666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 94666.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 95000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-hitlow",
+			"length": 0,
+			"player": false,
+			"time": 95041.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 95083.3333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 95500
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-picouppercutprep",
+			"length": 0,
+			"player": true,
+			"time": 95666.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-picouppercut",
+			"length": 0,
+			"player": true,
+			"time": 96000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 96333.3333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 96500
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 96833.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 97333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 97500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 97666.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 98166.6666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hitlow",
+			"length": 0,
+			"player": false,
+			"time": 98333.3333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 98666.6666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 99000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 99166.6666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 99500
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 100000
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 100333.333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 100500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlow",
+			"length": 0,
+			"player": true,
+			"time": 100666.666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 100833.333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 101000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-darnelluppercutprep",
+			"length": 0,
+			"player": false,
+			"time": 101166.666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-darnelluppercut",
+			"length": 0,
+			"player": false,
+			"time": 101333.333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 101666.666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 101833.333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 102166.666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 102333.333333333
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 102666.666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchlowspin",
+			"length": 0,
+			"player": true,
+			"time": 103000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 103500
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 103666.666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 104000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 104333.333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 104500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": true,
+			"time": 104833.333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 105333.333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 105666.666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 106166.666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 106333.333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-picouppercutprep",
+			"length": 0,
+			"player": true,
+			"time": 106500
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-picouppercut",
+			"length": 0,
+			"player": true,
+			"time": 106666.666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 107000
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 107166.666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 107500
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 107666.666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 108000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 108333.333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 108833.333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 109000
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 109125
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 109250
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 109333.333333333
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 109500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 109666.666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 109833.333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 110166.666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 110666.666666667
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-fakeout",
+			"length": 0,
+			"player": true,
+			"time": 111166.666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-taunt",
+			"length": 0,
+			"player": true,
+			"time": 111666.666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-hithigh",
+			"length": 0,
+			"player": false,
+			"time": 112000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 112333.333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 112500
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 112666.666666667
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 112833.333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 113333.333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 113666.666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 114000
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 114166.666666667
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 114333.333333333
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-blockspin",
+			"length": 0,
+			"player": true,
+			"time": 114666.666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchlowdodged",
+			"length": 0,
+			"player": true,
+			"time": 115000
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 115166.666666667
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-punchhigh",
+			"length": 0,
+			"player": true,
+			"time": 115333.333333333
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-blockhigh",
+			"length": 0,
+			"player": true,
+			"time": 115500
+		},
+		{
+			"direction": 0,
+			"tag": "weekend-1-punchhighblocked",
+			"length": 0,
+			"player": true,
+			"time": 116000
+		},
+		{
+			"direction": 3,
+			"tag": "weekend-1-dodgelow",
+			"length": 0,
+			"player": true,
+			"time": 116500
+		},
+		{
+			"direction": 1,
+			"tag": "weekend-1-picouppercutprep",
+			"length": 0,
+			"player": true,
+			"time": 117000
+		},
+		{
+			"direction": 2,
+			"tag": "weekend-1-picouppercut",
+			"length": 0,
+			"player": true,
+			"time": 117333.333333333
+		}
+	],
+	"meta": {
+		"speaker": "Nene",
+		"opponent": "DarnellBlazin",
+		"player": "PicoBlazin",
+		"song": "Blazin",
+		"format": "fpsplus_1",
+		"stage": "PhillyBlazin",
+		"bpm": [
+			{
+				"time": 0,
+				"bpm": 180
+			}
+		],
+		"scroll": 2.4
+	}
+}

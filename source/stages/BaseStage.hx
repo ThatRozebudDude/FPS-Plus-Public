@@ -44,7 +44,7 @@ class BaseStage extends Script
 	public var bfStart:FlxPoint = new FlxPoint(975.5, 862);
 	public var gfStart:FlxPoint = new FlxPoint(751.5, 778);
 
-	public var cameraMovementEnabled:Bool = true;
+	#if BACKWARD_COMPATIBILITY public var cameraMovementEnabled:Bool = true; #end
 	public var extraCameraMovementAmount:Null<Float> = null; //Leave null for PlayState default.
 	public var cameraStartPosition:FlxPoint; //Leave null for PlayState default.
 	public var globalCameraOffset:FlxPoint = new FlxPoint();

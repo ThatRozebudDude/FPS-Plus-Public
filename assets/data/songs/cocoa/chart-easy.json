@@ -1,0 +1,1972 @@
+{
+	"notes": [
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 0
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 600
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 900
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 1350
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 1650
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 2100
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 2400
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 3000
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 3300
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 3750
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 4050
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 4500
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 4800
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 5100
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 5700
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 6000
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 6300
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 6600
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 6900
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 7500
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 7800
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 8100
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 8400
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 8700
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 9000
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 9300
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 9600
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 10200
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 10500
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 10950
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 11250
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 11700
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 12000
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 12600
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 12900
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 13350
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 13650
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 14100
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 14400
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 14700
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 15300
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 15600
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 15900
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 16200
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 16500
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 17100
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 17400
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 17700
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 18000
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 18300
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 18600
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 18900
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 1,
+			"player": false,
+			"time": 19500
+		},
+		{
+			"direction": 1,
+			"tag": "mom",
+			"length": 3,
+			"player": false,
+			"time": 19800
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 7,
+			"player": false,
+			"time": 20400
+		},
+		{
+			"direction": 1,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 22500
+		},
+		{
+			"direction": 1,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 22800
+		},
+		{
+			"direction": 1,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 23100
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 23400
+		},
+		{
+			"direction": 1,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 23700
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 24000
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 24300
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 24900
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 25200
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 25500
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 25800
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 26100
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 26700
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 27000
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 27300
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 27600
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 27900
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 28200
+		},
+		{
+			"direction": 1,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 28500
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 4,
+			"player": false,
+			"time": 28800
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 1,
+			"player": true,
+			"time": 29100
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 3,
+			"player": true,
+			"time": 29400
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 7,
+			"player": true,
+			"time": 30000
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 32100
+		},
+		{
+			"direction": 1,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 32400
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 32700
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 33000
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 33300
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 33600
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 33900
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 34500
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 34800
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 35100
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 35400
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 35700
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 36300
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 36600
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 36900
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 37200
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 37500
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 37800
+		},
+		{
+			"direction": 1,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 38100
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 39000
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 39450
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 40050
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 40500
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 40800
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 41400
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 41850
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 42450
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 42900
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 43200
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 43800
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 44250
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 44850
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 45300
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 45600
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 46050
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 46200
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 46500
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 46950
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 47100
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 47400
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 47550
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 48600
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 49050
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 49650
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 50100
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 50400
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 51000
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 51450
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 52050
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 52500
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 52800
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 53400
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 53850
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 54450
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 54900
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 55200
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 55650
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 55800
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 56100
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 56550
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 56700
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 57000
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 57150
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 57750
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 3,
+			"player": false,
+			"time": 58200
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 3,
+			"player": false,
+			"time": 58800
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 1,
+			"player": false,
+			"time": 59400
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 5,
+			"player": false,
+			"time": 59700
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 2,
+			"player": false,
+			"time": 60600
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 3,
+			"player": false,
+			"time": 61200
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 3,
+			"player": false,
+			"time": 61800
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 62400
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 62700
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 63000
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 63300
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 63600
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 63900
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 64200
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 64500
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 64800
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 65100
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 65400
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 65700
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 66000
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 66300
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 66600
+		},
+		{
+			"direction": 1,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 66900
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 67350
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 3,
+			"player": true,
+			"time": 67800
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 3,
+			"player": true,
+			"time": 68400
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 1,
+			"player": true,
+			"time": 69000
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 5,
+			"player": true,
+			"time": 69300
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 2,
+			"player": true,
+			"time": 70200
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 3,
+			"player": true,
+			"time": 70800
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 3,
+			"player": true,
+			"time": 71400
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 72000
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 72300
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 72600
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 72900
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 73200
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 73500
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 73800
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 74100
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 74400
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 74700
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 75000
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 75300
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 75600
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 75900
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 76200
+		},
+		{
+			"direction": 1,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 76500
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 76800
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 77400
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 77700
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 78150
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 78450
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 78900
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 79200
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 79800
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 80100
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 80550
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 80850
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": false,
+			"time": 81300
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 81600
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 82200
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 82500
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 82950
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 83250
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 83700
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 84000
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 84600
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 84900
+		},
+		{
+			"direction": 1,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 85350
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 85650
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 86100
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 86400
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 86700
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 87000
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 87300
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 87600
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 87900
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 88200
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 88500
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 88800
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 89100
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 89400
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 89700
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 90000
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 90300
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 90600
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 90900
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 91200
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 91500
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 91800
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 92100
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 92400
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 92700
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 93000
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 93300
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 93600
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 93900
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 94200
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 94500
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 94800
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 95100
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 95400
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 95700
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 96000
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 96300
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 96600
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 96900
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 97200
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 97500
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 97800
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 98100
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 98400
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 98700
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 99000
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 99300
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 99600
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 99900
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 100200
+		},
+		{
+			"direction": 2,
+			"tag": "mom",
+			"length": 0,
+			"player": false,
+			"time": 100500
+		},
+		{
+			"direction": 3,
+			"tag": "mom",
+			"length": 4,
+			"player": false,
+			"time": 100800
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 100800
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 101100
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 101400
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 101700
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 102000
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 102300
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 102600
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 102900
+		},
+		{
+			"direction": 0,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 103200
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 103500
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 103800
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 104100
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 104400
+		},
+		{
+			"direction": 0,
+			"tag": "mom",
+			"length": 0,
+			"player": true,
+			"time": 104700
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 105000
+		},
+		{
+			"direction": 2,
+			"tag": "",
+			"length": 0,
+			"player": true,
+			"time": 105300
+		},
+		{
+			"direction": 3,
+			"tag": "",
+			"length": 4,
+			"player": true,
+			"time": 105600
+		}
+	],
+	"meta": {
+		"speaker": "GfChristmas",
+		"opponent": "ParentsChristmas",
+		"player": "BfChristmas",
+		"song": "Cocoa",
+		"format": "fpsplus_1",
+		"stage": "Mall",
+		"bpm": [
+			{
+				"time": 0,
+				"bpm": 100
+			}
+		],
+		"scroll": "1.5"
+	}
+}

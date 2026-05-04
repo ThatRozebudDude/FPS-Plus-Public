@@ -144,7 +144,7 @@ class PlayState extends MusicBeatState
 	
 	public var camOffsetAmount:Float = 20;
 
-	public var autoCam:Bool = true;
+	#if BACKWARD_COMPATIBILITY public var autoCam:Bool = true; #end
 	public var autoZoom:Bool = true;
 	public var autoUi:Bool = true;
 	public var autoCamBop:Bool = true;
@@ -590,8 +590,6 @@ class PlayState extends MusicBeatState
 		overlayLayer.cameras = [camOverlay];
 
 		var camPos:FlxPoint = new FlxPoint(FlxMath.lerp(getOpponentFocusPosition().x, getBfFocusPostion().x, 0.5), FlxMath.lerp(getOpponentFocusPosition().y, getBfFocusPostion().y, 0.5));
-
-		autoCam = stage.cameraMovementEnabled;
 
 		if(stage.cameraStartPosition != null){
 			camPos.set(stage.cameraStartPosition.x, stage.cameraStartPosition.y);

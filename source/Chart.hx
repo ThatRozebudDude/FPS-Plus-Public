@@ -99,7 +99,7 @@ class Chart
 
 		if(chartJson.meta.scroll != null)	{ chart.meta.scroll = chartJson.meta.scroll; }
 
-		if(chartJson.notes != null)			{ chart.notes = chartJson.meta.notes; }
+		if(chartJson.notes != null)			{ chart.notes = chartJson.notes; }
 
 		return chart;
 	}
@@ -200,7 +200,7 @@ class Chart
 		//This is where you'd do version upgrading with new formats in the future.
 
 		if(eventsJson.meta.format != null)	{ events.meta.format = eventsJson.meta.format; }
-		if(eventsJson.notes != null)		{ events.events = eventsJson.meta.notes; }
+		if(eventsJson.events != null)		{ events.events = eventsJson.events; }
 
 		return events;
 	}
@@ -210,11 +210,13 @@ class Chart
 		events.meta.format = CURRENT_CHART_FORMAT;
 
 		for(event in legacyEvents.events){
-			events.events.push({
-				time: event[1],
-				lane: event[2],
-				tag: event[3]
-			});
+			if (!StringTools.startsWith(event[3], "toggleCamMovement")){
+				events.events.push({
+					time: event[1],
+					lane: event[2],
+					tag: event[3]
+				});
+			}
 		}
 
 		events.events.sort(function(a:EventDefinition, b:EventDefinition):Int{

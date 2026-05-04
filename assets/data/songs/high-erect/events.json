@@ -1,35 +1,177 @@
-{"events":{"events":[
-    [0, 0, 3, "toggleCamMovement"]
-    ,[0, 0, 0, "camFocusBf;0;0"]
-    ,[2, 3840, 0, "camFocusDad;0;0"]
-    ,[6, 11520, 0, "camFocusBf;0;0"]
-    ,[10, 19200, 0, "camFocusDad;0;0"]
-    ,[14, 26880, 0, "camFocusBf;0;0"]
-    ,[18, 34560, 0, "camFocusDad;0;0"]
-    ,[22, 42240, 0, "camFocusGf;-100;0;32s;expoOut"]
-    ,[22, 42360, 0, "camZoom;0.95;32s;expoOut;true"]
-    ,[23, 45960, 0, "camZoom;1;32s;smoothStepInOut;true"]
-    ,[24, 46080, 0, "camFocusBf;60;0;32s;smoothStepInOut"]
-    ,[25, 48960, 0, "camZoom;1.1;6s;quadOut;true"]
-    ,[25, 49440, 0, "camZoom;1.2;6s;quadOut;true"]
-    ,[26, 49920, 0, "camZoom;1;8s;quadOut;true"]
-    ,[26, 50640, 0, "camFocusDad;0;0"]
-    ,[30, 57600, 0, "camFocusBf;0;0"]
-    ,[34, 65280, 0, "camFocusDad;0;0"]
-    ,[38, 72960, 0, "camFocusGf;-100;0;32s;expoOut"]
-    ,[38, 73080, 0, "camZoom;0.95;32s;expoOut;true"]
-    ,[39, 76680, 0, "camZoom;1;32s;smoothStepInOut;true"]
-    ,[40, 76800, 0, "camFocusBf;60;0;32s;smoothStepInOut"]
-    ,[41, 79680, 0, "camZoom;1.1;6s;quadOut;true"]
-    ,[41, 80160, 0, "camZoom;1.2;6s;quadOut;true"]
-    ,[42, 80640, 0, "camFocusGf;-100;0;32s;expoOut"]
-    ,[42, 80760, 0, "camZoom;0.95;32s;expoOut;true"]
-    ,[44, 84480, 0, "camFocusGf;-220;-40;32s;sineOut"]
-    ,[44, 84600, 0, "camZoom;1.1;32s;sineOut;true"]
-    ,[46, 88320, 0, "camFocusGf;-100;0;32s;expoOut"]
-    ,[46, 88440, 0, "camZoom;0.95;32s;expoOut;true"]
-    ,[48, 92160, 0, "camFocusGf;90;-90;32s;sineOut"]
-    ,[48, 92280, 0, "camZoom;1.1;32s;sineOut;true"]
-    ,[50, 96000, 0, "camFocusGf;-100;0;32s;expoOut"]
-    ,[50, 96120, 0, "camZoom;0.95;32s;expoOut;true"]
-    ]}}
+{
+	"events": [
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 0
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 1920
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 3840
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 11520
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 19200
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 26880
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 34560
+		},
+		{
+			"tag": "camFocusGf;-100;0;32s;expoOut",
+			"lane": 0,
+			"time": 42240
+		},
+		{
+			"tag": "camZoom;0.95;32s;expoOut;true",
+			"lane": 0,
+			"time": 42360
+		},
+		{
+			"tag": "camZoom;1;32s;smoothStepInOut;true",
+			"lane": 0,
+			"time": 45960
+		},
+		{
+			"tag": "camFocusBf;60;0;32s;smoothStepInOut",
+			"lane": 0,
+			"time": 46080
+		},
+		{
+			"tag": "camZoom;1.1;6s;quadOut;true",
+			"lane": 0,
+			"time": 48960
+		},
+		{
+			"tag": "camZoom;1.2;6s;quadOut;true",
+			"lane": 0,
+			"time": 49440
+		},
+		{
+			"tag": "camZoom;1;8s;quadOut;true",
+			"lane": 0,
+			"time": 49920
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 49920
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 50640
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 57600
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 65280
+		},
+		{
+			"tag": "camFocusGf;-100;0;32s;expoOut",
+			"lane": 0,
+			"time": 72960
+		},
+		{
+			"tag": "camZoom;0.95;32s;expoOut;true",
+			"lane": 0,
+			"time": 73080
+		},
+		{
+			"tag": "camZoom;1;32s;smoothStepInOut;true",
+			"lane": 0,
+			"time": 76680
+		},
+		{
+			"tag": "camFocusBf;60;0;32s;smoothStepInOut",
+			"lane": 0,
+			"time": 76800
+		},
+		{
+			"tag": "camZoom;1.1;6s;quadOut;true",
+			"lane": 0,
+			"time": 79680
+		},
+		{
+			"tag": "camZoom;1.2;6s;quadOut;true",
+			"lane": 0,
+			"time": 80160
+		},
+		{
+			"tag": "camFocusGf;-100;0;32s;expoOut",
+			"lane": 0,
+			"time": 80640
+		},
+		{
+			"tag": "camZoom;0.95;32s;expoOut;true",
+			"lane": 0,
+			"time": 80760
+		},
+		{
+			"tag": "camFocusGf;-220;-40;32s;sineOut",
+			"lane": 0,
+			"time": 84480
+		},
+		{
+			"tag": "camZoom;1.1;32s;sineOut;true",
+			"lane": 0,
+			"time": 84600
+		},
+		{
+			"tag": "camFocusGf;-100;0;32s;expoOut",
+			"lane": 0,
+			"time": 88320
+		},
+		{
+			"tag": "camZoom;0.95;32s;expoOut;true",
+			"lane": 0,
+			"time": 88440
+		},
+		{
+			"tag": "camFocusGf;90;-90;32s;sineOut",
+			"lane": 0,
+			"time": 92160
+		},
+		{
+			"tag": "camZoom;1.1;32s;sineOut;true",
+			"lane": 0,
+			"time": 92280
+		},
+		{
+			"tag": "camFocusGf;-100;0;32s;expoOut",
+			"lane": 0,
+			"time": 96000
+		},
+		{
+			"tag": "camZoom;0.95;32s;expoOut;true",
+			"lane": 0,
+			"time": 96120
+		}
+	],
+	"meta": {
+		"format": "fpsplus_1"
+	}
+}

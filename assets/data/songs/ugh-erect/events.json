@@ -1,558 +1,537 @@
 {
-    "events": {
-        "events": [
-            [
-                0,
-                0,
-                3,
-                "toggleCamMovement"
-            ],
-            [
-                0,
-                0.96551724137953,
-                0,
-                "camFocusDad;0;0"
-            ],
-            [
-                0,
-                44,
-                0,
-                "camBopFreq;1"
-            ],
-            [
-                0,
-                24,
-                2,
-                "camBopIntensity;0.5"
-            ],
-            [
-                4,
-                5647.05882352941,
-                0,
-                "camFocusBf;0;0"
-            ],
-            [
-                5,
-                7057.09330628803,
-                0,
-                "camZoom;1.05;32s;expoOut;true"
-            ],
-            [
-                6,
-                8469.09330628803,
-                0,
-                "camZoom;1;32s;expoOut;true"
-            ],
-            [
-                7,
-                9881.09330628803,
-                0,
-                "camZoom;1.05;32s;expoOut;true"
-            ],
-            [
-                7,
-                10587.093306288,
-                0,
-                "camZoom;1.1;32s;expoOut;true"
-            ],
-            [
-                8,
-                11294.0588235294,
-                0,
-                "camFocusDad;0;0"
-            ],
-            [
-                8,
-                11337.093306288,
-                0,
-                "camBopFreq;1"
-            ],
-            [
-                8,
-                11317.093306288,
-                2,
-                "camBopIntensity;0.7"
-            ],
-            [
-                8,
-                11469.093306288,
-                0,
-                "camZoom;1;32s;expoOut;true"
-            ],
-            [
-                12,
-                16941.0588235294,
-                0,
-                "camFocusBf;0;0"
-            ],
-            [
-                12,
-                16984.093306288,
-                0,
-                "camBopFreq;1"
-            ],
-            [
-                12,
-                16964.093306288,
-                2,
-                "camBopIntensity;0.9"
-            ],
-            [
-                13,
-                18351.093306288,
-                0,
-                "camZoom;1.05;32s;expoOut;true"
-            ],
-            [
-                14,
-                19763.093306288,
-                0,
-                "camZoom;1.1;32s;expoOut;true"
-            ],
-            [
-                14,
-                20469.093306288,
-                0,
-                "camZoom;1.05;32s;expoOut;true"
-            ],
-            [
-                15,
-                21175.093306288,
-                0,
-                "camZoom;1;32s;expoOut;true"
-            ],
-            [
-                15,
-                22454.093306288,
-                0,
-                "camBopFreq;1"
-            ],
-            [
-                15,
-                22434.093306288,
-                2,
-                "camBopIntensity;1.5"
-            ],
-            [
-                16,
-                22588.0588235294,
-                0,
-                "camFocusDad;0;0"
-            ],
-            [
-                16,
-                23646.093306288,
-                0,
-                "camFocusDad;320;-10"
-            ],
-            [
-                16,
-                23690.093306288,
-                0,
-                "camZoom;0.95;32s;expoOut;true"
-            ],
-            [
-                18,
-                25411.0588235294,
-                0,
-                "camFocusBf;0;0"
-            ],
-            [
-                18,
-                25454.093306288,
-                0,
-                "camZoom;1;32s;expoOut;true"
-            ],
-            [
-                18,
-                26646.093306288,
-                0,
-                "camBopFreq;1"
-            ],
-            [
-                18,
-                26626.093306288,
-                2,
-                "camBopIntensity;0"
-            ],
-            [
-                19,
-                27528.093306288,
-                0,
-                "camZoom;1.05;32s;expoOut;true"
-            ],
-            [
-                19,
-                27881.093306288,
-                0,
-                "camZoom;1.1;32s;expoOut;true"
-            ],
-            [
-                19,
-                28146.093306288,
-                0,
-                "camBopFreq;1"
-            ],
-            [
-                19,
-                28126.093306288,
-                2,
-                "camBopIntensity;1.5"
-            ],
-            [
-                20,
-                28234.093306288,
-                0,
-                "camZoom;1;32s;expoOut;true"
-            ],
-            [
-                20,
-                28279.0588235294,
-                0,
-                "camFocusDad;0;0"
-            ],
-            [
-                22,
-                31057.093306288,
-                0,
-                "camFocusDad;320;-10"
-            ],
-            [
-                22,
-                31101.093306288,
-                0,
-                "camZoom;0.95;32s;expoOut;true"
-            ],
-            [
-                22,
-                32381.093306288,
-                0,
-                "camBopFreq;1"
-            ],
-            [
-                22,
-                32361.093306288,
-                2,
-                "camBopIntensity;0"
-            ],
-            [
-                23,
-                32469.093306288,
-                0,
-                "camZoom;1;32s;expoOut;true"
-            ],
-            [
-                23,
-                33793.093306288,
-                0,
-                "camBopFreq;1"
-            ],
-            [
-                23,
-                33773.093306288,
-                2,
-                "camBopIntensity;0.5"
-            ],
-            [
-                24,
-                33881.3874239351,
-                0,
-                "camFocusBf;0;0"
-            ],
-            [
-                24,
-                33881.3874239351,
-                0,
-                "camZoom;1.05;32s;expoOut;true"
-            ],
-            [
-                25,
-                35293.093306288,
-                0,
-                "camZoom;1.1;32s;expoOut;true"
-            ],
-            [
-                26,
-                36704.093306288,
-                0,
-                "camZoom;1.05;32s;expoOut;true"
-            ],
-            [
-                27,
-                38116.093306288,
-                0,
-                "camZoom;1.1;32s;expoOut;true"
-            ],
-            [
-                27,
-                39175.093306288,
-                0,
-                "camZoom;1.05;32s;expoOut;true"
-            ],
-            [
-                27,
-                39440.093306288,
-                0,
-                "camBopFreq;1"
-            ],
-            [
-                27,
-                39420.093306288,
-                2,
-                "camBopIntensity;1.7"
-            ],
-            [
-                28,
-                39528.093306288,
-                0,
-                "camZoom;1;32s;expoOut;true"
-            ],
-            [
-                29,
-                40940.093306288,
-                0,
-                "camZoom;1.04;32s;expoOut;true"
-            ],
-            [
-                29,
-                41646.093306288,
-                0,
-                "camZoom;1.08;32s;expoOut;true"
-            ],
-            [
-                30,
-                42351.093306288,
-                0,
-                "camZoom;1.12;32s;expoOut;true"
-            ],
-            [
-                30,
-                43057.093306288,
-                0,
-                "camZoom;1.16;32s;expoOut;true"
-            ],
-            [
-                31,
-                43763.093306288,
-                0,
-                "camZoom;1.2;32s;expoOut;true"
-            ],
-            [
-                31,
-                44469.093306288,
-                0,
-                "camZoom;1.1;32s;expoOut;true"
-            ],
-            [
-                31,
-                45087.093306288,
-                0,
-                "camBopFreq;2"
-            ],
-            [
-                31,
-                45067.093306288,
-                2,
-                "camBopIntensity;1.8"
-            ],
-            [
-                32,
-                45175.5050709939,
-                0,
-                "camZoom;1;32s;expoOut;true"
-            ],
-            [
-                32,
-                45176.0588235294,
-                0,
-                "camFocusDad;0;0"
-            ],
-            [
-                33,
-                46940.093306288,
-                0,
-                "camZoom;1.05;32s;expoOut;true"
-            ],
-            [
-                33,
-                47646.093306288,
-                0,
-                "camZoom;1;32s;expoOut;true"
-            ],
-            [
-                36,
-                50823.0588235294,
-                0,
-                "camFocusBf;0;0"
-            ],
-            [
-                37,
-                52587.093306288,
-                0,
-                "camZoom;1.05;32s;expoOut;true"
-            ],
-            [
-                37,
-                52940.093306288,
-                0,
-                "camZoom;1.1;32s;expoOut;true"
-            ],
-            [
-                37,
-                53293.093306288,
-                0,
-                "camZoom;1;32s;expoOut;true"
-            ],
-            [
-                38,
-                54704.093306288,
-                0,
-                "camZoom;1.05;32s;expoOut;true"
-            ],
-            [
-                40,
-                56469.093306288,
-                0,
-                "camFocusDad;320;-10"
-            ],
-            [
-                40,
-                56469.6227180527,
-                0,
-                "camZoom;0.95;32s;expoOut;true"
-            ],
-            [
-                40,
-                57440.093306288,
-                0,
-                "camBopFreq;2"
-            ],
-            [
-                40,
-                57420.093306288,
-                2,
-                "camBopIntensity;1.9"
-            ],
-            [
-                41,
-                57881.093306288,
-                0,
-                "camZoom;1;32s;expoOut;true"
-            ],
-            [
-                42,
-                59294.0588235294,
-                0,
-                "camFocusBf;0;0"
-            ],
-            [
-                43,
-                60704.093306288,
-                0,
-                "camFocusDad;320;-10"
-            ],
-            [
-                43,
-                60704.9168356998,
-                0,
-                "camZoom;0.95;32s;expoOut;true"
-            ],
-            [
-                44,
-                62116.6815415821,
-                0,
-                "camZoom;1;32s;expoOut;true"
-            ],
-            [
-                44,
-                62117.0588235294,
-                0,
-                "camFocusBf;0;0"
-            ],
-            [
-                45,
-                63528.093306288,
-                0,
-                "camZoom;1.05;32s;expoOut;true"
-            ],
-            [
-                46,
-                64940.093306288,
-                0,
-                "camZoom;1.1;32s;expoOut;true"
-            ],
-            [
-                47,
-                66351.093306288,
-                0,
-                "camFocusDad;320;-10"
-            ],
-            [
-                47,
-                66351.9756592292,
-                0,
-                "camZoom;0.95;32s;expoOut;true"
-            ],
-            [
-                47,
-                67675.093306288,
-                0,
-                "camBopFreq;4"
-            ],
-            [
-                47,
-                67655.093306288,
-                2,
-                "camBopIntensity;0.5"
-            ],
-            [
-                48,
-                67763.7403651115,
-                0,
-                "camZoom;1;32s;expoOut;true"
-            ],
-            [
-                48,
-                67764.0588235294,
-                0,
-                "camFocusDad;0;0"
-            ],
-            [
-                51,
-                73057.8580121703,
-                0,
-                "camFocusBf;0;0"
-            ],
-            [
-                54,
-                76234.093306288,
-                0,
-                "camZoom;1.05;32s;expoOut;true"
-            ],
-            [
-                55,
-                78351.093306288,
-                0,
-                "camZoom;1.1;32s;expoOut;true"
-            ],
-            [
-                55,
-                78969.093306288,
-                0,
-                "camBopFreq;1"
-            ],
-            [
-                55,
-                78949.093306288,
-                2,
-                "camBopIntensity;0.7"
-            ],
-            [
-                56,
-                79057.093306288,
-                0,
-                "camZoom;1;120s;expoOut;true"
-            ]
-        ]
-    }
+	"events": [
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 0
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 0.96551724137953
+		},
+		{
+			"tag": "camBopIntensity;0.5",
+			"lane": 2,
+			"time": 24
+		},
+		{
+			"tag": "camBopFreq;1",
+			"lane": 0,
+			"time": 44
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 5647.05882352941
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 7057.09330628803
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 8469.09330628803
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 9881.09330628803
+		},
+		{
+			"tag": "camZoom;1.1;32s;expoOut;true",
+			"lane": 0,
+			"time": 10587.093306288
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 11294.0588235294
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 11294.1176470588234
+		},
+		{
+			"tag": "camBopIntensity;0.7",
+			"lane": 2,
+			"time": 11317.093306288
+		},
+		{
+			"tag": "camBopFreq;1",
+			"lane": 0,
+			"time": 11337.093306288
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 11469.093306288
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 16941.0588235294
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 16941.1764705882342
+		},
+		{
+			"tag": "camBopIntensity;0.9",
+			"lane": 2,
+			"time": 16964.093306288
+		},
+		{
+			"tag": "camBopFreq;1",
+			"lane": 0,
+			"time": 16984.093306288
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 18351.093306288
+		},
+		{
+			"tag": "camZoom;1.1;32s;expoOut;true",
+			"lane": 0,
+			"time": 19763.093306288
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 20469.093306288
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 21175.093306288
+		},
+		{
+			"tag": "camBopIntensity;1.5",
+			"lane": 2,
+			"time": 22434.093306288
+		},
+		{
+			"tag": "camBopFreq;1",
+			"lane": 0,
+			"time": 22454.093306288
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 22588.0588235294
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 22588.2352941176468
+		},
+		{
+			"tag": "camFocusDad;320;-10",
+			"lane": 0,
+			"time": 23646.093306288
+		},
+		{
+			"tag": "camZoom;0.95;32s;expoOut;true",
+			"lane": 0,
+			"time": 23690.093306288
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 25411.0588235294
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 25454.093306288
+		},
+		{
+			"tag": "camBopIntensity;0",
+			"lane": 2,
+			"time": 26626.093306288
+		},
+		{
+			"tag": "camBopFreq;1",
+			"lane": 0,
+			"time": 26646.093306288
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 26823.5294117647063
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 27528.093306288
+		},
+		{
+			"tag": "camZoom;1.1;32s;expoOut;true",
+			"lane": 0,
+			"time": 27881.093306288
+		},
+		{
+			"tag": "camBopIntensity;1.5",
+			"lane": 2,
+			"time": 28126.093306288
+		},
+		{
+			"tag": "camBopFreq;1",
+			"lane": 0,
+			"time": 28146.093306288
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 28234.093306288
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 28279.0588235294
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 29647.0588235294126
+		},
+		{
+			"tag": "camFocusDad;320;-10",
+			"lane": 0,
+			"time": 31057.093306288
+		},
+		{
+			"tag": "camZoom;0.95;32s;expoOut;true",
+			"lane": 0,
+			"time": 31101.093306288
+		},
+		{
+			"tag": "camBopIntensity;0",
+			"lane": 2,
+			"time": 32361.093306288
+		},
+		{
+			"tag": "camBopFreq;1",
+			"lane": 0,
+			"time": 32381.093306288
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 32469.093306288
+		},
+		{
+			"tag": "camBopIntensity;0.5",
+			"lane": 2,
+			"time": 33773.093306288
+		},
+		{
+			"tag": "camBopFreq;1",
+			"lane": 0,
+			"time": 33793.093306288
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 33881.3874239351
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 33881.3874239351
+		},
+		{
+			"tag": "camZoom;1.1;32s;expoOut;true",
+			"lane": 0,
+			"time": 35293.093306288
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 35294.117647058818
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 36704.093306288
+		},
+		{
+			"tag": "camZoom;1.1;32s;expoOut;true",
+			"lane": 0,
+			"time": 38116.093306288
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 39175.093306288
+		},
+		{
+			"tag": "camBopIntensity;1.7",
+			"lane": 2,
+			"time": 39420.093306288
+		},
+		{
+			"tag": "camBopFreq;1",
+			"lane": 0,
+			"time": 39440.093306288
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 39528.093306288
+		},
+		{
+			"tag": "camZoom;1.04;32s;expoOut;true",
+			"lane": 0,
+			"time": 40940.093306288
+		},
+		{
+			"tag": "camZoom;1.08;32s;expoOut;true",
+			"lane": 0,
+			"time": 41646.093306288
+		},
+		{
+			"tag": "camZoom;1.12;32s;expoOut;true",
+			"lane": 0,
+			"time": 42351.093306288
+		},
+		{
+			"tag": "camZoom;1.16;32s;expoOut;true",
+			"lane": 0,
+			"time": 43057.093306288
+		},
+		{
+			"tag": "camZoom;1.2;32s;expoOut;true",
+			"lane": 0,
+			"time": 43763.093306288
+		},
+		{
+			"tag": "camZoom;1.1;32s;expoOut;true",
+			"lane": 0,
+			"time": 44469.093306288
+		},
+		{
+			"tag": "camBopIntensity;1.8",
+			"lane": 2,
+			"time": 45067.093306288
+		},
+		{
+			"tag": "camBopFreq;2",
+			"lane": 0,
+			"time": 45087.093306288
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 45175.5050709939
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 45176.0588235294
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 46588.2352941176141
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 46940.093306288
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 47646.093306288
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 50823.0588235294
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 52235.2941176470122
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 52587.093306288
+		},
+		{
+			"tag": "camZoom;1.1;32s;expoOut;true",
+			"lane": 0,
+			"time": 52940.093306288
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 53293.093306288
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 54704.093306288
+		},
+		{
+			"tag": "camFocusDad;320;-10",
+			"lane": 0,
+			"time": 56469.093306288
+		},
+		{
+			"tag": "camZoom;0.95;32s;expoOut;true",
+			"lane": 0,
+			"time": 56469.6227180527
+		},
+		{
+			"tag": "camBopIntensity;1.9",
+			"lane": 2,
+			"time": 57420.093306288
+		},
+		{
+			"tag": "camBopFreq;2",
+			"lane": 0,
+			"time": 57440.093306288
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 57881.093306288
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 57882.3529411764102
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 59294.0588235294
+		},
+		{
+			"tag": "camFocusDad;320;-10",
+			"lane": 0,
+			"time": 60704.093306288
+		},
+		{
+			"tag": "camZoom;0.95;32s;expoOut;true",
+			"lane": 0,
+			"time": 60704.9168356998
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 60705.8823529411093
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 62116.6815415821
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 62117.0588235294
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 62117.6470588234588
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 63528.093306288
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 63529.4117647058083
+		},
+		{
+			"tag": "camZoom;1.1;32s;expoOut;true",
+			"lane": 0,
+			"time": 64940.093306288
+		},
+		{
+			"tag": "camFocusDad;320;-10",
+			"lane": 0,
+			"time": 66351.093306288
+		},
+		{
+			"tag": "camZoom;0.95;32s;expoOut;true",
+			"lane": 0,
+			"time": 66351.9756592292
+		},
+		{
+			"tag": "camBopIntensity;0.5",
+			"lane": 2,
+			"time": 67655.093306288
+		},
+		{
+			"tag": "camBopFreq;4",
+			"lane": 0,
+			"time": 67675.093306288
+		},
+		{
+			"tag": "camZoom;1;32s;expoOut;true",
+			"lane": 0,
+			"time": 67763.7403651115
+		},
+		{
+			"tag": "camFocusDad;0;0",
+			"lane": 0,
+			"time": 67764.0588235294
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 67764.7058823528641
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 73057.8580121703
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 73411.7647058822622
+		},
+		{
+			"tag": "camZoom;1.05;32s;expoOut;true",
+			"lane": 0,
+			"time": 76234.093306288
+		},
+		{
+			"tag": "camZoom;1.1;32s;expoOut;true",
+			"lane": 0,
+			"time": 78351.093306288
+		},
+		{
+			"tag": "camBopIntensity;0.7",
+			"lane": 2,
+			"time": 78949.093306288
+		},
+		{
+			"tag": "camBopFreq;1",
+			"lane": 0,
+			"time": 78969.093306288
+		},
+		{
+			"tag": "camZoom;1;120s;expoOut;true",
+			"lane": 0,
+			"time": 79057.093306288
+		}
+	],
+	"meta": {
+		"format": "fpsplus_1"
+	}
 }

@@ -1,342 +1,467 @@
 {
-	"events": {
-		"events": [
-			[
-				5,
-				13263.1578947368,
-				0,
-				"cc;Guess it's time,"
-			],
-			[
-				5,
-				14526.3157894737,
-				0,
-				"cc;You better plug in all your nightlights."
-			],
-			[
-				7,
-				18315.7894736842,
-				0,
-				"ccHide"
-			],
-			[
-				9,
-				23368.4210526316,
-				0,
-				"cc;What's out there,"
-			],
-			[
-				9,
-				24631.5789473684,
-				0,
-				"cc;Past your darkened door?"
-			],
-			[
-				11,
-				28421.0526315789,
-				0,
-				"ccHide"
-			],
-			[
-				13,
-				32842.1052631579,
-				0,
-				"cc;Just the eyes floating up out of the shore."
-			],
-			[
-				15,
-				37889.7637795276,
-				0,
-				"ccHide"
-			],
-			[
-				18,
-				44359.9786868747,
-				0,
-				"cc;Hey man!"
-			],
-			[
-				19,
-				48074.2644011604,
-				0,
-				"ccHide"
-			],
-			[
-				22,
-				53502.8358297318,
-				0,
-				"cc;Or maybe turn her into broth."
-			],
-			[
-				18,
-				44931.4072583032,
-				0,
-				"cc;I'm gonna eat your girlfriend."
-			],
-			[
-				23,
-				56645.6929725889,
-				0,
-				"cc;La-la-la, la la"
-			],
-			[
-				24,
-				58074.2644011604,
-				0,
-				"ccHide"
-			],
-			[
-				26,
-				62359.9786868746,
-				0,
-				"cc;Kill a kid,"
-			],
-			[
-				26,
-				62931.4072583032,
-				0,
-				"cc;Cut 'em up."
-			],
-			[
-				26,
-				63502.8358297318,
-				0,
-				"cc;Stuff 'em up inside of my,"
-			],
-			[
-				27,
-				64931.4072583032,
-				0,
-				"cc;Secret meat box"
-			],
-			[
-				28,
-				67502.8358297318,
-				0,
-				"ccHide"
-			],
-			[
-				30,
-				71502.8358297318,
-				0,
-				"cc;Find my,"
-			],
-			[
-				31,
-				73788.5501154461,
-				0,
-				"cc;Hands across your body slowly"
-			],
-			[
-				31,
-				74931.4072583032,
-				0,
-				"cc;Peel your skin off."
-			],
-			[
-				32,
-				76645.6929725889,
-				0,
-				"ccHide"
-			],
-			[
-				35,
-				82072.5935573843,
-				0,
-				"cc;You'll meet your friends,"
-			],
-			[
-				36,
-				84598.909346858,
-				0,
-				"ccHide"
-			],
-			[
-				36,
-				86493.6461889632,
-				0,
-				"cc;Inside the ambulance."
-			],
-			[
-				37,
-				89019.9619784369,
-				0,
-				"ccHide"
-			],
-			[
-				38,
-				90598.9093468579,
-				0,
-				"cc;Call into the night,"
-			],
-			[
-				39,
-				92177.856715279,
-				0,
-				"ccHide"
-			],
-			[
-				39,
-				94072.5935573843,
-				0,
-				"cc;To the werewolf."
-			],
-			[
-				40,
-				95651.5409258053,
-				0,
-				"ccHide"
-			],
-			[
-				41,
-				97230.4882942264,
-				0,
-				"cc;Give all your blood to him,"
-			],
-			[
-				42,
-				101335.751452121,
-				0,
-				"cc;Stand under the warm street light."
-			],
-			[
-				43,
-				104177.856715279,
-				0,
-				"ccHide"
-			],
-			[
-				42,
-				99756.8040837,
-				0,
-				"ccHide"
-			],
-			[
-				44,
-				105756.8040837,
-				0,
-				"cc;Let yourself be hypnotized."
-			],
-			[
-				46,
-				109546.277767911,
-				0,
-				"ccHide"
-			],
-			[
-				49,
-				117352.497863604,
-				0,
-				"cc;You're just a little snack,"
-			],
-			[
-				50,
-				119397.952409059,
-				0,
-				"ccHide"
-			],
-			[
-				50,
-				120534.316045422,
-				0,
-				"cc;And so is your girlfriend."
-			],
-			[
-				52,
-				123943.406954513,
-				0,
-				"ccHide"
-			],
-			[
-				58,
-				133920.679681786,
-				0,
-				"cc;Hey man!"
-			],
-			[
-				58,
-				134420.679681786,
-				0,
-				"cc;I'm gonna tear your eyes out."
-			],
-			[
-				59,
-				137170.679681786,
-				0,
-				"ccHide"
-			],
-			[
-				62,
-				141920.679681786,
-				0,
-				"cc;And then I'll boil your girlfriend."
-			],
-			[
-				63,
-				144670.679681786,
-				0,
-				"cc;La-la-la, la la"
-			],
-			[
-				64,
-				146170.679681786,
-				0,
-				"ccHide"
-			],
-			[
-				66,
-				149670.679681786,
-				0,
-				"cc;Kill a kid,"
-			],
-			[
-				66,
-				150170.679681786,
-				0,
-				"cc;Cut 'em up."
-			],
-			[
-				66,
-				150670.679681786,
-				0,
-				"cc;Stuff 'em up inside of my,"
-			],
-			[
-				67,
-				151920.679681786,
-				0,
-				"cc;Burning dunegon."
-			],
-			[
-				68,
-				154170.679681786,
-				0,
-				"ccHide"
-			],
-			[
-				70,
-				157670.679681786,
-				0,
-				"cc;I would,"
-			],
-			[
-				71,
-				159670.679681786,
-				0,
-				"cc;Give you guys a little break but"
-			],
-			[
-				71,
-				160670.679681786,
-				0,
-				"cc;I'm not Satan."
-			],
-			[
-				72,
-				162170.679681786,
-				0,
-				"ccHide"
-			]
-		]
+	"events": [
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 2526.31578947368416
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 7578.94736842105249
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 12631.5789473684199
+		},
+		{
+			"tag": "cc;Guess it's time,",
+			"lane": 0,
+			"time": 13263.1578947368
+		},
+		{
+			"tag": "cc;You better plug in all your nightlights.",
+			"lane": 0,
+			"time": 14526.3157894737
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 17684.2105263157864
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 18315.7894736842
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 22736.8421052631529
+		},
+		{
+			"tag": "cc;What's out there,",
+			"lane": 0,
+			"time": 23368.4210526316
+		},
+		{
+			"tag": "cc;Past your darkened door?",
+			"lane": 0,
+			"time": 24631.5789473684
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 27789.4736842105194
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 28421.0526315789
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 32842.1052631578859
+		},
+		{
+			"tag": "cc;Just the eyes floating up out of the shore.",
+			"lane": 0,
+			"time": 32842.1052631579
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 37258.1848321591315
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 37889.7637795276
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 44074.264401160377
+		},
+		{
+			"tag": "cc;Hey man!",
+			"lane": 0,
+			"time": 44359.9786868747
+		},
+		{
+			"tag": "cc;I'm gonna eat your girlfriend.",
+			"lane": 0,
+			"time": 44931.4072583032
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 48074.2644011604
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 48645.6929725889422
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 53217.1215440175074
+		},
+		{
+			"tag": "cc;Or maybe turn her into broth.",
+			"lane": 0,
+			"time": 53502.8358297318
+		},
+		{
+			"tag": "cc;La-la-la, la la",
+			"lane": 0,
+			"time": 56645.6929725889
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 57788.5501154460726
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 58074.2644011604
+		},
+		{
+			"tag": "cc;Kill a kid,",
+			"lane": 0,
+			"time": 62359.9786868746
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 62359.9786868746378
+		},
+		{
+			"tag": "cc;Cut 'em up.",
+			"lane": 0,
+			"time": 62931.4072583032
+		},
+		{
+			"tag": "cc;Stuff 'em up inside of my,",
+			"lane": 0,
+			"time": 63502.8358297318
+		},
+		{
+			"tag": "cc;Secret meat box",
+			"lane": 0,
+			"time": 64931.4072583032
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 66931.4072583032103
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 67502.8358297318
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 71502.83582973179
+		},
+		{
+			"tag": "cc;Find my,",
+			"lane": 0,
+			"time": 71502.8358297318
+		},
+		{
+			"tag": "cc;Hands across your body slowly",
+			"lane": 0,
+			"time": 73788.5501154461
+		},
+		{
+			"tag": "cc;Peel your skin off.",
+			"lane": 0,
+			"time": 74931.4072583032
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 76074.2644011603697
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 76645.6929725889
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 81756.804083700059
+		},
+		{
+			"tag": "cc;You'll meet your friends,",
+			"lane": 0,
+			"time": 82072.5935573843
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 84283.1198731737386
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 84598.909346858
+		},
+		{
+			"tag": "cc;Inside the ambulance.",
+			"lane": 0,
+			"time": 86493.6461889632
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 86809.4356626474182
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 89019.9619784369
+		},
+		{
+			"tag": "cc;Call into the night,",
+			"lane": 0,
+			"time": 90598.9093468579
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 91862.0672415947774
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 92177.856715279
+		},
+		{
+			"tag": "cc;To the werewolf.",
+			"lane": 0,
+			"time": 94072.5935573843
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 95651.5409258053
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 96914.6988205421367
+		},
+		{
+			"tag": "cc;Give all your blood to him,",
+			"lane": 0,
+			"time": 97230.4882942264
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 99441.0146100158163
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 99756.8040837
+		},
+		{
+			"tag": "cc;Stand under the warm street light.",
+			"lane": 0,
+			"time": 101335.751452121
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 101967.330399489496
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 104177.856715279
+		},
+		{
+			"tag": "cc;Let yourself be hypnotized.",
+			"lane": 0,
+			"time": 105756.8040837
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 109546.277767910535
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 109546.277767911
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 117125.225136331574
+		},
+		{
+			"tag": "cc;You're just a little snack,",
+			"lane": 0,
+			"time": 117352.497863604
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 119397.952409059
+		},
+		{
+			"tag": "cc;And so is your girlfriend.",
+			"lane": 0,
+			"time": 120534.316045422
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 123943.406954513
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 124397.952409058867
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 133670.679681786161
+		},
+		{
+			"tag": "cc;Hey man!",
+			"lane": 0,
+			"time": 133920.679681786
+		},
+		{
+			"tag": "cc;I'm gonna tear your eyes out.",
+			"lane": 0,
+			"time": 134420.679681786
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 137170.679681786
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 137670.679681786161
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 141670.679681786161
+		},
+		{
+			"tag": "cc;And then I'll boil your girlfriend.",
+			"lane": 0,
+			"time": 141920.679681786
+		},
+		{
+			"tag": "cc;La-la-la, la la",
+			"lane": 0,
+			"time": 144670.679681786
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 145670.679681786161
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 146170.679681786
+		},
+		{
+			"tag": "cc;Kill a kid,",
+			"lane": 0,
+			"time": 149670.679681786
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 149670.679681786161
+		},
+		{
+			"tag": "cc;Cut 'em up.",
+			"lane": 0,
+			"time": 150170.679681786
+		},
+		{
+			"tag": "cc;Stuff 'em up inside of my,",
+			"lane": 0,
+			"time": 150670.679681786
+		},
+		{
+			"tag": "cc;Burning dunegon.",
+			"lane": 0,
+			"time": 151920.679681786
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 153670.679681786161
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 154170.679681786
+		},
+		{
+			"tag": "cc;I would,",
+			"lane": 0,
+			"time": 157670.679681786
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 157670.679681786161
+		},
+		{
+			"tag": "cc;Give you guys a little break but",
+			"lane": 0,
+			"time": 159670.679681786
+		},
+		{
+			"tag": "cc;I'm not Satan.",
+			"lane": 0,
+			"time": 160670.679681786
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 161670.679681786161
+		},
+		{
+			"tag": "ccHide",
+			"lane": 0,
+			"time": 162170.679681786
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 165670.679681786161
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 169670.679681786161
+		}
+	],
+	"meta": {
+		"format": "fpsplus_1"
 	}
 }
