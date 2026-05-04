@@ -1,11 +1,11 @@
 package cutscenes;
 
-import PlayState.VocalType;
-import flixel.tweens.FlxTween.FlxTweenManager;
+import Chart.EventDefinition;
 import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
 import flixel.FlxG;
 import flixel.FlxBasic;
+
+using StringTools;
 
 @:build(modding.GlobalScriptingTypesMacro.build())
 class ScriptedCutscene extends FlxBasic
@@ -224,10 +224,26 @@ class ScriptedCutscene extends FlxBasic
 
 	public function focusCameraBasedOnFirstSection(_time:Float = 1.9, _ease:Null<flixel.tweens.EaseFunction>):Void{
 		if(_ease == null){_ease = FlxEase.expoOut;}
-		//if(PlayState.SONG.notes[0].mustHitSection){ PlayState.instance.camFocusBF(0, 0, _time, _ease); }
-		//else{ PlayState.instance.camFocusOpponent(0, 0, _time, _ease); }
-		//FIX LATER DO NOT LET ME FORGET
-		PlayState.instance.camFocusOpponent(0, 0, _time, _ease);
+		var foundCamEvent:Bool = false;
+		var removeFromEvents:Array<EventDefinition> = [];
+		for(event in PlayState.instance.eventList){
+			if(event.tag.startsWith("camFocusBf")){
+				foundCamEvent = true;
+				PlayState.instance.camFocusBF(0, 0, _time, _ease);
+				if(event.time == 0){ removeFromEvents.push(event); }
+				break;
+			}
+			else if(event.tag.startsWith("camFocusDad")){
+				foundCamEvent = true;
+				PlayState.instance.camFocusOpponent(0, 0, _time, _ease);
+				if(event.time == 0){ removeFromEvents.push(event); }
+				break;
+			}
+		}
+		if(removeFromEvents.length > 0){
+			for(event in removeFromEvents){ PlayState.instance.eventList.remove(event); }
+		}
+		if(!foundCamEvent){ PlayState.instance.camFocusOpponent(0, 0, _time, _ease); }
 	}
 
 	public function fadeInHud():Void{

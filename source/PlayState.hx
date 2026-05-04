@@ -260,7 +260,7 @@ class PlayState extends MusicBeatState
 
 	public var hudShader:AlphaShader = new AlphaShader(1);
 
-	private var eventList:Array<EventDefinition> = [];
+	public var eventList:Array<EventDefinition> = [];
 
 	public var comboUI:ComboPopup;
 	public var minCombo:Int = 10;
@@ -926,6 +926,18 @@ class PlayState extends MusicBeatState
 		}
 		if(gf.characterInfo.info.functions.countdownBeat != null){
 			gf.characterInfo.info.functions.countdownBeat(gf, -1);
+		}
+
+		var removeFromEvents:Array<EventDefinition> = [];
+		for(event in eventList){
+			if(event.time > 0){ break; }
+			if(event.time == 0 && event.tag.startsWith("camFocus")){
+				executeEvent(event.tag);
+				removeFromEvents.push(event);
+			}
+		}
+		for(event in removeFromEvents){
+			eventList.remove(event);
 		}
 
 		startTimer = new FlxTimer().start(Conductor.getCrotchet(), function(tmr:FlxTimer)
