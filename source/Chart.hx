@@ -184,16 +184,16 @@ class Chart
 			raw = raw.substr(0, raw.length - 1);
 		}
 
-		return eventsFromRawJson(raw);
+		return eventsFromRawJson(raw, song);
 	}
 
-	public static function eventsFromRawJson(raw:String):EventFormat{
+	public static function eventsFromRawJson(raw:String, ?song:String):EventFormat{
 		var events:EventFormat = getEmptyEvents();
 		var eventsJson:Dynamic = Json.parse(raw);
 
 		#if BACKWARD_COMPATIBILITY
 		if(eventsJson.meta == null){
-			return convertLegacyEvents(eventsJson.events);
+			return convertLegacyEvents(eventsJson.events, song);
 		}
 		#end
 
@@ -205,7 +205,7 @@ class Chart
 		return events;
 	}
 
-	public static function convertLegacyEvents(legacyEvents:LegacyEvents):EventFormat{
+	public static function convertLegacyEvents(legacyEvents:LegacyEvents, ?song:String):EventFormat{
 		var events:EventFormat = getEmptyEvents();
 		events.meta.format = CURRENT_CHART_FORMAT;
 
@@ -216,6 +216,54 @@ class Chart
 					lane: event[2],
 					tag: event[3]
 				});
+			}
+		}
+
+		// convert section camera into events
+		if(song != null){
+			// try some shit
+			var chartPath = Paths.json(song.toLowerCase(), "data/songs/" + song.toLowerCase());
+			if (!Utils.exists(chartPath)){
+				chartPath = Paths.json(song.toLowerCase() + "-hard", "data/songs/" + song.toLowerCase());
+			}
+			if (!Utils.exists(chartPath)){
+				chartPath = Paths.json(song.toLowerCase() + "-easy", "data/songs/" + song.toLowerCase());
+			}
+
+			if (Utils.exists(chartPath)){
+				var legacyChart:LegacySong = Json.parse(Utils.getText(chartPath)).song;
+
+				var prevFocus:Bool = true;
+				var secTime:Float = 0;
+				var curBPM:Float = legacyChart.bpm;
+
+				for(section in legacyChart.notes){
+					var doPush:Bool = true;
+
+					if(section.changeBPM == true){
+						curBPM = section.bpm;
+					}
+
+					if((section.mustHitSection && !prevFocus) || (!section.mustHitSection && prevFocus)){
+						 for(otherEvent in events.events){
+							if(otherEvent.tag.startsWith("camFocus") && Math.abs(secTime - otherEvent.time) < 0.00001){
+								doPush = false;
+								break;
+							}
+						}
+						if(doPush){
+							events.events.push({
+								time: secTime,
+								lane: 0,
+								tag: "camFocus" + (section.mustHitSection ? "Bf" : "Dad")
+							});
+						}
+
+						prevFocus = section.mustHitSection;
+					}
+
+					secTime += ((((60 / curBPM) * 1000) / 4) * section.lengthInSteps ?? 16);
+				}
 			}
 		}
 
