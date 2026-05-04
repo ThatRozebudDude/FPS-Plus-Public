@@ -121,7 +121,7 @@ class TextInput extends UIElement
 		}
 
 		var rectPos = Utils.worldToLocal(inputText, box.x + Box.BORDER_SIZE, box.y + Box.BORDER_SIZE);
-		inputText.clipRect = new FlxRect(rectPos.x/inputText.scale.x, rectPos.y/inputText.scale.x, (box.width - Box.BORDER_SIZE*2)/inputText.scale.x, (box.height - Box.BORDER_SIZE*2)/inputText.scale.y);
+		inputText.clipRect = new FlxRect(rectPos.x/inputText.scale.x, rectPos.y/inputText.scale.y, (box.width - Box.BORDER_SIZE*2)/inputText.scale.x, (box.height - Box.BORDER_SIZE*2)/inputText.scale.y);
 
 		super.update(elapsed);
 	}

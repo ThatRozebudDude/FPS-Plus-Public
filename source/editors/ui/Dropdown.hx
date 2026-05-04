@@ -1,5 +1,6 @@
 package editors.ui;
 
+import flixel.math.FlxRect;
 import flixel.math.FlxMath;
 import editors.ui.Box;
 import flixel.util.FlxSignal;
@@ -7,8 +8,6 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 
 using StringTools;
-
-//TODO: make text clip inside of dropdown box
 
 class Dropdown extends UIElement
 {
@@ -110,6 +109,8 @@ class Dropdown extends UIElement
 					dropdownBoxes[i].fillColor = UIColors.INTERACTION_COLOR;
 					dropdownLabels[i].color = UIColors.INTERACTION_TEXT_COLOR;
 				}
+				var rectPos = Utils.worldToLocal(dropdownLabels[i], dropdownBoxes[i].x + Box.BORDER_SIZE, dropdownBoxes[i].y + Box.BORDER_SIZE);
+				dropdownLabels[i].clipRect = new FlxRect(rectPos.x/dropdownLabels[i].scale.x, rectPos.y/dropdownLabels[i].scale.y, (dropdownBoxes[i].width - Box.BORDER_SIZE*2)/dropdownLabels[i].scale.x, (dropdownBoxes[i].height - Box.BORDER_SIZE*2)/dropdownLabels[i].scale.y);
 			}
 			else{
 				dropdownBoxes[i].visible = false;

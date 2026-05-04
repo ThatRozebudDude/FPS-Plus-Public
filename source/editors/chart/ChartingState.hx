@@ -349,22 +349,22 @@ class ChartingState extends MusicBeatState
 	}
 
 	function setupSongTab():Void{
-		var songNameInput:TextInput = new TextInput(PANEL_SPACING, PANEL_SPACING, 240, chart.meta.song, "Song");
+		var songNameInput:TextInput = new TextInput(PANEL_SPACING, PANEL_SPACING, 192, chart.meta.song, "Song");
 		var baseBpmInput:Stepper = new Stepper(PANEL_SPACING, songNameInput.y + songNameInput.elementHeight + PANEL_SPACING, 120, chart.meta.bpm[0].bpm, 1, 1, null, true, "Song BPM");
 
-		var opponentDropdown:Dropdown = new Dropdown(PANEL_SPACING, baseBpmInput.y + baseBpmInput.elementHeight + PANEL_EXTRA_SPACING, 240, characterList, chart.meta.opponent, "Opponent");
+		var opponentDropdown:Dropdown = new Dropdown(PANEL_SPACING, baseBpmInput.y + baseBpmInput.elementHeight + PANEL_EXTRA_SPACING, 192, characterList, chart.meta.opponent, "Opponent");
 		opponentDropdown.onSelect.add(function(v:String){
 			updateHealthIcons(v, chart.meta.player);
 			chart.meta.opponent = v;
 		});
-		var playerDropown:Dropdown = new Dropdown(PANEL_SPACING, opponentDropdown.y + opponentDropdown.elementHeight + PANEL_SPACING, 240, characterList, chart.meta.player, "Player");
+		var playerDropown:Dropdown = new Dropdown(PANEL_SPACING, opponentDropdown.y + opponentDropdown.elementHeight + PANEL_SPACING, 192, characterList, chart.meta.player, "Player");
 		playerDropown.onSelect.add(function(v:String){
 			updateHealthIcons(chart.meta.opponent, v);
 			chart.meta.player = v;
 		});
-		var speakerDropdown:Dropdown = new Dropdown(PANEL_SPACING, playerDropown.y + playerDropown.elementHeight + PANEL_SPACING, 240, gfList, chart.meta.speaker, "Partner");
+		var speakerDropdown:Dropdown = new Dropdown(PANEL_SPACING, playerDropown.y + playerDropown.elementHeight + PANEL_SPACING, 192, gfList, chart.meta.speaker, "Partner");
 		speakerDropdown.onSelect.add(function(v:String){ chart.meta.speaker = v; });
-		var stageDropdown:Dropdown = new Dropdown(PANEL_SPACING, speakerDropdown.y + speakerDropdown.elementHeight + PANEL_EXTRA_SPACING, 240, stageList, chart.meta.stage, "Stage");
+		var stageDropdown:Dropdown = new Dropdown(PANEL_SPACING, speakerDropdown.y + speakerDropdown.elementHeight + PANEL_EXTRA_SPACING, 192, stageList, chart.meta.stage, "Stage");
 		stageDropdown.onSelect.add(function(v:String){ chart.meta.stage = v; });
 
 		panel.addToTab("Song", songNameInput);
@@ -545,7 +545,7 @@ class ChartingState extends MusicBeatState
 		}
 
 		if(placedNoteHold && !FlxG.mouse.released && selectedNotes.length > 0){
-			var sustainLength:Int = FlxMath.maxInt(Math.floor((gridCursor.y - selectedNotes[0].y) / GRID_SIZE), 0);
+			var sustainLength:Int = FlxMath.maxInt(Math.round((gridCursor.y - selectedNotes[0].y) / GRID_SIZE), 0);
 			if(selectedNotes[0].sustainLength != sustainLength){ selectedNotes[0].sustainLength = sustainLength; }
 		}
 		else{
