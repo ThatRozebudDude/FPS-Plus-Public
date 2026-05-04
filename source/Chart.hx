@@ -123,7 +123,7 @@ class Chart
 		var curBPM:Float = legacyChart.bpm;
 
 		for(section in legacyChart.notes){
-			if (section.changeBPM == true){ // somehow changeBPM is null in some charts
+			if(section.changeBPM == true){ // somehow changeBPM is null in some charts
 				chart.meta.bpm.push({bpm: section.bpm, time: secTime});
 				curBPM = section.bpm;
 			}
@@ -210,58 +210,81 @@ class Chart
 		events.meta.format = CURRENT_CHART_FORMAT;
 
 		for(event in legacyEvents.events){
-			if (!StringTools.startsWith(event[3], "toggleCamMovement")){
-				events.events.push({
-					time: event[1],
-					lane: event[2],
-					tag: event[3]
-				});
-			}
+			events.events.push({
+				time: event[1],
+				lane: event[2],
+				tag: event[3]
+			});
 		}
 
-		// convert section camera into events
-		if(song != null){
-			// try some shit
-			var chartPath = Paths.json(song.toLowerCase(), "data/songs/" + song.toLowerCase());
-			if (!Utils.exists(chartPath)){
-				chartPath = Paths.json(song.toLowerCase() + "-hard", "data/songs/" + song.toLowerCase());
+		events.events.sort(function(a:EventDefinition, b:EventDefinition):Int{
+			var r:Int = 0;
+			r = FlxSort.byValues(FlxSort.ASCENDING, a.time, b.time);
+			if(r == 0){
+				r = FlxSort.byValues(FlxSort.ASCENDING, a.lane, b.lane);
 			}
-			if (!Utils.exists(chartPath)){
+			return r;
+		});
+
+		//Convert must hit sections into camera events.
+		if(song != null){
+			var chartPath:String = Paths.json(song.toLowerCase() + "-hard", "data/songs/" + song.toLowerCase());
+			if(!Utils.exists(chartPath)){
+				chartPath = Paths.json(song.toLowerCase(), "data/songs/" + song.toLowerCase());
+			}
+			if(!Utils.exists(chartPath)){
 				chartPath = Paths.json(song.toLowerCase() + "-easy", "data/songs/" + song.toLowerCase());
 			}
 
-			if (Utils.exists(chartPath)){
-				var legacyChart:LegacySong = Json.parse(Utils.getText(chartPath)).song;
+			if(Utils.exists(chartPath)){
+				//Get chart for mustHitSections.
+				var legacyChart:LegacySong = Json.parse(Utils.getText(chartPath)).song   ;
 
-				var prevFocus:Bool = true;
+				//For some reason trying to initialize a stage is breaking everything if someone can get it to work that would be nice.
+				//Regex instead. For fun. Also I guess it doesn't need to create all the stage stuff so that's kinda nice.
+				//Will not work 100% of the time, I can think of a few edge cases that would break this but whatever.
+				var startState:Bool = true;
+				if(Utils.exists("assets/data/stages/" + legacyChart.stage + ".hxc")){
+					var scriptText:String = Utils.getText("assets/data/stages/" + legacyChart.stage + ".hxc");
+					startState = startState && !(new EReg("cameraMovementEnabled(?|\\s*)=(?|\\s*)false;", "").match(scriptText));
+					startState = startState && !(new EReg("cameraMovementEnabled(?|\\s*)=(?|\\s*)!cameraMovementEnabled;", "").match(scriptText));
+				}
+
+				//Make a list of every toggleCamMovement event.
+				var currentState:Bool = startState;
+				var toggleCamPositions:Array<Dynamic> = [{time: 0, allowed: currentState}];
+				for(event in events.events){
+					if(event.tag.startsWith("toggleCamMovement")){
+						currentState = !currentState;
+						toggleCamPositions.push({
+							time: event.time,
+							allowed: currentState
+						});
+					}
+				}
+
+				var prevFocus:Null<Bool> = null;
 				var secTime:Float = 0;
 				var curBPM:Float = legacyChart.bpm;
 
 				for(section in legacyChart.notes){
-					var doPush:Bool = true;
+					var allowCamMovement:Bool = true;
 
-					if(section.changeBPM == true){
-						curBPM = section.bpm;
+					for(t in toggleCamPositions){
+						if(t.time > secTime && !Utils.inRange(secTime, t.time, 1)){ break; }
+						allowCamMovement = t.allowed;
 					}
 
-					if((section.mustHitSection && !prevFocus) || (!section.mustHitSection && prevFocus)){
-						 for(otherEvent in events.events){
-							if(otherEvent.tag.startsWith("camFocus") && Math.abs(secTime - otherEvent.time) < 0.00001){
-								doPush = false;
-								break;
-							}
-						}
-						if(doPush){
-							events.events.push({
-								time: secTime,
-								lane: 0,
-								tag: "camFocus" + (section.mustHitSection ? "Bf" : "Dad")
-							});
-						}
-
+					if((prevFocus == null || section.mustHitSection != prevFocus) && allowCamMovement){
+						events.events.push({
+							time: secTime,
+							lane: 0,
+							tag: "camFocus" + (section.mustHitSection ? "Bf" : "Dad")
+						});
 						prevFocus = section.mustHitSection;
 					}
 
+					if(section.changeBPM == true){ curBPM = section.bpm; }
 					secTime += ((((60 / curBPM) * 1000) / 4) * section.lengthInSteps ?? 16);
 				}
 			}
