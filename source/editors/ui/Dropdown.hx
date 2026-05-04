@@ -8,11 +8,13 @@ import flixel.FlxSprite;
 
 using StringTools;
 
+//TODO: make text clip inside of dropdown box
+
 class Dropdown extends UIElement
 {
 
 	static inline final LABEL_PADDING:Float = 5;
-	static inline final MAX_DROPDOWN_COUNT:Int = 10;
+	static inline final MAX_DROPDOWN_COUNT:Int = 12;
 
 	var box:Box;
 	var boxLabel:UIText;

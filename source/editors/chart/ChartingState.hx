@@ -1,5 +1,7 @@
 package editors.chart;
 
+import stages.ScriptableStage;
+import characters.CharacterInfoBase;
 import characters.ScriptableCharacter;
 import modding.ScriptingUtil.BlendMode;
 import Chart.ChartFormat;
@@ -55,6 +57,10 @@ class ChartingState extends MusicBeatState
 
 	public static inline final PANEL_SPACING:Float = 5;
 	public static inline final PANEL_EXTRA_SPACING:Float = 22;
+
+	var characterList:Array<String> = [];
+	var gfList:Array<String> = [];
+	var stageList:Array<String> = [];
 
 	public var chart:ChartFormat;
 	var startPosition:Float = 0;
@@ -119,6 +125,8 @@ class ChartingState extends MusicBeatState
 	var lilGuy:Character;
 	var lilBf:Character;
 
+	var noteTypeInput:TextInput;
+
 	override public function new(_startPosition:Float = 0){
 		super();
 		startPosition = Math.max(_startPosition, 0);
@@ -127,6 +135,8 @@ class ChartingState extends MusicBeatState
 	override function create():Void{
 		Config.setFramerate(120);
 		FlxG.mouse.visible = false;
+
+		generateLists();
 
 		if(PlayState.chart == null){
 			PlayState.chart = Chart.getEmptyChart();
@@ -331,6 +341,7 @@ class ChartingState extends MusicBeatState
 		FlxG.camera.follow(camFollow);
 
 		add(camFollow);
+		updateHealthIcons(chart.meta.opponent, chart.meta.player, true);
 
 		super.create();
 
@@ -338,27 +349,37 @@ class ChartingState extends MusicBeatState
 	}
 
 	function setupSongTab():Void{
-		var songNameInput:TextInput = new TextInput(PANEL_SPACING, PANEL_SPACING, 192, chart.meta.song, "Song Name");
+		var songNameInput:TextInput = new TextInput(PANEL_SPACING, PANEL_SPACING, 240, chart.meta.song, "Song");
 		var baseBpmInput:Stepper = new Stepper(PANEL_SPACING, songNameInput.y + songNameInput.elementHeight + PANEL_SPACING, 120, chart.meta.bpm[0].bpm, 1, 1, null, true, "Song BPM");
 
-		var opponentDropdown:Dropdown = new Dropdown(5, baseBpmInput.y + baseBpmInput.elementHeight + PANEL_EXTRA_SPACING, 192, ["Bf", "Dad", "Gf", "Pico"], "Dad", "Opponent");
-		var playerDropown:Dropdown = new Dropdown(5, opponentDropdown.y + opponentDropdown.elementHeight + PANEL_SPACING, 192, ["Bf", "Dad", "Gf", "Pico"], "Bf", "Player");
-		var speakerDropdown:Dropdown = new Dropdown(5, playerDropown.y + playerDropown.elementHeight + PANEL_SPACING, 192, ["Bf", "Dad", "Gf", "Pico"], "Gf", "Partner");
+		var opponentDropdown:Dropdown = new Dropdown(PANEL_SPACING, baseBpmInput.y + baseBpmInput.elementHeight + PANEL_EXTRA_SPACING, 240, characterList, chart.meta.opponent, "Opponent");
+		opponentDropdown.onSelect.add(function(v:String){
+			updateHealthIcons(v, chart.meta.player);
+			chart.meta.opponent = v;
+		});
+		var playerDropown:Dropdown = new Dropdown(PANEL_SPACING, opponentDropdown.y + opponentDropdown.elementHeight + PANEL_SPACING, 240, characterList, chart.meta.player, "Player");
+		playerDropown.onSelect.add(function(v:String){
+			updateHealthIcons(chart.meta.opponent, v);
+			chart.meta.player = v;
+		});
+		var speakerDropdown:Dropdown = new Dropdown(PANEL_SPACING, playerDropown.y + playerDropown.elementHeight + PANEL_SPACING, 240, gfList, chart.meta.speaker, "Partner");
+		speakerDropdown.onSelect.add(function(v:String){ chart.meta.speaker = v; });
+		var stageDropdown:Dropdown = new Dropdown(PANEL_SPACING, speakerDropdown.y + speakerDropdown.elementHeight + PANEL_EXTRA_SPACING, 240, stageList, chart.meta.stage, "Stage");
+		stageDropdown.onSelect.add(function(v:String){ chart.meta.stage = v; });
 
 		panel.addToTab("Song", songNameInput);
 		panel.addToTab("Song", baseBpmInput);
 		panel.addToTab("Song", opponentDropdown);
 		panel.addToTab("Song", playerDropown);
 		panel.addToTab("Song", speakerDropdown);
+		panel.addToTab("Song", stageDropdown);
 	}
 
 	function setupNotesTab():Void{
-		var testToggle:Toggle = new Toggle(PANEL_SPACING, PANEL_SPACING, false, "Note Toggle");
-		testToggle.onToggle.add(function(state:Bool){
-			trace(state);
-		});
+		//Temp for now, just so it exists.
+		noteTypeInput = new TextInput(PANEL_SPACING, PANEL_SPACING, 336, "", "Tag");
 
-		panel.addToTab("Notes", testToggle);
+		panel.addToTab("Notes", noteTypeInput);
 	}
 	
 	function setupEventsTab():Void{
@@ -495,7 +516,7 @@ class ChartingState extends MusicBeatState
 
 			if(gridCursorIndex < 2){ //Placing notes.
 				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused()){
-					var newNote = addNote(getSongPositionFromY(gridCursor.y), gridCursorLane, gridCursorIndex == 1);
+					var newNote = addNote(getSongPositionFromY(gridCursor.y), gridCursorLane, gridCursorIndex == 1, noteTypeInput.value);
 					selectedNotes = [newNote];
 					placedNoteHold = true;
 				}
@@ -506,8 +527,14 @@ class ChartingState extends MusicBeatState
 				else if(FlxG.mouse.justPressedMiddle && !panel.isAnythingFocused()){
 					if(!FlxG.keys.anyPressed([SHIFT])){ selectedNotes = []; }
 					var note:ChartingNote = getNoteUnderCursor();
-					if(note != null && !selectedNotes.contains(note)){ selectedNotes.push(note); }
+					if(note != null && !selectedNotes.contains(note)){
+						selectedNotes.push(note);
+						noteTypeInput.value = note.tag;
+					}
 					else if(note != null && selectedNotes.contains(note)){ selectedNotes.remove(note); }
+					else if(note == null){
+						noteTypeInput.value = "";
+					}
 				}
 			}
 			else{ //Placing events.
@@ -776,12 +803,12 @@ class ChartingState extends MusicBeatState
 					selectedNotes = [];
 					for(noteData in copiedNoteData){
 						if(!copyingBoth){
-							var newNote = addNote(noteData.time + getSongPositionFromY(gridCursor.y), noteData.direction, gridCursorIndex == 1);
+							var newNote = addNote(noteData.time + getSongPositionFromY(gridCursor.y), noteData.direction, gridCursorIndex == 1, noteData.tag);
 							newNote.sustainLength = noteData.length;
 							selectedNotes.push(newNote);
 						}
 						else{
-							var newNote = addNote(noteData.time + getSongPositionFromY(gridCursor.y), noteData.direction, noteData.player);
+							var newNote = addNote(noteData.time + getSongPositionFromY(gridCursor.y), noteData.direction, noteData.player, noteData.tag);
 							newNote.sustainLength = noteData.length;
 							selectedNotes.push(newNote);
 						}
@@ -965,6 +992,90 @@ class ChartingState extends MusicBeatState
 		notes.forEach(function(note:ChartingNote){
 			chart.notes.push(note.generateNoteDefiniton());
 		});
+	}
+	
+	function generateLists():Void{
+		characterList = [];
+		gfList = [];
+		stageList = [];
+
+		for(className in ScriptableCharacter.listScriptClasses()){
+			var pushedName:String = className;
+			if(className.contains("characters.")){
+				pushedName = className.split("characters.")[1];
+			}
+			var getScriptInfo:CharacterInfoBase = ScriptableCharacter.scriptInit(className);
+			if(getScriptInfo.includeInCharacterList){ characterList.push(pushedName); }
+			if(getScriptInfo.includeInGfList){ gfList.push(pushedName); }
+		}
+
+		for(className in ScriptableStage.listScriptClasses()){
+			var pushedName:String = className;
+			if(className.contains("stages.")){
+				pushedName = className.split("stages.")[1];
+			}
+			stageList.push(pushedName);
+		}
+
+		//makes them be in alphabetical order
+		characterList.sort(function(a:String, b:String):Int{
+			a = a.toUpperCase();
+			b = b.toUpperCase();
+			if(a < b){ return -1; }
+			else if(a > b){ return 1; }
+			else{ return 0; }
+		});
+		gfList.sort(function(a:String, b:String):Int{
+			a = a.toUpperCase();
+			b = b.toUpperCase();
+			if(a < b){ return -1; }
+			else if(a > b){ return 1; }
+			else{ return 0; }
+		});
+		
+		stageList.sort(function(a:String, b:String):Int{
+			a = a.toUpperCase();
+			b = b.toUpperCase();
+			if(a < b){ return -1; }
+			else if(a > b){ return 1; }
+			else{ return 0; }
+		});
+	}
+
+	function updateHealthIcons(opponentCharacter:String, playerCharacter:String, force:Bool = false):Void{
+		if(opponentCharacter != chart.meta.opponent || force){
+			var oppClassName:String = "characters."+opponentCharacter;
+			#if BACKWARD_COMPATIBILITY
+			if(!ScriptableCharacter.listScriptClasses().contains(oppClassName)){
+				oppClassName = opponentCharacter;
+			}
+			#end
+
+			var opp:CharacterInfoBase = ScriptableCharacter.scriptInit(oppClassName);
+
+			opponentIcon.setIconCharacter(opp.info.iconName);
+			opponentIcon.scrollFactor.set(0, 0);
+			opponentIcon.centerOrigin();
+			opponentIcon.scale.set(opponentIcon.scale.x/2, opponentIcon.scale.y/2);
+			opponentIcon.setPosition(grids[0].grid.x + grids[0].grid.width/2 - opponentIcon.width/2, GRID_SIZE - opponentIcon.height/2);
+		}
+
+		if(playerCharacter != chart.meta.player || force){
+			var playerCharClassName:String = "characters."+playerCharacter;
+			#if BACKWARD_COMPATIBILITY
+			if(!ScriptableCharacter.listScriptClasses().contains(playerCharClassName)){
+				playerCharClassName = playerCharacter;
+			}
+			#end
+			
+			var player:CharacterInfoBase = ScriptableCharacter.scriptInit(playerCharClassName);
+
+			playerIcon.setIconCharacter(player.info.iconName);
+			playerIcon.scrollFactor.set(0, 0);
+			playerIcon.centerOrigin();
+			playerIcon.scale.set(playerIcon.scale.x/2, playerIcon.scale.y/2);
+			playerIcon.setPosition(grids[1].grid.x + grids[1].grid.width/2 - playerIcon.width/2, GRID_SIZE - playerIcon.height/2);
+		}
 	}
 	
 }

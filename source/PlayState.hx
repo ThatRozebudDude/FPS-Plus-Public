@@ -1132,18 +1132,18 @@ class PlayState extends MusicBeatState
 
 		switch(vocalType){
 			case splitVocalTrack:
-				vocals = new FlxSound().loadEmbedded(Paths.voices(curSong, "Player"));
+				vocals = new FlxSound().loadEmbedded(Paths.voices(chart.meta.song, "Player"));
 				vocals.volume = 0;
 				vocals.onComplete = function(){ vocals.volume = 0; }
 
-				vocalsOther = new FlxSound().loadEmbedded(Paths.voices(curSong, "Opponent"));
+				vocalsOther = new FlxSound().loadEmbedded(Paths.voices(chart.meta.song, "Opponent"));
 				vocalsOther.volume = 0;
 				vocalsOther.onComplete = function(){ vocalsOther.volume = 0; }
 				vocalsOther.play().pause();
 				FlxG.sound.list.add(vocalsOther);
 
 			case combinedVocalTrack:
-				vocals = new FlxSound().loadEmbedded(Paths.voices(curSong));
+				vocals = new FlxSound().loadEmbedded(Paths.voices(chart.meta.song));
 				vocals.onComplete = function(){ vocals.volume = 0; }
 				vocals.volume = 0;
 				
