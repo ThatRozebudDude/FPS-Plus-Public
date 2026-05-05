@@ -1,3 +1,5 @@
+# TODO
+
 - Editor UI Components
 	- Custom Cursor (Maybe)
 	- Text Input QOL
@@ -6,16 +8,19 @@
 		- Make volume keys not work when inputting text.
 
 - New Chart Format
-	- No more sections.
-	- Still need to figure out how I want to handle BPM change stuff.
-		- Possibly events or maybe it's own thing kinda like base game? The current implementation needs it to at least be on a step, no smaller interval, so maybe it'll be it's own thing.
 	- Make sure that the old format is still supported and can load and auto convert to the new format.
 		- Also update the base-game chart port Python script if I'm not lazy but if this works I could just auto convert it later.
 
 - Chart Editor
-	- Make it. Lol.
+	- Alert system.
+		- Little message can pop up at the bottom when doing certain actions.
+	- Figure out how I want to do changing grid snap.
+		- Possibly a dropdown in the Tools tab but I don't know yet.
 	- More robust event / note type UI that's more intuitive to use.
 		- I want events and note types to have definable argument types and the editor will auto generate text input fields and type hints and put together the tag automatically so you don't need to manually type out the tag but you still can if you want to. 
+	- Undo/Redo
+		- Scary.
+	- Sound effects? Maybe?
 
 - Character Editor
 	- Kinda like a mix of the offset editor and the debug Character Compare thing.
