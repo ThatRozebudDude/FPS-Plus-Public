@@ -7,6 +7,8 @@ import characters.ScriptableCharacter;
 import modding.ScriptingUtil.BlendMode;
 import Chart.ChartFormat;
 import Chart.NoteDefinition;
+import Chart.EventDefinition;
+import Chart.BPMDefinition;
 import editors.ui.*;
 import flixel.sound.FlxSound;
 import flixel.text.FlxText.FlxTextAlign;
@@ -37,6 +39,23 @@ typedef GridParts = {
 	var gridOverlay:FlxBackdrop;
 	var topFade:FlxSprite;
 	var bottomFade:FlxSprite;
+}
+
+//Used for undo/redo stuff.
+typedef ChartSnapshot = {
+	var notes:Array<NoteDefinition>;
+	var events:Array<EventDefinition>;
+	var bpmChanges:Array<BPMDefinition>;
+	var action:UndoAction;
+}
+
+//All the different actions that can be captured by the chart snapshot.
+enum UndoAction {
+	NONE; //Used for the intial state or when the action type isn't needed like building the inital chart.
+	PLACE_NOTES;
+	REMOVE_NOTES;
+	CUT;
+	PASTE;
 }
 
 class ChartingState extends MusicBeatState
@@ -136,6 +155,10 @@ class ChartingState extends MusicBeatState
 	var noteTypeInput:TextInput;
 
 	var popupGroup:FlxTypedGroup<Popup>;
+	
+	var undoHistory:Array<ChartSnapshot> = [];
+	var redoHistory:Array<ChartSnapshot> = [];
+	var currentState:ChartSnapshot;
 
 	override public function new(_startPosition:Float = 0){
 		super();
@@ -358,7 +381,8 @@ class ChartingState extends MusicBeatState
 
 		add(camFollow);
 		updateHealthIcons(chart.meta.opponent, chart.meta.player, true);
-
+		setCurrentState(NONE);
+		
 		super.create();
 
 		add(editorCursor);
@@ -552,8 +576,9 @@ class ChartingState extends MusicBeatState
 					placedNoteHold = true;
 				}
 				else if(FlxG.mouse.justPressedRight && !FlxG.keys.anyPressed([SHIFT])  && !panel.isAnythingFocused()){
-					removeNotesInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridCursorLane, gridCursorIndex == 1, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
+					var success:Bool = removeNotesInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridCursorLane, gridCursorIndex == 1, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
 					selectedNotes = [];
+					if(success){ createSnapshot(REMOVE_NOTES); }
 				}
 				else if(FlxG.mouse.justPressedMiddle && !panel.isAnythingFocused()){
 					if(!FlxG.keys.anyPressed([SHIFT])){ selectedNotes = []; }
@@ -579,8 +604,9 @@ class ChartingState extends MusicBeatState
 			var sustainLength:Int = FlxMath.maxInt(Math.round((gridCursor.y - selectedNotes[0].y) / GRID_SIZE), 0);
 			if(selectedNotes[0].sustainLength != sustainLength){ selectedNotes[0].sustainLength = sustainLength; }
 		}
-		else{
+		else if(placedNoteHold){
 			placedNoteHold = false;
+			createSnapshot(PLACE_NOTES);
 		}
 
 		if(!selectionBoxOpen && FlxG.mouse.justPressed && FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused() && gridCursorIndex >= 0){
@@ -738,15 +764,8 @@ class ChartingState extends MusicBeatState
 		Conductor.resetBPMChanges();
 		Conductor.setBPMChanges(chart.meta.bpm);
 
-		notes.forEach(function(note:ChartingNote){
-			note.destroy();
-		});
-		notes.clear();
-
-		for(noteData in chart.notes){
-			var newNote = addNote(noteData.time, noteData.direction, noteData.player, noteData.tag);
-			newNote.sustainLength = noteData.length;
-		}
+		var snapshot:ChartSnapshot = {notes: chart.notes, events: [], bpmChanges: chart.meta.bpm, action: NONE};
+		rebuildChartFromSnapshot(snapshot);
 	}
 
 	override function beatHit():Void{
@@ -791,6 +810,7 @@ class ChartingState extends MusicBeatState
 			selectedNotes = [];
 			if(deleteCount > 0){
 				createPopup("Deleted " + deleteCount + " note" + (deleteCount==1?".":"s."));
+				createSnapshot(REMOVE_NOTES);
 			}
 		}
 
@@ -810,14 +830,8 @@ class ChartingState extends MusicBeatState
 		}
 
 		//Undo Redo
-		if(FlxG.keys.anyJustPressed([Z]) && FlxG.keys.anyPressed([CONTROL])){
-			//gulp
-			createPopup("Undo.");
-		}
-		else if(FlxG.keys.anyJustPressed([Y]) && FlxG.keys.anyPressed([CONTROL])){
-			//gulp
-			createPopup("Redo.");
-		}
+		if(FlxG.keys.anyJustPressed([Z]) && FlxG.keys.anyPressed([CONTROL]))		{ undo(); }
+		else if(FlxG.keys.anyJustPressed([Y]) && FlxG.keys.anyPressed([CONTROL]))	{ redo(); }
 
 		//Copy Cut Paste
 		if(FlxG.keys.anyJustPressed([C]) && FlxG.keys.anyPressed([CONTROL])){
@@ -837,6 +851,7 @@ class ChartingState extends MusicBeatState
 				}
 				selectedNotes = [];
 				createPopup("Cut " + copiedNoteData.length + " note" + (copiedNoteData.length==1?".":"s."));
+				if(copiedNoteData.length > 0){ createSnapshot(CUT); }
 			}
 			else{
 				//Event stuff later
@@ -844,6 +859,10 @@ class ChartingState extends MusicBeatState
 		}
 		else if(FlxG.keys.anyJustPressed([V]) && FlxG.keys.anyPressed([CONTROL]) && gridCursorIndex >= 0){
 			if(gridCursorIndex < 2){
+				if(placedNoteHold){
+					placedNoteHold = false;
+					createSnapshot(PLACE_NOTES);
+				}
 				if(copiedNoteData.length > 0){
 					selectedNotes = [];
 					for(noteData in copiedNoteData){
@@ -859,8 +878,8 @@ class ChartingState extends MusicBeatState
 						}
 					}
 				}
-				placedNoteHold = false;
 				createPopup("Pasted " + copiedNoteData.length + " note" + (copiedNoteData.length==1?".":"s."));
+				createSnapshot(PASTE);
 				
 			}
 			else{
@@ -918,7 +937,7 @@ class ChartingState extends MusicBeatState
 		return r;
 	}
 
-	function removeNotesInProximity(strumTime:Float, direction:Int, player:Bool, region:Float = 5):Void{
+	function removeNotesInProximity(strumTime:Float, direction:Int, player:Bool, region:Float = 5):Bool{
 		var removeList:Array<ChartingNote> = getNotesInRegion(strumTime, direction, player, region);
 		for(note in removeList){
 			if(selectedNotes.contains(note)){ selectedNotes.remove(note); }
@@ -926,6 +945,7 @@ class ChartingState extends MusicBeatState
 			notes.remove(note, true);
 			note.destroy();
 		}
+		return removeList.length > 0;
 	}
 
 	function getNoteUnderCursor():ChartingNote{
@@ -1200,6 +1220,75 @@ class ChartingState extends MusicBeatState
 		popup.x -= (1280/2) - gridCenterPosition;
 		popup.setWantedToPosition();
 		popupGroup.add(popup);
+	}
+
+	function setCurrentState(type:UndoAction):Void{
+		var noteData:Array<NoteDefinition> = [];
+		notes.forEach(function(note:ChartingNote){
+			noteData.push(note.generateNoteDefiniton());
+		});
+
+		currentState = {notes: noteData, events: [], bpmChanges: [], action: type};
+	}
+
+	function createSnapshot(type:UndoAction):Void{
+		undoHistory.push(currentState);
+		setCurrentState(type);
+		redoHistory = [];
+	}
+
+	function undo():Void{
+		if(undoHistory.length <= 0){
+			createPopup("Nothing to undo.", 0.75);
+			return;
+		}
+
+		var snapshot:ChartSnapshot = undoHistory.pop();
+		rebuildChartFromSnapshot(snapshot);
+
+		var actionText:String = getUndoActionText(currentState.action);
+		createPopup("Undo"+(actionText.length>0?" ":"")+actionText+".", 0.75);
+
+		redoHistory.push(currentState);
+		currentState = snapshot;
+		selectedNotes = [];
+	}
+
+	function redo():Void{
+		if(redoHistory.length <= 0){
+			createPopup("Nothing to redo.", 0.75);
+			return;
+		}
+
+		var snapshot:ChartSnapshot = redoHistory.pop();
+		rebuildChartFromSnapshot(snapshot);
+
+		var actionText:String = getUndoActionText(currentState.action);
+		createPopup("Redo"+(actionText.length>0?" ":"")+actionText+".", 0.75);
+
+		undoHistory.push(currentState);
+		currentState = snapshot;
+		selectedNotes = [];
+	}
+
+	function rebuildChartFromSnapshot(snapshot:ChartSnapshot){
+		notes.forEach(function(note:ChartingNote){ note.destroy(); });
+		notes.clear();
+
+		for(noteData in snapshot.notes){
+			var newNote = addNote(noteData.time, noteData.direction, noteData.player, noteData.tag);
+			newNote.sustainLength = noteData.length;
+		}
+	}
+
+	inline function getUndoActionText(action:UndoAction):String{
+		switch(action){
+			case PLACE_NOTES: return "placed note";
+			case REMOVE_NOTES: return "deleted note(s)";
+			case CUT: return "cut";
+			case PASTE: return "paste";
+			default: return "";
+		}
 	}
 	
 }
