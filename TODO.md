@@ -20,6 +20,7 @@
 		- I want events and note types to have definable argument types and the editor will auto generate text input fields and type hints and put together the tag automatically so you don't need to manually type out the tag but you still can if you want to. 
 	- Undo/Redo
 		- Scary.
+	- Autosave.
 	- Sound effects? Maybe?
 
 - Character Editor

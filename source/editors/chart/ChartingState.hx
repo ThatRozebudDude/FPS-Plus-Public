@@ -99,6 +99,7 @@ class ChartingState extends MusicBeatState
 	var lastGridCursorIndex:Int = -1;
 	var gridCursorLane:Int = -1;
 	var lastGridCursorLane:Int = -1;
+	var gridSnapDivisor:Null<Float> = 1;
 
 	var playerIcon:HealthIcon;
 	var opponentIcon:HealthIcon;
@@ -122,6 +123,8 @@ class ChartingState extends MusicBeatState
 
 	var playerHitSoundToggle:Toggle;
 	var opponentHitSoundToggle:Toggle;
+
+	var gridSnapDropdown:Dropdown;
 
 	var lilBuddiesEnabled:Bool = false;
 	var lilGuy:Character;
@@ -435,18 +438,22 @@ class ChartingState extends MusicBeatState
 
 	function setupToolsTab():Void{
 		opponentHitSoundToggle = new Toggle(PANEL_SPACING, PANEL_SPACING, false, "Opponent Hitsound");
-		playerHitSoundToggle = new Toggle(PANEL_SPACING, opponentHitSoundToggle.y + opponentHitSoundToggle.height + PANEL_SPACING, false, "Player Hitsound");
+		playerHitSoundToggle = new Toggle(PANEL_SPACING, opponentHitSoundToggle.y + opponentHitSoundToggle.elementHeight + PANEL_SPACING, false, "Player Hitsound");
 		
-		var instrumentalToggle:Toggle = new Toggle(PANEL_SPACING, playerHitSoundToggle.y + playerHitSoundToggle.height + PANEL_EXTRA_SPACING, true, "Instrumental");
+		var instrumentalToggle:Toggle = new Toggle(PANEL_SPACING, playerHitSoundToggle.y + playerHitSoundToggle.elementHeight + PANEL_EXTRA_SPACING, true, "Instrumental");
 		instrumentalToggle.onToggle.add(function(value:Bool){ FlxG.sound.music.volume = value ? 1 : 0; });
 
-		var playerVoxToggle:Toggle = new Toggle(PANEL_SPACING, instrumentalToggle.y + instrumentalToggle.height + PANEL_SPACING, true, "Player Vocals");
+		var playerVoxToggle:Toggle = new Toggle(PANEL_SPACING, instrumentalToggle.y + instrumentalToggle.elementHeight + PANEL_SPACING, true, "Player Vocals");
 		playerVoxToggle.onToggle.add(function(value:Bool){ vocals.volume = value ? 1 : 0; });
 
-		var opponentVoxToggle:Toggle = new Toggle(PANEL_SPACING, playerVoxToggle.y + playerVoxToggle.height + PANEL_SPACING, true, "Opponent Vocals");
+		var opponentVoxToggle:Toggle = new Toggle(PANEL_SPACING, playerVoxToggle.y + playerVoxToggle.elementHeight + PANEL_SPACING, true, "Opponent Vocals");
 		opponentVoxToggle.onToggle.add(function(value:Bool){ vocalsOther.volume = value ? 1 : 0; });
 
-		var playbackRate:Stepper = new Stepper(PANEL_SPACING, opponentVoxToggle.y + opponentVoxToggle.height + PANEL_EXTRA_SPACING, 100, 1, 0.1, 0.1, 1, true, "Playback Rate");
+		//idk if this is the way i want to do this or not yet
+		gridSnapDropdown = new Dropdown(PANEL_SPACING, opponentVoxToggle.y + opponentVoxToggle.elementHeight + PANEL_EXTRA_SPACING, 196, ["1/16th Note", "1/32nd Note", "1/64th Note", "1/16th Triplet", "1/32nd Triplet", "1/64th Triplet", "Free"], "1/16th Note", "Grid Snap");
+		gridSnapDropdown.onSelect.add(function(v:String){ setGridSnap(v); });
+
+		var playbackRate:Stepper = new Stepper(PANEL_SPACING, gridSnapDropdown.y + gridSnapDropdown.elementHeight + PANEL_EXTRA_SPACING, 100, 1, 0.1, 0.1, 1, true, "Playback Rate");
 		playbackRate.onValueChanged.add(function(value:Float){
 			FlxG.sound.music.pitch = value;
 			vocals.pitch = value;
@@ -459,6 +466,7 @@ class ChartingState extends MusicBeatState
 		panel.addToTab("Tools", instrumentalToggle);
 		panel.addToTab("Tools", playerVoxToggle);
 		panel.addToTab("Tools", opponentVoxToggle);
+		panel.addToTab("Tools", gridSnapDropdown);
 		panel.addToTab("Tools", playbackRate);
 		
 		if(ScriptableCharacter.listScriptClasses().contains("characters.BfLil") && ScriptableCharacter.listScriptClasses().contains("characters.GuyLil")){
@@ -519,11 +527,11 @@ class ChartingState extends MusicBeatState
 			/*if(FlxG.keys.anyPressed([SHIFT])){
 				gridCursor.y = FlxG.mouse.y;
 			}*/
-			if(FlxG.keys.anyPressed([CONTROL])){
-				gridCursor.y = Math.floor(FlxG.mouse.y / (GRID_SIZE / 2)) * (GRID_SIZE / 2);
+			if(gridSnapDivisor != null){
+				gridCursor.y = Math.floor(FlxG.mouse.y / (GRID_SIZE / gridSnapDivisor)) * (GRID_SIZE / gridSnapDivisor);
 			}
 			else{
-				gridCursor.y = Math.floor(FlxG.mouse.y / GRID_SIZE) * GRID_SIZE;
+				gridCursor.y = FlxG.mouse.y;
 			}
 
 			if(gridCursorIndex < 2){ //Placing notes.
@@ -764,6 +772,18 @@ class ChartingState extends MusicBeatState
 
 		//Cycle panel tabs.
 		if(FlxG.keys.anyJustPressed([TAB]))		{ panel.changeTab((panel.selectedTab + 1) % panel.tabs.length); }
+
+		//Grid snap.
+		if(FlxG.keys.anyJustPressed([LEFT])){
+			gridSnapDropdown.currentIndex -= 1;
+			if(gridSnapDropdown.currentIndex < 0){ gridSnapDropdown.currentIndex = gridSnapDropdown.values.length-1; }
+			setGridSnap(gridSnapDropdown.values[gridSnapDropdown.currentIndex]);
+		}
+		if(FlxG.keys.anyJustPressed([RIGHT])){
+			gridSnapDropdown.currentIndex += 1;
+			if(gridSnapDropdown.currentIndex >= gridSnapDropdown.values.length){ gridSnapDropdown.currentIndex = 0; }
+			setGridSnap(gridSnapDropdown.values[gridSnapDropdown.currentIndex]);
+		}
 
 		//Undo Redo
 		if(FlxG.keys.anyJustPressed([Z]) && FlxG.keys.anyPressed([CONTROL])){
@@ -1111,6 +1131,31 @@ class ChartingState extends MusicBeatState
 		}
 
 		return false;
+	}
+
+	function setGridSnap(value:String):Void{
+		switch(value){
+			case "Free":
+				gridSnapDivisor = null;
+
+			case "1/32nd Note":
+				gridSnapDivisor = 2;
+
+			case "1/64th Note":
+				gridSnapDivisor = 4;
+
+			case "1/16th Triplet":
+				gridSnapDivisor = 3/4;
+
+			case "1/32nd Triplet":
+				gridSnapDivisor = 6/4;
+			
+			case "1/64th Triplet":
+				gridSnapDivisor = 12/4;
+
+			default:
+				gridSnapDivisor = 1;
+		}
 	}
 	
 }

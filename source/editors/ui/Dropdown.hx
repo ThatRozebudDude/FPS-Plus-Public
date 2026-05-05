@@ -23,8 +23,8 @@ class Dropdown extends UIElement
 
 	var label:UIText;
 
-	var values:Array<String>;
-	var currentIndex:Int = 0;
+	public var values:Array<String>;
+	public var currentIndex:Int = 0;
 
 	var dropdownOpened:Bool = false;
 	var dropdownOverlapIndex:Int = -1;
@@ -32,7 +32,6 @@ class Dropdown extends UIElement
 	var dropdownBoxes:Array<Box> = [];
 	var dropdownLabels:Array<UIText> = [];
 
-	public var selectedValue:String;
 	public var onSelect:FlxTypedSignal<String->Void> = new FlxTypedSignal<String->Void>();
 
 	public function new(_x:Float, _y:Float, _width:Float, _values:Array<String>, ?_defaultValue:String = null, _label:String = ""){
@@ -129,7 +128,6 @@ class Dropdown extends UIElement
 		if(FlxG.mouse.justPressed && dropdownOpened && manager.allowInteraction){
 			if(anyBoxOverlaps){
 				currentIndex = dropdownStartIndex + dropdownOverlapIndex;
-				boxLabel.text = values[currentIndex];
 				onSelect.dispatch(values[currentIndex]);
 				closeDropdown();
 			}
@@ -137,6 +135,10 @@ class Dropdown extends UIElement
 				closeDropdown();
 			}
 		}
+
+		boxLabel.text = values[currentIndex];
+		var rectPos = Utils.worldToLocal(boxLabel, box.x + Box.BORDER_SIZE, box.y + Box.BORDER_SIZE);
+		boxLabel.clipRect = new FlxRect(rectPos.x/boxLabel.scale.x, rectPos.y/boxLabel.scale.y, (box.width - Box.BORDER_SIZE*2)/boxLabel.scale.x, (box.height - Box.BORDER_SIZE*2)/boxLabel.scale.y);
 
 		super.update(elapsed);
 	}
@@ -169,4 +171,5 @@ class Dropdown extends UIElement
 	override function unfocus():Void{
 		closeDropdown();
 	}
+	
 }
