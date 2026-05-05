@@ -42,6 +42,7 @@ typedef GridParts = {
 }
 
 //Used for undo/redo stuff.
+//I probably should only store the difference so it doesn't need to rebuild literally the entire chart but whatever. I'll figure that out later.
 typedef ChartSnapshot = {
 	var notes:Array<NoteDefinition>;
 	var events:Array<EventDefinition>;
@@ -718,8 +719,9 @@ class ChartingState extends MusicBeatState
 			for(note in notes){
 				if(note.time >= previousSongPosition && note.time < Conductor.songPosition){
 					if((note.player && playerHitSoundToggle.state) || (!note.player && opponentHitSoundToggle.state)){
-						var tickSound:FlxSound = FlxG.sound.play(Paths.sound("tick"), 0.8);
+						var tickSound:FlxSound = FlxG.sound.play(Paths.sound("tick"), 1);
 						tickSound.pan = (playerHitSoundToggle.state && opponentHitSoundToggle.state) ? 0.15 * (note.player ? 1 : -1) : 0;
+						tickSound.pitch = (playerHitSoundToggle.state && opponentHitSoundToggle.state) ? (note.player ? 1.15 : 0.85) : 1;
 					}
 
 					if(lilBuddiesEnabled){
