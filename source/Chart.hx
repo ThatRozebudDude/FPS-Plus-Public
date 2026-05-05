@@ -157,8 +157,8 @@ class Chart
 		return {
 			meta: {
 				format: CURRENT_CHART_FORMAT,
-				song: "",
-				bpm: [{bpm: 100, time: 0}],
+				song: "Fresh",
+				bpm: [{bpm: 120, time: 0}],
 				
 				player: "Bf",
 				opponent: "Dad",

@@ -59,6 +59,8 @@ class ChartingState extends MusicBeatState
 	public static inline final PANEL_SPACING:Float = 5;
 	public static inline final PANEL_EXTRA_SPACING:Float = 22;
 
+	public static inline final POPUP_SPACING:Float = 12;
+
 	var characterList:Array<String> = [];
 	var gfList:Array<String> = [];
 	var stageList:Array<String> = [];
@@ -100,6 +102,7 @@ class ChartingState extends MusicBeatState
 	var gridCursorLane:Int = -1;
 	var lastGridCursorLane:Int = -1;
 	var gridSnapDivisor:Null<Float> = 1;
+	var gridCenterPosition:Float = 0;
 
 	var playerIcon:HealthIcon;
 	var opponentIcon:HealthIcon;
@@ -132,6 +135,8 @@ class ChartingState extends MusicBeatState
 
 	var noteTypeInput:TextInput;
 
+	var popupGroup:FlxTypedGroup<Popup>;
+
 	override public function new(_startPosition:Float = 0){
 		super();
 		startPosition = Math.max(_startPosition, 0);
@@ -163,6 +168,8 @@ class ChartingState extends MusicBeatState
 		gridsUnderlay.x = GRID_POSITION - GRID_SPACING;
 		gridsUnderlay.color = BACKGROUND_COLOR;
 		gridsUnderlay.scrollFactor.set(0, 0);
+
+		gridCenterPosition = gridsUnderlay.getMidpoint().x;
 
 		for(i in 0...GRID_COUNT){
 			var gridParts:GridParts = {grid: null, gridOverlay: null, topFade: null, bottomFade: null};
@@ -287,6 +294,8 @@ class ChartingState extends MusicBeatState
 		stepBoxRightText.y -= timeBoxLeftText.height/2;
 		stepBoxRightText.scrollFactor.set(0, 0);
 
+		popupGroup = new FlxTypedGroup<Popup>();
+
 		loadChart();
 		FlxG.sound.music.time = startPosition;
 
@@ -321,6 +330,8 @@ class ChartingState extends MusicBeatState
 		add(playerIcon);
 		add(opponentIcon);
 		add(eventIcon);
+
+		add(popupGroup);
 
 		add(playbackBar);
 
@@ -702,6 +713,14 @@ class ChartingState extends MusicBeatState
 			}
 		}
 
+		popupGroup.forEachDead(function(popup:Popup):Void{
+			popupGroup.remove(popup, true);
+		});
+
+		for(i in 0...popupGroup.members.length){
+			popupGroup.members[i].wantedY = 720 - (popupGroup.members[i].elementHeight + POPUP_SPACING) * (popupGroup.members.length - i);
+		}
+
 		super.update(elapsed);
 
 		textUpdateTimer += elapsed;
@@ -764,10 +783,15 @@ class ChartingState extends MusicBeatState
 
 		//Delete selected notes.
 		if(FlxG.keys.anyJustPressed([DELETE])){
+			var deleteCount:Int = 0;
 			while(selectedNotes.length > 0){
 				removeNotesInProximity(selectedNotes[0].time, selectedNotes[0].direction, selectedNotes[0].player, 1);
+				deleteCount++;
 			}
 			selectedNotes = [];
+			if(deleteCount > 0){
+				createPopup("Deleted " + deleteCount + " note" + (deleteCount==1?".":"s."));
+			}
 		}
 
 		//Cycle panel tabs.
@@ -788,15 +812,18 @@ class ChartingState extends MusicBeatState
 		//Undo Redo
 		if(FlxG.keys.anyJustPressed([Z]) && FlxG.keys.anyPressed([CONTROL])){
 			//gulp
+			createPopup("Undo.");
 		}
 		else if(FlxG.keys.anyJustPressed([Y]) && FlxG.keys.anyPressed([CONTROL])){
 			//gulp
+			createPopup("Redo.");
 		}
 
 		//Copy Cut Paste
 		if(FlxG.keys.anyJustPressed([C]) && FlxG.keys.anyPressed([CONTROL])){
 			if(gridCursorIndex < 2){
 				copyNotes();
+				createPopup("Copied " + copiedNoteData.length + " note" + (copiedNoteData.length==1?".":"s."));
 			}
 			else{
 				//Event stuff later
@@ -809,6 +836,7 @@ class ChartingState extends MusicBeatState
 					removeNotesInProximity(selectedNotes[0].time, selectedNotes[0].direction, selectedNotes[0].player, 1);
 				}
 				selectedNotes = [];
+				createPopup("Cut " + copiedNoteData.length + " note" + (copiedNoteData.length==1?".":"s."));
 			}
 			else{
 				//Event stuff later
@@ -831,6 +859,9 @@ class ChartingState extends MusicBeatState
 						}
 					}
 				}
+				placedNoteHold = false;
+				createPopup("Pasted " + copiedNoteData.length + " note" + (copiedNoteData.length==1?".":"s."));
+				
 			}
 			else{
 				//Event stuff later
@@ -1125,11 +1156,13 @@ class ChartingState extends MusicBeatState
 			FlxG.sound.music.volume = 1;
 
 			previousSong = song;
+			createPopup("Loaded audio for \"" + song + "\".", 2);
 			Utils.gc();
 
 			return true;
 		}
 
+		createPopup("Audio for \"" + song + "\" could not be found.", 2);
 		return false;
 	}
 
@@ -1156,6 +1189,17 @@ class ChartingState extends MusicBeatState
 			default:
 				gridSnapDivisor = 1;
 		}
+
+		createPopup("Grid Snap set to " + value + (value=="Free"?".":"s."), 2);
+	}
+
+	function createPopup(text:String, time:Float = 1.5):Void{
+		var popup = new Popup(0, 720, text, time);
+		popup.scrollFactor.set(0, 0);
+		popup.screenCenter(X);
+		popup.x -= (1280/2) - gridCenterPosition;
+		popup.setWantedToPosition();
+		popupGroup.add(popup);
 	}
 	
 }
