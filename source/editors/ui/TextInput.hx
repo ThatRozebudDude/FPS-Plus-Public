@@ -151,6 +151,7 @@ class TextInput extends UIElement
 		inputString = value;
 		inputIndex = value.length;
 		updateCaretPosition();
+		Binds.allowChangingVolume = false;
 	}
 
 	function stopTextInput():Void{
@@ -159,6 +160,7 @@ class TextInput extends UIElement
 		value = inputString;
 		onValueChanged.dispatch(value);
 		resetCaret(false);
+		Binds.allowChangingVolume = true;
 	}
 
 	public function set_allowTyping(v:Bool):Bool{
