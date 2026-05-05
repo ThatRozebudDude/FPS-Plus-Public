@@ -1,5 +1,6 @@
 package editors.chart;
 
+import openfl.Assets;
 import stages.ScriptableStage;
 import characters.CharacterInfoBase;
 import characters.ScriptableCharacter;
@@ -67,6 +68,7 @@ class ChartingState extends MusicBeatState
 
 	var notes:FlxTypedGroup<ChartingNote>;
 	
+	var previousSong:String = null;
 	var vocals:FlxSound;
 	var vocalsOther:FlxSound;
 	var previousSongPosition:Float = 0;
@@ -350,6 +352,16 @@ class ChartingState extends MusicBeatState
 
 	function setupSongTab():Void{
 		var songNameInput:TextInput = new TextInput(PANEL_SPACING, PANEL_SPACING, 192, chart.meta.song, "Song");
+		songNameInput.onValueChanged.add(function(v:String){
+			if(v == previousSong){ return; }
+			pauseMusic();
+			if(setMusic(v)){
+				chart.meta.song = v;
+			}
+			else{
+				songNameInput.value = previousSong;
+			}
+		});
 		var baseBpmInput:Stepper = new Stepper(PANEL_SPACING, songNameInput.y + songNameInput.elementHeight + PANEL_SPACING, 120, chart.meta.bpm[0].bpm, 1, 1, null, true, "Song BPM");
 
 		var opponentDropdown:Dropdown = new Dropdown(PANEL_SPACING, baseBpmInput.y + baseBpmInput.elementHeight + PANEL_EXTRA_SPACING, 192, characterList, chart.meta.opponent, "Opponent");
@@ -694,22 +706,7 @@ class ChartingState extends MusicBeatState
 	};
 
 	function loadChart():Void{
-		if(Utils.exists(Paths.voices(chart.meta.song, "Player"))){
-			vocals = Utils.createPausedSound(Paths.voices(chart.meta.song, "Player"));
-			vocalsOther = Utils.createPausedSound(Paths.voices(chart.meta.song, "Opponent"));
-		}
-		else if(Utils.exists(Paths.voices(chart.meta.song))){
-			vocals = Utils.createPausedSound(Paths.voices(chart.meta.song));
-			vocalsOther = new FlxSound();
-		}
-		else{
-			vocals = new FlxSound();
-			vocalsOther = new FlxSound();
-		}
-
-		FlxG.sound.playMusic(Paths.inst(chart.meta.song), 0, false);
-		FlxG.sound.music.pause();
-		FlxG.sound.music.volume = 1;
+		setMusic(chart.meta.song);
 
 		Conductor.resetBPMChanges();
 		Conductor.setBPMChanges(chart.meta.bpm);
@@ -1076,6 +1073,44 @@ class ChartingState extends MusicBeatState
 			playerIcon.scale.set(playerIcon.scale.x/2, playerIcon.scale.y/2);
 			playerIcon.setPosition(grids[1].grid.x + grids[1].grid.width/2 - playerIcon.width/2, GRID_SIZE - playerIcon.height/2);
 		}
+	}
+
+	function setMusic(song:String):Bool{
+		if(Utils.exists(Paths.inst(song))){
+			if(previousSong != null){
+				Assets.cache.removeSound(Paths.voices(previousSong, "Player"));
+				Assets.cache.removeSound(Paths.voices(previousSong, "Opponent"));
+				Assets.cache.removeSound(Paths.voices(previousSong));
+				Assets.cache.removeSound(Paths.inst(previousSong));
+
+				vocals.destroy();
+				vocalsOther.destroy();
+			}
+		
+			if(Utils.exists(Paths.voices(song, "Player"))){
+				vocals = Utils.createPausedSound(Paths.voices(song, "Player"));
+				vocalsOther = Utils.createPausedSound(Paths.voices(song, "Opponent"));
+			}
+			else if(Utils.exists(Paths.voices(song))){
+				vocals = Utils.createPausedSound(Paths.voices(song));
+				vocalsOther = new FlxSound();
+			}
+			else{
+				vocals = new FlxSound();
+				vocalsOther = new FlxSound();
+			}
+	
+			FlxG.sound.playMusic(Paths.inst(song), 0, false);
+			FlxG.sound.music.pause();
+			FlxG.sound.music.volume = 1;
+
+			previousSong = song;
+			Utils.gc();
+
+			return true;
+		}
+
+		return false;
 	}
 	
 }

@@ -122,7 +122,7 @@ class Panel extends UIElement
 				return true;
 			}
 		}
-		return false;
+		return false || !tabs[selectedTab].manager.allowInteraction;
 	}
 	
 }
