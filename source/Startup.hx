@@ -62,6 +62,8 @@ class Startup extends FlxUIStateExt
 
 		FlxG.mouse.visible = false;
 		FlxG.sound.muteKeys = null;
+		FlxG.sound.volumeDownKeys = null;
+		FlxG.sound.volumeUpKeys = null;
 		FlxG.fixedTimestep = false;
 
 		Config.load();
