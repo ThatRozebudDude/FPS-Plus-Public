@@ -11,6 +11,11 @@ class Binds
 	
 	static var controllerLockout:Int = 0;
 
+	public static var allowChangingVolume:Bool = true;
+
+	static var volumeUpDown:Bool = false;
+	static var volumeDownDown:Bool = false;
+
 	public static function init():Void{
 
 		binds = new KeybindMap();
@@ -39,6 +44,34 @@ class Binds
 		//Briefly prevents controller input for a frame when switching states to prevent re-registering a press.
 		FlxG.signals.preStateSwitch.add(function(){
 			lockControllerInputs();
+		});
+
+		openfl.Lib.current.stage.addEventListener(openfl.events.KeyboardEvent.KEY_DOWN, (e:openfl.events.KeyboardEvent) -> {
+			for(key in binds.get("volumeUp").binds){
+				if(e.keyCode == key && !volumeUpDown && allowChangingVolume){
+					volumeUpDown = true;
+					FlxG.sound.changeVolume(0.1);
+				}
+			}
+			for(key in binds.get("volumeDown").binds){
+				if(e.keyCode == key && !volumeDownDown && allowChangingVolume){
+					volumeDownDown = true;
+					FlxG.sound.changeVolume(-0.1);
+				}
+			}
+		});
+
+		openfl.Lib.current.stage.addEventListener(openfl.events.KeyboardEvent.KEY_UP, (e:openfl.events.KeyboardEvent) -> {
+			for(key in binds.get("volumeUp").binds){
+				if(e.keyCode == key && volumeUpDown){
+					volumeUpDown = false;
+				}
+			}
+			for(key in binds.get("volumeDown").binds){
+				if(e.keyCode == key && volumeDownDown){
+					volumeDownDown = false;
+				}
+			}
 		});
 	}
 
@@ -192,6 +225,24 @@ class Binds
 			local: false
 		};
 		r.set("menuResetScore", k);
+
+		var k:Keybind = {
+			name: "Increase Volume",
+			category: "Menu",
+			binds: [PLUS],
+			controllerBinds: [],
+			local: false
+		};
+		r.set("volumeUp", k);
+
+		var k:Keybind = {
+			name: "Decrease Volume",
+			category: "Menu",
+			binds: [MINUS],
+			controllerBinds: [],
+			local: false
+		};
+		r.set("volumeDown", k);
 
 		var k:Keybind = {
 			name: "Fullscreen",
