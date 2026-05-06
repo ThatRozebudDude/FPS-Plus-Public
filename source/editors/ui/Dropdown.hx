@@ -1,5 +1,6 @@
 package editors.ui;
 
+import editors.ui.TextInput;
 import flixel.math.FlxRect;
 import flixel.math.FlxMath;
 import editors.ui.Box;
@@ -9,6 +10,7 @@ import flixel.FlxSprite;
 
 using StringTools;
 
+@:access(editors.ui.TextInput)
 class Dropdown extends UIElement
 {
 
@@ -16,12 +18,10 @@ class Dropdown extends UIElement
 	static inline final MAX_DROPDOWN_COUNT:Int = 12;
 
 	var box:Box;
-	var boxLabel:UIText;
+	var searchInput:TextInput;
 
 	var dropdownSymbolBox:Box;
 	var dropdownSymbol:FlxSprite;
-
-	var label:UIText;
 
 	public var values:Array<String>;
 	public var currentIndex:Int = 0;
@@ -45,6 +45,8 @@ class Dropdown extends UIElement
 			if(!dropdownOpened && manager.allowInteraction && manager.focused == null){ openDropdown(); }
 		});
 
+		searchInput = new TextInput(0, 0, _width - 22, values[currentIndex]);
+
 		for(i in 0...Std.int(Math.min(values.length, MAX_DROPDOWN_COUNT))){
 			var dropdownBox:Box = new Box(0, (box.height - Box.BORDER_SIZE) * (i+1), _width, 24);
 			dropdownBox.fillColor = UIColors.INTERACTION_COLOR;
@@ -67,21 +69,15 @@ class Dropdown extends UIElement
 		dropdownSymbol.updateHitbox();
 		dropdownSymbol.color = UIColors.INTERACTION_TEXT_COLOR;
 
-		label = new UIText(box.width + LABEL_PADDING, (box.height/2), _label);
+		var label = new UIText(box.width + LABEL_PADDING, (box.height/2), _label);
 		label.y -= label.height/2;
-		label.color = UIColors.FILL_TEXT_COLOR;
-		
-		boxLabel = new UIText(box.x + LABEL_PADDING, (box.height/2), values[currentIndex]);
-		boxLabel.y -= label.height/2;
-		boxLabel.color = UIColors.FILL_TEXT_COLOR;
 
 		for(box in dropdownBoxes){ add(box); }
 		for(label in dropdownLabels){ add(label); }
 		add(box);
-		add(boxLabel);
+		add(searchInput);
 		add(dropdownSymbolBox);
 		add(dropdownSymbol);
-		add(label);
 
 		closeDropdown();
 
@@ -117,17 +113,18 @@ class Dropdown extends UIElement
 			}
 		}
 
-		if(values.length > MAX_DROPDOWN_COUNT && dropdownOpened){
+		if(getFilteredValues().length > MAX_DROPDOWN_COUNT && dropdownOpened){
 			if(FlxG.mouse.wheel != 0){
 				dropdownStartIndex -= FlxG.mouse.wheel;
-				dropdownStartIndex = Std.int(FlxMath.bound(dropdownStartIndex, 0, Math.max(0, values.length - MAX_DROPDOWN_COUNT)));
+				dropdownStartIndex = Std.int(FlxMath.bound(dropdownStartIndex, 0, Math.max(0, getFilteredValues().length - MAX_DROPDOWN_COUNT)));
 				updateDropdownText();
 			}
 		}
 
 		if(FlxG.mouse.justPressed && dropdownOpened && manager.allowInteraction){
 			if(anyBoxOverlaps){
-				currentIndex = dropdownStartIndex + dropdownOverlapIndex;
+				currentIndex = getFilteredValues().indexOf(getFilteredValues()[dropdownStartIndex + dropdownOverlapIndex]);
+				searchInput.value = values[currentIndex];
 				onSelect.dispatch(values[currentIndex]);
 				closeDropdown();
 			}
@@ -136,9 +133,16 @@ class Dropdown extends UIElement
 			}
 		}
 
-		boxLabel.text = values[currentIndex];
-		var rectPos = Utils.worldToLocal(boxLabel, box.x + Box.BORDER_SIZE, box.y + Box.BORDER_SIZE);
-		boxLabel.clipRect = new FlxRect(rectPos.x/boxLabel.scale.x, rectPos.y/boxLabel.scale.y, (box.width - Box.BORDER_SIZE*2)/boxLabel.scale.x, (box.height - Box.BORDER_SIZE*2)/boxLabel.scale.y);
+		@:privateAccess
+		if(searchInput.inputtingText){
+			if (searchInput.inputText.text.length > 0 && !values.contains(searchInput.inputText.text)){
+				dropdownStartIndex = 0;
+				updateDropdownText();
+			}
+		}
+		else{
+			searchInput.value = values[currentIndex];
+		}
 
 		super.update(elapsed);
 	}
@@ -149,6 +153,8 @@ class Dropdown extends UIElement
 		dropdownSymbolBox.fillColor = UIColors.INTERACTION_COLOR;
 		dropdownSymbol.flipY = true;
 		dropdownSymbol.color = UIColors.INTERACTION_TEXT_COLOR;
+		searchInput.value = values[currentIndex];
+		searchInput.allowTyping = true;
 		updateDropdownText();
 		manager.focused = this;
 	}
@@ -159,13 +165,32 @@ class Dropdown extends UIElement
 		dropdownSymbol.flipY = false;
 		dropdownSymbol.color = UIColors.INTERACTION_TEXT_COLOR;
 		dropdownOverlapIndex = -1;
+		searchInput.value = values[currentIndex];
+		searchInput.allowTyping = false;
 		if(this == manager.focused){ manager.clearFocused(); }
 	}
 	
 	function updateDropdownText():Void{
 		for(i in 0...dropdownLabels.length){
-			dropdownLabels[i].text = values[dropdownStartIndex + i];
+			if(dropdownStartIndex + i < getFilteredValues().length){
+				dropdownLabels[i].visible = dropdownBoxes[i].visible = true;
+				dropdownLabels[i].text = getFilteredValues()[dropdownStartIndex + i];
+			}
+			else{
+				dropdownLabels[i].visible = dropdownBoxes[i].visible = false;
+			}
 		}
+	}
+
+	function getFilteredValues():Array<String>{
+		if (values.contains(searchInput.inputText.text) || searchInput.inputText.text.length < 1){
+			return values;
+		}
+
+		var result = values.filter(function(value){
+			return value.toLowerCase().contains(searchInput.inputText.text.toLowerCase());
+		});
+		return result;
 	}
 
 	override function unfocus():Void{

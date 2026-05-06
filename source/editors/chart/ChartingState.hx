@@ -761,7 +761,7 @@ class ChartingState extends MusicBeatState
 	};
 
 	function loadChart():Void{
-		setMusic(chart.meta.song);
+		setMusic(chart.meta.song, false);
 
 		Conductor.resetBPMChanges();
 		Conductor.setBPMChanges(chart.meta.bpm);
@@ -779,10 +779,11 @@ class ChartingState extends MusicBeatState
 	}
 
 	function checkShortcuts():Void{
+		var controlPressed:Bool = #if mac FlxG.keys.anyPressed([WINDOWS]); #else FlxG.keys.anyPressed([CONTROL]); #end
 		//To top of section/song.
 		if(FlxG.keys.anyJustPressed([R])){
 			if(FlxG.sound.music.playing){ pauseMusic(); }
-			if(FlxG.keys.anyPressed([CONTROL])){
+			if(controlPressed){
 				FlxG.sound.music.time = 0;
 			}
 			else{
@@ -832,11 +833,11 @@ class ChartingState extends MusicBeatState
 		}
 
 		//Undo Redo
-		if(FlxG.keys.anyJustPressed([Z]) && FlxG.keys.anyPressed([CONTROL]))		{ undo(); }
-		else if(FlxG.keys.anyJustPressed([Y]) && FlxG.keys.anyPressed([CONTROL]))	{ redo(); }
+		if(FlxG.keys.anyJustPressed([Z]) && controlPressed)		{ undo(); }
+		else if(FlxG.keys.anyJustPressed([Y]) && controlPressed)	{ redo(); }
 
 		//Copy Cut Paste
-		if(FlxG.keys.anyJustPressed([C]) && FlxG.keys.anyPressed([CONTROL])){
+		if(FlxG.keys.anyJustPressed([C]) && controlPressed){
 			if(gridCursorIndex < 2){
 				copyNotes();
 				createPopup("Copied " + copiedNoteData.length + " note" + (copiedNoteData.length==1?".":"s."));
@@ -845,7 +846,7 @@ class ChartingState extends MusicBeatState
 				//Event stuff later
 			}
 		}
-		else if(FlxG.keys.anyJustPressed([X]) && FlxG.keys.anyPressed([CONTROL])){
+		else if(FlxG.keys.anyJustPressed([X]) && controlPressed){
 			if(gridCursorIndex < 2){
 				copyNotes();
 				while(selectedNotes.length > 0){
@@ -859,7 +860,7 @@ class ChartingState extends MusicBeatState
 				//Event stuff later
 			}
 		}
-		else if(FlxG.keys.anyJustPressed([V]) && FlxG.keys.anyPressed([CONTROL]) && gridCursorIndex >= 0){
+		else if(FlxG.keys.anyJustPressed([V]) && controlPressed && gridCursorIndex >= 0){
 			if(gridCursorIndex < 2){
 				if(placedNoteHold){
 					placedNoteHold = false;
@@ -1148,7 +1149,7 @@ class ChartingState extends MusicBeatState
 		}
 	}
 
-	function setMusic(song:String):Bool{
+	function setMusic(song:String, showPopup:Bool = true):Bool{
 		if(Utils.exists(Paths.inst(song))){
 			if(previousSong != null){
 				Assets.cache.removeSound(Paths.voices(previousSong, "Player"));
@@ -1178,13 +1179,17 @@ class ChartingState extends MusicBeatState
 			FlxG.sound.music.volume = 1;
 
 			previousSong = song;
-			createPopup("Loaded audio for \"" + song + "\".", 2);
+			if (showPopup){
+				createPopup("Loaded audio for \"" + song + "\".", 2);
+			}
 			Utils.gc();
 
 			return true;
 		}
 
-		createPopup("Audio for \"" + song + "\" could not be found.", 2);
+		if (showPopup){
+			createPopup("Audio for \"" + song + "\" could not be found.", 2);
+		}
 		return false;
 	}
 

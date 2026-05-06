@@ -5,7 +5,6 @@
 	- Text Input QOL
 		- Selectable Text in Text Input (Maybe)
 			- Stuff like selecting a region of text and deleting it all at once.
-		- Make volume keys not work when inputting text.
 
 - New Chart Format
 	- Make sure that the old format is still supported and can load and auto convert to the new format.
