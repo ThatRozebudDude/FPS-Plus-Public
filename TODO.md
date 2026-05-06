@@ -5,15 +5,12 @@
 	- Text Input QOL
 		- Selectable Text in Text Input (Maybe)
 			- Stuff like selecting a region of text and deleting it all at once.
-		- Make volume keys not work when inputting text.
 
 - New Chart Format
 	- Make sure that the old format is still supported and can load and auto convert to the new format.
 		- Also update the base-game chart port Python script if I'm not lazy but if this works I could just auto convert it later.
 
 - Chart Editor
-	- Alert system.
-		- Little message can pop up at the bottom when doing certain actions.
 	- Figure out how I want to do changing grid snap.
 		- Possibly a dropdown in the Tools tab but I don't know yet.
 	- More robust event / note type UI that's more intuitive to use.
@@ -22,6 +19,7 @@
 		- Scary.
 	- Autosave.
 	- Sound effects? Maybe?
+	- EVENTS!
 
 - Character Editor
 	- Kinda like a mix of the offset editor and the debug Character Compare thing.

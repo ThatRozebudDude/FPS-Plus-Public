@@ -19,14 +19,8 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 	var sustainBody:FlxSprite;
 	var sustainEnd:FlxSprite;
 
-	public function new(_x:Float, _y:Float, _direction:Int, _time:Float, _player:Bool, _tag:String){
-		super(_x, _y);
-
-		direction = _direction;
-		time = _time;
-		player = _player;
-		tag = _tag;
-
+	public function new(){
+		super(0, 0);
 		var noteFrames = Paths.getSparrowAtlas("ui/notes/NOTE_assets");
 		
 		note = new FlxSprite();
@@ -39,7 +33,6 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		note.animation.addByPrefix("1-selected", "Blue Active", 0, false);
 		note.animation.addByPrefix("2-selected", "Green Active", 0, false);
 		note.animation.addByPrefix("3-selected", "Red Active", 0, false);
-		note.animation.play(""+direction);
 		note.setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);
 		note.updateHitbox();
 
@@ -49,7 +42,6 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		sustainBody.animation.addByPrefix("1", "blue hold piece", 0, false);
 		sustainBody.animation.addByPrefix("2", "green hold piece", 0, false);
 		sustainBody.animation.addByPrefix("3", "red hold piece", 0, false);
-		sustainBody.animation.play(""+direction);
 		sustainBody.setGraphicSize(SUSTAIN_GRAPHIC_WIDTH, (ChartingState.GRID_SIZE + ChartingState.GRID_SIZE/2)+1);
 		sustainBody.updateHitbox();
 		sustainBody.visible = false;
@@ -61,7 +53,6 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		sustainEnd.animation.addByPrefix("1", "blue hold end", 0, false);
 		sustainEnd.animation.addByPrefix("2", "green hold end", 0, false);
 		sustainEnd.animation.addByPrefix("3", "red hold end", 0, false);
-		sustainEnd.animation.play(""+direction);
 		sustainEnd.setGraphicSize(SUSTAIN_GRAPHIC_WIDTH, ChartingState.GRID_SIZE/2);
 		sustainEnd.updateHitbox();
 		sustainEnd.visible = false;
@@ -69,6 +60,19 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		add(sustainBody);
 		add(sustainEnd);
 		add(note);
+	}
+
+	public function updateProperties(_x:Float, _y:Float, _direction:Int, _time:Float, _player:Bool, _tag:String):Void{
+		x = _x;
+		y = _y;
+		direction = _direction;
+		time = _time;
+		player = _player;
+		tag = _tag;
+
+		note.animation.play(""+direction);
+		sustainBody.animation.play(""+direction);
+		sustainEnd.animation.play(""+direction);
 	}
 
 	public function set_sustainLength(v:Int):Int{
@@ -81,6 +85,8 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 			
 			sustainEnd.visible = true;
 			sustainEnd.y = note.y + (ChartingState.GRID_SIZE*sustainLength);
+			sustainEnd.setGraphicSize(SUSTAIN_GRAPHIC_WIDTH, ChartingState.GRID_SIZE/2);
+			sustainEnd.updateHitbox();
 		}
 		else{
 			sustainBody.visible = false;

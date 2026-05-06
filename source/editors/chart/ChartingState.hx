@@ -42,7 +42,6 @@ typedef GridParts = {
 }
 
 //Used for undo/redo stuff.
-//I probably should only store the difference so it doesn't need to rebuild literally the entire chart but whatever. I'll figure that out later.
 typedef ChartSnapshot = {
 	var notes:Array<NoteDefinition>;
 	var events:Array<EventDefinition>;
@@ -627,13 +626,13 @@ class ChartingState extends MusicBeatState
 			var selectionEndTime:Float = getSongPositionFromY(selectionBox.y + selectionBox.height);
 			
 			if(startingGrid < 2){
-				for(note in notes){
-					if(note.time > selectionEndTime){ break; }
-					else if(note.time >= selectionStartTime){
-						if(selectingBoth || ((!note.player && startingGrid == 0) || (note.player && startingGrid == 1)))
-						selectedNotes.push(note);
+				notes.forEachAlive(function(note:ChartingNote){
+					if(note.time >= selectionStartTime && note.time < selectionEndTime){
+						if(selectingBoth || ((!note.player && startingGrid == 0) || (note.player && startingGrid == 1))){
+							selectedNotes.push(note);
+						}
 					}
-				}
+				});
 			}
 			else{
 				//Event stuff later.
@@ -707,13 +706,13 @@ class ChartingState extends MusicBeatState
 
 		if(!panel.isAnythingFocused()){ checkShortcuts(); }
 
-		for(note in notes){
+		notes.forEachAlive(function(note:ChartingNote){
 			if(selectedNotes.contains(note)){ note.select(); }
 			else{ note.deselect(); }
-		}
+		});
 
 		if(FlxG.sound.music.playing){
-			for(note in notes){
+			notes.forEachAlive(function(note:ChartingNote){
 				if(note.time >= previousSongPosition && note.time < Conductor.songPosition){
 					if((note.player && playerHitSoundToggle.state) || (!note.player && opponentHitSoundToggle.state)){
 						var tickSound:FlxSound = FlxG.sound.play(Paths.sound("tick"), 1);
@@ -735,7 +734,7 @@ class ChartingState extends MusicBeatState
 						}
 					}
 				}
-			}
+			});
 		}
 
 		popupGroup.forEachDead(function(popup:Popup):Void{
@@ -920,8 +919,8 @@ class ChartingState extends MusicBeatState
 	function addNote(strumTime:Float, direction:Int, player:Bool, tag:String = ""):ChartingNote{
 		removeNotesInProximity(strumTime, direction, player);
 
-		var newNote:ChartingNote = new ChartingNote(grids[player?1:0].grid.x + (GRID_SIZE * direction), getYFromSongPosition(strumTime), direction, strumTime, player, tag);
-		notes.add(newNote);
+		var newNote = notes.recycle(ChartingNote);
+		newNote.updateProperties(grids[player?1:0].grid.x + (GRID_SIZE * direction), getYFromSongPosition(strumTime), direction, strumTime, player, tag);
 		notes.members.sort(sortNotes);
 		
 		return newNote;
@@ -941,12 +940,11 @@ class ChartingState extends MusicBeatState
 
 	function getNotesInRegion(strumTime:Float, direction:Null<Int>, player:Null<Bool>, region:Float = 5):Array<ChartingNote>{
 		var r:Array<ChartingNote> = [];
-		for(note in notes.members){
-			if(note.time > strumTime + region){ break; }
+		notes.forEachAlive(function(note:ChartingNote){
 			if((player == null || note.player == player) && (direction == null || note.direction == direction)){
 				if(Utils.inRange(note.time, strumTime, region)){ r.push(note); }
 			}
-		}
+		});
 		return r;
 	}
 
@@ -954,9 +952,7 @@ class ChartingState extends MusicBeatState
 		var removeList:Array<ChartingNote> = getNotesInRegion(strumTime, direction, player, region);
 		for(note in removeList){
 			if(selectedNotes.contains(note)){ selectedNotes.remove(note); }
-			trace("removing " + note.time);
-			notes.remove(note, true);
-			note.destroy();
+			note.kill();
 		}
 		return removeList.length;
 	}
@@ -1070,7 +1066,7 @@ class ChartingState extends MusicBeatState
 
 	function generateChart():Void{
 		chart.notes = [];
-		notes.forEach(function(note:ChartingNote){
+		notes.forEachAlive(function(note:ChartingNote){
 			chart.notes.push(note.generateNoteDefiniton());
 		});
 	}
@@ -1237,7 +1233,7 @@ class ChartingState extends MusicBeatState
 
 	function setCurrentState(type:UndoAction):Void{
 		var noteData:Array<NoteDefinition> = [];
-		notes.forEach(function(note:ChartingNote){
+		notes.forEachAlive(function(note:ChartingNote){
 			noteData.push(note.generateNoteDefiniton());
 		});
 
@@ -1252,7 +1248,7 @@ class ChartingState extends MusicBeatState
 
 	function undo():Void{
 		if(undoHistory.length <= 0){
-			createPopup("Nothing to undo.", 0.75);
+			createPopup("Nothing to undo.", 1);
 			return;
 		}
 
@@ -1260,7 +1256,7 @@ class ChartingState extends MusicBeatState
 		rebuildChartFromSnapshot(snapshot);
 
 		var actionText:String = getUndoActionText(currentState.action);
-		createPopup("Undo"+(actionText.length>0?" ":"")+actionText+".", 0.75);
+		createPopup("Undo"+(actionText.length>0?" ":"")+actionText+".", 1);
 
 		redoHistory.push(currentState);
 		currentState = snapshot;
@@ -1269,7 +1265,7 @@ class ChartingState extends MusicBeatState
 
 	function redo():Void{
 		if(redoHistory.length <= 0){
-			createPopup("Nothing to redo.", 0.75);
+			createPopup("Nothing to redo.", 1);
 			return;
 		}
 
@@ -1277,7 +1273,7 @@ class ChartingState extends MusicBeatState
 		rebuildChartFromSnapshot(snapshot);
 
 		var actionText:String = getUndoActionText(snapshot.action);
-		createPopup("Redo"+(actionText.length>0?" ":"")+actionText+".", 0.75);
+		createPopup("Redo"+(actionText.length>0?" ":"")+actionText+".", 1);
 
 		undoHistory.push(currentState);
 		currentState = snapshot;
@@ -1285,8 +1281,7 @@ class ChartingState extends MusicBeatState
 	}
 
 	function rebuildChartFromSnapshot(snapshot:ChartSnapshot){
-		notes.forEach(function(note:ChartingNote){ note.destroy(); });
-		notes.clear();
+		notes.killMembers();
 
 		for(noteData in snapshot.notes){
 			var newNote = addNote(noteData.time, noteData.direction, noteData.player, noteData.tag);

@@ -9,8 +9,6 @@ import flixel.FlxSprite;
 
 using StringTools;
 
-//TODO: Make it so using volume binds doesn't cause the volume to change when inputting text.
-
 class TextInput extends UIElement
 {
 
