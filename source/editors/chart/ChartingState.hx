@@ -53,10 +53,11 @@ typedef ChartSnapshot = {
 //All the different actions that can be captured by the chart snapshot.
 enum UndoAction {
 	NONE; //Used for the intial state or when the action type isn't needed like building the inital chart.
-	PLACE_NOTES;
-	REMOVE_NOTES;
+	PLACE_NOTES(count:Int);
+	REMOVE_NOTES(count:Int);
 	CUT;
 	PASTE;
+	CHANGE_HOLD_DURATION;
 }
 
 class ChartingState extends MusicBeatState
@@ -577,9 +578,9 @@ class ChartingState extends MusicBeatState
 					placedNoteHold = true;
 				}
 				else if(FlxG.mouse.justPressedRight && !FlxG.keys.anyPressed([SHIFT])  && !panel.isAnythingFocused()){
-					var success:Bool = removeNotesInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridCursorLane, gridCursorIndex == 1, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
+					var deleteCount:Int = removeNotesInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridCursorLane, gridCursorIndex == 1, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
 					selectedNotes = [];
-					if(success){ createSnapshot(REMOVE_NOTES); }
+					if(deleteCount > 0){ createSnapshot(REMOVE_NOTES(deleteCount)); }
 				}
 				else if(FlxG.mouse.justPressedMiddle && !panel.isAnythingFocused()){
 					if(!FlxG.keys.anyPressed([SHIFT])){ selectedNotes = []; }
@@ -607,7 +608,7 @@ class ChartingState extends MusicBeatState
 		}
 		else if(placedNoteHold){
 			placedNoteHold = false;
-			createSnapshot(PLACE_NOTES);
+			createSnapshot(PLACE_NOTES(1));
 		}
 
 		if(!selectionBoxOpen && FlxG.mouse.justPressed && FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused() && gridCursorIndex >= 0){
@@ -707,12 +708,8 @@ class ChartingState extends MusicBeatState
 		if(!panel.isAnythingFocused()){ checkShortcuts(); }
 
 		for(note in notes){
-			if(selectedNotes.contains(note)){
-				note.select();
-			}
-			else{
-				note.deselect();
-			}
+			if(selectedNotes.contains(note)){ note.select(); }
+			else{ note.deselect(); }
 		}
 
 		if(FlxG.sound.music.playing){
@@ -720,7 +717,7 @@ class ChartingState extends MusicBeatState
 				if(note.time >= previousSongPosition && note.time < Conductor.songPosition){
 					if((note.player && playerHitSoundToggle.state) || (!note.player && opponentHitSoundToggle.state)){
 						var tickSound:FlxSound = FlxG.sound.play(Paths.sound("tick"), 1);
-						tickSound.pan = (playerHitSoundToggle.state && opponentHitSoundToggle.state) ? 0.15 * (note.player ? 1 : -1) : 0;
+						tickSound.pan = (playerHitSoundToggle.state && opponentHitSoundToggle.state) ? 0.2 * (note.player ? 1 : -1) : 0;
 						tickSound.pitch = (playerHitSoundToggle.state && opponentHitSoundToggle.state) ? (note.player ? 1.15 : 0.85) : 1;
 					}
 
@@ -790,6 +787,18 @@ class ChartingState extends MusicBeatState
 			}
 		}
 
+		//Next/previous section.
+		if(FlxG.keys.anyJustPressed([D])){
+			if(FlxG.sound.music.playing){ pauseMusic(); }
+			FlxG.sound.music.time = getSongPositionFromY((Math.floor(getYFromSongPosition(FlxG.sound.music.time) / (GRID_SIZE * 16)) * (GRID_SIZE * 16)) + (GRID_SIZE * 16));
+			musicBoundsCheck();
+		}
+		if(FlxG.keys.anyJustPressed([A])){
+			if(FlxG.sound.music.playing){ pauseMusic(); }
+			FlxG.sound.music.time = getSongPositionFromY((Math.floor(getYFromSongPosition(FlxG.sound.music.time) / (GRID_SIZE * 16)) * (GRID_SIZE * 16)) - (GRID_SIZE * 16));
+			musicBoundsCheck();
+		}
+
 		//Hotbar select.
 		if(FlxG.keys.anyJustPressed([ONE]))		{ hotbar.selectSlot(0); }
 		if(FlxG.keys.anyJustPressed([TWO]))		{ hotbar.selectSlot(1); }
@@ -812,7 +821,7 @@ class ChartingState extends MusicBeatState
 			selectedNotes = [];
 			if(deleteCount > 0){
 				createPopup("Deleted " + deleteCount + " note" + (deleteCount==1?".":"s."));
-				createSnapshot(REMOVE_NOTES);
+				createSnapshot(REMOVE_NOTES(deleteCount));
 			}
 		}
 
@@ -863,7 +872,7 @@ class ChartingState extends MusicBeatState
 			if(gridCursorIndex < 2){
 				if(placedNoteHold){
 					placedNoteHold = false;
-					createSnapshot(PLACE_NOTES);
+					createSnapshot(PLACE_NOTES(1));
 				}
 				if(copiedNoteData.length > 0){
 					selectedNotes = [];
@@ -896,6 +905,7 @@ class ChartingState extends MusicBeatState
 				sustainLength = FlxMath.maxInt(sustainLength+1, 0);
 				note.sustainLength = sustainLength;
 			}
+			createSnapshot(CHANGE_HOLD_DURATION);
 		}
 		else if(FlxG.keys.anyJustPressed([Q])){
 			for(note in selectedNotes){
@@ -903,6 +913,7 @@ class ChartingState extends MusicBeatState
 				sustainLength = FlxMath.maxInt(sustainLength-1, 0);
 				note.sustainLength = sustainLength;
 			}
+			createSnapshot(CHANGE_HOLD_DURATION);
 		}
 	}
 
@@ -939,7 +950,7 @@ class ChartingState extends MusicBeatState
 		return r;
 	}
 
-	function removeNotesInProximity(strumTime:Float, direction:Int, player:Bool, region:Float = 5):Bool{
+	function removeNotesInProximity(strumTime:Float, direction:Int, player:Bool, region:Float = 5):Int{
 		var removeList:Array<ChartingNote> = getNotesInRegion(strumTime, direction, player, region);
 		for(note in removeList){
 			if(selectedNotes.contains(note)){ selectedNotes.remove(note); }
@@ -947,7 +958,7 @@ class ChartingState extends MusicBeatState
 			notes.remove(note, true);
 			note.destroy();
 		}
-		return removeList.length > 0;
+		return removeList.length;
 	}
 
 	function getNoteUnderCursor():ChartingNote{
@@ -1265,7 +1276,7 @@ class ChartingState extends MusicBeatState
 		var snapshot:ChartSnapshot = redoHistory.pop();
 		rebuildChartFromSnapshot(snapshot);
 
-		var actionText:String = getUndoActionText(currentState.action);
+		var actionText:String = getUndoActionText(snapshot.action);
 		createPopup("Redo"+(actionText.length>0?" ":"")+actionText+".", 0.75);
 
 		undoHistory.push(currentState);
@@ -1285,10 +1296,11 @@ class ChartingState extends MusicBeatState
 
 	inline function getUndoActionText(action:UndoAction):String{
 		switch(action){
-			case PLACE_NOTES: return "placed note";
-			case REMOVE_NOTES: return "deleted note(s)";
+			case PLACE_NOTES(count): return "placed note"+(count==1?"":"s");
+			case REMOVE_NOTES(count): return "deleted note"+(count==1?"":"s");
 			case CUT: return "cut";
 			case PASTE: return "paste";
+			case CHANGE_HOLD_DURATION: return "duration change";
 			default: return "";
 		}
 	}
