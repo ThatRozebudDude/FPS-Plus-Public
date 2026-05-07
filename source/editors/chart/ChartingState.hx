@@ -42,7 +42,6 @@ typedef GridParts = {
 }
 
 //Used for undo/redo stuff.
-//I probably should only store the difference so it doesn't need to rebuild literally the entire chart but whatever. I'll figure that out later.
 typedef ChartSnapshot = {
 	var notes:Array<NoteDefinition>;
 	var events:Array<EventDefinition>;
@@ -53,10 +52,11 @@ typedef ChartSnapshot = {
 //All the different actions that can be captured by the chart snapshot.
 enum UndoAction {
 	NONE; //Used for the intial state or when the action type isn't needed like building the inital chart.
-	PLACE_NOTES;
-	REMOVE_NOTES;
+	PLACE_NOTES(count:Int);
+	REMOVE_NOTES(count:Int);
 	CUT;
 	PASTE;
+	CHANGE_HOLD_DURATION;
 }
 
 class ChartingState extends MusicBeatState
@@ -577,9 +577,9 @@ class ChartingState extends MusicBeatState
 					placedNoteHold = true;
 				}
 				else if(FlxG.mouse.justPressedRight && !FlxG.keys.anyPressed([SHIFT])  && !panel.isAnythingFocused()){
-					var success:Bool = removeNotesInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridCursorLane, gridCursorIndex == 1, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
+					var deleteCount:Int = removeNotesInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridCursorLane, gridCursorIndex == 1, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
 					selectedNotes = [];
-					if(success){ createSnapshot(REMOVE_NOTES); }
+					if(deleteCount > 0){ createSnapshot(REMOVE_NOTES(deleteCount)); }
 				}
 				else if(FlxG.mouse.justPressedMiddle && !panel.isAnythingFocused()){
 					if(!FlxG.keys.anyPressed([SHIFT])){ selectedNotes = []; }
@@ -607,7 +607,7 @@ class ChartingState extends MusicBeatState
 		}
 		else if(placedNoteHold){
 			placedNoteHold = false;
-			createSnapshot(PLACE_NOTES);
+			createSnapshot(PLACE_NOTES(1));
 		}
 
 		if(!selectionBoxOpen && FlxG.mouse.justPressed && FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused() && gridCursorIndex >= 0){
@@ -626,13 +626,13 @@ class ChartingState extends MusicBeatState
 			var selectionEndTime:Float = getSongPositionFromY(selectionBox.y + selectionBox.height);
 			
 			if(startingGrid < 2){
-				for(note in notes){
-					if(note.time > selectionEndTime){ break; }
-					else if(note.time >= selectionStartTime){
-						if(selectingBoth || ((!note.player && startingGrid == 0) || (note.player && startingGrid == 1)))
-						selectedNotes.push(note);
+				notes.forEachAlive(function(note:ChartingNote){
+					if(note.time >= selectionStartTime && note.time < selectionEndTime){
+						if(selectingBoth || ((!note.player && startingGrid == 0) || (note.player && startingGrid == 1))){
+							selectedNotes.push(note);
+						}
 					}
-				}
+				});
 			}
 			else{
 				//Event stuff later.
@@ -706,21 +706,17 @@ class ChartingState extends MusicBeatState
 
 		if(!panel.isAnythingFocused()){ checkShortcuts(); }
 
-		for(note in notes){
-			if(selectedNotes.contains(note)){
-				note.select();
-			}
-			else{
-				note.deselect();
-			}
-		}
+		notes.forEachAlive(function(note:ChartingNote){
+			if(selectedNotes.contains(note)){ note.select(); }
+			else{ note.deselect(); }
+		});
 
 		if(FlxG.sound.music.playing){
-			for(note in notes){
+			notes.forEachAlive(function(note:ChartingNote){
 				if(note.time >= previousSongPosition && note.time < Conductor.songPosition){
 					if((note.player && playerHitSoundToggle.state) || (!note.player && opponentHitSoundToggle.state)){
 						var tickSound:FlxSound = FlxG.sound.play(Paths.sound("tick"), 1);
-						tickSound.pan = (playerHitSoundToggle.state && opponentHitSoundToggle.state) ? 0.15 * (note.player ? 1 : -1) : 0;
+						tickSound.pan = (playerHitSoundToggle.state && opponentHitSoundToggle.state) ? 0.2 * (note.player ? 1 : -1) : 0;
 						tickSound.pitch = (playerHitSoundToggle.state && opponentHitSoundToggle.state) ? (note.player ? 1.15 : 0.85) : 1;
 					}
 
@@ -738,7 +734,7 @@ class ChartingState extends MusicBeatState
 						}
 					}
 				}
-			}
+			});
 		}
 
 		popupGroup.forEachDead(function(popup:Popup):Void{
@@ -791,6 +787,18 @@ class ChartingState extends MusicBeatState
 			}
 		}
 
+		//Next/previous section.
+		if(FlxG.keys.anyJustPressed([D])){
+			if(FlxG.sound.music.playing){ pauseMusic(); }
+			FlxG.sound.music.time = getSongPositionFromY((Math.floor(getYFromSongPosition(FlxG.sound.music.time) / (GRID_SIZE * 16)) * (GRID_SIZE * 16)) + (GRID_SIZE * 16));
+			musicBoundsCheck();
+		}
+		if(FlxG.keys.anyJustPressed([A])){
+			if(FlxG.sound.music.playing){ pauseMusic(); }
+			FlxG.sound.music.time = getSongPositionFromY((Math.floor(getYFromSongPosition(FlxG.sound.music.time) / (GRID_SIZE * 16)) * (GRID_SIZE * 16)) - (GRID_SIZE * 16));
+			musicBoundsCheck();
+		}
+
 		//Hotbar select.
 		if(FlxG.keys.anyJustPressed([ONE]))		{ hotbar.selectSlot(0); }
 		if(FlxG.keys.anyJustPressed([TWO]))		{ hotbar.selectSlot(1); }
@@ -813,7 +821,7 @@ class ChartingState extends MusicBeatState
 			selectedNotes = [];
 			if(deleteCount > 0){
 				createPopup("Deleted " + deleteCount + " note" + (deleteCount==1?".":"s."));
-				createSnapshot(REMOVE_NOTES);
+				createSnapshot(REMOVE_NOTES(deleteCount));
 			}
 		}
 
@@ -864,7 +872,7 @@ class ChartingState extends MusicBeatState
 			if(gridCursorIndex < 2){
 				if(placedNoteHold){
 					placedNoteHold = false;
-					createSnapshot(PLACE_NOTES);
+					createSnapshot(PLACE_NOTES(1));
 				}
 				if(copiedNoteData.length > 0){
 					selectedNotes = [];
@@ -897,6 +905,7 @@ class ChartingState extends MusicBeatState
 				sustainLength = FlxMath.maxInt(sustainLength+1, 0);
 				note.sustainLength = sustainLength;
 			}
+			createSnapshot(CHANGE_HOLD_DURATION);
 		}
 		else if(FlxG.keys.anyJustPressed([Q])){
 			for(note in selectedNotes){
@@ -904,14 +913,15 @@ class ChartingState extends MusicBeatState
 				sustainLength = FlxMath.maxInt(sustainLength-1, 0);
 				note.sustainLength = sustainLength;
 			}
+			createSnapshot(CHANGE_HOLD_DURATION);
 		}
 	}
 
 	function addNote(strumTime:Float, direction:Int, player:Bool, tag:String = ""):ChartingNote{
 		removeNotesInProximity(strumTime, direction, player);
 
-		var newNote:ChartingNote = new ChartingNote(grids[player?1:0].grid.x + (GRID_SIZE * direction), getYFromSongPosition(strumTime), direction, strumTime, player, tag);
-		notes.add(newNote);
+		var newNote = notes.recycle(ChartingNote);
+		newNote.updateProperties(grids[player?1:0].grid.x + (GRID_SIZE * direction), getYFromSongPosition(strumTime), direction, strumTime, player, tag);
 		notes.members.sort(sortNotes);
 		
 		return newNote;
@@ -931,24 +941,21 @@ class ChartingState extends MusicBeatState
 
 	function getNotesInRegion(strumTime:Float, direction:Null<Int>, player:Null<Bool>, region:Float = 5):Array<ChartingNote>{
 		var r:Array<ChartingNote> = [];
-		for(note in notes.members){
-			if(note.time > strumTime + region){ break; }
+		notes.forEachAlive(function(note:ChartingNote){
 			if((player == null || note.player == player) && (direction == null || note.direction == direction)){
 				if(Utils.inRange(note.time, strumTime, region)){ r.push(note); }
 			}
-		}
+		});
 		return r;
 	}
 
-	function removeNotesInProximity(strumTime:Float, direction:Int, player:Bool, region:Float = 5):Bool{
+	function removeNotesInProximity(strumTime:Float, direction:Int, player:Bool, region:Float = 5):Int{
 		var removeList:Array<ChartingNote> = getNotesInRegion(strumTime, direction, player, region);
 		for(note in removeList){
 			if(selectedNotes.contains(note)){ selectedNotes.remove(note); }
-			trace("removing " + note.time);
-			notes.remove(note, true);
-			note.destroy();
+			note.kill();
 		}
-		return removeList.length > 0;
+		return removeList.length;
 	}
 
 	function getNoteUnderCursor():ChartingNote{
@@ -1060,7 +1067,7 @@ class ChartingState extends MusicBeatState
 
 	function generateChart():Void{
 		chart.notes = [];
-		notes.forEach(function(note:ChartingNote){
+		notes.forEachAlive(function(note:ChartingNote){
 			chart.notes.push(note.generateNoteDefiniton());
 		});
 	}
@@ -1231,7 +1238,7 @@ class ChartingState extends MusicBeatState
 
 	function setCurrentState(type:UndoAction):Void{
 		var noteData:Array<NoteDefinition> = [];
-		notes.forEach(function(note:ChartingNote){
+		notes.forEachAlive(function(note:ChartingNote){
 			noteData.push(note.generateNoteDefiniton());
 		});
 
@@ -1246,7 +1253,7 @@ class ChartingState extends MusicBeatState
 
 	function undo():Void{
 		if(undoHistory.length <= 0){
-			createPopup("Nothing to undo.", 0.75);
+			createPopup("Nothing to undo.", 1);
 			return;
 		}
 
@@ -1254,7 +1261,7 @@ class ChartingState extends MusicBeatState
 		rebuildChartFromSnapshot(snapshot);
 
 		var actionText:String = getUndoActionText(currentState.action);
-		createPopup("Undo"+(actionText.length>0?" ":"")+actionText+".", 0.75);
+		createPopup("Undo"+(actionText.length>0?" ":"")+actionText+".", 1);
 
 		redoHistory.push(currentState);
 		currentState = snapshot;
@@ -1263,15 +1270,15 @@ class ChartingState extends MusicBeatState
 
 	function redo():Void{
 		if(redoHistory.length <= 0){
-			createPopup("Nothing to redo.", 0.75);
+			createPopup("Nothing to redo.", 1);
 			return;
 		}
 
 		var snapshot:ChartSnapshot = redoHistory.pop();
 		rebuildChartFromSnapshot(snapshot);
 
-		var actionText:String = getUndoActionText(currentState.action);
-		createPopup("Redo"+(actionText.length>0?" ":"")+actionText+".", 0.75);
+		var actionText:String = getUndoActionText(snapshot.action);
+		createPopup("Redo"+(actionText.length>0?" ":"")+actionText+".", 1);
 
 		undoHistory.push(currentState);
 		currentState = snapshot;
@@ -1279,8 +1286,7 @@ class ChartingState extends MusicBeatState
 	}
 
 	function rebuildChartFromSnapshot(snapshot:ChartSnapshot){
-		notes.forEach(function(note:ChartingNote){ note.destroy(); });
-		notes.clear();
+		notes.killMembers();
 
 		for(noteData in snapshot.notes){
 			var newNote = addNote(noteData.time, noteData.direction, noteData.player, noteData.tag);
@@ -1290,10 +1296,11 @@ class ChartingState extends MusicBeatState
 
 	inline function getUndoActionText(action:UndoAction):String{
 		switch(action){
-			case PLACE_NOTES: return "placed note";
-			case REMOVE_NOTES: return "deleted note(s)";
+			case PLACE_NOTES(count): return "placed note"+(count==1?"":"s");
+			case REMOVE_NOTES(count): return "deleted note"+(count==1?"":"s");
 			case CUT: return "cut";
 			case PASTE: return "paste";
+			case CHANGE_HOLD_DURATION: return "duration change";
 			default: return "";
 		}
 	}
