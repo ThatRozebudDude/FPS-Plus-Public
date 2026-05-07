@@ -6,6 +6,7 @@ import config.*;
 import transition.data.*;
 
 import flixel.FlxState;
+import extensions.flixel.FlxUIStateExt;
 import openfl.Assets;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -19,7 +20,7 @@ import modding.*;
 
 using StringTools;
 
-class CacheReload extends FlxState
+class CacheReload extends FlxUIStateExt
 {
 
 	public static var doGraphics = true;
@@ -83,6 +84,9 @@ class CacheReload extends FlxState
 	override function create(){
 		buildPreloadList();
 
+		customTransIn = new InstantTransition();
+		customTransOut = new InstantTransition();
+
 		charactersCached = !CacheConfig.characters;
 		graphicsCached = !CacheConfig.graphics;
 
@@ -125,7 +129,7 @@ class CacheReload extends FlxState
 		if(charactersCached && graphicsCached){
 			ImageCache.localCache.clear();
 			Utils.gc();
-			FlxG.switchState(nextState);
+			switchState(nextState);
 		}
 
 		if(startCachingCharacters){
