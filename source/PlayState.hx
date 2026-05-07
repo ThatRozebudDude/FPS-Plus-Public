@@ -340,6 +340,8 @@ class PlayState extends MusicBeatState
 	public static var sectionStart:Bool =  false;
 	public static var sectionStartTime:Float =  0;
 
+	var endingSong:Bool = false;
+
 	public var forceCenteredNotes:Bool = false;
 
 	public var meta:SongMetaTags;
@@ -1568,7 +1570,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (!inCutscene){
+		if (!inCutscene && !endingSong){
 		 	if(!autoplay){
 		 		keyShit();
 			}
@@ -1990,6 +1992,7 @@ class PlayState extends MusicBeatState
 	function stopMusic():Void{
 		songEnded = true;
 		canPause = false;
+		endingSong = true;
 		FlxG.sound.music.volume = 0;
 		FlxG.sound.music.pause();
 		vocals.volume = 0;
