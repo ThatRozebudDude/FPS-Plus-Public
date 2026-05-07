@@ -105,8 +105,7 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		note.animation.play(""+direction, true);
 	}
 
-	//TODO: Make it support BPM changes.
-	public inline function generateNoteDefiniton():NoteDefinition{
+	public inline function generateNoteDefinition():NoteDefinition{
 		return {
 			time: time,
 			direction: direction,

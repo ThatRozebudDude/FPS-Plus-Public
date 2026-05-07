@@ -1,5 +1,6 @@
 package editors.chart;
 
+import Chart.EventFormat;
 import openfl.Assets;
 import stages.ScriptableStage;
 import characters.CharacterInfoBase;
@@ -86,9 +87,12 @@ class ChartingState extends MusicBeatState
 	var stageList:Array<String> = [];
 
 	public var chart:ChartFormat;
+	public var chartEvents:EventFormat;
+
 	var startPosition:Float = 0;
 
 	var notes:FlxTypedGroup<ChartingNote>;
+	var events:FlxTypedGroup<ChartingEvent>;
 	
 	var previousSong:String = null;
 	var vocals:FlxSound;
@@ -135,6 +139,8 @@ class ChartingState extends MusicBeatState
 	var placedNoteHold:Bool = false;
 	var selectedNotes:Array<ChartingNote> = [];
 
+	var selectedEvents:Array<ChartingEvent> = [];
+
 	var selectionBoxOpen:Bool = false;
 	var selectionBox:Box;
 	var selectionStartY:Float = 0;
@@ -175,11 +181,17 @@ class ChartingState extends MusicBeatState
 		if(PlayState.chart == null){
 			PlayState.chart = Chart.getEmptyChart();
 		}
-
 		chart = PlayState.chart;
+
+		if(PlayState.events == null){
+			PlayState.events = Chart.getEmptyEvents();
+		}
+		chartEvents = PlayState.events;
 
 		notes = new FlxTypedGroup<ChartingNote>();
 		Paths.image("ui/notes/NOTE_assets");
+
+		events = new FlxTypedGroup<ChartingEvent>();
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menu/menuDesat"));
 		bg.screenCenter();
@@ -342,6 +354,7 @@ class ChartingState extends MusicBeatState
 
 		add(gridsBarSeperator);
 		add(notes);
+		add(events);
 		add(selectionBox);
 		
 		for(gridParts in grids){
@@ -762,7 +775,7 @@ class ChartingState extends MusicBeatState
 		Conductor.resetBPMChanges();
 		Conductor.setBPMChanges(chart.meta.bpm);
 
-		var snapshot:ChartSnapshot = {notes: chart.notes, events: [], bpmChanges: chart.meta.bpm, action: NONE};
+		var snapshot:ChartSnapshot = {notes: chart.notes, events: chartEvents.events, bpmChanges: chart.meta.bpm, action: NONE};
 		rebuildChartFromSnapshot(snapshot);
 	}
 
@@ -916,6 +929,8 @@ class ChartingState extends MusicBeatState
 		}
 	}
 
+	//Note stuff.
+
 	function addNote(strumTime:Float, direction:Int, player:Bool, tag:String = ""):ChartingNote{
 		removeNotesInProximity(strumTime, direction, player);
 
@@ -973,13 +988,53 @@ class ChartingState extends MusicBeatState
 		for(note in selectedNotes){
 			hasPlayer = hasPlayer || note.player;
 			hasOpponent = hasOpponent || !note.player;
-			copiedNoteData.push(note.generateNoteDefiniton());
+			copiedNoteData.push(note.generateNoteDefinition());
 		}
 		var startTime = copiedNoteData[0].time;
 		for(data in copiedNoteData){
 			data.time -= startTime;
 		}
 		copyingBoth = hasPlayer && hasOpponent;
+	}
+
+	//Event stuff.
+
+	function addEvent(strumTime:Float, lane:Int, tag:String = ""):ChartingEvent{
+		//removeNotesInProximity(strumTime, direction, player);
+
+		var newEvent = events.recycle(ChartingEvent);
+		newEvent.updateProperties(grids[2].grid.x + (GRID_SIZE * lane), getYFromSongPosition(strumTime), lane, strumTime, tag);
+		events.members.sort(sortEvents);
+		
+		return newEvent;
+	}
+
+	function sortEvents(a:ChartingEvent, b:ChartingEvent):Int{
+		var r:Int = 0;
+		r = FlxSort.byValues(FlxSort.ASCENDING, a.time, b.time);
+		if(r == 0){
+			r = FlxSort.byValues(FlxSort.ASCENDING, a.lane, b.lane);
+		}
+		return r;
+	}
+
+	function getEventsInRegion(strumTime:Float, lane:Null<Int>, region:Float = 5):Array<ChartingEvent>{
+		var r:Array<ChartingEvent> = [];
+		events.forEachAlive(function(event:ChartingEvent){
+			if(lane == null || event.lane == lane){
+				if(Utils.inRange(event.time, strumTime, region)){ r.push(event); }
+			}
+		});
+		return r;
+	}
+
+	function removeEventsInProximity(strumTime:Float, lane:Int, region:Float = 5):Int{
+		var removeList:Array<ChartingEvent> = getEventsInRegion(strumTime, lane, region);
+		for(event in removeList){
+			if(selectedEvents.contains(event)){ selectedEvents.remove(event); }
+			event.kill();
+		}
+		return removeList.length;
 	}
 
 	function updateText():Void{
@@ -1067,7 +1122,7 @@ class ChartingState extends MusicBeatState
 	function generateChart():Void{
 		chart.notes = [];
 		notes.forEachAlive(function(note:ChartingNote){
-			chart.notes.push(note.generateNoteDefiniton());
+			chart.notes.push(note.generateNoteDefinition());
 		});
 	}
 	
@@ -1234,10 +1289,15 @@ class ChartingState extends MusicBeatState
 	function setCurrentState(type:UndoAction):Void{
 		var noteData:Array<NoteDefinition> = [];
 		notes.forEachAlive(function(note:ChartingNote){
-			noteData.push(note.generateNoteDefiniton());
+			noteData.push(note.generateNoteDefinition());
 		});
 
-		currentState = {notes: noteData, events: [], bpmChanges: [], action: type};
+		var eventData:Array<EventDefinition> = [];
+		events.forEachAlive(function(event:EventDefinition){
+			eventData.push(event.generateEventDefinition());
+		});
+
+		currentState = {notes: noteData, events: eventData, bpmChanges: [], action: type};
 	}
 
 	function createSnapshot(type:UndoAction):Void{
@@ -1282,10 +1342,14 @@ class ChartingState extends MusicBeatState
 
 	function rebuildChartFromSnapshot(snapshot:ChartSnapshot){
 		notes.killMembers();
-
 		for(noteData in snapshot.notes){
 			var newNote = addNote(noteData.time, noteData.direction, noteData.player, noteData.tag);
 			newNote.sustainLength = noteData.length;
+		}
+
+		events.killMembers();
+		for(eventData in snapshot.events){
+			var newNote = addEvent(eventData.time, eventData.lane, eventData.tag);
 		}
 	}
 
