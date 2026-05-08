@@ -4,12 +4,14 @@ import shaders.TintShader;
 import Chart.EventDefinition;
 import flixel.FlxSprite;
 
+using StringTools;
+
 class ChartingEvent extends FlxSprite
 {
 
 	public var lane:Int = 0;
 	public var time:Float = 0;
-	public var tag:String = "";
+	public var tag(default, set):String = "";
 
 	var tintShader:TintShader;
 
@@ -26,15 +28,44 @@ class ChartingEvent extends FlxSprite
 		lane = _lane;
 		time = _time;
 		tag = _tag;
-
-		setEventGraphic();
 	}
 
-	//TODO: Actually make it load the correct graphic.
 	function setEventGraphic():Void{
+		for(key => value in ChartingState.eventIconOverrides){
+			if(tag.startsWith(key)){
+				loadGraphic(Paths.image("fpsPlus/editors/chart/events/" + value));
+				setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);
+				updateHitbox();
+				return;
+			}
+		}
+
+		for(icon in ChartingState.eventIconList){
+			if(tag == icon){
+				loadGraphic(Paths.image("fpsPlus/editors/chart/events/" + icon));
+				setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);
+				updateHitbox();
+				return;
+			}
+		}
+		for(icon in ChartingState.eventIconList){
+			if(tag.startsWith(icon)){
+				loadGraphic(Paths.image("fpsPlus/editors/chart/events/" + icon));
+				setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);
+				updateHitbox();
+				return;
+			}
+		}
+
 		loadGraphic(Paths.image("fpsPlus/editors/chart/events/generic"));
 		setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);
 		updateHitbox();
+	}
+
+	public function set_tag(v:String):String{
+		tag = v;
+		setEventGraphic();
+		return tag;
 	}
 
 	public function select():Void{

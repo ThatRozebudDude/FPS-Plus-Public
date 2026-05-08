@@ -8,8 +8,19 @@ typedef EventDefinition = {
 	var prefix:String;
 	var eventFunction:(String)->Void;
 	var preprocessFunction:(String)->Void;
-	var description:String;
+	var description:String; //I'll remove this eventually and use the one in hints.
 	var ignoreOffset:Bool;
+	var hints:EventHints;
+}
+
+typedef EventHints = {
+	var description:String;
+	var arguments:Array<EventArgument>;
+}
+
+typedef EventArgument = {
+	var type:String;
+	var defaultValue:String;
 }
 
 @:build(modding.GlobalScriptingTypesMacro.build())
@@ -68,9 +79,9 @@ class Events
 		var def:EventDefinition = generateEventDefinition();
 		def.prefix = prefix;
 		def.eventFunction = processFunction;
-		if(metaDescription != null){ def.description = metaDescription; }
 		if(preprocessFunction != null){ def.preprocessFunction = preprocessFunction; }
 		if(ignoreNoteOffset){ def.ignoreOffset = ignoreNoteOffset; }
+		if(metaDescription != null){ def.hints = {description: metaDescription, arguments: null}; }
 
 		events.set(def.prefix, def);
 	}
@@ -83,7 +94,8 @@ class Events
 			eventFunction: null,
 			preprocessFunction: null,
 			description: null,
-			ignoreOffset: false
+			ignoreOffset: false,
+			hints: null
 		};
 	}
 

@@ -1,5 +1,7 @@
 package editors.chart;
 
+import events.Events;
+import haxe.Json;
 import Chart.EventFormat;
 import openfl.Assets;
 import stages.ScriptableStage;
@@ -86,9 +88,13 @@ class ChartingState extends MusicBeatState
 
 	public static inline final POPUP_SPACING:Float = 12;
 
+	public static var eventIconList:Array<String>;
+	public static var eventIconOverrides:Map<String, String>;
+
 	var characterList:Array<String> = [];
 	var gfList:Array<String> = [];
 	var stageList:Array<String> = [];
+	var eventPrefixes:Array<String> = [""];
 
 	public var chart:ChartFormat;
 	public var chartEvents:EventFormat;
@@ -170,6 +176,9 @@ class ChartingState extends MusicBeatState
 	var lilBf:Character;
 
 	var noteTypeInput:TextInput;
+
+	var eventTagInput:TextInput;
+	var eventParams:Array<UIElement> = [];
 
 	var popupGroup:FlxTypedGroup<Popup>;
 	
@@ -280,6 +289,8 @@ class ChartingState extends MusicBeatState
 		opponentIcon.setPosition(grids[0].grid.x + grids[0].grid.width/2 - opponentIcon.width/2, GRID_SIZE - opponentIcon.height/2);
 
 		eventIcon = new FlxSprite().loadGraphic(Paths.image("fpsPlus/editors/chart/events/generic"));
+		eventIcon.scale.set(0.5, 0.5);
+		eventIcon.updateHitbox();
 		eventIcon.scrollFactor.set(0, 0);
 		eventIcon.setPosition(grids[2].grid.x + grids[2].grid.width/2 - eventIcon.width/2, GRID_SIZE - eventIcon.height/2);
 
@@ -413,7 +424,7 @@ class ChartingState extends MusicBeatState
 	}
 
 	function setupSongTab():Void{
-		var songNameInput:TextInput = new TextInput(PANEL_SPACING, PANEL_SPACING, 192, chart.meta.song, "Song");
+		var songNameInput:TextInput = new TextInput(PANEL_SPACING, PANEL_SPACING, 240, chart.meta.song, "Song");
 		songNameInput.onValueChanged.add(function(v:String){
 			if(v == previousSong){ return; }
 			pauseMusic();
@@ -426,19 +437,19 @@ class ChartingState extends MusicBeatState
 		});
 		var baseBpmInput:Stepper = new Stepper(PANEL_SPACING, songNameInput.y + songNameInput.elementHeight + PANEL_SPACING, 120, chart.meta.bpm[0].bpm, 1, 1, null, true, "Song BPM");
 
-		var opponentDropdown:Dropdown = new Dropdown(PANEL_SPACING, baseBpmInput.y + baseBpmInput.elementHeight + PANEL_EXTRA_SPACING, 192, characterList, chart.meta.opponent, "Opponent");
+		var opponentDropdown:Dropdown = new Dropdown(PANEL_SPACING, baseBpmInput.y + baseBpmInput.elementHeight + PANEL_EXTRA_SPACING, 240, characterList, chart.meta.opponent, "Opponent");
 		opponentDropdown.onSelect.add(function(v:String){
 			updateHealthIcons(v, chart.meta.player);
 			chart.meta.opponent = v;
 		});
-		var playerDropown:Dropdown = new Dropdown(PANEL_SPACING, opponentDropdown.y + opponentDropdown.elementHeight + PANEL_SPACING, 192, characterList, chart.meta.player, "Player");
+		var playerDropown:Dropdown = new Dropdown(PANEL_SPACING, opponentDropdown.y + opponentDropdown.elementHeight + PANEL_SPACING, 240, characterList, chart.meta.player, "Player");
 		playerDropown.onSelect.add(function(v:String){
 			updateHealthIcons(chart.meta.opponent, v);
 			chart.meta.player = v;
 		});
-		var speakerDropdown:Dropdown = new Dropdown(PANEL_SPACING, playerDropown.y + playerDropown.elementHeight + PANEL_SPACING, 192, gfList, chart.meta.speaker, "Partner");
+		var speakerDropdown:Dropdown = new Dropdown(PANEL_SPACING, playerDropown.y + playerDropown.elementHeight + PANEL_SPACING, 240, gfList, chart.meta.speaker, "Partner");
 		speakerDropdown.onSelect.add(function(v:String){ chart.meta.speaker = v; });
-		var stageDropdown:Dropdown = new Dropdown(PANEL_SPACING, speakerDropdown.y + speakerDropdown.elementHeight + PANEL_EXTRA_SPACING, 192, stageList, chart.meta.stage, "Stage");
+		var stageDropdown:Dropdown = new Dropdown(PANEL_SPACING, speakerDropdown.y + speakerDropdown.elementHeight + PANEL_EXTRA_SPACING, 240, stageList, chart.meta.stage, "Stage");
 		stageDropdown.onSelect.add(function(v:String){ chart.meta.stage = v; });
 
 		panel.addToTab("Song", songNameInput);
@@ -457,42 +468,15 @@ class ChartingState extends MusicBeatState
 	}
 	
 	function setupEventsTab():Void{
-		var testToggle:Toggle = new Toggle(PANEL_SPACING, PANEL_SPACING, false, "Test Toggle");
-		testToggle.onToggle.add(function(state:Bool){
-			trace(state);
+		eventTagInput = new TextInput(PANEL_SPACING, PANEL_SPACING, 336, "", "Tag");
+
+		var eventPrefixDropdown:Dropdown = new Dropdown(PANEL_SPACING, eventTagInput.y + eventTagInput.elementHeight + PANEL_SPACING, 240, eventPrefixes, "", "Event Tags");
+		eventPrefixDropdown.onSelect.add(function(v:String){
+			eventTagInput.value = v;
 		});
 
-		var testButton:Button = new Button(PANEL_SPACING, testToggle.y + testToggle.elementHeight + PANEL_SPACING, 144, "Button");
-		testButton.onPress.add(function(){
-			trace("pressed");
-		});
-
-		var testDropdown:Dropdown = new Dropdown(PANEL_SPACING, testButton.y + testButton.elementHeight + PANEL_SPACING, 144, ["Bf", "Dad", "Gf", "Pico", "Pico2", "Pico3", "Pico4", "Pico5", "Pico6", "Pico7", "Pico8", "Pico9", "Pico10"], "Bf", "Test Dropdown");
-
-		var testDropdown2:Dropdown = new Dropdown(PANEL_SPACING, testDropdown.y + testDropdown.elementHeight + PANEL_SPACING, 144, ["Bf", "Dad", "Gf", "Pico"], "Dad", "Test Dropdown 2");
-
-		var testStepper:Stepper = new Stepper(PANEL_SPACING, testDropdown2.y + testDropdown2.elementHeight + PANEL_SPACING, 144, 120, 1, 1, null, true, "Test Stepper");
-
-		var testStepper2:Stepper = new Stepper(PANEL_SPACING, testStepper.y + testStepper.elementHeight + PANEL_SPACING, 144, 80, 0.5, 70, 90, false, "Test Stepper 2");
-
-		var testTextInput:TextInput = new TextInput(PANEL_SPACING, testStepper2.y + testStepper2.elementHeight + PANEL_SPACING, 144, "Fresh", "Test Text Input");
-		testTextInput.onValueChanged.add(function(v:String){
-			trace("value changed to " + v);
-		});
-		
-		var testTextInput2:TextInput = new TextInput(PANEL_SPACING, testTextInput.y + testTextInput.elementHeight + PANEL_SPACING, 144, "Text", "Test Text Input 2");
-		testTextInput2.onValueChanged.add(function(v:String){
-			trace("value changed 2  " + v);
-		});
-
-		panel.addToTab("Events", testToggle);
-		panel.addToTab("Events", testButton);
-		panel.addToTab("Events", testDropdown);
-		panel.addToTab("Events", testDropdown2);
-		panel.addToTab("Events", testStepper);
-		panel.addToTab("Events", testStepper2);
-		panel.addToTab("Events", testTextInput);
-		panel.addToTab("Events", testTextInput2);
+		panel.addToTab("Events", eventTagInput);
+		panel.addToTab("Events", eventPrefixDropdown);
 	}
 
 	function setupToolsTab():Void{
@@ -716,7 +700,8 @@ class ChartingState extends MusicBeatState
 			pauseMusic();
 			generateChart();
 			
-			if(FlxG.keys.pressed.CONTROL){
+			var controlPressed:Bool = #if mac FlxG.keys.anyPressed([WINDOWS]); #else FlxG.keys.anyPressed([CONTROL]); #end
+			if(controlPressed){
 				PlayState.sectionStart = true;
 				PlayState.sectionStartTime = FlxG.sound.music.time;
 			}
@@ -798,10 +783,13 @@ class ChartingState extends MusicBeatState
 	}
 
 	function checkShortcuts():Void{
+		//Allows you to use the command key on Mac for shortcuts.
+		var controlPressed:Bool = #if mac FlxG.keys.anyPressed([WINDOWS]); #else FlxG.keys.anyPressed([CONTROL]); #end
+
 		//To top of section/song.
 		if(FlxG.keys.anyJustPressed([R])){
 			if(FlxG.sound.music.playing){ pauseMusic(); }
-			if(FlxG.keys.anyPressed([CONTROL])){
+			if(controlPressed){
 				FlxG.sound.music.time = 0;
 			}
 			else{
@@ -863,11 +851,11 @@ class ChartingState extends MusicBeatState
 		}
 
 		//Undo Redo
-		if(FlxG.keys.anyJustPressed([Z]) && FlxG.keys.anyPressed([CONTROL]))		{ undo(); }
-		else if(FlxG.keys.anyJustPressed([Y]) && FlxG.keys.anyPressed([CONTROL]))	{ redo(); }
+		if(FlxG.keys.anyJustPressed([Z]) && controlPressed)			{ undo(); }
+		else if(FlxG.keys.anyJustPressed([Y]) && controlPressed)	{ redo(); }
 
 		//Copy Cut Paste
-		if(FlxG.keys.anyJustPressed([C]) && FlxG.keys.anyPressed([CONTROL])){
+		if(FlxG.keys.anyJustPressed([C]) && controlPressed){
 			if(gridCursorIndex < 2){
 				copyNotes();
 				createPopup("Copied " + copiedNoteData.length + " note" + (copiedNoteData.length==1?".":"s."));
@@ -876,7 +864,7 @@ class ChartingState extends MusicBeatState
 				//Event stuff later
 			}
 		}
-		else if(FlxG.keys.anyJustPressed([X]) && FlxG.keys.anyPressed([CONTROL])){
+		else if(FlxG.keys.anyJustPressed([X]) && controlPressed){
 			if(gridCursorIndex < 2){
 				copyNotes();
 				while(selectedNotes.length > 0){
@@ -890,7 +878,7 @@ class ChartingState extends MusicBeatState
 				//Event stuff later
 			}
 		}
-		else if(FlxG.keys.anyJustPressed([V]) && FlxG.keys.anyPressed([CONTROL]) && gridCursorIndex >= 0){
+		else if(FlxG.keys.anyJustPressed([V]) && controlPressed && gridCursorIndex >= 0){
 			if(gridCursorIndex < 2){
 				if(placedNoteHold){
 					placedNoteHold = false;
@@ -1159,6 +1147,10 @@ class ChartingState extends MusicBeatState
 			stageList.push(pushedName);
 		}
 
+		for(event in Events.events){
+			eventPrefixes.push(event.prefix);
+		}
+
 		//makes them be in alphabetical order
 		characterList.sort(function(a:String, b:String):Int{
 			a = a.toUpperCase();
@@ -1182,6 +1174,30 @@ class ChartingState extends MusicBeatState
 			else if(a > b){ return 1; }
 			else{ return 0; }
 		});
+
+		eventPrefixes.sort(function(a:String, b:String):Int{
+			a = a.toUpperCase();
+			b = b.toUpperCase();
+			if(a < b){ return -1; }
+			else if(a > b){ return 1; }
+			else{ return 0; }
+		});
+
+		eventIconList = [];
+		eventIconOverrides = new Map<String, String>();
+
+		var eventsDirectory = Utils.readDirectory("assets/images/fpsPlus/editors/chart/events/");
+		for(file in eventsDirectory){
+			if(file.split(".")[1] == "png"){
+				eventIconList.push(file.split(".")[0]);
+			}
+			else if(file.split(".")[1] == "json"){
+				var json = Json.parse(Utils.getText("assets/images/fpsPlus/editors/chart/events/" + file));
+				for(key in cast(json.overrides, Array<Dynamic>)){
+					eventIconOverrides.set(key, file.split(".")[0]);
+				}
+			}
+		}
 	}
 
 	function updateHealthIcons(opponentCharacter:String, playerCharacter:String, force:Bool = false):Void{
