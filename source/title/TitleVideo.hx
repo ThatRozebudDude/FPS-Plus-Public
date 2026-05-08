@@ -61,7 +61,7 @@ class TitleVideo extends FlxUIStateExt
 		}
 
 		MainMenuState.playMenuMusic();
-		FlxG.switchState(titleState);
+		switchState(titleState);
 	}
 	
 }

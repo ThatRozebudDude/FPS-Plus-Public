@@ -889,12 +889,12 @@ class FreeplayState extends MusicBeatState
 		Conductor.countBeats = true;
 	}
 
-	function addSong(definiton:FreeplaySongDefiniton):Void{
+	function addSong(definition:FreeplaySongDefinition):Void{
 
-		var meta = Utils.defaultSongMetadata(definiton.song.replace("-", " "));
+		var meta = Utils.defaultSongMetadata(definition.song.replace("-", " "));
 
-		if(Utils.exists("assets/data/songs/" + definiton.song.toLowerCase() + "/meta.json")){
-			var jsonMeta = Json.parse(Utils.getText("assets/data/songs/" + definiton.song.toLowerCase() + "/meta.json"));
+		if(Utils.exists("assets/data/songs/" + definition.song.toLowerCase() + "/meta.json")){
+			var jsonMeta = Json.parse(Utils.getText("assets/data/songs/" + definition.song.toLowerCase() + "/meta.json"));
 			if(jsonMeta.name != null)				{ meta.name = jsonMeta.name; }
 			if(jsonMeta.artist != null)				{ meta.artist = jsonMeta.artist; }
 			if(jsonMeta.album != null)				{ meta.album = jsonMeta.album; }
@@ -916,9 +916,9 @@ class FreeplayState extends MusicBeatState
 			if(jsonMeta.mixName != null)			{ meta.mixName = jsonMeta.mixName; }
 		}
 
-		if(definiton.categories == null){ definiton.categories = ["All"]; }
-		var capsule:Capsule = new Capsule(definiton.song, meta.name, definiton.icon, meta.album, calcAvailableDifficulties(definiton.song), meta.difficulties, meta.difficultySet, meta.compatibleInsts, [dj.freeplaySkin, dj.capsuleSelectColor, dj.capsuleDeselectColor, dj.capsuleSelectOutlineColor, dj.capsuleDeselectOutlineColor], definiton.leftLink, definiton.rightLink);
-		for(cat in definiton.categories){
+		if(definition.categories == null){ definition.categories = ["All"]; }
+		var capsule:Capsule = new Capsule(definition.song, meta.name, definition.icon, meta.album, calcAvailableDifficulties(definition.song), meta.difficulties, meta.difficultySet, meta.compatibleInsts, [dj.freeplaySkin, dj.capsuleSelectColor, dj.capsuleDeselectColor, dj.capsuleSelectOutlineColor, dj.capsuleDeselectOutlineColor], definition.leftLink, definition.rightLink);
+		for(cat in definition.categories){
 			createCategory(cat);
 			categoryMap[cat].push(capsule);
 		}
@@ -1674,7 +1674,7 @@ class FreeplayState extends MusicBeatState
 	function createSongList():Void{
 
 		var freeplayCategories:Array<String> = [];
-		var freeplaySongs:Array<FreeplaySongDefiniton> = [];
+		var freeplaySongs:Array<FreeplaySongDefinition> = [];
 
 		//Load freeplay song list from json.
 		if(Utils.exists(Paths.json("songList-" + dj.listSuffix, "data/freeplay"))){
@@ -1819,7 +1819,7 @@ enum IntroAnimType {
 	fromSongLose;
 }
 
-typedef FreeplaySongDefiniton = {
+typedef FreeplaySongDefinition = {
 	var song:String;
 	var icon:String;
 	var categories:Array<String>;
