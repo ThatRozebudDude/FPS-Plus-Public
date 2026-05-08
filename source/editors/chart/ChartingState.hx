@@ -55,9 +55,13 @@ enum UndoAction {
 	NONE; //Used for the intial state or when the action type isn't needed like building the inital chart.
 	PLACE_NOTES(count:Int);
 	REMOVE_NOTES(count:Int);
+	CHANGE_HOLD_DURATION;
+	CHANGE_NOTE_TAG;
+	PLACE_EVENTS(count:Int);
+	REMOVE_EVENTS(count:Int);
+	CHANGE_EVENT_TAG;
 	CUT;
 	PASTE;
-	CHANGE_HOLD_DURATION;
 }
 
 class ChartingState extends MusicBeatState
@@ -136,6 +140,8 @@ class ChartingState extends MusicBeatState
 
 	var previousReportedSongTime:Float = -1;
 
+	var currentlySelectingEvents:Bool = false;
+
 	var placedNoteHold:Bool = false;
 	var selectedNotes:Array<ChartingNote> = [];
 
@@ -147,8 +153,12 @@ class ChartingState extends MusicBeatState
 	var startingGrid:Int = -1;
 	var selectingBoth:Bool = false;
 
+	var currentlyCopyingEvents:Bool = false;
+
 	var copiedNoteData:Array<NoteDefinition> = [];
 	var copyingBoth:Bool = false;
+
+	var copiedEventData:Array<EventDefinition> = [];
 
 	var playerHitSoundToggle:Toggle;
 	var opponentHitSoundToggle:Toggle;
@@ -269,7 +279,7 @@ class ChartingState extends MusicBeatState
 		opponentIcon.scale.set(opponentIcon.scale.x/2, opponentIcon.scale.y/2);
 		opponentIcon.setPosition(grids[0].grid.x + grids[0].grid.width/2 - opponentIcon.width/2, GRID_SIZE - opponentIcon.height/2);
 
-		eventIcon = new FlxSprite().loadGraphic(Paths.image("chartEditor/event/genericEvent"));
+		eventIcon = new FlxSprite().loadGraphic(Paths.image("fpsPlus/editors/chart/events/generic"));
 		eventIcon.scrollFactor.set(0, 0);
 		eventIcon.setPosition(grids[2].grid.x + grids[2].grid.width/2 - eventIcon.width/2, GRID_SIZE - eventIcon.height/2);
 
@@ -1293,7 +1303,7 @@ class ChartingState extends MusicBeatState
 		});
 
 		var eventData:Array<EventDefinition> = [];
-		events.forEachAlive(function(event:EventDefinition){
+		events.forEachAlive(function(event:ChartingEvent){
 			eventData.push(event.generateEventDefinition());
 		});
 
@@ -1357,9 +1367,13 @@ class ChartingState extends MusicBeatState
 		switch(action){
 			case PLACE_NOTES(count): return "placed note"+(count==1?"":"s");
 			case REMOVE_NOTES(count): return "deleted note"+(count==1?"":"s");
+			case CHANGE_HOLD_DURATION: return "note duration change";
+			case CHANGE_NOTE_TAG: return "note tag change";
+			case PLACE_EVENTS(count): return "placed event"+(count==1?"":"s");
+			case REMOVE_EVENTS(count): return "deleted event"+(count==1?"":"s");
+			case CHANGE_EVENT_TAG: return "event tag change";
 			case CUT: return "cut";
 			case PASTE: return "paste";
-			case CHANGE_HOLD_DURATION: return "duration change";
 			default: return "";
 		}
 	}

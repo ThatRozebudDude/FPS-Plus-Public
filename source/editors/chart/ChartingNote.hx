@@ -1,5 +1,6 @@
 package editors.chart;
 
+import shaders.TintShader;
 import Chart.NoteDefinition;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.FlxSprite;
@@ -18,10 +19,13 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 	var note:FlxSprite;
 	var sustainBody:FlxSprite;
 	var sustainEnd:FlxSprite;
+	var tintShader:TintShader;
 
 	public function new(){
 		super(0, 0);
 		var noteFrames = Paths.getSparrowAtlas("ui/notes/NOTE_assets");
+
+		tintShader = new TintShader(0xFFFFFFFF, 0);
 		
 		note = new FlxSprite();
 		note.frames = noteFrames;
@@ -35,6 +39,7 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		note.animation.addByPrefix("3-selected", "Red Active", 0, false);
 		note.setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);
 		note.updateHitbox();
+		note.shader = tintShader.shader;
 
 		sustainBody = new FlxSprite(ChartingState.GRID_SIZE/2 - SUSTAIN_GRAPHIC_WIDTH/2, ChartingState.GRID_SIZE/2);
 		sustainBody.frames = noteFrames;
@@ -46,6 +51,7 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		sustainBody.updateHitbox();
 		sustainBody.visible = false;
 		sustainBody.antialiasing = false;
+		sustainBody.shader = tintShader.shader;
 
 		sustainEnd = new FlxSprite(ChartingState.GRID_SIZE/2 - SUSTAIN_GRAPHIC_WIDTH/2, ChartingState.GRID_SIZE*2);
 		sustainEnd.frames = noteFrames;
@@ -56,10 +62,13 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		sustainEnd.setGraphicSize(SUSTAIN_GRAPHIC_WIDTH, ChartingState.GRID_SIZE/2);
 		sustainEnd.updateHitbox();
 		sustainEnd.visible = false;
+		sustainEnd.shader = tintShader.shader;
 
 		add(sustainBody);
 		add(sustainEnd);
 		add(note);
+
+		active = false;
 	}
 
 	public function updateProperties(_x:Float, _y:Float, _direction:Int, _time:Float, _player:Bool, _tag:String):Void{
@@ -98,11 +107,11 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 	}
 
 	public function select():Void{
-		note.animation.play(direction+"-selected", true);
+		tintShader.amount = 0.5;
 	}
 
 	public function deselect():Void{
-		note.animation.play(""+direction, true);
+		tintShader.amount = 0;
 	}
 
 	public inline function generateNoteDefinition():NoteDefinition{

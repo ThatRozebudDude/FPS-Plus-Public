@@ -1,5 +1,6 @@
 package editors.chart;
 
+import shaders.TintShader;
 import Chart.EventDefinition;
 import flixel.FlxSprite;
 
@@ -10,8 +11,13 @@ class ChartingEvent extends FlxSprite
 	public var time:Float = 0;
 	public var tag:String = "";
 
+	var tintShader:TintShader;
+
 	public function new(){
 		super(0, 0);
+		tintShader = new TintShader(0xFFFFFFFF, 0);
+		shader = tintShader.shader;
+		active = false;
 	}
 
 	public function updateProperties(_x:Float, _y:Float, _lane:Int, _time:Float, _tag:String):Void{
@@ -26,9 +32,17 @@ class ChartingEvent extends FlxSprite
 
 	//TODO: Actually make it load the correct graphic.
 	function setEventGraphic():Void{
-		loadGraphic(Paths.image("fpsPlus/editors/chart/events/generic")); //I'm going to move the event icons to this folder and probably redo them to look better.
+		loadGraphic(Paths.image("fpsPlus/editors/chart/events/generic"));
 		setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);
 		updateHitbox();
+	}
+
+	public function select():Void{
+		tintShader.amount = 0.5;
+	}
+
+	public function deselect():Void{
+		tintShader.amount = 0;
 	}
 
 	public inline function generateEventDefinition():EventDefinition{
