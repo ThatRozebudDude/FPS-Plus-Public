@@ -14,11 +14,12 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 	public var time:Float = 0;
 	public var player:Bool = false;
 	public var sustainLength(default, set):Int = 0; //Length in steps.
-	public var tag:String = "";
+	public var tag(default, set):String = "";
 
 	var note:FlxSprite;
 	var sustainBody:FlxSprite;
 	var sustainEnd:FlxSprite;
+	var asterisk:FlxSprite;
 	var tintShader:TintShader;
 
 	public function new(){
@@ -64,9 +65,16 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		sustainEnd.visible = false;
 		sustainEnd.shader = tintShader.shader;
 
+		asterisk = new FlxSprite().loadGraphic(Paths.image("fpsPlus/editors/chart/asterisk"));
+		asterisk.scale.set(0.5, 0.5);
+		asterisk.updateHitbox();
+		asterisk.visible = false;
+		asterisk.shader = tintShader.shader;
+
 		add(sustainBody);
 		add(sustainEnd);
 		add(note);
+		add(asterisk);
 
 		active = false;
 	}
@@ -79,6 +87,10 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		player = _player;
 		tag = _tag;
 
+		asterisk.x = note.x + note.width - asterisk.width;
+		asterisk.y = note.y;
+		updateSustainGraphics();
+
 		note.animation.play(""+direction);
 		sustainBody.animation.play(""+direction);
 		sustainEnd.animation.play(""+direction);
@@ -86,7 +98,25 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 
 	public function set_sustainLength(v:Int):Int{
 		sustainLength = v;
+		updateSustainGraphics();
+		return sustainLength;
+	}
+	
+	public function set_tag(v:String):String{
+		tag = v;
+		asterisk.visible = tag.length > 0;
+		return tag;
+	}
 
+	public function select():Void{
+		tintShader.amount = 0.5;
+	}
+
+	public function deselect():Void{
+		tintShader.amount = 0;
+	}
+
+	function updateSustainGraphics():Void{
 		if(sustainLength > 0){
 			sustainBody.visible = true;
 			sustainBody.setGraphicSize(SUSTAIN_GRAPHIC_WIDTH, (ChartingState.GRID_SIZE*(sustainLength-1))+(ChartingState.GRID_SIZE/2)+1);
@@ -101,17 +131,6 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 			sustainBody.visible = false;
 			sustainEnd.visible = false;
 		}
-
-
-		return sustainLength;
-	}
-
-	public function select():Void{
-		tintShader.amount = 0.5;
-	}
-
-	public function deselect():Void{
-		tintShader.amount = 0;
 	}
 
 	public inline function generateNoteDefinition():NoteDefinition{

@@ -100,6 +100,16 @@ class Panel extends UIElement
 		trace('No tab with the name "$tabName" exists.');
 	}
 
+	public function removeFromTab(tabName:String, obj:FlxSprite):Void{
+		for(tab in tabs){
+			if(tab.name == tabName){
+				tab.group.remove(obj, true);
+				return;
+			}
+		}
+		trace('No tab with the name "$tabName" exists.');
+	}
+
 	public function changeTab(tabIndex:Int):Void{
 		selectedTab = tabIndex;
 		for(i in 0...tabs.length){

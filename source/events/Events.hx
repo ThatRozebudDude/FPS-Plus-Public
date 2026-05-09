@@ -18,7 +18,9 @@ typedef EventHints = {
 	var arguments:Array<EventArgument>;
 }
 
+//Still unsure exactly how I wanna handle this.
 typedef EventArgument = {
+	var name:String;
 	var type:String;
 	var defaultValue:String;
 }
@@ -108,7 +110,8 @@ class Events
 		var args = fullEventTag.split(";");
 		for(i in 0...args.length){
 			if(i == 0) { continue; }
-			r.push(args[i]);
+			if(args[i].length == 0) { r.push(defaultArgs[i]); }
+			else{ r.push(args[i]); }
 		}
 
 		if(defaultArgs != null && defaultArgs.length > r.length){
