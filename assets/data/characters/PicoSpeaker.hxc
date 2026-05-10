@@ -34,14 +34,14 @@ class PicoSpeaker extends CharacterInfoBase
 		addExtraData("isStressCharacter", null);
 	}
 
-	var animationNotes:Array<Dynamic> = [];
+	var animationNotes:Array<Chart.NoteDefinition> = [];
 
 	function update(character:Character, elapsed:Float):Void{
 		if(animationNotes.length > 0){
-			if(Conductor.songPosition > animationNotes[0][0]){
+			if(Conductor.songPosition > animationNotes[0].time){
 				var shootAnim:Int = 1;
 
-				if (animationNotes[0][1] >= 2)
+				if (animationNotes[0].direction >= 2)
 					shootAnim = 3;
 
 				shootAnim += FlxG.random.int(0, 1);

@@ -1,34 +1,21 @@
+#if BACKWARD_COMPATIBILITY
 package;
 
-import Section.SwagSection;
 import haxe.Json;
-import haxe.format.JsonParser;
-import lime.utils.Assets;
+import Chart.LegacySong;
+import Chart.LegacySection;
+import Chart.LegacyEvents;
 
 using StringTools;
 
-typedef SwagSong =
-{
-	var song:String;
-	var notes:Array<SwagSection>;
-	var bpm:Float;
-	var speed:Float;
+typedef SwagSong = LegacySong;
 
-	var player1:String;
-	var player2:String;
-	var stage:String;
-	var gf:String;
-}
-
-typedef SongEvents =
-{
-	var events:Array<Dynamic>;
-}
+typedef SongEvents = LegacyEvents;
 
 class Song
 {
 
-	public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong
+	public static function loadFromJson(jsonInput:String, ?folder:String):LegacySong
 	{
 		var rawJson = Utils.getText(Paths.json(folder.toLowerCase() + '/' + jsonInput.toLowerCase())).trim();
 
@@ -39,14 +26,15 @@ class Song
 		return parseJSONshit(rawJson);
 	}
 
-	public static function parseJSONshit(rawJson:String):SwagSong
+	public static function parseJSONshit(rawJson:String):LegacySong
 	{
-		var swagShit:SwagSong = cast Json.parse(rawJson).song;
+		var swagShit:LegacySong = cast Json.parse(rawJson).song;
 		return swagShit;
 	}
-	public static function parseEventJSON(rawJson:String):SongEvents
+	public static function parseEventJSON(rawJson:String):LegacyEvents
 	{
-		var swagShit:SongEvents = cast Json.parse(rawJson).events;
+		var swagShit:LegacyEvents = cast Json.parse(rawJson).events;
 		return swagShit;
 	}
 }
+#end

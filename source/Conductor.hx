@@ -9,7 +9,7 @@ import Chart.BPMDefinition;
 
 class Conductor extends FlxBasic
 {
-	public static var bpm:Float = 100;
+	public static var bpm(get, never):Float;
 	public static var songPosition:Float = 0;
 	public static var lastSongPos:Float;
 	public static var offset:Float = 0;
@@ -60,21 +60,8 @@ class Conductor extends FlxBasic
 		var prevStep = Math.floor(step);
 		var prevBeat = Math.floor(beat);
 
-		beat = 0;
-		bpm = Conductor.bpmChanges[0].bpm;
-
-		var prevChange = Conductor.bpmChanges[0];
-		for(change in Conductor.bpmChanges){
-			if((songPosition + offset) >= change.time){
-				beat += (change.time - prevChange.time) / (getCrotchet(prevChange.time) * 1000);
-				bpm = change.bpm;
-
-				prevChange = change;
-			}
-		}
-
-		beat += ((songPosition + offset) - prevChange.time) / (getCrotchet(prevChange.time) * 1000);
-		step = beat * 4;
+		step = getStepFromTime();
+		beat = step / 4;
 
 		if(Math.floor(step) != prevStep){
 			onStepHit.dispatch();
@@ -172,7 +159,8 @@ class Conductor extends FlxBasic
 	 * Converts a time in milliseconds to the corresponding step number.
 	 * Accounts for BPM changes throughout the song.
 	 */
-	public static function getStepFromTime(targetTime:Float):Float{
+	public static function getStepFromTime(?targetTime:Float):Float{
+		if(targetTime == null){ targetTime = songPosition; }
 		if(bpmChanges.length < 1 || targetTime <= 0){
 			return 0;
 		}
@@ -231,5 +219,8 @@ class Conductor extends FlxBasic
 		setBPMChanges([{bpm: newBpm, time: 0}]);
 	}
 
+	static function get_bpm():Float{
+		return getBPMDefine().bpm;
+	}
 }
 

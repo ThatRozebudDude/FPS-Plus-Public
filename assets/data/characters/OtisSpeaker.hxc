@@ -70,14 +70,14 @@ class OtisSpeaker extends CharacterInfoBase
 		addToCharacter(gunshots);
 	}
 
-	var animationNotes:Array<Dynamic> = [];
+	var animationNotes:Array<Chart.NoteDefinition> = [];
 
 	function update(character:Character, elapsed:Float):Void{
 		if(animationNotes.length > 0){
-			if(Conductor.songPosition > animationNotes[0][0]){
-				character.playAnim("shoot" + (animationNotes[0][1] + 1), true);
-				gunshots.animation.play("shoot" + (animationNotes[0][1] + 1), true);
-				gunshots.setPosition(character.x + gunshotPositions[animationNotes[0][1]][0], character.y + gunshotPositions[animationNotes[0][1]][1]);
+			if(Conductor.songPosition > animationNotes[0].time){
+				character.playAnim("shoot" + (animationNotes[0].direction + 1), true);
+				gunshots.animation.play("shoot" + (animationNotes[0].direction + 1), true);
+				gunshots.setPosition(character.x + gunshotPositions[animationNotes[0].direction][0], character.y + gunshotPositions[animationNotes[0].direction][1]);
 				animationNotes.shift();
 			}
 		}

@@ -304,7 +304,8 @@ class PolymodHandler
 		Polymod.addDefaultImport(PauseSubState);
 		Polymod.addDefaultImport(PlayState);
 		Polymod.addDefaultImport(Scoring);
-		Polymod.addDefaultImport(Song);
+		#if BACKWARD_COMPATIBILITY Polymod.addDefaultImport(Song); #end
+		Polymod.addDefaultImport(Chart);
 		Polymod.addDefaultImport(Utils);
 		Polymod.addDefaultImport(VideoHandler);
 

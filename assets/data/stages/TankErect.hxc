@@ -14,7 +14,7 @@ class TankErect extends BaseStage
 
 	var doTankmenRunning:Bool = false;
 	var tankmanRun:FlxGroup;
-	var tankmanRunNotes:Array<Dynamic> = [];
+	var tankmanRunNotes:Array<Chart.NoteDefinition> = [];
 	final tankmenCreationWindow:Float = 2000; //ms
 
 	var leftLightPoint = new FlxPoint(280, 200);
@@ -130,7 +130,7 @@ class TankErect extends BaseStage
 	public override function postCreate(){
 		if(gf.characterInfo.info.extraData.exists("isStressCharacter") && data.exists("STRESS_SONG")){
 			doTankmenRunning = true;
-			loadMappedAnims("picospeaker", PlayState.chart.meta.song.toLowerCase());
+			loadMappedAnims(PlayState.chart.meta.song.toLowerCase());
 			gf.characterInfo.info.extraData.set("isStressCharacter", tankmanRunNotes.copy());
 			Paths.image("week7/stage/tankmanKilled1"); //Preload tankman running graphic.
 			createNextTankmenBatch(0);
@@ -189,26 +189,19 @@ class TankErect extends BaseStage
 		neneKnifeTracking.velocity.set(0, 0);
 	}
 
-	function loadMappedAnims(fileName:String, song:String){
-		var json = Song.loadFromJson(fileName, song);
-		var notes = json.notes;
-		tankmanRunNotes = [];
+	function loadMappedAnims(song:String){
+		var chart = Chart.chartFromSong(song, "speaker");
+		tankmanRunNotes = chart.notes;
 	
-		for(section in notes){
-			for(noteData in section.sectionNotes){
-				tankmanRunNotes.push(noteData);
-			}
-		}
-	
-		tankmanRunNotes.sort(function(a, b):Int{ return FlxSort.byValues(-1, a[0], b[0]); });
+		tankmanRunNotes.sort(function(a, b):Int{ return FlxSort.byValues(FlxSort.ASCENDING, a.time, b.time); });
 	}
 
 	function createNextTankmenBatch(songPosition:Float):Void{
 		var shiftAmount:Int = 0;
 		for(i in 0...tankmanRunNotes.length){
-			if(tankmanRunNotes[i][0] > songPosition + tankmenCreationWindow){ continue; }
+			if(tankmanRunNotes[i].time > songPosition + tankmenCreationWindow){ continue; }
 			if(FlxG.random.bool(10)){
-				var tankman:TankmenRunning = new TankmenRunning(500, 230 + FlxG.random.int(50, 80), tankmanRunNotes[i][0], tankmanRunNotes[i][1] > 1);
+				var tankman:TankmenRunning = new TankmenRunning(500, 230 + FlxG.random.int(50, 80), tankmanRunNotes[i].time, tankmanRunNotes[i].direction > 1);
 				tankmanRun.add(tankman);
 
 				var tankmanRunShader = new DropShadowShader();

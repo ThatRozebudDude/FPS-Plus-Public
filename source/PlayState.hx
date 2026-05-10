@@ -29,7 +29,6 @@ import flixel.FlxState;
 import openfl.utils.Assets;
 import flixel.math.FlxRect;
 import openfl.system.System;
-import Section.SwagSection;
 import Chart.ChartFormat;
 import Chart.EventFormat;
 import Song.SongEvents;
@@ -1157,8 +1156,6 @@ class PlayState extends MusicBeatState
 
 		notes = new FlxTypedGroup<Note>();
 		add(notes);
-
-		var noteData:Array<SwagSection>;
 
 		var playerCounter:Int = 0;
 
