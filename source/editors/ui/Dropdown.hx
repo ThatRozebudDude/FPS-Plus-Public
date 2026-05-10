@@ -24,6 +24,7 @@ class Dropdown extends UIElement
 	var label:UIText;
 
 	public var values:Array<String>;
+	public var value(get, never):String;
 	public var currentIndex:Int = 0;
 
 	var dropdownOpened:Bool = false;
@@ -171,5 +172,7 @@ class Dropdown extends UIElement
 	override function unfocus():Void{
 		closeDropdown();
 	}
+
+	function get_value():String{ return values[currentIndex]; }
 	
 }

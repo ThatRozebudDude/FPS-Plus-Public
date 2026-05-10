@@ -179,6 +179,7 @@ class ChartingState extends MusicBeatState
 	var opponentHitSoundToggle:Toggle;
 
 	var gridSnapDropdown:Dropdown;
+	var difficultyDropdown:Dropdown;
 
 	var lilBuddiesEnabled:Bool = false;
 	var lilGuy:Character;
@@ -470,10 +471,16 @@ class ChartingState extends MusicBeatState
 		var stageDropdown:Dropdown = new Dropdown(PANEL_SPACING, speakerDropdown.y + speakerDropdown.elementHeight + PANEL_EXTRA_SPACING, 240, stageList, chart.meta.stage, "Stage");
 		stageDropdown.onSelect.add(function(v:String){ chart.meta.stage = v; });
 
-		var saveChartButton:Button = new Button(PANEL_SPACING, stageDropdown.y + stageDropdown.elementHeight + PANEL_EXTRA_SPACING, 192, "Save Chart");
+		final startingDiff:String = (PlayState.storyDifficulty == 2 ? "Hard" : (PlayState.storyDifficulty == 0 ? "Easy" : "Normal"));
+		difficultyDropdown = new Dropdown(PANEL_SPACING, stageDropdown.y + stageDropdown.elementHeight + PANEL_EXTRA_SPACING, 192, ["Easy", "Normal", "Hard"], startingDiff, "Difficulty");
+
+		var saveChartButton:Button = new Button(PANEL_SPACING, difficultyDropdown.y + difficultyDropdown.elementHeight + PANEL_SPACING, 192, "Save Chart");
 		saveChartButton.onPress.add(function(){ saveChartToFile(); });
 		var saveEventsButton:Button = new Button(PANEL_SPACING, saveChartButton.y + saveChartButton.elementHeight + PANEL_SPACING, 192, "Save Events");
 		saveEventsButton.onPress.add(function(){ saveEventsToFile(); });
+
+		var reloadChartButton:Button = new Button(PANEL_SPACING, saveEventsButton.y + saveEventsButton.elementHeight + PANEL_SPACING, 192, "Reload Chart");
+		reloadChartButton.onPress.add(function(){ trace("I don't do anything yet! God, I'm such a fucking useless button! Ugh!"); });
 
 		panel.addToTab("Song", songNameInput);
 		panel.addToTab("Song", baseBpmInput);
@@ -481,8 +488,10 @@ class ChartingState extends MusicBeatState
 		panel.addToTab("Song", playerDropown);
 		panel.addToTab("Song", speakerDropdown);
 		panel.addToTab("Song", stageDropdown);
+		panel.addToTab("Song", difficultyDropdown);
 		panel.addToTab("Song", saveChartButton);
 		panel.addToTab("Song", saveEventsButton);
+		panel.addToTab("Song", reloadChartButton);
 	}
 
 	function setupNotesTab():Void{
@@ -1557,10 +1566,10 @@ class ChartingState extends MusicBeatState
 		var data:String = Json.stringify(chart, null, "\t");
 		if(data != null && data.length > 0){
 			fileReference = new FileReference();
-			fileReference.addEventListener(Event.COMPLETE, onSaveComplete);
+			fileReference.addEventListener(Event.SELECT, onSaveComplete);
 			fileReference.addEventListener(Event.CANCEL, onSaveCancel);
-			fileReference.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-			fileReference.save(data.trim(), "chart.json");
+			//fileReference.addEventListener(IOErrorEvent.IO_ERROR, onSaveError); //I don't think this does anything for local files.
+			fileReference.save(data.trim(), "chart-" + difficultyDropdown.value.toLowerCase() + ".json");
 		}
 	}
 
@@ -1569,36 +1578,34 @@ class ChartingState extends MusicBeatState
 		var data:String = Json.stringify(chartEvents, null, "\t");
 		if(data != null && data.length > 0){
 			fileReference = new FileReference();
-			fileReference.addEventListener(Event.COMPLETE, onSaveComplete);
+			fileReference.addEventListener(Event.SELECT, onSaveComplete);
 			fileReference.addEventListener(Event.CANCEL, onSaveCancel);
-			fileReference.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
+			//fileReference.addEventListener(IOErrorEvent.IO_ERROR, onSaveError); //I don't think this does anything for local files.
 			fileReference.save(data.trim(), "events.json");
 		}
 	}
 
 	private function onSaveComplete(_):Void{
-		trace("File saved.");
-		createAlert("File saved.");
 		fileReference.removeEventListener(Event.COMPLETE, onSaveComplete);
 		fileReference.removeEventListener(Event.CANCEL, onSaveCancel);
-		fileReference.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
+		//fileReference.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 		fileReference = null;
+		createAlert("File saved.");
 	}
 
 	private function onSaveCancel(_):Void{
 		fileReference.removeEventListener(Event.COMPLETE, onSaveComplete);
 		fileReference.removeEventListener(Event.CANCEL, onSaveCancel);
-		fileReference.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
+		//fileReference.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 		fileReference = null;
 	}
 
-	private function onSaveError(_):Void{
-		trace("Error saving file.");
-		createAlert("Error saving file.");
+	/*private function onSaveError(_):Void{
 		fileReference.removeEventListener(Event.COMPLETE, onSaveComplete);
 		fileReference.removeEventListener(Event.CANCEL, onSaveCancel);
 		fileReference.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 		fileReference = null;
-	}
+		createAlert("Error saving file.");
+	}*/
 	
 }
