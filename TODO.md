@@ -11,15 +11,12 @@
 		- Also update the base-game chart port Python script if I'm not lazy but if this works I could just auto convert it later.
 
 - Chart Editor
-	- Figure out how I want to do changing grid snap.
-		- Possibly a dropdown in the Tools tab but I don't know yet.
 	- More robust event / note type UI that's more intuitive to use.
 		- I want events and note types to have definable argument types and the editor will auto generate text input fields and type hints and put together the tag automatically so you don't need to manually type out the tag but you still can if you want to. 
 	- Undo/Redo
 		- Scary.
 	- Autosave.
 	- Sound effects? Maybe?
-	- EVENTS!
 
 - Character Editor
 	- Kinda like a mix of the offset editor and the debug Character Compare thing.
