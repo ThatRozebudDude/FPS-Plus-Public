@@ -23,14 +23,14 @@
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 2500
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 2439.0243902439
@@ -142,14 +142,14 @@
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 3,
 			"player": false,
 			"time": 7804.87804878049
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 4,
 			"player": true,
 			"time": 7865.85365853659
@@ -198,7 +198,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 9756.09756097561
@@ -317,28 +317,28 @@
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 3,
 			"player": true,
 			"time": 12682.9268292683
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 11951.2195121951
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 11707.3170731707
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 11707.3170731707
@@ -387,14 +387,14 @@
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 15365.8536585366
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 13658.5365853659
@@ -492,14 +492,14 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 15609.756097561
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 15609.756097561
@@ -555,28 +555,28 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 19085.3658536585
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 19024.3902439024
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 17804.8780487805
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 17560.9756097561
@@ -597,21 +597,21 @@
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 21219.512195122
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 19512.1951219512
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 19512.1951219512
@@ -667,14 +667,14 @@
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 21707.3170731707
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 21463.4146341463
@@ -702,7 +702,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 23414.6341463415
@@ -751,28 +751,28 @@
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 26890.243902439
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 26829.2682926829
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 25609.756097561
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 25365.8536585366
@@ -800,21 +800,21 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 29024.3902439024
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 27317.0731707317
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 27317.0731707317
@@ -856,21 +856,21 @@
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 30731.7073170732
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 30000
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 29268.2926829268
@@ -912,28 +912,28 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 32682.9268292683
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 32195.1219512195
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 31707.3170731707
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 31219.512195122
@@ -982,21 +982,21 @@
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 34878.0487804878
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 34146.3414634146
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 2,
 			"player": true,
 			"time": 33231.7073170732
@@ -1031,28 +1031,28 @@
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 36585.3658536585
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 36097.5609756098
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 35609.756097561
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 35121.9512195122
@@ -1101,14 +1101,14 @@
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 37378.0487804878
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 37073.1707317073
@@ -1171,14 +1171,14 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 39512.1951219512
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 39024.3902439024
@@ -1234,14 +1234,14 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 41463.4146341463
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 40975.6097560976
@@ -1297,28 +1297,28 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 44634.1463414634
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 44146.3414634146
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 43658.5365853659
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 42926.8292682927
@@ -1360,21 +1360,21 @@
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 46341.4634146342
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 45365.8536585366
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 44878.0487804878
@@ -1430,7 +1430,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 46829.2682926829
@@ -1500,28 +1500,28 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 50304.8780487805
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 50243.9024390244
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 49024.3902439024
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 48780.4878048781
@@ -1570,14 +1570,14 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 52195.1219512195
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 50731.7073170732
@@ -1626,14 +1626,14 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 52926.8292682927
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 52682.9268292683
@@ -1689,7 +1689,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 54634.1463414634
@@ -1745,14 +1745,14 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 56829.2682926829
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 56585.3658536585
@@ -1815,14 +1815,14 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 60243.9024390244
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 58536.5853658537
@@ -1878,28 +1878,28 @@
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 61951.2195121951
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 61219.512195122
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 60731.7073170732
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 60487.8048780488
@@ -1962,7 +1962,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 62439.0243902439
@@ -2018,21 +2018,21 @@
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 65365.8536585366
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 64878.0487804878
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 64390.243902439
@@ -2081,14 +2081,14 @@
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 67195.1219512195
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 66341.4634146342
@@ -2137,21 +2137,21 @@
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 69268.2926829268
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 68780.4878048781
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 68292.6829268293
@@ -2200,7 +2200,7 @@
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 70243.9024390244
@@ -2270,21 +2270,21 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 73170.7317073171
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 72682.9268292683
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 72195.1219512195
@@ -2340,14 +2340,14 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 75121.9512195122
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 74146.3414634146
@@ -2396,14 +2396,14 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 77073.1707317073
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 76097.5609756098
@@ -2452,21 +2452,21 @@
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": false,
 			"time": 79268.2926829268
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 78048.7804878049
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 78048.7804878049
@@ -2613,14 +2613,14 @@
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": false,
 			"time": 81219.512195122
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 80000
@@ -2760,21 +2760,21 @@
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": false,
 			"time": 83170.7317073171
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 81951.2195121951
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 81951.2195121951
@@ -2921,14 +2921,14 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 83902.4390243903
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 83902.4390243903
@@ -3082,14 +3082,14 @@
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": false,
 			"time": 87073.1707317073
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 85853.6585365854
@@ -3243,28 +3243,28 @@
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": false,
 			"time": 89268.2926829268
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": false,
 			"time": 89024.3902439025
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 87804.8780487805
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 87804.8780487805
@@ -3397,21 +3397,21 @@
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": false,
 			"time": 90975.6097560976
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": false,
 			"time": 90487.8048780488
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 89756.0975609756
@@ -3558,28 +3558,28 @@
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": false,
 			"time": 92682.9268292683
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": false,
 			"time": 92195.1219512195
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 91707.3170731708
 		},
 		{
 			"direction": 3,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 91707.3170731708
@@ -3733,7 +3733,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 93658.5365853659
@@ -3768,14 +3768,14 @@
 		},
 		{
 			"direction": 2,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 96097.5609756098
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 95609.756097561
@@ -3824,14 +3824,14 @@
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 1,
 			"player": true,
 			"time": 98780.4878048781
 		},
 		{
 			"direction": 0,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": false,
 			"time": 97560.9756097561
@@ -3887,7 +3887,7 @@
 		},
 		{
 			"direction": 1,
-			"tag": "0",
+			"tag": "",
 			"length": 0,
 			"player": true,
 			"time": 99512.1951219512

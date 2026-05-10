@@ -574,7 +574,7 @@ class ChartingState extends MusicBeatState
 
 		//Update the grid cursor position and do note place checks.
 		gridCursorLane = -1;
-		if(gridCursorIndex >= 0){
+		if(gridCursorIndex >= OPPONENT_GRID){
 			gridCursor.visible = true && !selectionBoxOpen;
 			gridCursorLane = Math.floor((FlxG.mouse.x - grids[gridCursorIndex].grid.x) / GRID_SIZE);
 			lastGridCursorLane = gridCursorLane;
@@ -595,11 +595,13 @@ class ChartingState extends MusicBeatState
 					var newNote = addNote(getSongPositionFromY(gridCursor.y), gridCursorLane, gridCursorIndex == 1, noteTypeInput.value);
 					selectedNotes = [newNote];
 					placedNoteHold = true;
+					currentlySelectingEvents = false;
 				}
 				else if(FlxG.mouse.justPressedRight && !FlxG.keys.anyPressed([SHIFT])  && !panel.isAnythingFocused()){
 					var deleteCount:Int = removeNotesInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridCursorLane, gridCursorIndex == PLAYER_GRID, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
 					selectedNotes = [];
 					if(deleteCount > 0){ createSnapshot(REMOVE_NOTES(deleteCount)); }
+					currentlySelectingEvents = false;
 				}
 				else if(FlxG.mouse.justPressedMiddle && !panel.isAnythingFocused()){
 					if(!FlxG.keys.anyPressed([SHIFT])){ selectedNotes = []; }
@@ -612,6 +614,7 @@ class ChartingState extends MusicBeatState
 					else if(note == null){
 						noteTypeInput.value = "";
 					}
+					currentlySelectingEvents = false;
 				}
 			}
 			else if(gridCursorIndex == EVENT_GRID){ //Placing events.
@@ -619,23 +622,26 @@ class ChartingState extends MusicBeatState
 					var newEvent = addEvent(getSongPositionFromY(gridCursor.y), gridCursorLane, eventTagInput.value);
 					selectedEvents = [newEvent];
 					createSnapshot(PLACE_EVENTS(1));
+					currentlySelectingEvents = true;
 				}
 				else if(FlxG.mouse.justPressedRight && !FlxG.keys.anyPressed([SHIFT])  && !panel.isAnythingFocused()){
 					var deleteCount:Int = removeEventsInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridCursorLane, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
 					selectedEvents = [];
 					if(deleteCount > 0){ createSnapshot(REMOVE_EVENTS(deleteCount)); }
+					currentlySelectingEvents = true;
 				}
 				else if(FlxG.mouse.justPressedMiddle && !panel.isAnythingFocused()){
-					/*if(!FlxG.keys.anyPressed([SHIFT])){ selectedNotes = []; }
-					var note:ChartingNote = getNoteUnderCursor();
-					if(note != null && !selectedNotes.contains(note)){
-						selectedNotes.push(note);
-						noteTypeInput.value = note.tag;
+					if(!FlxG.keys.anyPressed([SHIFT])){ selectedEvents = []; }
+					var event:ChartingEvent = getEventUnderCursor();
+					if(event != null && !selectedEvents.contains(event)){
+						selectedEvents.push(event);
+						eventTagInput.value = event.tag;
 					}
-					else if(note != null && selectedNotes.contains(note)){ selectedNotes.remove(note); }
-					else if(note == null){
-						noteTypeInput.value = "";
-					}*/
+					else if(event != null && selectedEvents.contains(event)){ selectedEvents.remove(event); }
+					else if(event == null){
+						eventTagInput.value = "";
+					}
+					currentlySelectingEvents = true;
 				}
 			}
 		}
@@ -649,7 +655,7 @@ class ChartingState extends MusicBeatState
 			createSnapshot(PLACE_NOTES(1));
 		}
 
-		if(!selectionBoxOpen && FlxG.mouse.justPressed && FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused() && gridCursorIndex >= 0){
+		if(!selectionBoxOpen && FlxG.mouse.justPressed && FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused() && gridCursorIndex >= OPPONENT_GRID){
 			selectionBoxOpen = true;
 			startingGrid = gridCursorIndex;
 			selectionBox.x = grids[startingGrid].grid.x;
@@ -661,20 +667,27 @@ class ChartingState extends MusicBeatState
 			selectionBoxOpen = false;
 			selectionBox.visible = false;
 			selectedNotes = [];
+			selectedEvents = [];
 			var selectionStartTime:Float = getSongPositionFromY(selectionBox.y - GRID_SIZE);
 			var selectionEndTime:Float = getSongPositionFromY(selectionBox.y + selectionBox.height);
 			
 			if(startingGrid == OPPONENT_GRID || startingGrid == PLAYER_GRID){
 				notes.forEachAlive(function(note:ChartingNote){
 					if(note.time >= selectionStartTime && note.time < selectionEndTime){
-						if(selectingBoth || ((!note.player && startingGrid == 0) || (note.player && startingGrid == 1))){
+						if(selectingBoth || ((!note.player && startingGrid == OPPONENT_GRID) || (note.player && startingGrid == PLAYER_GRID))){
 							selectedNotes.push(note);
 						}
 					}
 				});
+				currentlySelectingEvents = false;
 			}
 			else if(startingGrid == EVENT_GRID){
-				//Event stuff later.
+				events.forEachAlive(function(event:ChartingEvent){
+					if(event.time >= selectionStartTime && event.time < selectionEndTime){
+						selectedEvents.push(event);
+					}
+				});
+				currentlySelectingEvents = true;
 			}
 		}
 
@@ -727,31 +740,19 @@ class ChartingState extends MusicBeatState
 			musicBoundsCheck();
 		}
 
-		//Playtest song on PlayState.
-		if(FlxG.keys.anyJustPressed([ENTER]) && !panel.isAnythingFocused()){
-			pauseMusic();
-
-			notes.members.sort(sortNotes);
-			events.members.sort(sortEvents);
-			generateChart();
-			
-			var controlPressed:Bool = #if mac FlxG.keys.anyPressed([WINDOWS]); #else FlxG.keys.anyPressed([CONTROL]); #end
-			if(controlPressed){
-				PlayState.sectionStart = true;
-				PlayState.sectionStartTime = FlxG.sound.music.time;
-			}
-
-			PlayState.setSong(chart, PlayState.events);
-			PlayState.fromChartEditor = true;
-			ImageCache.refreshLocal();
-			switchState(new PlayState());
-		}
+		if(!currentlySelectingEvents && selectedEvents.length > 0)		{ selectedEvents = []; }
+		else if(currentlySelectingEvents && selectedNotes.length > 0)	{ selectedNotes = []; }
 
 		if(!panel.isAnythingFocused()){ checkShortcuts(); }
 
 		notes.forEachAlive(function(note:ChartingNote){
 			if(selectedNotes.contains(note)){ note.select(); }
 			else{ note.deselect(); }
+		});
+
+		events.forEachAlive(function(event:ChartingEvent){
+			if(selectedEvents.contains(event)){ event.select(); }
+			else{ event.deselect(); }
 		});
 
 		if(FlxG.sound.music.playing){
@@ -878,15 +879,27 @@ class ChartingState extends MusicBeatState
 
 		//Delete selected notes.
 		if(FlxG.keys.anyJustPressed([DELETE])){
-			var deleteCount:Int = 0;
-			while(selectedNotes.length > 0){
-				removeNotesInProximity(selectedNotes[0].time, selectedNotes[0].direction, selectedNotes[0].player, 1);
-				deleteCount++;
+			if(!currentlySelectingEvents){
+				var deleteCount:Int = 0;
+				while(selectedNotes.length > 0){
+					deleteCount += removeNotesInProximity(selectedNotes[0].time, selectedNotes[0].direction, selectedNotes[0].player, 1);
+				}
+				selectedNotes = [];
+				if(deleteCount > 0){
+					createAlert("Deleted " + deleteCount + " note" + (deleteCount==1?".":"s."));
+					createSnapshot(REMOVE_NOTES(deleteCount));
+				}
 			}
-			selectedNotes = [];
-			if(deleteCount > 0){
-				createAlert("Deleted " + deleteCount + " note" + (deleteCount==1?".":"s."));
-				createSnapshot(REMOVE_NOTES(deleteCount));
+			else if(currentlySelectingEvents){
+				var deleteCount:Int = 0;
+				while(selectedEvents.length > 0){
+					deleteCount += removeEventsInProximity(selectedEvents[0].time, selectedEvents[0].lane, 1);
+				}
+				selectedEvents = [];
+				if(deleteCount > 0){
+					createAlert("Deleted " + deleteCount + " event" + (deleteCount==1?".":"s."));
+					createSnapshot(REMOVE_EVENTS(deleteCount));
+				}
 			}
 		}
 
@@ -911,16 +924,17 @@ class ChartingState extends MusicBeatState
 
 		//Copy Cut Paste
 		if(FlxG.keys.anyJustPressed([C]) && controlPressed){
-			if(gridCursorIndex == OPPONENT_GRID || gridCursorIndex == PLAYER_GRID){
+			if(selectedNotes.length >= 1 && !currentlySelectingEvents){
 				copyNotes();
 				createAlert("Copied " + copiedNoteData.length + " note" + (copiedNoteData.length==1?".":"s."));
 			}
-			else if(gridCursorIndex == EVENT_GRID){
-				//Event stuff later
+			else if(selectedEvents.length >= 1 && currentlySelectingEvents){
+				copyEvents();
+				createAlert("Copied " + copiedEventData.length + " event" + (copiedEventData.length==1?".":"s."));
 			}
 		}
 		else if(FlxG.keys.anyJustPressed([X]) && controlPressed){
-			if(gridCursorIndex == OPPONENT_GRID || gridCursorIndex == PLAYER_GRID){
+			if(selectedNotes.length > 1 && !currentlySelectingEvents){
 				copyNotes();
 				while(selectedNotes.length > 0){
 					removeNotesInProximity(selectedNotes[0].time, selectedNotes[0].direction, selectedNotes[0].player, 1);
@@ -929,12 +943,18 @@ class ChartingState extends MusicBeatState
 				createAlert("Cut " + copiedNoteData.length + " note" + (copiedNoteData.length==1?".":"s."));
 				if(copiedNoteData.length > 0){ createSnapshot(CUT); }
 			}
-			else if(gridCursorIndex == EVENT_GRID){
-				//Event stuff later
+			else if(selectedEvents.length > 1 && currentlySelectingEvents){
+				copyEvents();
+				while(selectedEvents.length > 0){
+					removeEventsInProximity(selectedEvents[0].time, selectedEvents[0].lane, 1);
+				}
+				selectedEvents = [];
+				createAlert("Cut " + copiedEventData.length + " event" + (copiedEventData.length==1?".":"s."));
+				if(copiedEventData.length > 0){ createSnapshot(CUT); }
 			}
 		}
-		else if(FlxG.keys.anyJustPressed([V]) && controlPressed && gridCursorIndex >= 0){
-			if(gridCursorIndex == OPPONENT_GRID || gridCursorIndex == PLAYER_GRID){
+		else if(FlxG.keys.anyJustPressed([V]) && controlPressed && gridCursorIndex >= OPPONENT_GRID){
+			if((gridCursorIndex == OPPONENT_GRID || gridCursorIndex == PLAYER_GRID) && !currentlyCopyingEvents){
 				if(placedNoteHold){
 					placedNoteHold = false;
 					createSnapshot(PLACE_NOTES(1));
@@ -953,13 +973,26 @@ class ChartingState extends MusicBeatState
 							selectedNotes.push(newNote);
 						}
 					}
+					currentlySelectingEvents = false;
 				}
 				createAlert("Pasted " + copiedNoteData.length + " note" + (copiedNoteData.length==1?".":"s."));
 				createSnapshot(PASTE);
-				
 			}
-			else if(gridCursorIndex == EVENT_GRID){
-				//Event stuff later
+			else if(gridCursorIndex == EVENT_GRID && currentlyCopyingEvents){
+				if(placedNoteHold){
+					placedNoteHold = false;
+					createSnapshot(PLACE_NOTES(1));
+				}
+				if(copiedEventData.length > 0){
+					selectedEvents = [];
+					for(eventData in copiedEventData){
+						var newEvent = addEvent(eventData.time + getSongPositionFromY(gridCursor.y), eventData.lane, eventData.tag);
+						selectedEvents.push(newEvent);
+					}
+					currentlySelectingEvents = true;
+				}
+				createAlert("Pasted " + copiedEventData.length + " event" + (copiedEventData.length==1?".":"s."));
+				createSnapshot(PASTE);
 			}
 		}
 
@@ -979,6 +1012,25 @@ class ChartingState extends MusicBeatState
 				note.sustainLength = sustainLength;
 			}
 			createSnapshot(CHANGE_HOLD_DURATION);
+		}
+
+		//Playtest song on PlayState.
+		if(FlxG.keys.anyJustPressed([ENTER])){
+			pauseMusic();
+
+			notes.members.sort(sortNotes);
+			events.members.sort(sortEvents);
+			generateChart();
+			
+			if(controlPressed){
+				PlayState.sectionStart = true;
+				PlayState.sectionStartTime = FlxG.sound.music.time;
+			}
+
+			PlayState.setSong(chart, PlayState.events);
+			PlayState.fromChartEditor = true;
+			ImageCache.refreshLocal();
+			switchState(new PlayState());
 		}
 	}
 
@@ -1049,6 +1101,7 @@ class ChartingState extends MusicBeatState
 			data.time -= startTime;
 		}
 		copyingBoth = hasPlayer && hasOpponent;
+		currentlyCopyingEvents = false;
 	}
 
 	//Event stuff.
@@ -1100,6 +1153,20 @@ class ChartingState extends MusicBeatState
 		});
 		return eligibleEvents[0];
 	}
+
+	function copyEvents():Void{
+		copiedEventData = [];
+		for(event in selectedEvents){
+			copiedEventData.push(event.generateEventDefinition());
+		}
+		var startTime = copiedEventData[0].time;
+		for(data in copiedEventData){
+			data.time -= startTime;
+		}
+		currentlyCopyingEvents = true;
+	}
+
+	//
 
 	function updateText():Void{
 		var textToUpdate:String = Math.floor(Conductor.songPosition/1000) + "/" + Math.floor(FlxG.sound.music.length/1000);
