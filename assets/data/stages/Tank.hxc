@@ -214,16 +214,15 @@ class Tank extends BaseStage
 		var chart = Chart.chartFromSong(song, "speaker");
 		tankmanRunNotes = chart.notes;
 	
-		tankmanRunNotes.sort(function(a, b):Int{ return FlxSort.byValues(FlxSort.ASCENDING, a.time, b.time); });
+		tankmanRunNotes.sort(function(a, b):Int{ return FlxSort.byValues(-1, a.time, b.time); });
 	}
 
 	function createNextTankmenBatch(songPosition:Float):Void{
 		var shiftAmount:Int = 0;
 		for(i in 0...tankmanRunNotes.length){
-			var note = tankmanRunNotes[i];
-			if(note.time > songPosition + tankmenCreationWindow){ break; }
+			if(tankmanRunNotes[i].time > songPosition + tankmenCreationWindow){ break; }
 			if(FlxG.random.bool(10)){
-				var tankman:TankmenRunning = new TankmenRunning(500, 200 + FlxG.random.int(50, 100), note.time, note.direction > 1);
+				var tankman:TankmenRunning = new TankmenRunning(500, 200 + FlxG.random.int(50, 100), tankmanRunNotes[i].time, tankmanRunNotes[i].direction > 1);
 				tankman.scale.set(0.8, 0.8);
 				tankman.updateHitbox();
 				tankmanRun.add(tankman);

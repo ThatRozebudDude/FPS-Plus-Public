@@ -53,7 +53,7 @@ class Conductor extends FlxBasic
 	override public function update(elapsed:Float){
 		super.update(elapsed);
 
-		if (Conductor.bpmChanges.length < 1 || (songPosition + offset) < 0 || !countBeats){
+		if(Conductor.bpmChanges.length < 1 || (songPosition + offset) < 0 || !countBeats){
 			return;
 		}
 

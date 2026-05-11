@@ -193,7 +193,7 @@ class TankErect extends BaseStage
 		var chart = Chart.chartFromSong(song, "speaker");
 		tankmanRunNotes = chart.notes;
 	
-		tankmanRunNotes.sort(function(a, b):Int{ return FlxSort.byValues(FlxSort.ASCENDING, a.time, b.time); });
+		tankmanRunNotes.sort(function(a, b):Int{ return FlxSort.byValues(-1, a.time, b.time); });
 	}
 
 	function createNextTankmenBatch(songPosition:Float):Void{
