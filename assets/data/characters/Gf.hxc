@@ -43,6 +43,7 @@ class Gf extends CharacterInfoBase
 		}
 
 		info.idleSequence = ["danceLeft", "danceRight"];
+		info.bopFrequency = 1;
 
 		info.functions.create = create;
 		info.functions.add = onAdd;

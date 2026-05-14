@@ -5,23 +5,20 @@ import characters.ScriptableCharacter;
 class CharacterAnimationEvents extends Events
 {
 	override function defineEvents() {
-		registerEvent({prefix: "playAnim", eventFunction: playAnim, description: PLAY_ANIM_DESC});
-		registerEvent({prefix: "singAnim", eventFunction: singAnim, description: SING_ANIM_DESC});
-		registerEvent({prefix: "setAnimSet", eventFunction: setAnimSet, description: SET_ANIM_SET_DESC});
+		registerEvent({prefix: "playAnim", eventFunction: playAnim, editor: {description: PLAY_ANIM_DESC}});
+		registerEvent({prefix: "singAnim", eventFunction: singAnim, editor: {description: SING_ANIM_DESC}});
+		registerEvent({prefix: "setAnimSet", eventFunction: setAnimSet, editor: {description: SET_ANIM_SET_DESC}});
 
-		registerEvent({prefix: "gfBopFreq", eventFunction: gfBopFreq, description: GF_BOP_FREQ_DESC});
-		registerEvent({prefix: "iconBopFreq", eventFunction: iconBopFreq, description: ICON_BOP_FREQ_DESC});
+		registerEvent({prefix: "setBopFreq", eventFunction: setBopFreq, executeAtStart: true, editor: {description: SET_BOP_FREQ_DESC}});
+		registerEvent({prefix: "iconBopFreq", eventFunction: iconBopFreq, editor: {description: ICON_BOP_FREQ_DESC}});
 
-		registerEvent({prefix: "bfBop", eventFunction: bfBop, description: BF_BOP_DESC});
-		registerEvent({prefix: "dadBop", eventFunction: dadBop, description: DAD_BOP_DESC});
+		registerEvent({prefix: "bfAnimLockToggle", eventFunction: bfAnimLockToggle, editor: {description: BF_ANIM_LOCK_TOGGLE_DESC}});
+		registerEvent({prefix: "dadAnimLockToggle", eventFunction: dadAnimLockToggle, editor: {description: DAD_ANIM_LOCK_TOGGLE_DESC}});
+		registerEvent({prefix: "gfAnimLockToggle", eventFunction: gfAnimLockToggle, editor: {description: GF_ANIM_LOCK_TOGGLE_DESC}});
 
-		registerEvent({prefix: "bfAnimLockToggle", eventFunction: bfAnimLockToggle, description: BF_ANIM_LOCK_TOGGLE_DESC});
-		registerEvent({prefix: "dadAnimLockToggle", eventFunction: dadAnimLockToggle, description: DAD_ANIM_LOCK_TOGGLE_DESC});
-		registerEvent({prefix: "gfAnimLockToggle", eventFunction: gfAnimLockToggle, description: GF_ANIM_LOCK_TOGGLE_DESC});
+		registerEvent({prefix: "changeCharacter", eventFunction: changeCharacter, preprocessFunction: changeCharacterPreprocess, editor: {description: CHANGE_CHARACTER_DESC}});
 
-		registerEvent({prefix: "changeCharacter", eventFunction: changeCharacter, preprocessFunction: changeCharacterPreprocess, description: CHANGE_CHARACTER_DESC});
-
-		registerEvent({prefix: "swapCharacters", eventFunction: swapCharacters, description: SWAP_CHARACTER_DESC});
+		registerEvent({prefix: "swapCharacters", eventFunction: swapCharacters, editor: {description: SWAP_CHARACTER_DESC}});
 	}
 
 	function playAnim(tag:String):Void{
@@ -69,41 +66,23 @@ class CharacterAnimationEvents extends Events
 		}
 	}
 
-	function gfBopFreq(tag:String):Void{
-		var args = Events.getArgs(tag);
-		playstate.gfBopFrequency = Events.parseInt(args[0]);
-	}
-
 	function iconBopFreq(tag:String):Void{
 		var args = Events.getArgs(tag);
 		playstate.iconBopFrequency = Events.parseInt(args[0]);
 	}
 
-	function bfBop(tag:String):Void{
-		var args = Events.getArgs(tag);
+	function setBopFreq(tag:String):Void{
+		var args = Events.getArgs(tag, ["bf", "1", "0"]);
 		switch(args[0]){
-			case "EveryBeat":
-				playstate.bfBeats = [0, 1, 2, 3];
-			case "OddBeats": //Swapped due to event icon starting at 1 instead of 0
-				playstate.bfBeats = [0, 2];
-			case "EvenBeats": //Swapped due to event icon starting at 1 instead of 0
-				playstate.bfBeats = [1, 3];
-			case "Never":
-				playstate.bfBeats = [];
-		}
-	}
-
-	function dadBop(tag:String):Void{
-		var args = Events.getArgs(tag);
-		switch(args[0]){
-			case "EveryBeat":
-				playstate.dadBeats = [0, 1, 2, 3];
-			case "OddBeats": //Swapped due to event icon starting at 1 instead of 0
-				playstate.dadBeats = [0, 2];
-			case "EvenBeats": //Swapped due to event icon starting at 1 instead of 0
-				playstate.dadBeats = [1, 3];
-			case "Never":
-				playstate.dadBeats = [];
+			case "dad":
+				playstate.dadBopEvery = Events.parseInt(args[1]);
+				playstate.dadBopOffset = Events.parseInt(args[2]);
+			case "gf":
+				playstate.gfBopEvery = Events.parseInt(args[1]);
+				playstate.gfBopOffset = Events.parseInt(args[2]);
+			default:
+				playstate.bfBopEvery = Events.parseInt(args[1]);
+				playstate.bfBopOffset = Events.parseInt(args[2]);
 		}
 	}
 
@@ -231,13 +210,11 @@ class CharacterAnimationEvents extends Events
 	final PLAY_ANIM_DESC:String = "Plays an animation on a character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation name\n    Bool: Force play animation\n    Bool: Reverse animation\n    Int: Frame to start on";
 	final SING_ANIM_DESC:String = "Plays an animation treated as a note sing direction.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation name\n    Bool: Force play animation\n    Bool: Reverse animation\n    Int: Frame to start on";
 	final SET_ANIM_SET_DESC:String = "Sets the animation set on a character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation set suffix";
-	final GF_BOP_FREQ_DESC:String = "Sets the interval that GF does their idle dance.\n\nArgs:\n    Int: Interval (every \"x\" beats)";
 	final ICON_BOP_FREQ_DESC:String = "Sets the interval that the health icons bop.\n\nArgs:\n    Int: Interval (every \"x\" beats)";
-	final BF_BOP_DESC:String = "Sets the beats that BF does their idle dance.\n\nArgs:\n    String: \"EveryBeat\", \"OddBeats\", \"EvenBeats\", \"Never\"";
-	final DAD_BOP_DESC:String = "Sets the beats that Dad does their idle dance.\n\nArgs:\n    String: \"EveryBeat\", \"OddBeats\", \"EvenBeats\", \"Never\"";
 	final BF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether BF will automatically play animations.";
 	final DAD_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether Dad will automatically play animations.";
 	final GF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether GF will automatically play animations.";
 	final CHANGE_CHARACTER_DESC:String = "Change a character to a different one.\n\nArgs:\n    String: Target character to change (\"bf\", \"dad\", or \"gf\")\n    String: New character's class name\n    Bool: Whether to copy the shader";
 	final SWAP_CHARACTER_DESC:String = "Swap which character you are playing as.";
+	final SET_BOP_FREQ_DESC:String = "Sets the interval that a character does their idle dance.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    Int: Interval (every \"x\" beats)\n    Int: Beat offset (beat + offset % interval)";
 }

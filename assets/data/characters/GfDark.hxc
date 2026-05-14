@@ -30,6 +30,7 @@ class GfDark extends CharacterInfoBase
 		for(i in 1...20){ addAnimAlias("combo" + (i * 50), "cheer"); }
 
 		info.idleSequence = ["danceLeft", "danceRight"];
+		info.bopFrequency = 1;
 
 		info.functions.postCreate = postCreate;
 

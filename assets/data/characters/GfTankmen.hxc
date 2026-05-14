@@ -22,6 +22,7 @@ class GfTankmen extends CharacterInfoBase
 		addByPrefix("sad", offset(0, -27), "GF Crying at Gunpoint", 24, loop(true, -8));
 
 		info.idleSequence = ["danceLeft", "danceRight"];
+		info.bopFrequency = 1;
 
 		addExtraData("dropShadowMask", "week7/stage/erect/masks/gfTankmen_mask");
 		addExtraData("dropShadowMaskThreshold", 0.4);

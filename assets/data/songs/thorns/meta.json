@@ -3,7 +3,6 @@
   "artist": "Kawai Sprite",
   "album": "vol2",
   "difficulties": [2, 3, 4],
-  "dadBeats": [0, 1, 2, 3],
   "compatibleInsts": ["#thorns"],
   "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
   "mixName": "Original",

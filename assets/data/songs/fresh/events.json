@@ -7,7 +7,17 @@
 		},
 		{
 			"tag": "toggleCamBop",
-			"lane": 0,
+			"lane": 1,
+			"time": 0
+		},
+		{
+			"tag": "setBopFreq;bf;1;0",
+			"lane": 2,
+			"time": 0
+		},
+		{
+			"tag": "setBopFreq;dad;1;0",
+			"lane": 3,
 			"time": 0
 		},
 		{
@@ -36,17 +46,17 @@
 			"time": 8000
 		},
 		{
-			"tag": "gfBopFreq;2",
+			"tag": "setBopFreq;gf;2;0",
 			"lane": 0,
 			"time": 8000
 		},
 		{
-			"tag": "bfBop;EvenBeats",
+			"tag": "setBopFreq;bf;2;1",
 			"lane": 1,
 			"time": 8000
 		},
 		{
-			"tag": "dadBop;OddBeats",
+			"tag": "setBopFreq;dad;2;0",
 			"lane": 2,
 			"time": 8000
 		},
@@ -91,17 +101,17 @@
 			"time": 24000
 		},
 		{
-			"tag": "gfBopFreq;1",
+			"tag": "setBopFreq;gf;1;0",
 			"lane": 0,
 			"time": 24000
 		},
 		{
-			"tag": "bfBop;EveryBeat",
+			"tag": "setBopFreq;bf;1;0",
 			"lane": 1,
 			"time": 24000
 		},
 		{
-			"tag": "dadBop;EveryBeat",
+			"tag": "setBopFreq;dad;1;0",
 			"lane": 2,
 			"time": 24000
 		},
@@ -246,17 +256,17 @@
 			"time": 40000
 		},
 		{
-			"tag": "gfBopFreq;2",
+			"tag": "setBopFreq;gf;2;0",
 			"lane": 0,
 			"time": 40000
 		},
 		{
-			"tag": "bfBop;EvenBeats",
+			"tag": "setBopFreq;bf;2;1",
 			"lane": 1,
 			"time": 40000
 		},
 		{
-			"tag": "dadBop;OddBeats",
+			"tag": "setBopFreq;dad;2;0",
 			"lane": 2,
 			"time": 40000
 		},
@@ -296,7 +306,7 @@
 			"time": 54000
 		},
 		{
-			"tag": "gfBopFreq;1",
+			"tag": "setBopFreq;gf;1;0",
 			"lane": 0,
 			"time": 56000
 		},
@@ -306,12 +316,12 @@
 			"time": 56000
 		},
 		{
-			"tag": "bfBop;EveryBeat",
+			"tag": "setBopFreq;bf;1;0",
 			"lane": 1,
 			"time": 56000
 		},
 		{
-			"tag": "dadBop;EveryBeat",
+			"tag": "setBopFreq;dad;1;0",
 			"lane": 2,
 			"time": 56000
 		},

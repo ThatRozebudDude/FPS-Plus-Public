@@ -1307,7 +1307,9 @@ class ChartingState extends MusicBeatState
 		}
 
 		for(event in Events.events){
-			eventPrefixes.push(event.prefix);
+			if(!event.editor.hidden){
+				eventPrefixes.push(event.prefix);
+			}
 		}
 
 		//makes them be in alphabetical order

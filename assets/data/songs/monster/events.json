@@ -1,6 +1,16 @@
 {
 	"events": [
 		{
+			"tag": "setBopFreq;bf;1;0",
+			"lane": 2,
+			"time": 0
+		},
+		{
+			"tag": "setBopFreq;dad;1;0",
+			"lane": 3,
+			"time": 0
+		},
+		{
 			"tag": "camFocusDad",
 			"lane": 0,
 			"time": 2526.31578947368416

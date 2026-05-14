@@ -1,6 +1,16 @@
 {
 	"events": [
 		{
+			"tag": "setBopFreq;bf;0;0",
+			"lane": 2,
+			"time": 0
+		},
+		{
+			"tag": "setBopFreq;dad;0;0",
+			"lane": 3,
+			"time": 0
+		},
+		{
 			"tag": "phillyBlazin-toggleLightning",
 			"lane": 0,
 			"time": 35333.3333333333

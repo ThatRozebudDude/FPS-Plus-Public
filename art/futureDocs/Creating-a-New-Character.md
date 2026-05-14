@@ -85,6 +85,7 @@ That is all you really need to know to set up a basic character, however there a
 
 - `healthColor`: The color of this character's side of the health bar. By default the health bar will be red and green depending on whether the character is the player or not but this overrides that. 
 - `idleSequence`: An array of animation names that will play in order when the character does their idle dance. Characters like GF and the Spooky Kids use this for their left and right idles but you can have as many as you want.
+- `bopFrequency`: Adjusts how often the character plays their idle. If not assigned it will be every other beat `(2)` for player characters or every beat `(1)` for speaker characters.
 - `focusOffset`: An FlxPoint that adds an offset from the center of a character when the camera focuses on them. The `x` value is multipled by -1 when on the player's side.
 - `deathOffset`: An FlxPoint that adds an offset from the center of a character when the camera moves towards them on the death screen.
 - `functions`: A set of functions that you can define that will be called at certain times. There will be more information about these in the **Advanced Character Scripting** section.

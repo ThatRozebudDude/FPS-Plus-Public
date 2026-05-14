@@ -30,6 +30,7 @@ class NenePixel extends CharacterInfoBase
 		addAnimChain("idleKnife", "idleKnifeEnd");
 
 		info.idleSequence = ["danceLeft", "danceRight"];
+		info.bopFrequency = 1;
 
 		info.functions.create = create;
 		info.functions.songStart = songStart;

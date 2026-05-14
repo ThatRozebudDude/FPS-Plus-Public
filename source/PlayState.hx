@@ -148,7 +148,6 @@ class PlayState extends MusicBeatState
 	public var autoUi:Bool = true;
 	public var autoCamBop:Bool = true;
 
-	public var gfBopFrequency:Int = 1;
 	public var iconBopFrequency:Int = 1;
 	public var camBopFrequency:Int = 4;
 	public var camBopIntensity:Float = 1;
@@ -333,8 +332,12 @@ class PlayState extends MusicBeatState
 	public static var replayStartCutscene:Bool = true;
 	public static var replayEndCutscene:Bool = true;
 
-	public var dadBeats:Array<Int> = [0, 2];
-	public var bfBeats:Array<Int> = [1, 3];
+	public var bfBopEvery:Int = 2;
+	public var bfBopOffset:Int = 1;
+	public var dadBopEvery:Int = 2;
+	public var dadBopOffset:Int = 0;
+	public var gfBopEvery:Int = 1;
+	public var gfBopOffset:Int = 0;
 
 	public static var sectionStart:Bool =  false;
 	public static var sectionStartTime:Float =  0;
@@ -380,8 +383,6 @@ class PlayState extends MusicBeatState
 			if(jsonMeta.album != null)				{ metadata.album = jsonMeta.album; }
 			if(jsonMeta.difficulties != null)		{ metadata.difficulties = jsonMeta.difficulties; }
 			if(jsonMeta.difficultySet != null)		{ metadata.difficultySet = jsonMeta.difficultySet; }
-			if(jsonMeta.dadBeats != null)			{ metadata.dadBeats = jsonMeta.dadBeats; }
-			if(jsonMeta.bfBeats != null)			{ metadata.bfBeats = jsonMeta.bfBeats; }
 			if(jsonMeta.compatibleInsts != null)	{ metadata.compatibleInsts = jsonMeta.compatibleInsts; }
 			if(jsonMeta.mixName != null)			{ metadata.mixName = jsonMeta.mixName; }
 			if(jsonMeta.pauseMusic != null)			{ metadata.pauseMusic = jsonMeta.pauseMusic; }
@@ -566,14 +567,9 @@ class PlayState extends MusicBeatState
 		dad.reposition();
 		gf.reposition();
 
-		if(metadata != null){
-			if(metadata.bfBeats != null){
-				bfBeats = metadata.bfBeats;
-			}
-			if(metadata.dadBeats != null){
-				dadBeats = metadata.dadBeats;
-			}
-		}
+		if(boyfriend.characterInfo.info.bopFrequency != null)	{ bfBopEvery = boyfriend.characterInfo.info.bopFrequency; }
+		if(dad.characterInfo.info.bopFrequency != null)			{ dadBopEvery = dad.characterInfo.info.bopFrequency; }
+		if(gf.characterInfo.info.bopFrequency != null)			{ gfBopEvery = gf.characterInfo.info.bopFrequency; }
 
 		gfLayer.add(gf);
 		characterLayer.add(dad);
@@ -915,6 +911,8 @@ class PlayState extends MusicBeatState
 		var countdownSkinName:String = uiSkinNames.countdown;
 		var countdownSkin:CountdownSkinBase = new CountdownSkinBase(countdownSkinName);
 
+		executeEventsAtStart();
+
 		for(script in scripts){ script.countdownBeat(-1); }
 
 		if(boyfriend.characterInfo.info.functions.countdownBeat != null){
@@ -927,29 +925,20 @@ class PlayState extends MusicBeatState
 			gf.characterInfo.info.functions.countdownBeat(gf, -1);
 		}
 
-		var removeFromEvents:Array<EventDefinition> = [];
-		for(event in eventList){
-			if(event.time > 0){ break; }
-			if(event.time == 0 && event.tag.startsWith("camFocus")){
-				executeEvent(event.tag);
-				removeFromEvents.push(event);
+		startTimer = new FlxTimer().start(Conductor.getCrotchet(), function(tmr:FlxTimer){
+			if(gfBopEvery > 0 && (swagCounter + gfBopOffset) % gfBopEvery == 0 && swagCounter != 4){
+				gf.dance();
 			}
-		}
-		for(event in removeFromEvents){
-			eventList.remove(event);
-		}
 
-		startTimer = new FlxTimer().start(Conductor.getCrotchet(), function(tmr:FlxTimer)
-		{
-			if(swagCounter != 4) { gf.dance(); }
+			if(dadBopEvery > 0 && (swagCounter + dadBopOffset) % dadBopEvery == 0 && swagCounter != 4){
+				dad.dance();
+			}
 
-			if(dadBeats.contains((swagCounter % 4)))
-				if(swagCounter != 4) { dad.dance(); }
-
-			if(bfBeats.contains((swagCounter % 4)))
-				if(swagCounter != 4) { boyfriend.dance(); }
+			if(bfBopEvery > 0 && (swagCounter + bfBopOffset) % bfBopEvery == 0 && swagCounter != 4){
+				boyfriend.dance();
+			}
 			
-			switch (swagCounter){
+			switch(swagCounter){
 				case 0:
 					if(countdownSkin.info.first.audioPath != null){
 						playSound(Paths.sound(countdownSkin.info.first.audioPath), 0.6);
@@ -1077,6 +1066,8 @@ class PlayState extends MusicBeatState
 
 		generateStaticArrows(0, true);
 		generateStaticArrows(1, true);
+
+		executeEventsAtStart();
 
 		startedCountdown = true;
 		Conductor.songPosition = 0;
@@ -2607,15 +2598,15 @@ class PlayState extends MusicBeatState
 			iconP2.bop(defaultIconBopScale, defaultIconBopTime, defaultIconBopEase, tweenManager);
 		}
 
-		if(dadBeats.contains(curBeat % 4) && dad.canAutoAnim && dad.holdTimer == 0 && !dad.isSinging && ((dad.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? dad.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyOpponentNoteInRange : true)){
-			dad.dance();
-		}
-		
-		if (curBeat % gfBopFrequency == 0 && gf.canAutoAnim){
+		if((gfBopEvery > 0 && (curBeat + gfBopOffset) % gfBopEvery == 0) && gf.canAutoAnim){
 			gf.dance();
 		}
 
-		if(bfBeats.contains(curBeat % 4) && boyfriend.canAutoAnim && !boyfriend.isSinging && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
+		if((dadBopEvery > 0 && (curBeat + dadBopOffset) % dadBopEvery == 0) && dad.canAutoAnim && dad.holdTimer == 0 && !dad.isSinging && ((dad.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? dad.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyOpponentNoteInRange : true)){
+			dad.dance();
+		}
+
+		if((bfBopEvery > 0 && (curBeat + bfBopOffset) % bfBopEvery == 0) && boyfriend.canAutoAnim && !boyfriend.isSinging && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
 			boyfriend.dance();
 		}
 
@@ -3117,6 +3108,20 @@ class PlayState extends MusicBeatState
 
 	inline public static function isInPlayState():Bool{
 		return Type.getClass(FlxG.state) == PlayState;
+	}
+
+	function executeEventsAtStart():Void{
+		var removeFromEvents:Array<EventDefinition> = [];
+		for(event in eventList){
+			if(event.time > 0){ break; }
+			if(event.time == 0 && Events.executeAtStart.contains(event.tag.split(";")[0])){
+				executeEvent(event.tag);
+				removeFromEvents.push(event);
+			}
+		}
+		for(event in removeFromEvents){
+			eventList.remove(event);
+		}
 	}
 
 }

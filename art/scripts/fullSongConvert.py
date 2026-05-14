@@ -89,9 +89,7 @@ if(__name__ == "__main__"):
     metaOutput += "\"name\": \"" + metaJson["songName"] + "\",\n"
     metaOutput += "\"artist\": \"" + metaJson["artist"] + "\",\n"
     metaOutput += f"\"album\": \"{album}\",\n"
-    metaOutput += f"\"difficulties\": {diffNumberArray},\n"
-    metaOutput += "\"bfBeats\": [1, 3],\n"
-    metaOutput += "\"dadBeats\": [0, 2]}"
+    metaOutput += f"\"difficulties\": {diffNumberArray}"
 
     metaOutputJson = json.loads(metaOutput)
     metaOutput = json.dumps(metaOutputJson, indent=4)

@@ -161,9 +161,7 @@ class Conductor extends FlxBasic
 	 */
 	public static function getStepFromTime(?targetTime:Float):Float{
 		if(targetTime == null){ targetTime = songPosition; }
-		if(bpmChanges.length < 1 || targetTime <= 0){
-			return 0;
-		}
+		if(bpmChanges.length < 1 || targetTime <= 0){ return 0; }
 		
 		var currentStep:Float = 0;
 		var lastBPMChange = bpmChanges[bpmChanges.length - 1];

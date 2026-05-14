@@ -7,18 +7,6 @@
         2,
         6
     ],
-    "bfBeats": [
-        0,
-        1,
-        2,
-        3
-    ],
-    "dadBeats": [
-        0,
-        1,
-        2,
-        3
-    ],
     "compatibleInsts": ["#fresh"],
 	"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
     "mixName": "Pico Mix"

@@ -25,6 +25,7 @@ class Stepper extends UIElement
 
 	public var value:Float = 0;
 	public var stepSize:Float = 1;
+	public var isInt(default, set):Bool = false;
 	var min:Null<Float> = null;
 	var max:Null<Float> = null;
 
@@ -46,6 +47,7 @@ class Stepper extends UIElement
 				value = Std.parseFloat(v);
 				value = FlxMath.bound(value, min, max);
 			}
+			parsed = isInt ? Std.int(parsed) : parsed;
 			updateNumberLabel();
 		});
 
@@ -53,7 +55,12 @@ class Stepper extends UIElement
 		plusBox.fillColor = UIColors.INTERACTION_COLOR;
 		plusBox.onClick.add(function(){
 			if(manager.allowInteraction && manager.focused == null){ 
-				value += stepSize;
+				var finalStepSize = stepSize;
+				if(isInt){
+					finalStepSize = Std.int(finalStepSize);
+					finalStepSize = finalStepSize < 1 ? 1 : finalStepSize;
+				}
+				value += finalStepSize;
 				value = FlxMath.bound(value, min, max);
 				updateNumberLabel();
 				plusBox.fillColor = UIColors.SELECTED_COLOR;
@@ -66,7 +73,12 @@ class Stepper extends UIElement
 		minusBox.fillColor = UIColors.INTERACTION_COLOR;
 		minusBox.onClick.add(function(){
 			if(manager.allowInteraction && manager.focused == null){ 
-				value -= stepSize;
+				var finalStepSize = stepSize;
+				if(isInt){
+					finalStepSize = Std.int(finalStepSize);
+					finalStepSize = finalStepSize < 1 ? 1 : finalStepSize;
+				}
+				value -= finalStepSize;
 				value = FlxMath.bound(value, min, max);
 				updateNumberLabel();
 				minusBox.fillColor = UIColors.SELECTED_COLOR;
@@ -115,6 +127,15 @@ class Stepper extends UIElement
 	override function set_manager(v:UIManager):UIManager{
 		if(textInput != null){ textInput.manager = v; }
 		return super.set_manager(v);
+	}
+
+	function set_isInt(v:Bool):Bool{
+		isInt = v;
+
+		if(isInt){ textInput.allowedCharacters = "0123456789"; }
+		else{ textInput.allowedCharacters = "0123456789."; }
+
+		return isInt;
 	}
 
 	function updateNumberLabel():Void{

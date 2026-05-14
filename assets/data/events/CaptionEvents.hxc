@@ -4,8 +4,8 @@ class CaptionEvents extends Events
 {
 
 	override function defineEvents() {
-		registerEvent({prefix: "cc", eventFunction: cc, description: CC_DESC});
-		registerEvent({prefix: "ccHide", eventFunction: ccHide, description: CC_HIDE_DESC});
+		registerEvent({prefix: "cc", eventFunction: cc, editor: {description: CC_DESC}});
+		registerEvent({prefix: "ccHide", eventFunction: ccHide, editor: {description: CC_HIDE_DESC}});
 	}
 
 	function cc(tag:String):Void{

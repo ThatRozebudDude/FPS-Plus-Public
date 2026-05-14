@@ -116,12 +116,12 @@
 			"time": 56000
 		},
 		{
-			"tag": "bfBop;EveryBeat",
+			"tag": "setBopFreq;bf;1;0",
 			"lane": 1,
 			"time": 56000
 		},
 		{
-			"tag": "dadBop;EveryBeat",
+			"tag": "setBopFreq;dad;1;0",
 			"lane": 2,
 			"time": 56000
 		},
@@ -281,12 +281,12 @@
 			"time": 66666.6666666667
 		},
 		{
-			"tag": "bfBop;EvenBeats",
+			"tag": "setBopFreq;bf;2;1",
 			"lane": 1,
 			"time": 66666.6666666667
 		},
 		{
-			"tag": "dadBop;OddBeats",
+			"tag": "setBopFreq;dad;2;0",
 			"lane": 2,
 			"time": 66666.6666666667
 		},

@@ -1,0 +1,64 @@
+package events;
+
+import flixel.FlxG;
+
+//This is for backwards compatiblity with events that have basically been replaced with a newer version of themselves.
+
+class LegacyEvents extends Events
+{
+
+	override function defineEvents() {
+		registerEvent({prefix: "toggleCamMovement", eventFunction: toggleCamMovement, editor: {hidden: true}});
+
+		registerEvent({prefix: "bfBop",  eventFunction: bfBop,  editor: {hidden: true}});
+		registerEvent({prefix: "dadBop", eventFunction: dadBop, editor: {hidden: true}});
+		registerEvent({prefix: "gfBopFreq", eventFunction: gfBopFreq, editor: {hidden: true}});
+	}
+
+	function toggleCamMovement(tag:String):Void{
+		trace("toggleCamMovement is no longer supported!");
+	}
+
+	function bfBop(tag:String):Void{
+		var args = Events.getArgs(tag);
+		switch(args[0]){
+			case "EveryBeat":
+				playstate.bfBopEvery = 1;
+				playstate.bfBopOffset = 0;
+			case "OddBeats":
+				playstate.bfBopEvery = 2;
+				playstate.bfBopOffset = 0;
+			case "EvenBeats":
+				playstate.bfBopEvery = 2;
+				playstate.bfBopOffset = 1;
+			case "Never":
+				playstate.bfBopEvery = 0;
+				playstate.bfBopOffset = 0;
+		}
+	}
+
+	function dadBop(tag:String):Void{
+		var args = Events.getArgs(tag);
+		switch(args[0]){
+			case "EveryBeat":
+				playstate.dadBopEvery = 1;
+				playstate.dadBopOffset = 0;
+			case "OddBeats":
+				playstate.dadBopEvery = 2;
+				playstate.dadBopOffset = 0;
+			case "EvenBeats":
+				playstate.dadBopEvery = 2;
+				playstate.dadBopOffset = 1;
+			case "Never":
+				playstate.dadBopEvery = 0;
+				playstate.dadBopOffset = 0;
+		}
+	}
+
+	function gfBopFreq(tag:String):Void{
+		var args = Events.getArgs(tag);
+		playstate.gfBopEvery = Events.parseInt(args[0]);
+		playstate.gfBopOffset = 0;
+	}
+
+}

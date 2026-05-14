@@ -41,6 +41,7 @@ class NeneTankmen extends CharacterInfoBase
 		for(i in 2...5){ addAnimAlias("combo" + (i * 200), "combo200"); }
 
 		info.idleSequence = ["danceLeft", "danceRight"];
+		info.bopFrequency = 1;
 
 		info.functions.create = create;
 		info.functions.postCreate = postCreate;

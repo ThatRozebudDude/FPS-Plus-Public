@@ -22,6 +22,7 @@ class Spooky extends CharacterInfoBase
 		addByPrefix("cheer", offset(50, 30), "Cheer", 24, loop(false, 0), false, false);
 
 		info.idleSequence = ["danceLeft", "danceRight"];
+		info.bopFrequency = 1;
 	}
 
 }

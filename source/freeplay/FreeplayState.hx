@@ -900,8 +900,6 @@ class FreeplayState extends MusicBeatState
 			if(jsonMeta.album != null)				{ meta.album = jsonMeta.album; }
 			if(jsonMeta.difficulties != null)		{ meta.difficulties = jsonMeta.difficulties; }
 			if(jsonMeta.difficultySet != null)		{ meta.difficultySet = jsonMeta.difficultySet; }
-			if(jsonMeta.dadBeats != null)			{ meta.dadBeats = jsonMeta.dadBeats; }
-			if(jsonMeta.bfBeats != null)			{ meta.bfBeats = jsonMeta.bfBeats; }
 
 			if(jsonMeta.compatibleInsts != null)	{ meta.compatibleInsts = jsonMeta.compatibleInsts; }
 			#if BACKWARD_COMPATIBILITY

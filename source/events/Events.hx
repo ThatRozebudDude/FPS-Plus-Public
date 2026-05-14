@@ -8,21 +8,33 @@ typedef EventDefinition = {
 	var prefix:String;
 	var eventFunction:(String)->Void;
 	var preprocessFunction:(String)->Void;
-	var description:String; //I'll remove this eventually and use the one in hints.
-	var ignoreOffset:Bool;
-	var hints:EventHints;
+	var ignoreOffset:Bool; //Ignores the note offset. Basically for events that need to sync to the music.
+	var executeAtStart:Bool; //Makes it so that if an event has this and the event time is 0 it will execute when the state is loaded instead of at the begining of the song.
+	var editor:Dynamic;
 }
 
-typedef EventHints = {
+typedef EventEditorProperties = {
 	var description:String;
 	var arguments:Array<EventArgument>;
+	var hidden:Bool;
 }
 
 //Still unsure exactly how I wanna handle this.
 typedef EventArgument = {
 	var name:String;
-	var type:String;
-	var defaultValue:String;
+	var type:EventArgumentType;
+	var value:String;
+}
+
+enum abstract EventArgumentType(String) from String to String {
+	var int;
+	var float;
+	var string;
+	var ease;
+	var time;
+	var character;
+	var color;
+	var vocalTrack;
 }
 
 @:build(modding.GlobalScriptingTypesMacro.build())
@@ -30,11 +42,14 @@ class Events
 {
 
 	public static var events:Map<String, EventDefinition>;
-	public static var ignoreOffsets:Array<String>; //Use an array for checking this since it's faster than a null check and 2 map accesses.
+
+	public static var ignoreOffsets:Array<String>; 
+	public static var executeAtStart:Array<String>;
 
 	public static function initEvents():Void{
 		events = new Map<String, EventDefinition>();
 		ignoreOffsets = [];
+		executeAtStart = [];
 
 		for(scriptName in ScriptableEvents.listScriptClasses()){
 			var eventClass:Events = ScriptableEvents.scriptInit(scriptName);
@@ -42,22 +57,26 @@ class Events
 		}
 
 		for(event in events){
-			if(event.ignoreOffset){
-				ignoreOffsets.push(event.prefix);
-			}
+			if(event.ignoreOffset)		{ ignoreOffsets.push(event.prefix); }
+			if(event.executeAtStart)	{ executeAtStart.push(event.prefix); }
 		}
 	}
 
 	function registerEvent(definition:Dynamic):Void{
 		var def:EventDefinition = generateEventDefinition();
 
-		if(definition.prefix != null) {def.prefix = definition.prefix;}
+		if(definition.prefix != null){ def.prefix = definition.prefix; }
 		else{ trace("Event has no prefix"); return; }
 
-		if(definition.eventFunction != null) {def.eventFunction = definition.eventFunction;}
-		if(definition.preprocessFunction != null) {def.preprocessFunction = definition.preprocessFunction;}
-		if(definition.description != null) {def.description = definition.description;}
-		if(definition.ignoreOffset != null) {def.ignoreOffset = definition.ignoreOffset;}
+		if(definition.eventFunction != null)		{ def.eventFunction = definition.eventFunction; }
+		if(definition.preprocessFunction != null)	{ def.preprocessFunction = definition.preprocessFunction; }
+		if(definition.ignoreOffset != null)			{ def.ignoreOffset = definition.ignoreOffset; }
+		if(definition.executeAtStart != null)		{ def.executeAtStart = definition.executeAtStart; }
+		if(definition.editor != null) {
+			if(definition.editor.description != null)	{ def.editor.description = definition.editor.description; }
+			if(definition.editor.hidden != null)		{ def.editor.hidden = definition.editor.hidden; }
+			if(definition.editor.arguments != null)		{ def.editor.arguments = definition.editor.arguments; }
+		}
 
 		events.set(def.prefix, def);
 	}
@@ -83,21 +102,28 @@ class Events
 		def.eventFunction = processFunction;
 		if(preprocessFunction != null){ def.preprocessFunction = preprocessFunction; }
 		if(ignoreNoteOffset){ def.ignoreOffset = ignoreNoteOffset; }
-		if(metaDescription != null){ def.hints = {description: metaDescription, arguments: null}; }
+		if(metaDescription != null){ def.editor = {description: metaDescription}; }
 
-		events.set(def.prefix, def);
+		registerEvent(def);
 	}
 	#end
 
 	static function generateEventDefinition():EventDefinition{
-		return 
-		{
+		return {
 			prefix: null,
 			eventFunction: null,
 			preprocessFunction: null,
-			description: null,
 			ignoreOffset: false,
-			hints: null
+			executeAtStart: false,
+			editor: generateEventEditorProperties()
+		};
+	}
+	
+	static function generateEventEditorProperties():EventEditorProperties{
+		return {
+			description: null,
+			arguments: null,
+			hidden: false
 		};
 	}
 
@@ -261,6 +287,19 @@ class Events
 	public static inline function parseFloat(v:String):Float{
 		return Std.parseFloat(v);
 	}
+
+	public static function getDefaultArguments(prefix:String):Array<String>{
+		var eventDefinition:EventDefinition = events.get(prefix);
+		if(eventDefinition == null){ return []; }
+		var r:Array<String> = [];
+		if(eventDefinition.editor != null && eventDefinition.editor.arguments != null){
+			for(i in 0...eventDefinition.editor.arguments.length){
+				r.push(eventDefinition.editor.arguments[i].value);
+			}
+		}
+		return r;
+	}
+
 
 	public function toString():String{ return "Events"; }
 }

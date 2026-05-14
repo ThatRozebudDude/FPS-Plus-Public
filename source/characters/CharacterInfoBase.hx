@@ -98,6 +98,7 @@ typedef CharacterInfo = {
 	var antialiasing:Bool;
 	var anims:Array<AnimInfo>;
 	var idleSequence:Array<String>;
+	var bopFrequency:Null<Int>;
 	var focusOffset:FlxPoint;
 	var deathOffset:FlxPoint;
 	var animChains:Map<String, String>;
@@ -132,6 +133,7 @@ class CharacterInfoBase
 		antialiasing: true,
 		anims: [],
 		idleSequence: ["idle"],
+		bopFrequency: null,
 		focusOffset: new FlxPoint(150, -100),
 		deathOffset: new FlxPoint(),
 		animChains: new Map<String, String>(),
