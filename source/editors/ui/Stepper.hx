@@ -47,8 +47,9 @@ class Stepper extends UIElement
 				value = Std.parseFloat(v);
 				value = FlxMath.bound(value, min, max);
 			}
-			parsed = isInt ? Std.int(parsed) : parsed;
+			value = isInt ? Std.int(value) : value;
 			updateNumberLabel();
+			onValueChanged.dispatch(value);
 		});
 
 		plusBox = new Box(textInput.x + _width - 24, 0, 24, 24);

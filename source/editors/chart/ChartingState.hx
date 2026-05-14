@@ -55,6 +55,11 @@ typedef ChartSnapshot = {
 	var action:UndoAction;
 }
 
+typedef EventArgumentInput = {
+	var elements:Array<FlxSprite>;
+	var value:String;
+}
+
 //All the different actions that can be captured by the chart snapshot.
 enum UndoAction {
 	NONE; //Used for the intial state or when the action type isn't needed like building the inital chart.
@@ -186,9 +191,11 @@ class ChartingState extends MusicBeatState
 	var lilBf:Character;
 
 	var noteTypeInput:TextInput;
-
+	var eventPrefixDropdown:Dropdown;
 	var eventTagInput:TextInput;
-	var eventParams:Array<UIElement> = [];
+	
+	var eventParams:Array<EventArgumentInput> = [];
+	var eventParamStartLocation:Float = 0;
 
 	var alertGroup:FlxTypedGroup<Alert>;
 	var typeAlert:Alert;
@@ -504,10 +511,13 @@ class ChartingState extends MusicBeatState
 	function setupEventsTab():Void{
 		eventTagInput = new TextInput(PANEL_SPACING, PANEL_SPACING, 336, "", "Tag");
 
-		var eventPrefixDropdown:Dropdown = new Dropdown(PANEL_SPACING, eventTagInput.y + eventTagInput.elementHeight + PANEL_SPACING, 240, eventPrefixes, "", "Event Tags");
+		eventPrefixDropdown = new Dropdown(PANEL_SPACING, eventTagInput.y + eventTagInput.elementHeight + PANEL_SPACING, 240, eventPrefixes, "", "Event Tags");
 		eventPrefixDropdown.onSelect.add(function(v:String){
 			eventTagInput.value = v;
+			createEventArguments(v);
 		});
+
+		eventParamStartLocation = eventPrefixDropdown.y + eventPrefixDropdown.elementHeight + PANEL_SPACING;
 
 		panel.addToTab("Events", eventTagInput);
 		panel.addToTab("Events", eventPrefixDropdown);
@@ -1555,14 +1565,6 @@ class ChartingState extends MusicBeatState
 		}
 	}
 
-	function setupCurrentEvent(prefix:String){
-		for(element in eventParams){
-			panel.removeFromTab("Events", element);
-			element.destroy();
-		}
-		eventParams = [];
-	}
-
 	private function saveChartToFile(){
 		generateChart();
 		var data:String = Json.stringify(chart, null, "\t");
@@ -1609,5 +1611,130 @@ class ChartingState extends MusicBeatState
 		fileReference = null;
 		createAlert("Error saving file.");
 	}*/
+
+	function createEventArguments(prefix:String):Void{
+		for(eventParam in eventParams){
+			for(element in eventParam.elements){
+				panel.removeFromTab("Events", element);
+				element.destroy();
+			}
+		}
+		eventParams = [];
+
+		var eventDefinition = Events.events.get(prefix);
+		if(eventDefinition == null){ return; }
+		if(eventDefinition.editor == null){ return; }
+		if(eventDefinition.editor.arguments == null){ return; }
+
+		for(i in 0...eventDefinition.editor.arguments.length){
+			var argData = eventDefinition.editor.arguments[i];
+			switch(argData.type){
+				case int:
+					var arg:EventArgumentInput = {elements: [], value: argData.value};
+
+					var input:Stepper = new Stepper(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 192, Std.parseInt(argData.value), 1, null, null, true, argData.name);
+					input.isInt = true;
+					arg.elements.push(input);
+
+					input.onValueChanged.add(function(v:Float){
+						arg.value = ""+Std.int(v);
+						buildEventTag();
+					});
+
+					for(element in arg.elements){ panel.addToTab("Events", element); }
+					eventParams.push(arg);
+
+				case float:
+					var arg:EventArgumentInput = {elements: [], value: argData.value};
+
+					var input:Stepper = new Stepper(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 192, Std.parseFloat(argData.value), 1, null, null, true, argData.name);
+					arg.elements.push(input);
+
+					input.onValueChanged.add(function(v:Float){
+						arg.value = ""+v;
+						buildEventTag();
+					});
+
+					for(element in arg.elements){ panel.addToTab("Events", element); }
+					eventParams.push(arg);
+
+				case string:
+					var arg:EventArgumentInput = {elements: [], value: argData.value};
+
+					var input:TextInput = new TextInput(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 192, argData.value, argData.name);
+					arg.elements.push(input);
+
+					input.onValueChanged.add(function(v:String){
+						arg.value = v;
+						buildEventTag();
+					});
+
+					for(element in arg.elements){ panel.addToTab("Events", element); }
+					eventParams.push(arg);
+
+				//case ease:
+				//case time:
+				case character:
+					var arg:EventArgumentInput = {elements: [], value: argData.value};
+
+					final initalValue:String = argData.value == "dad" ? "Opponent" : argData.value == "gf" ? "Speaker" : "Player";
+					var input:Dropdown = new Dropdown(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 192, ["Player", "Opponent", "Speaker"], initalValue, argData.name);
+					arg.elements.push(input);
+
+					input.onSelect.add(function(v:String){
+						switch(v){
+							case "Opponent":
+								arg.value = "dad";
+							case "Speaker":
+								arg.value = "gf";
+							default:
+								arg.value = "bf";
+						}
+						buildEventTag();
+					});
+
+					for(element in arg.elements){ panel.addToTab("Events", element); }
+					eventParams.push(arg);
+				
+				case color:
+					var arg:EventArgumentInput = {elements: [], value: argData.value};
+
+					final initalValue:String = argData.value.startsWith("0x") ? argData.value.split("0x")[1] : argData.value;
+					var input:TextInput = new TextInput(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 163, initalValue);
+					input.allowedCharacters = "0123456789ABCDEF";
+					arg.elements.push(input);
+
+					var colorPreview:Box = new Box(input.x + input.elementWidth + PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 24, 24);
+					colorPreview.fillColor = FlxColor.fromString(arg.value);
+					arg.elements.push(colorPreview);
+					
+					var label:UIText = new UIText(input.x + input.elementWidth + colorPreview.width + PANEL_SPACING*2, eventParamStartLocation+((24+PANEL_SPACING)*i)+(input.elementHeight/2), argData.name);
+					label.y -= label.height/2;
+					label.color = UIColors.FILL_TEXT_COLOR;
+					arg.elements.push(label);
+
+					input.onValueChanged.add(function(v:String){
+						arg.value = "0x"+v;
+						colorPreview.fillColor = FlxColor.fromString(arg.value);
+						buildEventTag();
+					});
+
+					for(element in arg.elements){ panel.addToTab("Events", element); }
+					eventParams.push(arg);
+
+				//case vocalTrack:
+				default:
+					trace("type \"" + argData.type + "\" is not implemented yet!");
+			}
+		}
+
+		buildEventTag();
+	}
+
+	function buildEventTag():Void{
+		var tag:String = eventPrefixDropdown.value;
+		for(arg in eventParams){ tag += ";" + arg.value; }
+		eventTagInput.value = tag;
+	}
 	
 }

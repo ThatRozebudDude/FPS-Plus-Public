@@ -10,7 +10,7 @@ typedef EventDefinition = {
 	var preprocessFunction:(String)->Void;
 	var ignoreOffset:Bool; //Ignores the note offset. Basically for events that need to sync to the music.
 	var executeAtStart:Bool; //Makes it so that if an event has this and the event time is 0 it will execute when the state is loaded instead of at the begining of the song.
-	var editor:Dynamic;
+	var editor:EventEditorProperties;
 }
 
 typedef EventEditorProperties = {
@@ -102,7 +102,7 @@ class Events
 		def.eventFunction = processFunction;
 		if(preprocessFunction != null){ def.preprocessFunction = preprocessFunction; }
 		if(ignoreNoteOffset){ def.ignoreOffset = ignoreNoteOffset; }
-		if(metaDescription != null){ def.editor = {description: metaDescription}; }
+		if(metaDescription != null){ def.editor = {description: metaDescription, arguments: null, hidden: false}; }
 
 		registerEvent(def);
 	}
@@ -293,8 +293,8 @@ class Events
 		if(eventDefinition == null){ return []; }
 		var r:Array<String> = [];
 		if(eventDefinition.editor != null && eventDefinition.editor.arguments != null){
-			for(i in 0...eventDefinition.editor.arguments.length){
-				r.push(eventDefinition.editor.arguments[i].value);
+			for(arg in eventDefinition.editor.arguments){
+				r.push(arg.value);
 			}
 		}
 		return r;
