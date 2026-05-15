@@ -517,7 +517,7 @@ class ChartingState extends MusicBeatState
 			createEventArguments(v);
 		});
 
-		eventParamStartLocation = eventPrefixDropdown.y + eventPrefixDropdown.elementHeight + PANEL_SPACING;
+		eventParamStartLocation = eventPrefixDropdown.y + eventPrefixDropdown.elementHeight + PANEL_EXTRA_SPACING;
 
 		panel.addToTab("Events", eventTagInput);
 		panel.addToTab("Events", eventPrefixDropdown);
@@ -1629,6 +1629,20 @@ class ChartingState extends MusicBeatState
 		for(i in 0...eventDefinition.editor.arguments.length){
 			var argData = eventDefinition.editor.arguments[i];
 			switch(argData.type){
+				case bool:
+					var arg:EventArgumentInput = {elements: [], value: argData.value};
+
+					var input:Toggle = new Toggle(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), Events.parseBool(argData.value), argData.name);
+					arg.elements.push(input);
+
+					input.onToggle.add(function(v:Bool){
+						arg.value = ""+v;
+						buildEventTag();
+					});
+
+					for(element in arg.elements){ panel.addToTab("Events", element); }
+					eventParams.push(arg);
+
 				case int:
 					var arg:EventArgumentInput = {elements: [], value: argData.value};
 
@@ -1672,8 +1686,58 @@ class ChartingState extends MusicBeatState
 					for(element in arg.elements){ panel.addToTab("Events", element); }
 					eventParams.push(arg);
 
-				//case ease:
-				//case time:
+				case ease:
+					var arg:EventArgumentInput = {elements: [], value: argData.value};
+
+					final valueWithCaptital:String = argData.value.charAt(0).toUpperCase() + argData.value.substr(1, 99);
+					final initalEaseValue:String = argData.value.endsWith("In") ? valueWithCaptital.split("In")[0] : argData.value.endsWith("InOut") ? valueWithCaptital.split("InOut")[0] : argData.value.endsWith("Out") ? valueWithCaptital.split("Out")[0] : "Linear";
+					var easeDropdown:Dropdown = new Dropdown(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 99, ["Linear", "Quad", "Cube", "Quart", "Quint", "SmoothStep", "SmooterStep", "Sine", "Bounce", "Circ", "Expo", "Back", "Elastic"], initalEaseValue);
+					arg.elements.push(easeDropdown);
+
+					final initalDrectionValue:String = argData.value.endsWith("In") ? "In" : argData.value.endsWith("InOut") ? "InOut" : "Out";
+					var directionDropdown:Dropdown = new Dropdown(easeDropdown.x + easeDropdown.elementWidth + PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 88, ["In", "Out", "InOut"], initalDrectionValue, argData.name);
+					arg.elements.push(directionDropdown);
+
+					easeDropdown.onSelect.add(function(v:String){
+						if(easeDropdown.value == "Linear"){ arg.value = "linear"; }
+						else{ arg.value = easeDropdown.value.charAt(0).toLowerCase() + easeDropdown.value.substr(1, 99) + directionDropdown.value; }
+						buildEventTag();
+					});
+
+					directionDropdown.onSelect.add(function(v:String){
+						if(easeDropdown.value == "Linear"){ arg.value = "linear"; }
+						else{ arg.value = easeDropdown.value.charAt(0).toLowerCase() + easeDropdown.value.substr(1, 99) + directionDropdown.value; }
+						buildEventTag();
+					});
+
+					for(element in arg.elements){ panel.addToTab("Events", element); }
+					eventParams.push(arg);
+
+				case time:
+					var arg:EventArgumentInput = {elements: [], value: argData.value};
+
+					var initalNumberValue:Float = argData.value.endsWith("b") ? Std.parseFloat(argData.value.split("b")[0]) : argData.value.endsWith("s") ? Std.parseFloat(argData.value.split("s")[0]) : Std.parseFloat(argData.value);
+					initalNumberValue = Math.isNaN(initalNumberValue) ? 0 : initalNumberValue;
+					var numberInput:Stepper = new Stepper(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 110, initalNumberValue, 1, null, null, true);
+					arg.elements.push(numberInput);
+
+					final initalUnitValue:String = argData.value.endsWith("b") ? "Beat" : argData.value.endsWith("s") ? "Step" : "Sec";
+					var unitInput:Dropdown = new Dropdown(numberInput.x + numberInput.elementWidth + PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 77, ["Sec", "Beat", "Step"], initalUnitValue, argData.name);
+					arg.elements.push(unitInput);
+
+					numberInput.onValueChanged.add(function(v:Float){
+						arg.value = numberInput.value + (unitInput.value == "Beat" ? "b" : unitInput.value == "Step" ? "s" : "");
+						buildEventTag();
+					});
+
+					unitInput.onSelect.add(function(v:String){
+						arg.value = numberInput.value + (unitInput.value == "Beat" ? "b" : unitInput.value == "Step" ? "s" : "");
+						buildEventTag();
+					});
+
+					for(element in arg.elements){ panel.addToTab("Events", element); }
+					eventParams.push(arg);
+
 				case character:
 					var arg:EventArgumentInput = {elements: [], value: argData.value};
 
@@ -1722,7 +1786,28 @@ class ChartingState extends MusicBeatState
 					for(element in arg.elements){ panel.addToTab("Events", element); }
 					eventParams.push(arg);
 
-				//case vocalTrack:
+				case vocalTrack:
+					var arg:EventArgumentInput = {elements: [], value: argData.value};
+
+					final initalValue:String = argData.value == "bf" ? "Player" : argData.value == "dad" ? "Opponent" : "Both";
+					var input:Dropdown = new Dropdown(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 192, ["Player", "Opponent", "Both"], initalValue, argData.name);
+					arg.elements.push(input);
+
+					input.onSelect.add(function(v:String){
+						switch(v){
+							case "Player":
+								arg.value = "bf";
+							case "Opponent":
+								arg.value = "dad";
+							default:
+								arg.value = "all";
+						}
+						buildEventTag();
+					});
+
+					for(element in arg.elements){ panel.addToTab("Events", element); }
+					eventParams.push(arg);
+
 				default:
 					trace("type \"" + argData.type + "\" is not implemented yet!");
 			}

@@ -15,10 +15,10 @@
 - Chart Editor
 	- Finish new icons.
 		- Add icon for `setBopFreq`.
-	- More robust event / note type UI that's more intuitive to use.
-		- I want events and note types to have definable argument types and the editor will auto generate text input fields and type hints and put together the tag automatically so you don't need to manually type out the tag but you still can if you want to. 
+	- Implement event argument system for note types.
+	- Hotbar.
 	- Undo/Redo
-		- Scary.
+		- Scary?
 	- Autosave.
 	- Sound effects? Maybe?
 

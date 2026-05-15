@@ -8,25 +8,34 @@ class CameraEvents extends Events
 
 	override function defineEvents() {
 		registerEvent({prefix: "camMove", eventFunction: camMove, executeAtStart: true, editor: {description: CAM_MOVE_DESC, arguments: [
-			{name: "Int", type: "int", value: "0"}, 
-			{name: "Float", type: "float", value: "0"}, 
-			{name: "String", type: "string", value: ""}, 
-			{name: "Ease", type: "ease", value: "linear"}, 
-			{name: "Time", type: "time", value: "0"}, 
-			{name: "Character", type: "character", value: "bf"}, 
-			{name: "Color", type: "color", value: "0xFFFFFF"}, 
-			{name: "Vocal Track", type: "vocalTrack", value: "all"}
-		]}}); //Temp for testing.
-		registerEvent({prefix: "camZoom", eventFunction: camZoom, editor: {description: CAM_ZOOM_DESC}});
+			{name: "X Position", type: "float", value: "0"}, {name: "Y Position", type: "float", value: "0"}, {name: "Time", type: "time", value: "1.9"}, {name: "Ease", type: "ease", value: "expoOut"}, {name: "Relative To Current Position", type: "bool", value: "false"}
+		]}});
+		registerEvent({prefix: "camZoom", eventFunction: camZoom, editor: {description: CAM_ZOOM_DESC, arguments: [
+			{name: "Zoom", type: "float", value: "1"}, {name: "Time", type: "time", value: "4b"}, {name: "Ease", type: "ease", value: "quadInOut"}, {name: "Relative To Default Zoom", type: "bool", value: "false"}
+		]}});
 		
-		registerEvent({prefix: "flash", eventFunction: flash, editor: {description: FLASH_DESC}});
-		registerEvent({prefix: "flashHud", eventFunction: flashHud, editor: {description: FLASH_HUD_DESC}});
-		registerEvent({prefix: "fadeOut", eventFunction: fadeOut, editor: {description: FADE_OUT_DESC}});
-		registerEvent({prefix: "fadeOutHud", eventFunction: fadeOutHud, editor: {description: FADE_OUT_HUD_DESC}});
+		registerEvent({prefix: "flash", eventFunction: flash, editor: {description: FLASH_DESC, arguments: [
+			{name: "Time", type: "time", value: "1b"}, {name: "Color", type: "color", value: "0xFFFFFF"}
+		]}});
+		registerEvent({prefix: "flashHud", eventFunction: flashHud, editor: {description: FLASH_HUD_DESC, arguments: [
+			{name: "Time", type: "time", value: "1b"}, {name: "Color", type: "color", value: "0xFFFFFF"}
+		]}});
+		registerEvent({prefix: "fadeOut", eventFunction: fadeOut, editor: {description: FADE_OUT_DESC, arguments: [
+			{name: "Time", type: "time", value: "1b"}, {name: "Color", type: "color", value: "0x000000"}
+		]}});
+		registerEvent({prefix: "fadeOutHud", eventFunction: fadeOutHud, editor: {description: FADE_OUT_HUD_DESC, arguments: [
+			{name: "Time", type: "time", value: "1b"}, {name: "Color", type: "color", value: "0x000000"}
+		]}});
 		
-		registerEvent({prefix: "camShake", eventFunction: camShake, editor: {description: CAM_SHAKE_DESC}});
-		registerEvent({prefix: "startCamShake", eventFunction: startCamShake, editor: {description: CAM_SHAKE_START_DESC}});
-		registerEvent({prefix: "endCamShake", eventFunction: endCamShake, editor: {description: CAM_SHAKE_END_DESC}});
+		registerEvent({prefix: "camShake", eventFunction: camShake, editor: {description: CAM_SHAKE_DESC, arguments: [
+			{name: "Intensity", type: "float", value: "0.008"}, {name: "Frequency", type: "float", value: "0.042"}, {name: "Shake Time", type: "time", value: "1"}, {name: "Return Time", type: "time", value: "0.042"}, {name: "Ease", type: "ease", value: "linear"}
+		]}});
+		registerEvent({prefix: "startCamShake", eventFunction: startCamShake, editor: {description: CAM_SHAKE_START_DESC, arguments: [
+			{name: "Intensity", type: "float", value: "0.008"}, {name: "Frequency", type: "float", value: "0.042"}, {name: "Ease", type: "ease", value: "linear"}
+		]}});
+		registerEvent({prefix: "endCamShake", eventFunction: endCamShake, editor: {description: CAM_SHAKE_END_DESC, arguments: [
+			{name: "Return Time", type: "time", value: "0.042"}, {name: "Ease", type: "ease", value: "linear"}
+		]}});
 		
 		registerEvent({prefix: "camFocusBf", eventFunction: camFocusBf, executeAtStart: true, editor: {description: CAM_FOCUS_BF_DESC, arguments: [
 			{name: "X Offset", type: "float", value: "0"}, {name: "Y Offset", type: "float", value: "0"}, {name: "Time", type: "time", value: "1.9"}, {name: "Ease", type: "ease", value: "expoOut"}
@@ -45,14 +54,20 @@ class CameraEvents extends Events
 		
 		registerEvent({prefix: "camBop", eventFunction: camBop, editor: {description: CAM_BOP_DESC}});
 		registerEvent({prefix: "camBopBig", eventFunction: camBopBig, editor: {description: CAM_BOP_BIG_DESC}});
-		registerEvent({prefix: "camBopFreq", eventFunction: camBopFreq, editor: {description: CAM_BOP_FREQ_DESC}});
-		registerEvent({prefix: "camBopIntensity", eventFunction: camBopIntensity, editor: {description: CAM_BOP_INTENSITY_DESC}});
+		registerEvent({prefix: "camBopFreq", eventFunction: camBopFreq, editor: {description: CAM_BOP_FREQ_DESC, arguments: [
+			{name: "Bop Every", type: "int", value: "4"}
+		]}});
+		registerEvent({prefix: "camBopIntensity", eventFunction: camBopIntensity, editor: {description: CAM_BOP_INTENSITY_DESC, arguments: [
+			{name: "Multiplier", type: "float", value: "1"}
+		]}});
 		
-		registerEvent({prefix: "setDynamicCamAmount", eventFunction: setDynamicCamAmount, editor: {description: SET_DYNAMIC_CAM_AMOUNT_DESC}});
+		registerEvent({prefix: "setDynamicCamAmount", eventFunction: setDynamicCamAmount, editor: {description: SET_DYNAMIC_CAM_AMOUNT_DESC, arguments: [
+			{name: "Distance", type: "float", value: "20"}
+		]}});
 	}
 
 	function camMove(tag:String):Void{
-		var args = Events.getArgs(tag, [""+playstate.camFollow.x, ""+playstate.camFollow.y, "1.9", "expoOut", "false"]);
+		var args = Events.getArgs(tag, Events.getDefaultArguments("camMove"));
 		if(!Events.parseBool(args[4])){
 			playstate.camMove(Events.parseFloat(args[0]), Events.parseFloat(args[1]), Events.parseTime(args[2]), Events.parseEase(args[3]), null);
 		}
@@ -62,19 +77,19 @@ class CameraEvents extends Events
 	}
 
 	function camZoom(tag:String):Void{
-		var args = Events.getArgs(tag, [""+playstate.stage.startingZoom, "4b", "quadInOut", "false"]);
+		var args = Events.getArgs(tag, Events.getDefaultArguments("camZoom"));
 		var zoomLevel = Events.parseFloat(args[0]);
 		if(Events.parseBool(args[3])){ zoomLevel *= playstate.stage.startingZoom; }
 		playstate.camChangeZoom(zoomLevel, Events.parseTime(args[1]), Events.parseEase(args[2]), null);
 	}
 
 	function camBopFreq(tag:String):Void{
-		var args = Events.getArgs(tag);
+		var args = Events.getArgs(tag, Events.getDefaultArguments("camBopFreq"));
 		playstate.camBopFrequency = Events.parseInt(args[0]);
 	}
 	
 	function camBopIntensity(tag:String):Void{
-		var args = Events.getArgs(tag);
+		var args = Events.getArgs(tag, Events.getDefaultArguments("camBopIntensity"));
 		playstate.camBopIntensity = Events.parseFloat(args[0]);
 	}
 
@@ -91,36 +106,36 @@ class CameraEvents extends Events
 	}
 
 	function flash(tag:String):Void{
-		var args = Events.getArgs(tag, ["1b", "0xFFFFFF"]);
+		var args = Events.getArgs(tag, Events.getDefaultArguments("flash"));
 		playstate.camGame.stopFX();
 		playstate.camGame.fade(ScriptingUtil.colorFromString(args[1]), Events.parseTime(args[0]), true);
 	}
 
 	function flashHud(tag:String):Void{
-		var args = Events.getArgs(tag, ["1b", "0xFFFFFF"]);
+		var args = Events.getArgs(tag, Events.getDefaultArguments("flashHud"));
 		playstate.camHUD.stopFX();
 		playstate.camHUD.fade(ScriptingUtil.colorFromString(args[1]), Events.parseTime(args[0]), true);
 	}
 
 	function fadeOut(tag:String):Void{
-		var args = Events.getArgs(tag, ["1b", "0x000000"]);
+		var args = Events.getArgs(tag, Events.getDefaultArguments("fadeOut"));
 		playstate.camGame.stopFX();
 		playstate.camGame.fade(ScriptingUtil.colorFromString(args[1]), Events.parseTime(args[0]));
 	}
 
 	function fadeOutHud(tag:String):Void{
-		var args = Events.getArgs(tag, ["1b", "0x000000"]);
+		var args = Events.getArgs(tag, Events.getDefaultArguments("fadeOutHud"));
 		playstate.camHUD.stopFX();
 		playstate.camHUD.fade(ScriptingUtil.colorFromString(args[1]), Events.parseTime(args[0]));
 	}
 
 	function startCamShake(tag:String):Void{
-		var args = Events.getArgs(tag, ["0.008", "0.042", "linear"]);
+		var args = Events.getArgs(tag, Events.getDefaultArguments("startCamShake"));
 		playstate.startCamShake(Events.parseFloat(args[0]), Events.parseTime(args[1]), Events.parseEase(args[2]));
 	}
 
 	function endCamShake(tag:String):Void{
-		var args = Events.getArgs(tag, ["0.042", "linear"]);
+		var args = Events.getArgs(tag, Events.getDefaultArguments("endCamShake"));
 		playstate.endCamShake(Events.parseTime(args[0]), Events.parseEase(args[1]));
 	}
 	
@@ -146,29 +161,29 @@ class CameraEvents extends Events
 	}
 	
 	function camShake(tag:String):Void{
-		var args = Events.getArgs(tag, ["0.008", "0.042", "1", "0.042", "linear"]);
+		var args = Events.getArgs(tag, Events.getDefaultArguments("camShake"));
 		playstate.camShake(Events.parseFloat(args[0]), Events.parseTime(args[1]), Events.parseTime(args[2]), Events.parseTime(args[3]), Events.parseEase(args[4]));
 	}
 	
 	function setDynamicCamAmount(tag:String):Void{
-		var args = Events.getArgs(tag, ["20"]);
+		var args = Events.getArgs(tag, Events.getDefaultArguments("setDynamicCamAmount"));
 		playstate.camOffsetAmount = Events.parseFloat(args[0]);
 	}
 
 
 
 	//Event descriptions. Not required but it helps with charting.
-	final CAM_MOVE_DESC:String = "Moves the camera over time.\n\nArgs:\n    Float: X position\n    Float: Y position\n    Time: Tween time\n    Ease: Tween ease\n    Bool: Relative to current camera position";
-	final CAM_ZOOM_DESC:String = "Change the camera zoom over time.\n\nArgs:\n    Float: Zoom level\n    Time: Tween time\n    Ease: Tween ease\n    Bool: Multiplies by default camera zoom";
+	final CAM_MOVE_DESC:String = "Moves the camera over time.";
+	final CAM_ZOOM_DESC:String = "Change the camera zoom over time.";
 
-	final FLASH_DESC:String = "Flashes the game camera with a color.\n\nArgs:\n    Time: Flash fade time\n    Hex: RGB Color (ex. \"0xFFFFFF\")";
-	final FLASH_HUD_DESC:String = "Flashes the HUD camera with a color.\n\nArgs:\n    Time: Flash fade time\n    Hex: RGB Color (ex. \"0xFFFFFF\")";
-	final FADE_OUT_DESC:String = "Fades the game camera to a color.\n\nArgs:\n    Time: Fade time\n    Hex: RGB Color (ex. \"0xFFFFFF\")";
-	final FADE_OUT_HUD_DESC:String = "Fades the HUD camera to a color.\n\nArgs:\n    Time: Fade time\n    Hex: RGB Color (ex. \"0xFFFFFF\")";
+	final FLASH_DESC:String = "Flashes the game camera with a color.";
+	final FLASH_HUD_DESC:String = "Flashes the HUD camera with a color.";
+	final FADE_OUT_DESC:String = "Fades the game camera to a color.";
+	final FADE_OUT_HUD_DESC:String = "Fades the HUD camera to a color.";
 
-	final CAM_SHAKE_DESC:String = "Temporarily shakes the game camera.\n\nArgs:\n    Float: Instensity\n    Time: Period (time between shakes)\n    Time: Total shake time\n    Time: Return time (time from final shake to 0)\n    Ease: Ease between shakes";
-	final CAM_SHAKE_START_DESC:String = "Starts to shakes the game camera.\n\nArgs:\n    Float: Instensity\n    Time: Period (time between shakes)\n    Ease: Ease between shakes";
-	final CAM_SHAKE_END_DESC:String = "Stops shaking the game camera.\n\nArgs:\n    Time: Return time (time to return to 0)\n    Ease: Ease to return to 0";
+	final CAM_SHAKE_DESC:String = "Temporarily shakes the game camera.";
+	final CAM_SHAKE_START_DESC:String = "Starts to shakes the game camera.";
+	final CAM_SHAKE_END_DESC:String = "Stops shaking the game camera.";
 
 	final CAM_FOCUS_BF_DESC:String = "Focuses the camera on BF.";
 	final CAM_FOCUS_DAD_DESC:String = "Focuses the camera on Dad.";
@@ -180,8 +195,8 @@ class CameraEvents extends Events
 
 	final CAM_BOP_DESC:String = "Manually does a camera bop.";
 	final CAM_BOP_BIG_DESC:String = "Manually does a large camera bop.";
-	final CAM_BOP_FREQ_DESC:String = "Sets the interval that the camera bops.\n\nArgs:\n    Int: Interval (every \"x\" beats)";
-	final CAM_BOP_INTENSITY_DESC:String = "Sets a multiplier to the intensity of camera bops.\n\nArgs:\n    Float: Multiplier";
+	final CAM_BOP_FREQ_DESC:String = "Sets the interval that the camera bops.";
+	final CAM_BOP_INTENSITY_DESC:String = "Sets a multiplier to the intensity of camera bops.";
 
-	final SET_DYNAMIC_CAM_AMOUNT_DESC:String = "Sets the distance the camera moves when hitting a note with dynamic camera turned on.\n\nArgs:\n    Float: Distance";
+	final SET_DYNAMIC_CAM_AMOUNT_DESC:String = "Sets the distance the camera moves when hitting a note with dynamic camera turned on.";
 }

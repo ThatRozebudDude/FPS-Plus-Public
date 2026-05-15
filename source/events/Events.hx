@@ -27,6 +27,7 @@ typedef EventArgument = {
 }
 
 enum abstract EventArgumentType(String) from String to String {
+	var bool;
 	var int;
 	var float;
 	var string;
