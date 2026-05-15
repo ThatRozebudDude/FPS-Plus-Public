@@ -7,22 +7,40 @@ class PlayAnimNotes extends NoteType
 {
 
 	override function defineTypes():Void{
-		registerNoteType({prefix: "playAnim", noteHit: playAnimHit, noteMiss: playAnimMiss, sustainHit: playAnimHit, sustainMiss: playAnimMiss});
+		registerNoteType({prefix: "playAnim", noteHit: playAnimHit, noteMiss: playAnimMiss, sustainHit: playAnimHit, sustainMiss: playAnimMiss, editor: {arguments: [
+			{name: "Hit Animation", type: "string", value: ""}, {name: "Miss Animation", type: "string", value: ""}, {name: "Dynamic Camera Movement", type: "bool", value: "true"}
+		]}});
 		
-		registerNoteType({prefix: "hey", noteHit: playAnimHit, sustainHit: noSustainAnimation});
-		registerNoteType({prefix: "week-2-cheer", noteHit: cheerHit, sustainHit: noSustainAnimation});
-		registerNoteType({prefix: "ugh", noteHit: ughHit, sustainHit: noSustainAnimation});
-		registerNoteType({prefix: "argh", noteHit: arghHit, sustainHit: noSustainAnimation});
-		registerNoteType({prefix: "shit", noteHit: shitHit, sustainHit: noSustainAnimation});
-		registerNoteType({prefix: "shit-censor", noteHit: shitCensorHit, sustainHit: noSustainAnimation});
-		registerNoteType({prefix: "burp", noteHit: burpHit, sustainHit: noSustainAnimation});
-		registerNoteType({prefix: "burpBig", noteHit: burpBigHit, sustainHit: noSustainAnimation});
+		registerNoteType({prefix: "hey", noteHit: playAnimHit, sustainHit: noSustainAnimation, editor: {arguments: [
+			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
+		]}});
+		registerNoteType({prefix: "week-2-cheer", noteHit: cheerHit, sustainHit: noSustainAnimation, editor: {arguments: [
+			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
+		]}});
+		registerNoteType({prefix: "ugh", noteHit: ughHit, sustainHit: noSustainAnimation, editor: {arguments: [
+			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
+		]}});
+		registerNoteType({prefix: "argh", noteHit: arghHit, sustainHit: noSustainAnimation, editor: {arguments: [
+			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
+		]}});
+		registerNoteType({prefix: "shit", noteHit: shitHit, sustainHit: noSustainAnimation, editor: {arguments: [
+			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
+		]}});
+		registerNoteType({prefix: "shit-censor", noteHit: shitCensorHit, sustainHit: noSustainAnimation, editor: {arguments: [
+			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
+		]}});
+		registerNoteType({prefix: "burp", noteHit: burpHit, sustainHit: noSustainAnimation, editor: {arguments: [
+			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
+		]}});
+		registerNoteType({prefix: "burpBig", noteHit: burpBigHit, sustainHit: noSustainAnimation, editor: {arguments: [
+			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
+		]}});
 	}
 
 
 
 	function playAnimHit(note:Note, character:Character){
-		var args = Events.getArgs(note.type, ["", "", "true"]);
+		var args = Events.getArgs(note.type, NoteType.getDefaultArguments("playAnim"));
 		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 			if(args[0] != ""){ character.singAnim(args[0], true); }
 			else{ playstate.defaultNoteHit(note, character); }
@@ -33,7 +51,7 @@ class PlayAnimNotes extends NoteType
 	}
 
 	function playAnimMiss(note:Note, character:Character){
-		var args = Events.getArgs(note.type, ["", "", "true"]);
+		var args = Events.getArgs(note.type, NoteType.getDefaultArguments("playAnim"));
 		if(character.canAutoAnim){
 			if(args[1] != ""){ character.singAnim(args[1], true); }
 			else{ playstate.defaultNoteMiss(note, character); }
@@ -54,7 +72,7 @@ class PlayAnimNotes extends NoteType
 
 
 	function heyHit(note:Note, character:Character){
-		var args = Events.getArgs(note.type, ["true"]);
+		var args = Events.getArgs(note.type, NoteType.getDefaultArguments("hey"));
 		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 			character.singAnim("hey", true);
 		}
@@ -64,7 +82,7 @@ class PlayAnimNotes extends NoteType
 	}
 
 	function cheerHit(note:Note, character:Character){
-		var args = Events.getArgs(note.type, ["true"]);
+		var args = Events.getArgs(note.type, NoteType.getDefaultArguments("week-2-cheer"));
 		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 			character.singAnim("cheer", true);
 		}
@@ -76,7 +94,7 @@ class PlayAnimNotes extends NoteType
 
 
 	function ughHit(note:Note, character:Character){
-		var args = Events.getArgs(note.type, ["true"]);
+		var args = Events.getArgs(note.type, NoteType.getDefaultArguments("ugh"));
 		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 			character.singAnim("ugh", true);
 		}
@@ -86,7 +104,7 @@ class PlayAnimNotes extends NoteType
 	}
 	
 	function arghHit(note:Note, character:Character){
-		var args = Events.getArgs(note.type, ["true"]);
+		var args = Events.getArgs(note.type, NoteType.getDefaultArguments("argh"));
 		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 			character.singAnim("argh", true);
 		}
@@ -98,7 +116,7 @@ class PlayAnimNotes extends NoteType
 
 
 	function shitHit(note:Note, character:Character){
-		var args = Events.getArgs(note.type, ["true"]);
+		var args = Events.getArgs(note.type, NoteType.getDefaultArguments("shit"));
 		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 			character.singAnim("shit", true);
 		}
@@ -108,7 +126,7 @@ class PlayAnimNotes extends NoteType
 	}
 
 	function shitCensorHit(note:Note, character:Character){
-		var args = Events.getArgs(note.type, ["true"]);
+		var args = Events.getArgs(note.type, NoteType.getDefaultArguments("shit-censor"));
 		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 			character.singAnim("shit-censor", true);
 		}
@@ -118,7 +136,7 @@ class PlayAnimNotes extends NoteType
 	}
 
 	function burpHit(note:Note, character:Character){
-		var args = Events.getArgs(note.type, ["true"]);
+		var args = Events.getArgs(note.type, NoteType.getDefaultArguments("burp"));
 		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 			character.singAnim("burp", true);
 		}
@@ -128,7 +146,7 @@ class PlayAnimNotes extends NoteType
 	}
 
 	function burpBigHit(note:Note, character:Character){
-		var args = Events.getArgs(note.type, ["true"]);
+		var args = Events.getArgs(note.type, NoteType.getDefaultArguments("burpBig"));
 		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 			character.singAnim("burpBig", true);
 		}

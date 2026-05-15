@@ -1,5 +1,7 @@
 package note;
 
+import events.Events;
+import events.Events.EventEditorProperties;
 import note.*;
 
 typedef NoteTypeDefinition = {
@@ -9,6 +11,7 @@ typedef NoteTypeDefinition = {
 	var sustainHit:(Note, Character)->Void;
 	var sustainMiss:(Note, Character)->Void;
 	var skin:String;
+	var editor:EventEditorProperties;
 }
 
 @:build(modding.GlobalScriptingTypesMacro.build())
@@ -54,6 +57,11 @@ class NoteType
 		if(definition.sustainHit != null) {def.sustainHit = definition.sustainHit;}
 		if(definition.sustainMiss != null) {def.sustainMiss = definition.sustainMiss;}
 		if(definition.skin != null) {def.skin = definition.skin;}
+		if(definition.editor != null) {
+			if(definition.editor.description != null)	{ def.editor.description = definition.editor.description; }
+			if(definition.editor.hidden != null)		{ def.editor.hidden = definition.editor.hidden; }
+			if(definition.editor.arguments != null)		{ def.editor.arguments = definition.editor.arguments; }
+		}
 
 		localTypes.set(def.prefix, def);
 	}
@@ -105,7 +113,7 @@ class NoteType
 		return PlayState.characterShouldPlayAnimation(note, character);
 	}
 
-	static function generateNoteTypeDefinition():NoteTypeDefinition{
+	public static function generateNoteTypeDefinition():NoteTypeDefinition{
 		return 
 		{
 			prefix: null,
@@ -113,8 +121,21 @@ class NoteType
 			noteMiss: null,
 			sustainHit: null,
 			sustainMiss: null,
-			skin: null
+			skin: null,
+			editor: Events.generateEventEditorProperties()
 		};
+	}
+
+	public static function getDefaultArguments(prefix:String):Array<String>{
+		var noteDefinition:NoteTypeDefinition = types.get(prefix);
+		if(noteDefinition == null){ return []; }
+		var r:Array<String> = [];
+		if(noteDefinition.editor != null && noteDefinition.editor.arguments != null){
+			for(arg in noteDefinition.editor.arguments){
+				r.push(arg.value);
+			}
+		}
+		return r;
 	}
 
 	public function toString():String{ return "NoteType"; }

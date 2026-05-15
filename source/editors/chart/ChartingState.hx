@@ -1,5 +1,6 @@
 package editors.chart;
 
+import note.NoteType;
 import openfl.net.FileReference;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
@@ -55,7 +56,7 @@ typedef ChartSnapshot = {
 	var action:UndoAction;
 }
 
-typedef EventArgumentInput = {
+typedef ArgumentInput = {
 	var elements:Array<FlxSprite>;
 	var value:String;
 }
@@ -109,6 +110,7 @@ class ChartingState extends MusicBeatState
 	var gfList:Array<String> = [];
 	var stageList:Array<String> = [];
 	var eventPrefixes:Array<String> = [""];
+	var noteTypePrefixes:Array<String> = [""];
 
 	public var chart:ChartFormat;
 	public var chartEvents:EventFormat;
@@ -191,10 +193,15 @@ class ChartingState extends MusicBeatState
 	var lilBf:Character;
 
 	var noteTypeInput:TextInput;
-	var eventPrefixDropdown:Dropdown;
+	var notePrefixDropdown:Dropdown;
+
+	var noteParams:Array<ArgumentInput> = [];
+	var noteParamStartLocation:Float = 0;
+
 	var eventTagInput:TextInput;
+	var eventPrefixDropdown:Dropdown;
 	
-	var eventParams:Array<EventArgumentInput> = [];
+	var eventParams:Array<ArgumentInput> = [];
 	var eventParamStartLocation:Float = 0;
 
 	var alertGroup:FlxTypedGroup<Alert>;
@@ -505,7 +512,16 @@ class ChartingState extends MusicBeatState
 		//Temp for now, just so it exists.
 		noteTypeInput = new TextInput(PANEL_SPACING, PANEL_SPACING, 336, "", "Tag");
 
+		notePrefixDropdown = new Dropdown(PANEL_SPACING, noteTypeInput.y + noteTypeInput.elementHeight + PANEL_SPACING, 240, noteTypePrefixes, "", "Note Tags");
+		notePrefixDropdown.onSelect.add(function(v:String){
+			noteTypeInput.value = v;
+			createArguments(v, true);
+		});
+
+		noteParamStartLocation = notePrefixDropdown.y + notePrefixDropdown.elementHeight + PANEL_EXTRA_SPACING;
+
 		panel.addToTab("Notes", noteTypeInput);
+		panel.addToTab("Notes", notePrefixDropdown);
 	}
 	
 	function setupEventsTab():Void{
@@ -514,7 +530,7 @@ class ChartingState extends MusicBeatState
 		eventPrefixDropdown = new Dropdown(PANEL_SPACING, eventTagInput.y + eventTagInput.elementHeight + PANEL_SPACING, 240, eventPrefixes, "", "Event Tags");
 		eventPrefixDropdown.onSelect.add(function(v:String){
 			eventTagInput.value = v;
-			createEventArguments(v);
+			createArguments(v, false);
 		});
 
 		eventParamStartLocation = eventPrefixDropdown.y + eventPrefixDropdown.elementHeight + PANEL_EXTRA_SPACING;
@@ -1316,6 +1332,12 @@ class ChartingState extends MusicBeatState
 			stageList.push(pushedName);
 		}
 
+		for(noteType in NoteType.types){
+			if(!noteType.editor.hidden){
+				noteTypePrefixes.push(noteType.prefix);
+			}
+		}
+		
 		for(event in Events.events){
 			if(!event.editor.hidden){
 				eventPrefixes.push(event.prefix);
@@ -1612,214 +1634,302 @@ class ChartingState extends MusicBeatState
 		createAlert("Error saving file.");
 	}*/
 
-	function createEventArguments(prefix:String):Void{
-		for(eventParam in eventParams){
-			for(element in eventParam.elements){
-				panel.removeFromTab("Events", element);
-				element.destroy();
+	function createArguments(prefix:String, forNoteType:Bool):Void{
+		if(!forNoteType){
+			for(eventParam in eventParams){
+				for(element in eventParam.elements){
+					panel.removeFromTab("Events", element);
+					element.destroy();
+				}
 			}
+			eventParams = [];
 		}
-		eventParams = [];
+		else{
+			for(noteParam in noteParams){
+				for(element in noteParam.elements){
+					panel.removeFromTab("Notes", element);
+					element.destroy();
+				}
+			}
+			noteParams = [];
+		}
+		
+		if(!forNoteType){
+			var eventDefinition = Events.events.get(prefix);
+			if(eventDefinition == null){ return; }
+			if(eventDefinition.editor == null){ return; }
+			if(eventDefinition.editor.arguments == null){ return; }
+	
+			for(i in 0...eventDefinition.editor.arguments.length){
+				makeArgument(eventDefinition.editor.arguments[i], eventParamStartLocation+((24+PANEL_SPACING)*i), forNoteType);
+			}
 
-		var eventDefinition = Events.events.get(prefix);
-		if(eventDefinition == null){ return; }
-		if(eventDefinition.editor == null){ return; }
-		if(eventDefinition.editor.arguments == null){ return; }
+			buildEventTag();
+		}
+		else{
+			var noteDefinition = NoteType.types.get(prefix);
+			if(noteDefinition == null){ return; }
+			if(noteDefinition.editor == null){ return; }
+			if(noteDefinition.editor.arguments == null){ return; }
+	
+			for(i in 0...noteDefinition.editor.arguments.length){
+				makeArgument(noteDefinition.editor.arguments[i], eventParamStartLocation+((24+PANEL_SPACING)*i), forNoteType);
+			}
+			
+			buildNoteTag();
+		}
+	}
 
-		for(i in 0...eventDefinition.editor.arguments.length){
-			var argData = eventDefinition.editor.arguments[i];
-			switch(argData.type){
-				case bool:
-					var arg:EventArgumentInput = {elements: [], value: argData.value};
+	function makeArgument(argData:EventArgument, y:Float, forNoteType:Bool):Void{
+		switch(argData.type){
+			case bool:
+				var arg:ArgumentInput = {elements: [], value: argData.value};
 
-					var input:Toggle = new Toggle(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), Events.parseBool(argData.value), argData.name);
-					arg.elements.push(input);
+				var input:Toggle = new Toggle(PANEL_SPACING, y, Events.parseBool(argData.value), argData.name);
+				arg.elements.push(input);
 
-					input.onToggle.add(function(v:Bool){
-						arg.value = ""+v;
-						buildEventTag();
-					});
+				input.onToggle.add(function(v:Bool){
+					arg.value = ""+v;
+					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+				});
 
+				if(!forNoteType){
 					for(element in arg.elements){ panel.addToTab("Events", element); }
 					eventParams.push(arg);
+				}
+				else{
+					for(element in arg.elements){ panel.addToTab("Notes", element); }
+					noteParams.push(arg);
+				}
 
-				case int:
-					var arg:EventArgumentInput = {elements: [], value: argData.value};
+			case int:
+				var arg:ArgumentInput = {elements: [], value: argData.value};
 
-					var input:Stepper = new Stepper(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 192, Std.parseInt(argData.value), 1, null, null, true, argData.name);
-					input.isInt = true;
-					arg.elements.push(input);
+				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseInt(argData.value), 1, null, null, true, argData.name);
+				input.isInt = true;
+				arg.elements.push(input);
 
-					input.onValueChanged.add(function(v:Float){
-						arg.value = ""+Std.int(v);
-						buildEventTag();
-					});
+				input.onValueChanged.add(function(v:Float){
+					arg.value = ""+Std.int(v);
+					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+				});
 
+				if(!forNoteType){
 					for(element in arg.elements){ panel.addToTab("Events", element); }
 					eventParams.push(arg);
+				}
+				else{
+					for(element in arg.elements){ panel.addToTab("Notes", element); }
+					noteParams.push(arg);
+				}
 
-				case float:
-					var arg:EventArgumentInput = {elements: [], value: argData.value};
+			case float:
+				var arg:ArgumentInput = {elements: [], value: argData.value};
 
-					var input:Stepper = new Stepper(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 192, Std.parseFloat(argData.value), 1, null, null, true, argData.name);
-					arg.elements.push(input);
+				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseFloat(argData.value), 1, null, null, true, argData.name);
+				arg.elements.push(input);
 
-					input.onValueChanged.add(function(v:Float){
-						arg.value = ""+v;
-						buildEventTag();
-					});
+				input.onValueChanged.add(function(v:Float){
+					arg.value = ""+v;
+					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+				});
 
+				if(!forNoteType){
 					for(element in arg.elements){ panel.addToTab("Events", element); }
 					eventParams.push(arg);
+				}
+				else{
+					for(element in arg.elements){ panel.addToTab("Notes", element); }
+					noteParams.push(arg);
+				}
 
-				case string:
-					var arg:EventArgumentInput = {elements: [], value: argData.value};
+			case string:
+				var arg:ArgumentInput = {elements: [], value: argData.value};
 
-					var input:TextInput = new TextInput(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 192, argData.value, argData.name);
-					arg.elements.push(input);
+				var input:TextInput = new TextInput(PANEL_SPACING, y, 192, argData.value, argData.name);
+				arg.elements.push(input);
 
-					input.onValueChanged.add(function(v:String){
-						arg.value = v;
-						buildEventTag();
-					});
+				input.onValueChanged.add(function(v:String){
+					arg.value = v;
+					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+				});
 
+				if(!forNoteType){
 					for(element in arg.elements){ panel.addToTab("Events", element); }
 					eventParams.push(arg);
+				}
+				else{
+					for(element in arg.elements){ panel.addToTab("Notes", element); }
+					noteParams.push(arg);
+				}
 
-				case ease:
-					var arg:EventArgumentInput = {elements: [], value: argData.value};
+			case ease:
+				var arg:ArgumentInput = {elements: [], value: argData.value};
 
-					final valueWithCaptital:String = argData.value.charAt(0).toUpperCase() + argData.value.substr(1, 99);
-					final initalEaseValue:String = argData.value.endsWith("In") ? valueWithCaptital.split("In")[0] : argData.value.endsWith("InOut") ? valueWithCaptital.split("InOut")[0] : argData.value.endsWith("Out") ? valueWithCaptital.split("Out")[0] : "Linear";
-					var easeDropdown:Dropdown = new Dropdown(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 99, ["Linear", "Quad", "Cube", "Quart", "Quint", "SmoothStep", "SmooterStep", "Sine", "Bounce", "Circ", "Expo", "Back", "Elastic"], initalEaseValue);
-					arg.elements.push(easeDropdown);
+				final valueWithCaptital:String = argData.value.charAt(0).toUpperCase() + argData.value.substr(1, 99);
+				final initalEaseValue:String = argData.value.endsWith("In") ? valueWithCaptital.split("In")[0] : argData.value.endsWith("InOut") ? valueWithCaptital.split("InOut")[0] : argData.value.endsWith("Out") ? valueWithCaptital.split("Out")[0] : "Linear";
+				var easeDropdown:Dropdown = new Dropdown(PANEL_SPACING, y, 99, ["Linear", "Quad", "Cube", "Quart", "Quint", "SmoothStep", "SmooterStep", "Sine", "Bounce", "Circ", "Expo", "Back", "Elastic"], initalEaseValue);
+				arg.elements.push(easeDropdown);
 
-					final initalDrectionValue:String = argData.value.endsWith("In") ? "In" : argData.value.endsWith("InOut") ? "InOut" : "Out";
-					var directionDropdown:Dropdown = new Dropdown(easeDropdown.x + easeDropdown.elementWidth + PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 88, ["In", "Out", "InOut"], initalDrectionValue, argData.name);
-					arg.elements.push(directionDropdown);
+				final initalDrectionValue:String = argData.value.endsWith("In") ? "In" : argData.value.endsWith("InOut") ? "InOut" : "Out";
+				var directionDropdown:Dropdown = new Dropdown(easeDropdown.x + easeDropdown.elementWidth + PANEL_SPACING, y, 88, ["In", "Out", "InOut"], initalDrectionValue, argData.name);
+				arg.elements.push(directionDropdown);
 
-					easeDropdown.onSelect.add(function(v:String){
-						if(easeDropdown.value == "Linear"){ arg.value = "linear"; }
-						else{ arg.value = easeDropdown.value.charAt(0).toLowerCase() + easeDropdown.value.substr(1, 99) + directionDropdown.value; }
-						buildEventTag();
-					});
+				easeDropdown.onSelect.add(function(v:String){
+					if(easeDropdown.value == "Linear"){ arg.value = "linear"; }
+					else{ arg.value = easeDropdown.value.charAt(0).toLowerCase() + easeDropdown.value.substr(1, 99) + directionDropdown.value; }
+					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+				});
 
-					directionDropdown.onSelect.add(function(v:String){
-						if(easeDropdown.value == "Linear"){ arg.value = "linear"; }
-						else{ arg.value = easeDropdown.value.charAt(0).toLowerCase() + easeDropdown.value.substr(1, 99) + directionDropdown.value; }
-						buildEventTag();
-					});
+				directionDropdown.onSelect.add(function(v:String){
+					if(easeDropdown.value == "Linear"){ arg.value = "linear"; }
+					else{ arg.value = easeDropdown.value.charAt(0).toLowerCase() + easeDropdown.value.substr(1, 99) + directionDropdown.value; }
+					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+				});
 
+				if(!forNoteType){
 					for(element in arg.elements){ panel.addToTab("Events", element); }
 					eventParams.push(arg);
+				}
+				else{
+					for(element in arg.elements){ panel.addToTab("Notes", element); }
+					noteParams.push(arg);
+				}
 
-				case time:
-					var arg:EventArgumentInput = {elements: [], value: argData.value};
+			case time:
+				var arg:ArgumentInput = {elements: [], value: argData.value};
 
-					var initalNumberValue:Float = argData.value.endsWith("b") ? Std.parseFloat(argData.value.split("b")[0]) : argData.value.endsWith("s") ? Std.parseFloat(argData.value.split("s")[0]) : Std.parseFloat(argData.value);
-					initalNumberValue = Math.isNaN(initalNumberValue) ? 0 : initalNumberValue;
-					var numberInput:Stepper = new Stepper(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 110, initalNumberValue, 1, null, null, true);
-					arg.elements.push(numberInput);
+				var initalNumberValue:Float = argData.value.endsWith("b") ? Std.parseFloat(argData.value.split("b")[0]) : argData.value.endsWith("s") ? Std.parseFloat(argData.value.split("s")[0]) : Std.parseFloat(argData.value);
+				initalNumberValue = Math.isNaN(initalNumberValue) ? 0 : initalNumberValue;
+				var numberInput:Stepper = new Stepper(PANEL_SPACING, y, 110, initalNumberValue, 1, null, null, true);
+				arg.elements.push(numberInput);
 
-					final initalUnitValue:String = argData.value.endsWith("b") ? "Beat" : argData.value.endsWith("s") ? "Step" : "Sec";
-					var unitInput:Dropdown = new Dropdown(numberInput.x + numberInput.elementWidth + PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 77, ["Sec", "Beat", "Step"], initalUnitValue, argData.name);
-					arg.elements.push(unitInput);
+				final initalUnitValue:String = argData.value.endsWith("b") ? "Beat" : argData.value.endsWith("s") ? "Step" : "Sec";
+				var unitInput:Dropdown = new Dropdown(numberInput.x + numberInput.elementWidth + PANEL_SPACING, y, 77, ["Sec", "Beat", "Step"], initalUnitValue, argData.name);
+				arg.elements.push(unitInput);
 
-					numberInput.onValueChanged.add(function(v:Float){
-						arg.value = numberInput.value + (unitInput.value == "Beat" ? "b" : unitInput.value == "Step" ? "s" : "");
-						buildEventTag();
-					});
+				numberInput.onValueChanged.add(function(v:Float){
+					arg.value = numberInput.value + (unitInput.value == "Beat" ? "b" : unitInput.value == "Step" ? "s" : "");
+					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+				});
 
-					unitInput.onSelect.add(function(v:String){
-						arg.value = numberInput.value + (unitInput.value == "Beat" ? "b" : unitInput.value == "Step" ? "s" : "");
-						buildEventTag();
-					});
+				unitInput.onSelect.add(function(v:String){
+					arg.value = numberInput.value + (unitInput.value == "Beat" ? "b" : unitInput.value == "Step" ? "s" : "");
+					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+				});
 
+				if(!forNoteType){
 					for(element in arg.elements){ panel.addToTab("Events", element); }
 					eventParams.push(arg);
+				}
+				else{
+					for(element in arg.elements){ panel.addToTab("Notes", element); }
+					noteParams.push(arg);
+				}
 
-				case character:
-					var arg:EventArgumentInput = {elements: [], value: argData.value};
+			case character:
+				var arg:ArgumentInput = {elements: [], value: argData.value};
 
-					final initalValue:String = argData.value == "dad" ? "Opponent" : argData.value == "gf" ? "Speaker" : "Player";
-					var input:Dropdown = new Dropdown(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 192, ["Player", "Opponent", "Speaker"], initalValue, argData.name);
-					arg.elements.push(input);
+				final initalValue:String = argData.value == "dad" ? "Opponent" : argData.value == "gf" ? "Speaker" : "Player";
+				var input:Dropdown = new Dropdown(PANEL_SPACING, y, 192, ["Player", "Opponent", "Speaker"], initalValue, argData.name);
+				arg.elements.push(input);
 
-					input.onSelect.add(function(v:String){
-						switch(v){
-							case "Opponent":
-								arg.value = "dad";
-							case "Speaker":
-								arg.value = "gf";
-							default:
-								arg.value = "bf";
-						}
-						buildEventTag();
-					});
+				input.onSelect.add(function(v:String){
+					switch(v){
+						case "Opponent":
+							arg.value = "dad";
+						case "Speaker":
+							arg.value = "gf";
+						default:
+							arg.value = "bf";
+					}
+					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+				});
 
+				if(!forNoteType){
 					for(element in arg.elements){ panel.addToTab("Events", element); }
 					eventParams.push(arg);
+				}
+				else{
+					for(element in arg.elements){ panel.addToTab("Notes", element); }
+					noteParams.push(arg);
+				}
+			
+			case color:
+				var arg:ArgumentInput = {elements: [], value: argData.value};
+
+				final initalValue:String = argData.value.startsWith("0x") ? argData.value.split("0x")[1] : argData.value;
+				var input:TextInput = new TextInput(PANEL_SPACING, y, 163, initalValue);
+				input.allowedCharacters = "0123456789ABCDEF";
+				arg.elements.push(input);
+
+				var colorPreview:Box = new Box(input.x + input.elementWidth + PANEL_SPACING, y, 24, 24);
+				colorPreview.fillColor = FlxColor.fromString(arg.value);
+				arg.elements.push(colorPreview);
 				
-				case color:
-					var arg:EventArgumentInput = {elements: [], value: argData.value};
+				var label:UIText = new UIText(input.x + input.elementWidth + colorPreview.width + PANEL_SPACING*2, y+(input.elementHeight/2), argData.name);
+				label.y -= label.height/2;
+				label.color = UIColors.FILL_TEXT_COLOR;
+				arg.elements.push(label);
 
-					final initalValue:String = argData.value.startsWith("0x") ? argData.value.split("0x")[1] : argData.value;
-					var input:TextInput = new TextInput(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 163, initalValue);
-					input.allowedCharacters = "0123456789ABCDEF";
-					arg.elements.push(input);
-
-					var colorPreview:Box = new Box(input.x + input.elementWidth + PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 24, 24);
+				input.onValueChanged.add(function(v:String){
+					arg.value = "0x"+v;
 					colorPreview.fillColor = FlxColor.fromString(arg.value);
-					arg.elements.push(colorPreview);
-					
-					var label:UIText = new UIText(input.x + input.elementWidth + colorPreview.width + PANEL_SPACING*2, eventParamStartLocation+((24+PANEL_SPACING)*i)+(input.elementHeight/2), argData.name);
-					label.y -= label.height/2;
-					label.color = UIColors.FILL_TEXT_COLOR;
-					arg.elements.push(label);
+					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+				});
 
-					input.onValueChanged.add(function(v:String){
-						arg.value = "0x"+v;
-						colorPreview.fillColor = FlxColor.fromString(arg.value);
-						buildEventTag();
-					});
-
+				if(!forNoteType){
 					for(element in arg.elements){ panel.addToTab("Events", element); }
 					eventParams.push(arg);
+				}
+				else{
+					for(element in arg.elements){ panel.addToTab("Notes", element); }
+					noteParams.push(arg);
+				}
 
-				case vocalTrack:
-					var arg:EventArgumentInput = {elements: [], value: argData.value};
+			case vocalTrack:
+				var arg:ArgumentInput = {elements: [], value: argData.value};
 
-					final initalValue:String = argData.value == "bf" ? "Player" : argData.value == "dad" ? "Opponent" : "Both";
-					var input:Dropdown = new Dropdown(PANEL_SPACING, eventParamStartLocation+((24+PANEL_SPACING)*i), 192, ["Player", "Opponent", "Both"], initalValue, argData.name);
-					arg.elements.push(input);
+				final initalValue:String = argData.value == "bf" ? "Player" : argData.value == "dad" ? "Opponent" : "Both";
+				var input:Dropdown = new Dropdown(PANEL_SPACING, y, 192, ["Player", "Opponent", "Both"], initalValue, argData.name);
+				arg.elements.push(input);
 
-					input.onSelect.add(function(v:String){
-						switch(v){
-							case "Player":
-								arg.value = "bf";
-							case "Opponent":
-								arg.value = "dad";
-							default:
-								arg.value = "all";
-						}
-						buildEventTag();
-					});
+				input.onSelect.add(function(v:String){
+					switch(v){
+						case "Player":
+							arg.value = "bf";
+						case "Opponent":
+							arg.value = "dad";
+						default:
+							arg.value = "all";
+					}
+					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+				});
 
+				if(!forNoteType){
 					for(element in arg.elements){ panel.addToTab("Events", element); }
 					eventParams.push(arg);
+				}
+				else{
+					for(element in arg.elements){ panel.addToTab("Notes", element); }
+					noteParams.push(arg);
+				}
 
-				default:
-					trace("type \"" + argData.type + "\" is not implemented yet!");
-			}
+			default:
+				trace("Type \"" + argData.type + "\" is not implemented!");
 		}
-
-		buildEventTag();
 	}
 
 	function buildEventTag():Void{
 		var tag:String = eventPrefixDropdown.value;
 		for(arg in eventParams){ tag += ";" + arg.value; }
 		eventTagInput.value = tag;
+	}
+	
+	function buildNoteTag():Void{
+		var tag:String = notePrefixDropdown.value;
+		for(arg in noteParams){ tag += ";" + arg.value; }
+		noteTypeInput.value = tag;
 	}
 	
 }

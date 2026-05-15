@@ -40,7 +40,7 @@ class Stepper extends UIElement
 
 		textInput = new TextInput(0, 0, _width - 44, ""+value);
 		textInput.allowTyping = _allowTyping;
-		textInput.allowedCharacters = "0123456789.";
+		textInput.allowedCharacters = "-0123456789.";
 		textInput.onValueChanged.add(function(v:String){
 			var parsed:Float = Std.parseFloat(v);
 			if(!Math.isNaN(parsed)){
@@ -133,8 +133,8 @@ class Stepper extends UIElement
 	function set_isInt(v:Bool):Bool{
 		isInt = v;
 
-		if(isInt){ textInput.allowedCharacters = "0123456789"; }
-		else{ textInput.allowedCharacters = "0123456789."; }
+		if(isInt){ textInput.allowedCharacters = "-0123456789"; }
+		else{ textInput.allowedCharacters = "-0123456789."; }
 
 		return isInt;
 	}

@@ -7,14 +7,16 @@ class AnimSetNotes extends NoteType
 {
 
 	override function defineTypes():Void{
-		registerNoteType({prefix: "animSet", noteHit: animSetHit, noteMiss: animSetMiss, sustainHit: animSetHit, sustainMiss: animSetMiss});
+		registerNoteType({prefix: "animSet", noteHit: animSetHit, noteMiss: animSetMiss, sustainHit: animSetHit, sustainMiss: animSetMiss, editor: {arguments: [
+			{name: "Animation Set", type: "string", value: ""}
+		]}});
 		
 		registerNoteType({prefix: "alt", noteHit: altHit, sustainHit: altHit});
 		registerNoteType({prefix: "censor", noteHit: censorHit, sustainHit: censorHit});
 	}
 
 	function animSetHit(note:Note, character:Character){
-		var args = Events.getArgs(note.type, [""]);
+		var args = Events.getArgs(note.type, NoteType.getDefaultArguments("animSet"));
 		var prevAnimSet = character.animSet;
 		character.animSet = args[0];
 		playstate.defaultNoteHit(note, character);
@@ -22,7 +24,7 @@ class AnimSetNotes extends NoteType
 	}
 
 	function animSetMiss(note:Note, character:Character){
-		var args = Events.getArgs(note.type, [""]);
+		var args = Events.getArgs(note.type, NoteType.getDefaultArguments("animSet"));
 		var prevAnimSet = character.animSet;
 		character.animSet = args[0];
 		playstate.defaultNoteMiss(note, character);

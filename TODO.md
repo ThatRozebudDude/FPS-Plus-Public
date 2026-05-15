@@ -15,7 +15,8 @@
 - Chart Editor
 	- Finish new icons.
 		- Add icon for `setBopFreq`.
-	- Implement event argument system for note types.
+	- Event descriptions.
+	- Better Note Type (Maybe Event) sorting.
 	- Hotbar.
 	- Undo/Redo
 		- Scary?

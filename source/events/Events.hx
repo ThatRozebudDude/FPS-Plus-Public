@@ -109,7 +109,7 @@ class Events
 	}
 	#end
 
-	static function generateEventDefinition():EventDefinition{
+	public static function generateEventDefinition():EventDefinition{
 		return {
 			prefix: null,
 			eventFunction: null,
@@ -120,7 +120,7 @@ class Events
 		};
 	}
 	
-	static function generateEventEditorProperties():EventEditorProperties{
+	public static function generateEventEditorProperties():EventEditorProperties{
 		return {
 			description: null,
 			arguments: null,
