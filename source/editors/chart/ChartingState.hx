@@ -639,7 +639,7 @@ class ChartingState extends MusicBeatState
 			}
 
 			if(gridCursorIndex == OPPONENT_GRID || gridCursorIndex == PLAYER_GRID){ //Placing notes.
-				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused() && getNotesInRegion(getSongPositionFromY(gridCursor.y), gridCursorLane, gridCursorIndex == PLAYER_GRID, 2).length < 1){
+				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused()){
 					var newNote = addNote(getSongPositionFromY(gridCursor.y), gridCursorLane, gridCursorIndex == PLAYER_GRID, noteTypeInput.value);
 					selectedNotes = [newNote];
 					placedNoteHold = true;
@@ -666,14 +666,14 @@ class ChartingState extends MusicBeatState
 				}
 			}
 			else if(gridCursorIndex == EVENT_GRID){ //Placing events.
-				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused() && getEventsInRegion(getSongPositionFromY(gridCursor.y), gridCursorLane, 2).length < 1){
+				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused()){
 					var newEvent = addEvent(getSongPositionFromY(gridCursor.y), gridCursorLane, eventTagInput.value);
 					selectedEvents = [newEvent];
 					createSnapshot(PLACE_EVENTS(1));
 					currentlySelectingEvents = true;
 				}
 				else if(FlxG.mouse.justPressedRight && !FlxG.keys.anyPressed([SHIFT])  && !panel.isAnythingFocused()){
-					var deleteCount:Int = removeEventsInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridCursorLane, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
+					var deleteCount:Int = removeEventsInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridCursorLane, null, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
 					selectedEvents = [];
 					if(deleteCount > 0){ createSnapshot(REMOVE_EVENTS(deleteCount)); }
 					currentlySelectingEvents = true;
@@ -941,7 +941,7 @@ class ChartingState extends MusicBeatState
 			else if(currentlySelectingEvents){
 				var deleteCount:Int = 0;
 				while(selectedEvents.length > 0){
-					deleteCount += removeEventsInProximity(selectedEvents[0].time, selectedEvents[0].lane, 1);
+					deleteCount += removeEventsInProximity(selectedEvents[0].time, selectedEvents[0].lane, null, 1);
 				}
 				selectedEvents = [];
 				if(deleteCount > 0){
@@ -994,7 +994,7 @@ class ChartingState extends MusicBeatState
 			else if(selectedEvents.length >= 1 && currentlySelectingEvents){
 				copyEvents();
 				while(selectedEvents.length > 0){
-					removeEventsInProximity(selectedEvents[0].time, selectedEvents[0].lane, 1);
+					removeEventsInProximity(selectedEvents[0].time, selectedEvents[0].lane, null, 1);
 				}
 				selectedEvents = [];
 				createAlert("Cut " + copiedEventData.length + " event" + (copiedEventData.length==1?".":"s."));
@@ -1087,7 +1087,7 @@ class ChartingState extends MusicBeatState
 	function addNote(strumTime:Float, direction:Int, player:Bool, tag:String = ""):ChartingNote{
 		removeNotesInProximity(strumTime, direction, player);
 
-		var newNote = notes.recycle(ChartingNote);
+		var newNote = notes.recycle(ChartingNote, null, true, true);
 		newNote.updateProperties(grids[player?1:0].grid.x + (GRID_SIZE * direction), getYFromSongPosition(strumTime), direction, strumTime, player, tag);
 		notes.members.sort(sortNotes);
 		
@@ -1155,9 +1155,9 @@ class ChartingState extends MusicBeatState
 	//Event stuff.
 
 	function addEvent(strumTime:Float, lane:Int, tag:String = ""):ChartingEvent{
-		//removeEventsInProximity(strumTime, lane);
+		removeEventsInProximity(strumTime, lane, tag);
 
-		var newEvent = events.recycle(ChartingEvent);
+		var newEvent = events.recycle(ChartingEvent, null, true, true);
 		newEvent.updateProperties(grids[2].grid.x + (GRID_SIZE * lane), getYFromSongPosition(strumTime), lane, strumTime, tag);
 		events.members.sort(sortEvents);
 		
@@ -1173,18 +1173,18 @@ class ChartingState extends MusicBeatState
 		return r;
 	}
 
-	function getEventsInRegion(strumTime:Float, lane:Null<Int>, region:Float = 5):Array<ChartingEvent>{
+	function getEventsInRegion(strumTime:Float, lane:Null<Int>, ?tag:String, region:Float = 5):Array<ChartingEvent>{
 		var r:Array<ChartingEvent> = [];
 		events.forEachAlive(function(event:ChartingEvent){
-			if(lane == null || event.lane == lane){
+			if((lane == null || event.lane == lane) && (tag == null || event.tag == tag)){
 				if(Utils.inRange(event.time, strumTime, region)){ r.push(event); }
 			}
 		});
 		return r;
 	}
 
-	function removeEventsInProximity(strumTime:Float, lane:Int, region:Float = 1):Int{
-		var removeList:Array<ChartingEvent> = getEventsInRegion(strumTime, lane, region);
+	function removeEventsInProximity(strumTime:Float, lane:Int, ?tag:String, region:Float = 1):Int{
+		var removeList:Array<ChartingEvent> = getEventsInRegion(strumTime, lane, tag, region);
 		for(event in removeList){
 			if(selectedEvents.contains(event)){ selectedEvents.remove(event); }
 			event.kill();
@@ -1194,7 +1194,7 @@ class ChartingState extends MusicBeatState
 
 	function getEventUnderCursor():ChartingEvent{
 		if(gridCursorIndex != EVENT_GRID){ return null; }
-		var eligibleEvents:Array<ChartingEvent> = getEventsInRegion(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridCursorLane, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
+		var eligibleEvents:Array<ChartingEvent> = getEventsInRegion(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridCursorLane, null, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
 		if(eligibleEvents.length == 0){ return null; }
 		eligibleEvents.sort(function(a:ChartingEvent, b:ChartingEvent):Int{
 			return Math.abs(a.time - getSongPositionFromY(FlxG.mouse.y)) < Math.abs(b.time - getSongPositionFromY(FlxG.mouse.y)) ? -1 : 1;

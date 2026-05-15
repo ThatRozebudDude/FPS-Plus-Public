@@ -22,6 +22,7 @@
 		- Scary?
 	- Autosave.
 	- Sound effects? Maybe?
+	- Look into small memory leak when recycling notes/events?
 
 - Character Editor
 	- Kinda like a mix of the offset editor and the debug Character Compare thing.
