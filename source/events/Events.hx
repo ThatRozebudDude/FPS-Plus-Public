@@ -132,24 +132,24 @@ class Events
 	* Splits the event tag at each `;` to get the event arguments.
 	*/
 	public static function getArgs(fullEventTag:String, ?defaultArgs:Array<String>):Array<String>{
-		var r:Array<String> = [];
+		var result:Array<String> = [];
+		var args:Array<String> = fullEventTag.split(";");
+		args.shift();
 
-		var args = fullEventTag.split(";");
-		for(i in 0...args.length){
-			if(i == 0) { continue; }
-			if(args[i].length == 0) { r.push(defaultArgs[i]); }
-			else{ r.push(args[i]); }
+		if(defaultArgs == null){
+			defaultArgs = getDefaultArguments(fullEventTag.split(";")[0]);
 		}
 
-		if(defaultArgs != null && defaultArgs.length > r.length){
-			for(i in 0...defaultArgs.length){
-				if(i >= r.length){
-					r.push(defaultArgs[i]);
-				}
+		if(defaultArgs.length > 0){
+			for (i in 0...defaultArgs.length){
+				result.push(args[i] != null && args[i].length > 0 ? args[i] : defaultArgs[i]);
 			}
-		}
 
-		return r;
+			return result;
+		}
+		else{
+			return args;
+		}
 	}
 
 	//For converting event properties to easing functions.

@@ -59,6 +59,7 @@ typedef ChartSnapshot = {
 typedef ArgumentInput = {
 	var elements:Array<FlxSprite>;
 	var value:String;
+	var defaultValue:String;
 }
 
 //All the different actions that can be captured by the chart snapshot.
@@ -638,7 +639,7 @@ class ChartingState extends MusicBeatState
 			}
 
 			if(gridCursorIndex == OPPONENT_GRID || gridCursorIndex == PLAYER_GRID){ //Placing notes.
-				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused()){
+				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused() && getNotesInRegion(getSongPositionFromY(gridCursor.y), gridCursorLane, gridCursorIndex == 1, 2).length < 1){
 					var newNote = addNote(getSongPositionFromY(gridCursor.y), gridCursorLane, gridCursorIndex == 1, noteTypeInput.value);
 					selectedNotes = [newNote];
 					placedNoteHold = true;
@@ -665,7 +666,7 @@ class ChartingState extends MusicBeatState
 				}
 			}
 			else if(gridCursorIndex == EVENT_GRID){ //Placing events.
-				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused()){
+				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused() && getEventsInRegion(getSongPositionFromY(gridCursor.y), gridCursorLane, 2).length < 1){
 					var newEvent = addEvent(getSongPositionFromY(gridCursor.y), gridCursorLane, eventTagInput.value);
 					selectedEvents = [newEvent];
 					createSnapshot(PLACE_EVENTS(1));
@@ -1681,91 +1682,51 @@ class ChartingState extends MusicBeatState
 	}
 
 	function makeArgument(argData:EventArgument, y:Float, forNoteType:Bool):Void{
+		var arg:ArgumentInput = {elements: [], value: argData.value, defaultValue: argData.value};
+
+		function buildTag(){
+			if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+		}
+
 		switch(argData.type){
 			case bool:
-				var arg:ArgumentInput = {elements: [], value: argData.value};
-
 				var input:Toggle = new Toggle(PANEL_SPACING, y, Events.parseBool(argData.value), argData.name);
 				arg.elements.push(input);
 
 				input.onToggle.add(function(v:Bool){
 					arg.value = ""+v;
-					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+					buildTag();
 				});
 
-				if(!forNoteType){
-					for(element in arg.elements){ panel.addToTab("Events", element); }
-					eventParams.push(arg);
-				}
-				else{
-					for(element in arg.elements){ panel.addToTab("Notes", element); }
-					noteParams.push(arg);
-				}
-
 			case int:
-				var arg:ArgumentInput = {elements: [], value: argData.value};
-
 				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseInt(argData.value), 1, null, null, true, argData.name);
 				input.isInt = true;
 				arg.elements.push(input);
 
 				input.onValueChanged.add(function(v:Float){
 					arg.value = ""+Std.int(v);
-					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+					buildTag();
 				});
 
-				if(!forNoteType){
-					for(element in arg.elements){ panel.addToTab("Events", element); }
-					eventParams.push(arg);
-				}
-				else{
-					for(element in arg.elements){ panel.addToTab("Notes", element); }
-					noteParams.push(arg);
-				}
-
 			case float:
-				var arg:ArgumentInput = {elements: [], value: argData.value};
-
 				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseFloat(argData.value), 1, null, null, true, argData.name);
 				arg.elements.push(input);
 
 				input.onValueChanged.add(function(v:Float){
 					arg.value = ""+v;
-					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+					buildTag();
 				});
 
-				if(!forNoteType){
-					for(element in arg.elements){ panel.addToTab("Events", element); }
-					eventParams.push(arg);
-				}
-				else{
-					for(element in arg.elements){ panel.addToTab("Notes", element); }
-					noteParams.push(arg);
-				}
-
 			case string:
-				var arg:ArgumentInput = {elements: [], value: argData.value};
-
 				var input:TextInput = new TextInput(PANEL_SPACING, y, 192, argData.value, argData.name);
 				arg.elements.push(input);
 
 				input.onValueChanged.add(function(v:String){
 					arg.value = v;
-					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+					buildTag();
 				});
 
-				if(!forNoteType){
-					for(element in arg.elements){ panel.addToTab("Events", element); }
-					eventParams.push(arg);
-				}
-				else{
-					for(element in arg.elements){ panel.addToTab("Notes", element); }
-					noteParams.push(arg);
-				}
-
 			case ease:
-				var arg:ArgumentInput = {elements: [], value: argData.value};
-
 				final valueWithCaptital:String = argData.value.charAt(0).toUpperCase() + argData.value.substr(1, 99);
 				final initalEaseValue:String = argData.value.endsWith("In") ? valueWithCaptital.split("In")[0] : argData.value.endsWith("InOut") ? valueWithCaptital.split("InOut")[0] : argData.value.endsWith("Out") ? valueWithCaptital.split("Out")[0] : "Linear";
 				var easeDropdown:Dropdown = new Dropdown(PANEL_SPACING, y, 99, ["Linear", "Quad", "Cube", "Quart", "Quint", "SmoothStep", "SmooterStep", "Sine", "Bounce", "Circ", "Expo", "Back", "Elastic"], initalEaseValue);
@@ -1778,27 +1739,16 @@ class ChartingState extends MusicBeatState
 				easeDropdown.onSelect.add(function(v:String){
 					if(easeDropdown.value == "Linear"){ arg.value = "linear"; }
 					else{ arg.value = easeDropdown.value.charAt(0).toLowerCase() + easeDropdown.value.substr(1, 99) + directionDropdown.value; }
-					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+					buildTag();
 				});
 
 				directionDropdown.onSelect.add(function(v:String){
 					if(easeDropdown.value == "Linear"){ arg.value = "linear"; }
 					else{ arg.value = easeDropdown.value.charAt(0).toLowerCase() + easeDropdown.value.substr(1, 99) + directionDropdown.value; }
-					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+					buildTag();
 				});
 
-				if(!forNoteType){
-					for(element in arg.elements){ panel.addToTab("Events", element); }
-					eventParams.push(arg);
-				}
-				else{
-					for(element in arg.elements){ panel.addToTab("Notes", element); }
-					noteParams.push(arg);
-				}
-
 			case time:
-				var arg:ArgumentInput = {elements: [], value: argData.value};
-
 				var initalNumberValue:Float = argData.value.endsWith("b") ? Std.parseFloat(argData.value.split("b")[0]) : argData.value.endsWith("s") ? Std.parseFloat(argData.value.split("s")[0]) : Std.parseFloat(argData.value);
 				initalNumberValue = Math.isNaN(initalNumberValue) ? 0 : initalNumberValue;
 				var numberInput:Stepper = new Stepper(PANEL_SPACING, y, 110, initalNumberValue, 1, null, null, true);
@@ -1810,26 +1760,15 @@ class ChartingState extends MusicBeatState
 
 				numberInput.onValueChanged.add(function(v:Float){
 					arg.value = numberInput.value + (unitInput.value == "Beat" ? "b" : unitInput.value == "Step" ? "s" : "");
-					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+					buildTag();
 				});
 
 				unitInput.onSelect.add(function(v:String){
 					arg.value = numberInput.value + (unitInput.value == "Beat" ? "b" : unitInput.value == "Step" ? "s" : "");
-					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+					buildTag();
 				});
 
-				if(!forNoteType){
-					for(element in arg.elements){ panel.addToTab("Events", element); }
-					eventParams.push(arg);
-				}
-				else{
-					for(element in arg.elements){ panel.addToTab("Notes", element); }
-					noteParams.push(arg);
-				}
-
 			case character:
-				var arg:ArgumentInput = {elements: [], value: argData.value};
-
 				final initalValue:String = argData.value == "dad" ? "Opponent" : argData.value == "gf" ? "Speaker" : "Player";
 				var input:Dropdown = new Dropdown(PANEL_SPACING, y, 192, ["Player", "Opponent", "Speaker"], initalValue, argData.name);
 				arg.elements.push(input);
@@ -1843,21 +1782,10 @@ class ChartingState extends MusicBeatState
 						default:
 							arg.value = "bf";
 					}
-					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+					buildTag();
 				});
-
-				if(!forNoteType){
-					for(element in arg.elements){ panel.addToTab("Events", element); }
-					eventParams.push(arg);
-				}
-				else{
-					for(element in arg.elements){ panel.addToTab("Notes", element); }
-					noteParams.push(arg);
-				}
 			
 			case color:
-				var arg:ArgumentInput = {elements: [], value: argData.value};
-
 				final initalValue:String = argData.value.startsWith("0x") ? argData.value.split("0x")[1] : argData.value;
 				var input:TextInput = new TextInput(PANEL_SPACING, y, 163, initalValue);
 				input.allowedCharacters = "0123456789ABCDEF";
@@ -1875,21 +1803,10 @@ class ChartingState extends MusicBeatState
 				input.onValueChanged.add(function(v:String){
 					arg.value = "0x"+v;
 					colorPreview.fillColor = FlxColor.fromString(arg.value);
-					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+					buildTag();
 				});
 
-				if(!forNoteType){
-					for(element in arg.elements){ panel.addToTab("Events", element); }
-					eventParams.push(arg);
-				}
-				else{
-					for(element in arg.elements){ panel.addToTab("Notes", element); }
-					noteParams.push(arg);
-				}
-
 			case vocalTrack:
-				var arg:ArgumentInput = {elements: [], value: argData.value};
-
 				final initalValue:String = argData.value == "bf" ? "Player" : argData.value == "dad" ? "Opponent" : "Both";
 				var input:Dropdown = new Dropdown(PANEL_SPACING, y, 192, ["Player", "Opponent", "Both"], initalValue, argData.name);
 				arg.elements.push(input);
@@ -1903,33 +1820,38 @@ class ChartingState extends MusicBeatState
 						default:
 							arg.value = "all";
 					}
-					if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
+					buildTag();
 				});
-
-				if(!forNoteType){
-					for(element in arg.elements){ panel.addToTab("Events", element); }
-					eventParams.push(arg);
-				}
-				else{
-					for(element in arg.elements){ panel.addToTab("Notes", element); }
-					noteParams.push(arg);
-				}
 
 			default:
 				trace("Type \"" + argData.type + "\" is not implemented!");
+		}
+		
+		if(!forNoteType){
+			for(element in arg.elements){ panel.addToTab("Events", element); }
+			eventParams.push(arg);
+		}
+		else{
+			for(element in arg.elements){ panel.addToTab("Notes", element); }
+			noteParams.push(arg);
 		}
 	}
 
 	function buildEventTag():Void{
 		var tag:String = eventPrefixDropdown.value;
-		for(arg in eventParams){ tag += ";" + arg.value; }
+		for(arg in eventParams){ tag += ";" + (arg.value != arg.defaultValue ? arg.value : ""); }
+		while(tag.endsWith(";")){
+			tag = tag.substr(0, tag.length - 1);
+		}
 		eventTagInput.value = tag;
 	}
 	
 	function buildNoteTag():Void{
 		var tag:String = notePrefixDropdown.value;
-		for(arg in noteParams){ tag += ";" + arg.value; }
+		for(arg in noteParams){ tag += ";" + (arg.value != arg.defaultValue ? arg.value : ""); }
+		while(tag.endsWith(";")){
+			tag = tag.substr(0, tag.length - 1);
+		}
 		noteTypeInput.value = tag;
 	}
-	
 }
