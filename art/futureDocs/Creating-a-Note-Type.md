@@ -30,10 +30,10 @@ Writing a custom hit or miss function works the same as any other type of script
 
 ### Arguments
 
-Much like Events, you can pass arguments into a note type by adding them after the name of the note type, separated by semicolons. To parse out the arguments you can use `Events.getArgs(tag, defaultArguments)` to return an array of strings with the provided arguments and default arguments if they are omitted. Ex:
+Much like Events, you can pass arguments into a note type by adding them after the name of the note type, separated by semicolons. To parse out the arguments you can use `NoteType.getArgs(tag, defaultArguments)` to return an array of strings with the provided arguments and default arguments if they are omitted. If you do not provide `defaultArguments` it will try to get the default arguments based on the tag provided. Ex:
 
 ```haxe
-var args = Events.getArgs(note.type, ["", "", "true"]);
+var args = NoteType.getArgs(note.type, ["", "", "true"]);
 ```
 
 This will return `["", "", "true"]` if no arguments are provided and would return `["hey", "cheer", "false"]` if the provided tag was `playAnim;hey;cheer;false`. All arguments are strings, you can use `Events.parseInt()`, `Events.parseFloat()`, `Events.parseBool()`, `Events.parseTime()`, or `Events.parseEase()` to convert to other types.

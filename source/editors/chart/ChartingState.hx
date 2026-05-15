@@ -639,8 +639,8 @@ class ChartingState extends MusicBeatState
 			}
 
 			if(gridCursorIndex == OPPONENT_GRID || gridCursorIndex == PLAYER_GRID){ //Placing notes.
-				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused() && getNotesInRegion(getSongPositionFromY(gridCursor.y), gridCursorLane, gridCursorIndex == 1, 2).length < 1){
-					var newNote = addNote(getSongPositionFromY(gridCursor.y), gridCursorLane, gridCursorIndex == 1, noteTypeInput.value);
+				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused() && getNotesInRegion(getSongPositionFromY(gridCursor.y), gridCursorLane, gridCursorIndex == PLAYER_GRID, 2).length < 1){
+					var newNote = addNote(getSongPositionFromY(gridCursor.y), gridCursorLane, gridCursorIndex == PLAYER_GRID, noteTypeInput.value);
 					selectedNotes = [newNote];
 					placedNoteHold = true;
 					currentlySelectingEvents = false;

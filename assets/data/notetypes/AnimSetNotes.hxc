@@ -16,7 +16,7 @@ class AnimSetNotes extends NoteType
 	}
 
 	function animSetHit(note:Note, character:Character){
-		var args = Events.getArgs(note.type, NoteType.getDefaultArguments("animSet"));
+		var args = NoteType.getArgs(note.type);
 		var prevAnimSet = character.animSet;
 		character.animSet = args[0];
 		playstate.defaultNoteHit(note, character);
@@ -24,7 +24,7 @@ class AnimSetNotes extends NoteType
 	}
 
 	function animSetMiss(note:Note, character:Character){
-		var args = Events.getArgs(note.type, NoteType.getDefaultArguments("animSet"));
+		var args = NoteType.getArgs(note.type);
 		var prevAnimSet = character.animSet;
 		character.animSet = args[0];
 		playstate.defaultNoteMiss(note, character);

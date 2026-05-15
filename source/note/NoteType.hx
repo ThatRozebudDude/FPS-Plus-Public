@@ -126,6 +126,30 @@ class NoteType
 		};
 	}
 
+	/**
+	* Splits the event tag at each `;` to get the event arguments.
+	*/
+	public static function getArgs(fullEventTag:String, ?defaultArgs:Array<String>):Array<String>{
+		var result:Array<String> = [];
+		var args:Array<String> = fullEventTag.split(";");
+		args.shift();
+
+		if(defaultArgs == null){
+			defaultArgs = getDefaultArguments(fullEventTag.split(";")[0]);
+		}
+
+		if(defaultArgs.length > 0){
+			for (i in 0...defaultArgs.length){
+				result.push(args[i] != null && args[i].length > 0 ? args[i] : defaultArgs[i]);
+			}
+
+			return result;
+		}
+		else{
+			return args;
+		}
+	}
+
 	public static function getDefaultArguments(prefix:String):Array<String>{
 		var noteDefinition:NoteTypeDefinition = types.get(prefix);
 		if(noteDefinition == null){ return []; }
