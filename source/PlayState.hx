@@ -2646,17 +2646,20 @@ class PlayState extends MusicBeatState
 	}
 
 	public function defaultNoteHit(note:Note, character:Character):Void{
-		if(character.canAutoAnim && characterShouldPlayAnimation(note, character)){
-			switch (note.direction){
-				case 0:
-					character.singAnim('singLEFT', true);
-				case 1:
-					character.singAnim('singDOWN', true);
-				case 2:
-					character.singAnim('singUP', true);
-				case 3:
-					character.singAnim('singRIGHT', true);
+		if(character.canAutoAnim){
+			if(characterShouldPlayAnimation(note, character)){
+				switch (note.direction){
+					case 0:
+						character.singAnim('singLEFT', true);
+					case 1:
+						character.singAnim('singDOWN', true);
+					case 2:
+						character.singAnim('singUP', true);
+					case 3:
+						character.singAnim('singRIGHT', true);
+				}
 			}
+			character.holdTimer = 0;
 		}
 		getExtraCamMovement(note);
 	}

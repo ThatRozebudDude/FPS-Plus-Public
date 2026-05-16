@@ -1369,6 +1369,14 @@ class ChartingState extends MusicBeatState
 			else{ return 0; }
 		});
 
+		noteTypePrefixes.sort(function(a:String, b:String):Int{
+			a = a.toUpperCase();
+			b = b.toUpperCase();
+			if(a < b){ return -1; }
+			else if(a > b){ return 1; }
+			else{ return 0; }
+		});
+
 		eventPrefixes.sort(function(a:String, b:String):Int{
 			a = a.toUpperCase();
 			b = b.toUpperCase();
