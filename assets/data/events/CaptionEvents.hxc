@@ -4,7 +4,9 @@ class CaptionEvents extends Events
 {
 
 	override function defineEvents() {
-		registerEvent({prefix: "cc", eventFunction: cc, editor: {description: CC_DESC}});
+		registerEvent({prefix: "cc", eventFunction: cc, editor: {description: CC_DESC, arguments: [
+			{name: "Text", type: "string", value: ""}
+		]}});
 		registerEvent({prefix: "ccHide", eventFunction: ccHide, editor: {description: CC_HIDE_DESC}});
 	}
 
@@ -20,6 +22,6 @@ class CaptionEvents extends Events
 
 	
 	//Event descriptions. Not required but it helps with charting.
-	final CC_DESC:String = "Shows captions.\n\nArgs:\n    String: Text in the caption";
+	final CC_DESC:String = "Shows captions.";
 	final CC_HIDE_DESC:String = "Hides the currently displayed captions.";
 }

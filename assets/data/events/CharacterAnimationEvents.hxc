@@ -5,24 +5,36 @@ import characters.ScriptableCharacter;
 class CharacterAnimationEvents extends Events
 {
 	override function defineEvents() {
-		registerEvent({prefix: "playAnim", eventFunction: playAnim, editor: {description: PLAY_ANIM_DESC}});
-		registerEvent({prefix: "singAnim", eventFunction: singAnim, editor: {description: SING_ANIM_DESC}});
-		registerEvent({prefix: "setAnimSet", eventFunction: setAnimSet, editor: {description: SET_ANIM_SET_DESC}});
+		registerEvent({prefix: "playAnim", eventFunction: playAnim, editor: {description: PLAY_ANIM_DESC, arguments: [
+			{name: "Character", type: "character", value: "bf"}, {name: "Animation", type: "string", value: ""}, {name: "Force", type: "bool", value: "false"}, {name: "Reverse", type: "bool", value: "false"}, {name: "Start Frame", type: "int", value: "0"}
+		]}});
+		registerEvent({prefix: "singAnim", eventFunction: singAnim, editor: {description: SING_ANIM_DESC, arguments: [
+			{name: "Character", type: "character", value: "bf"}, {name: "Animation", type: "string", value: ""}, {name: "Force", type: "bool", value: "false"}, {name: "Reverse", type: "bool", value: "false"}, {name: "Start Frame", type: "int", value: "0"}
+		]}});
+		registerEvent({prefix: "setAnimSet", eventFunction: setAnimSet, editor: {description: SET_ANIM_SET_DESC, arguments: [
+			{name: "Character", type: "character", value: "bf"}, {name: "Animation Set", type: "string", value: ""}
+		]}});
 
-		registerEvent({prefix: "setBopFreq", eventFunction: setBopFreq, executeAtStart: true, editor: {description: SET_BOP_FREQ_DESC}});
-		registerEvent({prefix: "iconBopFreq", eventFunction: iconBopFreq, editor: {description: ICON_BOP_FREQ_DESC}});
+		registerEvent({prefix: "setBopFreq", eventFunction: setBopFreq, executeAtStart: true, editor: {description: SET_BOP_FREQ_DESC, arguments: [
+			{name: "Character", type: "character", value: "bf"}, {name: "Bop Every", type: "int", value: "2"}, {name: "Beat Offset", type: "int", value: "0"}
+		]}});
+		registerEvent({prefix: "iconBopFreq", eventFunction: iconBopFreq, editor: {description: ICON_BOP_FREQ_DESC, arguments: [
+			{name: "Bop Every", type: "int", value: "4"}
+		]}});
 
 		registerEvent({prefix: "bfAnimLockToggle", eventFunction: bfAnimLockToggle, editor: {description: BF_ANIM_LOCK_TOGGLE_DESC}});
 		registerEvent({prefix: "dadAnimLockToggle", eventFunction: dadAnimLockToggle, editor: {description: DAD_ANIM_LOCK_TOGGLE_DESC}});
 		registerEvent({prefix: "gfAnimLockToggle", eventFunction: gfAnimLockToggle, editor: {description: GF_ANIM_LOCK_TOGGLE_DESC}});
 
-		registerEvent({prefix: "changeCharacter", eventFunction: changeCharacter, preprocessFunction: changeCharacterPreprocess, editor: {description: CHANGE_CHARACTER_DESC}});
+		registerEvent({prefix: "changeCharacter", eventFunction: changeCharacter, preprocessFunction: changeCharacterPreprocess, editor: {description: CHANGE_CHARACTER_DESC, arguments: [
+			{name: "Character", type: "character", value: "bf"}, {name: "Swap To", type: "string", value: "Bf"}, {name: "Copy Shader", type: "bool", value: "true"}
+		]}});
 
 		registerEvent({prefix: "swapCharacters", eventFunction: swapCharacters, editor: {description: SWAP_CHARACTER_DESC}});
 	}
 
 	function playAnim(tag:String):Void{
-		var args = Events.getArgs(tag, ["bf", "", "false", "false", "0"]);
+		var args = Events.getArgs(tag);
 
 		switch(args[0]){
 			case "dad":
@@ -37,7 +49,7 @@ class CharacterAnimationEvents extends Events
 	}
 
 	function singAnim(tag:String):Void{
-		var args = Events.getArgs(tag, ["bf", "", "false", "false", "0"]);
+		var args = Events.getArgs(tag);
 
 		switch(args[0]){
 			case "dad":
@@ -52,7 +64,7 @@ class CharacterAnimationEvents extends Events
 	}
 
 	function setAnimSet(tag:String):Void{
-		var args = Events.getArgs(tag, ["bf", ""]);
+		var args = Events.getArgs(tag);
 
 		switch(args[0]){
 			case "dad":
@@ -72,7 +84,7 @@ class CharacterAnimationEvents extends Events
 	}
 
 	function setBopFreq(tag:String):Void{
-		var args = Events.getArgs(tag, ["bf", "1", "0"]);
+		var args = Events.getArgs(tag);
 		switch(args[0]){
 			case "dad":
 				playstate.dadBopEvery = Events.parseInt(args[1]);
@@ -99,7 +111,7 @@ class CharacterAnimationEvents extends Events
 	}
 
 	function changeCharacter(tag:String):Void{
-		var args = Events.getArgs(tag, ["bf", "Bf", "true"]);
+		var args = Events.getArgs(tag);
 
 		if(!ScriptableCharacter.listScriptClasses().contains("characters." + args[1]) && !ScriptableCharacter.listScriptClasses().contains(args[1])){
 			trace("Invalid character: " + args[1]);
@@ -175,7 +187,7 @@ class CharacterAnimationEvents extends Events
 	}
 
 	function changeCharacterPreprocess(tag:String):Void{
-		var args = Events.getArgs(tag, ["bf", "Bf", "true"]);
+		var args = Events.getArgs(tag);
 		//Creates a character object and immediately destroys it.
 		//This is to cache the character's graphics so it doesn't need to load them from disk when changing characters later in the song.
 		if(!data.exists("CACHED_CHARACTER___" + args[1])){
@@ -207,14 +219,14 @@ class CharacterAnimationEvents extends Events
 
 
 	//Event descriptions. Not required but it helps with charting.
-	final PLAY_ANIM_DESC:String = "Plays an animation on a character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation name\n    Bool: Force play animation\n    Bool: Reverse animation\n    Int: Frame to start on";
-	final SING_ANIM_DESC:String = "Plays an animation treated as a note sing direction.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation name\n    Bool: Force play animation\n    Bool: Reverse animation\n    Int: Frame to start on";
-	final SET_ANIM_SET_DESC:String = "Sets the animation set on a character.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    String: Animation set suffix";
-	final ICON_BOP_FREQ_DESC:String = "Sets the interval that the health icons bop.\n\nArgs:\n    Int: Interval (every \"x\" beats)";
+	final PLAY_ANIM_DESC:String = "Plays an animation on a character.";
+	final SING_ANIM_DESC:String = "Plays an animation treated as a note sing direction.";
+	final SET_ANIM_SET_DESC:String = "Sets the animation set on a character.";
+	final ICON_BOP_FREQ_DESC:String = "Sets the interval that the health icons bop.";
 	final BF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether BF will automatically play animations.";
 	final DAD_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether Dad will automatically play animations.";
 	final GF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether GF will automatically play animations.";
-	final CHANGE_CHARACTER_DESC:String = "Change a character to a different one.\n\nArgs:\n    String: Target character to change (\"bf\", \"dad\", or \"gf\")\n    String: New character's class name\n    Bool: Whether to copy the shader";
+	final CHANGE_CHARACTER_DESC:String = "Change a character to a different one.";
 	final SWAP_CHARACTER_DESC:String = "Swap which character you are playing as.";
-	final SET_BOP_FREQ_DESC:String = "Sets the interval that a character does their idle dance.\n\nArgs:\n    String: Character (\"bf\", \"dad\", or \"gf\")\n    Int: Interval (every \"x\" beats)\n    Int: Beat offset (beat + offset % interval)";
+	final SET_BOP_FREQ_DESC:String = "Sets the interval that a character does their idle dance.";
 }

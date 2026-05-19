@@ -9,12 +9,18 @@ class MusicEvents extends Events
 		registerEvent({prefix: "muteInst", eventFunction: muteInst, ignoreOffset: true, editor: {description: MUTE_INST_DESC}});
 		registerEvent({prefix: "playInst", eventFunction: playInst, ignoreOffset: true, editor: {description: PLAY_INST_DESC}});
 
-		registerEvent({prefix: "muteVocals", eventFunction: muteVocals, ignoreOffset: true, editor: {description: MUTE_VOCALS_DESC}});
-		registerEvent({prefix: "playVocals", eventFunction: playVocals, ignoreOffset: true, editor: {description: PLAY_VOCALS_DESC}});
+		registerEvent({prefix: "muteVocals", eventFunction: muteVocals, ignoreOffset: true, editor: {description: MUTE_VOCALS_DESC, arguments: [
+			{name: "Track", type: "vocalTrack", value: "all"}
+		]}});
+		registerEvent({prefix: "playVocals", eventFunction: playVocals, ignoreOffset: true, editor: {description: PLAY_VOCALS_DESC, arguments: [
+			{name: "Track", type: "vocalTrack", value: "all"}
+		]}});
 
 		registerEvent({prefix: "toggleVocalVolumeLock", eventFunction: toggleVocalVolumeLock, ignoreOffset: true, editor: {description: TOGGLE_VOCAL_VOLUME_LOCK_DESC}});
 
-		registerEvent({prefix: "playSound", eventFunction: playSound, ignoreOffset: true, editor: {description: PLAY_SOUND_DESC}});
+		registerEvent({prefix: "playSound", eventFunction: playSound, ignoreOffset: true, editor: {description: PLAY_SOUND_DESC, arguments: [
+			{name: "Sound Path", type: "string", value: ""}, {name: "Volume", type: "float", value: "1"}
+		]}});
 	}
 
 	function muteInst(tag:String):Void{
@@ -26,7 +32,7 @@ class MusicEvents extends Events
 	}
 
 	function muteVocals(tag:String):Void{
-		var args = Events.getArgs(tag, ["all"]);
+		var args = Events.getArgs(tag);
 		if(playstate.vocalType == splitVocalTrack){
 			switch(args[0]){
 				case "bf":
@@ -44,7 +50,7 @@ class MusicEvents extends Events
 	}
 
 	function playVocals(tag:String):Void{
-		var args = Events.getArgs(tag, ["all"]);
+		var args = Events.getArgs(tag);
 		if(playstate.vocalType == splitVocalTrack){
 			switch(args[0]){
 				case "bf":
@@ -66,7 +72,7 @@ class MusicEvents extends Events
 	}
 
 	function playSound(tag:String):Void{
-		var args = Events.getArgs(tag, ["", "1"]);
+		var args = Events.getArgs(tag);
 		playstate.playSound(Paths.sound(args[0]), Events.parseFloat(args[1]));
 	}
 
@@ -75,8 +81,8 @@ class MusicEvents extends Events
 	//Event descriptions. Not required but it helps with charting.
 	final MUTE_INST_DESC:String = "Mutes the instrumental.";
 	final PLAY_INST_DESC:String = "Plays the instrumental.";
-	final PLAY_VOCALS_DESC:String = "Plays the vocals.\n\nArgs:\n    String: Voice track (\"bf\", \"dad\", or \"all\")";
-	final MUTE_VOCALS_DESC:String = "Mutes the vocals.\n\nArgs:\n    String: Voice track (\"bf\", \"dad\", or \"all\")";
+	final PLAY_VOCALS_DESC:String = "Plays the vocals.";
+	final MUTE_VOCALS_DESC:String = "Mutes the vocals.";
 	final TOGGLE_VOCAL_VOLUME_LOCK_DESC:String = "Toggles whether hitting/missing notes will toggle the volume on the vocal tracks.";
-	final PLAY_SOUND_DESC:String = "Plays a specified audio file.\n\nArgs:\n    String: Audio file path\n    Float: Volume";
+	final PLAY_SOUND_DESC:String = "Plays a specified audio file.";
 }

@@ -4,15 +4,23 @@ class HudEvents extends Events
 {
 
 	override function defineEvents() {
-		registerEvent({prefix: "setHudSkin", eventFunction: setHudSkin, editor: {description: SET_HUD_SKIN_DESC}});
-		registerEvent({prefix: "hudVisible", eventFunction: hudVisible, editor: {description: HUD_VISIBLE_DESC}});
+		registerEvent({prefix: "setHudSkin", eventFunction: setHudSkin, editor: {description: SET_HUD_SKIN_DESC, arguments: [
+			{name: "Skin", type: "string", value: "Default"}
+		]}});
+		registerEvent({prefix: "hudVisible", eventFunction: hudVisible, editor: {description: HUD_VISIBLE_DESC, arguments: [
+			{name: "Visible", type: "bool", value: "true"}
+		]}});
 		registerEvent({prefix: "showSongMeta", eventFunction: showSongMeta, editor: {description: SHOW_SONG_META_DESC}});
-		registerEvent({prefix: "swapNoteSides", eventFunction: swapNoteSides, editor: {description: SWAP_NOTE_SIDES_DESC}});
-		registerEvent({prefix: "scrollSpeedMultiplier", eventFunction: scrollSpeedMultiplier, editor: {description: SCROLL_SPEED_MULTIPLIER_DESC}});
+		registerEvent({prefix: "swapNoteSides", eventFunction: swapNoteSides, editor: {description: SWAP_NOTE_SIDES_DESC, arguments: [
+			{name: "Time", type: "time", value: "1b"}, {name: "Ease", type: "ease", value: "quartOut"}
+		]}});
+		registerEvent({prefix: "scrollSpeedMultiplier", eventFunction: scrollSpeedMultiplier, editor: {description: SCROLL_SPEED_MULTIPLIER_DESC, arguments: [
+			{name: "Multiplier", type: "float", value: "1"}, {name: "Time", type: "time", value: "0"}, {name: "Ease", type: "ease", value: "quartOut"}
+		]}});
 	}
 
 	function setHudSkin(tag:String):Void{
-		var args = Events.getArgs(tag, ["Default"]);
+		var args = Events.getArgs(tag);
 		playstate.regenerateUiSkin(args[0]);
 	}
 
@@ -28,7 +36,7 @@ class HudEvents extends Events
 	function swapNoteSides(tag:String):Void{
 		if(Config.centeredNotes || playstate.forceCenteredNotes){ return; } //Don't swap notes if there aren't notes to swap with.
 		
-		var args = Events.getArgs(tag, ["1b", "quartOut"]);
+		var args = Events.getArgs(tag);
 		var playerNotePositions = [];
 		var opponentNotePositions = [];
 
@@ -40,9 +48,6 @@ class HudEvents extends Events
 			tween.completeTweensOf(arrow);
 			opponentNotePositions.push([arrow.x, arrow.y]);
 		}
-
-		//trace(opponentNotePositions);
-		//trace(playerNotePositions);
 
 		for(arrow in playstate.playerStrums.members){
 			if(Events.parseTime(args[0]) > 0){
@@ -79,9 +84,9 @@ class HudEvents extends Events
 
 
 	//Event descriptions. Not required but it helps with charting.
-	final SET_HUD_SKIN_DESC:String = "Changes the HUD note skin.\n\nArgs:\n    String: Skin name";
-	final HUD_VISIBLE_DESC:String = "Sets the visibility of the HUD.\n\nArgs:\n    Bool: HUD visibility";
+	final SET_HUD_SKIN_DESC:String = "Changes the HUD note skin.";
+	final HUD_VISIBLE_DESC:String = "Sets the visibility of the HUD.";
 	final SHOW_SONG_META_DESC:String = "Shows the song name and artist.";
-	final SWAP_NOTE_SIDES_DESC:String = "Swaps player and opponent note sides.\nDoes nothing if the strumline is centered.\n\nArgs:\n    Time: Tween time\n    Ease: Tween ease";
-	final SCROLL_SPEED_MULTIPLIER_DESC:String = "Adjusts the modifier for the note scroll speed.\n\nArgs:\n    Float: Multiplier\n    Time: Tween time\n    Ease: Tween ease";
+	final SWAP_NOTE_SIDES_DESC:String = "Swaps player and opponent note sides. Does nothing if the strumline is centered.";
+	final SCROLL_SPEED_MULTIPLIER_DESC:String = "Adjusts the modifier for the note scroll speed.";
 }

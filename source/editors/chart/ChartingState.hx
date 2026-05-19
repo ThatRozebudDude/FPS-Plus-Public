@@ -67,6 +67,11 @@ typedef HotbarSlot = {
 	var tag:String;
 }
 
+typedef TagBuilderSection = {
+	var section:String;
+	var makeBlank:Bool;
+}
+
 //All the different actions that can be captured by the chart snapshot.
 enum UndoAction {
 	NONE; //Used for the intial state or when the action type isn't needed like building the inital chart.
@@ -1995,18 +2000,30 @@ class ChartingState extends MusicBeatState
 
 	function buildEventTag():Void{
 		var tag:String = eventPrefixDropdown.value;
-		for(arg in eventParams){ tag += ";" + (arg.value != arg.defaultValue ? arg.value : ""); }
-		while(tag.endsWith(";")){
-			tag = tag.substr(0, tag.length - 1);
+		var sections:Array<TagBuilderSection> = [];
+		for(i in 0...eventParams.length){
+			sections.push({section: ";" + eventParams[i].value, makeBlank: eventParams[i].value == eventParams[i].defaultValue});
+			if(eventParams[i].value != eventParams[i].defaultValue){
+				for(arg in sections){ arg.makeBlank = false; }
+			}
+		}
+		for(section in sections){
+			if(!section.makeBlank){ tag += section.section; }
 		}
 		eventTagInput.value = tag;
 	}
 	
 	function buildNoteTag():Void{
 		var tag:String = notePrefixDropdown.value;
-		for(arg in noteParams){ tag += ";" + (arg.value != arg.defaultValue ? arg.value : ""); }
-		while(tag.endsWith(";")){
-			tag = tag.substr(0, tag.length - 1);
+		var sections:Array<TagBuilderSection> = [];
+		for(i in 0...noteParams.length){
+			sections.push({section: ";" + noteParams[i].value, makeBlank: noteParams[i].value == noteParams[i].defaultValue});
+			if(noteParams[i].value != noteParams[i].defaultValue){
+				for(arg in sections){ arg.makeBlank = false; }
+			}
+		}
+		for(section in sections){
+			if(!section.makeBlank){ tag += section.section; }
 		}
 		noteTypeInput.value = tag;
 	}
