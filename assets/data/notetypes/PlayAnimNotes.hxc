@@ -41,9 +41,12 @@ class PlayAnimNotes extends NoteType
 
 	function playAnimHit(note:Note, character:Character){
 		var args = NoteType.getArgs(note.type);
-		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
-			if(args[0] != ""){ character.singAnim(args[0], true); }
-			else{ playstate.defaultNoteHit(note, character); }
+		if(character.canAutoAnim){
+			if(shouldPlayAnimation(note, character)){
+				if(args[0] != ""){ character.singAnim(args[0], true); }
+				else{ playstate.defaultNoteHit(note, character); }
+			}
+			character.holdTimer = 0;
 		}
 		if(Events.parseBool(args[2])){
 			playstate.getExtraCamMovement(note);

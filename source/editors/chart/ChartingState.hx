@@ -584,9 +584,8 @@ class ChartingState extends MusicBeatState
 				songNameInput.value = previousSong;
 			}
 		});
-		var baseBpmInput:Stepper = new Stepper(PANEL_SPACING, songNameInput.y + songNameInput.elementHeight + PANEL_SPACING, 120, chart.meta.bpm[0].bpm, 1, 1, null, true, "Song BPM");
 
-		var opponentDropdown:Dropdown = new Dropdown(PANEL_SPACING, baseBpmInput.y + baseBpmInput.elementHeight + PANEL_EXTRA_SPACING, 240, characterList, chart.meta.opponent, "Opponent");
+		var opponentDropdown:Dropdown = new Dropdown(PANEL_SPACING, songNameInput.y + songNameInput.elementHeight + PANEL_EXTRA_SPACING, 240, characterList, chart.meta.opponent, "Opponent");
 		opponentDropdown.onSelect.add(function(v:String){
 			updateHealthIcons(v, chart.meta.player);
 			chart.meta.opponent = v;
@@ -613,7 +612,6 @@ class ChartingState extends MusicBeatState
 		reloadChartButton.onPress.add(function(){ trace("I don't do anything yet! God, I'm such a fucking useless button! Ugh!"); });
 
 		panel.addToTab("Song", songNameInput);
-		panel.addToTab("Song", baseBpmInput);
 		panel.addToTab("Song", opponentDropdown);
 		panel.addToTab("Song", playerDropown);
 		panel.addToTab("Song", speakerDropdown);
