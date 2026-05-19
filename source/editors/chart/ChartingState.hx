@@ -95,10 +95,11 @@ enum abstract HotbarSlotType(String) from String to String {
 class ChartingState extends MusicBeatState
 {
 
-	public static inline final GRID_POSITION:Float = 200;
+	public static inline final GRID_POSITION:Float = 180;
 	public static inline final GRID_SIZE:Float = 40;
 	public static inline final GRID_SPACING:Float = 5;
-	public static inline final GRID_COUNT:Int = 3;
+	public static inline final GRID_COUNT:Int = 4;
+	public static final 	   GRID_SQAURES:Array<Int> = [1, 4, 4, 4];
 
 	public static inline final PLAYBACK_POSITION:Float = 160;
 
@@ -114,9 +115,10 @@ class ChartingState extends MusicBeatState
 
 	public static inline final ALERT_SPACING:Float = 12;
 
-	public static inline final OPPONENT_GRID:Int = 0;
-	public static inline final PLAYER_GRID:Int = 1;
-	public static inline final EVENT_GRID:Int = 2;
+	public static inline final BPM_GRID:Int = 0;
+	public static inline final OPPONENT_GRID:Int = 1;
+	public static inline final PLAYER_GRID:Int = 2;
+	public static inline final EVENT_GRID:Int = 3;
 
 	public static var eventIconList:Array<String>;
 	public static var eventIconOverrides:Map<String, String>;
@@ -269,18 +271,22 @@ class ChartingState extends MusicBeatState
 
 		editorCursor = new Cursor();
 
-		var gridsUnderlay:FlxSprite = Utils.makeColoredSprite((GRID_COUNT * GRID_SIZE * 4) + (GRID_SPACING * (GRID_COUNT + 1)), 720, 0xFF8C8C8C);
+		var gridTotal:Float = 0;
+		for(s in GRID_SQAURES){ gridTotal += s; }
+
+		var gridsUnderlay:FlxSprite = Utils.makeColoredSprite((gridTotal * GRID_SIZE) + (GRID_SPACING * (GRID_COUNT + 1)), 720, 0xFF8C8C8C);
 		gridsUnderlay.x = GRID_POSITION - GRID_SPACING;
 		gridsUnderlay.color = BACKGROUND_COLOR;
 		gridsUnderlay.scrollFactor.set(0, 0);
 
 		gridCenterPosition = gridsUnderlay.getMidpoint().x;
 
+		var moveOverTotal:Float = 0;
 		for(i in 0...GRID_COUNT){
 			var gridParts:GridParts = {grid: null, gridOverlay: null, topFade: null, bottomFade: null};
 
-			gridParts.grid = new FlxBackdrop(Paths.image("fpsPlus/editors/chart/grid"), Y);
-			gridParts.grid.x = GRID_POSITION + (i * GRID_SIZE * 4) + (i * GRID_SPACING);
+			gridParts.grid = new FlxBackdrop(Paths.image("fpsPlus/editors/chart/grid" + (GRID_SQAURES[i] == 4 ? "" : "Small")), Y);
+			gridParts.grid.x = GRID_POSITION + (moveOverTotal * GRID_SIZE) + (i * GRID_SPACING);
 			gridParts.grid.antialiasing = false;
 			gridParts.grid.scale.set(GRID_SIZE, GRID_SIZE);
 			gridParts.grid.updateHitbox();
@@ -288,23 +294,28 @@ class ChartingState extends MusicBeatState
 	
 			gridParts.gridOverlay = new FlxBackdrop(Paths.image("fpsPlus/editors/chart/gridOverlay"), Y);
 			gridParts.gridOverlay.x = gridParts.grid.x;
-			gridParts.gridOverlay.y = (i%2) * GRID_SIZE * 4;
+			gridParts.gridOverlay.y = (i%2) * GRID_SIZE * GRID_SQAURES[i];
 			gridParts.gridOverlay.antialiasing = false;
 			gridParts.gridOverlay.color = GRID_OVERLAY_COLOR;
 			gridParts.gridOverlay.blend = MULTIPLY;
-			gridParts.gridOverlay.scale.set(gridParts.grid.width, gridParts.grid.width);
+			gridParts.gridOverlay.scale.set(GRID_SQAURES[i] * GRID_SIZE, GRID_SIZE * 4);
 			gridParts.gridOverlay.updateHitbox();
 			gridParts.gridOverlay.scrollFactor.set(0, 1);
 
 			gridParts.topFade = new FlxSprite(gridParts.grid.x, 0).loadGraphic(Paths.image("fpsPlus/editors/chart/gridFade"));
+			gridParts.topFade.scale.set(GRID_SQAURES[i] * GRID_SIZE, 1);
+			gridParts.topFade.updateHitbox();
 			gridParts.topFade.scrollFactor.set(0, 0);
 
 			gridParts.bottomFade = new FlxSprite(gridParts.grid.x, 720).loadGraphic(Paths.image("fpsPlus/editors/chart/gridFade"));
 			gridParts.bottomFade.flipY = true;
 			gridParts.bottomFade.y -= gridParts.bottomFade.height;
+			gridParts.bottomFade.scale.set(GRID_SQAURES[i] * GRID_SIZE, 1);
+			gridParts.bottomFade.updateHitbox();
 			gridParts.bottomFade.scrollFactor.set(0, 0);
 
 			grids.push(gridParts);
+			moveOverTotal += GRID_SQAURES[i];
 		}
 
 		selectionBox = new Box(GRID_POSITION, 0, GRID_SIZE * 4, GRID_SIZE);
@@ -318,10 +329,10 @@ class ChartingState extends MusicBeatState
 		gridsBarSeperator.x = GRID_POSITION - GRID_SPACING;
 		gridsBarSeperator.y -= 2;
 		gridsBarSeperator.color = BACKGROUND_COLOR;
-		gridsBarSeperator.scale.set((GRID_COUNT * GRID_SIZE * 4) + (GRID_SPACING * (GRID_COUNT + 1)), 4);
+		gridsBarSeperator.scale.set((gridTotal * GRID_SIZE) + (GRID_SPACING * (GRID_COUNT + 1)), 4);
 		gridsBarSeperator.updateHitbox();
 
-		var gridsTopCover:FlxSprite = Utils.makeColoredSprite((GRID_COUNT * GRID_SIZE * 4) + (GRID_SPACING * (GRID_COUNT + 1)), (GRID_COUNT * GRID_SIZE * 8), 0xFF8C8C8C);
+		var gridsTopCover:FlxSprite = Utils.makeColoredSprite((gridTotal * GRID_SIZE) + (GRID_SPACING * (GRID_COUNT + 1)), (GRID_COUNT * GRID_SIZE * 8), 0xFF8C8C8C);
 		gridsTopCover.x = GRID_POSITION - GRID_SPACING;
 		gridsTopCover.y = -gridsTopCover.height;
 		gridsTopCover.color = BACKGROUND_COLOR;
@@ -330,24 +341,30 @@ class ChartingState extends MusicBeatState
 		playerIcon.scrollFactor.set(0, 0);
 		playerIcon.centerOrigin();
 		playerIcon.scale.set(playerIcon.scale.x/2, playerIcon.scale.y/2);
-		playerIcon.setPosition(grids[1].grid.x + grids[1].grid.width/2 - playerIcon.width/2, GRID_SIZE - playerIcon.height/2);
+		playerIcon.setPosition(grids[PLAYER_GRID].grid.x + grids[PLAYER_GRID].grid.width/2 - playerIcon.width/2, GRID_SIZE - playerIcon.height/2);
 
 		opponentIcon = new HealthIcon("dad", false);
 		opponentIcon.scrollFactor.set(0, 0);
 		opponentIcon.centerOrigin();
 		opponentIcon.scale.set(opponentIcon.scale.x/2, opponentIcon.scale.y/2);
-		opponentIcon.setPosition(grids[0].grid.x + grids[0].grid.width/2 - opponentIcon.width/2, GRID_SIZE - opponentIcon.height/2);
+		opponentIcon.setPosition(grids[OPPONENT_GRID].grid.x + grids[OPPONENT_GRID].grid.width/2 - opponentIcon.width/2, GRID_SIZE - opponentIcon.height/2);
 
 		eventIcon = new FlxSprite().loadGraphic(Paths.image("fpsPlus/editors/chart/events/generic"));
 		eventIcon.scale.set(0.5, 0.5);
 		eventIcon.updateHitbox();
 		eventIcon.scrollFactor.set(0, 0);
-		eventIcon.setPosition(grids[2].grid.x + grids[2].grid.width/2 - eventIcon.width/2, GRID_SIZE - eventIcon.height/2);
+		eventIcon.setPosition(grids[EVENT_GRID].grid.x + grids[EVENT_GRID].grid.width/2 - eventIcon.width/2, GRID_SIZE - eventIcon.height/2);
+
+		var metronomeIcon:FlxSprite = new FlxSprite().loadGraphic(Paths.image("fpsPlus/editors/chart/metronomeIcon"));
+		metronomeIcon.scale.set(0.5, 0.5);
+		metronomeIcon.updateHitbox();
+		metronomeIcon.scrollFactor.set(0, 0);
+		metronomeIcon.setPosition(grids[BPM_GRID].grid.x + grids[BPM_GRID].grid.width/2 - metronomeIcon.width/2, GRID_SIZE - metronomeIcon.height/2);
 
 		gridCursor = Utils.makeColoredSprite(GRID_SIZE, GRID_SIZE, 0xFFFFFFFF);
 		gridCursor.visible = false;
 
-		var playbackBar:FlxSliceSprite = new FlxSliceSprite(Paths.image("fpsPlus/editors/chart/playbackBar"), new FlxRect(20, 20, 1, 20), 40 + (GRID_SIZE * 4 * GRID_COUNT) + (GRID_SPACING * (GRID_COUNT - 1)), 20);
+		var playbackBar:FlxSliceSprite = new FlxSliceSprite(Paths.image("fpsPlus/editors/chart/playbackBar"), new FlxRect(20, 20, 1, 20), 40 + (gridTotal * GRID_SIZE) + (GRID_SPACING * (GRID_COUNT - 1)), 20);
 		playbackBar.setPosition(GRID_POSITION-20, PLAYBACK_POSITION-10);
 		playbackBar.color = UIColors.SELECTED_COLOR;
 		playbackBar.scrollFactor.set(0, 0);
@@ -497,6 +514,7 @@ class ChartingState extends MusicBeatState
 		add(playerIcon);
 		add(opponentIcon);
 		add(eventIcon);
+		add(metronomeIcon);
 
 		add(alertGroup);
 
@@ -934,11 +952,11 @@ class ChartingState extends MusicBeatState
 				else{
 					selectingBoth = false;
 					selectionBox.x = grids[startingGrid].grid.x;
-					selectionBox.width = GRID_SIZE * 4;
+					selectionBox.width = GRID_SIZE * GRID_SQAURES[startingGrid];
 				}
 			}
 			else if(startingGrid == EVENT_GRID){
-				selectionBox.width = GRID_SIZE * 4;
+				selectionBox.width = GRID_SIZE * GRID_SQAURES[startingGrid];
 			}
 		}
 
@@ -1229,7 +1247,7 @@ class ChartingState extends MusicBeatState
 		removeNotesInProximity(strumTime, direction, player);
 
 		var newNote = notes.recycle(ChartingNote, null, true, true);
-		newNote.updateProperties(grids[player?1:0].grid.x + (GRID_SIZE * direction), getYFromSongPosition(strumTime), direction, strumTime, player, tag);
+		newNote.updateProperties(grids[player?PLAYER_GRID:OPPONENT_GRID].grid.x + (GRID_SIZE * direction), getYFromSongPosition(strumTime), direction, strumTime, player, tag);
 		notes.members.sort(sortNotes);
 		
 		return newNote;
@@ -1299,7 +1317,7 @@ class ChartingState extends MusicBeatState
 		removeEventsInProximity(strumTime, lane, tag);
 
 		var newEvent = events.recycle(ChartingEvent, null, true, true);
-		newEvent.updateProperties(grids[2].grid.x + (GRID_SIZE * lane), getYFromSongPosition(strumTime), lane, strumTime, tag);
+		newEvent.updateProperties(grids[EVENT_GRID].grid.x + (GRID_SIZE * lane), getYFromSongPosition(strumTime), lane, strumTime, tag);
 		events.members.sort(sortEvents);
 		
 		return newEvent;
@@ -1558,7 +1576,7 @@ class ChartingState extends MusicBeatState
 			opponentIcon.scrollFactor.set(0, 0);
 			opponentIcon.centerOrigin();
 			opponentIcon.scale.set(opponentIcon.scale.x/2, opponentIcon.scale.y/2);
-			opponentIcon.setPosition(grids[0].grid.x + grids[0].grid.width/2 - opponentIcon.width/2, GRID_SIZE - opponentIcon.height/2);
+			opponentIcon.setPosition(grids[OPPONENT_GRID].grid.x + grids[OPPONENT_GRID].grid.width/2 - opponentIcon.width/2, GRID_SIZE - opponentIcon.height/2);
 		}
 
 		if(playerCharacter != chart.meta.player || force){
@@ -1575,7 +1593,7 @@ class ChartingState extends MusicBeatState
 			playerIcon.scrollFactor.set(0, 0);
 			playerIcon.centerOrigin();
 			playerIcon.scale.set(playerIcon.scale.x/2, playerIcon.scale.y/2);
-			playerIcon.setPosition(grids[1].grid.x + grids[1].grid.width/2 - playerIcon.width/2, GRID_SIZE - playerIcon.height/2);
+			playerIcon.setPosition(grids[PLAYER_GRID].grid.x + grids[PLAYER_GRID].grid.width/2 - playerIcon.width/2, GRID_SIZE - playerIcon.height/2);
 		}
 	}
 
