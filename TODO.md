@@ -17,7 +17,6 @@
 		- Add icon for `setBopFreq`.
 	- Event descriptions.
 	- Better Note Type (Maybe Event) sorting.
-	- Hotbar.
 	- Undo/Redo
 		- Scary?
 	- Autosave.

@@ -8,9 +8,12 @@ class UIText extends FlxBitmapText
 
 	public static inline final X_ADVANCE:Float = 11;
 
-	public function new(_x:Float, _y:Float, _text:String, _scale:Float = 0.5){
+	public function new(_x:Float, _y:Float, _text:String, _scale:Float = 0.5, _fieldWidth:Int = 0){
 		super(_x, _y, _text, FlxBitmapFont.fromAngelCode(Paths.image("fpsPlus/editors/shared/cascadia"), Paths.file("fpsPlus/editors/shared/cascadia", "images", "fnt")));
+		fieldWidth = Std.int(_fieldWidth/_scale);
+		autoSize = _fieldWidth <= 0;
 		scale.set(_scale, _scale);
+		if(!autoSize){ alignment = JUSTIFY; }
 		updateHitbox();
 	}
 }

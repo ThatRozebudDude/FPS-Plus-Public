@@ -134,5 +134,11 @@ class Panel extends UIElement
 		}
 		return false || !tabs[selectedTab].manager.allowInteraction;
 	}
+
+	public function blockAllInteraction():Void{
+		for(tab in tabs){
+			tab.manager.allowInteraction = false;
+		}
+	}
 	
 }

@@ -108,12 +108,16 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		return tag;
 	}
 
-	public function select():Void{
-		tintShader.amount = 0.5;
+	public inline function select():Void{
+		if(tintShader.amount != 0.5){
+			tintShader.amount = 0.5;
+		}
 	}
 
-	public function deselect():Void{
-		tintShader.amount = 0;
+	public inline function deselect():Void{
+		if(tintShader.amount != 0){
+			tintShader.amount = 0;
+		}
 	}
 
 	function updateSustainGraphics():Void{

@@ -23,21 +23,24 @@ class Alert extends UIElement
 
 	var totalTime:Float = 0;
 	var lifetime:Float = 0;
+	var extraPadding:Int = 0;
 
 	public var hasLifetime:Bool = true;
 	public var doLerp:Bool = true;
 
-	public function new(_x:Float, _y:Float, _text:String = "", _lifetime:Float = 1.5){
+	public function new(_x:Float, _y:Float, _text:String = "", _lifetime:Float = 1.5, _fieldWidth:Int = 0, _extraPadding:Int = 0){
 		super(_x, _y);
 		wantedX = _x;
 		wantedY = _y;
 		lifetime = _lifetime;
 		alpha = 0;
+		extraPadding = _extraPadding;
 
-		textElement = new UIText(LABEL_PADDING, 0, "Text");
+		textElement = new UIText(LABEL_PADDING, 0, "Text", 0.5, _fieldWidth);
 		textElement.color = UIColors.FILL_TEXT_COLOR;
 
-		box = new Box(0, 0, textElement.width + (LABEL_PADDING*2), 24);
+		box = new Box(0, 0, textElement.width + (LABEL_PADDING*2) + (extraPadding*2), textElement.height + 4 + (extraPadding*2));
+		box.offset.set(extraPadding, 0);
 
 		textElement.y = (box.height/2) - (textElement.height/2);
 
@@ -65,6 +68,11 @@ class Alert extends UIElement
 			totalTime += elapsed;
 		}
 
+		box.width = textElement.width + (LABEL_PADDING*2) + (extraPadding*2);
+		box.height = textElement.height + 4 + (extraPadding*2);
+		elementWidth = box.width;
+		elementHeight = box.height;
+
 		box.alpha = alpha;
 		textElement.alpha = alpha;
 
@@ -88,9 +96,6 @@ class Alert extends UIElement
 	public function set_text(v:String):String{
 		text = v;
 		textElement.text = text;
-		box.width = textElement.width + (LABEL_PADDING*2);
-		elementWidth = box.width;
-		elementHeight = box.height;
 		return text;
 	}
 	

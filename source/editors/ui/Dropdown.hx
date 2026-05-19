@@ -49,10 +49,12 @@ class Dropdown extends UIElement
 		for(i in 0...Std.int(Math.min(values.length, MAX_DROPDOWN_COUNT))){
 			var dropdownBox:Box = new Box(0, (box.height - Box.BORDER_SIZE) * (i+1), _width, 24);
 			dropdownBox.fillColor = UIColors.INTERACTION_COLOR;
+			dropdownBox.visible = false;
 
 			var dropdownLabel:UIText = new UIText(dropdownBox.x + LABEL_PADDING, dropdownBox.y + (dropdownBox.height/2), values[i]);
 			dropdownLabel.y -= dropdownLabel.height/2;
 			dropdownLabel.color = UIColors.INTERACTION_TEXT_COLOR;
+			dropdownLabel.visible = false;
 
 			dropdownBox.onOverlap.add(function(){ dropdownOverlapIndex = i; });
 
@@ -174,5 +176,16 @@ class Dropdown extends UIElement
 	}
 
 	function get_value():String{ return values[currentIndex]; }
+	
+	public function setSelectedTo(v:String):Bool{
+		var r:Bool = true;
+		currentIndex = (v != null) ? values.indexOf(v) : -1;
+		if(currentIndex < 0){
+			currentIndex = 0;
+			r = false;
+		}
+		boxLabel.text = values[currentIndex];
+		return r;
+	}
 	
 }

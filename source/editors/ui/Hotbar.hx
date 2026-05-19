@@ -17,6 +17,14 @@ class Hotbar extends UIElement
 
 	public var slots:Array<HotbarSlot> = [];
 	public var onSelect:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
+	public var onRightClick:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
+	public var onOverlap:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
+	public var onOverlapStop:FlxSignal = new FlxSignal();
+
+	var overlapping:Bool = false;
+	var overlapArray:Array<Bool> = [];
+
+	var currentIndex:Int = 0;
 
 	public function new(_x:Float, _y:Float, _slotWidth:Float, _slotHeight:Float, _slotCount:Int, _axis:FlxAxes){
 		super(_x, _y);
@@ -32,8 +40,12 @@ class Hotbar extends UIElement
 				_slotHeight + (_axis.y ? Box.BORDER_SIZE : 0)
 			);
 			hotbarSlot.box.onClick.add(function(){ selectSlot(i); });
+			hotbarSlot.box.onRightClick.add(function(){ onRightClick.dispatch(i); });
+			hotbarSlot.box.onOverlap.add(function(){ overlapArray[i] = true; });
+			hotbarSlot.box.onOverlapStop.add(function(){ overlapArray[i] = false; });
 
 			slots.push(hotbarSlot);
+			overlapArray.push(false);
 		}
 
 		for(slot in slots){
@@ -48,9 +60,26 @@ class Hotbar extends UIElement
 
 	override public function update(elapsed:Float):Void{
 		super.update(elapsed);
+
+		var overlapCheck:Bool = false;
+		var count:Int = 0;
+		for(o in overlapArray){
+			if(o && !overlapCheck){
+				onOverlap.dispatch(count);
+				overlapping = true;
+			}
+			count++;
+			overlapCheck = overlapCheck || o;
+		}
+
+		if(!overlapCheck && overlapping){
+			overlapping = false;
+			onOverlapStop.dispatch();
+		}
 	}
 
 	public function selectSlot(slotIndex:Int):Void{
+		currentIndex = slotIndex;
 		for(i in 0...slots.length){
 			if(slotIndex == i){
 				slots[i].box.fillColor = UIColors.SELECTED_COLOR;

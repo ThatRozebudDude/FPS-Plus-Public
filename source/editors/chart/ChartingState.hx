@@ -62,6 +62,11 @@ typedef ArgumentInput = {
 	var defaultValue:String;
 }
 
+typedef HotbarSlot = {
+	var type:HotbarSlotType;
+	var tag:String;
+}
+
 //All the different actions that can be captured by the chart snapshot.
 enum UndoAction {
 	NONE; //Used for the intial state or when the action type isn't needed like building the inital chart.
@@ -74,6 +79,12 @@ enum UndoAction {
 	CHANGE_EVENT_TAG;
 	CUT;
 	PASTE;
+}
+
+enum abstract HotbarSlotType(String) from String to String {
+	var empty;
+	var note;
+	var event;
 }
 
 class ChartingState extends MusicBeatState
@@ -163,11 +174,10 @@ class ChartingState extends MusicBeatState
 
 	var previousReportedSongTime:Float = -1;
 
-	var currentlySelectingEvents:Bool = false;
-
 	var placedNoteHold:Bool = false;
-	var selectedNotes:Array<ChartingNote> = [];
 
+	var currentlySelectingEvents:Bool = false;
+	var selectedNotes:Array<ChartingNote> = [];
 	var selectedEvents:Array<ChartingEvent> = [];
 
 	var selectionBoxOpen:Bool = false;
@@ -211,6 +221,15 @@ class ChartingState extends MusicBeatState
 	var undoHistory:Array<ChartSnapshot> = [];
 	var redoHistory:Array<ChartSnapshot> = [];
 	var currentState:ChartSnapshot;
+
+	var hotbarAssignOverlay:FlxSprite;
+	var hotbarAssignAlert:Alert;
+	var hotbarAssignAlertOpen:Bool = false;
+	var hotbarAssignAlertForNote:Bool = false;
+
+	static var hotbarSlots:Array<HotbarSlot> = [{type:empty,tag:""},{type:empty,tag:""},{type:empty,tag:""},{type:empty,tag:""},{type:empty,tag:""},{type:empty,tag:""},{type:empty,tag:""},{type:empty,tag:""},{type:empty,tag:""},{type:empty,tag:""}];
+	var hotbarSlotNotes:Array<ChartingNote> = [];
+	var hotbarSlotEvents:Array<ChartingEvent> = [];
 
 	override public function new(_startPosition:Float = 0){
 		super();
@@ -343,7 +362,60 @@ class ChartingState extends MusicBeatState
 
 		hotbar = new Hotbar(0, 60, 60, 60, 10, Y);
 		hotbar.scrollFactor.set(0, 0);
+		hotbar.onSelect.add(function(slot:Int):Void{
+			if(!hotbarAssignAlertOpen){
+				switch(hotbarSlots[slot].type){
+					case note:
+						noteTypeInput.value = hotbarSlots[slot].tag;
+						createArguments(hotbarSlots[slot].tag, true);
+					case event:
+						eventTagInput.value = hotbarSlots[slot].tag;
+						createArguments(hotbarSlots[slot].tag, false);
+					default:
+				}
+			}
+			else{
+				if(hotbarAssignAlertForNote){
+					hotbarSlots[slot].tag = noteTypeInput.value;
+					hotbarSlots[slot].type = note;
+				}
+				else{
+					hotbarSlots[slot].tag = eventTagInput.value;
+					hotbarSlots[slot].type = event;
+				}
+				updateHotbarGraphics();
+				closeHotbarAlert();
+			}
+		});
+		hotbar.onRightClick.add(function(slot:Int):Void{
+			hotbarSlots[slot].tag = "";
+			hotbarSlots[slot].type = empty;
+			updateHotbarGraphics();
+		});
+		hotbar.onOverlap.add(function(slot:Int):Void{
+			if(hotbarSlots[slot].type != empty){
+				typeAlert.text = hotbarSlots[slot].tag;
+				typeAlert.alpha = 1;
+			}
+		});
+		hotbar.onOverlapStop.add(function():Void{
+			typeAlert.alpha = 0;
+		});
 
+		hotbarAssignOverlay = Utils.makeColoredSprite(1280, 720, 0xFFFFFFFF);
+		hotbarAssignOverlay.color = 0xFF000000;
+		hotbarAssignOverlay.alpha = 0.7;
+		hotbarAssignOverlay.scrollFactor.set(0, 0);
+		hotbarAssignOverlay.visible = false;
+
+		hotbarAssignAlert = new Alert(0, 0, "Select a hotbar slot to assign this event to. Click on the slot or use the number keys to select a slot. Press Escape to cancel.", 1.5, 276, 6);
+		hotbarAssignAlert.scrollFactor.set(0, 0);
+		hotbarAssignAlert.alpha = 1;
+		hotbarAssignAlert.hasLifetime = false;
+		hotbarAssignAlert.doLerp = false;
+		hotbarAssignAlert.screenCenter(XY);
+		hotbarAssignAlert.visible = false;
+		
 		timeBox = new Box(panel.x, panel.y + panel.height - Box.BORDER_SIZE, 164, 30);
 		timeBox.scrollFactor.set(0, 0);
 		timeBox.onClick.add(function(){
@@ -429,7 +501,6 @@ class ChartingState extends MusicBeatState
 		add(toolbarDropShadow);
 
 		add(panel);
-		add(hotbar);
 
 		add(timeBox);
 		add(timeBoxLeftText);
@@ -441,7 +512,27 @@ class ChartingState extends MusicBeatState
 		add(stepBoxLeftText);
 		add(stepBoxRightText);
 
-		add(typeAlert);
+		add(hotbarAssignOverlay);
+		add(hotbarAssignAlert);
+
+		add(hotbar);
+
+		for(i in 0...hotbarSlots.length){
+			var newNote:ChartingNote = new ChartingNote();
+			newNote.updateProperties(10, ((i+1)*60)+11, 0, 0, false, "bleh");
+			newNote.scrollFactor.set(0, 0);
+			hotbarSlotNotes.push(newNote);
+
+			var newEvent:ChartingEvent = new ChartingEvent();
+			newEvent.updateProperties(10, ((i+1)*60)+11, 0, 0, "");
+			newEvent.scrollFactor.set(0, 0);
+			hotbarSlotEvents.push(newEvent);
+
+			add(newNote);
+			add(newEvent);
+		}
+
+		updateHotbarGraphics();
 
 		camFollow = new FlxObject(1280/2, 720/2, 0, 0);
 		camFollow.y -= PLAYBACK_POSITION;
@@ -454,6 +545,7 @@ class ChartingState extends MusicBeatState
 		
 		super.create();
 
+		add(typeAlert);
 		add(editorCursor);
 	}
 
@@ -512,6 +604,9 @@ class ChartingState extends MusicBeatState
 	function setupNotesTab():Void{
 		//Temp for now, just so it exists.
 		noteTypeInput = new TextInput(PANEL_SPACING, PANEL_SPACING, 336, "", "Tag");
+		noteTypeInput.onValueChanged.add(function(v:String){
+			createArguments(v, true);
+		});
 
 		notePrefixDropdown = new Dropdown(PANEL_SPACING, noteTypeInput.y + noteTypeInput.elementHeight + PANEL_SPACING, 240, noteTypePrefixes, "", "Note Tags");
 		notePrefixDropdown.onSelect.add(function(v:String){
@@ -519,14 +614,23 @@ class ChartingState extends MusicBeatState
 			createArguments(v, true);
 		});
 
-		noteParamStartLocation = notePrefixDropdown.y + notePrefixDropdown.elementHeight + PANEL_EXTRA_SPACING;
+		var assignNoteTypeToHotbar:Button = new Button(PANEL_SPACING, notePrefixDropdown.y + notePrefixDropdown.elementHeight + PANEL_SPACING, 240, "Assign to Hotbar");
+		assignNoteTypeToHotbar.onPress.add(function(){
+			openHotbarAlert(true);
+		});
+
+		noteParamStartLocation = assignNoteTypeToHotbar.y + assignNoteTypeToHotbar.elementHeight + PANEL_EXTRA_SPACING;
 
 		panel.addToTab("Notes", noteTypeInput);
 		panel.addToTab("Notes", notePrefixDropdown);
+		panel.addToTab("Notes", assignNoteTypeToHotbar);
 	}
 	
 	function setupEventsTab():Void{
 		eventTagInput = new TextInput(PANEL_SPACING, PANEL_SPACING, 336, "", "Tag");
+		eventTagInput.onValueChanged.add(function(v:String){
+			createArguments(v, false);
+		});
 
 		eventPrefixDropdown = new Dropdown(PANEL_SPACING, eventTagInput.y + eventTagInput.elementHeight + PANEL_SPACING, 240, eventPrefixes, "", "Event Tags");
 		eventPrefixDropdown.onSelect.add(function(v:String){
@@ -534,10 +638,16 @@ class ChartingState extends MusicBeatState
 			createArguments(v, false);
 		});
 
-		eventParamStartLocation = eventPrefixDropdown.y + eventPrefixDropdown.elementHeight + PANEL_EXTRA_SPACING;
+		var assignEventToHotbar:Button = new Button(PANEL_SPACING, eventPrefixDropdown.y + eventPrefixDropdown.elementHeight + PANEL_SPACING, 240, "Assign to Hotbar");
+		assignEventToHotbar.onPress.add(function(){
+			openHotbarAlert(false);
+		});
+
+		eventParamStartLocation = assignEventToHotbar.y + assignEventToHotbar.elementHeight + PANEL_EXTRA_SPACING;
 
 		panel.addToTab("Events", eventTagInput);
 		panel.addToTab("Events", eventPrefixDropdown);
+		panel.addToTab("Events", assignEventToHotbar);
 	}
 
 	function setupToolsTab():Void{
@@ -637,21 +747,23 @@ class ChartingState extends MusicBeatState
 			else{
 				gridCursor.y = FlxG.mouse.y;
 			}
+		}
 
+		if(canDoThings()){
 			if(gridCursorIndex == OPPONENT_GRID || gridCursorIndex == PLAYER_GRID){ //Placing notes.
-				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused()){
+				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT])){
 					var newNote = addNote(getSongPositionFromY(gridCursor.y), gridCursorLane, gridCursorIndex == PLAYER_GRID, noteTypeInput.value);
 					selectedNotes = [newNote];
 					placedNoteHold = true;
 					currentlySelectingEvents = false;
 				}
-				else if(FlxG.mouse.justPressedRight && !FlxG.keys.anyPressed([SHIFT])  && !panel.isAnythingFocused()){
+				else if(FlxG.mouse.justPressedRight && !FlxG.keys.anyPressed([SHIFT])){
 					var deleteCount:Int = removeNotesInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridCursorLane, gridCursorIndex == PLAYER_GRID, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
 					selectedNotes = [];
 					if(deleteCount > 0){ createSnapshot(REMOVE_NOTES(deleteCount)); }
 					currentlySelectingEvents = false;
 				}
-				else if(FlxG.mouse.justPressedMiddle && !panel.isAnythingFocused()){
+				else if(FlxG.mouse.justPressedMiddle){
 					if(!FlxG.keys.anyPressed([SHIFT])){ selectedNotes = []; }
 					var note:ChartingNote = getNoteUnderCursor();
 					if(note != null && !selectedNotes.contains(note)){
@@ -666,19 +778,19 @@ class ChartingState extends MusicBeatState
 				}
 			}
 			else if(gridCursorIndex == EVENT_GRID){ //Placing events.
-				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused()){
+				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT])){
 					var newEvent = addEvent(getSongPositionFromY(gridCursor.y), gridCursorLane, eventTagInput.value);
 					selectedEvents = [newEvent];
 					createSnapshot(PLACE_EVENTS(1));
 					currentlySelectingEvents = true;
 				}
-				else if(FlxG.mouse.justPressedRight && !FlxG.keys.anyPressed([SHIFT])  && !panel.isAnythingFocused()){
+				else if(FlxG.mouse.justPressedRight && !FlxG.keys.anyPressed([SHIFT])){
 					var deleteCount:Int = removeEventsInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridCursorLane, null, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
 					selectedEvents = [];
 					if(deleteCount > 0){ createSnapshot(REMOVE_EVENTS(deleteCount)); }
 					currentlySelectingEvents = true;
 				}
-				else if(FlxG.mouse.justPressedMiddle && !panel.isAnythingFocused()){
+				else if(FlxG.mouse.justPressedMiddle){
 					if(!FlxG.keys.anyPressed([SHIFT])){ selectedEvents = []; }
 					var event:ChartingEvent = getEventUnderCursor();
 					if(event != null && !selectedEvents.contains(event)){
@@ -692,6 +804,106 @@ class ChartingState extends MusicBeatState
 					currentlySelectingEvents = true;
 				}
 			}
+
+			if(!selectionBoxOpen && FlxG.mouse.justPressed && FlxG.keys.anyPressed([SHIFT]) && gridCursorIndex >= OPPONENT_GRID){
+				selectionBoxOpen = true;
+				startingGrid = gridCursorIndex;
+				selectionBox.x = grids[startingGrid].grid.x;
+				selectionStartY = FlxG.mouse.y;
+				selectionBox.y = selectionStartY;
+				selectionBox.visible = true;
+			}
+			else if(selectionBoxOpen && FlxG.mouse.justReleased){
+				selectionBoxOpen = false;
+				selectionBox.visible = false;
+				selectedNotes = [];
+				selectedEvents = [];
+				var selectionStartTime:Float = getSongPositionFromY(selectionBox.y - GRID_SIZE);
+				var selectionEndTime:Float = getSongPositionFromY(selectionBox.y + selectionBox.height);
+				
+				if(startingGrid == OPPONENT_GRID || startingGrid == PLAYER_GRID){
+					notes.forEachAlive(function(note:ChartingNote){
+						if(note.time >= selectionStartTime && note.time < selectionEndTime){
+							if(selectingBoth || ((!note.player && startingGrid == OPPONENT_GRID) || (note.player && startingGrid == PLAYER_GRID))){
+								selectedNotes.push(note);
+							}
+						}
+					});
+					currentlySelectingEvents = false;
+				}
+				else if(startingGrid == EVENT_GRID){
+					events.forEachAlive(function(event:ChartingEvent){
+						if(event.time >= selectionStartTime && event.time < selectionEndTime){
+							selectedEvents.push(event);
+						}
+					});
+					currentlySelectingEvents = true;
+				}
+			}
+	
+			//Play/pause music.
+			if(FlxG.keys.anyJustPressed([SPACE])){
+				if(!FlxG.sound.music.playing){
+					playMusic();
+				}
+				else{
+					pauseMusic();
+				}
+			}
+	
+			//Scroll with W and S
+			if(FlxG.keys.anyPressed([W, S])){
+				pauseMusic();
+				final scrollAmount:Float = (FlxG.keys.anyPressed([SHIFT]) ? 2500 : 1000) * FlxG.elapsed;
+				FlxG.sound.music.time += ((FlxG.keys.anyPressed([W]) ? -1 : 0) + (FlxG.keys.anyPressed([S]) ? 1 : 0)) * scrollAmount;
+				musicBoundsCheck();
+			}
+	
+			//Scroll through the song with mouse wheel.
+			if(FlxG.mouse.wheel != 0 && allowGridScroll){
+				pauseMusic();
+				final wheelSpin = FlxG.mouse.wheel;
+				FlxG.sound.music.time = Math.round(FlxG.sound.music.time / (Conductor.getStepCrotchetMs()/2)) * (Conductor.getStepCrotchetMs()/2); //Snap to nearest half step.
+				FlxG.sound.music.time -= (wheelSpin * Conductor.getStepCrotchetMs() * 0.5);
+				musicBoundsCheck();
+			}
+
+			var note:ChartingNote = getNoteUnderCursor();
+			if(note != null){
+				if(note.tag.length > 0){
+					typeAlert.alpha = 1;
+					typeAlert.text = note.tag;
+				}
+				else{ typeAlert.alpha = 0; }
+			}
+			else{
+				var event:ChartingEvent = getEventUnderCursor();
+				if(event != null){
+					typeAlert.alpha = 1;
+					typeAlert.text = event.tag;
+				}
+				else{ typeAlert.alpha = 0; }
+			}
+				
+			checkShortcuts();
+		}
+		else if(hotbarAssignAlertOpen){
+			panel.blockAllInteraction();
+
+			if(FlxG.keys.anyJustPressed([ESCAPE])){
+				closeHotbarAlert();
+			}
+
+			if(FlxG.keys.anyJustPressed([ONE]))		{ hotbar.selectSlot(0); }
+			if(FlxG.keys.anyJustPressed([TWO]))		{ hotbar.selectSlot(1); }
+			if(FlxG.keys.anyJustPressed([THREE]))	{ hotbar.selectSlot(2); }
+			if(FlxG.keys.anyJustPressed([FOUR]))	{ hotbar.selectSlot(3); }
+			if(FlxG.keys.anyJustPressed([FIVE]))	{ hotbar.selectSlot(4); }
+			if(FlxG.keys.anyJustPressed([SIX]))		{ hotbar.selectSlot(5); }
+			if(FlxG.keys.anyJustPressed([SEVEN]))	{ hotbar.selectSlot(6); }
+			if(FlxG.keys.anyJustPressed([EIGHT]))	{ hotbar.selectSlot(7); }
+			if(FlxG.keys.anyJustPressed([NINE]))	{ hotbar.selectSlot(8); }
+			if(FlxG.keys.anyJustPressed([ZERO]))	{ hotbar.selectSlot(9); }
 		}
 
 		if(placedNoteHold && !FlxG.mouse.released && selectedNotes.length > 0){
@@ -701,42 +913,6 @@ class ChartingState extends MusicBeatState
 		else if(placedNoteHold){
 			placedNoteHold = false;
 			createSnapshot(PLACE_NOTES(1));
-		}
-
-		if(!selectionBoxOpen && FlxG.mouse.justPressed && FlxG.keys.anyPressed([SHIFT]) && !panel.isAnythingFocused() && gridCursorIndex >= OPPONENT_GRID){
-			selectionBoxOpen = true;
-			startingGrid = gridCursorIndex;
-			selectionBox.x = grids[startingGrid].grid.x;
-			selectionStartY = FlxG.mouse.y;
-			selectionBox.y = selectionStartY;
-			selectionBox.visible = true;
-		}
-		else if(selectionBoxOpen && FlxG.mouse.justReleased){
-			selectionBoxOpen = false;
-			selectionBox.visible = false;
-			selectedNotes = [];
-			selectedEvents = [];
-			var selectionStartTime:Float = getSongPositionFromY(selectionBox.y - GRID_SIZE);
-			var selectionEndTime:Float = getSongPositionFromY(selectionBox.y + selectionBox.height);
-			
-			if(startingGrid == OPPONENT_GRID || startingGrid == PLAYER_GRID){
-				notes.forEachAlive(function(note:ChartingNote){
-					if(note.time >= selectionStartTime && note.time < selectionEndTime){
-						if(selectingBoth || ((!note.player && startingGrid == OPPONENT_GRID) || (note.player && startingGrid == PLAYER_GRID))){
-							selectedNotes.push(note);
-						}
-					}
-				});
-				currentlySelectingEvents = false;
-			}
-			else if(startingGrid == EVENT_GRID){
-				events.forEachAlive(function(event:ChartingEvent){
-					if(event.time >= selectionStartTime && event.time < selectionEndTime){
-						selectedEvents.push(event);
-					}
-				});
-				currentlySelectingEvents = true;
-			}
 		}
 
 		if(selectionBoxOpen){
@@ -761,37 +937,8 @@ class ChartingState extends MusicBeatState
 			}
 		}
 
-		//Play/pause music.
-		if(FlxG.keys.anyJustPressed([SPACE]) && !panel.isAnythingFocused()){
-			if(!FlxG.sound.music.playing){
-				playMusic();
-			}
-			else{
-				pauseMusic();
-			}
-		}
-
-		//Scroll with W and S
-		if(FlxG.keys.anyPressed([W, S]) && !panel.isAnythingFocused()){
-			pauseMusic();
-			final scrollAmount:Float = (FlxG.keys.anyPressed([SHIFT]) ? 2500 : 1000) * FlxG.elapsed;
-			FlxG.sound.music.time += ((FlxG.keys.anyPressed([W]) ? -1 : 0) + (FlxG.keys.anyPressed([S]) ? 1 : 0)) * scrollAmount;
-			musicBoundsCheck();
-		}
-
-		//Scroll through the song with mouse wheel.
-		if(FlxG.mouse.wheel != 0 && allowGridScroll && !panel.isAnythingFocused()){
-			pauseMusic();
-			final wheelSpin = FlxG.mouse.wheel;
-			FlxG.sound.music.time = Math.round(FlxG.sound.music.time / (Conductor.getStepCrotchetMs()/2)) * (Conductor.getStepCrotchetMs()/2); //Snap to nearest half step.
-			FlxG.sound.music.time -= (wheelSpin * Conductor.getStepCrotchetMs() * 0.5);
-			musicBoundsCheck();
-		}
-
 		if(!currentlySelectingEvents && selectedEvents.length > 0)		{ selectedEvents = []; }
 		else if(currentlySelectingEvents && selectedNotes.length > 0)	{ selectedNotes = []; }
-
-		if(!panel.isAnythingFocused()){ checkShortcuts(); }
 
 		notes.forEachAlive(function(note:ChartingNote){
 			if(selectedNotes.contains(note)){ note.select(); }
@@ -829,9 +976,14 @@ class ChartingState extends MusicBeatState
 			});
 		}
 
+		var alertDead:Array<Alert> = [];
 		alertGroup.forEachDead(function(alert:Alert):Void{
-			alertGroup.remove(alert, true);
+			alertDead.push(alert);
 		});
+		for(alert in alertDead){
+			alertGroup.remove(alert, true);
+			alert.destroy();
+		}
 
 		for(i in 0...alertGroup.members.length){
 			alertGroup.members[i].wantedY = 720 - (alertGroup.members[i].elementHeight + ALERT_SPACING) * (alertGroup.members.length - i);
@@ -842,22 +994,6 @@ class ChartingState extends MusicBeatState
 		//Show tag of note/event you are hovering over.
 		typeAlert.x = editorCursor.x + 8;
 		typeAlert.y = editorCursor.y - 8;
-		var note:ChartingNote = getNoteUnderCursor();
-		if(note != null){
-			if(note.tag.length > 0){
-				typeAlert.alpha = 1;
-				typeAlert.text = note.tag;
-			}
-			else{ typeAlert.alpha = 0; }
-		}
-		else{
-			var event:ChartingEvent = getEventUnderCursor();
-			if(event != null){
-				typeAlert.alpha = 1;
-				typeAlert.text = event.tag;
-			}
-			else{ typeAlert.alpha = 0; }
-		}
 
 		textUpdateTimer += elapsed;
 		if(textUpdateTimer >= TEXT_UPDATE_RATE){
@@ -1643,7 +1779,7 @@ class ChartingState extends MusicBeatState
 		createAlert("Error saving file.");
 	}*/
 
-	function createArguments(prefix:String, forNoteType:Bool):Void{
+	function createArguments(tag:String, forNoteType:Bool):Void{
 		if(!forNoteType){
 			for(eventParam in eventParams){
 				for(element in eventParam.elements){
@@ -1662,16 +1798,25 @@ class ChartingState extends MusicBeatState
 			}
 			noteParams = [];
 		}
+
+		var prefix:String = "";
+		if(tag.length > 0){
+			prefix = tag.split(";")[0];
+		}
+		else{ return; }
 		
 		if(!forNoteType){
 			var eventDefinition = Events.events.get(prefix);
 			if(eventDefinition == null){ return; }
 			if(eventDefinition.editor == null){ return; }
 			if(eventDefinition.editor.arguments == null){ return; }
+			var defaultArgs = Events.getArgs(tag);
 	
 			for(i in 0...eventDefinition.editor.arguments.length){
-				makeArgument(eventDefinition.editor.arguments[i], eventParamStartLocation+((24+PANEL_SPACING)*i), forNoteType);
+				makeArgument(eventDefinition.editor.arguments[i], eventParamStartLocation+((24+PANEL_SPACING)*i), forNoteType, defaultArgs[i]);
 			}
+
+			eventPrefixDropdown.setSelectedTo(prefix);
 
 			buildEventTag();
 		}
@@ -1680,17 +1825,20 @@ class ChartingState extends MusicBeatState
 			if(noteDefinition == null){ return; }
 			if(noteDefinition.editor == null){ return; }
 			if(noteDefinition.editor.arguments == null){ return; }
-	
+			var defaultArgs = NoteType.getArgs(tag);
+			
 			for(i in 0...noteDefinition.editor.arguments.length){
-				makeArgument(noteDefinition.editor.arguments[i], eventParamStartLocation+((24+PANEL_SPACING)*i), forNoteType);
+				makeArgument(noteDefinition.editor.arguments[i], eventParamStartLocation+((24+PANEL_SPACING)*i), forNoteType, defaultArgs[i]);
 			}
+
+			notePrefixDropdown.setSelectedTo(prefix);
 			
 			buildNoteTag();
 		}
 	}
 
-	function makeArgument(argData:EventArgument, y:Float, forNoteType:Bool):Void{
-		var arg:ArgumentInput = {elements: [], value: argData.value, defaultValue: argData.value};
+	function makeArgument(argData:EventArgument, y:Float, forNoteType:Bool, argValue:String):Void{
+		var arg:ArgumentInput = {elements: [], value: argValue, defaultValue: argData.value};
 
 		function buildTag(){
 			if(!forNoteType) { buildEventTag(); } else { buildNoteTag(); }
@@ -1698,7 +1846,7 @@ class ChartingState extends MusicBeatState
 
 		switch(argData.type){
 			case bool:
-				var input:Toggle = new Toggle(PANEL_SPACING, y, Events.parseBool(argData.value), argData.name);
+				var input:Toggle = new Toggle(PANEL_SPACING, y, Events.parseBool(arg.value), argData.name);
 				arg.elements.push(input);
 
 				input.onToggle.add(function(v:Bool){
@@ -1707,7 +1855,7 @@ class ChartingState extends MusicBeatState
 				});
 
 			case int:
-				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseInt(argData.value), 1, null, null, true, argData.name);
+				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseInt(arg.value), 1, null, null, true, argData.name);
 				input.isInt = true;
 				arg.elements.push(input);
 
@@ -1717,7 +1865,7 @@ class ChartingState extends MusicBeatState
 				});
 
 			case float:
-				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseFloat(argData.value), 1, null, null, true, argData.name);
+				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseFloat(arg.value), 1, null, null, true, argData.name);
 				arg.elements.push(input);
 
 				input.onValueChanged.add(function(v:Float){
@@ -1726,7 +1874,7 @@ class ChartingState extends MusicBeatState
 				});
 
 			case string:
-				var input:TextInput = new TextInput(PANEL_SPACING, y, 192, argData.value, argData.name);
+				var input:TextInput = new TextInput(PANEL_SPACING, y, 192, arg.value, argData.name);
 				arg.elements.push(input);
 
 				input.onValueChanged.add(function(v:String){
@@ -1735,12 +1883,12 @@ class ChartingState extends MusicBeatState
 				});
 
 			case ease:
-				final valueWithCaptital:String = argData.value.charAt(0).toUpperCase() + argData.value.substr(1, 99);
-				final initalEaseValue:String = argData.value.endsWith("In") ? valueWithCaptital.split("In")[0] : argData.value.endsWith("InOut") ? valueWithCaptital.split("InOut")[0] : argData.value.endsWith("Out") ? valueWithCaptital.split("Out")[0] : "Linear";
+				final valueWithCaptital:String = arg.value.charAt(0).toUpperCase() + arg.value.substr(1, 99);
+				final initalEaseValue:String = arg.value.endsWith("In") ? valueWithCaptital.split("In")[0] : arg.value.endsWith("InOut") ? valueWithCaptital.split("InOut")[0] : arg.value.endsWith("Out") ? valueWithCaptital.split("Out")[0] : "Linear";
 				var easeDropdown:Dropdown = new Dropdown(PANEL_SPACING, y, 99, ["Linear", "Quad", "Cube", "Quart", "Quint", "SmoothStep", "SmooterStep", "Sine", "Bounce", "Circ", "Expo", "Back", "Elastic"], initalEaseValue);
 				arg.elements.push(easeDropdown);
 
-				final initalDrectionValue:String = argData.value.endsWith("In") ? "In" : argData.value.endsWith("InOut") ? "InOut" : "Out";
+				final initalDrectionValue:String = arg.value.endsWith("In") ? "In" : arg.value.endsWith("InOut") ? "InOut" : "Out";
 				var directionDropdown:Dropdown = new Dropdown(easeDropdown.x + easeDropdown.elementWidth + PANEL_SPACING, y, 88, ["In", "Out", "InOut"], initalDrectionValue, argData.name);
 				arg.elements.push(directionDropdown);
 
@@ -1757,12 +1905,12 @@ class ChartingState extends MusicBeatState
 				});
 
 			case time:
-				var initalNumberValue:Float = argData.value.endsWith("b") ? Std.parseFloat(argData.value.split("b")[0]) : argData.value.endsWith("s") ? Std.parseFloat(argData.value.split("s")[0]) : Std.parseFloat(argData.value);
+				var initalNumberValue:Float = arg.value.endsWith("b") ? Std.parseFloat(arg.value.split("b")[0]) : arg.value.endsWith("s") ? Std.parseFloat(arg.value.split("s")[0]) : Std.parseFloat(arg.value);
 				initalNumberValue = Math.isNaN(initalNumberValue) ? 0 : initalNumberValue;
 				var numberInput:Stepper = new Stepper(PANEL_SPACING, y, 110, initalNumberValue, 1, null, null, true);
 				arg.elements.push(numberInput);
 
-				final initalUnitValue:String = argData.value.endsWith("b") ? "Beat" : argData.value.endsWith("s") ? "Step" : "Sec";
+				final initalUnitValue:String = arg.value.endsWith("b") ? "Beat" : arg.value.endsWith("s") ? "Step" : "Sec";
 				var unitInput:Dropdown = new Dropdown(numberInput.x + numberInput.elementWidth + PANEL_SPACING, y, 77, ["Sec", "Beat", "Step"], initalUnitValue, argData.name);
 				arg.elements.push(unitInput);
 
@@ -1777,7 +1925,7 @@ class ChartingState extends MusicBeatState
 				});
 
 			case character:
-				final initalValue:String = argData.value == "dad" ? "Opponent" : argData.value == "gf" ? "Speaker" : "Player";
+				final initalValue:String = arg.value == "dad" ? "Opponent" : arg.value == "gf" ? "Speaker" : "Player";
 				var input:Dropdown = new Dropdown(PANEL_SPACING, y, 192, ["Player", "Opponent", "Speaker"], initalValue, argData.name);
 				arg.elements.push(input);
 
@@ -1794,7 +1942,7 @@ class ChartingState extends MusicBeatState
 				});
 			
 			case color:
-				final initalValue:String = argData.value.startsWith("0x") ? argData.value.split("0x")[1] : argData.value;
+				final initalValue:String = arg.value.startsWith("0x") ? arg.value.split("0x")[1] : arg.value;
 				var input:TextInput = new TextInput(PANEL_SPACING, y, 163, initalValue);
 				input.allowedCharacters = "0123456789ABCDEF";
 				arg.elements.push(input);
@@ -1815,7 +1963,7 @@ class ChartingState extends MusicBeatState
 				});
 
 			case vocalTrack:
-				final initalValue:String = argData.value == "bf" ? "Player" : argData.value == "dad" ? "Opponent" : "Both";
+				final initalValue:String = arg.value == "bf" ? "Player" : arg.value == "dad" ? "Opponent" : "Both";
 				var input:Dropdown = new Dropdown(PANEL_SPACING, y, 192, ["Player", "Opponent", "Both"], initalValue, argData.name);
 				arg.elements.push(input);
 
@@ -1861,5 +2009,45 @@ class ChartingState extends MusicBeatState
 			tag = tag.substr(0, tag.length - 1);
 		}
 		noteTypeInput.value = tag;
+	}
+
+	inline function canDoThings():Bool{
+		return !panel.isAnythingFocused() && !hotbarAssignAlertOpen;
+	}
+	
+	inline function openHotbarAlert(forNote:Bool):Void{
+		hotbarAssignAlert.text = "Select a hotbar slot to assign this " + (forNote?"note":"event") + " to. Click on the slot or use the number keys to select a slot. Press Escape to cancel.";
+		hotbarAssignAlertForNote = forNote;
+		hotbarAssignAlertOpen = true;
+		hotbarAssignOverlay.visible = true;
+		hotbarAssignAlert.visible = true;
+	}
+
+	inline function closeHotbarAlert():Void{
+		hotbarAssignAlertOpen = false;
+		hotbarAssignOverlay.visible = false;
+		hotbarAssignAlert.visible = false;
+	}
+
+	function updateHotbarGraphics():Void{
+		for(i in 0...hotbarSlots.length){
+			switch(hotbarSlots[i].type){
+				case empty:
+					hotbarSlotNotes[i].visible = false;
+					hotbarSlotEvents[i].visible = false;
+
+				case note:
+					hotbarSlotNotes[i].visible = true;
+					hotbarSlotEvents[i].visible = false;
+
+					hotbarSlotNotes[i].updateProperties(hotbarSlotNotes[i].x, hotbarSlotNotes[i].y, i%4, 0, false, hotbarSlots[i].tag);
+
+				case event:
+					hotbarSlotNotes[i].visible = false;
+					hotbarSlotEvents[i].visible = true;
+
+					hotbarSlotEvents[i].updateProperties(hotbarSlotEvents[i].x, hotbarSlotEvents[i].y, 0, 0, hotbarSlots[i].tag);
+			}
+		}
 	}
 }
