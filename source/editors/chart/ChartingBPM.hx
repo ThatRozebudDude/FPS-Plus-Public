@@ -14,6 +14,7 @@ class ChartingBPM extends FlxSprite
 	public function new(){
 		super(0, 0);
 		loadGraphic(Paths.image("fpsPlus/editors/chart/metronomeIcon"));
+		setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);
 		active = false;
 	}
 

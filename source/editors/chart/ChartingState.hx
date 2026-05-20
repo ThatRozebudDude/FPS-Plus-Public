@@ -230,13 +230,17 @@ class ChartingState extends MusicBeatState
 	var currentState:ChartSnapshot;
 
 	var hotbarAssignOverlay:FlxSprite;
-	var hotbarAssignAlert:Alert;
+	var hotbarAssignPanel:Panel;
+	var hotbarAssignText:UIText;
 	var hotbarAssignAlertOpen:Bool = false;
 	var hotbarAssignAlertForNote:Bool = false;
 
 	static var hotbarSlots:Array<HotbarSlot> = [{type:empty,tag:""},{type:empty,tag:""},{type:empty,tag:""},{type:empty,tag:""},{type:empty,tag:""},{type:empty,tag:""},{type:empty,tag:""},{type:empty,tag:""},{type:empty,tag:""},{type:empty,tag:""}];
 	var hotbarSlotNotes:Array<ChartingNote> = [];
 	var hotbarSlotEvents:Array<ChartingEvent> = [];
+
+	var topOverlay:FlxSprite;
+	var bpmEventPanel:Panel;
 
 	override public function new(_startPosition:Float = 0){
 		super();
@@ -430,13 +434,14 @@ class ChartingState extends MusicBeatState
 		hotbarAssignOverlay.scrollFactor.set(0, 0);
 		hotbarAssignOverlay.visible = false;
 
-		hotbarAssignAlert = new Alert(0, 0, "Select a hotbar slot to assign this event to. Click on the slot or use the number keys to select a slot. Press Escape to cancel.", 1.5, 276, 6);
-		hotbarAssignAlert.scrollFactor.set(0, 0);
-		hotbarAssignAlert.alpha = 1;
-		hotbarAssignAlert.hasLifetime = false;
-		hotbarAssignAlert.doLerp = false;
-		hotbarAssignAlert.screenCenter(XY);
-		hotbarAssignAlert.visible = false;
+		//276
+		hotbarAssignPanel = new Panel(1280/2 - 298/2, 720/2 - 186/2, 298, 186, ["Assign to Hotbar"], 40);
+		hotbarAssignPanel.scrollFactor.set(0, 0);
+		hotbarAssignPanel.visible = false;
+
+		hotbarAssignText = new UIText(10, 6, "Select a hotbar slot to assign this event to. Click on the slot or use the number keys to select a slot. Press Escape to cancel.", 0.5, 276);
+
+		hotbarAssignPanel.addToTab("Assign to Hotbar", hotbarAssignText);
 		
 		timeBox = new Box(panel.x, panel.y + panel.height - Box.BORDER_SIZE, 164, 30);
 		timeBox.scrollFactor.set(0, 0);
@@ -478,6 +483,16 @@ class ChartingState extends MusicBeatState
 		typeAlert.alpha = 1;
 		typeAlert.hasLifetime = false;
 		typeAlert.doLerp = false;
+
+		topOverlay = Utils.makeColoredSprite(1280, 720, 0xFFFFFFFF);
+		topOverlay.color = 0xFF000000;
+		topOverlay.alpha = 0.7;
+		topOverlay.scrollFactor.set(0, 0);
+		topOverlay.visible = false;
+
+		bpmEventPanel = new Panel(1280/2 - 320/2, 720/2 - 320/2, 320, 320, ["BPM Change"], 40);
+		bpmEventPanel.scrollFactor.set(0, 0);
+		bpmEventPanel.visible = false;
 
 		loadChart();
 		FlxG.sound.music.time = startPosition;
@@ -536,7 +551,7 @@ class ChartingState extends MusicBeatState
 		add(stepBoxRightText);
 
 		add(hotbarAssignOverlay);
-		add(hotbarAssignAlert);
+		add(hotbarAssignPanel);
 
 		add(hotbar);
 
@@ -565,6 +580,9 @@ class ChartingState extends MusicBeatState
 		add(camFollow);
 		updateHealthIcons(chart.meta.opponent, chart.meta.player, true);
 		setCurrentState(NONE);
+
+		add(topOverlay);
+		add(bpmEventPanel);
 		
 		super.create();
 
@@ -753,7 +771,7 @@ class ChartingState extends MusicBeatState
 
 		//Update the grid cursor position and do note place checks.
 		gridCursorLane = -1;
-		if(gridCursorIndex >= OPPONENT_GRID){
+		if(gridCursorIndex > -1){
 			gridCursor.visible = true && !selectionBoxOpen;
 			gridCursorLane = Math.floor((FlxG.mouse.x - grids[gridCursorIndex].grid.x) / GRID_SIZE);
 			lastGridCursorLane = gridCursorLane;
@@ -889,15 +907,15 @@ class ChartingState extends MusicBeatState
 				musicBoundsCheck();
 			}
 
-			var note:ChartingNote = getNoteUnderCursor();
-			if(note != null){
-				if(note.tag.length > 0){
+			if(gridCursorIndex == OPPONENT_GRID || gridCursorIndex == PLAYER_GRID){
+				var note:ChartingNote = getNoteUnderCursor();
+				if(note != null && note.tag.length > 0){
 					typeAlert.alpha = 1;
 					typeAlert.text = note.tag;
 				}
 				else{ typeAlert.alpha = 0; }
 			}
-			else{
+			else if(gridCursorIndex == EVENT_GRID){
 				var event:ChartingEvent = getEventUnderCursor();
 				if(event != null){
 					typeAlert.alpha = 1;
@@ -905,6 +923,7 @@ class ChartingState extends MusicBeatState
 				}
 				else{ typeAlert.alpha = 0; }
 			}
+			else{ typeAlert.alpha = 0; }
 				
 			checkShortcuts();
 		}
@@ -2049,17 +2068,17 @@ class ChartingState extends MusicBeatState
 	}
 	
 	inline function openHotbarAlert(forNote:Bool):Void{
-		hotbarAssignAlert.text = "Select a hotbar slot to assign this " + (forNote?"note":"event") + " to. Click on the slot or use the number keys to select a slot. Press Escape to cancel.";
+		hotbarAssignText.text = "Select a hotbar slot to assign this " + (forNote?"note":"event") + " to. Click on the slot or use the number keys to select a slot. Press Escape to cancel.";
 		hotbarAssignAlertForNote = forNote;
 		hotbarAssignAlertOpen = true;
 		hotbarAssignOverlay.visible = true;
-		hotbarAssignAlert.visible = true;
+		hotbarAssignPanel.visible = true;
 	}
 
 	inline function closeHotbarAlert():Void{
 		hotbarAssignAlertOpen = false;
 		hotbarAssignOverlay.visible = false;
-		hotbarAssignAlert.visible = false;
+		hotbarAssignPanel.visible = false;
 	}
 
 	function updateHotbarGraphics():Void{

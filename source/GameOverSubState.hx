@@ -83,7 +83,7 @@ class GameOverSubState extends MusicBeatSubState
 			endBullshit();
 		}
 
-		if (Binds.justPressed("menuBack") && !isEnding){
+		if(Binds.justPressed("menuBack") && !isEnding){
 			FlxG.sound.music.stop();
 			isEnding = true;
 			FlxG.sound.play(Paths.sound("cancelMenu"));
@@ -93,7 +93,7 @@ class GameOverSubState extends MusicBeatSubState
 			camGameOver.fade(FlxColor.BLACK, 0.1, false);	
 		}
 
-		if (bf.curAnim == "firstDeath" && bf.curAnimFinished() && !isEnding){
+		if(bf.curAnim == "firstDeath" && bf.curAnimFinished() && !isEnding){
 			bf.playAnim("deathLoop");
 
 			if(bf.deathSong != null){
@@ -103,7 +103,7 @@ class GameOverSubState extends MusicBeatSubState
 			for(script in PlayState.instance.scripts){ script.gameOverLoop(); }
 		}
 
-		if (FlxG.sound.music.playing){
+		if(FlxG.sound.music.playing){
 			Conductor.songPosition = FlxG.sound.music.time;
 		}
 

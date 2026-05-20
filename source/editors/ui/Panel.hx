@@ -38,7 +38,7 @@ class Panel extends UIElement
 		for(i in 0..._tabs.length){
 			var panelTab:PanelTab = {name: _tabs[i], tab: null, title: null, group: null, manager: new UIManager()};
 
-			panelTab.tab = new Box(((_width/4)*i) - (Box.BORDER_SIZE * i/(_tabs.length-1)), 0, (_width/4)+Box.BORDER_SIZE, _tabHeight);
+			panelTab.tab = new Box(((_width/_tabs.length)*i) - (_tabs.length > 1 ? (Box.BORDER_SIZE * i/(_tabs.length-1)) : 0), 0, (_width/_tabs.length)+(_tabs.length > 1 ? Box.BORDER_SIZE : 0), _tabHeight);
 			panelTab.tab.onClick.add(function(){ changeTab(i); });
 
 			panelTab.group = new FlxTypedSpriteGroup<FlxSprite>(Box.BORDER_SIZE, _tabHeight);

@@ -1804,7 +1804,11 @@ class PlayState extends MusicBeatState
 		paused = true;
 
 		vocals.stop();
-		if(vocalType == splitVocalTrack){ vocalsOther.stop(); }
+		vocals.volume = 0;
+		if(vocalType == splitVocalTrack){
+			vocalsOther.stop();
+			vocalsOther.volume = 0;
+		}
 		FlxG.sound.music.stop();
 
 		camGame.filters = [];
