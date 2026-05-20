@@ -13,5 +13,7 @@ art/moddingDocs
 dump/
 
 # Modding test stuff
-mods/test*
+mods/
+
+# Ignore MacOS resource forks
 .DS_Store

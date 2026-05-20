@@ -27,7 +27,14 @@ class PolymodHandler
 	"assets"
 	#end;
 
-	public static var MODS_FOLDER:String = "mods";
+	public static var MODS_FOLDER:String =
+	#if (REDIRECT_ASSETS_FOLDER && macos)
+	"../../../../../../../mods"
+	#elseif REDIRECT_ASSETS_FOLDER
+	"../../../../mods"
+	#else
+	"mods"
+	#end;
 	
 	public static var allModDirs:Array<String>;
 	public static var disabledModDirs:Array<String>;
