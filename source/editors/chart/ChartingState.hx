@@ -2018,7 +2018,7 @@ class ChartingState extends MusicBeatState
 		var tag:String = eventPrefixDropdown.value;
 		var sections:Array<TagBuilderSection> = [];
 		for(i in 0...eventParams.length){
-			sections.push({section: ";" + (eventParams[i].value == eventParams[i].defaultValue ? "" : eventParams[i].value), makeBlank: eventParams[i].value == eventParams[i].defaultValue});
+			sections.push({section: ";" + eventParams[i].value, makeBlank: eventParams[i].value == eventParams[i].defaultValue});
 			if(eventParams[i].value != eventParams[i].defaultValue){
 				for(arg in sections){ arg.makeBlank = false; }
 			}
@@ -2033,7 +2033,7 @@ class ChartingState extends MusicBeatState
 		var tag:String = notePrefixDropdown.value;
 		var sections:Array<TagBuilderSection> = [];
 		for(i in 0...noteParams.length){
-			sections.push({section: ";" + (noteParams[i].value == noteParams[i].defaultValue ? "" : noteParams[i].value), makeBlank: noteParams[i].value == noteParams[i].defaultValue});
+			sections.push({section: ";" + noteParams[i].value, makeBlank: noteParams[i].value == noteParams[i].defaultValue});
 			if(noteParams[i].value != noteParams[i].defaultValue){
 				for(arg in sections){ arg.makeBlank = false; }
 			}
