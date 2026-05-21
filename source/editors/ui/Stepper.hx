@@ -139,7 +139,7 @@ class Stepper extends UIElement
 		return isInt;
 	}
 
-	function updateNumberLabel():Void{
+	public function updateNumberLabel():Void{
 		textInput.value = ""+value;
 	}
 

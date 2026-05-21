@@ -1684,7 +1684,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if(startingSong){
-			if (startedCountdown){
+			if(startedCountdown){
 				Conductor.songPosition += FlxG.elapsed * 1000;
 				if (Conductor.songPosition >= 0){
 					startSong();
@@ -1800,14 +1800,14 @@ class PlayState extends MusicBeatState
 			character = boyfriend.deathCharacter;
 		}
 
-		//persistentDraw = true;
 		paused = true;
 
+		Conductor.onStepHit.remove(onStep);
+		Conductor.onBeatHit.remove(onBeat);
+
 		vocals.stop();
-		vocals.volume = 0;
 		if(vocalType == splitVocalTrack){
 			vocalsOther.stop();
-			vocalsOther.volume = 0;
 		}
 		FlxG.sound.music.stop();
 
