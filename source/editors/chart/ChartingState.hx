@@ -2042,7 +2042,7 @@ class ChartingState extends MusicBeatState
 				});
 
 			case float:
-				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseFloat(arg.value), 0.1, null, null, true, argData.name);
+				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseFloat(arg.value), 1, null, null, true, argData.name);
 				arg.elements.push(input);
 
 				input.onValueChanged.add(function(v:Float){
@@ -2084,7 +2084,7 @@ class ChartingState extends MusicBeatState
 			case time:
 				var initalNumberValue:Float = arg.value.endsWith("b") ? Std.parseFloat(arg.value.split("b")[0]) : arg.value.endsWith("s") ? Std.parseFloat(arg.value.split("s")[0]) : Std.parseFloat(arg.value);
 				initalNumberValue = Math.isNaN(initalNumberValue) ? 0 : initalNumberValue;
-				var numberInput:Stepper = new Stepper(PANEL_SPACING, y, 110, initalNumberValue, 1, null, null, true);
+				var numberInput:Stepper = new Stepper(PANEL_SPACING, y, 110, initalNumberValue, 0.1, 0, null, true);
 				arg.elements.push(numberInput);
 
 				final initalUnitValue:String = arg.value.endsWith("b") ? "Beat" : arg.value.endsWith("s") ? "Step" : "Sec";
@@ -2153,6 +2153,18 @@ class ChartingState extends MusicBeatState
 						default:
 							arg.value = "all";
 					}
+					buildTag();
+				});
+			
+			case normalizedFloat:
+				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseFloat(arg.value), 0.1, 0, 1, true, argData.name);
+				arg.elements.push(input);
+
+				input.onValueChanged.add(function(v:Float){
+					v = Utils.truncateFloat(v, 3);
+					arg.value = ""+v;
+					input.value = v;
+					input.updateNumberLabel();
 					buildTag();
 				});
 
@@ -2258,7 +2270,7 @@ class ChartingState extends MusicBeatState
 			addBPMChange(bpmChangeTime, bpmInput.value);
 			retimeNotesAndEvents();
 			createSnapshot(PLACE_BPM(1));
-			createAlert("Adding BPM change.");
+			createAlert("Added BPM change.");
 		}
 	}
 

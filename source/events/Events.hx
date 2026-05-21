@@ -36,6 +36,7 @@ enum abstract EventArgumentType(String) from String to String {
 	var character;
 	var color;
 	var vocalTrack;
+	var normalizedFloat;
 }
 
 @:build(modding.GlobalScriptingTypesMacro.build())
