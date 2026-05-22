@@ -321,7 +321,7 @@
 			"time": 61685.393258427
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 61896.0674157303
 		},
@@ -356,7 +356,7 @@
 			"time": 63033.7078651685
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 63244.3820224719
 		},
@@ -426,7 +426,7 @@
 			"time": 64634.7191011236
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 64676.9662921348
 		},
@@ -436,7 +436,7 @@
 			"time": 64719.1011235955
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 64719.1011235955
 		},
@@ -771,7 +771,7 @@
 			"time": 114606.741573033956
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 115828.651685394
 		},
@@ -801,7 +801,7 @@
 			"time": 117303.157303371
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 118609.550561798
 		},

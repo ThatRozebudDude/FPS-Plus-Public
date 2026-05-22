@@ -16,7 +16,7 @@
 			"time": 93.1621621621634
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 1453.125
 		},
@@ -36,7 +36,7 @@
 			"time": 1546
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 2156.25
 		},
@@ -81,7 +81,7 @@
 			"time": 10453
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 10453.125
 		},
@@ -96,7 +96,7 @@
 			"time": 10546
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 11531.25
 		},
@@ -196,7 +196,7 @@
 			"time": 36000
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 37453.125
 		},
@@ -211,7 +211,7 @@
 			"time": 37687
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 38062.5
 		},
@@ -281,7 +281,7 @@
 			"time": 48750
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 49031.25
 		},
@@ -346,7 +346,7 @@
 			"time": 50250
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 50531.25
 		},

@@ -352,7 +352,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "week-2-cheer",
+			"tag": "playAnim;cheer",
 			"length": 0,
 			"player": false,
 			"time": 15600
@@ -457,7 +457,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "week-2-cheer",
+			"tag": "playAnim;cheer",
 			"length": 2,
 			"player": true,
 			"time": 18800
@@ -1220,7 +1220,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "week-2-cheer",
+			"tag": "playAnim;cheer",
 			"length": 0,
 			"player": false,
 			"time": 41200
@@ -1325,7 +1325,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "week-2-cheer",
+			"tag": "playAnim;cheer",
 			"length": 2,
 			"player": true,
 			"time": 44400

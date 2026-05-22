@@ -81,7 +81,7 @@
 			"time": 59325.84269662921
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 61938.202247191
 		},
@@ -106,7 +106,7 @@
 			"time": 63707.8651685393
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 64634.8314606742
 		},

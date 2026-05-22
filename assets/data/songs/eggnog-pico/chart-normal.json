@@ -443,161 +443,161 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 16000
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 1,
 			"player": false,
 			"time": 16100
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 16300
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 2,
 			"player": false,
 			"time": 16400
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 16800
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 17200
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 2,
 			"player": false,
 			"time": 17400
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 17800
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 2,
 			"player": false,
 			"time": 18200
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 18600
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 18700
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 18800
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 4,
 			"player": false,
 			"time": 19000
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 2,
 			"player": false,
 			"time": 19600
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 20000
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 2,
 			"player": false,
 			"time": 20100
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 20400
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 1,
 			"player": false,
 			"time": 20600
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 1,
 			"player": false,
 			"time": 21000
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 1,
 			"player": false,
 			"time": 21400
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 1,
 			"player": false,
 			"time": 21800
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 21975
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 22200
@@ -611,14 +611,14 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 22400
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 2,
 			"player": false,
 			"time": 22500
@@ -688,14 +688,14 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 24000
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 3,
 			"player": false,
 			"time": 24100
@@ -765,14 +765,14 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 25600
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 2,
 			"player": false,
 			"time": 25700
@@ -842,14 +842,14 @@
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 27200
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 4,
 			"player": false,
 			"time": 27300
@@ -1570,35 +1570,35 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 41600
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 41700
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 1,
 			"player": false,
 			"time": 41800
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 42000
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 42200
@@ -1612,21 +1612,21 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 42400
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 42600
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 42800
@@ -1640,14 +1640,14 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 43000
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 2,
 			"player": false,
 			"time": 43200
@@ -1710,35 +1710,35 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 44800
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 44900
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 1,
 			"player": false,
 			"time": 45000
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 45200
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 45400
@@ -1752,21 +1752,21 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 45600
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 45800
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 46000
@@ -1780,14 +1780,14 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 46200
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 1,
 			"player": false,
 			"time": 46400
@@ -1801,7 +1801,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 46600
@@ -1815,7 +1815,7 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 46700
@@ -1829,7 +1829,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 46800
@@ -1843,7 +1843,7 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 47000
@@ -1857,7 +1857,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 3,
 			"player": false,
 			"time": 47200
@@ -2361,119 +2361,119 @@
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 60800
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 61000
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 61200
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 61400
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 61600
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 61800
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 62000
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 62200
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 62400
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 62500
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 62600
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 62800
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 62900
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 2,
 			"player": false,
 			"time": 63000
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 63200
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 63400
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 3,
 			"player": false,
 			"time": 63600
@@ -2578,7 +2578,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 1,
 			"player": false,
 			"time": 66400
@@ -2592,7 +2592,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 66600
@@ -2606,119 +2606,119 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 66800
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 67000
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 67200
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 67400
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 67800
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 67900
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 1,
 			"player": false,
 			"time": 68000
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 68250
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 68400
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 68600
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 2,
 			"player": false,
 			"time": 68800
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 69200
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 69300
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 69400
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 69500
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 2,
 			"player": false,
 			"time": 69600
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 2,
 			"player": false,
 			"time": 70000
@@ -2732,7 +2732,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 1,
 			"player": false,
 			"time": 70400
@@ -2746,7 +2746,7 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 70600
@@ -2760,21 +2760,21 @@
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 71000
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 71100
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 71200
@@ -2788,7 +2788,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 71400
@@ -2802,7 +2802,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 71600
@@ -2816,7 +2816,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 71800
@@ -2830,7 +2830,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 3,
 			"player": false,
 			"time": 72000
@@ -2858,7 +2858,7 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 72400
@@ -2872,7 +2872,7 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 3,
 			"player": false,
 			"time": 72800
@@ -3691,70 +3691,70 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 86400
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 86500
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 1,
 			"player": false,
 			"time": 86600
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 86800
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 87000
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 87200
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 87400
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 87600
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 87800
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 2,
 			"player": false,
 			"time": 88000
@@ -3824,35 +3824,35 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 89600
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 89700
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 1,
 			"player": false,
 			"time": 89800
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 90000
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 90200
@@ -3866,21 +3866,21 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 90400
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 90600
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 90800
@@ -3894,14 +3894,14 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 91000
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 2,
 			"player": false,
 			"time": 91200

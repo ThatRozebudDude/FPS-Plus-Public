@@ -26,7 +26,7 @@
 			"time": 14400
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 17850
 		},
@@ -36,7 +36,7 @@
 			"time": 18000
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 19050
 		},
@@ -61,7 +61,7 @@
 			"time": 24000
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 27450
 		},
@@ -71,7 +71,7 @@
 			"time": 27600
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 28650
 		},

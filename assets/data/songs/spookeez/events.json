@@ -21,7 +21,7 @@
 			"time": 12800
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 15550
 		},
@@ -31,7 +31,7 @@
 			"time": 15600
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 15700
 		},
@@ -41,7 +41,7 @@
 			"time": 16000
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 18750
 		},
@@ -51,7 +51,7 @@
 			"time": 18800
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 18900
 		},
@@ -81,7 +81,7 @@
 			"time": 38400
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 41150
 		},
@@ -91,7 +91,7 @@
 			"time": 41200
 		},
 		{
-			"tag": "dadAnimLockToggle",
+			"tag": "toggleAnimLock;dad",
 			"lane": 1,
 			"time": 41300
 		},
@@ -101,7 +101,7 @@
 			"time": 41600
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 44350
 		},
@@ -111,7 +111,7 @@
 			"time": 44400
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 44500
 		},

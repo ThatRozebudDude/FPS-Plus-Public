@@ -21,7 +21,7 @@
 			"time": 2400
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 4125
 		},
@@ -31,7 +31,7 @@
 			"time": 4200
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 4275
 		},
@@ -46,7 +46,7 @@
 			"time": 7200
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 8925
 		},
@@ -56,7 +56,7 @@
 			"time": 9000
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 9075
 		},
@@ -71,7 +71,7 @@
 			"time": 12000
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 13725
 		},
@@ -81,7 +81,7 @@
 			"time": 13800
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 13875
 		},
@@ -96,7 +96,7 @@
 			"time": 16800
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 18525
 		},
@@ -106,7 +106,7 @@
 			"time": 18600
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 18675
 		},
@@ -121,7 +121,7 @@
 			"time": 21600
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 23325
 		},
@@ -131,7 +131,7 @@
 			"time": 23400
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 23475
 		},
@@ -146,7 +146,7 @@
 			"time": 26400
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 28125
 		},
@@ -161,7 +161,7 @@
 			"time": 28500
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 28575
 		},
@@ -176,7 +176,7 @@
 			"time": 31200
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 32925
 		},
@@ -186,7 +186,7 @@
 			"time": 33000
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 33075
 		},
@@ -201,7 +201,7 @@
 			"time": 36000
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 37725
 		},
@@ -211,7 +211,7 @@
 			"time": 37800
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 37875
 		},
@@ -226,7 +226,7 @@
 			"time": 40800
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 42525
 		},
@@ -236,7 +236,7 @@
 			"time": 42600
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 42675
 		},
@@ -261,7 +261,7 @@
 			"time": 50400
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 52125
 		},
@@ -271,7 +271,7 @@
 			"time": 52200
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 52275
 		},
@@ -286,7 +286,7 @@
 			"time": 55200
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 56925
 		},
@@ -296,7 +296,7 @@
 			"time": 57000
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 57075
 		},
@@ -311,7 +311,7 @@
 			"time": 60000
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 61725
 		},
@@ -321,7 +321,7 @@
 			"time": 61800
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 61875
 		},
@@ -336,7 +336,7 @@
 			"time": 64800
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 66525
 		},
@@ -351,7 +351,7 @@
 			"time": 66900
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 66975
 		},
@@ -366,7 +366,7 @@
 			"time": 69600
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 71325
 		},
@@ -376,7 +376,7 @@
 			"time": 71400
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 71475
 		},
@@ -391,7 +391,7 @@
 			"time": 74400
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 76125
 		},
@@ -401,7 +401,7 @@
 			"time": 76200
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 76275
 		}

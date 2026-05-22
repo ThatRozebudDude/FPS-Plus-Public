@@ -22,9 +22,9 @@ class CharacterAnimationEvents extends Events
 			{name: "Bop Every", type: "int", value: "4"}
 		]}});
 
-		registerEvent({prefix: "bfAnimLockToggle", eventFunction: bfAnimLockToggle, editor: {description: BF_ANIM_LOCK_TOGGLE_DESC}});
-		registerEvent({prefix: "dadAnimLockToggle", eventFunction: dadAnimLockToggle, editor: {description: DAD_ANIM_LOCK_TOGGLE_DESC}});
-		registerEvent({prefix: "gfAnimLockToggle", eventFunction: gfAnimLockToggle, editor: {description: GF_ANIM_LOCK_TOGGLE_DESC}});
+		registerEvent({prefix: "toggleAnimLock", eventFunction: toggleAnimLock, editor: {description: TOGGLE_ANIM_LOCK_DESC, arguments: [
+			{name: "Character", type: "character", value: "bf"}
+		]}});
 
 		registerEvent({prefix: "changeCharacter", eventFunction: changeCharacter, preprocessFunction: changeCharacterPreprocess, editor: {description: CHANGE_CHARACTER_DESC, arguments: [
 			{name: "Character", type: "character", value: "bf"}, {name: "Swap To", type: "string", value: "Bf"}, {name: "Copy Shader", type: "bool", value: "true"}
@@ -98,16 +98,16 @@ class CharacterAnimationEvents extends Events
 		}
 	}
 
-	function bfAnimLockToggle(tag:String):Void{
-		boyfriend.canAutoAnim = !boyfriend.canAutoAnim;
-	}
-
-	function dadAnimLockToggle(tag:String):Void{
-		dad.canAutoAnim = !dad.canAutoAnim;
-	}
-
-	function gfAnimLockToggle(tag:String):Void{
-		gf.canAutoAnim = !gf.canAutoAnim;
+	function toggleAnimLock(tag:String):Void{
+		var args = Events.getArgs(tag);
+		switch(args[0]){
+			case "dad":
+				dad.canAutoAnim = !dad.canAutoAnim;
+			case "gf":
+				gf.canAutoAnim = !gf.canAutoAnim;
+			default:
+				boyfriend.canAutoAnim = !boyfriend.canAutoAnim;
+		}
 	}
 
 	function changeCharacter(tag:String):Void{
@@ -118,28 +118,7 @@ class CharacterAnimationEvents extends Events
 			return;
 		}
 
-		switch(args[0].toLowerCase()){
-			case "bf":
-				if (boyfriend.charClass == args[1]){ return; }
-
-				var newCharacter = new Character(boyfriend.x, boyfriend.y, args[1], true);
-				playstate.iconP1.setIconCharacter(newCharacter.iconName);
-
-				if((playstate.stage.useStartPoints && !playstate.stage.overrideBfStartPoints) || (!playstate.stage.useStartPoints && playstate.stage.overrideBfStartPoints)){
-					newCharacter.setPosition(playstate.stage.bfStart.x - ((newCharacter.getFrameWidth() * newCharacter.getScale().x)/2), playstate.stage.bfStart.y - (newCharacter.getFrameHeight() * newCharacter.getScale().y));
-				}
-				newCharacter.reposition();
-
-				if(newCharacter.getShader() == null && boyfriend.getShader() != null && Events.parseBool(args[2])){
-					newCharacter.applyShader(boyfriend.getShader());
-					if(ReflectUtil.hasInstanceFieldOf(boyfriend.getShader(), "attachCharacter")){
-						newCharacter.getShader().attachCharacter(newCharacter);
-					}
-				}
-
-				playstate.characterLayer.replace(playstate.boyfriend, newCharacter);
-				playstate.boyfriend = newCharacter;
-
+		switch(args[0]){
 			case "dad":
 				if (dad.charClass == args[1]){ return; }
 
@@ -180,6 +159,27 @@ class CharacterAnimationEvents extends Events
 
 				playstate.gfLayer.replace(playstate.gf, newCharacter);
 				playstate.gf = newCharacter;
+
+			default:
+				if (boyfriend.charClass == args[1]){ return; }
+
+				var newCharacter = new Character(boyfriend.x, boyfriend.y, args[1], true);
+				playstate.iconP1.setIconCharacter(newCharacter.iconName);
+
+				if((playstate.stage.useStartPoints && !playstate.stage.overrideBfStartPoints) || (!playstate.stage.useStartPoints && playstate.stage.overrideBfStartPoints)){
+					newCharacter.setPosition(playstate.stage.bfStart.x - ((newCharacter.getFrameWidth() * newCharacter.getScale().x)/2), playstate.stage.bfStart.y - (newCharacter.getFrameHeight() * newCharacter.getScale().y));
+				}
+				newCharacter.reposition();
+
+				if(newCharacter.getShader() == null && boyfriend.getShader() != null && Events.parseBool(args[2])){
+					newCharacter.applyShader(boyfriend.getShader());
+					if(ReflectUtil.hasInstanceFieldOf(boyfriend.getShader(), "attachCharacter")){
+						newCharacter.getShader().attachCharacter(newCharacter);
+					}
+				}
+
+				playstate.characterLayer.replace(playstate.boyfriend, newCharacter);
+				playstate.boyfriend = newCharacter;
 		}
 
 		playstate.healthBarShader.leftColor = dad.characterColor;
@@ -223,10 +223,8 @@ class CharacterAnimationEvents extends Events
 	final SING_ANIM_DESC:String = "Plays an animation treated as a note sing direction.";
 	final SET_ANIM_SET_DESC:String = "Sets the animation set on a character.";
 	final ICON_BOP_FREQ_DESC:String = "Sets the interval that the health icons bop.";
-	final BF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether BF will automatically play animations.";
-	final DAD_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether Dad will automatically play animations.";
-	final GF_ANIM_LOCK_TOGGLE_DESC:String = "Toggle whether GF will automatically play animations.";
-	final CHANGE_CHARACTER_DESC:String = "Change a character to a different one.";
-	final SWAP_CHARACTER_DESC:String = "Swap which character you are playing as.";
+	final TOGGLE_ANIM_LOCK_DESC:String = "Toggles whether a character will automatically play animations.";
+	final CHANGE_CHARACTER_DESC:String = "Changes a character to a different one.";
+	final SWAP_CHARACTER_DESC:String = "Swaps which character you are playing as.";
 	final SET_BOP_FREQ_DESC:String = "Sets the interval that a character does their idle dance.";
 }

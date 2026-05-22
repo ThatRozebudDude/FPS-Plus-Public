@@ -100,21 +100,21 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 2,
 			"player": false,
 			"time": 11379.3103448276
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 7,
 			"player": false,
 			"time": 11724.1379310345
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 15,
 			"player": false,
 			"time": 12413.7931034483
@@ -191,21 +191,21 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 14827.5862068966
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 15000
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 15172.4137931034
@@ -219,7 +219,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 15517.2413793103
@@ -240,14 +240,14 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 15862.0689655172
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 16206.8965517241
@@ -268,21 +268,21 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 16551.724137931
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 16724.1379310345
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 16896.5517241379
@@ -296,14 +296,14 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 17068.9655172414
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 17241.3793103448
@@ -324,7 +324,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 17586.2068965517
@@ -338,14 +338,14 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 17758.6206896552
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 17931.0344827586
@@ -359,49 +359,49 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 18103.4482758621
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 18275.8620689655
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 18620.6896551724
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 18793.1034482759
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 18965.5172413793
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 19137.9310344828
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 19310.3448275862
@@ -415,7 +415,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 19655.1724137931
@@ -429,21 +429,21 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 19827.5862068966
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 20000
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 20172.4137931034
@@ -464,7 +464,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 20344.8275862069
@@ -548,7 +548,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 3,
 			"player": false,
 			"time": 21724.1379310345
@@ -569,7 +569,7 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 11,
 			"player": false,
 			"time": 22068.9655172414
@@ -758,7 +758,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 28448.275862069
@@ -772,7 +772,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 28620.6896551724
@@ -793,7 +793,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 28793.1034482759
@@ -807,7 +807,7 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 11,
 			"player": false,
 			"time": 28965.5172413793
@@ -926,7 +926,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 31206.8965517241
@@ -947,14 +947,14 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 31379.3103448276
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 31551.724137931
@@ -968,7 +968,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 11,
 			"player": false,
 			"time": 31724.1379310345
@@ -2011,21 +2011,21 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 55344.8275862069
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 55517.2413793103
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 55689.6551724138
@@ -2039,7 +2039,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 5,
 			"player": false,
 			"time": 55862.0689655172
@@ -2053,7 +2053,7 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 7,
 			"player": false,
 			"time": 56551.724137931
@@ -2067,7 +2067,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 3,
 			"player": false,
 			"time": 57241.3793103448
@@ -2081,7 +2081,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 9,
 			"player": false,
 			"time": 57586.2068965517
@@ -2095,7 +2095,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 5,
 			"player": false,
 			"time": 58620.6896551724
@@ -2109,7 +2109,7 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 7,
 			"player": false,
 			"time": 59310.3448275862
@@ -2123,7 +2123,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 7,
 			"player": false,
 			"time": 60000
@@ -2137,14 +2137,14 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 60689.6551724138
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 60862.0689655172
@@ -2158,14 +2158,14 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 61034.4827586207
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 61206.8965517241
@@ -2186,14 +2186,14 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 61379.3103448276
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 61724.1379310345
@@ -2207,7 +2207,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 61896.5517241379
@@ -2270,14 +2270,14 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 62758.6206896552
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 62931.0344827586
@@ -2291,14 +2291,14 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 63103.4482758621
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 63275.8620689655
@@ -2312,7 +2312,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 63448.275862069
@@ -2361,35 +2361,35 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 64827.5862068966
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 65000
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 65172.4137931034
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 65344.8275862069
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 3,
 			"player": false,
 			"time": 65517.2413793103
@@ -2424,7 +2424,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 3,
 			"player": false,
 			"time": 65862.0689655172
@@ -2767,14 +2767,14 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 77241.3793103448
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 77413.7931034483
@@ -2788,21 +2788,21 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 77586.2068965517
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 77758.6206896552
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 77931.0344827586
@@ -2816,14 +2816,14 @@
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 78103.4482758621
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 78275.8620689655
@@ -2844,21 +2844,21 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 78448.275862069
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 78620.3793103448
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 78792.7931034483
@@ -2872,7 +2872,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 78965.2068965517
@@ -2886,7 +2886,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 79137.6206896552
@@ -2900,7 +2900,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 79310.0344827586
@@ -2914,14 +2914,14 @@
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 79482.4482758621
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 79654.8620689655
@@ -2935,7 +2935,7 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 79827.275862069
@@ -2956,14 +2956,14 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 80000.3793103448
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 80172.7931034483
@@ -2977,35 +2977,35 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 80345.2068965517
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 80517.6206896552
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 80689.6551724138
 		},
 		{
 			"direction": 3,
-			"tag": "censor",
+			"tag": "animSet;censor",
 			"length": 0,
 			"player": true,
 			"time": 80775.8620689655
 		},
 		{
 			"direction": 1,
-			"tag": "censor",
+			"tag": "animSet;censor",
 			"length": 0,
 			"player": true,
 			"time": 81034.4827586207
@@ -3019,7 +3019,7 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 81551.724137931
@@ -3033,14 +3033,14 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 81637.9310344828
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 81724.1379310345
@@ -3054,7 +3054,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 81896.5517241379
@@ -3068,7 +3068,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 82068.9655172414
@@ -3082,14 +3082,14 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 82241.3793103448
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 82413.7931034483
@@ -3103,7 +3103,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 82586.2068965517
@@ -3117,7 +3117,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 14,
 			"player": false,
 			"time": 82758.6206896552
@@ -3418,7 +3418,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 89655.3793103448
@@ -3432,7 +3432,7 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 89827.7931034483
@@ -3446,7 +3446,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 90000.2068965517
@@ -3460,7 +3460,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 90172.6206896552
@@ -3474,14 +3474,14 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 90345.0344827586
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 90517.4482758621
@@ -3495,7 +3495,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 90689.8620689655
@@ -3509,7 +3509,7 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 90862.275862069
@@ -3593,14 +3593,14 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 92413.3793103448
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 92586.2068965517
@@ -3614,7 +3614,7 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 92758.6206896552
@@ -3628,7 +3628,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 92930.6206896552
@@ -3642,7 +3642,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 93103.0344827586
@@ -3656,7 +3656,7 @@
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 93275.8620689655
@@ -3670,14 +3670,14 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 93362.0689655172
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 93448.275862069
@@ -3691,7 +3691,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 93620.6896551724
@@ -3705,7 +3705,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 7,
 			"player": false,
 			"time": 93793.1034482759
@@ -4027,42 +4027,42 @@
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 102413.793103448
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 102586.206896552
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 102758.620689655
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 102801.724137931
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 102931.034482759
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 13,
 			"player": false,
 			"time": 103275.862068966
@@ -4188,35 +4188,35 @@
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 106896.551724138
 		},
 		{
 			"direction": 1,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 107068.965517241
 		},
 		{
 			"direction": 3,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 107241.379310345
 		},
 		{
 			"direction": 2,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 107413.793103448
 		},
 		{
 			"direction": 0,
-			"tag": "alt",
+			"tag": "animSet;alt",
 			"length": 0,
 			"player": false,
 			"time": 107586.206896552

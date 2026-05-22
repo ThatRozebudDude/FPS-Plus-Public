@@ -3,67 +3,54 @@ package notetypes;
 import flixel.tweens.FlxEase;
 import flixel.FlxG;
 
-class PlayAnimNotes extends NoteType
+class LegacyNotes extends NoteType
 {
 
 	override function defineTypes():Void{
-		registerNoteType({prefix: "playAnim", noteHit: playAnimHit, noteMiss: playAnimMiss, sustainHit: playAnimHit, sustainMiss: playAnimMiss, editor: {arguments: [
-			{name: "Hit Animation", type: "string", value: ""}, {name: "Miss Animation", type: "string", value: ""}, {name: "Dynamic Camera Movement", type: "bool", value: "true"}
-		]}});
-		
-		registerNoteType({prefix: "hey", noteHit: playAnimHit, sustainHit: noSustainAnimation, editor: {arguments: [
+		registerNoteType({prefix: "alt", noteHit: altHit, sustainHit: altHit, editor: {hidden: true}});
+		registerNoteType({prefix: "censor", noteHit: censorHit, sustainHit: censorHit, editor: {hidden: true}});
+		registerNoteType({prefix: "hey", noteHit: heyHit, sustainHit: noSustainAnimation, editor: {hidden: true, arguments: [
 			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
 		]}});
-		registerNoteType({prefix: "week-2-cheer", noteHit: cheerHit, sustainHit: noSustainAnimation, editor: {arguments: [
+		registerNoteType({prefix: "week-2-cheer", noteHit: cheerHit, sustainHit: noSustainAnimation, editor: {hidden: true, arguments: [
 			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
 		]}});
-		registerNoteType({prefix: "ugh", noteHit: ughHit, sustainHit: noSustainAnimation, editor: {arguments: [
+		registerNoteType({prefix: "ugh", noteHit: ughHit, sustainHit: noSustainAnimation, editor: {hidden: true, arguments: [
 			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
 		]}});
-		registerNoteType({prefix: "argh", noteHit: arghHit, sustainHit: noSustainAnimation, editor: {arguments: [
+		registerNoteType({prefix: "argh", noteHit: arghHit, sustainHit: noSustainAnimation, editor: {hidden: true, arguments: [
 			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
 		]}});
-		registerNoteType({prefix: "shit", noteHit: shitHit, sustainHit: noSustainAnimation, editor: {arguments: [
+		registerNoteType({prefix: "shit", noteHit: shitHit, sustainHit: noSustainAnimation, editor: {hidden: true, arguments: [
 			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
 		]}});
-		registerNoteType({prefix: "shit-censor", noteHit: shitCensorHit, sustainHit: noSustainAnimation, editor: {arguments: [
+		registerNoteType({prefix: "shit-censor", noteHit: shitCensorHit, sustainHit: noSustainAnimation, editor: {hidden: true, arguments: [
 			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
 		]}});
-		registerNoteType({prefix: "burp", noteHit: burpHit, sustainHit: noSustainAnimation, editor: {arguments: [
+		registerNoteType({prefix: "burp", noteHit: burpHit, sustainHit: noSustainAnimation, editor: {hidden: true, arguments: [
 			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
 		]}});
-		registerNoteType({prefix: "burpBig", noteHit: burpBigHit, sustainHit: noSustainAnimation, editor: {arguments: [
+		registerNoteType({prefix: "burpBig", noteHit: burpBigHit, sustainHit: noSustainAnimation, editor: {hidden: true, arguments: [
 			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
 		]}});
 	}
 
 
 
-	function playAnimHit(note:Note, character:Character){
-		var args = NoteType.getArgs(note.type);
-		if(character.canAutoAnim){
-			if(shouldPlayAnimation(note, character)){
-				if(args[0] != ""){ character.singAnim(args[0], true); }
-				else{ playstate.defaultNoteHit(note, character); }
-			}
-			character.holdTimer = 0;
-		}
-		if(Events.parseBool(args[2])){
-			playstate.getExtraCamMovement(note);
-		}
+	function altHit(note:Note, character:Character){
+		var prevAnimSet = character.animSet;
+		character.animSet = "alt";
+		playstate.defaultNoteHit(note, character);
+		character.animSet = prevAnimSet;
 	}
 
-	function playAnimMiss(note:Note, character:Character){
-		var args = NoteType.getArgs(note.type);
-		if(character.canAutoAnim){
-			if(args[1] != ""){ character.singAnim(args[1], true); }
-			else{ playstate.defaultNoteMiss(note, character); }
-		}
-		if(Events.parseBool(args[2])){
-			playstate.getExtraCamMovement(note);
-		}
+	function censorHit(note:Note, character:Character){
+		var prevAnimSet = character.animSet;
+		character.animSet = "censor";
+		playstate.defaultNoteHit(note, character);
+		character.animSet = prevAnimSet;
 	}
-
+	
 
 
 	function noSustainAnimation(note:Note, character:Character){

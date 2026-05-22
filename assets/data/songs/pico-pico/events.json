@@ -231,7 +231,7 @@
 			"time": 65800
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 66100
 		},
@@ -261,7 +261,7 @@
 			"time": 67100
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 67100
 		},

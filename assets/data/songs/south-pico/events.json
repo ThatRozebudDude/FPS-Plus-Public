@@ -511,7 +511,7 @@
 			"time": 85545.4545454546
 		},
 		{
-			"tag": "bfAnimLockToggle",
+			"tag": "toggleAnimLock;bf",
 			"lane": 1,
 			"time": 85636.3636363637
 		},

@@ -1,0 +1,64 @@
+package notetypes;
+
+import flixel.tweens.FlxEase;
+import flixel.FlxG;
+
+class AnimationNotes extends NoteType
+{
+
+	override function defineTypes():Void{
+		registerNoteType({prefix: "playAnim", noteHit: playAnimHit, noteMiss: playAnimMiss, sustainHit: playAnimHit, sustainMiss: playAnimMiss, editor: {arguments: [
+			{name: "Hit Animation", type: "string", value: ""}, {name: "Miss Animation", type: "string", value: ""}, {name: "Dynamic Camera Movement", type: "bool", value: "true"}
+		]}});
+
+		registerNoteType({prefix: "animSet", noteHit: animSetHit, noteMiss: animSetMiss, sustainHit: animSetHit, sustainMiss: animSetMiss, editor: {arguments: [
+			{name: "Animation Set", type: "string", value: ""}
+		]}});
+	}
+
+
+
+	function playAnimHit(note:Note, character:Character){
+		var args = NoteType.getArgs(note.type);
+		if(character.canAutoAnim){
+			if(shouldPlayAnimation(note, character)){
+				if(args[0] != ""){ character.singAnim(args[0], true); }
+				else{ playstate.defaultNoteHit(note, character); }
+			}
+			character.holdTimer = 0;
+		}
+		if(Events.parseBool(args[2])){
+			playstate.getExtraCamMovement(note);
+		}
+	}
+
+	function playAnimMiss(note:Note, character:Character){
+		var args = NoteType.getArgs(note.type);
+		if(character.canAutoAnim){
+			if(args[1] != ""){ character.singAnim(args[1], true); }
+			else{ playstate.defaultNoteMiss(note, character); }
+		}
+		if(Events.parseBool(args[2])){
+			playstate.getExtraCamMovement(note);
+		}
+	}
+
+
+
+	function animSetHit(note:Note, character:Character){
+		var args = NoteType.getArgs(note.type);
+		var prevAnimSet = character.animSet;
+		character.animSet = args[0];
+		playstate.defaultNoteHit(note, character);
+		character.animSet = prevAnimSet;
+	}
+
+	function animSetMiss(note:Note, character:Character){
+		var args = NoteType.getArgs(note.type);
+		var prevAnimSet = character.animSet;
+		character.animSet = args[0];
+		playstate.defaultNoteMiss(note, character);
+		character.animSet = prevAnimSet;
+	}
+
+}

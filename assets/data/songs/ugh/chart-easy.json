@@ -114,7 +114,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "ugh",
+			"tag": "playAnim;ugh",
 			"length": 0,
 			"player": false,
 			"time": 5625
@@ -1052,7 +1052,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "ugh",
+			"tag": "playAnim;ugh",
 			"length": 0,
 			"player": false,
 			"time": 41625
@@ -1213,7 +1213,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "ugh",
+			"tag": "playAnim;ugh",
 			"length": 0,
 			"player": false,
 			"time": 49125
@@ -1864,7 +1864,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "ugh",
+			"tag": "playAnim;ugh",
 			"length": 0,
 			"player": false,
 			"time": 77625

@@ -1206,7 +1206,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "censor",
+			"tag": "animSet;censor",
 			"length": 0,
 			"player": true,
 			"time": 44400
@@ -1479,7 +1479,7 @@
 		},
 		{
 			"direction": 2,
-			"tag": "censor",
+			"tag": "animSet;censor",
 			"length": 0,
 			"player": true,
 			"time": 50800
@@ -1724,7 +1724,7 @@
 		},
 		{
 			"direction": 0,
-			"tag": "censor",
+			"tag": "animSet;censor",
 			"length": 0,
 			"player": true,
 			"time": 57200
@@ -1990,7 +1990,7 @@
 		},
 		{
 			"direction": 3,
-			"tag": "censor",
+			"tag": "animSet;censor",
 			"length": 0,
 			"player": true,
 			"time": 63600

@@ -829,10 +829,12 @@ class ChartingState extends MusicBeatState
 					if(note != null && !selectedNotes.contains(note)){
 						selectedNotes.push(note);
 						noteTypeInput.value = note.tag;
+						createArguments(note.tag, true);
 					}
 					else if(note != null && selectedNotes.contains(note)){ selectedNotes.remove(note); }
 					else if(note == null){
 						noteTypeInput.value = "";
+						createArguments("", true);
 					}
 					currentlySelectingEvents = false;
 				}
@@ -856,10 +858,12 @@ class ChartingState extends MusicBeatState
 					if(event != null && !selectedEvents.contains(event)){
 						selectedEvents.push(event);
 						eventTagInput.value = event.tag;
+						createArguments(event.tag, false);
 					}
 					else if(event != null && selectedEvents.contains(event)){ selectedEvents.remove(event); }
 					else if(event == null){
 						eventTagInput.value = "";
+						createArguments("", false);
 					}
 					currentlySelectingEvents = true;
 				}
