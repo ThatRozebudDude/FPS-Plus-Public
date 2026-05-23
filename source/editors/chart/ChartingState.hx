@@ -215,15 +215,15 @@ class ChartingState extends MusicBeatState
 
 	var noteTypeInput:TextInput;
 	var notePrefixDropdown:Dropdown;
-
 	var noteParams:Array<ArgumentInput> = [];
 	var noteParamStartLocation:Float = 0;
+	var noteDescription:UIText;
 
 	var eventTagInput:TextInput;
 	var eventPrefixDropdown:Dropdown;
-	
 	var eventParams:Array<ArgumentInput> = [];
 	var eventParamStartLocation:Float = 0;
+	var eventDescription:UIText;
 
 	var alertGroup:FlxTypedGroup<Alert>;
 	var typeAlert:Alert;
@@ -448,6 +448,7 @@ class ChartingState extends MusicBeatState
 		hotbarAssignPanel.visible = false;
 
 		hotbarAssignText = new UIText(10, 6, "Select a hotbar slot to assign this event to. Click on the slot or use the number keys to select a slot. Press Escape to cancel.", 0.5, 276);
+		hotbarAssignText.alignment = JUSTIFY;
 
 		hotbarAssignPanel.addToTab("Assign to Hotbar", hotbarAssignText);
 		
@@ -678,6 +679,11 @@ class ChartingState extends MusicBeatState
 
 		noteParamStartLocation = assignNoteTypeToHotbar.y + assignNoteTypeToHotbar.elementHeight + PANEL_EXTRA_SPACING;
 
+		noteDescription = new UIText(PANEL_SPACING, 0, "", 0.5, panel.width - Box.BORDER_SIZE*2 - PANEL_SPACING*2);
+		noteDescription.alignment = JUSTIFY;
+		noteDescription.color = 0xFFBABABA;
+
+		panel.addToTab("Notes", noteDescription);
 		panel.addToTab("Notes", noteTypeInput);
 		panel.addToTab("Notes", notePrefixDropdown);
 		panel.addToTab("Notes", assignNoteTypeToHotbar);
@@ -702,6 +708,11 @@ class ChartingState extends MusicBeatState
 
 		eventParamStartLocation = assignEventToHotbar.y + assignEventToHotbar.elementHeight + PANEL_EXTRA_SPACING;
 
+		eventDescription = new UIText(PANEL_SPACING, 0, "", 0.5, panel.width - Box.BORDER_SIZE*2 - PANEL_SPACING*2);
+		eventDescription.alignment = JUSTIFY;
+		eventDescription.color = 0xFFBABABA;
+		
+		panel.addToTab("Events", eventDescription);
 		panel.addToTab("Events", eventTagInput);
 		panel.addToTab("Events", eventPrefixDropdown);
 		panel.addToTab("Events", assignEventToHotbar);
@@ -1962,6 +1973,7 @@ class ChartingState extends MusicBeatState
 
 	function createArguments(tag:String, forNoteType:Bool):Void{
 		if(!forNoteType){
+			eventDescription.text = "";
 			for(eventParam in eventParams){
 				for(element in eventParam.elements){
 					panel.removeFromTab("Events", element);
@@ -1971,6 +1983,7 @@ class ChartingState extends MusicBeatState
 			eventParams = [];
 		}
 		else{
+			noteDescription.text = "";
 			for(noteParam in noteParams){
 				for(element in noteParam.elements){
 					panel.removeFromTab("Notes", element);
@@ -1990,6 +2003,10 @@ class ChartingState extends MusicBeatState
 			var eventDefinition = Events.events.get(prefix);
 			if(eventDefinition == null){ return; }
 			if(eventDefinition.editor == null){ return; }
+			if(eventDefinition.editor.description != null){
+				eventDescription.text = eventDefinition.editor.description;
+				eventDescription.y = panel.y + panel.elementHeight - 1 - Box.BORDER_SIZE - eventDescription.height;
+			}
 			if(eventDefinition.editor.arguments == null){ return; }
 			var defaultArgs = Events.getArgs(tag);
 	
@@ -2005,6 +2022,10 @@ class ChartingState extends MusicBeatState
 			var noteDefinition = NoteType.types.get(prefix);
 			if(noteDefinition == null){ return; }
 			if(noteDefinition.editor == null){ return; }
+			if(noteDefinition.editor.description != null){
+				noteDescription.text = noteDefinition.editor.description;
+				noteDescription.y = panel.y + panel.elementHeight - 1 - Box.BORDER_SIZE - noteDescription.height;
+			}
 			if(noteDefinition.editor.arguments == null){ return; }
 			var defaultArgs = NoteType.getArgs(tag);
 			

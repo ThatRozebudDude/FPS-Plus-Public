@@ -7,11 +7,11 @@ class AnimationNotes extends NoteType
 {
 
 	override function defineTypes():Void{
-		registerNoteType({prefix: "playAnim", noteHit: playAnimHit, noteMiss: playAnimMiss, sustainHit: playAnimHit, sustainMiss: playAnimMiss, editor: {arguments: [
+		registerNoteType({prefix: "playAnim", noteHit: playAnimHit, noteMiss: playAnimMiss, sustainHit: playAnimHit, sustainMiss: playAnimMiss, editor: {description: PLAY_ANIM_DESC, arguments: [
 			{name: "Hit Animation", type: "string", value: ""}, {name: "Miss Animation", type: "string", value: ""}, {name: "Dynamic Camera Movement", type: "bool", value: "true"}
 		]}});
 
-		registerNoteType({prefix: "animSet", noteHit: animSetHit, noteMiss: animSetMiss, sustainHit: animSetHit, sustainMiss: animSetMiss, editor: {arguments: [
+		registerNoteType({prefix: "animSet", noteHit: animSetHit, noteMiss: animSetMiss, sustainHit: animSetHit, sustainMiss: animSetMiss, editor: {description: ANIM_SET_DESC, arguments: [
 			{name: "Animation Set", type: "string", value: ""}
 		]}});
 	}
@@ -61,4 +61,8 @@ class AnimationNotes extends NoteType
 		character.animSet = prevAnimSet;
 	}
 
+
+
+	final PLAY_ANIM_DESC:String = "Plays the specified animation instead of the normal directional sing animation.";
+	final ANIM_SET_DESC:String = "Sets the character's animation set for this note only. ";
 }

@@ -221,7 +221,7 @@ class CharacterAnimationEvents extends Events
 	//Event descriptions. Not required but it helps with charting.
 	final PLAY_ANIM_DESC:String = "Plays an animation on a character.";
 	final SING_ANIM_DESC:String = "Plays an animation treated as a note sing direction.";
-	final SET_ANIM_SET_DESC:String = "Sets the animation set on a character.";
+	final SET_ANIM_SET_DESC:String = "Sets the animation set on a character. This will cause the character to play any animation suffixed with \"-animSetName\" if available.";
 	final ICON_BOP_FREQ_DESC:String = "Sets the interval that the health icons bop.";
 	final TOGGLE_ANIM_LOCK_DESC:String = "Toggles whether a character will automatically play animations.";
 	final CHANGE_CHARACTER_DESC:String = "Changes a character to a different one.";

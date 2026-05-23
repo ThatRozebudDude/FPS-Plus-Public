@@ -67,7 +67,7 @@ class Panel extends UIElement
 		changeTab(0);
 
 		elementWidth = panelBackground.width;
-		elementHeight = panelBackground.y - y + panelBackground.width;
+		elementHeight = panelBackground.height + _tabHeight - Box.BORDER_SIZE;
 	}
 
 	override public function update(elapsed:Float):Void{
