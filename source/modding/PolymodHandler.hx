@@ -352,6 +352,7 @@ class PolymodHandler
 		Polymod.addDefaultImport(objects.ScriptableOpenFLSprite.ScriptedOpenFLSprite);
 
 		Polymod.addDefaultImport(scripts.ScriptedState);
+		Polymod.addDefaultImport(MusicBeatSubState);
 		
 		Polymod.addDefaultImport(flixel.system.FlxAssets.FlxShader);
 
