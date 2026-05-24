@@ -1731,10 +1731,13 @@ class PlayState extends MusicBeatState
 		super.update(elapsed);
 	}
 
-	public function openGameOver(?character:String):Void{
-		if(character == null){
-			character = boyfriend.deathCharacter;
-		}
+	public dynamic function openPauseScreen():Void{
+		paused = true;
+		openSubState(new PauseSubState());
+	}
+
+	public dynamic function openGameOver(?character:String):Void{
+		if(character == null){ character = boyfriend.deathCharacter; }
 
 		paused = true;
 
@@ -2927,11 +2930,6 @@ class PlayState extends MusicBeatState
 
 	public dynamic function breakPopup():Void{
 		comboUI.breakPopup();
-	}
-
-	public dynamic function openPauseScreen():Void{
-		paused = true;
-		openSubState(new PauseSubState());
 	}
 	
 	function comboBreak():Void{
