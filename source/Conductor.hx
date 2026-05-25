@@ -98,7 +98,7 @@ class Conductor extends FlxBasic
 
 		return result;
 	}
-
+	
 	public static inline function getCrotchet(?position:Float, ?bpmMap:Array<BPMDefinition>):Float{
 		return 60 / getBPMDefine(position, bpmMap).bpm;
 	}
@@ -219,6 +219,14 @@ class Conductor extends FlxBasic
 
 	static function get_bpm():Float{
 		return getBPMDefine().bpm;
+	}
+
+	public static inline function getBeatTimeFromBpm(bpm:Float):Float{
+		return getCrotchet(0, [{bpm: bpm, time: 0}]);
+	}
+
+	public static inline function getStepTimeFromBpm(bpm:Float):Float{
+		return getStepCrotchet(0, [{bpm: bpm, time: 0}]);
 	}
 }
 

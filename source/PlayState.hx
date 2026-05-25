@@ -241,6 +241,7 @@ class PlayState extends MusicBeatState
 	public var healthBarShader:SplitBarShader;
 
 	public var songStarted:Bool = false;
+	public var startedCountdown:Bool = false;
 
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
@@ -837,11 +838,10 @@ class PlayState extends MusicBeatState
 	var startTimer:FlxTimer;
 
 	public function startCountdown():Void {
-		if(songStarted){
-			return;
-		}
+		if(songStarted){ return; }
 
 		inCutscene = false;
+		startedCountdown = true;
 
 		healthBar.visible = true;
 		iconP1.visible = true;
@@ -999,12 +999,12 @@ class PlayState extends MusicBeatState
 			}
 
 			swagCounter++;
-			// generateSong('fresh');
 		}, 5);
 	}
 
 	public function instantStart():Void {
 		inCutscene = false;
+		startedCountdown = true;
 
 		healthBar.visible = true;
 		iconP1.visible = true;
@@ -1019,9 +1019,7 @@ class PlayState extends MusicBeatState
 	}
 
 	function startSong():Void{
-		if(songStarted){
-			return;
-		}
+		if(songStarted){ return; }
 
 		FlxG.sound.music.time = 0;
 		FlxG.sound.music.volume = 1;
@@ -1526,11 +1524,11 @@ class PlayState extends MusicBeatState
 		stage.updateTheUpdateGroup(elapsed);
 		for(script in scripts){ script.update(elapsed); }
 
-		if (Binds.justPressed("pause") && !paused){
+		if(Binds.justPressed("pause") && !paused && startedCountdown){
 			openPauseScreen();
 		}
 
-		if (Binds.justPressed("chartEditor") && !isStoryMode){
+		if(Binds.justPressed("chartEditor") && !isStoryMode){
 			paused = true;
 			persistentUpdate = false;
 			PlayState.instance.tweenManager.active = false;
@@ -1547,7 +1545,7 @@ class PlayState extends MusicBeatState
 			if(vocalType == splitVocalTrack){ vocalsOther.pause(); }
 		}
 
-		if (Binds.justPressed("polymodReload") && !isStoryMode){
+		if(Binds.justPressed("polymodReload") && !isStoryMode){
 			paused = true;
 			persistentUpdate = false;
 			PlayState.instance.tweenManager.active = false;
@@ -1575,9 +1573,7 @@ class PlayState extends MusicBeatState
 			trace(getGfFocusPosition());
 		}*/
 
-		if (health > 2){
-			health = 2;
-		}
+		if(health > 2){ health = 2; }
 
 		if(healthLerp != health){
 			//Designed to be roughly equivalent to Utils.fpsAdjustedLerp(healthLerp, health, 0.07, 600),
@@ -1594,11 +1590,11 @@ class PlayState extends MusicBeatState
 		iconP2.y = healthBar.y + (healthBar.height/2) - (iconP2.height / 2) + iconP2.yOffset;
 
 		//Health Icons
-		if (healthLerp < 0.4){
+		if(healthLerp < 0.4){
 			iconP1.animation.curAnim.curFrame = 1;
 			iconP2.animation.curAnim.curFrame = 2;
 		}
-		else if (healthLerp > 1.6){
+		else if(healthLerp > 1.6){
 			iconP1.animation.curAnim.curFrame = 2;
 			iconP2.animation.curAnim.curFrame = 1;
 		}
@@ -1607,7 +1603,7 @@ class PlayState extends MusicBeatState
 			iconP2.animation.curAnim.curFrame = 0;
 		}
 
-		if (Binds.justPressed("offsetEditor") && !isStoryMode){
+		if(Binds.justPressed("offsetEditor") && !isStoryMode){
 
 			sectionStart = false;
 
@@ -1629,7 +1625,9 @@ class PlayState extends MusicBeatState
 		}
 
 		if(!songStarted){
-			Conductor.songPosition += FlxG.elapsed * 1000;
+			if(startedCountdown){
+				Conductor.songPosition += FlxG.elapsed * 1000;
+			}
 		}
 		else if(!paused){
 			if(previousReportedSongTime != FlxG.sound.music.time){
@@ -1693,8 +1691,10 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		updateNote();
-		opponentNoteCheck();
+		if(startedCountdown){
+			updateNote();
+			opponentNoteCheck();
+		}
 
 		playerCovers.forEach(function(cover:NoteHoldCover) {
 			if(!playerNotesInRange[cover.noteDirection] && cover.visible && cover.animation.curAnim.name != "end"){
@@ -1757,8 +1757,7 @@ class PlayState extends MusicBeatState
 	}
 
 	function updateNote(){
-		notes.forEachAlive(function(daNote:Note)
-		{
+		notes.forEachAlive(function(daNote:Note){
 			var targetY:Float;
 			var targetX:Float;
 
@@ -1933,15 +1932,12 @@ class PlayState extends MusicBeatState
 	}
 
 	public function endSong():Void{
-		if(songEnded){
-			return;
-		}
+		if(songEnded){ return; }
 
 		stopMusic();
 		inEndingCutscene = false;
 
-		if (isStoryMode){
-
+		if(isStoryMode){
 			storyPlaylist.remove(storyPlaylist[0]);
 
 			if (!preventScoreSaving){
@@ -1957,8 +1953,8 @@ class PlayState extends MusicBeatState
 				weekStats.missCount += songStats.missCount;
 				weekStats.comboBreakCount += songStats.comboBreakCount;
 			}
-			//CODE FOR ENDING A WEEK
-			if(storyPlaylist.length <= 0){
+
+			if(storyPlaylist.length <= 0){ //End of week.
 				StoryMenuState.fromPlayState = true;
 				sectionStart = false;
 
@@ -1977,20 +1973,17 @@ class PlayState extends MusicBeatState
 				ImageCache.forceClearOnTransition = true;
 				switchState(new ResultsState(weekStats, weekName, boyfriend.characterInfo.info.resultsCharacter, songSaveStuff, StoryMenuState.weekList[storyWeek].stickerSet));
 			}
-			//CODE FOR CONTINUING A WEEK
-			else{
-				setupSong(PlayState.storyPlaylist[0], storyDifficulty);
+			else{ //Next song in week.
+				setupSong(PlayState.storyPlaylist[0], storyDifficulty, true);
 				FlxG.sound.music.stop();
 
 				ImageCache.refreshLocal();
 				switchState(new PlayState());
 			}
 		}
-		//CODE FOR ENDING A FREEPLAY SONG
-		else{
+		else{ //End Freeplay song.
 			if(!fromChartEditor){
 				sectionStart = false;
-				//returnToMenu();
 	
 				var songSaveStuff:SaveInfo = null;
 				if(!preventScoreSaving){
@@ -2347,7 +2340,7 @@ class PlayState extends MusicBeatState
 			scoreAdjust = Scoring.MISS_PENALTY;
 		}
 
-		if (songStarted){
+		if(songStarted){
 			if(dropCombo){
 				comboBreak();
 			}

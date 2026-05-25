@@ -18,7 +18,7 @@ class DarnellVideo extends ScriptedCutscene
 
 		destroyOnEnd = false;
 
-		ingameCutscene = ScriptableCutscene.init("DarnellIntro", []);
+		ingameCutscene = ScriptableCutscene.init("cutscenes.DarnellIntro", []);
 		addGeneric(ingameCutscene);
 
 		black = new FlxSprite().makeGraphic(1, 1, 0xFF000000);
@@ -42,7 +42,6 @@ class DarnellVideo extends ScriptedCutscene
 
 	function first() {
 		playstate.inVideoCutscene = true;
-		//playstate().camGame.zoom = 1;
 
 		video = new VideoHandler();
 		video.scrollFactor.set();
