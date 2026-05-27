@@ -123,12 +123,11 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 	function updateSustainGraphics():Void{
 		if(sustainLength > 0){
 			sustainBody.visible = true;
-			sustainBody.setGraphicSize(SUSTAIN_GRAPHIC_WIDTH, (ChartingState.GRID_SIZE*(sustainLength-1))+(ChartingState.GRID_SIZE/2)+1);
+			sustainBody.setGraphicSize(SUSTAIN_GRAPHIC_WIDTH, (ChartingState.GRID_SIZE * sustainLength - 1));
 			sustainBody.updateHitbox();
 			
 			sustainEnd.visible = true;
-			sustainEnd.y = note.y + (ChartingState.GRID_SIZE*sustainLength);
-			sustainEnd.setGraphicSize(SUSTAIN_GRAPHIC_WIDTH, ChartingState.GRID_SIZE/2);
+			sustainEnd.y = note.y + sustainBody.height + sustainEnd.height;
 			sustainEnd.updateHitbox();
 		}
 		else{
