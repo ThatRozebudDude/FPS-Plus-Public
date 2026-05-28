@@ -26,6 +26,7 @@ import flixel.util.FlxColor;
 import lime.utils.Assets;
 import flixel.text.FlxText;
 import extensions.flixel.FlxTextExt;
+import restricted.RestrictedUtils;
 import caching.*;
 
 using StringTools;
@@ -397,7 +398,16 @@ class MainMenuState extends MusicBeatState
 				switchState(new ConfigMenu());
 
 			case "customState":
-				switchState(ScriptedState.init(button.action.state));
+				final scriptedStateList:Array<String> = RestrictedUtils.callStaticGeneratedMethod(ScriptableState, "listScriptClasses");
+				if(scriptedStateList.contains("states."+button.action.state)){
+					switchState(ScriptedState.init("states."+button.action.state));
+				}
+				#if BACKWARD_COMPATIBILITY
+				else if(scriptedStateList.contains(button.action.state)){
+					switchState(ScriptedState.init(button.action.state));
+				}
+				#end
+				else{ noAction(button, "Scripted state not found."); }
 				
 			case "playSong":
 				PlayState.setupSong(button.action.song, button.action.difficulty, false, "mainMenu", button.action.instrumentalOverride);
@@ -410,35 +420,29 @@ class MainMenuState extends MusicBeatState
 			#if UPDATE_CHECKING
 			case "openGithubReleases":
 				UpdateCheck.openGithubReleases();
-				if(!button.transition.instant){
-					for(i in 0...menuItems.length){
-						if (i != curSelected){
-							FlxTween.cancelTweensOf(menuItems[i]);
-							FlxTween.tween(menuItems[i], {alpha: 1}, 0.4, {ease: FlxEase.quadOut});
-						}
-					}
-				}
-				if(!FlxG.sound.music.playing){	
-					playMenuMusic();
-				}
-				selectedSomething = false;
+				noAction(button, "Opening Github releases page.");
 			#end
 
 			default:
-				if(!button.transition.instant){
-					for(i in 0...menuItems.length){
-						if (i != curSelected){
-							FlxTween.cancelTweensOf(menuItems[i]);
-							FlxTween.tween(menuItems[i], {alpha: 1}, 0.4, {ease: FlxEase.quadOut});
-						}
-					}
-				}
-				if(!FlxG.sound.music.playing){	
-					playMenuMusic();
-				}
-				selectedSomething = false;
-				trace("Unrecognized action type.");
+				noAction(button);
+				
 		}
+	}
+
+	function noAction(button:MainMenuButton, message:String = "Unrecognized action type."):Void{
+		if(!button.transition.instant){
+			for(i in 0...menuItems.length){
+				if (i != curSelected){
+					FlxTween.cancelTweensOf(menuItems[i]);
+					FlxTween.tween(menuItems[i], {alpha: 1}, 0.4, {ease: FlxEase.quadOut});
+				}
+			}
+		}
+		if(!FlxG.sound.music.playing){	
+			playMenuMusic();
+		}
+		selectedSomething = false;
+		trace(message);
 	}
 
 	public static function playMenuMusic():Void{

@@ -73,17 +73,16 @@ class FlxUIStateExt extends FlxUIState
 		if(_allowScriptedOverrides){
 			final statePath = Type.getClassName(Type.getClass(_state));
 			final stateName = statePath.split(".")[statePath.split(".").length - 1];
+			final scriptedStateList:Array<String> = RestrictedUtils.callStaticGeneratedMethod(ScriptableState, "listScriptClasses"); //A bit hacky but we have to do this to create script instance in parent...
 
-			//These are bit "hacky" but we have to do this to create script instance in parent...
-			if(RestrictedUtils.callStaticGeneratedMethod(ScriptableState, "listScriptClasses").contains(stateName)){
+			if(scriptedStateList.contains("states.overrides."+stateName)){
+				_state = ScriptedState.init("states.overrides."+stateName);
+			}
+			#if BACKWARD_COMPATIBILITY
+			else if(scriptedStateList.contains(stateName)){
 				_state = ScriptedState.init(stateName);
 			}
-			//Extended States
-			else if(PolymodScriptClass.listScriptClassesExtending(statePath).length > 0){
-				var scriptClassPath = statePath.replace(stateName, "Scripted" + stateName);
-				_state = RestrictedUtils.callStaticGeneratedMethod(Type.resolveClass(scriptClassPath), "scriptInit", [RestrictedUtils.callStaticGeneratedMethod(Type.resolveClass(scriptClassPath), "listScriptClasses")[0]]);
-			}
-
+			#end
 		}
 
 		//Transition stuff.
