@@ -228,6 +228,7 @@ class ChartingState extends MusicBeatState
 	var alertGroup:FlxTypedGroup<Alert>;
 	var typeAlert:Alert;
 	
+	static inline final UNDO_LIMIT:Int = 128;
 	var undoHistory:Array<ChartSnapshot> = [];
 	var redoHistory:Array<ChartSnapshot> = [];
 	var currentState:ChartSnapshot;
@@ -1842,7 +1843,7 @@ class ChartingState extends MusicBeatState
 	}
 
 	function createSnapshot(type:UndoAction):Void{
-		undoHistory.push(currentState);
+		pushToUndoHistory(currentState);
 		setCurrentState(type);
 		redoHistory = [];
 	}
@@ -1859,7 +1860,7 @@ class ChartingState extends MusicBeatState
 		var actionText:String = getUndoActionText(currentState.action);
 		createAlert("Undo"+(actionText.length>0?" ":"")+actionText+".", 1);
 
-		redoHistory.push(currentState);
+		pushToRedoHistory(currentState);
 		currentState = snapshot;
 		selectedNotes = [];
 	}
@@ -1876,9 +1877,23 @@ class ChartingState extends MusicBeatState
 		var actionText:String = getUndoActionText(snapshot.action);
 		createAlert("Redo"+(actionText.length>0?" ":"")+actionText+".", 1);
 
-		undoHistory.push(currentState);
+		pushToUndoHistory(currentState);
 		currentState = snapshot;
 		selectedNotes = [];
+	}
+
+	function pushToUndoHistory(snapshot:ChartSnapshot):Void{
+		if(UNDO_LIMIT > 0 && undoHistory.length >= UNDO_LIMIT){
+			undoHistory.shift();
+		}
+		undoHistory.push(currentState);
+	}
+
+	function pushToRedoHistory(snapshot:ChartSnapshot):Void{
+		if(UNDO_LIMIT > 0 && redoHistory.length >= UNDO_LIMIT){
+			redoHistory.shift();
+		}
+		redoHistory.push(currentState);
 	}
 
 	function rebuildChartFromSnapshot(snapshot:ChartSnapshot){
