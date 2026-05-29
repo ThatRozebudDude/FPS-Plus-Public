@@ -1,5 +1,7 @@
 package editors.chart;
 
+import flixel.FlxObject;
+import flixel.FlxG;
 import shaders.TintShader;
 import Chart.NoteDefinition;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
@@ -20,6 +22,8 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 	var sustainBody:FlxSprite;
 	var sustainEnd:FlxSprite;
 	var asterisk:FlxSprite;
+	var holdOverlap:FlxObject;
+
 	var tintShader:TintShader;
 
 	public function new(){
@@ -71,6 +75,8 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		asterisk.visible = false;
 		asterisk.shader = tintShader.shader;
 
+		holdOverlap = new FlxObject(0, 0, ChartingState.GRID_SIZE, 0);
+
 		add(sustainBody);
 		add(sustainEnd);
 		add(note);
@@ -86,6 +92,9 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		time = _time;
 		player = _player;
 		tag = _tag;
+
+		holdOverlap.x = note.x;
+		holdOverlap.y = note.y + ChartingState.GRID_SIZE;
 
 		asterisk.x = note.x + note.width - asterisk.width;
 		asterisk.y = note.y;
@@ -130,6 +139,8 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 			sustainEnd.y = note.y + (ChartingState.GRID_SIZE*sustainLength);
 			sustainEnd.setGraphicSize(SUSTAIN_GRAPHIC_WIDTH, ChartingState.GRID_SIZE/2);
 			sustainEnd.updateHitbox();
+
+			holdOverlap.height = (ChartingState.GRID_SIZE*(sustainLength-1))+((ChartingState.GRID_SIZE/2)+1);
 		}
 		else{
 			sustainBody.visible = false;
@@ -145,6 +156,13 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 			tag: tag,
 			player: player
 		};
+	}
+
+	public inline function isMouseOverHold():Bool{
+		if(sustainLength > 0){
+			return FlxG.mouse.overlaps(holdOverlap);
+		}
+		return false;
 	}
 
 }

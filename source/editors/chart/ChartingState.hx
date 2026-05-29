@@ -184,6 +184,7 @@ class ChartingState extends MusicBeatState
 
 	var previousReportedSongTime:Float = -1;
 
+	var previousSustainLength:Int = -1;
 	var placedNoteHold:Bool = false;
 
 	var currentlySelectingEvents:Bool = false;
@@ -818,16 +819,33 @@ class ChartingState extends MusicBeatState
 			}
 		}
 
-		gridCursor.alpha = 0;
+		gridCursor.visible = false;
 		if(canDoThings()){
-			gridCursor.alpha = 1;
+			gridCursor.visible = true;
 
 			if(gridCursorIndex == OPPONENT_GRID || gridCursorIndex == PLAYER_GRID){ //Placing notes.
+				var overlapHoldCheck:ChartingNote = null;
+				notes.forEachAlive(function(note:ChartingNote){
+					if(note.isMouseOverHold()){
+						overlapHoldCheck = note;
+						gridCursor.visible = false;
+					}
+				});
+
 				if(FlxG.mouse.justPressed && !FlxG.keys.anyPressed([SHIFT])){
-					var newNote = addNote(getSongPositionFromY(gridCursor.y), gridCursorLane, gridCursorIndex == PLAYER_GRID, noteTypeInput.value);
-					selectedNotes = [newNote];
-					placedNoteHold = true;
-					currentlySelectingEvents = false;
+					if(overlapHoldCheck == null){ //Place new note.
+						var newNote = addNote(getSongPositionFromY(gridCursor.y), gridCursorLane, gridCursorIndex == PLAYER_GRID, noteTypeInput.value);
+						selectedNotes = [newNote];
+						previousSustainLength = -1;
+						placedNoteHold = true;
+						currentlySelectingEvents = false;
+					}
+					else{ //Regrab note hold.
+						selectedNotes = [overlapHoldCheck];
+						previousSustainLength = overlapHoldCheck.sustainLength;
+						placedNoteHold = true;
+						currentlySelectingEvents = false;
+					}
 				}
 				else if(FlxG.mouse.justPressedRight && !FlxG.keys.anyPressed([SHIFT])){
 					var deleteCount:Int = removeNotesInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), gridCursorLane, gridCursorIndex == PLAYER_GRID, ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
@@ -1026,10 +1044,16 @@ class ChartingState extends MusicBeatState
 		if(placedNoteHold && !FlxG.mouse.released && selectedNotes.length > 0){
 			var sustainLength:Int = FlxMath.maxInt(Math.round((gridCursor.y - selectedNotes[0].y) / GRID_SIZE), 0);
 			if(selectedNotes[0].sustainLength != sustainLength){ selectedNotes[0].sustainLength = sustainLength; }
+			gridCursor.visible = false;
 		}
 		else if(placedNoteHold){
 			placedNoteHold = false;
-			createSnapshot(PLACE_NOTES(1));
+			if(previousSustainLength < 0){
+				createSnapshot(PLACE_NOTES(1));
+			}
+			else if(previousSustainLength != selectedNotes[0].sustainLength){
+				createSnapshot(CHANGE_HOLD_DURATION);
+			}
 		}
 
 		if(selectionBoxOpen){

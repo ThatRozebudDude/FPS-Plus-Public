@@ -11,8 +11,6 @@ class Cursor extends FlxSprite
 
 		loadGraphic(Paths.image("fpsPlus/editors/shared/cursor"), true, 64, 64);
 		animation.add("idle", [0], 0, false);
-		//animation.add("selection", [1], 0, false);
-		//animation.add("text", [2], 0, false);
 		idle();
 		scale.set(0.5, 0.5);
 		updateHitbox();
@@ -25,7 +23,7 @@ class Cursor extends FlxSprite
 		super.update(elapsed);
 	}
 
-	public inline function idle():Void{ animation.play("idle"); }
-	//public inline function selection():Void{ animation.play("selection"); }
-	//public inline function text():Void{ animation.play("text"); }
+	public inline function idle():Void{ 
+		animation.play("idle");
+	}
 }
