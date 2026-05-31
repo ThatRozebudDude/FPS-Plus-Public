@@ -1128,9 +1128,9 @@ class PlayState extends MusicBeatState
 				for(susNote in 0...(noteData.length + 1)){
 					var makeFake = false;
 					var timeAdd = 0.0;
-					if(susNote == 0){ 
-						makeFake = true; 
-						timeAdd = 0.1; 
+					if(susNote == 0){
+						makeFake = true;
+						timeAdd = 0.1;
 					}
 	
 					var sustainNote:Note = new Note(noteData.time + (Conductor.getStepCrotchetMs(noteData.time) * susNote) + timeAdd, noteData.direction, noteData.tag, false, oldNote, true);
@@ -1146,9 +1146,6 @@ class PlayState extends MusicBeatState
 				}
 			}
 		}
-
-		// trace(unspawnNotes.length);
-		// playerCounter += 1;
 
 		unspawnNotes.sort(sortByShit);
 
