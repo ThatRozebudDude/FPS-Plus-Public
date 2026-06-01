@@ -5,6 +5,7 @@ import shutil
 from dataclasses import dataclass
 
 FPS_CHART_FORMAT = "fpsplus_1"
+PRINT_DEBUG_STUFF = True
 
 @dataclass
 class ExtraInfo:
@@ -15,13 +16,33 @@ class ExtraInfo:
 	speaker:str
 	stage:str
 
-def convertDiffNameToSuffix(diff) -> str:
-    match diff:
-        case "erect":
-            diff = "normal"
-        case "nightmare":
-            diff = "hard"
-    return diff
+def debugPrint(text:str) -> None:
+	if PRINT_DEBUG_STUFF:
+		print(text)
+
+def convertDiffNameToSuffix(diff:str) -> str:
+	match diff:
+		case "erect":
+			diff = "normal"
+		case "nightmare":
+			diff = "hard"
+	return diff
+
+def convertAlbum(album:str) -> str:
+	match album:
+		case "volume1":
+			album = "vol1"
+		case "volume2":
+			album = "vol2"
+		case "volume3":
+			album = "vol3"
+		case "volume4":
+			album = "vol2"
+		case "expansion1":
+			album = "ext1"
+		case "expansion2":
+			album = "ext2"
+	return album
 
 def getBpmAtTime(bpmChanges, time:float) -> float:
 	currentBpm:float = bpmChanges[0]["bpm"]
@@ -46,19 +67,54 @@ def processChart(data, meta, diff:str, extraInfo:ExtraInfo) -> str:
 						length += 1
 					else:
 						break
-				# print("Hold Duration " + str(round(note["l"])) + "\t>\t" + str(length))
+				debugPrint("Hold Duration " + str(round(note["l"])) + "\t>\t" + str(length))
 		if "k" in note:
-			# do better tag stuff here
-			tag = note["k"]
+			match note["k"]: # idk if all these are actually used but this is based on the LegacyNotes.hxc stuff.
+				case "hey":
+					tag = "playAnim;hey"
 
-		note:dict = {
+				case "cheer":
+					tag = "playAnim;cheer"
+					
+				case "ugh":
+					tag = "playAnim;ugh"
+	
+				case "argh":
+					tag = "playAnim;argh"
+
+				case "shit":
+					tag = "playAnim;shit"
+
+				case "shit-censor":
+					tag = "playAnim;shit-censor"
+
+				case "burp":
+					tag = "playAnim;burp"
+
+				case "burpBig":
+					tag = "playAnim;burpBig"
+
+				case "noanim":
+					tag = "noAnim"
+
+				case "alt" | "mom":
+					tag = "animSet;alt"
+
+				case "censor":
+					tag = "animSet;censor"
+
+				case _:
+					debugPrint("Case for note type \"" + note["k"] + "\" not handled.")
+					tag = note["k"]
+
+		newNote:dict = {
 			"time": note["t"],
 			"direction": note["d"]%4,
 			"length": length,
 			"player": note["d"]<4,
 			"tag": tag
 		}
-		notes.append(note)
+		notes.append(newNote)
 
 	bpmChangesExport:list[dict] = []
 	for bpmChange in bpmChanges:
@@ -95,7 +151,7 @@ def processMetadata(meta, extraInfo:ExtraInfo) -> str:
 	metaExport:dict = {
 		"name": meta["songName"],
 		"artist": meta["artist"],
-		"album": meta["playData"]["album"],
+		"album": convertAlbum(meta["playData"]["album"]),
 		"difficulties": diffs,
 		"difficultySet": diffSet,
 		"compatibleInsts": ["#" + extraInfo.song.lower()],
@@ -149,7 +205,7 @@ def processEvents(data) -> str:
 							else:
 								tag[0] += ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"])
 
-				print(event["e"] + "\t->\t" + tag[0])
+				debugPrint(event["e"] + "\t->\t" + tag[0])
 
 			case "ZoomCamera":
 				if "easeDir" in event["v"]:
@@ -161,7 +217,7 @@ def processEvents(data) -> str:
 					if event["v"]["mode"] == "stage":
 						tag[0] += ";true"
 
-				print(event["e"] + "\t->\t" + tag[0])
+				debugPrint(event["e"] + "\t->\t" + tag[0])
 
 			case "SetCameraBop":
 				tag[0] += "camBopFreq;" + str(event["v"]["rate"])
@@ -175,7 +231,7 @@ def processEvents(data) -> str:
 				timeOffset.append(-20)
 				column.append(2)
 
-				print(event["e"] + "\t->\t" + tag[0] + "\t&\t" + tag[1])
+				debugPrint(event["e"] + "\t->\t" + tag[0] + "\t&\t" + tag[1])
 
 			case "PlayAnimation":
 				column[0] = 1
@@ -193,7 +249,7 @@ def processEvents(data) -> str:
 
 				tag[0] += "playAnim;" + target + ";" + event["v"]["anim"] + ";" + force
 
-				print(event["e"] + "\t->\t" + tag[0])
+				debugPrint(event["e"] + "\t->\t" + tag[0])
 
 			case _:
 				skipAdd = True
@@ -201,12 +257,12 @@ def processEvents(data) -> str:
 
 		if not skipAdd:
 			for i in range(len(tag)):
-				event:dict = {
+				newEvent:dict = {
 					"time": event["t"] + timeOffset[i],
 					"lane": column[i],
 					"tag": tag[i]
 				}
-				events.append(event)
+				events.append(newEvent)
 
 	eventExport:dict = {
 		"meta": {

@@ -11,6 +11,10 @@ class AnimationNotes extends NoteType
 			{name: "Hit Animation", type: "string", value: ""}, {name: "Miss Animation", type: "string", value: ""}, {name: "Dynamic Camera Movement", type: "bool", value: "true"}
 		]}});
 
+		registerNoteType({prefix: "noAnim", noteHit: noAnimationHit, noteMiss: noAnimationHit, sustainHit: noAnimationHit, sustainMiss: noAnimationHit, editor: {description: PLAY_ANIM_DESC, arguments: [
+			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
+		]}});
+
 		registerNoteType({prefix: "animSet", noteHit: animSetHit, noteMiss: animSetMiss, sustainHit: animSetHit, sustainMiss: animSetMiss, editor: {description: ANIM_SET_DESC, arguments: [
 			{name: "Animation Set", type: "string", value: ""}
 		]}});
@@ -45,6 +49,18 @@ class AnimationNotes extends NoteType
 
 
 
+	function noAnimationHit(note:Note, character:Character){
+		var args = NoteType.getArgs(note.type);
+		if(character.canAutoAnim){
+			character.holdTimer = 0;
+		}
+		if(Events.parseBool(args[0])){
+			playstate.getExtraCamMovement(note);
+		}
+	}
+
+
+
 	function animSetHit(note:Note, character:Character){
 		var args = NoteType.getArgs(note.type);
 		var prevAnimSet = character.animSet;
@@ -64,5 +80,6 @@ class AnimationNotes extends NoteType
 
 
 	final PLAY_ANIM_DESC:String = "Plays the specified animation instead of the normal directional sing animation.";
+	final NO_ANIM_DESC:String = "Does not play any animation.";
 	final ANIM_SET_DESC:String = "Sets the character's animation set for this note only. ";
 }

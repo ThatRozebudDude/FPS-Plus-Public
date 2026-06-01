@@ -1,15 +1,19 @@
 {
-    "name": "Cocoa Erect",
-    "artist": "Saster",
-    "album": "vol4",
-    "difficulties": [
-        0,
-        8,
-        9
-    ],
+	"name": "Cocoa Erect",
+	"artist": "Saster",
+	"album": "vol4",
+	"difficulties": [
+		0,
+		7,
+		8
+	],
 	"difficultySet": "erect",
-	"compatibleInsts": ["#cocoa-erect"],
-	"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
+	"compatibleInsts": [
+		"#cocoa-erect"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
 	"mixName": "Original",
-    "pauseMusic": "pause/918379_Love-Emoji_Loop"
+	"pauseMusic": "pause/918379_Love-Emoji_Loop"
 }
