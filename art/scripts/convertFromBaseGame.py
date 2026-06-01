@@ -28,6 +28,79 @@ def convertDiffNameToSuffix(diff:str) -> str:
 			diff = "hard"
 	return diff
 
+def convertCharacter(character:str) -> tuple[str, bool]:
+	match character:
+		case "bf": return ("Bf", True)
+		case "bf-car": return ("BfCar", True)
+		case "bf-christmas": return ("BfChristmas", True)
+		case "bf-dark": return ("BfDark", True)
+		case "bf-holding-gf": return ("BfHoldingGf", True)
+		case "bf-pixel": return ("BfPixel", True)
+		case "dad": return ("Dad", True)
+		case "darnell": return ("Darnell", True)
+		case "darnell-blazin": return ("DarnellBlazin", True)
+		case "gf": return ("Gf", True)
+		case "gf-car": return ("GfCar", True)
+		case "gf-christmas": return ("GfChristmas", True)
+		case "gf-dark": return ("GfDark", True)
+		case "gf-pixel": return ("GfPixel", True)
+		case "gf-tankmen": return ("GfTankmen", True)
+		case "mom": return ("Mom", True)
+		case "mom-car": return ("MomCar", True)
+		case "monster": return ("Monster", True)
+		case "monster-christmas": return ("MonsterChristmas", True)
+		case "nene": return ("Nene", True)
+		case "nene-christmas": return ("NeneChristmas", True)
+		case "nene-dark": return ("NeneDark", True)
+		case "nene-pixel": return ("NenePixel", True)
+		case "nene-tankmen": return ("NeneTankmen", True)
+		case "otis-speaker": return ("OtisSpeaker", True)
+		case "parents-christmas": return ("ParentsChristmas", True)
+		case "pico": return ("Pico", True)
+		case "pico-blazin": return ("PicoBlazin", True)
+		case "pico-christmas": return ("GfTankmen", True)
+		case "pico-dark": return ("PicoDark", True)
+		case "pico-holding-nene": return ("PicoHoldingNene", True)
+		case "pico-pixel": return ("PicoPixel", True)
+		case "pico-playable": return ("Pico", True)
+		case "pico-speaker": return ("PicoSpeaker", True)
+		case "senpai": return ("Senpai", True)
+		case "senpai-angry": return ("SenpaiAngry", True)
+		case "spirit": return ("Spirit", True)
+		case "spooky": return ("Spooky", True)
+		case "spooky-dark": return ("SpookyDark", True)
+		case "tankman": return ("Tankman", True)
+		case "tankman-bloody": return ("TankmanBloody", True)
+	
+	print("Character not in dictionary! What is the equivalent for \"" + character + "\": ")
+	return (input(), False)
+
+def convertStage(stage:str) -> tuple[str, bool]:
+	match stage:
+		case "limoRide": return ("Limo", True)
+		case "limoRideErect": return ("LimoErect", True)
+		case "mainStage": return ("Stage", True)
+		case "mainStageErect": return ("StageErect", True)
+		case "mallEvil": return ("MallEvil", True)
+		case "mallXmas": return ("Mall", True)
+		case "mallXmasErect": return ("MallErect", True)
+		case "phillyBlazin": return ("PhillyBlazin", True)
+		case "phillyStreets": return ("PhillyStreets", True)
+		case "phillyStreetsErect": return ("PhillyStreetsErect", True)
+		case "phillyTrain": return ("Philly", True)
+		case "phillyTrainErect": return ("PhillyErect", True)
+		case "school": return ("School", True)
+		case "schoolErect": return ("SchoolErect", True)
+		case "schoolEvil": return ("SchoolEvil", True)
+		case "schoolEvilErect": return ("SchoolEvilErect", True)
+		case "spookyMansion": return ("SpookyMansion", True)
+		case "spookyMansionErect": return ("SpookyMansionErect", True)
+		case "tankmanBattlefield": return ("Tank", True)
+		case "tankmanBattlefieldErect": return ("TankErect", True)
+	
+	print("Stage not in dictionary! What is the equivalent for \"" + stage + "\": ")
+	return (input(), False)
+
 def convertAlbum(album:str) -> str:
 	match album:
 		case "volume1":
@@ -37,7 +110,7 @@ def convertAlbum(album:str) -> str:
 		case "volume3":
 			album = "vol3"
 		case "volume4":
-			album = "vol2"
+			album = "vol4"
 		case "expansion1":
 			album = "ext1"
 		case "expansion2":
@@ -52,6 +125,8 @@ def getBpmAtTime(bpmChanges, time:float) -> float:
 	return currentBpm
 
 def processChart(data, meta, diff:str, extraInfo:ExtraInfo) -> str:
+	debugPrint("\nProcessing " + diff + " chart.")
+	
 	bpmChanges = meta["timeChanges"]
 	notes:list[dict] = []
 	
@@ -93,9 +168,6 @@ def processChart(data, meta, diff:str, extraInfo:ExtraInfo) -> str:
 
 				case "burpBig":
 					tag = "playAnim;burpBig"
-
-				case "noanim":
-					tag = "noAnim"
 
 				case "alt" | "mom":
 					tag = "animSet;alt"
@@ -141,6 +213,8 @@ def processChart(data, meta, diff:str, extraInfo:ExtraInfo) -> str:
 	return json.dumps(chart, indent="\t")
 
 def processMetadata(meta, extraInfo:ExtraInfo) -> str:
+	debugPrint("\nProcessing metadata.")
+
 	if "erect" in meta["playData"]["difficulties"]:
 		diffs = [0, meta["playData"]["ratings"]["erect"], meta["playData"]["ratings"]["nightmare"]]
 		diffSet = "erect"
@@ -154,7 +228,7 @@ def processMetadata(meta, extraInfo:ExtraInfo) -> str:
 		"album": convertAlbum(meta["playData"]["album"]),
 		"difficulties": diffs,
 		"difficultySet": diffSet,
-		"compatibleInsts": ["#" + extraInfo.song.lower()],
+		"compatibleInsts": ["#" + extraInfo.song.split("-")[0].lower()],
 		"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
 		"mixName": extraInfo.mix
 	}
@@ -162,6 +236,8 @@ def processMetadata(meta, extraInfo:ExtraInfo) -> str:
 	return json.dumps(metaExport, indent="\t")
 
 def processEvents(data) -> str:
+	debugPrint("\nProcessing events.")
+
 	events:list[dict] = []
 
 	for event in data["events"]:
@@ -274,26 +350,34 @@ def processEvents(data) -> str:
 	return json.dumps(eventExport, indent="\t")
 
 if(__name__ == "__main__"):
-	print("Song Folder Name: ")
-	songName = input()
-	print("Mix Name: ")
-	mixName = input()
-	print("Player Character: ")
-	playerChar = input()
-	print("Opponent Character: ")
-	oppChar = input()
-	print("Speaker Character: ")
-	gfChar = input()
-	print("Stage: ")
-	stage = input()
-
-	extraInfo:ExtraInfo = ExtraInfo(songName, mixName, playerChar, oppChar, gfChar, stage)
-
 	with open(sys.argv[2]) as f:
 		chartJson = json.load(f)
 
 	with open(sys.argv[3]) as f:
 		metaJson = json.load(f)
+
+	print("Song Folder Name: ")
+	songName:str = input()
+	print("Mix Name: ")
+	mixName:str = input()
+	playerCharR:tuple[str, bool] = convertCharacter(metaJson["playData"]["characters"]["player"])
+	playerChar:str = playerCharR[0]
+	if playerCharR[1]:
+		debugPrint(metaJson["playData"]["characters"]["player"] + "\t->\t" + playerChar)
+	oppCharR:tuple[str, bool] = convertCharacter(metaJson["playData"]["characters"]["opponent"])
+	oppChar:str = oppCharR[0]
+	if oppCharR[1]:
+		debugPrint(metaJson["playData"]["characters"]["opponent"] + "\t->\t" + oppChar)
+	gfCharR:tuple[str, bool] = convertCharacter(metaJson["playData"]["characters"]["girlfriend"])
+	gfChar:str = gfCharR[0]
+	if gfCharR[1]:
+		debugPrint(metaJson["playData"]["characters"]["girlfriend"] + "\t->\t" + gfChar)
+	stageR:tuple[str, bool] = convertStage(metaJson["playData"]["stage"])
+	stage:str = stageR[0]
+	if stageR[1]:
+		debugPrint(metaJson["playData"]["stage"] + "\t->\t" + stage)
+
+	extraInfo:ExtraInfo = ExtraInfo(songName, mixName, playerChar, oppChar, gfChar, stage)
 
 	dir = os.path.dirname(os.path.realpath(__file__))
 	outputFolder = dir + "\\convertedSongs\\" + songName.lower()
@@ -386,3 +470,7 @@ if(__name__ == "__main__"):
 	# You fucked up.
 	else:
 		print("Argument not recognized, use \"-full\", \"-chart\", \"-charts\", \"-events\", or \"-meta\".")
+		exit(1)
+
+	print("\nDone!")
+	exit(0)
