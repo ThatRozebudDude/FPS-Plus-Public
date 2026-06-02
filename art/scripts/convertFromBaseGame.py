@@ -238,6 +238,8 @@ def processMetadata(meta, extraInfo:ExtraInfo) -> str:
 def processEvents(data) -> str:
 	debugPrint("\nProcessing events.")
 
+	chartScroll:float = data["scrollSpeed"]["hard"]
+
 	events:list[dict] = []
 
 	for event in data["events"]:
@@ -324,6 +326,28 @@ def processEvents(data) -> str:
 						force = "true"
 
 				tag[0] += "playAnim;" + target + ";" + event["v"]["anim"] + ";" + force
+
+				debugPrint(event["e"] + "\t->\t" + tag[0])
+				
+			case "ScrollSpeed":
+				column[0] = 3
+				value = event["v"]["scroll"]
+				lane = "all"
+
+				if "absolute" in event["v"]:
+					if event["v"]["absolute"]:
+						value = event["v"]["scroll"]/chartScroll
+
+				if "strumline" in event["v"]:
+					if event["v"]["strumline"] == "player":
+						lane = "bf"
+					elif event["v"]["strumline"] == "opponent":
+						lane = "dad"
+
+				if "easeDir" in event["v"]:
+					tag[0] += "scrollSpeedMultiplier;" + str(value) + ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"]) + str(event["v"]["easeDir"]) + ";" + lane
+				else:
+					tag[0] += "scrollSpeedMultiplier;" + str(value) + ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"]) + ";" + lane
 
 				debugPrint(event["e"] + "\t->\t" + tag[0])
 

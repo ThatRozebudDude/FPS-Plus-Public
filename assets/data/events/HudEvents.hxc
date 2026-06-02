@@ -15,7 +15,7 @@ class HudEvents extends Events
 			{name: "Time", type: "time", value: "1b"}, {name: "Ease", type: "ease", value: "quartOut"}
 		]}});
 		registerEvent({prefix: "scrollSpeedMultiplier", eventFunction: scrollSpeedMultiplier, editor: {description: SCROLL_SPEED_MULTIPLIER_DESC, arguments: [
-			{name: "Multiplier", type: "float", value: "1"}, {name: "Time", type: "time", value: "0"}, {name: "Ease", type: "ease", value: "quartOut"}
+			{name: "Multiplier", type: "float", value: "1"}, {name: "Time", type: "time", value: "0"}, {name: "Ease", type: "ease", value: "quartOut"}, {name: "Strumline", type: "vocalTrack", value: "all"}
 		]}});
 	}
 
@@ -70,14 +70,38 @@ class HudEvents extends Events
 	}
 
 	function scrollSpeedMultiplier(tag:String):Void{
-		var args = Events.getArgs(tag, ["1", "0", "linear"]);
+		var args = Events.getArgs(tag);
 		var time = Events.parseTime(args[1]);
 
 		if(time > 0){
-			tween.tween(playstate, {scrollSpeedMultiplier: Events.parseFloat(args[0])}, time, {ease: Events.parseEase(args[3])});
+			switch(args[3]){
+				case "bf":
+					tween.cancelTweensOf(playstate.scrollSpeedMultiplierPlayer);
+					tween.tween(playstate, {scrollSpeedMultiplierPlayer: Events.parseFloat(args[0])}, time, {ease: Events.parseEase(args[3])});
+				case "dad":
+					tween.cancelTweensOf(playstate.scrollSpeedMultiplierOpponent);
+					tween.tween(playstate, {scrollSpeedMultiplierOpponent: Events.parseFloat(args[0])}, time, {ease: Events.parseEase(args[3])});
+				default:
+					tween.cancelTweensOf(playstate.scrollSpeedMultiplierPlayer);
+					tween.cancelTweensOf(playstate.scrollSpeedMultiplierOpponent);
+					tween.tween(playstate, {scrollSpeedMultiplierPlayer: Events.parseFloat(args[0])}, time, {ease: Events.parseEase(args[3])});
+					tween.tween(playstate, {scrollSpeedMultiplierOpponent: Events.parseFloat(args[0])}, time, {ease: Events.parseEase(args[3])});
+			}
 		}
 		else{
-			playstate.scrollSpeedMultiplier = Events.parseFloat(args[0]);
+			switch(args[3]){
+				case "bf":
+					tween.cancelTweensOf(playstate.scrollSpeedMultiplierPlayer);
+					playstate.scrollSpeedMultiplierPlayer = Events.parseFloat(args[0]);
+				case "dad":
+					tween.cancelTweensOf(playstate.scrollSpeedMultiplierOpponent);
+					playstate.scrollSpeedMultiplierOpponent = Events.parseFloat(args[0]);
+				default:
+					tween.cancelTweensOf(playstate.scrollSpeedMultiplierPlayer);
+					tween.cancelTweensOf(playstate.scrollSpeedMultiplierOpponent);
+					playstate.scrollSpeedMultiplierPlayer = Events.parseFloat(args[0]);
+					playstate.scrollSpeedMultiplierOpponent = Events.parseFloat(args[0]);
+			}
 		}
 	}
 	

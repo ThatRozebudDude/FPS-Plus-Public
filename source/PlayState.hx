@@ -161,7 +161,8 @@ class PlayState extends MusicBeatState
 	public var canChangeVocalVolume:Bool = true;
 	public var songPlaybackSpeed(default, set):Float = 1;
 
-	public var scrollSpeedMultiplier(default, set):Float = 1;
+	public var scrollSpeedMultiplierOpponent(default, set):Float = 1;
+	public var scrollSpeedMultiplierPlayer(default, set):Float = 1;
 
 	public var dad:Character;
 	public var gf:Character;
@@ -1754,19 +1755,19 @@ class PlayState extends MusicBeatState
 	}
 
 	function updateNote(){
-		notes.forEachAlive(function(daNote:Note){
+		notes.forEachAlive(function(note:Note){
 			var targetY:Float;
 			var targetX:Float;
 
 			var scrollSpeed:Float;
 
-			if(daNote.mustPress){
-				targetY = playerStrums.members[Math.floor(Math.abs(daNote.direction))].y;
-				targetX = playerStrums.members[Math.floor(Math.abs(daNote.direction))].x;
+			if(note.mustPress){
+				targetY = playerStrums.members[Math.floor(Math.abs(note.direction))].y;
+				targetX = playerStrums.members[Math.floor(Math.abs(note.direction))].x;
 			}
 			else{
-				targetY = enemyStrums.members[Math.floor(Math.abs(daNote.direction))].y;
-				targetX = enemyStrums.members[Math.floor(Math.abs(daNote.direction))].x;
+				targetY = enemyStrums.members[Math.floor(Math.abs(note.direction))].y;
+				targetX = enemyStrums.members[Math.floor(Math.abs(note.direction))].x;
 			}
 
 			if(Config.scrollSpeedOverride > 0){
@@ -1776,56 +1777,55 @@ class PlayState extends MusicBeatState
 				scrollSpeed = FlxMath.roundDecimal(chart.meta.scroll, 2);
 			}
 
-			scrollSpeed *= scrollSpeedMultiplier;
+			scrollSpeed *= note.mustPress ? scrollSpeedMultiplierPlayer : scrollSpeedMultiplierOpponent;
 
 			if(Config.downscroll){
-				daNote.y = (targetY + (Conductor.songPosition - daNote.strumTime) * (0.45 * scrollSpeed)) - daNote.yOffset;	
-				if(daNote.isSustainNote){
-					daNote.y -= daNote.height;
-					daNote.y += 125;
+				note.y = (targetY + (Conductor.songPosition - note.strumTime) * (0.45 * scrollSpeed)) - note.yOffset;	
+				if(note.isSustainNote){
+					note.y -= note.height;
+					note.y += 125;
 
-					if ((!daNote.mustPress || daNote.wasGoodHit || daNote.prevNote.wasGoodHit && !daNote.canBeHit)
-						&& daNote.y - daNote.offset.y * daNote.scale.y + daNote.height >= (targetY + Note.swagWidth / 2)){
+					if ((!note.mustPress || note.wasGoodHit || note.prevNote.wasGoodHit && !note.canBeHit)
+						&& note.y - note.offset.y * note.scale.y + note.height >= (targetY + Note.swagWidth / 2)){
 						// Clip to strumline
-						var swagRect = new FlxRect(0, 0, daNote.frameWidth * 2, daNote.frameHeight * 2);
-						swagRect.height = (targetY + Note.swagWidth / 2 - daNote.y) / daNote.scale.y;
-						swagRect.y = daNote.frameHeight - swagRect.height;
+						var swagRect = new FlxRect(0, 0, note.frameWidth * 2, note.frameHeight * 2);
+						swagRect.height = (targetY + Note.swagWidth / 2 - note.y) / note.scale.y;
+						swagRect.y = note.frameHeight - swagRect.height;
 	
-						daNote.clipRect = swagRect;
+						note.clipRect = swagRect;
 					}
 				}
 			}
 			else {
-				daNote.y = (targetY - (Conductor.songPosition - daNote.strumTime) * (0.45 * scrollSpeed)) + daNote.yOffset;
-				if(daNote.isSustainNote){
-					if ((!daNote.mustPress || daNote.wasGoodHit || daNote.prevNote.wasGoodHit && !daNote.canBeHit)
-						&& daNote.y + daNote.offset.y * daNote.scale.y <= (targetY + Note.swagWidth / 2)){
+				note.y = (targetY - (Conductor.songPosition - note.strumTime) * (0.45 * scrollSpeed)) + note.yOffset;
+				if(note.isSustainNote){
+					if ((!note.mustPress || note.wasGoodHit || note.prevNote.wasGoodHit && !note.canBeHit)
+						&& note.y + note.offset.y * note.scale.y <= (targetY + Note.swagWidth / 2)){
 						// Clip to strumline
-						var swagRect = new FlxRect(0, 0, daNote.width / daNote.scale.x, daNote.height / daNote.scale.y);
-						swagRect.y = (targetY + Note.swagWidth / 2 - daNote.y) / daNote.scale.y;
+						var swagRect = new FlxRect(0, 0, note.width / note.scale.x, note.height / note.scale.y);
+						swagRect.y = (targetY + Note.swagWidth / 2 - note.y) / note.scale.y;
 						swagRect.height -= swagRect.y;
 
-						daNote.clipRect = swagRect;
+						note.clipRect = swagRect;
 					}
 				}
 			}
 
-			daNote.x = targetX + daNote.xOffset;
+			note.x = targetX + note.xOffset;
 
-			if(daNote.tooLate){
-				if (!daNote.didTooLateAction && !daNote.isFake){
-					noteMiss(daNote, daNote.missCallback, Scoring.MISS_DAMAGE_AMOUNT, true, true);
+			if(note.tooLate){
+				if (!note.didTooLateAction && !note.isFake){
+					noteMiss(note, note.missCallback, Scoring.MISS_DAMAGE_AMOUNT, true, true);
 					if(canChangeVocalVolume){ vocals.volume = 0; }
-					daNote.didTooLateAction = true;
+					note.didTooLateAction = true;
 				}
 			}
 
-			if(Config.downscroll ? (daNote.y > targetY + daNote.height + 50) : (daNote.y < targetY - daNote.height - 50)){
-				if (daNote.tooLate || daNote.wasGoodHit){
-								
-					daNote.active = false;
-					daNote.visible = false;
-					daNote.destroy();
+			if(Config.downscroll ? (note.y > targetY + note.height + 50) : (note.y < targetY - note.height - 50)){
+				if (note.tooLate || note.wasGoodHit){
+					note.active = false;
+					note.visible = false;
+					note.destroy();
 				}
 			}
 		});
@@ -3012,15 +3012,30 @@ class PlayState extends MusicBeatState
 		return value;
 	}
 	
-	private function set_scrollSpeedMultiplier(value:Float):Float{
-		scrollSpeedMultiplier = value;
+	private function set_scrollSpeedMultiplierPlayer(value:Float):Float{
+		scrollSpeedMultiplierPlayer = value;
 		for(note in unspawnNotes){
-			if(note.isSustainNote && !note.isSustainEnd){
+			if(note.isSustainNote && !note.isSustainEnd && note.mustPress){
 				note.updateHoldLength(value);
 			}
 		}
 		notes.forEachAlive(function(note){
-			if(note.isSustainNote && !note.isSustainEnd){
+			if(note.isSustainNote && !note.isSustainEnd && note.mustPress){
+				note.updateHoldLength(value);
+			}
+		});
+		return value;
+	}
+
+	private function set_scrollSpeedMultiplierOpponent(value:Float):Float{
+		scrollSpeedMultiplierOpponent = value;
+		for(note in unspawnNotes){
+			if(note.isSustainNote && !note.isSustainEnd && !note.mustPress){
+				note.updateHoldLength(value);
+			}
+		}
+		notes.forEachAlive(function(note){
+			if(note.isSustainNote && !note.isSustainEnd && !note.mustPress){
 				note.updateHoldLength(value);
 			}
 		});

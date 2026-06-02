@@ -791,7 +791,6 @@ class ChartingState extends MusicBeatState
 		}*/
 
 		//Check if the cursor is on a grid.
-		gridCursor.visible = false;
 		gridCursorIndex = -1;
 		for(i in 0...grids.length){
 			if(FlxG.mouse.x >= grids[i].grid.x && FlxG.mouse.x < grids[i].grid.x + grids[i].grid.width){
@@ -803,7 +802,6 @@ class ChartingState extends MusicBeatState
 		//Update the grid cursor position and do note place checks.
 		gridCursorLane = -1;
 		if(gridCursorIndex > -1){
-			gridCursor.visible = true && !selectionBoxOpen;
 			gridCursorLane = Math.floor((FlxG.mouse.x - grids[gridCursorIndex].grid.x) / GRID_SIZE);
 			lastGridCursorLane = gridCursorLane;
 			gridCursor.x = grids[gridCursorIndex].grid.x + gridCursorLane * GRID_SIZE;
@@ -821,7 +819,7 @@ class ChartingState extends MusicBeatState
 
 		gridCursor.visible = false;
 		if(canDoThings()){
-			gridCursor.visible = true;
+			gridCursor.visible = gridCursorIndex > -1 && !selectionBoxOpen;
 
 			if(gridCursorIndex == OPPONENT_GRID || gridCursorIndex == PLAYER_GRID){ //Placing notes.
 				var overlapHoldCheck:ChartingNote = null;
