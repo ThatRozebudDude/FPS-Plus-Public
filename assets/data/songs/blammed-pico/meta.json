@@ -1,14 +1,19 @@
 {
-    "name": "Blammed (Pico Mix)",
-    "artist": "Metaroom (ft. Saruky)",
-    "album": "vol4",
-    "difficulties": [
-        3,
-        4,
-        12
-    ],
-    "compatibleInsts": ["#blammed"],
-	"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-    "mixName": "Pico Mix",
+	"name": "Blammed (Pico Mix)",
+	"artist": "Metaroom (ft. Saruky)",
+	"album": "vol4",
+	"difficulties": [
+		3,
+		4,
+		5
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#blammed"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Pico Mix",
     "pauseMusic": "pause/947670_hacker.07_Loop"
 }

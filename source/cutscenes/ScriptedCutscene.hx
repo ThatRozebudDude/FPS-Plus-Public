@@ -222,7 +222,7 @@ class ScriptedCutscene extends FlxBasic
 		}  
 	}
 
-	public function focusCameraBasedOnFirstSection(_time:Float = 1.9, _ease:Null<flixel.tweens.EaseFunction>):Void{
+	public function focusCameraBasedOnFirstSection(_time:Null<Float> = null, _ease:Null<flixel.tweens.EaseFunction>):Void{
 		if(_ease == null){_ease = FlxEase.expoOut;}
 		var foundCamEvent:Bool = false;
 		var removeFromEvents:Array<EventDefinition> = [];

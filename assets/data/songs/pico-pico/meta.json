@@ -1,14 +1,19 @@
 {
-    "name": "Pico (Pico Mix)",
-    "artist": "Metaroom (ft. Saster)",
-    "album": "vol4",
-    "difficulties": [
-        2,
-        4,
-        6
-    ],
-    "compatibleInsts": ["#pico"],
-	"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-    "mixName": "Pico Mix",
+	"name": "Pico (Pico Mix)",
+	"artist": "Metaroom (ft. Saster)",
+	"album": "ext2",
+	"difficulties": [
+		2,
+		3,
+		4
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#pico"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Pico Mix",
     "pauseMusic": "pause/947670_hacker.07_Loop"
 }
