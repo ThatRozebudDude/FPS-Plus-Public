@@ -1,14 +1,19 @@
 {
-    "name": "Roses (Pico Mix)",
-    "artist": "Xploshi (ft. Saruky)",
-    "album": "ext2",
-    "difficulties": [
-        2,
-        3,
-        4
-    ],
-	"compatibleInsts": ["#roses-pico"],
-	"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
+	"name": "Roses (Pico Mix)",
+	"artist": "Xploshi (ft. Saruky)",
+	"album": "ext2",
+	"difficulties": [
+		2,
+		3,
+		4
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#roses-pico"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
 	"mixName": "Pico Mix",
 	"pauseMusic": "pause/breakfast-pixel"
 }

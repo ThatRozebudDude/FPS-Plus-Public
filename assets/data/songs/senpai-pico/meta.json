@@ -1,14 +1,19 @@
 {
-    "name": "Senpai (Pico Mix)",
-    "artist": "Tee Lopes (ft. Saruky)",
-    "album": "ext2",
-    "difficulties": [
-        1,
-        2,
-        3
-    ],
-    "compatibleInsts": ["#senpai"],
-	"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-    "mixName": "Pico Mix",
-    "pauseMusic": "pause/breakfast-pixel"
+	"name": "Senpai (Pico Mix)",
+	"artist": "Tee Lopes (ft. Saruky)",
+	"album": "ext2",
+	"difficulties": [
+		1,
+		2,
+		3
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#senpai"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Pico Mix",
+	"pauseMusic": "pause/breakfast-pixel"
 }
