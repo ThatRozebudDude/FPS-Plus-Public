@@ -1,14 +1,19 @@
 {
-    "name": "Cocoa (Pico Mix)",
-    "artist": "Six Impala (ft. Saruky)",
-    "album": "ext2",
-    "difficulties": [
-        2,
-        3,
-        4
-    ],
-	"compatibleInsts": ["#cocoa"],
-	"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
+	"name": "Cocoa (Pico Mix)",
+	"artist": "six impala (ft. Saruky)",
+	"album": "ext2",
+	"difficulties": [
+		2,
+		3,
+		4
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#cocoa"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
 	"mixName": "Pico Mix",
 	"pauseMusic": "pause/918379_Love-Emoji_Loop"
 }

@@ -58,7 +58,7 @@ def convertCharacter(character:str) -> tuple[str, bool]:
 		case "parents-christmas": return ("ParentsChristmas", True)
 		case "pico": return ("Pico", True)
 		case "pico-blazin": return ("PicoBlazin", True)
-		case "pico-christmas": return ("GfTankmen", True)
+		case "pico-christmas": return ("PicoChristmas", True)
 		case "pico-dark": return ("PicoDark", True)
 		case "pico-holding-nene": return ("PicoHoldingNene", True)
 		case "pico-pixel": return ("PicoPixel", True)
@@ -298,6 +298,7 @@ def processEvents(data) -> str:
 				debugPrint(event["e"] + "\t->\t" + tag[0])
 
 			case "SetCameraBop":
+				column[0] = 2
 				tag[0] += "camBopFreq;" + str(event["v"]["rate"])
 
 				instensity = 1
@@ -305,6 +306,7 @@ def processEvents(data) -> str:
 					instensity = event["v"]["intensity"]
 
 				tag.append("")
+				column[0] = 3
 				tag[1] += "camBopIntensity;" + str(instensity)
 				timeOffset.append(-20)
 				column.append(2)
@@ -358,7 +360,7 @@ def processEvents(data) -> str:
 		if not skipAdd:
 			for i in range(len(tag)):
 				newEvent:dict = {
-					"time": event["t"] + timeOffset[i],
+					"time": max(event["t"] + timeOffset[i], 0),
 					"lane": column[i],
 					"tag": tag[i]
 				}
