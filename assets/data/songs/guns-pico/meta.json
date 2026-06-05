@@ -1,14 +1,19 @@
 {
-    "name": "Guns (Pico Mix)",
-    "artist": "tsuyunoshi (ft. Saruky)",
-    "album": "vol4",
-    "difficulties": [
-        3,
-        5,
-        13
-    ],
-    "compatibleInsts": ["#guns"],
-	"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-    "mixName": "Pico Mix",
+	"name": "Guns (Pico Mix)",
+	"artist": "tsuyunoshi (ft. Saruky)",
+	"album": "vol4",
+	"difficulties": [
+		3,
+		4,
+		5
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#guns"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Pico Mix",
     "pauseMusic": "week7/distorto"
 }

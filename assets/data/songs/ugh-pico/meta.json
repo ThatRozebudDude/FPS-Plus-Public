@@ -1,14 +1,19 @@
 {
-    "name": "Ugh (Pico Mix)",
-    "artist": "tsuyunoshi (ft. Saruky)",
-    "album": "vol4",
-    "difficulties": [
-        1,
-        2,
-        13
-    ],
-    "compatibleInsts": ["#ugh"],
-	"compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-    "mixName": "Pico Mix",
+	"name": "Ugh (Pico Mix)",
+	"artist": "tsuyunoshi (ft. Saruky)",
+	"album": "vol4",
+	"difficulties": [
+		2,
+		3,
+		4
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#ugh"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Pico Mix",
     "pauseMusic": "week7/distorto"
 }

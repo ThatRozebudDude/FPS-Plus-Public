@@ -286,6 +286,8 @@ def processEvents(data) -> str:
 				debugPrint(event["e"] + "\t->\t" + tag[0])
 
 			case "ZoomCamera":
+				column[0] = 3
+
 				if "easeDir" in event["v"]:
 					tag[0] += "camZoom;" + str(event["v"]["zoom"]) + ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"]) + str(event["v"]["easeDir"])
 				else:

@@ -247,6 +247,7 @@ class ChartingState extends MusicBeatState
 	var topOverlay:FlxSprite;
 	var bpmChangePanel:Panel;
 	var bpmChangeBoxOpen:Bool = false;
+	var bpmChangeBoxCanCancel:Bool = true;
 	var bpmChangeTime:Float = 0;
 	var bpmInput:Stepper;
 
@@ -508,7 +509,9 @@ class ChartingState extends MusicBeatState
 		bpmInput = new Stepper(21, 20, 192, 100, 1, 1, null, true, "New BPM");
 		var newBPMButton:Button = new Button(62, 64, 192, "Create");
 		newBPMButton.onPress.add(function(){
-			closeBPMPanel(true);
+			if(bpmChangeBoxOpen){
+				closeBPMPanel(true);
+			}
 		});
 
 		bpmChangePanel.addToTab("Add BPM Change", bpmInput);
@@ -904,7 +907,7 @@ class ChartingState extends MusicBeatState
 					var deleteCount:Int = removeBPMChangesInProximity(getSongPositionFromY(FlxG.mouse.y - (GRID_SIZE/2)), ((getSongPositionFromY(FlxG.mouse.y + GRID_SIZE) - getSongPositionFromY(FlxG.mouse.y))/2)*0.999999);
 					if(deleteCount > 0){
 						if(bpmChanges.getFirstAlive() == null || bpmChanges.getFirstAlive().time != 0){
-							openBPMPanel(0);
+							openBPMPanel(0, false);
 							createAlert("Starting BPM removed, creating a new one.", 3);
 						}
 						else{
@@ -1030,7 +1033,7 @@ class ChartingState extends MusicBeatState
 			typeAlert.alpha = 0;
 
 			if(bpmChangePanel.tabs[0].manager.focused == null && bpmChangePanel.tabs[0].manager.allowInteraction){
-				if(FlxG.keys.anyJustPressed([ESCAPE])){
+				if(FlxG.keys.anyJustPressed([ESCAPE]) && bpmChangeBoxCanCancel){
 					closeBPMPanel(false);
 				}
 				else if(FlxG.keys.anyJustPressed([ENTER])){
@@ -2314,8 +2317,9 @@ class ChartingState extends MusicBeatState
 		}
 	}
 
-	inline function openBPMPanel(time:Float):Void{
+	inline function openBPMPanel(time:Float, canCancel:Bool = true):Void{
 		bpmChangeBoxOpen = true;
+		bpmChangeBoxCanCancel = canCancel;
 		topOverlay.visible = true;
 		bpmChangePanel.visible = true;
 		bpmChangeTime = time;

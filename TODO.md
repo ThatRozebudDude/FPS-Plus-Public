@@ -13,13 +13,10 @@
 		- Also update the base-game chart port Python script if I'm not lazy but if this works I could just auto convert it later.
 
 - Chart Editor
-	- Finish new icons.
-		- Add icon for `setBopFreq`.
-	- Event descriptions.
+	- Fix some events using the wrong icon.
 	- Better Note Type (Maybe Event) sorting.
 	- Autosave.
 	- Sound effects? Maybe?
-	- Look into small memory leak when recycling notes/events?
 
 - Character Editor
 	- Kinda like a mix of the offset editor and the debug Character Compare thing.
