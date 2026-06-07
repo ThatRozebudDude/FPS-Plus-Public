@@ -651,7 +651,35 @@ class ChartingState extends MusicBeatState
 		saveEventsButton.onPress.add(function(){ saveEventsToFile(); });
 
 		var reloadChartButton:Button = new Button(PANEL_SPACING, saveEventsButton.y + saveEventsButton.elementHeight + PANEL_SPACING, 192, "Reload Chart");
-		reloadChartButton.onPress.add(function(){ trace("I don't do anything yet! God, I'm such a fucking useless button! Ugh!"); });
+		reloadChartButton.onPress.add(function(){
+			var copyBpm:Array<BPMDefinition> = null;
+			if(!Utils.exists(Paths.json("chart-" + difficultyDropdown.value.toLowerCase(), "data/songs/" + songNameInput.value.toLowerCase()))){
+				copyBpm = chart.meta.bpm.copy();
+			}
+
+			PlayState.setupSong(songNameInput.value.toLowerCase(), difficultyDropdown.currentIndex, false);
+
+			PlayState.chart.meta.song = songNameInput.value;
+			if(copyBpm != null){
+				PlayState.chart.meta.bpm = copyBpm;
+			}
+
+			chart = PlayState.chart;
+			chartEvents = PlayState.events;
+
+			playerDropown.setSelectedTo(chart.meta.player);
+			opponentDropdown.setSelectedTo(chart.meta.opponent);
+			speakerDropdown.setSelectedTo(chart.meta.speaker);
+			stageDropdown.setSelectedTo(chart.meta.stage);
+
+			loadChart();
+			updateHealthIcons(chart.meta.opponent, chart.meta.player, true);
+			setCurrentState(NONE);
+
+			createAlert("Loaded " + difficultyDropdown.value.toLowerCase() + " chart for \"" + songNameInput.value + "\".", 2);
+
+			Utils.gc();
+		});
 
 		panel.addToTab("Song", songNameInput);
 		panel.addToTab("Song", opponentDropdown);
@@ -665,7 +693,6 @@ class ChartingState extends MusicBeatState
 	}
 
 	function setupNotesTab():Void{
-		//Temp for now, just so it exists.
 		noteTypeInput = new TextInput(PANEL_SPACING, PANEL_SPACING, 336, "", "Tag");
 		noteTypeInput.onValueChanged.add(function(v:String){
 			createArguments(v, true);
@@ -736,7 +763,6 @@ class ChartingState extends MusicBeatState
 		var opponentVoxToggle:Toggle = new Toggle(PANEL_SPACING, playerVoxToggle.y + playerVoxToggle.elementHeight + PANEL_SPACING, true, "Opponent Vocals");
 		opponentVoxToggle.onToggle.add(function(value:Bool){ vocalsOther.volume = value ? 1 : 0; });
 
-		//idk if this is the way i want to do this or not yet
 		gridSnapDropdown = new Dropdown(PANEL_SPACING, opponentVoxToggle.y + opponentVoxToggle.elementHeight + PANEL_EXTRA_SPACING, 196, ["1/16th Note", "1/32nd Note", "1/64th Note", "1/16th Triplet", "1/32nd Triplet", "1/64th Triplet", "Free"], "1/16th Note", "Grid Snap");
 		gridSnapDropdown.onSelect.add(function(v:String){ setGridSnap(v); });
 
@@ -1147,11 +1173,13 @@ class ChartingState extends MusicBeatState
 	};
 
 	function loadChart():Void{
-		setMusic(chart.meta.song);
+		setMusic(chart.meta.song, false);
 
 		Conductor.resetBPMChanges();
 		Conductor.setBPMChanges(chart.meta.bpm);
 
+		undoHistory = [];
+		redoHistory = [];
 		var snapshot:ChartSnapshot = {notes: chart.notes, events: chartEvents.events, bpmChanges: chart.meta.bpm, action: NONE};
 		rebuildChartFromSnapshot(snapshot);
 	}
@@ -1772,7 +1800,7 @@ class ChartingState extends MusicBeatState
 		}
 	}
 
-	function setMusic(song:String):Bool{
+	function setMusic(song:String, doMessage:Bool = true):Bool{
 		if(Utils.exists(Paths.inst(song))){
 			if(previousSong != null){
 				Assets.cache.removeSound(Paths.voices(previousSong, "Player"));
@@ -1802,7 +1830,7 @@ class ChartingState extends MusicBeatState
 			FlxG.sound.music.volume = 1;
 
 			previousSong = song;
-			createAlert("Loaded audio for \"" + song + "\".", 2);
+			if(doMessage){ createAlert("Loaded audio for \"" + song + "\".", 2); }
 			Utils.gc();
 
 			return true;

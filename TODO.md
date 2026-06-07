@@ -13,7 +13,6 @@
 		- Also update the base-game chart port Python script if I'm not lazy but if this works I could just auto convert it later.
 
 - Chart Editor
-	- Reload chart button.
 	- Better Note Type (Maybe Event) sorting.
 	- Autosave.
 	- Sound effects? Maybe?

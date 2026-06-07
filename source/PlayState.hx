@@ -3042,7 +3042,7 @@ class PlayState extends MusicBeatState
 		return value;
 	}
 
-	public static function setupSong(_song:String, _difficuly:Int, ?_storyMode:Bool = false, ?_returnLocation:String = null, ?_overrideInstrumental:String = null):Void{
+	public static function setupSong(_song:String, _difficuly:Int, _storyMode:Bool = false, ?_returnLocation:String = null, ?_overrideInstrumental:String = null):Void{
 		PlayState.chart = Chart.chartFromSong(_song, ["easy", "normal", "hard"][_difficuly]);
 		PlayState.events = Chart.eventsFromSong(_song);
 		PlayState.storyDifficulty = _difficuly;
