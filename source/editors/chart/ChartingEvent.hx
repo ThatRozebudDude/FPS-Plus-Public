@@ -32,6 +32,14 @@ class ChartingEvent extends FlxSprite
 
 	function setEventGraphic():Void{
 		for(key => value in ChartingState.eventIconOverrides){
+			if(tag == key){
+				loadGraphic(Paths.image("fpsPlus/editors/chart/events/" + value));
+				setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);
+				updateHitbox();
+				return;
+			}
+		}
+		for(key => value in ChartingState.eventIconOverrides){
 			if(tag.startsWith(key)){
 				loadGraphic(Paths.image("fpsPlus/editors/chart/events/" + value));
 				setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);

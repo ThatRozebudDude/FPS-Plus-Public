@@ -1,10 +1,19 @@
 {
-  "name": "Blazin'",
-  "artist": "Kawai Sprite",
-  "album": "vol3",
-  "difficulties": [3, 4, 5],
-  "compatibleInsts": ["#blazin"],
-  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-  "mixName": "Original",
-  "pauseMusic": "pause/breakfast-pico"
+	"name": "Blazin'",
+	"artist": "Kawai Sprite",
+	"album": "vol3",
+	"difficulties": [
+		3,
+		4,
+		5
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#blazin"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Original",
+	"pauseMusic": "pause/breakfast-pico"
 }

@@ -1,10 +1,19 @@
 {
-  "name": "Lit Up",
-  "artist": "Kawai Sprite",
-  "album": "vol3",
-  "difficulties": [2, 3, 4],
-  "compatibleInsts": ["#lit-up"],
-  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-  "mixName": "Original",
-  "pauseMusic": "pause/breakfast-pico"
+	"name": "Lit Up",
+	"artist": "Kawai Sprite",
+	"album": "vol3",
+	"difficulties": [
+		2,
+		3,
+		4
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#lit-up"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Original",
+	"pauseMusic": "pause/breakfast-pico"
 }

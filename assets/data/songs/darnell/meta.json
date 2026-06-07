@@ -1,10 +1,19 @@
 {
-  "name": "Darnell",
-  "artist": "Kawai Sprite",
-  "album": "vol3",
-  "difficulties": [2, 3, 4],
-  "compatibleInsts": ["#darnell"],
-  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-  "mixName": "Original",
-  "pauseMusic": "pause/breakfast-pico"
+	"name": "Darnell",
+	"artist": "Kawai Sprite",
+	"album": "vol3",
+	"difficulties": [
+		2,
+		3,
+		4
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#darnell"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Original",
+	"pauseMusic": "pause/breakfast-pico"
 }

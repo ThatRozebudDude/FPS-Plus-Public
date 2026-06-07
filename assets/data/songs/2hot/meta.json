@@ -1,10 +1,19 @@
 {
-  "name": "2Hot",
-  "artist": "Kawai Sprite",
-  "album": "vol3",
-  "difficulties": [3, 4, 5],
-  "compatibleInsts": ["#2hot"],
-  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-  "mixName": "Original",
-  "pauseMusic": "pause/breakfast-pico"
+	"name": "2Hot",
+	"artist": "Kawai Sprite",
+	"album": "vol3",
+	"difficulties": [
+		3,
+		4,
+		5
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#2hot"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Original",
+	"pauseMusic": "pause/breakfast-pico"
 }

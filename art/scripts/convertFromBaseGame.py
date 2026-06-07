@@ -235,10 +235,10 @@ def processMetadata(meta, extraInfo:ExtraInfo) -> str:
 
 	return json.dumps(metaExport, indent="\t")
 
-def processEvents(data) -> str:
+def processEvents(data, diff:str) -> str:
 	debugPrint("\nProcessing events.")
 
-	chartScroll:float = data["scrollSpeed"]["hard"]
+	chartScroll:float = data["scrollSpeed"][diff]
 
 	events:list[dict] = []
 
@@ -277,7 +277,9 @@ def processEvents(data) -> str:
 
 				if type(event["v"]) is not int:
 					if "ease" in event["v"]:
-						if not event["v"]["ease"] == "CLASSIC":
+						if event["v"]["ease"] == "INSTANT":
+							tag[0] += ";0;linear"
+						elif not event["v"]["ease"] == "CLASSIC":
 							if "easeDir" in event["v"]:
 								tag[0] += ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"]) + str(event["v"]["easeDir"])
 							else:
@@ -288,10 +290,13 @@ def processEvents(data) -> str:
 			case "ZoomCamera":
 				column[0] = 3
 
-				if "easeDir" in event["v"]:
-					tag[0] += "camZoom;" + str(event["v"]["zoom"]) + ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"]) + str(event["v"]["easeDir"])
+				if event["v"]["ease"] == "INSTANT":
+					tag[0] += "camZoom;" + str(event["v"]["zoom"]) + ";0;linear"
 				else:
-					tag[0] += "camZoom;" + str(event["v"]["zoom"]) + ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"])
+					if "easeDir" in event["v"]:
+						tag[0] += "camZoom;" + str(event["v"]["zoom"]) + ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"]) + str(event["v"]["easeDir"])
+					else:
+						tag[0] += "camZoom;" + str(event["v"]["zoom"]) + ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"])
 
 				if "mode" in event["v"]:
 					if event["v"]["mode"] == "stage":
@@ -348,10 +353,13 @@ def processEvents(data) -> str:
 					elif event["v"]["strumline"] == "opponent":
 						lane = "dad"
 
-				if "easeDir" in event["v"]:
-					tag[0] += "scrollSpeedMultiplier;" + str(value) + ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"]) + str(event["v"]["easeDir"]) + ";" + lane
+				if event["v"]["ease"] == "INSTANT":
+					tag[0] += "scrollSpeedMultiplier;" + str(value) + ";0;linear;" + lane
 				else:
-					tag[0] += "scrollSpeedMultiplier;" + str(value) + ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"]) + ";" + lane
+					if "easeDir" in event["v"]:
+						tag[0] += "scrollSpeedMultiplier;" + str(value) + ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"]) + str(event["v"]["easeDir"]) + ";" + lane
+					else:
+						tag[0] += "scrollSpeedMultiplier;" + str(value) + ";" + str(event["v"]["duration"]) + "s;" + str(event["v"]["ease"]) + ";" + lane
 
 				debugPrint(event["e"] + "\t->\t" + tag[0])
 
@@ -432,7 +440,11 @@ if(__name__ == "__main__"):
 			extensions = ["normal", "hard"]
 
 		metadata = processMetadata(metaJson, extraInfo)
-		events = processEvents(chartJson)
+
+		if "erect" not in metaJson["playData"]["difficulties"]:
+			events = processEvents(chartJson, "hard")
+		else:
+			events = processEvents(chartJson, "nightmare")
 
 		for i in range(len(charts)):
 			if sys.platform == "darwin" or sys.platform == "linux":
@@ -483,7 +495,11 @@ if(__name__ == "__main__"):
 
 	# Converts only the events.
 	elif sys.argv[1] == "-e" or sys.argv[1] == "-events":
-		events = processEvents(chartJson)
+		if "erect" not in metaJson["playData"]["difficulties"]:
+			events = processEvents(chartJson, "hard")
+		else:
+			events = processEvents(chartJson, "nightmare")
+
 		f = open(outputFolder + "\\events.json", "w")
 		f.write(events)
 		f.close()
