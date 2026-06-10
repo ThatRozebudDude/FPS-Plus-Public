@@ -1,5 +1,7 @@
 package objects;
 
+import graphics.AtlasSprite;
+
 @:build(modding.GlobalScriptingTypesMacro.build())
 class ScriptedAtlasSprite extends AtlasSprite{}
 

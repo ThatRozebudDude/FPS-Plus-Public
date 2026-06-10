@@ -299,7 +299,6 @@ class PolymodHandler
 		//Default imports
 		Polymod.addDefaultImport(Alphabet);
 		Polymod.addDefaultImport(Assets);
-		Polymod.addDefaultImport(AtlasSprite);
 		Polymod.addDefaultImport(Character);
 		Polymod.addDefaultImport(Conductor);
 		Polymod.addDefaultImport(GameOverSubState);
@@ -315,6 +314,8 @@ class PolymodHandler
 		Polymod.addDefaultImport(Chart);
 		Polymod.addDefaultImport(Utils);
 		Polymod.addDefaultImport(VideoHandler);
+
+		Polymod.addDefaultImport(graphics.AtlasSprite);
 
 		Polymod.addDefaultImport(note.Note);
 		Polymod.addDefaultImport(shaders.RuntimeShader);

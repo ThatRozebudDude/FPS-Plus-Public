@@ -1,5 +1,7 @@
 package editors.chart;
 
+import graphics.waveform.WaveformData;
+import graphics.waveform.WaveformSprite;
 import note.NoteType;
 import openfl.net.FileReference;
 import openfl.events.Event;
@@ -213,6 +215,8 @@ class ChartingState extends MusicBeatState
 	var lilBuddiesEnabled:Bool = false;
 	var lilGuy:Character;
 	var lilBf:Character;
+	var lilBfHoldSteps:Int = 0;
+	var lilGuyHoldSteps:Int = 0;
 
 	var noteTypeInput:TextInput;
 	var notePrefixDropdown:Dropdown;
@@ -250,6 +254,11 @@ class ChartingState extends MusicBeatState
 	var bpmChangeBoxCanCancel:Bool = true;
 	var bpmChangeTime:Float = 0;
 	var bpmInput:Stepper;
+	
+	var instWaveform:WaveformSprite;
+	var playerWaveform:WaveformSprite;
+	var opponentWaveform:WaveformSprite;
+	var showWaveforms:Bool = false;
 
 	override public function new(_startPosition:Float = 0){
 		super();
@@ -536,6 +545,9 @@ class ChartingState extends MusicBeatState
 		}
 
 		add(gridCursor);
+		add(instWaveform);
+		add(playerWaveform);
+		add(opponentWaveform);
 
 		add(gridsBarSeperator);
 		add(notes);
@@ -774,6 +786,9 @@ class ChartingState extends MusicBeatState
 			syncMusic();
 		});
 
+		var showWaveformsToggle:Toggle = new Toggle(PANEL_SPACING, playbackRate.y + playbackRate.elementHeight + PANEL_EXTRA_SPACING, showWaveforms, "Show Waveforms");
+		showWaveformsToggle.onToggle.add(function(value:Bool){ showWaveforms = value; });
+
 		panel.addToTab("Tools", opponentHitSoundToggle);
 		panel.addToTab("Tools", playerHitSoundToggle);
 		panel.addToTab("Tools", instrumentalToggle);
@@ -781,6 +796,7 @@ class ChartingState extends MusicBeatState
 		panel.addToTab("Tools", opponentVoxToggle);
 		panel.addToTab("Tools", gridSnapDropdown);
 		panel.addToTab("Tools", playbackRate);
+		panel.addToTab("Tools", showWaveformsToggle);
 		
 		if(ScriptableCharacter.listScriptClasses().contains("characters.BfLil") && ScriptableCharacter.listScriptClasses().contains("characters.GuyLil")){
 			lilBuddiesEnabled = true;
@@ -811,6 +827,36 @@ class ChartingState extends MusicBeatState
 		}
 
 		camFollow.y = Conductor.step * GRID_SIZE + (720/2 - PLAYBACK_POSITION);
+
+		if(showWaveforms){
+			final waveformStartY:Float = getYFromSongPosition(Conductor.songPosition)-PLAYBACK_POSITION;
+
+			instWaveform.active = true;
+			instWaveform.visible = true;
+			instWaveform.time = Math.max(0, getSongPositionFromY(waveformStartY)/1000);
+			instWaveform.duration = Math.max(0, getSongPositionFromY(getYFromSongPosition(instWaveform.time*1000)+720)/1000) - instWaveform.time;
+			instWaveform.y = waveformStartY < 0 ? -waveformStartY : 0;
+	
+			playerWaveform.active = true;
+			playerWaveform.visible = true;
+			playerWaveform.time = Math.max(0, getSongPositionFromY(waveformStartY)/1000);
+			playerWaveform.duration = Math.max(0, getSongPositionFromY(getYFromSongPosition(playerWaveform.time*1000)+720)/1000) - playerWaveform.time;
+			playerWaveform.y = waveformStartY < 0 ? -waveformStartY : 0;
+	
+			opponentWaveform.active = true;
+			opponentWaveform.visible = true;
+			opponentWaveform.time = Math.max(0, getSongPositionFromY(waveformStartY)/1000);
+			opponentWaveform.duration = Math.max(0, getSongPositionFromY(getYFromSongPosition(opponentWaveform.time*1000)+720)/1000) - opponentWaveform.time;
+			opponentWaveform.y = waveformStartY < 0 ? -waveformStartY : 0;
+		}
+		else{
+			instWaveform.active = false;
+			instWaveform.visible = false;
+			playerWaveform.active = false;
+			playerWaveform.visible = false;
+			opponentWaveform.active = false;
+			opponentWaveform.visible = false;
+		}
 
 		/*if(FlxG.keys.anyPressed([SHIFT])){
 			editorCursor.selection();
@@ -1139,9 +1185,16 @@ class ChartingState extends MusicBeatState
 							case 3:
 								character.singAnim("singRIGHT", true);
 						}
+
+						if(note.player){ lilBfHoldSteps = Std.int(Math.max(lilBfHoldSteps, note.sustainLength)); }
+						else{ lilGuyHoldSteps = Std.int(Math.max(lilBfHoldSteps, note.sustainLength)); }
 					}
 				}
 			});
+		}
+		else{
+			lilBfHoldSteps = 0;
+			lilGuyHoldSteps = 0;
 		}
 
 		var alertDead:Array<Alert> = [];
@@ -1189,6 +1242,17 @@ class ChartingState extends MusicBeatState
 	}
 
 	override function stepHit():Void{
+		if(lilBuddiesEnabled){
+			if(lilBfHoldSteps > 0){
+				lilBf.holdTimer = 0;
+				lilBfHoldSteps--;
+			}
+			if(lilGuyHoldSteps > 0){
+				lilGuy.holdTimer = 0;
+				lilGuyHoldSteps--;
+			}
+		}
+		
 		super.stepHit();
 	}
 
@@ -1828,6 +1892,47 @@ class ChartingState extends MusicBeatState
 			FlxG.sound.playMusic(Paths.inst(song), 0, false);
 			FlxG.sound.music.pause();
 			FlxG.sound.music.volume = 1;
+
+			var addAfter:Bool = false;
+			if(instWaveform != null){
+				remove(instWaveform);
+				remove(playerWaveform);
+				remove(opponentWaveform);
+				addAfter = true;
+			}
+
+			instWaveform = WaveformSprite.buildFromFlxSound(FlxG.sound.music, VERTICAL, BACKGROUND_COLOR, 1);
+			instWaveform.x = grids[EVENT_GRID].grid.x;
+			instWaveform.width = GRID_SIZE * GRID_SQAURES[EVENT_GRID];
+			instWaveform.height = 720;
+			instWaveform.alpha = 0.8;
+			instWaveform.scrollFactor.set(0, 0);
+			instWaveform.active = false;
+			instWaveform.visible = false;
+
+			playerWaveform = WaveformSprite.buildFromFlxSound(vocals, VERTICAL, BACKGROUND_COLOR, 1);
+			playerWaveform.x = grids[PLAYER_GRID].grid.x;
+			playerWaveform.width = GRID_SIZE * GRID_SQAURES[PLAYER_GRID];
+			playerWaveform.height = 720;
+			playerWaveform.alpha = 0.8;
+			playerWaveform.scrollFactor.set(0, 0);
+			playerWaveform.active = false;
+			playerWaveform.visible = false;
+
+			opponentWaveform = WaveformSprite.buildFromFlxSound(vocalsOther, VERTICAL, BACKGROUND_COLOR, 1);
+			opponentWaveform.x = grids[OPPONENT_GRID].grid.x;
+			opponentWaveform.width = GRID_SIZE * GRID_SQAURES[OPPONENT_GRID];
+			opponentWaveform.height = 720;
+			opponentWaveform.alpha = 0.8;
+			opponentWaveform.scrollFactor.set(0, 0);
+			opponentWaveform.active = false;
+			opponentWaveform.visible = false;
+
+			if(addAfter){
+				add(instWaveform);
+				add(playerWaveform);
+				add(opponentWaveform);
+			}
 
 			previousSong = song;
 			if(doMessage){ createAlert("Loaded audio for \"" + song + "\".", 2); }

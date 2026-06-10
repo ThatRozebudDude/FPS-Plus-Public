@@ -3,6 +3,7 @@ package freeplay;
 import flixel.util.FlxColor;
 import flixel.group.FlxSpriteGroup;
 import flixel.FlxG;
+import graphics.AtlasSprite;
 
 using StringTools;
 

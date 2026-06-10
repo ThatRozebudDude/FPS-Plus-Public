@@ -1,5 +1,7 @@
 package characterSelect;
 
+import graphics.AtlasSprite;
+
 @:build(modding.GlobalScriptingTypesMacro.build())
 class CharacterSelectCharacter extends AtlasSprite
 {

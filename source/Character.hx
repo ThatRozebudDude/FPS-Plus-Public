@@ -12,6 +12,7 @@ import flixel.FlxSprite;
 import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
 import objects.*;
+import graphics.AtlasSprite;
 
 using StringTools;
 

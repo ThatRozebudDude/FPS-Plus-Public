@@ -17,7 +17,7 @@ import animate.internal.RenderTexture;
 import shaders.CustomBlendShader;
 
 //Extension that uses shaders to support additional blend modes on devices that do not support Khronos extensions.
-//Based on V-Slice's FunkinCamera.
+//Based on base game's FunkinCamera.
 
 @:access(openfl.display.DisplayObject)
 @:access(openfl.display.BitmapData)

@@ -8,6 +8,7 @@ import flixel.FlxG;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.FlxSprite;
 import shaders.*;
+import graphics.AtlasSprite;
 
 class ABot extends FlxTypedSpriteGroup<FlxSprite>
 {

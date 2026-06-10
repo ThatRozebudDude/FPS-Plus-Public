@@ -3,14 +3,9 @@
 - Fix thing with the characters doing extra bopping stuff after the song ends?
 
 - Editor UI Components
-	- Custom Cursor (Maybe)
 	- Text Input QOL
 		- Selectable Text in Text Input (Maybe)
 			- Stuff like selecting a region of text and deleting it all at once.
-
-- New Chart Format
-	- Make sure that the old format is still supported and can load and auto convert to the new format.
-		- Also update the base-game chart port Python script if I'm not lazy but if this works I could just auto convert it later.
 
 - Chart Editor
 	- Better Note Type (Maybe Event) sorting.

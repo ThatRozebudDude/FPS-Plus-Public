@@ -8,7 +8,6 @@ import flixel.ui.FlxBar;
 import title.*;
 import config.*;
 import transition.data.*;
-
 import flixel.FlxState;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -18,6 +17,7 @@ import flixel.text.FlxText;
 import extensions.flixel.FlxUIStateExt;
 import caching.*;
 import modding.*;
+import graphics.AtlasSprite;
 
 using StringTools;
 

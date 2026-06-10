@@ -1,4 +1,4 @@
-package;
+package graphics;
 
 import flixel.util.FlxSort;
 import animate.internal.elements.SymbolInstance;
