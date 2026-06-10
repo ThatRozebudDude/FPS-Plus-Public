@@ -828,36 +828,6 @@ class ChartingState extends MusicBeatState
 
 		camFollow.y = Conductor.step * GRID_SIZE + (720/2 - PLAYBACK_POSITION);
 
-		if(showWaveforms){
-			final waveformStartY:Float = getYFromSongPosition(Conductor.songPosition)-PLAYBACK_POSITION;
-
-			instWaveform.active = true;
-			instWaveform.visible = true;
-			instWaveform.time = Math.max(0, getSongPositionFromY(waveformStartY)/1000);
-			instWaveform.duration = Math.max(0, getSongPositionFromY(getYFromSongPosition(instWaveform.time*1000)+720)/1000) - instWaveform.time;
-			instWaveform.y = waveformStartY < 0 ? -waveformStartY : 0;
-	
-			playerWaveform.active = true;
-			playerWaveform.visible = true;
-			playerWaveform.time = Math.max(0, getSongPositionFromY(waveformStartY)/1000);
-			playerWaveform.duration = Math.max(0, getSongPositionFromY(getYFromSongPosition(playerWaveform.time*1000)+720)/1000) - playerWaveform.time;
-			playerWaveform.y = waveformStartY < 0 ? -waveformStartY : 0;
-	
-			opponentWaveform.active = true;
-			opponentWaveform.visible = true;
-			opponentWaveform.time = Math.max(0, getSongPositionFromY(waveformStartY)/1000);
-			opponentWaveform.duration = Math.max(0, getSongPositionFromY(getYFromSongPosition(opponentWaveform.time*1000)+720)/1000) - opponentWaveform.time;
-			opponentWaveform.y = waveformStartY < 0 ? -waveformStartY : 0;
-		}
-		else{
-			instWaveform.active = false;
-			instWaveform.visible = false;
-			playerWaveform.active = false;
-			playerWaveform.visible = false;
-			opponentWaveform.active = false;
-			opponentWaveform.visible = false;
-		}
-
 		/*if(FlxG.keys.anyPressed([SHIFT])){
 			editorCursor.selection();
 		}
@@ -1208,6 +1178,36 @@ class ChartingState extends MusicBeatState
 
 		for(i in 0...alertGroup.members.length){
 			alertGroup.members[i].wantedY = 720 - (alertGroup.members[i].elementHeight + ALERT_SPACING) * (alertGroup.members.length - i);
+		}
+
+		if(showWaveforms){
+			final waveformStartY:Float = getYFromSongPosition(Conductor.songPosition)-PLAYBACK_POSITION;
+
+			instWaveform.active = true;
+			instWaveform.visible = true;
+			instWaveform.time = Math.max(0, getSongPositionFromY(waveformStartY)/1000);
+			instWaveform.duration = Math.max(0, getSongPositionFromY(getYFromSongPosition(instWaveform.time*1000)+720)/1000) - instWaveform.time;
+			instWaveform.y = waveformStartY < 0 ? -waveformStartY : 0;
+	
+			playerWaveform.active = true;
+			playerWaveform.visible = true;
+			playerWaveform.time = Math.max(0, getSongPositionFromY(waveformStartY)/1000);
+			playerWaveform.duration = Math.max(0, getSongPositionFromY(getYFromSongPosition(playerWaveform.time*1000)+720)/1000) - playerWaveform.time;
+			playerWaveform.y = waveformStartY < 0 ? -waveformStartY : 0;
+	
+			opponentWaveform.active = true;
+			opponentWaveform.visible = true;
+			opponentWaveform.time = Math.max(0, getSongPositionFromY(waveformStartY)/1000);
+			opponentWaveform.duration = Math.max(0, getSongPositionFromY(getYFromSongPosition(opponentWaveform.time*1000)+720)/1000) - opponentWaveform.time;
+			opponentWaveform.y = waveformStartY < 0 ? -waveformStartY : 0;
+		}
+		else{
+			instWaveform.active = false;
+			instWaveform.visible = false;
+			playerWaveform.active = false;
+			playerWaveform.visible = false;
+			opponentWaveform.active = false;
+			opponentWaveform.visible = false;
 		}
 
 		super.update(elapsed);
