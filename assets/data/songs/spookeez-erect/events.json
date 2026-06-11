@@ -1,702 +1,597 @@
 {
-	"events": [
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 0
-		},
-		{
-			"tag": "camFocusBf;0;0",
-			"lane": 0,
-			"time": 0.634146341499218
-		},
-		{
-			"tag": "spookyMansion-forceLightning;false",
-			"lane": 0,
-			"time": 1445.78313253012
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 2891.56626506024077
-		},
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 5783.13253012048153
-		},
-		{
-			"tag": "camFocusDad;0;0",
-			"lane": 0,
-			"time": 5783.6341463415
-		},
-		{
-			"tag": "camFocusBf;0;0",
-			"lane": 0,
-			"time": 8674.6341463415
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 8674.6987951807223
-		},
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 11566.2650602409631
-		},
-		{
-			"tag": "camFocusDad;0;0",
-			"lane": 0,
-			"time": 11566.6341463415
-		},
-		{
-			"tag": "camFocusBf;0;0",
-			"lane": 0,
-			"time": 14457.6341463415
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 14457.831325301202
-		},
-		{
-			"tag": "camZoom;1.1;32s;expoOut;true",
-			"lane": 0,
-			"time": 15903.9512195122
-		},
-		{
-			"tag": "camBopFreq;2",
-			"lane": 0,
-			"time": 17259.3614457831
-		},
-		{
-			"tag": "camFocusGf;-50;50;32s;expoOut",
-			"lane": 0,
-			"time": 17349
-		},
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 17349.397590361441
-		},
-		{
-			"tag": "camZoom;0.9;32s;expoOut;true",
-			"lane": 0,
-			"time": 17379
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 20240.9638554216799
-		},
-		{
-			"tag": "camFocusBf;0;0;32s;expoOut",
-			"lane": 0,
-			"time": 23132
-		},
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 23132.5301204819189
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 23313.2530120482
-		},
-		{
-			"tag": "camZoom;0.95;32s;expoOut;true",
-			"lane": 0,
-			"time": 24578.9512195122
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 26024.0963855421578
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 26024.2530120482
-		},
-		{
-			"tag": "camFocusGf;-50;50;32s;expoOut",
-			"lane": 0,
-			"time": 28915
-		},
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 28915.6626506023968
-		},
-		{
-			"tag": "camZoom;0.9;32s;expoOut;true",
-			"lane": 0,
-			"time": 28945
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 33253.9512195122
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 34698.7951807228819
-		},
-		{
-			"tag": "camZoom;0.9;32s;expoOut;true",
-			"lane": 0,
-			"time": 34698.9512195122
-		},
-		{
-			"tag": "camFocusBf;0;0",
-			"lane": 0,
-			"time": 40481.6341463415
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 40527.9512195122
-		},
-		{
-			"tag": "camFocusGf;-50;50;32s;expoOut",
-			"lane": 0,
-			"time": 43373
-		},
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 43373.4939759036206
-		},
-		{
-			"tag": "camZoom;0.9;32s;expoOut;true",
-			"lane": 0,
-			"time": 43403
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 46265.0602409638668
-		},
-		{
-			"tag": "camFocusBf;0;0",
-			"lane": 0,
-			"time": 46265.6341463415
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 46310.9512195122
-		},
-		{
-			"tag": "camZoom;1.05;32s;expoOut;true",
-			"lane": 0,
-			"time": 47710.9512195122
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 49156.9512195122
-		},
-		{
-			"tag": "camZoom;1.1;32s;expoOut;true",
-			"lane": 0,
-			"time": 50602.9512195122
-		},
-		{
-			"tag": "camBopFreq;1",
-			"lane": 0,
-			"time": 51957.3614457831
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 52048.9512195122
-		},
-		{
-			"tag": "camZoom;1.1;32s;expoOut;true",
-			"lane": 0,
-			"time": 53493.9512195122
-		},
-		{
-			"tag": "camFocusGf;-50;50;32s;expoOut",
-			"lane": 0,
-			"time": 54939
-		},
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 54939.7590361446055
-		},
-		{
-			"tag": "camZoom;0.9;32s;expoOut;true",
-			"lane": 0,
-			"time": 54969
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 57831.3253012048517
-		},
-		{
-			"tag": "camFocusBf;0;0",
-			"lane": 0,
-			"time": 57831.6341463415
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 57876.9512195122
-		},
-		{
-			"tag": "camZoom;1.1;32s;expoOut;true",
-			"lane": 0,
-			"time": 59276.9512195122
-		},
-		{
-			"tag": "camBopFreq;2",
-			"lane": 0,
-			"time": 60632.3614457831
-		},
-		{
-			"tag": "camZoom;1.2;32s;expoOut;true",
-			"lane": 0,
-			"time": 60722.9512195122
-		},
-		{
-			"tag": "camZoom;1.3;32s;expoOut;true",
-			"lane": 0,
-			"time": 61445.9512195122
-		},
-		{
-			"tag": "camZoom;1.2;32s;expoOut;true",
-			"lane": 0,
-			"time": 62168.9512195122
-		},
-		{
-			"tag": "camZoom;1.1;32s;expoOut;true",
-			"lane": 0,
-			"time": 62891.9512195122
-		},
-		{
-			"tag": "camBopFreq;4",
-			"lane": 0,
-			"time": 63524.3614457831
-		},
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 63614.4578313253442
-		},
-		{
-			"tag": "camFocusDad;0;0",
-			"lane": 0,
-			"time": 63614.6341463415
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 63659.9512195122
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 66506.0240963855904
-		},
-		{
-			"tag": "camFocusBf;0;0",
-			"lane": 0,
-			"time": 66506.6341463415
-		},
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 69397.5903614458366
-		},
-		{
-			"tag": "camFocusDad;0;0",
-			"lane": 0,
-			"time": 69397.6341463415
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 72289.1566265060828
-		},
-		{
-			"tag": "camFocusBf;0;0",
-			"lane": 0,
-			"time": 72289.6341463415
-		},
-		{
-			"tag": "camZoom;1.1;32s;expoOut;true",
-			"lane": 0,
-			"time": 73734.9512195122
-		},
-		{
-			"tag": "camBopFreq;2",
-			"lane": 0,
-			"time": 75090.3614457831
-		},
-		{
-			"tag": "camFocusGf;-50;50;32s;expoOut",
-			"lane": 0,
-			"time": 75180
-		},
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 75180.7228915663291
-		},
-		{
-			"tag": "camZoom;0.9;32s;expoOut;true",
-			"lane": 0,
-			"time": 75210
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 78072.2891566265753
-		},
-		{
-			"tag": "camFocusBf;0;0;32s;expoOut",
-			"lane": 0,
-			"time": 80963
-		},
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 80963.8554216868215
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 81144.2530120482
-		},
-		{
-			"tag": "camZoom;0.95;32s;expoOut;true",
-			"lane": 0,
-			"time": 82409.9512195122
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 83855.2530120482
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 83855.4216867470677
-		},
-		{
-			"tag": "camFocusGf;-50;50;32s;expoOut",
-			"lane": 0,
-			"time": 86746
-		},
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 86746.9879518073139
-		},
-		{
-			"tag": "camZoom;0.9;32s;expoOut;true",
-			"lane": 0,
-			"time": 86776
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 91084.9512195122
-		},
-		{
-			"tag": "camZoom;0.9;32s;expoOut;true",
-			"lane": 0,
-			"time": 92529.9512195122
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 92530.1204819278
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 95421.9512195122
-		},
-		{
-			"tag": "camZoom;1.05;32s;expoOut;true",
-			"lane": 0,
-			"time": 96867.9512195122
-		},
-		{
-			"tag": "camZoom;1.1;32s;expoOut;true",
-			"lane": 0,
-			"time": 97590.9512195122
-		},
-		{
-			"tag": "camFocusBf;0;0",
-			"lane": 0,
-			"time": 98312.6341463415
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 98358.9512195122
-		},
-		{
-			"tag": "camFocusGf;-50;50;32s;expoOut",
-			"lane": 0,
-			"time": 101204
-		},
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 101204.819277108545
-		},
-		{
-			"tag": "camZoom;0.9;32s;expoOut;true",
-			"lane": 0,
-			"time": 101234
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 102650.951219512
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 104096.385542168791
-		},
-		{
-			"tag": "camFocusBf;0;0",
-			"lane": 0,
-			"time": 104096.634146342
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 104141.951219512
-		},
-		{
-			"tag": "camZoom;1.05;32s;expoOut;true",
-			"lane": 0,
-			"time": 105541.951219512
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 106987.951219512
-		},
-		{
-			"tag": "camZoom;1.1;32s;expoOut;true",
-			"lane": 0,
-			"time": 108433.951219512
-		},
-		{
-			"tag": "camBopFreq;1",
-			"lane": 0,
-			"time": 109789.361445783
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 109879.951219512
-		},
-		{
-			"tag": "camZoom;1.1;32s;expoOut;true",
-			"lane": 0,
-			"time": 111324.951219512
-		},
-		{
-			"tag": "camFocusGf;-50;50;32s;expoOut",
-			"lane": 0,
-			"time": 112770
-		},
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 112771.08433734953
-		},
-		{
-			"tag": "camZoom;0.9;32s;expoOut;true",
-			"lane": 0,
-			"time": 112800
-		},
-		{
-			"tag": "camFocusBf;0;0",
-			"lane": 0,
-			"time": 115662.634146342
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 115662.650602409776
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 115707.951219512
-		},
-		{
-			"tag": "camZoom;1.1;32s;expoOut;true",
-			"lane": 0,
-			"time": 117107.951219512
-		},
-		{
-			"tag": "camBopFreq;2",
-			"lane": 0,
-			"time": 118463.361445783
-		},
-		{
-			"tag": "camZoom;1.2;32s;expoOut;true",
-			"lane": 0,
-			"time": 118553.951219512
-		},
-		{
-			"tag": "camZoom;1.3;32s;expoOut;true",
-			"lane": 0,
-			"time": 119276.951219512
-		},
-		{
-			"tag": "camZoom;1.2;32s;expoOut;true",
-			"lane": 0,
-			"time": 119999.951219512
-		},
-		{
-			"tag": "camZoom;1.1;32s;expoOut;true",
-			"lane": 0,
-			"time": 120722.951219512
-		},
-		{
-			"tag": "camBopFreq;1",
-			"lane": 0,
-			"time": 121355.361445783
-		},
-		{
-			"tag": "camFocusGf;-50;50;32s;expoOut",
-			"lane": 0,
-			"time": 121445
-		},
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 121445.783132530269
-		},
-		{
-			"tag": "camZoom;0.9;32s;expoOut;true",
-			"lane": 0,
-			"time": 121490.951219512
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 122891.951219512
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 124337.349397590515
-		},
-		{
-			"tag": "camFocusBf;0;0",
-			"lane": 0,
-			"time": 124337.634146342
-		},
-		{
-			"tag": "camZoom;1.1;32s;expoOut;true",
-			"lane": 0,
-			"time": 125783.951219512
-		},
-		{
-			"tag": "camFocusGf;-50;50;32s;expoOut",
-			"lane": 0,
-			"time": 127228
-		},
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 127228.915662650761
-		},
-		{
-			"tag": "camZoom;0.9;32s;expoOut;true",
-			"lane": 0,
-			"time": 127274.951219512
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 128674.951219512
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 130120.481927711007
-		},
-		{
-			"tag": "camFocusBf;0;0",
-			"lane": 0,
-			"time": 130120.634146342
-		},
-		{
-			"tag": "camZoom;1;32s;expoOut;true",
-			"lane": 0,
-			"time": 130165.951219512
-		},
-		{
-			"tag": "camZoom;1.1;32s;expoOut;true",
-			"lane": 0,
-			"time": 131566.951219512
-		},
-		{
-			"tag": "camZoom;1.2;32s;expoOut;true",
-			"lane": 0,
-			"time": 132289.951219512
-		},
-		{
-			"tag": "camBopFreq;1",
-			"lane": 0,
-			"time": 132921.361445783
-		},
-		{
-			"tag": "camFocusGf;-50;50;32s;expoOut",
-			"lane": 0,
-			"time": 133012
-		},
-		{
-			"tag": "camZoom;0.9;32s;expoOut;true",
-			"lane": 0,
-			"time": 133057.951219512
-		},
-		{
-			"tag": "camBopFreq;1",
-			"lane": 0,
-			"time": 134367.361445783
-		},
-		{
-			"tag": "camBopFreq;1",
-			"lane": 0,
-			"time": 135813.361445783
-		},
-		{
-			"tag": "camBopFreq;1",
-			"lane": 0,
-			"time": 136536.361445783
-		},
-		{
-			"tag": "camBopFreq;1",
-			"lane": 0,
-			"time": 137259.361445783
-		},
-		{
-			"tag": "camBopFreq;4",
-			"lane": 0,
-			"time": 138704.361445783
-		}
-	],
 	"meta": {
 		"format": "fpsplus_1"
-	}
+	},
+	"events": [
+		{
+			"time": 0.634146341499218,
+			"lane": 0,
+			"tag": "camFocusBf;0;0"
+		},
+		{
+			"time": 5783.6341463415,
+			"lane": 0,
+			"tag": "camFocusDad;0;0"
+		},
+		{
+			"time": 8674.6341463415,
+			"lane": 0,
+			"tag": "camFocusBf;0;0"
+		},
+		{
+			"time": 11566.6341463415,
+			"lane": 0,
+			"tag": "camFocusDad;0;0"
+		},
+		{
+			"time": 14457.6341463415,
+			"lane": 0,
+			"tag": "camFocusBf;0;0"
+		},
+		{
+			"time": 15903.9512195122,
+			"lane": 3,
+			"tag": "camZoom;1.1;32s;expoOut;true"
+		},
+		{
+			"time": 17259.3614457831,
+			"lane": 3,
+			"tag": "camBopFreq;2"
+		},
+		{
+			"time": 17239.3614457831,
+			"lane": 2,
+			"tag": "camBopIntensity;1"
+		},
+		{
+			"time": 17349,
+			"lane": 0,
+			"tag": "camFocusGf;-50;50;32s;expoOut"
+		},
+		{
+			"time": 17349.3975903614,
+			"lane": 3,
+			"tag": "camZoom;0.9;32s;expoOut;true"
+		},
+		{
+			"time": 23132,
+			"lane": 0,
+			"tag": "camFocusBf;0;0;32s;expoOut"
+		},
+		{
+			"time": 23313.2530120482,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 24578.9512195122,
+			"lane": 3,
+			"tag": "camZoom;0.95;32s;expoOut;true"
+		},
+		{
+			"time": 26024.2530120482,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 28915,
+			"lane": 0,
+			"tag": "camFocusGf;-50;50;32s;expoOut"
+		},
+		{
+			"time": 28915.6626506024,
+			"lane": 3,
+			"tag": "camZoom;0.9;32s;expoOut;true"
+		},
+		{
+			"time": 33253.9512195122,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 34698.9512195122,
+			"lane": 3,
+			"tag": "camZoom;0.9;32s;expoOut;true"
+		},
+		{
+			"time": 40481.6341463415,
+			"lane": 0,
+			"tag": "camFocusBf;0;0"
+		},
+		{
+			"time": 40481.9277108434,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 43373,
+			"lane": 0,
+			"tag": "camFocusGf;-50;50;32s;expoOut"
+		},
+		{
+			"time": 43373.4939759036,
+			"lane": 3,
+			"tag": "camZoom;0.9;32s;expoOut;true"
+		},
+		{
+			"time": 46265.0602409639,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 46265.6341463415,
+			"lane": 0,
+			"tag": "camFocusBf;0;0"
+		},
+		{
+			"time": 47710.9512195122,
+			"lane": 3,
+			"tag": "camZoom;1.05;32s;expoOut;true"
+		},
+		{
+			"time": 49156.9512195122,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 50602.9512195122,
+			"lane": 3,
+			"tag": "camZoom;1.1;32s;expoOut;true"
+		},
+		{
+			"time": 51957.3614457831,
+			"lane": 3,
+			"tag": "camBopFreq;1"
+		},
+		{
+			"time": 51937.3614457831,
+			"lane": 2,
+			"tag": "camBopIntensity;1.1"
+		},
+		{
+			"time": 52048.9512195122,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 53493.9512195122,
+			"lane": 3,
+			"tag": "camZoom;1.1;32s;expoOut;true"
+		},
+		{
+			"time": 54939,
+			"lane": 0,
+			"tag": "camFocusGf;-50;50;32s;expoOut"
+		},
+		{
+			"time": 54939.7590361446,
+			"lane": 3,
+			"tag": "camZoom;0.9;32s;expoOut;true"
+		},
+		{
+			"time": 57831.3253012048,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 57831.6341463415,
+			"lane": 0,
+			"tag": "camFocusBf;0;0"
+		},
+		{
+			"time": 59276.9512195122,
+			"lane": 3,
+			"tag": "camZoom;1.1;32s;expoOut;true"
+		},
+		{
+			"time": 60632.3614457831,
+			"lane": 3,
+			"tag": "camBopFreq;2"
+		},
+		{
+			"time": 60612.3614457831,
+			"lane": 2,
+			"tag": "camBopIntensity;1.1"
+		},
+		{
+			"time": 60722.9512195122,
+			"lane": 3,
+			"tag": "camZoom;1.2;32s;expoOut;true"
+		},
+		{
+			"time": 61445.9512195122,
+			"lane": 3,
+			"tag": "camZoom;1.3;32s;expoOut;true"
+		},
+		{
+			"time": 62168.9512195122,
+			"lane": 3,
+			"tag": "camZoom;1.2;32s;expoOut;true"
+		},
+		{
+			"time": 62891.9512195122,
+			"lane": 3,
+			"tag": "camZoom;1.1;32s;expoOut;true"
+		},
+		{
+			"time": 63524.3614457831,
+			"lane": 3,
+			"tag": "camBopFreq;4"
+		},
+		{
+			"time": 63504.3614457831,
+			"lane": 2,
+			"tag": "camBopIntensity;1"
+		},
+		{
+			"time": 63614.4578313253,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 63614.6341463415,
+			"lane": 0,
+			"tag": "camFocusDad;0;0"
+		},
+		{
+			"time": 66506.6341463415,
+			"lane": 0,
+			"tag": "camFocusBf;0;0"
+		},
+		{
+			"time": 69397.6341463415,
+			"lane": 0,
+			"tag": "camFocusDad;0;0"
+		},
+		{
+			"time": 72289.6341463415,
+			"lane": 0,
+			"tag": "camFocusBf;0;0"
+		},
+		{
+			"time": 73734.9512195122,
+			"lane": 3,
+			"tag": "camZoom;1.1;32s;expoOut;true"
+		},
+		{
+			"time": 75090.3614457831,
+			"lane": 3,
+			"tag": "camBopFreq;2"
+		},
+		{
+			"time": 75070.3614457831,
+			"lane": 2,
+			"tag": "camBopIntensity;1"
+		},
+		{
+			"time": 75180,
+			"lane": 0,
+			"tag": "camFocusGf;-50;50;32s;expoOut"
+		},
+		{
+			"time": 75180.7228915663,
+			"lane": 3,
+			"tag": "camZoom;0.9;32s;expoOut;true"
+		},
+		{
+			"time": 80963,
+			"lane": 0,
+			"tag": "camFocusBf;0;0;32s;expoOut"
+		},
+		{
+			"time": 81144.2530120482,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 82409.9512195122,
+			"lane": 3,
+			"tag": "camZoom;0.95;32s;expoOut;true"
+		},
+		{
+			"time": 83855.2530120482,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 86746,
+			"lane": 0,
+			"tag": "camFocusGf;-50;50;32s;expoOut"
+		},
+		{
+			"time": 86746.9879518072,
+			"lane": 3,
+			"tag": "camZoom;0.9;32s;expoOut;true"
+		},
+		{
+			"time": 91084.9512195122,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 92529.9512195122,
+			"lane": 3,
+			"tag": "camZoom;0.9;32s;expoOut;true"
+		},
+		{
+			"time": 95421.9512195122,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 96867.9512195122,
+			"lane": 3,
+			"tag": "camZoom;1.05;32s;expoOut;true"
+		},
+		{
+			"time": 97590.9512195122,
+			"lane": 3,
+			"tag": "camZoom;1.1;32s;expoOut;true"
+		},
+		{
+			"time": 98312.6341463415,
+			"lane": 0,
+			"tag": "camFocusBf;0;0"
+		},
+		{
+			"time": 98313.2530120482,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 101204,
+			"lane": 0,
+			"tag": "camFocusGf;-50;50;32s;expoOut"
+		},
+		{
+			"time": 101204.819277108,
+			"lane": 3,
+			"tag": "camZoom;0.9;32s;expoOut;true"
+		},
+		{
+			"time": 102650.951219512,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 104096.385542169,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 104096.634146342,
+			"lane": 0,
+			"tag": "camFocusBf;0;0"
+		},
+		{
+			"time": 105541.951219512,
+			"lane": 3,
+			"tag": "camZoom;1.05;32s;expoOut;true"
+		},
+		{
+			"time": 106987.951219512,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 108433.951219512,
+			"lane": 3,
+			"tag": "camZoom;1.1;32s;expoOut;true"
+		},
+		{
+			"time": 109789.361445783,
+			"lane": 3,
+			"tag": "camBopFreq;1"
+		},
+		{
+			"time": 109769.361445783,
+			"lane": 2,
+			"tag": "camBopIntensity;1.1"
+		},
+		{
+			"time": 109879.951219512,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 111324.951219512,
+			"lane": 3,
+			"tag": "camZoom;1.1;32s;expoOut;true"
+		},
+		{
+			"time": 112770,
+			"lane": 0,
+			"tag": "camFocusGf;-50;50;32s;expoOut"
+		},
+		{
+			"time": 112800,
+			"lane": 3,
+			"tag": "camZoom;0.9;32s;expoOut;true"
+		},
+		{
+			"time": 115662.634146342,
+			"lane": 0,
+			"tag": "camFocusBf;0;0"
+		},
+		{
+			"time": 115662.65060241,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 117107.951219512,
+			"lane": 3,
+			"tag": "camZoom;1.1;32s;expoOut;true"
+		},
+		{
+			"time": 118463.361445783,
+			"lane": 3,
+			"tag": "camBopFreq;2"
+		},
+		{
+			"time": 118443.361445783,
+			"lane": 2,
+			"tag": "camBopIntensity;1.1"
+		},
+		{
+			"time": 118553.951219512,
+			"lane": 3,
+			"tag": "camZoom;1.2;32s;expoOut;true"
+		},
+		{
+			"time": 119276.951219512,
+			"lane": 3,
+			"tag": "camZoom;1.3;32s;expoOut;true"
+		},
+		{
+			"time": 119999.951219512,
+			"lane": 3,
+			"tag": "camZoom;1.2;32s;expoOut;true"
+		},
+		{
+			"time": 120722.951219512,
+			"lane": 3,
+			"tag": "camZoom;1.1;32s;expoOut;true"
+		},
+		{
+			"time": 121355.361445783,
+			"lane": 3,
+			"tag": "camBopFreq;1"
+		},
+		{
+			"time": 121335.361445783,
+			"lane": 2,
+			"tag": "camBopIntensity;1.2"
+		},
+		{
+			"time": 121445,
+			"lane": 0,
+			"tag": "camFocusGf;-50;50;32s;expoOut"
+		},
+		{
+			"time": 121445.78313253,
+			"lane": 3,
+			"tag": "camZoom;0.9;32s;expoOut;true"
+		},
+		{
+			"time": 122891.951219512,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 124337.634146342,
+			"lane": 0,
+			"tag": "camFocusBf;0;0"
+		},
+		{
+			"time": 125783.951219512,
+			"lane": 3,
+			"tag": "camZoom;1.1;32s;expoOut;true"
+		},
+		{
+			"time": 127228,
+			"lane": 0,
+			"tag": "camFocusGf;-50;50;32s;expoOut"
+		},
+		{
+			"time": 127228.915662651,
+			"lane": 3,
+			"tag": "camZoom;0.9;32s;expoOut;true"
+		},
+		{
+			"time": 128674.951219512,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 130120.481927711,
+			"lane": 3,
+			"tag": "camZoom;1;32s;expoOut;true"
+		},
+		{
+			"time": 130120.634146342,
+			"lane": 0,
+			"tag": "camFocusBf;0;0"
+		},
+		{
+			"time": 131566.951219512,
+			"lane": 3,
+			"tag": "camZoom;1.1;32s;expoOut;true"
+		},
+		{
+			"time": 132289.951219512,
+			"lane": 3,
+			"tag": "camZoom;1.2;32s;expoOut;true"
+		},
+		{
+			"time": 132921.361445783,
+			"lane": 3,
+			"tag": "camBopFreq;1"
+		},
+		{
+			"time": 132901.361445783,
+			"lane": 2,
+			"tag": "camBopIntensity;1.1"
+		},
+		{
+			"time": 133012,
+			"lane": 0,
+			"tag": "camFocusGf;-50;50;32s;expoOut"
+		},
+		{
+			"time": 133012.048192771,
+			"lane": 3,
+			"tag": "camZoom;0.9;32s;expoOut;true"
+		},
+		{
+			"time": 134367.361445783,
+			"lane": 3,
+			"tag": "camBopFreq;1"
+		},
+		{
+			"time": 134347.361445783,
+			"lane": 2,
+			"tag": "camBopIntensity;1"
+		},
+		{
+			"time": 135813.361445783,
+			"lane": 3,
+			"tag": "camBopFreq;1"
+		},
+		{
+			"time": 135793.361445783,
+			"lane": 2,
+			"tag": "camBopIntensity;0.7"
+		},
+		{
+			"time": 136536.361445783,
+			"lane": 3,
+			"tag": "camBopFreq;1"
+		},
+		{
+			"time": 136516.361445783,
+			"lane": 2,
+			"tag": "camBopIntensity;0.4"
+		},
+		{
+			"time": 137259.361445783,
+			"lane": 3,
+			"tag": "camBopFreq;1"
+		},
+		{
+			"time": 137239.361445783,
+			"lane": 2,
+			"tag": "camBopIntensity;0.2"
+		},
+		{
+			"time": 138704.361445783,
+			"lane": 3,
+			"tag": "camBopFreq;4"
+		},
+		{
+			"time": 138684.361445783,
+			"lane": 2,
+			"tag": "camBopIntensity;0.2"
+		}
+	]
 }

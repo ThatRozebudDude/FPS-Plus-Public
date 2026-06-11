@@ -336,7 +336,7 @@ def processEvents(data, diff:str) -> str:
 
 				tag[0] += "playAnim;" + target + ";" + event["v"]["anim"] + ";" + force
 
-				debugPrint(event["e"] + "\t->\t" + tag[0])
+				debugPrint(event["e"] + "\t!!\t" + tag[0])
 				
 			case "ScrollSpeed":
 				column[0] = 3

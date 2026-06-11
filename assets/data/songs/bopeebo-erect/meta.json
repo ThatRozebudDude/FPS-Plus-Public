@@ -1,10 +1,18 @@
 {
-  "name": "Bopeebo Erect",
-  "artist": "Kawai Sprite (ft. Saruky)",
-  "album": "vol3",
-  "difficulties": [0, 7, 8],
-  "difficultySet": "erect",
-  "compatibleInsts": ["#bopeebo-erect"],
-  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-  "mixName": "Original"
+	"name": "Bopeebo Erect",
+	"artist": "Kawai Sprite (ft. Saruky)",
+	"album": "vol3",
+	"difficulties": [
+		0,
+		7,
+		8
+	],
+	"difficultySet": "erect",
+	"compatibleInsts": [
+		"#bopeebo-erect"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Original"
 }

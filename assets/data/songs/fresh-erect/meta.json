@@ -1,10 +1,18 @@
 {
-  "name": "Fresh Erect",
-  "artist": "Kohta Takahashi (ft. Saruky)",
-  "album": "vol3",
-  "difficulties": [0, 6, 7],
-  "difficultySet": "erect",
-  "compatibleInsts": ["#fresh-erect"],
-  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-  "mixName": "Original"
+	"name": "Fresh Erect",
+	"artist": "Kohta Takahashi (ft. Saruky)",
+	"album": "vol3",
+	"difficulties": [
+		0,
+		6,
+		7
+	],
+	"difficultySet": "erect",
+	"compatibleInsts": [
+		"#fresh-erect"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Original"
 }

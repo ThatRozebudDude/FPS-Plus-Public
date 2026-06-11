@@ -787,7 +787,16 @@ class ChartingState extends MusicBeatState
 		});
 
 		var showWaveformsToggle:Toggle = new Toggle(PANEL_SPACING, playbackRate.y + playbackRate.elementHeight + PANEL_EXTRA_SPACING, showWaveforms, "Show Waveforms");
-		showWaveformsToggle.onToggle.add(function(value:Bool){ showWaveforms = value; });
+		showWaveformsToggle.onToggle.add(function(value:Bool){
+			showWaveforms = value;
+
+			instWaveform.active = showWaveforms;
+			instWaveform.visible = showWaveforms;
+			playerWaveform.active = showWaveforms;
+			playerWaveform.visible = showWaveforms;
+			opponentWaveform.active = showWaveforms;
+			opponentWaveform.visible = showWaveforms;
+		});
 
 		panel.addToTab("Tools", opponentHitSoundToggle);
 		panel.addToTab("Tools", playerHitSoundToggle);
@@ -1180,37 +1189,23 @@ class ChartingState extends MusicBeatState
 			alertGroup.members[i].wantedY = 720 - (alertGroup.members[i].elementHeight + ALERT_SPACING) * (alertGroup.members.length - i);
 		}
 
+		super.update(elapsed);
+
 		if(showWaveforms){
 			final waveformStartY:Float = getYFromSongPosition(Conductor.songPosition)-PLAYBACK_POSITION;
 
-			instWaveform.active = true;
-			instWaveform.visible = true;
 			instWaveform.time = Math.max(0, getSongPositionFromY(waveformStartY)/1000);
 			instWaveform.duration = Math.max(0, getSongPositionFromY(getYFromSongPosition(instWaveform.time*1000)+720)/1000) - instWaveform.time;
 			instWaveform.y = waveformStartY < 0 ? -waveformStartY : 0;
 	
-			playerWaveform.active = true;
-			playerWaveform.visible = true;
 			playerWaveform.time = Math.max(0, getSongPositionFromY(waveformStartY)/1000);
 			playerWaveform.duration = Math.max(0, getSongPositionFromY(getYFromSongPosition(playerWaveform.time*1000)+720)/1000) - playerWaveform.time;
 			playerWaveform.y = waveformStartY < 0 ? -waveformStartY : 0;
 	
-			opponentWaveform.active = true;
-			opponentWaveform.visible = true;
 			opponentWaveform.time = Math.max(0, getSongPositionFromY(waveformStartY)/1000);
 			opponentWaveform.duration = Math.max(0, getSongPositionFromY(getYFromSongPosition(opponentWaveform.time*1000)+720)/1000) - opponentWaveform.time;
 			opponentWaveform.y = waveformStartY < 0 ? -waveformStartY : 0;
 		}
-		else{
-			instWaveform.active = false;
-			instWaveform.visible = false;
-			playerWaveform.active = false;
-			playerWaveform.visible = false;
-			opponentWaveform.active = false;
-			opponentWaveform.visible = false;
-		}
-
-		super.update(elapsed);
 
 		//Show tag of note/event you are hovering over.
 		typeAlert.x = editorCursor.x + 10;
@@ -1907,8 +1902,8 @@ class ChartingState extends MusicBeatState
 			instWaveform.height = 720;
 			instWaveform.alpha = 0.8;
 			instWaveform.scrollFactor.set(0, 0);
-			instWaveform.active = false;
-			instWaveform.visible = false;
+			instWaveform.active = showWaveforms;
+			instWaveform.visible = showWaveforms;
 
 			playerWaveform = WaveformSprite.buildFromFlxSound(vocals, VERTICAL, BACKGROUND_COLOR, 1);
 			playerWaveform.x = grids[PLAYER_GRID].grid.x;
@@ -1916,8 +1911,8 @@ class ChartingState extends MusicBeatState
 			playerWaveform.height = 720;
 			playerWaveform.alpha = 0.8;
 			playerWaveform.scrollFactor.set(0, 0);
-			playerWaveform.active = false;
-			playerWaveform.visible = false;
+			playerWaveform.active = showWaveforms;
+			playerWaveform.visible = showWaveforms;
 
 			opponentWaveform = WaveformSprite.buildFromFlxSound(vocalsOther, VERTICAL, BACKGROUND_COLOR, 1);
 			opponentWaveform.x = grids[OPPONENT_GRID].grid.x;
@@ -1925,8 +1920,8 @@ class ChartingState extends MusicBeatState
 			opponentWaveform.height = 720;
 			opponentWaveform.alpha = 0.8;
 			opponentWaveform.scrollFactor.set(0, 0);
-			opponentWaveform.active = false;
-			opponentWaveform.visible = false;
+			opponentWaveform.active = showWaveforms;
+			opponentWaveform.visible = showWaveforms;
 
 			if(addAfter){
 				add(instWaveform);
