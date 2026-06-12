@@ -13,6 +13,7 @@
 	- Sound effects? Maybe?
 
 - Character Editor
+	- Get the waveforms to not offset weirdly at the begining of songs when the camera moves.
 	- Kinda like a mix of the offset editor and the debug Character Compare thing.
 	- Hopefully it would be nice to be able to add animations and stuff and not just adjust offsets.
 

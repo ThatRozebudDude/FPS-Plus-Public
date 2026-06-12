@@ -1,177 +1,162 @@
 {
-	"events": [
-		{
-			"tag": "camFocusBf;0;0",
-			"lane": 0,
-			"time": 0
-		},
-		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 1920
-		},
-		{
-			"tag": "camFocusDad;0;0",
-			"lane": 0,
-			"time": 3840
-		},
-		{
-			"tag": "camFocusBf;0;0",
-			"lane": 0,
-			"time": 11520
-		},
-		{
-			"tag": "camFocusDad;0;0",
-			"lane": 0,
-			"time": 19200
-		},
-		{
-			"tag": "camFocusBf;0;0",
-			"lane": 0,
-			"time": 26880
-		},
-		{
-			"tag": "camFocusDad;0;0",
-			"lane": 0,
-			"time": 34560
-		},
-		{
-			"tag": "camFocusGf;-100;0;32s;expoOut",
-			"lane": 0,
-			"time": 42240
-		},
-		{
-			"tag": "camZoom;0.95;32s;expoOut;true",
-			"lane": 0,
-			"time": 42360
-		},
-		{
-			"tag": "camZoom;1;32s;smoothStepInOut;true",
-			"lane": 0,
-			"time": 45960
-		},
-		{
-			"tag": "camFocusBf;60;0;32s;smoothStepInOut",
-			"lane": 0,
-			"time": 46080
-		},
-		{
-			"tag": "camZoom;1.1;6s;quadOut;true",
-			"lane": 0,
-			"time": 48960
-		},
-		{
-			"tag": "camZoom;1.2;6s;quadOut;true",
-			"lane": 0,
-			"time": 49440
-		},
-		{
-			"tag": "camZoom;1;8s;quadOut;true",
-			"lane": 0,
-			"time": 49920
-		},
-		{
-			"tag": "camFocusDad",
-			"lane": 0,
-			"time": 49920
-		},
-		{
-			"tag": "camFocusDad;0;0",
-			"lane": 0,
-			"time": 50640
-		},
-		{
-			"tag": "camFocusBf;0;0",
-			"lane": 0,
-			"time": 57600
-		},
-		{
-			"tag": "camFocusDad;0;0",
-			"lane": 0,
-			"time": 65280
-		},
-		{
-			"tag": "camFocusGf;-100;0;32s;expoOut",
-			"lane": 0,
-			"time": 72960
-		},
-		{
-			"tag": "camZoom;0.95;32s;expoOut;true",
-			"lane": 0,
-			"time": 73080
-		},
-		{
-			"tag": "camZoom;1;32s;smoothStepInOut;true",
-			"lane": 0,
-			"time": 76680
-		},
-		{
-			"tag": "camFocusBf;60;0;32s;smoothStepInOut",
-			"lane": 0,
-			"time": 76800
-		},
-		{
-			"tag": "camZoom;1.1;6s;quadOut;true",
-			"lane": 0,
-			"time": 79680
-		},
-		{
-			"tag": "camZoom;1.2;6s;quadOut;true",
-			"lane": 0,
-			"time": 80160
-		},
-		{
-			"tag": "camFocusGf;-100;0;32s;expoOut",
-			"lane": 0,
-			"time": 80640
-		},
-		{
-			"tag": "camZoom;0.95;32s;expoOut;true",
-			"lane": 0,
-			"time": 80760
-		},
-		{
-			"tag": "camFocusGf;-220;-40;32s;sineOut",
-			"lane": 0,
-			"time": 84480
-		},
-		{
-			"tag": "camZoom;1.1;32s;sineOut;true",
-			"lane": 0,
-			"time": 84600
-		},
-		{
-			"tag": "camFocusGf;-100;0;32s;expoOut",
-			"lane": 0,
-			"time": 88320
-		},
-		{
-			"tag": "camZoom;0.95;32s;expoOut;true",
-			"lane": 0,
-			"time": 88440
-		},
-		{
-			"tag": "camFocusGf;90;-90;32s;sineOut",
-			"lane": 0,
-			"time": 92160
-		},
-		{
-			"tag": "camZoom;1.1;32s;sineOut;true",
-			"lane": 0,
-			"time": 92280
-		},
-		{
-			"tag": "camFocusGf;-100;0;32s;expoOut",
-			"lane": 0,
-			"time": 96000
-		},
-		{
-			"tag": "camZoom;0.95;32s;expoOut;true",
-			"lane": 0,
-			"time": 96120
-		}
-	],
 	"meta": {
 		"format": "fpsplus_1"
-	}
+	},
+	"events": [
+		{
+			"time": 0,
+			"lane": 0,
+			"tag": "camFocusBf;0;0"
+		},
+		{
+			"time": 3840,
+			"lane": 0,
+			"tag": "camFocusDad;0;0"
+		},
+		{
+			"time": 11520,
+			"lane": 0,
+			"tag": "camFocusBf;0;0"
+		},
+		{
+			"time": 19200,
+			"lane": 0,
+			"tag": "camFocusDad;0;0"
+		},
+		{
+			"time": 26880,
+			"lane": 0,
+			"tag": "camFocusBf;0;0"
+		},
+		{
+			"time": 34560,
+			"lane": 0,
+			"tag": "camFocusDad;0;0"
+		},
+		{
+			"time": 42240,
+			"lane": 0,
+			"tag": "camFocusCenter50;70;32s;expoOut"
+		},
+		{
+			"time": 42240,
+			"lane": 3,
+			"tag": "camZoom;0.95;32s;expoOut;true"
+		},
+		{
+			"time": 45960,
+			"lane": 3,
+			"tag": "camZoom;1;32s;smoothStepInOut;true"
+		},
+		{
+			"time": 46080,
+			"lane": 0,
+			"tag": "camFocusBf;60;0;32s;smoothStepInOut"
+		},
+		{
+			"time": 48960,
+			"lane": 3,
+			"tag": "camZoom;1.1;6s;quadOut;true"
+		},
+		{
+			"time": 49440,
+			"lane": 3,
+			"tag": "camZoom;1.2;6s;quadOut;true"
+		},
+		{
+			"time": 49920,
+			"lane": 3,
+			"tag": "camZoom;1;8s;quadOut;true"
+		},
+		{
+			"time": 50640,
+			"lane": 0,
+			"tag": "camFocusDad;0;0"
+		},
+		{
+			"time": 57600,
+			"lane": 0,
+			"tag": "camFocusBf;0;0"
+		},
+		{
+			"time": 65280,
+			"lane": 0,
+			"tag": "camFocusDad;0;0"
+		},
+		{
+			"time": 72960,
+			"lane": 0,
+			"tag": "camFocusCenter50;70;32s;expoOut"
+		},
+		{
+			"time": 72960,
+			"lane": 3,
+			"tag": "camZoom;0.95;32s;expoOut;true"
+		},
+		{
+			"time": 76680,
+			"lane": 3,
+			"tag": "camZoom;1;32s;smoothStepInOut;true"
+		},
+		{
+			"time": 76800,
+			"lane": 0,
+			"tag": "camFocusBf;60;0;32s;smoothStepInOut"
+		},
+		{
+			"time": 79680,
+			"lane": 3,
+			"tag": "camZoom;1.12;8s;quadOut;true"
+		},
+		{
+			"time": 80640,
+			"lane": 0,
+			"tag": "camFocusCenter50;70;32s;expoOut"
+		},
+		{
+			"time": 80640,
+			"lane": 3,
+			"tag": "camZoom;0.95;32s;expoOut;true"
+		},
+		{
+			"time": 84480,
+			"lane": 0,
+			"tag": "camFocusCenter;-70;30;32s;sineOut"
+		},
+		{
+			"time": 84480,
+			"lane": 3,
+			"tag": "camZoom;1.1;32s;sineOut;true"
+		},
+		{
+			"time": 88320,
+			"lane": 0,
+			"tag": "camFocusCenter50;70;32s;expoOut"
+		},
+		{
+			"time": 88320,
+			"lane": 3,
+			"tag": "camZoom;0.95;32s;expoOut;true"
+		},
+		{
+			"time": 92160,
+			"lane": 0,
+			"tag": "camFocusCenter;240;-20;32s;sineOut"
+		},
+		{
+			"time": 92160,
+			"lane": 3,
+			"tag": "camZoom;1.1;32s;sineOut;true"
+		},
+		{
+			"time": 96000,
+			"lane": 0,
+			"tag": "camFocusCenter50;70;32s;expoOut"
+		},
+		{
+			"time": 96000,
+			"lane": 3,
+			"tag": "camZoom;0.95;32s;expoOut;true"
+		}
+	]
 }

@@ -3,9 +3,18 @@ import sys
 import os
 import shutil
 from dataclasses import dataclass
+from enum import Enum
 
 FPS_CHART_FORMAT = "fpsplus_1"
 PRINT_DEBUG_STUFF = True
+
+class ExportType(Enum):
+	UNKNOWN = -1
+	FULL = 0
+	ALL_CHARTS = 1
+	SINGLE_CHART = 2
+	EVENTS = 3
+	METADATA = 4
 
 @dataclass
 class ExtraInfo:
@@ -386,28 +395,55 @@ def processEvents(data, diff:str) -> str:
 	return json.dumps(eventExport, indent="\t")
 
 if(__name__ == "__main__"):
-	with open(sys.argv[2]) as f:
+	if len(sys.argv) >= 4:
+		chartIndex:int = 2
+		metaIndex:int = 3
+		if sys.argv[1] == "-f" or sys.argv[1] == "-full":		# Full convert, does chart events and metadata.
+			exportType:ExportType = ExportType.FULL
+		elif sys.argv[1] == "-cs" or sys.argv[1] == "-charts":	# Converts all charts (no events).
+			exportType:ExportType = ExportType.ALL_CHARTS
+		elif sys.argv[1] == "-c" or sys.argv[1] == "-chart":	# Converts a specific chart (no events).
+			exportType:ExportType = ExportType.SINGLE_CHART
+		elif sys.argv[1] == "-e" or sys.argv[1] == "-events":	# Converts only the events.
+			exportType:ExportType = ExportType.EVENTS
+		elif sys.argv[1] == "-m" or sys.argv[1] == "-meta":		# Converts only the song metadata.
+			exportType:ExportType = ExportType.METADATA
+		else:													# You fucked up.
+			exportType:ExportType = ExportType.UNKNOWN
+	elif len(sys.argv) == 3:
+		chartIndex:int = 1
+		metaIndex:int = 2
+		exportType:ExportType = ExportType.FULL
+	else:
+		print("\nNot enough arguments!")
+		exit(1)
+
+	with open(sys.argv[chartIndex]) as f:
 		chartJson = json.load(f)
 
-	with open(sys.argv[3]) as f:
+	with open(sys.argv[metaIndex]) as f:
 		metaJson = json.load(f)
 
 	print("Song Folder Name: ")
 	songName:str = input()
 	print("Mix Name: ")
 	mixName:str = input()
+
 	playerCharR:tuple[str, bool] = convertCharacter(metaJson["playData"]["characters"]["player"])
 	playerChar:str = playerCharR[0]
 	if playerCharR[1]:
 		debugPrint(metaJson["playData"]["characters"]["player"] + "\t->\t" + playerChar)
+
 	oppCharR:tuple[str, bool] = convertCharacter(metaJson["playData"]["characters"]["opponent"])
 	oppChar:str = oppCharR[0]
 	if oppCharR[1]:
 		debugPrint(metaJson["playData"]["characters"]["opponent"] + "\t->\t" + oppChar)
+
 	gfCharR:tuple[str, bool] = convertCharacter(metaJson["playData"]["characters"]["girlfriend"])
 	gfChar:str = gfCharR[0]
 	if gfCharR[1]:
 		debugPrint(metaJson["playData"]["characters"]["girlfriend"] + "\t->\t" + gfChar)
+
 	stageR:tuple[str, bool] = convertStage(metaJson["playData"]["stage"])
 	stage:str = stageR[0]
 	if stageR[1]:
@@ -429,92 +465,87 @@ if(__name__ == "__main__"):
 			exit(1)
 		os.makedirs(outputFolder)
 
-	# Full convert, does chart events and metadata.
-	if sys.argv[1] == "-f" or sys.argv[1] == "-full":
-		if "erect" not in metaJson["playData"]["difficulties"]:
-			charts = [processChart(chartJson, metaJson, "easy", extraInfo), processChart(chartJson, metaJson, "normal", extraInfo), processChart(chartJson, metaJson, "hard", extraInfo)]
-			extensions = ["easy", "normal", "hard"]
+	match exportType:
+		case ExportType.FULL:
+			if "erect" not in metaJson["playData"]["difficulties"]:
+				charts = [processChart(chartJson, metaJson, "easy", extraInfo), processChart(chartJson, metaJson, "normal", extraInfo), processChart(chartJson, metaJson, "hard", extraInfo)]
+				extensions = ["easy", "normal", "hard"]
 
-		else:
-			charts = [processChart(chartJson, metaJson, "erect", extraInfo), processChart(chartJson, metaJson, "nightmare", extraInfo)]
-			extensions = ["normal", "hard"]
-
-		metadata = processMetadata(metaJson, extraInfo)
-
-		if "erect" not in metaJson["playData"]["difficulties"]:
-			events = processEvents(chartJson, "hard")
-		else:
-			events = processEvents(chartJson, "nightmare")
-
-		for i in range(len(charts)):
-			if sys.platform == "darwin" or sys.platform == "linux":
-				f = open(outputFolder + "/chart-"+extensions[i]+".json", "w")
 			else:
-				f = open(outputFolder + "\\chart-"+extensions[i]+".json", "w")
-			f.write(charts[i])
+				charts = [processChart(chartJson, metaJson, "erect", extraInfo), processChart(chartJson, metaJson, "nightmare", extraInfo)]
+				extensions = ["normal", "hard"]
+
+			metadata = processMetadata(metaJson, extraInfo)
+
+			if "erect" not in metaJson["playData"]["difficulties"]:
+				events = processEvents(chartJson, "hard")
+			else:
+				events = processEvents(chartJson, "nightmare")
+
+			for i in range(len(charts)):
+				if sys.platform == "darwin" or sys.platform == "linux":
+					f = open(outputFolder + "/chart-"+extensions[i]+".json", "w")
+				else:
+					f = open(outputFolder + "\\chart-"+extensions[i]+".json", "w")
+				f.write(charts[i])
+				f.close()
+
+			f = open(outputFolder + "\\events.json", "w")
+			f.write(events)
 			f.close()
 
-		f = open(outputFolder + "\\events.json", "w")
-		f.write(events)
-		f.close()
-
-		f = open(outputFolder + "\\meta.json", "w")
-		f.write(metadata)
-		f.close()
-
-	# Converts all charts (no events).
-	elif sys.argv[1] == "-cs" or sys.argv[1] == "-charts":
-		if "erect" not in metaJson["playData"]["difficulties"]:
-			charts = [processChart(chartJson, metaJson, "easy", extraInfo), processChart(chartJson, metaJson, "normal", extraInfo), processChart(chartJson, metaJson, "hard", extraInfo)]
-			extensions = ["easy", "normal", "hard"]
-
-		else:
-			charts = [processChart(chartJson, metaJson, "erect", extraInfo), processChart(chartJson, metaJson, "nightmare", extraInfo)]
-			extensions = ["normal", "hard"]
-
-		for i in range(len(charts)):
-			if sys.platform == "darwin" or sys.platform == "linux":
-				f = open(outputFolder + "/chart-"+extensions[i]+".json", "w")
-			else:
-				f = open(outputFolder + "\\chart-"+extensions[i]+".json", "w")
-			f.write(charts[i])
+			f = open(outputFolder + "\\meta.json", "w")
+			f.write(metadata)
 			f.close()
 
-	# Converts a specific chart (no events).
-	elif sys.argv[1] == "-c" or sys.argv[1] == "-chart":
-		print("Difficulty: ")
-		inputDiff = input()
+		case ExportType.ALL_CHARTS:
+			if "erect" not in metaJson["playData"]["difficulties"]:
+				charts = [processChart(chartJson, metaJson, "easy", extraInfo), processChart(chartJson, metaJson, "normal", extraInfo), processChart(chartJson, metaJson, "hard", extraInfo)]
+				extensions = ["easy", "normal", "hard"]
 
-		chart = processChart(chartJson, metaJson, inputDiff, extraInfo)
-		if sys.platform == "darwin" or sys.platform == "linux":
-			f = open(outputFolder + "/chart-"+convertDiffNameToSuffix(inputDiff)+".json", "w")
-		else:
-			f = open(outputFolder + "\\chart-"+convertDiffNameToSuffix(inputDiff)+".json", "w")
-		f.write(chart)
-		f.close()
+			else:
+				charts = [processChart(chartJson, metaJson, "erect", extraInfo), processChart(chartJson, metaJson, "nightmare", extraInfo)]
+				extensions = ["normal", "hard"]
 
-	# Converts only the events.
-	elif sys.argv[1] == "-e" or sys.argv[1] == "-events":
-		if "erect" not in metaJson["playData"]["difficulties"]:
-			events = processEvents(chartJson, "hard")
-		else:
-			events = processEvents(chartJson, "nightmare")
+			for i in range(len(charts)):
+				if sys.platform == "darwin" or sys.platform == "linux":
+					f = open(outputFolder + "/chart-"+extensions[i]+".json", "w")
+				else:
+					f = open(outputFolder + "\\chart-"+extensions[i]+".json", "w")
+				f.write(charts[i])
+				f.close()
 
-		f = open(outputFolder + "\\events.json", "w")
-		f.write(events)
-		f.close()
+		case ExportType.SINGLE_CHART:
+			print("Difficulty: ")
+			inputDiff = input()
 
-	# Converts only the song metadata.
-	elif sys.argv[1] == "-m" or sys.argv[1] == "-meta":
-		metadata = processMetadata(metaJson, extraInfo)
-		f = open(outputFolder + "\\meta.json", "w")
-		f.write(metadata)
-		f.close()
+			chart = processChart(chartJson, metaJson, inputDiff, extraInfo)
+			if sys.platform == "darwin" or sys.platform == "linux":
+				f = open(outputFolder + "/chart-"+convertDiffNameToSuffix(inputDiff)+".json", "w")
+			else:
+				f = open(outputFolder + "\\chart-"+convertDiffNameToSuffix(inputDiff)+".json", "w")
+			f.write(chart)
+			f.close()
 
-	# You fucked up.
-	else:
-		print("Argument not recognized, use \"-full\", \"-chart\", \"-charts\", \"-events\", or \"-meta\".")
-		exit(1)
+		case ExportType.EVENTS:
+			if "erect" not in metaJson["playData"]["difficulties"]:
+				events = processEvents(chartJson, "hard")
+			else:
+				events = processEvents(chartJson, "nightmare")
+
+			f = open(outputFolder + "\\events.json", "w")
+			f.write(events)
+			f.close()
+
+		case ExportType.METADATA:
+			metadata = processMetadata(metaJson, extraInfo)
+			f = open(outputFolder + "\\meta.json", "w")
+			f.write(metadata)
+			f.close()
+
+		case _:
+			print("Argument not recognized, use \"-full\", \"-chart\", \"-charts\", \"-events\", or \"-meta\".")
+			exit(1)
 
 	print("\nDone!")
 	exit(0)

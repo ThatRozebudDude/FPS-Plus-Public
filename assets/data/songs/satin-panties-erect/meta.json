@@ -1,11 +1,19 @@
 {
-  "name": "Satin Panties Erect",
-  "artist": "Kawai Sprite",
-  "album": "ext1",
-  "difficulties": [0, 13, 14],
-  "difficultySet": "erect",
-  "compatibleInsts": ["#satin-panties-erect"],
-  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-  "mixName": "Original",
-  "pauseMusic": "pause/1317505_RUN1N_Loop"
+	"name": "Satin Panties Erect",
+	"artist": "Kawai Sprite",
+	"album": "ext1",
+	"difficulties": [
+		0,
+		11,
+		12
+	],
+	"difficultySet": "erect",
+	"compatibleInsts": [
+		"#satin-panties-erect"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Original",
+	"pauseMusic": "pause/1317505_RUN1N_Loop"
 }

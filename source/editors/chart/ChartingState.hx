@@ -826,24 +826,6 @@ class ChartingState extends MusicBeatState
 	override public function update(elapsed:Float):Void{
 		FlxG.mouse.visible = false;
 
-		//Update conductor.
-		if(previousReportedSongTime != FlxG.sound.music.time){
-			Conductor.songPosition = FlxG.sound.music.time;
-			previousReportedSongTime = FlxG.sound.music.time;
-		}
-		else if(FlxG.sound.music.playing){
-			Conductor.songPosition += FlxG.elapsed * 1000 * FlxG.sound.music.pitch;
-		}
-
-		camFollow.y = Conductor.step * GRID_SIZE + (720/2 - PLAYBACK_POSITION);
-
-		/*if(FlxG.keys.anyPressed([SHIFT])){
-			editorCursor.selection();
-		}
-		else{
-			editorCursor.idle();
-		}*/
-
 		//Check if the cursor is on a grid.
 		gridCursorIndex = -1;
 		for(i in 0...grids.length){
@@ -1190,6 +1172,17 @@ class ChartingState extends MusicBeatState
 		}
 
 		super.update(elapsed);
+
+		//Update conductor.
+		if(previousReportedSongTime != FlxG.sound.music.time){
+			Conductor.songPosition = FlxG.sound.music.time;
+			previousReportedSongTime = FlxG.sound.music.time;
+		}
+		else if(FlxG.sound.music.playing){
+			Conductor.songPosition += FlxG.elapsed * 1000 * FlxG.sound.music.pitch;
+		}
+
+		camFollow.y = Conductor.step * GRID_SIZE + (720/2 - PLAYBACK_POSITION);
 
 		if(showWaveforms){
 			final waveformStartY:Float = getYFromSongPosition(Conductor.songPosition)-PLAYBACK_POSITION;

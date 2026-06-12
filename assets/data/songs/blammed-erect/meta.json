@@ -1,11 +1,19 @@
 {
-  "name": "Blammed Erect",
-  "artist": "Kawai Sprite",
-  "album": "vol3",
-  "difficulties": [0, 12, 13],
-  "difficultySet": "erect",
-  "compatibleInsts": ["#blammed-erect"],
-  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-  "mixName": "Original",
-  "pauseMusic": "pause/947670_hacker.07_Loop"
+	"name": "Blammed Erect",
+	"artist": "Kawai Sprite",
+	"album": "vol3",
+	"difficulties": [
+		0,
+		11,
+		12
+	],
+	"difficultySet": "erect",
+	"compatibleInsts": [
+		"#blammed-erect"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Original",
+	"pauseMusic": "pause/947670_hacker.07_Loop"
 }
