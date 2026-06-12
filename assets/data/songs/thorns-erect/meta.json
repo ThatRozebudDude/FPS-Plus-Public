@@ -1,11 +1,19 @@
 {
-  "name": "Thorns Erect",
-  "artist": "Kawai Sprite (ft. Saster)",
-  "album": "vol3",
-  "difficulties": [0, 6, 8],
-  "difficultySet": "erect",
-  "compatibleInsts": ["#thorns-erect"],
-  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-  "mixName": "Original",
-  "pauseMusic": "pause/breakfast-pixel"
+	"name": "Thorns Erect",
+	"artist": "Kawai Sprite (ft. Saster)",
+	"album": "vol3",
+	"difficulties": [
+		0,
+		9,
+		10
+	],
+	"difficultySet": "erect",
+	"compatibleInsts": [
+		"#thorns-erect"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Original",
+	"pauseMusic": "pause/breakfast-pixel"
 }

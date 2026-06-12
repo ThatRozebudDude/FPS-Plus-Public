@@ -1,11 +1,19 @@
 {
-  "name": "Roses Erect",
-  "artist": "Kawai Sprite",
-  "album": "vol3",
-  "difficulties": [0, 8, 9],
-  "difficultySet": "erect",
-  "compatibleInsts": ["#roses-erect"],
-  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-  "mixName": "Original",
-  "pauseMusic": "pause/breakfast-pixel"
+	"name": "Roses Erect",
+	"artist": "Kawai Sprite",
+	"album": "vol3",
+	"difficulties": [
+		0,
+		8,
+		9
+	],
+	"difficultySet": "erect",
+	"compatibleInsts": [
+		"#roses-erect"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Original",
+	"pauseMusic": "pause/breakfast-pixel"
 }
