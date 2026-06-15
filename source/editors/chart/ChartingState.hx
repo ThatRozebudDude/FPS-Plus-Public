@@ -1125,39 +1125,6 @@ class ChartingState extends MusicBeatState
 			else{ event.deselect(); }
 		});
 
-		if(FlxG.sound.music.playing){
-			notes.forEachAlive(function(note:ChartingNote){
-				if(note.time >= previousSongPosition && note.time < Conductor.songPosition){
-					if((note.player && playerHitSoundToggle.state) || (!note.player && opponentHitSoundToggle.state)){
-						var tickSound:FlxSound = FlxG.sound.play(Paths.sound("tick"), 1);
-						tickSound.pan = (playerHitSoundToggle.state && opponentHitSoundToggle.state) ? 0.2 * (note.player ? 1 : -1) : 0;
-						tickSound.pitch = (playerHitSoundToggle.state && opponentHitSoundToggle.state) ? (note.player ? 1.15 : 0.85) : 1;
-					}
-
-					if(lilBuddiesEnabled){
-						var character:Character = note.player ? lilBf : lilGuy;
-						switch(note.direction){
-							case 0:
-								character.singAnim("singLEFT", true);
-							case 1:
-								character.singAnim("singDOWN", true);
-							case 2:
-								character.singAnim("singUP", true);
-							case 3:
-								character.singAnim("singRIGHT", true);
-						}
-
-						if(note.player){ lilBfHoldSteps = Std.int(Math.max(lilBfHoldSteps, note.sustainLength)); }
-						else{ lilGuyHoldSteps = Std.int(Math.max(lilBfHoldSteps, note.sustainLength)); }
-					}
-				}
-			});
-		}
-		else{
-			lilBfHoldSteps = 0;
-			lilGuyHoldSteps = 0;
-		}
-
 		var alertDead:Array<Alert> = [];
 		alertGroup.forEachDead(function(alert:Alert):Void{
 			alertDead.push(alert);
@@ -1198,6 +1165,39 @@ class ChartingState extends MusicBeatState
 			opponentWaveform.time = Math.max(0, getSongPositionFromY(waveformStartY)/1000);
 			opponentWaveform.duration = Math.max(0, getSongPositionFromY(getYFromSongPosition(opponentWaveform.time*1000)+720)/1000) - opponentWaveform.time;
 			opponentWaveform.y = waveformStartY < 0 ? -waveformStartY : 0;
+		}
+
+		if(FlxG.sound.music.playing){
+			notes.forEachAlive(function(note:ChartingNote){
+				if(note.time >= previousSongPosition && note.time < Conductor.songPosition){
+					if((note.player && playerHitSoundToggle.state) || (!note.player && opponentHitSoundToggle.state)){
+						var tickSound:FlxSound = FlxG.sound.play(Paths.sound("tick"), 1);
+						tickSound.pan = (playerHitSoundToggle.state && opponentHitSoundToggle.state) ? 0.2 * (note.player ? 1 : -1) : 0;
+						tickSound.pitch = (playerHitSoundToggle.state && opponentHitSoundToggle.state) ? (note.player ? 1.15 : 0.85) : 1;
+					}
+
+					if(lilBuddiesEnabled){
+						var character:Character = note.player ? lilBf : lilGuy;
+						switch(note.direction){
+							case 0:
+								character.singAnim("singLEFT", true);
+							case 1:
+								character.singAnim("singDOWN", true);
+							case 2:
+								character.singAnim("singUP", true);
+							case 3:
+								character.singAnim("singRIGHT", true);
+						}
+
+						if(note.player){ lilBfHoldSteps = Std.int(Math.max(lilBfHoldSteps, note.sustainLength)); }
+						else{ lilGuyHoldSteps = Std.int(Math.max(lilBfHoldSteps, note.sustainLength)); }
+					}
+				}
+			});
+		}
+		else{
+			lilBfHoldSteps = 0;
+			lilGuyHoldSteps = 0;
 		}
 
 		//Show tag of note/event you are hovering over.
