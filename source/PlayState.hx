@@ -2523,11 +2523,11 @@ class PlayState extends MusicBeatState
 
 		super.beatHit();
 
-		if(curBeat % camBopFrequency == 0 && autoCamBop){
+		if(camBopFrequency > 0 && curBeat % camBopFrequency == 0 && autoCamBop){
 			uiBop(0.0175 * camBopIntensity, 0.03 * camBopIntensity, 0.8);
 		}
 
-		if (curBeat % iconBopFrequency == 0){
+		if(iconBopFrequency > 0 && curBeat % iconBopFrequency == 0){
 			iconP1.bop(defaultIconBopScale, defaultIconBopTime, defaultIconBopEase, tweenManager);
 			iconP2.bop(defaultIconBopScale, defaultIconBopTime, defaultIconBopEase, tweenManager);
 		}

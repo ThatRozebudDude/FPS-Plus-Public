@@ -80,10 +80,10 @@ enum UndoAction {
 	PLACE_NOTES(count:Int);
 	REMOVE_NOTES(count:Int);
 	CHANGE_HOLD_DURATION;
-	CHANGE_NOTE_TAG;
+	CHANGE_NOTE_TAG(count:Int);
 	PLACE_EVENTS(count:Int);
 	REMOVE_EVENTS(count:Int);
-	CHANGE_EVENT_TAG;
+	CHANGE_EVENT_TAG(count:Int);
 	PLACE_BPM(count:Int);
 	REMOVE_BPM(count:Int);
 	CUT;
@@ -614,8 +614,11 @@ class ChartingState extends MusicBeatState
 		FlxG.camera.follow(camFollow);
 
 		add(camFollow);
-		updateHealthIcons(chart.meta.opponent, chart.meta.player, true);
 		setCurrentState(NONE);
+
+		final startingOpponent:String = characterList.contains(chart.meta.opponent) ? chart.meta.opponent : "Bf";
+		final startingPlayer:String = characterList.contains(chart.meta.player) ? chart.meta.player : "Bf";
+		updateHealthIcons(startingOpponent, startingPlayer, true);
 
 		add(topOverlay);
 		add(bpmChangePanel);
@@ -639,23 +642,34 @@ class ChartingState extends MusicBeatState
 			}
 		});
 
-		var opponentDropdown:Dropdown = new Dropdown(PANEL_SPACING, songNameInput.y + songNameInput.elementHeight + PANEL_EXTRA_SPACING, 240, characterList, chart.meta.opponent, "Opponent");
+		final startingOpponent:String = characterList.contains(chart.meta.opponent) ? chart.meta.opponent : "Bf";
+		final startingPlayer:String = characterList.contains(chart.meta.player) ? chart.meta.player : "Bf";
+		final startingSpeaker:String = gfList.contains(chart.meta.speaker) ? chart.meta.speaker : "Gf";
+		final startingStage:String = stageList.contains(chart.meta.stage) ? chart.meta.stage : "Stage";
+
+		var opponentDropdown:Dropdown = new Dropdown(PANEL_SPACING, songNameInput.y + songNameInput.elementHeight + PANEL_EXTRA_SPACING, 240, characterList, startingOpponent, "Opponent");
 		opponentDropdown.onSelect.add(function(v:String){
 			updateHealthIcons(v, chart.meta.player);
 			chart.meta.opponent = v;
 		});
-		var playerDropown:Dropdown = new Dropdown(PANEL_SPACING, opponentDropdown.y + opponentDropdown.elementHeight + PANEL_SPACING, 240, characterList, chart.meta.player, "Player");
-		playerDropown.onSelect.add(function(v:String){
+		var playerDropdown:Dropdown = new Dropdown(PANEL_SPACING, opponentDropdown.y + opponentDropdown.elementHeight + PANEL_SPACING, 240, characterList, startingPlayer, "Player");
+		playerDropdown.onSelect.add(function(v:String){
 			updateHealthIcons(chart.meta.opponent, v);
 			chart.meta.player = v;
 		});
-		var speakerDropdown:Dropdown = new Dropdown(PANEL_SPACING, playerDropown.y + playerDropown.elementHeight + PANEL_SPACING, 240, gfList, chart.meta.speaker, "Partner");
+		var speakerDropdown:Dropdown = new Dropdown(PANEL_SPACING, playerDropdown.y + playerDropdown.elementHeight + PANEL_SPACING, 240, gfList, startingSpeaker, "Partner");
 		speakerDropdown.onSelect.add(function(v:String){ chart.meta.speaker = v; });
-		var stageDropdown:Dropdown = new Dropdown(PANEL_SPACING, speakerDropdown.y + speakerDropdown.elementHeight + PANEL_EXTRA_SPACING, 240, stageList, chart.meta.stage, "Stage");
+
+		var stageDropdown:Dropdown = new Dropdown(PANEL_SPACING, speakerDropdown.y + speakerDropdown.elementHeight + PANEL_EXTRA_SPACING, 240, stageList, startingStage, "Stage");
 		stageDropdown.onSelect.add(function(v:String){ chart.meta.stage = v; });
 
+		var scrollSpeed:Stepper = new Stepper(PANEL_SPACING, stageDropdown.y + stageDropdown.elementHeight + PANEL_SPACING, 100, chart.meta.scroll, 0.1, 0.1, 10, true, "Scroll Speed");
+		scrollSpeed.onValueChanged.add(function(v:Float){
+			chart.meta.scroll = v;
+		});
+
 		final startingDiff:String = (PlayState.storyDifficulty == 2 ? "Hard" : (PlayState.storyDifficulty == 0 ? "Easy" : "Normal"));
-		difficultyDropdown = new Dropdown(PANEL_SPACING, stageDropdown.y + stageDropdown.elementHeight + PANEL_EXTRA_SPACING, 192, ["Easy", "Normal", "Hard"], startingDiff, "Difficulty");
+		difficultyDropdown = new Dropdown(PANEL_SPACING, scrollSpeed.y + scrollSpeed.elementHeight + PANEL_EXTRA_SPACING, 192, ["Easy", "Normal", "Hard"], startingDiff, "Difficulty");
 
 		var saveChartButton:Button = new Button(PANEL_SPACING, difficultyDropdown.y + difficultyDropdown.elementHeight + PANEL_SPACING, 192, "Save Chart");
 		saveChartButton.onPress.add(function(){ saveChartToFile(); });
@@ -679,13 +693,18 @@ class ChartingState extends MusicBeatState
 			chart = PlayState.chart;
 			chartEvents = PlayState.events;
 
-			playerDropown.setSelectedTo(chart.meta.player);
-			opponentDropdown.setSelectedTo(chart.meta.opponent);
-			speakerDropdown.setSelectedTo(chart.meta.speaker);
-			stageDropdown.setSelectedTo(chart.meta.stage);
+			final startingOpponent:String = characterList.contains(chart.meta.opponent) ? chart.meta.opponent : "Bf";
+			final startingPlayer:String = characterList.contains(chart.meta.player) ? chart.meta.player : "Bf";
+			final startingSpeaker:String = gfList.contains(chart.meta.speaker) ? chart.meta.speaker : "Gf";
+			final startingStage:String = stageList.contains(chart.meta.stage) ? chart.meta.stage : "Stage";
+
+			opponentDropdown.setSelectedTo(startingOpponent);
+			playerDropdown.setSelectedTo(startingPlayer);
+			speakerDropdown.setSelectedTo(startingSpeaker);
+			stageDropdown.setSelectedTo(startingStage);
 
 			loadChart();
-			updateHealthIcons(chart.meta.opponent, chart.meta.player, true);
+			updateHealthIcons(startingOpponent, startingPlayer, true);
 			setCurrentState(NONE);
 
 			createAlert("Loaded " + difficultyDropdown.value.toLowerCase() + " chart for \"" + songNameInput.value + "\".", 2);
@@ -695,9 +714,10 @@ class ChartingState extends MusicBeatState
 
 		panel.addToTab("Song", songNameInput);
 		panel.addToTab("Song", opponentDropdown);
-		panel.addToTab("Song", playerDropown);
+		panel.addToTab("Song", playerDropdown);
 		panel.addToTab("Song", speakerDropdown);
 		panel.addToTab("Song", stageDropdown);
+		panel.addToTab("Song", scrollSpeed);
 		panel.addToTab("Song", difficultyDropdown);
 		panel.addToTab("Song", saveChartButton);
 		panel.addToTab("Song", saveEventsButton);
@@ -716,7 +736,26 @@ class ChartingState extends MusicBeatState
 			createArguments(v, true);
 		});
 
-		var assignNoteTypeToHotbar:Button = new Button(PANEL_SPACING, notePrefixDropdown.y + notePrefixDropdown.elementHeight + PANEL_SPACING, 240, "Assign to Hotbar");
+		var setAllSelectedNotesButton:Button = new Button(PANEL_SPACING, notePrefixDropdown.y + notePrefixDropdown.elementHeight + PANEL_SPACING, 240, "Apply To Selection");
+		setAllSelectedNotesButton.onPress.add(function(){
+			if(currentlySelectingEvents){
+				createAlert("No notes selected.");
+			}
+			else{
+				if(selectedNotes.length > 0){
+					for(note in selectedNotes){
+						note.tag = noteTypeInput.value;
+					}
+					createSnapshot(CHANGE_NOTE_TAG(selectedNotes.length));
+					createAlert("Updated " + selectedNotes.length + " note tag" + (selectedNotes.length==1?".":"s."));
+				}
+				else{
+					createAlert("No notes selected.");
+				}
+			}
+		});
+
+		var assignNoteTypeToHotbar:Button = new Button(PANEL_SPACING, setAllSelectedNotesButton.y + setAllSelectedNotesButton.elementHeight + PANEL_SPACING, 240, "Assign to Hotbar");
 		assignNoteTypeToHotbar.onPress.add(function(){
 			openHotbarAlert(true);
 		});
@@ -730,6 +769,7 @@ class ChartingState extends MusicBeatState
 		panel.addToTab("Notes", noteDescription);
 		panel.addToTab("Notes", noteTypeInput);
 		panel.addToTab("Notes", notePrefixDropdown);
+		panel.addToTab("Notes", setAllSelectedNotesButton);
 		panel.addToTab("Notes", assignNoteTypeToHotbar);
 	}
 	
@@ -745,7 +785,26 @@ class ChartingState extends MusicBeatState
 			createArguments(v, false);
 		});
 
-		var assignEventToHotbar:Button = new Button(PANEL_SPACING, eventPrefixDropdown.y + eventPrefixDropdown.elementHeight + PANEL_SPACING, 240, "Assign to Hotbar");
+		var setAllSelectedEventsButton:Button = new Button(PANEL_SPACING, eventPrefixDropdown.y + eventPrefixDropdown.elementHeight + PANEL_SPACING, 240, "Apply To Selection");
+		setAllSelectedEventsButton.onPress.add(function(){
+			if(!currentlySelectingEvents){
+				createAlert("No events selected.");
+			}
+			else{
+				if(selectedEvents.length > 0){
+					for(event in selectedEvents){
+						event.tag = eventTagInput.value;
+					}
+					createSnapshot(CHANGE_EVENT_TAG(selectedEvents.length));
+					createAlert("Updated " + selectedEvents.length + " event tag" + (selectedEvents.length==1?".":"s."));
+				}
+				else{
+					createAlert("No events selected.");
+				}
+			}
+		});
+
+		var assignEventToHotbar:Button = new Button(PANEL_SPACING, setAllSelectedEventsButton.y + setAllSelectedEventsButton.elementHeight + PANEL_SPACING, 240, "Assign to Hotbar");
 		assignEventToHotbar.onPress.add(function(){
 			openHotbarAlert(false);
 		});
@@ -759,6 +818,7 @@ class ChartingState extends MusicBeatState
 		panel.addToTab("Events", eventDescription);
 		panel.addToTab("Events", eventTagInput);
 		panel.addToTab("Events", eventPrefixDropdown);
+		panel.addToTab("Events", setAllSelectedEventsButton);
 		panel.addToTab("Events", assignEventToHotbar);
 	}
 
@@ -1428,6 +1488,7 @@ class ChartingState extends MusicBeatState
 			events.members.sort(sortEvents);
 			generateChart();
 			
+			PlayState.sectionStart = false;
 			if(controlPressed){
 				PlayState.sectionStart = true;
 				PlayState.sectionStartTime = FlxG.sound.music.time;
@@ -2073,10 +2134,10 @@ class ChartingState extends MusicBeatState
 			case PLACE_NOTES(count): return "placed note"+(count==1?"":"s");
 			case REMOVE_NOTES(count): return "deleted note"+(count==1?"":"s");
 			case CHANGE_HOLD_DURATION: return "note duration change";
-			case CHANGE_NOTE_TAG: return "note tag change";
+			case CHANGE_NOTE_TAG(count): return "note tag change"+(count==1?"":"s");
 			case PLACE_EVENTS(count): return "placed event"+(count==1?"":"s");
 			case REMOVE_EVENTS(count): return "deleted event"+(count==1?"":"s");
-			case CHANGE_EVENT_TAG: return "event tag change";
+			case CHANGE_EVENT_TAG(count): return "event tag change"+(count==1?"":"s");
 			case PLACE_BPM(count): return "placed BPM change"+(count==1?"":"s");
 			case REMOVE_BPM(count): return "deleted BPM change"+(count==1?"":"s");
 			case CUT: return "cut";
