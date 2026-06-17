@@ -595,11 +595,13 @@ class ChartingState extends MusicBeatState
 			var newNote:ChartingNote = new ChartingNote();
 			newNote.updateProperties(10, ((i+1)*60)+11, 0, 0, false, "bleh");
 			newNote.scrollFactor.set(0, 0);
+			newNote.updateVisibility = false;
 			hotbarSlotNotes.push(newNote);
 
 			var newEvent:ChartingEvent = new ChartingEvent();
 			newEvent.updateProperties(10, ((i+1)*60)+11, 0, 0, "");
 			newEvent.scrollFactor.set(0, 0);
+			newEvent.updateVisibility = false;
 			hotbarSlotEvents.push(newEvent);
 
 			add(newNote);
@@ -1209,7 +1211,7 @@ class ChartingState extends MusicBeatState
 			Conductor.songPosition += FlxG.elapsed * 1000 * FlxG.sound.music.pitch;
 		}
 
-		camFollow.y = Conductor.step * GRID_SIZE + (720/2 - PLAYBACK_POSITION);
+		camFollow.y = getYFromSongPosition(Conductor.songPosition) + (720/2 - PLAYBACK_POSITION);
 
 		if(showWaveforms){
 			final waveformStartY:Float = getYFromSongPosition(Conductor.songPosition)-PLAYBACK_POSITION;
@@ -2093,14 +2095,14 @@ class ChartingState extends MusicBeatState
 		if(UNDO_LIMIT > 0 && undoHistory.length >= UNDO_LIMIT){
 			undoHistory.shift();
 		}
-		undoHistory.push(currentState);
+		undoHistory.push(snapshot);
 	}
 
 	function pushToRedoHistory(snapshot:ChartSnapshot):Void{
 		if(UNDO_LIMIT > 0 && redoHistory.length >= UNDO_LIMIT){
 			redoHistory.shift();
 		}
-		redoHistory.push(currentState);
+		redoHistory.push(snapshot);
 	}
 
 	function rebuildChartFromSnapshot(snapshot:ChartSnapshot){
@@ -2127,6 +2129,8 @@ class ChartingState extends MusicBeatState
 
 		FlxG.sound.music.time = getSongPositionFromY(startingY);
 		Conductor.songPosition = FlxG.sound.music.time;
+		previousReportedSongTime = Conductor.songPosition;
+		syncMusic();
 	}
 
 	inline function getUndoActionText(action:UndoAction):String{

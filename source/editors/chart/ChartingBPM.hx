@@ -1,5 +1,6 @@
 package editors.chart;
 
+import flixel.math.FlxPoint;
 import Chart.BPMDefinition;
 import flixel.FlxSprite;
 
@@ -11,12 +12,22 @@ class ChartingBPM extends FlxSprite
 	public var bpm:Float = 1;
 	public var time:Float = 0;
 
+	public var updateVisibility:Bool = true;
+
 	public function new(){
 		super(0, 0);
 		loadGraphic(Paths.image("fpsPlus/editors/chart/metronomeIcon"));
 		setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);
 		updateHitbox();
-		active = false;
+	}
+
+	override function update(elapsed:Float){
+		if(updateVisibility){
+			var positionOnScreen:FlxPoint = getScreenPosition();
+			visible = (positionOnScreen.y + ChartingState.GRID_SIZE >= 0 && positionOnScreen.y <= 720);
+			positionOnScreen.put();
+		}
+		super.update(elapsed);
 	}
 
 	public function updateProperties(_x:Float, _y:Float, _bpm:Float, _time:Float):Void{

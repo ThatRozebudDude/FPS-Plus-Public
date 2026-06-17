@@ -1,5 +1,6 @@
 package editors.chart;
 
+import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import flixel.FlxG;
 import shaders.TintShader;
@@ -17,6 +18,8 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 	public var player:Bool = false;
 	public var sustainLength(default, set):Int = 0; //Length in steps.
 	public var tag(default, set):String = "";
+
+	public var updateVisibility:Bool = true;
 
 	var note:FlxSprite;
 	var sustainBody:FlxSprite;
@@ -45,6 +48,7 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		note.setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);
 		note.updateHitbox();
 		note.shader = tintShader.shader;
+		note.active = false;
 
 		sustainBody = new FlxSprite(ChartingState.GRID_SIZE/2 - SUSTAIN_GRAPHIC_WIDTH/2, ChartingState.GRID_SIZE/2);
 		sustainBody.frames = noteFrames;
@@ -54,9 +58,10 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		sustainBody.animation.addByPrefix("3", "red hold piece", 0, false);
 		sustainBody.setGraphicSize(SUSTAIN_GRAPHIC_WIDTH, (ChartingState.GRID_SIZE + ChartingState.GRID_SIZE/2)+1);
 		sustainBody.updateHitbox();
-		sustainBody.visible = false;
+		sustainBody.alpha = 0;
 		sustainBody.antialiasing = false;
 		sustainBody.shader = tintShader.shader;
+		sustainBody.active = false;
 
 		sustainEnd = new FlxSprite(ChartingState.GRID_SIZE/2 - SUSTAIN_GRAPHIC_WIDTH/2, ChartingState.GRID_SIZE*2);
 		sustainEnd.frames = noteFrames;
@@ -66,23 +71,33 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 		sustainEnd.animation.addByPrefix("3", "red hold end", 0, false);
 		sustainEnd.setGraphicSize(SUSTAIN_GRAPHIC_WIDTH, ChartingState.GRID_SIZE/2);
 		sustainEnd.updateHitbox();
-		sustainEnd.visible = false;
+		sustainEnd.alpha = 0;
 		sustainEnd.shader = tintShader.shader;
+		sustainEnd.active = false;
 
 		asterisk = new FlxSprite().loadGraphic(Paths.image("fpsPlus/editors/chart/asterisk"));
 		asterisk.scale.set(0.5, 0.5);
 		asterisk.updateHitbox();
-		asterisk.visible = false;
+		asterisk.alpha = 0;
 		asterisk.shader = tintShader.shader;
+		asterisk.active = false;
 
 		holdOverlap = new FlxObject(0, 0, ChartingState.GRID_SIZE, 0);
+		holdOverlap.active = false;
 
 		add(sustainBody);
 		add(sustainEnd);
 		add(note);
 		add(asterisk);
+	}
 
-		active = false;
+	override function update(elapsed:Float){
+		if(updateVisibility){
+			var positionOnScreen:FlxPoint = getScreenPosition();
+			visible = (positionOnScreen.y + ChartingState.GRID_SIZE + holdOverlap.height >= 0 && positionOnScreen.y <= 720);
+			positionOnScreen.put();
+		}
+		super.update(elapsed);
 	}
 
 	public function updateProperties(_x:Float, _y:Float, _direction:Int, _time:Float, _player:Bool, _tag:String):Void{
@@ -113,7 +128,7 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 	
 	public function set_tag(v:String):String{
 		tag = v;
-		asterisk.visible = tag.length > 0;
+		asterisk.alpha = tag.length > 0 ? 1 : 0;
 		return tag;
 	}
 
@@ -131,11 +146,11 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 
 	function updateSustainGraphics():Void{
 		if(sustainLength > 0){
-			sustainBody.visible = true;
+			sustainBody.alpha = 1;
 			sustainBody.setGraphicSize(SUSTAIN_GRAPHIC_WIDTH, (ChartingState.GRID_SIZE*(sustainLength-1))+(ChartingState.GRID_SIZE/2)+1);
 			sustainBody.updateHitbox();
 			
-			sustainEnd.visible = true;
+			sustainEnd.alpha = 1;
 			sustainEnd.y = note.y + (ChartingState.GRID_SIZE*sustainLength);
 			sustainEnd.setGraphicSize(SUSTAIN_GRAPHIC_WIDTH, ChartingState.GRID_SIZE/2);
 			sustainEnd.updateHitbox();
@@ -143,8 +158,8 @@ class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 			holdOverlap.height = (ChartingState.GRID_SIZE*(sustainLength-1))+((ChartingState.GRID_SIZE/2)+1);
 		}
 		else{
-			sustainBody.visible = false;
-			sustainEnd.visible = false;
+			sustainBody.alpha = 0;
+			sustainEnd.alpha = 0;
 		}
 	}
 
