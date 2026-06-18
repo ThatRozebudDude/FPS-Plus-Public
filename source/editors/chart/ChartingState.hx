@@ -153,6 +153,7 @@ class ChartingState extends MusicBeatState
 	var panel:Panel;
 	var hotbar:Hotbar;
 	var editorCursor:Cursor;
+	var scrollBar:ScrollBar;
 
 	var timeBox:Box;
 	var timeBoxLeftText:UIText;
@@ -526,6 +527,22 @@ class ChartingState extends MusicBeatState
 		bpmChangePanel.addToTab("Add BPM Change", bpmInput);
 		bpmChangePanel.addToTab("Add BPM Change", newBPMButton);
 
+		scrollBar = new ScrollBar(771, 40, 640, 0, true);
+		scrollBar.scrollFactor.set(0, 0);
+		scrollBar.onGrab.add(function(){
+			pauseMusic();
+		});
+		scrollBar.onValueChanged.add(function(songPercent:Float){
+			FlxG.sound.music.time = FlxG.sound.music.length * songPercent;
+			syncMusic();
+			Conductor.songPosition = FlxG.sound.music.time;
+			previousReportedSongTime = FlxG.sound.music.time;
+		});
+
+		var scrollBarDropShadow:FlxSprite = new FlxSprite(scrollBar.x - 11, scrollBar.y - 11).loadGraphic(Paths.image("fpsPlus/editors/chart/scrollBarDropShadow"));
+		scrollBarDropShadow.alpha = 0.65;
+		scrollBarDropShadow.scrollFactor.set(0, 0);
+
 		loadChart();
 		FlxG.sound.music.time = startPosition;
 
@@ -573,8 +590,10 @@ class ChartingState extends MusicBeatState
 
 		add(panelDropShadow);
 		add(toolbarDropShadow);
+		add(scrollBarDropShadow);
 
 		add(panel);
+		add(scrollBar);
 
 		add(timeBox);
 		add(timeBoxLeftText);
@@ -917,6 +936,7 @@ class ChartingState extends MusicBeatState
 
 		gridCursor.visible = false;
 		if(canDoThings()){
+			scrollBar.allowGrabbing = true;
 			gridCursor.visible = gridCursorIndex > -1 && !selectionBoxOpen;
 
 			if(gridCursorIndex == OPPONENT_GRID || gridCursorIndex == PLAYER_GRID){ //Placing notes.
@@ -1106,6 +1126,7 @@ class ChartingState extends MusicBeatState
 			checkShortcuts();
 		}
 		else if(hotbarAssignAlertOpen){
+			scrollBar.allowGrabbing = false;
 			panel.blockAllInteraction();
 			
 			if(FlxG.keys.anyJustPressed([ESCAPE])){
@@ -1124,6 +1145,7 @@ class ChartingState extends MusicBeatState
 			if(FlxG.keys.anyJustPressed([ZERO]))	{ hotbar.selectSlot(9); }
 		}
 		else if(bpmChangeBoxOpen){
+			scrollBar.allowGrabbing = false;
 			panel.blockAllInteraction();
 			typeAlert.alpha = 0;
 
@@ -1256,10 +1278,16 @@ class ChartingState extends MusicBeatState
 					}
 				}
 			});
+
+			scrollBar.value = FlxG.sound.music.time/FlxG.sound.music.length;
 		}
 		else{
 			lilBfHoldSteps = 0;
 			lilGuyHoldSteps = 0;
+
+			if(!scrollBar.grabbing){
+				scrollBar.value = FlxG.sound.music.time/FlxG.sound.music.length;
+			}
 		}
 
 		//Show tag of note/event you are hovering over.
@@ -2464,7 +2492,7 @@ class ChartingState extends MusicBeatState
 	}
 
 	inline function canDoThings():Bool{
-		return !panel.isAnythingFocused() && !hotbarAssignAlertOpen && !bpmChangeBoxOpen;
+		return !panel.isAnythingFocused() && !hotbarAssignAlertOpen && !bpmChangeBoxOpen && !scrollBar.grabbing;
 	}
 	
 	inline function openHotbarAlert(forNote:Bool):Void{

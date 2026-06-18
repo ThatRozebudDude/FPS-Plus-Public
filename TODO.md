@@ -3,7 +3,6 @@
 - Fix thing with the characters doing extra bopping stuff after the song ends?
 
 - Editor UI Components
-	- Scroll Bar element.
 	- Fix floating point rounding bullshit on stepper fuck you IEEE.
 	- Text Input QOL
 		- Selectable Text in Text Input (Maybe)
@@ -11,7 +10,6 @@
 
 - Chart Editor
 	- Fix possible crash when saving? Happened to DJ when saving events during testing.
-	- Add scroll bar for scrubbing through the whole song.
 	- Better Note Type (Maybe Event) sorting.
 	- Autosave.
 	- Sound effects? Maybe?
