@@ -149,7 +149,9 @@ class PlayState extends MusicBeatState
 	public var autoCamBop:Bool = true;
 
 	public var iconBopFrequency:Int = 1;
+	public var iconBopOffset:Int = 0;
 	public var camBopFrequency:Int = 4;
+	public var camBopOffset:Int = 0;
 	public var camBopIntensity:Float = 1;
 
 	public var tweenManager:FlxTweenManager = new FlxTweenManager();
@@ -874,15 +876,15 @@ class PlayState extends MusicBeatState
 		}
 
 		startTimer = new FlxTimer().start(Conductor.getCrotchet(), function(tmr:FlxTimer){
-			if(gfBopEvery > 0 && (swagCounter + gfBopOffset) % gfBopEvery == 0 && swagCounter != 4){
+			if(gfBopEvery > 0 && (swagCounter - gfBopOffset) % gfBopEvery == 0 && swagCounter != 4){
 				gf.dance();
 			}
 
-			if(dadBopEvery > 0 && (swagCounter + dadBopOffset) % dadBopEvery == 0 && swagCounter != 4){
+			if(dadBopEvery > 0 && (swagCounter - dadBopOffset) % dadBopEvery == 0 && swagCounter != 4){
 				dad.dance();
 			}
 
-			if(bfBopEvery > 0 && (swagCounter + bfBopOffset) % bfBopEvery == 0 && swagCounter != 4){
+			if(bfBopEvery > 0 && (swagCounter - bfBopOffset) % bfBopEvery == 0 && swagCounter != 4){
 				boyfriend.dance();
 			}
 			
@@ -2523,24 +2525,24 @@ class PlayState extends MusicBeatState
 
 		super.beatHit();
 
-		if(camBopFrequency > 0 && curBeat % camBopFrequency == 0 && autoCamBop){
-			uiBop(0.0175 * camBopIntensity, 0.03 * camBopIntensity, 0.8);
+		if(camBopFrequency > 0 && (curBeat - camBopOffset) % camBopFrequency == 0 && autoCamBop){
+			uiBop(0.0175, 0.03, 0.8);
 		}
 
-		if(iconBopFrequency > 0 && curBeat % iconBopFrequency == 0){
+		if(iconBopFrequency > 0 && (curBeat - iconBopOffset) % iconBopFrequency == 0){
 			iconP1.bop(defaultIconBopScale, defaultIconBopTime, defaultIconBopEase, tweenManager);
 			iconP2.bop(defaultIconBopScale, defaultIconBopTime, defaultIconBopEase, tweenManager);
 		}
 
-		if((gfBopEvery > 0 && (curBeat + gfBopOffset) % gfBopEvery == 0) && gf.canAutoAnim){
+		if((gfBopEvery > 0 && (curBeat - gfBopOffset) % gfBopEvery == 0) && gf.canAutoAnim){
 			gf.dance();
 		}
 
-		if((dadBopEvery > 0 && (curBeat + dadBopOffset) % dadBopEvery == 0) && dad.canAutoAnim && dad.holdTimer == 0 && !dad.isSinging && ((dad.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? dad.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyOpponentNoteInRange : true)){
+		if((dadBopEvery > 0 && (curBeat - dadBopOffset) % dadBopEvery == 0) && dad.canAutoAnim && dad.holdTimer == 0 && !dad.isSinging && ((dad.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? dad.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyOpponentNoteInRange : true)){
 			dad.dance();
 		}
 
-		if((bfBopEvery > 0 && (curBeat + bfBopOffset) % bfBopEvery == 0) && boyfriend.canAutoAnim && !boyfriend.isSinging && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
+		if((bfBopEvery > 0 && (curBeat - bfBopOffset) % bfBopEvery == 0) && boyfriend.canAutoAnim && !boyfriend.isSinging && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
 			boyfriend.dance();
 		}
 
@@ -2812,6 +2814,9 @@ class PlayState extends MusicBeatState
 			_camZoom /= 2;
 			_uiZoom /= 2;
 		}
+
+		_camZoom *= camBopIntensity;
+		_uiZoom *= camBopIntensity;
 
 		if(_ease == null){
 			_ease = FlxEase.quintOut;

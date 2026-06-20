@@ -29,6 +29,7 @@ typedef EventArgument = {
 enum abstract EventArgumentType(String) from String to String {
 	var bool;
 	var int;
+	var uint;
 	var float;
 	var string;
 	var ease;
@@ -44,18 +45,36 @@ class Events
 {
 
 	public static var events:Map<String, EventDefinition>;
+	public static var eventGroups:Map<String, Array<String>>;
 
 	public static var ignoreOffsets:Array<String>; 
 	public static var executeAtStart:Array<String>;
 
+	public var localEvents:Map<String, EventDefinition> = new Map<String, EventDefinition>();
+
 	public static function initEvents():Void{
 		events = new Map<String, EventDefinition>();
+		eventGroups = new Map<String, Array<String>>();
 		ignoreOffsets = [];
 		executeAtStart = [];
 
+		eventGroups.set("All Events", []);
+
 		for(scriptName in ScriptableEvents.listScriptClasses()){
+			eventGroups.set(scriptName, []);
+
 			var eventClass:Events = ScriptableEvents.scriptInit(scriptName);
 			eventClass.defineEvents();
+
+			for(k => v in eventClass.localEvents){
+				events.set(k, v);
+				if(!eventGroups.get("All Events").contains(k)){
+					eventGroups.get("All Events").push(k);
+				}
+				if(!eventGroups.get(scriptName).contains(k)){
+					eventGroups.get(scriptName).push(k);
+				}
+			}
 		}
 
 		for(event in events){
@@ -80,7 +99,7 @@ class Events
 			if(definition.editor.arguments != null)		{ def.editor.arguments = definition.editor.arguments; }
 		}
 
-		events.set(def.prefix, def);
+		localEvents.set(def.prefix, def);
 	}
 
 	/**

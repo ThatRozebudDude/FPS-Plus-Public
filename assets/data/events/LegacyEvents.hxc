@@ -17,6 +17,8 @@ class LegacyEvents extends Events
 		registerEvent({prefix: "bfAnimLockToggle", eventFunction: bfAnimLockToggle, editor: {hidden: true}});
 		registerEvent({prefix: "dadAnimLockToggle", eventFunction: dadAnimLockToggle, editor: {hidden: true}});
 		registerEvent({prefix: "gfAnimLockToggle", eventFunction: gfAnimLockToggle, editor: {hidden: true}});
+
+		registerEvent({prefix: "camBopBig", eventFunction: camBopBig, editor: {hidden: true}});
 	}
 
 	function toggleCamMovement(tag:String):Void{
@@ -75,6 +77,10 @@ class LegacyEvents extends Events
 
 	function gfAnimLockToggle(tag:String):Void{
 		gf.canAutoAnim = !gf.canAutoAnim;
+	}
+
+	function camBopBig(tag:String):Void{
+		playstate.uiBop(0.035, 0.06, 0.8);
 	}
 
 }

@@ -52,10 +52,11 @@ class CameraEvents extends Events
 		
 		registerEvent({prefix: "toggleCamBop", eventFunction: toggleCamBop, editor: {description: TOGGLE_CAM_BOP_DESC}});
 		
-		registerEvent({prefix: "camBop", eventFunction: camBop, editor: {description: CAM_BOP_DESC}});
-		registerEvent({prefix: "camBopBig", eventFunction: camBopBig, editor: {description: CAM_BOP_BIG_DESC}});
+		registerEvent({prefix: "camBop", eventFunction: camBop, editor: {description: CAM_BOP_DESC, arguments: [
+			{name: "Intensity", type: "float", value: "1"}
+		]}});
 		registerEvent({prefix: "camBopFreq", eventFunction: camBopFreq, editor: {description: CAM_BOP_FREQ_DESC, arguments: [
-			{name: "Bop Every", type: "int", value: "4"}
+			{name: "Bop Every", type: "uint", value: "4"}, {name: "Beat Offset", type: "int", value: "0"}
 		]}});
 		registerEvent({prefix: "camBopIntensity", eventFunction: camBopIntensity, editor: {description: CAM_BOP_INTENSITY_DESC, arguments: [
 			{name: "Multiplier", type: "float", value: "1"}
@@ -67,7 +68,7 @@ class CameraEvents extends Events
 	}
 
 	function camMove(tag:String):Void{
-		var args = Events.getArgs(tag, Events.getDefaultArguments("camMove"));
+		var args = Events.getArgs(tag);
 		if(!Events.parseBool(args[4])){
 			playstate.camMove(Events.parseFloat(args[0]), Events.parseFloat(args[1]), Events.parseTime(args[2]), Events.parseEase(args[3]), null);
 		}
@@ -86,6 +87,7 @@ class CameraEvents extends Events
 	function camBopFreq(tag:String):Void{
 		var args = Events.getArgs(tag);
 		playstate.camBopFrequency = Events.parseInt(args[0]);
+		playstate.camBopOffset = Events.parseInt(args[1]);
 	}
 	
 	function camBopIntensity(tag:String):Void{
@@ -98,11 +100,8 @@ class CameraEvents extends Events
 	}
 	
 	function camBop(tag:String):Void{
-		playstate.uiBop(0.0175 * playstate.camBopIntensity, 0.03 * playstate.camBopIntensity, 0.8);
-	}
-
-	function camBopBig(tag:String):Void{
-		playstate.uiBop(0.035 * playstate.camBopIntensity, 0.06 * playstate.camBopIntensity, 0.8);
+		var args = Events.getArgs(tag);
+		playstate.uiBop(0.0175 * Events.parseFloat(args[0]), 0.03 * Events.parseFloat(args[0]), 0.8);
 	}
 
 	function flash(tag:String):Void{
@@ -194,7 +193,6 @@ class CameraEvents extends Events
 	final TOGGLE_CAM_MOVEMENT_DESC:String = "Toggles whether the camera automatically focuses on BF or Dad based on hit sections.";
 
 	final CAM_BOP_DESC:String = "Manually does a camera bop.";
-	final CAM_BOP_BIG_DESC:String = "Manually does a large camera bop.";
 	final CAM_BOP_FREQ_DESC:String = "Sets the interval that the camera bops.";
 	final CAM_BOP_INTENSITY_DESC:String = "Sets a multiplier to the intensity of camera bops.";
 

@@ -56,14 +56,7 @@ class Stepper extends UIElement
 		plusBox.fillColor = UIColors.INTERACTION_COLOR;
 		plusBox.onClick.add(function(){
 			if(manager.allowInteraction && manager.focused == null){ 
-				var finalStepSize = stepSize;
-				if(isInt){
-					finalStepSize = Std.int(finalStepSize);
-					finalStepSize = finalStepSize < 1 ? 1 : finalStepSize;
-				}
-				value += finalStepSize;
-				value = FlxMath.bound(value, min, max);
-				updateNumberLabel();
+				changeWithButton(1);
 				plusBox.fillColor = UIColors.SELECTED_COLOR;
 				plusSymbol.color = UIColors.SELECTED_TEXT_COLOR;
 				onValueChanged.dispatch(value);
@@ -74,14 +67,7 @@ class Stepper extends UIElement
 		minusBox.fillColor = UIColors.INTERACTION_COLOR;
 		minusBox.onClick.add(function(){
 			if(manager.allowInteraction && manager.focused == null){ 
-				var finalStepSize = stepSize;
-				if(isInt){
-					finalStepSize = Std.int(finalStepSize);
-					finalStepSize = finalStepSize < 1 ? 1 : finalStepSize;
-				}
-				value -= finalStepSize;
-				value = FlxMath.bound(value, min, max);
-				updateNumberLabel();
+				changeWithButton(-1);
 				minusBox.fillColor = UIColors.SELECTED_COLOR;
 				minusSymbol.color = UIColors.SELECTED_TEXT_COLOR;
 				onValueChanged.dispatch(value);
@@ -141,6 +127,19 @@ class Stepper extends UIElement
 
 	public function updateNumberLabel():Void{
 		textInput.value = ""+value;
+	}
+
+	function changeWithButton(sign:Int){
+		var finalStepSize = stepSize;
+		if(isInt){
+			finalStepSize = Std.int(finalStepSize);
+			finalStepSize = finalStepSize < 1 ? 1 : finalStepSize;
+		}
+		value += (finalStepSize * sign) + (FlxMath.EPSILON * Utils.sign(value));
+		value = Std.int(value/finalStepSize)*finalStepSize;
+		if(isInt){ value = Std.int(value); }
+		value = FlxMath.bound(value, min, max);
+		updateNumberLabel();
 	}
 
 }

@@ -2320,8 +2320,19 @@ class ChartingState extends MusicBeatState
 					buildTag();
 				});
 
+			case uint:
+				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseInt(arg.value), 1, 0, null, true, argData.name);
+				input.isInt = true;
+				arg.elements.push(input);
+
+				input.onValueChanged.add(function(v:Float){
+					arg.value = ""+Std.int(v);
+					buildTag();
+				});
+
+
 			case float:
-				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseFloat(arg.value), 1, null, null, true, argData.name);
+				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseFloat(arg.value), 0.1, null, null, true, argData.name);
 				arg.elements.push(input);
 
 				input.onValueChanged.add(function(v:Float){

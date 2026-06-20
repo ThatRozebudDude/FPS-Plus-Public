@@ -6,20 +6,20 @@ class CharacterAnimationEvents extends Events
 {
 	override function defineEvents() {
 		registerEvent({prefix: "playAnim", eventFunction: playAnim, editor: {description: PLAY_ANIM_DESC, arguments: [
-			{name: "Character", type: "character", value: "bf"}, {name: "Animation", type: "string", value: ""}, {name: "Force", type: "bool", value: "false"}, {name: "Reverse", type: "bool", value: "false"}, {name: "Start Frame", type: "int", value: "0"}
+			{name: "Character", type: "character", value: "bf"}, {name: "Animation", type: "string", value: ""}, {name: "Force", type: "bool", value: "false"}, {name: "Reverse", type: "bool", value: "false"}, {name: "Start Frame", type: "uint", value: "0"}
 		]}});
 		registerEvent({prefix: "singAnim", eventFunction: singAnim, editor: {description: SING_ANIM_DESC, arguments: [
-			{name: "Character", type: "character", value: "bf"}, {name: "Animation", type: "string", value: ""}, {name: "Force", type: "bool", value: "false"}, {name: "Reverse", type: "bool", value: "false"}, {name: "Start Frame", type: "int", value: "0"}
+			{name: "Character", type: "character", value: "bf"}, {name: "Animation", type: "string", value: ""}, {name: "Force", type: "bool", value: "false"}, {name: "Reverse", type: "bool", value: "false"}, {name: "Start Frame", type: "uint", value: "0"}
 		]}});
 		registerEvent({prefix: "setAnimSet", eventFunction: setAnimSet, editor: {description: SET_ANIM_SET_DESC, arguments: [
 			{name: "Character", type: "character", value: "bf"}, {name: "Animation Set", type: "string", value: ""}
 		]}});
 
 		registerEvent({prefix: "setBopFreq", eventFunction: setBopFreq, executeAtStart: true, editor: {description: SET_BOP_FREQ_DESC, arguments: [
-			{name: "Character", type: "character", value: "bf"}, {name: "Bop Every", type: "int", value: "2"}, {name: "Beat Offset", type: "int", value: "0"}
+			{name: "Character", type: "character", value: "bf"}, {name: "Bop Every", type: "uint", value: "2"}, {name: "Beat Offset", type: "int", value: "0"}
 		]}});
 		registerEvent({prefix: "iconBopFreq", eventFunction: iconBopFreq, editor: {description: ICON_BOP_FREQ_DESC, arguments: [
-			{name: "Bop Every", type: "int", value: "4"}
+			{name: "Bop Every", type: "uint", value: "4"}, {name: "Beat Offset", type: "int", value: "0"}
 		]}});
 
 		registerEvent({prefix: "toggleAnimLock", eventFunction: toggleAnimLock, editor: {description: TOGGLE_ANIM_LOCK_DESC, arguments: [
@@ -81,6 +81,7 @@ class CharacterAnimationEvents extends Events
 	function iconBopFreq(tag:String):Void{
 		var args = Events.getArgs(tag);
 		playstate.iconBopFrequency = Events.parseInt(args[0]);
+		playstate.iconBopOffset = Events.parseInt(args[1]);
 	}
 
 	function setBopFreq(tag:String):Void{
