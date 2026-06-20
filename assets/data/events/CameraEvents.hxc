@@ -53,7 +53,7 @@ class CameraEvents extends Events
 		registerEvent({prefix: "toggleCamBop", eventFunction: toggleCamBop, editor: {description: TOGGLE_CAM_BOP_DESC}});
 		
 		registerEvent({prefix: "camBop", eventFunction: camBop, editor: {description: CAM_BOP_DESC, arguments: [
-			{name: "Intensity", type: "float", value: "1"}
+			{name: "Intensity", type: "float", value: "1"}, {name: "Time", type: "time", value: "0.8"}, {name: "Ease", type: "ease", value: "quintOut"}
 		]}});
 		registerEvent({prefix: "camBopFreq", eventFunction: camBopFreq, editor: {description: CAM_BOP_FREQ_DESC, arguments: [
 			{name: "Bop Every", type: "uint", value: "4"}, {name: "Beat Offset", type: "int", value: "0"}
@@ -101,7 +101,7 @@ class CameraEvents extends Events
 	
 	function camBop(tag:String):Void{
 		var args = Events.getArgs(tag);
-		playstate.uiBop(0.0175 * Events.parseFloat(args[0]), 0.03 * Events.parseFloat(args[0]), 0.8);
+		playstate.uiBop(0.0175 * Events.parseFloat(args[0]), 0.03 * Events.parseFloat(args[0]), Events.parseTime(args[1]), Events.parseEase(args[2]));
 	}
 
 	function flash(tag:String):Void{

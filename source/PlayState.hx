@@ -2497,7 +2497,6 @@ class PlayState extends MusicBeatState
 	var resyncWindow:Float = RESYNC_WINDOW_INITIAL;
 
 	override function stepHit(){
-
 		super.stepHit();
 
 		if((Math.abs(FlxG.sound.music.time - (Conductor.songPosition)) > (resyncWindow * songPlaybackSpeed) || (vocalType != noVocalTrack && Math.abs(vocals.time - (Conductor.songPosition)) > (resyncWindow * songPlaybackSpeed))) && FlxG.sound.music.playing){
@@ -2517,16 +2516,13 @@ class PlayState extends MusicBeatState
 		gf.step(curStep);
 		notes.forEachAlive(function(note){ note.step(curStep); });
 		for(script in scripts){ script.step(curStep); }
-
-		//trace("STEP: " + curStep);
 	}
 
 	override function beatHit(){
-
 		super.beatHit();
 
 		if(camBopFrequency > 0 && (curBeat - camBopOffset) % camBopFrequency == 0 && autoCamBop){
-			uiBop(0.0175, 0.03, 0.8);
+			uiBop();
 		}
 
 		if(iconBopFrequency > 0 && (curBeat - iconBopOffset) % iconBopFrequency == 0){
@@ -2555,12 +2551,9 @@ class PlayState extends MusicBeatState
 		managedSounds = managedSounds.filter(function(sound:FlxSound):Bool{
 			return sound != null;
 		});
-
-		//trace("BEAT: " + curBeat);
 	}
 
 	public function executeEvent(tag:String):Void{
-
 		var prefix = tag.split(";")[0];
 
 		if(Events.events.exists(prefix)){
@@ -2619,7 +2612,6 @@ class PlayState extends MusicBeatState
 	}
 
 	function setNoteHitCallback(note:Note):Void{
-
 		if(!note.isSustainNote){ //Normal notes
 			if(NoteType.types.exists(note.typePrefix)){
 				var noteType:NoteTypeDefinition = NoteType.types.get(note.typePrefix);
@@ -2646,7 +2638,6 @@ class PlayState extends MusicBeatState
 				note.missCallback = defaultNoteMiss;
 			}
 		}
-		
 	}
 
 	//Moved to a separate function and out of note check so the hit callback function will be run every note hit and not just when the animation is supposed to play.
@@ -2742,7 +2733,6 @@ class PlayState extends MusicBeatState
 	}
 
 	public function camMove(_x:Float, _y:Float, _time:Float, ?_ease:Null<flixel.tweens.EaseFunction>, ?_focus:String = "", ?_onComplete:Null<TweenCallback> = null):Void{
-
 		if(_onComplete == null){
 			_onComplete = function(tween:FlxTween){};
 		}
@@ -2756,11 +2746,9 @@ class PlayState extends MusicBeatState
 		}
 		
 		camFocus = _focus;
-
 	}
 
 	public function camChangeZoom(_zoom:Float, _time:Float, ?_ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
-
 		if(_onComplete == null){
 			_onComplete = function(tween:FlxTween){};
 		}
@@ -2772,11 +2760,9 @@ class PlayState extends MusicBeatState
 		else{
 			defaultCamZoom = _zoom;
 		}
-
 	}
 
 	public function camChangeZoomAdjust(_zoom:Float, _time:Float, ?_ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
-
 		if(_onComplete == null){
 			_onComplete = function(tween:FlxTween){};
 		}
@@ -2788,11 +2774,9 @@ class PlayState extends MusicBeatState
 		else{
 			camGameZoomAdjust = _zoom;
 		}
-
 	}
 
 	public function uiChangeZoom(_zoom:Float, _time:Float, ?_ease:Null<flixel.tweens.EaseFunction>, ?_onComplete:Null<TweenCallback> = null):Void{
-
 		if(_onComplete == null){
 			_onComplete = function(tween:FlxTween){};
 		}
@@ -2804,11 +2788,9 @@ class PlayState extends MusicBeatState
 		else{
 			camHUD.zoom = _zoom;
 		}
-
 	}
 
-	public function uiBop(?_camZoom:Float = 0.01, ?_uiZoom:Float = 0.02, ?_time:Float = 0.6, ?_ease:Null<flixel.tweens.EaseFunction>){
-
+	public function uiBop(_camZoom:Float = 0.0175, _uiZoom:Float = 0.03, _time:Float = 0.8, ?_ease:Null<flixel.tweens.EaseFunction>){
 		if(Config.camBopAmount == 2){ return; }
 		else if(Config.camBopAmount == 1){
 			_camZoom /= 2;
@@ -2833,11 +2815,9 @@ class PlayState extends MusicBeatState
 			camHUD.zoom = 1 + _uiZoom;
 			uiChangeZoom(1, _time, _ease);
 		}
-
 	}
 
 	public function changeCamOffset(_x:Float, _y:Float, ?_time:Null<Float>, ?_ease:Null<flixel.tweens.EaseFunction>){
-
 		//Don't allow for extra camera offsets if it's disabled in the config.
 		if(Config.extraCamMovement == 2){ return; }
 
@@ -2857,11 +2837,9 @@ class PlayState extends MusicBeatState
 		else{
 			camFollowOffset.set(_x, _y);
 		}
-
 	}
 
 	public function startCamShake(_intensity:Float, ?_period:Float = 1/24, ?_ease:Null<flixel.tweens.EaseFunction>, ?_notFirstCall:Bool = false){
-
 		if(_ease == null){
 			_ease = FlxEase.linear;
 		}
@@ -2874,11 +2852,9 @@ class PlayState extends MusicBeatState
 		shakeTween = tweenManager.tween(camFollowShake, {x: FlxG.random.float(-1, 1) * _intensity * 1280, y: FlxG.random.float(-1, 1) * _intensity * 720}, _period, {ease: _ease, onComplete: function(t){
 			startCamShake(_intensity, _period, _ease, true);
 		}});
-
 	}
 
 	public function endCamShake(?_time:Float = 1/24, ?_ease:Null<flixel.tweens.EaseFunction>, ?_startDelay:Float = 0){
-
 		if(_ease == null){
 			_ease = FlxEase.linear;
 		}
@@ -2899,7 +2875,6 @@ class PlayState extends MusicBeatState
 	}
 
 	public dynamic function updateScoreText():Void{
-
 		scoreTxt.text = "Score:" + songStats.score;
 
 		if(Config.showMisses == 1){
@@ -2912,7 +2887,6 @@ class PlayState extends MusicBeatState
 		if(Config.showAccuracy){
 			scoreTxt.text += " | Accuracy:" + Utils.truncateFloat(songStats.accuracy, 2) + "%";
 		}
-
 	}
 
 	public dynamic function ratingPopup(rating:String):Void{
