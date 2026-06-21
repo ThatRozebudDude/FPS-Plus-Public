@@ -28,6 +28,10 @@ To download and install all libraries required compiling, you must install Haxe'
 
 * After installing all libraries, run `haxelib run lime setup` to set up `lime`.
 
+* You may also need to run `lime rebuild PLATFORM` since the version of Lime from the Funkin' Crew tends to not have an up-to-date precompiled `lime.ndll` file.
+
+	* You should also make sure you have an up-to-date version of the MSVC compiler installed since Lime might not build if your compiler version is too old.
+
 To set up build tools, refer to part 8 of [this document](https://github.com/FunkinCrew/Funkin/blob/main/docs/COMPILING.md).
 
 Run `lime test PLATFORM` or `lime build PLATFORM` to compile the game.

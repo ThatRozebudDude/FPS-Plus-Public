@@ -1,10 +1,19 @@
 {
-  "name": "Spookeez",
-  "artist": "Kawai Sprite",
-  "album": "vol1",
-  "difficulties": [0, 1, 2],
-  "compatibleInsts": ["#spookeez"],
-  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-  "mixName": "Original",
-  "pauseMusic": "pause/911825_woah_Loop"
+	"name": "Spookeez",
+	"artist": "Kawai Sprite",
+	"album": "vol1",
+	"difficulties": [
+		1,
+		1,
+		2
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#spookeez"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Original",
+	"pauseMusic": "pause/911825_woah_Loop"
 }

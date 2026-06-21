@@ -46,7 +46,7 @@
 			"time": 37161.2903225806513
 		},
 		{
-			"tag": "camZoom;0.7;1.5b;quadOut",
+			"tag": "camZoom;0.7;1.5b;quadOut;false",
 			"lane": 0,
 			"time": 42774.1935483871
 		},
@@ -61,7 +61,7 @@
 			"time": 42774.1935483871
 		},
 		{
-			"tag": "camZoom;0.9;1b;quintOut",
+			"tag": "camZoom;0.9;1b;quintOut;false",
 			"lane": 0,
 			"time": 43354.8387096774
 		},
@@ -76,7 +76,7 @@
 			"time": 43354.8387096774
 		},
 		{
-			"tag": "camZoom;0.75;2b;quadOut",
+			"tag": "camZoom;0.75;2b;quadOut;false",
 			"lane": 0,
 			"time": 49548.3870967742
 		},
@@ -106,7 +106,7 @@
 			"time": 58838.7096774194069
 		},
 		{
-			"tag": "camZoom;0.7;1.5b;quadOut",
+			"tag": "camZoom;0.7;1.5b;quadOut;false",
 			"lane": 0,
 			"time": 61161.2903225807
 		},
@@ -121,7 +121,7 @@
 			"time": 61161.2903225807
 		},
 		{
-			"tag": "camZoom;0.85;1b;quintOut",
+			"tag": "camZoom;0.85;1b;quintOut;false",
 			"lane": 0,
 			"time": 61935.4838709678
 		},
@@ -156,7 +156,7 @@
 			"time": 74322.5806451613753
 		},
 		{
-			"tag": "camZoom;0.75;2b;quadOut",
+			"tag": "camZoom;0.75;2b;quadOut;false",
 			"lane": 0,
 			"time": 74322.5806451614
 		},
@@ -166,7 +166,7 @@
 			"time": 74322.5806451614
 		},
 		{
-			"tag": "camZoom;0.72;1.5b;quadOut",
+			"tag": "camZoom;0.72;1.5b;quadOut;false",
 			"lane": 0,
 			"time": 78967.741935484
 		},
@@ -181,7 +181,7 @@
 			"time": 78967.741935484
 		},
 		{
-			"tag": "camZoom;0.69;1.5b;quadOut",
+			"tag": "camZoom;0.69;1.5b;quadOut;false",
 			"lane": 0,
 			"time": 79741.9354838711
 		},
@@ -196,7 +196,7 @@
 			"time": 80516.1290322581626
 		},
 		{
-			"tag": "camZoom;0.75;1b;quintOut",
+			"tag": "camZoom;0.75;1b;quintOut;false",
 			"lane": 0,
 			"time": 80516.1290322582
 		},
@@ -206,7 +206,7 @@
 			"time": 80516.1290322582
 		},
 		{
-			"tag": "camZoom;0.8;1b;quintOut",
+			"tag": "camZoom;0.8;1b;quintOut;false",
 			"lane": 0,
 			"time": 85161.2903225808
 		},
@@ -221,7 +221,7 @@
 			"time": 85161.2903225808
 		},
 		{
-			"tag": "camZoom;0.85;1b;quintOut",
+			"tag": "camZoom;0.85;1b;quintOut;false",
 			"lane": 0,
 			"time": 85548.3870967743
 		},
@@ -236,7 +236,7 @@
 			"time": 85548.3870967743
 		},
 		{
-			"tag": "camZoom;0.9;1b;quintOut",
+			"tag": "camZoom;0.9;1b;quintOut;false",
 			"lane": 0,
 			"time": 85935.4838709678
 		},
@@ -251,12 +251,12 @@
 			"time": 85935.4838709678
 		},
 		{
-			"tag": "camZoom;1;1b;circIn",
+			"tag": "camZoom;1;1b;circIn;false",
 			"lane": 0,
 			"time": 86322.5806451614
 		},
 		{
-			"tag": "camZoom;0.75;2b;quadOut",
+			"tag": "camZoom;0.75;2b;quadOut;false",
 			"lane": 0,
 			"time": 86709.6774193549
 		},
@@ -296,7 +296,7 @@
 			"time": 108387.096774193706
 		},
 		{
-			"tag": "camZoom;0.7;1.5b;quadOut",
+			"tag": "camZoom;0.7;1.5b;quadOut;false",
 			"lane": 0,
 			"time": 110709.677419355
 		},
@@ -311,7 +311,7 @@
 			"time": 110709.677419355
 		},
 		{
-			"tag": "camZoom;0.85;1b;quintOut",
+			"tag": "camZoom;0.85;1b;quintOut;false",
 			"lane": 0,
 			"time": 111483.870967742
 		},
@@ -341,7 +341,7 @@
 			"time": 120774.19354838728
 		},
 		{
-			"tag": "camZoom;0.75;2b;quadOut",
+			"tag": "camZoom;0.75;2b;quadOut;false",
 			"lane": 0,
 			"time": 123870.967741936
 		},

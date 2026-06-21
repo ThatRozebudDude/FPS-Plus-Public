@@ -310,6 +310,8 @@ def processEvents(data, diff:str) -> str:
 				if "mode" in event["v"]:
 					if event["v"]["mode"] == "stage":
 						tag[0] += ";true"
+					else:
+						tag[0] += ";false"
 
 				debugPrint(event["e"] + "\t->\t" + tag[0])
 

@@ -1,9 +1,18 @@
 {
-  "name": "Dad Battle",
-  "artist": "Kawai Sprite",
-  "album": "vol1",
-  "difficulties": [1, 1, 2],
-  "compatibleInsts": ["#dadbattle"],
-  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-  "mixName": "Original"
+	"name": "Dad Battle",
+	"artist": "Kawai Sprite",
+	"album": "vol1",
+	"difficulties": [
+		1,
+		2,
+		3
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#dadbattle"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Original"
 }

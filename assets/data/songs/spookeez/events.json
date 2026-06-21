@@ -1,157 +1,97 @@
 {
 	"events": [
 		{
-			"tag": "camFocusDad",
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
 			"time": 0
 		},
 		{
-			"tag": "spookyMansion-forceLightning;false",
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
-			"time": 1600
+			"time": 6400
 		},
 		{
-			"tag": "camFocusBf",
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
 			"time": 9600
 		},
 		{
-			"tag": "camFocusDad",
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
 			"time": 12800
 		},
 		{
-			"tag": "toggleAnimLock;dad",
-			"lane": 1,
-			"time": 15550
-		},
-		{
-			"tag": "playAnim;dad;cheer;true",
-			"lane": 0,
-			"time": 15600
-		},
-		{
-			"tag": "toggleAnimLock;dad",
-			"lane": 1,
-			"time": 15700
-		},
-		{
-			"tag": "camFocusBf",
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
 			"time": 16000
 		},
 		{
-			"tag": "toggleAnimLock;bf",
-			"lane": 1,
-			"time": 18750
-		},
-		{
-			"tag": "playAnim;bf;cheer;true",
-			"lane": 0,
-			"time": 18800
-		},
-		{
-			"tag": "toggleAnimLock;bf",
-			"lane": 1,
-			"time": 18900
-		},
-		{
-			"tag": "camFocusDad",
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
 			"time": 19200
 		},
 		{
-			"tag": "camFocusBf",
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
 			"time": 25600
 		},
 		{
-			"tag": "camFocusDad",
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
 			"time": 32000
 		},
 		{
-			"tag": "camFocusBf",
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
 			"time": 35200
 		},
 		{
-			"tag": "camFocusDad",
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
 			"time": 38400
 		},
 		{
-			"tag": "toggleAnimLock;dad",
-			"lane": 1,
-			"time": 41150
-		},
-		{
-			"tag": "playAnim;dad;cheer;true",
-			"lane": 0,
-			"time": 41200
-		},
-		{
-			"tag": "toggleAnimLock;dad",
-			"lane": 1,
-			"time": 41300
-		},
-		{
-			"tag": "camFocusBf",
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
 			"time": 41600
 		},
 		{
-			"tag": "toggleAnimLock;bf",
-			"lane": 1,
-			"time": 44350
-		},
-		{
-			"tag": "playAnim;bf;cheer;true",
-			"lane": 0,
-			"time": 44400
-		},
-		{
-			"tag": "toggleAnimLock;bf",
-			"lane": 1,
-			"time": 44500
-		},
-		{
-			"tag": "camFocusDad",
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
 			"time": 44800
 		},
 		{
-			"tag": "camFocusBf",
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
 			"time": 51200
 		},
 		{
-			"tag": "camFocusDad",
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
 			"time": 57600
 		},
 		{
-			"tag": "camFocusBf",
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
 			"time": 64000
 		},
 		{
-			"tag": "camFocusDad",
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
 			"time": 70400
 		},
 		{
-			"tag": "camFocusBf",
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
 			"time": 76800
 		},
 		{
-			"tag": "camFocusDad",
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
 			"time": 83200
 		},
 		{
-			"tag": "camFocusBf",
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
 			"time": 89600
 		}

@@ -76,7 +76,7 @@
 		{
 			"time": 25000,
 			"lane": 0,
-			"tag": "camZoom;0.75;16s;expoOut"
+			"tag": "camZoom;0.75;16s;expoOut;false"
 		},
 		{
 			"time": 28000,
@@ -86,7 +86,7 @@
 		{
 			"time": 28000,
 			"lane": 0,
-			"tag": "camZoom;0.85;16s;expoOut"
+			"tag": "camZoom;0.85;16s;expoOut;false"
 		},
 		{
 			"time": 32500,
@@ -106,7 +106,7 @@
 		{
 			"time": 40000,
 			"lane": 0,
-			"tag": "camZoom;1;16s;expoOut"
+			"tag": "camZoom;1;16s;expoOut;false"
 		},
 		{
 			"time": 42000,
@@ -116,7 +116,7 @@
 		{
 			"time": 44000,
 			"lane": 0,
-			"tag": "camZoom;0.85;16s;expoOut"
+			"tag": "camZoom;0.85;16s;expoOut;false"
 		},
 		{
 			"time": 44250,
@@ -131,12 +131,12 @@
 		{
 			"time": 46250,
 			"lane": 0,
-			"tag": "camZoom;0.95;16s;expoOut"
+			"tag": "camZoom;0.95;16s;expoOut;false"
 		},
 		{
 			"time": 48000,
 			"lane": 0,
-			"tag": "camZoom;0.85;16s;expoOut"
+			"tag": "camZoom;0.85;16s;expoOut;false"
 		},
 		{
 			"time": 48250,
@@ -151,7 +151,7 @@
 		{
 			"time": 50250,
 			"lane": 0,
-			"tag": "camZoom;0.95;16s;expoOut"
+			"tag": "camZoom;0.95;16s;expoOut;false"
 		},
 		{
 			"time": 52000,
@@ -161,7 +161,7 @@
 		{
 			"time": 52000,
 			"lane": 0,
-			"tag": "camZoom;0.85;16s;expoOut"
+			"tag": "camZoom;0.85;16s;expoOut;false"
 		},
 		{
 			"time": 54250,
@@ -171,7 +171,7 @@
 		{
 			"time": 54250,
 			"lane": 0,
-			"tag": "camZoom;0.95;16s;expoOut"
+			"tag": "camZoom;0.95;16s;expoOut;false"
 		},
 		{
 			"time": 56000,
@@ -181,7 +181,7 @@
 		{
 			"time": 56000,
 			"lane": 0,
-			"tag": "camZoom;0.85;8s;expoOut"
+			"tag": "camZoom;0.85;8s;expoOut;false"
 		},
 		{
 			"time": 57000,
@@ -191,7 +191,7 @@
 		{
 			"time": 57000,
 			"lane": 0,
-			"tag": "camZoom;0.75;16s;expoOut"
+			"tag": "camZoom;0.75;16s;expoOut;false"
 		},
 		{
 			"time": 60000,
@@ -201,7 +201,7 @@
 		{
 			"time": 60000,
 			"lane": 0,
-			"tag": "camZoom;0.85;16s;expoOut"
+			"tag": "camZoom;0.85;16s;expoOut;false"
 		},
 		{
 			"time": 64500,
@@ -216,7 +216,7 @@
 		{
 			"time": 68000,
 			"lane": 0,
-			"tag": "camZoom;0.9;16s;expoOut"
+			"tag": "camZoom;0.9;16s;expoOut;false"
 		},
 		{
 			"time": 70000,
@@ -226,17 +226,17 @@
 		{
 			"time": 71000,
 			"lane": 0,
-			"tag": "camZoom;1.1;16s;expoOut"
+			"tag": "camZoom;1.1;16s;expoOut;false"
 		},
 		{
 			"time": 71500,
 			"lane": 0,
-			"tag": "camZoom;1.15;16s;expoOut"
+			"tag": "camZoom;1.15;16s;expoOut;false"
 		},
 		{
 			"time": 72000,
 			"lane": 0,
-			"tag": "camZoom;0.8;60s;circOut"
+			"tag": "camZoom;0.8;60s;circOut;false"
 		}
 	]
 }
