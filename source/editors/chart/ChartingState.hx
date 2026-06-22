@@ -123,11 +123,15 @@ class ChartingState extends MusicBeatState
 	public static inline final OPPONENT_GRID:Int = 1;
 	public static inline final PLAYER_GRID:Int = 2;
 	public static inline final EVENT_GRID:Int = 3;
+	
+	public static inline final AUTOSAVE_PERIOD:Float = 120; //Seconds
 
 	public static var eventIconList:Array<String>;
 	public static var eventIconOverrides:Map<String, String>;
 
 	var fileReference:FileReference;
+
+	var autosaveTimer:Float = 0;
 
 	var characterList:Array<String> = [];
 	var gfList:Array<String> = [];
@@ -212,6 +216,12 @@ class ChartingState extends MusicBeatState
 
 	var gridSnapDropdown:Dropdown;
 	var difficultyDropdown:Dropdown;
+
+	var opponentDropdown:Dropdown;
+	var playerDropdown:Dropdown;
+	var speakerDropdown:Dropdown;
+	var stageDropdown:Dropdown;
+	var scrollSpeed:Stepper;
 
 	var lilBuddiesEnabled:Bool = false;
 	var lilGuy:Character;
@@ -668,23 +678,23 @@ class ChartingState extends MusicBeatState
 		final startingSpeaker:String = gfList.contains(chart.meta.speaker) ? chart.meta.speaker : "Gf";
 		final startingStage:String = stageList.contains(chart.meta.stage) ? chart.meta.stage : "Stage";
 
-		var opponentDropdown:Dropdown = new Dropdown(PANEL_SPACING, songNameInput.y + songNameInput.elementHeight + PANEL_EXTRA_SPACING, 240, characterList, startingOpponent, "Opponent");
+		opponentDropdown = new Dropdown(PANEL_SPACING, songNameInput.y + songNameInput.elementHeight + PANEL_EXTRA_SPACING, 240, characterList, startingOpponent, "Opponent");
 		opponentDropdown.onSelect.add(function(v:String){
 			updateHealthIcons(v, chart.meta.player);
 			chart.meta.opponent = v;
 		});
-		var playerDropdown:Dropdown = new Dropdown(PANEL_SPACING, opponentDropdown.y + opponentDropdown.elementHeight + PANEL_SPACING, 240, characterList, startingPlayer, "Player");
+		playerDropdown = new Dropdown(PANEL_SPACING, opponentDropdown.y + opponentDropdown.elementHeight + PANEL_SPACING, 240, characterList, startingPlayer, "Player");
 		playerDropdown.onSelect.add(function(v:String){
 			updateHealthIcons(chart.meta.opponent, v);
 			chart.meta.player = v;
 		});
-		var speakerDropdown:Dropdown = new Dropdown(PANEL_SPACING, playerDropdown.y + playerDropdown.elementHeight + PANEL_SPACING, 240, gfList, startingSpeaker, "Partner");
+		speakerDropdown = new Dropdown(PANEL_SPACING, playerDropdown.y + playerDropdown.elementHeight + PANEL_SPACING, 240, gfList, startingSpeaker, "Partner");
 		speakerDropdown.onSelect.add(function(v:String){ chart.meta.speaker = v; });
 
-		var stageDropdown:Dropdown = new Dropdown(PANEL_SPACING, speakerDropdown.y + speakerDropdown.elementHeight + PANEL_EXTRA_SPACING, 240, stageList, startingStage, "Stage");
+		stageDropdown = new Dropdown(PANEL_SPACING, speakerDropdown.y + speakerDropdown.elementHeight + PANEL_EXTRA_SPACING, 240, stageList, startingStage, "Stage");
 		stageDropdown.onSelect.add(function(v:String){ chart.meta.stage = v; });
 
-		var scrollSpeed:Stepper = new Stepper(PANEL_SPACING, stageDropdown.y + stageDropdown.elementHeight + PANEL_SPACING, 100, chart.meta.scroll, 0.1, 0.1, 10, true, "Scroll Speed");
+		scrollSpeed = new Stepper(PANEL_SPACING, stageDropdown.y + stageDropdown.elementHeight + PANEL_SPACING, 100, chart.meta.scroll, 0.1, 0.1, 10, true, "Scroll Speed");
 		scrollSpeed.onValueChanged.add(function(v:Float){
 			chart.meta.scroll = v;
 		});
@@ -724,6 +734,9 @@ class ChartingState extends MusicBeatState
 			speakerDropdown.setSelectedTo(startingSpeaker);
 			stageDropdown.setSelectedTo(startingStage);
 
+			scrollSpeed.value = chart.meta.scroll;
+			scrollSpeed.updateNumberLabel();
+
 			loadChart();
 			updateHealthIcons(startingOpponent, startingPlayer, true);
 			setCurrentState(NONE);
@@ -731,6 +744,11 @@ class ChartingState extends MusicBeatState
 			createAlert("Loaded " + difficultyDropdown.value.toLowerCase() + " chart for \"" + songNameInput.value + "\".", 2);
 
 			Utils.gc();
+		});
+
+		var loadAutosaveButton:Button = new Button(PANEL_SPACING, reloadChartButton.y + reloadChartButton.elementHeight + PANEL_SPACING, 192, "Load Autosave");
+		loadAutosaveButton.onPress.add(function(){
+			loadAutosave();
 		});
 
 		panel.addToTab("Song", songNameInput);
@@ -743,6 +761,7 @@ class ChartingState extends MusicBeatState
 		panel.addToTab("Song", saveChartButton);
 		panel.addToTab("Song", saveEventsButton);
 		panel.addToTab("Song", reloadChartButton);
+		panel.addToTab("Song", loadAutosaveButton);
 	}
 
 	function setupNotesTab():Void{
@@ -933,6 +952,8 @@ class ChartingState extends MusicBeatState
 				gridCursor.y = FlxG.mouse.y;
 			}
 		}
+		
+		autosaveTimer += elapsed;
 
 		gridCursor.visible = false;
 		if(canDoThings()){
@@ -1124,6 +1145,11 @@ class ChartingState extends MusicBeatState
 			else{ typeAlert.alpha = 0; }
 				
 			checkShortcuts();
+
+			if(autosaveTimer >= AUTOSAVE_PERIOD){
+				autosaveTimer = 0;
+				createAutosave();
+			}
 		}
 		else if(hotbarAssignAlertOpen){
 			scrollBar.allowGrabbing = false;
@@ -1311,6 +1337,8 @@ class ChartingState extends MusicBeatState
 
 		undoHistory = [];
 		redoHistory = [];
+		selectedNotes = [];
+		selectedEvents = [];
 		var snapshot:ChartSnapshot = {notes: chart.notes, events: chartEvents.events, bpmChanges: chart.meta.bpm, action: NONE};
 		rebuildChartFromSnapshot(snapshot);
 	}
@@ -1508,6 +1536,14 @@ class ChartingState extends MusicBeatState
 				note.sustainLength = sustainLength;
 			}
 			createSnapshot(CHANGE_HOLD_DURATION);
+		}
+
+		//Debug stuff.
+		if(false){
+			//Force autosave.
+			if(FlxG.keys.anyJustPressed([O])){
+				autosaveTimer = AUTOSAVE_PERIOD;
+			}
 		}
 
 		//Playtest song on PlayState.
@@ -2100,6 +2136,7 @@ class ChartingState extends MusicBeatState
 		pushToRedoHistory(currentState);
 		currentState = snapshot;
 		selectedNotes = [];
+		selectedEvents = [];
 	}
 
 	function redo():Void{
@@ -2117,6 +2154,7 @@ class ChartingState extends MusicBeatState
 		pushToUndoHistory(currentState);
 		currentState = snapshot;
 		selectedNotes = [];
+		selectedEvents = [];
 	}
 
 	function pushToUndoHistory(snapshot:ChartSnapshot):Void{
@@ -2590,5 +2628,47 @@ class ChartingState extends MusicBeatState
 			}
 		});
 		Conductor.setBPMChanges(bpmArray);
+	}
+
+	function createAutosave(doAlert:Bool = true):Void{
+		generateChart();
+		SaveManager.chartAutosave(chart.meta.song.toLowerCase() + "-" + difficultyDropdown.value.toLowerCase());
+		FlxG.save.data.chart = Json.stringify(chart);
+		FlxG.save.data.events = Json.stringify(chartEvents);
+		SaveManager.previousSave();
+		if(doAlert){ createAlert("Creating autosave.", 2); }
+	}
+
+	function loadAutosave():Void{
+		SaveManager.chartAutosave(chart.meta.song.toLowerCase() + "-" + difficultyDropdown.value.toLowerCase());
+		if(FlxG.save.data.chart != null && FlxG.save.data.events != null){
+			chart = Json.parse(FlxG.save.data.chart);
+			chartEvents = Json.parse(FlxG.save.data.events);
+
+			final startingOpponent:String = characterList.contains(chart.meta.opponent) ? chart.meta.opponent : "Bf";
+			final startingPlayer:String = characterList.contains(chart.meta.player) ? chart.meta.player : "Bf";
+			final startingSpeaker:String = gfList.contains(chart.meta.speaker) ? chart.meta.speaker : "Gf";
+			final startingStage:String = stageList.contains(chart.meta.stage) ? chart.meta.stage : "Stage";
+
+			opponentDropdown.setSelectedTo(startingOpponent);
+			playerDropdown.setSelectedTo(startingPlayer);
+			speakerDropdown.setSelectedTo(startingSpeaker);
+			stageDropdown.setSelectedTo(startingStage);
+
+			scrollSpeed.value = chart.meta.scroll;
+			scrollSpeed.updateNumberLabel();
+
+			loadChart();
+			updateHealthIcons(startingOpponent, startingPlayer, true);
+			setCurrentState(NONE);
+
+			Utils.gc();
+			createAlert("Autosave loaded.", 2);
+			autosaveTimer = 0;
+		}
+		else{
+			createAlert("Could not load autosave.", 2);
+		}
+		SaveManager.previousSave();
 	}
 }
