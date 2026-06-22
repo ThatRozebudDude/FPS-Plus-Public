@@ -1,10 +1,19 @@
 {
-  "name": "Winter Horrorland",
-  "artist": "Basset (ft. Kawai Sprite)",
-  "album": "monster",
-  "difficulties": [1, 1, 2],
-  "compatibleInsts": ["#winter-horrorland"],
-  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-  "mixName": "Original",
-  "pauseMusic": "pause/911825_woah_Loop"
+	"name": "Winter Horrorland",
+	"artist": "Bassetfilms",
+	"album": "monster",
+	"difficulties": [
+		1,
+		2,
+		2
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#winter-horrorland"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Original",
+	"pauseMusic": "pause/911825_woah_Loop"
 }
