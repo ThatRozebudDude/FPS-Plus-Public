@@ -1,10 +1,19 @@
 {
-  "name": "Satin Panties",
-  "artist": "Kawai Sprite",
-  "album": "vol1",
-  "difficulties": [2, 2, 3],
-  "compatibleInsts": ["#satin-panties"],
-  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-  "mixName": "Original",
-  "pauseMusic": "pause/1317505_RUN1N_Loop"
+	"name": "Satin Panties",
+	"artist": "Kawai Sprite",
+	"album": "vol1",
+	"difficulties": [
+		1,
+		2,
+		2
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#satin-panties"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Original",
+	"pauseMusic": "pause/1317505_RUN1N_Loop"
 }

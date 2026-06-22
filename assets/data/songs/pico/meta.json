@@ -1,10 +1,19 @@
 {
-  "name": "Pico",
-  "artist": "Kawai Sprite",
-  "album": "vol1",
-  "difficulties": [1, 2, 2],
-  "compatibleInsts": ["#pico"],
-  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-  "mixName": "Original",
-  "pauseMusic": "pause/947670_hacker.07_Loop"
+	"name": "Pico",
+	"artist": "Kawai Sprite",
+	"album": "vol1",
+	"difficulties": [
+		1,
+		2,
+		2
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#pico"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Original",
+	"pauseMusic": "pause/947670_hacker.07_Loop"
 }

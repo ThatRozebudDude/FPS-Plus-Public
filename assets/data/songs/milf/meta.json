@@ -1,10 +1,19 @@
 {
-  "name": "M.I.L.F.",
-  "artist": "Kawai Sprite",
-  "album": "vol1",
-  "difficulties": [2, 3, 4],
-  "compatibleInsts": ["#milf"],
-  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-  "mixName": "Original",
-  "pauseMusic": "pause/1317505_RUN1N_Loop"
+	"name": "M.I.L.F.",
+	"artist": "Kawai Sprite",
+	"album": "vol1",
+	"difficulties": [
+		2,
+		3,
+		4
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#milf"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "Original",
+	"pauseMusic": "pause/1317505_RUN1N_Loop"
 }
