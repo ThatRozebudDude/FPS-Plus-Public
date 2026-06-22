@@ -1550,8 +1550,6 @@ class ChartingState extends MusicBeatState
 		if(FlxG.keys.anyJustPressed([ENTER])){
 			pauseMusic();
 
-			notes.members.sort(sortNotes);
-			events.members.sort(sortEvents);
 			generateChart();
 			
 			PlayState.sectionStart = false;
@@ -1564,6 +1562,8 @@ class ChartingState extends MusicBeatState
 			PlayState.fromChartEditor = true;
 			ImageCache.refreshLocal();
 			switchState(new PlayState());
+
+			createAutosave(false);
 		}
 	}
 
@@ -1835,6 +1835,9 @@ class ChartingState extends MusicBeatState
 	}
 
 	function generateChart():Void{
+		notes.members.sort(sortNotes);
+		events.members.sort(sortEvents);
+
 		chart.notes = [];
 		notes.forEachAlive(function(note:ChartingNote){
 			chart.notes.push(note.generateNoteDefinition());
