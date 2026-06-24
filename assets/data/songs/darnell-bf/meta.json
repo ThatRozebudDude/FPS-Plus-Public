@@ -1,10 +1,19 @@
 {
-  "name": "Darnell (BF Mix)",
-  "artist": "Saruky",
-  "album": "vol4",
-  "difficulties": [2, 3, 4],
-  "compatibleInsts": ["#darnell"],
-  "compatableInsts": ["Included for backwards compatibility purposes and to prevent crashes."],
-  "mixName": "BF Mix",
-  "pauseMusic": "pause/breakfast-pico"
+	"name": "Darnell (BF Mix)",
+	"artist": "Saruky",
+	"album": "vol4",
+	"difficulties": [
+		3,
+		4,
+		5
+	],
+	"difficultySet": "standard",
+	"compatibleInsts": [
+		"#darnell"
+	],
+	"compatableInsts": [
+		"Included for backwards compatibility purposes and to prevent crashes."
+	],
+	"mixName": "BF Mix",
+	"pauseMusic": "pause/breakfast-pico"
 }
