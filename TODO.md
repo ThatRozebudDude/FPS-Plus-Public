@@ -10,7 +10,6 @@
 
 - Chart Editor
 	- Get the waveforms to not offset weirdly at the begining of songs when the camera moves.
-	- Fix possible crash when saving? Happened to DJ when saving events during testing.
 	- Better Note Type (Maybe Event) sorting.
 	- Sound effects? Maybe?
 

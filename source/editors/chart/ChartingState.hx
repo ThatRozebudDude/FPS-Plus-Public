@@ -2220,6 +2220,10 @@ class ChartingState extends MusicBeatState
 	}
 
 	private function saveChartToFile(){
+		if(fileReference != null){
+			createAlert("Please wait a moment.", 1);
+			return;
+		}
 		generateChart();
 		var data:String = Json.stringify(chart, null, "\t");
 		if(data != null && data.length > 0){
@@ -2232,6 +2236,10 @@ class ChartingState extends MusicBeatState
 	}
 
 	private function saveEventsToFile(){
+		if(fileReference != null){
+			createAlert("Please wait a moment.", 1);
+			return;
+		}
 		generateChart();
 		var data:String = Json.stringify(chartEvents, null, "\t");
 		if(data != null && data.length > 0){
