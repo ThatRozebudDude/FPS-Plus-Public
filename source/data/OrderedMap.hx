@@ -26,7 +26,7 @@ class OrderedMap<K, V>
 		}
 	}
 
-    //If the key is already in the map the value is set to the key but it's position remains unchanged and the function returns false;
+    //If the key is already in the map the value is set to the key but it's position remains unchanged and the function returns false.
     public function insert(key:K, value:V, pos:Int):Bool{
 		if(_keys.contains(key)){
 			var index = _keys.indexOf(key);
@@ -74,6 +74,14 @@ class OrderedMap<K, V>
     public function get_length():Int{
         return _keys.length;
     }
+
+	public function copyKeys():Array<K>{
+		return _keys.copy();
+	}
+
+	public function copyValues():Array<V>{
+		return _values.copy();
+	}
 
 }
 

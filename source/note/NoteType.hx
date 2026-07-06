@@ -1,5 +1,6 @@
 package note;
 
+import data.OrderedMap;
 import events.Events;
 import events.Events.EventEditorProperties;
 import note.*;
@@ -18,21 +19,39 @@ typedef NoteTypeDefinition = {
 class NoteType
 {
 	public static var types:Map<String, NoteTypeDefinition>;
-	public static var typeGroups:Map<String, Array<String>>;
+	public static var typeGroups:OrderedMap<String, Array<String>>;
+	
+	public static var hiddenClasses:Array<String>;
 
 	public var localTypes:Map<String, NoteTypeDefinition> = new Map<String, NoteTypeDefinition>();
 
+	public var hideFromDropdown:Bool = false;
+
 	public static function initTypes():Void{
 		types = new Map<String, NoteTypeDefinition>();
-		typeGroups = new Map<String, Array<String>>();
+		typeGroups = new OrderedMap<String, Array<String>>();
+		hiddenClasses = [];
 
 		typeGroups.set("All Note Types", []);
 
-		for(scriptName in ScriptableNoteType.listScriptClasses()){
+		var scriptClassList = ScriptableNoteType.listScriptClasses();
+		scriptClassList.sort(function(a:String, b:String):Int{
+			a = a.toUpperCase();
+			b = b.toUpperCase();
+			if(a < b){ return -1; }
+			else if(a > b){ return 1; }
+			else{ return 0; }
+		});
+
+		for(scriptName in scriptClassList){
 			typeGroups.set(scriptName, []);
 
 			var noteTypeClass:NoteType = ScriptableNoteType.scriptInit(scriptName);
 			noteTypeClass.defineTypes();
+
+			if(noteTypeClass.hideFromDropdown){
+				hiddenClasses.push(scriptName);
+			}
 
 			for(k => v in noteTypeClass.localTypes){
 				types.set(k, v);

@@ -1,5 +1,6 @@
 package events;
 
+import data.OrderedMap;
 import flixel.tweens.FlxEase;
 
 using StringTools;
@@ -45,26 +46,43 @@ class Events
 {
 
 	public static var events:Map<String, EventDefinition>;
-	public static var eventGroups:Map<String, Array<String>>;
+	public static var eventGroups:OrderedMap<String, Array<String>>;
 
 	public static var ignoreOffsets:Array<String>; 
 	public static var executeAtStart:Array<String>;
+	public static var hiddenClasses:Array<String>;
 
 	public var localEvents:Map<String, EventDefinition> = new Map<String, EventDefinition>();
+	
+	public var hideFromDropdown:Bool = false;
 
 	public static function initEvents():Void{
 		events = new Map<String, EventDefinition>();
-		eventGroups = new Map<String, Array<String>>();
+		eventGroups = new OrderedMap<String, Array<String>>();
 		ignoreOffsets = [];
 		executeAtStart = [];
+		hiddenClasses = [];
 
 		eventGroups.set("All Events", []);
 
-		for(scriptName in ScriptableEvents.listScriptClasses()){
+		var scriptClassList = ScriptableEvents.listScriptClasses();
+		scriptClassList.sort(function(a:String, b:String):Int{
+			a = a.toUpperCase();
+			b = b.toUpperCase();
+			if(a < b){ return -1; }
+			else if(a > b){ return 1; }
+			else{ return 0; }
+		});
+
+		for(scriptName in scriptClassList){
 			eventGroups.set(scriptName, []);
 
 			var eventClass:Events = ScriptableEvents.scriptInit(scriptName);
 			eventClass.defineEvents();
+
+			if(eventClass.hideFromDropdown){
+				hiddenClasses.push(scriptName);
+			}
 
 			for(k => v in eventClass.localEvents){
 				events.set(k, v);

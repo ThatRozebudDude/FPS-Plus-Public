@@ -7,6 +7,8 @@ class LegacyNotes extends NoteType
 {
 
 	override function defineTypes():Void{
+		hideFromDropdown = true; //Hides this class from the chart editor's note type class list.
+
 		registerNoteType({prefix: "alt", noteHit: altHit, sustainHit: altHit, editor: {hidden: true}});
 		registerNoteType({prefix: "censor", noteHit: censorHit, sustainHit: censorHit, editor: {hidden: true}});
 		registerNoteType({prefix: "hey", noteHit: heyHit, sustainHit: noSustainAnimation, editor: {hidden: true, arguments: [

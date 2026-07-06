@@ -2,7 +2,7 @@ package events;
 
 import characters.ScriptableCharacter;
 
-class CharacterAnimationEvents extends Events
+class CharacterEvents extends Events
 {
 	override function defineEvents() {
 		registerEvent({prefix: "playAnim", eventFunction: playAnim, editor: {description: PLAY_ANIM_DESC, arguments: [

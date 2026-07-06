@@ -1,5 +1,6 @@
 package editors.chart;
 
+import data.OrderedMap;
 import graphics.waveform.WaveformData;
 import graphics.waveform.WaveformSprite;
 import note.NoteType;
@@ -136,8 +137,10 @@ class ChartingState extends MusicBeatState
 	var characterList:Array<String> = [];
 	var gfList:Array<String> = [];
 	var stageList:Array<String> = [];
-	var eventPrefixes:Array<String> = [""];
-	var noteTypePrefixes:Array<String> = [""];
+	var eventPrefixes:OrderedMap<String, Array<String>> = new OrderedMap<String, Array<String>>();
+	var noteTypePrefixes:OrderedMap<String, Array<String>> = new OrderedMap<String, Array<String>>();
+	var transformedEventClasses:OrderedMap<String, String> = new OrderedMap<String, String>();
+	var transformedNoteTypeClasses:OrderedMap<String, String> = new OrderedMap<String, String>();
 
 	public var chart:ChartFormat;
 	public var chartEvents:EventFormat;
@@ -770,13 +773,18 @@ class ChartingState extends MusicBeatState
 			createArguments(v, true);
 		});
 
-		notePrefixDropdown = new Dropdown(PANEL_SPACING, noteTypeInput.y + noteTypeInput.elementHeight + PANEL_SPACING, 240, noteTypePrefixes, "", "Note Tags");
+		notePrefixDropdown = new Dropdown(PANEL_SPACING, noteTypeInput.y + noteTypeInput.elementHeight + PANEL_SPACING, 240, noteTypePrefixes.get("All Note Types"), "", "Note Tags");
 		notePrefixDropdown.onSelect.add(function(v:String){
 			noteTypeInput.value = v;
 			createArguments(v, true);
 		});
 
-		var setAllSelectedNotesButton:Button = new Button(PANEL_SPACING, notePrefixDropdown.y + notePrefixDropdown.elementHeight + PANEL_SPACING, 240, "Apply To Selection");
+		var noteClassDropdown = new Dropdown(PANEL_SPACING, notePrefixDropdown.y + notePrefixDropdown.elementHeight + PANEL_SPACING, 240, transformedNoteTypeClasses.copyKeys(), "", "Categories");
+		noteClassDropdown.onSelect.add(function(v:String){
+			trace(transformedNoteTypeClasses.get(v));
+		});
+
+		var setAllSelectedNotesButton:Button = new Button(PANEL_SPACING, noteClassDropdown.y + noteClassDropdown.elementHeight + PANEL_SPACING, 240, "Apply To Selection");
 		setAllSelectedNotesButton.onPress.add(function(){
 			if(currentlySelectingEvents){
 				createAlert("No notes selected.");
@@ -809,6 +817,7 @@ class ChartingState extends MusicBeatState
 		panel.addToTab("Notes", noteDescription);
 		panel.addToTab("Notes", noteTypeInput);
 		panel.addToTab("Notes", notePrefixDropdown);
+		panel.addToTab("Notes", noteClassDropdown);
 		panel.addToTab("Notes", setAllSelectedNotesButton);
 		panel.addToTab("Notes", assignNoteTypeToHotbar);
 	}
@@ -819,13 +828,18 @@ class ChartingState extends MusicBeatState
 			createArguments(v, false);
 		});
 
-		eventPrefixDropdown = new Dropdown(PANEL_SPACING, eventTagInput.y + eventTagInput.elementHeight + PANEL_SPACING, 240, eventPrefixes, "", "Event Tags");
+		eventPrefixDropdown = new Dropdown(PANEL_SPACING, eventTagInput.y + eventTagInput.elementHeight + PANEL_SPACING, 240, eventPrefixes.get("All Events"), "", "Event Tags");
 		eventPrefixDropdown.onSelect.add(function(v:String){
 			eventTagInput.value = v;
 			createArguments(v, false);
 		});
 
-		var setAllSelectedEventsButton:Button = new Button(PANEL_SPACING, eventPrefixDropdown.y + eventPrefixDropdown.elementHeight + PANEL_SPACING, 240, "Apply To Selection");
+		var eventClassDropdown = new Dropdown(PANEL_SPACING, eventPrefixDropdown.y + eventPrefixDropdown.elementHeight + PANEL_SPACING, 240, transformedEventClasses.copyKeys(), "", "Categories");
+		eventClassDropdown.onSelect.add(function(v:String){
+			trace(transformedEventClasses.get(v));
+		});
+
+		var setAllSelectedEventsButton:Button = new Button(PANEL_SPACING, eventClassDropdown.y + eventClassDropdown.elementHeight + PANEL_SPACING, 240, "Apply To Selection");
 		setAllSelectedEventsButton.onPress.add(function(){
 			if(!currentlySelectingEvents){
 				createAlert("No events selected.");
@@ -858,6 +872,7 @@ class ChartingState extends MusicBeatState
 		panel.addToTab("Events", eventDescription);
 		panel.addToTab("Events", eventTagInput);
 		panel.addToTab("Events", eventPrefixDropdown);
+		panel.addToTab("Events", eventClassDropdown);
 		panel.addToTab("Events", setAllSelectedEventsButton);
 		panel.addToTab("Events", assignEventToHotbar);
 	}
@@ -1145,11 +1160,6 @@ class ChartingState extends MusicBeatState
 			else{ typeAlert.alpha = 0; }
 				
 			checkShortcuts();
-
-			if(autosaveTimer >= AUTOSAVE_PERIOD){
-				autosaveTimer = 0;
-				createAutosave();
-			}
 		}
 		else if(hotbarAssignAlertOpen){
 			scrollBar.allowGrabbing = false;
@@ -1324,6 +1334,11 @@ class ChartingState extends MusicBeatState
 		if(textUpdateTimer >= TEXT_UPDATE_RATE){
 			updateText();
 			textUpdateTimer = 0;
+		}
+
+		if(autosaveTimer >= AUTOSAVE_PERIOD){
+			autosaveTimer = 0;
+			createAutosave();
 		}
 
 		previousSongPosition = Conductor.songPosition;
@@ -1877,15 +1892,73 @@ class ChartingState extends MusicBeatState
 			stageList.push(pushedName);
 		}
 
-		for(noteType in NoteType.types){
+		/*for(noteType in NoteType.types){
 			if(!noteType.editor.hidden){
 				noteTypePrefixes.push(noteType.prefix);
 			}
+		}*/
+
+		for(group => noteTypes in NoteType.typeGroups){
+			noteTypePrefixes.set(group, [""]);
+
+			for(noteType in noteTypes){
+				if(!NoteType.types.get(noteType).editor.hidden){
+					noteTypePrefixes.get(group).push(noteType);
+				}
+			}
+
+			noteTypePrefixes.get(group).sort(function(a:String, b:String):Int{
+				a = a.toUpperCase();
+				b = b.toUpperCase();
+				if(a < b){ return -1; }
+				else if(a > b){ return 1; }
+				else{ return 0; }
+			});
+
+			if(!NoteType.hiddenClasses.contains(group)){
+				if(group == "All Note Types"){
+					transformedNoteTypeClasses.set(group, group);
+				}
+				else if(group.startsWith("notetypes.")){
+					transformedNoteTypeClasses.set(group.split("notetypes.")[1], group);
+				}
+				#if BACKWARD_COMPATIBILITY
+				else{
+					transformedNoteTypeClasses.set(group + "(Old)", group);
+				}
+				#end
+			}
 		}
-		
-		for(event in Events.events){
-			if(!event.editor.hidden){
-				eventPrefixes.push(event.prefix);
+
+		for(group => events in Events.eventGroups){
+			eventPrefixes.set(group, [""]);
+
+			for(event in events){
+				if(!Events.events.get(event).editor.hidden){
+					eventPrefixes.get(group).push(event);
+				}
+			}
+
+			eventPrefixes.get(group).sort(function(a:String, b:String):Int{
+				a = a.toUpperCase();
+				b = b.toUpperCase();
+				if(a < b){ return -1; }
+				else if(a > b){ return 1; }
+				else{ return 0; }
+			});
+
+			if(!Events.hiddenClasses.contains(group)){
+				if(group == "All Events"){
+					transformedEventClasses.set(group, group);
+				}
+				else if(group.startsWith("events.")){
+					transformedEventClasses.set(group.split("events.")[1], group);
+				}
+				#if BACKWARD_COMPATIBILITY
+				else{
+					transformedEventClasses.set(group + "(Old)", group);
+				}
+				#end
 			}
 		}
 
@@ -1906,22 +1979,6 @@ class ChartingState extends MusicBeatState
 		});
 		
 		stageList.sort(function(a:String, b:String):Int{
-			a = a.toUpperCase();
-			b = b.toUpperCase();
-			if(a < b){ return -1; }
-			else if(a > b){ return 1; }
-			else{ return 0; }
-		});
-
-		noteTypePrefixes.sort(function(a:String, b:String):Int{
-			a = a.toUpperCase();
-			b = b.toUpperCase();
-			if(a < b){ return -1; }
-			else if(a > b){ return 1; }
-			else{ return 0; }
-		});
-
-		eventPrefixes.sort(function(a:String, b:String):Int{
 			a = a.toUpperCase();
 			b = b.toUpperCase();
 			if(a < b){ return -1; }

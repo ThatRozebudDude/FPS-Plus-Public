@@ -8,6 +8,8 @@ class LegacyEvents extends Events
 {
 
 	override function defineEvents() {
+		hideFromDropdown = true; //Hides this class from the chart editor's event class list.
+
 		registerEvent({prefix: "toggleCamMovement", eventFunction: toggleCamMovement, editor: {hidden: true}});
 
 		registerEvent({prefix: "bfBop",  eventFunction: bfBop,  editor: {hidden: true}});
