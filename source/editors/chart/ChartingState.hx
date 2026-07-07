@@ -773,15 +773,14 @@ class ChartingState extends MusicBeatState
 			createArguments(v, true);
 		});
 
-		notePrefixDropdown = new Dropdown(PANEL_SPACING, noteTypeInput.y + noteTypeInput.elementHeight + PANEL_SPACING, 240, noteTypePrefixes.get("All Note Types"), "", "Note Tags");
-		notePrefixDropdown.onSelect.add(function(v:String){
-			noteTypeInput.value = v;
-			createArguments(v, true);
-		});
+		createNotePrefixDropdown("All Note Types");
 
 		var noteClassDropdown = new Dropdown(PANEL_SPACING, notePrefixDropdown.y + notePrefixDropdown.elementHeight + PANEL_SPACING, 240, transformedNoteTypeClasses.copyKeys(), "", "Categories");
 		noteClassDropdown.onSelect.add(function(v:String){
-			trace(transformedNoteTypeClasses.get(v));
+			panel.removeFromTab("Notes", notePrefixDropdown);
+			notePrefixDropdown.destroy();
+			createNotePrefixDropdown(transformedNoteTypeClasses.get(v));
+			panel.addToTab("Notes", notePrefixDropdown);
 		});
 
 		var setAllSelectedNotesButton:Button = new Button(PANEL_SPACING, noteClassDropdown.y + noteClassDropdown.elementHeight + PANEL_SPACING, 240, "Apply To Selection");
@@ -828,15 +827,14 @@ class ChartingState extends MusicBeatState
 			createArguments(v, false);
 		});
 
-		eventPrefixDropdown = new Dropdown(PANEL_SPACING, eventTagInput.y + eventTagInput.elementHeight + PANEL_SPACING, 240, eventPrefixes.get("All Events"), "", "Event Tags");
-		eventPrefixDropdown.onSelect.add(function(v:String){
-			eventTagInput.value = v;
-			createArguments(v, false);
-		});
+		createEventPrefixDropdown("All Events");
 
 		var eventClassDropdown = new Dropdown(PANEL_SPACING, eventPrefixDropdown.y + eventPrefixDropdown.elementHeight + PANEL_SPACING, 240, transformedEventClasses.copyKeys(), "", "Categories");
 		eventClassDropdown.onSelect.add(function(v:String){
-			trace(transformedEventClasses.get(v));
+			panel.removeFromTab("Events", eventPrefixDropdown);
+			eventPrefixDropdown.destroy();
+			createEventPrefixDropdown(transformedEventClasses.get(v));
+			panel.addToTab("Events", eventPrefixDropdown);
 		});
 
 		var setAllSelectedEventsButton:Button = new Button(PANEL_SPACING, eventClassDropdown.y + eventClassDropdown.elementHeight + PANEL_SPACING, 240, "Apply To Selection");
@@ -2738,5 +2736,27 @@ class ChartingState extends MusicBeatState
 			createAlert("Could not load autosave.", 2);
 		}
 		SaveManager.previousSave();
+	}
+
+	var eventPrefixDropdownY:Null<Float>;
+	function createEventPrefixDropdown(category:String):Void{
+		if(eventPrefixDropdownY == null){ eventPrefixDropdownY = eventTagInput.y + eventTagInput.elementHeight + PANEL_SPACING; }
+
+		eventPrefixDropdown = new Dropdown(PANEL_SPACING, eventPrefixDropdownY, 240, eventPrefixes.get(category), "", "Event Tags");
+		eventPrefixDropdown.onSelect.add(function(v:String){
+			eventTagInput.value = v;
+			createArguments(v, false);
+		});
+	}
+
+	var notePrefixDropdownY:Null<Float>;
+	function createNotePrefixDropdown(category:String):Void{
+		if(notePrefixDropdownY == null){ notePrefixDropdownY = noteTypeInput.y + noteTypeInput.elementHeight + PANEL_SPACING; }
+
+		notePrefixDropdown = new Dropdown(PANEL_SPACING, notePrefixDropdownY, 240, noteTypePrefixes.get(category), "", "Note Tags");
+		notePrefixDropdown.onSelect.add(function(v:String){
+			noteTypeInput.value = v;
+			createArguments(v, true);
+		});
 	}
 }

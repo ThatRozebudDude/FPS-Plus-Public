@@ -11,14 +11,14 @@ class CharacterEvents extends Events
 		registerEvent({prefix: "singAnim", eventFunction: singAnim, editor: {description: SING_ANIM_DESC, arguments: [
 			{name: "Character", type: "character", value: "bf"}, {name: "Animation", type: "string", value: ""}, {name: "Force", type: "bool", value: "false"}, {name: "Reverse", type: "bool", value: "false"}, {name: "Start Frame", type: "uint", value: "0"}
 		]}});
-		registerEvent({prefix: "setAnimSet", eventFunction: setAnimSet, editor: {description: SET_ANIM_SET_DESC, arguments: [
+		registerEvent({prefix: "setAnimSet", eventFunction: setAnimSet, executeAtStart: true, editor: {description: SET_ANIM_SET_DESC, arguments: [
 			{name: "Character", type: "character", value: "bf"}, {name: "Animation Set", type: "string", value: ""}
 		]}});
 
 		registerEvent({prefix: "setBopFreq", eventFunction: setBopFreq, executeAtStart: true, editor: {description: SET_BOP_FREQ_DESC, arguments: [
 			{name: "Character", type: "character", value: "bf"}, {name: "Bop Every", type: "uint", value: "2"}, {name: "Beat Offset", type: "int", value: "0"}
 		]}});
-		registerEvent({prefix: "iconBopFreq", eventFunction: iconBopFreq, editor: {description: ICON_BOP_FREQ_DESC, arguments: [
+		registerEvent({prefix: "iconBopFreq", eventFunction: iconBopFreq, executeAtStart: true, editor: {description: ICON_BOP_FREQ_DESC, arguments: [
 			{name: "Bop Every", type: "uint", value: "4"}, {name: "Beat Offset", type: "int", value: "0"}
 		]}});
 
