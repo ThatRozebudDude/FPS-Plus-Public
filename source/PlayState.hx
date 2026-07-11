@@ -1,43 +1,36 @@
 package;
 
-import Chart.EventDefinition;
 import shaders.*;
 import ui.*;
 import config.*;
 import editors.*;
-import title.*;
 import transition.data.*;
 import stages.*;
 import objects.*;
 import cutscenes.*;
-import cutscenes.data.*;
 import events.*;
 import note.*;
-import note.NoteType.NoteTypeDefinition;
 import caching.*;
-import editors.chart.ChartingState;
 
+import Chart.ChartFormat;
+import Chart.EventFormat;
+import Chart.EventDefinition;
+import note.NoteType.NoteTypeDefinition;
+import editors.chart.ChartingState;
 import flixel.FlxBasic;
-import flixel.math.FlxAngle;
 import flixel.group.FlxGroup;
-import flixel.group.FlxSpriteGroup;
 import haxe.Json;
 import results.ResultsState;
 import freeplay.FreeplayState;
-import Highscore.SongStats;
 import flixel.FlxState;
 import openfl.utils.Assets;
 import flixel.math.FlxRect;
 import openfl.system.System;
-import Chart.ChartFormat;
-import Chart.EventFormat;
-import Song.SongEvents;
 import extensions.flixel.FlxCameraExt;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
-import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
@@ -45,7 +38,6 @@ import flixel.sound.FlxSound;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxTimer;
@@ -56,7 +48,6 @@ import modding.PolymodHandler;
 import openfl.filters.ShaderFilter;
 import story.StoryMenuState;
 import data.OrderedMap;
-import thx.Path;
 
 using StringTools;
 
@@ -1175,7 +1166,7 @@ class PlayState extends MusicBeatState
 	}
 
 	function sortByEventStuff(obj1:EventDefinition, obj2:EventDefinition):Int{
-		var r:Int = FlxSort.byValues(FlxSort.ASCENDING, obj1.time + (Events.ignoreOffsets.contains(obj1.tag.split(";")[0]) ? 0 : Config.offset), obj2.time + (Events.ignoreOffsets.contains(obj2.tag.split(";")[0]) ? 0 : Config.offset));
+		var r:Int = FlxSort.byValues(FlxSort.ASCENDING, obj1.time + (Events.ignoreOffsets.contains(obj1.tag.split(";")[0]) || obj1.time <= 0 ? 0 : Config.offset), obj2.time + (Events.ignoreOffsets.contains(obj2.tag.split(";")[0]) || obj2.time <= 0 ? 0 : Config.offset));
 		return (r != 0) ? r : FlxSort.byValues(FlxSort.ASCENDING, obj1.lane, obj2.lane);
 	}
 
@@ -1643,7 +1634,7 @@ class PlayState extends MusicBeatState
 			var removeFromEvents:Array<EventDefinition> = [];
 			for(event in eventList){
 				var prefix = event.tag.split(";")[0];
-				var eventTime = event.time + (Events.ignoreOffsets.contains(prefix) ? 0 : Config.offset);
+				var eventTime = event.time + (Events.ignoreOffsets.contains(prefix) || event.time <= 0 ? 0 : Config.offset);
 				if(eventTime < 0) { eventTime = 0; }
 				if(eventTime > Conductor.songPosition){ break; }
 				else{
@@ -2548,9 +2539,7 @@ class PlayState extends MusicBeatState
 		notes.forEachAlive(function(note){ note.beat(curBeat); });
 		for(script in scripts){ script.beat(curBeat); }
 
-		managedSounds = managedSounds.filter(function(sound:FlxSound):Bool{
-			return sound != null;
-		});
+		managedSounds = managedSounds.filter(function(sound:FlxSound):Bool{ return sound != null; });
 	}
 
 	public function executeEvent(tag:String):Void{
@@ -2908,17 +2897,16 @@ class PlayState extends MusicBeatState
 	}
 
 	function sortNotes(){
-		notes.sort(noteSortThing, FlxSort.DESCENDING);
+		notes.members = notes.members.filter(function(note:Note):Bool{ return note != null; });
+		notes.sort(function(order:Int, obj1:Note, obj2:Note){
+			return FlxSort.byValues(order, obj1.strumTime, obj2.strumTime);
+		}, FlxSort.DESCENDING);
 	}
 
 	public function playSound(_embeddedSound:flixel.system.FlxAssets.FlxSoundAsset, _volume:Float = 1.0, _looped:Bool = false, ?_group:Null<flixel.sound.FlxSoundGroup>, _autoDestroy:Bool = true, ?_onComplete:Null<() -> Void>):FlxSound{
 		var sound = FlxG.sound.play(_embeddedSound, _volume, _looped, _group, _autoDestroy, _onComplete);
 		managedSounds.push(sound);
 		return sound;
-	}
-
-	public static inline function noteSortThing(Order:Int, Obj1:Note, Obj2:Note):Int{
-		return FlxSort.byValues(Order, Obj1.strumTime, Obj2.strumTime);
 	}
 
 	function songPreload():Void {

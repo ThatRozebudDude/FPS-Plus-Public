@@ -2702,7 +2702,7 @@ class ChartingState extends MusicBeatState
 		FlxG.save.data.chart = Json.stringify(chart);
 		FlxG.save.data.events = Json.stringify(chartEvents);
 		SaveManager.previousSave();
-		if(doAlert){ createAlert("Creating autosave.", 2); }
+		if(doAlert){ createAlert("Creating autosave.", 4); }
 	}
 
 	function loadAutosave():Void{

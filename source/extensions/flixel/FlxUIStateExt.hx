@@ -57,8 +57,9 @@ class FlxUIStateExt extends FlxUIState
 		
 		var coverSprite:FlxSprite = new FlxSprite().loadGraphic(coverBitmap);
 		coverSprite.scale.set(1280, 720);
-		coverSprite.x = (coverCamera.width - coverSprite.width) / 2;
-		coverSprite.y = (coverCamera.height - coverSprite.height) / 2;
+		coverSprite.updateHitbox();
+		//coverSprite.x = (coverCamera.width - coverSprite.width) / 2;
+		//coverSprite.y = (coverCamera.height - coverSprite.height) / 2;
 		coverSprite.antialiasing = false;
 		coverSprite.cameras = [coverCamera];
 		add(coverSprite);

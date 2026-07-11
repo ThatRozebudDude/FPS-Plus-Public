@@ -24,8 +24,7 @@ class ComboPopup extends FlxSpriteGroup
 
 	static final ratingList = ["sick", "good", "bad", "shit"];
 
-	public function new(_x:Float, _y:Float, _ratingInfo:PopupInfo, _numberInfo:PopupInfo, _comboBreakInfo:PopupInfo)
-	{
+	public function new(_x:Float, _y:Float, _ratingInfo:PopupInfo, _numberInfo:PopupInfo, _comboBreakInfo:PopupInfo){
 		super(_x, _y);
 
 		ratingInfo = _ratingInfo;
@@ -60,6 +59,7 @@ class ComboPopup extends FlxSpriteGroup
 
 			PlayState.instance.tweenManager.tween(digit, {alpha: 0}, 0.2, {
 				onComplete: function(tween:FlxTween){
+					remove(digit, true);
 					digit.destroy();
 				},
 				startDelay: Conductor.getCrotchet()
@@ -70,11 +70,16 @@ class ComboPopup extends FlxSpriteGroup
 		}
 
 		if(limitSprites){
+			var objToRemove:Array<FlxSprite> = [];
 			for(obj in members){
 				if(obj.ID == 0){
-					PlayState.instance.tweenManager.cancelTweensOf(obj);
-					obj.destroy();
+					objToRemove.push(obj);
 				}
+			}
+			for(obj in objToRemove){
+				PlayState.instance.tweenManager.cancelTweensOf(obj);
+				remove(obj, true);
+				obj.destroy();
 			}
 		}
 		for(num in numbersToAdd){ add(num); }
@@ -101,17 +106,23 @@ class ComboPopup extends FlxSpriteGroup
 		
 		PlayState.instance.tweenManager.tween(ratingSprite, {alpha: 0}, 0.2, {
 			onComplete: function(tween:FlxTween){
+				remove(ratingSprite, true);
 				ratingSprite.destroy();
 			},
 			startDelay: Conductor.getCrotchet()
 		});
 		
 		if(limitSprites){
+			var objToRemove:Array<FlxSprite> = [];
 			for(obj in members){
 				if(obj.ID == 1){
-					PlayState.instance.tweenManager.cancelTweensOf(obj);
-					obj.destroy();
+					objToRemove.push(obj);
 				}
+			}
+			for(obj in objToRemove){
+				PlayState.instance.tweenManager.cancelTweensOf(obj);
+				remove(obj, true);
+				obj.destroy();
 			}
 		}
 		add(ratingSprite);
@@ -135,17 +146,23 @@ class ComboPopup extends FlxSpriteGroup
 		
 		PlayState.instance.tweenManager.tween(breakSprite, {alpha: 0}, 0.2, {
 			onComplete: function(tween:FlxTween){
+				remove(breakSprite, true);
 				breakSprite.destroy();
 			},
 			startDelay: Conductor.getCrotchet() * 1.5
 		});
 		
 		if(limitSprites){
+			var objToRemove:Array<FlxSprite> = [];
 			for(obj in members){
 				if(obj.ID == 2){
-					PlayState.instance.tweenManager.cancelTweensOf(obj);
-					obj.destroy();
+					objToRemove.push(obj);
 				}
+			}
+			for(obj in objToRemove){
+				remove(obj, true);
+				PlayState.instance.tweenManager.cancelTweensOf(obj);
+				obj.destroy();
 			}
 		}
 		add(breakSprite);
