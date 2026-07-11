@@ -57,18 +57,18 @@ class Chart
 	public static function chartFromSong(song:String, difficulty:String = "normal"):ChartFormat{
 		var path = Paths.json("chart-" + difficulty.toLowerCase(), "data/songs/" + song.toLowerCase());
 		#if BACKWARD_COMPATIBILITY
-		if (!Utils.exists(path)){
+		if(!Utils.exists(path)){
 			path = Paths.json(song.toLowerCase() + (difficulty == "normal" ? "" : "-" + difficulty.toLowerCase()), "data/songs/" + song.toLowerCase());
 		}
 		#end
 
-		if (!Utils.exists(path)){
+		if(!Utils.exists(path)){
 			trace("Chart for \"" + song + "\" with difficulty \"" + difficulty + "\" not found!");
 			return getEmptyChart();
 		}
 
 		var raw = Utils.getText(path);
-		while (!raw.endsWith("}")){
+		while(!raw.endsWith("}")){
 			raw = raw.substr(0, raw.length - 1);
 		}
 
@@ -113,8 +113,8 @@ class Chart
 
 		chart.meta.player = legacyChart.player1;
 		chart.meta.opponent = legacyChart.player2;
-		if (legacyChart.gf != null){ chart.meta.speaker = legacyChart.gf; }
-		if (legacyChart.stage != null){ chart.meta.stage = legacyChart.stage; }
+		if(legacyChart.gf != null){ chart.meta.speaker = legacyChart.gf; }
+		if(legacyChart.stage != null){ chart.meta.stage = legacyChart.stage; }
 
 		chart.meta.bpm[0].bpm = legacyChart.bpm;
 
@@ -133,12 +133,12 @@ class Chart
 
 			for(note in section.sectionNotes){
 				var player:Bool = true;
-				if ((!section.mustHitSection && note[1] < 4) || (section.mustHitSection && note[1] > 3)){
+				if((!section.mustHitSection && note[1] < 4) || (section.mustHitSection && note[1] > 3)){
 					player = false;
 				}
 
 				var tag:String = "";
-				if (note[3] != null && note[3] is String){ tag = note[3]; }
+				if(note[3] != null && note[3] is String){ tag = note[3]; }
 				
 				chart.notes.push({
 					time: note[0],
@@ -174,13 +174,28 @@ class Chart
 	public static function eventsFromSong(song:String):EventFormat{
 		var path = Paths.json("events", "data/songs/" + song.toLowerCase());
 
-		if (!Utils.exists(path)){
+		if(!Utils.exists(path)){
+			#if BACKWARD_COMPATIBILITY
+			for(difficulty in ["hard", "normal", "easy"]){
+				var path = Paths.json(song.toLowerCase() + (difficulty == "normal" ? "" : "-" + difficulty.toLowerCase()), "data/songs/" + song.toLowerCase());
+				if(Utils.exists(path)){
+					var raw = Utils.getText(path);
+					while(!raw.endsWith("}")){
+						raw = raw.substr(0, raw.length - 1);
+					}
+					var chartJson:Dynamic = Json.parse(raw);
+					if(chartJson.meta == null){
+						return convertLegacyEvents({events:[]}, song);
+					}
+				}
+			}
+			#end
 			trace("Events for \"" + song + "\" not found!");
 			return getEmptyEvents();
 		}
 
 		var raw = Utils.getText(path);
-		while (!raw.endsWith("}")){
+		while(!raw.endsWith("}")){
 			raw = raw.substr(0, raw.length - 1);
 		}
 
@@ -238,7 +253,7 @@ class Chart
 
 			if(Utils.exists(chartPath)){
 				//Get chart for mustHitSections.
-				var legacyChart:LegacySong = Json.parse(Utils.getText(chartPath)).song   ;
+				var legacyChart:LegacySong = Json.parse(Utils.getText(chartPath)).song;
 
 				//For some reason trying to initialize a stage is breaking everything if someone can get it to work that would be nice.
 				//Regex instead. For fun. Also I guess it doesn't need to create all the stage stuff so that's kinda nice.
