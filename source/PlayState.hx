@@ -2903,7 +2903,7 @@ class PlayState extends MusicBeatState
 		}, FlxSort.DESCENDING);
 	}
 
-	public function playSound(_embeddedSound:flixel.system.FlxAssets.FlxSoundAsset, _volume:Float = 1.0, _looped:Bool = false, ?_group:Null<flixel.sound.FlxSoundGroup>, _autoDestroy:Bool = true, ?_onComplete:Null<() -> Void>):FlxSound{
+	public function playSound(_embeddedSound:flixel.system.FlxAssets.FlxSoundAsset, _volume:Float = 1.0, _looped:Bool = false, ?_group:flixel.sound.FlxSoundGroup, _autoDestroy:Bool = true, ?_onComplete:Null<() -> Void>):FlxSound{
 		var sound = FlxG.sound.play(_embeddedSound, _volume, _looped, _group, _autoDestroy, _onComplete);
 		managedSounds.push(sound);
 		return sound;

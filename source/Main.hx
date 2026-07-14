@@ -50,9 +50,10 @@ class Main extends Sprite
 		fpsDisplay.visible = true;
 		fpsDisplay.alpha = 1;
 
-		untyped FlxG.cameras = new extensions.flixel.system.frondEnds.CameraFrontEndExt();
-
 		var game:FlxGame = new FlxGame(1280, 720, Startup, 60, 60, true);
+
+		untyped FlxG.cameras = new extensions.flixel.system.frondEnds.CameraFrontEndExt();
+		untyped FlxG.sound = new extensions.flixel.system.frondEnds.SoundFrontEndExt();
 
 		@:privateAccess
 		game._customSoundTray = ui.FunkinSoundTray;

@@ -129,7 +129,7 @@ class PhillyErect extends BaseStage
 
 	function trainStart():Void{
 		trainMoving = true;
-		trainSound = playstate.playSound(Paths.sound("week3/train_passes"), 0.7);
+		trainSound = playstate.playSound(Paths.sound("week3/train_passes"), 1);
 	}
 
 	function updateTrainPos():Void{
