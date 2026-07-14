@@ -1,6 +1,6 @@
 package characters;
 
-import objects.DeltaTrail;
+import flixel.addons.effects.FlxTrail;
 
 class Spirit extends CharacterInfoBase
 {
@@ -29,13 +29,14 @@ class Spirit extends CharacterInfoBase
 		info.functions.create = create;
 	}
 
+	var trail:FlxTrail;
+
 	function create(character:Character):Void{
-		trail = new DeltaTrail(character.getSprite(), null, 7, 3 / 60, 0.5);
+		trail = new FlxTrail(character.getSprite(), null, 7, 3 / 60, 0.5);
 		trail.blend = BlendMode.ADD;
 		trail.color = 0xFF741722;
+		trail.antialiasing = false;
 		addToCharacter(trail);
 	}
-
-	
 
 }

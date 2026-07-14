@@ -10,8 +10,6 @@
 
 - Chart Editor
 	- Get the waveforms to not offset weirdly at the begining of songs when the camera moves.
-	- Better Note Type (Maybe Event) sorting.
-	- Sound effects? Maybe?
 
 - Character Editor
 	- Kinda like a mix of the offset editor and the debug Character Compare thing.

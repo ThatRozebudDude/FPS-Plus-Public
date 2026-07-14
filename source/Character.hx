@@ -75,8 +75,6 @@ class Character extends FlxSpriteGroup
 
 	var curOffset = new FlxPoint();
 
-	//var added:Bool = false;
-
 	public var deathSound:String = "gameOver/fnf_loss_sfx";
 	public var deathSong:String = "gameOver/gameOver";
 	public var deathSongEnd:String = "gameOver/gameOverEnd";
@@ -125,7 +123,6 @@ class Character extends FlxSpriteGroup
 	}
 
 	override function update(elapsed:Float){
-		
 		if (!debugMode && !noLogic){
 			if (!isPlayer){
 				//opponent stuff
@@ -175,7 +172,14 @@ class Character extends FlxSpriteGroup
 		timeInCurrentAnimation += elapsed;
 
 		super.update(elapsed);
+	}
 
+	override function destroy():Void{
+		for(obj in members.copy()){
+			remove(obj);
+			obj.destroy();
+		}
+		super.destroy();
 	}
 
 	public function dance(?ignoreDebug:Bool = false):Void{

@@ -185,6 +185,7 @@ class Chart
 					}
 					var chartJson:Dynamic = Json.parse(raw);
 					if(chartJson.meta == null){
+						trace("Events for \"" + song + "\" not found, generating camera events using " + difficulty + " chart.");
 						return convertLegacyEvents({events:[]}, song);
 					}
 				}
