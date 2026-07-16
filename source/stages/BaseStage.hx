@@ -24,6 +24,7 @@ class BaseStage extends Script
 
 	public var extraData:Map<String, Dynamic> = new Map<String, Dynamic>();
 	public var events:Map<String, (String)->Void> = new Map<String, (String)->Void>();
+	public var preprocessEvents:Map<String, (String)->Void> = new Map<String, (String)->Void>();
 	public var instantStart:Bool = false;
 
 	public var backgroundElements:Array<Dynamic> = [];
@@ -72,11 +73,13 @@ class BaseStage extends Script
 	/**
 	 * Adds arbitrary info to the stage that can be read in PlayState.
 	 *
-	 * @param	name	The name of the event.
-	 * @param	func	The function that gets called when the event is triggered. Must have no arguments and no return type.
+	 * @param	name		The name of the event.
+	 * @param	func		The function that gets called when the event is triggered.
+	 * @param	preprocess	The function that gets called before the song if the event is present.
 	 */
-	public function addEvent(name:String, func:(String)->Void){
-		events.set(name, func);
+	public function addEvent(name:String, ?func:(String)->Void, ?preprocess:(String)->Void){
+		if(func != null){ events.set(name, func); }
+		if(preprocess != null){ preprocessEvents.set(name, preprocess); }
 	}
 
 	/**

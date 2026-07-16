@@ -66,10 +66,11 @@ If you want to extend the extra data properties you can create a script to read 
 
 ## Advanced Stage Scripting
 
-You can add stage specific events that can be charted in the Chart Editor but only work when this specific stage is selected. To do this you use `addEvent(prefix, function)` where:
+You can add stage specific events that can be charted in the Chart Editor but only work when this specific stage is selected. To do this you use `addEvent(prefix, function, preprocess)` where:
 
 - `prefix`: A string that will match to the begining of the event before any arguments.
 - `function`: A `Void` function that takes a `String` as an argument. The argument is the event tag. You can use `Events.getArgs(tag)` to automatically separate the arguments out of the tag into a string array for easier interpretation.
+- `preprocess`: A `Void` function that takes a `String` as an argument. The argument is the event tag. You can use `Events.getArgs(tag)` to automatically separate the arguments out of the tag into a string array for easier interpretation.
 
 Additionally, since stages are an extension of scripts you can override different functions that will get automatically called by `PlayState`. If you want to check out the full list of functions look [here](https://github.com/ThatRozebudDude/FPS-Plus-Public/wiki/Generic-Scripts#functions).
 

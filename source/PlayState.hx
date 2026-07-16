@@ -2561,6 +2561,9 @@ class PlayState extends MusicBeatState
 		if(Events.events.exists(prefix) && Events.events.get(prefix).preprocessFunction != null){
 			Events.events.get(prefix).preprocessFunction(tag);
 		}
+		else if(stage.preprocessEvents.exists(prefix)){
+			stage.preprocessEvents.get(prefix)(tag);
+		}
 	}
 
 	public function defaultNoteHit(note:Note, character:Character):Void{
