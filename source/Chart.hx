@@ -139,6 +139,7 @@ class Chart
 
 				var tag:String = "";
 				if(note[3] != null && note[3] is String){ tag = note[3]; }
+				if(section.altAnim != null && section.altAnim == true && tag == ""){ tag = "animSet;alt"; }
 				
 				chart.notes.push({
 					time: note[0],
@@ -347,6 +348,7 @@ typedef LegacySection = {
 	var mustHitSection:Bool;
 	var bpm:Float;
 	var changeBPM:Bool;
+	var altAnim:Null<Bool>;
 }
 
 typedef LegacyEvents = {
