@@ -148,12 +148,17 @@ class Dropdown extends UIElement
 
 	function openDropdown():Void{
 		dropdownOpened = true;
-		dropdownStartIndex = 0;
 		dropdownSymbolBox.fillColor = UIColors.INTERACTION_COLOR;
 		dropdownSymbol.flipY = true;
 		dropdownSymbol.color = UIColors.INTERACTION_TEXT_COLOR;
-		updateDropdownText();
 		manager.focused = this;
+		if(values.length <= MAX_DROPDOWN_COUNT){
+			dropdownStartIndex = 0;
+		}
+		else{
+			dropdownStartIndex = (currentIndex + MAX_DROPDOWN_COUNT > values.length) ? (values.length - MAX_DROPDOWN_COUNT) : currentIndex;
+		}
+		updateDropdownText();
 	}
 
 	function closeDropdown():Void{
