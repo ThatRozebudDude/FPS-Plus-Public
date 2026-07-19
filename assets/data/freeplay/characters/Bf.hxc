@@ -65,8 +65,6 @@ class Boyfriend extends DJCharacter
 		var soundData = Utils.readDirectory("assets/sounds/freeplay/cartoons/");
 		for(i in 0...soundData.length){ soundData[i] = soundData[i].split(".ogg")[0]; }
 
-		FlxG.sound.list.add(sound);
-
 		frameCallback = function(name, frame, index) {
 			switch(name){
 				case "idle2start":
@@ -75,6 +73,7 @@ class Boyfriend extends DJCharacter
 						//trace(soundPath);
 						sound.loadEmbedded(soundPath, true);
 						sound.play(true);
+						FlxG.sound.list.add(sound);
 						FlxG.sound.music.fadeOut(1, 0.25);
 						FlxG.sound.play(Paths.sound("freeplay/remoteClick"), 0.7, false);
 					}
