@@ -8,9 +8,6 @@ import flixel.util.FlxColor;
 
 using StringTools;
 
-@:hscriptClass
-class ScriptedTitleVideo extends TitleVideo implements polymod.hscript.HScriptedClass{}
-
 class TitleVideo extends FlxUIStateExt
 {
 	var oldFPS:Int = VideoHandler.MAX_FPS;
@@ -28,7 +25,7 @@ class TitleVideo extends FlxUIStateExt
 			VideoHandler.MAX_FPS = 60;
 
 			video = new VideoHandler();
-			video.playMP4(Paths.video("klaskiiTitle"), function(){
+			video.playMP4(Paths.video("intro"), function(){
 				next();
 				#if web
 				VideoHandler.MAX_FPS = oldFPS;

@@ -40,9 +40,6 @@ import editors.chart.ChartingState;
 
 using StringTools;
 
-@:hscriptClass
-class ScriptedFreeplayState extends FreeplayState implements polymod.hscript.HScriptedClass{}
-
 class FreeplayState extends MusicBeatState
 {
 

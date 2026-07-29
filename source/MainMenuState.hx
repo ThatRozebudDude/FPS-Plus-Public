@@ -31,9 +31,6 @@ import caching.*;
 
 using StringTools;
 
-@:hscriptClass
-class ScriptedMainMenuState extends MainMenuState implements polymod.hscript.HScriptedClass{}
-
 class MainMenuState extends MusicBeatState
 {
 

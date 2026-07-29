@@ -266,12 +266,12 @@ class PolymodHandler
 	}*/
 
 	static function onPolymodError(error:PolymodError):Void{
-		// Perform an action based on the error code.
-		switch (error.code){ //Future for polymod stuff.
+		//Perform an action based on the error code.
+		switch(error.code){ //Future for polymod stuff.
 			case MOD_MISSING_ICON:
 				
 			default:
-				// Log the message based on its severity.
+				//Log the message based on its severity.
 				switch (error.severity){
 					case INFO | DEBUG:
 						//does nothing lol
@@ -279,19 +279,6 @@ class PolymodHandler
 						trace(error.message, null);
 				}
 		}
-
-		/*switch (error.code){
-			case MISSING_ICON:
-				
-			default:
-				// Log the message based on its severity.
-				switch (error.severity){
-					case NOTICE:
-						//does nothing lol
-					case WARNING | ERROR:
-						trace(error.message, null);
-				}
-		}*/
 	}
 
 	static function buildImports():Void{
@@ -355,9 +342,9 @@ class PolymodHandler
 		Polymod.addDefaultImport(scripts.ScriptedState);
 		Polymod.addDefaultImport(MusicBeatSubState);
 		
-		Polymod.addDefaultImport(flixel.system.FlxAssets.FlxShader);
-
+		Polymod.addDefaultImport(flixel.FlxSprite);
 		Polymod.addDefaultImport(openfl.display.Sprite);
+		Polymod.addDefaultImport(flixel.system.FlxAssets.FlxShader);
 
 		Polymod.addDefaultImport(transition.BaseTransition);
 		

@@ -9,7 +9,6 @@ import flixel.FlxG;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.addons.display.FlxBackdrop;
-import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 
 class PhillyBlazin extends BaseStage

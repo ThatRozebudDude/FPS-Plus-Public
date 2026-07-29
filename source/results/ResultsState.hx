@@ -13,7 +13,7 @@ import Highscore.Rank;
 import PlayState.ScoreStats;
 import flixel.math.FlxPoint;
 import extensions.flixel.FlxTextExt;
-import freeplay.ScrollingText;
+import graphics.ScrollingGraphic;
 import flixel.text.FlxText;
 import flixel.addons.display.FlxBackdrop;
 import flixel.group.FlxSpriteGroup;
@@ -378,7 +378,7 @@ class ResultsState extends FlxUIStateExt
 			var tempText = new FlxText(0, 0, 0, textArray[textIndex] + " ");
 			tempText.setFormat(Paths.font("5by7"), 50, 0xFFFFFFFF);
 
-			var scrolling:FlxBackdrop = ScrollingText.createScrollingText(0, 160 + (135 * (i+1) / 2), tempText);
+			var scrolling:FlxBackdrop = ScrollingGraphic.createScrollingGraphicFromSprite(0, 160 + (135 * (i+1) / 2), tempText);
 			//scrolling.velocity.x = FlxG.random.int(5, 9);
 			scrolling.velocity.x = (i % 2 == 0) ? -8 : 8;
 			scrolling.color = character.scrollingTextColor;
@@ -395,7 +395,7 @@ class ResultsState extends FlxUIStateExt
 		tempRankText.setFormat(Paths.font("5by7"), 100, 0xFFFFFFFF);
 		tempRankText.leading = 10;
 
-		scrollingRankName = ScrollingText.createScrollingText(1280 - tempRankText.width, 0, tempRankText, Y);
+		scrollingRankName = ScrollingGraphic.createScrollingGraphicFromSprite(1280 - tempRankText.width, 0, tempRankText, Y);
 		scrollingRankName.velocity.y = 30;
 		scrollingRankName.visible = false;
 		scrollingRankName.spacing.y = 57;

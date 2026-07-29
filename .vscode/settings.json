@@ -4,6 +4,10 @@
         "*.hscript": "haxe",
         "*.haxe": "haxe",
         "*.hxs": "haxe",
-        "*.hxc": "haxe"
-    }
+        "*.hxc": "haxe"	
+    },
+	"haxe.enableCompilationServer": false,
+	"haxe.exclude": [
+		"polymod"
+	]
 }

@@ -3,7 +3,6 @@ package stages;
 import flixel.sound.FlxSound;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 

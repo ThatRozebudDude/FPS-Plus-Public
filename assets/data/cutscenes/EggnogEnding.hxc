@@ -1,6 +1,5 @@
 package cutscenes;
 
-import flixel.FlxSprite;
 import flixel.FlxG;
 
 class EggnogEnding extends ScriptedCutscene

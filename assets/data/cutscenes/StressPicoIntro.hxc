@@ -3,7 +3,6 @@ package cutscenes;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.sound.FlxSound;
-import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
 import openfl.filters.ShaderFilter;

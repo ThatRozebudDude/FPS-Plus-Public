@@ -1,6 +1,5 @@
 package characters;
 
-import flixel.FlxSprite;
 import flixel.FlxG;
 
 class PicoChristmasDead extends CharacterInfoBase

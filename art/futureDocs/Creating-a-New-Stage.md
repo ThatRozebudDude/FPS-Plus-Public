@@ -81,8 +81,6 @@ Here is the basic stage from Week 1:
 ```haxe
 package stages;
 
-import flixel.FlxSprite;
-
 class Stage extends BaseStage
 {
 
@@ -124,7 +122,6 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.sound.FlxSound;
 import flixel.FlxG;
-import flixel.FlxSprite;
 
 class Philly extends BaseStage
 {

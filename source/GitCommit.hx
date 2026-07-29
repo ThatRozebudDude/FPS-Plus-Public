@@ -41,7 +41,7 @@ class GitCommit
 			}
 		}
 
-		trace('Git Commit ID: ${commitHash}');
+		//trace('Git Commit ID: ${commitHash}');
 
 		// Generates a string expression
 		return macro $v{commitHash};
@@ -89,7 +89,7 @@ class GitCommit
 			}
 		}
 
-		trace('Git Branch Name: ${branchName}');
+		//trace('Git Branch Name: ${branchName}');
 
 		// Generates a string expression
 		return macro $v{branchName};

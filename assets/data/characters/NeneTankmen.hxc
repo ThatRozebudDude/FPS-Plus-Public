@@ -2,7 +2,6 @@ package characters;
 
 import objects.ABot;
 import flixel.FlxG;
-import flixel.FlxSprite;
 import shaders.DropShadowShader;
 
 class NeneTankmen extends CharacterInfoBase

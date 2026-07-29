@@ -2,17 +2,15 @@ package freeplay;
 
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
 import flixel.text.FlxText;
 import flixel.math.FlxPoint;
-import freeplay.ScrollingTextInfo;
 import flixel.addons.display.FlxBackdrop;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import sys.FileSystem;
 import flixel.sound.FlxSound;
-import freeplay.ScrollingText;
+import graphics.ScrollingGraphic;
 
 class Boyfriend extends DJCharacter
 {
@@ -20,7 +18,7 @@ class Boyfriend extends DJCharacter
 	var soundData:Array<Dynamic> = [];
 
 	var scrollingText:FlxSpriteGroup;
-	var scrollingTextStuff:Array<ScrollingTextInfo> = [];
+	var scrollingTextStuff:Array<Dynamic> = [];
 
 	var cardFlash:FlxSprite;
 	var cardPinkFlash:FlxSprite;
@@ -241,7 +239,6 @@ class Boyfriend extends DJCharacter
 	}
 
 	function addScrollingText():Void{
-
 		scrollingText.forEachExists(function(text){ text.destroy(); });
 		scrollingText.clear();
 
@@ -249,12 +246,11 @@ class Boyfriend extends DJCharacter
 			var tempText = new FlxText(0, 0, 0, x.text);
 			tempText.setFormat(x.font, x.size, x.color);
 
-			var scrolling:FlxBackdrop = ScrollingText.createScrollingText(x.position.x, x.position.y, tempText);
+			var scrolling:FlxBackdrop = ScrollingGraphic.createScrollingGraphicFromSprite(x.position.x, x.position.y, tempText);
 			scrolling.velocity.x = x.velocity * 60;
 			
 			scrollingText.add(scrolling);
 		}
-		
 	}
 
 }

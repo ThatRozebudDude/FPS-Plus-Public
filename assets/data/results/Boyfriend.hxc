@@ -2,7 +2,6 @@ package results;
 
 import flixel.util.FlxTimer;
 import flixel.FlxG;
-import flixel.FlxSprite;
 
 class Boyfriend extends ResultsCharacter
 {

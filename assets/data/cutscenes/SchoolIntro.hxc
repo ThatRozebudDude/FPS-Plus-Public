@@ -1,7 +1,6 @@
 package cutscenes;
 
 import flixel.util.FlxColor;
-import flixel.FlxSprite;
 import flixel.FlxG;
 import ui.dialogue.DialogueBox;
 import flixel.util.FlxTimer;

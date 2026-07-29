@@ -3,7 +3,7 @@ package title;
 import transition.data.InstantTransition;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import freeplay.ScrollingText;
+import graphics.ScrollingGraphic;
 import flixel.addons.display.FlxBackdrop;
 import flixel.text.FlxText;
 import flixel.FlxSprite;
@@ -57,11 +57,11 @@ class TitleEasterEgg extends MusicBeatState
 		var tempText = new FlxText(0, 0, 0, "LOOK AT HIM GO ");
 		tempText.setFormat(Paths.font("5by7"), 80, 0xFFFFFFFF);
 
-		topText = ScrollingText.createScrollingText(0, 50, tempText);
+		topText = ScrollingGraphic.createScrollingGraphicFromSprite(0, 50, tempText);
 		topText.velocity.x = -50;
 
-		tempText.text = "FUCK IT UP LIL' BF ";
-		bottomText = ScrollingText.createScrollingText(0, 720 - 50 - 60, tempText);
+		tempText.text = "FUCK IT UP LIL' BFF ";
+		bottomText = ScrollingGraphic.createScrollingGraphicFromSprite(0, 720 - 50 - 60, tempText);
 		bottomText.velocity.x = 50;
 
 		add(waveform);

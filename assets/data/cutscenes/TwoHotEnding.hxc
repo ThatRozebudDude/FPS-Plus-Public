@@ -3,7 +3,6 @@ package cutscenes;
 import flixel.math.FlxMath;
 import transition.data.InstantTransition;
 import flixel.math.FlxPoint;
-import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
 
 class TwoHotEnding extends ScriptedCutscene

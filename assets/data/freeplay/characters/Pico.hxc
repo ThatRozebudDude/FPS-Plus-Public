@@ -4,7 +4,6 @@ import flixel.math.FlxMath;
 import flixel.addons.display.FlxBackdrop;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import sys.FileSystem;

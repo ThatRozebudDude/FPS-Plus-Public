@@ -1,6 +1,5 @@
 package stages;
 
-import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import shaders.WiggleEffect;

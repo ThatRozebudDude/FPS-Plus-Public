@@ -1,7 +1,6 @@
 package cutscenes;
 
 import transition.data.InstantTransition;
-import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
 
