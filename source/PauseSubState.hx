@@ -33,6 +33,13 @@ class PauseSubState extends MusicBeatSubState
 	public var songName:FlxTextExt;
 	public var songArtist:FlxTextExt;
 
+	public function new(playSoundOnOpen:Bool = true){
+		if(playSoundOnOpen){
+			FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
+		}
+		super();
+	}
+
 	override function create():Void{
 
 		instance = this;
@@ -115,8 +122,6 @@ class PauseSubState extends MusicBeatSubState
 		}
 
 		changeSelection();
-
-		FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
 
 		for(script in PlayState.instance.scripts){ script.pause(); }
 

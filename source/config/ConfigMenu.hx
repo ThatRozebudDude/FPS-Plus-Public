@@ -122,6 +122,7 @@ class ConfigMenu extends FlxUIStateExt
 	var showMissesValue:Int;
 	final showMissesTypes:Array<String> = ["off", "on", "combo breaks"];
 	var autoPauseValue:Bool;
+	var tabOutPauseValue:Bool;
 	var flashingLightsValue:Bool;
 	var fullscreenValue:Bool;
 	#if UPDATE_CHECKING var checkForUpdatesValue:Bool; #end
@@ -694,6 +695,7 @@ class ConfigMenu extends FlxUIStateExt
 		Config.showAccuracy = showAccuracyValue;
 		Config.showMisses = showMissesValue;
 		Config.autoPause = autoPauseValue;
+		Config.tabOutPause = tabOutPauseValue;
 		Config.flashingLights = flashingLightsValue;
 		Config.fullscreen = fullscreenValue;
 		#if UPDATE_CHECKING Config.checkForUpdates = checkForUpdatesValue; #end
@@ -769,6 +771,7 @@ class ConfigMenu extends FlxUIStateExt
 		showAccuracyValue = Config.showAccuracy;
 		showMissesValue = Config.showMisses;
 		autoPauseValue = Config.autoPause;
+		tabOutPauseValue = Config.tabOutPause;
 		flashingLightsValue = Config.flashingLights;
 		fullscreenValue = Config.fullscreen;
 		#if UPDATE_CHECKING checkForUpdatesValue = Config.checkForUpdates; #end
@@ -1294,7 +1297,7 @@ class ConfigMenu extends FlxUIStateExt
 			showMissesSetting.description = showMissesSetting.extraData[showMissesValue];
 		};
 
-		var autoPauseSettings = new ConfigOption("PAUSE WHEN UNFOCUSED", genericOnOff[autoPauseValue?0:1], "Pauses the game when the application is unfocused or minimized.");
+		var autoPauseSettings = new ConfigOption("RUN IN BACKGROUND", genericOnOff[autoPauseValue?1:0], "Allows the game to run when the application is unfocused or minimized.");
 		autoPauseSettings.optionUpdate = function(){
 			if (pressRight || pressLeft){
 				FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -1302,7 +1305,17 @@ class ConfigMenu extends FlxUIStateExt
 				FlxG.autoPause = autoPauseValue;
 			}
 
-			autoPauseSettings.setting = genericOnOff[autoPauseValue?0:1];
+			autoPauseSettings.setting = genericOnOff[autoPauseValue?1:0];
+		};
+		
+		var tabOutPauseSettings = new ConfigOption("PAUSE WHEN UNFOCUSED", genericOnOff[tabOutPauseValue?0:1], "Automatically pauses gameplay when the application unfocused or minimized.");
+		tabOutPauseSettings.optionUpdate = function(){
+			if (pressRight || pressLeft){
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				tabOutPauseValue = !tabOutPauseValue;
+			}
+
+			tabOutPauseSettings.setting = genericOnOff[tabOutPauseValue?0:1];
 		};
 
 		var flashingLightsSettings = new ConfigOption("FLASHING EFFECTS", genericOnOff[flashingLightsValue?0:1], "Determines whether certain bright or flashing effects that could cause eye strain will play.");
@@ -1379,7 +1392,7 @@ class ConfigMenu extends FlxUIStateExt
 							[keyBinds, ghostTap, noteOffset, scrollSpeed, resetAllScoresSettings],
 							[fpsCap, fullscreenSettings, bgDim, useGPU, showFPS, cacheSettings],
 							[downscroll, centeredNotes, noteSplash, noteGlow, showMissesSetting, showAccuracyDisplay, comboDisplay],
-							[extraCamStuff, camBopStuff, captionsStuff, flashingLightsSettings, autoPauseSettings, hpGain, hpDrain]
+							[extraCamStuff, camBopStuff, captionsStuff, flashingLightsSettings, tabOutPauseSettings, autoPauseSettings, hpGain, hpDrain]
 						];
 
 		#if UPDATE_CHECKING configOptions[2].push(checkForUpdatesSetting); #end //Insert update check setting.

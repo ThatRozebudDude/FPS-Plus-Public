@@ -1722,9 +1722,9 @@ class PlayState extends MusicBeatState
 		super.update(elapsed);
 	}
 
-	public dynamic function openPauseScreen():Void{
+	public dynamic function openPauseScreen(automatic:Bool = false):Void{
 		paused = true;
-		openSubState(new PauseSubState());
+		openSubState(new PauseSubState(!automatic));
 	}
 
 	public dynamic function openGameOver(?character:String):Void{
@@ -2962,6 +2962,13 @@ class PlayState extends MusicBeatState
 		Conductor.resetBPMChanges();
 		fromChartEditor = false;
 		fceForLilBuddies = false;
+	}
+
+	override function onFocusLost(){
+		if(!paused && Config.tabOutPause){
+			openPauseScreen(true);
+		}
+		super.onFocusLost();
 	}
 
 	override function onFocus(){
