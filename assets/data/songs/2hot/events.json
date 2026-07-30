@@ -16,7 +16,7 @@
 			"time": 9560.43956043956
 		},
 		{
-			"tag": "camZoom;0.68;2b;quartOut",
+			"tag": "camZoom;0.68;2b;quartOut;false",
 			"lane": 1,
 			"time": 9560.43956043956
 		},
@@ -31,7 +31,7 @@
 			"time": 10714.2857142857
 		},
 		{
-			"tag": "camZoom;0.75;1.9;expoOut",
+			"tag": "camZoom;0.75;1.9;expoOut;false",
 			"lane": 1,
 			"time": 10714.2857142857
 		},
@@ -66,7 +66,7 @@
 			"time": 41208.7912087912
 		},
 		{
-			"tag": "camZoom;0.68;2b;quartOut",
+			"tag": "camZoom;0.68;2b;quartOut;false",
 			"lane": 1,
 			"time": 41208.7912087912
 		},
@@ -81,7 +81,7 @@
 			"time": 42362.6373626374
 		},
 		{
-			"tag": "camZoom;0.75;1.9;expoOut",
+			"tag": "camZoom;0.75;1.9;expoOut;false",
 			"lane": 1,
 			"time": 42362.6373626374
 		},
@@ -106,7 +106,7 @@
 			"time": 51758.2417582417
 		},
 		{
-			"tag": "camZoom;0.68;2b;quartOut",
+			"tag": "camZoom;0.68;2b;quartOut;false",
 			"lane": 1,
 			"time": 51758.2417582417
 		},
@@ -121,7 +121,7 @@
 			"time": 52912.0879120879
 		},
 		{
-			"tag": "camZoom;0.75;1.9;expoOut",
+			"tag": "camZoom;0.75;1.9;expoOut;false",
 			"lane": 1,
 			"time": 52912.0879120879
 		},
@@ -431,7 +431,7 @@
 			"time": 80769.2307692308
 		},
 		{
-			"tag": "camZoom;0.68;2b;quartOut",
+			"tag": "camZoom;0.68;2b;quartOut;false",
 			"lane": 1,
 			"time": 80769.2307692308
 		},
@@ -466,7 +466,7 @@
 			"time": 81923.0769230769
 		},
 		{
-			"tag": "camZoom;0.75;1.9;expoOut",
+			"tag": "camZoom;0.75;1.9;expoOut;false",
 			"lane": 1,
 			"time": 81923.0769230769
 		},
@@ -541,7 +541,7 @@
 			"time": 86043.9560439561
 		},
 		{
-			"tag": "camZoom;0.68;2b;quartOut",
+			"tag": "camZoom;0.68;2b;quartOut;false",
 			"lane": 1,
 			"time": 86043.9560439561
 		},
@@ -571,7 +571,7 @@
 			"time": 87197.8021978022
 		},
 		{
-			"tag": "camZoom;0.75;1.9;expoOut",
+			"tag": "camZoom;0.75;1.9;expoOut;false",
 			"lane": 1,
 			"time": 87197.8021978022
 		},
@@ -801,7 +801,7 @@
 			"time": 117692.307692308
 		},
 		{
-			"tag": "camZoom;0.68;2b;quartOut",
+			"tag": "camZoom;0.68;2b;quartOut;false",
 			"lane": 1,
 			"time": 117692.307692308
 		},

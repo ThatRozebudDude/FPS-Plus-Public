@@ -16,13 +16,13 @@ class Spirit extends CharacterInfoBase
 		info.antialiasing = false;
 		info.focusOffset.set(254, 44);
 
-		addByPrefix("idle", offset(0, 0), "idle spirit_", 24, loop(false, 0), false, false);
+		addByPrefix("idle", offset(0, 0), "idle spirit_", 24, loop(true, 0), false, false);
 		addByPrefix("singUP", offset(0, 7), "up_", 24, loop(false, 0), false, false);
 		addByPrefix("singRIGHT", offset(0, 0), "right_", 24, loop(false, 0), false, false);
 		addByPrefix("singLEFT", offset(3, 0), "left_", 24, loop(false, 0), false, false);
 		addByPrefix("singDOWN", offset(64, 64), "spirit down_", 24, loop(false, 0), false, false);
 
-		info.bopFrequency = 1;
+		info.bopFrequency = 0;
 
 		addExtraData("scale", 6);
 
