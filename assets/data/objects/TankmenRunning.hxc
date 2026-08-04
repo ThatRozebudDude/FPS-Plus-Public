@@ -1,3 +1,5 @@
+package objects;
+
 import flixel.FlxG;
 
 class TankmenRunning extends ScriptedSprite

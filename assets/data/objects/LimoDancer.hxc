@@ -1,3 +1,5 @@
+package objects;
+
 class LimoDancer extends ScriptedSprite
 {
 	public function new(x:Float, y:Float){
