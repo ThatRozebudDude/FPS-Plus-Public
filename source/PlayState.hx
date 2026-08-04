@@ -1182,9 +1182,10 @@ class PlayState extends MusicBeatState
 
 		var hudNoteSkinInfo = hudNoteSkin.info;
 
+		var totalWidth:Float = 0;
+
 		for (i in 0...4){
-			
-			var babyArrow:FlxSprite = new FlxSprite(50, strumLineVerticalPosition);
+			var babyArrow:FlxSprite = new FlxSprite(Note.swagWidth * i, strumLineVerticalPosition);
 
 			switch(hudNoteSkinInfo.noteFrameLoadType){
 				case sparrow:
@@ -1196,8 +1197,6 @@ class PlayState extends MusicBeatState
 				default:
 					trace("not supported, sorry :[");
 			}
-
-			babyArrow.x += Note.swagWidth * i;
 
 			switch(hudNoteSkinInfo.arrowInfo[i].staticInfo.type){
 				case prefix:
@@ -1232,25 +1231,15 @@ class PlayState extends MusicBeatState
 
 			babyArrow.ID = i;
 
-			babyArrow.x += 50;
-
-			if (player == 1) {
+			if(player == 1) {
 				playerStrums.add(babyArrow);
 				babyArrow.animation.onFinish.add(function(name:String){
 					if(autoplay){
 						if(name == "confirm"){
-							babyArrow.animation.play('static', true);
+							babyArrow.animation.play("static", true);
 						}
 					}
 				});
-
-				if(!Config.centeredNotes && !forceCenteredNotes){
-					babyArrow.x += ((FlxG.width / 2));
-				}
-				else{
-					babyArrow.x += ((FlxG.width / 4));
-				}
-
 				playerCovers.add(noteCover);
 
 			}
@@ -1258,14 +1247,9 @@ class PlayState extends MusicBeatState
 				enemyStrums.add(babyArrow);
 				babyArrow.animation.onFinish.add(function(name:String){
 					if(name == "confirm"){
-						babyArrow.animation.play('static', true);
+						babyArrow.animation.play("static", true);
 					}
 				});
-
-				if(Config.centeredNotes || forceCenteredNotes){
-					babyArrow.x -= 1280;
-				}
-
 				enemyCovers.add(noteCover);
 			}
 
@@ -1292,13 +1276,38 @@ class PlayState extends MusicBeatState
 				}
 			});
 
-			babyArrow.animation.play('static');
+			babyArrow.animation.play("static");
+
+			if(i == 3){ totalWidth = babyArrow.x + babyArrow.width; }
 		}
 
 		if(player == 1){
 			//Prevents the game from lagging at first note splash.
 			NoteSplash.skinName = hudNoteSkinInfo.splashClass;
 			var preloadSplash = new NoteSplash(-2000, -2000, 0, true);
+
+			if(!Config.centeredNotes && !forceCenteredNotes){
+				playerStrums.forEach(function(arrow:FlxSprite){
+					arrow.x += (1280/2) + (((1280/2) - totalWidth)/2);
+				});
+			}
+			else{
+				playerStrums.forEach(function(arrow:FlxSprite){
+					arrow.x += ((1280 - totalWidth)/2);
+				});
+			}
+		}
+		else{
+			if(!Config.centeredNotes && !forceCenteredNotes){
+				enemyStrums.forEach(function(arrow:FlxSprite){
+					arrow.x += ((1280/2) - totalWidth)/2;
+				});
+			}
+			else{
+				enemyStrums.forEach(function(arrow:FlxSprite){
+					arrow.x -= 1280;
+				});
+			}
 		}
 	}
 
