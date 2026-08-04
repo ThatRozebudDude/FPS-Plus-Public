@@ -409,25 +409,17 @@ class ConfigMenu extends FlxUIStateExt
 						FlxTween.tween(categoryTitle, {x: categoryTitle.x - 120}, 0.4, {ease: FlxEase.quintOut});
 					}
 
-					/*if(holdUp && curListPosition == 0){
-						subMenuUpArrow.scale.set(0.7, 0.7);
-					}
-					else{
-						subMenuUpArrow.scale.set(1, 1);
-					}
+					//final upArrowScale:Float = holdUp ? 0.75 : 1;
+					//subMenuUpArrow.scale.set(upArrowScale, upArrowScale);
 
-					if(holdDown && curListPosition == 5){
-						subMenuDownArrow.scale.set(0.7, 0.7);
-					}
-					else{
-						subMenuDownArrow.scale.set(1, 1);
-					}*/
+					//final downArrowScale:Float = holdDown ? 0.75 : 1;
+					//subMenuDownArrow.scale.set(downArrowScale, downArrowScale);
 
-					if(Binds.pressed("menuCycleRight")){ nextCategoryArrow.scale.set(0.75, 0.75); }
-					else{ nextCategoryArrow.scale.set(1, 1); }
+					final cycleRightScale:Float = Binds.pressed("menuCycleRight") ? 0.75 : 1;
+					nextCategoryArrow.scale.set(cycleRightScale, cycleRightScale);
 
-					if(Binds.pressed("menuCycleLeft")){ prevCategoryArrow.scale.set(0.75, 0.75); }
-					else{ prevCategoryArrow.scale.set(1, 1); }
+					final cycleLeftScale:Float = Binds.pressed("menuCycleLeft") ? 0.75 : 1;
+					prevCategoryArrow.scale.set(cycleLeftScale, cycleLeftScale);
 
 					if(pressDown){
 						if(curListStartOffset + curListPosition < configOptions[curSelected].length-1){

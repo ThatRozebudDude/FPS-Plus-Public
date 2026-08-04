@@ -153,7 +153,7 @@ class PolymodHandler
 
 			for(dir in allModDirs){
 				if(!modOrder.contains(dir)){
-					modOrder.push(dir);
+					modOrder.unshift(dir);
 				}
 			}
 

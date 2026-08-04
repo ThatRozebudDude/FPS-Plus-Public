@@ -30,6 +30,9 @@ class KeyBindMenu extends FlxUIStateExt
 	var controlBox:FlxSprite;
 	var selectionBox:FlxSprite;
 
+	var smallUpArrow:FlxSprite;
+	var smallDownArrow:FlxSprite;
+
 	var infoText:FlxTextExt;
 
 	var selected:Int = 0;
@@ -101,6 +104,16 @@ class KeyBindMenu extends FlxUIStateExt
 		selectionBox = new FlxSprite(65, controlBox.y).makeGraphic(1150, Std.int(controlBox.height/SHOWN_KEYBIND_COUNT), 0xFFFFFFFF);
 		selectionBox.alpha = 0.4;
 		add(selectionBox);
+
+		smallUpArrow = new FlxSprite(0, controlBox.y - 10).loadGraphic(Paths.image("menu/config/smallArrow"));
+		smallUpArrow.y -= smallUpArrow.height;
+		smallUpArrow.screenCenter(X);
+		add(smallUpArrow);
+
+		smallDownArrow = new FlxSprite(0, controlBox.y + controlBox.height + 10).loadGraphic(Paths.image("menu/config/smallArrow"));
+		smallDownArrow.flipY = true;
+		smallDownArrow.screenCenter(X);
+		add(smallDownArrow);
 
 		for(i in 0...SHOWN_KEYBIND_COUNT){
 			var text:FlxTextExt = new FlxTextExt();
@@ -251,6 +264,12 @@ class KeyBindMenu extends FlxUIStateExt
 				}
 		}
 
+		//final upArrowScale:Float = Binds.pressed("menuUp") ? 0.75 : 1;
+		//smallUpArrow.scale.set(upArrowScale, upArrowScale);
+
+		//final downArrowScale:Float = Binds.pressed("menuDown") ? 0.75 : 1;
+		//smallDownArrow.scale.set(downArrowScale, downArrowScale);
+
 		if(!ConfigMenu.USE_MENU_MUSIC && ConfigMenu.USE_LAYERED_MUSIC && Math.abs(FlxG.sound.music.time - songLayer.time) > 20){
 			resyncMusic();
 		}
@@ -328,6 +347,9 @@ class KeyBindMenu extends FlxUIStateExt
 			bindSprites.remove(x);
 			x.destroy();
 		});
+
+		smallUpArrow.visible = selectionTop > 0;
+		smallDownArrow.visible = selectionTop < bindStrings.length - SHOWN_KEYBIND_COUNT;
 
 		for(i in 0...SHOWN_KEYBIND_COUNT){
 			if(i != setOptionToSelecting){
