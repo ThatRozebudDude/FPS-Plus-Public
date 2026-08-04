@@ -106,13 +106,14 @@ class ModManagerState extends FlxUIStateExt
 
 		bigInfoIcon = new FlxSprite(infoStart.x + 10, infoStart.y + 10).loadGraphic(Paths.image("menu/modMenu/defaultModIcon"));
 
-		bigInfoName = new FlxTextExt(infoStart.x + 100, infoStart.y + 50, 590, "Test Mod Name", 48);
-		bigInfoName.setFormat(Paths.font("Funkin-Bold", "otf"), 48, 0xFFFFFFFF, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		bigInfoName = new FlxTextExt(infoStart.x + 100, infoStart.y + 57, 590, "Test Mod Name", 48);
+		bigInfoName.setFormat(Paths.font("FunkinOptions", "otf"), 48, 0xFFFFFFFF, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		bigInfoName.y -= bigInfoName.height/2;
-		bigInfoName.borderSize = 3;
+		bigInfoName.borderSize = 4;
 
 		bigInfoDescription = new FlxTextExt(infoStart.x + 10, infoStart.y + 110, 680, "This is where the mod description will go. I need this text to be long to make sure it wraps properly and doesn't go outside of the text box. Hurray! Fabs is on base. Game!", 36);
-		bigInfoDescription.setFormat(Paths.font("Funkin-Bold", "otf"), 36, 0xFFFFFFFF, FlxTextAlign.LEFT);
+		bigInfoDescription.setFormat(Paths.font("Funkin-Bold", "otf"), 36, 0xFFFFFFFF, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		bigInfoDescription.borderSize = 1;
 
 		bigInfoVersion = new FlxTextExt(infoStart.x + 695, infoStart.y + 445, 0, "API Version: 1.0.0\nMod Version: 1.0.0\nUID: None", 20);
 		bigInfoVersion.setFormat(Paths.font("Funkin-Bold", "otf"), 20, 0xFFFFFFFF, FlxTextAlign.RIGHT);
@@ -122,7 +123,7 @@ class ModManagerState extends FlxUIStateExt
 
 		for(i in 0...7){
 			var configText = new FlxTextExt(521 + 12, 160 + 12 + (50*i), 674, "Setting Option Thing GRAAHHHHH " + i + "\n\n", 28);
-			configText.setFormat(Paths.font("Funkin-Bold", "otf"), configText.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			configText.setFormat(Paths.font("FunkinOptions", "otf"), configText.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			configText.borderSize = 2;
 			configText.borderQuality = 1;
 			configText.alpha = 0;
@@ -131,7 +132,7 @@ class ModManagerState extends FlxUIStateExt
 
 		for(i in 0...7){
 			var valueText = new FlxTextExt(521 + 12, 160 + 12 + (50*i), 674, "< VALUE " + i + " >\n\n", 28);
-			valueText.setFormat(Paths.font("Funkin-Bold", "otf"), valueText.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			valueText.setFormat(Paths.font("FunkinOptions", "otf"), valueText.textField.defaultTextFormat.size, FlxColor.WHITE, FlxTextAlign.RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			valueText.borderSize = 2;
 			valueText.borderQuality = 1;
 			valueText.alpha = 0;
@@ -473,7 +474,7 @@ class ModManagerState extends FlxUIStateExt
 
 	function updateBigInfo():Void{
 		bigInfoName.text = modList[curSelectedMod].name;
-		bigInfoName.setPosition(infoStart.x + 100, infoStart.y + 50);
+		bigInfoName.setPosition(infoStart.x + 100, infoStart.y + 57);
 		bigInfoName.y -= bigInfoName.height/2;
 		bigInfoName.text += "\n\n";
 
@@ -676,10 +677,10 @@ class ModManagerState extends FlxUIStateExt
 			modIcon.setGraphicSize(80, 80);
 			modIcon.updateHitbox();
 
-			var modName = new FlxTextExt(listStart.x + 100, listStart.y + 50 + (100 * i), 290, modList[i + listStartIndex].name, 36);
-			modName.setFormat(Paths.font("Funkin-Bold", "otf"), 36, 0xFFFFFFFF, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, 0xFF000000);
+			var modName = new FlxTextExt(listStart.x + 100, listStart.y + 57 + (100 * i), 290, modList[i + listStartIndex].name, 36);
+			modName.setFormat(Paths.font("FunkinOptions", "otf"), 36, 0xFFFFFFFF, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, 0xFF000000);
 			modName.y -= modName.height/2;
-			modName.borderSize = 2;
+			modName.borderSize = 3;
 			modName.text += "\n\n";
 
 			if(modList[i + listStartIndex].malformed){

@@ -57,6 +57,8 @@ class KeyBindMenu extends FlxUIStateExt
 	var controllerButtonSkin:String = "";
 	var prevControllerButtonSkin:String = "";
 
+	static final SHOWN_KEYBIND_COUNT:Int = 6;
+
 	//var testKeyThing:KeyIcon;
 
 	override public function new(startInControllerMode:Bool = false) {
@@ -91,29 +93,29 @@ class KeyBindMenu extends FlxUIStateExt
 		controlText.screenCenter(X);
 		add(controlText);
 
-		controlBox = new FlxSprite(65, 0).makeGraphic(1150, 400, 0xFFFFFFFF);
+		controlBox = new FlxSprite(65, 0).makeGraphic(1150, 396, 0xFFFFFFFF);
 		controlBox.y = (720 - 65) - controlBox.height;
 		controlBox.alpha = 0.4;
 		add(controlBox);
 
-		selectionBox = new FlxSprite(65, controlBox.y).makeGraphic(1150, 100, 0xFFFFFFFF);
+		selectionBox = new FlxSprite(65, controlBox.y).makeGraphic(1150, Std.int(controlBox.height/SHOWN_KEYBIND_COUNT), 0xFFFFFFFF);
 		selectionBox.alpha = 0.4;
 		add(selectionBox);
 
-		for(i in 0...4){
+		for(i in 0...SHOWN_KEYBIND_COUNT){
 			var text:FlxTextExt = new FlxTextExt();
 
-			var text = new FlxTextExt(controlBox.x + 10, controlBox.y + (100 * i) + 10, 1130, "", 80);
-			text.setFormat(Paths.font("Funkin-Bold", "otf"), text.textField.defaultTextFormat.size, 0xFFFFFFFF, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, 0xFF000000);
-			text.borderSize = 5;
+			var text = new FlxTextExt(controlBox.x + 10, controlBox.y + (selectionBox.height * i) + 10, 1130, "", Std.int(300/SHOWN_KEYBIND_COUNT));
+			text.setFormat(Paths.font("FunkinOptions", "otf"), text.textField.defaultTextFormat.size, 0xFFFFFFFF, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, 0xFF000000);
+			text.borderSize = 4;
 			text.borderQuality = 1;
 			add(text);
 
 			bindText.push(text);
 		}
 
-		selectionTimerText = new FlxTextExt(controlBox.x + 10, controlBox.y + 10, 1130, "", 80);
-		selectionTimerText.setFormat(Paths.font("Funkin-Bold", "otf"), selectionTimerText.textField.defaultTextFormat.size, 0xFF000000, FlxTextAlign.RIGHT);
+		selectionTimerText = new FlxTextExt(controlBox.x + 10, controlBox.y + 10, 1130, "", Std.int(300/SHOWN_KEYBIND_COUNT));
+		selectionTimerText.setFormat(Paths.font("FunkinOptions", "otf"), selectionTimerText.textField.defaultTextFormat.size, 0xFF000000, FlxTextAlign.RIGHT);
 		selectionTimerText.visible = false;
 		add(selectionTimerText);
 
@@ -128,7 +130,7 @@ class KeyBindMenu extends FlxUIStateExt
 
 		if(controllerMode){ updateCurrentController(); }
 
-		updateBindList();
+		updateBindList(-1, false);
 
 		changeBindSelection(0);
 
@@ -263,15 +265,15 @@ class KeyBindMenu extends FlxUIStateExt
 
 		selectedVisual += change;
 		
-		if(selectedVisual > 3 || selectedVisual < 0){
+		if(selectedVisual > SHOWN_KEYBIND_COUNT-1 || selectedVisual < 0){
 			selectionTop += change;
 		}
 
 		if(selectionTop < 0){ selectionTop = 0; }
-		if(selectionTop > bindStrings.length - 4){ selectionTop = bindStrings.length - 4; }
+		if(selectionTop > bindStrings.length - SHOWN_KEYBIND_COUNT){ selectionTop = bindStrings.length - SHOWN_KEYBIND_COUNT; }
 
 		if(selectedVisual < 0){ selectedVisual = 0; }
-		if(selectedVisual > 3){ selectedVisual = 3; }
+		if(selectedVisual > SHOWN_KEYBIND_COUNT-1){ selectedVisual = SHOWN_KEYBIND_COUNT-1; }
 
 		if(categoryNameIndecies.contains(selected)){
 			changeBindSelection(change < 0 ? (selected > 1 ? -1 : 1) : (selected < bindStrings.length - 1 ? 1 : -1), false);
@@ -312,20 +314,28 @@ class KeyBindMenu extends FlxUIStateExt
 
 	}
 
-	function updateBindList(?setOptionToSelecting:Int = -1){
-		selectionBox.y = controlBox.y + (100 * selectedVisual);
+	function updateBindList(?setOptionToSelecting:Int = -1, doTween:Bool = true){
+		if(doTween){
+			FlxTween.cancelTweensOf(selectionBox);
+			FlxTween.tween(selectionBox, {y: controlBox.y + (selectionBox.height * selectedVisual)}, 0.2, {ease: FlxEase.expoOut});
+		}
+		else{
+			FlxTween.cancelTweensOf(selectionBox);
+			selectionBox.y = controlBox.y + (selectionBox.height * selectedVisual);
+		}
 
 		bindSprites.forEachAlive(function(x){
 			bindSprites.remove(x);
 			x.destroy();
 		});
 
-		for(i in 0...4){
+		for(i in 0...SHOWN_KEYBIND_COUNT){
 			if(i != setOptionToSelecting){
 				var index = i + selectionTop;
-				bindText[i].text = bindStrings[index].toUpperCase();
+				bindText[i].text = bindStrings[index];
 				bindText[i].text += "\n\n";
 				if(categoryNameIndecies.contains(index)){
+					bindText[i].text = bindText[i].text.toUpperCase();
 					bindText[i].alignment = FlxTextAlign.CENTER;
 					bindText[i].color = 0xFFFFEE00;
 				}
@@ -339,8 +349,9 @@ class KeyBindMenu extends FlxUIStateExt
 				//Keyboard icons
 				if(!controllerMode){
 					for(x in  bindsArray[index]){
-						var key = new KeyIcon(bindPos, bindText[i].y, x);
+						var key = new KeyIcon(bindPos, controlBox.y + ((controlBox.height/SHOWN_KEYBIND_COUNT)*i), x, 4/SHOWN_KEYBIND_COUNT);
 						key.x -= key.iconWidth;
+						key.y += ((controlBox.height/SHOWN_KEYBIND_COUNT) - key.iconHeight) / 2;
 						bindPos -= key.iconWidth + 10;
 						bindSprites.add(key);
 					}
@@ -348,9 +359,9 @@ class KeyBindMenu extends FlxUIStateExt
 				//Controller icons
 				else{
 					for(x in  controllerBindsArray[index]){
-						var key = new ControllerIcon(bindPos, bindText[i].y, x, controllerButtonSkin);
+						var key = new ControllerIcon(bindPos, controlBox.y + ((controlBox.height/SHOWN_KEYBIND_COUNT)*i), x, controllerButtonSkin, 4/SHOWN_KEYBIND_COUNT);
 						key.x -= key.iconWidth;
-						key.y += (80 - key.iconHeight)/2;
+						key.y += ((controlBox.height/SHOWN_KEYBIND_COUNT) - key.iconHeight) / 2;
 						bindPos -= key.iconWidth + 10;
 						bindSprites.add(key);
 					} 
@@ -358,10 +369,10 @@ class KeyBindMenu extends FlxUIStateExt
 				
 			}
 			else{
-				bindText[i].text = "PRESS ANY KEY\n\n";
+				bindText[i].text = "Press Any Key\n\n";
 				bindText[i].alignment = FlxTextAlign.LEFT;
-				bindText[i].color = 0xFFFFFFFF;
-				selectionTimerText.y = controlBox.y + (100 * i) + 10;
+				bindText[i].color = 0xFFFFEE00;
+				selectionTimerText.y = controlBox.y + (selectionBox.height * i) + 10;
 			}
 		}
 

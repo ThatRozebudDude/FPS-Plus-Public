@@ -19,20 +19,19 @@ class KeyIcon extends FlxSpriteGroup
 	static final customGraphicKeys = [ALT, BACKSPACE, BREAK, CAPSLOCK, CONTROL, DELETE, DOWN, END, ENTER, ESCAPE, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, GRAVEACCENT, HOME, INSERT, LEFT, MENU, NUMLOCK, PAGEUP, PAGEDOWN, PRINTSCREEN, RIGHT, SCROLL_LOCK, SHIFT, SPACE, TAB, UP, WINDOWS];
 
 	public var key:FlxKey;
+	var graphicScale:Float = 1;
 
 	public var iconWidth:Float = 80;
 	public var iconHeight:Float = 80;
 
-	public function new(_x:Float, _y:Float, _key:FlxKey){
-
+	public function new(_x:Float, _y:Float, _key:FlxKey, _scale:Float = 1){
 		super(_x, _y);
 		key = _key;
+		graphicScale = _scale;
 		createGraphics();
-
 	}
 
 	function createGraphics() {
-
 		if(customGraphicKeys.contains(key)){
 			loadKeyGraphic(key.toString().toLowerCase());
 		}
@@ -90,6 +89,9 @@ class KeyIcon extends FlxSpriteGroup
 					keyText = "8";
 				case NINE | NUMPADNINE:
 					keyText = "9";
+				case A:
+					keyText = "A";
+					yOffset += 3;
 				default:
 					if(key.toString().length == 1){
 						keyText = key.toString();
@@ -98,16 +100,16 @@ class KeyIcon extends FlxSpriteGroup
 			}
 			generateDefaultKeyIcon(keyText, isKeypad, yOffset);
 		}
-
 	}
 
 	function generateDefaultKeyIcon(text:String, isKeypad:Bool, yOffset:Float) {
-		
 		var keyBg = loadKeyGraphic("key" + (isKeypad ? "_kp" : "0"));
 
 		var text = new FlxText(0, 0, 80, text, 80);
 		text.setFormat(Paths.font("funkin", "otf"), 80, FlxColor.BLACK, FlxTextAlign.CENTER);
-		text.y = (keyBg.height / 2) - (text.height / 2) + yOffset;
+		text.y = (keyBg.height / 2) - (text.height / 2) + (yOffset*graphicScale);
+		text.scale.set(graphicScale, graphicScale);
+		text.updateHitbox();
 		text.text += "\n\n";
 		add(text);
 
@@ -118,10 +120,12 @@ class KeyIcon extends FlxSpriteGroup
 		k.frames = Paths.getSparrowAtlas("ui/keyIcons");
 		k.animation.addByPrefix("k", frame, 0, false);
 		k.animation.play("k");
+		k.scale.set(graphicScale, graphicScale);
+		k.updateHitbox();
 		add(k);
 
-		iconWidth = Std.int(k.frameWidth / 10) * 10;
-		iconHeight = Std.int(k.frameHeight / 10) * 10;
+		iconWidth = (Std.int(k.frameWidth / 10) * 10) * graphicScale;
+		iconHeight = (Std.int(k.frameHeight / 10) * 10) * graphicScale;
 
 		return k;
 	}
@@ -137,29 +141,26 @@ class ControllerIcon extends FlxSpriteGroup
 	static final ninSkinKeys:Array<FlxGamepadInputID> = [A, B, X, Y, BACK, START, LEFT_SHOULDER, LEFT_TRIGGER, RIGHT_SHOULDER, RIGHT_TRIGGER, LEFT_STICK_CLICK, RIGHT_STICK_CLICK, EXTRA_0];
 
 	public var key:FlxGamepadInputID;
-
 	public var skin:String;
+	var graphicScale:Float = 1;
 
 	public var iconWidth:Float = 80;
 	public var iconHeight:Float = 80;
 
-	public function new(_x:Float, _y:Float, _key:FlxGamepadInputID, ?_skin = ""){
-
+	public function new(_x:Float, _y:Float, _key:FlxGamepadInputID, _skin = "", _graphicScale:Float = 1){
 		super(_x, _y);
 		key = _key;
 		skin = _skin;
+		graphicScale = _graphicScale;
 		createGraphics();
-
 	}
 
 	function createGraphics() {
-
 		var postfix:String = "0";
 		if(xSkinKeys.contains(key) && skin == "x"){ postfix = "_x"; }
 		if(psSkinKeys.contains(key) && skin == "ps"){ postfix = "_ps"; }
 		if(ninSkinKeys.contains(key) && skin == "nin"){ postfix = "_nin"; }
 		loadKeyGraphic(key.toString().toLowerCase() + postfix);
-
 	}
 
 	function loadKeyGraphic(frame:String):FlxSprite {
@@ -167,10 +168,12 @@ class ControllerIcon extends FlxSpriteGroup
 		k.frames = Paths.getSparrowAtlas("ui/controllerIcons");
 		k.animation.addByPrefix("k", frame, 0, false);
 		k.animation.play("k");
+		k.scale.set(graphicScale, graphicScale);
+		k.updateHitbox();
 		add(k);
 
-		iconWidth = Std.int(k.frameWidth / 10) * 10;
-		iconHeight = Std.int(k.frameHeight / 10) * 10;
+		iconWidth = (Std.int(k.frameWidth / 10) * 10) * graphicScale;
+		iconHeight = (Std.int(k.frameHeight / 10) * 10) * graphicScale;
 
 		return k;
 	}
