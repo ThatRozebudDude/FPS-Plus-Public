@@ -1185,7 +1185,7 @@ class PlayState extends MusicBeatState
 		var totalWidth:Float = 0;
 
 		for (i in 0...4){
-			var babyArrow:FlxSprite = new FlxSprite(Note.swagWidth * i, strumLineVerticalPosition);
+			var babyArrow:FlxSprite = new FlxSprite(i > 0 ? totalWidth + hudNoteSkinInfo.spacing : 0, strumLineVerticalPosition);
 
 			switch(hudNoteSkinInfo.noteFrameLoadType){
 				case sparrow:
@@ -1278,7 +1278,7 @@ class PlayState extends MusicBeatState
 
 			babyArrow.animation.play("static");
 
-			if(i == 3){ totalWidth = babyArrow.x + babyArrow.width; }
+			totalWidth = babyArrow.x + babyArrow.width;
 		}
 
 		if(player == 1){
@@ -1758,73 +1758,45 @@ class PlayState extends MusicBeatState
 
 	function updateNote(){
 		notes.forEachAlive(function(note:Note){
-			var targetY:Float;
-			var targetX:Float;
-
-			var scrollSpeed:Float;
-
-			if(note.mustPress){
-				targetY = playerStrums.members[Math.floor(Math.abs(note.direction))].y;
-				targetX = playerStrums.members[Math.floor(Math.abs(note.direction))].x;
-			}
-			else{
-				targetY = enemyStrums.members[Math.floor(Math.abs(note.direction))].y;
-				targetX = enemyStrums.members[Math.floor(Math.abs(note.direction))].x;
-			}
-
-			if(Config.scrollSpeedOverride > 0){
-				scrollSpeed = Config.scrollSpeedOverride;
-			}
-			else{
-				scrollSpeed = FlxMath.roundDecimal(chart.meta.scroll, 2);
-			}
-
-			scrollSpeed *= note.mustPress ? scrollSpeedMultiplierPlayer : scrollSpeedMultiplierOpponent;
+			final targetStrum:FlxSprite = note.mustPress ? (playerStrums.members[Math.floor(Math.abs(note.direction))]) : (enemyStrums.members[Math.floor(Math.abs(note.direction))]);
+			final scrollSpeed:Float = (Config.scrollSpeedOverride > 0 ? Config.scrollSpeedOverride : FlxMath.roundDecimal(chart.meta.scroll, 2)) * (note.mustPress ? scrollSpeedMultiplierPlayer : scrollSpeedMultiplierOpponent);
 
 			if(Config.downscroll){
-				note.y = (targetY + (Conductor.songPosition - note.strumTime) * (0.45 * scrollSpeed)) - note.yOffset;	
+				note.y = (targetStrum.y + (Conductor.songPosition - note.strumTime) * (0.45 * scrollSpeed)) - note.yOffset;
 				if(note.isSustainNote){
 					note.y -= note.height;
 					note.y += 125;
 
-					if ((!note.mustPress || note.wasGoodHit || note.prevNote.wasGoodHit && !note.canBeHit)
-						&& note.y - note.offset.y * note.scale.y + note.height >= (targetY + Note.swagWidth / 2)){
-						// Clip to strumline
-						var swagRect = new FlxRect(0, 0, note.frameWidth * 2, note.frameHeight * 2);
-						swagRect.height = (targetY + Note.swagWidth / 2 - note.y) / note.scale.y;
-						swagRect.y = note.frameHeight - swagRect.height;
-	
-						note.clipRect = swagRect;
+					if ((!note.mustPress || note.wasGoodHit || note.prevNote.wasGoodHit && !note.canBeHit) && note.y - note.offset.y * note.scale.y + note.height >= (targetStrum.y + targetStrum.height/2)){
+						//Clip to strumline.
+						if(note.clipRect == null){ note.clipRect = FlxRect.get(); }
+						note.clipRect.set(0, note.frameHeight - (targetStrum.y + targetStrum.height/2 - note.y)/note.scale.y, note.frameWidth, (targetStrum.y + targetStrum.height/2 - note.y)/note.scale.y);
 					}
 				}
 			}
 			else {
-				note.y = (targetY - (Conductor.songPosition - note.strumTime) * (0.45 * scrollSpeed)) + note.yOffset;
+				note.y = (targetStrum.y - (Conductor.songPosition - note.strumTime) * (0.45 * scrollSpeed)) + note.yOffset;
 				if(note.isSustainNote){
-					if ((!note.mustPress || note.wasGoodHit || note.prevNote.wasGoodHit && !note.canBeHit)
-						&& note.y + note.offset.y * note.scale.y <= (targetY + Note.swagWidth / 2)){
-						// Clip to strumline
-						var swagRect = new FlxRect(0, 0, note.width / note.scale.x, note.height / note.scale.y);
-						swagRect.y = (targetY + Note.swagWidth / 2 - note.y) / note.scale.y;
-						swagRect.height -= swagRect.y;
-
-						note.clipRect = swagRect;
+					if ((!note.mustPress || note.wasGoodHit || note.prevNote.wasGoodHit && !note.canBeHit) && note.y + note.offset.y * note.scale.y <= (targetStrum.y + targetStrum.height/2)){
+						//Clip to strumline.
+						if(note.clipRect == null){ note.clipRect = FlxRect.get(); }
+						note.clipRect.set(0, (targetStrum.y + targetStrum.height/2 - note.y)/note.scale.y, note.frameWidth, note.frameHeight - (targetStrum.y + targetStrum.height/2 - note.y)/note.scale.y);
 					}
 				}
 			}
 
-			note.x = targetX + note.xOffset;
+			note.x = targetStrum.x + note.xOffset;
 
 			if(note.tooLate){
-				if (!note.didTooLateAction && !note.isFake){
+				if(!note.didTooLateAction && !note.isFake){
 					noteMiss(note, note.missCallback, Scoring.MISS_DAMAGE_AMOUNT, true, true);
 					if(canChangeVocalVolume){ vocals.volume = 0; }
 					note.didTooLateAction = true;
 				}
 			}
 
-			if(Config.downscroll ? (note.y > targetY + note.height + 50) : (note.y < targetY - note.height - 50)){
-				if (note.tooLate || note.wasGoodHit){
+			if(Config.downscroll ? (note.y > targetStrum.y + note.height + 50) : (note.y < targetStrum.y - note.height - 50)){
+				if(note.tooLate || note.wasGoodHit){
 					note.active = false;
 					note.visible = false;
 					note.destroy();

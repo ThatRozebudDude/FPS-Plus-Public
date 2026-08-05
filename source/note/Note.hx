@@ -50,8 +50,7 @@ class Note extends FlxSprite
 
 	var graphicScale:Float;
 
-	inline public static final swagWidth:Float = 112/*160 * 0.7*/;
-	inline public static final PURP_NOTE:Int = 0;
+	inline public static final PURPLE_NOTE:Int = 0;
 	inline public static final GREEN_NOTE:Int = 2;
 	inline public static final BLUE_NOTE:Int = 1;
 	inline public static final RED_NOTE:Int = 3;

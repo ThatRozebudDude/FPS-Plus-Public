@@ -10,6 +10,7 @@ typedef AllArrowsInfo = {
 	var noteFrameLoadType:FrameLoadType;
 	var arrowInfo:Array<StaticArrowGraphicInfo>;
 	var scale:Float;
+	var spacing:Float;
 	var antialiasing:Bool;
 
 	var splashClass:String;
@@ -28,6 +29,7 @@ class HudNoteSkinBase{
 		notePath: null,
 		noteFrameLoadType: null,
 		scale: 1,
+		spacing: 4,
 		antialiasing: true,
 		splashClass: null,
 		coverPath: null,
@@ -63,6 +65,7 @@ class HudNoteSkinBase{
 		else if(skinJson.frameLoadType.type == "load") { info.noteFrameLoadType = load(skinJson.frameLoadType.dimensions[0], skinJson.frameLoadType.dimensions[1]); }
 
 		if(skinJson.scale != null) { info.scale = skinJson.scale; }
+		if(skinJson.spacing != null) { info.spacing = skinJson.spacing; }
 		if(skinJson.antialiasing != null) { info.antialiasing = skinJson.antialiasing; }
 
 		if(skinJson.splash != null)	{ info.splashClass = skinJson.splash; }

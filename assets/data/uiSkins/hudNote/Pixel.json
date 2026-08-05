@@ -5,6 +5,7 @@
         "dimensions": [19, 19]
     },
     "scale": 6,
+    "spacing": 3,
     "antialiasing": false,
     "splash": "Pixel",
     "holdCover": "Pixel",

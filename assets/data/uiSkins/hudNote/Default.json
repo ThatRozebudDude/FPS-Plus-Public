@@ -4,6 +4,7 @@
         "type": "sparrow"
     },
     "scale": 0.7,
+    "spacing": 4,
     "antialiasing": true,
     "splash": "Default",
     "holdCover": "Default",
