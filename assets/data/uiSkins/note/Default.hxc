@@ -1,6 +1,6 @@
 package noteskins;
 
-class DefaultNoteSkin extends NoteSkinBase
+class Default extends NoteSkinBase
 {
 
 	public function new(){

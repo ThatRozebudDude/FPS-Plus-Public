@@ -1,36 +1,36 @@
 {
-    "path": "ui/dialogue/dialogueBox-evil",
-    "text": {
-        "position": {"x": 196, "y": 480},
-        "font": "pixel.otf",
-        "size": 32,
-        "color": "0xFFFFFF",
+	"path": "ui/dialogue/dialogueBox-evil",
+	"text": {
+		"position": {"x": 196, "y": 480},
+		"font": "pixel.otf",
+		"size": 32,
+		"color": "0xFFFFFF",
 		"antialiasing": false
-    },
-    "sounds": {
-        "open": null,
-        "close": "week6/clickText",
-        "speak": "week6/pixelText"
-    },
-    "antialiasing": false,
-    "scale": 5.4,
-    "position": {"x": 520, "y": 350},
-    "animations": [
-        {
-            "name": "normalOpen",
-            "prefix": "opening",
-            "offset": {"x": 0, "y": 0},
-            "fps": 24,
-            "flipX": false,
-            "loop": false
-        },
-        {
-            "name": "normal",
-            "prefix": "box",
-            "offset": {"x": 0, "y": 0},
-            "fps": 24,
-            "flipX": false,
-            "loop": true
-        }
-    ]
+	},
+	"sounds": {
+		"open": null,
+		"close": "week6/clickText",
+		"speak": "week6/pixelText"
+	},
+	"antialiasing": false,
+	"scale": 5.4,
+	"position": {"x": 520, "y": 350},
+	"animations": [
+		{
+			"name": "normalOpen",
+			"prefix": "opening",
+			"offset": {"x": 0, "y": 0},
+			"fps": 24,
+			"flipX": false,
+			"loop": false
+		},
+		{
+			"name": "normal",
+			"prefix": "box",
+			"offset": {"x": 0, "y": 0},
+			"fps": 24,
+			"flipX": false,
+			"loop": true
+		}
+	]
 }

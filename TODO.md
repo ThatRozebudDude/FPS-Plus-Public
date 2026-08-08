@@ -2,6 +2,7 @@
 
 - Fix thing with the characters doing extra bopping stuff after the song ends?
 - Fix some Monster and Winter Horrorland stuff.
+- Game is crashing on fullscreen again.
 
 - Editor UI Components
 	- Text Input QOL

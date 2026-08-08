@@ -1,36 +1,36 @@
 {
-    "path": "ui/dialogue/speech_bubble_talking",
-    "text": {
-        "position": {"x": 130, "y": 500},
-        "font": "funkin.otf",
-        "size": 62,
-        "color": "0x000000",
-        "antialiasing": true
-    },
-    "sounds": {
-        "open": null,
-        "close": "week6/clickText",
-        "speak": "week6/pixelText"
-    },
-    "antialiasing": true,
-    "scale": 1,
-    "position": {"x": 50, "y": 380},
-    "animations": [
-        {
-            "name": "normalOpen",
-            "prefix": "Speech Bubble Normal Open",
-            "offset": {"x": 0, "y": 0},
-            "fps": 24,
-            "flipX": false,
-            "loop": false
-        },
-        {
-            "name": "normal",
-            "prefix": "speech bubble normal0",
-            "offset": {"x": 0, "y": 0},
-            "fps": 24,
-            "flipX": false,
-            "loop": true
-        }
-    ]
+	"path": "ui/dialogue/speech_bubble_talking",
+	"text": {
+		"position": {"x": 130, "y": 500},
+		"font": "funkin.otf",
+		"size": 62,
+		"color": "0x000000",
+		"antialiasing": true
+	},
+	"sounds": {
+		"open": null,
+		"close": "week6/clickText",
+		"speak": "week6/pixelText"
+	},
+	"antialiasing": true,
+	"scale": 1,
+	"position": {"x": 50, "y": 380},
+	"animations": [
+		{
+			"name": "normalOpen",
+			"prefix": "Speech Bubble Normal Open",
+			"offset": {"x": 0, "y": 0},
+			"fps": 24,
+			"flipX": false,
+			"loop": false
+		},
+		{
+			"name": "normal",
+			"prefix": "speech bubble normal0",
+			"offset": {"x": 0, "y": 0},
+			"fps": 24,
+			"flipX": false,
+			"loop": true
+		}
+	]
 }

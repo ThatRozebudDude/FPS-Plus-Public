@@ -1,7 +1,7 @@
 {
-    "id": "bf",
-    "playerCharacter": "BfPlayer",
-    "partnerCharacter": "GfPartner",
-    "freeplayCharacter": "Boyfriend",
-    "position": [1, 1]
+	"id": "bf",
+	"playerCharacter": "BfPlayer",
+	"partnerCharacter": "GfPartner",
+	"freeplayCharacter": "Boyfriend",
+	"position": [1, 1]
 }
