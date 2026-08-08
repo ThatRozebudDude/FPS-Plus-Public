@@ -44,10 +44,10 @@ class TitleEasterEgg extends MusicBeatState
 		waveform.scale.set(2, 2);
 		waveform.screenCenter(XY);
 
-		circle = new FlxSprite().loadGraphic(Paths.image("fpsPlus/circle"));
+		circle = new FlxSprite().loadGraphic(Paths.image("fpsPlus/title/easter-egg/circle"));
 		circle.screenCenter(XY);
 
-		dj = new FlxSprite().loadGraphic(Paths.image("fpsPlus/lildj"), true, 129, 123);
+		dj = new FlxSprite().loadGraphic(Paths.image("fpsPlus/title/easter-egg/lildj"), true, 129, 123);
 		dj.animation.add("idle", [0, 1, 2, 3], 12, false);
 		dj.animation.play("idle", true);
 		dj.screenCenter(XY);
@@ -60,7 +60,7 @@ class TitleEasterEgg extends MusicBeatState
 		topText = ScrollingGraphic.createScrollingGraphicFromSprite(0, 50, tempText);
 		topText.velocity.x = -50;
 
-		tempText.text = "FUCK IT UP LIL' BFF ";
+		tempText.text = "FUCK IT UP LIL' BF ";
 		bottomText = ScrollingGraphic.createScrollingGraphicFromSprite(0, 720 - 50 - 60, tempText);
 		bottomText.velocity.x = 50;
 

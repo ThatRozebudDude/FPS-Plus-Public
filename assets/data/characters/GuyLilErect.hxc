@@ -7,7 +7,7 @@ class GuyLilErect extends CharacterInfoBase
 		super();
 
 		info.name = "guy-lil-erect";
-		info.spritePath = "fpsPlus/lil/lilGuyE";
+		info.spritePath = "fpsPlus/buddies/lilGuyE";
 		info.frameLoadType = setLoad(256, 256);
 		
 		info.iconName = "face-lil";

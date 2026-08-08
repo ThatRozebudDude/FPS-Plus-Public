@@ -7,7 +7,7 @@ class PicoLil extends CharacterInfoBase
 		super();
 
 		info.name = "pico-lil";
-		info.spritePath = "fpsPlus/lil/lilPico";
+		info.spritePath = "fpsPlus/buddies/lilPico";
 		info.frameLoadType = setLoad(256, 256);
 		
 		info.iconName = "pico-lil";

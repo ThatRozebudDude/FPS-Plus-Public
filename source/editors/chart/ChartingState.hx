@@ -923,7 +923,7 @@ class ChartingState extends MusicBeatState
 		if(ScriptableCharacter.listScriptClasses().contains("characters.BfLil") && ScriptableCharacter.listScriptClasses().contains("characters.GuyLil")){
 			lilBuddiesEnabled = true;
 
-			var lilStage:FlxSprite = new FlxSprite(139, 314).loadGraphic(Paths.image("chartEditor/lilStage"));
+			var lilStage:FlxSprite = new FlxSprite(139, 314).loadGraphic(Paths.image("fpsPlus/buddies/lilStage"));
 			lilStage.antialiasing = false;
 			lilGuy = new Character(139, 314, "GuyLil", false, false);
 			lilBf = new Character(139, 314, "BfLil", false, false);

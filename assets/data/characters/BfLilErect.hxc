@@ -7,7 +7,7 @@ class BfLilErect extends CharacterInfoBase
 		super();
 
 		info.name = "bf-lil-erect";
-		info.spritePath = "fpsPlus/lil/lilBfE";
+		info.spritePath = "fpsPlus/buddies/lilBfE";
 		info.frameLoadType = setLoad(256, 256);
 		
 		info.iconName = "bf-lil";

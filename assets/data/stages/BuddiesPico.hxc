@@ -15,13 +15,13 @@ class BuddiesPico extends BaseStage
 		name = "buddiesPico";
 		startingZoom = 2.8;
 
-		var lilStage = new FlxSprite(0, -34).loadGraphic(Paths.image("fpsPlus/lil/stageP"));
+		var lilStage = new FlxSprite(0, -34).loadGraphic(Paths.image("fpsPlus/buddies/lilStageP"));
 		lilStage.antialiasing = false;
 		addToBackground(lilStage);
 
 		gf.visible = false;
 		boyfriend.setPosition(0, -34);
-		dad.setPosition(0 + 20, -34 + 6);
+		dad.setPosition(20, -28);
 
 		useStartPoints = false;
 

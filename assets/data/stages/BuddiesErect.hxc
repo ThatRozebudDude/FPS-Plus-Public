@@ -15,7 +15,7 @@ class BuddiesErect extends BaseStage
 		name = "buddiesErect";
 		startingZoom = 2.8;
 
-		var lilStage = new FlxSprite(0, -34).loadGraphic(Paths.image("fpsPlus/lil/stageE"));
+		var lilStage = new FlxSprite(0, -34).loadGraphic(Paths.image("fpsPlus/buddies/lilStageE"));
 		lilStage.antialiasing = false;
 		addToBackground(lilStage);
 

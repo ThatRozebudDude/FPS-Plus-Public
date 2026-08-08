@@ -93,7 +93,7 @@ class PlayState extends MusicBeatState
 	public static var uiSkinNames = {
 		comboPopup: "Default",
 		countdown: "Default",
-		note: "DefaultNoteSkin",
+		note: "Default",
 		playerNotes: "Default",
 		opponentNotes: "Default"
 	};
@@ -472,7 +472,7 @@ class PlayState extends MusicBeatState
 		uiSkinNames = {
 			comboPopup: "Default",
 			countdown: "Default",
-			note: "DefaultNoteSkin",
+			note: "Default",
 			playerNotes: "Default",
 			opponentNotes: "Default"
 		};

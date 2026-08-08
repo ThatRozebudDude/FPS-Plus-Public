@@ -7,7 +7,7 @@ class BfLil extends CharacterInfoBase
 		super();
 
 		info.name = "bf-lil";
-		info.spritePath = "chartEditor/lilBf";
+		info.spritePath = "fpsPlus/buddies/lilBf";
 		info.frameLoadType = setLoad(300, 256);
 		
 		info.iconName = "bf-lil";

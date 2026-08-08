@@ -100,7 +100,7 @@ class Note extends FlxSprite
 		#if BACKWARD_COMPATIBILITY
 		else if(ScriptableNoteSkin.listScriptClasses().contains(noteSkinClassName)){}
 		#end
-		else{ noteSkinClassName = "noteskins.DefaultNoteSkin"; }
+		else{ noteSkinClassName = "noteskins.Default"; }
 
 		noteSkin = ScriptableNoteSkin.scriptInit(noteSkinClassName);
 
