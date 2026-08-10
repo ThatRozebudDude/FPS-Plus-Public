@@ -1,9 +1,9 @@
 package transition;
 
-import extensions.flixel.FlxUIStateExt;
-import flixel.FlxState;
-import flixel.FlxG;
 import extensions.flixel.FlxCameraExt;
+import extensions.flixel.FlxUIStateExt;
+import flixel.FlxG;
+import flixel.FlxState;
 import transition.data.*;
 
 /**

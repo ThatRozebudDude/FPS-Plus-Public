@@ -1,9 +1,7 @@
 package note;
 
 import config.Config;
-
 import flixel.FlxSprite;
-//import polymod.format.ParseRules.TargetSignatureElement;
 
 using StringTools;
 

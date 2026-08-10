@@ -1,8 +1,8 @@
 package menus.freeplay;
 
-import flixel.util.FlxColor;
-import flixel.group.FlxSpriteGroup;
 import flixel.FlxG;
+import flixel.group.FlxSpriteGroup;
+import flixel.util.FlxColor;
 import graphics.AtlasSprite;
 
 using StringTools;

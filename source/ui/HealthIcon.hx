@@ -1,10 +1,10 @@
 package ui;
 
-import haxe.Json;
-import lime.utils.Assets;
+import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
+import haxe.Json;
+import lime.utils.Assets;
 
 class HealthIcon extends FlxSprite
 {

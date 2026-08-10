@@ -1,17 +1,15 @@
 package menus.config;
 
-import transition.data.*;
-
+import config.Config;
+import extensions.flixel.FlxTextExt;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import extensions.flixel.FlxTextExt;
-import config.Config;
+import transition.data.*;
 
 using StringTools;
 

@@ -1,14 +1,11 @@
 package transition.data;
 
-import openfl.Assets;
-import flixel.util.FlxTimer;
-import flixel.math.FlxPoint;
-import sys.FileSystem;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
-import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.math.FlxPoint;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxTimer;
+import openfl.Assets;
 
 /**
 	Cover the screen in stickers.

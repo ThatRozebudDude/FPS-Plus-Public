@@ -1,10 +1,7 @@
 package shaders;
 
-import flixel.graphics.FlxGraphic;
-import openfl.display.BitmapData;
 import flixel.FlxBasic;
-import flixel.util.FlxColor;
-import openfl.display.ShaderParameter;
+import flixel.graphics.FlxGraphic;
 import flixel.system.FlxAssets.FlxShader;
 
 class TextureMixShader extends FlxBasic

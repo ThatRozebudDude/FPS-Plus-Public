@@ -1,11 +1,11 @@
 package;
 
+import Chart.BPMDefinition;
+import config.Config;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.util.FlxSignal;
 import flixel.util.FlxSort;
-import config.Config;
-import Chart.BPMDefinition;
 
 class Conductor extends FlxBasic
 {

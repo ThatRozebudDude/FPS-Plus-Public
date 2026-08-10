@@ -1,7 +1,6 @@
 package note;
 
 import haxe.Json;
-import flixel.math.FlxPoint;
 
 typedef NoteSplashAnim = {
 	var prefix:String;

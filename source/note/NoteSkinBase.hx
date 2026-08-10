@@ -1,10 +1,10 @@
 package note;
 
-import note.Note;
-import flixel.math.FlxPoint;
-import characters.CharacterInfoBase.FrameLoadType;
 import characters.CharacterInfoBase.AnimData;
 import characters.CharacterInfoBase.AnimType;
+import characters.CharacterInfoBase.FrameLoadType;
+import flixel.math.FlxPoint;
+import note.Note;
 
 typedef NoteInfo = {
 	var pathOverride:String;

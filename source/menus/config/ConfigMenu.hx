@@ -1,30 +1,26 @@
 package menus.config;
 
-import menus.mainMenu.MainMenuState;
 import Highscore.SongStats;
-import openfl.events.Event;
-import flixel.addons.display.FlxGridOverlay;
-import shaders.ColorGradientShader;
-import openfl.utils.Assets;
-import menus.title.TitleScreen;
-import flixel.sound.FlxSound;
-import flixel.group.FlxSpriteGroup;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import transition.data.*;
 import config.*;
-
+import extensions.flixel.FlxTextExt;
+import extensions.flixel.FlxUIStateExt;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.addons.display.FlxGridOverlay;
+import flixel.group.FlxSpriteGroup;
+import flixel.sound.FlxSound;
+import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import flixel.text.FlxText;
-import extensions.flixel.FlxUIStateExt;
-import extensions.flixel.FlxTextExt;
-import caching.*;
-
+import menus.mainMenu.MainMenuState;
+import openfl.events.Event;
+import openfl.utils.Assets;
+import shaders.ColorGradientShader;
+import transition.data.*;
 
 using StringTools;
+
 
 class ConfigMenu extends FlxUIStateExt
 {

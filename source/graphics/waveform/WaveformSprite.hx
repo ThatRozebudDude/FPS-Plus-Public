@@ -1,8 +1,8 @@
 package graphics.waveform;
 
 import flixel.sound.FlxSound;
-import graphics.MeshRender;
 import flixel.util.FlxColor;
+import graphics.MeshRender;
 
 //Taken from base game.
 //https://github.com/FunkinCrew/Funkin/tree/main/source/funkin/audio/waveform

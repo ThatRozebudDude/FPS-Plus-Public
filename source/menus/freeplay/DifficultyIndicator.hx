@@ -1,13 +1,9 @@
 package menus.freeplay;
 
-import transition.data.FadeIn;
-import flixel.sound.FlxSound;
+import flixel.FlxSprite;
+import flixel.group.FlxSpriteGroup;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.math.FlxPoint;
-import flixel.group.FlxSpriteGroup;
 
 class DifficultyIndicator extends FlxSpriteGroup
 {

@@ -1,12 +1,12 @@
 package editors.chart;
 
-import flixel.math.FlxPoint;
-import flixel.FlxObject;
-import flixel.FlxG;
-import shaders.TintShader;
 import Chart.NoteDefinition;
-import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+import flixel.math.FlxPoint;
+import shaders.TintShader;
 
 class ChartingNote extends FlxTypedSpriteGroup<FlxSprite>
 {

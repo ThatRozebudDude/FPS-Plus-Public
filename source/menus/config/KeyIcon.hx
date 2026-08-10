@@ -1,22 +1,18 @@
 package menus.config;
 
-import flixel.input.gamepad.FlxGamepadInputID;
-import flixel.text.FlxText.FlxTextBorderStyle;
-import flixel.text.FlxText.FlxTextAlign;
-import flixel.util.FlxColor;
-import flixel.text.FlxText;
-import flixel.input.keyboard.FlxKey;
-import flixel.tweens.FlxTween;
-import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
+import flixel.input.gamepad.FlxGamepadInputID;
+import flixel.input.keyboard.FlxKey;
+import flixel.text.FlxText;
+import flixel.util.FlxColor;
 
 using StringTools;
 
 class KeyIcon extends FlxSpriteGroup
 {
 
-	static final customGraphicKeys = [ALT, BACKSPACE, BREAK, CAPSLOCK, CONTROL, DELETE, DOWN, END, ENTER, ESCAPE, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, GRAVEACCENT, HOME, INSERT, LEFT, MENU, NUMLOCK, PAGEUP, PAGEDOWN, PRINTSCREEN, RIGHT, SCROLL_LOCK, SHIFT, SPACE, TAB, UP, WINDOWS];
+	static final customGraphicKeys:Array<FlxKey> = [ALT, BACKSPACE, BREAK, CAPSLOCK, CONTROL, DELETE, DOWN, END, ENTER, ESCAPE, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, GRAVEACCENT, HOME, INSERT, LEFT, MENU, NUMLOCK, PAGEUP, PAGEDOWN, PRINTSCREEN, RIGHT, SCROLL_LOCK, SHIFT, SPACE, TAB, UP, WINDOWS];
 
 	public var key:FlxKey;
 	var graphicScale:Float = 1;

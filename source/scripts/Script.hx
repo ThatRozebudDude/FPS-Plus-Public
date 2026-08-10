@@ -1,7 +1,7 @@
 package scripts;
 
-import flixel.FlxG;
 import flixel.FlxBasic;
+import flixel.FlxG;
 import note.Note;
 
 @:build(modding.GlobalScriptingTypesMacro.build())

@@ -1,9 +1,9 @@
 package cutscenes;
 
 import Chart.EventDefinition;
-import flixel.tweens.FlxEase;
-import flixel.FlxG;
 import flixel.FlxBasic;
+import flixel.FlxG;
+import flixel.tweens.FlxEase;
 
 using StringTools;
 

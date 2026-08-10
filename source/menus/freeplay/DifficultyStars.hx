@@ -1,12 +1,12 @@
 package menus.freeplay;
 
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.math.FlxPoint;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
+import flixel.math.FlxPoint;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 
 class DifficultyStars extends FlxSpriteGroup
 {

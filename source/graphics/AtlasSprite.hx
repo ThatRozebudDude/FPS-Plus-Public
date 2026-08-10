@@ -1,25 +1,24 @@
 package graphics;
 
-import flixel.util.FlxSort;
-import animate.internal.elements.SymbolInstance;
-import animate.internal.elements.Element;
+import animate.FlxAnimate;
 import animate.FlxAnimateAssets;
+import animate.FlxAnimateFrames;
 import animate.FlxAnimateJson;
 import animate.internal.SymbolItem;
 import animate.internal.Timeline;
-import flixel.util.FlxColor;
-import animate.FlxAnimate;
-import animate.FlxAnimateFrames;
+import animate.internal.elements.Element;
+import animate.internal.elements.SymbolInstance;
 import flixel.FlxG;
-import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.FlxGraphic;
-import flixel.math.FlxRect;
+import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.math.FlxMatrix;
 import flixel.math.FlxPoint;
-import haxe.io.Path;
+import flixel.math.FlxRect;
+import flixel.util.FlxColor;
+import flixel.util.FlxSort;
 import haxe.Json;
+import haxe.io.Path;
 import modding.PolymodHandler;
-import openfl.display.BitmapData;
 
 using StringTools;
 

@@ -1,11 +1,11 @@
 package editors.ui;
 
-import flixel.util.FlxColor;
-import shaders.UIBoxShader;
-import flixel.util.FlxSignal;
-import flixel.math.FlxRect;
-import flixel.addons.display.FlxSliceSprite;
 import flixel.FlxG;
+import flixel.addons.display.FlxSliceSprite;
+import flixel.math.FlxRect;
+import flixel.util.FlxColor;
+import flixel.util.FlxSignal;
+import shaders.UIBoxShader;
 
 using StringTools;
 

@@ -1,23 +1,15 @@
 package menus.config;
 
-import openfl.media.Sound;
-import menus.title.*;
+import caching.*;
 import config.*;
-import menus.config.*;
-import transition.data.*;
-
-import flixel.FlxState;
 import extensions.flixel.FlxUIStateExt;
-import openfl.Assets;
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.util.FlxColor;
-import flixel.util.FlxTimer;
+import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.ui.FlxBar;
-import openfl.system.System;
-import caching.*;
+import flixel.util.FlxColor;
+import menus.config.*;
 import modding.*;
+import transition.data.*;
 
 using StringTools;
 

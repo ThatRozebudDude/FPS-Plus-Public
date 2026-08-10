@@ -1,8 +1,8 @@
 package note;
 
 import data.OrderedMap;
-import events.Events;
 import events.Events.EventEditorProperties;
+import events.Events;
 import note.*;
 
 typedef NoteTypeDefinition = {

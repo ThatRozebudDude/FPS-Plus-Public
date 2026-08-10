@@ -1,44 +1,34 @@
 package menus.freeplay;
 
-import graphics.DigitDisplay;
-import flixel.util.FlxSort;
-import modding.PolymodHandler;
-import flixel.group.FlxSpriteGroup;
-import openfl.filters.ShaderFilter;
-import shaders.BlueFadeShader;
-import shaders.ColorGradientShader;
-import haxe.Json;
-import transition.data.InstantTransition;
-import sys.FileSystem;
-import flixel.graphics.frames.FlxBitmapFont;
-import flixel.text.FlxBitmapText;
-import flixel.math.FlxMath;
 import Highscore.SongStats;
-import menus.mainMenu.*;
-import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
-import flixel.addons.display.FlxBackdrop;
-import flixel.util.FlxTimer;
-import extensions.flixel.FlxCameraExt;
-import flixel.math.FlxPoint;
+import caching.*;
 import config.*;
-import menus.config.*;
-import menus.characterSelect.CharacterSelectState;
-
-import menus.title.TitleScreen;
+import editors.chart.ChartingState;
+import extensions.flixel.FlxCameraExt;
+import extensions.flixel.FlxTextExt;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.effects.FlxFlicker;
-import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.graphics.frames.FlxBitmapFont;
+import flixel.group.FlxSpriteGroup;
+import flixel.math.FlxMath;
+import flixel.math.FlxPoint;
+import flixel.text.FlxBitmapText;
+import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import lime.utils.Assets;
-import flixel.text.FlxText;
-import extensions.flixel.FlxTextExt;
-import caching.*;
-
-import editors.chart.ChartingState;
+import flixel.util.FlxSort;
+import flixel.util.FlxTimer;
+import graphics.DigitDisplay;
+import haxe.Json;
+import menus.characterSelect.CharacterSelectState;
+import menus.mainMenu.*;
+import modding.PolymodHandler;
+import openfl.filters.ShaderFilter;
+import shaders.BlueFadeShader;
+import shaders.ColorGradientShader;
+import transition.data.InstantTransition;
 
 using StringTools;
 

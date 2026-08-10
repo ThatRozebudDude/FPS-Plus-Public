@@ -1,18 +1,15 @@
 package;
 
+import characters.CharacterInfoBase;
 import characters.ScriptableCharacter;
-import flixel.system.FlxAssets.FlxShader;
-import flixel.util.FlxSignal;
+import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
-import characters.CharacterInfoBase;
+import flixel.system.FlxAssets.FlxShader;
 import flixel.util.FlxColor;
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.animation.FlxBaseAnimation;
-import flixel.graphics.frames.FlxAtlasFrames;
-import objects.*;
+import flixel.util.FlxSignal;
 import graphics.AtlasSprite;
+import objects.*;
 
 using StringTools;
 

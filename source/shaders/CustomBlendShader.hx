@@ -1,11 +1,11 @@
 package shaders;
 
 import flixel.FlxBasic;
-import openfl.display.BitmapData;
-import openfl.display.BlendMode;
-import flixel.system.FlxAssets.FlxShader;
 import flixel.FlxCamera;
 import flixel.FlxG;
+import flixel.system.FlxAssets.FlxShader;
+import openfl.display.BitmapData;
+import openfl.display.BlendMode;
 
 class CustomBlendShader extends FlxBasic
 {

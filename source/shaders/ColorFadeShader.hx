@@ -1,9 +1,8 @@
 package shaders;
 
 import flixel.FlxBasic;
-import flixel.util.FlxColor;
-import openfl.display.ShaderParameter;
 import flixel.system.FlxAssets.FlxShader;
+import flixel.util.FlxColor;
 
 class ColorFadeShader extends FlxBasic
 {

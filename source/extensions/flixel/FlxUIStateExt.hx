@@ -1,21 +1,17 @@
 package extensions.flixel;
 
-import flixel.FlxSubState;
-import transition.*;
-import transition.data.*;
-
-import scripts.ScriptableState;
-import scripts.ScriptedState;
-import polymod.hscript._internal.PolymodScriptClass;
-
-import openfl.display.BitmapData;
-import openfl.system.System;
 import extensions.flixel.FlxCameraExt;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.FlxSubState;
 import flixel.addons.ui.FlxUIState;
+import openfl.display.BitmapData;
 import restricted.RestrictedUtils;
+import scripts.ScriptableState;
+import scripts.ScriptedState;
+import transition.*;
+import transition.data.*;
 
 using StringTools;
 

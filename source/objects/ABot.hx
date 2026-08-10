@@ -1,14 +1,14 @@
 package objects;
 
-import flixel.system.FlxAssets.FlxShader;
-import flixel.FlxObject;
-import flixel.util.FlxAxes;
-import flixel.sound.FlxSound;
 import flixel.FlxG;
-import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+import flixel.FlxObject;
 import flixel.FlxSprite;
-import shaders.*;
+import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+import flixel.sound.FlxSound;
+import flixel.system.FlxAssets.FlxShader;
+import flixel.util.FlxAxes;
 import graphics.AtlasSprite;
+import shaders.*;
 
 class ABot extends FlxTypedSpriteGroup<FlxSprite>
 {

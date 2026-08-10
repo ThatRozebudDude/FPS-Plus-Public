@@ -1,7 +1,7 @@
 package;
 
-import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.FlxG;
+import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.input.keyboard.FlxKey;
 
 class Binds

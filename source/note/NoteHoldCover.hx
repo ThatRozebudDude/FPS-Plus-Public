@@ -1,13 +1,9 @@
 package note;
 
 import config.Config;
-import flixel.math.FlxPoint;
-import openfl.display.BlendMode;
-import openfl.display.BitmapData;
-import flixel.FlxSprite;
-import flixel.animation.FlxBaseAnimation;
-import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.math.FlxPoint;
 
 using StringTools;
 

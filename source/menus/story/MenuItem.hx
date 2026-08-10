@@ -1,14 +1,12 @@
 package menus.story;
 
 import config.Config;
-import haxe.Json;
-import flixel.math.FlxPoint;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxSpriteGroup;
-import flixel.math.FlxMath;
+import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
+import haxe.Json;
 
 class MenuItem extends FlxSpriteGroup
 {

@@ -1,11 +1,11 @@
 package editors.ui;
 
-import flixel.math.FlxRect;
-import flixel.math.FlxMath;
 import editors.ui.Box;
-import flixel.util.FlxSignal;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.math.FlxMath;
+import flixel.math.FlxRect;
+import flixel.util.FlxSignal;
 
 using StringTools;
 

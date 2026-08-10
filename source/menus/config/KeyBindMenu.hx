@@ -1,22 +1,20 @@
 package menus.config;
 
-import menus.config.KeyIcon.ControllerIcon;
-import extensions.flixel.FlxUIStateExt;
-import flixel.input.gamepad.FlxGamepad;
-import flixel.input.gamepad.FlxGamepadInputID;
 import Binds.Keybind;
-import flixel.sound.FlxSound;
-import flixel.group.FlxSpriteGroup;
-import flixel.input.keyboard.FlxKey;
-import transition.data.*;
+import extensions.flixel.FlxTextExt;
+import extensions.flixel.FlxUIStateExt;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.group.FlxSpriteGroup;
+import flixel.input.gamepad.FlxGamepad;
+import flixel.input.gamepad.FlxGamepadInputID;
+import flixel.input.keyboard.FlxKey;
+import flixel.sound.FlxSound;
+import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.util.FlxColor;
-import flixel.text.FlxText;
-import extensions.flixel.FlxTextExt;
-
+import menus.config.KeyIcon.ControllerIcon;
+import transition.data.*;
 
 using StringTools;
 

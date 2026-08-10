@@ -1,16 +1,13 @@
 package;
 
-import flixel.sound.FlxSound;
 import extensions.flixel.FlxCameraExt;
-import openfl.events.KeyboardEvent;
 import flixel.FlxG;
 import flixel.FlxObject;
-import flixel.FlxSubState;
-import flixel.math.FlxPoint;
-import flixel.util.FlxColor;
-import flixel.util.FlxTimer;
+import flixel.sound.FlxSound;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 
 class GameOverSubState extends MusicBeatSubState
 {

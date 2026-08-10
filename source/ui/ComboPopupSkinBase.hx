@@ -1,8 +1,8 @@
 package ui;
 
 import flixel.math.FlxPoint;
-import ui.ComboPopup.PopupInfo;
 import haxe.Json;
+import ui.ComboPopup.PopupInfo;
 
 typedef ComboPopupSkinInfo = {
 	var ratingsInfo:PopupInfo;

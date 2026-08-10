@@ -1,10 +1,9 @@
 package extensions.flixel;
 
-import openfl.text.AntiAliasType;
 import flixel.math.FlxAngle;
 import flixel.math.FlxMath;
-import openfl.display.BitmapData;
 import flixel.text.FlxText;
+import openfl.display.BitmapData;
 
 class FlxTextExt extends FlxText
 {

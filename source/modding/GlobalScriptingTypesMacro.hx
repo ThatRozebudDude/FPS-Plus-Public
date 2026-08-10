@@ -1,8 +1,8 @@
 package modding;
 
-import haxe.macro.Type.ClassType;
 import haxe.macro.Context;
 import haxe.macro.Expr;
+import haxe.macro.Type.ClassType;
 
 #if macro
 /*

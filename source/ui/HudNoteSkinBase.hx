@@ -1,9 +1,8 @@
 package ui;
 
 import characters.CharacterInfoBase.FrameLoadType;
-import note.NoteSkinBase.NoteAnimInfo;
-import flixel.math.FlxPoint;
 import haxe.Json;
+import note.NoteSkinBase.NoteAnimInfo;
 
 typedef AllArrowsInfo = {
 	var notePath:String;

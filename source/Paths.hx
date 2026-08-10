@@ -1,14 +1,8 @@
 package;
 
-import flixel.util.typeLimit.OneOfTwo;
-#if sys
-import sys.FileSystem;
-#end
-
 import caching.*;
-import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.FlxGraphic;
-import modding.PolymodHandler;
+import flixel.graphics.frames.FlxAtlasFrames;
 
 using StringTools;
 

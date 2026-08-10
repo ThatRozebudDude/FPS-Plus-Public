@@ -1,24 +1,23 @@
 package;
 
-import flixel.sound.FlxSound;
-import note.NoteType;
+import caching.*;
+import config.*;
 import events.Events;
+import extensions.flixel.FlxUIStateExt;
+import flixel.FlxG;
+import flixel.FlxState;
+import flixel.sound.FlxSound;
+import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
-import menus.title.*;
-import config.*;
-import menus.config.*;
-import transition.data.*;
-import flixel.FlxState;
-import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import flixel.text.FlxText;
-import extensions.flixel.FlxUIStateExt;
-import caching.*;
-import modding.*;
 import graphics.AtlasSprite;
+import menus.config.*;
+import menus.title.*;
+import modding.*;
+import note.NoteType;
+import transition.data.*;
 
 using StringTools;
 

@@ -1,8 +1,7 @@
 package shaders;
 
-import openfl.system.Capabilities;
-import flixel.FlxG;
 import openfl.Lib;
+import openfl.system.Capabilities;
 
 /*
   A screenspace version of the DropShadowShader.. currently the only way to use this effect with

@@ -1,13 +1,13 @@
 package modding;
 
-import restricted.RestrictedUtils;
+import flixel.FlxG;
+import haxe.Json;
 import menus.config.CacheReload;
+import openfl.Assets;
+import polymod.Polymod;
+import restricted.RestrictedUtils;
 import transition.CustomTransition;
 import transition.data.InstantTransition;
-import openfl.Assets;
-import haxe.Json;
-import flixel.FlxG;
-import polymod.Polymod;
 import utils.ClassMacro;
 
 using StringTools;

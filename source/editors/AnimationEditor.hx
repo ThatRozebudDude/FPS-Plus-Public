@@ -1,22 +1,20 @@
 package editors;
 
-import extensions.flixel.FlxTextExt;
 import caching.ImageCache;
-import modding.PolymodHandler;
-import characters.ScriptableCharacter;
 import characters.CharacterInfoBase;
+import characters.ScriptableCharacter;
 import config.Config;
-import openfl.desktop.ClipboardFormats;
-import openfl.desktop.Clipboard;
 import extensions.flixel.FlxCameraExt;
+import extensions.flixel.FlxTextExt;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.display.FlxGridOverlay;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
-import flixel.util.FlxColor;
+import modding.PolymodHandler;
+import openfl.desktop.Clipboard;
+import openfl.desktop.ClipboardFormats;
 
 using StringTools;
 

@@ -1,12 +1,12 @@
 package extensions.flixel.text;
 
-import flixel.graphics.frames.FlxBitmapFont;
-import openfl.display.BitmapData;
-import flixel.util.FlxDestroyUtil;
-import flixel.util.FlxColor;
 import flixel.FlxG;
-import flixel.text.FlxText.FlxTextAlign;
+import flixel.graphics.frames.FlxBitmapFont;
 import flixel.text.FlxBitmapText;
+import flixel.text.FlxText.FlxTextAlign;
+import flixel.util.FlxColor;
+import flixel.util.FlxDestroyUtil;
+import openfl.display.BitmapData;
 
 class FlxBitmapTextExt extends FlxBitmapText
 {

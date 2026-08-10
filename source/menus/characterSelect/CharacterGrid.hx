@@ -1,12 +1,12 @@
 package menus.characterSelect;
 
+import flixel.FlxSprite;
+import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
-import shaders.HueShader;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
 import menus.characterSelect.CharacterSelectState.CharacterSelectGroup;
-import flixel.group.FlxSpriteGroup;
+import shaders.HueShader;
 
 class CharacterGrid extends FlxSpriteGroup
 {

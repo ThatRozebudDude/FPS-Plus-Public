@@ -1,9 +1,9 @@
 package modding;
 
+import flixel.FlxG;
+import haxe.Json;
 import sys.FileSystem;
 import sys.io.File;
-import haxe.Json;
-import flixel.FlxG;
 
 class ModConfig
 {

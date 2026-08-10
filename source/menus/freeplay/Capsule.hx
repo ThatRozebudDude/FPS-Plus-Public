@@ -1,19 +1,19 @@
 package menus.freeplay;
 
-import haxe.Json;
-import flixel.util.FlxTimer;
-import flixel.FlxG;
-import openfl.display.BlendMode;
 import Highscore.SongStats;
-import flixel.tweens.FlxEase;
-import flixel.math.FlxRect;
-import flixel.math.FlxPoint;
-import flixel.util.FlxColor;
-import flixel.text.FlxText.FlxTextBorderStyle;
 import extensions.flixel.FlxTextExt;
-import flixel.tweens.FlxTween;
-import flixel.group.FlxSpriteGroup;
+import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.group.FlxSpriteGroup;
+import flixel.math.FlxPoint;
+import flixel.math.FlxRect;
+import flixel.text.FlxText.FlxTextBorderStyle;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
+import haxe.Json;
+import openfl.display.BlendMode;
 
 using StringTools;
 

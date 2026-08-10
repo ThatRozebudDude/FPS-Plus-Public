@@ -1,15 +1,12 @@
 package characters;
 
-import note.Note;
-import flixel.tweens.FlxTween.FlxTweenManager;
-import flixel.FlxSprite;
-import flixel.group.FlxGroup;
-import flixel.FlxG;
 import flixel.FlxBasic;
-import flixel.util.FlxColor;
+import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.math.FlxPoint;
-import Character.AttachedAction;
 import flixel.system.FlxAssets.FlxShader;
+import flixel.util.FlxColor;
+import note.Note;
 
 enum AnimType {
 	prefix;

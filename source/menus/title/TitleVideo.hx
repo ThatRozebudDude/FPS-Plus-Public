@@ -1,12 +1,11 @@
 package menus.title;
 
-import transition.data.InstantTransition;
-import extensions.flixel.FlxUIStateExt;
 import config.Config;
+import extensions.flixel.FlxUIStateExt;
 import flixel.FlxG;
-import flixel.util.FlxColor;
-import menus.mainMenu.MainMenuState;
 import graphics.VideoHandler;
+import menus.mainMenu.MainMenuState;
+import transition.data.InstantTransition;
 
 using StringTools;
 

@@ -1,6 +1,7 @@
 package config;
 
 import flixel.FlxG;
+
 using StringTools;
 
 class CacheConfig

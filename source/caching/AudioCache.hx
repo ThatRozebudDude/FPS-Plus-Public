@@ -1,8 +1,6 @@
 package caching;
 
 import openfl.Assets;
-import flixel.FlxG;
-import flixel.sound.FlxSoundGroup;
 
 using StringTools;
 

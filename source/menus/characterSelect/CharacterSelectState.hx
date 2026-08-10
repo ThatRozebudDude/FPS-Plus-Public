@@ -1,19 +1,19 @@
 package menus.characterSelect;
 
-import flixel.math.FlxPoint;
 import config.Config;
-import flixel.group.FlxSpriteGroup;
-import flixel.util.FlxTimer;
-import openfl.filters.ShaderFilter;
-import shaders.BlueFadeShader;
+import flixel.FlxG;
 import flixel.FlxObject;
+import flixel.FlxSprite;
+import flixel.group.FlxSpriteGroup;
+import flixel.math.FlxPoint;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import menus.freeplay.FreeplayState;
-import flixel.FlxG;
-import flixel.FlxSprite;
-import haxe.Json;
+import flixel.util.FlxTimer;
 import graphics.AtlasSprite;
+import haxe.Json;
+import menus.freeplay.FreeplayState;
+import openfl.filters.ShaderFilter;
+import shaders.BlueFadeShader;
 
 using StringTools;
 

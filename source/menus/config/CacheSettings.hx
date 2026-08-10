@@ -1,16 +1,15 @@
 package menus.config;
 
-import extensions.flixel.FlxUIStateExt;
-import extensions.flixel.FlxTextExt;
-import flixel.sound.FlxSound;
-import transition.data.*;
 import config.*;
-
-import flixel.FlxState;
+import extensions.flixel.FlxTextExt;
+import extensions.flixel.FlxUIStateExt;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.util.FlxColor;
+import flixel.FlxState;
+import flixel.sound.FlxSound;
 import flixel.text.FlxText;
+import flixel.util.FlxColor;
+import transition.data.*;
 
 using StringTools;
 

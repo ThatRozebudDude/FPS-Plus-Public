@@ -2,10 +2,10 @@ package transition;
 
 import caching.*;
 import extensions.flixel.FlxUIStateExt;
-import openfl.system.System;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.group.FlxSpriteGroup;
+import openfl.system.System;
 
 /**
 	The base class for state transitions.

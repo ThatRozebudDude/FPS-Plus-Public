@@ -1,22 +1,21 @@
 package modding;
 
 import Binds.KeybindMap;
+import Highscore.Rank;
 import config.CacheConfig;
 import config.Config;
-import flixel.input.gamepad.FlxGamepadInputID;
-import openfl.display.BlendMode as BaseBlendMode;
-import flixel.text.FlxText.FlxTextBorderStyle;
-import flixel.input.keyboard.FlxKey;
+import flixel.FlxBasic;
 import flixel.FlxG;
-import flixel.util.FlxAxes;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
-import flixel.FlxBasic;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import sys.FileSystem;
+import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+import flixel.input.gamepad.FlxGamepadInputID;
+import flixel.input.keyboard.FlxKey;
+import flixel.text.FlxText.FlxTextBorderStyle;
+import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
-import Highscore.Rank;
+import openfl.display.BlendMode as BaseBlendMode;
 
 using StringTools;
 

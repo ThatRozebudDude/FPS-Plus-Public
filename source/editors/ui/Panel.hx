@@ -1,11 +1,10 @@
 package editors.ui;
 
-import flixel.FlxG;
-import editors.ui.UIManager;
 import editors.ui.Box;
+import editors.ui.UIManager;
+import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.util.FlxSignal;
-import flixel.FlxSprite;
 
 using StringTools;
 

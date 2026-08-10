@@ -2,7 +2,6 @@ package editors.ui;
 
 import extensions.flixel.text.FlxBitmapTextExt;
 import flixel.graphics.frames.FlxBitmapFont;
-import flixel.text.FlxBitmapText;
 
 class UIText extends FlxBitmapTextExt
 {

@@ -1,9 +1,9 @@
 package editors.chart;
 
-import flixel.math.FlxPoint;
-import shaders.TintShader;
 import Chart.EventDefinition;
 import flixel.FlxSprite;
+import flixel.math.FlxPoint;
+import shaders.TintShader;
 
 using StringTools;
 

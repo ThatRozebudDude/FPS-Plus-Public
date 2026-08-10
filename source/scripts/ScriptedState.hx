@@ -1,10 +1,8 @@
 package scripts;
 
+import modding.PolymodHandler;
 import transition.CustomTransition;
 import transition.data.InstantTransition;
-
-import modding.PolymodHandler;
-import restricted.RestrictedUtils;
 
 //Basically just MusicBeatState with polymodReload
 class ScriptedState extends MusicBeatState
@@ -22,7 +20,7 @@ class ScriptedState extends MusicBeatState
 	}
 
 	public static function init(stateString:String){
-		var r = RestrictedUtils.callStaticGeneratedMethod(ScriptableState, "scriptInit", [stateString]);
+		var r = restricted.RestrictedUtils.callStaticGeneratedMethod(ScriptableState, "scriptInit", [stateString]);
 		Reflect.setProperty(r, "_stateName", stateString);
 		return r;
 	}

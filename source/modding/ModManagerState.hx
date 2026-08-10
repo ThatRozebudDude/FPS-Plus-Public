@@ -1,25 +1,25 @@
 package modding;
 
-import menus.mainMenu.MainMenuState;
-import menus.config.ConfigOption;
-import menus.config.CacheReload;
+import caching.*;
 import config.CacheConfig;
 import config.Config;
-import sys.io.File;
-import haxe.Json;
-import sys.FileSystem;
-import openfl.display.BitmapData;
+import extensions.flixel.FlxTextExt;
+import extensions.flixel.FlxUIStateExt;
 import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.math.FlxPoint;
+import flixel.text.FlxText.FlxTextAlign;
+import flixel.text.FlxText.FlxTextBorderStyle;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import flixel.text.FlxText.FlxTextBorderStyle;
-import flixel.text.FlxText.FlxTextAlign;
-import extensions.flixel.FlxTextExt;
-import flixel.math.FlxPoint;
-import flixel.FlxSprite;
-import extensions.flixel.FlxUIStateExt;
-import caching.*;
+import haxe.Json;
+import menus.config.CacheReload;
+import menus.config.ConfigOption;
+import menus.mainMenu.MainMenuState;
+import openfl.display.BitmapData;
+import sys.FileSystem;
+import sys.io.File;
 
 class ModManagerState extends FlxUIStateExt
 {

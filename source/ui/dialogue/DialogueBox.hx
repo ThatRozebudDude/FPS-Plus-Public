@@ -1,16 +1,16 @@
 package ui.dialogue;
 
-import openfl.display.BlendMode;
-import flixel.group.FlxSpriteGroup;
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.text.FlxTypeText;
+import flixel.group.FlxSpriteGroup;
+import flixel.math.FlxPoint;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxSignal;
-import flixel.math.FlxPoint;
-import flixel.FlxG;
 import haxe.Json;
-import flixel.tweens.FlxTween;
-import flixel.tweens.FlxEase;
+import openfl.display.BlendMode;
 
 using StringTools;
 

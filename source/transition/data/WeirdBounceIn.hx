@@ -1,10 +1,10 @@
 package transition.data;
 
+import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import flixel.FlxG;
-import flixel.FlxSprite;
 
 /**
 	Transition animation made to test the new transition system.

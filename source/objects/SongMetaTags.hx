@@ -1,12 +1,12 @@
 package objects;
 
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
+import extensions.flixel.FlxTextExt;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import extensions.flixel.FlxTextExt;
 import haxe.Json;
 
 using StringTools;

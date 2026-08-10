@@ -1,8 +1,6 @@
 package editors.ui;
 
 import editors.ui.Box;
-import flixel.util.FlxSignal;
-import flixel.FlxG;
 
 using StringTools;
 

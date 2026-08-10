@@ -1,8 +1,8 @@
 package menus.results;
 
-import flixel.util.FlxColor;
 import Highscore.Rank;
 import flixel.group.FlxSpriteGroup;
+import flixel.util.FlxColor;
 
 @:build(modding.GlobalScriptingTypesMacro.build())
 class ResultsCharacter extends FlxSpriteGroup

@@ -1,8 +1,8 @@
 package menus.story;
 
-import haxe.Json;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
+import haxe.Json;
 
 class MenuCharacter extends FlxSprite
 {

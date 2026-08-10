@@ -1,10 +1,8 @@
 package config;
 
-import openfl.events.Event;
 import flixel.FlxG;
-import openfl.Lib;
-import restricted.RestrictedUtils;
 import haxe.rtti.Meta;
+import restricted.RestrictedUtils;
 
 using StringTools;
 

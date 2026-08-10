@@ -1,11 +1,11 @@
 package transition.data;
 
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxEase.EaseFunction;
-import flixel.tweens.FlxTween;
-import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.tweens.FlxEase.EaseFunction;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
 import flixel.util.FlxGradient;
 
 /**

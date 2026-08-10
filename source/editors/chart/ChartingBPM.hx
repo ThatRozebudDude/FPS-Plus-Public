@@ -1,8 +1,8 @@
 package editors.chart;
 
-import flixel.math.FlxPoint;
 import Chart.BPMDefinition;
 import flixel.FlxSprite;
+import flixel.math.FlxPoint;
 
 class ChartingBPM extends FlxSprite
 {

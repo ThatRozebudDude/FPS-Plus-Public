@@ -1,9 +1,9 @@
 package editors.ui;
 
-import flixel.util.FlxAxes;
 import editors.ui.Box;
-import flixel.util.FlxSignal;
 import flixel.FlxSprite;
+import flixel.util.FlxAxes;
+import flixel.util.FlxSignal;
 
 using StringTools;
 

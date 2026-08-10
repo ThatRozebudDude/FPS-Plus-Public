@@ -1,11 +1,11 @@
 package graphics;
 
-import flixel.system.FlxAssets.FlxShader;
-import flixel.util.FlxColor;
-import flixel.tweens.FlxTween;
-import flixel.tweens.FlxEase;
-import flixel.group.FlxSpriteGroup;
 import flixel.FlxSprite;
+import flixel.group.FlxSpriteGroup;
+import flixel.system.FlxAssets.FlxShader;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
 
 using StringTools;
 

@@ -1,6 +1,7 @@
 package modding;
 
 import Type.ValueType;
+
 using StringTools;
 
 //Stolen from the base game Funkin' repo cuz I don't wanna type all this up myself.

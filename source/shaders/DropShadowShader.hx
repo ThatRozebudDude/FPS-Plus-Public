@@ -1,12 +1,11 @@
 package shaders;
 
-import flixel.math.FlxRect;
+import flixel.FlxSprite;
 import flixel.graphics.FlxGraphic;
+import flixel.graphics.frames.FlxFrame;
+import flixel.math.FlxAngle;
 import flixel.system.FlxAssets.FlxShader;
 import flixel.util.FlxColor;
-import flixel.FlxSprite;
-import flixel.math.FlxAngle;
-import flixel.graphics.frames.FlxFrame;
 import openfl.display.BitmapData;
 
 //This is just taken directly from base game, I may convert this to how FPS Plus normally does shaders later.

@@ -1,40 +1,40 @@
 package editors.chart;
 
-import data.OrderedMap;
-import graphics.waveform.WaveformSprite;
-import note.NoteType;
-import openfl.net.FileReference;
-import openfl.events.Event;
-import events.Events;
-import haxe.Json;
+import Chart.BPMDefinition;
+import Chart.ChartFormat;
+import Chart.EventDefinition;
 import Chart.EventFormat;
-import openfl.Assets;
-import stages.ScriptableStage;
+import Chart.NoteDefinition;
+import caching.*;
 import characters.CharacterInfoBase;
 import characters.ScriptableCharacter;
-import modding.ScriptingUtil.BlendMode;
-import Chart.ChartFormat;
-import Chart.NoteDefinition;
-import Chart.EventDefinition;
-import Chart.BPMDefinition;
-import editors.ui.*;
-import flixel.sound.FlxSound;
-import flixel.util.FlxSort;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.tweens.FlxEase;
-import flixel.tweens.misc.ColorTween;
-import flixel.tweens.FlxTween;
-import ui.HealthIcon;
-import flixel.math.FlxMath;
-import flixel.util.FlxColor;
-import flixel.FlxObject;
-import flixel.math.FlxRect;
-import flixel.addons.display.FlxSliceSprite;
-import flixel.addons.display.FlxBackdrop;
-import flixel.FlxG;
-import flixel.FlxSprite;
 import config.*;
-import caching.*;
+import data.OrderedMap;
+import editors.ui.*;
+import events.Events;
+import flixel.FlxG;
+import flixel.FlxObject;
+import flixel.FlxSprite;
+import flixel.addons.display.FlxBackdrop;
+import flixel.addons.display.FlxSliceSprite;
+import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.math.FlxMath;
+import flixel.math.FlxRect;
+import flixel.sound.FlxSound;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.tweens.misc.ColorTween;
+import flixel.util.FlxColor;
+import flixel.util.FlxSort;
+import graphics.waveform.WaveformSprite;
+import haxe.Json;
+import modding.ScriptingUtil.BlendMode;
+import note.NoteType;
+import openfl.Assets;
+import openfl.events.Event;
+import openfl.net.FileReference;
+import stages.ScriptableStage;
+import ui.HealthIcon;
 
 using StringTools;
 
@@ -48,7 +48,7 @@ typedef GridParts = {
 //Used for undo/redo stuff.
 typedef ChartSnapshot = {
 	var notes:Array<NoteDefinition>;
-	var events:Array<EventDefinition>;
+	var events:Array<Chart.EventDefinition>;
 	var bpmChanges:Array<BPMDefinition>;
 	var action:UndoAction;
 }
@@ -206,7 +206,7 @@ class ChartingState extends MusicBeatState
 	var copiedNoteData:Array<NoteDefinition> = [];
 	var copyingBoth:Bool = false;
 
-	var copiedEventData:Array<EventDefinition> = [];
+	var copiedEventData:Array<Chart.EventDefinition> = [];
 
 	var playerHitSoundToggle:Toggle;
 	var opponentHitSoundToggle:Toggle;
@@ -2154,7 +2154,7 @@ class ChartingState extends MusicBeatState
 			noteData.push(note.generateNoteDefinition());
 		});
 
-		var eventData:Array<EventDefinition> = [];
+		var eventData:Array<Chart.EventDefinition> = [];
 		events.forEachAlive(function(event:ChartingEvent){
 			eventData.push(event.generateEventDefinition());
 		});

@@ -1,20 +1,19 @@
 package;
 
 import caching.*;
-import flixel.tweens.FlxEase;
-import extensions.flixel.FlxTextExt;
-import haxe.Json;
-import flixel.text.FlxText;
-import extensions.flixel.FlxCameraExt;
-import editors.chart.ChartingState;
-import flixel.tweens.FlxTween;
 import config.*;
-import menus.config.*;
+import editors.chart.ChartingState;
+import extensions.flixel.FlxCameraExt;
+import extensions.flixel.FlxTextExt;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.sound.FlxSound;
+import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import menus.config.*;
 
 class PauseSubState extends MusicBeatSubState
 {

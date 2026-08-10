@@ -1,11 +1,11 @@
 package graphics;
 
-import thx.Int64s;
-import flixel.util.FlxSignal;
-import flixel.FlxSprite;
 import flixel.FlxG;
-import openfl.Assets;
+import flixel.FlxSprite;
 import flixel.util.FlxColor;
+import flixel.util.FlxSignal;
+import openfl.Assets;
+import thx.Int64s;
 
 #if desktop
 import hxvlc.openfl.Video;

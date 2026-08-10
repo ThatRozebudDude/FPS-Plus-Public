@@ -1,8 +1,6 @@
 package;
 
 import flixel.FlxBasic;
-import flixel.sound.FlxSound;
-import caching.AudioCache;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -10,11 +8,9 @@ import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
+import flixel.sound.FlxSound;
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
-import haxe.macro.Context;
-import haxe.macro.Expr;
-import haxe.macro.Type;
 import modding.PolymodHandler;
 import openfl.system.System;
 import openfl.utils.Assets;
@@ -23,12 +19,6 @@ import sys.io.File;
 
 using Lambda;
 using StringTools;
-#if yaml
-import yaml.Parser;
-import yaml.Renderer;
-import yaml.Yaml;
-import yaml.util.ObjectMap;
-#end
 
 class Utils
 {

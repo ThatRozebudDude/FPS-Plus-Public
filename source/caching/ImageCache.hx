@@ -1,10 +1,10 @@
 package caching;
 
+import caching.GPUBitmap;
+import config.Config;
 import flixel.graphics.FlxGraphic;
 import flixel.util.FlxDestroyUtil;
-import config.Config;
 import openfl.utils.Assets;
-import caching.GPUBitmap;
 
 class ImageCache
 {

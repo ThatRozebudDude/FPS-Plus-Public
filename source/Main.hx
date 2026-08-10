@@ -1,16 +1,16 @@
 package;
 
 import config.Config;
-import openfl.Lib;
-import flixel.system.debug.log.LogStyle;
 import extensions.openfl.display.FPSExt;
-import modding.PolymodHandler;
-import flixel.FlxGame;
 import flixel.FlxG;
+import flixel.FlxGame;
 import flixel.FlxSprite;
-import openfl.display.Sprite;
-import openfl.display.InteractiveObject;
+import flixel.system.debug.log.LogStyle;
 import graphics.VideoHandler;
+import modding.PolymodHandler;
+import openfl.Lib;
+import openfl.display.InteractiveObject;
+import openfl.display.Sprite;
 
 class Main extends Sprite
 {

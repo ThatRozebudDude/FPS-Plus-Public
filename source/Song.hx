@@ -1,10 +1,9 @@
 #if BACKWARD_COMPATIBILITY
 package;
 
-import haxe.Json;
-import Chart.LegacySong;
-import Chart.LegacySection;
 import Chart.LegacyEvents;
+import Chart.LegacySong;
+import haxe.Json;
 
 using StringTools;
 

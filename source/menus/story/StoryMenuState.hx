@@ -1,26 +1,25 @@
 package menus.story;
 
-import menus.mainMenu.MainMenuState;
-import modding.PolymodHandler;
-import flixel.tweens.FlxEase;
-import haxe.Json;
-import transition.data.StickerIn;
+import caching.*;
 import config.Config;
-import menus.title.*;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.frames.FlxBitmapFont;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxGroup;
-import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.text.FlxBitmapText;
 import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import caching.*;
+import haxe.Json;
+import menus.mainMenu.MainMenuState;
+import menus.title.*;
+import modding.PolymodHandler;
+import transition.data.StickerIn;
 
 using StringTools;
 

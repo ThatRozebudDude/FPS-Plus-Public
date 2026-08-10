@@ -1,19 +1,18 @@
 package extensions.flixel;
 
-import openfl.Lib;
-import openfl.display.OpenGLRenderer;
-import openfl.display.BlendMode;
-import openfl.display.BitmapData;
-import openfl.geom.ColorTransform;
+import animate.internal.RenderTexture;
+import flixel.FlxCamera;
+import flixel.FlxG;
+import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxFrame;
 import flixel.math.FlxMatrix;
 import flixel.math.FlxRect;
 import flixel.system.FlxAssets.FlxShader;
-import flixel.graphics.FlxGraphic;
-import flixel.FlxCamera;
-import flixel.FlxG;
-import animate.internal.RenderTexture;
-
+import openfl.Lib;
+import openfl.display.BitmapData;
+import openfl.display.BlendMode;
+import openfl.display.OpenGLRenderer;
+import openfl.geom.ColorTransform;
 import shaders.CustomBlendShader;
 
 //Extension that uses shaders to support additional blend modes on devices that do not support Khronos extensions.

@@ -1,16 +1,15 @@
 package menus.title;
 
-import transition.data.InstantTransition;
+import config.Config;
+import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.addons.display.FlxBackdrop;
+import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import graphics.ScrollingGraphic;
-import flixel.addons.display.FlxBackdrop;
-import flixel.text.FlxText;
-import flixel.FlxSprite;
-import config.Config;
-import flixel.FlxG;
-import extensions.flixel.FlxUIStateExt;
 import objects.WaveformSprite;
+import transition.data.InstantTransition;
 
 class TitleEasterEgg extends MusicBeatState
 {

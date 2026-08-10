@@ -1,8 +1,8 @@
 package extensions.flixel.system.frondEnds;
 
-import flixel.system.FlxAssets.FlxSoundAsset;
-import flixel.sound.FlxSoundGroup;
 import flixel.sound.FlxSound;
+import flixel.sound.FlxSoundGroup;
+import flixel.system.FlxAssets.FlxSoundAsset;
 import flixel.system.frontEnds.SoundFrontEnd;
 
 class SoundFrontEndExt extends SoundFrontEnd

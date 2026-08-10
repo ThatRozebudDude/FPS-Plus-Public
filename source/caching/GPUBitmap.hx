@@ -1,11 +1,11 @@
 package caching;
 
-import openfl.display3D.textures.Texture;
+import flixel.FlxG;
 import openfl.Assets;
 import openfl.display.BitmapData;
-import flixel.FlxG;
-import openfl.display3D.Context3DTextureFormat;
 import openfl.display3D.Context3D;
+import openfl.display3D.Context3DTextureFormat;
+import openfl.display3D.textures.Texture;
 
 using StringTools;
 

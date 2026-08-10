@@ -1,9 +1,8 @@
 package extensions.openfl.display;
 
-import flixel.FlxG;
+import openfl.system.System;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
-import openfl.system.System;
 
 /**
 	The FPS class provides an easy-to-use monitor to display

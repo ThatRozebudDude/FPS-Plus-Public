@@ -1,8 +1,8 @@
 package graphics;
 
 import flixel.FlxSprite;
-import flixel.util.FlxAxes;
 import flixel.addons.display.FlxBackdrop;
+import flixel.util.FlxAxes;
 
 class ScrollingGraphic{
 

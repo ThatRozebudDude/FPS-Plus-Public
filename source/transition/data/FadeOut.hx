@@ -1,10 +1,10 @@
 package transition.data;
 
+import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import flixel.FlxG;
-import flixel.FlxSprite;
 
 /**
 	A simple fade to a color.
