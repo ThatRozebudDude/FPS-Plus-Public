@@ -7,10 +7,8 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.effects.FlxFlicker;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
-import flixel.system.debug.console.ConsoleUtil;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -18,7 +16,6 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import haxe.Http;
 import haxe.Json;
-import lime.utils.Assets;
 import menus.config.*;
 import menus.freeplay.FreeplayState;
 import menus.story.StoryMenuState;
@@ -29,6 +26,7 @@ import restricted.RestrictedUtils;
 import scripts.ScriptableState;
 import scripts.ScriptedState;
 import transition.data.*;
+import utils.Constants;
 
 using StringTools;
 
@@ -72,11 +70,8 @@ class MainMenuState extends MusicBeatState
 	public static final lerpSpeed:Float = 0.0042;
 	final warningDelay:Float = 15;
 
-	inline public static final VERSION:String = "9.1.0";
-	inline public static final VERSION_TAG:String = #if final "" #else "Non-Release Build" #end;
 	inline public static final SHOW_BUILD_INFO:Bool = #if final false #else true #end;
 	
-	public static var buildDate:String = "";
 	#if UPDATE_CHECKING
 	public static var showUpdateButton:Int = 0;
 	public static var updateVersion:String = "";
@@ -161,7 +156,7 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow);
 
-		versionText = new FlxTextExt(5, FlxG.height - 21, 0, "FPS Plus: v" + VERSION + (VERSION_TAG.length > 0 ? " (" + VERSION_TAG + ")" : "") + " | Mod API: v" + PolymodHandler.API_VERSION_STRING, 16);
+		versionText = new FlxTextExt(5, FlxG.height - 21, 0, "FPS Plus: v" + Constants.VERSION + (Constants.VERSION_TAG.length > 0 ? " (" + Constants.VERSION_TAG + ")" : "") + " | Mod API: v" + PolymodHandler.API_VERSION_STRING, 16);
 		versionText.scrollFactor.set();
 		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 
@@ -179,9 +174,7 @@ class MainMenuState extends MusicBeatState
 		#end
 
 		if(SHOW_BUILD_INFO){
-			buildDate = CompileTime.buildDateString();
-
-			buildInfoText = new FlxTextExt(1280 - 5, FlxG.height - 37, 0, "Build Date: " + buildDate + "\n" + GitCommit.getGitBranch() +  " (" + GitCommit.getGitCommitHash() + ")", 16);
+			buildInfoText = new FlxTextExt(1280 - 5, FlxG.height - 37, 0, "Build Date: " + Constants.BUILD_DATE + "\n" + Constants.GIT_BRANCH +  " (" + Constants.GIT_HASH + ")", 16);
 			buildInfoText.scrollFactor.set();
 			buildInfoText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			buildInfoText.x -= buildInfoText.width;
@@ -506,9 +499,9 @@ class UpdateCheck
 				var http = new Http("https://raw.githubusercontent.com/ThatRozebudDude/FPS-Plus-Update-Checking/main/latest");
 				http.onData = function(data:String) {
 					v = data.split("\n")[0].trim();
-					r = (MainMenuState.VERSION != v) ? 1 : 0;
+					r = (Constants.VERSION != v) ? 1 : 0;
 					chachedResult = {result: r, version: v};
-					trace("Latest Version: " + data + "\tCurrent Version: " + MainMenuState.VERSION);
+					trace("Latest Version: " + data + "\tCurrent Version: " + Constants.VERSION);
 	
 					http.onData = null;
 					http.onError = null;

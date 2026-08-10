@@ -49,10 +49,7 @@ class Startup extends FlxUIStateExt
 
 	public static var hasEe2:Bool;
 
-	override function create()
-	{
-
-		//results.ResultsState.enableDebugControls = true;
+	override function create(){
 
 		#if ENABLE_TRACY
 		cpp.vm.tracy.TracyProfiler.setThreadName("main");

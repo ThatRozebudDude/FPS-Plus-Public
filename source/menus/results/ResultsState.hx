@@ -7,7 +7,6 @@ import extensions.flixel.FlxCameraExt;
 import extensions.flixel.FlxTextExt;
 import extensions.flixel.FlxUIStateExt;
 import flixel.FlxG;
-import flixel.FlxGame;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
 import flixel.graphics.frames.FlxBitmapFont;
@@ -27,7 +26,6 @@ import menus.mainMenu.MainMenuState;
 import menus.story.StoryMenuState;
 import modding.PolymodHandler;
 import openfl.Assets;
-import openfl.filters.ShaderFilter;
 import shaders.ColorGradientShader;
 import shaders.TintShader;
 import transition.data.StickerOut;
@@ -37,7 +35,7 @@ using StringTools;
 class ResultsState extends FlxUIStateExt
 {
 	public static var instance:ResultsState;
-	public static var enableDebugControls:Bool = false;
+	public static var enableDebugControls:Bool = #if debug true #else false #end;
 
 	public var camBg:FlxCameraExt;
 	public var camScroll:FlxCameraExt;

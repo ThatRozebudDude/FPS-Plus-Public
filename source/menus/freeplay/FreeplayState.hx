@@ -29,6 +29,7 @@ import openfl.filters.ShaderFilter;
 import shaders.BlueFadeShader;
 import shaders.ColorGradientShader;
 import transition.data.InstantTransition;
+import utils.Constants;
 
 using StringTools;
 
@@ -794,7 +795,7 @@ class FreeplayState extends MusicBeatState
 			menuItems[i].offset.y = menuItems[i].frameHeight/2;
 		}
 
-		versionText = new FlxTextExt(5, FlxG.height - 21, 0, "FPS Plus: v" + MainMenuState.VERSION + (MainMenuState.VERSION_TAG.length > 0 ? " (" + MainMenuState.VERSION_TAG + ")" : "") + " | Mod API: v" + PolymodHandler.API_VERSION_STRING, 16);
+		versionText = new FlxTextExt(5, FlxG.height - 21, 0, "FPS Plus: v" + Constants.VERSION + (Constants.VERSION_TAG.length > 0 ? " (" + Constants.VERSION_TAG + ")" : "") + " | Mod API: v" + PolymodHandler.API_VERSION_STRING, 16);
 		versionText.scrollFactor.set();
 		versionText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		versionText.cameras = [camMenu];
@@ -816,7 +817,7 @@ class FreeplayState extends MusicBeatState
 		#end
 
 		if(MainMenuState.SHOW_BUILD_INFO){
-			var buildInfoText = new FlxTextExt(1280 - 5, FlxG.height - 37, 0, "Build Date: " + MainMenuState.buildDate + "\n" + GitCommit.getGitBranch() +  " (" + GitCommit.getGitCommitHash() + ")", 16);
+			var buildInfoText = new FlxTextExt(1280 - 5, FlxG.height - 37, 0, "Build Date: " + Constants.BUILD_DATE + "\n" + Constants.GIT_BRANCH +  " (" + Constants.GIT_HASH + ")", 16);
 			buildInfoText.scrollFactor.set();
 			buildInfoText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			buildInfoText.x -= buildInfoText.width;
