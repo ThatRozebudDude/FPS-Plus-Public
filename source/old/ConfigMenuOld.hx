@@ -1,7 +1,7 @@
 package old;
 
 import openfl.utils.Assets;
-import title.TitleScreen;
+import menus.title.TitleScreen;
 import flixel.sound.FlxSound;
 import flixel.group.FlxSpriteGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;

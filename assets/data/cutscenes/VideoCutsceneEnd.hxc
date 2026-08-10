@@ -2,6 +2,7 @@ package cutscenes;
 
 import transition.data.InstantTransition;
 import flixel.tweens.FlxEase;
+import graphics.VideoHandler;
 
 class VideoCutsceneEnd extends ScriptedCutscene
 {

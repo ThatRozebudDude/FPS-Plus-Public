@@ -1,8 +1,10 @@
 package;
 
+import menus.mainMenu.MainMenuState;
 import shaders.*;
 import ui.*;
 import config.*;
+import menus.config.*;
 import editors.*;
 import transition.data.*;
 import stages.*;
@@ -20,8 +22,8 @@ import editors.chart.ChartingState;
 import flixel.FlxBasic;
 import flixel.group.FlxGroup;
 import haxe.Json;
-import results.ResultsState;
-import freeplay.FreeplayState;
+import menus.results.ResultsState;
+import menus.freeplay.FreeplayState;
 import flixel.FlxState;
 import openfl.utils.Assets;
 import flixel.math.FlxRect;
@@ -46,7 +48,7 @@ import scripts.ScriptableScript;
 import scripts.Script;
 import modding.PolymodHandler;
 import openfl.filters.ShaderFilter;
-import story.StoryMenuState;
+import menus.story.StoryMenuState;
 import data.OrderedMap;
 
 using StringTools;

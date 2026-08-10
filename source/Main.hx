@@ -10,6 +10,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import openfl.display.Sprite;
 import openfl.display.InteractiveObject;
+import graphics.VideoHandler;
 
 class Main extends Sprite
 {

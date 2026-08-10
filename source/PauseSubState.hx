@@ -9,6 +9,7 @@ import extensions.flixel.FlxCameraExt;
 import editors.chart.ChartingState;
 import flixel.tweens.FlxTween;
 import config.*;
+import menus.config.*;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;

@@ -1,7 +1,7 @@
 package modding;
 
 import restricted.RestrictedUtils;
-import config.CacheReload;
+import menus.config.CacheReload;
 import transition.CustomTransition;
 import transition.data.InstantTransition;
 import openfl.Assets;
@@ -290,7 +290,7 @@ class PolymodHandler
 		Polymod.addDefaultImport(Conductor);
 		Polymod.addDefaultImport(GameOverSubState);
 		Polymod.addDefaultImport(Highscore);
-		Polymod.addDefaultImport(MainMenuState);
+		#if BACKWARD_COMPATIBILITY Polymod.addDefaultImport(menus.mainMenu.MainMenuState); #end
 		Polymod.addDefaultImport(MusicBeatState);
 		Polymod.addDefaultImport(MusicBeatSubState);
 		Polymod.addDefaultImport(Paths);
@@ -300,7 +300,7 @@ class PolymodHandler
 		#if BACKWARD_COMPATIBILITY Polymod.addDefaultImport(Song); #end
 		Polymod.addDefaultImport(Chart);
 		Polymod.addDefaultImport(Utils);
-		Polymod.addDefaultImport(VideoHandler);
+		//#if BACKWARD_COMPATIBILITY Polymod.addDefaultImport(graphics.VideoHandler); #end
 
 		Polymod.addDefaultImport(graphics.AtlasSprite);
 
@@ -328,10 +328,10 @@ class PolymodHandler
 
 		Polymod.addDefaultImport(cutscenes.ScriptedCutscene);
 		Polymod.addDefaultImport(scripts.Script);
-		Polymod.addDefaultImport(freeplay.DJCharacter);
-		Polymod.addDefaultImport(characterSelect.CharacterSelectCharacter);
+		Polymod.addDefaultImport(menus.freeplay.DJCharacter);
+		Polymod.addDefaultImport(menus.characterSelect.CharacterSelectCharacter);
 		Polymod.addDefaultImport(note.NoteSkinBase);
-		Polymod.addDefaultImport(results.ResultsCharacter);
+		Polymod.addDefaultImport(menus.results.ResultsCharacter);
 
 		Polymod.addDefaultImport(objects.ScriptableObject.ScriptedObject);
 		Polymod.addDefaultImport(objects.ScriptableSprite.ScriptedSprite);

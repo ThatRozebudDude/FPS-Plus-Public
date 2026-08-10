@@ -1,7 +1,8 @@
 package modding;
 
-import config.ConfigOption;
-import config.CacheReload;
+import menus.mainMenu.MainMenuState;
+import menus.config.ConfigOption;
+import menus.config.CacheReload;
 import config.CacheConfig;
 import config.Config;
 import sys.io.File;

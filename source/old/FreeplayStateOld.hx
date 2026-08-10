@@ -4,7 +4,7 @@ import ui.HealthIcon;
 import transition.data.StickerIn;
 import extensions.flixel.FlxUIStateExt;
 import config.CacheConfig;
-import title.TitleScreen;
+import menus.title.TitleScreen;
 import config.Config;
 import flash.text.TextField;
 import flixel.FlxG;

@@ -1,9 +1,5 @@
 package objects;
 
-#if sys
-import sys.io.File;
-#end
-
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
@@ -24,7 +20,6 @@ class SongMetaTags extends FlxSpriteGroup
 	var fontSize:Int = 24;
 
 	public function new(_x:Float, _y:Float, _song:String) {
-
 		super(_x, _y);
 
 		var text = new FlxTextExt(0, 0, 0, "", fontSize);
@@ -46,18 +41,15 @@ class SongMetaTags extends FlxSpriteGroup
 
 		x -= size;
 		visible = false;
-		
 	}
 
 
 
 	public function start(){
-
 		visible = true;
 
 		FlxTween.tween(this, {x: x + size + (fontSize/2)}, 1, {ease: FlxEase.quintOut, onComplete: function(twn:FlxTween){
 			FlxTween.tween(this, {x: x - size}, 1, {ease: FlxEase.quintIn, startDelay: 2, onComplete: function(twn:FlxTween){ this.destroy(); }});
 		}});
-
 	}
 }

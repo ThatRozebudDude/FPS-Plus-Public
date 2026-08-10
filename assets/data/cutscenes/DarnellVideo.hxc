@@ -2,6 +2,7 @@ package cutscenes;
 
 import flixel.tweens.FlxEase;
 import cutscenes.ScriptableCutscene;
+import graphics.VideoHandler;
 
 class DarnellVideo extends ScriptedCutscene
 {

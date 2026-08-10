@@ -4,6 +4,7 @@ import flixel.math.FlxMath;
 import transition.data.InstantTransition;
 import flixel.math.FlxPoint;
 import flixel.tweens.FlxEase;
+import graphics.VideoHandler;
 
 class TwoHotEnding extends ScriptedCutscene
 {

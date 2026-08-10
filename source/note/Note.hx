@@ -1,6 +1,6 @@
 package note;
 
-import config.*;
+import config.Config;
 
 import flixel.FlxSprite;
 //import polymod.format.ParseRules.TargetSignatureElement;
