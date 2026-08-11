@@ -59,9 +59,11 @@ if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 
 This makes sure that the animation will only play when the game would normally let animations play. This is not required in case you want to do very specific things with note types but unless you absolutely require it I recommend adding the check before playing an animation. For note miss function you just need to check `character.canAutoAnim`.
 
-### Adjusting Health
+### Adjusting Note Properties
 
 By default, the player's health will be automatically adjust how it normally would with a default note. To change the player's health you can set the variable `healthAdjust` to a specific value in the hit or miss function. After the function is run it is automatically set back to `null`. `healthAdjust` is not dependant on whether it is a hit or miss so a positive value will always add health and a negative value will always remove health. Remember that the player's health is a value from `0` to `2` so setting `healthAdjust` to `1` would add 50% health and setting `healthAdjust` to `-0.5` would remove 25% health. `healthAdjust` only works with the player character.
+
+You can also make the note use a specific game over character by setting `deathCharacter` to the name of the character that you want to use for the game over animations.
 
 ### Dynamic Camera Movement
 
@@ -122,11 +124,8 @@ class DarnellNotes extends NoteType
         playstate.executeEvent("phillyStreets-canHit");
         playstate.camFocusBF();
         playstate.camChangeZoom(0.85, Conductor.getCrotchet() * 2, FlxEase.expoOut);
-        healthAdjust = 0;
-        playstate.health -= 0.5;
-        if(playstate.health <= 0){
-            playstate.openGameOver("PicoDeadExplode");
-        }
+        healthAdjust = -0.5;
+		deathCharacter = "PicoDeadExplode";
     }
 }
 ```

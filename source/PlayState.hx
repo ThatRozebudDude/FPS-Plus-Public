@@ -215,7 +215,7 @@ class PlayState extends MusicBeatState
 		return opponentNotesInRange[0] || opponentNotesInRange[1] || opponentNotesInRange[2] || opponentNotesInRange[3];
 	}
 
-	private final strumLineVerticalPosition:Float = Config.downscroll ? 623 : 93;
+	private final strumLineVerticalPosition:Float = Config.downscroll ? 625 : 95;
 
 	private static var prevCamFollow:FlxObject;
 
@@ -228,6 +228,7 @@ class PlayState extends MusicBeatState
 	public var health:Float = 1;
 	public var healthLerp:Float = 1;
 	public var healthAdjustOverride:Null<Float> = null;
+	public var deathCharacterOverride:Null<String> = null;
 
 	public var combo:Int = 0;
 	public var totalPlayed:Int = 0;
@@ -1674,6 +1675,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if(health <= 0){ openGameOver(); }
+		if(deathCharacterOverride != null){ deathCharacterOverride = null; }
 
 		if(unspawnNotes[0] != null){
 			if (unspawnNotes[0].strumTime - Conductor.songPosition < 3000){
@@ -1733,7 +1735,14 @@ class PlayState extends MusicBeatState
 	}
 
 	public dynamic function openGameOver(?character:String):Void{
-		if(character == null){ character = boyfriend.deathCharacter; }
+		if(character == null){
+			if(deathCharacterOverride == null){
+				character = boyfriend.deathCharacter;
+			}
+			else{
+				character = deathCharacterOverride;
+			}
+		}
 
 		paused = true;
 
@@ -2331,7 +2340,7 @@ class PlayState extends MusicBeatState
 				health -= healthLoss * Config.healthDrainMultiplier;
 			}
 			else{
-				health += healthAdjustOverride;
+				health += healthAdjustOverride * Config.healthDrainMultiplier;
 				healthAdjustOverride = null;
 			}
 
@@ -2410,7 +2419,7 @@ class PlayState extends MusicBeatState
 
 			if (!note.isSustainNote){
 				combo++;
-				popUpScore(note, healthAdjustOverride == null);
+				popUpScore(note, (healthAdjustOverride == null));
 				if(gf.hasAnimation("combo" + combo)){ gf.danceLockout = gf.playAnim("combo" + combo); }
 				if(combo > songStats.highestCombo) { songStats.highestCombo = combo; }
 			}
@@ -2423,7 +2432,7 @@ class PlayState extends MusicBeatState
 			}
 
 			if(healthAdjustOverride != null){
-				health += healthAdjustOverride;
+				health += healthAdjustOverride * Config.healthMultiplier;
 				healthAdjustOverride = null;
 			}
 

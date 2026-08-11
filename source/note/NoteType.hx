@@ -121,10 +121,17 @@ class NoteType
 	}
 	#end
 
-	@:isVar var healthAdjust(never,set):Float;
+	@:isVar var healthAdjust(never, set):Float;
 	@:noCompletion inline function set_healthAdjust(v:Float):Float{ 
 		healthAdjust = v;
 		PlayState.instance.healthAdjustOverride = v;
+		return v;
+	}
+
+	@:isVar var deathCharacter(never, set):String;
+	@:noCompletion inline function set_deathCharacter(v:String):String{ 
+		deathCharacter = v;
+		PlayState.instance.deathCharacterOverride = v;
 		return v;
 	}
 
