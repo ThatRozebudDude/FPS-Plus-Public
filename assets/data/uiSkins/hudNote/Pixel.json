@@ -2,10 +2,10 @@
 	"path": "week6/weeb/pixelUI/notes/arrows-pixels",
 	"frameLoadType": {
 		"type": "load",
-		"dimensions": [19, 19]
+		"dimensions": [21, 21]
 	},
 	"scale": 6,
-	"spacing": 3,
+	"spacing": -9,
 	"antialiasing": false,
 	"splash": "Pixel",
 	"holdCover": "Pixel",

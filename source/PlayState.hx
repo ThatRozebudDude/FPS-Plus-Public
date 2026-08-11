@@ -215,7 +215,7 @@ class PlayState extends MusicBeatState
 		return opponentNotesInRange[0] || opponentNotesInRange[1] || opponentNotesInRange[2] || opponentNotesInRange[3];
 	}
 
-	public var strumLineVerticalPosition:Float;
+	private final strumLineVerticalPosition:Float = Config.downscroll ? 623 : 93;
 
 	private static var prevCamFollow:FlxObject;
 
@@ -541,7 +541,7 @@ class PlayState extends MusicBeatState
 
 		add(dadPos);
 		add(bfPos);
-		add(gfPos);
+	add(gfPos);
 
 		trace("dad: " + dadPos.x + ", " + dadPos.y);
 		trace("bf: " + bfPos.x + ", " + bfPos.y);
@@ -563,13 +563,6 @@ class PlayState extends MusicBeatState
 		add(comboUiGroup);
 
 		Conductor.songPosition = -5000;
-
-		if(Config.downscroll){
-			strumLineVerticalPosition = 570;
-		}
-		else {
-			strumLineVerticalPosition = 40;
-		}
 
 		playerStrums = new FlxTypedGroup<FlxSprite>();
 		enemyStrums = new FlxTypedGroup<FlxSprite>();
@@ -1220,7 +1213,7 @@ class PlayState extends MusicBeatState
 					babyArrow.animation.add("confirm", hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.frames, hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.framerate, false, hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.flipX, hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.flipY);
 			}
 
-			babyArrow.setGraphicSize(Std.int(babyArrow.width * hudNoteSkinInfo.scale));
+			babyArrow.scale.set(hudNoteSkinInfo.scale, hudNoteSkinInfo.scale);
 			babyArrow.updateHitbox();
 			babyArrow.antialiasing = hudNoteSkinInfo.antialiasing;
 
@@ -1253,6 +1246,8 @@ class PlayState extends MusicBeatState
 				});
 				enemyCovers.add(noteCover);
 			}
+
+			babyArrow.y -= babyArrow.height/2;
 
 			if(!instant){
 				babyArrow.y -= 10;
