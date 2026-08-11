@@ -10,4 +10,6 @@ class Constants {
 	public static final GIT_BRANCH:String = GitCommit.getGitBranch();
 	public static final GIT_HASH:String = GitCommit.getGitCommitHash();
 
+	public static final MENU_FRAMERATE:Int = 240;
+
 }

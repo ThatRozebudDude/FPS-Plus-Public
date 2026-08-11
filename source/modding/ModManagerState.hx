@@ -1,5 +1,6 @@
 package modding;
 
+import utils.Constants;
 import caching.*;
 import config.CacheConfig;
 import config.Config;
@@ -79,7 +80,7 @@ class ModManagerState extends FlxUIStateExt
 
 	override function create() {
 		
-		Config.setFramerate(120);
+		Config.setFramerate(Constants.MENU_FRAMERATE);
 
 		oldDisabled = PolymodHandler.disabledModDirs;
 		oldOrder = PolymodHandler.allModDirs;

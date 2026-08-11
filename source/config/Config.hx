@@ -50,7 +50,7 @@ class Config
 
 	static var configList(get, default):Array<ConfigInfo>;
 
-	public static final ALLOWED_FRAMERATE_VALUES:Array<Int> = [60, 120, 144, 240, 360, 480, 999];
+	public static final ALLOWED_FRAMERATE_VALUES:Array<Int> = [30, 60, 120, 144, 240, 360, 480, 999];
 
 	public static var initialized:Bool = false;
 	public static var fullscreenDown:Bool = false;
@@ -63,7 +63,9 @@ class Config
 				if (e.keyCode == key && !fullscreenDown){
 					fullscreenDown = true;
 					fullscreen = !fullscreen;
-					openfl.Lib.application.window.fullscreen = fullscreen;
+					FlxG.signals.preUpdate.addOnce(function(){
+						openfl.Lib.application.window.fullscreen = fullscreen;
+					});
 				}
 			}
 		});

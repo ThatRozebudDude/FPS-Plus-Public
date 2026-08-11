@@ -1,5 +1,6 @@
 package menus.characterSelect;
 
+import utils.Constants;
 import config.Config;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -79,7 +80,7 @@ class CharacterSelectState extends MusicBeatState
 
 	override function create():Void{
 
-		Config.setFramerate(144);
+		Config.setFramerate(Constants.MENU_FRAMERATE);
 
 		Conductor.countBeats = false;
 

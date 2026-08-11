@@ -1,5 +1,6 @@
 package menus.story;
 
+import utils.Constants;
 import caching.*;
 import config.Config;
 import flixel.FlxG;
@@ -71,7 +72,7 @@ class StoryMenuState extends MusicBeatState
 
 	override function create(){
 		
-		Config.setFramerate(144);
+		Config.setFramerate(Constants.MENU_FRAMERATE);
 	
 		if(FlxG.sound.music == null || !FlxG.sound.music.playing){
 			MainMenuState.playMenuMusic();

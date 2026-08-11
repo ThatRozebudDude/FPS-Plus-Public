@@ -150,7 +150,7 @@ class FreeplayState extends MusicBeatState
 
 	override function create(){
 
-		Config.setFramerate(144);
+		Config.setFramerate(Constants.MENU_FRAMERATE);
 
 		Conductor.countBeats = false;
 

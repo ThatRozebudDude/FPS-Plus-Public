@@ -85,7 +85,7 @@ class MainMenuState extends MusicBeatState
 		updateVersion = c.version;
 		#end
 
-		Config.setFramerate(144);
+		Config.setFramerate(Constants.MENU_FRAMERATE);
 
 		if(!FlxG.sound.music.playing){	
 			playMenuMusic();

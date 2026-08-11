@@ -1,5 +1,6 @@
 package menus.title;
 
+import utils.Constants;
 import config.Config;
 import extensions.flixel.FlxCameraExt;
 import flixel.FlxG;
@@ -28,7 +29,7 @@ class TitleScreen extends MusicBeatState
 
 	override public function create():Void{
 
-		Config.setFramerate(144);
+		Config.setFramerate(Constants.MENU_FRAMERATE);
 
 		useDefaultTransIn = false;
 

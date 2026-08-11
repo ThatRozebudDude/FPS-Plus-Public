@@ -1,5 +1,6 @@
 package menus.title;
 
+import utils.Constants;
 import config.Config;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -28,7 +29,7 @@ class TitleEasterEgg extends MusicBeatState
 
 		customTransIn = new InstantTransition();
 
-		Config.setFramerate(144);
+		Config.setFramerate(Constants.MENU_FRAMERATE);
 
 		FlxG.sound.playMusic(Paths.music("1326148"), 1, false);
 		FlxG.sound.music.onComplete = exit;

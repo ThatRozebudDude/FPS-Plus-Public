@@ -1,5 +1,6 @@
 package menus.results;
 
+import utils.Constants;
 import Highscore.Rank;
 import PlayState.ScoreStats;
 import config.Config;
@@ -141,7 +142,7 @@ class ResultsState extends FlxUIStateExt
 
 	override function create() {
 
-		Config.setFramerate(144);
+		Config.setFramerate(Constants.MENU_FRAMERATE);
 
 		persistentUpdate = persistentDraw = true;
 

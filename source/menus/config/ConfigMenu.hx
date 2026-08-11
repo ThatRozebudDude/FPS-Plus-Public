@@ -1,5 +1,6 @@
 package menus.config;
 
+import utils.Constants;
 import Highscore.SongStats;
 import config.*;
 import extensions.flixel.FlxTextExt;
@@ -28,8 +29,9 @@ class ConfigMenu extends FlxUIStateExt
 	public static final USE_LAYERED_MUSIC:Bool = true;	//If you're not using a layered options theme, set this to false.
 	public static final USE_MENU_MUSIC:Bool = false;	//Set this to true if you want to use the menu theme instead of a unique options song. Overrides USE_LAYERED_MUSIC.
 
-	public static final SETTING_FAST_SCROLL_DELAY:Float = 0.35;		//Time in seconds until settings with a fast scroll start fast scrolling.
-	public static final SETTING_FAST_SCROLL_SPEED:Float = 0.065;	//Time in seconds between scrolling during fast scroll.
+	static final SETTING_FAST_SCROLL_DELAY:Float = 0.35;	//Time in seconds until settings with a fast scroll start fast scrolling.
+	static final SETTING_FAST_SCROLL_SPEED:Float = 0.065;	//Time in seconds between scrolling during fast scroll.
+	static final OFFSET_FAST_SCROLL_SPEED:Float = 0.01;		//Time in seconds between scrolling during fast scroll.
 
 	public static var exitTo:Class<Dynamic>;
 	public static var startSong = true;
@@ -43,8 +45,6 @@ class ConfigMenu extends FlxUIStateExt
 	public static final cacheSongTrack:String = "config/nuConfiguratorCache";
 
 	var songLayer:FlxSound;
-
-	final fpsCapInSettings:Int = 120;
 
 	var curSelected:Int = 0;
 
@@ -141,7 +141,7 @@ class ConfigMenu extends FlxUIStateExt
 
 	override function create(){
 
-		Config.setFramerate(fpsCapInSettings);
+		Config.setFramerate(Constants.MENU_FRAMERATE);
 
 		FlxG.stage.addEventListener(Event.EXIT_FRAME, fullscreenPressedEvent);
 
@@ -793,7 +793,7 @@ class ConfigMenu extends FlxUIStateExt
 				framerateValue = 0;
 			}
 
-			Config.setFramerate(fpsCapInSettings, Config.ALLOWED_FRAMERATE_VALUES[framerateValue]);
+			Config.setFramerate(Constants.MENU_FRAMERATE, Config.ALLOWED_FRAMERATE_VALUES[framerateValue]);
 
 			fpsCap.setting = (Config.ALLOWED_FRAMERATE_VALUES[framerateValue] == 999 ? "uncapped" : ""+Config.ALLOWED_FRAMERATE_VALUES[framerateValue]);
 			#end
@@ -932,6 +932,7 @@ class ConfigMenu extends FlxUIStateExt
 				noteOffset.extraData[0] += FlxG.elapsed;
 				if(noteOffset.extraData[0] > SETTING_FAST_SCROLL_DELAY) {
 					if(offsetValue < 500){ offsetValue += 1; }
+					noteOffset.extraData[0] = SETTING_FAST_SCROLL_DELAY - OFFSET_FAST_SCROLL_SPEED;
 					textUpdateSingle(curListPosition);
 				}
 			}
@@ -940,6 +941,7 @@ class ConfigMenu extends FlxUIStateExt
 				noteOffset.extraData[0] += FlxG.elapsed;
 				if(noteOffset.extraData[0] > SETTING_FAST_SCROLL_DELAY) {
 					if(offsetValue > -500){ offsetValue -= 1; }
+					noteOffset.extraData[0] = SETTING_FAST_SCROLL_DELAY - OFFSET_FAST_SCROLL_SPEED;
 					textUpdateSingle(curListPosition);
 				}
 			}
