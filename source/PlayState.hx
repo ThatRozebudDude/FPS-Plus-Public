@@ -1580,25 +1580,14 @@ class PlayState extends MusicBeatState
 
 		healthBarShader.setPercentBasedOnHealth(healthLerp);
 
+		//Health Icons
 		iconP1.x = healthBar.x + healthBarShader.borderSize + ((healthBar.width-(healthBarShader.borderSize*2)) * (1 - (healthLerp / 2))) - (iconP1.xOffset);
 		iconP1.y = healthBar.y + (healthBar.height/2) - (iconP1.height / 2) + iconP1.yOffset;
+		iconP1.region = (healthLerp/2);
 		
 		iconP2.x = healthBar.x + healthBarShader.borderSize + ((healthBar.width-(healthBarShader.borderSize*2)) * (1 - (healthLerp / 2))) - (iconP2.width - iconP2.xOffset);
 		iconP2.y = healthBar.y + (healthBar.height/2) - (iconP2.height / 2) + iconP2.yOffset;
-
-		//Health Icons
-		if(healthLerp < 0.4){
-			iconP1.animation.curAnim.curFrame = 1;
-			iconP2.animation.curAnim.curFrame = 2;
-		}
-		else if(healthLerp > 1.6){
-			iconP1.animation.curAnim.curFrame = 2;
-			iconP2.animation.curAnim.curFrame = 1;
-		}
-		else{
-			iconP1.animation.curAnim.curFrame = 0;
-			iconP2.animation.curAnim.curFrame = 0;
-		}
+		iconP2.region = 1-(healthLerp/2);
 
 		if(Binds.justPressed("offsetEditor") && !isStoryMode){
 

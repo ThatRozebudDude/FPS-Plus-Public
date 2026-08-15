@@ -8,8 +8,7 @@ import lime.utils.Assets;
 
 class HealthIcon extends FlxSprite
 {
-	public var sprTracker:FlxSprite;
-	public var id:Int;
+	public var region:Float = 0.5;
 
 	public var xOffset:Float; //Positive values always move opposite of the side the icon starts on. Ex. 10 on player moves 10 pixels left, 10 on opponent moves 10 pixels right.
 	public var yOffset:Float; //This one is normal tho :]
@@ -18,32 +17,32 @@ class HealthIcon extends FlxSprite
 	public var isPlayer:Bool = false;
 	public var character:String = "face";
 
-	static final defaultOffsets:Array<Float> = [10, -10];
+	static final DEFAULT_OFFSETS:Array<Float> = [10, -10];
+	static final WIN_REGION:Float = 0.8;
+	static final LOSE_REGION:Float = 0.2;
 
-	public function new(_character:String = 'face', _isPlayer:Bool = false, ?_id:Int = -1){
-		
+	public function new(_character:String = "face", _isPlayer:Bool = false){
 		super();
-
 		isPlayer = _isPlayer;
-
 		setIconCharacter(_character);
-
-		id = _id;
-		
 		scrollFactor.set();
 	}
 
 	override function update(elapsed:Float){
-
 		super.update(elapsed);
 
-		if (sprTracker != null){
-			setPosition(sprTracker.x + sprTracker.width + 10, sprTracker.y - 30);
+		if(region > WIN_REGION){
+			animation.curAnim.curFrame = 2;
+		}
+		else if(region > LOSE_REGION){
+			animation.curAnim.curFrame = 0;
+		}
+		else{
+			animation.curAnim.curFrame = 1;
 		}
 	}
 
 	public function bop(_scale:Float, _time:Float, ?_ease:Null<flixel.tweens.EaseFunction>, ?_manager:Null<FlxTweenManager>){
-
 		if(_ease == null){ _ease = FlxEase.linear; }
 		if(_manager == null){ _manager = FlxTween.globalManager; }
 
@@ -55,7 +54,6 @@ class HealthIcon extends FlxSprite
 		else{
 			scale.set(defualtIconScale, defualtIconScale);
 		}
-
 	}
 
 	public function setIconCharacter(character:String){
@@ -92,8 +90,8 @@ class HealthIcon extends FlxSprite
 		animation.add("icon", [0, 1, 2], 0, false, isPlayer);
 		animation.play("icon");
 
-		xOffset = defaultOffsets[0];
-		yOffset = defaultOffsets[1];
+		xOffset = DEFAULT_OFFSETS[0];
+		yOffset = DEFAULT_OFFSETS[1];
 		antialiasing = true;
 		defualtIconScale = 1;
 
@@ -102,8 +100,8 @@ class HealthIcon extends FlxSprite
 			var iconJson = Json.parse(Utils.getText("assets/images/ui/" + subDir + "/" + icon + ".json"));
 			
 			if(iconJson.offset != null){
-				xOffset = (iconJson.offset.x != null) ? iconJson.offset.x : defaultOffsets[0];
-				yOffset = (iconJson.offset.y != null) ? iconJson.offset.y : defaultOffsets[1];
+				xOffset = (iconJson.offset.x != null) ? iconJson.offset.x : DEFAULT_OFFSETS[0];
+				yOffset = (iconJson.offset.y != null) ? iconJson.offset.y : DEFAULT_OFFSETS[1];
 			}
 
 			antialiasing = (iconJson.antialiasing != null) ? iconJson.antialiasing : true;
