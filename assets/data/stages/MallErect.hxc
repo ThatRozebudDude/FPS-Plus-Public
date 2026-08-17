@@ -87,6 +87,12 @@ class MallErect extends BaseStage
 		addEvent("mall-toggleSantaVisible", toggleSantaVisible);
 	}
 
+	public override function countdownBeat(curBeat:Int){
+		upperBoppers.animation.play("bop", true);
+		bottomBoppers.animation.play("bop", true);
+		santa.animation.play("idle", true);
+	}
+
 	public override function beat(curBeat:Int){
 		upperBoppers.animation.play("bop", true);
 		bottomBoppers.animation.play("bop", true);

@@ -141,6 +141,13 @@ class TankErect extends BaseStage
 		if(neneKnife.visible){ neneKnifeTracking.velocity.y += neneKnifeGravity * elapsed; }
 	}
 
+	public override function countdownBeat(curBeat:Int){
+		if(curBeat % 2 == 0){
+			guy.animation.play("idle", true);
+			sniper.animation.play("idle", true);
+		}
+	}
+
 	public override function beat(curBeat:Int){
 		if(curBeat % 2 == 0){
 			guy.animation.play("idle", true);
