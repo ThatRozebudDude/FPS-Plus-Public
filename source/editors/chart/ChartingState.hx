@@ -1,5 +1,6 @@
 package editors.chart;
 
+import utils.Constants;
 import Chart.BPMDefinition;
 import Chart.ChartFormat;
 import Chart.EventDefinition;
@@ -274,7 +275,7 @@ class ChartingState extends MusicBeatState
 	}
 
 	override function create():Void{
-		Config.setFramerate(120);
+		Config.setFramerate(Constants.EDITOR_FRAMERATE);
 		FlxG.mouse.visible = false;
 
 		generateLists();

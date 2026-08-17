@@ -11,5 +11,6 @@ class Constants {
 	public static final GIT_HASH:String = GitCommit.getGitCommitHash();
 
 	public static final MENU_FRAMERATE:Int = 240;
+	public static final EDITOR_FRAMERATE:Int = 120;
 
 }

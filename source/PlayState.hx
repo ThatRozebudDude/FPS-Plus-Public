@@ -1590,7 +1590,6 @@ class PlayState extends MusicBeatState
 		iconP2.region = 1-(healthLerp/2);
 
 		if(Binds.justPressed("offsetEditor") && !isStoryMode){
-
 			sectionStart = false;
 
 			if(FlxG.keys.pressed.SHIFT){
