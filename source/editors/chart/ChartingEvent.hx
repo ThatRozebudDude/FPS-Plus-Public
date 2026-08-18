@@ -50,13 +50,24 @@ class ChartingEvent extends FlxSprite
 				return;
 			}
 		}
+
+		//Makes sure that more specific overrides end up being used instead of stopping at the first one it finds.
+		var specificity:Int = -1;
+		var finalIconName:String = null;
 		for(key => value in ChartingState.eventIconOverrides){
 			if(tag.startsWith(key)){
-				loadGraphic(Paths.image("fpsPlus/editors/chart/events/" + value));
-				setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);
-				updateHitbox();
-				return;
+				var newSpecificity = key.split(";").length;
+				if(newSpecificity > specificity){
+					specificity = newSpecificity;
+					finalIconName = value;
+				}
 			}
+		}
+		if(finalIconName != null){
+			loadGraphic(Paths.image("fpsPlus/editors/chart/events/" + finalIconName));
+			setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);
+			updateHitbox();
+			return;
 		}
 
 		for(icon in ChartingState.eventIconList){
