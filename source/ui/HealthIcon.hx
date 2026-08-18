@@ -17,9 +17,10 @@ class HealthIcon extends FlxSprite
 	public var isPlayer:Bool = false;
 	public var character:String = "face";
 
+	public var winRegion:Float = 0.8;
+	public var loseRegion:Float = 0.2;
+
 	static final DEFAULT_OFFSETS:Array<Float> = [10, -10];
-	static final WIN_REGION:Float = 0.8;
-	static final LOSE_REGION:Float = 0.2;
 
 	public function new(_character:String = "face", _isPlayer:Bool = false){
 		super();
@@ -31,10 +32,10 @@ class HealthIcon extends FlxSprite
 	override function update(elapsed:Float){
 		super.update(elapsed);
 
-		if(region > WIN_REGION){
+		if(region > winRegion){
 			animation.curAnim.curFrame = 2;
 		}
-		else if(region > LOSE_REGION){
+		else if(region > loseRegion){
 			animation.curAnim.curFrame = 0;
 		}
 		else{
