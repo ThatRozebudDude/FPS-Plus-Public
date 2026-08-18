@@ -14,7 +14,7 @@ class TankErect extends BaseStage
 	var doTankmenRunning:Bool = false;
 	var tankmanRun:FlxGroup;
 	var tankmanRunNotes:Array<Chart.NoteDefinition> = [];
-	final tankmenCreationWindow:Float = 2000; //ms
+	final TANKMEN_CREATION_WINDOW:Float = 2000; //ms
 
 	var leftLightPoint = new FlxPoint(280, 200);
 	var rightLightPoint = new FlxPoint(1350, 200);
@@ -205,7 +205,7 @@ class TankErect extends BaseStage
 	function createNextTankmenBatch(songPosition:Float):Void{
 		var shiftAmount:Int = 0;
 		for(i in 0...tankmanRunNotes.length){
-			if(tankmanRunNotes[i].time > songPosition + tankmenCreationWindow){ continue; }
+			if(tankmanRunNotes[i].time > songPosition + TANKMEN_CREATION_WINDOW){ continue; }
 			if(FlxG.random.bool(10)){
 				var tankman:TankmenRunning = new TankmenRunning(500, 230 + FlxG.random.int(50, 80), tankmanRunNotes[i].time, tankmanRunNotes[i].direction > 1);
 				tankmanRun.add(tankman);

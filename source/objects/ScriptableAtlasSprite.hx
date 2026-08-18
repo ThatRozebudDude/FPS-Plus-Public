@@ -6,4 +6,4 @@ import graphics.AtlasSprite;
 class ScriptedAtlasSprite extends AtlasSprite{}
 
 @:hscriptClass
-class ScriptableAtlasSprite extends AtlasSprite implements polymod.hscript.HScriptedClass{}
+class ScriptableAtlasSprite extends ScriptedAtlasSprite implements polymod.hscript.HScriptedClass{}
