@@ -1,6 +1,5 @@
 package editors.chart;
 
-import utils.Constants;
 import Chart.BPMDefinition;
 import Chart.ChartFormat;
 import Chart.EventDefinition;
@@ -33,9 +32,12 @@ import modding.ScriptingUtil.BlendMode;
 import note.NoteType;
 import openfl.Assets;
 import openfl.events.Event;
+import openfl.net.FileFilter;
 import openfl.net.FileReference;
 import stages.ScriptableStage;
+import sys.io.File;
 import ui.HealthIcon;
+import utils.Constants;
 
 using StringTools;
 
@@ -721,33 +723,15 @@ class ChartingState extends MusicBeatState
 
 			chart = PlayState.chart;
 			chartEvents = PlayState.events;
-
-			final startingOpponent:String = characterList.contains(chart.meta.opponent) ? chart.meta.opponent : "Bf";
-			final startingPlayer:String = characterList.contains(chart.meta.player) ? chart.meta.player : "Bf";
-			final startingSpeaker:String = gfList.contains(chart.meta.speaker) ? chart.meta.speaker : "Gf";
-			final startingStage:String = stageList.contains(chart.meta.stage) ? chart.meta.stage : "Stage";
-
-			opponentDropdown.setSelectedTo(startingOpponent);
-			playerDropdown.setSelectedTo(startingPlayer);
-			speakerDropdown.setSelectedTo(startingSpeaker);
-			stageDropdown.setSelectedTo(startingStage);
-
-			scrollSpeed.value = chart.meta.scroll;
-			scrollSpeed.updateNumberLabel();
-
-			loadChart();
-			updateHealthIcons(startingOpponent, startingPlayer, true);
-			setCurrentState(NONE);
-
+			resetChart();
 			createAlert("Loaded " + difficultyDropdown.value.toLowerCase() + " chart for \"" + songNameInput.value + "\".", 2);
-
-			Utils.gc();
 		});
 
 		var loadAutosaveButton:Button = new Button(PANEL_SPACING, reloadChartButton.y + reloadChartButton.elementHeight + PANEL_SPACING, 192, "Load Autosave");
-		loadAutosaveButton.onPress.add(function(){
-			loadAutosave();
-		});
+		loadAutosaveButton.onPress.add(function(){ loadAutosave(); });
+
+		var openFileButton:Button = new Button(PANEL_SPACING, loadAutosaveButton.y + reloadChartButton.elementHeight + PANEL_SPACING, 192, "Open File");
+		openFileButton.onPress.add(function(){ openFile(); });
 
 		panel.addToTab("Song", songNameInput);
 		panel.addToTab("Song", opponentDropdown);
@@ -760,6 +744,7 @@ class ChartingState extends MusicBeatState
 		panel.addToTab("Song", saveEventsButton);
 		panel.addToTab("Song", reloadChartButton);
 		panel.addToTab("Song", loadAutosaveButton);
+		panel.addToTab("Song", openFileButton);
 	}
 
 	function setupNotesTab():Void{
@@ -1566,7 +1551,7 @@ class ChartingState extends MusicBeatState
 				PlayState.sectionStartTime = FlxG.sound.music.time;
 			}
 
-			PlayState.setSong(chart, PlayState.events);
+			PlayState.setSong(chart, chartEvents);
 			PlayState.fromChartEditor = true;
 			ImageCache.refreshLocal();
 			switchState(new PlayState());
@@ -2302,27 +2287,69 @@ class ChartingState extends MusicBeatState
 	}
 
 	private function onSaveComplete(_):Void{
-		fileReference.removeEventListener(Event.COMPLETE, onSaveComplete);
-		fileReference.removeEventListener(Event.CANCEL, onSaveCancel);
-		//fileReference.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
+		removeEventListenersFromFileReference();
 		fileReference = null;
 		createAlert("File saved.");
 	}
 
 	private function onSaveCancel(_):Void{
-		fileReference.removeEventListener(Event.COMPLETE, onSaveComplete);
-		fileReference.removeEventListener(Event.CANCEL, onSaveCancel);
-		//fileReference.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
+		removeEventListenersFromFileReference();
 		fileReference = null;
 	}
 
-	/*private function onSaveError(_):Void{
-		fileReference.removeEventListener(Event.COMPLETE, onSaveComplete);
-		fileReference.removeEventListener(Event.CANCEL, onSaveCancel);
-		fileReference.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
+	private function openFile(){
+		if(fileReference != null){
+			createAlert("Please wait a moment.", 1);
+			return;
+		}
+		fileReference = new FileReference();
+		fileReference.addEventListener(Event.SELECT, onFileSelect);
+		fileReference.addEventListener(Event.CANCEL, onSaveCancel);
+		fileReference.browse([new FileFilter("Chart or Events", "json")]);
+	}
+
+	private function onFileSelect(_):Void{
+		@:privateAccess
+		var filePath = fileReference.__path;
+		removeEventListenersFromFileReference();
+
+		//Return early if the file isn't a json for some reason.
+		if(!filePath.endsWith(".json")){
+			fileReference = null;
+			createAlert("Unsupported file type.");
+			return;
+		}
+
+		//Using File.getContents() instead of Utils.getText() so you can load any file on your computer.
+		var raw:String = File.getContent(filePath);
+		while(!raw.endsWith("}")){
+			raw = raw.substr(0, raw.length - 1);
+		}
+		var json:Dynamic = Json.parse(raw);
+
+		if(json.notes != null){
+			chart = Chart.chartFromRawJson(raw);
+			createAlert("Loading chart from file.", 2);
+		}
+		else if(json.events != null){
+			chartEvents = Chart.eventsFromRawJson(raw);
+			createAlert("Loading events from file.", 2);
+		}
+		else{
+			createAlert("File was not a chart or events file.", 2);
+			fileReference = null;
+			return;
+		}
+
+		resetChart();
 		fileReference = null;
-		createAlert("Error saving file.");
-	}*/
+	}
+
+	private function removeEventListenersFromFileReference():Void{
+		fileReference.removeEventListener(Event.COMPLETE, onSaveComplete);
+		fileReference.removeEventListener(Event.SELECT, onFileSelect);
+		fileReference.removeEventListener(Event.CANCEL, onSaveCancel);
+	}
 
 	function createArguments(tag:String, forNoteType:Bool):Void{
 		if(!forNoteType){
@@ -2703,34 +2730,37 @@ class ChartingState extends MusicBeatState
 	function loadAutosave():Void{
 		SaveManager.chartAutosave(chart.meta.song.toLowerCase() + "-" + difficultyDropdown.value.toLowerCase());
 		if(FlxG.save.data.chart != null && FlxG.save.data.events != null){
-			chart = Json.parse(FlxG.save.data.chart);
-			chartEvents = Json.parse(FlxG.save.data.events);
-
-			final startingOpponent:String = characterList.contains(chart.meta.opponent) ? chart.meta.opponent : "Bf";
-			final startingPlayer:String = characterList.contains(chart.meta.player) ? chart.meta.player : "Bf";
-			final startingSpeaker:String = gfList.contains(chart.meta.speaker) ? chart.meta.speaker : "Gf";
-			final startingStage:String = stageList.contains(chart.meta.stage) ? chart.meta.stage : "Stage";
-
-			opponentDropdown.setSelectedTo(startingOpponent);
-			playerDropdown.setSelectedTo(startingPlayer);
-			speakerDropdown.setSelectedTo(startingSpeaker);
-			stageDropdown.setSelectedTo(startingStage);
-
-			scrollSpeed.value = chart.meta.scroll;
-			scrollSpeed.updateNumberLabel();
-
-			loadChart();
-			updateHealthIcons(startingOpponent, startingPlayer, true);
-			setCurrentState(NONE);
-
-			Utils.gc();
+			chart = Chart.chartFromRawJson(FlxG.save.data.chart);
+			chartEvents = Chart.eventsFromRawJson(FlxG.save.data.events);
+			resetChart();
 			createAlert("Autosave loaded.", 2);
-			autosaveTimer = 0;
 		}
 		else{
 			createAlert("Could not load autosave.", 2);
 		}
 		SaveManager.previousSave();
+	}
+
+	function resetChart():Void{
+		final startingOpponent:String = characterList.contains(chart.meta.opponent) ? chart.meta.opponent : "Bf";
+		final startingPlayer:String = characterList.contains(chart.meta.player) ? chart.meta.player : "Bf";
+		final startingSpeaker:String = gfList.contains(chart.meta.speaker) ? chart.meta.speaker : "Gf";
+		final startingStage:String = stageList.contains(chart.meta.stage) ? chart.meta.stage : "Stage";
+
+		opponentDropdown.setSelectedTo(startingOpponent);
+		playerDropdown.setSelectedTo(startingPlayer);
+		speakerDropdown.setSelectedTo(startingSpeaker);
+		stageDropdown.setSelectedTo(startingStage);
+
+		scrollSpeed.value = chart.meta.scroll;
+		scrollSpeed.updateNumberLabel();
+
+		loadChart();
+		updateHealthIcons(startingOpponent, startingPlayer, true);
+		setCurrentState(NONE);
+
+		Utils.gc();
+		autosaveTimer = 0;
 	}
 
 	var eventPrefixDropdownY:Null<Float>;

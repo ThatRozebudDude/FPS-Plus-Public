@@ -67,7 +67,7 @@ class Chart
 			return getEmptyChart();
 		}
 
-		var raw = Utils.getText(path);
+		var raw:String = Utils.getText(path);
 		while(!raw.endsWith("}")){
 			raw = raw.substr(0, raw.length - 1);
 		}
@@ -180,7 +180,7 @@ class Chart
 			for(difficulty in ["hard", "normal", "easy"]){
 				var path = Paths.json(song.toLowerCase() + (difficulty == "normal" ? "" : "-" + difficulty.toLowerCase()), "data/songs/" + song.toLowerCase());
 				if(Utils.exists(path)){
-					var raw = Utils.getText(path);
+					var raw:String = Utils.getText(path);
 					while(!raw.endsWith("}")){
 						raw = raw.substr(0, raw.length - 1);
 					}
@@ -196,7 +196,7 @@ class Chart
 			return getEmptyEvents();
 		}
 
-		var raw = Utils.getText(path);
+		var raw:String = Utils.getText(path);
 		while(!raw.endsWith("}")){
 			raw = raw.substr(0, raw.length - 1);
 		}
