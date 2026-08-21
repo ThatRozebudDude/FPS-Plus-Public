@@ -33,7 +33,7 @@ class SchoolEvil extends BaseStage
 		
 		name = "schoolEvil";
 		startingZoom = 1;
-		uiType = "Pixel";
+		uiSkin = "Pixel";
 
 		farShader = new WiggleEffect();
 		farShader.effectType = WiggleEffectType.DREAMY;

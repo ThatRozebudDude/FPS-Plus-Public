@@ -16,7 +16,7 @@ class SchoolErect extends BaseStage
 
 		name = "schoolErect";
 		startingZoom = 1;
-		uiType = "Pixel";
+		uiSkin = "Pixel";
 
 		var sky = new FlxSprite(-626, -78).loadGraphic(Paths.image("week6/weeb/erect/sky"));
 		sky.antialiasing = false;

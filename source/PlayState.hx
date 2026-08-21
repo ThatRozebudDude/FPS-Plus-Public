@@ -91,6 +91,8 @@ class PlayState extends MusicBeatState
 	
 	public static var returnLocation:String = "main";
 
+	public var uiSkin:String = null;
+
 	public static var uiSkinNames = {
 		comboPopup: "Default",
 		countdown: "Default",
@@ -471,29 +473,6 @@ class PlayState extends MusicBeatState
 
 		curStage = stage.name;
 
-		uiSkinNames = {
-			comboPopup: "Default",
-			countdown: "Default",
-			note: "Default",
-			playerNotes: "Default",
-			opponentNotes: "Default"
-		};
-
-		if(Utils.exists(Paths.json(stage.uiType, "data/uiSkins"))){
-			var skinJson = Json.parse(Utils.getText(Paths.json(stage.uiType, "data/uiSkins")));
-
-			if(skinJson.note != null){
-				if(ScriptableNoteSkin.listScriptClasses().contains("noteskins."+skinJson.note)){ uiSkinNames.note = skinJson.note; }
-				#if BACKWARD_COMPATIBILITY
-				else if(ScriptableNoteSkin.listScriptClasses().contains(skinJson.note)){ uiSkinNames.note = skinJson.note; }
-				#end
-			}
-			if(skinJson.comboPopup != null && Utils.exists(Paths.json(skinJson.comboPopup, "data/uiSkins/comboPopup"))){ uiSkinNames.comboPopup = skinJson.comboPopup; }
-			if(skinJson.countdown != null && Utils.exists(Paths.json(skinJson.countdown, "data/uiSkins/countdown"))){ uiSkinNames.countdown = skinJson.countdown; }
-			if(skinJson.playerNotes != null && Utils.exists(Paths.json(skinJson.playerNotes, "data/uiSkins/hudNote"))){ uiSkinNames.playerNotes = skinJson.playerNotes; }
-			if(skinJson.opponentNotes != null && Utils.exists(Paths.json(skinJson.opponentNotes, "data/uiSkins/hudNote"))){ uiSkinNames.opponentNotes = skinJson.opponentNotes; }
-		}
-
 		//Set the start point of the characters.
 		if((stage.useStartPoints && !stage.overrideBfStartPoints) || (!stage.useStartPoints && stage.overrideBfStartPoints)){
 			boyfriend.setPosition(stage.bfStart.x - ((boyfriend.getFrameWidth() * boyfriend.getScale().x)/2), stage.bfStart.y - (boyfriend.getFrameHeight() * boyfriend.getScale().y));
@@ -558,9 +537,6 @@ class PlayState extends MusicBeatState
 		}
 
 		comboUiGroup = new FlxTypedGroup<ComboPopup>();
-
-		generateComboPopup();
-
 		add(comboUiGroup);
 
 		Conductor.songPosition = -5000;
@@ -573,7 +549,8 @@ class PlayState extends MusicBeatState
 		playerCovers = new FlxTypedGroup<NoteHoldCover>();
 		enemyCovers = new FlxTypedGroup<NoteHoldCover>();
 
-		generateSong();
+		notes = new FlxTypedGroup<Note>();
+		add(notes);
 
 		add(playerCovers);
 		add(enemyCovers);
@@ -635,7 +612,6 @@ class PlayState extends MusicBeatState
 		enemyStrums.cameras = [camHUD];
 		playerCovers.cameras = [camHUD];
 		enemyCovers.cameras = [camHUD];
-		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
@@ -741,6 +717,38 @@ class PlayState extends MusicBeatState
 		}
 
 		for(script in scripts){ script.create(); }
+
+		uiSkinNames = {
+			comboPopup: "Default",
+			countdown: "Default",
+			note: "Default",
+			playerNotes: "Default",
+			opponentNotes: "Default"
+		};
+
+		if(uiSkin == null){
+			uiSkin = stage.uiSkin;
+		}
+
+		if(uiSkin != null && Utils.exists(Paths.json(uiSkin, "data/uiSkins"))){
+			var skinJson = Json.parse(Utils.getText(Paths.json(uiSkin, "data/uiSkins")));
+
+			if(skinJson.note != null){
+				if(ScriptableNoteSkin.listScriptClasses().contains("noteskins."+skinJson.note)){ uiSkinNames.note = skinJson.note; }
+				#if BACKWARD_COMPATIBILITY
+				else if(ScriptableNoteSkin.listScriptClasses().contains(skinJson.note)){ uiSkinNames.note = skinJson.note; }
+				#end
+			}
+			if(skinJson.comboPopup != null && Utils.exists(Paths.json(skinJson.comboPopup, "data/uiSkins/comboPopup"))){ uiSkinNames.comboPopup = skinJson.comboPopup; }
+			if(skinJson.countdown != null && Utils.exists(Paths.json(skinJson.countdown, "data/uiSkins/countdown"))){ uiSkinNames.countdown = skinJson.countdown; }
+			if(skinJson.playerNotes != null && Utils.exists(Paths.json(skinJson.playerNotes, "data/uiSkins/hudNote"))){ uiSkinNames.playerNotes = skinJson.playerNotes; }
+			if(skinJson.opponentNotes != null && Utils.exists(Paths.json(skinJson.opponentNotes, "data/uiSkins/hudNote"))){ uiSkinNames.opponentNotes = skinJson.opponentNotes; }
+		}
+
+		generateComboPopup();
+		generateSong();
+
+		notes.cameras = [camHUD];
 
 		eventList = events.events.copy();
 		eventList.sort(sortByEventStuff);
@@ -1077,9 +1085,6 @@ class PlayState extends MusicBeatState
 
 		vocals.play().pause();
 		FlxG.sound.list.add(vocals);
-
-		notes = new FlxTypedGroup<Note>();
-		add(notes);
 
 		var playerCounter:Int = 0;
 

@@ -13,7 +13,7 @@ class School extends BaseStage
 
 		name = "school";
 		startingZoom = 1;
-		uiType = "Pixel";
+		uiSkin = "Pixel";
 
 		var sky = new FlxSprite(-626, -78).loadGraphic(Paths.image("week6/weeb/sky"));
 		sky.antialiasing = false;

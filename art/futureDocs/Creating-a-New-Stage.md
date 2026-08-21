@@ -10,7 +10,7 @@ There are a few basic stage properties that you want to set when creating a stag
 
 - `name`: The name of the stage. `PlayState.curStage` gets assigned to this.
 - `startingZoom`: The initial zoom level of the camera.
-- `uiType`: The name of the UI skin that is used on the stage, e.g. the Pixel skin in the Week 6 stages.
+- `uiSkin`: The name of the UI skin that is used on the stage, e.g. the Pixel skin in the Week 6 stages.
 
 There are more properties than these however they will be discussed in the other sections.
 

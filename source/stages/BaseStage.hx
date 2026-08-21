@@ -16,7 +16,16 @@ class BaseStage extends Script
 
 	public var name:String;
 	public var startingZoom:Float = 1;
-	public var uiType:String = "Default";
+	public var uiSkin:String = null;
+
+	#if BACKWARD_COMPATIBILITY
+	@:isVar public var uiType(get, set):String;
+	public function get_uiType():String{ return uiSkin; }
+	public function set_uiType(v:String):String{
+		uiSkin = v;
+		return uiSkin;
+	}
+	#end
 
 	public var extraData:Map<String, Dynamic> = new Map<String, Dynamic>();
 	public var events:Map<String, (String)->Void> = new Map<String, (String)->Void>();

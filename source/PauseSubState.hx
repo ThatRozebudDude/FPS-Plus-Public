@@ -9,11 +9,11 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.sound.FlxSound;
-import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import menus.config.*;
+import utils.Constants;
 
 class PauseSubState extends MusicBeatSubState
 {
@@ -44,7 +44,7 @@ class PauseSubState extends MusicBeatSubState
 
 		instance = this;
 
-		Config.setFramerate(144);
+		Config.setFramerate(Constants.MENU_FRAMERATE);
 
 		PlayState.instance.tweenManager.active = false;
 
