@@ -34,6 +34,7 @@ class DigitDisplay extends FlxSpriteGroup
 
 	public function new(_x:Float, _y:Float, _path:String, _digitCount:Int, ?_scale:Float = 1, ?_spacing:Float = 0, ?_startingNumber:Int = 0, ?_hideTrailingZeroes:Bool = false, ?_hasEmptyDigit:Bool = false) {
 		super(_x, _y);
+
 		digitCount = _digitCount;
 		digitScale = _scale;
 		spacing = _spacing;
@@ -58,6 +59,7 @@ class DigitDisplay extends FlxSpriteGroup
 		var digit:Digit = new Digit(0, 0, digitPath, hasEmptyDigit);
 		digit.color = digitColor;
 		digit.shader = digitShader;
+		digit.antialiasing = antialiasing;
 		digits.push(digit);
 		add(digit);
 	}
@@ -147,15 +149,21 @@ class DigitDisplay extends FlxSpriteGroup
 		return spacing * digitScale;
 	}
 
-	function set_digitColor(value:FlxColor):FlxColor {
+	function set_digitColor(value:FlxColor):FlxColor{
 		digitColor = value;
 		for(digit in digits){ digit.color = value; }
 		return value;
 	}
 
-	function set_digitShader(value:FlxShader):FlxShader {
+	function set_digitShader(value:FlxShader):FlxShader{
 		digitShader = value;
 		for(digit in digits){ digit.shader = value; }
+		return value;
+	}
+
+	override function set_antialiasing(value:Bool):Bool{
+		antialiasing = value;
+		for(digit in digits){ digit.antialiasing = value; }
 		return value;
 	}
 }
@@ -185,8 +193,6 @@ class Digit extends FlxSprite
 		animation.onFrameChange.add(function(name:String, frameNumber:Int, frameIndex:Int){
 			setOffset();
 		});
-
-		antialiasing = true;
 	}
 
 	public function setOffset():Void{
