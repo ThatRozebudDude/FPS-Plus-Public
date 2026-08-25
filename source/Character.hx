@@ -274,7 +274,6 @@ class Character extends FlxSpriteGroup
 	 * Internal version of playAnim used to prevent `isPartOfLoopingAnim` from being used by users.
 	 */
 	private function _playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0, ?isPartOfLoopingAnim:Bool = false):Bool{
-
 		if(animSet != "" && !isPartOfLoopingAnim){
 			if(animOffsets.exists(AnimName + "-" + animSet)){
 				AnimName = AnimName + "-" + animSet;
@@ -307,7 +306,6 @@ class Character extends FlxSpriteGroup
 		}
 
 		return true;
-
 	}
 
 	function changeOffsets() {
@@ -551,7 +549,6 @@ class Character extends FlxSpriteGroup
 		if(characterInfo.info.functions.postCreate != null){
 			characterInfo.info.functions.postCreate(this);
 		}
-
 	}
 
 	//Update character scale and adjust the character's offsets
@@ -575,7 +572,6 @@ class Character extends FlxSpriteGroup
 				addOffset(name, offsetBase.x + (originalAnimOffsets.get(name)[0] * _scaleX), offsetBase.y + (originalAnimOffsets.get(name)[1] * _scaleY));
 			}
 		}
-		
 	}
 
 	function updateCharacterPostion():Void{
@@ -682,7 +678,6 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function swapLeftAndRightAnimations():Void{
-
 		var animSetList:Array<String> = [];
 
 		for(k => v in animOffsets){
@@ -706,11 +701,8 @@ class Character extends FlxSpriteGroup
 		}
 
 		@:privateAccess{
-
 			if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
-
 				for(set in animSetList){
-
 					var oldRight = null;
 					var oldRightOffset = null;
 					var oldRightOffsetOriginal = null;
@@ -787,9 +779,7 @@ class Character extends FlxSpriteGroup
 	
 			}
 			else{ //Code for atlas characters
-	
 				for(set in animSetList){
-
 					var oldRight = null;
 					var oldRightOffset = null;
 					var oldRightOffsetOriginal = null;
@@ -845,13 +835,9 @@ class Character extends FlxSpriteGroup
 						animOffsets.set("singRIGHTmiss" + set, oldLeftOffsetMiss);
 						originalAnimOffsets.set("singRIGHTmiss" + set, oldLeftOffsetOriginalMiss);
 					}
-
 				}
-	
 			}
-
 		}
-
 	}
 
 	public function hasAnimation(_name:String):Bool{

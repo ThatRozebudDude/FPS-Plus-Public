@@ -2,7 +2,6 @@ package;
 
 import caching.*;
 import config.*;
-import events.Events;
 import extensions.flixel.FlxUIStateExt;
 import flixel.FlxG;
 import flixel.FlxState;
@@ -16,7 +15,6 @@ import graphics.AtlasSprite;
 import menus.config.*;
 import menus.title.*;
 import modding.*;
-import note.NoteType;
 import transition.data.*;
 
 using StringTools;
@@ -47,10 +45,7 @@ class Startup extends FlxUIStateExt
 
 	var cacheStart:Bool = false;
 
-	public static var hasEe2:Bool;
-
 	override function create(){
-
 		#if ENABLE_TRACY
 		cpp.vm.tracy.TracyProfiler.setThreadName("main");
 		#end
@@ -74,12 +69,6 @@ class Startup extends FlxUIStateExt
 		ModConfig.load();
 
 		SaveManager.global();
-		
-		//debug.ChartingState.loadLists();
-
-		//NoteType.initTypes();
-		//Events.initEvents();
-		//trace(NoteType.types);
 
 		Main.fpsDisplay.alpha = Config.showFPS ? 1 : 0;
 		FlxG.autoPause = Config.autoPause;
@@ -103,8 +92,6 @@ class Startup extends FlxUIStateExt
 		CacheConfig.check();
 		charactersCached = !CacheConfig.characters;
 		graphicsCached = !CacheConfig.graphics;
-
-		hasEe2 = Utils.exists(Paths.inst("Lil-Buddies"));
 
 		splash = new AtlasSprite(0, 0, Paths.getTextureAtlas("fpsPlus/splash"));
 		splash.antialiasing = true;
