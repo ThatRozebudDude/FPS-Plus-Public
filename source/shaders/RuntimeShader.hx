@@ -1,6 +1,7 @@
 package shaders;
 
 import flixel.addons.display.FlxRuntimeShader;
+import flixel.graphics.FlxGraphic;
 import openfl.utils.Assets;
 
 class RuntimeShader extends FlxRuntimeShader
@@ -67,6 +68,8 @@ class RuntimeShader extends FlxRuntimeShader
 	public inline function setMat4(name:String, value:Array<Float>):Void	{ setFloatArray(name, value); }
 	public inline function setMat4x4(name:String, value:Array<Float>):Void	{ setFloatArray(name, value); }
 
+	public inline function setSampler2D(name:String, value:FlxGraphic):Void	{ setBitmapData(name, value.bitmap); }
+
 
 	
 	public inline function getDouble(name:String):Float			{ return getFloat(name); }
@@ -107,4 +110,7 @@ class RuntimeShader extends FlxRuntimeShader
 	public inline function getMat4x3(name:String):Array<Float>	{ return getFloatArray(name); }
 	public inline function getMat4(name:String):Array<Float>	{ return getFloatArray(name); }
 	public inline function getMat4x4(name:String):Array<Float>	{ return getFloatArray(name); }
+
+	public inline function getSampler2D(name:String):FlxGraphic	{ return FlxGraphic.fromBitmapData(getBitmapData(name)); }
+	
 }
