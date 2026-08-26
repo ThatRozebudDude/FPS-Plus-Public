@@ -14,6 +14,7 @@
 	<compilerflag name="--macro" value="include('objects', true)" />
 	<compilerflag name="--macro" value="include('ui', true)" />
 	<compilerflag name="--macro" value="include('transition', true)" />
+	<compilerflag name="--macro" value="include('graphics', true)" />
 
 	<!--Allows all of Flixel to be used by scripts at runtime instead of only what was imported in the code.-->
 	<compilerflag name="--macro" value="include('animate')" />

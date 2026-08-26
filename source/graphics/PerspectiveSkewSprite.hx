@@ -127,11 +127,11 @@ class PerspectiveSkewSprite extends FlxTypedSpriteGroup<FlxSprite>
 	/**
 	 * Returns the scroll factor based on a Y value across the object. Useful for positioning objects across the sprite.
 	 */
-	public function getScrollFactorFromPosition(referenceY:Float):FlxPoint{
-		if(referenceY <= topObj.y){
+	public function getScrollFactorFromPosition(referenceY:Float, lockToBounds:Bool = true):FlxPoint{
+		if(referenceY <= topObj.y && lockToBounds){
 			return FlxPoint.get(topObj.scrollFactor.x, topObj.scrollFactor.y);
 		}
-		else if(referenceY >= bottomObj.y){
+		else if(referenceY >= bottomObj.y && lockToBounds){
 			return FlxPoint.get(bottomObj.scrollFactor.x, bottomObj.scrollFactor.y);
 		}
 		final lerp:Float = FlxMath.remapToRange(referenceY, topObj.y, bottomObj.y, 0, 1);
