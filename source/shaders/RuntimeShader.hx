@@ -1,6 +1,6 @@
 package shaders;
 
-import flixel.FlxBasic.IFlxBasic;
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxRuntimeShader;
 import flixel.graphics.FlxGraphic;
@@ -49,6 +49,9 @@ class RuntimeShader extends FlxRuntimeShader
 		setFloat("attachedSpriteFrameRotation", 0);
 		setBool("attachedSpriteFlipX", false);
 		setBool("attachedSpriteFlipY", false);
+
+		FlxG.signals.preDraw.add(preDraw);
+		FlxG.signals.preStateSwitch.addOnce(preStateSwitch);
 	}
 
 	public function attachCharacter(character:Character):Void{
@@ -79,7 +82,8 @@ class RuntimeShader extends FlxRuntimeShader
 		if(attachedSprite is AtlasSprite){
 			cast(attachedSprite, AtlasSprite).onFrameChange.add(attachedSpriteFrameChange);
 			attachedSpriteIsAtlas = true;
-			updateFrameInfoAtlas();
+			setVec4("attachedSpriteFrameBounds", [0, 0, 1, 1]);
+			setFloat("attachedSpriteFrameRotation", 0);
 		}
 		else{
 			attachedSprite.animation.onFrameChange.add(attachedSpriteFrameChange);
@@ -93,10 +97,7 @@ class RuntimeShader extends FlxRuntimeShader
 	private function attachedSpriteFrameChange(name:String, frame:Int, index:Int):Void{
 		if(attachedSprite == null){ return; }
 
-		if(attachedSpriteIsAtlas){
-			updateFrameInfoAtlas();
-		}
-		else{
+		if(!attachedSpriteIsAtlas){
 			updateFrameInfo(attachedSprite.frame);
 		}
 	}
@@ -105,20 +106,30 @@ class RuntimeShader extends FlxRuntimeShader
 		if(attachedSprite == null){ return; }
 		setVec4("attachedSpriteFrameBounds", [frame.uv.left, frame.uv.top, frame.uv.right, frame.uv.bottom]);
 		setFloat("attachedSpriteFrameRotation", frame.angle * FlxAngle.TO_RAD);
-		setBool("attachedSpriteFlipX", attachedSprite.flipX);
-		setBool("attachedSpriteFlipY", attachedSprite.flipY);
 	}
 
-	private function updateFrameInfoAtlas():Void{
+	/*private function updateFrameInfoAtlas():Void{
 		if(attachedSprite == null){ return; }
 		setVec4("attachedSpriteFrameBounds", [0, 0, 1, 1]);
 		setFloat("attachedSpriteFrameRotation", 0);
+	}*/
+
+	private function preDraw():Void{
+		if(attachedSprite == null){ return; }
 		setBool("attachedSpriteFlipX", attachedSprite.flipX);
 		setBool("attachedSpriteFlipY", attachedSprite.flipY);
 	}
+	
+	private function preStateSwitch():Void{
+		FlxG.signals.preDraw.remove(preDraw);
+		attachedSprite = null;
+	}
+
+	override public function toString():String{ return "RuntimeShader"; }
 
 
 
+	//Alias get and set functions that make modifying values in the shader more understandable.
 
 	public inline function setDouble(name:String, value:Float):Void			{ setFloat(name, value); }
 
@@ -205,11 +216,5 @@ class RuntimeShader extends FlxRuntimeShader
 
 	public inline function getSampler2D(name:String):FlxGraphic	{ return FlxGraphic.fromBitmapData(getBitmapData(name)); }
 	public inline function getColor(name:String):FlxColor		{ return FlxColor.fromRGBFloat(getFloatArray(name)[0], getFloatArray(name)[1], getFloatArray(name)[2], getFloatArray(name)[3]); }
-
-
-
-	override public function toString():String{
-		return "RuntimeShader";
-	}
 
 }
