@@ -1,12 +1,28 @@
 package shaders;
 
+import flixel.FlxBasic.IFlxBasic;
+import flixel.FlxSprite;
 import flixel.addons.display.FlxRuntimeShader;
 import flixel.graphics.FlxGraphic;
+import flixel.graphics.frames.FlxFrame;
+import flixel.math.FlxAngle;
 import flixel.util.FlxColor;
+import graphics.AtlasSprite;
 import openfl.utils.Assets;
 
 class RuntimeShader extends FlxRuntimeShader
 {
+
+
+	@:glFragmentHeader("
+		uniform vec4 attachedSpriteFrameBounds; //(frame.left, frame.top, frame.right, frame.bottom)
+		uniform float attachedSpriteFrameRotation;
+		uniform bool attachedSpriteFlipX;
+		uniform bool attachedSpriteFlipY;
+	", true)
+
+	public var attachedSprite(default, set):FlxSprite = null;
+	private var attachedSpriteIsAtlas:Bool = false;
 
 	public function new(?fragmentSource:String, ?vertexSource:String):Void{
 		var frag:String = null;
@@ -28,7 +44,81 @@ class RuntimeShader extends FlxRuntimeShader
 			}
 		}
 		super(frag, vert);
+
+		setVec4("attachedSpriteFrameBounds", [0, 0, 1, 1]);
+		setFloat("attachedSpriteFrameRotation", 0);
+		setBool("attachedSpriteFlipX", false);
+		setBool("attachedSpriteFlipY", false);
 	}
+
+	public function attachCharacter(character:Character):Void{
+		attachedSprite = character.getSprite();
+		character.applyShader(this);
+	}
+
+	public function set_attachedSprite(v:FlxSprite):FlxSprite{
+		if(attachedSprite != null){
+			if(attachedSpriteIsAtlas){
+				cast(attachedSprite, AtlasSprite).onFrameChange.remove(attachedSpriteFrameChange);
+			}
+			else{
+				attachedSprite.animation.onFrameChange.remove(attachedSpriteFrameChange);
+			}
+		}
+
+		if(v == null){
+			setVec4("attachedSpriteFrameBounds", [0, 0, 1, 1]);
+			setFloat("attachedSpriteFrameRotation", 0);
+			setBool("attachedSpriteFlipX", false);
+			setBool("attachedSpriteFlipY", false);
+			return attachedSprite = null;
+		}
+
+		attachedSprite = v;
+
+		if(attachedSprite is AtlasSprite){
+			cast(attachedSprite, AtlasSprite).onFrameChange.add(attachedSpriteFrameChange);
+			attachedSpriteIsAtlas = true;
+			updateFrameInfoAtlas();
+		}
+		else{
+			attachedSprite.animation.onFrameChange.add(attachedSpriteFrameChange);
+			attachedSpriteIsAtlas = false;
+			updateFrameInfo(attachedSprite.frame);
+		}
+
+		return attachedSprite;
+	}
+
+	private function attachedSpriteFrameChange(name:String, frame:Int, index:Int):Void{
+		if(attachedSprite == null){ return; }
+
+		if(attachedSpriteIsAtlas){
+			updateFrameInfoAtlas();
+		}
+		else{
+			updateFrameInfo(attachedSprite.frame);
+		}
+	}
+
+	private function updateFrameInfo(frame:FlxFrame):Void{
+		if(attachedSprite == null){ return; }
+		setVec4("attachedSpriteFrameBounds", [frame.uv.left, frame.uv.top, frame.uv.right, frame.uv.bottom]);
+		setFloat("attachedSpriteFrameRotation", frame.angle * FlxAngle.TO_RAD);
+		setBool("attachedSpriteFlipX", attachedSprite.flipX);
+		setBool("attachedSpriteFlipY", attachedSprite.flipY);
+	}
+
+	private function updateFrameInfoAtlas():Void{
+		if(attachedSprite == null){ return; }
+		setVec4("attachedSpriteFrameBounds", [0, 0, 1, 1]);
+		setFloat("attachedSpriteFrameRotation", 0);
+		setBool("attachedSpriteFlipX", attachedSprite.flipX);
+		setBool("attachedSpriteFlipY", attachedSprite.flipY);
+	}
+
+
+
 
 	public inline function setDouble(name:String, value:Float):Void			{ setFloat(name, value); }
 
@@ -115,5 +205,11 @@ class RuntimeShader extends FlxRuntimeShader
 
 	public inline function getSampler2D(name:String):FlxGraphic	{ return FlxGraphic.fromBitmapData(getBitmapData(name)); }
 	public inline function getColor(name:String):FlxColor		{ return FlxColor.fromRGBFloat(getFloatArray(name)[0], getFloatArray(name)[1], getFloatArray(name)[2], getFloatArray(name)[3]); }
-	
+
+
+
+	override public function toString():String{
+		return "RuntimeShader";
+	}
+
 }

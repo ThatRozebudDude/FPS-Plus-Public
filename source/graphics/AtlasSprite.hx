@@ -15,6 +15,7 @@ import flixel.math.FlxMatrix;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.util.FlxColor;
+import flixel.util.FlxSignal.FlxTypedSignal;
 import flixel.util.FlxSort;
 import haxe.Json;
 import haxe.io.Path;
@@ -49,6 +50,9 @@ class AtlasSprite extends FlxAnimate
 	public var frameCallback:(String, Int, Int)->Void;
 	public var animationEndCallback:String->Void;
 
+	public var onFrameChange:FlxTypedSignal<(String, Int, Int)->Void> = new FlxTypedSignal();
+	public var onFinish:FlxTypedSignal<String->Void> = new FlxTypedSignal();
+
 	private var didAnimFinishCheck:Bool = false;
 
 	#if BACKWARD_COMPATIBILITY
@@ -68,8 +72,8 @@ class AtlasSprite extends FlxAnimate
 		//frames = FlxAnimateFrames.fromAnimate(_path, null, null, null, false, _settings); //Normal frame loading stuff. Uses FlxG.bitmap.add(), really bad for memory usage.
 		
 		anim.addByTimeline("___full", anim.getDefaultTimeline(), 24, false);
-		anim.onFrameChange.add(onFrameChange);
-		anim.onFinish.add(onFinish);
+		anim.onFrameChange.add(onFrameChangeLogic);
+		anim.onFinish.add(onFinishLogic);
 
 		#if BACKWARD_COMPATIBILITY
 		//Auto setup stage matrix stuff to provide backwards compatibility with older mods.
@@ -306,17 +310,18 @@ class AtlasSprite extends FlxAnimate
 		}
 	}
 
-	function onFrameChange(name:String, frame:Int, index:Int):Void{
+	private function onFrameChangeLogic(name:String, frame:Int, index:Int):Void{
 		var animInfo:AtlasAnimInfo = animInfoMap.get(curAnim);
 
 		if(frameCallback != null){ frameCallback(curAnim, frame - animInfo.startFrame, frame); }
+		onFrameChange.dispatch(curAnim, frame - animInfo.startFrame, frame);
 
 		if((frame >= (animInfo.startFrame + animInfo.length) || frame < animInfo.startFrame) && !didAnimFinishCheck){
 			animationEndBehavior(animInfo);
 		}
 	}
 	
-	function onFinish(name:String):Void{
+	private function onFinishLogic(name:String):Void{
 		if(!didAnimFinishCheck){
 			animationEndBehavior(animInfoMap.get(curAnim));
 		}
@@ -333,6 +338,7 @@ class AtlasSprite extends FlxAnimate
 		}
 		else{ finishedAnim = true; }
 		if(animationEndCallback != null){ animationEndCallback(curAnim); }
+		onFinish.dispatch(curAnim);
 	}
 
 	//Taken from base game's FunkinSprite.
