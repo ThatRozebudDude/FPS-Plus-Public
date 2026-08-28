@@ -1996,20 +1996,20 @@ class PlayState extends MusicBeatState
 
 		switch(rating){
 			case "sick":
-				health += Scoring.SICK_HEAL_AMOUNT * Config.healthMultiplier * noHealMultiply;
+				adjustHealthWithModifier(Scoring.SICK_HEAL_AMOUNT * noHealMultiply);
 				songStats.sickCount++;
 				if(Config.noteSplashType >= 1 && Config.noteSplashType < 4){
 					createNoteSplash(note);
 				}
 			case "good":
-				health += Scoring.GOOD_HEAL_AMOUNT * Config.healthMultiplier * noHealMultiply;
+				adjustHealthWithModifier(Scoring.GOOD_HEAL_AMOUNT * noHealMultiply);
 				songStats.goodCount++;
 			case "bad":
-				health += Scoring.BAD_HEAL_AMOUNT * Config.healthMultiplier * noHealMultiply;
+				adjustHealthWithModifier(Scoring.BAD_HEAL_AMOUNT * noHealMultiply);
 				songStats.badCount++;
 				comboBreak();
 			case "shit":
-				health += Scoring.SHIT_HEAL_AMOUNT * Config.healthMultiplier * noHealMultiply;
+				adjustHealthWithModifier(Scoring.SHIT_HEAL_AMOUNT * noHealMultiply);
 				songStats.shitCount++;
 				comboBreak();
 		}
@@ -2330,10 +2330,10 @@ class PlayState extends MusicBeatState
 			callback(note, boyfriend);
 			
 			if(healthAdjustOverride == null){
-				health -= healthLoss * Config.healthDrainMultiplier;
+				adjustHealthWithModifier(-healthLoss);
 			}
 			else{
-				health += healthAdjustOverride * Config.healthDrainMultiplier;
+				adjustHealthWithModifier(healthAdjustOverride);
 				healthAdjustOverride = null;
 			}
 
@@ -2418,14 +2418,14 @@ class PlayState extends MusicBeatState
 			}
 			else{
 				if(healthAdjustOverride == null){
-					health += (Scoring.HOLD_HEAL_AMOUNT_PER_SECOND * Conductor.getStepCrotchet()) * Config.healthMultiplier;
+					adjustHealthWithModifier(Scoring.HOLD_HEAL_AMOUNT_PER_SECOND * Conductor.getStepCrotchet());
 				}
 				songStats.score += Std.int(Scoring.HOLD_SCORE_PER_SECOND * Conductor.getStepCrotchet());
 				songStats.susCount++;
 			}
 
 			if(healthAdjustOverride != null){
-				health += healthAdjustOverride * Config.healthMultiplier;
+				adjustHealthWithModifier(healthAdjustOverride);
 				healthAdjustOverride = null;
 			}
 
@@ -3025,6 +3025,10 @@ class PlayState extends MusicBeatState
 		for(event in removeFromEvents){
 			eventList.remove(event);
 		}
+	}
+
+	public function adjustHealthWithModifier(amount:Float):Void{
+		health += amount * (amount > 0 ? Config.healthMultiplier : Config.healthDrainMultiplier);
 	}
 
 }
