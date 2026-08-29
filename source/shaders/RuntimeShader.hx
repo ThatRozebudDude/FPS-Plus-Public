@@ -61,10 +61,7 @@ class RuntimeShader extends FlxRuntimeShader
 
 	public function set_attachedSprite(v:FlxSprite):FlxSprite{
 		if(attachedSprite != null){
-			if(attachedSpriteIsAtlas){
-				cast(attachedSprite, AtlasSprite).onFrameChange.remove(attachedSpriteFrameChange);
-			}
-			else{
+			if(!attachedSpriteIsAtlas){
 				attachedSprite.animation.onFrameChange.remove(attachedSpriteFrameChange);
 			}
 		}
@@ -80,7 +77,6 @@ class RuntimeShader extends FlxRuntimeShader
 		attachedSprite = v;
 
 		if(attachedSprite is AtlasSprite){
-			cast(attachedSprite, AtlasSprite).onFrameChange.add(attachedSpriteFrameChange);
 			attachedSpriteIsAtlas = true;
 			setVec4("attachedSpriteFrameBounds", [0, 0, 1, 1]);
 			setFloat("attachedSpriteFrameRotation", 0);
