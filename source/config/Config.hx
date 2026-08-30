@@ -42,11 +42,13 @@ class Config
 	@configParam("flashingLights")			public static var flashingLights:Bool = true;
 	@configParam("fullscreen")				public static var fullscreen:Bool = false;
 	@configParam("tabOutPause")				public static var tabOutPause:Bool = true;
+	@configParam("volume")					public static var volume:Float = 1;
+	@configParam("muted")					public static var muted:Bool = false;
 
 	#if UPDATE_CHECKING @configParam("checkForUpdates") public static var checkForUpdates:Bool = true; #end
 
-	@configParam("ee1")						public static var ee1:Bool = false;
-	@configParam("ee2")						public static var ee2:Bool = false;
+	@configParam("ee1")						public static var ee1:Bool = false;	//Pixel offset menu
+	@configParam("ee2")						public static var ee2:Bool = false;	//Lil' Buddies (currently unused)
 
 	static var configList(get, default):Array<ConfigInfo>;
 
@@ -60,10 +62,10 @@ class Config
 
 		openfl.Lib.current.stage.addEventListener(openfl.events.KeyboardEvent.KEY_DOWN, (e:openfl.events.KeyboardEvent) -> {
 			for(key in Binds.binds.get("fullscreen").binds){
-				if (e.keyCode == key && !fullscreenDown){
+				if(e.keyCode == key && !fullscreenDown){
 					fullscreenDown = true;
 					fullscreen = !fullscreen;
-					FlxG.signals.preUpdate.addOnce(function(){
+					FlxG.signals.postDraw.addOnce(function(){
 						openfl.Lib.application.window.fullscreen = fullscreen;
 					});
 				}
@@ -72,7 +74,7 @@ class Config
 
 		openfl.Lib.current.stage.addEventListener(openfl.events.KeyboardEvent.KEY_UP, (e:openfl.events.KeyboardEvent) -> {
 			for(key in Binds.binds.get("fullscreen").binds){
-				if (e.keyCode == key && fullscreenDown){
+				if(e.keyCode == key && fullscreenDown){
 					fullscreenDown = false;
 				}
 			}
@@ -84,6 +86,9 @@ class Config
 		if(framerateValue == -1){
 			framerate = ALLOWED_FRAMERATE_VALUES[ALLOWED_FRAMERATE_VALUES.length-1];
 		}
+
+		FlxG.sound.volume = volume;
+		FlxG.sound.muted = muted;
 
 		initialized = true;
 	}

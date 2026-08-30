@@ -1,5 +1,6 @@
 package ui;
 
+import config.Config;
 import flixel.FlxG;
 import flixel.system.ui.FlxSoundTray;
 import openfl.display.Bitmap;
@@ -46,7 +47,7 @@ class FunkinSoundTray extends FlxSoundTray
 
 		// 1...11 due to how block named the assets,
 		// we are trying to get assets bars_1-10
-		for (i in 1...11){
+		for(i in 1...11){
 			var bar:Bitmap = new Bitmap(Assets.getBitmapData(Paths.image("ui/soundtray/bars_" + i, true)));
 			bar.x = 9;
 			bar.y = 5;
@@ -95,17 +96,17 @@ class FunkinSoundTray extends FlxSoundTray
 
 	override function showIncrement():Void{
 		moveTrayMakeVisible(true);
-		//saveVolumePreferences();
+		saveVolumePreferences();
 	}
 
 	override function showDecrement():Void{
 		moveTrayMakeVisible(false);
-		//saveVolumePreferences();
+		saveVolumePreferences();
 	}
 
 	function moveTrayMakeVisible(up:Bool = false):Void{
 		showTray();
-		if (!silent){
+		if(!silent){
 			// This is a String currently, but there is or was a Flixel PR to change this to a FlxSound or a Sound bject
 			//var sound:Null<String> = FlxG.sound.volume == 1 ? volumeMaxSound : (up ? volumeUpSound : volumeDownSound);
 			var sound:Null<String> = up ? volumeUpSound : volumeDownSound;
@@ -131,17 +132,9 @@ class FunkinSoundTray extends FlxSoundTray
 		}
 	}
 
-	/*function saveVolumePreferences():Void
-	{
-		// Actually save when the volume is changed / modified
-		#if FLX_SAVE
-		// Save sound preferences
-		if (FlxG.save.isBound)
-		{
-			FlxG.save.data.mute = FlxG.sound.muted;
-			FlxG.save.data.volume = FlxG.sound.volume;
-			FlxG.save.flush();
-		}
-		#end
-	}*/
+	function saveVolumePreferences():Void{
+		Config.volume = FlxG.sound.volume;
+		Config.muted = FlxG.sound.muted;
+		Config.write();
+	}
 }
