@@ -1,5 +1,6 @@
 package menus.results;
 
+import flixel.FlxState;
 import utils.Constants;
 import Highscore.Rank;
 import PlayState.ScoreStats;
@@ -650,44 +651,32 @@ class ResultsState extends FlxUIStateExt
 	}
 
 	public function returnToMenu():Void{
-		
 		exiting = true;
+		
+		FlxTween.tween(FlxG.sound.music, {pitch: 3}, 0.1, {onComplete: function(t){
+			FlxTween.tween(FlxG.sound.music, {pitch: 0.5}, 0.65);
+		}});
 
+		FlxG.sound.music.fadeOut(0.8, 0, function(t){
+			FlxG.sound.music.stop();
+			Assets.cache.clear("assets/music/results");
+		});
+
+		switchState(resolveReturnToMenuLocation());
+	}
+
+	public dynamic function resolveReturnToMenuLocation():FlxState{
 		switch(PlayState.returnLocation){
 			case "story":
 				customTransOut = new StickerOut(useCustomStickerSet);
-
-				switchState(new StoryMenuState(true));
-				FlxTween.tween(FlxG.sound.music, {pitch: 3}, 0.1, {onComplete: function(t){
-					FlxTween.tween(FlxG.sound.music, {pitch: 0.5}, 0.65);
-				}});
-				FlxG.sound.music.fadeOut(0.8, 0, function(t){
-					FlxG.sound.music.stop();
-					Assets.cache.clear("assets/music/results");
-				});
+				return new StoryMenuState(true);
 			case "freeplay":
 				customTransOut = new StickerOut(FreeplayState.curCharacterStickers);
 				FreeplayState.playStickerIntro = true;
-				if(rank != loss){
-					switchState(new FreeplayState(fromSongWin));
-				}
-				else{
-					switchState(new FreeplayState(fromSongLose));
-				}
-				FlxTween.tween(FlxG.sound.music, {pitch: 3}, 0.1, {onComplete: function(t){
-					FlxTween.tween(FlxG.sound.music, {pitch: 0.5}, 0.65);
-				}});
-				FlxG.sound.music.fadeOut(0.8, 0, function(t) {
-					FlxG.sound.music.stop();
-					Assets.cache.clear("assets/music/results");
-				});
-			default:
-				switchState(new MainMenuState());
-				FlxG.sound.music.fadeOut(0.3, 0, function(t) {
-					FlxG.sound.music.stop();
-					Assets.cache.clear("assets/music/results");
-				});
+				if(rank != loss)	{ return new FreeplayState(fromSongWin); }
+				else				{ return new FreeplayState(fromSongLose); }
 		}
+		return new MainMenuState();
 	}
 
 	var counterPitch:Float = 1;

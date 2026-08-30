@@ -1940,7 +1940,7 @@ class PlayState extends MusicBeatState
 				var weekName:String = StoryMenuState.weekList[storyWeek].name;
 
 				ImageCache.forceClearOnTransition = true;
-				switchState(new ResultsState(weekStats, weekName, boyfriend.characterInfo.info.resultsCharacter, songSaveStuff, StoryMenuState.weekList[storyWeek].stickerSet));
+				switchState(resolveCompletedLocation(songSaveStuff));
 			}
 			else{ //Next song in week.
 				setupSong(PlayState.storyPlaylist[0], storyDifficulty, true);
@@ -1963,7 +1963,7 @@ class PlayState extends MusicBeatState
 					}
 				}
 				ImageCache.forceClearOnTransition = true;
-				switchState(new ResultsState(songStats, metadata.name, boyfriend.characterInfo.info.resultsCharacter, songSaveStuff));
+				switchState(resolveCompletedLocation(songSaveStuff));
 			}
 			else{ //Return to the chart editor after finishing a song from the chart editor.
 				switchState(new ChartingState(), false);
@@ -1976,14 +1976,27 @@ class PlayState extends MusicBeatState
 
 	public function returnToMenu():Void{
 		ImageCache.forceClearOnTransition = true;
+		switchState(resolveReturnToMenuLocation());
+	}
+
+	public dynamic function resolveReturnToMenuLocation():FlxState{
 		switch(returnLocation){
 			case "story":
-				switchState(new StoryMenuState());
+				return new StoryMenuState();
 			case "freeplay":
-				switchState(new FreeplayState(fromSongExit));
-			default:
-				switchState(new MainMenuState());
+				return new FreeplayState(fromSongExit);
 		}
+		return new MainMenuState();
+	}
+
+	public dynamic function resolveCompletedLocation(saveInfo:SaveInfo):FlxState{
+		switch(returnLocation){
+			case "story":
+				return new ResultsState(weekStats, StoryMenuState.weekList[storyWeek].name, boyfriend.characterInfo.info.resultsCharacter, saveInfo, StoryMenuState.weekList[storyWeek].stickerSet);
+			case "freeplay":
+				return new ResultsState(songStats, metadata.name, boyfriend.characterInfo.info.resultsCharacter, saveInfo);
+		}
+		return new MainMenuState();
 	}
 
 	private function popUpScore(note:Note, adjustHealth:Bool = true):Void{
