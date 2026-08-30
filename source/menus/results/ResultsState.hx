@@ -378,7 +378,7 @@ class ResultsState extends FlxUIStateExt
 			var tempText = new FlxText(0, 0, 0, textArray[textIndex] + " ");
 			tempText.setFormat(Paths.font("5by7"), 50, 0xFFFFFFFF);
 
-			var scrolling:FlxBackdrop = ScrollingGraphic.createScrollingGraphicFromSprite(0, 160 + (135 * (i+1) / 2), tempText);
+			var scrolling:FlxBackdrop = ScrollingGraphic.createScrollingGraphicFromSprite(50, 110 + (135 * (i+1) / 2), tempText);
 			//scrolling.velocity.x = FlxG.random.int(5, 9);
 			scrolling.velocity.x = (i % 2 == 0) ? -8 : 8;
 			scrolling.color = character.scrollingTextColor;
@@ -403,7 +403,7 @@ class ResultsState extends FlxUIStateExt
 		bitmapSongName = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("ui/resultFont"), Utils.resultsTextCharacters, FlxPoint.get(49, 62)));
 		bitmapSongName.text = songNameText;
 		bitmapSongName.letterSpacing = -15;
-		bitmapSongName.setPosition(650, 220);
+		bitmapSongName.setPosition(600, 170);
 		bitmapSongName.cameras = [camTitle];
 		bitmapSongName.y -= 300;
 		if(bitmapSongName.width > 680){
