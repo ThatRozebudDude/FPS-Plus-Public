@@ -86,7 +86,7 @@ class Conductor extends FlxBasic
 	}
 
 	public static function getBPMDefine(?position:Float, ?bpmMap:Array<BPMDefinition>){
-		if(position == null){ position = songPosition; }
+		if(position == null){ position = songPosition + offset; }
 		if(bpmMap == null)	{ bpmMap = bpmChanges; }
 
 		var result = bpmMap[0];
@@ -160,7 +160,7 @@ class Conductor extends FlxBasic
 	 * Accounts for BPM changes throughout the song.
 	 */
 	public static function getStepFromTime(?targetTime:Float):Float{
-		if(targetTime == null){ targetTime = songPosition; }
+		if(targetTime == null){ targetTime = songPosition + offset; }
 		if(bpmChanges.length < 1 || targetTime <= 0){ return 0; }
 		
 		var currentStep:Float = 0;

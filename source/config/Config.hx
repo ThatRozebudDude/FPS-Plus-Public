@@ -65,9 +65,7 @@ class Config
 				if(e.keyCode == key && !fullscreenDown){
 					fullscreenDown = true;
 					fullscreen = !fullscreen;
-					FlxG.signals.postDraw.addOnce(function(){
-						openfl.Lib.application.window.fullscreen = fullscreen; //WHY ARE YOU LIKE THIS YOU SON OF A BITCH
-					});
+					openfl.Lib.application.window.fullscreen = fullscreen;
 				}
 			}
 		});

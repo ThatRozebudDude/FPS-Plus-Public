@@ -1663,7 +1663,7 @@ class PlayState extends MusicBeatState
 		//FlxG.watch.addQuick("totalBeats: ", totalBeats);
 
 		// RESET = Quick Game Over Screen
-		if(Binds.justPressed("killbind") && songStarted) {
+		if(Binds.justPressed("killbind") && songStarted){
 			health = 0;
 		}
 
@@ -2513,16 +2513,32 @@ class PlayState extends MusicBeatState
 			iconP2.bop(defaultIconBopScale, defaultIconBopTime, defaultIconBopEase, tweenManager);
 		}
 
-		if((gfBopEvery > 0 && (curBeat - gfBopOffset) % gfBopEvery == 0) && gf.canAutoAnim){
-			gf.dance();
+		if(
+			(gfBopEvery > 0 && 
+			(curBeat - gfBopOffset) % gfBopEvery == 0) && 
+			gf.canAutoAnim && 
+			(gf.curAnim.contains("sing") || gf.idleSequence.contains(gf.curAnim) || gf.timeInCurrentAnimation > 1/24)){
+				gf.dance();
 		}
 
-		if((dadBopEvery > 0 && (curBeat - dadBopOffset) % dadBopEvery == 0) && dad.canAutoAnim && dad.holdTimer == 0 && !dad.isSinging && ((dad.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? dad.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyOpponentNoteInRange : true)){
-			dad.dance();
+		if(
+			(dadBopEvery > 0 && 
+			(curBeat - dadBopOffset) % dadBopEvery == 0) && 
+			dad.canAutoAnim && dad.holdTimer == 0 && 
+			!dad.isSinging && 
+			((dad.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? dad.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyOpponentNoteInRange : true) && 
+			(dad.curAnim.contains("sing") || dad.idleSequence.contains(dad.curAnim) || dad.timeInCurrentAnimation > 1/24)){
+				dad.dance();
 		}
 
-		if((bfBopEvery > 0 && (curBeat - bfBopOffset) % bfBopEvery == 0) && boyfriend.canAutoAnim && !boyfriend.isSinging && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
-			boyfriend.dance();
+		if(
+			(bfBopEvery > 0 && 
+			(curBeat - bfBopOffset) % bfBopEvery == 0) && 
+			boyfriend.canAutoAnim && 
+			!boyfriend.isSinging && 
+			((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true) && 
+			(boyfriend.curAnim.contains("sing") || boyfriend.idleSequence.contains(boyfriend.curAnim) || boyfriend.timeInCurrentAnimation > 1/24)){
+				boyfriend.dance();
 		}
 
 		boyfriend.beat(curBeat);
@@ -2563,13 +2579,13 @@ class PlayState extends MusicBeatState
 			if(characterShouldPlayAnimation(note, character)){
 				switch (note.direction){
 					case 0:
-						character.singAnim('singLEFT', true);
+						character.singAnim("singLEFT", true);
 					case 1:
-						character.singAnim('singDOWN', true);
+						character.singAnim("singDOWN", true);
 					case 2:
-						character.singAnim('singUP', true);
+						character.singAnim("singUP", true);
 					case 3:
-						character.singAnim('singRIGHT', true);
+						character.singAnim("singRIGHT", true);
 				}
 			}
 			character.holdTimer = 0;
@@ -2584,13 +2600,13 @@ class PlayState extends MusicBeatState
 		if(character.canAutoAnim){
 			switch (direction){
 				case 0:
-					character.singAnim('singLEFTmiss', true);
+					character.singAnim("singLEFTmiss", true);
 				case 1:
-					character.singAnim('singDOWNmiss', true);
+					character.singAnim("singDOWNmiss", true);
 				case 2:
-					character.singAnim('singUPmiss', true);
+					character.singAnim("singUPmiss", true);
 				case 3:
-					character.singAnim('singRIGHTmiss', true);
+					character.singAnim("singRIGHTmiss", true);
 			}
 		}
 	}
