@@ -10,7 +10,7 @@ class CameraEvents extends Events
 		registerEvent({prefix: "camMove", eventFunction: camMove, executeAtStart: true, editor: {description: CAM_MOVE_DESC, arguments: [
 			{name: "X Position", type: "float", value: "0"}, {name: "Y Position", type: "float", value: "0"}, {name: "Time", type: "time", value: "1.9"}, {name: "Ease", type: "ease", value: "expoOut"}, {name: "Relative To Current Position", type: "bool", value: "false"}
 		]}});
-		registerEvent({prefix: "camZoom", eventFunction: camZoom, editor: {description: CAM_ZOOM_DESC, arguments: [
+		registerEvent({prefix: "camZoom", eventFunction: camZoom, executeAtStart: true, editor: {description: CAM_ZOOM_DESC, arguments: [
 			{name: "Zoom", type: "float", value: "1"}, {name: "Time", type: "time", value: "4b"}, {name: "Ease", type: "ease", value: "quadInOut"}, {name: "Relative To Default Zoom", type: "bool", value: "true"}
 		]}});
 		

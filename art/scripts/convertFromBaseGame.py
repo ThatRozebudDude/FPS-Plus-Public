@@ -313,10 +313,13 @@ def processEvents(data, diff:str) -> str:
 					else:
 						tag[0] += ";false"
 
+				if event["t"] == 0:
+					timeOffset[0] = 1
+
 				debugPrint(event["e"] + "\t->\t" + tag[0])
 
 			case "SetCameraBop":
-				column[0] = 2
+				column[0] = 3
 				tag[0] += "camBopFreq;" + str(event["v"]["rate"])
 
 				instensity = 1
@@ -324,7 +327,6 @@ def processEvents(data, diff:str) -> str:
 					instensity = event["v"]["intensity"]
 
 				tag.append("")
-				column[0] = 3
 				tag[1] += "camBopIntensity;" + str(instensity)
 				timeOffset.append(-20)
 				column.append(2)

@@ -9,7 +9,7 @@
 			"tag": "camFocusDad;0;0"
 		},
 		{
-			"time": 0,
+			"time": 1,
 			"lane": 3,
 			"tag": "camZoom;0.9;32s;expoOut;true"
 		},

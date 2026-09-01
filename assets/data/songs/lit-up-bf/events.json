@@ -6,11 +6,6 @@
 			"time": 0
 		},
 		{
-			"tag": "camFocusDad;0;0",
-			"lane": 0,
-			"time": 0.909090909088263
-		},
-		{
 			"tag": "camBopIntensity;0.7",
 			"lane": 2,
 			"time": 22.7096774193487

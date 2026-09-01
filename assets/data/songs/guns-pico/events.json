@@ -8,7 +8,7 @@
 		{
 			"tag": "camZoom;1.05;32s;expoOut;true",
 			"lane": 0,
-			"time": 0
+			"time": 1
 		},
 		{
 			"tag": "camBopIntensity;0.5",
