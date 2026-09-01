@@ -7,7 +7,6 @@ import shaders.RainShader;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
 import flixel.addons.display.FlxBackdrop;
 import flixel.math.FlxPoint;
 

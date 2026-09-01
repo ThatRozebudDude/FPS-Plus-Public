@@ -346,6 +346,9 @@ class PlayState extends MusicBeatState
 
 	public var metadata:Dynamic = null;
 
+	private var paused:Bool = false;
+	private var canPause:Bool = false;
+
 	public var arbitraryData:Map<String, Dynamic> = new Map<String, Dynamic>();
 	
 	override public function create(){
@@ -839,6 +842,7 @@ class PlayState extends MusicBeatState
 
 		inCutscene = false;
 		startedCountdown = true;
+		canPause = true;
 
 		healthBar.visible = true;
 		iconP1.visible = true;
@@ -1002,6 +1006,7 @@ class PlayState extends MusicBeatState
 	public function instantStart():Void {
 		inCutscene = false;
 		startedCountdown = true;
+		canPause = true;
 
 		healthBar.visible = true;
 		iconP1.visible = true;
@@ -1465,9 +1470,6 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	private var paused:Bool = false;
-
-
 	override public function update(elapsed:Float) {
 		if(invulnTime > 0){
 			invulnTime -= elapsed;
@@ -1526,7 +1528,7 @@ class PlayState extends MusicBeatState
 		stage.updateTheUpdateGroup(elapsed);
 		for(script in scripts){ script.update(elapsed); }
 
-		if(Binds.justPressed("pause") && !paused && startedCountdown){
+		if(Binds.justPressed("pause") && !paused && canPause){
 			openPauseScreen();
 		}
 
@@ -1886,6 +1888,8 @@ class PlayState extends MusicBeatState
 		else{
 			endSong();
 		}
+
+		canPause = false;
 	}
 
 	function stopMusic():Void{
