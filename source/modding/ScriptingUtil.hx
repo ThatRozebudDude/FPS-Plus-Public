@@ -214,6 +214,7 @@ class NativeJson
 	}
 }
 
+//I should really look into a way to do this with a macro.
 class ScriptConfig
 {
 	public static var offset(get, never):Float;
@@ -240,6 +241,8 @@ class ScriptConfig
 	public static var flashingLights(get, never):Bool;
 	public static var fullscreen(get, never):Bool;
 	public static var tabOutPause(get, never):Bool;
+	public static var volume(get, never):Float;
+	public static var muted(get, never):Bool;
 	#if UPDATE_CHECKING public static var checkForUpdates(get, never):Bool; #end
 	
 	public static function get_offset():Float { return Config.offset; }
@@ -266,12 +269,14 @@ class ScriptConfig
 	public static function get_flashingLights():Bool { return Config.flashingLights; }
 	public static function get_fullscreen():Bool { return Config.fullscreen; }
 	public static function get_tabOutPause():Bool { return Config.tabOutPause; }
+	public static function get_volume():Float { return Config.volume; }
+	public static function get_muted():Bool { return Config.muted; }
 	#if UPDATE_CHECKING public static function get_checkForUpdates():Bool { return Config.checkForUpdates; } #end
 
 	public static function setFramerate(cap:Int, ?useValueInsteadOfSave:Int = -1):Void { Config.setFramerate(cap, useValueInsteadOfSave); }
 
-	public static function load():Void 					{ trace("Config.load() is not available in scripts."); }
-	public static function write():Void 				{ trace("Config.write() is not available in scripts."); }
+	public static function load():Void					{ trace("Config.load() is not available in scripts."); }
+	public static function write():Void					{ trace("Config.write() is not available in scripts."); }
 }
 
 class ScriptModConfig
