@@ -2039,7 +2039,7 @@ class PlayState extends MusicBeatState
 	}
 
 	private function createNoteSplash(note:Note){
-		var bigSplashy = new NoteSplash(Utils.getGraphicMidpoint(playerStrums.members[note.direction]).x, Utils.getGraphicMidpoint(playerStrums.members[note.direction]).y, note.direction, false, note.noteSplashOverride);
+		var bigSplashy = new NoteSplash(playerStrums.members[note.direction].getMidpoint().x, playerStrums.members[note.direction].getMidpoint().y, note.direction, false, note.noteSplashOverride);
 		bigSplashy.cameras = [camHUD];
 		add(bigSplashy);
 	}

@@ -42,6 +42,7 @@ typedef NoteSkinInfo = {
 	var holdScaleAdjust:Float;
 	var antialiasing:Bool;
 	var offset:FlxPoint;
+	var holdOffset:FlxPoint;
 
 	var noteSplashOverride:String;
 	var holdCoverOverride:String;
@@ -139,6 +140,7 @@ class NoteSkinBase
 		holdScaleAdjust: 1,
 		antialiasing: true,
 		offset: new FlxPoint(),
+		holdOffset: new FlxPoint(),
 		noteSplashOverride: null,
 		holdCoverOverride: null
 	};

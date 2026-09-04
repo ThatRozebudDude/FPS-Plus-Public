@@ -44,7 +44,7 @@ class Pixel extends NoteSkinBase
 		info.scale = 6;
 		info.holdScaleAdjust = 0.833 * (1.5 / 1.485);
 		info.antialiasing = false;
-		info.offset.x = 36;
+		info.holdOffset.x = 36;
 	}
 
 }

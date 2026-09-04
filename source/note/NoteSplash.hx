@@ -16,7 +16,6 @@ class NoteSplash extends FlxSprite{
 	var skinInfo:NoteSplashSkinBase;
 
 	public function new(x:Float, y:Float, direction:Int, ?forceLoadSkin:Bool = false, ?nonPersistentSkin:String = null, ?forceSplashNumber:Null<Int>){
-
 		super(x, y);
 
 		if(nonPersistentSkin == null){
@@ -61,7 +60,6 @@ class NoteSplash extends FlxSprite{
 				angle = angles[FlxG.random.int(0, 3)];
 			}
 		}
-
 	}
 
 }

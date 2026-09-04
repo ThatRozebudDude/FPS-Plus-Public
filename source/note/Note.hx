@@ -194,16 +194,20 @@ class Note extends FlxSprite
 			updateHitbox();
 
 			xOffset -= width / 2;
-			xOffset += noteSkin.info.offset.x;
-
-			yOffset = noteSkin.info.offset.y;
 
 			if(prevNote.isSustainNote){
 				prevNote.isSustainEnd = false;
 				prevNote.animation.play("hold");
 				prevNote.updateHoldLength();
 			}
+
+			xOffset += noteSkin.info.holdOffset.x;
+			yOffset += noteSkin.info.holdOffset.y;
 		}
+
+		xOffset += noteSkin.info.offset.x;
+		yOffset += noteSkin.info.offset.y;
+
 
 		if(noteSkin.info.functions.create != null){
 			noteSkin.info.functions.create(this);
@@ -298,7 +302,7 @@ class Note extends FlxSprite
 		scale.y *= isFake ? 0.5 : 1;
 		updateHitbox();
 
-		if(isFake){ yOffset = noteSkin.info.offset.y + height; }
+		if(isFake){ yOffset = noteSkin.info.offset.y + height + noteSkin.info.holdOffset.y; }
 	}
 
 	override public function destroy() {
