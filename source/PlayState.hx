@@ -217,7 +217,7 @@ class PlayState extends MusicBeatState
 		return opponentNotesInRange[0] || opponentNotesInRange[1] || opponentNotesInRange[2] || opponentNotesInRange[3];
 	}
 
-	private final strumLineVerticalPosition:Float = Config.downscroll ? 625 : 95;
+	public var strumLineVerticalPosition:Float = Config.downscroll ? 625 : 95;
 
 	private static var prevCamFollow:FlxObject;
 
