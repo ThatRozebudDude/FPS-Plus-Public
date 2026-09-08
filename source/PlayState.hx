@@ -2039,13 +2039,18 @@ class PlayState extends MusicBeatState
 	}
 
 	private function createNoteSplash(note:Note){
-		var bigSplashy = new NoteSplash(playerStrums.members[note.direction].getMidpoint().x, playerStrums.members[note.direction].getMidpoint().y, note.direction, false, note.noteSplashOverride);
-		bigSplashy.cameras = [camHUD];
-		add(bigSplashy);
+		var noteSplash:NoteSplash;
+		if(note.mustPress){
+			noteSplash = new NoteSplash(playerStrums.members[note.direction].getMidpoint().x, playerStrums.members[note.direction].getMidpoint().y, note.direction, false, note.noteSplashOverride);
+		}
+		else{
+			noteSplash = new NoteSplash(enemyStrums.members[note.direction].getMidpoint().x, enemyStrums.members[note.direction].getMidpoint().y, note.direction, false, note.noteSplashOverride);
+		}
+		noteSplash.cameras = [camHUD];
+		add(noteSplash);
 	}
 
 	private function startHoldCover(note:Note){
-
 		if(note.mustPress){
 			playerCovers.forEachAlive(function(cover:NoteHoldCover){
 				if(cover.ID == note.direction){
@@ -2068,7 +2073,6 @@ class PlayState extends MusicBeatState
 				}
 			});
 		}
-
 	}
 
 	private function keyCheck():Void{
