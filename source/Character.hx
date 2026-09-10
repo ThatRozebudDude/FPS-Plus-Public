@@ -496,11 +496,6 @@ class Character extends FlxSpriteGroup
 			characterInfo.info.functions.create(this);
 		}
 
-		if(characterInfo.info.anims.length > 0){
-			_playAnim(characterInfo.info.anims[0].name);
-			dance();
-		}
-
 		//This should be used if you need to pass any weird non-standard data to the character
 		if(characterInfo.info.extraData != null){
 			for(type => data in characterInfo.info.extraData){
@@ -548,6 +543,11 @@ class Character extends FlxSpriteGroup
 
 		if(characterInfo.info.functions.postCreate != null){
 			characterInfo.info.functions.postCreate(this);
+		}
+
+		if(characterInfo.info.anims.length > 0){
+			_playAnim(characterInfo.info.anims[0].name);
+			dance();
 		}
 	}
 
