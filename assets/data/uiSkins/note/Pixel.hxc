@@ -8,15 +8,15 @@ class Pixel extends NoteSkinBase
 
 		info.path = "week6/weeb/pixelUI/notes/arrows-pixels";
 		info.frameLoadType = setLoad(21, 21);
-
+		
 		setScrollAnimFrames(left, [4]);
 		setGlowAnimFrames(left, [20]);
-
+		
 		sustainInfo(left).pathOverride = "week6/weeb/pixelUI/notes/arrowEnds";
 		sustainInfo(left).frameLoadTypeOverride = setLoad(9, 6);
 		setHoldAnimFrames(left, [0]);
 		setEndAnimFrames(left, [4]);
-
+		
 		setScrollAnimFrames(down, [5]);
 		setGlowAnimFrames(down, [21]);
 		
@@ -24,15 +24,15 @@ class Pixel extends NoteSkinBase
 		sustainInfo(down).frameLoadTypeOverride = setLoad(9, 6);
 		setHoldAnimFrames(down, [1]);
 		setEndAnimFrames(down, [5]);
-
+		
 		setScrollAnimFrames(up, [6]);
 		setGlowAnimFrames(up, [22]);
-		
+				
 		sustainInfo(up).pathOverride = "week6/weeb/pixelUI/notes/arrowEnds";
 		sustainInfo(up).frameLoadTypeOverride = setLoad(9, 6);
 		setHoldAnimFrames(up, [2]);
 		setEndAnimFrames(up, [6]);
-
+		
 		setScrollAnimFrames(right, [7]);
 		setGlowAnimFrames(right, [23]);
 		
@@ -40,7 +40,7 @@ class Pixel extends NoteSkinBase
 		sustainInfo(right).frameLoadTypeOverride = setLoad(9, 6);
 		setHoldAnimFrames(right, [3]);
 		setEndAnimFrames(right, [7]);
-
+		
 		info.scale = 6;
 		info.holdScaleAdjust = 0.833 * (1.5 / 1.485);
 		info.antialiasing = false;

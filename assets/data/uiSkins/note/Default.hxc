@@ -5,29 +5,33 @@ class Default extends NoteSkinBase
 
 	public function new(){
 		super();
-
+		
 		info.path = "ui/notes/NOTE_assets";
 		info.frameLoadType = setSparrow();
-
+		
 		setScrollAnimPrefix(left, "purple0");
 		setGlowAnimPrefix(left, "Purple Active");
 		setHoldAnimPrefix(left, "purple hold piece");
 		setEndAnimPrefix(left, "pruple end hold");
-
+		info.offsets[left].set(2, -1);
+		
 		setScrollAnimPrefix(down, "blue0");
 		setGlowAnimPrefix(down, "Blue Active");
 		setHoldAnimPrefix(down, "blue hold piece");
 		setEndAnimPrefix(down, "blue hold end");
-
+		info.offsets[down].set(0.5, 0.5);
+		
 		setScrollAnimPrefix(up, "green0");
 		setGlowAnimPrefix(up, "Green Active");
 		setHoldAnimPrefix(up, "green hold piece");
 		setEndAnimPrefix(up, "green hold end");
-
+		info.offsets[up].set(0.5, 0.5);
+		
 		setScrollAnimPrefix(right, "red0");
 		setGlowAnimPrefix(right, "Red Active");
 		setHoldAnimPrefix(right, "red hold piece");
 		setEndAnimPrefix(right, "red hold end");
+		info.offsets[right].set(2, -1.5);
 	}
 
 }

@@ -41,8 +41,10 @@ typedef NoteSkinInfo = {
 	var scale:Float;
 	var holdScaleAdjust:Float;
 	var antialiasing:Bool;
-	var offset:FlxPoint;
-	var holdOffset:FlxPoint;
+	var offsets:Array<FlxPoint>;
+	var holdOffsets:Array<FlxPoint>;
+	var offset:FlxPointManager;
+	var holdOffset:FlxPointManager;
 
 	var noteSplashOverride:String;
 	var holdCoverOverride:String;
@@ -139,13 +141,18 @@ class NoteSkinBase
 		scale: 0.7,
 		holdScaleAdjust: 1,
 		antialiasing: true,
-		offset: new FlxPoint(),
-		holdOffset: new FlxPoint(),
+		offsets: [FlxPoint.get(), FlxPoint.get(), FlxPoint.get(), FlxPoint.get()],
+		holdOffsets: [FlxPoint.get(), FlxPoint.get(), FlxPoint.get(), FlxPoint.get()],
+		offset: null,
+		holdOffset: null,
 		noteSplashOverride: null,
 		holdCoverOverride: null
 	};
 
-	public function new(){}
+	public function new(){
+		info.offset = new FlxPointManager(info.offsets);
+		info.holdOffset = new FlxPointManager(info.holdOffsets);
+	}
 
 	function setScrollAnimPrefix(_direction:Int, _prefix:String, _framerate:Float = 0, _flipX:Bool = false, _flipY:Bool = false):Void{
 		info.noteInfoList[_direction].scrollAnim = {
@@ -292,4 +299,39 @@ class NoteSkinBase
 	function setMultiSparrow():FrameLoadType{ return FrameLoadType.multiSparrow; }
 
 	public function toString():String{ return "NoteSkinBase"; }
+}
+
+/**
+ * For backwards compatibility reasons. Yay.
+ * Manages an array of FlxPoints and when a value is set in the manager every value in the array will be updated to the same value.
+ */
+class FlxPointManager
+{
+
+	public var x(default, set):Float = 0;
+	public var y(default, set):Float = 0;
+
+	private var referencePoints:Array<FlxPoint>;
+
+	public function new(points:Array<FlxPoint>){
+		referencePoints = points ?? [];
+	}
+
+	public function set_x(v:Float):Float{
+		x = v;
+		for(point in referencePoints){ point.x = x; }
+		return x;
+	}
+
+	public function set_y(v:Float):Float{
+		y = v;
+		for(point in referencePoints){ point.y = y; }
+		return y;
+	}
+
+	inline public function set(xv:Float, yv:Float):Void{
+		x = xv;
+		y = yv;
+	}
+
 }

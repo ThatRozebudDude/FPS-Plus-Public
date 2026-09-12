@@ -48,6 +48,8 @@ class Note extends FlxSprite
 
 	var graphicScale:Float;
 
+	public static var defaultSkin:String = "Default";
+
 	inline public static final PURPLE_NOTE:Int = 0;
 	inline public static final GREEN_NOTE:Int = 2;
 	inline public static final BLUE_NOTE:Int = 1;
@@ -86,7 +88,7 @@ class Note extends FlxSprite
 
 		direction = _direction;
 
-		var noteSkinClassName:String = PlayState.uiSkinNames.note;
+		var noteSkinClassName:String = defaultSkin;
 
 		if(NoteType.types.exists(typePrefix)){
 			noteSkinClassName = NoteType.types.get(typePrefix).skin;
@@ -201,12 +203,12 @@ class Note extends FlxSprite
 				prevNote.updateHoldLength();
 			}
 
-			xOffset += noteSkin.info.holdOffset.x;
-			yOffset += noteSkin.info.holdOffset.y;
+			xOffset += noteSkin.info.holdOffsets[direction].x;
+			yOffset += noteSkin.info.holdOffsets[direction].y;
 		}
 
-		xOffset += noteSkin.info.offset.x;
-		yOffset += noteSkin.info.offset.y;
+		xOffset += noteSkin.info.offsets[direction].x;
+		yOffset += noteSkin.info.offsets[direction].y;
 
 
 		if(noteSkin.info.functions.create != null){

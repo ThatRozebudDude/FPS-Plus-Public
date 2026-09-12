@@ -748,6 +748,8 @@ class PlayState extends MusicBeatState
 			if(skinJson.opponentNotes != null && Utils.exists(Paths.json(skinJson.opponentNotes, "data/uiSkins/hudNote"))){ uiSkinNames.opponentNotes = skinJson.opponentNotes; }
 		}
 
+		Note.defaultSkin = uiSkinNames.note;
+
 		generateComboPopup();
 		generateSong();
 

@@ -1,26 +1,21 @@
 package debug;
 
-import flixel.input.keyboard.FlxKey;
-import flixel.math.FlxMath;
-import note.Note;
-import note.NoteHoldCover;
-import ui.HudNoteSkinBase;
-import note.ScriptableNoteSkin;
-import haxe.Json;
-import note.NoteSplash;
-import flixel.math.FlxPoint;
-import characters.CharacterInfoBase;
-import config.Config;
-import openfl.desktop.ClipboardFormats;
-import openfl.desktop.Clipboard;
 import flixel.FlxG;
-import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.input.keyboard.FlxKey;
+import flixel.math.FlxMath;
+import flixel.math.FlxPoint;
 import flixel.text.FlxText;
-import flixel.util.FlxColor;
+import haxe.Json;
+import modding.PolymodHandler;
+import note.Note;
+import note.NoteHoldCover;
+import note.NoteSplash;
+import note.ScriptableNoteSkin;
+import ui.HudNoteSkinBase;
 
 using StringTools;
 
@@ -48,6 +43,8 @@ class NoteSkinDebug extends FlxState
 	var noteLerp:Float = 1;
 	
 	var infoText:FlxText;
+	var noteOffsets:Array<FlxPoint> = [FlxPoint.get(), FlxPoint.get(), FlxPoint.get(), FlxPoint.get()];
+	var selectedOffset:Int = -1;
 
 	override function create(){
 		var gridBG:FlxSprite = FlxGridOverlay.create(10, 10, 1280*4, 720*4);
@@ -76,6 +73,8 @@ class NoteSkinDebug extends FlxState
 		if(skinJson.playerNotes != null && Utils.exists(Paths.json(skinJson.playerNotes, "data/uiSkins/hudNote"))){ uiSkinNames.playerNotes = skinJson.playerNotes; }
 		if(skinJson.opponentNotes != null && Utils.exists(Paths.json(skinJson.opponentNotes, "data/uiSkins/hudNote"))){ uiSkinNames.opponentNotes = skinJson.opponentNotes; }
 
+		Note.defaultSkin = uiSkinNames.note;
+
 		playerStrums = new FlxTypedGroup<FlxSprite>();
 		enemyStrums = new FlxTypedGroup<FlxSprite>();
 		add(playerStrums);
@@ -90,8 +89,9 @@ class NoteSkinDebug extends FlxState
 		add(playerCovers);
 		add(enemyCovers);
 
-		//infoText = new FlxText(24, 24, 0, "", 16);
-		//add(infoText);
+		infoText = new FlxText(24, 24, 0, "", 16);
+		infoText.color = 0xFF4444FF;
+		add(infoText);
 
 		generateStaticArrows(0, true);
 		generateStaticArrows(1, true);
@@ -100,12 +100,13 @@ class NoteSkinDebug extends FlxState
 			var note = new Note(0, i%4, "", false, null, false);
 			note.mustPress = i > 3;
 			notes.add(note);
+			@:privateAccess
+			noteOffsets[i%4].set(notes.members[i%4].noteSkin.info.offsets[i%4].x, notes.members[i%4].noteSkin.info.offsets[i%4].y);
 		}
-
+		
 		super.create();
 
-		//updateText();
-
+		updateText();
 	}
 
 	override function update(elapsed:Float){
@@ -159,6 +160,34 @@ class NoteSkinDebug extends FlxState
 			}
 		}
 
+		final moveAmount:Float = 1 * (FlxG.keys.anyPressed([SHIFT]) ? 10 : 1) * (FlxG.keys.anyPressed([CONTROL]) ? 0.5 : 1);
+
+		if(FlxG.keys.anyJustPressed([I])){
+			updateNoteOffset(0, -moveAmount, selectedOffset);
+		}
+		if(FlxG.keys.anyJustPressed([J])){
+			updateNoteOffset(-moveAmount, 0, selectedOffset);
+		}
+		if(FlxG.keys.anyJustPressed([K])){
+			updateNoteOffset(0, moveAmount, selectedOffset);
+		}
+		if(FlxG.keys.anyJustPressed([L])){
+			updateNoteOffset(moveAmount, 0, selectedOffset);
+		}
+
+		if(FlxG.keys.anyJustPressed([ONE])){
+			selectedOffset = selectedOffset == 0 ? -1 : 0;
+		}
+		else if(FlxG.keys.anyJustPressed([TWO])){
+			selectedOffset = selectedOffset == 1 ? -1 : 1;
+		}
+		else if(FlxG.keys.anyJustPressed([THREE])){
+			selectedOffset = selectedOffset == 2 ? -1 : 2;
+		}
+		else if(FlxG.keys.anyJustPressed([FOUR])){
+			selectedOffset = selectedOffset == 3 ? -1 : 3;
+		}
+		
 		if(FlxG.keys.anyJustPressed([SPACE])){
 			noteMode = FlxMath.wrap(noteMode+1, 0, 3);
 			noteLerp = 1;
@@ -168,14 +197,18 @@ class NoteSkinDebug extends FlxState
 		if(noteLerp < -0.2){ noteLerp = 1; }
 		updateNote();
 
-		//if(FlxG.keys.anyJustPressed([ANY])){
-		//	updateText();
-		//}
+		if(FlxG.keys.anyJustPressed([ANY])){
+			updateText();
+		}
 	}
 
-	//function updateText(){
-	//	infoText.text = "WIP";
-	//}
+	function updateText(){
+		infoText.text = "";
+		infoText.text += (selectedOffset == 0 ? "> " : "") + "Left: [" + noteOffsets[0].x + ", " + noteOffsets[0].y + "]\n";
+		infoText.text += (selectedOffset == 1 ? "> " : "") + "Down: [" + noteOffsets[1].x + ", " + noteOffsets[1].y + "]\n";
+		infoText.text += (selectedOffset == 2 ? "> " : "") + "Up: [" + noteOffsets[2].x + ", " + noteOffsets[2].y + "]\n";
+		infoText.text += (selectedOffset == 3 ? "> " : "") + "Right: [" + noteOffsets[3].x + ", " + noteOffsets[3].y + "]\n";
+	}
 
 	//Grabbed straight out of PlayState.
 	public function generateStaticArrows(player:Int, ?instant:Bool = false, ?skin:String):Void{
@@ -360,6 +393,30 @@ class NoteSkinDebug extends FlxState
 				notes.forEachAlive(function(note:Note){
 					note.visible = false;
 				});
+		}
+	}
+
+	function updateNoteOffset(deltaX:Float, deltaY:Float, direction:Int):Void{
+		@:privateAccess
+		for(note in notes.members){
+			if(note.direction == direction || direction < 0){
+				note.xOffset -= note.noteSkin.info.offsets[note.direction].x;
+				note.yOffset -= note.noteSkin.info.offsets[note.direction].y;
+			}
+		}
+
+		for(i in 0...noteOffsets.length){
+			if(i == direction || direction < 0){
+				noteOffsets[i].x += deltaX;
+				noteOffsets[i].y += deltaY;
+			}
+		}
+
+		for(note in notes.members){
+			if(note.direction == direction || direction < 0){
+				note.xOffset += deltaX;
+				note.yOffset += deltaY;
+			}
 		}
 	}
 
