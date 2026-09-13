@@ -275,7 +275,7 @@ class Character extends FlxSpriteGroup
 	 */
 	private function _playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0, ?isPartOfLoopingAnim:Bool = false):Bool{
 		if(animSet != "" && !isPartOfLoopingAnim){
-			if(animOffsets.exists(AnimName + "-" + animSet)){
+			if(animOffsets.exists(AnimName + "-" + animSet) || characterInfo.info.animAliases.exists(AnimName + "-" + animSet)){
 				AnimName = AnimName + "-" + animSet;
 			}
 		}

@@ -75,7 +75,7 @@ class Startup extends FlxUIStateExt
 		
 		//Should fix an issue with shader coordinates breaking when resizing the screen.
 		FlxG.signals.gameResized.add(function(width:Int, height:Int){
-			FlxG.signals.preUpdate.addOnce(function(){
+			/*FlxG.signals.preUpdate.addOnce(function(){
 				@:privateAccess{
 					for(camera in FlxG.cameras.list){
 						camera.flashSprite.__cacheBitmap = null;
@@ -83,7 +83,8 @@ class Startup extends FlxUIStateExt
 					}
 				}
 				Utils.gc();
-			});
+			});*/
+			Utils.gc();
 		});
 
 		FlxUIStateExt.defaultTransIn = ScreenWipeIn;
