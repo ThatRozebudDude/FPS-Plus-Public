@@ -85,11 +85,12 @@ class Conductor extends FlxBasic
 		trace("Clearing BPM Changes");
 	}
 
-	public static function getBPMDefine(?position:Float, ?bpmMap:Array<BPMDefinition>){
-		if(position == null){ position = songPosition + offset; }
-		if(bpmMap == null)	{ bpmMap = bpmChanges; }
+	public static function getBPMDefine(?position:Float, ?bpmMap:Array<BPMDefinition>):BPMDefinition{
+		if(position == null)	{ position = songPosition + offset; }
+		if(bpmMap == null)		{ bpmMap = bpmChanges; }
+		if(bpmMap.length < 1)	{ return {bpm: 120, time: 0}; } //Returns a dummy BPM Definition to prevent crashes.
 
-		var result = bpmMap[0];
+		var result:BPMDefinition = bpmMap[0];
 		for(define in bpmMap){
 			if(position >= define.time){
 				result = define;

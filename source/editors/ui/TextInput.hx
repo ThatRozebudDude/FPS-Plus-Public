@@ -31,6 +31,8 @@ class TextInput extends UIElement
 
 	var caret:FlxSprite;
 	var caretTimer:Float = 0;
+	
+	var selectionBox:FlxSprite;
 
 	var label:UIText;
 
@@ -40,6 +42,7 @@ class TextInput extends UIElement
 	var inputtingText:Bool = false;
 	var inputString:String;
 	var inputIndex:Int = 0;
+	var inputLength:Int = 0;
 	public var allowedCharacters:String = DEFAULT_ALLOWED_CHARACTERS;
 
 	public var onValueChanged:FlxTypedSignal<String->Void> = new FlxTypedSignal<String->Void>();
@@ -57,7 +60,8 @@ class TextInput extends UIElement
 				startTextInput();
 			}
 			else if(inputtingText){
-				inputIndex = Math.round(FlxMath.bound((FlxG.mouse.viewX - inputText.x)/UIText.X_ADVANCE, 0, inputString.length));
+				inputIndex = getCharacterIndexUnderMouse();
+				inputLength = 0;
 				updateCaretPosition();
 				resetCaret();
 			}
@@ -70,13 +74,18 @@ class TextInput extends UIElement
 		caret = Utils.makeColoredSprite(2, 24 - Box.BORDER_SIZE*2 - CARET_VERTICAL_PADDING*2, 0xFFFFFFFF);
 		caret.setPosition(inputText.x + inputText.width, box.y + Box.BORDER_SIZE + CARET_VERTICAL_PADDING);
 		caret.alpha = 0;
-		caret.color = UIColors.INTERACTION_TEXT_COLOR; 
+		caret.color = UIColors.INTERACTION_TEXT_COLOR;
+
+		selectionBox = Utils.makeColoredSprite(0, 24 - Box.BORDER_SIZE*2 - CARET_VERTICAL_PADDING*2, 0xFFFFFFFF);
+		selectionBox.setPosition(inputText.x + inputText.width, box.y + Box.BORDER_SIZE + CARET_VERTICAL_PADDING);
+		selectionBox.color = UIColors.SELECTED_COLOR; 
 
 		label = new UIText(box.width + LABEL_PADDING, (box.height/2), _label);
 		label.y -= label.height/2;
 		label.color = UIColors.FILL_TEXT_COLOR;
 
 		add(box);
+		add(selectionBox);
 		add(inputText);
 		add(caret);
 		add(label);
@@ -98,6 +107,11 @@ class TextInput extends UIElement
 				caretTimer = 0;
 				caret.alpha = 1 - caret.alpha;
 			}
+
+			if(FlxG.mouse.pressed){
+				inputLength = getCharacterIndexUnderMouse() - inputIndex;
+			}
+
 			inputText.text = inputString;
 		}
 		else{
@@ -106,6 +120,7 @@ class TextInput extends UIElement
 
 		updateTextPosition();
 		updateCaretPosition();
+		updateSelectionBox();
 
 		while(caret.x > box.x + box.width - Box.BORDER_SIZE){
 			textShift++;
@@ -134,7 +149,13 @@ class TextInput extends UIElement
 	}
 
 	inline function updateCaretPosition():Void{
-		caret.x = inputText.x + (inputIndex * UIText.X_ADVANCE);
+		caret.x = inputText.x + ((inputIndex + inputLength) * UIText.X_ADVANCE);
+	}
+
+	inline function updateSelectionBox():Void{
+		selectionBox.scale.x = Math.abs(UIText.X_ADVANCE * inputLength);
+		selectionBox.updateHitbox();
+		selectionBox.x = caret.x - (FlxMath.bound(inputLength, 0, null) * UIText.X_ADVANCE);
 	}
 
 	inline function resetCaret(shown:Bool = true):Void{
@@ -142,9 +163,14 @@ class TextInput extends UIElement
 		caretTimer = 0;
 	}
 
+	inline function getCharacterIndexUnderMouse():Int{
+		return Math.round(FlxMath.bound((FlxG.mouse.viewX - inputText.x)/UIText.X_ADVANCE, 0, inputString.length));
+	}
+
 	function startTextInput():Void{
 		inputtingText = true;
 		manager.focused = this;
+		inputLength = 0;
 		resetCaret();
 		inputString = value;
 		inputIndex = value.length;
@@ -157,6 +183,7 @@ class TextInput extends UIElement
 		manager.clearFocused();
 		value = inputString;
 		onValueChanged.dispatch(value);
+		inputLength = 0;
 		resetCaret(false);
 		Binds.allowChangingVolume = true;
 	}
