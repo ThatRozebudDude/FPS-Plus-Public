@@ -19,7 +19,7 @@ typedef AllArrowsInfo = {
 typedef StaticArrowGraphicInfo = {
 	var staticInfo:NoteAnimInfo;
 	var pressedInfo:NoteAnimInfo;
-	var confrimedInfo:NoteAnimInfo;
+	var confirmedInfo:NoteAnimInfo;
 }
 
 class HudNoteSkinBase{
@@ -36,22 +36,22 @@ class HudNoteSkinBase{
 			{
 				staticInfo: null,
 				pressedInfo: null,
-				confrimedInfo: null
+				confirmedInfo: null
 			},
 			{
 				staticInfo: null,
 				pressedInfo: null,
-				confrimedInfo: null
+				confirmedInfo: null
 			},
 			{
 				staticInfo: null,
 				pressedInfo: null,
-				confrimedInfo: null
+				confirmedInfo: null
 			},
 			{
 				staticInfo: null,
 				pressedInfo: null,
-				confrimedInfo: null
+				confirmedInfo: null
 			}
 		]
 	};
@@ -178,7 +178,7 @@ class HudNoteSkinBase{
 
 	function setConfirmedAnimPrefix(_direction:Int, _prefix:String, _framerate:Float = 24, ?_offset:Array<Float>, _flipX:Bool = false, _flipY:Bool = false):Void{
 		if (_offset == null) { _offset = [0, 0]; }
-		info.arrowInfo[_direction].confrimedInfo = {
+		info.arrowInfo[_direction].confirmedInfo = {
 			type: prefix,
 			data: {
 				prefix: _prefix,
@@ -195,7 +195,7 @@ class HudNoteSkinBase{
 
 	function setConfirmedAnimFrames(_direction:Int, _frames:Array<Int>, _framerate:Float = 24, ?_offset:Array<Float>, _flipX:Bool = false, _flipY:Bool = false):Void{
 		if (_offset == null) { _offset = [0, 0]; }
-		info.arrowInfo[_direction].confrimedInfo = {
+		info.arrowInfo[_direction].confirmedInfo = {
 			type: frames,
 			data: {
 				prefix: null,

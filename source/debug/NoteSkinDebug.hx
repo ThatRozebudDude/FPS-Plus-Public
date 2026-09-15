@@ -252,11 +252,11 @@ class NoteSkinDebug extends FlxState
 					babyArrow.animation.add("pressed", hudNoteSkinInfo.arrowInfo[i].pressedInfo.data.frames, hudNoteSkinInfo.arrowInfo[i].pressedInfo.data.framerate, false, hudNoteSkinInfo.arrowInfo[i].pressedInfo.data.flipX, hudNoteSkinInfo.arrowInfo[i].pressedInfo.data.flipY);
 			}
 
-			switch(hudNoteSkinInfo.arrowInfo[i].confrimedInfo.type){
+			switch(hudNoteSkinInfo.arrowInfo[i].confirmedInfo.type){
 				case prefix:
-					babyArrow.animation.addByPrefix("confirm", hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.prefix, hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.framerate, false, hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.flipX, hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.flipY);
+					babyArrow.animation.addByPrefix("confirm", hudNoteSkinInfo.arrowInfo[i].confirmedInfo.data.prefix, hudNoteSkinInfo.arrowInfo[i].confirmedInfo.data.framerate, false, hudNoteSkinInfo.arrowInfo[i].confirmedInfo.data.flipX, hudNoteSkinInfo.arrowInfo[i].confirmedInfo.data.flipY);
 				case frame:
-					babyArrow.animation.add("confirm", hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.frames, hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.framerate, false, hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.flipX, hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.flipY);
+					babyArrow.animation.add("confirm", hudNoteSkinInfo.arrowInfo[i].confirmedInfo.data.frames, hudNoteSkinInfo.arrowInfo[i].confirmedInfo.data.framerate, false, hudNoteSkinInfo.arrowInfo[i].confirmedInfo.data.flipX, hudNoteSkinInfo.arrowInfo[i].confirmedInfo.data.flipY);
 			}
 
 			babyArrow.scale.set(hudNoteSkinInfo.scale, hudNoteSkinInfo.scale);
@@ -294,8 +294,8 @@ class NoteSkinDebug extends FlxState
 							babyArrow.offset.x += hudNoteSkinInfo.arrowInfo[i].pressedInfo.data.offset[0];
 							babyArrow.offset.y += hudNoteSkinInfo.arrowInfo[i].pressedInfo.data.offset[1];
 						case "confirm":
-							babyArrow.offset.x += hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.offset[0];
-							babyArrow.offset.y += hudNoteSkinInfo.arrowInfo[i].confrimedInfo.data.offset[1];
+							babyArrow.offset.x += hudNoteSkinInfo.arrowInfo[i].confirmedInfo.data.offset[0];
+							babyArrow.offset.y += hudNoteSkinInfo.arrowInfo[i].confirmedInfo.data.offset[1];
 					}
 				}
 			});

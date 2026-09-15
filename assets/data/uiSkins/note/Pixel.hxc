@@ -27,7 +27,7 @@ class Pixel extends NoteSkinBase
 		
 		setScrollAnimFrames(up, [6]);
 		setGlowAnimFrames(up, [22]);
-				
+		
 		sustainInfo(up).pathOverride = "week6/weeb/pixelUI/notes/arrowEnds";
 		sustainInfo(up).frameLoadTypeOverride = setLoad(9, 6);
 		setHoldAnimFrames(up, [2]);
