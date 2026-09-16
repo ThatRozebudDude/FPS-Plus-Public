@@ -24,6 +24,12 @@ class TextInput extends UIElement
 
 	//Because of bitmap font thank you FlxText memory.
 	static inline final DEFAULT_ALLOWED_CHARACTERS:String = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!;%:?*_+-=.,/|\"'@#$^&(){}[] ";
+
+	//The characters that are used to break up chunks of text.
+	static inline final DELIMITERS:String = ".!?,;:()[]{}-_/ ";
+	
+	//The amount of time you are locked out of extending the selection box out of the side of the box.
+	static inline final SHIFT_LOCK_TIME:Float = 1/24;
 	
 	var box:Box;
 	var inputText:UIText;
@@ -43,9 +49,19 @@ class TextInput extends UIElement
 	var inputString:String;
 	var inputIndex:Int = 0;
 	var inputLength:Int = 0;
+	var allowDragSelect:Bool = false;
+	var shiftLockTimer:Float = 0;
+
 	public var allowedCharacters:String = DEFAULT_ALLOWED_CHARACTERS;
 
 	public var onValueChanged:FlxTypedSignal<String->Void> = new FlxTypedSignal<String->Void>();
+	public var onCopyText:FlxTypedSignal<String->Void> = new FlxTypedSignal<String->Void>();
+	public var onPasteText:FlxTypedSignal<String->Void> = new FlxTypedSignal<String->Void>();
+	public var onCutText:FlxTypedSignal<String->Void> = new FlxTypedSignal<String->Void>();
+
+	public static var onCopyTextGlobal:FlxTypedSignal<String->Void> = new FlxTypedSignal<String->Void>();
+	public static var onPasteTextGlobal:FlxTypedSignal<String->Void> = new FlxTypedSignal<String->Void>();
+	public static var onCutTextGlobal:FlxTypedSignal<String->Void> = new FlxTypedSignal<String->Void>();
 
 	public var allowTyping(default, set):Bool = true;
 
@@ -108,10 +124,6 @@ class TextInput extends UIElement
 				caret.alpha = 1 - caret.alpha;
 			}
 
-			if(FlxG.mouse.pressed){
-				inputLength = getCharacterIndexUnderMouse() - inputIndex;
-			}
-
 			inputText.text = inputString;
 		}
 		else{
@@ -126,17 +138,32 @@ class TextInput extends UIElement
 			textShift++;
 			updateTextPosition();
 			updateCaretPosition();
+			updateSelectionBox();
+			if(FlxG.mouse.pressed && allowDragSelect){ shiftLockTimer = SHIFT_LOCK_TIME; }
 		}
 		while(caret.x < box.x + Box.BORDER_SIZE){
 			textShift--;
 			updateTextPosition();
 			updateCaretPosition();
+			updateSelectionBox();
+			if(FlxG.mouse.pressed && allowDragSelect){ shiftLockTimer = SHIFT_LOCK_TIME; }
 		}
 
-		var rectPos = Utils.worldToLocal(inputText, box.x + Box.BORDER_SIZE, box.y + Box.BORDER_SIZE);
-		inputText.clipRect = new FlxRect(rectPos.x/inputText.scale.x, rectPos.y/inputText.scale.y, (box.width - Box.BORDER_SIZE*2)/inputText.scale.x, (box.height - Box.BORDER_SIZE*2)/inputText.scale.y);
-
 		super.update(elapsed);
+
+		if(inputtingText){
+			if(FlxG.mouse.pressed && allowDragSelect && shiftLockTimer <= 0){
+				inputLength = getCharacterIndexUnderMouse() - inputIndex;
+			}
+			else if(!FlxG.mouse.pressed && !allowDragSelect){
+				allowDragSelect = true;
+			}
+		}
+
+		shiftLockTimer = shiftLockTimer > 0 ? shiftLockTimer - elapsed : 0;
+
+		final rectPos = Utils.worldToLocal(inputText, box.x + Box.BORDER_SIZE, box.y + Box.BORDER_SIZE);
+		inputText.clipRect = new FlxRect(rectPos.x/inputText.scale.x, rectPos.y/inputText.scale.y, (box.width - Box.BORDER_SIZE*2)/inputText.scale.x, (box.height - Box.BORDER_SIZE*2)/inputText.scale.y);
 	}
 
 	override function destroy() {
@@ -154,8 +181,15 @@ class TextInput extends UIElement
 
 	inline function updateSelectionBox():Void{
 		selectionBox.scale.x = Math.abs(UIText.X_ADVANCE * inputLength);
-		selectionBox.updateHitbox();
 		selectionBox.x = caret.x - (FlxMath.bound(inputLength, 0, null) * UIText.X_ADVANCE);
+
+		if(inputLength != 0){
+			final comparePosition:Float = inputLength < 0 ? box.width - Box.BORDER_SIZE : caret.x - box.x;
+			if(selectionBox.x < box.x + Box.BORDER_SIZE){ selectionBox.x = box.x + Box.BORDER_SIZE; }
+			if(selectionBox.x + selectionBox.scale.x > box.x + comparePosition){ selectionBox.scale.x = comparePosition - (selectionBox.x - box.x); }
+		}
+
+		selectionBox.updateHitbox();
 	}
 
 	inline function resetCaret(shown:Bool = true):Void{
@@ -168,6 +202,7 @@ class TextInput extends UIElement
 	}
 
 	function startTextInput():Void{
+		allowDragSelect = false;
 		inputtingText = true;
 		manager.focused = this;
 		inputLength = 0;
@@ -175,6 +210,7 @@ class TextInput extends UIElement
 		inputString = value;
 		inputIndex = value.length;
 		updateCaretPosition();
+		updateSelectionBox();
 		Binds.allowChangingVolume = false;
 	}
 
@@ -184,6 +220,7 @@ class TextInput extends UIElement
 		value = inputString;
 		onValueChanged.dispatch(value);
 		inputLength = 0;
+		allowDragSelect = false;
 		resetCaret(false);
 		Binds.allowChangingVolume = true;
 	}
@@ -209,6 +246,10 @@ class TextInput extends UIElement
 			case KEY_ENTER:
 				stopTextInput();
 			case KEY_BACKSPACE:
+				if(inputLength != 0){
+					deleteSelection();
+					return;
+				}
 				if(inputIndex == 0){ return; }
 				var start:String = inputString.substring(0, inputIndex-1);
 				var end:String = inputIndex == inputString.length ? "" : inputString.substring(inputIndex);
@@ -217,27 +258,104 @@ class TextInput extends UIElement
 				if(textShift > 0){ textShift--; }
 				resetCaret();
 			case KEY_DELETE:
+				if(inputLength != 0){
+					deleteSelection();
+					return;
+				}
 				if(inputIndex == inputString.length){ return; }
 				var start:String = inputString.substring(0, inputIndex);
 				var end:String = inputString.substring(inputIndex+1);
 				inputString = start + end;
 				resetCaret();
 			case KEY_LEFT:
-				inputIndex--;
-				if(inputIndex < 0){ inputIndex = 0; }
-				resetCaret();
+				if(FlxG.keys.anyPressed([SHIFT])){ //Move selection.
+					inputLength--;
+					allowDragSelect = false;
+					if(inputIndex + inputLength < 0){ inputLength++; }
+					resetCaret();
+				}
+				else if(FlxG.keys.anyPressed([CONTROL])){ //Snap caret between delimiters.
+					inputLength = 0;
+					allowDragSelect = false;
+					while(inputIndex > 0){
+						inputIndex--;
+						if(DELIMITERS.contains(inputString.charAt(inputIndex))){ break; }
+					}
+					resetCaret();
+				}
+				else{ //Move caret.
+					if(inputLength < 0)			{ inputIndex = inputIndex + inputLength; }
+					else if(inputLength > 0)	{} //Do nothing since inputIndex is already in the right spot.
+					else						{ inputIndex--; }
+					if(inputIndex < 0){ inputIndex = 0; }
+					inputLength = 0;
+					allowDragSelect = false;
+					resetCaret();
+				}
 			case KEY_RIGHT:
-				inputIndex++;
-				if(inputIndex > inputString.length){ inputIndex = inputString.length; }
-				resetCaret();
+				if(FlxG.keys.anyPressed([SHIFT])){ //Move selection.
+					inputLength++;
+					allowDragSelect = false;
+					if(inputIndex + inputLength > inputString.length){ inputLength--; }
+					resetCaret();
+				}
+				else if(FlxG.keys.anyPressed([CONTROL])){ //Snap caret between delimiters.
+					inputLength = 0;
+					allowDragSelect = false;
+					while(inputIndex < inputString.length){
+						inputIndex++;
+						if(DELIMITERS.contains(inputString.charAt(inputIndex-1))){ break; }
+					}
+					resetCaret();
+				}
+				else{ //Move caret.
+					if(inputLength > 0)			{ inputIndex = inputIndex + inputLength; }
+					else if(inputLength < 0)	{} //Do nothing since inputIndex is already in the right spot.
+					else						{ inputIndex++; }
+					if(inputIndex > inputString.length){ inputIndex = inputString.length; }
+					inputLength = 0;
+					allowDragSelect = false;
+					resetCaret();
+				}
 			default:
 				var char:String = String.fromCharCode(e.charCode);
 				if(!allowedCharacters.contains(char)){ return; }
-				var start:String = inputString.substring(0, inputIndex);
-				var end:String = inputIndex == inputString.length ? "" : inputString.substring(inputIndex);
-				inputString = start + char + end;
-				inputIndex++;
+
+				if(inputLength != 0){ deleteSelection(); }
+
+				insertString(char);
+				inputLength = 0;
+				allowDragSelect = false;
 				resetCaret();
 		}
 	}
+
+	/**
+	 * Inserts a string into the text box, making sure only allowed characters are used and advances the caret properly.
+	 */
+	function insertString(insert:String):Void{
+		if(insert == null || insert == ""){ return; }
+		for(char in insert.split("")){
+			if(!allowedCharacters.contains(char)){ continue; }
+			var start:String = inputString.substring(0, inputIndex);
+			var end:String = inputIndex == inputString.length ? "" : inputString.substring(inputIndex);
+			inputString = start + char + end;
+			inputIndex++;
+		}
+		resetCaret();
+	}
+
+	/**
+	 * Used by both backspace and delete when selecting multiple characters.
+	 */
+	function deleteSelection():Void{
+		var start:String = inputString.substring(0, inputIndex + Std.int(FlxMath.bound(inputLength, null, 0)));
+		var end:String = inputString.substring(inputIndex + Std.int(FlxMath.bound(inputLength, 0, null)));
+		inputString = start + end;
+		inputIndex = inputIndex + Std.int(FlxMath.bound(inputLength, null, 0));
+		inputLength = 0;
+		allowDragSelect = false;
+		resetCaret();
+	}
+
 }

@@ -2,12 +2,14 @@
 
 - Fix thing with the characters doing extra bopping stuff after the song ends?
 - Fix some Monster and Winter Horrorland stuff.
-- Game is crashing on fullscreen again.
+- Game is crashing on fullscreen again. (i think it is fixed but it probably isn't if i'm gonna be honest)
 
 - Editor UI Components
 	- Text Input QOL
-		- Selectable Text in Text Input (Maybe)
-			- Stuff like selecting a region of text and deleting it all at once.
+		- Copy/Cut/Paste shortcuts.
+		- Ctrl+A select all.
+		- Double click select region.
+		- Better scrolling to keep it in view.
 
 - Chart Editor
 	- Get the waveforms to not offset weirdly at the begining of songs when the camera moves.
