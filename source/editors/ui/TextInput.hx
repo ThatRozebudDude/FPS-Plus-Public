@@ -23,18 +23,17 @@ class TextInput extends UIElement
 	static inline final KEY_DELETE:Int = 46;
 	static inline final KEY_LEFT:Int = 37;
 	static inline final KEY_RIGHT:Int = 39;
-	static inline final KEY_COPY:Int = 67;
-	static inline final KEY_CUT:Int = 88;
-	static inline final KEY_PASTE:Int = 86;
+	static inline final KEY_COPY:Int = 67; //C
+	static inline final KEY_CUT:Int = 88; //X
+	static inline final KEY_PASTE:Int = 86; //V
+	static inline final KEY_SELECT_ALL:Int = 65; //A
 
 	//Because of bitmap font thank you FlxText memory.
 	static inline final DEFAULT_ALLOWED_CHARACTERS:String = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!;%:?*_+-=.,/|\"'@#$^&(){}[] ";
-
-	//The characters that are used to break up chunks of text.
-	static inline final DELIMITERS:String = ".!?,;:()[]{}-_/ ";
+	static inline final DELIMITERS:String = ".!?,;:()[]{}-_/ "; //The characters that are used to break up chunks of text.
 	
-	//The amount of time you are locked out of extending the selection box out of the side of the box.
-	static inline final SHIFT_LOCK_TIME:Float = 1/24;
+	static inline final SHIFT_LOCK_TIME:Float = 1/24; //The amount of time you are locked out of extending the selection box out of the side of the box.
+	static inline final DOUBLE_CLICK_TIME:Float = 0.5;
 	
 	var box:Box;
 	var inputText:UIText;
@@ -56,6 +55,7 @@ class TextInput extends UIElement
 	var inputLength:Int = 0;
 	var allowDragSelect:Bool = false;
 	var shiftLockTimer:Float = 0;
+	var doubleClickTimer:Float = 0;
 
 	public var allowedCharacters:String = DEFAULT_ALLOWED_CHARACTERS;
 
@@ -81,10 +81,39 @@ class TextInput extends UIElement
 				startTextInput();
 			}
 			else if(inputtingText){
-				inputIndex = getCharacterIndexUnderMouse();
-				inputLength = 0;
-				updateCaretPosition();
-				resetCaret();
+				final clickedIndex:Int = getCharacterIndexUnderMouse();
+				if(inputIndex == clickedIndex && doubleClickTimer > 0){
+					doubleClickTimer = 0;
+
+					var startIndex:Int = inputIndex;
+					var endIndex:Int = inputIndex;
+
+					while(endIndex < inputString.length){
+						if(DELIMITERS.contains(inputString.charAt(endIndex))){
+							startIndex--;
+							break;
+						}
+						endIndex++;
+					}
+					while(startIndex > 0){
+						if(DELIMITERS.contains(inputString.charAt(startIndex))){
+							startIndex++;
+							break;
+						}
+						startIndex--;
+					}
+					
+					inputIndex = Std.int(FlxMath.bound(startIndex, 0, inputString.length));
+					inputLength = endIndex - inputIndex;
+					allowDragSelect = false;
+				}
+				else{
+					inputIndex = getCharacterIndexUnderMouse();
+					inputLength = 0;
+					updateCaretPosition();
+					resetCaret();
+					doubleClickTimer = DOUBLE_CLICK_TIME;
+				}
 			}
 		});
 
@@ -166,6 +195,7 @@ class TextInput extends UIElement
 		}
 
 		shiftLockTimer = shiftLockTimer > 0 ? shiftLockTimer - elapsed : 0;
+		doubleClickTimer = doubleClickTimer > 0 ? doubleClickTimer - elapsed : 0;
 
 		final rectPos = Utils.worldToLocal(inputText, box.x + Box.BORDER_SIZE, box.y + Box.BORDER_SIZE);
 		inputText.clipRect = new FlxRect(rectPos.x/inputText.scale.x, rectPos.y/inputText.scale.y, (box.width - Box.BORDER_SIZE*2)/inputText.scale.x, (box.height - Box.BORDER_SIZE*2)/inputText.scale.y);
@@ -246,7 +276,7 @@ class TextInput extends UIElement
 	function keyPress(e:openfl.events.KeyboardEvent):Void{
 		if(!inputtingText){ return; }
 		if(e.keyCode <= 0){ return; }
-		trace(e.keyCode + "\t" + e.charCode + "\t" + String.fromCharCode(e.charCode) + "\t" + e.shiftKey + "\t" + e.ctrlKey);
+		//trace(e.keyCode + "\t" + e.charCode + "\t" + String.fromCharCode(e.charCode) + "\t" + e.shiftKey + "\t" + e.ctrlKey);
 		switch(e.keyCode){
 			case KEY_ENTER:
 				stopTextInput();
@@ -326,7 +356,7 @@ class TextInput extends UIElement
 				if(!e.ctrlKey){ typeCharacter(e.charCode); }
 				else{
 					if(inputLength == 0){ return; }
-					final copiedText = inputString.substr(inputIndex + Std.int(FlxMath.bound(inputLength, null, 0)), Std.int(Math.abs(inputLength)));
+					final copiedText:String = inputString.substr(inputIndex + Std.int(FlxMath.bound(inputLength, null, 0)), Std.int(Math.abs(inputLength)));
 					Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, copiedText);
 					onCopyText.dispatch(copiedText);
 					onCopyTextGlobal.dispatch(copiedText);
@@ -335,11 +365,34 @@ class TextInput extends UIElement
 				if(!e.ctrlKey){ typeCharacter(e.charCode); }
 				else{
 					if(inputLength == 0){ return; }
-					final copiedText = inputString.substr(inputIndex + Std.int(FlxMath.bound(inputLength, null, 0)), Std.int(Math.abs(inputLength)));
+					final copiedText:String = inputString.substr(inputIndex + Std.int(FlxMath.bound(inputLength, null, 0)), Std.int(Math.abs(inputLength)));
 					Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, copiedText);
 					onCutText.dispatch(copiedText);
 					onCutTextGlobal.dispatch(copiedText);
 					deleteSelection();
+				}
+			case KEY_PASTE:
+				if(!e.ctrlKey){ typeCharacter(e.charCode); }
+				else{
+					final clipboardText = Clipboard.generalClipboard.getData(ClipboardFormats.TEXT_FORMAT);
+					if(clipboardText == null){ return; }
+
+					if(inputLength != 0){ deleteSelection(); }
+
+					insertString(clipboardText);
+					inputLength = 0;
+					allowDragSelect = false;
+					resetCaret();
+					
+					onPasteText.dispatch(clipboardText);
+					onPasteTextGlobal.dispatch(clipboardText);
+				}
+			case KEY_SELECT_ALL:
+				if(!e.ctrlKey){ typeCharacter(e.charCode); }
+				else{
+					inputIndex = 0;
+					inputLength = inputString.length;
+					resetCaret();
 				}
 			default:
 				typeCharacter(e.charCode);

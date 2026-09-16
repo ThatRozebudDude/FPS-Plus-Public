@@ -6,9 +6,6 @@
 
 - Editor UI Components
 	- Text Input QOL
-		- Paste shortcuts.
-		- Ctrl+A select all.
-		- Double click select region.
 		- Better scrolling to keep it in view.
 
 - Chart Editor
