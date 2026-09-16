@@ -658,6 +658,13 @@ class ChartingState extends MusicBeatState
 
 		add(typeAlert);
 		add(editorCursor);
+
+		TextInput.onCopyTextGlobal.add(copyTextAlert);
+		TextInput.onCutTextGlobal.add(copyTextAlert);
+		FlxG.signals.preStateSwitch.addOnce(function(){
+			TextInput.onCopyTextGlobal.remove(copyTextAlert);
+			TextInput.onCutTextGlobal.remove(copyTextAlert);
+		});
 	}
 
 	function setupSongTab():Void{
@@ -2783,5 +2790,9 @@ class ChartingState extends MusicBeatState
 			noteTypeInput.value = v;
 			createArguments(v, true);
 		});
+	}
+
+	function copyTextAlert(text:String):Void{
+		createAlert("Copied text \"" + text + "\" to clipboard.", 2);
 	}
 }

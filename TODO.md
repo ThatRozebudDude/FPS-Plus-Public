@@ -6,7 +6,7 @@
 
 - Editor UI Components
 	- Text Input QOL
-		- Copy/Cut/Paste shortcuts.
+		- Paste shortcuts.
 		- Ctrl+A select all.
 		- Double click select region.
 		- Better scrolling to keep it in view.

@@ -1,5 +1,7 @@
 package editors.ui;
 
+import openfl.desktop.ClipboardFormats;
+import openfl.desktop.Clipboard;
 import editors.ui.Box;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -21,6 +23,9 @@ class TextInput extends UIElement
 	static inline final KEY_DELETE:Int = 46;
 	static inline final KEY_LEFT:Int = 37;
 	static inline final KEY_RIGHT:Int = 39;
+	static inline final KEY_COPY:Int = 67;
+	static inline final KEY_CUT:Int = 88;
+	static inline final KEY_PASTE:Int = 86;
 
 	//Because of bitmap font thank you FlxText memory.
 	static inline final DEFAULT_ALLOWED_CHARACTERS:String = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!;%:?*_+-=.,/|\"'@#$^&(){}[] ";
@@ -241,7 +246,7 @@ class TextInput extends UIElement
 	function keyPress(e:openfl.events.KeyboardEvent):Void{
 		if(!inputtingText){ return; }
 		if(e.keyCode <= 0){ return; }
-		//trace(e.keyCode + "\t" + e.charCode + "\t" + String.fromCharCode(e.charCode));
+		trace(e.keyCode + "\t" + e.charCode + "\t" + String.fromCharCode(e.charCode) + "\t" + e.shiftKey + "\t" + e.ctrlKey);
 		switch(e.keyCode){
 			case KEY_ENTER:
 				stopTextInput();
@@ -317,17 +322,43 @@ class TextInput extends UIElement
 					allowDragSelect = false;
 					resetCaret();
 				}
+			case KEY_COPY:
+				if(!e.ctrlKey){ typeCharacter(e.charCode); }
+				else{
+					if(inputLength == 0){ return; }
+					final copiedText = inputString.substr(inputIndex + Std.int(FlxMath.bound(inputLength, null, 0)), Std.int(Math.abs(inputLength)));
+					Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, copiedText);
+					onCopyText.dispatch(copiedText);
+					onCopyTextGlobal.dispatch(copiedText);
+				}
+			case KEY_CUT:
+				if(!e.ctrlKey){ typeCharacter(e.charCode); }
+				else{
+					if(inputLength == 0){ return; }
+					final copiedText = inputString.substr(inputIndex + Std.int(FlxMath.bound(inputLength, null, 0)), Std.int(Math.abs(inputLength)));
+					Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, copiedText);
+					onCutText.dispatch(copiedText);
+					onCutTextGlobal.dispatch(copiedText);
+					deleteSelection();
+				}
 			default:
-				var char:String = String.fromCharCode(e.charCode);
-				if(!allowedCharacters.contains(char)){ return; }
-
-				if(inputLength != 0){ deleteSelection(); }
-
-				insertString(char);
-				inputLength = 0;
-				allowDragSelect = false;
-				resetCaret();
+				typeCharacter(e.charCode);
 		}
+	}
+
+	/**
+	 * Types a single character based a character code.
+	 */
+	function typeCharacter(charCode:Int):Void{
+		var char:String = String.fromCharCode(charCode);
+		if(!allowedCharacters.contains(char)){ return; }
+
+		if(inputLength != 0){ deleteSelection(); }
+
+		insertString(char);
+		inputLength = 0;
+		allowDragSelect = false;
+		resetCaret();
 	}
 
 	/**
