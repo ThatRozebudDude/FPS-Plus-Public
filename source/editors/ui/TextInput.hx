@@ -30,7 +30,7 @@ class TextInput extends UIElement
 
 	//Because of bitmap font thank you FlxText memory.
 	static inline final DEFAULT_ALLOWED_CHARACTERS:String = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!;%:?*_+-=.,/|\"'@#$^&(){}[] ";
-	static inline final DELIMITERS:String = ".!?,;:()[]{}-_/ "; //The characters that are used to break up chunks of text.
+	static inline final DEFAULT_DELIMITERS:String = ".!?,;:()[]{}-_/ "; //The characters that are used to break up chunks of text.
 	
 	static inline final SHIFT_LOCK_TIME:Float = 1/24; //The amount of time you are locked out of extending the selection box out of the side of the box.
 	static inline final DOUBLE_CLICK_TIME:Float = 0.5;
@@ -58,6 +58,7 @@ class TextInput extends UIElement
 	var doubleClickTimer:Float = 0;
 
 	public var allowedCharacters:String = DEFAULT_ALLOWED_CHARACTERS;
+	public var delimiters:String = DEFAULT_DELIMITERS;
 
 	public var onValueChanged:FlxTypedSignal<String->Void> = new FlxTypedSignal<String->Void>();
 	public var onCopyText:FlxTypedSignal<String->Void> = new FlxTypedSignal<String->Void>();
@@ -89,14 +90,14 @@ class TextInput extends UIElement
 					var endIndex:Int = inputIndex;
 
 					while(endIndex < inputString.length){
-						if(DELIMITERS.contains(inputString.charAt(endIndex))){
+						if(delimiters.contains(inputString.charAt(endIndex))){
 							startIndex--;
 							break;
 						}
 						endIndex++;
 					}
 					while(startIndex > 0){
-						if(DELIMITERS.contains(inputString.charAt(startIndex))){
+						if(delimiters.contains(inputString.charAt(startIndex))){
 							startIndex++;
 							break;
 						}
@@ -314,7 +315,7 @@ class TextInput extends UIElement
 					allowDragSelect = false;
 					while(inputIndex > 0){
 						inputIndex--;
-						if(DELIMITERS.contains(inputString.charAt(inputIndex))){ break; }
+						if(delimiters.contains(inputString.charAt(inputIndex))){ break; }
 					}
 					resetCaret();
 				}
@@ -339,7 +340,7 @@ class TextInput extends UIElement
 					allowDragSelect = false;
 					while(inputIndex < inputString.length){
 						inputIndex++;
-						if(DELIMITERS.contains(inputString.charAt(inputIndex-1))){ break; }
+						if(delimiters.contains(inputString.charAt(inputIndex-1))){ break; }
 					}
 					resetCaret();
 				}
