@@ -303,13 +303,13 @@ class TextInput extends UIElement
 				inputString = start + end;
 				resetCaret();
 			case KEY_LEFT:
-				if(FlxG.keys.anyPressed([SHIFT])){ //Move selection.
+				if(e.shiftKey){ //Move selection.
 					inputLength--;
 					allowDragSelect = false;
 					if(inputIndex + inputLength < 0){ inputLength++; }
 					resetCaret();
 				}
-				else if(FlxG.keys.anyPressed([CONTROL])){ //Snap caret between delimiters.
+				else if(e.ctrlKey){ //Snap caret between delimiters.
 					inputLength = 0;
 					allowDragSelect = false;
 					while(inputIndex > 0){
@@ -328,13 +328,13 @@ class TextInput extends UIElement
 					resetCaret();
 				}
 			case KEY_RIGHT:
-				if(FlxG.keys.anyPressed([SHIFT])){ //Move selection.
+				if(e.shiftKey){ //Move selection.
 					inputLength++;
 					allowDragSelect = false;
 					if(inputIndex + inputLength > inputString.length){ inputLength--; }
 					resetCaret();
 				}
-				else if(FlxG.keys.anyPressed([CONTROL])){ //Snap caret between delimiters.
+				else if(e.ctrlKey){ //Snap caret between delimiters.
 					inputLength = 0;
 					allowDragSelect = false;
 					while(inputIndex < inputString.length){
@@ -437,9 +437,11 @@ class TextInput extends UIElement
 		var end:String = inputString.substring(inputIndex + Std.int(FlxMath.bound(inputLength, 0, null)));
 		inputString = start + end;
 		inputIndex = inputIndex + Std.int(FlxMath.bound(inputLength, null, 0));
+		if(textShift > 0){ textShift = Std.int(FlxMath.bound(textShift - Math.abs(inputLength), 0, null)); }
 		inputLength = 0;
 		allowDragSelect = false;
 		resetCaret();
+
 	}
 
 }

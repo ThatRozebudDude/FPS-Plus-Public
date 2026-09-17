@@ -4,10 +4,6 @@
 - Fix some Monster and Winter Horrorland stuff.
 - Game is crashing on fullscreen again. (i think it is fixed but it probably isn't if i'm gonna be honest)
 
-- Editor UI Components
-	- Text Input QOL
-		- Better scrolling to keep it in view.
-
 - Chart Editor
 	- Get the waveforms to not offset weirdly at the begining of songs when the camera moves.
 
