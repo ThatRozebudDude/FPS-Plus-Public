@@ -8,7 +8,7 @@ class CameraEvents extends Events
 
 	override function defineEvents() {
 		registerEvent({prefix: "camMove", eventFunction: camMove, executeAtStart: true, editor: {description: CAM_MOVE_DESC, arguments: [
-			{name: "X Position", type: "float", value: "0"}, {name: "Y Position", type: "float", value: "0"}, {name: "Time", type: "time", value: "1.9"}, {name: "Ease", type: "ease", value: "expoOut"}, {name: "Relative To Current Position", type: "bool", value: "false"}
+			{name: "X Position", type: "float", value: "0", step: 10}, {name: "Y Position", type: "float", value: "0", step: 10}, {name: "Time", type: "time", value: "1.9"}, {name: "Ease", type: "ease", value: "expoOut"}, {name: "Relative To Current Position", type: "bool", value: "false"}
 		]}});
 		registerEvent({prefix: "camZoom", eventFunction: camZoom, executeAtStart: true, editor: {description: CAM_ZOOM_DESC, arguments: [
 			{name: "Zoom", type: "float", value: "1"}, {name: "Time", type: "time", value: "4b"}, {name: "Ease", type: "ease", value: "quadInOut"}, {name: "Relative To Default Zoom", type: "bool", value: "true"}
@@ -28,26 +28,26 @@ class CameraEvents extends Events
 		]}});
 		
 		registerEvent({prefix: "camShake", eventFunction: camShake, editor: {description: CAM_SHAKE_DESC, arguments: [
-			{name: "Intensity", type: "float", value: "0.008"}, {name: "Frequency", type: "float", value: "0.042"}, {name: "Shake Time", type: "time", value: "1"}, {name: "Return Time", type: "time", value: "0.042"}, {name: "Ease", type: "ease", value: "linear"}
+			{name: "Intensity", type: "float", value: "0.008", step: 0.001}, {name: "Frequency", type: "float", value: "0.042", step: 0.001}, {name: "Shake Time", type: "time", value: "1"}, {name: "Return Time", type: "time", value: "0.042", step: 0.001}, {name: "Ease", type: "ease", value: "linear"}
 		]}});
 		registerEvent({prefix: "startCamShake", eventFunction: startCamShake, editor: {description: CAM_SHAKE_START_DESC, arguments: [
-			{name: "Intensity", type: "float", value: "0.008"}, {name: "Frequency", type: "float", value: "0.042"}, {name: "Ease", type: "ease", value: "linear"}
+			{name: "Intensity", type: "float", value: "0.008", step: 0.001}, {name: "Frequency", type: "float", value: "0.042", step: 0.001}, {name: "Ease", type: "ease", value: "linear"}
 		]}});
 		registerEvent({prefix: "endCamShake", eventFunction: endCamShake, editor: {description: CAM_SHAKE_END_DESC, arguments: [
-			{name: "Return Time", type: "time", value: "0.042"}, {name: "Ease", type: "ease", value: "linear"}
+			{name: "Return Time", type: "time", value: "0.042", step: 0.001}, {name: "Ease", type: "ease", value: "linear"}
 		]}});
 		
 		registerEvent({prefix: "camFocusBf", eventFunction: camFocusBf, executeAtStart: true, editor: {description: CAM_FOCUS_BF_DESC, arguments: [
-			{name: "X Offset", type: "float", value: "0"}, {name: "Y Offset", type: "float", value: "0"}, {name: "Time", type: "time", value: "1.9"}, {name: "Ease", type: "ease", value: "expoOut"}
+			{name: "X Offset", type: "float", value: "0", step: 10}, {name: "Y Offset", type: "float", value: "0", step: 10}, {name: "Time", type: "time", value: "1.9"}, {name: "Ease", type: "ease", value: "expoOut"}
 		]}});
 		registerEvent({prefix: "camFocusDad", eventFunction: camFocusDad, executeAtStart: true, editor: {description: CAM_FOCUS_DAD_DESC, arguments: [
-			{name: "X Offset", type: "float", value: "0"}, {name: "Y Offset", type: "float", value: "0"}, {name: "Time", type: "time", value: "1.9"}, {name: "Ease", type: "ease", value: "expoOut"}
+			{name: "X Offset", type: "float", value: "0", step: 10}, {name: "Y Offset", type: "float", value: "0", step: 10}, {name: "Time", type: "time", value: "1.9"}, {name: "Ease", type: "ease", value: "expoOut"}
 		]}});
 		registerEvent({prefix: "camFocusGf", eventFunction: camFocusGf, executeAtStart: true, editor: {description: CAM_FOCUS_GF_DESC, arguments: [
-			{name: "X Offset", type: "float", value: "0"}, {name: "Y Offset", type: "float", value: "0"}, {name: "Time", type: "time", value: "1.9"}, {name: "Ease", type: "ease", value: "expoOut"}
+			{name: "X Offset", type: "float", value: "0", step: 10}, {name: "Y Offset", type: "float", value: "0", step: 10}, {name: "Time", type: "time", value: "1.9"}, {name: "Ease", type: "ease", value: "expoOut"}
 		]}});
 		registerEvent({prefix: "camFocusCenter", eventFunction: camFocusCenter, executeAtStart: true, editor: {description: CAM_FOCUS_CENTER_DESC, arguments: [
-			{name: "X Offset", type: "float", value: "0"}, {name: "Y Offset", type: "float", value: "0"}, {name: "Time", type: "time", value: "1.9"}, {name: "Ease", type: "ease", value: "expoOut"}
+			{name: "X Offset", type: "float", value: "0", step: 10}, {name: "Y Offset", type: "float", value: "0", step: 10}, {name: "Time", type: "time", value: "1.9"}, {name: "Ease", type: "ease", value: "expoOut"}
 		]}});
 		
 		registerEvent({prefix: "toggleCamBop", eventFunction: toggleCamBop, editor: {description: TOGGLE_CAM_BOP_DESC}});

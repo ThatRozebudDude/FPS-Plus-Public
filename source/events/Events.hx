@@ -20,18 +20,19 @@ typedef EventEditorProperties = {
 	var hidden:Bool;
 }
 
-//Still unsure exactly how I wanna handle this.
 typedef EventArgument = {
 	var name:String;
 	var type:EventArgumentType;
 	var value:String;
+	var step:Null<Float>;
 }
 
-enum abstract EventArgumentType(String) from String to String {
+enum abstract EventArgumentType(String) from String to String{
 	var bool;
 	var int;
 	var uint;
 	var float;
+	var ufloat; //For fun.
 	var string;
 	var ease;
 	var time;

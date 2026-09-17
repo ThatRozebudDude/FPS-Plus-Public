@@ -2444,7 +2444,8 @@ class ChartingState extends MusicBeatState
 				});
 
 			case int:
-				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseInt(arg.value), 1, null, null, true, argData.name);
+				final stepSize:Int = argData.step != null ? Std.int(argData.step) : 1;
+				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseInt(arg.value), stepSize, null, null, true, argData.name);
 				input.isInt = true;
 				arg.elements.push(input);
 
@@ -2454,7 +2455,8 @@ class ChartingState extends MusicBeatState
 				});
 
 			case uint:
-				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseInt(arg.value), 1, 0, null, true, argData.name);
+				final stepSize:Int = argData.step != null ? Std.int(argData.step) : 1;
+				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseInt(arg.value), stepSize, 0, null, true, argData.name);
 				input.isInt = true;
 				arg.elements.push(input);
 
@@ -2465,11 +2467,35 @@ class ChartingState extends MusicBeatState
 
 
 			case float:
-				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseFloat(arg.value), 0.1, null, null, true, argData.name);
+				final stepSize:Float = argData.step ?? 0.1;
+				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseFloat(arg.value), stepSize, null, null, true, argData.name);
 				arg.elements.push(input);
 
 				input.onValueChanged.add(function(v:Float){
 					arg.value = ""+v;
+					buildTag();
+				});
+
+			case ufloat:
+				final stepSize:Float = argData.step ?? 0.1;
+				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseFloat(arg.value), stepSize, 0, null, true, argData.name);
+				arg.elements.push(input);
+
+				input.onValueChanged.add(function(v:Float){
+					arg.value = ""+v;
+					buildTag();
+				});
+
+			case normalizedFloat:
+				final stepSize:Float = argData.step ?? 0.1;
+				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseFloat(arg.value), stepSize, 0, 1, true, argData.name);
+				arg.elements.push(input);
+
+				input.onValueChanged.add(function(v:Float){
+					v = Utils.truncateFloat(v, 3);
+					arg.value = ""+v;
+					input.value = v;
+					input.updateNumberLabel();
 					buildTag();
 				});
 
@@ -2505,12 +2531,14 @@ class ChartingState extends MusicBeatState
 				});
 
 			case time:
+				final secondStepSize:Float = argData.step ?? 0.1;
+				final initalUnitValue:String = arg.value.endsWith("b") ? "Beat" : arg.value.endsWith("s") ? "Step" : "Sec";
 				var initalNumberValue:Float = arg.value.endsWith("b") ? Std.parseFloat(arg.value.split("b")[0]) : arg.value.endsWith("s") ? Std.parseFloat(arg.value.split("s")[0]) : Std.parseFloat(arg.value);
 				initalNumberValue = Math.isNaN(initalNumberValue) ? 0 : initalNumberValue;
-				var numberInput:Stepper = new Stepper(PANEL_SPACING, y, 110, initalNumberValue, 0.1, 0, null, true);
+
+				var numberInput:Stepper = new Stepper(PANEL_SPACING, y, 110, initalNumberValue, (initalUnitValue == "Beat" || initalUnitValue == "Step") ? 1 : secondStepSize, 0, null, true);
 				arg.elements.push(numberInput);
 
-				final initalUnitValue:String = arg.value.endsWith("b") ? "Beat" : arg.value.endsWith("s") ? "Step" : "Sec";
 				var unitInput:Dropdown = new Dropdown(numberInput.x + numberInput.elementWidth + PANEL_SPACING, y, 77, ["Sec", "Beat", "Step"], initalUnitValue, argData.name);
 				arg.elements.push(unitInput);
 
@@ -2520,6 +2548,7 @@ class ChartingState extends MusicBeatState
 				});
 
 				unitInput.onSelect.add(function(v:String){
+					numberInput.stepSize = (unitInput.value == "Beat" || unitInput.value == "Step") ? 1 : secondStepSize;
 					arg.value = numberInput.value + (unitInput.value == "Beat" ? "b" : unitInput.value == "Step" ? "s" : "");
 					buildTag();
 				});
@@ -2576,18 +2605,6 @@ class ChartingState extends MusicBeatState
 						default:
 							arg.value = "all";
 					}
-					buildTag();
-				});
-			
-			case normalizedFloat:
-				var input:Stepper = new Stepper(PANEL_SPACING, y, 192, Std.parseFloat(arg.value), 0.1, 0, 1, true, argData.name);
-				arg.elements.push(input);
-
-				input.onValueChanged.add(function(v:Float){
-					v = Utils.truncateFloat(v, 3);
-					arg.value = ""+v;
-					input.value = v;
-					input.updateNumberLabel();
 					buildTag();
 				});
 

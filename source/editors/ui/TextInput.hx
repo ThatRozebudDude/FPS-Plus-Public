@@ -441,7 +441,6 @@ class TextInput extends UIElement
 		inputLength = 0;
 		allowDragSelect = false;
 		resetCaret();
-
 	}
 
 }
