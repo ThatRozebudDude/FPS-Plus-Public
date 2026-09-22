@@ -16,6 +16,8 @@ enum AnimType {
 	start;
 	startAtLabel;
 	symbol;
+	labelOffset(offset:Int);
+	labelIndices;
 }
 
 enum FrameLoadType {
@@ -372,7 +374,7 @@ class CharacterInfoBase
 	 *
 	 * @param	_name		What this animation should be called (e.g. `"run"`).
 	 * @param	_offset		The visual offset of the animation. Use `offset()` to generate the data.
-	 * @param	_label		The frame number that the animation starts on. (Zero indexed).
+	 * @param	_label		The name of the label that the animation starts on.
 	 * @param	_length		The length in frames of the animation.
 	 * @param	_frameRate	The speed in frames per second that the animation should play at (e.g. `40` fps).
 	 * @param	_looped		Whether or not the animation loops and what frame it loops on. Use `loop()` to generate the data.
@@ -428,6 +430,77 @@ class CharacterInfoBase
 		var animInfo:AnimInfo = {
 			name: _name,
 			type: symbol,
+			data: animData
+		}
+		info.anims.push(animInfo);
+	}
+	
+	/**
+	 * Adds a new animation to the sprite.
+	 * Texture Atlas sprites only!
+	 *
+	 * @param	_name			What this animation should be called (e.g. `"run"`).
+	 * @param	_offset			The visual offset of the animation. Use `offset()` to generate the data.
+	 * @param	_label			The name of the label that the animation will be offset from.
+	 * @param	_startOffset	The number of frames to offset from the start of the label.
+	 * @param	_length			The length in frames of the animation.
+	 * @param	_frameRate		The speed in frames per second that the animation should play at (e.g. `40` fps).
+	 * @param	_looped			Whether or not the animation loops and what frame it loops on. Use `loop()` to generate the data.
+	 */
+	 function addByLabelWithOffset(_name:String, _offset:Array<Float>, _label:String, _startOffset:Int, _length:Int, _frameRate:Float = 30.0, _looped:LoopData = null):Void{
+		if(_looped == null){
+			_looped = loop(true);
+		}
+
+		var animData:AnimData = {
+			prefix: _label,
+			frames: [_length],
+			postfix: null,
+			framerate: _frameRate,
+			loop: _looped,
+			flipX: false,
+			flipY: false,
+			offset: _offset
+		}
+		var animInfo:AnimInfo = {
+			name: _name,
+			type: labelOffset(_startOffset),
+			data: animData
+		}
+		info.anims.push(animInfo);
+	}
+
+	/**
+	 * Adds a new animation to the sprite.
+	 * Texture Atlas sprites only!
+	 *
+	 * @param	_name		What this animation should be called (e.g. `"run"`).
+	 * @param	_offset		The visual offset of the animation. Use `offset()` to generate the data.
+	 * @param	_label		The name of the label that the animation will be from.
+	 * @param	_indices	An array of numbers indicating what frames to play in what order (e.g. `[0, 1, 2]`).
+	 * @param	_frameRate	The speed in frames per second that the animation should play at (e.g. `40` fps).
+	 * @param	_looped		Whether or not the animation loops and what frame it loops on. Use `loop()` to generate the data.
+	 * @param	_flipX		Whether the frames should be flipped horizontally.
+	 * @param	_flipY		Whether the frames should be flipped vertically.
+	 */
+	 function addByLabelIndices(_name:String, _offset:Array<Float>, _label:String, _indices:Array<Int>, _frameRate:Float = 30, _looped:LoopData = null, _flipX:Bool = false, _flipY:Bool = false):Void{
+		if(_looped == null){
+			_looped = loop(true);
+		}
+
+		var animData:AnimData = {
+			prefix: _label,
+			frames: _indices,
+			postfix: null,
+			framerate: _frameRate,
+			loop: _looped,
+			flipX: _flipX,
+			flipY: _flipY,
+			offset: _offset
+		}
+		var animInfo:AnimInfo = {
+			name: _name,
+			type: labelIndices,
 			data: animData
 		}
 		info.anims.push(animInfo);

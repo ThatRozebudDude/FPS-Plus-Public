@@ -110,6 +110,24 @@ class GlobalScriptingTypesMacro
 			}),
 			pos: pos,
 		});
+
+		fieldsToAdd.push({
+			name: "timer",
+			access: [Access.APublic],
+			kind: FieldType.FProp("get", "null", (macro:flixel.util.FlxTimer.FlxTimerManager)), 
+			pos: pos,
+		});
+
+		fieldsToAdd.push({
+			name: "get_timer",
+			access: [Access.APrivate, Access.AInline],
+			kind: FieldType.FFun({ 
+				expr: macro return PlayState.instance.timerManager,
+				ret: (macro:flixel.util.FlxTimer.FlxTimerManager),
+				args:[]
+			}),
+			pos: pos,
+		});
 		
 		fieldsToAdd.push({
 			name: "data",

@@ -27,11 +27,12 @@ class AtlasScrub extends FlxState
 		gridBG.screenCenter(XY);
 		add(gridBG);
 
-		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("menu/results/characters/pico/resultsGOOD"));
-		atlas.addFullAnimation("full", 0, false);
+		atlas = new AtlasSprite(0, 0, Paths.getTextureAtlas("shared/nene"));
+		atlas.addFullAnimation("full", 1, false);
 		//atlas.addFullAnimation("full24", 24, false);
 		atlas.screenCenter();
 		atlas.playAnim("full");
+		atlas.pause();
 		add(atlas);
 
 		camFollow = new FlxObject(0, 0, 2, 2);
@@ -47,6 +48,7 @@ class AtlasScrub extends FlxState
 	final moveSpeed:Float = 400;
 	
 	override function update(elapsed:Float) {
+		var animInfo:AtlasAnimInfo = atlas.animInfoMap.get("full");
 
 		var amount:Int = 1;
 		
@@ -58,19 +60,22 @@ class AtlasScrub extends FlxState
 			curFrame -= amount;
 			if(curFrame < 0) {curFrame = 0;}
 			atlas.playAnim("full", true, false, curFrame);
+			atlas.pause();
 			trace(curFrame);
 		}
 
 		if (FlxG.keys.justPressed.RIGHT){
 			curFrame += amount;
-			if(curFrame > atlas.anim.length - 1) {curFrame = atlas.anim.length - 1;}
+			if(curFrame > animInfo.length - 1) {curFrame = animInfo.length - 1;}
 			atlas.playAnim("full", true, false, curFrame);
+			atlas.pause();
 			trace(curFrame);
 		}
 
 		if (FlxG.keys.justPressed.R){
 			curFrame = 0;
 			atlas.playAnim("full", true, false, curFrame);
+			atlas.pause();
 			trace(curFrame);
 		}
 
@@ -94,15 +99,15 @@ class AtlasScrub extends FlxState
 		if (FlxG.keys.pressed.Q)
 			FlxG.camera.zoom -= zoomSpeed * FlxG.camera.zoom;
 		
-		if (FlxG.keys.justPressed.TAB)
-			showLabels();
+		//if (FlxG.keys.justPressed.TAB)
+		//	showLabels();
 
 		super.update(elapsed);
 	}
 
-	function showLabels():Void{
+	/*function showLabels():Void{
 		for(label in atlas.anim.getFrameLabels()){
 			trace("label: " + label.name + "\tindex: " + label.index + "\tduration: " + label.duration);
 		}
-	}
+	}*/
 }

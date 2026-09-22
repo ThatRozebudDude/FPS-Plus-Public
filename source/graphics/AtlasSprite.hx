@@ -29,7 +29,7 @@ typedef AtlasAnimInfo = {
 	framerate:Float,
 	looped:Bool,
 	loopFrame:Null<Int>,
-	symbolName:String
+	animationName:String
 }
 
 #if BACKWARD_COMPATIBILITY
@@ -171,7 +171,7 @@ class AtlasSprite extends FlxAnimate
 			framerate: framerate,
 			looped: looped,
 			loopFrame: loopFrame,
-			symbolName: null
+			animationName: null
 		});
 	}
 
@@ -192,7 +192,7 @@ class AtlasSprite extends FlxAnimate
 			framerate: framerate,
 			looped: looped,
 			loopFrame: loopFrame,
-			symbolName: null
+			animationName: null
 		});
 	}
 
@@ -219,11 +219,11 @@ class AtlasSprite extends FlxAnimate
 			framerate: framerate,
 			looped: looped,
 			loopFrame: loopFrame,
-			symbolName: null
+			animationName: null
 		});
 	}
 
-	public function addFullAnimation(name:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null) {
+	public function addFullAnimation(name:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
 		if(looped && loopFrame == null){
 			loopFrame = 0;
 		}
@@ -237,11 +237,11 @@ class AtlasSprite extends FlxAnimate
 			framerate: framerate,
 			looped: looped,
 			loopFrame: loopFrame,
-			symbolName: null
+			animationName: null
 		});
 	}
 
-	public function addAnimationBySymbol(name:String, symbolName:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null) {
+	public function addAnimationBySymbol(name:String, symbolName:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
 		if(!anim.exists("___symbol_" + symbolName)){
 			if(library.existsSymbol(symbolName)){
 				anim.addBySymbol("___symbol_" + symbolName, symbolName, framerate, false);
@@ -265,8 +265,78 @@ class AtlasSprite extends FlxAnimate
 			framerate: framerate,
 			looped: looped,
 			loopFrame: loopFrame,
-			symbolName: symbolName
+			animationName: "___symbol_" + symbolName
 		});
+	}
+
+	public function addAnimationOffsetFromLabel(name:String, label:String, offset:Int, length:Null<Int>, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
+		var foundFrames = anim.findFrameLabelIndices(label);
+		if(foundFrames.length <= 0){
+			trace("LABEL " + label + " NOT FOUND, ABORTING ANIM ADD");
+			return;
+		}
+
+		if(length == null){
+			length = anim.getByName("___full").frames.length;
+		}
+		if(looped && loopFrame == null){
+			loopFrame = 0;
+		}
+		else if(looped && loopFrame < 0){
+			loopFrame = length + loopFrame;
+		}
+
+		animInfoMap.set(name, {
+			startFrame: foundFrames[0] + offset,
+			length: length,
+			framerate: framerate,
+			looped: looped,
+			loopFrame: loopFrame,
+			animationName: null
+		});
+	}
+
+	public function addAnimationFromLabelIndices(name:String, label:String, indices:Array<Int>, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
+		if(indices == null || indices.length <= 0){
+			trace("CANNOT CREATE " + name + " BASED ON PROVIDED INDICES, ABORTING ANIM ADD");
+			return;
+		}
+
+		/*var foundFrames = anim.findFrameLabelIndices(label);
+		if(foundFrames.length <= 0){
+			trace("LABEL " + label + " NOT FOUND, ABORTING ANIM ADD");
+			return;
+		}*/
+
+		var indicesString:String = combineIndicesToString(indices);
+
+		if(!anim.exists("___frames_" + label + "_" + indicesString)){
+			anim.addByFrameLabelIndices("___frames_" + label + "_" + indicesString, label, indices, framerate, false);
+		}
+
+		if(looped && loopFrame == null){
+			loopFrame = 0;
+		}
+		else if(looped && loopFrame < 0){
+			loopFrame = indices.length + loopFrame;
+		}
+
+		animInfoMap.set(name, {
+			startFrame: 0,
+			length: indices.length,
+			framerate: framerate,
+			looped: looped,
+			loopFrame: loopFrame,
+			animationName: "___frames_" + label + "_" + indicesString
+		});
+	}
+
+	private inline function combineIndicesToString(indices:Array<Int>, indexOffset:Int = 0):String{
+		var r:String = "";
+		for(index in indices){
+			r += (index + indexOffset) + "_";
+		}
+		return r.substr(0, r.length-1);
 	}
 
 	//public version of playAnim so that people can't use _partOfLoop.
@@ -300,13 +370,13 @@ class AtlasSprite extends FlxAnimate
 			frameOffset = animInfo.length - 1;
 		}
 
-		if(animInfo.symbolName == null){
+		if(animInfo.animationName == null){
 			anim.getByName("___full").frameRate = animInfo.framerate;
 			anim.play("___full", true, reverse, animInfo.startFrame + frameOffset);
 		}
 		else{
-			anim.getByName("___symbol_" + animInfo.symbolName).frameRate = animInfo.framerate;
-			anim.play("___symbol_" + animInfo.symbolName, true, reverse, animInfo.startFrame + frameOffset);
+			anim.getByName(animInfo.animationName).frameRate = animInfo.framerate;
+			anim.play(animInfo.animationName, true, reverse, animInfo.startFrame + frameOffset);
 		}
 	}
 

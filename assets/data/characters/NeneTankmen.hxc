@@ -14,27 +14,32 @@ class NeneTankmen extends CharacterInfoBase
 		includeInGfList = true;
 
 		info.name = "nene-tankmen";
-		info.spritePath = "shared/Nene";
-		info.frameLoadType = setSparrow();
+		info.spritePath = "shared/nene";
+		info.frameLoadType = setAtlas();
 		
 		info.iconName = "face";
-		info.focusOffset.set(0, 0);
+		info.focusOffset.set(-86, 34);
 
-		addByIndices("danceLeft", offset(0, 0), "Idle", [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], "", 24, loop(false, 0));
-		addByIndices("danceRight", offset(0, 0), "Idle", [15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], "", 24, loop(false, 0));
-		addByPrefix("idleLoop", offset(0, 0), "Idle", 24, loop(true, 0));
-		addByIndices("sad", offset(0, 0), "Laugh", [0,1,2,3], "", 24, loop(false, 0));
-		addByPrefix("laugh", offset(0, 0), "Laugh", 24, loop(true, -6));
-		addByIndices("laughCutscene", offset(0, 0), "Laugh", [0,1,2,3,4,5,6,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11], "", 24, loop(false, 0));
-		addByPrefix("combo50", offset(-120, 53), "ComboCheer", 24, loop(false, 0));
-		addByIndices("combo200", offset(-40, -20), "ComboFawn", [0,1,2,3,4,5,6,4,5,6,4,5,6,4,5,6], "", 24, loop(false, 0));
-		addByPrefix("raiseKnife", offset(0, 51), "KnifeRaise", 24, loop(false, 0));
-		addByPrefix("idleKnife", offset(-98, 51), "KnifeIdle", 24, loop(false, 0));
-		addByIndices("lowerKnife", offset(135, 51), "KnifeLower", [0,1,2,3,4,5,6,7,8], "", 24, loop(false, 0));
+		addByLabelWithOffset("danceLeft", offset(0, 0), "Idle", 0, 15, 24, loop(false, 0));
+		addByLabelWithOffset("danceRight", offset(0, 0), "Idle", 15, 15, 24, loop(false, 0));
+		addByLabel("idleLoop", offset(0, 0), "Idle", 24, loop(true, 0));
+		
+		addByLabel("laugh", offset(0, 0), "Laugh", 24, loop(true, -6));
+		addByLabelIndices("laughCutscene", offset(0, 0), "Laugh", [0,1,2,3,4,5,6,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11,7,8,9,10,11], 24, loop(false));
+
+		addByLabel("raiseKnife", offset(0, 0), "Knife Raise", 24, loop(false, 0));
+		addByLabel("idleKnife", offset(0, 0), "Idle (holding Knife)", 24, loop(false, 0));
+		addByLabel("lowerKnife", offset(0, 0), "Knife Lower", 24, loop(false, 0));
+
+		addByLabel("combo50", offset(0, 0), "Cheer", 24, loop(false, 0));
+		addByLabel("combo200", offset(0, 0), "Fawn", 24, loop(false, 0));
+
+		addByLabel("turnBack", offset(0, 0), "Turn Back", 24, loop(false, 0));
 
 		addAnimChain("raiseKnife", "idleKnife");
 		addAnimChain("laughCutscene", "idleLoop");
 
+		addAnimAlias("sad", "laugh");
 		//Adds combo aliases.
 		for(i in 2...20){ addAnimAlias("combo" + (i * 50), "combo50"); }
 		for(i in 2...5){ addAnimAlias("combo" + (i * 200), "combo200"); }
@@ -49,10 +54,9 @@ class NeneTankmen extends CharacterInfoBase
 		info.functions.update = update;
 		info.functions.beat = beat;
 		info.functions.countdownBeat = countdownBeat;
-		info.functions.danceOverride = danceOverride;
 		info.functions.applyShader = applyShader;
 
-		addExtraData("reposition", [0, -165]);
+		addExtraData("reposition", [11, -144]);
 	}
 
 	var knifeRaised:Bool = false;
@@ -68,36 +72,24 @@ class NeneTankmen extends CharacterInfoBase
 	var BLINK_MAX:Float = 3;
 
 	function create(character:Character):Void{
-		speakerGuysBack = new FlxSprite(-210, 180);
+		speakerGuysBack = new FlxSprite(-210 + 8.5, 180 + 69.5);
 		speakerGuysBack.frames = Paths.getSparrowAtlas("week7/speakerGuys");
 		speakerGuysBack.animation.addByPrefix("bop", "speaker guys bottom", 24 , false);
 		addToCharacter(speakerGuysBack);
 
-		abot = new ABot(-134.5, 311);
+		abot = new ABot(-126, 380.5);
 		abot.lookLeft();
 		addToCharacter(abot);
 	}
 	
 	function postCreate(character:Character):Void{
-		speakerGuysFront = new FlxSprite(-227, 62);
+		speakerGuysFront = new FlxSprite(-227 + 8.5, 62 + 69.5);
 		speakerGuysFront.frames = Paths.getSparrowAtlas("week7/speakerGuys");
 		speakerGuysFront.animation.addByPrefix("bop", "speaker guys top", 24 , false);
 		addToCharacter(speakerGuysFront);
 	}
 
 	function update(character:Character, elapsed:Float):Void{
-		
-		if (ScriptingUtil.startsWith(character.curAnim, "hairFall") && character.curAnimFinished()){
-			if(!knifeRaised){
-				character.playAnim('danceRight');
-				character.idleSequenceIndex = 0;
-				character.danceLockout = true;
-			}
-			else{
-				character.playAnim('idleKnife');
-			}
-		}
-
 		if(character.curAnim == "idleKnife"){
 			blinkTime -= elapsed;
 
@@ -117,7 +109,6 @@ class NeneTankmen extends CharacterInfoBase
 				abot.lookRight();
 			}
 		}
-		
 	}
 
 	function beat(character:Character, beat:Int) {
@@ -126,7 +117,7 @@ class NeneTankmen extends CharacterInfoBase
 		speakerGuysBack.animation.play("bop", true);
 
 		//raise knife on low health
-		if(PlayState.chart.meta.song.toLowerCase() != "blazin" && !ScriptingUtil.startsWith(character.curAnim, "hair")){
+		if(PlayState.chart.meta.song.toLowerCase() != "blazin"){
 			if(PlayState.instance.health < 0.4 && !knifeRaised){
 				knifeRaised = true;
 				blinkTime = FlxG.random.float(BLINK_MIN, BLINK_MAX);
@@ -139,19 +130,12 @@ class NeneTankmen extends CharacterInfoBase
 				character.danceLockout = true;
 			}
 		}
-
 	}
 
 	function countdownBeat(character:Character, beat:Int) {
 		abot.bop();
 		speakerGuysFront.animation.play("bop", true);
 		speakerGuysBack.animation.play("bop", true);
-	}
-
-	function danceOverride(character:Character):Void{
-		if(!knifeRaised && !ScriptingUtil.startsWith(character.curAnim, "hair")){
-			character.defaultDanceBehavior();
-		}
 	}
 
 	function songStart(character:Character):Void{

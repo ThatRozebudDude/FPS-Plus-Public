@@ -1,147 +1,152 @@
 {
-	"meta": {
-		"format": "fpsplus_1"
-	},
 	"events": [
 		{
-			"time": 0,
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
-			"tag": "camFocusDad;0;0"
+			"time": 0
 		},
 		{
-			"time": 5454.54545454545,
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
-			"tag": "camFocusBf;0;0"
+			"time": 5454.54545454545
 		},
 		{
-			"time": 10909.0909090909,
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
-			"tag": "camFocusDad;0;0"
+			"time": 10909.0909090909
 		},
 		{
-			"time": 13636.3636363636,
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
-			"tag": "camFocusBf;0;0"
+			"time": 13636.3636363636
 		},
 		{
-			"time": 16363.6363636364,
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
-			"tag": "camFocusDad;0;0"
+			"time": 16363.6363636364
 		},
 		{
-			"time": 19090.9090909091,
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
-			"tag": "camFocusBf;0;0"
+			"time": 19090.9090909091
 		},
 		{
-			"time": 21818.1818181818,
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
-			"tag": "camFocusDad;0;0"
+			"time": 21818.1818181818
 		},
 		{
-			"time": 24545.4545454545,
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
-			"tag": "camFocusBf;0;0"
+			"time": 24545.4545454545
 		},
 		{
-			"time": 27272.7272727273,
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
-			"tag": "camFocusDad;0;0"
+			"time": 27272.7272727273
 		},
 		{
-			"time": 30000,
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
-			"tag": "camFocusBf;0;0"
+			"time": 30000
 		},
 		{
-			"time": 32727.2727272727,
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
-			"tag": "camFocusDad;0;0"
+			"time": 32727.2727272727
 		},
 		{
-			"time": 38181.8181818182,
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
-			"tag": "camFocusBf;0;0"
+			"time": 38181.8181818182
 		},
 		{
-			"time": 43636.3636363636,
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
-			"tag": "camFocusDad;0;0"
+			"time": 43636.3636363636
 		},
 		{
-			"time": 49090.9090909091,
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
-			"tag": "camFocusBf;0;0"
+			"time": 49090.9090909091
 		},
 		{
-			"time": 54545.4545454545,
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
-			"tag": "camFocusDad;0;0"
+			"time": 54545.4545454545
 		},
 		{
-			"time": 60000,
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
-			"tag": "camFocusBf;0;0"
+			"time": 60000
 		},
 		{
-			"time": 65454.5454545454,
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
-			"tag": "camFocusDad;0;0"
+			"time": 65454.5454545454
 		},
 		{
-			"time": 68181.8181818182,
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
-			"tag": "camFocusBf;0;0"
+			"time": 68181.8181818182
 		},
 		{
-			"time": 70909.0909090909,
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
-			"tag": "camFocusDad;0;0"
+			"time": 70909.0909090909
 		},
 		{
-			"time": 73636.3636363636,
+			"tag": "phillyStreets-easterEgg;32",
 			"lane": 0,
-			"tag": "camFocusBf;0;0"
+			"time": 71590.9090909091
 		},
 		{
-			"time": 76363.6363636364,
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
-			"tag": "camFocusDad;0;0"
+			"time": 73636.3636363636
 		},
 		{
-			"time": 81818.1818181818,
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
-			"tag": "camFocusBf;0;0"
+			"time": 76363.6363636364
 		},
 		{
-			"time": 87272.7272727273,
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
-			"tag": "camFocusDad;0;0"
+			"time": 81818.1818181818
 		},
 		{
-			"time": 92727.2727272727,
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
-			"tag": "camFocusBf;0;0"
+			"time": 87272.7272727273
 		},
 		{
-			"time": 98181.8181818182,
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
-			"tag": "camFocusDad;0;0"
+			"time": 92727.2727272727
 		},
 		{
-			"time": 100909.090909091,
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
-			"tag": "camFocusBf;0;0"
+			"time": 98181.8181818182
 		},
 		{
-			"time": 103636.363636364,
+			"tag": "camFocusBf;0;0",
 			"lane": 0,
-			"tag": "camFocusDad;0;0"
+			"time": 100909.090909091
 		},
 		{
-			"time": 106363.636363636,
+			"tag": "camFocusDad;0;0",
 			"lane": 0,
-			"tag": "camFocusBf;0;0"
+			"time": 103636.363636364
+		},
+		{
+			"tag": "camFocusBf;0;0",
+			"lane": 0,
+			"time": 106363.636363636
 		}
-	]
+	],
+	"meta": {
+		"format": "fpsplus_1"
+	}
 }

@@ -19,6 +19,9 @@ class PhillyStreets extends BaseStage
 	var intensityTween:FlxTween;
 	var speedTween:FlxTween;
 
+	var phillyForegroundCity:AtlasSprite;
+	public static var hasPlayedEasterEgg:Bool = false;
+
 	var dimSprite:FlxSprite;
 	var kickedCan:AtlasSprite;
 	var canExplosion:FlxSprite;
@@ -42,6 +45,10 @@ class PhillyStreets extends BaseStage
 		name = "phillyStreets";
 		startingZoom = 0.75;
 
+		if(PlayState.chart.meta.song.toLowerCase() != "2hot" || !PlayState.isStoryMode){
+			hasPlayedEasterEgg = false;
+		}
+
 		intensityTween = FlxTween.tween(this, {}, 0);
 		speedTween = FlxTween.tween(this, {}, 0);
 
@@ -56,8 +63,15 @@ class PhillyStreets extends BaseStage
 		phillySkyline.scrollFactor.set(0.2, 0.2);
 		addToBackground(phillySkyline);
 
-		var phillyForegroundCity = new FlxSprite(625, 94).loadGraphic(Paths.image("weekend1/phillyStreets/phillyForegroundCity"));
+		phillyForegroundCity = new AtlasSprite(622, -228, Paths.getTextureAtlas("weekend1/phillyStreets/philly-foreground-city"));
 		phillyForegroundCity.scrollFactor.set(0.3, 0.3);
+		phillyForegroundCity.addAnimationByLabel("idle", "Idle", 24, false);
+		phillyForegroundCity.addAnimationByLabel("attack", "Attack", 24, false);
+		phillyForegroundCity.addAnimationByLabel("destroyed", "Idle 2", 24, false);
+		phillyForegroundCity.onFinish.add(function(name:String):Void{
+			if(name == "attack"){ phillyForegroundCity.playAnim("destroyed", true); }
+		});
+		phillyForegroundCity.playAnim(hasPlayedEasterEgg ? "destroyed" : "idle", true);
 		addToBackground(phillyForegroundCity);
 
 		var phillyHighwayLights = new FlxSprite(284-400, 305).loadGraphic(Paths.image("weekend1/phillyStreets/phillyHighwayLights"));
@@ -199,6 +213,7 @@ class PhillyStreets extends BaseStage
 			rainInensityEnd = 0.2;
 		}
 
+		FlxG.sound.cache(Paths.sound("weekend1/jump"));
 
 		addEvent("phillyStreets-stageDarken", stageDarken);
 		addEvent("phillyStreets-canKick", canKick);
@@ -212,6 +227,8 @@ class PhillyStreets extends BaseStage
 
 		addEvent("phillyStreets-setRainIntensity", setRainIntensity);
 		addEvent("phillyStreets-setRainSpeed", setRainSpeed);
+
+		addEvent("phillyStreets-easterEgg", easterEgg);
 	}
 
 	override function create():Void{
@@ -316,6 +333,24 @@ class PhillyStreets extends BaseStage
 	public function createBullet(tag:String):Void{
 		var bullet = new BulletCasing(2083, 880);
 		addToForeground(bullet);
+	}
+	
+	public function easterEgg(tag:String):Void{
+		var args = Events.getArgs(tag, ["32"]);
+		if(FlxG.random.bool(Events.parseFloat(args[0]))){
+			hasPlayedEasterEgg = true;
+			phillyForegroundCity.playAnim("attack", true);
+			playstate.playSound(Paths.sound("weekend1/jump"), 0.3);
+			if(gf.hasAnimation("turnBack")){
+				playstate.waitTimer(1, function(){
+					gf.canAutoAnim = false;
+					gf.playAnim("turnBack", true);
+					gf.onAnimationFinish.addOnce(function(name:String):Void{
+						gf.canAutoAnim = true;
+					});
+				});
+			}
+		}
 	}
 
 	//car code basically just taken from base game, ily fabs

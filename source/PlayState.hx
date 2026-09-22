@@ -149,6 +149,7 @@ class PlayState extends MusicBeatState
 	public var camBopIntensity:Float = 1;
 
 	public var tweenManager:FlxTweenManager = new FlxTweenManager();
+	public var timerManager:FlxTimerManager = new FlxTimerManager();
 
 	public var instSong:String = null;
 	public var vocals:FlxSound;
@@ -356,6 +357,7 @@ class PlayState extends MusicBeatState
 		instance = this;
 		FlxG.mouse.visible = false;
 		add(tweenManager);
+		add(timerManager);
 
 		FlxG.signals.preStateSwitch.addOnce(preStateChange);
 
@@ -1538,6 +1540,7 @@ class PlayState extends MusicBeatState
 			paused = true;
 			persistentUpdate = false;
 			PlayState.instance.tweenManager.active = false;
+			PlayState.instance.timerManager.active = false;
 
 			switchState(new ChartingState(Conductor.songPosition), false);
 			sectionStart = false;
@@ -1555,6 +1558,7 @@ class PlayState extends MusicBeatState
 			paused = true;
 			persistentUpdate = false;
 			PlayState.instance.tweenManager.active = false;
+			PlayState.instance.timerManager.active = false;
 
 			FlxG.sound.music.pause();
 			vocals.pause();
@@ -2928,6 +2932,18 @@ class PlayState extends MusicBeatState
 		var sound = FlxG.sound.play(_embeddedSound, _volume, _looped, _group, _autoDestroy, _onComplete);
 		managedSounds.push(sound);
 		return sound;
+	}
+	
+	public function waitTimer(time:Float, onComplete:()->Void):FlxTimer{
+		var timer = new FlxTimer(timerManager);
+		timer.start(time, (_)->onComplete());
+		return timer;
+	}
+
+	public function loopTimer(time:Float, onComplete:(loop:Int)->Void, loops:Int):FlxTimer{
+		var timer = new FlxTimer(timerManager);
+		timer.start(time, (t)->onComplete(t.elapsedLoops), loops);
+		return timer;
 	}
 
 	function songPreload():Void {

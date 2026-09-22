@@ -29,14 +29,16 @@ class CharacterCompare extends FlxState
 	var adjustOffsetMode:Bool = false;
 	var offsetDiff:FlxPoint = new FlxPoint();
 
-	final DO_REPOSITION:Bool = false;
+	final DO_REPOSITION:Bool = true;
 
 	var topCharClass:String;
 	var bottomCharClass:String;
+	var isGf:Bool = false;
 	
-	public function new(_topCharClass:String, _bottomCharClass:String) {
+	public function new(_topCharClass:String, _bottomCharClass:String, _isGf:Bool = false) {
 		topCharClass = _topCharClass;
 		bottomCharClass = _bottomCharClass;
+		isGf = _isGf;
 		super();
 	}
 
@@ -46,8 +48,8 @@ class CharacterCompare extends FlxState
 		gridBG.scrollFactor.set(0.5, 0.5);
 		gridBG.screenCenter(XY);
 
-		topCharacter = new Character(300, 300, topCharClass, true);
-		bottomCharacter = new Character(300, 300, bottomCharClass, true);
+		topCharacter = new Character(300, 300, topCharClass, !isGf, isGf);
+		bottomCharacter = new Character(300, 300, bottomCharClass, !isGf, isGf);
 
 		if(DO_REPOSITION){
 			topCharacter.setPosition(topCharacter.x - ((topCharacter.getFrameWidth() * topCharacter.getScale().x)/2), topCharacter.y - (topCharacter.getFrameHeight() * topCharacter.getScale().y));
@@ -98,7 +100,7 @@ class CharacterCompare extends FlxState
 
 		if(FlxG.keys.justPressed.F5){
 			PolymodHandler.reload(false);
-			FlxG.resetState();
+			FlxG.switchState(new CharacterCompare(topCharClass, bottomCharClass, isGf));
 		}
 
 		if(FlxG.keys.justPressed.ONE){
@@ -153,8 +155,8 @@ class CharacterCompare extends FlxState
 		}
 
 		if (FlxG.keys.justPressed.R){
-			topCharacter.playAnim(topCharacter.curAnim, true);
-			bottomCharacter.playAnim(bottomCharacter.curAnim, true);
+			topCharacter.dance();
+			bottomCharacter.dance();
 		}
 		
 		if (FlxG.keys.justPressed.T){

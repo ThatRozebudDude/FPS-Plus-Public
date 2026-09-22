@@ -44,7 +44,7 @@ class PicoDead extends CharacterInfoBase
 		retryButton.centerOffsets();
 		retryButton.visible = false;
 
-		nene = new FlxSprite(playstate.gf.x + 135, playstate.gf.y);
+		nene = new FlxSprite(playstate.gf.x + 141, playstate.gf.y + 67);
 		nene.frames = Paths.getSparrowAtlas("shared/NeneKnifeToss");
 		nene.animation.addByPrefix("throw", "knife toss", 24, false);
 		nene.animation.play("throw");
