@@ -2913,11 +2913,23 @@ class PlayState extends MusicBeatState
 	}
 	
 	function comboBreak():Void{
-		if (combo > minCombo){
-			gf.danceLockout = gf.playAnim("sad");
-			breakPopup();
-		}
+		if(combo > minCombo){ breakPopup(); }
+
 		if(combo > 0){ songStats.comboBreakCount++; }
+
+		if(gf.dropAnims.length > 0){
+			var dropAnimToPlay:Int = 0;
+			for(v in gf.dropAnims){
+				if(combo >= v){ dropAnimToPlay = v; }
+			}
+			gf.danceLockout = gf.playAnim("drop" + dropAnimToPlay);
+		}
+		else{
+			if(combo > minCombo){
+				gf.danceLockout = gf.playAnim("sad");
+			}
+		}
+
 		combo = 0;
 	}
 

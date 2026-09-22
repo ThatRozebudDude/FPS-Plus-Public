@@ -29,6 +29,7 @@ class Character extends FlxSpriteGroup
 	private var animLoopPoints:Map<String, Int>;
 	public var debugMode:Bool = false;
 	public var noLogic:Bool = false;
+	public var dropAnims:Array<Int>;
 
 	public var isPlayer:Bool = false;
 	public var isGirlfriend:Bool = false;
@@ -84,7 +85,6 @@ class Character extends FlxSpriteGroup
 	public var onAnimationFinish:FlxTypedSignal<(String) -> Void> = new FlxTypedSignal();
 
 	public function new(x:Float, y:Float, ?_character:String = "Bf", ?_isPlayer:Bool = false, ?_isGirlfriend:Bool = false, ?_enableDebug:Bool = false){
-
 		debugMode = _enableDebug;
 		animOffsets = new Map<String, Array<Dynamic>>();
 		originalAnimOffsets = new Map<String, Array<Dynamic>>();
@@ -117,6 +117,7 @@ class Character extends FlxSpriteGroup
 			characterColor = (isPlayer) ? 0xFF66FF33 : 0xFFFF0000;
 		}
 
+		dropAnims = findCountAnimations("drop");
 	}
 
 	override function update(elapsed:Float){
@@ -1059,6 +1060,28 @@ class Character extends FlxSpriteGroup
 	
 	public function get_isFacingDefaultDirection():Bool{
 		return !(characterInfo.info.facesLeft && !isPlayer) && !(!characterInfo.info.facesLeft && isPlayer);
+	}
+
+	function findCountAnimations(prefix:String):Array<Int>{
+		var animNames:Array<String> = [];
+		for(anim in animOffsets.keys()){ animNames.push(anim); }
+		for(anim in characterInfo.info.animAliases.keys()){ animNames.push(anim); }
+	  
+		var r:Array<Int> = [];
+	  
+		for(anim in animNames){
+			var split = anim.split("-")[0];
+			if(split.startsWith(prefix)){
+				var value:Null<Int> = Std.parseInt(split.substring(prefix.length));
+				if(value != null && !r.contains(value)){
+					r.push(value);
+				}
+			}
+		}
+	  
+		r.sort((a, b) -> a - b);
+
+		return r;
 	}
 
 }

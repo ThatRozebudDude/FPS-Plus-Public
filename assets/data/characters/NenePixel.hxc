@@ -97,7 +97,7 @@ class NenePixel extends CharacterInfoBase
 				blinkTime = FlxG.random.float(BLINK_MIN, BLINK_MAX);
 				character.playAnim("raiseKnife", true);
 			} 
-			else if(PlayState.instance.health >= 0.4 && knifeRaised && (ScriptingUtil.startsWith(character.curAnim, "idleKnife") || character.curAnim == "sad")){
+			else if(PlayState.instance.health >= 0.4 && knifeRaised && (ScriptingUtil.startsWith(character.curAnim, "idleKnife") || character.curAnim == "drop10")){
 				knifeRaised = false;
 				character.playAnim("lowerKnife", true);
 				character.idleSequenceIndex = 0;

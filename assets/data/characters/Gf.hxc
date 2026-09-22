@@ -25,13 +25,13 @@ class Gf extends CharacterInfoBase
 		addByLabel("singDOWN", offset(), "Sing Down", 24, loop(false));
 
 		addByLabel("cheer", offset(), "Cheer", 24, loop(false));
-		addByLabel("sad", offset(), "Sad", 24, loop(true, -8));
+		addByLabel("drop10", offset(), "Sad", 24, loop(true, -8));
 		addByLabel("scared", offset(), "Scared", 24, loop(true));
 
 		addByLabel("danceLeft-hairBlow", offset(), "Idle Left Hair Blowing", 24, loop(true, -4));
 		addByLabel("danceRight-hairBlow", offset(), "Idle Right Hair Blowing", 24, loop(true, -4));
 		addByLabel("cheer-hairBlow", offset(), "Cheer Hair Blowing", 24, loop(true, -4));
-		addByLabel("sad-hairBlow", offset(), "Sad Hair Blowing", 24, loop(true, -8));
+		addByLabel("drop10-hairBlow", offset(), "Sad Hair Blowing", 24, loop(true, -8));
 		addByLabel("hairFall", offset(), "Hair Fall", 24, loop(false));
 		
 		//Adds a combo alias every 50 notes.

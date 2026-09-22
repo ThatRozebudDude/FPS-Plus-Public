@@ -48,7 +48,7 @@ class GunsIntro extends ScriptedCutscene
 
 	function guns2() {
 		playstate.camChangeZoom(originalZoom * 1.4, 0.4, FlxEase.quadOut);
-		gf.playAnim("sad");
+		gf.playAnim("drop10");
 	}
 
 	function guns3() {

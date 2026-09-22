@@ -21,7 +21,7 @@ class GfChristmas extends CharacterInfoBase
 		addByStartingAtLabel("idleLoop", offset(), "Idle Left", 30, 24, loop(true));
 
 		addByLabel("cheer", offset(), "Cheer", 24, loop(false));
-		addByLabel("sad", offset(), "Sad", 24, loop(false));
+		addByLabel("drop10", offset(), "Sad", 24, loop(false));
 
 		//Adds a combo alias every 50 notes.
 		for(i in 1...20){ addAnimAlias("combo" + (i * 50), "cheer"); }

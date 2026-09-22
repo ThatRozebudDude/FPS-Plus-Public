@@ -44,7 +44,7 @@ class NeneNoSpeaker extends CharacterInfoBase
 		addAnimChain("raiseKnife", "idleKnife");
 		addAnimChain("laughCutscene", "idleLoop");
 
-		addAnimAlias("sad", "laugh");
+		addAnimAlias("drop10", "laugh");
 		//Adds combo aliases.
 		for(i in 2...20){ addAnimAlias("combo" + (i * 50), "combo50"); }
 		for(i in 2...5){ addAnimAlias("combo" + (i * 200), "combo200"); }
@@ -99,7 +99,7 @@ class NeneNoSpeaker extends CharacterInfoBase
 				blinkTime = FlxG.random.float(BLINK_MIN, BLINK_MAX);
 				character.playAnim("raiseKnife", true);
 			} 
-			else if(PlayState.instance.health >= 0.4 && knifeRaised && (character.curAnim == "idleKnife" || character.curAnim == "sad")){
+			else if(PlayState.instance.health >= 0.4 && knifeRaised && (character.curAnim == "idleKnife" || character.curAnim == "drop10")){
 				knifeRaised = false;
 				character.playAnim("lowerKnife", true);
 				character.idleSequenceIndex = 1;
