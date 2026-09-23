@@ -285,17 +285,17 @@ class AnimationEditor extends FlxState
 				case indices:
 					r += "addByIndices(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.frames + ", \"" + x.data.postfix + "\", " +  x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "), " + x.data.flipX + ", " + x.data.flipY + ");\n";
 				case label:
-					r += "addByLabel(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "));\n";
+					r += "addByLabel(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "), " + (x.data.postfix == null ? "null" : "\"" + x.data.postfix + "\"") + ");\n";
 				case start:
-					r += "addByFrame(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), " + x.data.frames[0] + ", " + x.data.frames[1] + ", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "));\n";
+					r += "addByFrame(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), " + x.data.frames[0] + ", " + x.data.frames[1] + ", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "), " + (x.data.postfix == null ? "null" : "\"" + x.data.postfix + "\"") + ");\n";
 				case startAtLabel:
-					r += "addByStartingAtLabel(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.frames[0] + ", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "));\n";
+					r += "addByStartingAtLabel(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.frames[0] + ", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "), " + (x.data.postfix == null ? "null" : "\"" + x.data.postfix + "\"") + ");\n";
 				case symbol:
 					r += "addBySymbol(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "));\n";
 				case labelOffset:
-					r += "addByStartingAtLabel(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.frames[1] + "\", " + x.data.frames[0] + ", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "));\n";
+					r += "addByStartingAtLabel(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.frames[1] + "\", " + x.data.frames[0] + ", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "), " + (x.data.postfix == null ? "null" : "\"" + x.data.postfix + "\"") + ");\n";
 				case labelIndices:
-					r += "addByLabelIndices(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.frames + ", " +  x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "), " + x.data.flipX + ", " + x.data.flipY + ");\n";
+					r += "addByLabelIndices(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.frames + ", " +  x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "), " + (x.data.postfix == null ? "null" : "\"" + x.data.postfix + "\"") + ");\n";
 			}
 		}
 
