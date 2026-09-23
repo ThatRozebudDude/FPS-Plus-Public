@@ -8,6 +8,7 @@ import animate.internal.SymbolItem;
 import animate.internal.Timeline;
 import animate.internal.elements.Element;
 import animate.internal.elements.SymbolInstance;
+import data.OrderedMap;
 import flixel.FlxG;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -17,6 +18,7 @@ import flixel.math.FlxRect;
 import flixel.util.FlxColor;
 import flixel.util.FlxSignal.FlxTypedSignal;
 import flixel.util.FlxSort;
+import flixel.util.typeLimit.OneOfTwo;
 import haxe.Json;
 import haxe.io.Path;
 import modding.PolymodHandler;
@@ -53,6 +55,8 @@ class AtlasSprite extends FlxAnimate
 	public var onFrameChange:FlxTypedSignal<(String, Int, Int)->Void> = new FlxTypedSignal();
 	public var onFinish:FlxTypedSignal<String->Void> = new FlxTypedSignal();
 
+	public var timelines:OrderedMap<String, Timeline> = new OrderedMap<String, Timeline>();
+
 	private var didAnimFinishCheck:Bool = false;
 
 	#if BACKWARD_COMPATIBILITY
@@ -60,18 +64,56 @@ class AtlasSprite extends FlxAnimate
 	private var frameLabelInfo:Array<FrameLabelInfo>; //Used to get length between labels for old label animation adding.
 	#end
 
-	public function new(?_x:Float, ?_y:Float, ?_path:String, ?_settings:FlxAnimateSettings) {
+	public function new(_x:Float = 0, _y:Float = 0, ?_path:OneOfTwo<String, Array<Dynamic>>, ?_settings:FlxAnimateSettings){
 		super(_x, _y, null, null);
 		if(_path != null){
 			loadAtlas(_path, _settings);
 		}
 	}
 
-	public function loadAtlas(_path:String, ?_settings:FlxAnimateSettings){
-		frames = loadAndCache(_path, false, _settings);
-		//frames = FlxAnimateFrames.fromAnimate(_path, null, null, null, false, _settings); //Normal frame loading stuff. Uses FlxG.bitmap.add(), really bad for memory usage.
+	public function loadAtlas(_path:OneOfTwo<String, Array<Dynamic>>, ?_settings:FlxAnimateSettings):Void{
+		if(_path is String){
+			var path:String = cast(_path, String);
+			var frameSet:FlxAnimateFrames = loadAndCache(path, false, _settings);
+			timelines.set(path, frameSet.timeline);
+			frames = frameSet;
+		}
+		else if(_path is Array){
+			var paths:Array<Dynamic> = cast(_path, Array<Dynamic>);
+			if(paths.length <= 0){
+				trace("CANNOT LOAD 0 PATHS, ABORTING ATLAS LOAD!");
+				return;
+			}
+			else if(paths.length == 1){
+				var frameSet:FlxAnimateFrames = loadAndCache(paths[0], false, _settings);
+				timelines.set(paths[0], frameSet.timeline);
+				frames = frameSet;
+			}
+			else{
+				var framesToCombine:Array<FlxAnimateFrames> = [];
+				for(path in paths){
+					var frameSet:FlxAnimateFrames = loadAndCache(path, false, _settings);
+					timelines.set(path, frameSet.timeline);
+					framesToCombine.push(frameSet);
+				}
+				var finalFrames:FlxAtlasFrames = FlxAnimateFrames.combineAtlas(framesToCombine[0], framesToCombine[1]);
+				if(paths.length > 2){
+					for(i in 2...paths.length){
+						finalFrames = FlxAnimateFrames.combineAtlas(finalFrames, framesToCombine[i]);
+					}
+				}
+				frames = finalFrames;
+			}
+		}
+
+		//trace(anim.getDefaultTimeline());
+		//trace(anim.getCollectionTimelines());
+		//trace(timelines);
+
+		for(k => v in timelines){
+			anim.addByTimeline("_timeline_" + k, v, 24, false);
+		}
 		
-		anim.addByTimeline("___full", anim.getDefaultTimeline(), 24, false);
 		anim.onFrameChange.add(onFrameChangeLogic);
 		anim.onFinish.add(onFinishLogic);
 
@@ -137,7 +179,7 @@ class AtlasSprite extends FlxAnimate
 	}
 	#end
 
-	public function addAnimationByLabel(name:String, label:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
+	public function addAnimationByLabel(name:String, label:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null, ?path:String = null):Void{
 		#if BACKWARD_COMPATIBILITY
 		//Emulates the old method of label animation adding where it's based on distance between labels instead of label frame duration.
 		if(isOld){
@@ -146,13 +188,18 @@ class AtlasSprite extends FlxAnimate
 				trace("LABEL " + label + " NOT FOUND, ABORTING ANIM ADD");
 				return;
 			}
-			var length:Int = (labelIndex < frameLabelInfo.length-1) ? frameLabelInfo[labelIndex+1].index - frameLabelInfo[labelIndex].index : anim.getByName("___full").frames.length - frameLabelInfo[labelIndex].index;
+			var length:Int = (labelIndex < frameLabelInfo.length-1) ? frameLabelInfo[labelIndex+1].index - frameLabelInfo[labelIndex].index : anim.getByName("_timeline_" + timelines.copyKeys()[0]).frames.length - frameLabelInfo[labelIndex].index;
 			addAnimationStartingAtLabel(name, label, length, framerate, looped, loopFrame);
 			return;
 		}
 		#end
 
-		var foundFrames = anim.findFrameLabelIndices(label);
+		path ??= timelines.copyKeys()[0];
+		if(!timelines.exists(path)){
+			path = timelines.copyKeys()[0];
+		}
+
+		var foundFrames = anim.findFrameLabelIndices(label, timelines.get(path));
 		if(foundFrames.length <= 0){
 			trace("LABEL " + label + " NOT FOUND, ABORTING ANIM ADD");
 			return;
@@ -171,13 +218,18 @@ class AtlasSprite extends FlxAnimate
 			framerate: framerate,
 			looped: looped,
 			loopFrame: loopFrame,
-			animationName: null
+			animationName: "_timeline_" + path
 		});
 	}
 
-	public function addAnimationByFrame(name:String, frame:Int, length:Null<Int>, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
+	public function addAnimationByFrame(name:String, frame:Int, length:Null<Int>, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null, ?path:String = null):Void{
+		path ??= timelines.copyKeys()[0];
+		if(!timelines.exists(path)){
+			path = timelines.copyKeys()[0];
+		}
+
 		if(length == null){
-			length = anim.getByName("___full").frames.length;
+			length = anim.getByName("_timeline_" + path).frames.length;
 		}
 		if(looped && loopFrame == null){
 			loopFrame = 0;
@@ -192,19 +244,24 @@ class AtlasSprite extends FlxAnimate
 			framerate: framerate,
 			looped: looped,
 			loopFrame: loopFrame,
-			animationName: null
+			animationName: "_timeline_" + path
 		});
 	}
 
-	public function addAnimationStartingAtLabel(name:String, label:String, length:Null<Int>, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
-		var foundFrames = anim.findFrameLabelIndices(label);
+	public function addAnimationStartingAtLabel(name:String, label:String, length:Null<Int>, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null, ?path:String = null):Void{
+		path ??= timelines.copyKeys()[0];
+		if(!timelines.exists(path)){
+			path = timelines.copyKeys()[0];
+		}
+
+		var foundFrames = anim.findFrameLabelIndices(label, timelines.get(path));
 		if(foundFrames.length <= 0){
 			trace("LABEL " + label + " NOT FOUND, ABORTING ANIM ADD");
 			return;
 		}
 
 		if(length == null){
-			length = anim.getByName("___full").frames.length;
+			length = anim.getByName("_timeline_" + path).frames.length;
 		}
 		if(looped && loopFrame == null){
 			loopFrame = 0;
@@ -219,32 +276,37 @@ class AtlasSprite extends FlxAnimate
 			framerate: framerate,
 			looped: looped,
 			loopFrame: loopFrame,
-			animationName: null
+			animationName: "_timeline_" + path
 		});
 	}
 
-	public function addFullAnimation(name:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
+	public function addFullAnimation(name:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null, ?path:String = null):Void{
+		path ??= timelines.copyKeys()[0];
+		if(!timelines.exists(path)){
+			path = timelines.copyKeys()[0];
+		}
+
 		if(looped && loopFrame == null){
 			loopFrame = 0;
 		}
 		else if(looped && loopFrame < 0){
-			loopFrame = anim.getByName("___full").frames.length + loopFrame;
+			loopFrame = anim.getByName("_timeline_" + path).frames.length + loopFrame;
 		}
 
 		animInfoMap.set(name, {
 			startFrame: 0,
-			length: anim.getByName("___full").frames.length,
+			length: anim.getByName("_timeline_" + path).frames.length,
 			framerate: framerate,
 			looped: looped,
 			loopFrame: loopFrame,
-			animationName: null
+			animationName: "_timeline_" + path
 		});
 	}
 
 	public function addAnimationBySymbol(name:String, symbolName:String, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
-		if(!anim.exists("___symbol_" + symbolName)){
+		if(!anim.exists("_symbol_" + symbolName)){
 			if(library.existsSymbol(symbolName)){
-				anim.addBySymbol("___symbol_" + symbolName, symbolName, framerate, false);
+				anim.addBySymbol("_symbol_" + symbolName, symbolName, framerate, false);
 			}
 			else{
 				trace("SYMBOL " + symbolName + " NOT FOUND, ABORTING ANIM ADD");
@@ -256,28 +318,33 @@ class AtlasSprite extends FlxAnimate
 			loopFrame = 0;
 		}
 		else if(looped && loopFrame < 0){
-			loopFrame = anim.getByName("___symbol_" + symbolName).frames.length + loopFrame;
+			loopFrame = anim.getByName("_symbol_" + symbolName).frames.length + loopFrame;
 		}
 
 		animInfoMap.set(name, {
 			startFrame: 0,
-			length: anim.getByName("___symbol_" + symbolName).frames.length,
+			length: anim.getByName("_symbol_" + symbolName).frames.length,
 			framerate: framerate,
 			looped: looped,
 			loopFrame: loopFrame,
-			animationName: "___symbol_" + symbolName
+			animationName: "_symbol_" + symbolName
 		});
 	}
 
-	public function addAnimationOffsetFromLabel(name:String, label:String, offset:Int, length:Null<Int>, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
-		var foundFrames = anim.findFrameLabelIndices(label);
+	public function addAnimationOffsetFromLabel(name:String, label:String, offset:Int, length:Null<Int>, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null, ?path:String = null):Void{
+		path ??= timelines.copyKeys()[0];
+		if(!timelines.exists(path)){
+			path = timelines.copyKeys()[0];
+		}
+
+		var foundFrames = anim.findFrameLabelIndices(label, timelines.get(path));
 		if(foundFrames.length <= 0){
 			trace("LABEL " + label + " NOT FOUND, ABORTING ANIM ADD");
 			return;
 		}
 
 		if(length == null){
-			length = anim.getByName("___full").frames.length;
+			length = anim.getByName("_timeline_" + path).frames.length;
 		}
 		if(looped && loopFrame == null){
 			loopFrame = 0;
@@ -292,26 +359,25 @@ class AtlasSprite extends FlxAnimate
 			framerate: framerate,
 			looped: looped,
 			loopFrame: loopFrame,
-			animationName: null
+			animationName: "_timeline_" + path
 		});
 	}
 
-	public function addAnimationFromLabelIndices(name:String, label:String, indices:Array<Int>, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null):Void{
+	public function addAnimationFromLabelIndices(name:String, label:String, indices:Array<Int>, ?framerate:Float = 24, ?looped:Bool = false, ?loopFrame:Null<Int> = null, ?path:String = null):Void{
+		path ??= timelines.copyKeys()[0];
+		if(!timelines.exists(path)){
+			path = timelines.copyKeys()[0];
+		}
+
 		if(indices == null || indices.length <= 0){
 			trace("CANNOT CREATE " + name + " BASED ON PROVIDED INDICES, ABORTING ANIM ADD");
 			return;
 		}
 
-		/*var foundFrames = anim.findFrameLabelIndices(label);
-		if(foundFrames.length <= 0){
-			trace("LABEL " + label + " NOT FOUND, ABORTING ANIM ADD");
-			return;
-		}*/
-
 		var indicesString:String = combineIndicesToString(indices);
 
-		if(!anim.exists("___frames_" + label + "_" + indicesString)){
-			anim.addByFrameLabelIndices("___frames_" + label + "_" + indicesString, label, indices, framerate, false);
+		if(!anim.exists("_frames_" + path + "_" + label + "_" + indicesString)){
+			anim.addByFrameLabelIndices("_frames_" + path + "_" + label + "_" + indicesString, label, indices, framerate, false, timelines.get(path));
 		}
 
 		if(looped && loopFrame == null){
@@ -327,7 +393,7 @@ class AtlasSprite extends FlxAnimate
 			framerate: framerate,
 			looped: looped,
 			loopFrame: loopFrame,
-			animationName: "___frames_" + label + "_" + indicesString
+			animationName: "_frames_" + path + "_" + label + "_" + indicesString
 		});
 	}
 
@@ -370,14 +436,8 @@ class AtlasSprite extends FlxAnimate
 			frameOffset = animInfo.length - 1;
 		}
 
-		if(animInfo.animationName == null){
-			anim.getByName("___full").frameRate = animInfo.framerate;
-			anim.play("___full", true, reverse, animInfo.startFrame + frameOffset);
-		}
-		else{
-			anim.getByName(animInfo.animationName).frameRate = animInfo.framerate;
-			anim.play(animInfo.animationName, true, reverse, animInfo.startFrame + frameOffset);
-		}
+		anim.getByName(animInfo.animationName).frameRate = animInfo.framerate;
+		anim.play(animInfo.animationName, true, reverse, animInfo.startFrame + frameOffset);
 	}
 
 	private function onFrameChangeLogic(name:String, frame:Int, index:Int):Void{

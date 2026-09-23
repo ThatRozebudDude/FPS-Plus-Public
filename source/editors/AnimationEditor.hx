@@ -292,8 +292,8 @@ class AnimationEditor extends FlxState
 					r += "addByStartingAtLabel(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.frames[0] + ", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "));\n";
 				case symbol:
 					r += "addBySymbol(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "));\n";
-				case labelOffset(offset):
-					r += "addByStartingAtLabel(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + offset + "\", " + x.data.frames[0] + ", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "));\n";
+				case labelOffset:
+					r += "addByStartingAtLabel(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.frames[1] + "\", " + x.data.frames[0] + ", " + x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "));\n";
 				case labelIndices:
 					r += "addByLabelIndices(\"" + x.name + "\", offset(" + dad.animOffsets.get(x.name)[0] + ", " + dad.animOffsets.get(x.name)[1] + "), \"" + x.data.prefix + "\", " + x.data.frames + ", " +  x.data.framerate + ", loop(" + x.data.loop.looped + ", " + x.data.loop.loopPoint + "), " + x.data.flipX + ", " + x.data.flipY + ");\n";
 			}

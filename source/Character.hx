@@ -104,7 +104,7 @@ class Character extends FlxSpriteGroup
 			swapLeftAndRightAnimations();
 		}
 
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			character.animation.onFinish.add(animationEnd);
 			character.animation.onFrameChange.add(frameUpdate);
 		}
@@ -285,7 +285,7 @@ class Character extends FlxSpriteGroup
 			return _playAnim(characterInfo.info.animAliases.get(AnimName), Force, Reversed, Frame, isPartOfLoopingAnim);
 		}
 
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			if(character.animation.getByName(AnimName) == null) { return false; }
 			character.animation.play(AnimName, Force, Reversed, Frame);
 		}
@@ -316,7 +316,7 @@ class Character extends FlxSpriteGroup
 			var xOffsetAdjust:Float = animOffset[0];
 			if(getFlipX()){
 				xOffsetAdjust *= -1;
-				if(characterInfo.info.frameLoadType != atlas){
+				if(!isAtlas){
 					xOffsetAdjust += getFrameWidth() * getScale().x;
 					xOffsetAdjust -= getWidth();
 				}
@@ -325,7 +325,7 @@ class Character extends FlxSpriteGroup
 			var yOffsetAdjust:Float = animOffset[1];
 			if(getFlipY()){
 				yOffsetAdjust *= -1;
-				if(characterInfo.info.frameLoadType != atlas){
+				if(!isAtlas){
 					yOffsetAdjust += getFrameHeight() * getScale().y;
 					yOffsetAdjust -= getHeight();
 				}
@@ -349,7 +349,7 @@ class Character extends FlxSpriteGroup
 	function animationEnd(name:String){
 		danceLockout = false;
 		
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			//custom method for looping animations since the anim end callback doesnt run on looped anmations normally
 			if(animLoopPoints.get(name) != null){
 				_playAnim(name, true, false, animLoopPoints.get(name), true);
@@ -430,7 +430,12 @@ class Character extends FlxSpriteGroup
 				atlasCharacter = new AtlasSprite(0, 0, Paths.getTextureAtlas(characterInfo.info.spritePath));
 				@:privateAccess
 				atlasCharacter.useRenderTexture = true #if BACKWARD_COMPATIBILITY && !atlasCharacter.isOld #end; //Turn on useRenderTexture on by default for characters (except for backwards compatibility).
-		}
+			case multiAtlas:
+				var finalPaths:Array<String> = [];
+				for(path in characterInfo.info.spritePaths){ finalPaths.push(Paths.getTextureAtlas(path)); }
+				atlasCharacter = new AtlasSprite(0, 0, finalPaths);
+				atlasCharacter.useRenderTexture = true;
+			}
 
 		for(x in characterInfo.info.anims){
 			switch(x.type){
@@ -457,41 +462,41 @@ class Character extends FlxSpriteGroup
 						trace("Cannot add \"" + x.name + "\", wrong frame load type.");
 						continue;
 					}
-					atlasCharacter.addAnimationByLabel(x.name, x.data.prefix, x.data.framerate, x.data.loop.looped, x.data.loop.loopPoint);
+					atlasCharacter.addAnimationByLabel(x.name, x.data.prefix, x.data.framerate, x.data.loop.looped, x.data.loop.loopPoint, x.data.postfix != null ? Paths.getTextureAtlas(x.data.postfix) : null);
 				case start:
 					if(!isAtlas){
 						trace("Cannot add \"" + x.name + "\", wrong frame load type.");
 						continue;
 					}
-					atlasCharacter.addAnimationByFrame(x.name, x.data.frames[0], x.data.frames[1], x.data.framerate, x.data.loop.looped, x.data.loop.loopPoint);
+					atlasCharacter.addAnimationByFrame(x.name, x.data.frames[0], x.data.frames[1], x.data.framerate, x.data.loop.looped, x.data.loop.loopPoint, x.data.postfix != null ? Paths.getTextureAtlas(x.data.postfix) : null);
 				case startAtLabel:
 					if(!isAtlas){
 						trace("Cannot add \"" + x.name + "\", wrong frame load type.");
 						continue;
 					}
-					atlasCharacter.addAnimationStartingAtLabel(x.name, x.data.prefix, x.data.frames[0], x.data.framerate, x.data.loop.looped, x.data.loop.loopPoint);
+					atlasCharacter.addAnimationStartingAtLabel(x.name, x.data.prefix, x.data.frames[0], x.data.framerate, x.data.loop.looped, x.data.loop.loopPoint, x.data.postfix != null ? Paths.getTextureAtlas(x.data.postfix) : null);
 				case symbol:
 					if(!isAtlas){
 						trace("Cannot add \"" + x.name + "\", wrong frame load type.");
 						continue;
 					}
 					atlasCharacter.addAnimationBySymbol(x.name, x.data.prefix, x.data.framerate, x.data.loop.looped, x.data.loop.loopPoint);
-				case labelOffset(startOffset):
+				case labelOffset:
 					if(!isAtlas){
 						trace("Cannot add \"" + x.name + "\", wrong frame load type.");
 						continue;
 					}
-					atlasCharacter.addAnimationOffsetFromLabel(x.name, x.data.prefix, startOffset, x.data.frames[0], x.data.framerate, x.data.loop.looped, x.data.loop.loopPoint);
+					atlasCharacter.addAnimationOffsetFromLabel(x.name, x.data.prefix, x.data.frames[1], x.data.frames[0], x.data.framerate, x.data.loop.looped, x.data.loop.loopPoint, x.data.postfix != null ? Paths.getTextureAtlas(x.data.postfix) : null);
 				case labelIndices:
 					if(!isAtlas){
 						trace("Cannot add \"" + x.name + "\", wrong frame load type.");
 						continue;
 					}
-					atlasCharacter.addAnimationFromLabelIndices(x.name, x.data.prefix, x.data.frames, x.data.framerate, x.data.loop.looped, x.data.loop.loopPoint);
+					atlasCharacter.addAnimationFromLabelIndices(x.name, x.data.prefix, x.data.frames, x.data.framerate, x.data.loop.looped, x.data.loop.loopPoint, x.data.postfix != null ? Paths.getTextureAtlas(x.data.postfix) : null);
 				
 			}
 
-			if(characterInfo.info.frameLoadType != atlas){
+			if(!isAtlas){
 				if(x.data.loop.looped){
 					if(x.data.loop.loopPoint < 0){
 						animLoopPoints.set(x.name, character.animation.getByName(x.name).numFrames + x.data.loop.loopPoint);
@@ -570,7 +575,7 @@ class Character extends FlxSpriteGroup
 		if(debugMode){ return; }
 		if(_scaleY == null){ _scaleY = _scaleX; }
 
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			character.scale.set(_scaleX, _scaleY);
 			character.updateHitbox();
 			var offsetBase = new FlxPoint(offset.x, offset.y);
@@ -715,7 +720,7 @@ class Character extends FlxSpriteGroup
 		}
 
 		@:privateAccess{
-			if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+			if(!isAtlas){ //Code for sheet characters
 				for(set in animSetList){
 					var oldRight = null;
 					var oldRightOffset = null;
@@ -861,7 +866,7 @@ class Character extends FlxSpriteGroup
 
 
 	public function setFlipX(value:Bool):Void {
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			character.flipX = value;
 		}
 		else{ //Code for atlas characters
@@ -870,7 +875,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function setFlipY(value:Bool):Void {
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			character.flipY = value;
 		}
 		else{ //Code for atlas characters
@@ -879,7 +884,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function getFlipX():Bool {
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			return character.flipX;
 		}
 		else{ //Code for atlas characters
@@ -888,7 +893,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function getFlipY():Bool {
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			return character.flipY;
 		}
 		else{ //Code for atlas characters
@@ -897,7 +902,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function getWidth():Float{
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			return character.width;
 		}
 		else{ //Code for atlas characters
@@ -906,7 +911,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function getHeight():Float{
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			return character.height;
 		}
 		else{ //Code for atlas characters
@@ -915,7 +920,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function getFrameWidth():Int{
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			return character.frameWidth;
 		}
 		else{ //Code for atlas characters
@@ -924,7 +929,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function getFrameHeight():Int{
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			return character.frameHeight;
 		}
 		else{ //Code for atlas characters
@@ -933,7 +938,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function getScale():FlxPoint{
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			return character.scale;
 		}
 		else{ //Code for atlas characters
@@ -952,7 +957,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	override function getGraphicMidpoint(?point:FlxPoint):FlxPoint {
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			if (point == null)
 				point = FlxPoint.get();
 			return point.set(x + character.frameWidth * 0.5 * getScale().x, y + character.frameHeight * 0.5 * getScale().y);
@@ -965,7 +970,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function getAnimLength(name:String):Int{
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			return character.animation.getByName(name).numFrames;
 		}
 		else{ //Code for atlas characters
@@ -974,7 +979,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function curAnimFrame():Int{
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			return character.animation.curAnim.curFrame;
 		}
 		else{ //Code for atlas characters
@@ -983,7 +988,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function setCurAnimFrame(frameNumber:Int):Void{
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			character.animation.curAnim.curFrame = frameNumber;
 		}
 		else{ //Code for atlas characters
@@ -992,7 +997,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function getCurAnimFramerate():Float{
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			return character.animation.curAnim.frameRate;
 		}
 		else{ //Code for atlas characters
@@ -1001,7 +1006,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function curAnimFinished():Bool{
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			return character.animation.curAnim.finished;
 		}
 		else{ //Code for atlas characters
@@ -1027,7 +1032,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function getSprite():FlxSprite{
-		if(characterInfo.info.frameLoadType != atlas){ //Code for sheet characters
+		if(!isAtlas){ //Code for sheet characters
 			return character;
 		}
 		else{ //Code for atlas characters
@@ -1055,7 +1060,7 @@ class Character extends FlxSpriteGroup
 	}
 
 	public function get_isAtlas():Bool{
-		return characterInfo.info.frameLoadType == atlas;
+		return characterInfo.info.frameLoadType == atlas || characterInfo.info.frameLoadType == multiAtlas;
 	}
 	
 	public function get_isFacingDefaultDirection():Bool{

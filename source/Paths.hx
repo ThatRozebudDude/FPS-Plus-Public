@@ -9,7 +9,7 @@ using StringTools;
 class Paths
 {
 
-	static final audioExtension:String = "ogg";
+	public static final AUDIO_EXTENSION:String = "ogg";
 
 	inline static public function file(key:String, location:String, extension:String):String{
 		if(location.endsWith("/")){ location = location.substring(0, location.length-1); } //Prevent people from accidentally using 2 slashes.
@@ -31,59 +31,58 @@ class Paths
 		return ImageCache.loadLocal(data).graphic;
 	}
 
-	inline static public function xml(key:String, ?location:String = "images"){
+	inline static public function xml(key:String, ?location:String = "images"):String{
 		return file(key, location, "xml");
 	}
 
-	inline static public function text(key:String, ?location:String = "data"){
+	inline static public function text(key:String, ?location:String = "data"):String{
 		return file(key, location, "txt");
 	}
 
-	inline static public function json(key:String, ?location:String = "data/songs"){
+	inline static public function json(key:String, ?location:String = "data/songs"):String{
 		return file(key, location, "json");
 	}
 
-	inline static public function sound(key:String){
-		var data:String = file(key, "sounds", audioExtension);
+	inline static public function sound(key:String):String{
+		var data:String = file(key, "sounds", AUDIO_EXTENSION);
 		if(!AudioCache.trackedSounds.contains(data)){
 			AudioCache.trackedSounds.push(data);
 		}
 		return data;
 	}
 
-	inline static public function music(key:String){
-		var data:String = file(key, "music", audioExtension);
+	inline static public function music(key:String):String{
+		var data:String = file(key, "music", AUDIO_EXTENSION);
 		if(!AudioCache.trackedMusic.contains(data)){
 			AudioCache.trackedMusic.push(data);
 		}
 		return data;
 	}
 
-	inline static public function voices(key:String, type:String = ""){
+	inline static public function voices(key:String, type:String = ""):String{
 		if(type.length > 0){ type = "-" + type; }
-		return 'assets/songs/$key/Voices$type.$audioExtension';
+		return 'assets/songs/$key/Voices$type.$AUDIO_EXTENSION';
 	}
 
-	inline static public function inst(key:String){
-		return 'assets/songs/$key/Inst.$audioExtension';
+	inline static public function inst(key:String):String{
+		return 'assets/songs/$key/Inst.$AUDIO_EXTENSION';
 	}
 
-	inline static public function getSparrowAtlas(key:String, ?xmlFile:String){
+	inline static public function getSparrowAtlas(key:String, ?xmlFile:String):FlxAtlasFrames{
 		if(xmlFile == null){ xmlFile = key; }
 		return FlxAtlasFrames.fromSparrow(image(key), xml(xmlFile));
 	}
 
-	inline static public function getPackerAtlas(key:String, ?textFile:String){
+	inline static public function getPackerAtlas(key:String, ?textFile:String):FlxAtlasFrames{
 		if(textFile == null){ textFile = key; }
 		return FlxAtlasFrames.fromSpriteSheetPacker(image(key), text(textFile, "images"));
 	}
 
-	inline static public function getTextureAtlas(key:String){
+	inline static public function getTextureAtlas(key:String):String{
 		return 'assets/images/$key';
 	}
 
-	//Stolen from Psych Engine hehehhehe
-	inline static public function getMultipleSparrowAtlas(keys:Array<String>){
+	inline static public function getMultipleSparrowAtlas(keys:Array<String>):FlxAtlasFrames{
 		var parentFrames:FlxAtlasFrames = getSparrowAtlas(keys[0]);
 		if(keys.length > 1){
 			var original:FlxAtlasFrames = parentFrames;
@@ -99,15 +98,15 @@ class Paths
 		return parentFrames;
 	}
 
-	inline static public function video(key:String, ?extension:String= "mp4"){
+	inline static public function video(key:String, ?extension:String= "mp4"):String{
 		return file(key, "videos", extension);
 	}
 	
-	inline static public function font(key:String, ?extension:String = "ttf"):Dynamic{
+	inline static public function font(key:String, ?extension:String = "ttf"):String{
 		return file(key, "fonts", extension);
 	}
 
-	inline static public function shader(key:String, ?extension:String = "frag"){
+	inline static public function shader(key:String, ?extension:String = "frag"):String{
 		return file(key, "data/shaders", extension);
 	}
 

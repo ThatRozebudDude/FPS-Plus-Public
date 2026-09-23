@@ -16,7 +16,7 @@ enum AnimType {
 	start;
 	startAtLabel;
 	symbol;
-	labelOffset(offset:Int);
+	labelOffset;
 	labelIndices;
 }
 
@@ -26,6 +26,7 @@ enum FrameLoadType {
 	load(frameWidth:Int, frameHeight:Int);
 	atlas;
 	multiSparrow;
+	multiAtlas;
 }
 
 typedef AnimInfo = {
@@ -311,7 +312,7 @@ class CharacterInfoBase
 	 * @param	_frameRate	The speed in frames per second that the animation should play at (e.g. `40` fps).
 	 * @param	_looped		Whether or not the animation loops and what frame it loops on. Use `loop()` to generate the data.
 	 */
-	function addByLabel(_name:String, _offset:Array<Float>, _label:String, _frameRate:Float = 30.0, _looped:LoopData = null):Void{
+	function addByLabel(_name:String, _offset:Array<Float>, _label:String, _frameRate:Float = 30.0, _looped:LoopData = null, ?_sheet:String = null):Void{
 		if(_looped == null){
 			_looped = loop(true);
 		}
@@ -319,7 +320,7 @@ class CharacterInfoBase
 		var animData:AnimData = {
 			prefix: _label,
 			frames: null,
-			postfix: null,
+			postfix: _sheet,
 			framerate: _frameRate,
 			loop: _looped,
 			flipX: false,
@@ -345,7 +346,7 @@ class CharacterInfoBase
 	 * @param	_frameRate	The speed in frames per second that the animation should play at (e.g. `40` fps).
 	 * @param	_looped		Whether or not the animation loops and what frame it loops on. Use `loop()` to generate the data.
 	 */
-	 function addByFrame(_name:String, _offset:Array<Float>, _start:Int, _length:Int, _frameRate:Float = 30.0, _looped:LoopData = null):Void{
+	 function addByFrame(_name:String, _offset:Array<Float>, _start:Int, _length:Int, _frameRate:Float = 30.0, _looped:LoopData = null, ?_sheet:String = null):Void{
 		if(_looped == null){
 			_looped = loop(true);
 		}
@@ -353,7 +354,7 @@ class CharacterInfoBase
 		var animData:AnimData = {
 			prefix: null,
 			frames: [_start, _length],
-			postfix: null,
+			postfix: _sheet,
 			framerate: _frameRate,
 			loop: _looped,
 			flipX: false,
@@ -379,7 +380,7 @@ class CharacterInfoBase
 	 * @param	_frameRate	The speed in frames per second that the animation should play at (e.g. `40` fps).
 	 * @param	_looped		Whether or not the animation loops and what frame it loops on. Use `loop()` to generate the data.
 	 */
-	 function addByStartingAtLabel(_name:String, _offset:Array<Float>, _label:String, _length:Int, _frameRate:Float = 30.0, _looped:LoopData = null):Void{
+	 function addByStartingAtLabel(_name:String, _offset:Array<Float>, _label:String, _length:Int, _frameRate:Float = 30.0, _looped:LoopData = null, ?_sheet:String = null):Void{
 		if(_looped == null){
 			_looped = loop(true);
 		}
@@ -387,7 +388,7 @@ class CharacterInfoBase
 		var animData:AnimData = {
 			prefix: _label,
 			frames: [_length],
-			postfix: null,
+			postfix: _sheet,
 			framerate: _frameRate,
 			loop: _looped,
 			flipX: false,
@@ -447,15 +448,15 @@ class CharacterInfoBase
 	 * @param	_frameRate		The speed in frames per second that the animation should play at (e.g. `40` fps).
 	 * @param	_looped			Whether or not the animation loops and what frame it loops on. Use `loop()` to generate the data.
 	 */
-	 function addByLabelWithOffset(_name:String, _offset:Array<Float>, _label:String, _startOffset:Int, _length:Int, _frameRate:Float = 30.0, _looped:LoopData = null):Void{
+	 function addByLabelWithOffset(_name:String, _offset:Array<Float>, _label:String, _startOffset:Int, _length:Int, _frameRate:Float = 30.0, _looped:LoopData = null, ?_sheet:String = null):Void{
 		if(_looped == null){
 			_looped = loop(true);
 		}
 
 		var animData:AnimData = {
 			prefix: _label,
-			frames: [_length],
-			postfix: null,
+			frames: [_length, _startOffset],
+			postfix: _sheet,
 			framerate: _frameRate,
 			loop: _looped,
 			flipX: false,
@@ -464,7 +465,7 @@ class CharacterInfoBase
 		}
 		var animInfo:AnimInfo = {
 			name: _name,
-			type: labelOffset(_startOffset),
+			type: labelOffset,
 			data: animData
 		}
 		info.anims.push(animInfo);
@@ -483,7 +484,7 @@ class CharacterInfoBase
 	 * @param	_flipX		Whether the frames should be flipped horizontally.
 	 * @param	_flipY		Whether the frames should be flipped vertically.
 	 */
-	 function addByLabelIndices(_name:String, _offset:Array<Float>, _label:String, _indices:Array<Int>, _frameRate:Float = 30, _looped:LoopData = null, _flipX:Bool = false, _flipY:Bool = false):Void{
+	 function addByLabelIndices(_name:String, _offset:Array<Float>, _label:String, _indices:Array<Int>, _frameRate:Float = 30, _looped:LoopData = null, _flipX:Bool = false, _flipY:Bool = false, ?_sheet:String = null):Void{
 		if(_looped == null){
 			_looped = loop(true);
 		}
@@ -491,7 +492,7 @@ class CharacterInfoBase
 		var animData:AnimData = {
 			prefix: _label,
 			frames: _indices,
-			postfix: null,
+			postfix: _sheet,
 			framerate: _frameRate,
 			loop: _looped,
 			flipX: _flipX,
@@ -568,6 +569,7 @@ class CharacterInfoBase
 	function setLoad(frameWidth:Int, frameHeight:Int):FrameLoadType{ return FrameLoadType.load(frameWidth, frameHeight); }
 	function setAtlas():FrameLoadType{ return FrameLoadType.atlas; }
 	function setMultiSparrow():FrameLoadType{ return FrameLoadType.multiSparrow; }
+	function setMultiAtlas():FrameLoadType{ return FrameLoadType.multiAtlas; }
 
 	public function toString():String{ return ""+info; }
 }

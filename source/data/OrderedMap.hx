@@ -83,6 +83,16 @@ class OrderedMap<K, V>
 		return _values.copy();
 	}
 
+	public function toString():String{
+		if(_keys.length <= 0){ return "{ }"; }
+		var r:String = "{";
+		for(i in 0..._keys.length){
+			r += " " + _keys[i] + " => " + _values[i] + ",";
+		}
+		r = r.substr(0, r.length - 1) + " }";
+		return r;
+	}
+
 }
 
 //Based on ArrayIterator.
