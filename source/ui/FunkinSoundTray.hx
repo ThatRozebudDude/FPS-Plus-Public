@@ -96,19 +96,19 @@ class FunkinSoundTray extends FlxSoundTray
 
 	override function showIncrement():Void{
 		moveTrayMakeVisible(true);
+		correctVolumeValues();
 		saveVolumePreferences();
 	}
 
 	override function showDecrement():Void{
 		moveTrayMakeVisible(false);
+		correctVolumeValues();
 		saveVolumePreferences();
 	}
 
 	function moveTrayMakeVisible(up:Bool = false):Void{
 		showTray();
 		if(!silent){
-			// This is a String currently, but there is or was a Flixel PR to change this to a FlxSound or a Sound bject
-			//var sound:Null<String> = FlxG.sound.volume == 1 ? volumeMaxSound : (up ? volumeUpSound : volumeDownSound);
 			var sound:Null<String> = up ? volumeUpSound : volumeDownSound;
 			if(sound != null) { FlxG.sound.play(sound); }
 		}
@@ -130,6 +130,11 @@ class FunkinSoundTray extends FlxSoundTray
 		for (i in 0..._bars.length){
 			_bars[i].visible = i < globalVolume;
 		}
+	}
+
+	inline private function correctVolumeValues():Void{
+		FlxG.sound.muted = (FlxG.sound.volume <= 0.0015);
+		FlxG.sound.volume = (FlxG.sound.volume > 0.99) ? 1 : FlxG.sound.volume;
 	}
 
 	function saveVolumePreferences():Void{
