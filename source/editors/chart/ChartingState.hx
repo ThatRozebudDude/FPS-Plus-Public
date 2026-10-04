@@ -1,5 +1,7 @@
 package editors.chart;
 
+import transition.data.InstantTransition;
+import modding.PolymodHandler;
 import Chart.BPMDefinition;
 import Chart.ChartFormat;
 import Chart.EventDefinition;
@@ -341,6 +343,7 @@ class ChartingState extends MusicBeatState
 			gridParts.topFade.scale.set(GRID_SQAURES[i] * GRID_SIZE, 1);
 			gridParts.topFade.updateHitbox();
 			gridParts.topFade.scrollFactor.set(0, 0);
+			gridParts.topFade.alpha = 0.75;
 
 			gridParts.bottomFade = new FlxSprite(gridParts.grid.x, 720).loadGraphic(Paths.image("fpsPlus/editors/chart/gridFade"));
 			gridParts.bottomFade.flipY = true;
@@ -348,6 +351,7 @@ class ChartingState extends MusicBeatState
 			gridParts.bottomFade.scale.set(GRID_SQAURES[i] * GRID_SIZE, 1);
 			gridParts.bottomFade.updateHitbox();
 			gridParts.bottomFade.scrollFactor.set(0, 0);
+			gridParts.bottomFade.alpha = 0.75;
 
 			grids.push(gridParts);
 			moveOverTotal += GRID_SQAURES[i];
@@ -685,17 +689,17 @@ class ChartingState extends MusicBeatState
 		final startingSpeaker:String = gfList.contains(chart.meta.speaker) ? chart.meta.speaker : "Gf";
 		final startingStage:String = stageList.contains(chart.meta.stage) ? chart.meta.stage : "Stage";
 
-		opponentDropdown = new Dropdown(PANEL_SPACING, songNameInput.y + songNameInput.elementHeight + PANEL_EXTRA_SPACING, 240, characterList, startingOpponent, "Opponent");
-		opponentDropdown.onSelect.add(function(v:String){
-			updateHealthIcons(v, chart.meta.player);
-			chart.meta.opponent = v;
-		});
-		playerDropdown = new Dropdown(PANEL_SPACING, opponentDropdown.y + opponentDropdown.elementHeight + PANEL_SPACING, 240, characterList, startingPlayer, "Player");
+		playerDropdown = new Dropdown(PANEL_SPACING, songNameInput.y + songNameInput.elementHeight + PANEL_EXTRA_SPACING, 240, characterList, startingPlayer, "Player");
 		playerDropdown.onSelect.add(function(v:String){
 			updateHealthIcons(chart.meta.opponent, v);
 			chart.meta.player = v;
 		});
-		speakerDropdown = new Dropdown(PANEL_SPACING, playerDropdown.y + playerDropdown.elementHeight + PANEL_SPACING, 240, gfList, startingSpeaker, "Partner");
+		opponentDropdown = new Dropdown(PANEL_SPACING, playerDropdown.y + playerDropdown.elementHeight + PANEL_SPACING, 240, characterList, startingOpponent, "Opponent");
+		opponentDropdown.onSelect.add(function(v:String){
+			updateHealthIcons(v, chart.meta.player);
+			chart.meta.opponent = v;
+		});
+		speakerDropdown = new Dropdown(PANEL_SPACING, opponentDropdown.y + opponentDropdown.elementHeight + PANEL_SPACING, 240, gfList, startingSpeaker, "Partner");
 		speakerDropdown.onSelect.add(function(v:String){ chart.meta.speaker = v; });
 
 		stageDropdown = new Dropdown(PANEL_SPACING, speakerDropdown.y + speakerDropdown.elementHeight + PANEL_EXTRA_SPACING, 240, stageList, startingStage, "Stage");
@@ -741,8 +745,8 @@ class ChartingState extends MusicBeatState
 		openFileButton.onPress.add(function(){ openFile(); });
 
 		panel.addToTab("Song", songNameInput);
-		panel.addToTab("Song", opponentDropdown);
 		panel.addToTab("Song", playerDropdown);
+		panel.addToTab("Song", opponentDropdown);
 		panel.addToTab("Song", speakerDropdown);
 		panel.addToTab("Song", stageDropdown);
 		panel.addToTab("Song", scrollSpeed);
@@ -1143,6 +1147,15 @@ class ChartingState extends MusicBeatState
 				else{ typeAlert.alpha = 0; }
 			}
 			else{ typeAlert.alpha = 0; }
+
+			if(Binds.justPressed("polymodReload")){
+				generateChart();
+				PlayState.setSong(chart, chartEvents);
+				FlxG.signals.preStateSwitch.addOnce(function(){ PolymodHandler.reInit(); });
+				PolymodHandler.reload(false);
+				customTransOut = new InstantTransition();
+				switchState(new ChartingState(FlxG.sound.music.time));
+			}
 				
 			checkShortcuts();
 		}
