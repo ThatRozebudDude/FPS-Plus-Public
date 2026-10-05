@@ -1,7 +1,6 @@
 # TODO
 
 - Fix thing with the characters doing extra bopping stuff after the song ends?
-- Fix hold notes being weird in that one part of Monster.
 
 - Chart Editor
 	- Fix hotbar select not working if the event isn't in the current category.

@@ -1,7 +1,7 @@
 {
 	"events": [
 		{
-			"tag": "camFocusCenter",
+			"tag": "camFocusBf",
 			"lane": 0,
 			"time": 0
 		},
