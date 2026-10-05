@@ -1,6 +1,11 @@
 {
 	"events": [
 		{
+			"tag": "camFocusCenter",
+			"lane": 0,
+			"time": 0
+		},
+		{
 			"tag": "setBopFreq;bf;1;0",
 			"lane": 2,
 			"time": 0
@@ -13,17 +18,17 @@
 		{
 			"tag": "camFocusDad",
 			"lane": 0,
-			"time": 2526.31578947368416
+			"time": 2526.31578947368
 		},
 		{
 			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 7578.94736842105249
+			"time": 7578.94736842105
 		},
 		{
 			"tag": "camFocusDad",
 			"lane": 0,
-			"time": 12631.5789473684199
+			"time": 12631.5789473684
 		},
 		{
 			"tag": "cc;Guess it's time,",
@@ -38,7 +43,7 @@
 		{
 			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 17684.2105263157864
+			"time": 17684.2105263158
 		},
 		{
 			"tag": "ccHide",
@@ -48,7 +53,7 @@
 		{
 			"tag": "camFocusDad",
 			"lane": 0,
-			"time": 22736.8421052631529
+			"time": 22736.8421052632
 		},
 		{
 			"tag": "cc;What's out there,",
@@ -63,7 +68,7 @@
 		{
 			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 27789.4736842105194
+			"time": 27789.4736842105
 		},
 		{
 			"tag": "ccHide",
@@ -73,7 +78,7 @@
 		{
 			"tag": "camFocusDad",
 			"lane": 0,
-			"time": 32842.1052631578859
+			"time": 32842.1052631579
 		},
 		{
 			"tag": "cc;Just the eyes floating up out of the shore.",
@@ -83,7 +88,7 @@
 		{
 			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 37258.1848321591315
+			"time": 37258.1848321591
 		},
 		{
 			"tag": "ccHide",
@@ -91,9 +96,14 @@
 			"time": 37889.7637795276
 		},
 		{
+			"tag": "camFocusCenter",
+			"lane": 0,
+			"time": 41674.2644011604
+		},
+		{
 			"tag": "camFocusDad",
 			"lane": 0,
-			"time": 44074.264401160377
+			"time": 44074.2644011604
 		},
 		{
 			"tag": "cc;Hey man!",
@@ -113,12 +123,12 @@
 		{
 			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 48645.6929725889422
+			"time": 48645.6929725889
 		},
 		{
 			"tag": "camFocusDad",
 			"lane": 0,
-			"time": 53217.1215440175074
+			"time": 53217.1215440175
 		},
 		{
 			"tag": "cc;Or maybe turn her into broth.",
@@ -133,7 +143,7 @@
 		{
 			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 57788.5501154460726
+			"time": 57788.5501154461
 		},
 		{
 			"tag": "ccHide",
@@ -148,7 +158,7 @@
 		{
 			"tag": "camFocusDad",
 			"lane": 0,
-			"time": 62359.9786868746378
+			"time": 62359.9786868746
 		},
 		{
 			"tag": "cc;Cut 'em up.",
@@ -168,7 +178,7 @@
 		{
 			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 66931.4072583032103
+			"time": 66931.4072583032
 		},
 		{
 			"tag": "ccHide",
@@ -178,7 +188,7 @@
 		{
 			"tag": "camFocusDad",
 			"lane": 0,
-			"time": 71502.83582973179
+			"time": 71502.8358297318
 		},
 		{
 			"tag": "cc;Find my,",
@@ -198,7 +208,7 @@
 		{
 			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 76074.2644011603697
+			"time": 76074.2644011604
 		},
 		{
 			"tag": "ccHide",
@@ -206,9 +216,44 @@
 			"time": 76645.6929725889
 		},
 		{
+			"tag": "camFocusCenter",
+			"lane": 0,
+			"time": 80645.6929725889
+		},
+		{
+			"tag": "setBopFreq",
+			"lane": 1,
+			"time": 80645.6929725889
+		},
+		{
+			"tag": "setBopFreq;dad",
+			"lane": 2,
+			"time": 80645.6929725889
+		},
+		{
+			"tag": "setBopFreq;gf",
+			"lane": 3,
+			"time": 80645.6929725889
+		},
+		{
 			"tag": "camFocusDad",
 			"lane": 0,
-			"time": 81756.804083700059
+			"time": 81756.8040837001
+		},
+		{
+			"tag": "setBopFreq;bf;1",
+			"lane": 1,
+			"time": 81756.8040837001
+		},
+		{
+			"tag": "setBopFreq;dad;1",
+			"lane": 2,
+			"time": 81756.8040837001
+		},
+		{
+			"tag": "setBopFreq;gf;1",
+			"lane": 3,
+			"time": 81756.8040837001
 		},
 		{
 			"tag": "cc;You'll meet your friends,",
@@ -218,7 +263,7 @@
 		{
 			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 84283.1198731737386
+			"time": 83967.3303994895
 		},
 		{
 			"tag": "ccHide",
@@ -226,14 +271,19 @@
 			"time": 84598.909346858
 		},
 		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 86177.856715279
+		},
+		{
 			"tag": "cc;Inside the ambulance.",
 			"lane": 0,
 			"time": 86493.6461889632
 		},
 		{
-			"tag": "camFocusDad",
+			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 86809.4356626474182
+			"time": 88388.3830310685
 		},
 		{
 			"tag": "ccHide",
@@ -246,9 +296,9 @@
 			"time": 90598.9093468579
 		},
 		{
-			"tag": "camFocusBf",
-			"lane": 0,
-			"time": 91862.0672415947774
+			"tag": "camFocusDad",
+			"lane": 1,
+			"time": 90598.909346858
 		},
 		{
 			"tag": "ccHide",
@@ -256,9 +306,24 @@
 			"time": 92177.856715279
 		},
 		{
+			"tag": "camFocusBf",
+			"lane": 1,
+			"time": 92177.856715279
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 1,
+			"time": 93756.8040837001
+		},
+		{
 			"tag": "cc;To the werewolf.",
 			"lane": 0,
 			"time": 94072.5935573843
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 1,
+			"time": 95335.7514521211
 		},
 		{
 			"tag": "ccHide",
@@ -268,7 +333,7 @@
 		{
 			"tag": "camFocusDad",
 			"lane": 0,
-			"time": 96914.6988205421367
+			"time": 96914.6988205421
 		},
 		{
 			"tag": "cc;Give all your blood to him,",
@@ -278,7 +343,7 @@
 		{
 			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 99441.0146100158163
+			"time": 99125.2251363316
 		},
 		{
 			"tag": "ccHide",
@@ -292,8 +357,13 @@
 		},
 		{
 			"tag": "camFocusDad",
+			"lane": 1,
+			"time": 101335.751452121
+		},
+		{
+			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 101967.330399489496
+			"time": 103546.277767911
 		},
 		{
 			"tag": "ccHide",
@@ -306,9 +376,14 @@
 			"time": 105756.8040837
 		},
 		{
+			"tag": "camFocusDad",
+			"lane": 1,
+			"time": 105756.8040837
+		},
+		{
 			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 109546.277767910535
+			"time": 108914.698820542
 		},
 		{
 			"tag": "ccHide",
@@ -318,7 +393,17 @@
 		{
 			"tag": "camFocusDad",
 			"lane": 0,
-			"time": 117125.225136331574
+			"time": 112072.593557384
+		},
+		{
+			"tag": "camFocusBf",
+			"lane": 0,
+			"time": 114598.909346858
+		},
+		{
+			"tag": "camFocusDad",
+			"lane": 0,
+			"time": 117125.225136332
 		},
 		{
 			"tag": "cc;You're just a little snack,",
@@ -343,12 +428,17 @@
 		{
 			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 124397.952409058867
+			"time": 124397.952409059
+		},
+		{
+			"tag": "camFocusCenter",
+			"lane": 0,
+			"time": 131670.679681786
 		},
 		{
 			"tag": "camFocusDad",
 			"lane": 0,
-			"time": 133670.679681786161
+			"time": 133670.679681786
 		},
 		{
 			"tag": "cc;Hey man!",
@@ -368,12 +458,12 @@
 		{
 			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 137670.679681786161
+			"time": 137670.679681786
 		},
 		{
 			"tag": "camFocusDad",
 			"lane": 0,
-			"time": 141670.679681786161
+			"time": 141670.679681786
 		},
 		{
 			"tag": "cc;And then I'll boil your girlfriend.",
@@ -388,7 +478,7 @@
 		{
 			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 145670.679681786161
+			"time": 145670.679681786
 		},
 		{
 			"tag": "ccHide",
@@ -403,7 +493,7 @@
 		{
 			"tag": "camFocusDad",
 			"lane": 0,
-			"time": 149670.679681786161
+			"time": 149670.679681786
 		},
 		{
 			"tag": "cc;Cut 'em up.",
@@ -423,7 +513,7 @@
 		{
 			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 153670.679681786161
+			"time": 153670.679681786
 		},
 		{
 			"tag": "ccHide",
@@ -438,7 +528,7 @@
 		{
 			"tag": "camFocusDad",
 			"lane": 0,
-			"time": 157670.679681786161
+			"time": 157670.679681786
 		},
 		{
 			"tag": "cc;Give you guys a little break but",
@@ -453,7 +543,7 @@
 		{
 			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 161670.679681786161
+			"time": 161670.679681786
 		},
 		{
 			"tag": "ccHide",
@@ -463,12 +553,12 @@
 		{
 			"tag": "camFocusDad",
 			"lane": 0,
-			"time": 165670.679681786161
+			"time": 165670.679681786
 		},
 		{
 			"tag": "camFocusBf",
 			"lane": 0,
-			"time": 169670.679681786161
+			"time": 169670.679681786
 		}
 	],
 	"meta": {

@@ -1,10 +1,10 @@
 # TODO
 
 - Fix thing with the characters doing extra bopping stuff after the song ends?
-- Fix some Monster and Winter Horrorland stuff.
-- Game is crashing on fullscreen again. (i think it is fixed but it probably isn't if i'm gonna be honest)
+- Fix hold notes being weird in that one part of Monster.
 
 - Chart Editor
+	- Fix hotbar select not working if the event isn't in the current category.
 	- Get the waveforms to not offset weirdly at the begining of songs when the camera moves.
 
 - Character Editor
