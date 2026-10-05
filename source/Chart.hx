@@ -280,16 +280,43 @@ class Chart
 					}
 				}
 
-				var prevFocus:Null<Bool> = null;
+				var prevSecTime:Float = 0;
 				var secTime:Float = 0;
+				var nextSecTime:Float = 0;
+
+				var prevFocus:Null<Bool> = null;
 				var curBPM:Float = legacyChart.bpm;
 
 				for(section in legacyChart.notes){
 					var allowCamMovement:Bool = true;
+					var nextToggleTime:Float = -1;
+					var doSort:Bool = false;
+
+					prevSecTime = secTime;
+					secTime = nextSecTime;
+					if(section.changeBPM == true){ curBPM = section.bpm; }
+					nextSecTime += ((((60 / curBPM) * 1000) / 4) * section.lengthInSteps ?? 16);
 
 					for(t in toggleCamPositions){
-						if(t.time > secTime && !Utils.inRange(secTime, t.time, 1)){ break; }
+						if(t.time > secTime && !Utils.inRange(secTime, t.time, 1)){
+							nextToggleTime = t.time;
+							break;
+						}
 						allowCamMovement = t.allowed;
+					}
+
+					for(event in events.events){
+						if(event.time < secTime){
+							if(event.tag.startsWith("camFocusBf")){
+								prevFocus = true;
+							}
+							else if(event.tag.startsWith("camFocusDad")){
+								prevFocus = false;
+							}
+							else if(event.tag.startsWith("camFocus")){
+								prevFocus = null;
+							}
+						}
 					}
 
 					if((prevFocus == null || section.mustHitSection != prevFocus) && allowCamMovement){
@@ -298,11 +325,27 @@ class Chart
 							lane: 0,
 							tag: "camFocus" + (section.mustHitSection ? "Bf" : "Dad")
 						});
-						prevFocus = section.mustHitSection;
+						doSort = true;
+					}
+					else if((prevFocus == null || section.mustHitSection != prevFocus) && !allowCamMovement && nextToggleTime > secTime && nextToggleTime < nextSecTime){
+						events.events.push({
+							time: nextToggleTime,
+							lane: 0,
+							tag: "camFocus" + (section.mustHitSection ? "Bf" : "Dad")
+						});
+						doSort = true;
 					}
 
-					if(section.changeBPM == true){ curBPM = section.bpm; }
-					secTime += ((((60 / curBPM) * 1000) / 4) * section.lengthInSteps ?? 16);
+					if(doSort){
+						events.events.sort(function(a:EventDefinition, b:EventDefinition):Int{
+							var r:Int = 0;
+							r = FlxSort.byValues(FlxSort.ASCENDING, a.time, b.time);
+							if(r == 0){
+								r = FlxSort.byValues(FlxSort.ASCENDING, a.lane, b.lane);
+							}
+							return r;
+						});
+					}
 				}
 			}
 		}
