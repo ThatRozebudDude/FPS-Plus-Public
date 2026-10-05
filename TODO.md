@@ -3,7 +3,6 @@
 - Fix thing with the characters doing extra bopping stuff after the song ends?
 
 - Chart Editor
-	- Fix hotbar select not working if the event isn't in the current category.
 	- Get the waveforms to not offset weirdly at the begining of songs when the camera moves.
 
 - Character Editor

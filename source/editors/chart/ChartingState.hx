@@ -232,12 +232,14 @@ class ChartingState extends MusicBeatState
 	var lilGuyHoldSteps:Int = 0;
 
 	var noteTypeInput:TextInput;
+	var noteClassDropdown:Dropdown;
 	var notePrefixDropdown:Dropdown;
 	var noteParams:Array<ArgumentInput> = [];
 	var noteParamStartLocation:Float = 0;
 	var noteDescription:UIText;
 
 	var eventTagInput:TextInput;
+	var eventClassDropdown:Dropdown;
 	var eventPrefixDropdown:Dropdown;
 	var eventParams:Array<ArgumentInput> = [];
 	var eventParamStartLocation:Float = 0;
@@ -427,9 +429,25 @@ class ChartingState extends MusicBeatState
 			if(!hotbarAssignAlertOpen){
 				switch(hotbarSlots[slot].type){
 					case note:
+						final prefix:String = hotbarSlots[slot].tag.split(";")[0];
+						if(!notePrefixDropdown.values.contains(prefix)){
+							noteClassDropdown.setSelectedTo("All Note Types");
+							panel.removeFromTab("Notes", notePrefixDropdown);
+							notePrefixDropdown.destroy();
+							createNotePrefixDropdown(transformedNoteTypeClasses.get("All Note Types"));
+							panel.addToTab("Notes", notePrefixDropdown);
+						}
 						noteTypeInput.value = hotbarSlots[slot].tag;
 						createArguments(hotbarSlots[slot].tag, true);
 					case event:
+						final prefix:String = hotbarSlots[slot].tag.split(";")[0];
+						if(!eventPrefixDropdown.values.contains(prefix)){
+							eventClassDropdown.setSelectedTo("All Events");
+							panel.removeFromTab("Events", eventPrefixDropdown);
+							eventPrefixDropdown.destroy();
+							createEventPrefixDropdown(transformedEventClasses.get("All Events"));
+							panel.addToTab("Events", eventPrefixDropdown);
+						}
 						eventTagInput.value = hotbarSlots[slot].tag;
 						createArguments(hotbarSlots[slot].tag, false);
 					default:
@@ -766,7 +784,7 @@ class ChartingState extends MusicBeatState
 
 		createNotePrefixDropdown("All Note Types");
 
-		var noteClassDropdown = new Dropdown(PANEL_SPACING, notePrefixDropdown.y + notePrefixDropdown.elementHeight + PANEL_SPACING, 240, transformedNoteTypeClasses.copyKeys(), "", "Categories");
+		noteClassDropdown = new Dropdown(PANEL_SPACING, notePrefixDropdown.y + notePrefixDropdown.elementHeight + PANEL_SPACING, 240, transformedNoteTypeClasses.copyKeys(), "", "Categories");
 		noteClassDropdown.onSelect.add(function(v:String){
 			panel.removeFromTab("Notes", notePrefixDropdown);
 			notePrefixDropdown.destroy();
@@ -820,7 +838,7 @@ class ChartingState extends MusicBeatState
 
 		createEventPrefixDropdown("All Events");
 
-		var eventClassDropdown = new Dropdown(PANEL_SPACING, eventPrefixDropdown.y + eventPrefixDropdown.elementHeight + PANEL_SPACING, 240, transformedEventClasses.copyKeys(), "", "Categories");
+		eventClassDropdown = new Dropdown(PANEL_SPACING, eventPrefixDropdown.y + eventPrefixDropdown.elementHeight + PANEL_SPACING, 240, transformedEventClasses.copyKeys(), "", "Categories");
 		eventClassDropdown.onSelect.add(function(v:String){
 			panel.removeFromTab("Events", eventPrefixDropdown);
 			eventPrefixDropdown.destroy();
