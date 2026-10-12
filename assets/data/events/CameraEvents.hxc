@@ -50,19 +50,19 @@ class CameraEvents extends Events
 			{name: "X Offset", type: "float", value: "0", step: 10}, {name: "Y Offset", type: "float", value: "0", step: 10}, {name: "Time", type: "time", value: "1.9"}, {name: "Ease", type: "ease", value: "expoOut"}
 		]}});
 		
-		registerEvent({prefix: "toggleCamBop", eventFunction: toggleCamBop, editor: {description: TOGGLE_CAM_BOP_DESC}});
+		registerEvent({prefix: "toggleCamBop", eventFunction: toggleCamBop, executeAtStart: true, editor: {description: TOGGLE_CAM_BOP_DESC}});
 		
 		registerEvent({prefix: "camBop", eventFunction: camBop, editor: {description: CAM_BOP_DESC, arguments: [
 			{name: "Intensity", type: "float", value: "1"}, {name: "Time", type: "time", value: "0.8"}, {name: "Ease", type: "ease", value: "quintOut"}
 		]}});
-		registerEvent({prefix: "camBopFreq", eventFunction: camBopFreq, editor: {description: CAM_BOP_FREQ_DESC, arguments: [
+		registerEvent({prefix: "camBopFreq", eventFunction: camBopFreq, executeAtStart: true, editor: {description: CAM_BOP_FREQ_DESC, arguments: [
 			{name: "Bop Every", type: "uint", value: "4"}, {name: "Beat Offset", type: "int", value: "0"}
 		]}});
-		registerEvent({prefix: "camBopIntensity", eventFunction: camBopIntensity, editor: {description: CAM_BOP_INTENSITY_DESC, arguments: [
+		registerEvent({prefix: "camBopIntensity", eventFunction: camBopIntensity, executeAtStart: true, editor: {description: CAM_BOP_INTENSITY_DESC, arguments: [
 			{name: "Multiplier", type: "float", value: "1"}
 		]}});
 		
-		registerEvent({prefix: "setDynamicCamAmount", eventFunction: setDynamicCamAmount, editor: {description: SET_DYNAMIC_CAM_AMOUNT_DESC, arguments: [
+		registerEvent({prefix: "setDynamicCamAmount", eventFunction: setDynamicCamAmount, executeAtStart: true, editor: {description: SET_DYNAMIC_CAM_AMOUNT_DESC, arguments: [
 			{name: "Distance", type: "float", value: "20"}
 		]}});
 	}
