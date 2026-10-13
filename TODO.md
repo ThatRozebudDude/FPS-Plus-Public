@@ -14,4 +14,5 @@
 
 # Possible Future Version Features
 
+- Redo sustains so they don't completely suck to work with.
 - Localiztion files.

@@ -55,6 +55,9 @@ class Note extends FlxSprite
 	inline public static final BLUE_NOTE:Int = 1;
 	inline public static final RED_NOTE:Int = 3;
 
+	inline public static final SCROLL_SPEED_MULTIPLIER:Float = 0.45;
+	inline public static final SUSTAIN_SCALE_MULTIPLIER:Float = 14.85;
+
 	public function new(_strumTime:Float, _direction:Int, _type:String, ?_editor = false, ?_prevNote:Note, ?_sustainNote:Bool = false){
 		
 		super();
@@ -299,7 +302,7 @@ class Note extends FlxSprite
 		speed *= _speedMultiplier;
 
 		scale.y = graphicScale;
-		scale.y *= (Conductor.getStepCrotchet(strumTime) * 10) * 1.485 * speed;
+		scale.y *= Conductor.getStepCrotchet(strumTime) * SUSTAIN_SCALE_MULTIPLIER * speed;
 		scale.y *= noteSkin.info.holdScaleAdjust;
 		scale.y *= isFake ? 0.5 : 1;
 		updateHitbox();

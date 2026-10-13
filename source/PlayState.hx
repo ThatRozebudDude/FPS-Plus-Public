@@ -1768,7 +1768,7 @@ class PlayState extends MusicBeatState
 			final scrollSpeed:Float = (Config.scrollSpeedOverride > 0 ? Config.scrollSpeedOverride : FlxMath.roundDecimal(chart.meta.scroll, 2)) * (note.mustPress ? scrollSpeedMultiplierPlayer : scrollSpeedMultiplierOpponent);
 
 			if(Config.downscroll){
-				note.y = (targetStrum.y + (Conductor.songPosition - note.strumTime) * (0.45 * scrollSpeed)) - note.yOffset;
+				note.y = (targetStrum.y + (Conductor.songPosition - note.strumTime) * (Note.SCROLL_SPEED_MULTIPLIER * scrollSpeed)) - note.yOffset;
 				if(note.isSustainNote){
 					note.y -= note.height;
 					note.y += 125;
@@ -1781,7 +1781,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 			else {
-				note.y = (targetStrum.y - (Conductor.songPosition - note.strumTime) * (0.45 * scrollSpeed)) + note.yOffset;
+				note.y = (targetStrum.y - (Conductor.songPosition - note.strumTime) * (Note.SCROLL_SPEED_MULTIPLIER * scrollSpeed)) + note.yOffset;
 				if(note.isSustainNote){
 					if ((!note.mustPress || note.wasGoodHit || note.prevNote.wasGoodHit && !note.canBeHit) && note.y + note.offset.y * note.scale.y <= (targetStrum.y + targetStrum.height/2)){
 						//Clip to strumline.
