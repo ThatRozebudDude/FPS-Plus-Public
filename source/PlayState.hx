@@ -513,7 +513,7 @@ class PlayState extends MusicBeatState
 		add(overlayLayer);
 		overlayLayer.cameras = [camOverlay];
 
-		var camPos:FlxPoint = new FlxPoint(FlxMath.lerp(getOpponentFocusPosition().x, getBfFocusPostion().x, 0.5), FlxMath.lerp(getOpponentFocusPosition().y, getBfFocusPostion().y, 0.5));
+		var camPos:FlxPoint = new FlxPoint(FlxMath.lerp(getOpponentFocusPosition().x, getBfFocusPosition().x, 0.5), FlxMath.lerp(getOpponentFocusPosition().y, getBfFocusPosition().y, 0.5));
 
 		if(stage.cameraStartPosition != null){
 			camPos.set(stage.cameraStartPosition.x, stage.cameraStartPosition.y);
@@ -1572,7 +1572,7 @@ class PlayState extends MusicBeatState
 		}
 
 		/*if(FlxG.keys.anyJustPressed([P])){
-			trace(getBfFocusPostion());
+			trace(getBfFocusPosition());
 		}
 
 		if(FlxG.keys.anyJustPressed([O])){
@@ -2714,12 +2714,12 @@ class PlayState extends MusicBeatState
 		if(_time == null){_time = defaultCameraTime;}
 		if(_ease == null){_ease = defaultCameraEase;}
 
-		var pos = getBfFocusPostion();
+		var pos = getBfFocusPosition();
 		camMove(pos.x + offsetX, pos.y + offsetY, _time, _ease, "bf");
 		changeCamOffset(0, 0);
 	}
 
-	public inline function getBfFocusPostion():FlxPoint{
+	public inline function getBfFocusPosition():FlxPoint{
 		if(!stage.useStaticStageCameras){
 			return new FlxPoint(boyfriend.getMidpoint().x + boyfriend.focusOffset.x + stage.bfCameraOffset.x, boyfriend.getMidpoint().y + boyfriend.focusOffset.y + stage.bfCameraOffset.y);
 		}
