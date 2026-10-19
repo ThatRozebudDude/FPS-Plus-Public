@@ -88,7 +88,7 @@ class StressIntro extends ScriptedCutscene
 		gfSummon.animation.play("summon", true);
 
 		playstate.camChangeZoom(originalZoom * 1.6, 2, FlxEase.quadOut);
-		var pos:FlxPoint = new FlxPoint(FlxMath.lerp(playstate.getOpponentFocusPosition().x, playstate.getBfFocusPostion().x, 0.5), FlxMath.lerp(playstate.getOpponentFocusPosition().y, playstate.getBfFocusPostion().y, 0.5));
+		var pos:FlxPoint = new FlxPoint(FlxMath.lerp(playstate.getOpponentFocusPosition().x, playstate.getBfFocusPosition().x, 0.5), FlxMath.lerp(playstate.getOpponentFocusPosition().y, playstate.getBfFocusPosition().y, 0.5));
 		playstate.camMove(pos.x, pos.y - 200, 2, FlxEase.quadOut, "center");
 	}
 

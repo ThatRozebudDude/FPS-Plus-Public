@@ -55,7 +55,7 @@ class StressPicoEnding extends ScriptedCutscene
 
 		fadeOutHud();
 
-		playstate.camMove(FlxMath.lerp(playstate.getOpponentFocusPosition().x, playstate.getBfFocusPostion().x, 0.5), FlxMath.lerp(playstate.getOpponentFocusPosition().y, playstate.getBfFocusPostion().y, 0.5), 1.5, FlxEase.quadInOut);
+		playstate.camMove(FlxMath.lerp(playstate.getOpponentFocusPosition().x, playstate.getBfFocusPosition().x, 0.5), FlxMath.lerp(playstate.getOpponentFocusPosition().y, playstate.getBfFocusPosition().y, 0.5), 1.5, FlxEase.quadInOut);
 		playstate.camChangeZoom(playstate.stage.startingZoom, 1.5, FlxEase.quadInOut);
 	}
 

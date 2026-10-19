@@ -22,7 +22,7 @@ class DarnellIntro extends ScriptedCutscene
 	public function new(args:Array<Dynamic>){
 		super(args);
 
-		picoPos = playstate.getBfFocusPostion();
+		picoPos = playstate.getBfFocusPosition();
 		nenePos = playstate.getGfFocusPosition();
 		darnellPos = playstate.getOpponentFocusPosition();
 

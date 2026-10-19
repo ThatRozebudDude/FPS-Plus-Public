@@ -65,7 +65,7 @@ class TwoHotEnding extends ScriptedCutscene
 	}
 
 	function centerCamera() {
-		var centerPos:FlxPoint = new FlxPoint(FlxMath.lerp(playstate.getOpponentFocusPosition().x, playstate.getBfFocusPostion().x, 0.5), FlxMath.lerp(playstate.getOpponentFocusPosition().y, playstate.getBfFocusPostion().y, 0.5));
+		var centerPos:FlxPoint = new FlxPoint(FlxMath.lerp(playstate.getOpponentFocusPosition().x, playstate.getBfFocusPosition().x, 0.5), FlxMath.lerp(playstate.getOpponentFocusPosition().y, playstate.getBfFocusPosition().y, 0.5));
 		playstate.autoCam = false;
 		playstate.autoCamBop = false;
 		boyfriend.canAutoAnim = false;

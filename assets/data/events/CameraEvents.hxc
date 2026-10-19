@@ -155,7 +155,7 @@ class CameraEvents extends Events
 	
 	function camFocusCenter(tag:String):Void{
 		var args = Events.getArgs(tag);
-		var pos:FlxPoint = new FlxPoint(FlxMath.lerp(playstate.getOpponentFocusPosition().x, playstate.getBfFocusPostion().x, 0.5), FlxMath.lerp(playstate.getOpponentFocusPosition().y, playstate.getBfFocusPostion().y, 0.5));
+		var pos:FlxPoint = new FlxPoint(FlxMath.lerp(playstate.getOpponentFocusPosition().x, playstate.getBfFocusPosition().x, 0.5), FlxMath.lerp(playstate.getOpponentFocusPosition().y, playstate.getBfFocusPosition().y, 0.5));
 		playstate.camMove(pos.x + Events.parseFloat(args[0]), pos.y + Events.parseFloat(args[1]), Events.parseTime(args[2]), Events.parseEase(args[3]), "center");
 	}
 	
