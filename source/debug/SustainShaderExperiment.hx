@@ -1,5 +1,7 @@
 package debug;
 
+import flixel.math.FlxPoint;
+import flixel.graphics.frames.FlxTileFrames;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
