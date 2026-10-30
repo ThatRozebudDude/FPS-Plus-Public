@@ -164,8 +164,8 @@ class SustainShader extends FlxShader
 
 			if(openfl_TextureCoordv.y < 1.0 - endLength){ //Piece
 				if(loopTexture){ //Loop the texture multiple times vertically.
-					float multiplier = sustainDimensions.y/pieceDimensions.y;
-					uv = vec2(remapToRange(openfl_TextureCoordv.x, 0.0, 1.0, pieceFrame.x, pieceFrame.z), remapToRange(mod(openfl_TextureCoordv.y * (multiplier/sustainScale), 1.0), 0.0, 1.0 - endLength, pieceFrame.y, pieceFrame.w));
+					float multiplier = (sustainDimensions.y/pieceDimensions.y)/sustainScale;
+					uv = vec2(remapToRange(openfl_TextureCoordv.x, 0.0, 1.0, pieceFrame.x, pieceFrame.z), remapToRange(mod(openfl_TextureCoordv.y * multiplier, 1.0), 0.0, 1.0 - endLength, pieceFrame.y, pieceFrame.w));
 					uv.y = clamp(uv.y, pieceFrame.y + (0.5/noteTextureDimensions.y), pieceFrame.w - (0.5/noteTextureDimensions.y));
 				}
 				else{ //Strech the texture instead of looping it.
