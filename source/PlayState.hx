@@ -203,7 +203,9 @@ class PlayState extends MusicBeatState
 	public var preventScoreSaving:Bool = false;
 
 	public var notes:FlxTypedGroup<Note>;
+	public var noteSustains:FlxTypedGroup<NoteSustain>;
 	public var unspawnNotes:Array<Note> = [];
+	public var unspawnSustains:Array<NoteSustain> = [];
 
 	public var playerNotesInRange:Array<Bool> = [false, false, false, false];
 	public var opponentNotesInRange:Array<Bool> = [false, false, false, false];
@@ -554,6 +556,9 @@ class PlayState extends MusicBeatState
 		playerCovers = new FlxTypedGroup<NoteHoldCover>();
 		enemyCovers = new FlxTypedGroup<NoteHoldCover>();
 
+		noteSustains = new FlxTypedGroup<NoteSustain>();
+		add(noteSustains);
+		
 		notes = new FlxTypedGroup<Note>();
 		add(notes);
 
@@ -756,9 +761,10 @@ class PlayState extends MusicBeatState
 		generateSong();
 
 		notes.cameras = [camHUD];
+		noteSustains.cameras = [camHUD];
 
 		eventList = events.events.copy();
-		eventList.sort(sortByEventStuff);
+		eventList.sort(sortByEvents);
 		for(event in eventList){
 			preprocessEvent(event.tag);
 		}
@@ -1107,7 +1113,7 @@ class PlayState extends MusicBeatState
 				continue;
 			}
 
-			var swagNote:Note = new Note(noteData.time, noteData.direction, noteData.tag, false, oldNote);
+			var swagNote:Note = new Note(noteData.time, noteData.direction, noteData.tag, oldNote);
 			swagNote.sustainLength = noteData.length;
 			swagNote.scrollFactor.set(0, 0);
 
@@ -1128,29 +1134,43 @@ class PlayState extends MusicBeatState
 			unspawnNotes.push(swagNote);
 
 			if(noteData.length > 0){
-				for(susNote in 0...(noteData.length + 1)){
-					var makeFake = false;
-					var timeAdd = 0.0;
-					if(susNote == 0){
-						makeFake = true;
-						timeAdd = 0.1;
-					}
+				// for(susNote in 0...(noteData.length + 1)){
+				// 	var makeFake = false;
+				// 	var timeAdd = 0.0;
+				// 	if(susNote == 0){
+				// 		makeFake = true;
+				// 		timeAdd = 0.1;
+				// 	}
 	
-					var sustainNote:Note = new Note(noteData.time + (Conductor.getStepCrotchetMs(noteData.time) * susNote) + timeAdd, noteData.direction, noteData.tag, false, oldNote, true);
-					sustainNote.isFake = makeFake;
-					sustainNote.scrollFactor.set();
-					sustainNote.mustPress = noteData.player;
+				// 	var sustainNote:Note = new Note(noteData.time + (Conductor.getStepCrotchetMs(noteData.time) * susNote) + timeAdd, noteData.direction, noteData.tag, oldNote, true);
+				// 	sustainNote.isFake = makeFake;
+				// 	sustainNote.scrollFactor.set();
+				// 	sustainNote.mustPress = noteData.player;
+				// 	sustainNote.alpha *= makeFake ? 0.5 : 1;
 
-					oldNote = sustainNote;
+				// 	oldNote = sustainNote;
 
-					setNoteHitCallback(sustainNote);
+				// 	setNoteHitCallback(sustainNote);
 
-					unspawnNotes.push(sustainNote);
+				// 	unspawnNotes.push(sustainNote);
+				// }
+ 
+				//new sustain test stuff
+				var finalLength:Float = 0;
+				for(l in 0...noteData.length){
+					finalLength += Conductor.getStepCrotchetMs(noteData.time + finalLength);
 				}
+
+				var noteSustain:NoteSustain = new NoteSustain(noteData.time, finalLength, noteData.direction, noteData.player, noteData.tag, swagNote);
+				noteSustain.setSustainLength(FlxMath.roundDecimal(chart.meta.scroll, 2));
+				unspawnSustains.push(noteSustain);
+
+				swagNote.sustain = noteSustain;
 			}
 		}
 
-		unspawnNotes.sort(sortByShit);
+		unspawnNotes.sort(sortByNotes);
+		unspawnSustains.sort(sortBySustains);
 
 		if(preloadSplashList.length > 0){
 			for(splash in preloadSplashList){
@@ -1170,11 +1190,15 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function sortByShit(obj1:Note, obj2:Note):Int{
+	function sortByNotes(obj1:Note, obj2:Note):Int{
 		return FlxSort.byValues(FlxSort.ASCENDING, obj1.strumTime, obj2.strumTime);
 	}
 
-	function sortByEventStuff(obj1:EventDefinition, obj2:EventDefinition):Int{
+	function sortBySustains(obj1:NoteSustain, obj2:NoteSustain):Int{
+		return FlxSort.byValues(FlxSort.ASCENDING, obj1.strumTime, obj2.strumTime);
+	}
+
+	function sortByEvents(obj1:EventDefinition, obj2:EventDefinition):Int{
 		var r:Int = FlxSort.byValues(FlxSort.ASCENDING, obj1.time + (Events.ignoreOffsets.contains(obj1.tag.split(";")[0]) || obj1.time <= 0 ? 0 : Config.offset), obj2.time + (Events.ignoreOffsets.contains(obj2.tag.split(";")[0]) || obj2.time <= 0 ? 0 : Config.offset));
 		return (r != 0) ? r : FlxSort.byValues(FlxSort.ASCENDING, obj1.lane, obj2.lane);
 	}
@@ -1690,6 +1714,18 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		if(unspawnSustains[0] != null){
+			if (unspawnSustains[0].strumTime - Conductor.songPosition < 3000){
+				var dunceNote:NoteSustain = unspawnSustains[0];
+				noteSustains.add(dunceNote);
+
+				var index:Int = unspawnSustains.indexOf(dunceNote);
+				unspawnSustains.splice(index, 1);
+
+				sortSustains();
+			}
+		}
+
 		if(startedCountdown){
 			updateNote();
 			opponentNoteCheck();
@@ -1809,17 +1845,50 @@ class PlayState extends MusicBeatState
 				}
 			}
 		});
+
+		noteSustains.forEachAlive(function(noteSustain:NoteSustain){
+			//var targetPosition:FlxPoint = noteSustain.mustPress ? (playerStrums.members[Math.floor(Math.abs(noteSustain.direction))].getMidpoint()) : (enemyStrums.members[Math.floor(Math.abs(noteSustain.direction))].getMidpoint());
+			final targetStrum:FlxSprite = noteSustain.mustPress ? (playerStrums.members[Math.floor(Math.abs(noteSustain.direction))]) : (enemyStrums.members[Math.floor(Math.abs(noteSustain.direction))]);
+			final scrollSpeed:Float = (Config.scrollSpeedOverride > 0 ? Config.scrollSpeedOverride : FlxMath.roundDecimal(chart.meta.scroll, 2)) * (noteSustain.mustPress ? scrollSpeedMultiplierPlayer : scrollSpeedMultiplierOpponent);
+
+			if(Config.downscroll){
+				noteSustain.y = (targetStrum.y + targetStrum.height/2) + ((Conductor.songPosition - noteSustain.strumTime) * (Note.SCROLL_SPEED_MULTIPLIER * scrollSpeed)) - noteSustain.yOffset;
+				noteSustain.y -= noteSustain.height;
+
+				//Clip to strumline.
+				if(noteSustain.started){
+					if(noteSustain.clipRect == null){ noteSustain.clipRect = FlxRect.get(); }
+					noteSustain.clipRect.set(0, 0, noteSustain.frameWidth, (targetStrum.y + targetStrum.height/2 - noteSustain.y)/noteSustain.scale.y);
+				}
+			}
+			else{
+				noteSustain.y = (targetStrum.y + targetStrum.height/2) - ((Conductor.songPosition - noteSustain.strumTime) * (Note.SCROLL_SPEED_MULTIPLIER * scrollSpeed)) + noteSustain.yOffset;
+
+				//Clip to strumline.
+				if(noteSustain.started){
+					if(noteSustain.clipRect == null){ noteSustain.clipRect = FlxRect.get(); }
+					noteSustain.clipRect.set(0, (targetStrum.y + targetStrum.height/2 - noteSustain.y)/noteSustain.scale.y, noteSustain.frameWidth, noteSustain.frameHeight - (targetStrum.y + targetStrum.height/2 - noteSustain.y)/noteSustain.scale.y);
+				}
+			}
+
+			noteSustain.x = targetStrum.x + (targetStrum.width/2) - (noteSustain.width/2);
+
+			//targetPosition.put();
+		});
 	}
+
+	//bopeebo max score moment 34219
 
 	function opponentNoteCheck(){
 		opponentNotesInRange = [false, false, false, false];
 		notes.forEachAlive(function(daNote:Note){
 
-			if(!opponentNotesInRange[daNote.direction] && daNote.inRange && !daNote.mustPress) {opponentNotesInRange[daNote.direction] = true;}
+			if(!opponentNotesInRange[daNote.direction] && daNote.inRange && !daNote.mustPress){ opponentNotesInRange[daNote.direction] = true; }
 
 			if (!daNote.mustPress && daNote.canBeHit && !daNote.wasGoodHit){
 
 				daNote.wasGoodHit = true;
+				if(daNote.sustain != null){ daNote.sustain.started = true; }
 
 				daNote.hitCallback(daNote, dad);
 				healthAdjustOverride = null;
@@ -2438,6 +2507,7 @@ class PlayState extends MusicBeatState
 			note.hitCallback(note, boyfriend);
 
 			if (!note.isSustainNote){
+				if(note.sustain != null){ note.sustain.started = true; }
 				combo++;
 				popUpScore(note, (healthAdjustOverride == null));
 				if(gf.hasAnimation("combo" + combo)){ gf.danceLockout = gf.playAnim("combo" + combo); }
@@ -2933,9 +3003,16 @@ class PlayState extends MusicBeatState
 		combo = 0;
 	}
 
-	function sortNotes(){
+	function sortNotes():Void{
 		notes.members = notes.members.filter(function(note:Note):Bool{ return note != null; });
 		notes.sort(function(order:Int, obj1:Note, obj2:Note){
+			return FlxSort.byValues(order, obj1.strumTime, obj2.strumTime);
+		}, FlxSort.DESCENDING);
+	}
+
+	function sortSustains():Void{
+		noteSustains.members = noteSustains.members.filter(function(noteSustain:NoteSustain):Bool{ return noteSustain != null; });
+		noteSustains.sort(function(order:Int, obj1:NoteSustain, obj2:NoteSustain){
 			return FlxSort.byValues(order, obj1.strumTime, obj2.strumTime);
 		}, FlxSort.DESCENDING);
 	}

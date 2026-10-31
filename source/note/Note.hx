@@ -21,18 +21,12 @@ class Note extends FlxSprite
 
 	public var didTooLateAction:Bool = false;
 
+	public var sustain:NoteSustain = null;
+
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
 	public var isSustainEnd:Bool = true;
 	public var isFake:Bool = false;
-
-	public var noteScore:Float = 1;
-
-	public var playedEditorClick:Bool = false;
-	public var editorBFNote:Bool = false;
-	public var absoluteNumber:Int;
-
-	public var editor = false;
 
 	public var xOffset:Float = 0;
 	public var yOffset:Float = 0;
@@ -58,8 +52,7 @@ class Note extends FlxSprite
 	inline public static final SCROLL_SPEED_MULTIPLIER:Float = 0.45;
 	inline public static final SUSTAIN_SCALE_MULTIPLIER:Float = 14.85;
 
-	public function new(_strumTime:Float, _direction:Int, _type:String, ?_editor = false, ?_prevNote:Note, ?_sustainNote:Bool = false){
-		
+	public function new(_strumTime:Float, _direction:Int, _type:String, ?_prevNote:Note, ?_sustainNote:Bool = false){
 		super();
 
 		if(_type != null){
@@ -76,18 +69,8 @@ class Note extends FlxSprite
 
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
 		y -= 2000;
-
-		editor = _editor;
 		
-		if(!editor){
-			strumTime = _strumTime + Config.offset;
-			if(strumTime < 0) {
-				strumTime = 0;
-			}
-		}
-		else {
-			strumTime = _strumTime;
-		}
+		strumTime = Math.max(_strumTime + Config.offset, 0);
 
 		direction = _direction;
 
@@ -188,7 +171,8 @@ class Note extends FlxSprite
 		// trace(prevNote);
 
 		if(isSustainNote && prevNote != null){
-			alpha = 0.6;
+			alpha = 0.1;
+			//alpha = 0;
 
 			xOffset += width / 2;
 			
@@ -217,59 +201,54 @@ class Note extends FlxSprite
 		if(noteSkin.info.functions.create != null){
 			noteSkin.info.functions.create(this);
 		}
-
 	}
 
 	override function update(elapsed:Float){
-
 		super.update(elapsed);
 
-		if(!editor){
-			if (mustPress){
-				if(isSustainNote){
-					canBeHit = (strumTime < Conductor.songPosition + Conductor.badZone && (prevNote == null ? true : prevNote.wasGoodHit));
-					if(wasGoodHit && isSustainEnd && (Config.noteSplashType == 1 || Config.noteSplashType == 4)){
-						visible = false;
-						if(prevNote != null && prevNote.isSustainNote){
-							prevNote.visible = false;
-						}
+		if(mustPress){
+			if(isSustainNote){
+				canBeHit = (strumTime < Conductor.songPosition + Conductor.badZone && (prevNote == null ? true : prevNote.wasGoodHit));
+				if(wasGoodHit && isSustainEnd && (Config.noteSplashType == 1 || Config.noteSplashType == 4)){
+					visible = false;
+					if(prevNote != null && prevNote.isSustainNote){
+						prevNote.visible = false;
 					}
 				}
-				else{
-					canBeHit = (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
-							 && strumTime < Conductor.songPosition + Conductor.safeZoneOffset);
-				}
-
-				if(strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit){
-					tooLate = true;
-				}
-				
 			}
 			else{
-				canBeHit = (strumTime <= Conductor.songPosition);
+				canBeHit = (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
+						 && strumTime < Conductor.songPosition + Conductor.safeZoneOffset);
 			}
 
-			inRange = (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
-					&& strumTime < Conductor.songPosition + Conductor.safeZoneOffset)
-					&& (!wasGoodHit || isSustainNote);
+			if(strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit){
+				tooLate = true;
+			}
+			
+		}
+		else{
+			canBeHit = (strumTime <= Conductor.songPosition);
+		}
 
-			//Glow note stuff.
+		inRange = (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
+				&& strumTime < Conductor.songPosition + Conductor.safeZoneOffset)
+				&& (!wasGoodHit || isSustainNote);
 
-			if(Config.noteGlow){
-				if (canBeHit && !isSustainNote && animation.curAnim.name == "scroll" && canGlow){
-					glow();
-				}
+		//Glow note stuff.
 
-				if (tooLate && !isSustainNote && animation.curAnim.name == "glow"){
-					idle();
-				}
+		if(Config.noteGlow){
+			if(canBeHit && !isSustainNote && animation.curAnim.name == "scroll" && canGlow){
+				glow();
 			}
 
-			if(noteSkin.info.functions.update != null){
-				noteSkin.info.functions.update(this, elapsed);
+			if (tooLate && !isSustainNote && animation.curAnim.name == "glow"){
+				idle();
 			}
 		}
 
+		if(noteSkin.info.functions.update != null){
+			noteSkin.info.functions.update(this, elapsed);
+		}
 	}
 
 	inline public function glow():Void{
