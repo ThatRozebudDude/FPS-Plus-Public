@@ -18,7 +18,6 @@
 
 # NOTE SUSTAIN STUFF
 
-- Scoring.
-- Hud note light up.
 - Add back the ability to have looping anims on hold.
 - Sustain hit/miss callback.
+- NOTE: bopbeebo max score 34219

@@ -1710,7 +1710,7 @@ class PlayState extends MusicBeatState
 			opponentNoteCheck();
 		}
 
-		sustainCheck();
+		sustainCheck(elapsed);
 
 		// playerCovers.forEach(function(cover:NoteHoldCover) {
 		// 	if(!playerNotesInRange[cover.noteDirection] && cover.visible && cover.animation.curAnim.name != "end"){
@@ -1843,8 +1843,6 @@ class PlayState extends MusicBeatState
 			//targetPosition.put();
 		});
 	}
-
-	//bopeebo max score moment 34219
 
 	function opponentNoteCheck(){
 		opponentNotesInRange = [false, false, false, false];
@@ -2270,9 +2268,22 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	private function sustainCheck():Void{
+	private function sustainCheck(elapsed:Float):Void{
 		for(sustain in activeSustains){
+			sustain.stepTimer += elapsed;
+
 			if(sustain.mustPress){
+				if(sustain.stepTimer > Conductor.getStepCrotchet()){ //Every step during the hold.
+					sustain.stepTimer = 0;
+					playerStrums.members[sustain.direction].animation.play("confirm", true);
+
+					final scoreToGive:Int = Std.int(Math.min(Math.max(0, sustain.maxScore - sustain.scoreGiven), Scoring.HOLD_SCORE_PER_SECOND * Conductor.getStepCrotchet()));
+					songStats.score += scoreToGive;
+					sustain.scoreGiven += scoreToGive;
+
+					adjustHealthWithModifier(Scoring.HOLD_HEAL_AMOUNT_PER_SECOND * Conductor.getStepCrotchet());
+				}
+
 				if(!autoplay){ //Player input.
 					var keyDown:Bool = false;
 
@@ -2285,33 +2296,25 @@ class PlayState extends MusicBeatState
 
 					if(Conductor.songPosition >= (sustain.strumTime + sustain.length) - Conductor.badZone){
 						sustainsToDestroy.push(sustain);
-						playerCovers.forEachAlive(function(cover:NoteHoldCover){
-							if(Math.abs(sustain.direction) == cover.noteDirection){
-								cover.end(true);
-							}
-						});
+						playerCovers.members[sustain.direction].end(true);
+						playerStrums.members[sustain.direction].animation.play("confirm", true);
 						songStats.susCount++;
+						songStats.score += Std.int(Math.max(0, sustain.maxScore - sustain.scoreGiven));
 						//trace("good");
 					}
 					else if(!keyDown){
 						sustainsToDestroy.push(sustain);
-						playerCovers.forEachAlive(function(cover:NoteHoldCover){
-							if(Math.abs(sustain.direction) == cover.noteDirection){
-								cover.end(false);
-							}
-						});
+						playerCovers.members[sustain.direction].end(false);
 						//trace("drop");
 					}
 				}
 				else{ //Autoplay
 					if(Conductor.songPosition >= (sustain.strumTime + sustain.length) - Conductor.badZone){
 						sustainsToDestroy.push(sustain);
-						playerCovers.forEachAlive(function(cover:NoteHoldCover){
-							if(Math.abs(sustain.direction) == cover.noteDirection){
-								cover.end(true);
-							}
-						});
+						playerCovers.members[sustain.direction].end(true);
+						playerStrums.members[sustain.direction].animation.play("confirm", true);
 						songStats.susCount++;
+						songStats.score += Std.int(Math.max(0, sustain.maxScore - sustain.scoreGiven));
 						//trace("bot");
 					}
 				}
@@ -2319,13 +2322,15 @@ class PlayState extends MusicBeatState
 				boyfriend.holdTimer = 0;
 			}
 			else{ //Opponent.
+				if(sustain.stepTimer > Conductor.getStepCrotchet()){ //Every step during the hold.
+					sustain.stepTimer = 0;
+					enemyStrums.members[sustain.direction].animation.play("confirm", true);
+				}
+
 				if(Conductor.songPosition >= sustain.strumTime + sustain.length){
 					sustainsToDestroy.push(sustain);
-					enemyCovers.forEachAlive(function(cover:NoteHoldCover){
-						if(Math.abs(sustain.direction) == cover.noteDirection){
-							cover.end(false);
-						}
-					});
+					enemyCovers.members[sustain.direction].end(false);
+					enemyStrums.members[sustain.direction].animation.play("confirm", true);
 					//trace("opponent");
 				}
 

@@ -32,7 +32,8 @@ class NoteSustain extends FlxSprite
 	var sustainShader:SustainShader;
 
 	public var maxScore:Int;
-	public var scoreGiven:Int;
+	public var scoreGiven:Int = 0;
+	public var stepTimer:Float = 0;
 
 	public function new(_strumTime:Float, _length:Float, _direction:Int, _mustPress:Bool, _type:String, ?_parent:Note){
 		super();
@@ -55,6 +56,8 @@ class NoteSustain extends FlxSprite
 
 		alpha = noteSkin.info.holdAlpha;
 		blend = noteSkin.info.holdBlend;
+
+		maxScore = Std.int(Scoring.HOLD_SCORE_PER_SECOND * ((length/1000) /*+ Conductor.getStepCrotchet(_strumTime)*/));
 	}
 
 	public function setSustainLength(scrollSpeed:Float):Void{
