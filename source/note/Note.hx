@@ -23,11 +23,6 @@ class Note extends FlxSprite
 
 	public var sustain:NoteSustain = null;
 
-	public var sustainLength:Float = 0;
-	public var isSustainNote:Bool = false;
-	public var isSustainEnd:Bool = true;
-	public var isFake:Bool = false;
-
 	public var xOffset:Float = 0;
 	public var yOffset:Float = 0;
 
@@ -40,8 +35,6 @@ class Note extends FlxSprite
 	public var noteSplashOverride:String;
 	public var holdCoverOverride:String;
 
-	var graphicScale:Float;
-
 	public static var defaultSkin:String = "Default";
 
 	inline public static final PURPLE_NOTE:Int = 0;
@@ -52,7 +45,7 @@ class Note extends FlxSprite
 	inline public static final SCROLL_SPEED_MULTIPLIER:Float = 0.45;
 	inline public static final SUSTAIN_SCALE_MULTIPLIER:Float = 14.85;
 
-	public function new(_strumTime:Float, _direction:Int, _type:String, ?_prevNote:Note, ?_sustainNote:Bool = false){
+	public function new(_strumTime:Float, _direction:Int, _type:String, ?_prevNote:Note){
 		super();
 
 		if(_type != null){
@@ -65,7 +58,6 @@ class Note extends FlxSprite
 		}
 
 		prevNote = _prevNote;
-		isSustainNote = _sustainNote;
 
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
 		y -= 2000;
@@ -101,98 +93,44 @@ class Note extends FlxSprite
 		var path = defaultPath;
 		var paths = defaultPaths;
 		var frameLoadType = defaultLoadType;
-		if(!isSustainNote){
-			if(noteSkin.info.noteInfoList[direction].pathOverride != null){ path = noteSkin.info.noteInfoList[direction].pathOverride; }
-			if(noteSkin.info.noteInfoList[direction].pathsOverride != null){ paths = noteSkin.info.noteInfoList[direction].pathsOverride; }
-			if(noteSkin.info.noteInfoList[direction].frameLoadTypeOverride != null){ frameLoadType = noteSkin.info.noteInfoList[direction].frameLoadTypeOverride; }
-			switch(frameLoadType){
-				case sparrow:
-					frames = Paths.getSparrowAtlas(path);
-				case packer:
-					frames = Paths.getPackerAtlas(path);
-				case load(fw, fh):
-					loadGraphic(Paths.image(path), true, fw, fh);
-				case multiSparrow:
-					frames = Paths.getMultipleSparrowAtlas(paths);
-				default:
-					trace("not supported, sorry :[");
-			}
-			switch(noteSkin.info.noteInfoList[direction].scrollAnim.type){
-				case prefix:
-					animation.addByPrefix("scroll", noteSkin.info.noteInfoList[direction].scrollAnim.data.prefix, noteSkin.info.noteInfoList[direction].scrollAnim.data.framerate, true, noteSkin.info.noteInfoList[direction].scrollAnim.data.flipX, noteSkin.info.noteInfoList[direction].scrollAnim.data.flipY);
-				case frame:
-					animation.add("scroll", noteSkin.info.noteInfoList[direction].scrollAnim.data.frames, noteSkin.info.noteInfoList[direction].scrollAnim.data.framerate, true, noteSkin.info.noteInfoList[direction].scrollAnim.data.flipX, noteSkin.info.noteInfoList[direction].scrollAnim.data.flipY);
-			}
-			if(canGlow){
-				switch(noteSkin.info.noteInfoList[direction].glowAnim.type){
-					case prefix:
-						animation.addByPrefix("glow", noteSkin.info.noteInfoList[direction].glowAnim.data.prefix, noteSkin.info.noteInfoList[direction].glowAnim.data.framerate, true, noteSkin.info.noteInfoList[direction].glowAnim.data.flipX, noteSkin.info.noteInfoList[direction].glowAnim.data.flipY);
-					case frame:
-						animation.add("glow", noteSkin.info.noteInfoList[direction].glowAnim.data.frames, noteSkin.info.noteInfoList[direction].glowAnim.data.framerate, true, noteSkin.info.noteInfoList[direction].glowAnim.data.flipX, noteSkin.info.noteInfoList[direction].glowAnim.data.flipY);
-				}
-			}
+		if(noteSkin.info.noteInfoList[direction].pathOverride != null){ path = noteSkin.info.noteInfoList[direction].pathOverride; }
+		if(noteSkin.info.noteInfoList[direction].pathsOverride != null){ paths = noteSkin.info.noteInfoList[direction].pathsOverride; }
+		if(noteSkin.info.noteInfoList[direction].frameLoadTypeOverride != null){ frameLoadType = noteSkin.info.noteInfoList[direction].frameLoadTypeOverride; }
+		switch(frameLoadType){
+			case sparrow:
+				frames = Paths.getSparrowAtlas(path);
+			case packer:
+				frames = Paths.getPackerAtlas(path);
+			case load(fw, fh):
+				loadGraphic(Paths.image(path), true, fw, fh);
+			case multiSparrow:
+				frames = Paths.getMultipleSparrowAtlas(paths);
+			default:
+				trace("not supported, sorry :[");
 		}
-		else{
-			if(noteSkin.info.sustainInfoList[direction].pathOverride != null){ path = noteSkin.info.sustainInfoList[direction].pathOverride; }
-			if(noteSkin.info.sustainInfoList[direction].pathsOverride != null){ paths = noteSkin.info.sustainInfoList[direction].pathsOverride; }
-			if(noteSkin.info.sustainInfoList[direction].frameLoadTypeOverride != null){ frameLoadType = noteSkin.info.sustainInfoList[direction].frameLoadTypeOverride; }
-			switch(frameLoadType){
-				case sparrow:
-					frames = Paths.getSparrowAtlas(path);
-				case packer:
-					frames = Paths.getPackerAtlas(path);
-				case load(fw, fh):
-					loadGraphic(Paths.image(path), true, fw, fh);
-				case multiSparrow:
-					frames = Paths.getMultipleSparrowAtlas(paths);
-				default:
-					trace("not supported, sorry :[");
-			}
-			switch(noteSkin.info.sustainInfoList[direction].holdAnim.type){
+		switch(noteSkin.info.noteInfoList[direction].scrollAnim.type){
+			case prefix:
+				animation.addByPrefix("scroll", noteSkin.info.noteInfoList[direction].scrollAnim.data.prefix, noteSkin.info.noteInfoList[direction].scrollAnim.data.framerate, true, noteSkin.info.noteInfoList[direction].scrollAnim.data.flipX, noteSkin.info.noteInfoList[direction].scrollAnim.data.flipY);
+			case frame:
+				animation.add("scroll", noteSkin.info.noteInfoList[direction].scrollAnim.data.frames, noteSkin.info.noteInfoList[direction].scrollAnim.data.framerate, true, noteSkin.info.noteInfoList[direction].scrollAnim.data.flipX, noteSkin.info.noteInfoList[direction].scrollAnim.data.flipY);
+		}
+		if(canGlow){
+			switch(noteSkin.info.noteInfoList[direction].glowAnim.type){
 				case prefix:
-					animation.addByPrefix("hold", noteSkin.info.sustainInfoList[direction].holdAnim.data.prefix, noteSkin.info.sustainInfoList[direction].holdAnim.data.framerate, true, noteSkin.info.sustainInfoList[direction].holdAnim.data.flipX, noteSkin.info.sustainInfoList[direction].holdAnim.data.flipY);
+					animation.addByPrefix("glow", noteSkin.info.noteInfoList[direction].glowAnim.data.prefix, noteSkin.info.noteInfoList[direction].glowAnim.data.framerate, true, noteSkin.info.noteInfoList[direction].glowAnim.data.flipX, noteSkin.info.noteInfoList[direction].glowAnim.data.flipY);
 				case frame:
-					animation.add("hold", noteSkin.info.sustainInfoList[direction].holdAnim.data.frames, noteSkin.info.sustainInfoList[direction].holdAnim.data.framerate, true, noteSkin.info.sustainInfoList[direction].holdAnim.data.flipX, noteSkin.info.sustainInfoList[direction].holdAnim.data.flipY);
-			}
-			switch(noteSkin.info.sustainInfoList[direction].endAnim.type){
-				case prefix:
-					animation.addByPrefix("holdEnd", noteSkin.info.sustainInfoList[direction].endAnim.data.prefix, noteSkin.info.sustainInfoList[direction].endAnim.data.framerate, true, noteSkin.info.sustainInfoList[direction].endAnim.data.flipX, noteSkin.info.sustainInfoList[direction].endAnim.data.flipY);
-				case frame:
-					animation.add("holdEnd", noteSkin.info.sustainInfoList[direction].endAnim.data.frames, noteSkin.info.sustainInfoList[direction].endAnim.data.framerate, true, noteSkin.info.sustainInfoList[direction].endAnim.data.flipX, noteSkin.info.sustainInfoList[direction].endAnim.data.flipY);
+					animation.add("glow", noteSkin.info.noteInfoList[direction].glowAnim.data.frames, noteSkin.info.noteInfoList[direction].glowAnim.data.framerate, true, noteSkin.info.noteInfoList[direction].glowAnim.data.flipX, noteSkin.info.noteInfoList[direction].glowAnim.data.flipY);
 			}
 		}
 
-		setGraphicSize(Std.int(width * noteSkin.info.scale));
+		scale.set(noteSkin.info.scale, noteSkin.info.scale);
 		updateHitbox();
-		graphicScale = scale.x;
+		scrollFactor.set(0, 0);
 
 		animation.play("scroll");
 
-		// trace(prevNote);
-
-		if(isSustainNote && prevNote != null){
-			alpha = 0.1;
-			//alpha = 0;
-
-			xOffset += width / 2;
-			
-			flipY = Config.downscroll;
-
-			animation.play("holdEnd");
-
-			updateHitbox();
-
-			xOffset -= width / 2;
-
-			if(prevNote.isSustainNote){
-				prevNote.isSustainEnd = false;
-				prevNote.animation.play("hold");
-				prevNote.updateHoldLength();
-			}
-
-			xOffset += noteSkin.info.holdOffsets[direction].x;
-			yOffset += noteSkin.info.holdOffsets[direction].y;
-		}
+		alpha = noteSkin.info.alpha;
+		blend = noteSkin.info.blend;
 
 		xOffset += noteSkin.info.offsets[direction].x;
 		yOffset += noteSkin.info.offsets[direction].y;
@@ -207,19 +145,7 @@ class Note extends FlxSprite
 		super.update(elapsed);
 
 		if(mustPress){
-			if(isSustainNote){
-				canBeHit = (strumTime < Conductor.songPosition + Conductor.badZone && (prevNote == null ? true : prevNote.wasGoodHit));
-				if(wasGoodHit && isSustainEnd && (Config.noteSplashType == 1 || Config.noteSplashType == 4)){
-					visible = false;
-					if(prevNote != null && prevNote.isSustainNote){
-						prevNote.visible = false;
-					}
-				}
-			}
-			else{
-				canBeHit = (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
-						 && strumTime < Conductor.songPosition + Conductor.safeZoneOffset);
-			}
+			canBeHit = (strumTime > Conductor.songPosition - Conductor.safeZoneOffset && strumTime < Conductor.songPosition + Conductor.safeZoneOffset);
 
 			if(strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit){
 				tooLate = true;
@@ -232,16 +158,16 @@ class Note extends FlxSprite
 
 		inRange = (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
 				&& strumTime < Conductor.songPosition + Conductor.safeZoneOffset)
-				&& (!wasGoodHit || isSustainNote);
+				&& (!wasGoodHit);
 
 		//Glow note stuff.
 
 		if(Config.noteGlow){
-			if(canBeHit && !isSustainNote && animation.curAnim.name == "scroll" && canGlow){
+			if(canBeHit && animation.curAnim.name == "scroll" && canGlow){
 				glow();
 			}
 
-			if (tooLate && !isSustainNote && animation.curAnim.name == "glow"){
+			if (tooLate && animation.curAnim.name == "glow"){
 				idle();
 			}
 		}
@@ -269,24 +195,6 @@ class Note extends FlxSprite
 		if(noteSkin.info.functions.step != null){
 			noteSkin.info.functions.step(this, curStep);
 		}
-	}
-
-	public function updateHoldLength(_speedMultiplier:Float = 1){
-		if(!isSustainNote || isSustainEnd){ return; }
-
-		var speed = PlayState.chart.meta.scroll;
-		if(Config.scrollSpeedOverride > 0){
-			speed = Config.scrollSpeedOverride;
-		}
-		speed *= _speedMultiplier;
-
-		scale.y = graphicScale;
-		scale.y *= Conductor.getStepCrotchet(strumTime) * SUSTAIN_SCALE_MULTIPLIER * speed;
-		scale.y *= noteSkin.info.holdScaleAdjust;
-		scale.y *= isFake ? 0.5 : 1;
-		updateHitbox();
-
-		if(isFake){ yOffset = noteSkin.info.offset.y + height + noteSkin.info.holdOffset.y; }
 	}
 
 	override public function destroy() {

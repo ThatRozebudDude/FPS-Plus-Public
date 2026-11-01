@@ -1,5 +1,6 @@
 package note;
 
+import openfl.display.BlendMode;
 import characters.CharacterInfoBase.AnimData;
 import characters.CharacterInfoBase.AnimType;
 import characters.CharacterInfoBase.FrameLoadType;
@@ -45,6 +46,11 @@ typedef NoteSkinInfo = {
 	var holdOffsets:Array<FlxPoint>;
 	var offset:FlxPointManager;
 	var holdOffset:FlxPointManager;
+
+	var alpha:Float;
+	var holdAlpha:Float;
+	var blend:BlendMode;
+	var holdBlend:BlendMode;
 
 	var noteSplashOverride:String;
 	var holdCoverOverride:String;
@@ -139,6 +145,10 @@ class NoteSkinBase
 
 		canGlow: true,
 		scale: 0.7,
+		alpha: 1,
+		holdAlpha: 0.6,
+		blend: BlendMode.NORMAL,
+		holdBlend: BlendMode.NORMAL,
 		holdScaleAdjust: 1,
 		antialiasing: true,
 		offsets: [FlxPoint.get(), FlxPoint.get(), FlxPoint.get(), FlxPoint.get()],

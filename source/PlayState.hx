@@ -207,6 +207,8 @@ class PlayState extends MusicBeatState
 	public var unspawnNotes:Array<Note> = [];
 	public var unspawnSustains:Array<NoteSustain> = [];
 
+	public var activeSustains:Array<NoteSustain> = [];
+
 	public var playerNotesInRange:Array<Bool> = [false, false, false, false];
 	public var opponentNotesInRange:Array<Bool> = [false, false, false, false];
 	
@@ -219,7 +221,7 @@ class PlayState extends MusicBeatState
 	inline function get_anyOpponentNoteInRange():Bool{
 		return opponentNotesInRange[0] || opponentNotesInRange[1] || opponentNotesInRange[2] || opponentNotesInRange[3];
 	}
-
+ 
 	public var strumLineVerticalPosition:Float = Config.downscroll ? 625 : 95;
 
 	private static var prevCamFollow:FlxObject;
@@ -236,7 +238,6 @@ class PlayState extends MusicBeatState
 	public var deathCharacterOverride:Null<String> = null;
 
 	public var combo:Int = 0;
-	public var totalPlayed:Int = 0;
 
 	public var healthBar:FlxSprite;
 	public var healthBarShader:SplitBarShader;
@@ -1114,8 +1115,6 @@ class PlayState extends MusicBeatState
 			}
 
 			var swagNote:Note = new Note(noteData.time, noteData.direction, noteData.tag, oldNote);
-			swagNote.sustainLength = noteData.length;
-			swagNote.scrollFactor.set(0, 0);
 
 			oldNote = swagNote;
 			
@@ -1134,27 +1133,6 @@ class PlayState extends MusicBeatState
 			unspawnNotes.push(swagNote);
 
 			if(noteData.length > 0){
-				// for(susNote in 0...(noteData.length + 1)){
-				// 	var makeFake = false;
-				// 	var timeAdd = 0.0;
-				// 	if(susNote == 0){
-				// 		makeFake = true;
-				// 		timeAdd = 0.1;
-				// 	}
-	
-				// 	var sustainNote:Note = new Note(noteData.time + (Conductor.getStepCrotchetMs(noteData.time) * susNote) + timeAdd, noteData.direction, noteData.tag, oldNote, true);
-				// 	sustainNote.isFake = makeFake;
-				// 	sustainNote.scrollFactor.set();
-				// 	sustainNote.mustPress = noteData.player;
-				// 	sustainNote.alpha *= makeFake ? 0.5 : 1;
-
-				// 	oldNote = sustainNote;
-
-				// 	setNoteHitCallback(sustainNote);
-
-				// 	unspawnNotes.push(sustainNote);
-				// }
- 
 				//new sustain test stuff
 				var finalLength:Float = 0;
 				for(l in 0...noteData.length){
@@ -1162,7 +1140,8 @@ class PlayState extends MusicBeatState
 				}
 
 				var noteSustain:NoteSustain = new NoteSustain(noteData.time, finalLength, noteData.direction, noteData.player, noteData.tag, swagNote);
-				noteSustain.setSustainLength(FlxMath.roundDecimal(chart.meta.scroll, 2));
+				final scrollSpeed = (Config.scrollSpeedOverride > 0 ? Config.scrollSpeedOverride : FlxMath.roundDecimal(chart.meta.scroll, 2)) * (noteSustain.mustPress ? scrollSpeedMultiplierPlayer : scrollSpeedMultiplierOpponent);
+				noteSustain.setSustainLength(scrollSpeed);
 				unspawnSustains.push(noteSustain);
 
 				swagNote.sustain = noteSustain;
@@ -1731,17 +1710,19 @@ class PlayState extends MusicBeatState
 			opponentNoteCheck();
 		}
 
-		playerCovers.forEach(function(cover:NoteHoldCover) {
-			if(!playerNotesInRange[cover.noteDirection] && cover.visible && cover.animation.curAnim.name != "end"){
-				cover.end(false);
-			}
-		});
+		sustainCheck();
 
-		enemyCovers.forEach(function(cover:NoteHoldCover) {
-			if(!opponentNotesInRange[cover.noteDirection] && cover.visible && cover.animation.curAnim.name != "end"){
-				cover.end(false);
-			}
-		});
+		// playerCovers.forEach(function(cover:NoteHoldCover) {
+		// 	if(!playerNotesInRange[cover.noteDirection] && cover.visible && cover.animation.curAnim.name != "end"){
+		// 		cover.end(false);
+		// 	}
+		// });
+
+		// enemyCovers.forEach(function(cover:NoteHoldCover) {
+		// 	if(!opponentNotesInRange[cover.noteDirection] && cover.visible && cover.animation.curAnim.name != "end"){
+		// 		cover.end(false);
+		// 	}
+		// });
 
 		#if debug
 		if (FlxG.keys.justPressed.ONE)
@@ -1805,34 +1786,20 @@ class PlayState extends MusicBeatState
 
 			if(Config.downscroll){
 				note.y = (targetStrum.y + (Conductor.songPosition - note.strumTime) * (Note.SCROLL_SPEED_MULTIPLIER * scrollSpeed)) - note.yOffset;
-				if(note.isSustainNote){
-					note.y -= note.height;
-					note.y += 125;
-
-					if ((!note.mustPress || note.wasGoodHit || note.prevNote.wasGoodHit && !note.canBeHit) && note.y - note.offset.y * note.scale.y + note.height >= (targetStrum.y + targetStrum.height/2)){
-						//Clip to strumline.
-						if(note.clipRect == null){ note.clipRect = FlxRect.get(); }
-						note.clipRect.set(0, note.frameHeight - (targetStrum.y + targetStrum.height/2 - note.y)/note.scale.y, note.frameWidth, (targetStrum.y + targetStrum.height/2 - note.y)/note.scale.y);
-					}
-				}
 			}
 			else {
 				note.y = (targetStrum.y - (Conductor.songPosition - note.strumTime) * (Note.SCROLL_SPEED_MULTIPLIER * scrollSpeed)) + note.yOffset;
-				if(note.isSustainNote){
-					if ((!note.mustPress || note.wasGoodHit || note.prevNote.wasGoodHit && !note.canBeHit) && note.y + note.offset.y * note.scale.y <= (targetStrum.y + targetStrum.height/2)){
-						//Clip to strumline.
-						if(note.clipRect == null){ note.clipRect = FlxRect.get(); }
-						note.clipRect.set(0, (targetStrum.y + targetStrum.height/2 - note.y)/note.scale.y, note.frameWidth, note.frameHeight - (targetStrum.y + targetStrum.height/2 - note.y)/note.scale.y);
-					}
-				}
 			}
 
 			note.x = targetStrum.x + note.xOffset;
 
 			if(note.tooLate){
-				if(!note.didTooLateAction && !note.isFake){
+				if(!note.didTooLateAction){
 					noteMiss(note, note.missCallback, Scoring.MISS_DAMAGE_AMOUNT, true, true);
 					if(canChangeVocalVolume){ vocals.volume = 0; }
+					if(note.sustain != null){
+						destroySustain(note.sustain);
+					}
 					note.didTooLateAction = true;
 				}
 			}
@@ -1888,7 +1855,7 @@ class PlayState extends MusicBeatState
 			if (!daNote.mustPress && daNote.canBeHit && !daNote.wasGoodHit){
 
 				daNote.wasGoodHit = true;
-				if(daNote.sustain != null){ daNote.sustain.started = true; }
+				if(daNote.sustain != null){ startSustain(daNote.sustain); }
 
 				daNote.hitCallback(daNote, dad);
 				healthAdjustOverride = null;
@@ -1898,8 +1865,6 @@ class PlayState extends MusicBeatState
 						spr.animation.play('confirm', true);
 					}
 				});
-
-				//dad.holdTimer = 0;
 
 				switch(vocalType){
 					case splitVocalTrack:
@@ -1914,28 +1879,7 @@ class PlayState extends MusicBeatState
 				}
 				for(script in scripts){ script.noteHit(dad, daNote); }
 					
-
-				if(!daNote.isSustainNote){
-					daNote.destroy();
-				}
-				else{
-					if(daNote.prevNote == null || !daNote.prevNote.isSustainNote){
-						/*enemyCovers.forEach(function(cover:NoteHoldCover) {
-							if (Math.abs(daNote.direction) == cover.noteDirection) {
-								cover.start();
-							}
-						});*/
-						startHoldCover(daNote);
-					}
-					else if(daNote.isSustainEnd){
-						enemyCovers.forEachAlive(function(cover:NoteHoldCover) {
-							if (Math.abs(daNote.direction) == cover.noteDirection) {
-								cover.end(false);
-							}
-						});
-					}
-				}
-
+				daNote.destroy();
 			}
 		});
 	}
@@ -2125,12 +2069,12 @@ class PlayState extends MusicBeatState
 		add(noteSplash);
 	}
 
-	private function startHoldCover(note:Note){
-		if(note.mustPress){
+	private function startHoldCover(noteSustain:NoteSustain){
+		if(noteSustain.mustPress){
 			playerCovers.forEachAlive(function(cover:NoteHoldCover){
-				if(cover.ID == note.direction){
-					if((note.holdCoverOverride == null && cover.coverSkin != NoteHoldCover.defaultSkin) || (note.holdCoverOverride != null && cover.coverSkin != note.holdCoverOverride)){
-						cover.coverSkin = note.holdCoverOverride == null ? NoteHoldCover.defaultSkin : note.holdCoverOverride;
+				if(cover.ID == noteSustain.direction){
+					if((noteSustain.holdCoverOverride == null && cover.coverSkin != NoteHoldCover.defaultSkin) || (noteSustain.holdCoverOverride != null && cover.coverSkin != noteSustain.holdCoverOverride)){
+						cover.coverSkin = noteSustain.holdCoverOverride == null ? NoteHoldCover.defaultSkin : noteSustain.holdCoverOverride;
 						cover.loadSkin();
 					}
 					cover.start();
@@ -2139,9 +2083,9 @@ class PlayState extends MusicBeatState
 		}
 		else{
 			enemyCovers.forEachAlive(function(cover:NoteHoldCover){
-				if(cover.ID == note.direction){
-					if((note.holdCoverOverride == null && cover.coverSkin != NoteHoldCover.defaultSkin) || (note.holdCoverOverride != null && cover.coverSkin != note.holdCoverOverride)){
-						cover.coverSkin = note.holdCoverOverride == null ? NoteHoldCover.defaultSkin : note.holdCoverOverride;
+				if(cover.ID == noteSustain.direction){
+					if((noteSustain.holdCoverOverride == null && cover.coverSkin != NoteHoldCover.defaultSkin) || (noteSustain.holdCoverOverride != null && cover.coverSkin != noteSustain.holdCoverOverride)){
+						cover.coverSkin = noteSustain.holdCoverOverride == null ? NoteHoldCover.defaultSkin : noteSustain.holdCoverOverride;
 						cover.loadSkin();
 					}
 					cover.start();
@@ -2151,7 +2095,6 @@ class PlayState extends MusicBeatState
 	}
 
 	private function keyCheck():Void{
-
 		upTime = Binds.pressed("gameplayUp") ? upTime + 1 : 0;
 		downTime = Binds.pressed("gameplayDown") ? downTime + 1 : 0;
 		leftTime = Binds.pressed("gameplayLeft") ? leftTime + 1 : 0;
@@ -2194,11 +2137,9 @@ class PlayState extends MusicBeatState
 		| |^
 		^ |
 		====*/
-
 	}
 
 	private function keyShit():Void{
-
 		var controlArray:Array<Bool> = [leftPress, downPress, upPress, rightPress];
 
 		playerNotesInRange = [false, false, false, false];
@@ -2241,71 +2182,6 @@ class PlayState extends MusicBeatState
 				badNoteCheck();
 			}
 		}
-		
-		notes.forEachAlive(function(daNote:Note) {
-			if ((upHold || rightHold || downHold || leftHold)){
-				if (daNote.canBeHit && daNote.mustPress && daNote.isSustainNote && !daNote.wasGoodHit)
-				{
-
-					//boyfriend.holdTimer = 0;
-
-					switch (daNote.direction)
-					{
-						// NOTES YOU ARE HOLDING
-						case 2:
-							if (upHold)
-								goodNoteHit(daNote);
-						case 3:
-							if (rightHold)
-								goodNoteHit(daNote);
-						case 1:
-							if (downHold)
-								goodNoteHit(daNote);
-						case 0:
-							if (leftHold)
-								goodNoteHit(daNote);
-					}
-				}
-			}
-
-			//Guitar Hero Type Held Notes
-			if(daNote.isSustainNote && daNote.mustPress){
-
-				//This is for all subsequent released notes.
-				if(daNote.prevNote.tooLate && !daNote.prevNote.wasGoodHit){
-					daNote.tooLate = true;
-					daNote.destroy();
-					noteMiss(daNote, daNote.missCallback, Scoring.HOLD_DROP_DMAMGE_PER_NOTE * (daNote.isFake ? 0 : 1), false, false, true, Std.int(Scoring.HOLD_DROP_PENALTY_PER_SECOND * Conductor.getStepCrotchet()));
-					//updateAccuracyOld();
-				}
-
-				//This is for the first released note.
-				if(daNote.prevNote.wasGoodHit && !daNote.wasGoodHit){
-
-					if(releaseTimes[daNote.direction] >= releaseBufferTime){
-						noteMiss(daNote, daNote.missCallback, Scoring.HOLD_DROP_INITAL_DAMAGE, true, false, true, Std.int(Scoring.HOLD_DROP_INITIAL_PENALTY_PER_SECOND * Conductor.getStepCrotchet()));
-						if(canChangeVocalVolume){ vocals.volume = 0; }
-						daNote.tooLate = true;
-						daNote.destroy();
-						boyfriend.holdTimer = 0;
-						//updateAccuracyOld();
-
-						playerCovers.forEach(function(cover:NoteHoldCover) {
-							if (Math.abs(daNote.direction) == cover.noteDirection) {
-								cover.end(false);
-							}
-						});
-
-						var recursiveNote = daNote;
-						while(recursiveNote.prevNote != null && recursiveNote.prevNote.exists && recursiveNote.prevNote.isSustainNote){
-							recursiveNote.prevNote.visible = false;
-							recursiveNote = recursiveNote.prevNote;
-						}
-					}
-					
-				}
-			}
-		});
 
 		if (boyfriend.holdTimer > Conductor.getStepCrotchet() * boyfriend.stepsUntilRelease && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
 			if (boyfriend.isSinging){
@@ -2355,7 +2231,6 @@ class PlayState extends MusicBeatState
 	}
 
 	private function keyShitAuto():Void{
-
 		var hitNotes:Array<Note> = [];
 
 		playerNotesInRange = [false, false, false, false];
@@ -2363,7 +2238,7 @@ class PlayState extends MusicBeatState
 		notes.forEachAlive(function(daNote:Note){
 			if(!playerNotesInRange[daNote.direction] && daNote.inRange && daNote.mustPress){ playerNotesInRange[daNote.direction] = true; }
 
-			if (!forceMissNextNote && !daNote.wasGoodHit && daNote.mustPress && daNote.strumTime < Conductor.songPosition + (!daNote.isSustainNote ? Scoring.PERFECT_SCORE_THRESHOLD : Conductor.safeZoneOffset * (daNote.prevNote.wasGoodHit ? 1 : 0))){
+			if (!forceMissNextNote && !daNote.wasGoodHit && daNote.mustPress && daNote.strumTime < Conductor.songPosition + Scoring.PERFECT_SCORE_THRESHOLD){
 				hitNotes.push(daNote);
 			}
 		});
@@ -2393,7 +2268,89 @@ class PlayState extends MusicBeatState
 			});
 
 		}
+	}
 
+	private function sustainCheck():Void{
+		for(sustain in activeSustains){
+			if(sustain.mustPress){
+				if(!autoplay){ //Player input.
+					var keyDown:Bool = false;
+
+					switch(sustain.direction){
+						case 0: keyDown = leftHold;
+						case 1: keyDown = downHold;
+						case 2: keyDown = upHold;
+						case 3: keyDown = rightHold;
+					}
+
+					if(Conductor.songPosition >= (sustain.strumTime + sustain.length) - Conductor.badZone){
+						sustainsToDestroy.push(sustain);
+						playerCovers.forEachAlive(function(cover:NoteHoldCover){
+							if(Math.abs(sustain.direction) == cover.noteDirection){
+								cover.end(true);
+							}
+						});
+						songStats.susCount++;
+						//trace("good");
+					}
+					else if(!keyDown){
+						sustainsToDestroy.push(sustain);
+						playerCovers.forEachAlive(function(cover:NoteHoldCover){
+							if(Math.abs(sustain.direction) == cover.noteDirection){
+								cover.end(false);
+							}
+						});
+						//trace("drop");
+					}
+				}
+				else{ //Autoplay
+					if(Conductor.songPosition >= (sustain.strumTime + sustain.length) - Conductor.badZone){
+						sustainsToDestroy.push(sustain);
+						playerCovers.forEachAlive(function(cover:NoteHoldCover){
+							if(Math.abs(sustain.direction) == cover.noteDirection){
+								cover.end(true);
+							}
+						});
+						songStats.susCount++;
+						//trace("bot");
+					}
+				}
+
+				boyfriend.holdTimer = 0;
+			}
+			else{ //Opponent.
+				if(Conductor.songPosition >= sustain.strumTime + sustain.length){
+					sustainsToDestroy.push(sustain);
+					enemyCovers.forEachAlive(function(cover:NoteHoldCover){
+						if(Math.abs(sustain.direction) == cover.noteDirection){
+							cover.end(false);
+						}
+					});
+					//trace("opponent");
+				}
+
+				dad.holdTimer = 0;
+			}
+		}
+		for(sustain in sustainsToDestroy){
+			activeSustains.remove(sustain);
+			noteSustains.remove(sustain, true);
+			sustain.destroy();
+			sustain = null;
+		}
+		sustainsToDestroy = [];
+	}
+
+	private var sustainsToDestroy:Array<NoteSustain> = [];
+
+	private function startSustain(sustain:NoteSustain):Void{
+		sustain.started = true;
+		activeSustains.push(sustain);
+		startHoldCover(sustain);
+	}
+
+	private function destroySustain(sustain:NoteSustain):Void{
+		sustainsToDestroy.push(sustain);
 	}
 
 	function noteMiss(note:Dynamic, callback:Dynamic, ?healthLoss:Float, ?playAudio:Bool = true, ?countMiss:Bool = true, ?dropCombo:Bool = true, ?scoreAdjust:Null<Int>):Void{
@@ -2489,37 +2446,14 @@ class PlayState extends MusicBeatState
 	}
 
 	function goodNoteHit(note:Note):Void{
-		if (!note.wasGoodHit){
-
-			if(note.isFake){
-				note.wasGoodHit = true;
-				if(note.prevNote == null || !note.prevNote.isSustainNote){
-					/*playerCovers.forEach(function(cover:NoteHoldCover) {
-						if (Math.abs(note.direction) == cover.noteDirection) {
-							cover.start();
-						}
-					});*/
-					startHoldCover(note);
-				}
-				return;
-			}
-			
+		if(!note.wasGoodHit){
 			note.hitCallback(note, boyfriend);
 
-			if (!note.isSustainNote){
-				if(note.sustain != null){ note.sustain.started = true; }
-				combo++;
-				popUpScore(note, (healthAdjustOverride == null));
-				if(gf.hasAnimation("combo" + combo)){ gf.danceLockout = gf.playAnim("combo" + combo); }
-				if(combo > songStats.highestCombo) { songStats.highestCombo = combo; }
-			}
-			else{
-				if(healthAdjustOverride == null){
-					adjustHealthWithModifier(Scoring.HOLD_HEAL_AMOUNT_PER_SECOND * Conductor.getStepCrotchet());
-				}
-				songStats.score += Std.int(Scoring.HOLD_SCORE_PER_SECOND * Conductor.getStepCrotchet());
-				songStats.susCount++;
-			}
+			if(note.sustain != null){ startSustain(note.sustain); }
+			combo++;
+			popUpScore(note, (healthAdjustOverride == null));
+			if(gf.hasAnimation("combo" + combo)){ gf.danceLockout = gf.playAnim("combo" + combo); }
+			if(combo > songStats.highestCombo) { songStats.highestCombo = combo; }
 
 			if(healthAdjustOverride != null){
 				adjustHealthWithModifier(healthAdjustOverride);
@@ -2540,22 +2474,7 @@ class PlayState extends MusicBeatState
 			}
 			for(script in scripts){ script.noteHit(boyfriend, note); }
 
-			if(!note.isSustainNote){
-				note.destroy();
-			}
-			else{
-				if(note.prevNote == null || !note.prevNote.isSustainNote){
-					startHoldCover(note);
-				}
-				else if(note.isSustainEnd){
-					playerCovers.forEachAlive(function(cover:NoteHoldCover) {
-						if (Math.abs(note.direction) == cover.noteDirection) {
-							cover.end(true);
-						}
-					});
-				}
-			}
-
+			note.destroy();
 		}
 	}
 
@@ -2696,38 +2615,38 @@ class PlayState extends MusicBeatState
 	}
 
 	function setNoteHitCallback(note:Note):Void{
-		if(!note.isSustainNote){ //Normal notes
-			if(NoteType.types.exists(note.typePrefix)){
-				var noteType:NoteTypeDefinition = NoteType.types.get(note.typePrefix);
-				if(noteType.noteHit != null){ note.hitCallback = noteType.noteHit; }
-				else{ note.hitCallback = defaultNoteHit; }
-				if(noteType.noteMiss != null){ note.missCallback = noteType.noteMiss; }
-				else{ note.missCallback = defaultNoteMiss; }
-			}
-			else{
-				note.hitCallback = defaultNoteHit;
-				note.missCallback = defaultNoteMiss;
-			}
+		if(NoteType.types.exists(note.typePrefix)){
+			var noteType:NoteTypeDefinition = NoteType.types.get(note.typePrefix);
+			if(noteType.noteHit != null){ note.hitCallback = noteType.noteHit; }
+			else{ note.hitCallback = defaultNoteHit; }
+			if(noteType.noteMiss != null){ note.missCallback = noteType.noteMiss; }
+			else{ note.missCallback = defaultNoteMiss; }
 		}
-		else{ //sustain notes
-			if(NoteType.types.exists(note.typePrefix)){
-				var noteType:NoteTypeDefinition = NoteType.types.get(note.typePrefix);
-				if(noteType.sustainHit != null){ note.hitCallback = noteType.sustainHit; }
-				else{ note.hitCallback = defaultNoteHit; }
-				if(noteType.sustainMiss != null){ note.missCallback = noteType.sustainMiss; }
-				else{ note.missCallback = defaultNoteMiss; }
-			}
-			else{
-				note.hitCallback = defaultNoteHit;
-				note.missCallback = defaultNoteMiss;
-			}
+		else{
+			note.hitCallback = defaultNoteHit;
+			note.missCallback = defaultNoteMiss;
 		}
+	}
+
+	function setSustainHitCallback(noteSustain:NoteSustain):Void{
+		// if(NoteType.types.exists(note.typePrefix)){
+		// 	var noteType:NoteTypeDefinition = NoteType.types.get(note.typePrefix);
+		// 	if(noteType.sustainHit != null){ note.hitCallback = noteType.sustainHit; }
+		// 	else{ note.hitCallback = defaultNoteHit; }
+		// 	if(noteType.sustainMiss != null){ note.missCallback = noteType.sustainMiss; }
+		// 	else{ note.missCallback = defaultNoteMiss; }
+		// }
+		// else{
+		// 	note.hitCallback = defaultNoteHit;
+		// 	note.missCallback = defaultNoteMiss;
+		// }
 	}
 
 	//Moved to a separate function and out of note check so the hit callback function will be run every note hit and not just when the animation is supposed to play.
 	public inline static function characterShouldPlayAnimation(note:Note, character:Character):Bool{
-		return ((character.characterInfo.info.characterPropertyOverrides.loopAnimOnHold != null ? character.characterInfo.info.characterPropertyOverrides.loopAnimOnHold : Character.LOOP_ANIM_ON_HOLD) ? (note.isSustainNote ? ((character.characterInfo.info.characterPropertyOverrides.holdLoopWait != null ? character.characterInfo.info.characterPropertyOverrides.holdLoopWait : Character.HOLD_LOOP_WAIT) ? (!character.isSinging || (character.timeInCurrentAnimation >= (3/24) || character.curAnimFinished())) : true) : true) : !note.isSustainNote)
-			&& ((character.characterInfo.info.characterPropertyOverrides.preventShortSing != null ? character.characterInfo.info.characterPropertyOverrides.preventShortSing : Character.PREVENT_SHORT_SING) ? !Utils.inRange(character.lastSingTime, Conductor.songPosition, (character.characterInfo.info.characterPropertyOverrides.shortSingTolerence != null ? character.characterInfo.info.characterPropertyOverrides.shortSingTolerence : Character.SHORT_SING_TOLERENCE)) : true);
+		// return ((character.characterInfo.info.characterPropertyOverrides.loopAnimOnHold != null ? character.characterInfo.info.characterPropertyOverrides.loopAnimOnHold : Character.LOOP_ANIM_ON_HOLD) ? (note.isSustainNote ? ((character.characterInfo.info.characterPropertyOverrides.holdLoopWait != null ? character.characterInfo.info.characterPropertyOverrides.holdLoopWait : Character.HOLD_LOOP_WAIT) ? (!character.isSinging || (character.timeInCurrentAnimation >= (3/24) || character.curAnimFinished())) : true) : true) : !note.isSustainNote)
+		// 	&& ((character.characterInfo.info.characterPropertyOverrides.preventShortSing != null ? character.characterInfo.info.characterPropertyOverrides.preventShortSing : Character.PREVENT_SHORT_SING) ? !Utils.inRange(character.lastSingTime, Conductor.songPosition, (character.characterInfo.info.characterPropertyOverrides.shortSingTolerence != null ? character.characterInfo.info.characterPropertyOverrides.shortSingTolerence : Character.SHORT_SING_TOLERENCE)) : true);
+		return ((character.characterInfo.info.characterPropertyOverrides.preventShortSing != null ? character.characterInfo.info.characterPropertyOverrides.preventShortSing : Character.PREVENT_SHORT_SING) ? !Utils.inRange(character.lastSingTime, Conductor.songPosition, (character.characterInfo.info.characterPropertyOverrides.shortSingTolerence != null ? character.characterInfo.info.characterPropertyOverrides.shortSingTolerence : Character.SHORT_SING_TOLERENCE)) : true);
 	}
 
 	var bfOnTop:Bool = true;
@@ -2749,7 +2668,6 @@ class PlayState extends MusicBeatState
 	}
 
 	public function getExtraCamMovement(note:Note):Void{
-		if(note.isSustainNote){return;}
 		switch (note.direction){
 			case 0:
 				changeCamOffset(-1 * camOffsetAmount, 0);
@@ -3111,31 +3029,39 @@ class PlayState extends MusicBeatState
 	
 	private function set_scrollSpeedMultiplierPlayer(value:Float):Float{
 		scrollSpeedMultiplierPlayer = value;
-		for(note in unspawnNotes){
-			if(note.isSustainNote && !note.isSustainEnd && note.mustPress){
-				note.updateHoldLength(value);
+
+		final scrollSpeed = (Config.scrollSpeedOverride > 0 ? Config.scrollSpeedOverride : FlxMath.roundDecimal(chart.meta.scroll, 2)) * (scrollSpeedMultiplierPlayer);
+		
+		for(sustain in unspawnSustains){
+			if(sustain.mustPress){
+				sustain.setSustainLength(scrollSpeed);
 			}
 		}
-		notes.forEachAlive(function(note){
-			if(note.isSustainNote && !note.isSustainEnd && note.mustPress){
-				note.updateHoldLength(value);
+		noteSustains.forEachAlive(function(sustain){
+			if(sustain.mustPress){
+				sustain.setSustainLength(scrollSpeed);
 			}
 		});
+
 		return value;
 	}
 
 	private function set_scrollSpeedMultiplierOpponent(value:Float):Float{
 		scrollSpeedMultiplierOpponent = value;
-		for(note in unspawnNotes){
-			if(note.isSustainNote && !note.isSustainEnd && !note.mustPress){
-				note.updateHoldLength(value);
+
+		final scrollSpeed = (Config.scrollSpeedOverride > 0 ? Config.scrollSpeedOverride : FlxMath.roundDecimal(chart.meta.scroll, 2)) * (scrollSpeedMultiplierOpponent);
+
+		for(sustain in unspawnSustains){
+			if(!sustain.mustPress){
+				sustain.setSustainLength(scrollSpeed);
 			}
 		}
-		notes.forEachAlive(function(note){
-			if(note.isSustainNote && !note.isSustainEnd && !note.mustPress){
-				note.updateHoldLength(value);
+		noteSustains.forEachAlive(function(sustain){
+			if(!sustain.mustPress){
+				sustain.setSustainLength(scrollSpeed);
 			}
 		});
+
 		return value;
 	}
 

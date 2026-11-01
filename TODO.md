@@ -14,5 +14,11 @@
 
 # Possible Future Version Features
 
-- Redo sustains so they don't completely suck to work with.
 - Localiztion files.
+
+# NOTE SUSTAIN STUFF
+
+- Scoring.
+- Hud note light up.
+- Add back the ability to have looping anims on hold.
+- Sustain hit/miss callback.

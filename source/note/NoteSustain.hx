@@ -1,6 +1,5 @@
 package note;
 
-import flixel.math.FlxAngle;
 import flixel.graphics.frames.FlxFrame;
 import config.Config;
 import flixel.FlxSprite;
@@ -32,6 +31,9 @@ class NoteSustain extends FlxSprite
 
 	var sustainShader:SustainShader;
 
+	public var maxScore:Int;
+	public var scoreGiven:Int;
+
 	public function new(_strumTime:Float, _length:Float, _direction:Int, _mustPress:Bool, _type:String, ?_parent:Note){
 		super();
 
@@ -50,6 +52,9 @@ class NoteSustain extends FlxSprite
 		}
 
 		getFramesFromNoteSkin();
+
+		alpha = noteSkin.info.holdAlpha;
+		blend = noteSkin.info.holdBlend;
 	}
 
 	public function setSustainLength(scrollSpeed:Float):Void{
