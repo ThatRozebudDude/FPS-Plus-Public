@@ -11,7 +11,7 @@ class DarnellNotes extends NoteType
 		registerNoteType({prefix: "weekend-1-kickcan", noteHit: kickcanHit});
 		registerNoteType({prefix: "weekend-1-kneecan", noteHit: kneecanHit});
 		registerNoteType({prefix: "weekend-1-cockgun", noteHit: cockgunHit, noteMiss: cockgunMiss});
-		registerNoteType({prefix: "weekend-1-firegun", noteHit: firegunHit, noteMiss: firegunMiss});
+		registerNoteType({prefix: "weekend-1-firegun", noteHit: firegunHit, noteMiss: firegunMiss, scoring:{damage: -0.5}});
 	}
 
 	function lightcanHit(note:Note, character:Character){
@@ -68,7 +68,6 @@ class DarnellNotes extends NoteType
 		playstate.executeEvent("phillyStreets-canHit");
 		playstate.camFocusBF();
 		playstate.camChangeZoom(0.85, Conductor.getCrotchet() * 2, FlxEase.expoOut);
-		healthAdjust = -0.5;
 		deathCharacter = "PicoDeadExplode";
 	}
 

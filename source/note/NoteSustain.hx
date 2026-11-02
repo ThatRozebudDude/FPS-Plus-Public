@@ -38,6 +38,11 @@ class NoteSustain extends FlxSprite
 	public var hitCallback:(NoteSustain, Character)->Void = null;
 	public var missCallback:(NoteSustain, Character)->Void = null;
 
+	public var scorePerSecond:Int = 0;
+	public var healingPerSecond:Float = 0;
+	public var missScorePenaltyPerSecond:Int = 0;
+	public var missDamagePerSecond:Float = 0;
+
 	inline public static final SAFE_DROP_TIME:Float = 90; //The time in milliseconds that the sustain finishes early so that releasing the sustain isn't so tight.
 
 	public function new(_strumTime:Float, _length:Float, _direction:Int, _mustPress:Bool, _type:String, ?_parent:Note){
@@ -64,8 +69,6 @@ class NoteSustain extends FlxSprite
 
 		xOffset = noteSkin.info.holdOffsets[direction].x;
 		yOffset = noteSkin.info.holdOffsets[direction].y;
-
-		maxScore = Std.int(Scoring.HOLD_SCORE_PER_SECOND * (length/1000));
 	}
 
 	public function setSustainLength(scrollSpeed:Float):Void{
@@ -159,6 +162,10 @@ class NoteSustain extends FlxSprite
 		sustainShader.flipped.value = [Config.downscroll];
 
 		shader = sustainShader;
+	}
+
+	public function calculateMaxScore():Void{
+		maxScore = Std.int(scorePerSecond * (length/1000));
 	}
 
 }

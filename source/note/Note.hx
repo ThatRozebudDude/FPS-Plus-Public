@@ -37,6 +37,11 @@ class Note extends FlxSprite
 	public var hitCallback:(Note, Character)->Void = null;
 	public var missCallback:Dynamic = null;
 
+	public var scoringFunction:(Float, String)->Int = null;
+	public var hitHealFunction:(Float, String)->Float = null;
+	public var missScorePenalty:Int = 0;
+	public var missDamage:Float = 0;
+
 	var noteSkin:NoteSkinBase;
 	public var canGlow:Bool;
 
@@ -77,7 +82,7 @@ class Note extends FlxSprite
 		var noteSkinClassName:String = defaultSkin;
 
 		if(NoteType.types.exists(typePrefix)){
-			hitRegion = NoteType.types.get(typePrefix).hitRegion;
+			hitRegion = NoteType.types.get(typePrefix).scoring.hitRegion;
 			noteSkinClassName = NoteType.types.get(typePrefix).skin;
 		}
 

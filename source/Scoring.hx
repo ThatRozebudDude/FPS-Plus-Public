@@ -13,24 +13,21 @@ class Scoring
 	public static final SHIT_HEAL_AMOUNT:Float = (-1 / 100) * 2;
 	public static final HOLD_HEAL_AMOUNT_PER_SECOND:Float = (6 / 100) * 2;
 
-	public static final MISS_DAMAGE_AMOUNT:Float = (4 / 100) * 2;
-	public static final WRONG_TAP_DAMAGE_AMOUNT:Float = (2 / 100) * 2;
-	public static final HOLD_DROP_INITAL_DAMAGE:Float = (3 / 100) * 2;
-	public static final HOLD_DROP_DMAMGE_PER_SECOND:Float = (10 / 100) * 2;
+	public static final MISS_DAMAGE_AMOUNT:Float = (-4 / 100) * 2;
+	public static final WRONG_TAP_DAMAGE_AMOUNT:Float = (-2 / 100) * 2;
+	public static final HOLD_DROP_DMAMGE_PER_SECOND:Float = (-10 / 100) * 2;
 
 	public static final PERFECT_SCORE_THRESHOLD:Float = 5.0;
 	public static final MAX_NOTE_SCORE:Int = 500;
 	public static final MIN_NOTE_SCORE:Int = 9;
 	public static final HOLD_SCORE_PER_SECOND:Int = 250;
 	
-	//These values are positive since missing a note subtracts the value from the score.
-	public static final MISS_PENALTY:Int = 100;
-	public static final HOLD_DROP_PENALTY_PER_SECOND:Int = 250;
-	public static final WRONG_PRESS_PENALTY:Int = 10;
+	public static final MISS_PENALTY:Int = -100;
+	public static final HOLD_DROP_PENALTY_PER_SECOND:Int = -250;
+	public static final WRONG_PRESS_PENALTY:Int = -10;
 
 	//This uses the PBOT1 scoring system added in FNF 0.3.0 
-	public static function scoreNote(msTiming:Float):Int{
-
+	public static function defaultScoreNote(msTiming:Float):Int{
 		var absTiming:Float = Math.abs(msTiming);
 		var slope = 0.080;
 		var offset = 54.99;
@@ -42,7 +39,6 @@ class Scoring
 		var factor:Float = 1.0 - (1.0 / (1.0 + Math.exp(-slope * (absTiming - offset))));
 		var score:Int = Std.int(MAX_NOTE_SCORE * factor + MIN_NOTE_SCORE);
 		return score;
-
 	}
 
 	public static function rateNote(msTiming:Float, ?hitRegion:HitRegion, hitRegionFactor:Float = 1):String{

@@ -6,13 +6,27 @@ import events.Events.EventEditorProperties;
 import events.Events;
 import note.*;
 
+typedef NoteScoringProperties = {
+	var scoring:(Float, String)->Int;
+	var healing:(Float, String)->Float;
+	var penalty:Null<Int>;
+	var damage:Null<Float>;
+
+	var sustainScoring:Null<Int>;
+	var sustainHealing:Null<Float>;
+	var sustainPenalty:Null<Int>;
+	var sustainDamage:Null<Float>;
+
+	var hitRegion:HitRegion;
+}
+
 typedef NoteTypeDefinition = {
 	var prefix:String;
 	var noteHit:(Note, Character)->Void;
 	var noteMiss:(Note, Character)->Void;
 	var sustainHit:(NoteSustain, Character)->Void;
 	var sustainMiss:(NoteSustain, Character)->Void;
-	var hitRegion:HitRegion;
+	var scoring:NoteScoringProperties;
 	var skin:String;
 	var editor:EventEditorProperties;
 }
@@ -73,13 +87,25 @@ class NoteType
 		if(definition.prefix != null) {def.prefix = definition.prefix;}
 		else{ trace("NoteType has no prefix"); return; }
 
-		if(definition.noteHit != null) {def.noteHit = definition.noteHit;}
-		if(definition.noteMiss != null) {def.noteMiss = definition.noteMiss;}
-		if(definition.sustainHit != null) {def.sustainHit = definition.sustainHit;}
-		if(definition.sustainMiss != null) {def.sustainMiss = definition.sustainMiss;}
-		if(definition.hitRegion != null) {def.hitRegion = definition.hitRegion;}
-		if(definition.skin != null) {def.skin = definition.skin;}
-		if(definition.editor != null) {
+		if(definition.noteHit != null) { def.noteHit = definition.noteHit; }
+		if(definition.noteMiss != null) { def.noteMiss = definition.noteMiss; }
+		if(definition.sustainHit != null) { def.sustainHit = definition.sustainHit; }
+		if(definition.sustainMiss != null) { def.sustainMiss = definition.sustainMiss; }
+		if(definition.skin != null) { def.skin = definition.skin; }
+		if(definition.scoring != null) {
+			if(definition.scoring.scoring != null)			{ def.scoring.scoring = definition.scoring.scoring; }
+			if(definition.scoring.healing != null)			{ def.scoring.healing = definition.scoring.healing; }
+			if(definition.scoring.penalty != null)			{ def.scoring.penalty = definition.scoring.penalty; }
+			if(definition.scoring.damage != null)			{ def.scoring.damage = definition.scoring.damage; }
+
+			if(definition.scoring.sustainScoring != null)	{ def.scoring.sustainScoring = definition.scoring.sustainScoring; }
+			if(definition.scoring.sustainHealing != null)	{ def.scoring.sustainHealing = definition.scoring.sustainHealing; }
+			if(definition.scoring.sustainPenalty != null)	{ def.scoring.sustainPenalty = definition.scoring.sustainPenalty; }
+			if(definition.scoring.sustainDamage != null)	{ def.scoring.sustainDamage = definition.scoring.sustainDamage; }
+
+			if(definition.scoring.hitRegion != null)		{ def.scoring.hitRegion = definition.scoring.hitRegion; }
+		}
+		if(definition.editor != null){
 			if(definition.editor.description != null)	{ def.editor.description = definition.editor.description; }
 			if(definition.editor.hidden != null)		{ def.editor.hidden = definition.editor.hidden; }
 			if(definition.editor.arguments != null)		{ def.editor.arguments = definition.editor.arguments; }
@@ -122,7 +148,6 @@ class NoteType
 		}
 		if(noteSkinName != null){ localTypes.get(name).skin = noteSkinName; }
 	}
-	#end
 
 	@:isVar var healthAdjust(never, set):Float;
 	@:noCompletion inline function set_healthAdjust(v:Float):Float{ 
@@ -130,6 +155,7 @@ class NoteType
 		PlayState.instance.healthAdjustOverride = v;
 		return v;
 	}
+	#end
 
 	@:isVar var deathCharacter(never, set):String;
 	@:noCompletion inline function set_deathCharacter(v:String):String{ 
@@ -150,7 +176,17 @@ class NoteType
 			noteMiss: null,
 			sustainHit: null,
 			sustainMiss: null,
-			hitRegion: {sick: Note.DEFAULT_SICK_REGION, good: Note.DEFAULT_GOOD_REGION, bad: Note.DEFAULT_BAD_REGION, shit: Note.DEFAULT_SHIT_REGION},
+			scoring: {
+				scoring: null,
+				healing: null,
+				penalty: null,
+				damage: null,
+				sustainScoring: null,
+				sustainHealing: null,
+				sustainPenalty: null,
+				sustainDamage: null,
+				hitRegion: {sick: Note.DEFAULT_SICK_REGION, good: Note.DEFAULT_GOOD_REGION, bad: Note.DEFAULT_BAD_REGION, shit: Note.DEFAULT_SHIT_REGION}
+			},
 			skin: null,
 			editor: Events.generateEventEditorProperties()
 		};

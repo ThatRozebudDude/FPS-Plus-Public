@@ -235,7 +235,7 @@ class PlayState extends MusicBeatState
 
 	public var health:Float = 1;
 	public var healthLerp:Float = 1;
-	public var healthAdjustOverride:Null<Float> = null;
+	#if BACKWARD_COMPATIBILITY public var healthAdjustOverride:Null<Float> = null; #end
 	public var deathCharacterOverride:Null<String> = null;
 
 	public var combo:Int = 0;
@@ -1112,19 +1112,19 @@ class PlayState extends MusicBeatState
 				continue;
 			}
 
-			var swagNote:Note = new Note(noteData.time, noteData.direction, noteData.tag, noteData.player);
+			var note:Note = new Note(noteData.time, noteData.direction, noteData.tag, noteData.player);
 
-			if(swagNote.noteSplashOverride != null && !preloadSplashList.contains(swagNote.noteSplashOverride)){
-				preloadSplashList.push(swagNote.noteSplashOverride);
+			if(note.noteSplashOverride != null && !preloadSplashList.contains(note.noteSplashOverride)){
+				preloadSplashList.push(note.noteSplashOverride);
 			}
 				
-			if(swagNote.holdCoverOverride != null && !preloadCoverList.contains(swagNote.holdCoverOverride)){
-				preloadCoverList.push(swagNote.holdCoverOverride);
+			if(note.holdCoverOverride != null && !preloadCoverList.contains(note.holdCoverOverride)){
+				preloadCoverList.push(note.holdCoverOverride);
 			}
 
-			setNoteHitCallback(swagNote);
+			setNoteFunctions(note);
 				
-			unspawnNotes.push(swagNote);
+			unspawnNotes.push(note);
 
 			if(noteData.length > 0){
 				var finalLength:Float = 0;
@@ -1132,13 +1132,14 @@ class PlayState extends MusicBeatState
 					finalLength += Conductor.getStepCrotchetMs(noteData.time + finalLength);
 				}
 
-				var noteSustain:NoteSustain = new NoteSustain(noteData.time, finalLength, noteData.direction, noteData.player, noteData.tag, swagNote);
+				var noteSustain:NoteSustain = new NoteSustain(noteData.time, finalLength, noteData.direction, noteData.player, noteData.tag, note);
 				final scrollSpeed = (Config.scrollSpeedOverride > 0 ? Config.scrollSpeedOverride : FlxMath.roundDecimal(chart.meta.scroll, 2)) * (noteSustain.mustPress ? scrollSpeedMultiplierPlayer : scrollSpeedMultiplierOpponent);
 				noteSustain.setSustainLength(scrollSpeed);
-				setSustainHitCallback(noteSustain);
+				setSustainFunctions(noteSustain);
+				noteSustain.calculateMaxScore();
 				unspawnSustains.push(noteSustain);
 
-				swagNote.sustain = noteSustain;
+				note.sustain = noteSustain;
 			}
 		}
 
@@ -1789,7 +1790,7 @@ class PlayState extends MusicBeatState
 
 			if(note.tooLate){
 				if(!note.didTooLateAction){
-					noteMiss(note, note.missCallback, Scoring.MISS_DAMAGE_AMOUNT, true, true);
+					noteMiss(note);
 					if(canChangeVocalVolume){ vocals.volume = 0; }
 					if(note.sustain != null){
 						dropSustain(note.sustain);
@@ -1847,12 +1848,10 @@ class PlayState extends MusicBeatState
 			if(!opponentNotesInRange[daNote.direction] && daNote.inRange && !daNote.mustPress){ opponentNotesInRange[daNote.direction] = true; }
 
 			if (!daNote.mustPress && daNote.canBeHit && !daNote.wasGoodHit){
-
 				daNote.wasGoodHit = true;
 				if(daNote.sustain != null){ startSustain(daNote.sustain); }
 
 				daNote.hitCallback(daNote, dad);
-				healthAdjustOverride = null;
 
 				enemyStrums.members[daNote.direction].animation.play("confirm", true);
 
@@ -2012,39 +2011,32 @@ class PlayState extends MusicBeatState
 		return new MainMenuState();
 	}
 
-	private function popUpScore(note:Note, adjustHealth:Bool = true):Void{
-
-		var noteDiff:Float = note.strumTime - Conductor.songPosition;
-		var noHealMultiply:Float = adjustHealth ? 1 : 0;
-
-		songStats.score += Scoring.scoreNote(noteDiff);
-		var rating:String = Scoring.rateNote(noteDiff, note.hitRegion, songPlaybackSpeed);
-
+	private function popUpScore(note:Note, rating:String):Void{
 		switch(rating){
 			case "sick":
-				adjustHealthWithModifier(Scoring.SICK_HEAL_AMOUNT * noHealMultiply);
+				//adjustHealthWithModifier(Scoring.SICK_HEAL_AMOUNT * noHealMultiply);
 				songStats.sickCount++;
 				if(Config.noteSplashType >= 1 && Config.noteSplashType < 4){
 					createNoteSplash(note);
 				}
 			case "good":
-				adjustHealthWithModifier(Scoring.GOOD_HEAL_AMOUNT * noHealMultiply);
+				//adjustHealthWithModifier(Scoring.GOOD_HEAL_AMOUNT * noHealMultiply);
 				songStats.goodCount++;
 			case "bad":
-				adjustHealthWithModifier(Scoring.BAD_HEAL_AMOUNT * noHealMultiply);
+				//adjustHealthWithModifier(Scoring.BAD_HEAL_AMOUNT * noHealMultiply);
 				songStats.badCount++;
 				comboBreak();
 			case "shit":
-				adjustHealthWithModifier(Scoring.SHIT_HEAL_AMOUNT * noHealMultiply);
+				//adjustHealthWithModifier(Scoring.SHIT_HEAL_AMOUNT * noHealMultiply);
 				songStats.shitCount++;
 				comboBreak();
 		}
 
 		ratingPopup(rating);
 
-		if(combo >= minCombo)
+		if(combo >= minCombo){
 			comboPopup(combo);
-
+		}
 	}
 
 	private function createNoteSplash(note:Note){
@@ -2318,12 +2310,12 @@ class PlayState extends MusicBeatState
 			sustain.hitCallback(sustain, boyfriend);
 
 			//Make sure the note can never give more than the max allowed score and when completed it gives the rest of the score if it wasn't given out already.
-			var scoreToGive:Int = Std.int(Math.min(Math.max(0, sustain.maxScore - sustain.scoreGiven), Scoring.HOLD_SCORE_PER_SECOND * Conductor.getStepCrotchet()));
+			var scoreToGive:Int = Std.int(Math.min(Math.max(0, sustain.maxScore - sustain.scoreGiven), sustain.scorePerSecond * Conductor.getStepCrotchet()));
 			if(finished){ scoreToGive = Std.int(Math.max(0, sustain.maxScore - sustain.scoreGiven)); }
 			songStats.score += scoreToGive;
 			sustain.scoreGiven += scoreToGive;
 
-			adjustHealthWithModifier(Scoring.HOLD_HEAL_AMOUNT_PER_SECOND * Conductor.getStepCrotchet());
+			adjustHealthWithModifier(sustain.healingPerSecond * Conductor.getStepCrotchet());
 
 			if(boyfriend.characterInfo.info.functions.sustainHit != null){
 				boyfriend.characterInfo.info.functions.sustainHit(boyfriend, sustain);
@@ -2351,25 +2343,12 @@ class PlayState extends MusicBeatState
 		
 		if(sustain.started){
 			var percentCompleted:Float = Math.max(0, Conductor.songPosition - sustain.strumTime)/sustain.length;
-			songStats.score -= Std.int(Scoring.HOLD_DROP_PENALTY_PER_SECOND * (sustain.length/1000) * (1-percentCompleted));
-			if(healthAdjustOverride == null){
-				adjustHealthWithModifier(-Scoring.HOLD_DROP_DMAMGE_PER_SECOND * (sustain.length/1000) * (1-percentCompleted));
-			}
-			else{
-				adjustHealthWithModifier(healthAdjustOverride * (sustain.length/1000) * (1-percentCompleted));
-				healthAdjustOverride = null;
-			}
+			songStats.score += Std.int(sustain.missScorePenaltyPerSecond * (sustain.length/1000) * (1-percentCompleted));
+			adjustHealthWithModifier(sustain.missDamagePerSecond * (sustain.length/1000) * (1-percentCompleted));
 		}
 		else{
-			songStats.score -= Std.int(Scoring.HOLD_DROP_PENALTY_PER_SECOND * (sustain.length/1000));
-			if(healthAdjustOverride == null){
-				adjustHealthWithModifier(-Scoring.HOLD_DROP_DMAMGE_PER_SECOND * (sustain.length/1000));
-			}
-			else{
-				adjustHealthWithModifier(healthAdjustOverride * (sustain.length/1000));
-				healthAdjustOverride = null;
-			}
-
+			songStats.score += Std.int(sustain.missScorePenaltyPerSecond * (sustain.length/1000));
+			adjustHealthWithModifier(sustain.missDamagePerSecond * (sustain.length/1000));
 		}
 
 		if(boyfriend.characterInfo.info.functions.noteMiss != null){
@@ -2379,53 +2358,39 @@ class PlayState extends MusicBeatState
 		sustainsToDestroy.push(sustain);
 	}
 
-	function noteMiss(note:Dynamic, callback:Dynamic, ?healthLoss:Float, ?playAudio:Bool = true, ?countMiss:Bool = true, ?dropCombo:Bool = true, ?scoreAdjust:Null<Int>):Void{
-		var direction = -1;
-		if(note is Int){ direction = note; }
-		else{ direction = note.direction; }
-
-		if(scoreAdjust == null){
-			scoreAdjust = Scoring.MISS_PENALTY;
-		}
-
+	function noteMiss(note:Note):Void{
 		if(songStarted){
-			if(dropCombo){
-				comboBreak();
-			}
-			
-			if(countMiss){
-				songStats.missCount++;
-				if(Main.launchArguments.flippy_mode) { System.exit(0); }
-			}
-			
-			songStats.score -= scoreAdjust;
-			
-			if(playAudio && boyfriend.missSounds.length > 0){ playMissSound(); }
-			
+			if(Main.launchArguments.flippy_mode) { System.exit(0); }
+
+			comboBreak();
+			songStats.missCount++;
+			songStats.score += note.missScorePenalty;
+			if(boyfriend.missSounds.length > 0){ playMissSound(); }
+			note.missCallback(note, boyfriend);
+			adjustHealthWithModifier(note.missDamage);
+
 			forceMissNextNote = false;
-			
-			callback(note, boyfriend);
-			
-			if(healthAdjustOverride == null){
-				adjustHealthWithModifier(-healthLoss);
-			}
-			else{
-				adjustHealthWithModifier(healthAdjustOverride);
-				healthAdjustOverride = null;
-			}
 
 			if(boyfriend.characterInfo.info.functions.noteMiss != null){
-				boyfriend.characterInfo.info.functions.noteMiss(boyfriend, direction, countMiss);
+				boyfriend.characterInfo.info.functions.noteMiss(boyfriend, note.direction, true);
 			}
-			for(script in scripts){ script.noteMiss(direction, countMiss); }
+			for(script in scripts){ script.noteMiss(note.direction, true); }
 		}
 	}
 
-	inline function noteMissWrongPress(direction:Int = 1):Void{
-		var forceMissNextNoteState = forceMissNextNote;
-		noteMiss(direction, defaultNoteMiss, Scoring.WRONG_TAP_DAMAGE_AMOUNT, true, false, false, Scoring.WRONG_PRESS_PENALTY);
-		setBoyfriendInvuln(4/60);
-		forceMissNextNote = forceMissNextNoteState;
+	function noteMissWrongPress(direction:Int = 1):Void{
+		if(songStarted){
+			songStats.score += Scoring.WRONG_PRESS_PENALTY;
+			if(boyfriend.missSounds.length > 0){ playMissSound(); }
+			defaultNoteMiss(direction, boyfriend);
+			adjustHealthWithModifier(Scoring.WRONG_TAP_DAMAGE_AMOUNT);
+			setBoyfriendInvuln(4/60);
+
+			if(boyfriend.characterInfo.info.functions.noteMiss != null){
+				boyfriend.characterInfo.info.functions.noteMiss(boyfriend, direction, false);
+			}
+			for(script in scripts){ script.noteMiss(direction, false); }
+		}
 	}
 
 	function playMissSound():Void{
@@ -2474,15 +2439,19 @@ class PlayState extends MusicBeatState
 			note.hitCallback(note, boyfriend);
 
 			if(note.sustain != null){ startSustain(note.sustain); }
+
 			combo++;
-			popUpScore(note, (healthAdjustOverride == null));
+
+			var noteDiff:Float = note.strumTime - Conductor.songPosition;
+			var rating:String = Scoring.rateNote(noteDiff, note.hitRegion, songPlaybackSpeed);
+			songStats.score += note.scoringFunction(noteDiff, rating);
+
+			popUpScore(note, rating);
+
 			if(gf.hasAnimation("combo" + combo)){ gf.danceLockout = gf.playAnim("combo" + combo); }
 			if(combo > songStats.highestCombo) { songStats.highestCombo = combo; }
 
-			if(healthAdjustOverride != null){
-				adjustHealthWithModifier(healthAdjustOverride);
-				healthAdjustOverride = null;
-			}
+			adjustHealthWithModifier(note.hitHealFunction(noteDiff, rating));
 
 			playerStrums.members[note.direction].animation.play("confirm", true);
 
@@ -2634,6 +2603,24 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	public function defaultNoteScoring(msTiming:Float, rating:String):Int{
+		return Scoring.defaultScoreNote(msTiming);
+	}
+
+	public function defaultNoteHealing(msTiming:Float, rating:String):Float{
+		switch(rating){
+			case "sick":
+				return Scoring.SICK_HEAL_AMOUNT;
+			case "good":
+				return Scoring.GOOD_HEAL_AMOUNT;
+			case "bad":
+				return Scoring.BAD_HEAL_AMOUNT;
+			case "shit":
+				return Scoring.SHIT_HEAL_AMOUNT;
+		}
+		return 0;
+	}
+
 	public function defaultSustainHit(note:NoteSustain, character:Character):Void{
 		if(character.canAutoAnim){
 			if(characterShouldPlayAnimation(note, character)){
@@ -2667,31 +2654,67 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function setNoteHitCallback(note:Note):Void{
+	function setNoteFunctions(note:Note):Void{
 		if(NoteType.types.exists(note.typePrefix)){
 			var noteType:NoteTypeDefinition = NoteType.types.get(note.typePrefix);
+
 			if(noteType.noteHit != null){ note.hitCallback = noteType.noteHit; }
 			else{ note.hitCallback = defaultNoteHit; }
+
 			if(noteType.noteMiss != null){ note.missCallback = noteType.noteMiss; }
 			else{ note.missCallback = defaultNoteMiss; }
+
+			if(noteType.scoring.scoring != null){ note.scoringFunction = noteType.scoring.scoring; }
+			else{ note.scoringFunction = defaultNoteScoring; }
+
+			if(noteType.scoring.healing != null){ note.hitHealFunction = noteType.scoring.healing; }
+			else{ note.hitHealFunction = defaultNoteHealing; }
+
+			if(noteType.scoring.penalty != null){ note.missScorePenalty = noteType.scoring.penalty; }
+			else{ note.missScorePenalty = Scoring.MISS_PENALTY; }
+			
+			if(noteType.scoring.damage != null){ note.missDamage = noteType.scoring.damage; }
+			else{ note.missDamage = Scoring.MISS_DAMAGE_AMOUNT; }
 		}
 		else{
 			note.hitCallback = defaultNoteHit;
 			note.missCallback = defaultNoteMiss;
+			note.scoringFunction = defaultNoteScoring;
+			note.hitHealFunction = defaultNoteHealing;
+			note.missScorePenalty = Scoring.MISS_PENALTY;
+			note.missDamage = Scoring.MISS_DAMAGE_AMOUNT;
 		}
 	}
 
-	function setSustainHitCallback(noteSustain:NoteSustain):Void{
+	function setSustainFunctions(noteSustain:NoteSustain):Void{
 		if(NoteType.types.exists(noteSustain.typePrefix)){
 			var noteType:NoteTypeDefinition = NoteType.types.get(noteSustain.typePrefix);
+
 			if(noteType.sustainHit != null){ noteSustain.hitCallback = noteType.sustainHit; }
 			else{ noteSustain.hitCallback = defaultSustainHit; }
+
 			if(noteType.sustainMiss != null){ noteSustain.missCallback = noteType.sustainMiss; }
 			else{ noteSustain.missCallback = defaultSustainMiss; }
+
+			if(noteType.scoring.sustainScoring != null){ noteSustain.scorePerSecond = noteType.scoring.sustainScoring; }
+			else{ noteSustain.scorePerSecond = Scoring.HOLD_SCORE_PER_SECOND; }
+
+			if(noteType.scoring.sustainHealing != null){ noteSustain.healingPerSecond = noteType.scoring.sustainHealing; }
+			else{ noteSustain.healingPerSecond = Scoring.HOLD_HEAL_AMOUNT_PER_SECOND; }
+
+			if(noteType.scoring.sustainPenalty != null){ noteSustain.missScorePenaltyPerSecond = noteType.scoring.sustainPenalty; }
+			else{ noteSustain.missScorePenaltyPerSecond = Scoring.HOLD_DROP_PENALTY_PER_SECOND; }
+			
+			if(noteType.scoring.sustainDamage != null){ noteSustain.missDamagePerSecond = noteType.scoring.sustainDamage; }
+			else{ noteSustain.missDamagePerSecond = Scoring.HOLD_DROP_DMAMGE_PER_SECOND; }
 		}
 		else{
 			noteSustain.hitCallback = defaultSustainHit;
 			noteSustain.missCallback = defaultSustainMiss;
+			noteSustain.scorePerSecond = Scoring.HOLD_SCORE_PER_SECOND;
+			noteSustain.healingPerSecond = Scoring.HOLD_HEAL_AMOUNT_PER_SECOND;
+			noteSustain.missScorePenaltyPerSecond = Scoring.HOLD_DROP_PENALTY_PER_SECOND;
+			noteSustain.missDamagePerSecond = Scoring.HOLD_DROP_DMAMGE_PER_SECOND;
 		}
 	}
 
