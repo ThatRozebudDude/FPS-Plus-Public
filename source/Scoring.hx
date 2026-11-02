@@ -14,7 +14,7 @@ class Scoring
 	public static final MISS_DAMAGE_AMOUNT:Float = (4 / 100) * 2;
 	public static final WRONG_TAP_DAMAGE_AMOUNT:Float = (2 / 100) * 2;
 	public static final HOLD_DROP_INITAL_DAMAGE:Float = (3 / 100) * 2;
-	public static final HOLD_DROP_DMAMGE_PER_NOTE:Float = (2 / 100) * 2;
+	public static final HOLD_DROP_DMAMGE_PER_SECOND:Float = (10 / 100) * 2;
 
 	public static final PERFECT_SCORE_THRESHOLD:Float = 5.0;
 	public static final MAX_NOTE_SCORE:Int = 500;
@@ -23,7 +23,6 @@ class Scoring
 	
 	//These values are positive since missing a note subtracts the value from the score.
 	public static final MISS_PENALTY:Int = 100;
-	public static final HOLD_DROP_INITIAL_PENALTY_PER_SECOND:Int = 250;
 	public static final HOLD_DROP_PENALTY_PER_SECOND:Int = 250;
 	public static final WRONG_PRESS_PENALTY:Int = 10;
 

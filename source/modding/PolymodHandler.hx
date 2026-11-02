@@ -305,6 +305,7 @@ class PolymodHandler
 		Polymod.addDefaultImport(graphics.AtlasSprite);
 
 		Polymod.addDefaultImport(note.Note);
+		Polymod.addDefaultImport(note.NoteSustain);
 		Polymod.addDefaultImport(shaders.RuntimeShader);
 		
 		Polymod.addDefaultImport(modding.ScriptingUtil);

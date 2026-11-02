@@ -35,6 +35,9 @@ class NoteSustain extends FlxSprite
 	public var scoreGiven:Int = 0;
 	public var stepTimer:Float = 0;
 
+	public var hitCallback:(NoteSustain, Character)->Void = null;
+	public var missCallback:(NoteSustain, Character)->Void = null;
+
 	public function new(_strumTime:Float, _length:Float, _direction:Int, _mustPress:Bool, _type:String, ?_parent:Note){
 		super();
 
@@ -57,7 +60,10 @@ class NoteSustain extends FlxSprite
 		alpha = noteSkin.info.holdAlpha;
 		blend = noteSkin.info.holdBlend;
 
-		maxScore = Std.int(Scoring.HOLD_SCORE_PER_SECOND * ((length/1000) /*+ Conductor.getStepCrotchet(_strumTime)*/));
+		xOffset = noteSkin.info.holdOffsets[direction].x;
+		yOffset = noteSkin.info.holdOffsets[direction].y;
+
+		maxScore = Std.int(Scoring.HOLD_SCORE_PER_SECOND * (length/1000));
 	}
 
 	public function setSustainLength(scrollSpeed:Float):Void{

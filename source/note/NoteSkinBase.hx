@@ -40,7 +40,7 @@ typedef NoteSkinInfo = {
 
 	var canGlow:Bool;
 	var scale:Float;
-	var holdScaleAdjust:Float;
+	#if BACKWARD_COMPATIBILITY var holdScaleAdjust:Float; #end
 	var antialiasing:Bool;
 	var offsets:Array<FlxPoint>;
 	var holdOffsets:Array<FlxPoint>;
@@ -149,7 +149,7 @@ class NoteSkinBase
 		holdAlpha: 0.6,
 		blend: BlendMode.NORMAL,
 		holdBlend: BlendMode.NORMAL,
-		holdScaleAdjust: 1,
+		#if BACKWARD_COMPATIBILITY holdScaleAdjust: 1, #end
 		antialiasing: true,
 		offsets: [FlxPoint.get(), FlxPoint.get(), FlxPoint.get(), FlxPoint.get()],
 		holdOffsets: [FlxPoint.get(), FlxPoint.get(), FlxPoint.get(), FlxPoint.get()],

@@ -18,6 +18,4 @@
 
 # NOTE SUSTAIN STUFF
 
-- Add back the ability to have looping anims on hold.
-- Sustain hit/miss callback.
-- NOTE: bopbeebo max score 34219
+- NOTE: bopbeebo max score 34219, new max is 34255

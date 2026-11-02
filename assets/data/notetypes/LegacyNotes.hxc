@@ -9,8 +9,8 @@ class LegacyNotes extends NoteType
 	override function defineTypes():Void{
 		hideFromDropdown = true; //Hides this class from the chart editor's note type class list.
 
-		registerNoteType({prefix: "alt", noteHit: altHit, sustainHit: altHit, editor: {hidden: true}});
-		registerNoteType({prefix: "censor", noteHit: censorHit, sustainHit: censorHit, editor: {hidden: true}});
+		registerNoteType({prefix: "alt", noteHit: altHit, sustainHit: altSustainHit, editor: {hidden: true}});
+		registerNoteType({prefix: "censor", noteHit: censorHit, sustainHit: censorSustainHit, editor: {hidden: true}});
 		registerNoteType({prefix: "hey", noteHit: heyHit, sustainHit: noSustainAnimation, editor: {hidden: true, arguments: [
 			{name: "Dynamic Camera Movement", type: "bool", value: "true"}
 		]}});
@@ -46,6 +46,15 @@ class LegacyNotes extends NoteType
 		character.animSet = prevAnimSet;
 	}
 
+	function altSustainHit(note:NoteSustain, character:Character){
+		var prevAnimSet = character.animSet;
+		character.animSet = "alt";
+		playstate.defaultSustainHit(note, character);
+		character.animSet = prevAnimSet;
+	}
+
+
+
 	function censorHit(note:Note, character:Character){
 		var prevAnimSet = character.animSet;
 		character.animSet = "censor";
@@ -53,9 +62,16 @@ class LegacyNotes extends NoteType
 		character.animSet = prevAnimSet;
 	}
 	
+	function censorSustainHit(note:NoteSustain, character:Character){
+		var prevAnimSet = character.animSet;
+		character.animSet = "censor";
+		playstate.defaultSustainHit(note, character);
+		character.animSet = prevAnimSet;
+	}
+	
 
 
-	function noSustainAnimation(note:Note, character:Character){
+	function noSustainAnimation(note:NoteSustain, character:Character){
 		if(character.canAutoAnim && shouldPlayAnimation(note, character)){
 			character.holdTimer = 0;
 		}

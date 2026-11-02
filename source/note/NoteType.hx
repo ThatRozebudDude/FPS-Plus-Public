@@ -9,8 +9,8 @@ typedef NoteTypeDefinition = {
 	var prefix:String;
 	var noteHit:(Note, Character)->Void;
 	var noteMiss:(Note, Character)->Void;
-	var sustainHit:(Note, Character)->Void;
-	var sustainMiss:(Note, Character)->Void;
+	var sustainHit:(NoteSustain, Character)->Void;
+	var sustainMiss:(NoteSustain, Character)->Void;
 	var skin:String;
 	var editor:EventEditorProperties;
 }
@@ -101,7 +101,7 @@ class NoteType
 		if(missFunction != null){ localTypes.get(name).noteMiss = missFunction; }
 	}
 
-	function addSustainType(name:String, hitFunction:(Note, Character)->Void, missFunction:(Note, Character)->Void):Void{
+	function addSustainType(name:String, hitFunction:(NoteSustain, Character)->Void, missFunction:(NoteSustain, Character)->Void):Void{
 		if(!localTypes.exists(name)){
 			var def:NoteTypeDefinition = generateNoteTypeDefinition();
 			def.prefix = name;

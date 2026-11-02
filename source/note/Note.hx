@@ -132,8 +132,8 @@ class Note extends FlxSprite
 		alpha = noteSkin.info.alpha;
 		blend = noteSkin.info.blend;
 
-		xOffset += noteSkin.info.offsets[direction].x;
-		yOffset += noteSkin.info.offsets[direction].y;
+		xOffset = noteSkin.info.offsets[direction].x;
+		yOffset = noteSkin.info.offsets[direction].y;
 
 
 		if(noteSkin.info.functions.create != null){
