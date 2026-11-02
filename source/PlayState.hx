@@ -157,7 +157,7 @@ class PlayState extends MusicBeatState
 	public var vocalsOther:FlxSound;
 	public var vocalType:VocalType = combinedVocalTrack;
 	public var canChangeVocalVolume:Bool = true;
-	public var songPlaybackSpeed(default, set):Float = 1;
+	public var songPlaybackSpeed:Float = 1;
 
 	public var scrollSpeedMultiplierOpponent(default, set):Float = 1;
 	public var scrollSpeedMultiplierPlayer(default, set):Float = 1;
@@ -430,7 +430,6 @@ class PlayState extends MusicBeatState
 		}
 
 		Conductor.setBPMChanges(chart.meta.bpm);
-		Conductor.recalculateHitZones(songPlaybackSpeed);
 		Conductor.offset = -Config.offset;
 
 		gf = new Character(400, 130, chart.meta.speaker, false, true);
@@ -1108,18 +1107,12 @@ class PlayState extends MusicBeatState
 		var preloadSplashList:Array<String> = [];
 		var preloadCoverList:Array<String> = [];
 
-		var oldNote:Note = null;
-
 		for(noteData in chart.notes){
 			if(sectionStart && noteData.time < sectionStartTime){
 				continue;
 			}
 
-			var swagNote:Note = new Note(noteData.time, noteData.direction, noteData.tag, oldNote);
-
-			oldNote = swagNote;
-			
-			swagNote.mustPress = noteData.player;
+			var swagNote:Note = new Note(noteData.time, noteData.direction, noteData.tag, noteData.player);
 
 			if(swagNote.noteSplashOverride != null && !preloadSplashList.contains(swagNote.noteSplashOverride)){
 				preloadSplashList.push(swagNote.noteSplashOverride);
@@ -1134,7 +1127,6 @@ class PlayState extends MusicBeatState
 			unspawnNotes.push(swagNote);
 
 			if(noteData.length > 0){
-				//new sustain test stuff
 				var finalLength:Float = 0;
 				for(l in 0...noteData.length){
 					finalLength += Conductor.getStepCrotchetMs(noteData.time + finalLength);
@@ -1813,6 +1805,8 @@ class PlayState extends MusicBeatState
 					note.destroy();
 				}
 			}
+
+			note.updateCanHit(Conductor.songPosition, songPlaybackSpeed);
 		});
 
 		noteSustains.forEachAlive(function(noteSustain:NoteSustain){
@@ -2024,7 +2018,7 @@ class PlayState extends MusicBeatState
 		var noHealMultiply:Float = adjustHealth ? 1 : 0;
 
 		songStats.score += Scoring.scoreNote(noteDiff);
-		var rating:String = Scoring.rateNote(noteDiff);
+		var rating:String = Scoring.rateNote(noteDiff, note.hitRegion, songPlaybackSpeed);
 
 		switch(rating){
 			case "sick":
@@ -2186,32 +2180,32 @@ class PlayState extends MusicBeatState
 		playerStrums.forEach(function(spr:FlxSprite){
 			switch (spr.ID){
 				case 2:
-					if (upPress && spr.animation.curAnim.name != 'confirm'){
-						spr.animation.play('pressed');
+					if (upPress && spr.animation.curAnim.name != "confirm"){
+						spr.animation.play("pressed");
 					}
 					if (!upHold){
-						spr.animation.play('static');
+						spr.animation.play("static");
 					}
 				case 3:
-					if (rightPress && spr.animation.curAnim.name != 'confirm'){
-						spr.animation.play('pressed');
+					if (rightPress && spr.animation.curAnim.name != "confirm"){
+						spr.animation.play("pressed");
 					}
 					if (!rightHold){
-						spr.animation.play('static');
+						spr.animation.play("static");
 					}
 				case 1:
-					if (downPress && spr.animation.curAnim.name != 'confirm'){
-						spr.animation.play('pressed');
+					if (downPress && spr.animation.curAnim.name != "confirm"){
+						spr.animation.play("pressed");
 					}
 					if (!downHold){
-						spr.animation.play('static');
+						spr.animation.play("static");
 					}
 				case 0:
-					if (leftPress && spr.animation.curAnim.name != 'confirm'){
-						spr.animation.play('pressed');
+					if (leftPress && spr.animation.curAnim.name != "confirm"){
+						spr.animation.play("pressed");
 					}
 					if (!leftHold){
-						spr.animation.play('static');
+						spr.animation.play("static");
 					}
 			}
 
@@ -2268,7 +2262,7 @@ class PlayState extends MusicBeatState
 						case 3: keyDown = rightHold;
 					}
 
-					if(Conductor.songPosition >= (sustain.strumTime + sustain.length) - Conductor.badZone){
+					if(Conductor.songPosition >= (sustain.strumTime + sustain.length) - (NoteSustain.SAFE_DROP_TIME * songPlaybackSpeed)){
 						sustainsToDestroy.push(sustain);
 						playerCovers.members[sustain.direction].end(true);
 						hitSustainStep(sustain, true);
@@ -2280,15 +2274,13 @@ class PlayState extends MusicBeatState
 					}
 				}
 				else{ //Autoplay
-					if(Conductor.songPosition >= (sustain.strumTime + sustain.length) - Conductor.badZone){
+					if(Conductor.songPosition >= (sustain.strumTime + sustain.length) - (NoteSustain.SAFE_DROP_TIME * songPlaybackSpeed)){
 						sustainsToDestroy.push(sustain);
 						playerCovers.members[sustain.direction].end(true);
 						hitSustainStep(sustain, true);
 						songStats.susCount++;
 					}
 				}
-
-				boyfriend.holdTimer = 0;
 			}
 			else{ //Opponent.
 				if(sustain.stepTimer > Conductor.getStepCrotchet()){ //Every step during the hold.
@@ -2300,8 +2292,6 @@ class PlayState extends MusicBeatState
 					enemyCovers.members[sustain.direction].end(false);
 					hitSustainStep(sustain, true);
 				}
-
-				dad.holdTimer = 0;
 			}
 		}
 		for(sustain in sustainsToDestroy){
@@ -2361,7 +2351,6 @@ class PlayState extends MusicBeatState
 		
 		if(sustain.started){
 			var percentCompleted:Float = Math.max(0, Conductor.songPosition - sustain.strumTime)/sustain.length;
-			//trace(percentCompleted);
 			songStats.score -= Std.int(Scoring.HOLD_DROP_PENALTY_PER_SECOND * (sustain.length/1000) * (1-percentCompleted));
 			if(healthAdjustOverride == null){
 				adjustHealthWithModifier(-Scoring.HOLD_DROP_DMAMGE_PER_SECOND * (sustain.length/1000) * (1-percentCompleted));
@@ -3081,16 +3070,6 @@ class PlayState extends MusicBeatState
 	override function onFocus(){
 		Utils.gc();
 		super.onFocus();
-	}
-
-	/* 
-	* This is done because changing the playback speed causes the song time to update slower essentially
-	* causing the hit window to change with the playback speed. This mitigates that.
-	*/
-	private function set_songPlaybackSpeed(value:Float):Float{
-		songPlaybackSpeed = value;
-		Conductor.recalculateHitZones(value);
-		return value;
 	}
 	
 	private function set_scrollSpeedMultiplierPlayer(value:Float):Float{

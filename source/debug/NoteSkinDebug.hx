@@ -97,8 +97,7 @@ class NoteSkinDebug extends FlxState
 		generateStaticArrows(1, true);
 
 		for(i in 0...8){
-			var note = new Note(0, i%4, "", null, false);
-			note.mustPress = i > 3;
+			var note = new Note(0, i%4, "", i > 3);
 			notes.add(note);
 			@:privateAccess
 			noteOffsets[i%4].set(notes.members[i%4].noteSkin.info.offsets[i%4].x, notes.members[i%4].noteSkin.info.offsets[i%4].y);

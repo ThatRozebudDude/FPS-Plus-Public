@@ -121,4 +121,5 @@ class AnimationNotes extends NoteType
 	final PLAY_ANIM_DESC:String = "Plays the specified animation instead of the normal directional sing animation.";
 	final NO_ANIM_DESC:String = "Does not play any animation.";
 	final ANIM_SET_DESC:String = "Sets the character's animation set for this note only. ";
+	
 }

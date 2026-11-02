@@ -1,5 +1,7 @@
 package;
 
+import note.Note;
+import note.Note.HitRegion;
 import flixel.math.FlxMath;
 
 class Scoring
@@ -43,15 +45,13 @@ class Scoring
 
 	}
 
-	public static function rateNote(msTiming:Float):String{
-		var r:String = "sick";
+	public static function rateNote(msTiming:Float, ?hitRegion:HitRegion, hitRegionFactor:Float = 1):String{
+		hitRegion ??= {sick: Note.DEFAULT_SICK_REGION, good: Note.DEFAULT_GOOD_REGION, bad: Note.DEFAULT_BAD_REGION, shit: Note.DEFAULT_SHIT_REGION};
 		var absTiming:Float = Math.abs(msTiming);
-
-		if (absTiming > Conductor.shitZone){ r = 'shit'; }
-		else if (absTiming > Conductor.badZone){ r = 'bad'; }
-		else if (absTiming > Conductor.goodZone){ r = 'good'; }
-
-		return r;
+		if (absTiming <= (hitRegion.sick * hitRegionFactor)){ return "sick"; }
+		else if (absTiming <= (hitRegion.good * hitRegionFactor)){ return "good"; }
+		else if (absTiming <= (hitRegion.bad * hitRegionFactor)){ return "bad"; }
+		return "shit";
 	}
 
 	public static function calculateAccuracy(sickCount:Int, goodCount:Int, badCount:Int, shitCount:Int, missCount:Int):Float{

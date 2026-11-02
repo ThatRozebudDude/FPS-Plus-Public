@@ -5,6 +5,13 @@ import flixel.FlxSprite;
 
 using StringTools;
 
+typedef HitRegion = {
+	var sick:Float;
+	var good:Float;
+	var bad:Float;
+	var shit:Float;
+}
+
 class Note extends FlxSprite
 {
 	public var strumTime:Float = 0;
@@ -15,9 +22,10 @@ class Note extends FlxSprite
 	public var inRange:Bool = false;
 	public var tooLate:Bool = false;
 	public var wasGoodHit:Bool = false;
-	public var prevNote:Note;
 	public var type:String = "";
 	public var typePrefix:String = "";
+
+	public var hitRegion:HitRegion = {sick: DEFAULT_SICK_REGION, good: DEFAULT_GOOD_REGION, bad: DEFAULT_BAD_REGION, shit: DEFAULT_SHIT_REGION};
 
 	public var didTooLateAction:Bool = false;
 
@@ -42,9 +50,14 @@ class Note extends FlxSprite
 	inline public static final BLUE_NOTE:Int = 1;
 	inline public static final RED_NOTE:Int = 3;
 
+	inline public static final DEFAULT_SHIT_REGION:Float = 160;
+	inline public static final DEFAULT_BAD_REGION:Float = 135;
+	inline public static final DEFAULT_GOOD_REGION:Float = 90;
+	inline public static final DEFAULT_SICK_REGION:Float = 45;
+
 	inline public static final SCROLL_SPEED_MULTIPLIER:Float = 0.45;
 
-	public function new(_strumTime:Float, _direction:Int, _type:String, ?_prevNote:Note){
+	public function new(_strumTime:Float, _direction:Int, _type:String, _mustPress:Bool){
 		super();
 
 		if(_type != null){
@@ -52,11 +65,7 @@ class Note extends FlxSprite
 			typePrefix = type.split(";")[0];
 		}
 
-		if(_prevNote == null){
-			_prevNote = this;
-		}
-
-		prevNote = _prevNote;
+		mustPress = _mustPress;
 
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
 		y -= 2000;
@@ -68,6 +77,7 @@ class Note extends FlxSprite
 		var noteSkinClassName:String = defaultSkin;
 
 		if(NoteType.types.exists(typePrefix)){
+			hitRegion = NoteType.types.get(typePrefix).hitRegion;
 			noteSkinClassName = NoteType.types.get(typePrefix).skin;
 		}
 
@@ -143,24 +153,7 @@ class Note extends FlxSprite
 	override function update(elapsed:Float){
 		super.update(elapsed);
 
-		if(mustPress){
-			canBeHit = (strumTime > Conductor.songPosition - Conductor.safeZoneOffset && strumTime < Conductor.songPosition + Conductor.safeZoneOffset);
-
-			if(strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit){
-				tooLate = true;
-			}
-			
-		}
-		else{
-			canBeHit = (strumTime <= Conductor.songPosition);
-		}
-
-		inRange = (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
-				&& strumTime < Conductor.songPosition + Conductor.safeZoneOffset)
-				&& (!wasGoodHit);
-
 		//Glow note stuff.
-
 		if(Config.noteGlow){
 			if(canBeHit && animation.curAnim.name == "scroll" && canGlow){
 				glow();
@@ -174,6 +167,24 @@ class Note extends FlxSprite
 		if(noteSkin.info.functions.update != null){
 			noteSkin.info.functions.update(this, elapsed);
 		}
+	}
+
+	public function updateCanHit(songPosition:Float = 0, hitRegionFactor:Float = 1){
+		if(mustPress){
+			canBeHit = (strumTime > songPosition - (hitRegion.shit * hitRegionFactor) && strumTime < songPosition + (hitRegion.shit * hitRegionFactor));
+
+			if(strumTime < songPosition - (hitRegion.shit * hitRegionFactor) && !wasGoodHit){
+				tooLate = true;
+			}
+			
+		}
+		else{
+			canBeHit = (strumTime <= songPosition);
+		}
+
+		inRange = (strumTime > songPosition - (hitRegion.shit * hitRegionFactor)
+				&& strumTime < songPosition + (hitRegion.shit * hitRegionFactor))
+				&& (!wasGoodHit);
 	}
 
 	inline public function glow():Void{

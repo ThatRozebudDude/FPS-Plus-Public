@@ -18,18 +18,6 @@ class Conductor extends FlxBasic
 	public static var step:Float = 0;
 	public static var beat:Float = 0;
 
-	//Reference variables
-	static inline final DEFAULT_SAFE_ZONE:Float = 160;
-	static inline final DEFAULT_SHIT_ZONE:Float = 135;
-	static inline final DEFAULT_BAD_ZONE:Float = 90;
-	static inline final DEFAULT_GOOD_ZONE:Float = 45;
-
-	//Actual timing variables
-	public static var safeZoneOffset:Float = 160;
-	public static var shitZone:Float = 135;
-	public static var badZone:Float = 90;
-	public static var goodZone:Float = 45;
-
 	public static var crochet(get, never):Float; // beats in milliseconds
 	public static var stepCrochet(get, never):Float; // steps in milliseconds
 
@@ -192,18 +180,6 @@ class Conductor extends FlxBasic
 		}
 		
 		return currentStep;
-	}
-
-	/**
-	 * Recalculates the hit window for notes when the song adjusts it's playback speed.
-	 *
-	 * @param `_factor`	The multiplier to apply to the hit zone timings.
-	 */
-	public static function recalculateHitZones(_factor:Float):Void{
-		safeZoneOffset = DEFAULT_SAFE_ZONE * _factor;
-		shitZone = DEFAULT_SHIT_ZONE * _factor;
-		badZone = DEFAULT_BAD_ZONE * _factor;
-		goodZone = DEFAULT_GOOD_ZONE * _factor;
 	}
 	
 	static function get_crochet(){

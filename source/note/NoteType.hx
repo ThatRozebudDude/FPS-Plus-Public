@@ -1,5 +1,6 @@
 package note;
 
+import note.Note.HitRegion;
 import data.OrderedMap;
 import events.Events.EventEditorProperties;
 import events.Events;
@@ -11,6 +12,7 @@ typedef NoteTypeDefinition = {
 	var noteMiss:(Note, Character)->Void;
 	var sustainHit:(NoteSustain, Character)->Void;
 	var sustainMiss:(NoteSustain, Character)->Void;
+	var hitRegion:HitRegion;
 	var skin:String;
 	var editor:EventEditorProperties;
 }
@@ -75,6 +77,7 @@ class NoteType
 		if(definition.noteMiss != null) {def.noteMiss = definition.noteMiss;}
 		if(definition.sustainHit != null) {def.sustainHit = definition.sustainHit;}
 		if(definition.sustainMiss != null) {def.sustainMiss = definition.sustainMiss;}
+		if(definition.hitRegion != null) {def.hitRegion = definition.hitRegion;}
 		if(definition.skin != null) {def.skin = definition.skin;}
 		if(definition.editor != null) {
 			if(definition.editor.description != null)	{ def.editor.description = definition.editor.description; }
@@ -147,6 +150,7 @@ class NoteType
 			noteMiss: null,
 			sustainHit: null,
 			sustainMiss: null,
+			hitRegion: {sick: Note.DEFAULT_SICK_REGION, good: Note.DEFAULT_GOOD_REGION, bad: Note.DEFAULT_BAD_REGION, shit: Note.DEFAULT_SHIT_REGION},
 			skin: null,
 			editor: Events.generateEventEditorProperties()
 		};

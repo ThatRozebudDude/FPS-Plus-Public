@@ -38,6 +38,8 @@ class NoteSustain extends FlxSprite
 	public var hitCallback:(NoteSustain, Character)->Void = null;
 	public var missCallback:(NoteSustain, Character)->Void = null;
 
+	inline public static final SAFE_DROP_TIME:Float = 90; //The time in milliseconds that the sustain finishes early so that releasing the sustain isn't so tight.
+
 	public function new(_strumTime:Float, _length:Float, _direction:Int, _mustPress:Bool, _type:String, ?_parent:Note){
 		super();
 
