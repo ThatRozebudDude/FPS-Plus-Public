@@ -156,6 +156,8 @@ The character info has a field called `functions` which is an object containing 
 - `songEnd(character)`: This is run once the song finishes playing.
 - `noteHit(character, note)`: This is run when a character hits a note.
     - `note`: The note object that was just hit.
+- `sustainHit(character, noteSustain)`: This is run evey step when a character is holding a sustain.
+    - `noteSustain`: The note sustain object that was just hit.
 - `noteMiss(character, direction, countedMiss)`: This is run when exiting `PlayState`.
     - `direction`: The direction that the player missed in as an integer.
     - `countedMiss`: A boolean that will be `true` if the miss was counted or `false` if it wasn't (for things like wrong taps).

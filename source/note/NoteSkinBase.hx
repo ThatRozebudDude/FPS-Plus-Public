@@ -40,7 +40,7 @@ typedef NoteSkinInfo = {
 
 	var canGlow:Bool;
 	var scale:Float;
-	#if BACKWARD_COMPATIBILITY var holdScaleAdjust:Float; #end
+	#if BACKWARD_COMPATIBILITY var holdScaleAdjust:Float; #end //Not used anymore but still included in backwards compatibility so scripts don't crash.
 	var antialiasing:Bool;
 	var offsets:Array<FlxPoint>;
 	var holdOffsets:Array<FlxPoint>;

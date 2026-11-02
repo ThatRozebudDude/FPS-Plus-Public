@@ -43,7 +43,6 @@ class Note extends FlxSprite
 	inline public static final RED_NOTE:Int = 3;
 
 	inline public static final SCROLL_SPEED_MULTIPLIER:Float = 0.45;
-	inline public static final SUSTAIN_SCALE_MULTIPLIER:Float = 14.85;
 
 	public function new(_strumTime:Float, _direction:Int, _type:String, ?_prevNote:Note){
 		super();

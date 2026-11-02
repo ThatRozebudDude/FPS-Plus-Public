@@ -43,6 +43,9 @@ Similarly to stages, there are a variety of functions you can override that will
 - `noteHit(character, note)`: This is run when a character hits a note.
     - `character`: The character object that hit the note. Will either be `boyfriend` or `dad`.
     - `note`: The note object that was just hit.
+- `sustainHit(character, noteSustain)`: This is run evey step when a character is holding a sustain.
+    - `character`: The character object that hit the note. Will either be `boyfriend` or `dad`.
+    - `noteSustain`: The note sustain object that was just hit.
 - `noteMiss(direction, countedMiss)`: This is run when exiting `PlayState`.
     - `direction`: The direction that the player missed in as an integer.
     - `countedMiss`: A boolean that will be `true` if the miss was counted or `false` if it wasn't (for things like wrong taps).

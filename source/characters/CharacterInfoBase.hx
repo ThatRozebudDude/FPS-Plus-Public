@@ -1,5 +1,6 @@
 package characters;
 
+import note.NoteSustain;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -81,6 +82,7 @@ typedef CharacterFunctions = {
 	var songStart:(Character)->Void;				//This function is run when the song starts.
 	var songEnd:(Character)->Void;					//This function is run when the song ends.
 	var noteHit:(Character, Note)->Void;			//This function is run when the character hits a note.
+	var sustainHit:(Character, NoteSustain)->Void;	//This function is run evey step when the character is holding a sustain.
 	var noteMiss:(Character, Int, Bool)->Void;		//This function is run when the character misses a note.
 	var applyShader:(Character, FlxShader)->Void;	//This function is run when the character misses a note.
 }
@@ -158,6 +160,7 @@ class CharacterInfoBase
 			songStart: null,
 			songEnd: null,
 			noteHit: null,
+			sustainHit: null,
 			noteMiss: null,
 			applyShader: null,
 		},

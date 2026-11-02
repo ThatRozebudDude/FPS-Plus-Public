@@ -2334,10 +2334,20 @@ class PlayState extends MusicBeatState
 			sustain.scoreGiven += scoreToGive;
 
 			adjustHealthWithModifier(Scoring.HOLD_HEAL_AMOUNT_PER_SECOND * Conductor.getStepCrotchet());
+
+			if(boyfriend.characterInfo.info.functions.sustainHit != null){
+				boyfriend.characterInfo.info.functions.sustainHit(boyfriend, sustain);
+			}
+			for(script in scripts){ script.sustainHit(boyfriend, sustain); }
 		}
 		else{
 			enemyStrums.members[sustain.direction].animation.play("confirm", true);
 			sustain.hitCallback(sustain, dad);
+
+			if(dad.characterInfo.info.functions.sustainHit != null){
+				dad.characterInfo.info.functions.sustainHit(dad, sustain);
+			}
+			for(script in scripts){ script.sustainHit(dad, sustain); }
 		}
 	}
 	

@@ -1,5 +1,6 @@
 package scripts;
 
+import note.NoteSustain;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import note.Note;
@@ -103,6 +104,11 @@ class Script
 	 * Called when a character hits a note.
 	 */
 	public function noteHit(character:Character, note:Note){}
+	
+	/**
+	 * Called evey step when a character is holding a sustain.
+	 */
+	public function sustainHit(character:Character, note:NoteSustain){}
 
 	 /**
 	  * Called when you miss a note. `countedMiss` will be `true` when the miss adds to your miss count and `false` when it just plays the miss animation while not adding to your miss count.
