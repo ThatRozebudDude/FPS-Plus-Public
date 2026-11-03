@@ -1,5 +1,6 @@
 # TODO
 
+- Write new documentation on the note changes.
 - Fix thing with the characters doing extra bopping stuff after the song ends?
 
 - Chart Editor
@@ -15,7 +16,3 @@
 # Possible Future Version Features
 
 - Localiztion files.
-
-# NOTE SUSTAIN STUFF
-
-- NOTE: bopbeebo max score 34219, new max is 34255
