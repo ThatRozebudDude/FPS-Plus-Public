@@ -37,10 +37,12 @@ class Note extends FlxSprite
 	public var hitCallback:(Note, Character)->Void = null;
 	public var missCallback:Dynamic = null;
 
-	public var scoringFunction:(Float, String)->Int = null;
-	public var hitHealFunction:(Float, String)->Float = null;
-	public var missScorePenalty:Int = 0;
-	public var missDamage:Float = 0;
+	public var scoringFunction:(Note, Float, String)->Int = null;
+	public var healingFunction:(Note, Float, String)->Float = null;
+	public var penaltyFunction:(Note)->Int = null;
+	public var damageFunction:(Note)->Float = null;
+	public var countNoteFunction:(Note)->Bool = null;
+	public var breakComboFunction:(Note)->Bool = null;
 
 	var noteSkin:NoteSkinBase;
 	public var canGlow:Bool;

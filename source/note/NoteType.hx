@@ -1,5 +1,6 @@
 package note;
 
+import flixel.util.typeLimit.OneOfTwo;
 import note.Note.HitRegion;
 import data.OrderedMap;
 import events.Events.EventEditorProperties;
@@ -7,15 +8,18 @@ import events.Events;
 import note.*;
 
 typedef NoteScoringProperties = {
-	var scoring:(Float, String)->Int;
-	var healing:(Float, String)->Float;
-	var penalty:Null<Int>;
-	var damage:Null<Float>;
+	var scoring:OneOfTwo<Null<Int>, (Note, Float, String)->Int>;
+	var healing:OneOfTwo<Null<Float>, (Note, Float, String)->Float>;
+	var penalty:OneOfTwo<Null<Int>, (Note)->Int>;
+	var damage:OneOfTwo<Null<Float>, (Note)->Float>;
 
-	var sustainScoring:Null<Int>;
-	var sustainHealing:Null<Float>;
-	var sustainPenalty:Null<Int>;
-	var sustainDamage:Null<Float>;
+	var sustainScoring:OneOfTwo<Null<Int>, (NoteSustain)->Int>;
+	var sustainHealing:OneOfTwo<Null<Float>, (NoteSustain)->Float>;
+	var sustainPenalty:OneOfTwo<Null<Int>, (NoteSustain)->Int>;
+	var sustainDamage:OneOfTwo<Null<Float>, (NoteSustain)->Float>;
+	
+	var countHit:OneOfTwo<Null<Bool>, (Note)->Bool>;
+	var countMiss:OneOfTwo<Null<Bool>, (Note)->Bool>;
 
 	var hitRegion:HitRegion;
 }
@@ -103,6 +107,9 @@ class NoteType
 			if(definition.scoring.sustainPenalty != null)	{ def.scoring.sustainPenalty = definition.scoring.sustainPenalty; }
 			if(definition.scoring.sustainDamage != null)	{ def.scoring.sustainDamage = definition.scoring.sustainDamage; }
 
+			if(definition.scoring.countHit != null)			{ def.scoring.countHit = definition.scoring.countHit; }
+			if(definition.scoring.countMiss != null)		{ def.scoring.countMiss = definition.scoring.countMiss; }
+
 			if(definition.scoring.hitRegion != null)		{ def.scoring.hitRegion = definition.scoring.hitRegion; }
 		}
 		if(definition.editor != null){
@@ -185,6 +192,8 @@ class NoteType
 				sustainHealing: null,
 				sustainPenalty: null,
 				sustainDamage: null,
+				countHit: null,
+				countMiss: null,
 				hitRegion: {sick: Note.DEFAULT_SICK_REGION, good: Note.DEFAULT_GOOD_REGION, bad: Note.DEFAULT_BAD_REGION, shit: Note.DEFAULT_SHIT_REGION}
 			},
 			skin: null,

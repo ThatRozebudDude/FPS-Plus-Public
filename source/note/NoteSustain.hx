@@ -38,10 +38,12 @@ class NoteSustain extends FlxSprite
 	public var hitCallback:(NoteSustain, Character)->Void = null;
 	public var missCallback:(NoteSustain, Character)->Void = null;
 
-	public var scorePerSecond:Int = 0;
-	public var healingPerSecond:Float = 0;
-	public var missScorePenaltyPerSecond:Int = 0;
-	public var missDamagePerSecond:Float = 0;
+	public var scoringFunction:(NoteSustain)->Int = null;
+	public var healingFunction:(NoteSustain)->Float = null;
+	public var penaltyFunction:(NoteSustain)->Int = null;
+	public var damageFunction:(NoteSustain)->Float = null;
+	public var countSustainOnComplete:Bool = true;
+	public var breakComboOnDrop:Bool = true;
 
 	inline public static final SAFE_DROP_TIME:Float = 90; //The time in milliseconds that the sustain finishes early so that releasing the sustain isn't so tight.
 
@@ -165,7 +167,7 @@ class NoteSustain extends FlxSprite
 	}
 
 	public function calculateMaxScore():Void{
-		maxScore = Std.int(scorePerSecond * (length/1000));
+		maxScore = Std.int(scoringFunction(this) * (length/1000));
 	}
 
 }
