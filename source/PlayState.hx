@@ -1792,7 +1792,7 @@ class PlayState extends MusicBeatState
 				if(!note.didTooLateAction){
 					noteMiss(note);
 					if(note.sustain != null){
-						note.sustain.countSustainOnComplete = note.countNoteFunction(note);
+						note.sustain.countSustain = note.countNoteFunction(note);
 						note.sustain.breakComboOnDrop = note.breakComboFunction(note);
 						dropSustain(note.sustain);
 					}
@@ -1848,7 +1848,7 @@ class PlayState extends MusicBeatState
 
 			if(!opponentNotesInRange[daNote.direction] && daNote.inRange && !daNote.mustPress){ opponentNotesInRange[daNote.direction] = true; }
 
-			if (!daNote.mustPress && daNote.canBeHit && !daNote.wasGoodHit){
+			if (!daNote.mustPress && daNote.canBeHit && !daNote.wasGoodHit && !daNote.autoplayIgnore){
 				daNote.wasGoodHit = true;
 				if(daNote.sustain != null){ startSustain(daNote.sustain); }
 
@@ -2209,7 +2209,7 @@ class PlayState extends MusicBeatState
 		notes.forEachAlive(function(daNote:Note){
 			if(!playerNotesInRange[daNote.direction] && daNote.inRange && daNote.mustPress){ playerNotesInRange[daNote.direction] = true; }
 
-			if (!forceMissNextNote && !daNote.wasGoodHit && daNote.mustPress && daNote.strumTime < Conductor.songPosition + Scoring.PERFECT_SCORE_THRESHOLD){
+			if (!forceMissNextNote && !daNote.wasGoodHit && daNote.mustPress && daNote.strumTime < Conductor.songPosition + Scoring.PERFECT_SCORE_THRESHOLD && !daNote.autoplayIgnore){
 				hitNotes.push(daNote);
 			}
 		});
@@ -2255,7 +2255,7 @@ class PlayState extends MusicBeatState
 						sustainsToDestroy.push(sustain);
 						playerCovers.members[sustain.direction].end(true);
 						hitSustainStep(sustain, true);
-						if(sustain.countSustainOnComplete){ songStats.susCount++; }
+						if(sustain.countSustain){ songStats.susCount++; }
 					}
 					else if(!keyDown){
 						dropSustain(sustain);
@@ -2267,7 +2267,11 @@ class PlayState extends MusicBeatState
 						sustainsToDestroy.push(sustain);
 						playerCovers.members[sustain.direction].end(true);
 						hitSustainStep(sustain, true);
-						if(sustain.countSustainOnComplete){ songStats.susCount++; }
+						if(sustain.countSustain){ songStats.susCount++; }
+					}
+					else if(sustain.autoplayIgnore){
+						dropSustain(sustain);
+						playerCovers.members[sustain.direction].end(false);
 					}
 				}
 			}
@@ -2304,7 +2308,10 @@ class PlayState extends MusicBeatState
 		sustain.stepTimer = 0;
 		if(sustain.mustPress){
 			playerStrums.members[sustain.direction].animation.play("confirm", true);
-			if(canChangeVocalVolume){ vocals.volume = 1; }
+
+			if(sustain.countSustain){
+				if(canChangeVocalVolume){ vocals.volume = 1; }
+			}
 
 			//Make sure the note can never give more than the max allowed score and when completed it gives the rest of the score if it wasn't given out already.
 			var scoreToGive:Int = Std.int(Math.min(Math.max(0, sustain.maxScore - sustain.scoreGiven), sustain.scoringFunction(sustain) * Conductor.getStepCrotchet()));
@@ -2333,43 +2340,55 @@ class PlayState extends MusicBeatState
 	}
 	
 	private function dropSustain(sustain:NoteSustain):Void{
-		if(!sustain.mustPress){ return; } //Skip
-		
-		if(sustain.breakComboOnDrop){
-			comboBreak();
-			if(boyfriend.missSounds.length > 0){ playMissSound(); }
-			if(canChangeVocalVolume){ vocals.volume = 0; }
-		}
+		if(!songStarted){ return; } //Skip
 
-		sustain.missCallback(sustain, boyfriend);
-		
-		if(sustain.started){
-			var percentCompleted:Float = Math.max(0, Conductor.songPosition - sustain.strumTime)/sustain.length;
-			songStats.score += Std.int(sustain.penaltyFunction(sustain) * (sustain.length/1000) * (1-percentCompleted));
-			adjustHealthWithModifier(sustain.damageFunction(sustain) * (sustain.length/1000) * (1-percentCompleted));
+		if(sustain.mustPress){
+			if(sustain.breakComboOnDrop){
+				comboBreak();
+				if(boyfriend.missSounds.length > 0){ playMissSound(); }
+				if(canChangeVocalVolume){ vocals.volume = 0; }
+			}
+	
+			sustain.missCallback(sustain, boyfriend);
+			
+			if(sustain.started){
+				var percentCompleted:Float = Math.max(0, Conductor.songPosition - sustain.strumTime)/sustain.length;
+				songStats.score += Std.int(sustain.penaltyFunction(sustain) * (sustain.length/1000) * (1-percentCompleted));
+				adjustHealthWithModifier(sustain.damageFunction(sustain) * (sustain.length/1000) * (1-percentCompleted));
+			}
+			else{
+				songStats.score += Std.int(sustain.penaltyFunction(sustain) * (sustain.length/1000));
+				adjustHealthWithModifier(sustain.damageFunction(sustain) * (sustain.length/1000));
+			}
+	
+			if(boyfriend.characterInfo.info.functions.noteMiss != null){
+				boyfriend.characterInfo.info.functions.noteMiss(boyfriend, sustain.direction, false);
+			}
+			for(script in scripts){ script.noteMiss(sustain.direction, false); }
 		}
 		else{
-			songStats.score += Std.int(sustain.penaltyFunction(sustain) * (sustain.length/1000));
-			adjustHealthWithModifier(sustain.damageFunction(sustain) * (sustain.length/1000));
-		}
-
-		if(boyfriend.characterInfo.info.functions.noteMiss != null){
-			boyfriend.characterInfo.info.functions.noteMiss(boyfriend, sustain.direction, false);
+			sustain.missCallback(sustain, dad);
+			if(dad.characterInfo.info.functions.noteMiss != null){
+				dad.characterInfo.info.functions.noteMiss(dad, sustain.direction, false);
+			}
 		}
 
 		sustainsToDestroy.push(sustain);
 	}
 
 	function noteMiss(note:Note):Void{
-		if(songStarted){
+		if(!songStarted){ return; }
+
+		if(note.mustPress){
 			if(Main.launchArguments.flippy_mode) { System.exit(0); }
 
-			if(canChangeVocalVolume){ vocals.volume = 0; }
+			final causeComboBreak:Bool = note.breakComboFunction(note);
 
-			if(note.breakComboFunction(note)){
+			if(causeComboBreak){
 				comboBreak();
 				songStats.missCount++;
 				if(boyfriend.missSounds.length > 0){ playMissSound(); }
+				if(canChangeVocalVolume){ vocals.volume = 0; }
 			}
 
 			songStats.score += note.penaltyFunction(note);
@@ -2379,9 +2398,15 @@ class PlayState extends MusicBeatState
 			forceMissNextNote = false;
 
 			if(boyfriend.characterInfo.info.functions.noteMiss != null){
-				boyfriend.characterInfo.info.functions.noteMiss(boyfriend, note.direction, true);
+				boyfriend.characterInfo.info.functions.noteMiss(boyfriend, note.direction, causeComboBreak);
 			}
 			for(script in scripts){ script.noteMiss(note.direction, true); }
+		}
+		else{
+			note.missCallback(note, dad);
+			if(dad.characterInfo.info.functions.noteMiss != null){
+				dad.characterInfo.info.functions.noteMiss(dad, note.direction, true);
+			}
 		}
 	}
 
@@ -2459,12 +2484,15 @@ class PlayState extends MusicBeatState
 			playerStrums.members[note.direction].animation.play("confirm", true);
 
 			note.wasGoodHit = true;
-			if(canChangeVocalVolume){ vocals.volume = 1; }
+
+			if(note.countNoteFunction(note)){
+				if(canChangeVocalVolume){ vocals.volume = 1; }
+			}
 
 			note.hitCallback(note, boyfriend);
 
 			if(note.sustain != null){
-				note.sustain.countSustainOnComplete = note.countNoteFunction(note);
+				note.sustain.countSustain = note.countNoteFunction(note);
 				note.sustain.breakComboOnDrop = note.breakComboFunction(note);
 				startSustain(note.sustain);
 			}
@@ -2734,6 +2762,9 @@ class PlayState extends MusicBeatState
 				}
 			}
 			else{ note.breakComboFunction = function(note:Note):Bool{ return true; }; }
+
+			if(noteType.scoring.autoplayIgnore != null){ note.autoplayIgnore = noteType.scoring.autoplayIgnore; }
+			else{ note.autoplayIgnore = false; }
 		}
 		else{
 			note.hitCallback = defaultNoteHit;
@@ -2744,6 +2775,7 @@ class PlayState extends MusicBeatState
 			note.damageFunction = function(note:Note):Float{ return Scoring.MISS_DAMAGE_AMOUNT; };
 			note.countNoteFunction = function(note:Note):Bool{ return true; };
 			note.breakComboFunction = function(note:Note):Bool{ return true; };
+			note.autoplayIgnore = false;
 		}
 	}
 
@@ -2796,6 +2828,9 @@ class PlayState extends MusicBeatState
 				}
 			}
 			else{ noteSustain.damageFunction = function(sustain:NoteSustain):Float{ return Scoring.HOLD_DROP_DMAMGE_PER_SECOND; }; }
+
+			if(noteType.scoring.autoplayIgnore != null){ noteSustain.autoplayIgnore = noteType.scoring.autoplayIgnore; }
+			else{ noteSustain.autoplayIgnore = false; }
 		}
 		else{
 			noteSustain.hitCallback = defaultSustainHit;
@@ -2804,8 +2839,9 @@ class PlayState extends MusicBeatState
 			noteSustain.healingFunction = function(sustain:NoteSustain):Float{ return Scoring.HOLD_HEAL_AMOUNT_PER_SECOND; };
 			noteSustain.penaltyFunction = function(sustain:NoteSustain):Int{ return Scoring.HOLD_DROP_PENALTY_PER_SECOND; };
 			noteSustain.damageFunction = function(sustain:NoteSustain):Float{ return Scoring.HOLD_DROP_DMAMGE_PER_SECOND; };
-			noteSustain.countSustainOnComplete = true;
+			noteSustain.countSustain = true;
 			noteSustain.breakComboOnDrop = true;
+			noteSustain.autoplayIgnore = false;
 		}
 	}
 

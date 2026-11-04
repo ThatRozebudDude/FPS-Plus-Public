@@ -43,6 +43,7 @@ class Note extends FlxSprite
 	public var damageFunction:(Note)->Float = null;
 	public var countNoteFunction:(Note)->Bool = null;
 	public var breakComboFunction:(Note)->Bool = null;
+	public var autoplayIgnore:Bool = false;
 
 	var noteSkin:NoteSkinBase;
 	public var canGlow:Bool;
@@ -179,14 +180,11 @@ class Note extends FlxSprite
 	public function updateCanHit(songPosition:Float = 0, hitRegionFactor:Float = 1){
 		if(mustPress){
 			canBeHit = (strumTime > songPosition - (hitRegion.shit * hitRegionFactor) && strumTime < songPosition + (hitRegion.shit * hitRegionFactor));
-
-			if(strumTime < songPosition - (hitRegion.shit * hitRegionFactor) && !wasGoodHit){
-				tooLate = true;
-			}
-			
+			tooLate = (strumTime < songPosition - (hitRegion.shit * hitRegionFactor) && !wasGoodHit);
 		}
 		else{
 			canBeHit = (strumTime <= songPosition);
+			tooLate = (strumTime < songPosition - (hitRegion.shit * hitRegionFactor) && !wasGoodHit && autoplayIgnore); //Only allow the note to be late if the opponent should be able to miss it.
 		}
 
 		inRange = (strumTime > songPosition - (hitRegion.shit * hitRegionFactor)

@@ -21,6 +21,8 @@ typedef NoteScoringProperties = {
 	var countHit:OneOfTwo<Null<Bool>, (Note)->Bool>;
 	var countMiss:OneOfTwo<Null<Bool>, (Note)->Bool>;
 
+	var autoplayIgnore:Null<Bool>;
+
 	var hitRegion:HitRegion;
 }
 
@@ -110,6 +112,8 @@ class NoteType
 			if(definition.scoring.countHit != null)			{ def.scoring.countHit = definition.scoring.countHit; }
 			if(definition.scoring.countMiss != null)		{ def.scoring.countMiss = definition.scoring.countMiss; }
 
+			if(definition.scoring.autoplayIgnore != null)	{ def.scoring.autoplayIgnore = definition.scoring.autoplayIgnore; }
+			
 			if(definition.scoring.hitRegion != null)		{ def.scoring.hitRegion = definition.scoring.hitRegion; }
 		}
 		if(definition.editor != null){
@@ -194,6 +198,7 @@ class NoteType
 				sustainDamage: null,
 				countHit: null,
 				countMiss: null,
+				autoplayIgnore: null,
 				hitRegion: {sick: Note.DEFAULT_SICK_REGION, good: Note.DEFAULT_GOOD_REGION, bad: Note.DEFAULT_BAD_REGION, shit: Note.DEFAULT_SHIT_REGION}
 			},
 			skin: null,

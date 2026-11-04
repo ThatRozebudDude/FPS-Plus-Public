@@ -42,8 +42,9 @@ class NoteSustain extends FlxSprite
 	public var healingFunction:(NoteSustain)->Float = null;
 	public var penaltyFunction:(NoteSustain)->Int = null;
 	public var damageFunction:(NoteSustain)->Float = null;
-	public var countSustainOnComplete:Bool = true;
+	public var countSustain:Bool = true;
 	public var breakComboOnDrop:Bool = true;
+	public var autoplayIgnore:Bool = false;
 
 	inline public static final SAFE_DROP_TIME:Float = 90; //The time in milliseconds that the sustain finishes early so that releasing the sustain isn't so tight.
 
