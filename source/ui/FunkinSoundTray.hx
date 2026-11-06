@@ -96,13 +96,11 @@ class FunkinSoundTray extends FlxSoundTray
 
 	override function showIncrement():Void{
 		moveTrayMakeVisible(true);
-		correctVolumeValues();
 		saveVolumePreferences();
 	}
 
 	override function showDecrement():Void{
 		moveTrayMakeVisible(false);
-		correctVolumeValues();
 		saveVolumePreferences();
 	}
 
@@ -126,15 +124,7 @@ class FunkinSoundTray extends FlxSoundTray
 
 	function updateBars():Void{
 		var globalVolume:Int = FlxG.sound.muted || FlxG.sound.volume == 0 ? 0 : Math.round(FlxG.sound.logToLinear(FlxG.sound.volume) * 10);
-
-		for (i in 0..._bars.length){
-			_bars[i].visible = i < globalVolume;
-		}
-	}
-
-	inline private function correctVolumeValues():Void{
-		FlxG.sound.muted = (FlxG.sound.volume <= 0.0015);
-		FlxG.sound.volume = (FlxG.sound.volume > 0.99) ? 1 : FlxG.sound.volume;
+		for (i in 0..._bars.length){ _bars[i].visible = i < globalVolume; }
 	}
 
 	function saveVolumePreferences():Void{
