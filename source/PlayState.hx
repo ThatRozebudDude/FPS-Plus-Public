@@ -2531,7 +2531,7 @@ class PlayState extends MusicBeatState
 		dad.step(curStep);
 		gf.step(curStep);
 		notes.forEachAlive(function(note:Note){ note.step(curStep); });
-		noteSustains.forEachAlive(function(sustain:NoteSustain){ sustain.step(curBeat); });
+		noteSustains.forEachAlive(function(sustain:NoteSustain){ sustain.step(curStep); });
 		for(script in scripts){ script.step(curStep); }
 	}
 
