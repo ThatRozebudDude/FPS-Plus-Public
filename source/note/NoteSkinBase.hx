@@ -1,5 +1,6 @@
 package note;
 
+import note.NoteSustain;
 import openfl.display.BlendMode;
 import characters.CharacterInfoBase.AnimData;
 import characters.CharacterInfoBase.AnimType;
@@ -36,7 +37,7 @@ typedef NoteSkinInfo = {
 	var noteInfoList:Array<NoteInfo>;
 	var sustainInfoList:Array<SustainInfo>;
 
-	var functions:NoteFuncions;
+	var functions:NoteFunctions;
 
 	var canGlow:Bool;
 	var scale:Float;
@@ -56,12 +57,18 @@ typedef NoteSkinInfo = {
 	var holdCoverOverride:String;
 }
 
-typedef NoteFuncions = {
-	var create:(Note)->Void;			//This function is run after the Character new() function is complete.
+typedef NoteFunctions = {
+	var create:(Note)->Void;			//This function is run after the Note new() function is complete.
 	var update:(Note, Float)->Void;		//This function is run every frame. Float is elapsed.
 	var step:(Note, Int)->Void;			//This function is run every step. Int is the current step.
 	var beat:(Note, Int)->Void;			//This function is run every beat. Int is the current beat.
 	var destroy:(Note)->Void;			//This function is run every frame. Float is elapsed.
+
+	var sustainCreate:(NoteSustain)->Void;			//This function is run after the Note new() function is complete.
+	var sustainUpdate:(NoteSustain, Float)->Void;	//This function is run every frame. Float is elapsed.
+	var sustainStep:(NoteSustain, Int)->Void;		//This function is run every step. Int is the current step.
+	var sustainBeat:(NoteSustain, Int)->Void;		//This function is run every beat. Int is the current beat.
+	var sustainDestroy:(NoteSustain)->Void;			//This function is run every frame. Float is elapsed.
 }
 
 @:build(modding.GlobalScriptingTypesMacro.build())
@@ -141,6 +148,11 @@ class NoteSkinBase
 			step: null,
 			beat: null,
 			destroy: null,
+			sustainCreate: null,
+			sustainUpdate: null,
+			sustainStep: null,
+			sustainBeat: null,
+			sustainDestroy: null
 		},
 
 		canGlow: true,

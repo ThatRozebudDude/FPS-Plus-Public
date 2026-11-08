@@ -72,6 +72,18 @@ class NoteSustain extends FlxSprite
 
 		xOffset = noteSkin.info.holdOffsets[direction].x;
 		yOffset = noteSkin.info.holdOffsets[direction].y;
+
+		if(noteSkin.info.functions.sustainCreate != null){
+			noteSkin.info.functions.sustainCreate(this);
+		}
+	}
+
+	override function update(elapsed:Float){
+		super.update(elapsed);
+		
+		if(noteSkin.info.functions.sustainUpdate != null){
+			noteSkin.info.functions.sustainUpdate(this, elapsed);
+		}
 	}
 
 	public function setSustainLength(scrollSpeed:Float):Void{
@@ -169,6 +181,26 @@ class NoteSustain extends FlxSprite
 
 	public function calculateMaxScore():Void{
 		maxScore = Std.int(scoringFunction(this) * (length/1000));
+	}
+
+	public function beat(curBeat:Int):Void{
+		if(noteSkin.info.functions.sustainBeat != null){
+			noteSkin.info.functions.sustainBeat(this, curBeat);
+		}
+	}
+
+	public function step(curStep:Int):Void{
+		if(noteSkin.info.functions.sustainStep != null){
+			noteSkin.info.functions.sustainStep(this, curStep);
+		}
+	}
+
+	override public function destroy() {
+		if(noteSkin.info.functions.sustainDestroy != null){
+			noteSkin.info.functions.sustainDestroy(this);
+		}
+
+		super.destroy();
 	}
 
 }

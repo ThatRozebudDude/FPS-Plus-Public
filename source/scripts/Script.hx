@@ -104,16 +104,26 @@ class Script
 	 * Called when a character hits a note.
 	 */
 	public function noteHit(character:Character, note:Note){}
-	
+
+	/**
+	 * Called when a character misses a note. `countedMiss` will be `true` when the miss adds to your miss count and `false` when it doesn't.
+	 */
+	public function noteMiss(character:Character, note:Note, countedMiss:Bool){}
+
 	/**
 	 * Called evey step when a character is holding a sustain.
 	 */
 	public function sustainHit(character:Character, note:NoteSustain){}
 
-	 /**
-	  * Called when you miss a note. `countedMiss` will be `true` when the miss adds to your miss count and `false` when it just plays the miss animation while not adding to your miss count.
-	  */
-	public function noteMiss(direction:Int, countedMiss:Bool){}
+	/**
+	 * Called when a character drops a sustain. `countedMiss` will be `true` when the drop breaks your combo and `false` when it doesn't.
+	 */
+	public function sustainMiss(character:Character, note:NoteSustain, countedMiss:Bool){}
+
+	/**
+	 * Called when you press a direction without hitting a note.
+	 */
+	public function wrongPress(direction:Int){}
 
 	function addToBackground(x:FlxBasic)		{ PlayState.instance.backgroundLayer.add(x); }
 	function removeFromBackground(x:FlxBasic)	{ PlayState.instance.backgroundLayer.remove(x); }

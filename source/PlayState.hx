@@ -2361,16 +2361,17 @@ class PlayState extends MusicBeatState
 				adjustHealthWithModifier(sustain.damageFunction(sustain) * (sustain.length/1000));
 			}
 	
-			if(boyfriend.characterInfo.info.functions.noteMiss != null){
-				boyfriend.characterInfo.info.functions.noteMiss(boyfriend, sustain.direction, false);
+			if(boyfriend.characterInfo.info.functions.sustainMiss != null){
+				boyfriend.characterInfo.info.functions.sustainMiss(boyfriend, sustain, sustain.breakComboOnDrop);
 			}
-			for(script in scripts){ script.noteMiss(sustain.direction, false); }
+			for(script in scripts){ script.sustainMiss(boyfriend, sustain, sustain.breakComboOnDrop); }
 		}
 		else{
 			sustain.missCallback(sustain, dad);
-			if(dad.characterInfo.info.functions.noteMiss != null){
-				dad.characterInfo.info.functions.noteMiss(dad, sustain.direction, false);
+			if(dad.characterInfo.info.functions.sustainMiss != null){
+				dad.characterInfo.info.functions.sustainMiss(dad, sustain, sustain.breakComboOnDrop);
 			}
+			for(script in scripts){ script.sustainMiss(dad, sustain, sustain.breakComboOnDrop); }
 		}
 
 		sustainsToDestroy.push(sustain);
@@ -2379,10 +2380,10 @@ class PlayState extends MusicBeatState
 	function noteMiss(note:Note):Void{
 		if(!songStarted){ return; }
 
+		final causeComboBreak:Bool = note.breakComboFunction(note);
+
 		if(note.mustPress){
 			if(Main.launchArguments.flippy_mode) { System.exit(0); }
-
-			final causeComboBreak:Bool = note.breakComboFunction(note);
 
 			if(causeComboBreak){
 				comboBreak();
@@ -2398,15 +2399,16 @@ class PlayState extends MusicBeatState
 			forceMissNextNote = false;
 
 			if(boyfriend.characterInfo.info.functions.noteMiss != null){
-				boyfriend.characterInfo.info.functions.noteMiss(boyfriend, note.direction, causeComboBreak);
+				boyfriend.characterInfo.info.functions.noteMiss(boyfriend, note, causeComboBreak);
 			}
-			for(script in scripts){ script.noteMiss(note.direction, true); }
+			for(script in scripts){ script.noteMiss(boyfriend, note, causeComboBreak); }
 		}
 		else{
 			note.missCallback(note, dad);
 			if(dad.characterInfo.info.functions.noteMiss != null){
-				dad.characterInfo.info.functions.noteMiss(dad, note.direction, true);
+				dad.characterInfo.info.functions.noteMiss(dad, note, causeComboBreak);
 			}
+			for(script in scripts){ script.noteMiss(dad, note, causeComboBreak); }
 		}
 	}
 
@@ -2418,10 +2420,10 @@ class PlayState extends MusicBeatState
 			adjustHealthWithModifier(Scoring.WRONG_TAP_DAMAGE_AMOUNT);
 			setBoyfriendInvuln(4/60);
 
-			if(boyfriend.characterInfo.info.functions.noteMiss != null){
-				boyfriend.characterInfo.info.functions.noteMiss(boyfriend, direction, false);
+			if(boyfriend.characterInfo.info.functions.wrongPress != null){
+				boyfriend.characterInfo.info.functions.wrongPress(boyfriend, direction);
 			}
-			for(script in scripts){ script.noteMiss(direction, false); }
+			for(script in scripts){ script.wrongPress(direction); }
 		}
 	}
 
@@ -2528,7 +2530,8 @@ class PlayState extends MusicBeatState
 		boyfriend.step(curStep);
 		dad.step(curStep);
 		gf.step(curStep);
-		notes.forEachAlive(function(note){ note.step(curStep); });
+		notes.forEachAlive(function(note:Note){ note.step(curStep); });
+		noteSustains.forEachAlive(function(sustain:NoteSustain){ sustain.step(curBeat); });
 		for(script in scripts){ script.step(curStep); }
 	}
 
@@ -2575,7 +2578,8 @@ class PlayState extends MusicBeatState
 		boyfriend.beat(curBeat);
 		dad.beat(curBeat);
 		gf.beat(curBeat);
-		notes.forEachAlive(function(note){ note.beat(curBeat); });
+		notes.forEachAlive(function(note:Note){ note.beat(curBeat); });
+		noteSustains.forEachAlive(function(sustain:NoteSustain){ sustain.beat(curBeat); });
 		for(script in scripts){ script.beat(curBeat); }
 
 		managedSounds = managedSounds.filter(function(sound:FlxSound):Bool{ return sound != null; });
