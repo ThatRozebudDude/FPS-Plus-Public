@@ -155,12 +155,20 @@ The character info has a field called `functions` which is an object containing 
 - `songStart(character)`: This is run once the song starts playing.
 - `songEnd(character)`: This is run once the song finishes playing.
 - `noteHit(character, note)`: This is run when a character hits a note.
-    - `note`: The note object that was just hit.
-- `sustainHit(character, noteSustain)`: This is run evey step when a character is holding a sustain.
-    - `noteSustain`: The note sustain object that was just hit.
-- `noteMiss(character, direction, countedMiss)`: This is run when exiting `PlayState`.
-    - `direction`: The direction that the player missed in as an integer.
-    - `countedMiss`: A boolean that will be `true` if the miss was counted or `false` if it wasn't (for things like wrong taps).
+	- `note`: The note object that was just hit.
+- `noteMiss(character, note, countedMiss)`: This is run when a character misses a note.
+	- `note`: The note object that was just missed.
+	- `countedMiss`: A boolean that will be `true` if the miss gets counted and breaks your combo  or `false` if it doesn't.
+- `sustainHit(character, sustain)`: This is run evey step when a character is holding a sustain.
+	- `sustain`: The note sustain object that was just hit.
+- `sustainMiss(character, sustain, countedMiss)`: This is run when a character drops a sustain.
+	- `sustain`: The note sustain object that was just dropped.
+	- `countedMiss`: A boolean that will be `true` if the miss breaks your combo  or `false` if it doesn't.
+- `sustainMissMiss(character, sustain, countedMiss)`: This is run when a character drops a sustain.
+	- `sustain`: The note sustain object that was just dropped.
+	- `countedMiss`: A boolean that will be `true` if the miss breaks your combo  or `false` if it doesn't.
+- `wrongPress(character, direction)`: This is run when the player presses a direction without hitting a note.
+	- `direction`: The note direction pressed as an integer. Will be from `0`to`3`.
 - `applyShader(character, shader)`: This replaces the default `applyShader()` logic with custom logic. You can use `character.defaultApplyShaderBehavior()` if you want to incorporate the default logic into part of the new logic.
 	- `shader`: The FlxShader that is trying to be applied to the character.
 

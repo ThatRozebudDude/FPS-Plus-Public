@@ -2154,13 +2154,13 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (boyfriend.holdTimer > Conductor.getStepCrotchet() * boyfriend.stepsUntilRelease && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
-			if (boyfriend.isSinging){
+		if(boyfriend.holdTimer > Conductor.getStepCrotchet() * boyfriend.stepsUntilRelease && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
+			if(boyfriend.isSinging){
 				if((boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd != null ? boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd : Character.USE_IDLE_END)){ 
-					boyfriend.idleEnd(); 
+					boyfriend.idleEnd();
 				}
 				else{ 
-					boyfriend.dance(); 
+					boyfriend.dance();
 					boyfriend.danceLockout = true;
 				}
 			}	
@@ -2214,13 +2214,13 @@ class PlayState extends MusicBeatState
 			}
 		});
 
-		if (boyfriend.holdTimer > Conductor.getStepCrotchet() * boyfriend.stepsUntilRelease && !upHold && !downHold && !rightHold && !leftHold && boyfriend.canAutoAnim && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
-			if (boyfriend.isSinging){
+		if(boyfriend.holdTimer > Conductor.getStepCrotchet() * boyfriend.stepsUntilRelease && boyfriend.canAutoAnim && ((boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle != null ? boyfriend.characterInfo.info.characterPropertyOverrides.preventShortIdle : Character.PREVENT_SHORT_IDLE) ? !anyPlayerNoteInRange : true)){
+			if(boyfriend.isSinging){
 				if((boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd != null ? boyfriend.characterInfo.info.characterPropertyOverrides.useIdleEnd : Character.USE_IDLE_END)){ 
-					boyfriend.idleEnd(); 
+					boyfriend.idleEnd();
 				}
 				else{ 
-					boyfriend.dance(); 
+					boyfriend.dance();
 					boyfriend.danceLockout = true;
 				}
 			}

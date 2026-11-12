@@ -21,13 +21,13 @@ Similarly to stages, there are a variety of functions you can override that will
 - `create()`: This is run when the script is created after `PlayState` is created.
 - `postCreate()`: This is run after all other scripts have run their `create()` function. Can be used to check if other scripts or certain stage elements exist that wouldn't have before `create()`.
 - `update(elapsed)`: This is run every frame in `PlayState`.
-    - `elapsed`: The time in seconds between this frame and the previous frame.
+	- `elapsed`: The time in seconds between this frame and the previous frame.
 - `beat(curBeat)`: This is run every song beat.
-    - `curBeat`: The current beat of the song as an integer.
+	- `curBeat`: The current beat of the song as an integer.
 - `countdownBeat(curBeat)`: This is run every beat of the intro countdown.
-    - `curBeat`: The current part of the countdown as an integer.
+	- `curBeat`: The current part of the countdown as an integer.
 - `step(curStep)`: This is run every step of the song.
-    - `curStep`: The current step of the song as an integer.
+	- `curStep`: The current step of the song as an integer.
 - `songStart()`: This is run once the song starts playing.
 - `songEnd()`: This is run once the song finishes playing.
 - `pause()`: This is run whenever the game is paused.
@@ -41,14 +41,21 @@ Similarly to stages, there are a variety of functions you can override that will
 	- `elapsed`: The time in seconds between this frame and the previous frame.
 - `exit()`: This is run when exiting `PlayState`.
 - `noteHit(character, note)`: This is run when a character hits a note.
-    - `character`: The character object that hit the note. Will either be `boyfriend` or `dad`.
-    - `note`: The note object that was just hit.
-- `sustainHit(character, noteSustain)`: This is run evey step when a character is holding a sustain.
-    - `character`: The character object that hit the note. Will either be `boyfriend` or `dad`.
-    - `noteSustain`: The note sustain object that was just hit.
-- `noteMiss(direction, countedMiss)`: This is run when exiting `PlayState`.
-    - `direction`: The direction that the player missed in as an integer.
-    - `countedMiss`: A boolean that will be `true` if the miss was counted or `false` if it wasn't (for things like wrong taps).
+	- `character`: The character object that hit the note. Will either be `boyfriend` or `dad`.
+	- `note`: The note object that was just hit.
+- `noteMiss(character, note, countedMiss)`: This is run when a character misses a note.
+	- `character`: The character object that hit the note. Will either be `boyfriend` or `dad`.
+	- `note`: The note object that was just missed.
+	- `countedMiss`: A boolean that will be `true` if the miss gets counted and breaks your combo  or `false` if it doesn't.
+- `sustainHit(character, sustain)`: This is run evey step when a character is holding a sustain.
+	- `character`: The character object that hit the note. Will either be `boyfriend` or `dad`.
+	- `sustain`: The note sustain object that was just hit.
+- `sustainMiss(character, sustain, countedMiss)`: This is run when a character drops a sustain.
+	- `character`: The character object that dropped the sustain. Will either be `boyfriend` or `dad`.
+	- `sustain`: The note sustain object that was just dropped.
+	- `countedMiss`: A boolean that will be `true` if the miss breaks your combo  or `false` if it doesn't.
+- `wrongPress(direction)`: This is run when the player presses a direction without hitting a note.
+	- `direction`: The note direction pressed as an integer. Will be from `0`to`3`.
 
 ## Adding Objects
 
