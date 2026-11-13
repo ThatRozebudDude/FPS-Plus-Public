@@ -2951,6 +2951,8 @@ class PlayState extends MusicBeatState
 			_onComplete = function(tween:FlxTween){};
 		}
 
+		_time /= songPlaybackSpeed;
+
 		camTween.cancel();
 		if(_time > 0){
 			camTween = tweenManager.tween(camFollow, {x: _x, y: _y}, _time, {ease: _ease, onComplete: _onComplete});
@@ -2967,6 +2969,8 @@ class PlayState extends MusicBeatState
 			_onComplete = function(tween:FlxTween){};
 		}
 
+		_time /= songPlaybackSpeed;
+
 		camZoomTween.cancel();
 		if(_time > 0){
 			camZoomTween = tweenManager.tween(this, {defaultCamZoom: _zoom}, _time, {ease: _ease, onComplete: _onComplete});
@@ -2981,6 +2985,8 @@ class PlayState extends MusicBeatState
 			_onComplete = function(tween:FlxTween){};
 		}
 
+		_time /= songPlaybackSpeed;
+
 		camZoomAdjustTween.cancel();
 		if(_time > 0){
 			camZoomAdjustTween = tweenManager.tween(this, {camGameZoomAdjust: _zoom}, _time, {ease: _ease, onComplete: _onComplete});
@@ -2994,6 +3000,8 @@ class PlayState extends MusicBeatState
 		if(_onComplete == null){
 			_onComplete = function(tween:FlxTween){};
 		}
+
+		_time /= songPlaybackSpeed;
 
 		uiZoomTween.cancel();
 		if(_time > 0){
@@ -3040,6 +3048,8 @@ class PlayState extends MusicBeatState
 
 		if(_time == null){ _time = defaultCameraOffsetTime; }
 		if(_ease == null){ _ease = defaultCameraOffsetEase; }
+
+		_time /= songPlaybackSpeed;
 
 		offsetTween.cancel();
 		if(_time > 0){
