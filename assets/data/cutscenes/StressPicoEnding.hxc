@@ -43,7 +43,7 @@ class StressPicoEnding extends ScriptedCutscene
 		super.update(elapsed);
 	}
 
-	function setup() {
+	function setup(){
 		addToCharacterLayer(tankmanCutscene);
 		tankmanCutscene.playAnim("full", true);
 		dad.visible = false;
@@ -59,19 +59,19 @@ class StressPicoEnding extends ScriptedCutscene
 		playstate.camChangeZoom(playstate.stage.startingZoom, 1.5, FlxEase.quadInOut);
 	}
 
-	function laugh() {
+	function laugh(){
 		boyfriend.playAnim("laughEnd", true);
 	}
 
-	function panUp() {
+	function panUp(){
 		playstate.camMove(playstate.camFollow.x, playstate.camFollow.y - 200, 3, FlxEase.cubeIn);
 	}
 
-	function fadeOut() {
+	function fadeOut(){
 		playstate.camOverlay.fade(0xFF000000, 1);
 	}
 	
-	function end() {
+	function end(){
 		next();
 	}
 

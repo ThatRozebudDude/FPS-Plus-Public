@@ -51,7 +51,7 @@ class VideoCutscene extends ScriptedCutscene
 		}
 	}
 
-	function setup() {
+	function setup(){
 		playstate.inVideoCutscene = true;
 
 		black.scale.x = black.scale.x / playstate.defaultCamZoom;

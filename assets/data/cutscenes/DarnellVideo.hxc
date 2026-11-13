@@ -40,7 +40,7 @@ class DarnellVideo extends ScriptedCutscene
 		}
 	}
 
-	function first() {
+	function first(){
 		playstate.inVideoCutscene = true;
 
 		video = new VideoHandler();

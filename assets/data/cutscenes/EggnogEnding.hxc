@@ -11,7 +11,7 @@ class EggnogEnding extends ScriptedCutscene
 		addEvent(0, end);
 	}
 
-	function end() {
+	function end(){
 		var blackShit:FlxSprite = new FlxSprite(-1280 * playstate.camGame.zoom, -720 * playstate.camGame.zoom).makeGraphic(1280 * 3, 720 * 3, 0xFF000000);
 		blackShit.scrollFactor.set();
 		addToForegroundLayer(blackShit);

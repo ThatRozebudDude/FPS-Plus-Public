@@ -52,7 +52,7 @@ class TwoHotEnding extends ScriptedCutscene
 		}
 	}
 
-	function setup() {
+	function setup(){
 		video.playMP4(Paths.video("weekend1/2hotCutscene"), function(){
 			videoOver = true;
 			playstate.customTransOut = new InstantTransition();
@@ -64,7 +64,7 @@ class TwoHotEnding extends ScriptedCutscene
 		addGeneric(video);
 	}
 
-	function centerCamera() {
+	function centerCamera(){
 		var centerPos:FlxPoint = new FlxPoint(FlxMath.lerp(playstate.getOpponentFocusPosition().x, playstate.getBfFocusPosition().x, 0.5), FlxMath.lerp(playstate.getOpponentFocusPosition().y, playstate.getBfFocusPosition().y, 0.5));
 		playstate.autoCam = false;
 		playstate.autoCamBop = false;
@@ -75,7 +75,7 @@ class TwoHotEnding extends ScriptedCutscene
 		fadeOutHud();
 	}
 
-	function neneIdleLoop() {
+	function neneIdleLoop(){
 		var frame:Int = gf.curAnimFrame();
 		var frameOffset:Int = 0;
 		if(gf.curAnim == "danceRight"){ frameOffset = 15; }
@@ -94,7 +94,7 @@ class TwoHotEnding extends ScriptedCutscene
 		dad.playAnim("pissed", true);
 	}
 
-	function swapToVideo() {
+	function swapToVideo(){
 		playstate.inVideoCutscene = true;
 		video.visible = true;
 		black.visible = true;

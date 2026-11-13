@@ -36,9 +36,11 @@ class UghIntro extends ScriptedCutscene
 		addEvent(12.1 + Conductor.getCrotchet() * 5, swapBackToGameplayTankman);
 	}
 
-	function ugh1() {
+	function ugh1(){
 		addToCharacterLayer(tankman);
 		tankman.playAnim("ugh1", true);
+		gf.playAnim("idleLoop", true);
+		gf.idleSequenceIndex++; //Switch which idle she starts on to sync it to the idle loop better.
 		dad.visible = false;
 		FlxG.sound.play(Paths.sound("week7/wellWellWell"));
 		bgm.play();
@@ -48,24 +50,24 @@ class UghIntro extends ScriptedCutscene
 		playstate.camHUD.visible = false;
 	}
 
-	function ugh2() {
+	function ugh2(){
 		playstate.camFocusBF();
 	}
 
-	function bfBeep() {
+	function bfBeep(){
 		boyfriend.playAnim('singUP');
 		FlxG.sound.play(Paths.sound("week7/bfBeep"), 1.0, false, null, true, function(){
 			boyfriend.playAnim('idle');
 		});
 	}
 
-	function ugh3() {
+	function ugh3(){
 		tankman.playAnim("ugh2", true);
 		FlxG.sound.play(Paths.sound("week7/killYou"));
 		playstate.camFocusOpponent();
 	}
 
-	function ugh4() {
+	function ugh4(){
 		bgm.fadeOut(Conductor.getCrotchet() * 5, 0);
 		playstate.camChangeZoom(originalZoom, Conductor.getCrotchet() * 5, FlxEase.quadInOut);
 		playstate.camHUD.visible = true;
@@ -73,7 +75,7 @@ class UghIntro extends ScriptedCutscene
 		next();
 	}
 
-	function swapBackToGameplayTankman() {
+	function swapBackToGameplayTankman(){
 		dad.visible = true;
 		tankman.visible = false;
 		removeFromCharacterLayer(tankman);

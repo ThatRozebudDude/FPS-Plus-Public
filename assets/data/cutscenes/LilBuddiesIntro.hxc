@@ -17,7 +17,7 @@ class LilBuddiesIntro extends ScriptedCutscene
 		}
 	}
 
-	function lilBuddiesIntro() {
+	function lilBuddiesIntro(){
 		playstate.instantStart();
 
 		playstate.healthBar.alpha = 0;

@@ -49,7 +49,7 @@ class VideoCutsceneEnd extends ScriptedCutscene
 		}
 	}
 
-	function setup() {
+	function setup(){
 		playstate.inVideoCutscene = true;
 
 		video.visible = true;
@@ -66,7 +66,7 @@ class VideoCutsceneEnd extends ScriptedCutscene
 		addGeneric(video);
 	}
 
-	function videoStarted() {
+	function videoStarted(){
 		black.visible = true;
 		playstate.camHUD.visible = false;
 	}

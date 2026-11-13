@@ -101,7 +101,7 @@ class SchoolIntro extends ScriptedCutscene
 		}
 	}
 
-	function setup() {
+	function setup(){
 		switch(PlayState.chart.meta.song.toLowerCase()){
 			case "senpai":
 				playstate.camGame.filters.push(fadeInShaderFilter);
@@ -133,27 +133,27 @@ class SchoolIntro extends ScriptedCutscene
 		}
 	}
 
-	function blackLowerAlpha() {
+	function blackLowerAlpha(){
 		fadeInShader.fadeVal += BLACK_ALPHA_SUBTRACT;
 		if(fadeInShader.fadeVal > 1){
 			fadeInShader.fadeVal = 1;
 		}
 	}
 
-	function startDialogue() {
+	function startDialogue(){
 		dialogueBox.start();
 	}
 
-	function thornsSetup() {
+	function thornsSetup(){
 		addGeneric(senpaiEvil);
 		senpaiEvil.alpha = 0;
 	}
 
-	function thornsSenpaiIncreaseAlpha() {
+	function thornsSenpaiIncreaseAlpha(){
 		senpaiEvil.alpha += BLACK_ALPHA_SUBTRACT;
 	}
 	
-	function senpaiDie() {
+	function senpaiDie(){
 		senpaiEvil.animation.play('idle');
 		FlxG.sound.play(Paths.sound('week6/Senpai_Dies'), 1, false, null, true, function(){
 			removeGeneric(senpaiEvil);
@@ -164,7 +164,7 @@ class SchoolIntro extends ScriptedCutscene
 		});
 	}
 
-	function cameraFade() {
+	function cameraFade(){
 		FlxG.camera.fade(0xFFFFFFFF, 1.6, false);
 	}
 
