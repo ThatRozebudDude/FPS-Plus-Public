@@ -166,6 +166,7 @@ class PauseSubState extends MusicBeatSubState
 					case "Restart Song":
 						PlayState.instance.tweenManager.clear();
 						ImageCache.refreshLocal();
+						PlayState.instance.keepFromChartEditor = true;
 						PlayState.instance.switchState(new PlayState());
 						PlayState.sectionStart = false;
 						PlayState.replayStartCutscene = false;
@@ -178,6 +179,7 @@ class PauseSubState extends MusicBeatSubState
 					case "Restart Section":
 						PlayState.instance.tweenManager.clear();
 						ImageCache.refreshLocal();
+						PlayState.instance.keepFromChartEditor = true;
 						PlayState.instance.switchState(new PlayState());
 						PlayState.replayStartCutscene = false;
 						if(PlayState.instance.instSong != null){
@@ -204,6 +206,7 @@ class PauseSubState extends MusicBeatSubState
 						
 					case "Options":
 						PlayState.instance.tweenManager.clear();
+						PlayState.instance.keepFromChartEditor = true;
 						PlayState.instance.switchState(new ConfigMenu());
 						ConfigMenu.exitTo = PlayState;
 						PlayState.replayStartCutscene = false;

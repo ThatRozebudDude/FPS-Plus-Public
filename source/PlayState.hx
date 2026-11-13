@@ -87,7 +87,7 @@ class PlayState extends MusicBeatState
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
 	public static var fromChartEditor:Bool = false;
-	public static var fceForLilBuddies:Bool = false;
+	public var keepFromChartEditor:Bool = false;
 	public static var overrideInsturmental:String = "";
 	
 	public static var returnLocation:String = "main";
@@ -723,8 +723,11 @@ class PlayState extends MusicBeatState
 		bgDim.alpha = Config.bgDim/10;
 		add(bgDim);
 
-		if(fromChartEditor && !fceForLilBuddies){
+		if(fromChartEditor){
 			preventScoreSaving = true;
+			if(ChartingState.persistPlaybackRate){
+				songPlaybackSpeed = ChartingState.playbackRateValue;
+			}
 		}
 
 		for(script in scripts){ script.create(); }
@@ -3210,8 +3213,9 @@ class PlayState extends MusicBeatState
 	function preStateChange():Void{
 		for(script in scripts){ script.exit(); }
 		Conductor.resetBPMChanges();
-		fromChartEditor = false;
-		fceForLilBuddies = false;
+		if(!keepFromChartEditor){
+			fromChartEditor = false;
+		}
 	}
 
 	override function onFocusLost(){

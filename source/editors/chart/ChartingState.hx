@@ -273,7 +273,15 @@ class ChartingState extends MusicBeatState
 	var instWaveform:WaveformSprite;
 	var playerWaveform:WaveformSprite;
 	var opponentWaveform:WaveformSprite;
-	var showWaveforms:Bool = false;
+
+	static var playPlayerHitsounds:Bool = false;
+	static var playOpponentHitsounds:Bool = false;
+	static var playPlayerVocals:Bool = true;
+	static var playOpponentVocals:Bool = true;
+	static var playInstrumental:Bool = true;
+	static var showWaveforms:Bool = false;
+	public static var playbackRateValue:Float = 1;
+	public static var persistPlaybackRate:Bool = false;
 
 	override public function new(_startPosition:Float = 0){
 		super();
@@ -885,30 +893,48 @@ class ChartingState extends MusicBeatState
 	}
 
 	function setupToolsTab():Void{
-		opponentHitSoundToggle = new Toggle(PANEL_SPACING, PANEL_SPACING, false, "Opponent Hitsound");
-		playerHitSoundToggle = new Toggle(PANEL_SPACING, opponentHitSoundToggle.y + opponentHitSoundToggle.elementHeight + PANEL_SPACING, false, "Player Hitsound");
+		opponentHitSoundToggle = new Toggle(PANEL_SPACING, PANEL_SPACING, playOpponentHitsounds, "Opponent Hitsound");
+		opponentHitSoundToggle.onToggle.add(function(value:Bool){ playOpponentHitsounds = value; });
 		
-		var instrumentalToggle:Toggle = new Toggle(PANEL_SPACING, playerHitSoundToggle.y + playerHitSoundToggle.elementHeight + PANEL_EXTRA_SPACING, true, "Instrumental");
-		instrumentalToggle.onToggle.add(function(value:Bool){ FlxG.sound.music.volume = value ? 1 : 0; });
+		playerHitSoundToggle = new Toggle(PANEL_SPACING, opponentHitSoundToggle.y + opponentHitSoundToggle.elementHeight + PANEL_SPACING, playPlayerHitsounds, "Player Hitsound");
+		playerHitSoundToggle.onToggle.add(function(value:Bool){ playPlayerHitsounds = value; });
+		
+		var instrumentalToggle:Toggle = new Toggle(PANEL_SPACING, playerHitSoundToggle.y + playerHitSoundToggle.elementHeight + PANEL_EXTRA_SPACING, playInstrumental, "Instrumental");
+		instrumentalToggle.onToggle.add(function(value:Bool){
+			playInstrumental = value;
+			FlxG.sound.music.volume = playInstrumental ? 1 : 0;
+		});
 
-		var playerVoxToggle:Toggle = new Toggle(PANEL_SPACING, instrumentalToggle.y + instrumentalToggle.elementHeight + PANEL_SPACING, true, "Player Vocals");
-		playerVoxToggle.onToggle.add(function(value:Bool){ vocals.volume = value ? 1 : 0; });
-
-		var opponentVoxToggle:Toggle = new Toggle(PANEL_SPACING, playerVoxToggle.y + playerVoxToggle.elementHeight + PANEL_SPACING, true, "Opponent Vocals");
-		opponentVoxToggle.onToggle.add(function(value:Bool){ vocalsOther.volume = value ? 1 : 0; });
+		var playerVoxToggle:Toggle = new Toggle(PANEL_SPACING, instrumentalToggle.y + instrumentalToggle.elementHeight + PANEL_SPACING, playPlayerVocals, "Player Vocals");
+		playerVoxToggle.onToggle.add(function(value:Bool){
+			playPlayerVocals = value;
+			vocals.volume = playPlayerVocals ? 1 : 0;
+		});
+		
+		var opponentVoxToggle:Toggle = new Toggle(PANEL_SPACING, playerVoxToggle.y + playerVoxToggle.elementHeight + PANEL_SPACING, playOpponentVocals, "Opponent Vocals");
+		opponentVoxToggle.onToggle.add(function(value:Bool){
+			playOpponentVocals = value;
+			vocalsOther.volume = playOpponentVocals ? 1 : 0;
+		});
 
 		gridSnapDropdown = new Dropdown(PANEL_SPACING, opponentVoxToggle.y + opponentVoxToggle.elementHeight + PANEL_EXTRA_SPACING, 196, ["1/16th Note", "1/32nd Note", "1/64th Note", "1/16th Triplet", "1/32nd Triplet", "1/64th Triplet", "Free"], "1/16th Note", "Grid Snap");
 		gridSnapDropdown.onSelect.add(function(v:String){ setGridSnap(v); });
 
-		var playbackRate:Stepper = new Stepper(PANEL_SPACING, gridSnapDropdown.y + gridSnapDropdown.elementHeight + PANEL_EXTRA_SPACING, 100, 1, 0.1, 0.1, 1, true, "Playback Rate");
+		var playbackRate:Stepper = new Stepper(PANEL_SPACING, gridSnapDropdown.y + gridSnapDropdown.elementHeight + PANEL_EXTRA_SPACING, 100, playbackRateValue, 0.1, 0.1, 2, true, "Playback Rate");
 		playbackRate.onValueChanged.add(function(value:Float){
-			FlxG.sound.music.pitch = value;
-			vocals.pitch = value;
-			vocalsOther.pitch = value;
+			playbackRateValue = value;
+			FlxG.sound.music.pitch = playbackRateValue;
+			vocals.pitch = playbackRateValue;
+			vocalsOther.pitch = playbackRateValue;
 			syncMusic();
 		});
 
-		var showWaveformsToggle:Toggle = new Toggle(PANEL_SPACING, playbackRate.y + playbackRate.elementHeight + PANEL_EXTRA_SPACING, showWaveforms, "Show Waveforms");
+		var playbackRatePersistToggle = new Toggle(PANEL_SPACING, playbackRate.y + playbackRate.elementHeight + PANEL_SPACING, persistPlaybackRate, "Persist Playback Rate In Song");
+		playbackRatePersistToggle.onToggle.add(function(value:Bool){
+			persistPlaybackRate = value;
+		});
+
+		var showWaveformsToggle:Toggle = new Toggle(PANEL_SPACING, playbackRatePersistToggle.y + playbackRatePersistToggle.elementHeight + PANEL_EXTRA_SPACING, showWaveforms, "Show Waveforms");
 		showWaveformsToggle.onToggle.add(function(value:Bool){
 			showWaveforms = value;
 
@@ -927,6 +953,7 @@ class ChartingState extends MusicBeatState
 		panel.addToTab("Tools", opponentVoxToggle);
 		panel.addToTab("Tools", gridSnapDropdown);
 		panel.addToTab("Tools", playbackRate);
+		panel.addToTab("Tools", playbackRatePersistToggle);
 		panel.addToTab("Tools", showWaveformsToggle);
 		
 		if(ScriptableCharacter.listScriptClasses().contains("characters.BfLil") && ScriptableCharacter.listScriptClasses().contains("characters.GuyLil")){
@@ -1594,6 +1621,8 @@ class ChartingState extends MusicBeatState
 			ImageCache.refreshLocal();
 			switchState(new PlayState());
 
+			if(!persistPlaybackRate){ playbackRateValue = 1; }
+
 			createAutosave(false);
 		}
 	}
@@ -2082,7 +2111,13 @@ class ChartingState extends MusicBeatState
 	
 			FlxG.sound.playMusic(Paths.inst(song), 0, false);
 			FlxG.sound.music.pause();
-			FlxG.sound.music.volume = 1;
+
+			FlxG.sound.music.volume = playInstrumental ? 1 : 0;
+			FlxG.sound.music.pitch = playbackRateValue;
+			vocals.volume = playPlayerVocals ? 1 : 0;
+			vocals.pitch = playbackRateValue;
+			vocalsOther.volume = playOpponentVocals ? 1 : 0;
+			vocalsOther.pitch = playbackRateValue;
 
 			var addAfter:Bool = false;
 			if(instWaveform != null){

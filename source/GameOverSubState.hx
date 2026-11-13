@@ -116,6 +116,8 @@ class GameOverSubState extends MusicBeatSubState
 	function endBullshit():Void{
 		var songEnd:FlxSound;
 
+		PlayState.instance.keepFromChartEditor = true;
+
 		isEnding = true;
 		bf.playAnim("deathConfirm", true);
 		FlxG.sound.music.stop();
