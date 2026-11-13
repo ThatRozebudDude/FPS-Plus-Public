@@ -129,6 +129,25 @@ class ChartingState extends MusicBeatState
 	public static var eventIconList:Array<String>;
 	public static var eventIconOverrides:Map<String, String>;
 
+	static final shortcutListItems:Array<Array<String>> = [
+		["Place", "Left Click"],
+		["Delete", "Right Click"],
+		["Select", "Middle Click"],
+		["Multi-Select", "Shift + Middle Click"],
+		["Area Select", "Shift + Left Click"],
+		["Hotbar", "0 - 9"],
+		["Scroll Up", "W / Scroll Up"],
+		["Scroll Down", "S / Scroll Down"],
+		["Previous Section", "A"],
+		["Next Section", "D"],
+		["Previous Grid Snap", "Left / Alt + A"],
+		["Next Grid Snap", "Right / Alt + D"],
+		["Top of Current Section", "R"],
+		["Top of Song", "Ctrl+R"],
+		["Play Song", "Enter"],
+		["Play From Current Time", "Ctrl + Enter"]
+	];
+
 	var fileReference:FileReference;
 
 	var autosaveTimer:Float = 0;
@@ -269,6 +288,9 @@ class ChartingState extends MusicBeatState
 	var bpmChangeBoxCanCancel:Bool = true;
 	var bpmChangeTime:Float = 0;
 	var bpmInput:Stepper;
+
+	var shortcutsPanel:Panel;
+	var shortcutsListOpen:Bool = false;
 	
 	var instWaveform:WaveformSprite;
 	var playerWaveform:WaveformSprite;
@@ -552,7 +574,7 @@ class ChartingState extends MusicBeatState
 		topOverlay.scrollFactor.set(0, 0);
 		topOverlay.visible = false;
 
-		bpmChangePanel = new Panel(1280/2 - 240/2, 720/2 - 150/2, 320, 150, ["Add BPM Change"], 40);
+		bpmChangePanel = new Panel(1280/2 - 320/2, 720/2 - 150/2, 320, 150, ["Add BPM Change"], 40);
 		bpmChangePanel.scrollFactor.set(0, 0);
 		bpmChangePanel.visible = false;
 
@@ -566,6 +588,41 @@ class ChartingState extends MusicBeatState
 
 		bpmChangePanel.addToTab("Add BPM Change", bpmInput);
 		bpmChangePanel.addToTab("Add BPM Change", newBPMButton);
+
+		var shortcutItems:Array<UIText> = [];
+		var shortcutPanelHeight:Float = 0;
+		final shortcutPanelWidth:Float = 480;
+		final shortcutPanelTabHeight:Float = 40;
+
+		for(item in shortcutListItems){
+			var shortcutsPanelTextLeft:UIText = new UIText(PANEL_SPACING, PANEL_SPACING + shortcutPanelHeight, item[0]);
+			shortcutsPanelTextLeft.alpha = 0.75;
+			var shortcutsPanelTextRight:UIText = new UIText(0, PANEL_SPACING + shortcutPanelHeight, item[1]);
+			shortcutsPanelTextRight.x = shortcutPanelWidth - PANEL_SPACING*2 - shortcutsPanelTextRight.width;
+			
+			shortcutItems.push(shortcutsPanelTextLeft);
+			shortcutItems.push(shortcutsPanelTextRight);
+			shortcutPanelHeight += shortcutsPanelTextLeft.height;
+		}
+
+		var shortcutsCloseButton:Button = new Button(shortcutPanelWidth/2, shortcutPanelHeight + PANEL_SPACING*2, 192, "Close");
+		shortcutsCloseButton.x -= shortcutsCloseButton.elementWidth/2;
+		shortcutsCloseButton.onPress.add(function(){
+			if(shortcutsListOpen){
+				closeShortcutsPanel();
+			}
+		});
+
+		shortcutPanelHeight += shortcutsCloseButton.elementHeight + PANEL_SPACING*4 + shortcutPanelTabHeight;
+
+		shortcutsPanel = new Panel(1280/2 - shortcutPanelWidth/2, 720/2 - shortcutPanelHeight/2, shortcutPanelWidth, shortcutPanelHeight, ["Controls Help"], shortcutPanelTabHeight);
+		shortcutsPanel.scrollFactor.set(0, 0);
+		shortcutsPanel.visible = false;
+
+		shortcutsPanel.addToTab("Controls Help", shortcutsCloseButton);
+		for(item in shortcutItems){
+			shortcutsPanel.addToTab("Controls Help", item);
+		}
 
 		scrollBar = new ScrollBar(771, 40, 640, 0, true);
 		scrollBar.scrollFactor.set(0, 0);
@@ -683,6 +740,7 @@ class ChartingState extends MusicBeatState
 
 		add(topOverlay);
 		add(bpmChangePanel);
+		add(shortcutsPanel);
 		
 		super.create();
 
@@ -946,6 +1004,11 @@ class ChartingState extends MusicBeatState
 			opponentWaveform.visible = showWaveforms;
 		});
 
+		var shortcutsButton:Button = new Button(PANEL_SPACING, showWaveformsToggle.y + showWaveformsToggle.elementHeight + PANEL_EXTRA_SPACING, 240, "Controls Help");
+		shortcutsButton.onPress.add(function(){
+			openShortcutsPanel();
+		});
+
 		panel.addToTab("Tools", opponentHitSoundToggle);
 		panel.addToTab("Tools", playerHitSoundToggle);
 		panel.addToTab("Tools", instrumentalToggle);
@@ -955,6 +1018,7 @@ class ChartingState extends MusicBeatState
 		panel.addToTab("Tools", playbackRate);
 		panel.addToTab("Tools", playbackRatePersistToggle);
 		panel.addToTab("Tools", showWaveformsToggle);
+		panel.addToTab("Tools", shortcutsButton);
 		
 		if(ScriptableCharacter.listScriptClasses().contains("characters.BfLil") && ScriptableCharacter.listScriptClasses().contains("characters.GuyLil")){
 			lilBuddiesEnabled = true;
@@ -1235,6 +1299,11 @@ class ChartingState extends MusicBeatState
 				else if(FlxG.keys.anyJustPressed([ENTER])){
 					closeBPMPanel(true);
 				}
+			}
+		}
+		else if(shortcutsListOpen){
+			if(FlxG.keys.anyJustPressed([ESCAPE, ENTER])){
+				closeShortcutsPanel();
 			}
 		}
 
@@ -2719,7 +2788,7 @@ class ChartingState extends MusicBeatState
 	}
 
 	inline function canDoThings():Bool{
-		return !panel.isAnythingFocused() && !hotbarAssignAlertOpen && !bpmChangeBoxOpen && !scrollBar.grabbing;
+		return !panel.isAnythingFocused() && !hotbarAssignAlertOpen && !bpmChangeBoxOpen && !scrollBar.grabbing && !shortcutsListOpen;
 	}
 	
 	inline function openHotbarAlert(forNote:Bool):Void{
@@ -2779,6 +2848,18 @@ class ChartingState extends MusicBeatState
 			createSnapshot(PLACE_BPM(1));
 			createAlert("Added BPM change.");
 		}
+	}
+
+	function openShortcutsPanel():Void{
+		shortcutsListOpen = true;
+		topOverlay.visible = true;
+		shortcutsPanel.visible = true;
+	}
+
+	function closeShortcutsPanel():Void{
+		shortcutsListOpen = false;
+		topOverlay.visible = false;
+		shortcutsPanel.visible = false;
 	}
 
 	function retimeNotesAndEvents():Void{
