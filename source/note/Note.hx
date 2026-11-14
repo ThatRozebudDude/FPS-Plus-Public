@@ -20,13 +20,16 @@ class Note extends FlxSprite
 	public var direction:Int = 0;
 	public var canBeHit:Bool = false;
 	public var inRange:Bool = false;
-	public var tooLate:Bool = false;
-	public var wasGoodHit:Bool = false;
 	public var type:String = "";
 	public var typePrefix:String = "";
-
+	
 	public var hitRegion:HitRegion = {sick: DEFAULT_SICK_REGION, good: DEFAULT_GOOD_REGION, bad: DEFAULT_BAD_REGION, shit: DEFAULT_SHIT_REGION};
-
+	
+	public var wasGoodHit:Bool = false;
+	public var timing:Float = 0;
+	public var rating:String = "";
+	
+	public var tooLate:Bool = false;
 	public var didTooLateAction:Bool = false;
 
 	public var sustain:NoteSustain = null;
@@ -37,8 +40,8 @@ class Note extends FlxSprite
 	public var hitCallback:(Note, Character)->Void = null;
 	public var missCallback:Dynamic = null;
 
-	public var scoringFunction:(Note, Float, String)->Int = null;
-	public var healingFunction:(Note, Float, String)->Float = null;
+	public var scoringFunction:(Note)->Int = null;
+	public var healingFunction:(Note)->Float = null;
 	public var penaltyFunction:(Note)->Int = null;
 	public var damageFunction:(Note)->Float = null;
 	public var countNoteFunction:(Note)->Bool = null;

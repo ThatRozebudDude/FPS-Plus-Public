@@ -8,8 +8,8 @@ import events.Events;
 import note.*;
 
 typedef NoteScoringProperties = {
-	var scoring:OneOfTwo<Null<Int>, (Note, Float, String)->Int>;
-	var healing:OneOfTwo<Null<Float>, (Note, Float, String)->Float>;
+	var scoring:OneOfTwo<Null<Int>, (Note)->Int>;
+	var healing:OneOfTwo<Null<Float>, (Note)->Float>;
 	var penalty:OneOfTwo<Null<Int>, (Note)->Int>;
 	var damage:OneOfTwo<Null<Float>, (Note)->Float>;
 

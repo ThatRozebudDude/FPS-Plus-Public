@@ -1543,7 +1543,9 @@ class PlayState extends MusicBeatState
 			PlayState.instance.tweenManager.active = false;
 			PlayState.instance.timerManager.active = false;
 
-			switchState(new ChartingState(Conductor.songPosition), false);
+			final songPosition:Float = (sectionStart && !songStarted) ? sectionStartTime : Conductor.songPosition;
+
+			switchState(new ChartingState(songPosition), false);
 			sectionStart = false;
 
 			if(instSong != null){
@@ -1856,8 +1858,6 @@ class PlayState extends MusicBeatState
 				daNote.wasGoodHit = true;
 				if(daNote.sustain != null){ startSustain(daNote.sustain); }
 
-				daNote.hitCallback(daNote, dad);
-
 				enemyStrums.members[daNote.direction].animation.play("confirm", true);
 
 				switch(vocalType){
@@ -1872,6 +1872,8 @@ class PlayState extends MusicBeatState
 					dad.characterInfo.info.functions.noteHit(dad, daNote);
 				}
 				for(script in scripts){ script.noteHit(dad, daNote); }
+
+				daNote.hitCallback(daNote, dad);
 					
 				daNote.destroy();
 			}
@@ -2016,8 +2018,8 @@ class PlayState extends MusicBeatState
 		return new MainMenuState();
 	}
 
-	private function popUpScore(note:Note, rating:String):Void{
-		switch(rating){
+	private function popUpScore(note:Note):Void{
+		switch(note.rating){
 			case "sick":
 				if(note.countNoteFunction(note)){ songStats.sickCount++; }
 				if(Config.noteSplashType >= 1 && Config.noteSplashType < 4){
@@ -2033,11 +2035,9 @@ class PlayState extends MusicBeatState
 				comboBreak();
 		}
 
-		ratingPopup(rating);
+		ratingPopup(note.rating);
 
-		if(combo >= minCombo){
-			comboPopup(combo);
-		}
+		if(combo >= minCombo){ comboPopup(combo); }
 	}
 
 	private function createNoteSplash(note:Note){
@@ -2325,21 +2325,22 @@ class PlayState extends MusicBeatState
 
 			adjustHealthWithModifier(sustain.healingFunction(sustain) * Conductor.getStepCrotchet());
 
-			sustain.hitCallback(sustain, boyfriend);
-
 			if(boyfriend.characterInfo.info.functions.sustainHit != null){
 				boyfriend.characterInfo.info.functions.sustainHit(boyfriend, sustain);
 			}
 			for(script in scripts){ script.sustainHit(boyfriend, sustain); }
+
+			sustain.hitCallback(sustain, boyfriend);
 		}
 		else{
 			enemyStrums.members[sustain.direction].animation.play("confirm", true);
-			sustain.hitCallback(sustain, dad);
 
 			if(dad.characterInfo.info.functions.sustainHit != null){
 				dad.characterInfo.info.functions.sustainHit(dad, sustain);
 			}
 			for(script in scripts){ script.sustainHit(dad, sustain); }
+
+			sustain.hitCallback(sustain, dad);
 		}
 	}
 	
@@ -2352,8 +2353,6 @@ class PlayState extends MusicBeatState
 				if(boyfriend.missSounds.length > 0){ playMissSound(); }
 				if(canChangeVocalVolume){ vocals.volume = 0; }
 			}
-	
-			sustain.missCallback(sustain, boyfriend);
 			
 			if(sustain.started){
 				var percentCompleted:Float = Math.max(0, Conductor.songPosition - sustain.strumTime)/sustain.length;
@@ -2369,13 +2368,16 @@ class PlayState extends MusicBeatState
 				boyfriend.characterInfo.info.functions.sustainMiss(boyfriend, sustain, sustain.breakComboOnDrop);
 			}
 			for(script in scripts){ script.sustainMiss(boyfriend, sustain, sustain.breakComboOnDrop); }
+
+			sustain.missCallback(sustain, boyfriend);
 		}
 		else{
-			sustain.missCallback(sustain, dad);
 			if(dad.characterInfo.info.functions.sustainMiss != null){
 				dad.characterInfo.info.functions.sustainMiss(dad, sustain, sustain.breakComboOnDrop);
 			}
 			for(script in scripts){ script.sustainMiss(dad, sustain, sustain.breakComboOnDrop); }
+
+			sustain.missCallback(sustain, dad);
 		}
 
 		sustainsToDestroy.push(sustain);
@@ -2398,7 +2400,6 @@ class PlayState extends MusicBeatState
 
 			songStats.score += note.penaltyFunction(note);
 			adjustHealthWithModifier(note.damageFunction(note));
-			note.missCallback(note, boyfriend);
 
 			forceMissNextNote = false;
 
@@ -2406,13 +2407,16 @@ class PlayState extends MusicBeatState
 				boyfriend.characterInfo.info.functions.noteMiss(boyfriend, note, causeComboBreak);
 			}
 			for(script in scripts){ script.noteMiss(boyfriend, note, causeComboBreak); }
+
+			note.missCallback(note, boyfriend);
 		}
 		else{
-			note.missCallback(note, dad);
 			if(dad.characterInfo.info.functions.noteMiss != null){
 				dad.characterInfo.info.functions.noteMiss(dad, note, causeComboBreak);
 			}
 			for(script in scripts){ script.noteMiss(dad, note, causeComboBreak); }
+			
+			note.missCallback(note, dad);
 		}
 	}
 
@@ -2476,16 +2480,16 @@ class PlayState extends MusicBeatState
 		if(!note.wasGoodHit){
 			combo++;
 
-			var noteDiff:Float = note.strumTime - Conductor.songPosition;
-			var rating:String = Scoring.rateNote(noteDiff, note.hitRegion, songPlaybackSpeed);
-			songStats.score += note.scoringFunction(note, noteDiff, rating);
+			note.timing = Math.abs(note.strumTime - Conductor.songPosition);
+			note.rating = Scoring.rateNote(note.timing, note.hitRegion, songPlaybackSpeed);
+			songStats.score += note.scoringFunction(note);
 
-			popUpScore(note, rating);
+			popUpScore(note);
 
 			if(gf.hasAnimation("combo" + combo)){ gf.danceLockout = gf.playAnim("combo" + combo); }
 			if(combo > songStats.highestCombo) { songStats.highestCombo = combo; }
 
-			adjustHealthWithModifier(note.healingFunction(note, noteDiff, rating));
+			adjustHealthWithModifier(note.healingFunction(note));
 
 			playerStrums.members[note.direction].animation.play("confirm", true);
 
@@ -2494,8 +2498,6 @@ class PlayState extends MusicBeatState
 			if(note.countNoteFunction(note)){
 				if(canChangeVocalVolume){ vocals.volume = 1; }
 			}
-
-			note.hitCallback(note, boyfriend);
 
 			if(note.sustain != null){
 				note.sustain.countSustain = note.countNoteFunction(note);
@@ -2507,6 +2509,8 @@ class PlayState extends MusicBeatState
 				boyfriend.characterInfo.info.functions.noteHit(boyfriend, note);
 			}
 			for(script in scripts){ script.noteHit(boyfriend, note); }
+
+			note.hitCallback(note, boyfriend);
 
 			note.destroy();
 		}
@@ -2650,12 +2654,12 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	public function defaultNoteScoring(note:Note, msTiming:Float, rating:String):Int{
-		return Scoring.defaultScoreNote(msTiming);
+	public function defaultNoteScoring(note:Note):Int{
+		return Scoring.defaultScoreNote(note.timing);
 	}
 
-	public function defaultNoteHealing(note:Note, msTiming:Float, rating:String):Float{
-		switch(rating){
+	public function defaultNoteHealing(note:Note):Float{
+		switch(note.rating){
 			case "sick":
 				return Scoring.SICK_HEAL_AMOUNT;
 			case "good":
@@ -2716,7 +2720,7 @@ class PlayState extends MusicBeatState
 					note.scoringFunction = noteType.scoring.scoring;
 				}
 				else{
-					note.scoringFunction = function(note:Note, msTiming:Float, rank:String):Int{ return Std.int(noteType.scoring.scoring); };
+					note.scoringFunction = function(note:Note):Int{ return Std.int(noteType.scoring.scoring); };
 				}
 			}
 			else{ note.scoringFunction = defaultNoteScoring; }
@@ -2726,7 +2730,7 @@ class PlayState extends MusicBeatState
 					note.healingFunction = noteType.scoring.healing;
 				}
 				else{
-					note.healingFunction = function(note:Note, msTiming:Float, rank:String):Float{ return noteType.scoring.healing; };
+					note.healingFunction = function(note:Note):Float{ return noteType.scoring.healing; };
 				}
 			}
 			else{ note.healingFunction = defaultNoteHealing; }

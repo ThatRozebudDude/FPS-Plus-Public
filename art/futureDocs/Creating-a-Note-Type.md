@@ -14,18 +14,10 @@ To add a note type you need to call `registerNoteType()` which takes an object t
 - `sustainHit`: A function of type `(NoteSustain, Character)->Void` that is called every step while holding a sustain.
 - `sustainMiss`: A function of type `(NoteSustain, Character)->Void` that is called when you miss or drop a sustain.
 - `scoring`: A `NoteScoringProperties` object that contains a bunch of information about how your score or health should react to the note, whether the note counts towards combos/breaks and the note's hit region.
-	- `scoring`: Either an integer or a function of type `(Note, Float, String)->Int`. This number is added to the player's score when they hit the note.
-		- The `Note` passed into the function is the note object that was hit.
-		- The `Float` passed into the function is the timing difference the note what hit with.
-		- The `String` passed into the function is the rating the note was given. It will either be `sick`, `good`, `bad`, or `shit`.
-	- `healing`: Either a float or a function of type `(Note, Float, String)->Float`. This number is added to the player's health when they hit the note.
-		- The `Note` passed into the function is the note object that was hit.
-		- The `Float` passed into the function is the timing difference the note what hit with.
-		- The `String` passed into the function is the rating the note was given. It will either be `sick`, `good`, `bad`, or `shit`.
+	- `scoring`: Either an integer or a function of type `(Note)->Int`. This number is added to the player's score when they hit the note.
+	- `healing`: Either a float or a function of type `(Note)->Float`. This number is added to the player's health when they hit the note.
 	- `penalty`: Either an integer or a function of type `(Note)->Int`. This number is added to the player's score when they miss the note.
-		- The `Note` passed into the function is the note object that was missed.
 	- `damage`: Either a float or a function of type `(Note)->Float`. This number is added to the player's health when they miss the note.
-		- The `Note` passed into the function is the note object that was missed.
 
 	- `sustainScoring`: Either an integer or a function of type `(NoteSustain)->Int`. This number per second is added to the player's score each step while holding the sustain.
 	- `sustainHealing`: Either a float or a function of type `(NoteSustain)->Float`. This number per second is added to the player's health each step while holding the sustain.
@@ -47,6 +39,8 @@ To add a note type you need to call `registerNoteType()` which takes an object t
 	- `description`: A string that displays on the bottom of the chart editor panel when the note type is selected.
 	- `arguments`: An array of `EventArgument` used to build the editable fields in the chart editor.
 	- `hidden`: A boolean that when set hides the note type in the chart editor. This is used by legacy types that are included for backwards compatibility but shouldn't be used.
+
+You can use `note.timing` and `note.rating` to get the note's hit timing difference and rating for the `scoring` and `healing` functions. They are only set when you hit a note so they will not be set in the `penalty` and `damage` functions.
 
 ## Hit and Miss Functions
 
