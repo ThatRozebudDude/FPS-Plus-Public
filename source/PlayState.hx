@@ -1565,6 +1565,7 @@ class PlayState extends MusicBeatState
 			vocals.pause();
 			if(vocalType == splitVocalTrack){ vocalsOther.pause(); }
 			if(instSong != null){ overrideInsturmental = instSong; }
+			keepFromChartEditor = true;
 			
 			PolymodHandler.reload(false);
 			customTransOut = new InstantTransition();
