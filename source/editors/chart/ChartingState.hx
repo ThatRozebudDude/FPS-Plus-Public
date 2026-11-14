@@ -135,6 +135,9 @@ class ChartingState extends MusicBeatState
 		["Select", "Middle Click"],
 		["Multi-Select", "Shift + Middle Click"],
 		["Area Select", "Shift + Left Click"],
+		["Delete Selection", "Delete"],
+		["Decrease Note Length", "Q"],
+		["Increase Note Length", "E"],
 		["Hotbar", "0 - 9"],
 		["Scroll Up", "W / Scroll Up"],
 		["Scroll Down", "S / Scroll Down"],
@@ -143,7 +146,7 @@ class ChartingState extends MusicBeatState
 		["Previous Grid Snap", "Left / Alt + A"],
 		["Next Grid Snap", "Right / Alt + D"],
 		["Top of Current Section", "R"],
-		["Top of Song", "Ctrl+R"],
+		["Top of Song", "Ctrl + R"],
 		["Play Song", "Enter"],
 		["Play From Current Time", "Ctrl + Enter"]
 	];

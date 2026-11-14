@@ -1,6 +1,6 @@
 # TODO
 
-- Write new documentation on the note changes.
+- Fix chart editor letting you play the song past the end sometimes.
 - Fix thing with the characters doing extra bopping stuff after the song ends?
 
 - Chart Editor
