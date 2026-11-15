@@ -1,6 +1,7 @@
 # TODO
 
 - Fix chart editor letting you play the song past the end sometimes.
+- Fix not selecting an event/note type when the current dropdown doesn't have it.
 - Fix thing with the characters doing extra bopping stuff after the song ends?
 
 - Chart Editor

@@ -56,7 +56,7 @@ class ChartingEvent extends FlxSprite
 		var finalIconName:String = null;
 		for(key => value in ChartingState.eventIconOverrides){
 			if(tag.startsWith(key)){
-				var newSpecificity = key.split(";").length;
+				var newSpecificity = key.length;
 				if(newSpecificity > specificity){
 					specificity = newSpecificity;
 					finalIconName = value;
@@ -71,20 +71,19 @@ class ChartingEvent extends FlxSprite
 		}
 
 		for(icon in ChartingState.eventIconList){
-			if(tag == icon){
-				loadGraphic(Paths.image("fpsPlus/editors/chart/events/" + icon));
-				setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);
-				updateHitbox();
-				return;
+			if(tag.startsWith(icon)){
+				var newSpecificity = icon.length;
+				if(newSpecificity > specificity){
+					specificity = newSpecificity;
+					finalIconName = icon;
+				}
 			}
 		}
-		for(icon in ChartingState.eventIconList){
-			if(tag.startsWith(icon)){
-				loadGraphic(Paths.image("fpsPlus/editors/chart/events/" + icon));
-				setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);
-				updateHitbox();
-				return;
-			}
+		if(finalIconName != null){
+			loadGraphic(Paths.image("fpsPlus/editors/chart/events/" + finalIconName));
+			setGraphicSize(ChartingState.GRID_SIZE, ChartingState.GRID_SIZE);
+			updateHitbox();
+			return;
 		}
 
 		loadGraphic(Paths.image("fpsPlus/editors/chart/events/generic"));
