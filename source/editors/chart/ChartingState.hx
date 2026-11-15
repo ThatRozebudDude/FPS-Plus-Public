@@ -1111,6 +1111,14 @@ class ChartingState extends MusicBeatState
 					var note:ChartingNote = getNoteUnderCursor();
 					if(note != null && !selectedNotes.contains(note)){
 						selectedNotes.push(note);
+						final prefix:String = note.tag.split(";")[0];
+						if(!notePrefixDropdown.values.contains(prefix)){
+							noteClassDropdown.setSelectedTo("All Note Types");
+							panel.removeFromTab("Notes", notePrefixDropdown);
+							notePrefixDropdown.destroy();
+							createNotePrefixDropdown(transformedNoteTypeClasses.get("All Note Types"));
+							panel.addToTab("Notes", notePrefixDropdown);
+						}
 						noteTypeInput.value = note.tag;
 						createArguments(note.tag, true);
 					}
@@ -1140,6 +1148,14 @@ class ChartingState extends MusicBeatState
 					var event:ChartingEvent = getEventUnderCursor();
 					if(event != null && !selectedEvents.contains(event)){
 						selectedEvents.push(event);
+						final prefix:String = event.tag.split(";")[0];
+						if(!eventPrefixDropdown.values.contains(prefix)){
+							eventClassDropdown.setSelectedTo("All Events");
+							panel.removeFromTab("Events", eventPrefixDropdown);
+							eventPrefixDropdown.destroy();
+							createEventPrefixDropdown(transformedEventClasses.get("All Events"));
+							panel.addToTab("Events", eventPrefixDropdown);
+						}
 						eventTagInput.value = event.tag;
 						createArguments(event.tag, false);
 					}
@@ -1383,6 +1399,18 @@ class ChartingState extends MusicBeatState
 		else if(FlxG.sound.music.playing){
 			Conductor.songPosition += FlxG.elapsed * 1000 * FlxG.sound.music.pitch;
 		}
+
+		if(FlxG.sound.music.playing && Conductor.songPosition > FlxG.sound.music.length){
+			pauseMusic();
+			FlxG.sound.music.time = FlxG.sound.music.length;
+			musicBoundsCheck();
+			syncMusic();
+			Conductor.songPosition = FlxG.sound.music.time;
+			previousReportedSongTime = FlxG.sound.music.time;
+		}
+
+		vocals.volume = playPlayerVocals ? (Conductor.songPosition > vocals.length ? 0 : 1) : 0;
+		vocalsOther.volume = playOpponentVocals ? (Conductor.songPosition > vocalsOther.length ? 0 : 1) : 0;
 
 		camFollow.y = getYFromSongPosition(Conductor.songPosition) + (720/2 - PLAYBACK_POSITION);
 
@@ -1940,7 +1968,7 @@ class ChartingState extends MusicBeatState
 
 	function musicBoundsCheck():Void{
 		if(FlxG.sound.music.time < 0){ FlxG.sound.music.time = 0; }
-		if(FlxG.sound.music.time > FlxG.sound.music.length){ FlxG.sound.music.time = FlxG.sound.music.length; }
+		if(FlxG.sound.music.time > FlxG.sound.music.length){FlxG.sound.music.time = FlxG.sound.music.length; }
 	}
 
 	function convertSecondsToTime(time:Float):String{
@@ -2183,6 +2211,19 @@ class ChartingState extends MusicBeatState
 	
 			FlxG.sound.playMusic(Paths.inst(song), 0, false);
 			FlxG.sound.music.pause();
+			FlxG.sound.music.onComplete = function(){
+				//For some reason FlxSounds automatically set their time to 0 when running cleanup for some reason. Thanks Flixel.
+				FlxG.signals.preUpdate.addOnce(function(){
+					pauseMusic();
+					FlxG.sound.music.play();
+					FlxG.sound.music.pause();
+					FlxG.sound.music.time = FlxG.sound.music.length;
+					musicBoundsCheck();
+					syncMusic();
+					Conductor.songPosition = FlxG.sound.music.time;
+					previousReportedSongTime = FlxG.sound.music.time;
+				});
+			}
 
 			FlxG.sound.music.volume = playInstrumental ? 1 : 0;
 			FlxG.sound.music.pitch = playbackRateValue;
