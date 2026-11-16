@@ -9,14 +9,14 @@
 			"name": "flixel",
 			"type": "git",
 			"dir": null,
-			"ref": "a05db74b890a711d877384b4bb87b54fa519a4c6",
+			"ref": "fd2a112cd12a86b9f8e4b704571b9d0330aa51fc",
 			"url": "https://github.com/FunkinCrew/flixel"
 		},
 		{
 			"name": "flixel-addons",
 			"type": "git",
 			"dir": null,
-			"ref": "7628435364c4a45440d1e5db656741b66a8cd2ec",
+			"ref": "7df068dbecefa40328d60a1849126a8318b3c80e",
 			"url": "https://github.com/FunkinCrew/flixel-addons"
 		},
 		{
@@ -40,7 +40,7 @@
 			"name": "funkin.vis",
 			"type": "git",
 			"dir": null,
-			"ref": "02bada154b474c2554709b9d12aef0cbf0da3ec9",
+			"ref": "b6717304eb154f7b1201ca56b789c01b6a43439f",
 			"url": "https://github.com/FunkinCrew/funkVis"
 		},
 		{
@@ -53,13 +53,13 @@
 		{
 			"name": "hxvlc",
 			"type": "haxelib",
-			"version": "2.2.6"
+			"version": "2.3.2"
 		},
 		{
 			"name": "hxcpp",
 			"type": "git",
 			"dir": null,
-			"ref": "0376e9b19af9a4d91f9d9afc131a358467856a10",
+			"ref": "9a5ef43df75c00296b64b8ed84289b9a4fce577e",
 			"url": "https://github.com/FunkinCrew/hxcpp"
 		},
 		{
@@ -73,6 +73,13 @@
 			"name": "hxp",
 			"type": "haxelib",
 			"version": "1.3.0"
+		},
+		{
+			"name": "json2object",
+			"type": "git",
+			"dir": null,
+			"ref": "316eaefbbe6ea4aad9726611662a75605c2f6b20",
+			"url": "https://github.com/FunkinCrew/json2object"
 		},
 		{
 			"name": "jsonpatch",
@@ -92,21 +99,21 @@
 			"name": "lime",
 			"type": "git",
 			"dir": null,
-			"ref": "14bc4e233726fd3b3686e1a8fd977615c82b3c1e",
+			"ref": "56915a5d6482c8756cd78527db580fc162c44756",
 			"url": "https://github.com/FunkinCrew/lime"
 		},
 		{
 			"name": "openfl",
 			"type": "git",
 			"dir": null,
-			"ref": "4499eed6fa4024f716c731995802526b45c42778",
+			"ref": "3e07f8b542fe1994a6f5dd4bd2d3aca04ce93951",
 			"url": "https://github.com/FunkinCrew/openfl"
 		},
 		{
 			"name": "polymod",
 			"type": "git",
 			"dir": null,
-			"ref": "70635f42dc154aaf285ab94ac52a23a67388c97c",
+			"ref": "8f488e00a47d484010d64577aff3174cb7ac0cd8",
 			"url": "https://github.com/FunkinCrew/polymod"
 		},
 		{

@@ -274,7 +274,7 @@ class Character extends FlxSpriteGroup
 	/**
 	 * Internal version of playAnim used to prevent `isPartOfLoopingAnim` from being used by users.
 	 */
-	private function _playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0, ?isPartOfLoopingAnim:Bool = false):Bool{
+	private function _playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0, isPartOfLoopingAnim:Bool = false):Bool{
 		if(animSet != "" && !isPartOfLoopingAnim){
 			if(animOffsets.exists(AnimName + "-" + animSet) || characterInfo.info.animAliases.exists(AnimName + "-" + animSet)){
 				AnimName = AnimName + "-" + animSet;
@@ -565,7 +565,11 @@ class Character extends FlxSpriteGroup
 		}
 
 		if(characterInfo.info.anims.length > 0){
-			_playAnim(characterInfo.info.anims[0].name);
+			for(anim in characterInfo.info.anims){
+				for(i in 0...getAnimLength(anim.name)){
+					_playAnim(anim.name, true, false, i, true);
+				}
+			}
 			dance();
 		}
 	}

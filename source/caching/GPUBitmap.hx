@@ -28,7 +28,7 @@ class GPUBitmap
 	 */
 	public static function create(path:String, optimizeForRender:Bool = true):BitmapData{
 		var bmp = Assets.getBitmapData(path, false);
-		var texture = FlxG.stage.context3D.createTexture(bmp.width, bmp.height, Context3DTextureFormat.BGRA, optimizeForRender);
+		var texture = FlxG.stage.context3D.createTexture(bmp.width, bmp.height, Context3DTextureFormat.RGBA, optimizeForRender);
 		texture.uploadFromBitmapData(bmp);
 		bmp.dispose();
 		bmp.disposeImage();

@@ -4,6 +4,7 @@ releases/
 promo/
 art/scripts/convertedSongs
 art/ignore
+export_classes.info
 
 # Ignore IDE and library stuff
 .haxelib/

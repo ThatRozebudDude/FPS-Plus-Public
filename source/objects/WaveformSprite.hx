@@ -75,7 +75,7 @@ class WaveformSprite extends FlxSprite
 		var et:Float = st + (1000 * waveformSampleLength);
 
 		if (audioSource._sound != null && audioSource._sound.__buffer != null) {
-			var bytes:Bytes = audioSource._sound.__buffer.data.toBytes();
+			var bytes:Bytes = audioSource._sound.__buffer.data.buffer;
 
 			wavData = waveformData(
 				audioSource._sound.__buffer,

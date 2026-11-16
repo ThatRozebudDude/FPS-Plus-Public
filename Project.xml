@@ -81,6 +81,7 @@
 	<haxelib name="funkin.vis" />
 	<haxelib name="grig.audio" />
 	<haxelib name="polymod" />
+	<haxelib name="json2object" />
 	<haxelib name="hxcpp-debug-server" if="debug"/>
 
 	<!-- _______________________________ Defines ______________________________ -->
@@ -110,15 +111,22 @@
 	<haxedef name="analyzer-optimize" unless="debug" />
 	
 	<haxedef name="lime_disable_assets_version" />
+	<haxedef name="lime_threads" />
 
+	<haxedef name="HXCPP_CHECK_POINTER" />
+	<haxedef name="HXCPP_STACK_LINE" if="ENABLE_TRACY" />
+	<haxedef name="HXCPP_STACK_TRACE" if="ENABLE_TRACY" />
 	<haxedef name="HXCPP_TELEMETRY" if="ENABLE_TRACY" />
 	<haxedef name="HXCPP_TRACY" if="ENABLE_TRACY" />
 	<haxedef name="HXCPP_TRACY_MEMORY" if="ENABLE_TRACY" />
 	<haxedef name="HXCPP_TRACY_ON_DEMAND" if="ENABLE_TRACY" />
-	<haxedef name="HXCPP_STACK_LINE" if="ENABLE_TRACY" />
-	<haxedef name="HXCPP_CHECK_POINTER" if="ENABLE_TRACY" />
-	<haxedef name="HXCPP_STACK_TRACE" if="ENABLE_TRACY" />
 	<haxedef name="absolute-paths" if="ENABLE_TRACY" />
+
+	<haxedef name="HXCPP_GC_GENERATIONAL" unless="ENABLE_TRACY"/>
+
+	<haxedef name="openfl_pool_events" />
+
+
 
 	<!-- _________________________________ Custom _______________________________ -->
 
@@ -137,6 +145,9 @@
 	<haxedef name="POLYMOD_SCRIPT_LIBRARY" value="data" />
 	<haxedef name="POLYMOD_APPEND_FOLDER" value="append" />
 	<haxedef name="POLYMOD_MERGE_FOLDER" value="merge" />
+	<haxedef name="POLYMOD_SCRIPT_CLASS_EXT" value=".hx,.hxc,.hscript" />
+	<haxedef name="POLYMOD_CPPIA" />
 	<haxedef name="hscriptPos" />
+	<haxedef name="scriptable" />
 
 </project>

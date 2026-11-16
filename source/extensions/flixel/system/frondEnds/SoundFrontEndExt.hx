@@ -8,8 +8,8 @@ import flixel.system.frontEnds.SoundFrontEnd;
 class SoundFrontEndExt extends SoundFrontEnd
 {
 
-	override function load(?embeddedSound:FlxSoundAsset, volume:Float = 1.0, looped:Bool = false, ?group:FlxSoundGroup, autoDestroy:Bool = false, autoPlay:Bool = false, ?url:String, ?onComplete:() -> Void, ?onLoad:() -> Void):FlxSound{
-		var sound:FlxSound = super.load(embeddedSound, volume, looped, group, autoDestroy, autoPlay, url, onComplete, onLoad);
+	override function load(?embeddedSound:FlxSoundAsset, volume = 1.0, looped = false, ?group:FlxSoundGroup, autoDestroy = false, autoPlay = false, ?onComplete:Void->Void, ?onLoad:Void->Void):FlxSound{
+		var sound:FlxSound = super.load(embeddedSound, volume, looped, group, autoDestroy, autoPlay, onComplete, onLoad);
 		if(sound != null){ list.add(sound); }
 		return sound;
 	}
