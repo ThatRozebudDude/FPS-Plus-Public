@@ -725,8 +725,11 @@ class AtlasSprite extends FlxAnimate
 		frames.stageColor = FlxColor.fromString(metadata.BGC);
 
 		// stage instance of the main symbol
-		var stageInstance:Null<SymbolInstanceJson> = animData.AN.STI;
-		frames.matrix = (stageInstance != null) ? stageInstance.MX.toMatrix() : new FlxMatrix();
+		var stageInstance = animData.AN.STI;
+		if (stageInstance != null){
+			@:privateAccess
+			frames.stageInstance = SymbolInstance._fromJson(stageInstance, frames);
+		}
 
 		// clear the temp data crap
 		@:privateAccess{
