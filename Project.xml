@@ -122,7 +122,7 @@
 	<haxedef name="HXCPP_TRACY_ON_DEMAND" if="ENABLE_TRACY" />
 	<haxedef name="absolute-paths" if="ENABLE_TRACY" />
 
-	<haxedef name="HXCPP_GC_GENERATIONAL" unless="ENABLE_TRACY"/>
+	<!--haxedef name="HXCPP_GC_GENERATIONAL" unless="ENABLE_TRACY"/-->
 
 	<haxedef name="openfl_pool_events" />
 
@@ -146,8 +146,8 @@
 	<haxedef name="POLYMOD_APPEND_FOLDER" value="append" />
 	<haxedef name="POLYMOD_MERGE_FOLDER" value="merge" />
 	<haxedef name="POLYMOD_SCRIPT_CLASS_EXT" value=".hx,.hxc,.hscript" />
-	<haxedef name="POLYMOD_CPPIA" />
 	<haxedef name="hscriptPos" />
-	<haxedef name="scriptable" />
+	<!--haxedef name="POLYMOD_CPPIA" />
+	<haxedef name="scriptable" /-->
 
 </project>
