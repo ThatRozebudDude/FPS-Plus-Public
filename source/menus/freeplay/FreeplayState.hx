@@ -1645,7 +1645,7 @@ class FreeplayState extends MusicBeatState
 		if(Utils.exists(Paths.image("menu/freeplay/skins/" + dj.freeplaySkin + "/" + image, true))){
 			path = "menu/freeplay/skins/" + dj.freeplaySkin + "/" + image;
 		}
-		return Paths.image(path, true);
+		return Paths.image(path);
 	}
 
 	inline function getSparrowPathWithSkin(path:String):flixel.graphics.frames.FlxAtlasFrames{
