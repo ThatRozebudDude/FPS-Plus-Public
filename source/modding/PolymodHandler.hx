@@ -67,8 +67,8 @@ class PolymodHandler
 		loadedModMetadata = Polymod.init({
 			modRoot: MODS_FOLDER,
 			dirs: loadedModDirs,
-			useScriptedClasses: true,
-			loadScriptsAsync: #if html5 true #else false #end,
+			useScriptedClasses: false,
+			loadScriptsAsync: false,
 			errorCallback: onPolymodError,
 			ignoredFiles: buildIgnoreList(),
 			frameworkParams: {
@@ -239,10 +239,46 @@ class PolymodHandler
 	}
 
 	static function reloadScripts():Void{
-		Polymod.clearScripts();
-		Polymod.registerAllScriptClasses();
+		loadScripts(false).result();
 		note.NoteType.initTypes();
 		events.Events.initEvents();
+	}
+
+	public static function loadScripts(async:Bool = true):lime.app.Future<{success:Int, total:Int}>{
+		Polymod.clearScripts();
+
+		if(async){
+			return Polymod.registerAllScriptClassesAsync().then((result) -> {
+				var total:Int = 0;
+				var success:Int = 0;
+	
+				for(future in result){
+					total += 1;
+					success += future.isComplete ? 1 : 0;
+				}
+	
+				return lime.app.Future.withValue({
+					success: success,
+					total: total
+				});
+			});
+		}
+		else{
+			var result = Polymod.registerAllScriptClasses();
+
+			var total:Int = 0;
+			var success:Int = 0;
+
+			for(v in result){
+				total += 1;
+				success += v ? 1 : 0;
+			}
+	
+			return lime.app.Future.withValue({
+				success: success,
+				total: total
+			});
+		}
 	}
 
 	/*static function scriptableClassCheck():Void{
@@ -288,24 +324,31 @@ class PolymodHandler
 		Polymod.addDefaultImport(Assets);
 		Polymod.addDefaultImport(Character);
 		Polymod.addDefaultImport(Conductor);
-		Polymod.addDefaultImport(GameOverSubState);
 		Polymod.addDefaultImport(Highscore);
 		#if BACKWARD_COMPATIBILITY Polymod.addDefaultImport(menus.mainMenu.MainMenuState); #end
-		Polymod.addDefaultImport(MusicBeatState);
-		Polymod.addDefaultImport(MusicBeatSubState);
 		Polymod.addDefaultImport(Paths);
-		Polymod.addDefaultImport(PauseSubState);
-		Polymod.addDefaultImport(PlayState);
 		Polymod.addDefaultImport(Scoring);
 		#if BACKWARD_COMPATIBILITY Polymod.addDefaultImport(Song); #end
 		Polymod.addDefaultImport(Chart);
 		Polymod.addDefaultImport(Utils);
 		//#if BACKWARD_COMPATIBILITY Polymod.addDefaultImport(graphics.VideoHandler); #end
 
+		Polymod.addDefaultImport(MusicBeatState);
+		Polymod.addDefaultImport(MusicBeatSubState);
+		
+		Polymod.addDefaultImport(PlayState);
+		
+		Polymod.addDefaultImport(PauseSubState);
+		Polymod.addDefaultImport(PauseSubState.BasePauseSubState);
+
+		Polymod.addDefaultImport(GameOverSubState);
+		Polymod.addDefaultImport(GameOverSubState.BaseGameOverSubState);
+
 		Polymod.addDefaultImport(graphics.AtlasSprite);
 
 		Polymod.addDefaultImport(note.Note);
 		Polymod.addDefaultImport(note.NoteSustain);
+		
 		Polymod.addDefaultImport(shaders.RuntimeShader);
 		
 		Polymod.addDefaultImport(modding.ScriptingUtil);

@@ -1280,7 +1280,6 @@ class ChartingState extends MusicBeatState
 				generateChart();
 				PlayState.setSong(chart, chartEvents);
 				FlxG.signals.preStateSwitch.addOnce(function(){ PolymodHandler.reInit(); });
-				PolymodHandler.reload(false);
 				customTransOut = new InstantTransition();
 				switchState(new ChartingState(FlxG.sound.music.time));
 			}

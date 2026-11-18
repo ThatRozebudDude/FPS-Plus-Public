@@ -1396,8 +1396,8 @@ class PlayState extends MusicBeatState
 	}
 
 	override function openSubState(SubState:FlxSubState){
-
 		if(paused){
+			tweenManager.active = false;
 			pauseSongPlayback();
 			if (startTimer != null && !startTimer.finished){
 				startTimer.active = false;
@@ -1414,7 +1414,6 @@ class PlayState extends MusicBeatState
 	}
 
 	override function closeSubState(){
-		
 		if(paused){
 			if(songStarted){
 				resyncVocals();
@@ -1429,7 +1428,8 @@ class PlayState extends MusicBeatState
 					sound.resume();
 				}
 			}
-				
+			
+			tweenManager.active = true;
 			paused = false;
 		}
 
@@ -1534,6 +1534,7 @@ class PlayState extends MusicBeatState
 		for(script in scripts){ script.update(elapsed); }
 
 		if(Binds.justPressed("pause") && !paused && canPause){
+			paused = true;
 			openPauseScreen();
 		}
 
@@ -1679,7 +1680,7 @@ class PlayState extends MusicBeatState
 			health = 0;
 		}
 
-		if(health <= 0){ openGameOver(); }
+		if(health <= 0){ gameOver(); }
 		if(deathCharacterOverride != null){ deathCharacterOverride = null; }
 
 		if(unspawnNotes[0] != null){
@@ -1749,11 +1750,10 @@ class PlayState extends MusicBeatState
 	}
 
 	public dynamic function openPauseScreen(automatic:Bool = false):Void{
-		paused = true;
 		openSubState(new PauseSubState(!automatic));
 	}
 
-	public dynamic function openGameOver(?character:String):Void{
+	function gameOver(?character:String):Void{
 		if(character == null){
 			if(deathCharacterOverride == null){
 				character = boyfriend.deathCharacter;
@@ -1775,9 +1775,15 @@ class PlayState extends MusicBeatState
 		FlxG.sound.music.stop();
 
 		camGame.filters = [];
-
-		openSubState(new GameOverSubState(boyfriend.x, boyfriend.y, camFollowFinal.x, camFollowFinal.y, camGame.zoom, character));
+		camOverlay.filters = [];
+		camHUD.filters = [];
 		sectionStart = false;
+
+		openGameOver(character);
+	}
+
+	public dynamic function openGameOver(character:String):Void{
+		openSubState(new GameOverSubState(boyfriend.x, boyfriend.y, camFollowFinal.x, camFollowFinal.y, camGame.zoom, character));
 	}
 
 	function updateNote(){
@@ -3235,6 +3241,7 @@ class PlayState extends MusicBeatState
 
 	override function onFocusLost(){
 		if(!paused && Config.tabOutPause){
+			paused = true;
 			openPauseScreen(true);
 		}
 		super.onFocusLost();

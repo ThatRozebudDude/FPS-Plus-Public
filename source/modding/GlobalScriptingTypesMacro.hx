@@ -150,7 +150,7 @@ class GlobalScriptingTypesMacro
 		fieldsToAdd.push({
 			name: "pauseMenu",
 			access: [Access.APublic],
-			kind: FieldType.FProp("get", "null", (macro:PauseSubState)), 
+			kind: FieldType.FProp("get", "null", (macro:PauseSubState.BasePauseSubState)), 
 			pos: pos,
 		});
 
@@ -158,8 +158,8 @@ class GlobalScriptingTypesMacro
 			name: "get_pauseMenu",
 			access: [Access.APrivate, Access.AInline],
 			kind: FieldType.FFun({ 
-				expr: macro return PauseSubState.instance,
-				ret: (macro:PauseSubState),
+				expr: macro return PauseSubState.BasePauseSubState.instance,
+				ret: (macro:PauseSubState.BasePauseSubState),
 				args:[]
 			}),
 			pos: pos,
@@ -168,7 +168,7 @@ class GlobalScriptingTypesMacro
 		fieldsToAdd.push({
 			name: "gameover",
 			access: [Access.APublic],
-			kind: FieldType.FProp("get", "null", (macro:GameOverSubState)), 
+			kind: FieldType.FProp("get", "null", (macro:GameOverSubState.BaseGameOverSubState)), 
 			pos: pos,
 		});
 
@@ -176,8 +176,8 @@ class GlobalScriptingTypesMacro
 			name: "get_gameover",
 			access: [Access.APrivate, Access.AInline],
 			kind: FieldType.FFun({ 
-				expr: macro return GameOverSubState.instance,
-				ret: (macro:GameOverSubState),
+				expr: macro return GameOverSubState.BaseGameOverSubState.instance,
+				ret: (macro:GameOverSubState.BaseGameOverSubState),
 				args:[]
 			}),
 			pos: pos,

@@ -9,7 +9,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 
-class GameOverSubState extends MusicBeatSubState
+class GameOverSubState extends BaseGameOverSubState
 {
 	public var bf:Character;
 	public var camFollow:FlxObject;
@@ -22,12 +22,8 @@ class GameOverSubState extends MusicBeatSubState
 
 	public var camGameOver:FlxCameraExt;
 
-	public static var instance:GameOverSubState;
-
 	public function new(_x:Float, _y:Float, camX:Float, camY:Float, camZoom:Float, character:String){
 		super();
-
-		instance = this;
 
 		camGameOver = new FlxCameraExt();
 		camGameOver.zoom = camZoom;
@@ -48,9 +44,7 @@ class GameOverSubState extends MusicBeatSubState
 		camGameOver.follow(camFollow, LOCKON);
 	}
 
-	override function create() {
-		super.create();
-
+	override function create(){
 		bf = new Character(bfX, bfY, bfChar, true);
 		if(bf.characterInfo.info.functions.deathCreate != null){
 			bf.characterInfo.info.functions.deathCreate(bf);
@@ -61,21 +55,19 @@ class GameOverSubState extends MusicBeatSubState
 		}
 		bf.repositionDeath();
 		bf.playAnim("firstDeath", true);
-
+		
 		cameraPanDelayTimer = new FlxTimer().start(bf.deathDelay, function(t) {
 			FlxTween.tween(camFollow, {x: bf.getMidpoint().x + bf.deathOffset.x, y: bf.getMidpoint().y + bf.deathOffset.y}, 3, {ease: FlxEase.expoOut});
 		});
-
+		
 		if(bf.deathSound != null){
 			FlxG.sound.play(Paths.sound(bf.deathSound));
 		}
 		
-		for(script in PlayState.instance.scripts){ script.gameOverStart(); }
+		super.create();
 	}
 
 	override function update(elapsed:Float){
-		super.update(elapsed);
-
 		if(Binds.justPressed("menuAccept") && !isEnding){
 			endBullshit();
 		}
@@ -97,14 +89,14 @@ class GameOverSubState extends MusicBeatSubState
 				FlxG.sound.playMusic(Paths.music(bf.deathSong));
 			}
 
-			for(script in PlayState.instance.scripts){ script.gameOverLoop(); }
+			loop();
 		}
 
 		if(FlxG.sound.music.playing){
 			Conductor.songPosition = FlxG.sound.music.time;
 		}
 
-		for(script in PlayState.instance.scripts){ script.gameOverUpdate(elapsed); }
+		super.update(elapsed);
 	}
 
 	override function beatHit(){
@@ -116,24 +108,73 @@ class GameOverSubState extends MusicBeatSubState
 	function endBullshit():Void{
 		var songEnd:FlxSound;
 
-		PlayState.instance.keepFromChartEditor = true;
-
 		isEnding = true;
 		bf.playAnim("deathConfirm", true);
 		FlxG.sound.music.stop();
 		if(bf.deathSongEnd != null){
 			songEnd = FlxG.sound.play(Paths.music(bf.deathSongEnd));
 		}
-		if(PlayState.instance.instSong != null){
-			PlayState.overrideInsturmental = PlayState.instance.instSong;
-		}
-		for(script in PlayState.instance.scripts){ script.gameOverEnd(); }
+
+		end();
+
 		new FlxTimer().start(0.6, function(tmr:FlxTimer){
 			camGameOver.fade(FlxColor.BLACK, 1, false, function(){
-				PlayState.replayStartCutscene = false;
-				PlayState.instance.switchState(new PlayState());
 				if(songEnd != null && songEnd.playing){ songEnd.fadeOut(0.5); }
+				restartSong();
 			});
 		});
 	}
 }
+
+@:build(modding.GlobalScriptingTypesMacro.build())
+class BaseGameOverSubState extends MusicBeatSubState
+{
+
+	public static var instance:BaseGameOverSubState;
+
+	public function new(){
+		instance = this;
+		super();
+	}
+
+	override function create(){
+		for(script in PlayState.instance.scripts){ script.gameOverStart(); }
+		super.create();
+	}
+
+	override function update(elapsed:Float){
+		for(script in PlayState.instance.scripts){ script.gameOverUpdate(elapsed); }
+		super.update(elapsed);
+	}
+
+	override function destroy(){
+		instance = null;
+		super.destroy();
+	}
+
+	function loop():Void{
+		for(script in PlayState.instance.scripts){ script.gameOverLoop(); }
+	}
+	
+	function end():Void{
+		for(script in PlayState.instance.scripts){ script.gameOverEnd(); }
+	}
+
+	function restartSong():Void{
+		PlayState.instance.keepFromChartEditor = true;
+		PlayState.replayStartCutscene = false;
+		if(PlayState.instance.instSong != null){
+			PlayState.overrideInsturmental = PlayState.instance.instSong;
+		}
+		PlayState.instance.switchState(new PlayState());
+	}
+
+	function exitToMenu():Void{
+		PlayState.sectionStart = false;
+		PlayState.instance.returnToMenu();
+	}
+
+}
+
+@:hscriptClass
+class ScriptableGameOverSubState extends BaseGameOverSubState implements polymod.hscript.HScriptedClass{}

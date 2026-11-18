@@ -15,10 +15,8 @@ import flixel.util.FlxColor;
 import menus.config.*;
 import utils.Constants;
 
-class PauseSubState extends MusicBeatSubState
+class PauseSubState extends BasePauseSubState
 {
-
-	public static var instance:PauseSubState;
 
 	public var menuGroup:FlxTypedGroup<Alphabet>;
 
@@ -41,12 +39,9 @@ class PauseSubState extends MusicBeatSubState
 	}
 
 	override function create():Void{
-
-		instance = this;
-
 		Config.setFramerate(Constants.MENU_FRAMERATE);
 
-		PlayState.instance.tweenManager.active = false;
+		//PlayState.instance.tweenManager.active = false;
 
 		camPause = new FlxCameraExt();
 		camPause.bgColor.alpha = 0;
@@ -123,17 +118,10 @@ class PauseSubState extends MusicBeatSubState
 
 		changeSelection();
 
-		for(script in PlayState.instance.scripts){ script.pause(); }
-
 		super.create();
-
-		Utils.gc();
 	}
 
 	override function update(elapsed:Float){
-			
-		super.update(elapsed);
-
 		if(!becomeUseless){
 			if (Binds.justPressed("menuUp")){
 				changeSelection(-1);
@@ -145,13 +133,13 @@ class PauseSubState extends MusicBeatSubState
 			}
 	
 			if (Binds.justPressed("menuBack")){
-				PlayState.instance.tweenManager.active = true;
+				//PlayState.instance.tweenManager.active = true;
 				unpause();
 			}
 	
 			if (Binds.justPressed("menuAccept")){
 	
-				PlayState.instance.tweenManager.active = true;
+				//PlayState.instance.tweenManager.active = true;
 	
 				var daSelected:String = menuItems[curSelected];
 
@@ -164,80 +152,48 @@ class PauseSubState extends MusicBeatSubState
 						FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
 						
 					case "Restart Song":
-						PlayState.instance.tweenManager.clear();
-						ImageCache.refreshLocal();
-						PlayState.instance.keepFromChartEditor = true;
-						PlayState.instance.switchState(new PlayState());
-						PlayState.sectionStart = false;
-						PlayState.replayStartCutscene = false;
-						if(PlayState.instance.instSong != null){
-							PlayState.overrideInsturmental = PlayState.instance.instSong;
-						}
+						restartSong();
 						pauseMusic.fadeOut(0.5, 0);
 						FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
 	
 					case "Restart Section":
-						PlayState.instance.tweenManager.clear();
-						ImageCache.refreshLocal();
-						PlayState.instance.keepFromChartEditor = true;
-						PlayState.instance.switchState(new PlayState());
-						PlayState.replayStartCutscene = false;
-						if(PlayState.instance.instSong != null){
-							PlayState.overrideInsturmental = PlayState.instance.instSong;
-						}
+						restartSection();
 						pauseMusic.fadeOut(0.5, 0);
 						FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
 	
 					case "Chart Editor":
-						PlayState.instance.tweenManager.clear();
-						PlayState.instance.switchState(new ChartingState());
-						if(PlayState.instance.instSong != null){
-							PlayState.overrideInsturmental = PlayState.instance.instSong;
-						}
+						openChartEditor();
 						pauseMusic.fadeOut(0.5, 0);
 						FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
 						
 					case "Skip Song":
-						PlayState.instance.preventScoreSaving = true;
-						PlayState.instance.tweenManager.clear();
-						PlayState.instance.endSong();
+						skipStorySong();
 						pauseMusic.fadeOut(0.5, 0);
 						FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
 						
 					case "Options":
-						PlayState.instance.tweenManager.clear();
-						PlayState.instance.keepFromChartEditor = true;
-						PlayState.instance.switchState(new ConfigMenu());
-						ConfigMenu.exitTo = PlayState;
-						PlayState.replayStartCutscene = false;
+						openOptionsMenu();
 						pauseMusic.fadeOut(0.5, 0);
 						FlxG.sound.play(Paths.sound("scrollMenu"), 0.8);
-						if(PlayState.instance.instSong != null){
-							PlayState.overrideInsturmental = PlayState.instance.instSong;
-						}
 						
 					case "Exit to menu":
-						PlayState.instance.tweenManager.clear();
-						PlayState.sectionStart = false;
-						PlayState.instance.returnToMenu();
+						exitToMenu();
 						pauseMusic.fadeOut(0.5, 0);
 						FlxG.sound.play(Paths.sound("cancelMenu"), 0.8);
 				}
 			}
 		}
 
-		for(script in PlayState.instance.scripts){ script.pauseUpdate(elapsed); }
+		super.update(elapsed);
 	}
 
-	function unpause(){
-		Config.setFramerate(999);
+	override function unpause(){
 		FlxG.cameras.remove(camPause, true);
-		for(script in PlayState.instance.scripts){ script.unpause(); }
-		close();
+		super.unpause();
 	}
 
 	override function destroy(){
-		pauseMusic.fadeTween.cancel();
+		if(pauseMusic.fadeTween != null){ pauseMusic.fadeTween.cancel(); }
 		pauseMusic.destroy();
 		if(songName != null){
 			FlxTween.cancelTweensOf(songName);
@@ -249,14 +205,12 @@ class PauseSubState extends MusicBeatSubState
 	function changeSelection(change:Int = 0):Void{
 		curSelected += change;
 
-		if (curSelected < 0)
-			curSelected = menuItems.length - 1;
-		if (curSelected >= menuItems.length)
-			curSelected = 0;
+		if(curSelected < 0){ curSelected = menuItems.length - 1; }
+		if(curSelected >= menuItems.length){ curSelected = 0; }
 
 		var bullShit:Int = 0;
 
-		for (item in menuGroup.members){
+		for(item in menuGroup.members){
 			item.targetY = bullShit - curSelected;
 			bullShit++;
 
@@ -268,3 +222,95 @@ class PauseSubState extends MusicBeatSubState
 		}
 	}
 }
+
+@:build(modding.GlobalScriptingTypesMacro.build())
+class BasePauseSubState extends MusicBeatSubState
+{
+
+	public static var instance:BasePauseSubState;
+
+	public function new(){
+		instance = this;
+		super();
+	}
+
+	override function create():Void{
+		for(script in PlayState.instance.scripts){ script.pause(); }
+		super.create();
+		Utils.gc();
+	}
+
+	override function update(elapsed:Float){
+		for(script in PlayState.instance.scripts){ script.pauseUpdate(elapsed); }
+		super.update(elapsed);
+	}
+
+	override function destroy(){
+		instance = null;
+		super.destroy();
+	}
+
+	function unpause():Void{
+		Config.setFramerate(999);
+		for(script in PlayState.instance.scripts){ script.unpause(); }
+		close();
+	}
+	
+	function restartSong():Void{
+		PlayState.instance.tweenManager.clear();
+		ImageCache.refreshLocal();
+		PlayState.instance.keepFromChartEditor = true;
+		PlayState.sectionStart = false;
+		PlayState.replayStartCutscene = false;
+		if(PlayState.instance.instSong != null){
+			PlayState.overrideInsturmental = PlayState.instance.instSong;
+		}
+		PlayState.instance.switchState(new PlayState());
+	}
+	
+	function restartSection():Void{
+		PlayState.instance.tweenManager.clear();
+		ImageCache.refreshLocal();
+		PlayState.instance.keepFromChartEditor = true;
+		PlayState.replayStartCutscene = false;
+		if(PlayState.instance.instSong != null){
+			PlayState.overrideInsturmental = PlayState.instance.instSong;
+		}
+		PlayState.instance.switchState(new PlayState());
+	}
+
+	function openChartEditor():Void{
+		PlayState.instance.tweenManager.clear();
+		if(PlayState.instance.instSong != null){
+			PlayState.overrideInsturmental = PlayState.instance.instSong;
+		}
+		PlayState.instance.switchState(new ChartingState());
+	}
+
+	function skipStorySong():Void{
+		PlayState.instance.preventScoreSaving = true;
+		PlayState.instance.tweenManager.clear();
+		PlayState.instance.endSong();
+	}
+
+	function openOptionsMenu():Void{
+		PlayState.instance.tweenManager.clear();
+		PlayState.instance.keepFromChartEditor = true;
+		ConfigMenu.exitTo = PlayState;
+		PlayState.replayStartCutscene = false;
+		if(PlayState.instance.instSong != null){
+			PlayState.overrideInsturmental = PlayState.instance.instSong;
+		}
+		PlayState.instance.switchState(new ConfigMenu());
+	}
+
+	function exitToMenu():Void{
+		PlayState.instance.tweenManager.clear();
+		PlayState.sectionStart = false;
+		PlayState.instance.returnToMenu();
+	}
+
+}
+
+@:hscriptClass
+class ScriptablePauseSubState extends BasePauseSubState implements polymod.hscript.HScriptedClass{}
