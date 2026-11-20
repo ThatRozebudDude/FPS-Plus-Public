@@ -62,18 +62,13 @@ class PauseSubState extends BasePauseSubState
 		}
 
 		var pauseSongName = "pause/breakfast";
-
 		if(PlayState.instance.metadata != null){
 			pauseSongName = PlayState.instance.metadata.pauseMusic;
 		}
 
-		pauseMusic = new FlxSound().loadEmbedded(Paths.music(pauseSongName), true, true);
-		
-		pauseMusic.volume = 0;
-		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
+		pauseMusic = FlxG.sound.play(Paths.music(pauseSongName), 0, true);
+		pauseMusic.time = FlxG.random.int(0, Std.int(pauseMusic.length/2));
 		pauseMusic.fadeIn(16, 0, 0.7);
-
-		FlxG.sound.list.add(pauseMusic);
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(1, 1, 0xFF000000);
 		bg.scale.set(FlxG.width + 10, FlxG.height + 10);
