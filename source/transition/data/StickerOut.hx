@@ -14,7 +14,7 @@ class StickerOut extends BaseTransition{
 
 	public static var stickerInfo:Array<StickerInfo> = [];
 
-	var stickerList:Array<String> = [];
+	var stickerList:Array<Array<String>> = [];
 	var excludePos:Array<FlxPoint> = [];
 
 	public static final stickerCount:Int = 100;
@@ -23,7 +23,6 @@ class StickerOut extends BaseTransition{
 	public static final stickerDistance:Float = 10;
 
 	override public function new(?_sets:Array<String>){
-		
 		super();
 
 		if(_sets == null){ 
@@ -31,18 +30,19 @@ class StickerOut extends BaseTransition{
 		}
 
 		for(set in _sets){
+			stickerList.push([]);
 			for(path in Utils.readDirectory("assets/images/ui/stickers/" + set + "/")){
-				stickerList.push("assets/images/ui/stickers/" + set + "/" + path);
+				stickerList[stickerList.length-1].push(("ui/stickers/" + set + "/" + path).split(".png")[0]);
 			}
 		}
-
 	}
 
 	override public function play(){
-
 		for(i in 0...stickerCount){
+			final randomCharacter:Int = FlxG.random.int(0, stickerList.length-1);
+			final randomSticker:Int = FlxG.random.int(0, stickerList[randomCharacter].length-1);
 			var sticker:StickerInfo = {
-				image: stickerList[FlxG.random.int(0, stickerList.length-1)],
+				image: stickerList[randomCharacter][randomSticker],
 				pos: generateRandomOutSideDistance(),
 				angle: FlxG.random.float(0, 360)
 			}
@@ -53,7 +53,6 @@ class StickerOut extends BaseTransition{
 	}
 
 	function addNextStickers(currentIndex:Int) {
-
 		var endAfter:Bool = false;
 
 		FlxG.sound.play(Paths.sound("stickers/keyClick" + FlxG.random.int(1, 8)));
@@ -61,7 +60,7 @@ class StickerOut extends BaseTransition{
 		var randomTick = FlxG.random.int(0, maxStickersPerTick);
 
 		for(i in 0...randomTick){
-			var stickerSprite = new FlxSprite(stickerInfo[currentIndex].pos.x, stickerInfo[currentIndex].pos.y).loadGraphic(stickerInfo[currentIndex].image);
+			var stickerSprite = new FlxSprite(stickerInfo[currentIndex].pos.x, stickerInfo[currentIndex].pos.y).loadGraphic(Paths.image(stickerInfo[currentIndex].image));
 			stickerSprite.centerOffsets();
 			stickerSprite.angle = stickerInfo[currentIndex].angle;
 			add(stickerSprite);
@@ -96,7 +95,6 @@ class StickerOut extends BaseTransition{
 				addNextStickers(currentIndex);
 			});
 		}
-		
 	}
 
 	function generateRandomOutSideDistance():FlxPoint{

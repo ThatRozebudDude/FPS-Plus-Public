@@ -17,10 +17,9 @@ class StickerIn extends BaseTransition{
 	}
 
 	override public function play(){
-
 		if(StickerOut.stickerInfo.length > 0){
 			for(i in 0...StickerOut.stickerInfo.length){
-				var stickerSprite = new FlxSprite(StickerOut.stickerInfo[i].pos.x, StickerOut.stickerInfo[i].pos.y).loadGraphic(StickerOut.stickerInfo[i].image);
+				var stickerSprite = new FlxSprite(StickerOut.stickerInfo[i].pos.x, StickerOut.stickerInfo[i].pos.y).loadGraphic(Paths.image(StickerOut.stickerInfo[i].image));
 				stickerSprite.centerOffsets();
 				stickerSprite.angle = StickerOut.stickerInfo[i].angle;
 				add(stickerSprite);
@@ -39,7 +38,6 @@ class StickerIn extends BaseTransition{
 	}
 
 	function removeNextStickers(currentIndex:Int) {
-
 		var endAfter:Bool = false;
 
 		FlxG.sound.play(Paths.sound("stickers/keyClick" + FlxG.random.int(1, 8)));
@@ -64,7 +62,6 @@ class StickerIn extends BaseTransition{
 				removeNextStickers(currentIndex);
 			});
 		}
-		
 	}
 
 	override public function end() {
