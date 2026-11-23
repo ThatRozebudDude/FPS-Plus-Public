@@ -7,8 +7,8 @@ class HudEvents extends Events
 		registerEvent({prefix: "setHudSkin", eventFunction: setHudSkin, editor: {description: SET_HUD_SKIN_DESC, arguments: [
 			{name: "Skin", type: "string", value: "Default"}
 		]}});
-		registerEvent({prefix: "hudVisible", eventFunction: hudVisible, editor: {description: HUD_VISIBLE_DESC, arguments: [
-			{name: "Visible", type: "bool", value: "true"}
+		registerEvent({prefix: "setHudAlpha", eventFunction: setHudAlpha, editor: {description: SET_HUD_ALPHA_DESC, arguments: [
+			{name: "Alpha", type: "normalizedFloat", value: "1"}, {name: "Time", type: "time", value: "1b"}, {name: "Ease", type: "ease", value: "quartOut"}
 		]}});
 		registerEvent({prefix: "showSongMeta", eventFunction: showSongMeta, editor: {description: SHOW_SONG_META_DESC}});
 		registerEvent({prefix: "swapNoteSides", eventFunction: swapNoteSides, editor: {description: SWAP_NOTE_SIDES_DESC, arguments: [
@@ -22,11 +22,6 @@ class HudEvents extends Events
 	function setHudSkin(tag:String):Void{
 		var args = Events.getArgs(tag);
 		playstate.regenerateUiSkin(args[0]);
-	}
-
-	function hudVisible(tag:String):Void{
-		var args = Events.getArgs(tag);
-		playstate.camHUD.visible = Events.parseBool(args[0]);
 	}
 	
 	function showSongMeta(tag:String):Void{
@@ -77,15 +72,15 @@ class HudEvents extends Events
 			switch(args[3]){
 				case "bf":
 					tween.cancelTweensOf(playstate.scrollSpeedMultiplierPlayer);
-					tween.tween(playstate, {scrollSpeedMultiplierPlayer: Events.parseFloat(args[0])}, time, {ease: Events.parseEase(args[3])});
+					tween.tween(playstate, {scrollSpeedMultiplierPlayer: Events.parseFloat(args[0])}, time, {ease: Events.parseEase(args[2])});
 				case "dad":
 					tween.cancelTweensOf(playstate.scrollSpeedMultiplierOpponent);
-					tween.tween(playstate, {scrollSpeedMultiplierOpponent: Events.parseFloat(args[0])}, time, {ease: Events.parseEase(args[3])});
+					tween.tween(playstate, {scrollSpeedMultiplierOpponent: Events.parseFloat(args[0])}, time, {ease: Events.parseEase(args[2])});
 				default:
 					tween.cancelTweensOf(playstate.scrollSpeedMultiplierPlayer);
 					tween.cancelTweensOf(playstate.scrollSpeedMultiplierOpponent);
-					tween.tween(playstate, {scrollSpeedMultiplierPlayer: Events.parseFloat(args[0])}, time, {ease: Events.parseEase(args[3])});
-					tween.tween(playstate, {scrollSpeedMultiplierOpponent: Events.parseFloat(args[0])}, time, {ease: Events.parseEase(args[3])});
+					tween.tween(playstate, {scrollSpeedMultiplierPlayer: Events.parseFloat(args[0])}, time, {ease: Events.parseEase(args[2])});
+					tween.tween(playstate, {scrollSpeedMultiplierOpponent: Events.parseFloat(args[0])}, time, {ease: Events.parseEase(args[2])});
 			}
 		}
 		else{
@@ -104,12 +99,26 @@ class HudEvents extends Events
 			}
 		}
 	}
+
+	function setHudAlpha(tag:String):Void{
+		var args = Events.getArgs(tag);
+		var time = Events.parseTime(args[1]);
+
+		if(time > 0){
+			tween.cancelTweensOf(playstate.hudShader);
+			tween.tween(playstate.hudShader, {alpha: Events.parseFloat(args[0])}, time, {ease: Events.parseEase(args[2])});
+		}
+		else{
+			tween.cancelTweensOf(playstate.hudShader);
+			playstate.hudShader.alpha = Events.parseFloat(args[0]);
+		}
+	}
 	
 
 
 	//Event descriptions. Not required but it helps with charting.
 	final SET_HUD_SKIN_DESC:String = "Changes the HUD note skin.";
-	final HUD_VISIBLE_DESC:String = "Sets the visibility of the HUD.";
+	final SET_HUD_ALPHA_DESC:String = "Tweens the HUD's alpha value.";
 	final SHOW_SONG_META_DESC:String = "Shows the song name and artist.";
 	final SWAP_NOTE_SIDES_DESC:String = "Swaps player and opponent note sides. Does nothing if the strumline is centered.";
 	final SCROLL_SPEED_MULTIPLIER_DESC:String = "Adjusts the modifier for the note scroll speed.";
