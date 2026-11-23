@@ -110,9 +110,6 @@ class PlayState extends MusicBeatState
 	private var invuln:Bool = false;
 	private var invulnTime:Float = 0;
 
-	private var releaseTimes:Array<Float> = [-1, -1, -1, -1];
-	private final releaseBufferTime = (2/60);
-
 	public var forceMissNextNote:Bool = false;
 
 	public var camFocus:String = "";
@@ -177,6 +174,8 @@ class PlayState extends MusicBeatState
 	//Wacky input stuff=========================
 
 	//private var skipListener:Bool = false;
+
+	public var allowPlayerInput:Bool = true;
 
 	private var upTime:Int = 0;
 	private var downTime:Int = 0;
@@ -1499,18 +1498,11 @@ class PlayState extends MusicBeatState
 
 		keyCheck();
 
-		for(i in 0...releaseTimes.length){
-			if(releaseTimes[i] != -1){
-				releaseTimes[i] += elapsed;
-				//trace(i + ": " + releaseTimes[i]);
-			}
-		}
-
 		if (!inCutscene && !songEnded){
 		 	if(!autoplay){
 		 		keyShit();
 			}
-		 	else{
+		 	else if(allowPlayerInput){
 				keyShitAuto();
 		 	}
 		}
@@ -1739,12 +1731,6 @@ class PlayState extends MusicBeatState
 		upRelease = false;
 		rightPress = false;
 		rightRelease = false;
-
-		for(i in 0...releaseTimes.length){
-			if(releaseTimes[i] >= releaseBufferTime){
-				releaseTimes[i] = -1;
-			}
-		}
 
 		super.update(elapsed);
 	}
@@ -2076,10 +2062,10 @@ class PlayState extends MusicBeatState
 	}
 
 	private function keyCheck():Void{
-		upTime = Binds.pressed("gameplayUp") ? upTime + 1 : 0;
-		downTime = Binds.pressed("gameplayDown") ? downTime + 1 : 0;
-		leftTime = Binds.pressed("gameplayLeft") ? leftTime + 1 : 0;
-		rightTime = Binds.pressed("gameplayRight") ? rightTime + 1 : 0;
+		upTime = (Binds.pressed("gameplayUp") && allowPlayerInput) ? upTime + 1 : 0;
+		downTime = (Binds.pressed("gameplayDown") && allowPlayerInput) ? downTime + 1 : 0;
+		leftTime = (Binds.pressed("gameplayLeft") && allowPlayerInput) ? leftTime + 1 : 0;
+		rightTime = (Binds.pressed("gameplayRight") && allowPlayerInput) ? rightTime + 1 : 0;
 
 		upPress = upTime == 1;
 		downPress = downTime == 1;
@@ -2095,18 +2081,6 @@ class PlayState extends MusicBeatState
 		downHold = downTime > 0;
 		leftHold = leftTime > 0;
 		rightHold = rightTime > 0;
-
-		if(leftRelease){ releaseTimes[0] = 0; }
-		else if(leftPress){ releaseTimes[0] = -1; }
-
-		if(downRelease){ releaseTimes[1] = 0; }
-		else if(downPress){ releaseTimes[1] = -1; }
-
-		if(upRelease){ releaseTimes[2] = 0; }
-		else if(upPress){ releaseTimes[2] = -1; }
-
-		if(rightRelease){ releaseTimes[3] = 0; }
-		else if(rightPress){ releaseTimes[3] = -1; }
 
 		/*THE FUNNY 4AM CODE! [bro what was i doin????]
 		trace((leftHold?(leftPress?"^":"|"):(leftRelease?"^":" "))+(downHold?(downPress?"^":"|"):(downRelease?"^":" "))+(upHold?(upPress?"^":"|"):(upRelease?"^":" "))+(rightHold?(rightPress?"^":"|"):(rightRelease?"^":" ")));
@@ -2279,7 +2253,7 @@ class PlayState extends MusicBeatState
 						hitSustainStep(sustain, true);
 						if(sustain.countSustain){ songStats.susCount++; }
 					}
-					else if(sustain.autoplayIgnore){
+					else if(sustain.autoplayIgnore || !allowPlayerInput){
 						dropSustain(sustain);
 						playerCovers.members[sustain.direction].end(false);
 					}
