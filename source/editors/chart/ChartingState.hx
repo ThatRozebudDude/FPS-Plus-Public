@@ -1789,7 +1789,10 @@ class ChartingState extends MusicBeatState
 			hasOpponent = hasOpponent || !note.player;
 			copiedNoteData.push(note.generateNoteDefinition());
 		}
-		var startTime = copiedNoteData[0].time;
+		var startTime:Float = copiedNoteData[0].time;
+		for(data in copiedNoteData){
+			if(data.time < startTime){ startTime = data.time; }
+		}
 		for(data in copiedNoteData){
 			data.time -= startTime;
 		}
@@ -1853,7 +1856,10 @@ class ChartingState extends MusicBeatState
 		for(event in selectedEvents){
 			copiedEventData.push(event.generateEventDefinition());
 		}
-		var startTime = copiedEventData[0].time;
+		var startTime:Float = copiedEventData[0].time;
+		for(data in copiedEventData){
+			if(data.time < startTime){ startTime = data.time; }
+		}
 		for(data in copiedEventData){
 			data.time -= startTime;
 		}
