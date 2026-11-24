@@ -10,13 +10,15 @@ import openfl.Assets;
 **/
 class StickerIn extends BaseTransition{
 
-	override public function new(){
-		
-		super();
-
-	}
+	override public function new(){ super(); }
 
 	override public function play(){
+		//Generate a sticker list if there isn't one so the game doesn't crash.
+		if(StickerOut.stickerInfo.length < 1){
+			StickerOut.generateStickerList(null);
+			StickerOut.generateStickerInfo();
+		}
+		
 		if(StickerOut.stickerInfo.length > 0){
 			for(i in 0...StickerOut.stickerInfo.length){
 				var stickerSprite = new FlxSprite(StickerOut.stickerInfo[i].pos.x, StickerOut.stickerInfo[i].pos.y).loadGraphic(Paths.image(StickerOut.stickerInfo[i].image));
@@ -42,12 +44,12 @@ class StickerIn extends BaseTransition{
 
 		FlxG.sound.play(Paths.sound("stickers/keyClick" + FlxG.random.int(1, 8)));
 
-		for(i in 0...FlxG.random.int(0, StickerOut.maxStickersPerTick)){
+		for(i in 0...FlxG.random.int(0, StickerOut.MAX_STICKERS_PER_TICK)){
 
 			remove(members[(members.length - 1) - currentIndex]);
 
 			currentIndex++;
-			if(currentIndex >= StickerOut.stickerCount){
+			if(currentIndex >= StickerOut.STICKER_COUNT){
 				endAfter = true;
 				break;
 			}
@@ -58,7 +60,7 @@ class StickerIn extends BaseTransition{
 			end();
 		}
 		else{
-			new FlxTimer().start(StickerOut.stickerTime, function(t) {
+			new FlxTimer().start(StickerOut.STICKER_TIME, function(t) {
 				removeNextStickers(currentIndex);
 			});
 		}

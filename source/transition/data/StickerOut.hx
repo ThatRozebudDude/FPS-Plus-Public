@@ -13,23 +13,33 @@ import openfl.Assets;
 class StickerOut extends BaseTransition{
 
 	public static var stickerInfo:Array<StickerInfo> = [];
+	public static var excludePos:Array<FlxPoint> = [];
+	public static var stickerList:Array<Array<String>> = [];
 
-	var stickerList:Array<Array<String>> = [];
-	var excludePos:Array<FlxPoint> = [];
-
-	public static final stickerCount:Int = 100;
-	public static final maxStickersPerTick:Int = 4;
-	public static final stickerTime:Float = 1/48;
-	public static final stickerDistance:Float = 10;
+	public static final STICKER_COUNT:Int = 100;
+	public static final MAX_STICKERS_PER_TICK:Int = 4;
+	public static final STICKER_TIME:Float = 1/48;
+	public static final STICKER_DISTANCE:Float = 10;
 
 	override public function new(?_sets:Array<String>){
 		super();
+		generateStickerList(_sets);
+	}
 
-		if(_sets == null){ 
-			_sets = Utils.readDirectory("assets/images/ui/stickers/"); 
+	override public function play(){
+		generateStickerInfo();
+		addNextStickers(0);
+	}
+
+	public static function generateStickerList(?sets:Array<String>):Void{
+		if(sets == null){
+			sets = Utils.readDirectory("assets/images/ui/stickers/"); 
+		}
+		else{
+			sets = Tags.getTagsFromArray(sets, "stickers", true);
 		}
 
-		for(set in _sets){
+		for(set in sets){
 			stickerList.push([]);
 			for(path in Utils.readDirectory("assets/images/ui/stickers/" + set + "/")){
 				stickerList[stickerList.length-1].push(("ui/stickers/" + set + "/" + path).split(".png")[0]);
@@ -37,8 +47,10 @@ class StickerOut extends BaseTransition{
 		}
 	}
 
-	override public function play(){
-		for(i in 0...stickerCount){
+	public static function generateStickerInfo():Void{
+		stickerInfo = [];
+		excludePos = [];
+		for(i in 0...STICKER_COUNT){
 			final randomCharacter:Int = FlxG.random.int(0, stickerList.length-1);
 			final randomSticker:Int = FlxG.random.int(0, stickerList[randomCharacter].length-1);
 			var sticker:StickerInfo = {
@@ -48,8 +60,6 @@ class StickerOut extends BaseTransition{
 			}
 			stickerInfo.push(sticker);
 		}
-
-		addNextStickers(0);
 	}
 
 	function addNextStickers(currentIndex:Int) {
@@ -57,7 +67,7 @@ class StickerOut extends BaseTransition{
 
 		FlxG.sound.play(Paths.sound("stickers/keyClick" + FlxG.random.int(1, 8)));
 
-		var randomTick = FlxG.random.int(0, maxStickersPerTick);
+		var randomTick = FlxG.random.int(0, MAX_STICKERS_PER_TICK);
 
 		for(i in 0...randomTick){
 			var stickerSprite = new FlxSprite(stickerInfo[currentIndex].pos.x, stickerInfo[currentIndex].pos.y).loadGraphic(Paths.image(stickerInfo[currentIndex].image));
@@ -79,7 +89,7 @@ class StickerOut extends BaseTransition{
 			FlxTween.tween(stickerSprite.scale, {x: 1, y: 1}, 2/24);
 			
 			currentIndex++;
-			if(currentIndex >= stickerCount){
+			if(currentIndex >= STICKER_COUNT){
 				endAfter = true;
 				break;
 			}
@@ -91,21 +101,20 @@ class StickerOut extends BaseTransition{
 			});
 		}
 		else{
-			new FlxTimer().start(stickerTime, function(t) {
+			new FlxTimer().start(STICKER_TIME, function(t) {
 				addNextStickers(currentIndex);
 			});
 		}
 	}
 
-	function generateRandomOutSideDistance():FlxPoint{
-
+	static function generateRandomOutSideDistance():FlxPoint{
 		var r = new FlxPoint();
 
 		for(i in 0...30){
 			var exit:Bool = true;
 			r.set(FlxG.random.int(-200, 1280), FlxG.random.int(-200, 720));
 			for(x in excludePos){
-				exit = !withinDistance(r, x, stickerDistance);
+				exit = !withinDistance(r, x, STICKER_DISTANCE);
 				if(!exit){ break; }
 			}
 			if(exit){ break; }
@@ -115,7 +124,7 @@ class StickerOut extends BaseTransition{
 		return r;
 	}
 
-	function withinDistance(a:FlxPoint, b:FlxPoint, distance:Float):Bool{
+	static function withinDistance(a:FlxPoint, b:FlxPoint, distance:Float):Bool{
 		return (Math.abs(a.x - b.x) <= distance) || (Math.abs(a.y - b.y) <= distance);
 	}
 

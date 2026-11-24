@@ -24,7 +24,7 @@ class Pico extends DJCharacter
 		listSuffix = "pico";
 		idleCount = 1;
 		canPlayIdleAfter = ["idle1start"];
-		freeplayStickers = ["alucard", "cassandra", "cyclops", "dad-pico", "darnell", "nene", "pico-pico", "pico-misc", "roze-pico", "someDeadGuy"];
+		freeplayStickers = ["#freeplay-pico"];
 
 		setPosition(-9, 290);
 		freeplaySkin = "pico";
