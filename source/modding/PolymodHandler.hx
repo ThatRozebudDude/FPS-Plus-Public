@@ -330,6 +330,7 @@ class PolymodHandler
 		Polymod.addDefaultImport(Scoring);
 		#if BACKWARD_COMPATIBILITY Polymod.addDefaultImport(Song); #end
 		Polymod.addDefaultImport(Chart);
+		Polymod.addDefaultImport(Tags);
 		Polymod.addDefaultImport(Utils);
 		//#if BACKWARD_COMPATIBILITY Polymod.addDefaultImport(graphics.VideoHandler); #end
 

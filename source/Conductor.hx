@@ -26,6 +26,8 @@ class Conductor extends FlxBasic
 
 	public static var bpmChanges:Array<BPMDefinition> = [];
 
+	static final EPSILON:Float = 0.0001; //Make sure that the beat doesn't snap back.
+
 	public inline static function init():Void{
 		FlxG.plugins.addPlugin(new Conductor());
 	}
@@ -51,11 +53,11 @@ class Conductor extends FlxBasic
 		step = getStepFromTime();
 		beat = step / 4;
 
-		if(Math.floor(step) != prevStep){
+		if(Math.floor(step) != prevStep && Math.floor(step + EPSILON) != prevStep){
 			onStepHit.dispatch();
 		}
 		
-		if(Math.floor(beat) != prevBeat){
+		if(Math.floor(beat) != prevBeat && Math.floor(beat + EPSILON) != prevStep){
 			onBeatHit.dispatch();
 		}
 	}

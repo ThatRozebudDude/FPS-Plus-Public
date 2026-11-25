@@ -1,7 +1,5 @@
 # TODO
 
-- Fix thing with the characters doing extra bopping stuff after the song ends?
-
 - Chart Editor
 	- Get the waveforms to not offset weirdly at the begining of songs when the camera moves.
 
