@@ -32,8 +32,10 @@ class StickerOut extends BaseTransition{
 	}
 
 	public static function generateStickerList(?sets:Array<String>):Void{
+		stickerList = [];
+
 		if(sets == null){
-			sets = Utils.readDirectory("assets/images/ui/stickers/"); 
+			sets = Utils.readDirectory("assets/images/ui/stickers/");
 		}
 		else{
 			sets = Tags.getTagsFromArray(sets, "stickers", true);
