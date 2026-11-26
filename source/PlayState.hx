@@ -850,7 +850,7 @@ class PlayState extends MusicBeatState
 
 	var startTimer:FlxTimer;
 
-	public function startCountdown():Void {
+	public function startCountdown():Void{
 		if(songStarted){ return; }
 
 		inCutscene = false;
@@ -865,7 +865,7 @@ class PlayState extends MusicBeatState
 		generateStaticArrows(0);
 		generateStaticArrows(1);
 
-		Conductor.songPosition = -(Conductor.getCrotchetMs() * 5);
+		Conductor.songPosition = (sectionStart ? sectionStartTime : 0) - (Conductor.getCrotchetMs() * 5);
 
 		var swagCounter:Int = 0;
 
