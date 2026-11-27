@@ -2913,6 +2913,8 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	#if BACKWARD_COMPATIBILITY public inline function getBfFocusPostion():FlxPoint{ return getBfFocusPosition(); } #end //dude...
+
 	public function camFocusGF(?offsetX:Float = 0, ?offsetY:Float = 0, ?_time:Null<Float>, ?_ease:Null<flixel.tweens.EaseFunction>){
 		if(_time == null){_time = defaultCameraTime;}
 		if(_ease == null){_ease = defaultCameraEase;}
