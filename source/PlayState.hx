@@ -2887,7 +2887,7 @@ class PlayState extends MusicBeatState
 	}
 
 	private var _opponentFocusPosition:FlxPoint;
-	public inline function getOpponentFocusPosition():FlxPoint{
+	public function getOpponentFocusPosition():FlxPoint{
 		_opponentFocusPosition ??= new FlxPoint();
 
 		if(!stage.useStaticStageCameras){
@@ -2910,7 +2910,7 @@ class PlayState extends MusicBeatState
 	}
 
 	private var _bfFocusPosition:FlxPoint;
-	public inline function getBfFocusPosition():FlxPoint{
+	public function getBfFocusPosition():FlxPoint{
 		_bfFocusPosition ??= new FlxPoint();
 
 		if(!stage.useStaticStageCameras){
@@ -2935,7 +2935,7 @@ class PlayState extends MusicBeatState
 	}
 
 	private var _gfFocusPosition:FlxPoint;
-	public inline function getGfFocusPosition():FlxPoint{
+	public function getGfFocusPosition():FlxPoint{
 		_gfFocusPosition ??= new FlxPoint();
 
 		if(!stage.useStaticStageCameras){
