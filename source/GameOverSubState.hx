@@ -27,7 +27,6 @@ class GameOverSubState extends BaseGameOverSubState
 
 		camGameOver = new FlxCameraExt();
 		camGameOver.zoom = camZoom;
-		camGameOver.filters = [];
 		FlxG.cameras.add(camGameOver, false);
 		cameras = [camGameOver];
 

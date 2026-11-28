@@ -409,11 +409,9 @@ class PlayState extends MusicBeatState
 		canHit = !(Config.ghostTapType > 0);
 
 		camGame = new FlxCameraExt();
-		camGame.filters = [];
 
 		camOverlay = new FlxCameraExt();
 		camOverlay.bgColor.alpha = 0;
-		camOverlay.filters = [];
 
 		camHUD = new FlxCameraExt();
 		camHUD.bgColor.alpha = 0;

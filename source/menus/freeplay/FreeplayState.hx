@@ -164,7 +164,6 @@ class FreeplayState extends MusicBeatState
 		}
 
 		camMenu = new FlxCameraExt();
-		camMenu.filters = [];
 
 		camFreeplay = new FlxCameraExt();
 		camFreeplay.bgColor.alpha = 0;

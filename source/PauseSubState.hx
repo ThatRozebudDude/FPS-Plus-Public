@@ -45,7 +45,6 @@ class PauseSubState extends BasePauseSubState
 
 		camPause = new FlxCameraExt();
 		camPause.bgColor.alpha = 0;
-		camPause.filters = [];
 		FlxG.cameras.add(camPause, false);
 		cameras = [camPause];
 		

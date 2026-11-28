@@ -148,25 +148,20 @@ class ResultsState extends FlxUIStateExt
 		persistentUpdate = persistentDraw = true;
 
 		camBg = new FlxCameraExt();
-		camBg.filters = [];
 
 		camScroll = new FlxCameraExt(-50, -50, 1280 + 100, 720 + 100);
 		camScroll.bgColor = FlxColor.TRANSPARENT;
 		camScroll.angle = -3.8;
-		camScroll.filters = [];
 
 		camCharacter = new FlxCameraExt();
 		camCharacter.bgColor = FlxColor.TRANSPARENT;
-		camCharacter.filters = [];
 
 		camTitle = new FlxCameraExt(-50, -50, 1280 + 100, 720 + 100);
 		camTitle.bgColor = FlxColor.TRANSPARENT;
 		camTitle.angle = -3.8;
-		camTitle.filters = [];
 
 		camUi = new FlxCameraExt();
 		camUi.bgColor = FlxColor.TRANSPARENT;
-		camUi.filters = [];
 
 		FlxG.cameras.add(camBg, false);
 		FlxG.cameras.add(camScroll, false);

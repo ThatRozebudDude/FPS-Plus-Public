@@ -88,6 +88,8 @@ class FlxCameraExt extends FlxCamera
 			_cameraMatrix = new FlxMatrix();
 			_cameraTexture = new BitmapData(Std.int(this.width * clampedScale), Std.int(this.height * clampedScale));
 		}
+
+		filters = [];
 	}
 
 	override function drawPixels(?frame:FlxFrame, ?pixels:BitmapData, matrix:FlxMatrix, ?transform:ColorTransform, ?blend:BlendMode, ?smoothing:Bool = false, ?shader:FlxShader):Void{
